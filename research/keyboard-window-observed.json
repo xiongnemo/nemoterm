@@ -83,9 +83,10 @@
     "rows": 22,
     "input_mode": 640
   },
+  "font": "default",
   "executable_sha256": "e7f264688ce64eefc656d7f30b2ec1e124e3f1051157d92a02aac14c83ba4c6b",
-  "peak_private_ws": 3645440,
-  "peak_total_ws": 19505152,
-  "peak_private_commit": 4919296,
+  "peak_private_ws": 3661824,
+  "peak_total_ws": 19496960,
+  "peak_private_commit": 4935680,
   "lock_modifiers": 128
 }

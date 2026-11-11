@@ -519,3 +519,9 @@ the native copy/paste phase now enables SGR application mouse tracking as well,
 verifying that Shift selection stays local while enhanced keyboard input is on.
 The refreshed `keyboard-window-observed.json` identifies the follow-up binary;
 other local JSON files above remain evidence for their explicitly recorded hash.
+
+The keyboard selection fixture uses initial font cell metrics plus the grid's
+centered margin after resize, rather than assuming a one-pixel border. This
+keeps the drag on the final letter with fallback fonts. Local runs with Sarasa
+and explicit Courier New both copy the exact label without padding or a newline;
+CI runs both its default fallback and Courier New and uploads separate evidence.

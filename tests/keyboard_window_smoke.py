@@ -6,11 +6,17 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, time, read_snapshot, write_snapshot, wait_snapshot,
     memory_sample, wait_for, find_window, capture)
 from clipboard_test_utils import SavedClipboard, clipboard_text
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--font', help='Exercise selection with an explicit font family')
+options = parser.parse_args()
 
 with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
     process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '--cols', '80', '--rows', '24',
+        *(['--font', options.font] if options.font else []),
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
     handle = k.OpenProcess(0x410, False, process.pid)
@@ -60,6 +66,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
         hwnd = wait_for(lambda: find_window(process.pid))
         wait_for(current)
         phase('initial-query', '\x1b[?u', b'\x1b[?0u')
+        initial_rect = w.RECT(); u.GetClientRect(hwnd,c.byref(initial_rect))
+        cell_w, cell_h = (initial_rect.right-2)//80, (initial_rect.bottom-2)//24
         phase('push-set-pop', '\x1b[>1u\x1b[>31u\x1b[?u\x1b[<u\x1b[?u'
               '\x1b[=2;2u\x1b[?u\x1b[<u\x1b[?u',
               b'\x1b[?31u\x1b[?1u\x1b[?3u\x1b[?0u')
@@ -117,12 +125,15 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
         phase('local-copy-paste', '\x1b[2J\x1b[1;1HKEYBOARD COPY LABEL'
               '\x1b[?1000;1006;2004h\x1b[?u', b'\x1b[?31u')
         saved = SavedClipboard(hwnd)
-        # Grid selection uses Shift in the mouse message itself. Query grid pixels.
+        # Grid selection uses Shift in the mouse message itself. Resizing the
+        # terminal leaves the font unchanged but centers the grid in leftover
+        # pixels. Target cell centers using that margin, not the old border.
         rect = w.RECT(); u.GetClientRect(hwnd,c.byref(rect))
-        dimensions = current(); cell_w = (rect.right-2)//dimensions['columns']
-        cell_h = (rect.bottom-2)//dimensions['rows']
-        start = (cell_h//2+1)<<16 | (cell_w//2+1)
-        end = (cell_h//2+1)<<16 | (18*cell_w+1)
+        dimensions = current()
+        left = (rect.right-dimensions['columns']*cell_w)//2
+        top = (rect.bottom-dimensions['rows']*cell_h)//2
+        start = (top+cell_h//2)<<16 | (left+cell_w//2)
+        end = (top+cell_h//2)<<16 | (left+18*cell_w+cell_w//2)
         u.SendMessageW(hwnd,0x201,5,start); u.SendMessageW(hwnd,0x200,5,end)
         u.SendMessageW(hwnd,0x202,4,end)
         key(17,29); key(16,42); tap(67,46)
@@ -140,7 +151,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
               'ConPTY / Unicode / key events / copy-paste / resize\r\n\x1b[?u', b'\x1b[?0u')
         tap(27,1); expected += b'\x1b'; check()
         capture(hwnd,'keyboard-window.png')
-        evidence.update(executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest(),
+        evidence.update(font=options.font or 'default',
+            executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest(),
             peak_private_ws=max(s['private_ws'] for s in samples),
             peak_total_ws=max(s['total_ws'] for s in samples),
             peak_private_commit=max(s['private_commit'] for s in samples), lock_modifiers=locks)

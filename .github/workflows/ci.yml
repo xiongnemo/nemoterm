@@ -136,6 +136,11 @@ jobs:
           python tests/keyboard_window_smoke.py 2>&1 | Tee-Object test-results/keyboard-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/keyboard-window-observed.json, research/keyboard-window.png test-results/ -ErrorAction SilentlyContinue
+          if ($testExit) { exit $testExit }
+          python tests/keyboard_window_smoke.py --font "Courier New" 2>&1 | Tee-Object test-results/keyboard-courier-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/keyboard-window-observed.json test-results/keyboard-courier-observed.json -ErrorAction SilentlyContinue
+          Copy-Item research/keyboard-window.png test-results/keyboard-courier.png -ErrorAction SilentlyContinue
           exit $testExit
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
