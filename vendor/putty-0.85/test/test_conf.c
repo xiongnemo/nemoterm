@@ -759,6 +759,8 @@ void test_simple(void)
     test_bool_simple(CONF_no_dbackspace, "NoDBackspace", false);
     test_bool_simple(CONF_no_remote_charset, "NoRemoteCharset", false);
     test_bool_simple(CONF_no_remote_hyperlinks, "NoRemoteHyperlinks", false);
+    test_bool_simple(CONF_nemo_osc52_write, "NemoOSC52Write", true);
+    test_bool_simple(CONF_nemo_osc52_read, "NemoOSC52Read", false);
     test_bool_simple(CONF_nemo_custom_url_schemes, "NemoCustomURLSchemes", false);
     /* note we have no test for CONF_remote_qtitle_action because no default */
     test_bool_simple(CONF_app_cursor, "ApplicationCursorKeys", false);

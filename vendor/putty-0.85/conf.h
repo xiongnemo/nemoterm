@@ -604,6 +604,16 @@ CONF_OPTION(no_remote_hyperlinks, /* disable OSC 8 hyperlinks */
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("NoRemoteHyperlinks"),
 )
+CONF_OPTION(nemo_osc52_write, /* allow application clipboard writes */
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(true),
+    SAVE_KEYWORD("NemoOSC52Write"),
+)
+CONF_OPTION(nemo_osc52_read, /* allow clipboard contents to return to a session */
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoOSC52Read"),
+)
 CONF_OPTION(no_remote_charset, /* disable remote charset config */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

@@ -6,7 +6,7 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
 私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
 每次 push/PR 的 GitHub Actions 会执行 Windows 回归与构建，另运行 Linux Sixel
-超链接及键盘核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
+超链接、键盘及 OSC 52 核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
 产物含 EXE、许可证、构建 commit 与 SHA-256，保留 30 天。
 
 ## 构建与启动
@@ -40,6 +40,8 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 * OSC 8 链接悬停显示完整地址，并为同组标签加下划线；Ctrl+左键打开，
   Ctrl+右键菜单可打开或复制地址。拖动或按住 Shift 仍选择标签文本。
 * 没有选中文字时，普通右键在应用鼠标模式下交给应用，否则显示菜单。
+* OSC 52 允许应用复制文本；读取剪贴板默认关闭，可在 Terminal/Clipboard 分别配置读写。
+  启用读取后，运行中的会话（包括远端主机）可以获取剪贴板文本。
 * 默认使用现代 xterm 功能键、Home/End 和修饰键编码；命名配置可继续选择旧键盘模式。
   Ctrl+PageUp/PageDown 在默认模式下发送给应用；Shift+PageUp/PageDown 保留本地滚动。
 
@@ -67,6 +69,9 @@ file 主机必须为空、localhost 或匹配本机名称。远程文件地址�
 捕获取消、缩放及同步输出。另用 6,000 个长链接与 800 张 Sixel 验证淘汰和进程内存。
 `python tests/keyboard_window_smoke.py` 检查 kitty 协商后经过实际 ConPTY 的输入字节，
 包括 Unicode 提交、修饰键、失焦清理、窗口缩放和 Ctrl+Shift+C/V 括号粘贴。
+`python tests/osc52_window_smoke.py` 检查四种应用剪贴板权限、中文/emoji、
+本地选区保留、同步输出、锁竞争和延迟读取期间窗口响应，以及复位后的迟到回复取消。
+每次 OSC 52 文本上限 256 KiB；系统剪贴板、本地选区及有界的辅助缓冲区分别处理。
 核心测试直接调用 Windows 布局转换器验证美式、俄语、德语 AltGr 和美式国际死键，
 不会激活或切换用户布局；真实 IME 候选窗口、更多物理键盘及长期 agent 使用仍需验收。
 截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。

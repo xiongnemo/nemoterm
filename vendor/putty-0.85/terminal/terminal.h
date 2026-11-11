@@ -11,6 +11,7 @@
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_keyboard.h"
+#include "nemo_osc52.h"
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
@@ -436,6 +437,11 @@ struct terminal_tag {
     int *last_selected_attr;
     truecolour *last_selected_tc;
     size_t last_selected_len;
+    NemoOsc52 *osc52;
+    uint64_t osc52_query_id;
+    bool osc52_query_pending, osc52_query_bel;
+    char osc52_query_targets[NEMO_OSC52_TARGETS_MAX+1];
+    unsigned osc52_query_next;
     int mouse_select_clipboards[N_CLIPBOARDS];
     int n_mouse_select_clipboards;
     int mouse_paste_clipboard;

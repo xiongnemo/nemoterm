@@ -105,6 +105,12 @@ static void term_update_raw_mouse_mode(Terminal *term);
 static void nemo_highlight_cancel(Terminal *term, bool report);
 static void nemo_highlight_request(Terminal *term);
 static void term_out_cb(void *);
+static void osc52_cancel_query(Terminal *term)
+{
+    nemo_osc52_cancel(term->osc52);
+    term->osc52_query_pending = false;
+    if (term->osc52_query_id < UINT64_MAX) term->osc52_query_id++;
+}
 
 static termline *newtermline(Terminal *term, int cols, bool bce)
 {
@@ -2050,6 +2056,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    osc52_cancel_query(term);
     term->termstate = TOPLEVEL;
     term->esc_query = 0;
     nemo_highlight_cancel(term, false);
@@ -2380,6 +2387,7 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    osc52_cancel_query(term);
     nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     /*
@@ -2787,6 +2795,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
 void term_free(Terminal *term)
 {
+    nemo_osc52_free(term->osc52);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     nemo_hyperlink_free(term->hyperlinks);
@@ -4089,6 +4098,123 @@ static bool osc_colours(Terminal *term, bool bel)
  * Process an OSC or similar sequence, with a whole embedded string,
  * like setting the window title or icon name.
  */
+static void osc52_reply(Terminal *term, char target, const char *text, size_t length)
+{
+    term->osc52_query_pending = false;
+    if (!term->ldisc || !conf_get_bool(term->conf, CONF_nemo_osc52_read) ||
+        length > NEMO_OSC52_TEXT_MAX || !ldisc_send_queue_below(term->ldisc, 512*1024)) return;
+    char header[] = "\033]52;c;", buffer[4096];
+    header[5] = target == 's' ? 'c' : target;
+    ldisc_send(term->ldisc, header, sizeof(header)-1, false);
+    size_t used = 0;
+    while (length) {
+        int take = min(length, 3);
+        base64_encode_atom((const unsigned char *)text, take, buffer+used);
+        used += 4; text += take; length -= take;
+        if (used == sizeof(buffer) || !length) {
+            ldisc_send(term->ldisc, buffer, used, false); used = 0;
+        }
+    }
+    const char *end = term->osc52_query_bel ? "\007" : "\033\\";
+    ldisc_send(term->ldisc, end, strlen(end), false);
+}
+
+static char *osc52_primary(Terminal *term, size_t *length)
+{
+    if (!term->last_selected_text || term->last_selected_len > NEMO_OSC52_TEXT_MAX+1) return NULL;
+    char *text = malloc(NEMO_OSC52_TEXT_MAX+1);
+    if (!text) return NULL;
+    size_t used = 0;
+    for (size_t i = 0; i < term->last_selected_len && term->last_selected_text[i]; i++) {
+        uint32_t ch = term->last_selected_text[i];
+        if (sizeof(wchar_t) == 2 && IS_HIGH_SURROGATE(ch) && i+1 < term->last_selected_len &&
+            IS_LOW_SURROGATE(term->last_selected_text[i+1])) {
+            ch = FROM_SURROGATES(ch, term->last_selected_text[i+1]); i++;
+        } else if (IS_SURROGATE(ch) || ch > 0x10ffff) ch = 0xfffd;
+        unsigned count = ch < 128 ? 1 : ch < 0x800 ? 2 : ch < 0x10000 ? 3 : 4;
+        if (count > NEMO_OSC52_TEXT_MAX-used) { free(text); return NULL; }
+        if (count == 1) text[used++] = ch;
+        else {
+            unsigned rest = count-1;
+            text[used++] = (rest == 1 ? 0xc0 : rest == 2 ? 0xe0 : 0xf0) | (ch >> (6*rest));
+            while (rest) text[used++] = 0x80 | ((ch >> (6*--rest)) & 63);
+        }
+    }
+    text[used] = 0; *length = used;
+    return text;
+}
+
+static void osc52_query_next(Terminal *term)
+{
+    while (term->osc52_query_pending) {
+        char target = term->osc52_query_targets[term->osc52_query_next++];
+        if (!target) {
+            osc52_reply(term, term->osc52_query_targets[0], "", 0);
+            return;
+        }
+        if (target == 'c' || target == 's') {
+            if (term->win->vt->osc52_read && term->win->vt->osc52_read(term->win, term->osc52_query_id)) return;
+        } else if (target == 'p') {
+            size_t length;
+            char *text = osc52_primary(term, &length);
+            if (text) { osc52_reply(term, target, text, length); free(text); return; }
+        } else {
+            const char *text; size_t length;
+            if (nemo_osc52_get(term->osc52, target, &text, &length)) {
+                osc52_reply(term, target, text, length); return;
+            }
+        }
+    }
+}
+
+void term_osc52_read_result(Terminal *term, uint64_t id, const char *text,
+                            size_t length, bool found)
+{
+    if (!term->osc52_query_pending || id != term->osc52_query_id) return;
+    if (!conf_get_bool(term->conf, CONF_nemo_osc52_read)) {
+        osc52_cancel_query(term); return;
+    }
+    if (found && text && length <= NEMO_OSC52_TEXT_MAX && nemo_osc52_utf8(text, length))
+        osc52_reply(term, term->osc52_query_targets[term->osc52_query_next-1], text, length);
+    else osc52_query_next(term);
+}
+
+static void osc52_finish(Terminal *term, bool bel)
+{
+    NemoOsc52Packet packet = nemo_osc52_finish(term->osc52);
+    if (packet.action == NEMO_OSC52_QUERY) {
+        if (term->osc52_query_pending || !conf_get_bool(term->conf, CONF_nemo_osc52_read) ||
+            !term->ldisc || term->osc52_query_id == UINT64_MAX ||
+            !ldisc_send_queue_below(term->ldisc, 512*1024)) return;
+        term->osc52_query_id++;
+        term->osc52_query_pending = true; term->osc52_query_bel = bel;
+        term->osc52_query_next = 0;
+        memcpy(term->osc52_query_targets, packet.targets, sizeof(packet.targets));
+        osc52_query_next(term);
+    } else if ((packet.action == NEMO_OSC52_WRITE || packet.action == NEMO_OSC52_CLEAR) &&
+               conf_get_bool(term->conf, CONF_nemo_osc52_write)) {
+        bool system = false, primary = false;
+        unsigned mask = 0;
+        for (const char *p = packet.targets; *p; p++) {
+            system |= *p == 'c' || *p == 's'; primary |= *p == 'p';
+            mask |= nemo_osc52_cache_mask(*p);
+        }
+        const char *text = packet.text ? packet.text : "";
+        if (system && term->win->vt->osc52_write)
+            term->win->vt->osc52_write(term->win, text, packet.length);
+        if (primary) {
+            wchar_t *wide = packet.length ? decode_utf8_to_wide_string(text) : NULL;
+            sfree(term->last_selected_text); sfree(term->last_selected_attr); sfree(term->last_selected_tc);
+            term->last_selected_text = wide;
+            term->last_selected_attr = NULL; term->last_selected_tc = NULL;
+            term->last_selected_len = wide ? wcslen(wide)+1 : 0;
+            deselect(term); term_invalidate(term);
+        }
+        if (mask) nemo_osc52_store(term->osc52, mask, text, packet.length);
+    }
+    nemo_osc52_cancel(term->osc52);
+}
+
 static int osc_string_limit(Terminal *term)
 {
     return term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 8 ?
@@ -4112,6 +4238,9 @@ static void do_osc(Terminal *term, bool bel)
                 term->no_remote_hyperlinks || term->osc_overflow ? 0 :
                 nemo_hyperlink_parse(&term->hyperlinks, term->osc_string,
                                      term->osc_strlen);
+            break;
+          case 52:
+            if (!term->osc_overflow) osc52_finish(term, bel);
             break;
           case 0:
           case 1:
@@ -5093,6 +5222,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = TOPLEVEL;
                     break;
                 }
+                nemo_osc52_cancel(term->osc52);
                 /* else fall through */
               case SEEN_ESC:
                 if (c >= ' ' && c <= '/') {
@@ -5117,6 +5247,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case ']':             /* OSC: xterm escape sequences */
                     /* Compatibility is nasty here, xterm, linux, decterm yuk! */
                     compatibility(OTHER);
+                    nemo_osc52_cancel(term->osc52);
                     term->termstate = SEEN_OSC;
                     term->osc_type = OSCLIKE_OSC;
                     term->osc_strlen = 0;
@@ -6369,7 +6500,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         term->osc_strlen = 0;
                         /* OSC 8 requires the separator after its number.
                          * Preserve PuTTY's permissive title parsing otherwise. */
-                        term->osc_overflow = term->esc_args[0] == 8 && c != ';';
+                        term->osc_overflow = (term->esc_args[0] == 8 || term->esc_args[0] == 52) && c != ';';
+                        if (term->esc_args[0] == 52 && c == ';')
+                            nemo_osc52_begin(&term->osc52,
+                                conf_get_bool(term->conf, CONF_nemo_osc52_write),
+                                conf_get_bool(term->conf, CONF_nemo_osc52_read));
                     }
                 }
                 break;
@@ -6410,8 +6545,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                  * any ESC that is *not* followed by \.
                  */
 
-                if (c == '\012' || c == '\015') {
+                if (c == '\012' || c == '\015' ||
+                    (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52 &&
+                     (c == 0x18 || c == 0x1a))) {
                     /* CR or LF aborts */
+                    nemo_osc52_cancel(term->osc52);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -6440,7 +6578,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 }
 
                 /* Anything else gets added to the string */
-                if (term->osc_strlen < osc_string_limit(term))
+                if (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52) {
+                    nemo_osc52_feed(term->osc52, (unsigned char)c);
+                } else if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = (char)c;
                 else
                     term->osc_overflow = true;
@@ -6457,6 +6597,21 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* No, so append the pending C2 byte to the OSC string
                  * followed by the current character, and go back to
                  * OSC string accumulation */
+                if (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52) {
+                    nemo_osc52_feed(term->osc52, 0xc2);
+                    if (c == '\012' || c == '\015' || c == 0x18 || c == 0x1a) {
+                        nemo_osc52_cancel(term->osc52);
+                        term->termstate = TOPLEVEL;
+                    } else if (c == '\033') term->termstate = OSC_MAYBE_ST;
+                    else if (c == '\007') {
+                        do_osc(term, true);
+                        term->termstate = TOPLEVEL;
+                    } else if (c != 0xc2) {
+                        nemo_osc52_feed(term->osc52, (unsigned char)c);
+                        term->termstate = OSC_STRING;
+                    }
+                    break;
+                }
                 if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = 0xC2;
                 else

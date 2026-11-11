@@ -1,0 +1,305 @@
+{
+  "default-1-setup": {
+    "input_bytes": 37,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "default-2-unicode-copy": {
+    "input_bytes": 37,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "default-3-read-denied": {
+    "input_bytes": 9,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "default-4-clear": {
+    "input_bytes": 9,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "disabled-1-setup": {
+    "input_bytes": 37,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "disabled-2-write-clear-read-denied": {
+    "input_bytes": 43,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-only-1-setup": {
+    "input_bytes": 37,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-only-2-read-only": {
+    "input_bytes": 34,
+    "reply_bytes": 44,
+    "reply_sha256": "b5d6828210971fac95b124bedb21c3341bfd104cf67b6a5f2f59a95cacfb8663"
+  },
+  "read-write-1-setup": {
+    "input_bytes": 37,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-2-local-primary": {
+    "input_bytes": 9,
+    "reply_bytes": 36,
+    "reply_sha256": "214a12a1be7e427fe84bf5e65abbe71aa0058895b4e662a047765816fa5e5655"
+  },
+  "read-write-3-copy-preserves-primary": {
+    "input_bytes": 42,
+    "reply_bytes": 36,
+    "reply_sha256": "214a12a1be7e427fe84bf5e65abbe71aa0058895b4e662a047765816fa5e5655"
+  },
+  "read-write-4-read-unicode": {
+    "input_bytes": 10,
+    "reply_bytes": 33,
+    "reply_sha256": "208af0fe05df3d066762547d4154412aa605aff498f52e70a9eae51e0538c03f"
+  },
+  "read-write-5-synchronized-read": {
+    "input_bytes": 63,
+    "reply_bytes": 32,
+    "reply_sha256": "ddfdc234efc0067a8281d920a270497c6b94f45f4630e0c409a67360ed43bce5"
+  },
+  "read-write-6-synchronized-release": {
+    "input_bytes": 8,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-7-primary-secondary": {
+    "input_bytes": 51,
+    "reply_bytes": 20,
+    "reply_sha256": "2ceff76e652f48ee109bf65db970cf5cda8d6ab4364930ee8535d2d4e21dc3fd"
+  },
+  "read-write-8-secondary": {
+    "input_bytes": 10,
+    "reply_bytes": 21,
+    "reply_sha256": "7cce7c7cc29d9889c5338ffee88971175a98f921efc704a9847c664bc05a2920"
+  },
+  "read-write-9-default-target": {
+    "input_bytes": 37,
+    "reply_bytes": 28,
+    "reply_sha256": "98c215008208a895a49d235549c03c8ab5bcc07de5240a261ecab26b8785df37"
+  },
+  "read-write-10-selection-alias": {
+    "input_bytes": 9,
+    "reply_bytes": 28,
+    "reply_sha256": "08f9e2ba344c8d003c69b0cadda835e8e7f4ce2e8b87dbb1c2f98f9eede113e7"
+  },
+  "read-write-11-fallback": {
+    "input_bytes": 40,
+    "reply_bytes": 20,
+    "reply_sha256": "ccb1c48cf87b5e10d112e7073324af4a7030a5fd5870c85da363db34349a8190"
+  },
+  "read-write-12-cancel-and-invalid": {
+    "input_bytes": 67,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-13-malformed-clear": {
+    "input_bytes": 11,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-14-large-unicode": {
+    "input_bytes": 185706,
+    "reply_bytes": 185696,
+    "reply_sha256": "484e01593d65695de42e609d1961ead324380b2a97a692fa54ba5d1f366ccb9f"
+  },
+  "read-write-15-exact-limit": {
+    "input_bytes": 349546,
+    "reply_bytes": 349536,
+    "reply_sha256": "f1d065e15b732a8ca3171e759b27720bc23f581f67df6178d2e15d6a4825d374"
+  },
+  "read-write-16-over-limit": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-17-oversized-read": {
+    "input_bytes": 9,
+    "reply_bytes": 8,
+    "reply_sha256": "0b73889a770855432605a2edf00e79a95588b61fee99b5e0c2a2d4fc0703874a"
+  },
+  "unterminated-publication": {
+    "normalized_by_windows": true
+  },
+  "read-write-18-bounded-format-read": {
+    "input_bytes": 9,
+    "reply_bytes": 40,
+    "reply_sha256": "6c550873a2c24366ec955fb5806c582c7eeff91ae3f49a882191e3413e607f54"
+  },
+  "read-lock": {
+    "responsive_resize": true
+  },
+  "read-write-19-read-after-contention": {
+    "input_bytes": 9,
+    "reply_bytes": 20,
+    "reply_sha256": "8047e63247fcb60579b51de02d4d82f6f0ad8cb225dbe89a4ce0faee5e6e231b"
+  },
+  "delayed-read-False": {
+    "ui_responsive": true,
+    "reply_suppressed_after_reset": false
+  },
+  "reset-during-delayed-read": {
+    "ui_responsive": true,
+    "reply_suppressed_after_reset": true
+  },
+  "read-write-20-reset-preserves-cut-buffer": {
+    "input_bytes": 17,
+    "reply_bytes": 20,
+    "reply_sha256": "ccb1c48cf87b5e10d112e7073324af4a7030a5fd5870c85da363db34349a8190"
+  },
+  "read-write-21-alternate-preserves-cut-buffer": {
+    "input_bytes": 25,
+    "reply_bytes": 20,
+    "reply_sha256": "ccb1c48cf87b5e10d112e7073324af4a7030a5fd5870c85da363db34349a8190"
+  },
+  "read-write-22-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-23-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-24-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-25-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-26-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-27-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-28-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-29-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-30-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-31-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-32-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-33-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-34-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-35-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-36-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-37-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-38-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-39-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-40-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-41-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-42-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-43-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-44-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-45-cache-pressure": {
+    "input_bytes": 349537,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "read-write-46-cache-latest": {
+    "input_bytes": 9,
+    "reply_bytes": 349536,
+    "reply_sha256": "cff4230bb8237bcfb47effab9c12949008bb4771d2c8056d6e397478ce77085e"
+  },
+  "read-write-47-cache-evicted": {
+    "input_bytes": 9,
+    "reply_bytes": 8,
+    "reply_sha256": "9f77360e1f3747ffcc829bc05a93b8aa36aa0459f3a15f40ca955a5786854efa"
+  },
+  "read-write-48-shared-cache": {
+    "input_bytes": 34,
+    "reply_bytes": 16,
+    "reply_sha256": "6d233b8b4773e96e9eb9fa207ccde9cd4e4e02aa2359d1421028eb32512e6a57"
+  },
+  "read-write-49-finished": {
+    "input_bytes": 110,
+    "reply_bytes": 0,
+    "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e",
+  "peak_private_ws": 5681152,
+  "peak_total_ws": 21610496,
+  "peak_private_commit": 7020544
+}

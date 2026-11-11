@@ -2217,6 +2217,17 @@ void setup_config_box(struct controlbox *b, bool midsession,
               "Windows files. File links must name this computer, localhost or "
               "an empty host. Other schemes require the option above.", HELPCTX(no_help));
 
+    ctrl_settitle(b, "Terminal/Clipboard", "Application clipboard access");
+    s = ctrl_getset(b, "Terminal/Clipboard", "osc52", "OSC 52 clipboard access");
+    ctrl_checkbox(s, "Allow applications to copy text to the clipboard", 'w',
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_osc52_write));
+    ctrl_checkbox(s, "Allow applications to read clipboard text", 'r',
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_osc52_read));
+    ctrl_text(s, "Reading sends clipboard contents back to the running session, "
+              "including a remote host. It is disabled by default. "
+              "These options do not change your local copy and paste shortcuts.",
+              HELPCTX(no_help));
+
     /* The Window panel. */
     str = dupprintf("Options controlling %s's window", appname);
     ctrl_settitle(b, "Window", str);

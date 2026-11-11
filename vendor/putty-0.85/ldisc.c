@@ -304,6 +304,14 @@ void ldisc_send(Ldisc *ldisc, const void *vbuf, int len, bool interactive)
     ldisc_input_queue_callback(ldisc);
 }
 
+bool ldisc_send_queue_below(Ldisc *ldisc, size_t limit)
+{
+    size_t queued = bufchain_size(&ldisc->input_queue);
+    if (queued > limit) return false;
+    return !ldisc->backend->vt->sendbuffer ||
+        backend_sendbuffer(ldisc->backend) <= limit-queued;
+}
+
 static void ldisc_input_queue_callback(void *ctx)
 {
     Ldisc *ldisc = (Ldisc *)ctx;

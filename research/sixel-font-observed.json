@@ -394,7 +394,7 @@
         40
       ],
       "red_pixels": 864,
-      "gdi": 23
+      "gdi": 24
     },
     {
       "phase": "image-budget-release",
@@ -408,8 +408,8 @@
       "gdi": 22
     }
   ],
-  "peak_private_ws": 8036352,
-  "peak_total_ws": 23961600,
-  "peak_private_commit": 9281536,
-  "executable_sha256": "27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89"
+  "peak_private_ws": 8126464,
+  "peak_total_ws": 24055808,
+  "peak_private_commit": 9379840,
+  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e"
 }

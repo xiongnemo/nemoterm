@@ -525,3 +525,78 @@ centered margin after resize, rather than assuming a one-pixel border. This
 keeps the drag on the final letter with fallback fonts. Local runs with Sarasa
 and explicit Courier New both copy the exact label without padding or a newline;
 CI runs both its default fallback and Courier New and uploads separate evidence.
+
+### OSC 52 clipboard checkpoint
+
+The preceding keyboard checkpoint, commit cc0517683cca90ab684df35c900bbb44c76a6b48,
+passed remote [run 43112134986](https://github.com/xiongnemo/nemoterm/actions/runs/43112134986).
+Its downloaded executable manifest, commit, pinned ConPTY hashes, 17 core logs,
+11 native JSON files (10 suites, keyboard with two fonts) and sanitizer logs
+were verified. The following OSC 52 work has its own evidence and CI run.
+
+OSC 52 uses a streaming Base64 decoder with at most 256 KiB of decoded UTF-8
+text per request; it never buffers the encoded payload. Terminal/Clipboard
+offers separate application read/write switches, saved as NemoOSC52Read and
+NemoOSC52Write. Writes default on and reads off. Reads expose text to the
+running session, including a remote host. Local copy/paste shortcuts remain
+independent of these permissions.
+
+The Windows mapping is c=system clipboard, s=alias of c, p=the terminal's last
+local selection, and q/0..7=internal secondary/cut buffers. Empty Pc selects
+s0. Multiple write targets share storage where possible; queries try targets
+in order and return the first available target (s replies as c). The internal
+buffers share a 1 MiB FIFO budget including metadata. Eviction clears old
+references; there is no claim of X11 selection ownership on Windows. Remote
+system writes preserve the local selection and its pixels; explicit p writes
+replace it. Clipboard and retained buffers survive RIS and screen switches.
+
+Empty or malformed Base64 clears the requested targets. Invalid UTF-8,
+embedded NUL, oversized payloads and invalid target headers leave them
+unchanged. Cancelled sequences cannot commit partial text. Replies preserve
+BEL versus ST; the inherited PuTTY parser also accepts UTF-8 encoded ST.
+Authorized queries with no available bounded text reply with an empty value;
+disabled reads send no reply. One query may be pending per terminal. Requests
+and completed replies are dropped when queued terminal/backend input exceeds
+512 KiB, limiting additional clipboard reply backlog. These bounds and empty
+fallback behavior are explicit Nemoterm policies.
+
+System reads run on one refcounted worker per window, with a bounded UTF-16
+scan and UTF-8 conversion. UI completion uses a request identifier and a
+message cookie; reset/reconfiguration invalidates outstanding replies, and
+window destruction detaches the worker. A 100 ms timer handles failed message
+delivery. An OS delayed-render operation can outlive cancellation until the
+OS returns, but cannot return text to the reset/revoked terminal. Writes use
+the existing synchronous 100 ms clipboard-open retry. This is not a hard
+deadline on all Windows API calls.
+
+The eighteenth core suite checks fragmented framing, permissions, strict
+Base64/Unicode boundaries, exact/oversized data, target order, cache sharing
+and eviction, stale completions, reset/revocation and outgoing backlog. It
+passes Windows tests and Linux ASan/UBSan with leak detection. The eleventh
+native suite checks real CF_UNICODETEXT under four policy combinations,
+Chinese/emoji, local-primary preservation, synchronized presentation, bounded
+reads/writes, contention with responsive resize, and delayed-render reads
+with responsive UI and suppressed replies after RIS. Windows normalized the
+fixture's unterminated text publication; the test checks the format actually
+returned by Windows, rather than claiming it exercised an unterminated buffer.
+Helpers address owned windows and preserve/restore supported clipboard formats.
+
+Protocol reference: [xterm OSC 52](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html).
+The hidden delayed-render fixture follows Microsoft's
+[clipboard ownership and rendering rules](https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-operations).
+Real SSH/tmux/application flows and the remaining protocol ledger are still
+outstanding; this checkpoint does not complete overall terminal acceptance.
+
+All 18 core and 11 native suites passed locally for executable SHA-256
+`358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e`.
+Keyboard checks passed with both default Sarasa and Courier New; the current
+local keyboard JSON/screenshot is the Courier run. OSC 52 continuous sampling
+peaked at 5,681,152 bytes private WS, 21,610,496 total WS and 7,020,544 private
+commit. The mixed hyperlink/Sixel stress fixture peaked at 9,510,912 private
+WS, 36,589,568 total WS and 11,182,080 private commit. No working-set trimming
+was performed; these are terminal-process measurements with ConPTY/child
+processes separate. `research/osc52-window-observed.json` records exact reply
+hashes and policies; `research/osc52-window.png` is a PrintWindow capture.
+Actionlint 1.7.12 passed. CI now runs all 18 core and 11 native suites (plus
+the second keyboard font), uploads the new evidence and runs the OSC 52 core
+under ASan/UBSan before publishing the portable build.

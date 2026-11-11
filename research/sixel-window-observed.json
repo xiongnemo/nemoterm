@@ -311,8 +311,8 @@
     8,
     20
   ],
-  "peak_private_ws": 3436544,
-  "peak_total_ws": 19337216,
-  "peak_private_commit": 4603904,
-  "executable_sha256": "27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89"
+  "peak_private_ws": 3325952,
+  "peak_total_ws": 19267584,
+  "peak_private_commit": 4497408,
+  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e"
 }

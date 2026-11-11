@@ -63,7 +63,7 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
-  nemo_link_ui.c nemo_clipboard.c nemo_key_input.c
+  nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
   dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
 target_link_libraries(guiterminal cabinet)
 add_dependencies(guiterminal generated_licence_h) # dialog.c uses licence.h
@@ -285,6 +285,15 @@ add_executable(test_keyboard
   ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
   no-jump-list.c)
 target_link_libraries(test_keyboard
+  guiterminal settings eventloop utils ${platform_libraries})
+
+add_executable(test_osc52
+  ${CMAKE_SOURCE_DIR}/test/test_osc52.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_osc52
   guiterminal settings eventloop utils ${platform_libraries})
 
 add_executable(test_highlight

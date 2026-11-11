@@ -62,6 +62,7 @@ struct WinGuiSeat {
     bool nemo_consumed_right_click;
     struct NemoLinkUI *link_ui;
     struct NemoKeyInput *key_input;
+    struct NemoClipboardRead *osc52_read;
     bool link_mouse_inside;
 
     int extra_width, extra_height;

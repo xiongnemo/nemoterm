@@ -1667,6 +1667,10 @@ struct TermWinVtable {
     void (*clip_write)(TermWin *, int clipboard, wchar_t *text, int *attrs,
                        truecolour *colours, int len, bool must_deselect);
     void (*clip_request_paste)(TermWin *, int clipboard);
+    /* Optional OSC 52 system clipboard access. Reads may complete later via
+     * term_osc52_read_result; the id prevents replies after reset/revocation. */
+    bool (*osc52_write)(TermWin *, const char *utf8, size_t length);
+    bool (*osc52_read)(TermWin *, uint64_t id);
 
     void (*refresh)(TermWin *);
 
@@ -2044,6 +2048,7 @@ void term_mouse_pixels(Terminal *, Mouse_Button, Mouse_Button, Mouse_Action,
 void term_mouse_cancel(Terminal *);
 bool term_mouse_wheel(Terminal *, Mouse_Button, bool, bool, bool);
 void term_cancel_selection_drag(Terminal *);
+void term_osc52_read_result(Terminal *, uint64_t id, const char *, size_t, bool found);
 void term_lost_clipboard_ownership(Terminal *, int clipboard);
 void term_update(Terminal *);
 void term_invalidate(Terminal *);
@@ -2233,6 +2238,7 @@ Ldisc *ldisc_create(Conf *, Terminal *, Backend *, Seat *);
 void ldisc_configure(Ldisc *, Conf *);
 void ldisc_free(Ldisc *);
 void ldisc_send(Ldisc *, const void *buf, int len, bool interactive);
+bool ldisc_send_queue_below(Ldisc *, size_t limit);
 void ldisc_echoedit_update(Ldisc *);
 void ldisc_provide_userpass_le(Ldisc *, TermLineEditor *);
 void ldisc_check_sendok(Ldisc *);

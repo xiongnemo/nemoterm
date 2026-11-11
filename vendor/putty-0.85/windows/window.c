@@ -24,6 +24,7 @@
 #include "nemo_link_ui.h"
 #include "nemo_key_input.h"
 #include "nemo_clipboard.h"
+#include "nemo_osc52_ui.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -199,6 +200,8 @@ static const TermWinVtable windows_termwin_vt = {
     .bell = wintw_bell,
     .clip_write = wintw_clip_write,
     .clip_request_paste = wintw_clip_request_paste,
+    .osc52_write = nemo_osc52_system_write,
+    .osc52_read = nemo_osc52_system_read,
     .refresh = wintw_refresh,
     .request_resize = wintw_request_resize,
     .set_title = wintw_set_title,
@@ -896,6 +899,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
 static void wgs_cleanup(WinGuiSeat *wgs)
 {
+    nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
     nemo_keyboard_free(wgs);
     deinit_fonts(wgs);
@@ -2280,6 +2284,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       }
       case WM_DESTROY:
+        nemo_osc52_window_free(wgs);
         nemo_link_free(wgs);
         if (wgs->term) term_end_synchronized_update(wgs->term);
         show_mouseptr(wgs, true);
@@ -3553,6 +3558,15 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_GOT_CLIPDATA:
         process_clipdata(wgs, (HGLOBAL)lParam, wParam);
         return 0;
+      case WM_NEMO_OSC52_READY:
+        nemo_osc52_poll(wgs, wParam);
+        return 0;
+      case WM_TIMER:
+        if (wParam == NEMO_OSC52_TIMER) {
+            nemo_osc52_poll(wgs, 0);
+            return 0;
+        }
+        break;
       default:
         if (message == wm_mousewheel || message == WM_MOUSEWHEEL
                                                 || message == WM_MOUSEHWHEEL) {
