@@ -1,0 +1,97 @@
+{
+  "ObservedAt": "2026-11-12T01:44:10.6702257+11:00",
+  "Method": "Read-only Win32_Process and Win32_PerfFormattedData_PerfProc_Process; no trimming, launch, input or window mutation",
+  "Scope": "Existing pterm processes only; excludes ConPTY conhost and child applications",
+  "Processes": [
+    {
+      "ProcessId": 24444,
+      "ParentProcessId": 10116,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe",
+      "WorkingSetBytes": 7516160,
+      "PrivateWorkingSetBytes": 774144,
+      "PrivateCommitBytes": 1150976,
+      "ThreadCount": 1
+    },
+    {
+      "ProcessId": 47016,
+      "ParentProcessId": 24444,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+      "WorkingSetBytes": 31756288,
+      "PrivateWorkingSetBytes": 7471104,
+      "PrivateCommitBytes": 9502720,
+      "ThreadCount": 9
+    },
+    {
+      "ProcessId": 20568,
+      "ParentProcessId": 6824,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe",
+      "WorkingSetBytes": 7221248,
+      "PrivateWorkingSetBytes": 708608,
+      "PrivateCommitBytes": 1077248,
+      "ThreadCount": 1
+    },
+    {
+      "ProcessId": 25396,
+      "ParentProcessId": 20568,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+      "WorkingSetBytes": 33775616,
+      "PrivateWorkingSetBytes": 7655424,
+      "PrivateCommitBytes": 9527296,
+      "ThreadCount": 9
+    },
+    {
+      "ProcessId": 42988,
+      "ParentProcessId": 10116,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe",
+      "WorkingSetBytes": 7217152,
+      "PrivateWorkingSetBytes": 704512,
+      "PrivateCommitBytes": 1069056,
+      "ThreadCount": 1
+    },
+    {
+      "ProcessId": 45236,
+      "ParentProcessId": 42988,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+      "WorkingSetBytes": 31789056,
+      "PrivateWorkingSetBytes": 8245248,
+      "PrivateCommitBytes": 10141696,
+      "ThreadCount": 10
+    },
+    {
+      "ProcessId": 13072,
+      "ParentProcessId": 6824,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe",
+      "WorkingSetBytes": 7217152,
+      "PrivateWorkingSetBytes": 704512,
+      "PrivateCommitBytes": 1069056,
+      "ThreadCount": 1
+    },
+    {
+      "ProcessId": 46392,
+      "ParentProcessId": 13072,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+      "WorkingSetBytes": 30806016,
+      "PrivateWorkingSetBytes": 7573504,
+      "PrivateCommitBytes": 9428992,
+      "ThreadCount": 9
+    },
+    {
+      "ProcessId": 34504,
+      "ParentProcessId": 6824,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe",
+      "WorkingSetBytes": 7221248,
+      "PrivateWorkingSetBytes": 708608,
+      "PrivateCommitBytes": 1077248,
+      "ThreadCount": 1
+    },
+    {
+      "ProcessId": 22668,
+      "ParentProcessId": 34504,
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+      "WorkingSetBytes": 35590144,
+      "PrivateWorkingSetBytes": 7667712,
+      "PrivateCommitBytes": 9588736,
+      "ThreadCount": 10
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+/build/
+/dist/
+/tools/python/
+/vendor/*.tar.gz
+/research/putty-0.85/
+/research/*.tar.gz
+*.pyc
+__pycache__/

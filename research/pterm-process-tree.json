@@ -1,0 +1,122 @@
+[
+  {
+    "ProcessId": 24444,
+    "ParentProcessId": 10116,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe"
+  },
+  {
+    "ProcessId": 47016,
+    "ParentProcessId": 24444,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe"
+  },
+  {
+    "ProcessId": 40988,
+    "ParentProcessId": 47016,
+    "Name": "conhost.exe",
+    "ExecutablePath": "\\\\?\\C:\\Windows\\system32\\conhost.exe"
+  },
+  {
+    "ProcessId": 38612,
+    "ParentProcessId": 47016,
+    "Name": "cmd.exe",
+    "ExecutablePath": "C:\\Windows\\system32\\cmd.exe"
+  },
+  {
+    "ProcessId": 20568,
+    "ParentProcessId": 6824,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe"
+  },
+  {
+    "ProcessId": 25396,
+    "ParentProcessId": 20568,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe"
+  },
+  {
+    "ProcessId": 41924,
+    "ParentProcessId": 25396,
+    "Name": "conhost.exe",
+    "ExecutablePath": "\\\\?\\C:\\Windows\\system32\\conhost.exe"
+  },
+  {
+    "ProcessId": 28004,
+    "ParentProcessId": 25396,
+    "Name": "cmd.exe",
+    "ExecutablePath": "C:\\Windows\\system32\\cmd.exe"
+  },
+  {
+    "ProcessId": 42988,
+    "ParentProcessId": 10116,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe"
+  },
+  {
+    "ProcessId": 45236,
+    "ParentProcessId": 42988,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe"
+  },
+  {
+    "ProcessId": 25108,
+    "ParentProcessId": 45236,
+    "Name": "conhost.exe",
+    "ExecutablePath": "\\\\?\\C:\\Windows\\system32\\conhost.exe"
+  },
+  {
+    "ProcessId": 25076,
+    "ParentProcessId": 45236,
+    "Name": "cmd.exe",
+    "ExecutablePath": "C:\\Windows\\system32\\cmd.exe"
+  },
+  {
+    "ProcessId": 13072,
+    "ParentProcessId": 6824,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe"
+  },
+  {
+    "ProcessId": 46392,
+    "ParentProcessId": 13072,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe"
+  },
+  {
+    "ProcessId": 22148,
+    "ParentProcessId": 46392,
+    "Name": "conhost.exe",
+    "ExecutablePath": "\\\\?\\C:\\Windows\\system32\\conhost.exe"
+  },
+  {
+    "ProcessId": 30856,
+    "ParentProcessId": 46392,
+    "Name": "cmd.exe",
+    "ExecutablePath": "C:\\Windows\\system32\\cmd.exe"
+  },
+  {
+    "ProcessId": 34504,
+    "ParentProcessId": 6824,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\shims\\pterm.exe"
+  },
+  {
+    "ProcessId": 22668,
+    "ParentProcessId": 34504,
+    "Name": "pterm.exe",
+    "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe"
+  },
+  {
+    "ProcessId": 29228,
+    "ParentProcessId": 22668,
+    "Name": "conhost.exe",
+    "ExecutablePath": "\\\\?\\C:\\Windows\\system32\\conhost.exe"
+  },
+  {
+    "ProcessId": 12692,
+    "ParentProcessId": 22668,
+    "Name": "cmd.exe",
+    "ExecutablePath": "C:\\Windows\\system32\\cmd.exe"
+  }
+]

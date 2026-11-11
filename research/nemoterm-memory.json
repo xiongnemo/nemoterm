@@ -1,0 +1,61 @@
+{
+  "executable": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+  "sha256": "31C457C6069E1341E615EFC7DEE229F6E74A017C04523232B00D6737B76D0CB5",
+  "scenario": "visible 80x24 Sarasa text/colour fixture; no trimming",
+  "samples": [
+    {
+      "time": "2026-11-12T01:47:10.4371505+11:00",
+      "pid": 20716,
+      "private_working_set_bytes": 2895872,
+      "total_working_set_bytes": 13864960,
+      "private_committed_bytes": 3497984
+    },
+    {
+      "time": "2026-11-12T01:47:11.5243832+11:00",
+      "pid": 20716,
+      "private_working_set_bytes": 4210688,
+      "total_working_set_bytes": 20627456,
+      "private_committed_bytes": 5373952
+    },
+    {
+      "time": "2026-11-12T01:47:12.5900877+11:00",
+      "pid": 20716,
+      "private_working_set_bytes": 4210688,
+      "total_working_set_bytes": 20676608,
+      "private_committed_bytes": 5373952
+    },
+    {
+      "time": "2026-11-12T01:47:13.6436100+11:00",
+      "pid": 20716,
+      "private_working_set_bytes": 4210688,
+      "total_working_set_bytes": 20688896,
+      "private_committed_bytes": 5373952
+    },
+    {
+      "time": "2026-11-12T01:47:14.6902347+11:00",
+      "pid": 20716,
+      "private_working_set_bytes": 4210688,
+      "total_working_set_bytes": 20684800,
+      "private_committed_bytes": 5373952
+    }
+  ],
+  "direct_children": [
+    {
+      "pid": 15636,
+      "name": "conhost.exe",
+      "path": "\\\\?\\C:\\Windows\\system32\\conhost.exe",
+      "private_working_set_bytes": 1024000,
+      "total_working_set_bytes": 7634944
+    },
+    {
+      "pid": 6272,
+      "name": "python.exe",
+      "path": "C:\\Users\\nemo\\scoop\\apps\\python\\current\\python.exe",
+      "private_working_set_bytes": 4653056,
+      "total_working_set_bytes": 13250560
+    }
+  ],
+  "limit_private_bytes": 20000000,
+  "target_total_bytes": 50000000,
+  "private_limit_pass": true
+}

@@ -1,0 +1,89 @@
+name: Test and build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: Windows x64 tests and portable build
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+      - name: Configure
+        run: >-
+          cmake -S vendor/putty-0.85 -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=MinSizeRel
+          '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections'
+          '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
+          -DPUTTY_GSSAPI=OFF
+      - name: Build terminal and regression tests
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal --parallel 4
+      - name: Run tests
+        run: |
+          set -euo pipefail
+          mkdir -p test-results
+          for test in test_conf test_terminal test_sixel test_sixel_terminal; do
+            echo "Running $test"
+            "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
+          done
+      - name: Package portable executable
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cp build/nemoterm.exe dist/
+          cp vendor/putty-0.85/LICENCE dist/LICENCE-PuTTY.txt
+          cp LICENSE dist/LICENSE-Nemoterm.txt
+          cp README.md dist/
+          printf 'Commit: %s\nBuilt: %s\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > dist/BUILD-INFO.txt
+          gcc --version >> dist/BUILD-INFO.txt
+          objdump -p dist/nemoterm.exe | sed -n 's/.*DLL Name: /DLL: /p' >> dist/BUILD-INFO.txt
+          (cd dist && sha256sum nemoterm.exe > SHA256SUMS.txt)
+      - name: Upload portable terminal
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: nemoterm-windows-x64-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: test-results-windows-${{ github.sha }}
+          path: test-results/
+          if-no-files-found: warn
+
+  decoder-sanitizers:
+    name: Sixel ASan and UBSan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Compile and test decoder with sanitizers
+        run: |
+          gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_sixel.c \
+            vendor/putty-0.85/terminal/nemo_sixel.c -o test-sixel
+          ASAN_OPTIONS=detect_leaks=1 ./test-sixel

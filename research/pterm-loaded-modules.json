@@ -1,0 +1,307 @@
+[
+  {
+    "ModuleName": "pterm.exe",
+    "FileName": "C:\\Users\\nemo\\scoop\\apps\\pterm\\current\\pterm.exe",
+    "ModuleMemorySize": 1073152
+  },
+  {
+    "ModuleName": "ntdll.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "ModuleMemorySize": 2068480
+  },
+  {
+    "ModuleName": "KERNEL32.DLL",
+    "FileName": "C:\\Windows\\System32\\KERNEL32.DLL",
+    "ModuleMemorySize": 794624
+  },
+  {
+    "ModuleName": "KERNELBASE.dll",
+    "FileName": "C:\\Windows\\System32\\KERNELBASE.dll",
+    "ModuleMemorySize": 3108864
+  },
+  {
+    "ModuleName": "GDI32.dll",
+    "FileName": "C:\\Windows\\System32\\GDI32.dll",
+    "ModuleMemorySize": 176128
+  },
+  {
+    "ModuleName": "win32u.dll",
+    "FileName": "C:\\Windows\\System32\\win32u.dll",
+    "ModuleMemorySize": 139264
+  },
+  {
+    "ModuleName": "gdi32full.dll",
+    "FileName": "C:\\Windows\\System32\\gdi32full.dll",
+    "ModuleMemorySize": 1163264
+  },
+  {
+    "ModuleName": "msvcp_win.dll",
+    "FileName": "C:\\Windows\\System32\\msvcp_win.dll",
+    "ModuleMemorySize": 643072
+  },
+  {
+    "ModuleName": "ucrtbase.dll",
+    "FileName": "C:\\Windows\\System32\\ucrtbase.dll",
+    "ModuleMemorySize": 1048576
+  },
+  {
+    "ModuleName": "USER32.dll",
+    "FileName": "C:\\Windows\\System32\\USER32.dll",
+    "ModuleMemorySize": 1708032
+  },
+  {
+    "ModuleName": "IMM32.dll",
+    "FileName": "C:\\Windows\\System32\\IMM32.dll",
+    "ModuleMemorySize": 192512
+  },
+  {
+    "ModuleName": "ole32.dll",
+    "FileName": "C:\\Windows\\System32\\ole32.dll",
+    "ModuleMemorySize": 1228800
+  },
+  {
+    "ModuleName": "RPCRT4.dll",
+    "FileName": "C:\\Windows\\System32\\RPCRT4.dll",
+    "ModuleMemorySize": 1204224
+  },
+  {
+    "ModuleName": "combase.dll",
+    "FileName": "C:\\Windows\\System32\\combase.dll",
+    "ModuleMemorySize": 3493888
+  },
+  {
+    "ModuleName": "SHELL32.dll",
+    "FileName": "C:\\Windows\\System32\\SHELL32.dll",
+    "ModuleMemorySize": 7802880
+  },
+  {
+    "ModuleName": "COMDLG32.dll",
+    "FileName": "C:\\Windows\\System32\\COMDLG32.dll",
+    "ModuleMemorySize": 892928
+  },
+  {
+    "ModuleName": "msvcrt.dll",
+    "FileName": "C:\\Windows\\System32\\msvcrt.dll",
+    "ModuleMemorySize": 647168
+  },
+  {
+    "ModuleName": "shcore.dll",
+    "FileName": "C:\\Windows\\System32\\shcore.dll",
+    "ModuleMemorySize": 708608
+  },
+  {
+    "ModuleName": "SHLWAPI.dll",
+    "FileName": "C:\\Windows\\System32\\SHLWAPI.dll",
+    "ModuleMemorySize": 372736
+  },
+  {
+    "ModuleName": "ADVAPI32.dll",
+    "FileName": "C:\\Windows\\System32\\ADVAPI32.dll",
+    "ModuleMemorySize": 733184
+  },
+  {
+    "ModuleName": "sechost.dll",
+    "FileName": "C:\\Windows\\System32\\sechost.dll",
+    "ModuleMemorySize": 675840
+  },
+  {
+    "ModuleName": "COMCTL32.dll",
+    "FileName": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\COMCTL32.dll",
+    "ModuleMemorySize": 2732032
+  },
+  {
+    "ModuleName": "bcrypt.dll",
+    "FileName": "C:\\Windows\\System32\\bcrypt.dll",
+    "ModuleMemorySize": 159744
+  },
+  {
+    "ModuleName": "ws2_32.dll",
+    "FileName": "C:\\Windows\\System32\\ws2_32.dll",
+    "ModuleMemorySize": 471040
+  },
+  {
+    "ModuleName": "comctl32.dll",
+    "FileName": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+    "ModuleMemorySize": 720896
+  },
+  {
+    "ModuleName": "uxtheme.dll",
+    "FileName": "C:\\Windows\\system32\\uxtheme.dll",
+    "ModuleMemorySize": 647168
+  },
+  {
+    "ModuleName": "MSCTF.dll",
+    "FileName": "C:\\Windows\\System32\\MSCTF.dll",
+    "ModuleMemorySize": 1138688
+  },
+  {
+    "ModuleName": "OLEAUT32.dll",
+    "FileName": "C:\\Windows\\System32\\OLEAUT32.dll",
+    "ModuleMemorySize": 880640
+  },
+  {
+    "ModuleName": "kernel.appcore.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+    "ModuleMemorySize": 73728
+  },
+  {
+    "ModuleName": "bcryptPrimitives.dll",
+    "FileName": "C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "ModuleMemorySize": 532480
+  },
+  {
+    "ModuleName": "textinputframework.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\textinputframework.dll",
+    "ModuleMemorySize": 1019904
+  },
+  {
+    "ModuleName": "CoreUIComponents.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\CoreUIComponents.dll",
+    "ModuleMemorySize": 3518464
+  },
+  {
+    "ModuleName": "CoreMessaging.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+    "ModuleMemorySize": 991232
+  },
+  {
+    "ModuleName": "ntmarta.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\ntmarta.dll",
+    "ModuleMemorySize": 208896
+  },
+  {
+    "ModuleName": "wintypes.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\wintypes.dll",
+    "ModuleMemorySize": 1404928
+  },
+  {
+    "ModuleName": "Oleacc.dll",
+    "FileName": "C:\\Windows\\system32\\Oleacc.dll",
+    "ModuleMemorySize": 417792
+  },
+  {
+    "ModuleName": "hhctrl.ocx",
+    "FileName": "C:\\Windows\\system32\\hhctrl.ocx",
+    "ModuleMemorySize": 757760
+  },
+  {
+    "ModuleName": "winmm.dll",
+    "FileName": "C:\\Windows\\system32\\winmm.dll",
+    "ModuleMemorySize": 159744
+  },
+  {
+    "ModuleName": "clbcatq.dll",
+    "FileName": "C:\\Windows\\System32\\clbcatq.dll",
+    "ModuleMemorySize": 724992
+  },
+  {
+    "ModuleName": "msctfuimanager.dll",
+    "FileName": "C:\\Windows\\system32\\msctfuimanager.dll",
+    "ModuleMemorySize": 819200
+  },
+  {
+    "ModuleName": "DUI70.dll",
+    "FileName": "C:\\Windows\\system32\\DUI70.dll",
+    "ModuleMemorySize": 1785856
+  },
+  {
+    "ModuleName": "DUser.dll",
+    "FileName": "C:\\Windows\\system32\\DUser.dll",
+    "ModuleMemorySize": 610304
+  },
+  {
+    "ModuleName": "UIAutomationCore.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\UIAutomationCore.dll",
+    "ModuleMemorySize": 3096576
+  },
+  {
+    "ModuleName": "PROPSYS.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\PROPSYS.dll",
+    "ModuleMemorySize": 1024000
+  },
+  {
+    "ModuleName": "msiltcfg.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\msiltcfg.dll",
+    "ModuleMemorySize": 40960
+  },
+  {
+    "ModuleName": "VERSION.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\VERSION.dll",
+    "ModuleMemorySize": 40960
+  },
+  {
+    "ModuleName": "msi.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\msi.dll",
+    "ModuleMemorySize": 3444736
+  },
+  {
+    "ModuleName": "sxs.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\sxs.dll",
+    "ModuleMemorySize": 663552
+  },
+  {
+    "ModuleName": "UIAnimation.dll",
+    "FileName": "C:\\Windows\\System32\\UIAnimation.dll",
+    "ModuleMemorySize": 290816
+  },
+  {
+    "ModuleName": "dwrite.dll",
+    "FileName": "C:\\Windows\\system32\\dwrite.dll",
+    "ModuleMemorySize": 2625536
+  },
+  {
+    "ModuleName": "windows.storage.dll",
+    "FileName": "C:\\Windows\\system32\\windows.storage.dll",
+    "ModuleMemorySize": 8044544
+  },
+  {
+    "ModuleName": "Wldp.dll",
+    "FileName": "C:\\Windows\\system32\\Wldp.dll",
+    "ModuleMemorySize": 176128
+  },
+  {
+    "ModuleName": "d3d11.dll",
+    "FileName": "C:\\Windows\\system32\\d3d11.dll",
+    "ModuleMemorySize": 2506752
+  },
+  {
+    "ModuleName": "dxgi.dll",
+    "FileName": "C:\\Windows\\system32\\dxgi.dll",
+    "ModuleMemorySize": 1007616
+  },
+  {
+    "ModuleName": "D3D10Warp.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\D3D10Warp.dll",
+    "ModuleMemorySize": 7303168
+  },
+  {
+    "ModuleName": "dxcore.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\dxcore.dll",
+    "ModuleMemorySize": 241664
+  },
+  {
+    "ModuleName": "cfgmgr32.dll",
+    "FileName": "C:\\Windows\\System32\\cfgmgr32.dll",
+    "ModuleMemorySize": 319488
+  },
+  {
+    "ModuleName": "dcomp.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\dcomp.dll",
+    "ModuleMemorySize": 1986560
+  },
+  {
+    "ModuleName": "directmanipulation.dll",
+    "FileName": "C:\\Windows\\system32\\directmanipulation.dll",
+    "ModuleMemorySize": 647168
+  },
+  {
+    "ModuleName": "TextShaping.dll",
+    "FileName": "C:\\Windows\\SYSTEM32\\TextShaping.dll",
+    "ModuleMemorySize": 716800
+  },
+  {
+    "ModuleName": "xmllite.dll",
+    "FileName": "C:\\Windows\\system32\\xmllite.dll",
+    "ModuleMemorySize": 221184
+  }
+]
