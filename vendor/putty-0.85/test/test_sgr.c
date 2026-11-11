@@ -63,6 +63,13 @@ static void test_styles(Mock *mk)
     IEQUAL(tc.attr & (ATTR_ITALIC | ATTR_CONCEAL | ATTR_UNDER), 0);
     IEQUAL(tc.truecolour.decoration, UINT32_C(0x02ff0000));
     IEQUAL(get_termchar(mk->term, 2, 0).truecolour.decoration, 0);
+    reset(mk); test_context(mk, "VT52 underline overrides previous modern style");
+    term_data_fragmented(mk->term, "\033[4:3m\033[?2l\033SA\033WB");
+    IEQUAL(UNDER_STYLE(get_termchar(mk->term, 0, 0).truecolour), 1);
+    IEQUAL(UNDER_STYLE(get_termchar(mk->term, 1, 0).truecolour), 0);
+    IEQUAL(get_termchar(mk->term, 1, 0).attr & ATTR_UNDER, 0);
+    term_data_fragmented(mk->term, "\033<");
+    IEQUAL(mk->term->vt52_mode, false);
 }
 
 static void test_invalid_groups(Mock *mk)

@@ -6301,11 +6301,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'S':
                     /* compatibility(VI50) */
-                    term->curr_attr |= ATTR_UNDER;
+                    nemo_underline_style(term, 1);
                     break;
                   case 'W':
                     /* compatibility(VI50) */
-                    term->curr_attr &= ~ATTR_UNDER;
+                    nemo_underline_style(term, 0);
                     break;
                   case 'U':
                     /* compatibility(VI50) */
