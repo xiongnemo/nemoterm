@@ -372,7 +372,7 @@
         20
       ],
       "red_pixels": 1024,
-      "gdi": 23
+      "gdi": 24
     },
     {
       "phase": "image-budget-erase",
@@ -408,8 +408,8 @@
       "gdi": 22
     }
   ],
-  "peak_private_ws": 8007680,
-  "peak_total_ws": 23941120,
-  "peak_private_commit": 9236480,
-  "executable_sha256": "b95449523cdf18865ac2f741705f3d7a732e5df6ceaa2354bbddbf81ef3a1871"
+  "peak_private_ws": 8155136,
+  "peak_total_ws": 24059904,
+  "peak_private_commit": 9375744,
+  "executable_sha256": "f5a3fc1164e60615681a24fa04dba9600516dae2f3a87287084596196e57283c"
 }

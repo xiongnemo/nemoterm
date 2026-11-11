@@ -4,6 +4,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define NEMO_LINK_URI_MAX 2083
 #define NEMO_LINK_ID_MAX 250
@@ -22,5 +23,13 @@ const char *nemo_hyperlink_lookup(const NemoHyperlinks *, uint32_t);
 size_t nemo_hyperlink_memory(const NemoHyperlinks *);
 size_t nemo_hyperlink_count(const NemoHyperlinks *);
 void nemo_hyperlink_free(NemoHyperlinks *);
+
+typedef enum NemoLinkPolicy {
+    NEMO_LINK_OPEN_OK, NEMO_LINK_SCHEME_DISABLED,
+    NEMO_LINK_REMOTE_FILE, NEMO_LINK_INVALID_TARGET
+} NemoLinkPolicy;
+/* Windows activation policy, separate from storage/copying of valid URIs. */
+NemoLinkPolicy nemo_hyperlink_policy(const char *uri, const char *hostname,
+                                    const char *fqdn, bool custom_schemes);
 
 #endif

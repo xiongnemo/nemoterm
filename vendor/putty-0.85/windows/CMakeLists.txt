@@ -63,6 +63,7 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
+  nemo_link_ui.c nemo_clipboard.c
   dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
 target_link_libraries(guiterminal cabinet)
 add_dependencies(guiterminal generated_licence_h) # dialog.c uses licence.h

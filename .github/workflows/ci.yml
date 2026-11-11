@@ -120,6 +120,15 @@ jobs:
           Copy-Item research/sixel-font-observed.json test-results/ -ErrorAction SilentlyContinue
           Copy-Item research/sixel-font-*.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test native hyperlink hover, activation and mouse interaction
+        shell: pwsh
+        run: |
+          Remove-Item research/hyperlink-window-observed.json, research/hyperlink-*.png -ErrorAction SilentlyContinue
+          python tests/hyperlink_window_smoke.py 2>&1 | Tee-Object test-results/hyperlink-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/hyperlink-window-observed.json test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/hyperlink-*.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

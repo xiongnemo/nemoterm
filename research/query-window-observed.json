@@ -97,7 +97,7 @@
     "reply": "1b50302b721b5c",
     "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00"
   },
-  "peak_private_ws": 3395584,
-  "peak_total_ws": 19238912,
-  "executable_sha256": "0a444b7cf575a361d2455dc6fa814bc987148065bc971359d7b6d58ac48611cd"
+  "peak_private_ws": 3608576,
+  "peak_total_ws": 19468288,
+  "executable_sha256": "f5a3fc1164e60615681a24fa04dba9600516dae2f3a87287084596196e57283c"
 }

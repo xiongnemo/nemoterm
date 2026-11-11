@@ -34,8 +34,11 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 
 * Ctrl+Shift+C：复制选择内容；Ctrl+Shift+V：粘贴系统剪贴板。
 * 右键已选择的文本：默认只复制；可在 Window/Selection 改为复制并粘贴。
+  复制并粘贴使用当前选区，系统剪贴板繁忙时也不会粘贴旧内容。
 * Ctrl+右键：始终打开上下文菜单，其中有 Copy and Paste。
 * Shift+左键拖选：强制选择终端字符网格，绕过应用鼠标模式；备用屏同样适用。
+* OSC 8 链接悬停显示完整地址，并为同组标签加下划线；Ctrl+左键打开，
+  Ctrl+右键菜单可打开或复制地址。拖动或按住 Shift 仍选择标签文本。
 * 没有选中文字时，普通右键在应用鼠标模式下交给应用，否则显示菜单。
 * 默认使用现代 xterm 功能键、Home/End 和修饰键编码；命名配置可继续选择旧键盘模式。
   Ctrl+PageUp/PageDown 在默认模式下发送给应用；Shift+PageUp/PageDown 保留本地滚动。
@@ -55,7 +58,13 @@ XTGETTCAP 终端名/颜色/逻辑按键查询、应用光标模式及修饰键�
 逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
 OSC 8 已接入字符格、压缩历史、覆盖/擦除和按已绘制画面命中地址的核心接口；
 链接记录上限为 256 KiB / 1024 条，旧编号回收后不会指向新地址。
-**鼠标悬停、打开及复制链接地址的界面仍在开发，当前还不能点击打开链接。**
+Terminal/Hyperlinks 设置可禁用 OSC 8，或允许注册的自定义 URI 协议。
+默认可打开 HTTP、HTTPS、FTP、mailto 和本机 Windows 驱动器的 file 链接；
+file 主机必须为空、localhost 或匹配本机名称。远程文件地址可复制，不能直接打开。
+`python tests/hyperlink_window_smoke.py` 通过临时 URI 处理器验证实际打开的完整地址、
+悬停分组像素、最长地址、菜单/剪贴板、配置开关、Shift 拖选、四种应用鼠标模式、
+捕获取消、缩放及同步输出。另用 6,000 个长链接与 800 张 Sixel 验证淘汰和进程内存。
+截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。
 `python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
 拖动/像素/滚轮/侧键/焦点输入、多键捕获、Shift 事件隔离，以及连续缩放和最大化/还原的窗口尺寸通知。
 `python tests/sync_window_smoke.py` 验证 2026 同步输出期间的像素保持、

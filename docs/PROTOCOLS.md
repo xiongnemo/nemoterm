@@ -56,7 +56,7 @@
 | OSC0/1/2、DECterm21标题 | 0/2局部已证；其余源码已见 | `test_wintitle`验证BEL/ST、逐字节UTF-8标题和DCS不能误当标题。长标题、取消、截断、query配置需补测。 |
 | OSC4调色板设置/查询、多组；104选择性/全部重置 | 已证（有限范围） | `test_colour`穷举数值精度；`test_osc_colour`逐字节验证多项设置/查询、BEL/ST、无效索引、取消、超长整条拒绝。104只清0..255会话覆盖；256..261不沿用PuTTY私有索引。原生ConPTY调色板往返已测。 |
 | OSC10/11/12及110/111/112：默认前景/背景/光标色，设置/查询/恢复 | 已证（有限范围） | 设置/查询、10顺序参数、各自恢复、与104互不误清均已测；回复匹配BEL/ST。真实ConPTY验证10设置/查询。支持Xlib rgb:1..4位和#四种精度及8个固定色名，非完整X11色名库；rgbi需设备光强转换，当前明确拒绝。 |
-| OSC8：`8;params;URI`，空URI关闭、`id=` | 核心已证，交互待实现 | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中接口；Shift复制仅含标签文本。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。ASan/UBSan含6000次链接准入/回收。悬停显示/分组下划线、显式打开/复制地址、file主机匹配、协议激活设置和真实窗口链接测试仍缺失，不算完整可用。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |
+| OSC8：`8;params;URI`，空URI关闭、`id=` | 已证（有限范围） | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中；Shift复制仅含标签。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。真实Win32/ConPTY测试验证完整地址悬停、分组下划线、Ctrl打开/菜单复制、默认与禁用设置、file主机匹配、应用鼠标/多键/Shift/缩放取消及冻结画面的目标。只接受ASCII/百分号编码URI；默认HTTP/HTTPS/FTP/mailto及本机Windows驱动器file，其他注册协议须显式启用。远程file只允许复制；不实现URI片段到文件行号跳转。ASan/UBSan及原生6000长链接+800Sixel压力测试覆盖有界资源。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |
 | OSC52：`52;Pc;Pd`，Base64设置、`?`查询 | 缺失 | 本地Ctrl+Shift+C/V已存在不等于OSC52。应明确可配置读/写策略、选择目标、上限与拒绝行为，并测试不会返回未授权的剪贴板内容。 |
 | OSC7：`7;file://host/path` | 缺失 | 当前工作目录元数据及URI转义/主机处理；不要把终端自身cwd误当shell当前目录。 |
 | OSC133：A/B/C/D（D可带退出码）；OSC633扩展 | 缺失 | prompt、command、output和结束标记需要状态/滚动历史绑定；单纯吞掉序列不实现命令选择、导航等语义。依据 [Windows Terminal shell集成](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。 |
@@ -81,7 +81,7 @@
 
 ## 下一轮实现和验收顺序
 
-1. **直接影响现代agent的缺口**：OSC8鼠标交互和真实窗口验收、kitty键盘协商及剩余SGR（如overline等）；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
+1. **直接影响现代agent的缺口**：kitty键盘协商及剩余SGR（如overline等）；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52设置与查询策略、1001边缘场景与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 

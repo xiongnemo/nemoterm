@@ -15,6 +15,7 @@
  * URI is borrowed until further terminal output; copy before nested UI calls. */
 uint32_t term_hyperlink_at(Terminal *, int x, int y);
 const char *term_hyperlink_uri(Terminal *, uint32_t);
+void term_hyperlink_hover(Terminal *, uint32_t);
 
 enum { MOUSE_TRACK_HIGHLIGHT = 4 };
 
@@ -163,6 +164,7 @@ struct terminal_tag {
     truecolour curr_truecolour, save_truecolour;
     NemoHyperlinks *hyperlinks;
     uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
+    uint32_t hover_hyperlink;
     termchar basic_erase_char, erase_char;
 
     bufchain inbuf;                    /* terminal input buffer */

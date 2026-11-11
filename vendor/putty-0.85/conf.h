@@ -594,6 +594,11 @@ CONF_OPTION(no_dbackspace, /* disable destructive backspace */
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("NoDBackspace"),
 )
+CONF_OPTION(nemo_custom_url_schemes, /* activate registered custom URI schemes */
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoCustomURLSchemes"),
+)
 CONF_OPTION(no_remote_hyperlinks, /* disable OSC 8 hyperlinks */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

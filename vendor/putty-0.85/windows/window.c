@@ -21,6 +21,8 @@
 #include "security-api.h"
 #include "win-gui-seat.h"
 #include "nemo_snapshot.h"
+#include "nemo_link_ui.h"
+#include "nemo_clipboard.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -753,6 +755,10 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
             AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
         }
+        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_OPEN_LINK, "&Open Link");
+        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_COPY_LINK, "Copy Link &Address");
 
         wgs->savedsess_menu = CreateMenu();
         get_sesslist(&sesslist, true);
@@ -889,6 +895,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
 static void wgs_cleanup(WinGuiSeat *wgs)
 {
+    nemo_link_free(wgs);
     deinit_fonts(wgs);
     sfree(wgs->logpal);
     if (wgs->pal)
@@ -1126,7 +1133,9 @@ static void update_mouse_pointer(WinGuiSeat *wgs)
     static bool forced_visible = false;
     switch (wgs->busy_status) {
       case BUSY_NOT:
-        if (wgs->pointer_indicates_raw_mouse)
+        if (nemo_link_hand_cursor(wgs))
+            curstype = IDC_HAND;
+        else if (wgs->pointer_indicates_raw_mouse)
             curstype = IDC_ARROW;
         else
             curstype = IDC_IBEAM;
@@ -1445,6 +1454,7 @@ static void init_dpi_info(WinGuiSeat *wgs)
  */
 static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 {
+    nemo_link_cancel(wgs);
     TEXTMETRIC tm;
     OUTLINETEXTMETRIC otm;
     CPINFO cpinfo;
@@ -2268,6 +2278,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       }
       case WM_DESTROY:
+        nemo_link_free(wgs);
         if (wgs->term) term_end_synchronized_update(wgs->term);
         show_mouseptr(wgs, true);
         PostQuitMessage(0);
@@ -2582,7 +2593,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             break;
           case IDM_COPYPASTE:
             term_request_copy(wgs->term, clips_system, lenof(clips_system));
-            term_request_paste(wgs->term, CLIP_SYSTEM);
+            /* Paste the same selection even if the system clipboard is busy
+             * or another application replaces it between copy and paste. */
+            term_request_paste(wgs->term, CLIP_LOCAL);
             break;
           case IDM_PASTE:
             term_request_paste(wgs->term, CLIP_SYSTEM);
@@ -2659,6 +2672,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_RBUTTONUP:
       case WM_XBUTTONDOWN:
       case WM_XBUTTONUP:
+        if (nemo_link_button(wgs, message, wParam, lParam)) return 0;
         if (message == WM_RBUTTONUP && wgs->nemo_consumed_right_click) {
             wgs->nemo_consumed_right_click = false;
             return 0;
@@ -2668,25 +2682,22 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             wgs->nemo_consumed_right_click = true;
             term_request_copy(wgs->term, clips_system, lenof(clips_system));
             if (conf_get_bool(wgs->conf, CONF_nemo_right_click_paste))
-                term_request_paste(wgs->term, CLIP_SYSTEM);
+                term_request_paste(wgs->term, CLIP_LOCAL);
             return 0;
         }
         if (message == WM_RBUTTONDOWN &&
             ((wParam & MK_CONTROL) ||
              (wParam & MK_SHIFT) || !wgs->term->xterm_mouse ||
              (conf_get_int(wgs->conf, CONF_mouse_is_xterm) == MOUSE_WINDOWS))) {
-            POINT cursorpos;
+            POINT cursorpos = {X_POS(lParam), Y_POS(lParam)};
 
             /* Just in case this happened in mid-select */
             term_cancel_selection_drag(wgs->term);
             wgs->nemo_consumed_right_click = true;
 
             show_mouseptr(wgs, true);    /* make sure pointer is visible */
-            GetCursorPos(&cursorpos);
-            TrackPopupMenu(wgs->popup_menus[CTXMENU].menu,
-                           TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON,
-                           cursorpos.x, cursorpos.y,
-                           0, hwnd, NULL);
+            UINT command = nemo_link_menu(wgs, wgs->popup_menus[CTXMENU].menu, cursorpos);
+            if (command) SendMessage(hwnd, WM_COMMAND, command, 0);
             break;
         }
         {
@@ -2828,6 +2839,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
          */
         noise_ultralight(NOISE_SOURCE_MOUSEPOS, lParam);
 
+        if (nemo_link_motion(wgs, &wParam, lParam)) return 0;
         if (wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON |
                       MK_XBUTTON1 | MK_XBUTTON2) &&
             GetCapture() == hwnd) {
@@ -2861,12 +2873,25 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if ((HWND)lParam == hwnd) return 0;
         /* fall through: only an actual loss cancels reported buttons */
       case WM_CANCELMODE:
+        nemo_link_cancel(wgs);
         term_mouse_cancel(wgs->term);
         term_cancel_selection_drag(wgs->term);
         if (message == WM_CANCELMODE && GetCapture() == hwnd)
             ReleaseCapture();
+        if (message == WM_CANCELMODE)
+            return DefWindowProc(hwnd, message, wParam, lParam);
         return 0;
+      case WM_MOUSELEAVE:
+        nemo_link_leave(wgs);
+        return 0;
+      case WM_SETCURSOR:
+        if (LOWORD(lParam) == HTCLIENT && nemo_link_hand_cursor(wgs)) {
+            SetCursor(LoadCursor(NULL, IDC_HAND));
+            return TRUE;
+        }
+        break;
       case WM_NCMOUSEMOVE:
+        nemo_link_leave(wgs);
         if (wgs->last_mousemove != WM_NCMOUSEMOVE ||
             wParam != wgs->last_wm_ncmousemove_wParam ||
             lParam != wgs->last_wm_ncmousemove_lParam) {
@@ -2996,6 +3021,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         SelectObject(hdc, GetStockObject(WHITE_PEN));
         EndPaint(hwnd, &p);
         ShowCaret(hwnd);
+        nemo_link_refresh(wgs);
         return 0;
       }
       case WM_NETEVENT:
@@ -3011,6 +3037,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         term_update(wgs->term);
         break;
       case WM_KILLFOCUS:
+        nemo_link_cancel(wgs);
         show_mouseptr(wgs, true);
         term_set_focus(wgs->term, false);
         term_cancel_selection_drag(wgs->term);
@@ -3020,6 +3047,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         term_update(wgs->term);
         break;
       case WM_ENTERSIZEMOVE:
+        nemo_link_cancel(wgs);
         term_end_synchronized_update(wgs->term);
         EnableSizeTip(true);
         wgs->resizing = true;
@@ -3139,6 +3167,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         sys_cursor_update(wgs);
         break;
       case WM_SIZE:
+        nemo_link_cancel(wgs);
         term_end_synchronized_update(wgs->term);
         resize_action = conf_get_int(wgs->conf, CONF_resize_action);
         term_notify_minimised(wgs->term, wParam == SIZE_MINIMIZED);
@@ -3351,6 +3380,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_SYSKEYDOWN:
       case WM_KEYUP:
       case WM_SYSKEYUP:
+        nemo_link_key(wgs, message, wParam);
         /*
          * Add the scan code and keypress timing to the random
          * number noise.
@@ -5122,6 +5152,7 @@ static void wintw_free_draw_ctx(TermWin *tw)
     nemo_paint_images(wgs);
     free_hdc(wgs, wgs->wintw_hdc);
     wgs->wintw_hdc = NULL;
+    nemo_link_refresh(wgs);
 }
 
 /* Compose Sixel over the character grid without a full-window backbuffer.
@@ -5286,7 +5317,7 @@ void write_aclip(HWND hwnd, int clipboard, char *data, int len)
     ((unsigned char *) lock)[len] = 0;
     GlobalUnlock(clipdata);
 
-    if (OpenClipboard(hwnd)) {
+    if (nemo_open_clipboard(hwnd)) {
         EmptyClipboard();
         SetClipboardData(CF_TEXT, clipdata);
         CloseClipboard();
@@ -5691,7 +5722,7 @@ static void wintw_clip_write(
     if (!must_deselect)
         SendMessage(wgs->term_hwnd, WM_IGNORE_CLIP, true, 0);
 
-    if (OpenClipboard(wgs->term_hwnd)) {
+    if (nemo_open_clipboard(wgs->term_hwnd)) {
         EmptyClipboard();
         SetClipboardData(CF_UNICODETEXT, clipdata);
         SetClipboardData(CF_TEXT, clipdata2);
@@ -5712,7 +5743,7 @@ static DWORD WINAPI clipboard_read_threadfunc(void *param)
     HWND hwnd = (HWND)param;
     HGLOBAL clipdata;
 
-    if (OpenClipboard(NULL)) {
+    if (nemo_open_clipboard(NULL)) {
         if ((clipdata = GetClipboardData(CF_UNICODETEXT))) {
             SendMessage(hwnd, WM_GOT_CLIPDATA,
                         (WPARAM)true, (LPARAM)clipdata);

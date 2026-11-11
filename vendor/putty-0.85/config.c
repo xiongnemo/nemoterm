@@ -2194,8 +2194,6 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_checkbox(s, "Disable remote-controlled character set configuration",
                   'r', HELPCTX(features_charset), conf_checkbox_handler,
                   I(CONF_no_remote_charset));
-    ctrl_checkbox(s, "Disable OSC 8 hyperlinks", NO_SHORTCUT, HELPCTX(no_help),
-                  conf_checkbox_handler, I(CONF_no_remote_hyperlinks));
     ctrl_checkbox(s, "Disable Arabic text shaping",
                   'l', HELPCTX(features_arabicshaping), conf_checkbox_handler,
                   I(CONF_no_arabicshaping));
@@ -2206,9 +2204,20 @@ void setup_config_box(struct controlbox *b, bool midsession,
                   'p', HELPCTX(features_bracketed_paste), conf_checkbox_handler,
                   I(CONF_no_bracketed_paste));
 
-    /*
-     * The Window panel.
-     */
+    ctrl_settitle(b, "Terminal/Hyperlinks", "Options controlling OSC 8 hyperlinks");
+    s = ctrl_getset(b, "Terminal/Hyperlinks", "hyperlinks", "Hyperlink actions");
+    ctrl_text(s, "Hover to see the address. Ctrl+click opens a link; "
+              "Ctrl+right-click provides link actions. Shift always selects text.",
+              HELPCTX(no_help));
+    ctrl_checkbox(s, "Disable OSC 8 hyperlinks", 'd', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_no_remote_hyperlinks));
+    ctrl_checkbox(s, "Allow registered custom URI schemes", 'a', HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_nemo_custom_url_schemes));
+    ctrl_text(s, "By default, links can open HTTP, HTTPS, FTP, mailto and local "
+              "Windows files. File links must name this computer, localhost or "
+              "an empty host. Other schemes require the option above.", HELPCTX(no_help));
+
+    /* The Window panel. */
     str = dupprintf("Options controlling %s's window", appname);
     ctrl_settitle(b, "Window", str);
     sfree(str);

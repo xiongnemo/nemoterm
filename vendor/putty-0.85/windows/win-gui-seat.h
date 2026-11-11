@@ -60,6 +60,8 @@ struct WinGuiSeat {
 
     HWND term_hwnd;
     bool nemo_consumed_right_click;
+    struct NemoLinkUI *link_ui;
+    bool link_mouse_inside;
 
     int extra_width, extra_height;
     int font_width, font_height;

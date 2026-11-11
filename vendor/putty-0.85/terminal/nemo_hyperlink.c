@@ -160,3 +160,63 @@ void nemo_hyperlink_free(NemoHyperlinks *links)
     while (links->count) evict(links);
     free(links);
 }
+
+static bool equal_ascii(const char *a, size_t len, const char *b)
+{
+    if (!b || strlen(b) != len) return false;
+    for (size_t i = 0; i < len; i++) {
+        unsigned char x = a[i], y = b[i];
+        if (x >= 'A' && x <= 'Z') x += 'a' - 'A';
+        if (y >= 'A' && y <= 'Z') y += 'a' - 'A';
+        if (x != y) return false;
+    }
+    return true;
+}
+
+NemoLinkPolicy nemo_hyperlink_policy(const char *uri, const char *hostname,
+                                    const char *fqdn, bool custom_schemes)
+{
+    if (!uri || !valid_uri(uri, strlen(uri))) return NEMO_LINK_INVALID_TARGET;
+    const char *tail = strchr(uri, ':') + 1;
+    size_t scheme_len = tail - uri - 1;
+    /* ShellExecute treats a one-letter scheme as a Windows drive path. */
+    if (scheme_len == 1) return NEMO_LINK_INVALID_TARGET;
+    if (equal_ascii(uri, scheme_len, "file")) {
+        if (strncmp(tail, "//", 2)) return NEMO_LINK_INVALID_TARGET;
+        const char *host = tail + 2, *path = strchr(host, '/');
+        if (!path) return NEMO_LINK_INVALID_TARGET;
+        size_t host_len = path - host;
+        if (host_len && !equal_ascii(host, host_len, "localhost") &&
+            !equal_ascii(host, host_len, hostname) &&
+            !equal_ascii(host, host_len, fqdn)) return NEMO_LINK_REMOTE_FILE;
+        /* Require a local Windows drive, never UNC/device paths hidden behind
+         * an empty authority. Encoded separators/control bytes are not paths
+         * we can safely hand to the shell with the same displayed meaning. */
+        if (strlen(path) < 4 || !alpha(path[1]) || path[2] != ':' || path[3] != '/')
+            return NEMO_LINK_INVALID_TARGET;
+        for (const char *p = path; *p; p++) {
+            if (*p == '?' || *p == '#') return NEMO_LINK_INVALID_TARGET;
+            if (*p == '%') {
+                unsigned value = 0;
+                for (unsigned i = 1; i <= 2; i++) {
+                    unsigned char c = p[i];
+                    if (c >= 'A' && c <= 'F') c += 'a'-'A';
+                    value = value * 16 + (digit(c) ? c-'0' : c-'a'+10);
+                }
+                if (value < 32 || value == 127 || value == '/' || value == '\\')
+                    return NEMO_LINK_INVALID_TARGET;
+                p += 2;
+            }
+        }
+        return NEMO_LINK_OPEN_OK;
+    }
+    if (equal_ascii(uri, scheme_len, "http") ||
+        equal_ascii(uri, scheme_len, "https") ||
+        equal_ascii(uri, scheme_len, "ftp")) {
+        return strncmp(tail, "//", 2) || !tail[2] || strchr("/?#", tail[2]) ?
+            NEMO_LINK_INVALID_TARGET : NEMO_LINK_OPEN_OK;
+    }
+    if (equal_ascii(uri, scheme_len, "mailto"))
+        return *tail ? NEMO_LINK_OPEN_OK : NEMO_LINK_INVALID_TARGET;
+    return custom_schemes ? NEMO_LINK_OPEN_OK : NEMO_LINK_SCHEME_DISABLED;
+}

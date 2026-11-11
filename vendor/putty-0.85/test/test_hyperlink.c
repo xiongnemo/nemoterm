@@ -314,6 +314,64 @@ static void test_plain_text_selection(Mock *mk)
     }
 }
 
+static void test_open_policy(Mock *mk)
+{
+    test_context(mk, "Windows activation policy is separate from URI storage");
+    const struct { const char *uri; bool custom; NemoLinkPolicy policy; } cases[] = {
+        {"https://example.com/a%20b?q=%22x%22", false, NEMO_LINK_OPEN_OK},
+        {"HTTP://example.com/", false, NEMO_LINK_OPEN_OK},
+        {"ftp://example.com/path", false, NEMO_LINK_OPEN_OK},
+        {"mailto:user@example.com", false, NEMO_LINK_OPEN_OK},
+        {"https:", false, NEMO_LINK_INVALID_TARGET},
+        {"https:///path", false, NEMO_LINK_INVALID_TARGET},
+        {"nemotest:example", false, NEMO_LINK_SCHEME_DISABLED},
+        {"nemotest:example", true, NEMO_LINK_OPEN_OK},
+        {"C:/Windows/system32/cmd.exe", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/Users/file%20name.txt", false, NEMO_LINK_OPEN_OK},
+        {"FILE://localHOST/C:/test.txt", false, NEMO_LINK_OPEN_OK},
+        {"file://TEST-PC/C:/test.txt", false, NEMO_LINK_OPEN_OK},
+        {"file://test-pc.example/C:/test.txt", false, NEMO_LINK_OPEN_OK},
+        {"file://remote/C:/test.txt", false, NEMO_LINK_REMOTE_FILE},
+        {"file://remote/C:/test.txt", true, NEMO_LINK_REMOTE_FILE},
+        {"file:////remote/share/file.txt", true, NEMO_LINK_INVALID_TARGET},
+        {"file:C:/test.txt", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/a%00suffix", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/a%2Fpath", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/a%5cpath", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/a#part", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///C:/a?query", true, NEMO_LINK_INVALID_TARGET},
+        {"file:///home/user/file", false, NEMO_LINK_INVALID_TARGET},
+    };
+    for (size_t i = 0; i < lenof(cases); i++) {
+        test_context(mk, "URI policy %s", cases[i].uri);
+        IEQUAL(nemo_hyperlink_policy(cases[i].uri, "test-pc", "test-pc.example",
+                                     cases[i].custom), cases[i].policy);
+    }
+}
+
+static void test_hover(Mock *mk)
+{
+    link_setup(mk, "hover underlines a whole explicit group without changing stored SGR");
+    term_data_fragmented(mk->term, LINK_A "A" LINK_END "-" LINK_A "B" LINK_B "C" LINK_END);
+    uint32_t a = get_termchar(mk->term, 0, 0).hyperlink;
+    paint(mk);
+    term_hyperlink_hover(mk->term, a);
+    paint(mk);
+    IEQUAL(!!(mk->term->disptext[0]->chars[0].attr & ATTR_UNDER), true);
+    IEQUAL(!!(mk->term->disptext[0]->chars[2].attr & ATTR_UNDER), true);
+    IEQUAL(mk->term->disptext[0]->chars[1].attr & ATTR_UNDER, 0);
+    IEQUAL(mk->term->disptext[0]->chars[3].attr & ATTR_UNDER, 0);
+    IEQUAL(get_termchar(mk->term, 0, 0).attr & ATTR_UNDER, 0);
+    term_hyperlink_hover(mk->term, 0); paint(mk);
+    IEQUAL(mk->term->disptext[0]->chars[0].attr & ATTR_UNDER, 0);
+    term_data_fragmented(mk->term, "\033[H\033[4:3;58;2;255;0;0m" LINK_A "A" LINK_END);
+    term_hyperlink_hover(mk->term, a); paint(mk);
+    IEQUAL(UNDER_STYLE(mk->term->disptext[0]->chars[0].truecolour), 3);
+    term_hyperlink_hover(mk->term, 0); paint(mk);
+    IEQUAL(UNDER_STYLE(mk->term->disptext[0]->chars[0].truecolour), 3);
+    IEQUAL(!!(mk->term->disptext[0]->chars[0].attr & ATTR_UNDER), true);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -331,6 +389,8 @@ int main(void)
     test_rendered_frame(mk);
     test_disabled_and_evicted(mk);
     test_plain_text_selection(mk);
+    test_open_policy(mk);
+    test_hover(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Hyperlink test suite FAILED!" : "Hyperlink test suite passed");

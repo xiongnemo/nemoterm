@@ -383,9 +383,8 @@ wide/double-width lines. Identical text with a different URI must update this
 metadata on redraw. During synchronized output, the old displayed address
 remains the target until presentation resumes (or becomes inactive if evicted).
 The API returns borrowed registry pointers: a frontend must copy a URI before
-processing nested messages or further terminal output. No activation UI is
-claimed yet: hover/underline, explicit opening, copying addresses, local-file
-host checks and real Win32/ConPTY link interaction remain the next work.
+processing nested messages or further terminal output. The native activation
+UI and its subsequent verification are recorded below.
 
 The sixteenth core suite covers these paths, invalid/fragmented framing,
 6000 short/long registry admissions, 100 resize/font cycles, synchronized
@@ -401,5 +400,65 @@ presentation and the 37-checkpoint Sixel/font suite. In the latter, peak private
 WS was 8,007,680 bytes, total WS 23,941,120 bytes and private commit 9,236,480
 bytes, without trimming. Executable SHA-256:
 `b95449523cdf18865ac2f741705f3d7a732e5df6ceaa2354bbddbf81ef3a1871`.
-This checks the larger cell layout against existing workloads; a native
-link-heavy fixture remains necessary when the activation UI is added.
+This checks the larger cell layout against existing workloads.
+
+OSC 8 native UI checkpoint: hovering displays a hard-wrapped, complete address
+in a lazy Win32 STATIC popup and underlines every visible cell in the same
+id/URI group without changing the model's SGR attributes. Ctrl+left-click
+opens the target with ShellExecuteW's explicit open verb and no command-line
+parameters. Ctrl+right-click offers Open Link and Copy Link Address. Ordinary
+right-click retains the selected-label copy policy. Copying an address does
+not discard the existing label selection. Shift always selects labels;
+Ctrl-drag hands off to local selection instead of opening a link. Capture
+loss, resize, font changes, focus loss and another pressed mouse button cancel
+pending activation. WM_CANCELMODE now also reaches DefWindowProc to dismiss
+the native popup menu.
+
+Terminal/Hyperlinks exposes NoRemoteHyperlinks and NemoCustomURLSchemes.
+The latter defaults to false: HTTP/HTTPS/FTP/mailto and local Windows file
+targets may open; other registered schemes require explicit opt-in. File
+authority must be empty, localhost or match the machine's short/FQDN name.
+UNC/device/Unix paths, encoded separators/control bytes and file query/fragment
+suffixes are rejected for activation; foreign hosts remain copy-only even
+with custom protocols enabled. Single-letter schemes cannot masquerade as
+Windows drive paths. There is no file-line/fragment navigation integration.
+
+The ninth native suite uses temporary, UUID-named registry profiles and a URI
+handler that records arguments into its temporary directory; it never opens
+a browser or sends a request. It checks exact percent-encoded arguments,
+group underline pixels, 2083-byte address wrapping, both preference switches,
+live hover changes, menu open/copy/cancel, clipboard text, four application
+mouse modes, Shift takeover, Ctrl-drag, mixed left/side buttons, capture and
+resize cancellation, synchronized old/new displayed targets and foreign-file
+policy. Clipboard formats are saved and restored, with unsupported handle
+formats rejected before modification. Helpers send only to owned HWNDs; they
+align their own window under the existing pointer without moving the cursor.
+
+A final 6000-long-URI burst evicts an old main-screen link while retaining its
+label, then admits 800 Sixel images. The stale label cannot open any new URI.
+Local peak private WS was 8,634,368 bytes, total WS 31,535,104 bytes and private
+commit 9,940,992 bytes, without trimming; child/ConPTY processes are separate.
+Executable SHA-256: `f5a3fc1164e60615681a24fa04dba9600516dae2f3a87287084596196e57283c`.
+Evidence: `research/hyperlink-window-observed.json`, `hyperlink-hover.png`,
+`hyperlink-address.png` and `hyperlink-long-address.png`. All sixteen core
+suites and Linux hyperlink/image lifecycle ASan/UBSan passed locally.
+All nine native suites passed for this executable, including the existing
+37-checkpoint Sixel/font fixture (8,155,136 bytes peak private WS) and font-resize
+GDI resource checks. Workflow validation with actionlint
+1.7.12 passed. Remote CI for the preceding core commit remained
+queued/failed before job creation during GitHub's reported Actions incident;
+these local results do not claim that the new UI has passed remote CI.
+
+Native clipboard reads/writes now retry short lock contention for a maximum
+100 ms retry window (plus scheduler/API latency). Copy remains synchronous.
+The link fixture holds the clipboard for 50 ms and verifies that the selected
+label is copied after release; a 400 ms hold verifies bounded failure without
+overwriting the old address, followed by a successful explicit retry. A longer
+external lock can still make an individual copy or paste fail; this is not an
+indefinitely queued clipboard operation.
+Copy and Paste uses the local selection buffer for its paste component, so a
+failed system copy cannot paste stale clipboard text. The native menu test
+holds the clipboard with a link address in it and verifies that the child
+receives only the selected label instead.
+The configured ordinary-right-click copy/paste path passes the same busy-lock
+test in a separate profile; default right-click remains copy-only.

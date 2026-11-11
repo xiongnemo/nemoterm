@@ -2106,6 +2106,7 @@ static void power_on(Terminal *term, bool clear)
     term->curr_truecolour.decoration = 0;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
+    term->hover_hyperlink = 0;
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     term->use_bce = conf_get_bool(term->conf, CONF_bce);
@@ -7171,6 +7172,9 @@ static void do_paint(Terminal *term)
 
             tchar = d->chr;
             tattr = d->attr;
+            if (d->hyperlink && d->hyperlink == term->hover_hyperlink &&
+                term_hyperlink_uri(term, d->hyperlink))
+                tattr |= ATTR_UNDER;
 
             if (!term->ansi_colour)
                 tattr = (tattr & ~(ATTR_FGMASK | ATTR_BGMASK)) |
@@ -7563,6 +7567,15 @@ uint32_t term_hyperlink_at(Terminal *term, int x, int y)
     if ((line->lattr & LATTR_MODE) != LATTR_NORM) x /= 2;
     uint32_t handle = line->chars[x].hyperlink;
     return term_hyperlink_uri(term, handle) ? handle : 0;
+}
+
+void term_hyperlink_hover(Terminal *term, uint32_t handle)
+{
+    if (!term_hyperlink_uri(term, handle)) handle = 0;
+    if (term->hover_hyperlink != handle) {
+        term->hover_hyperlink = handle;
+        term_invalidate(term);
+    }
 }
 
 /* Paint the window in response to a WM_PAINT message. */
