@@ -10,16 +10,28 @@
   "underline-reset": "2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e",
   "conceal": "2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e",
   "regular": "d4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d",
-  "italic": "f11153f697dd8453aee5aa984a9ddb25023503a031d309222dfd2ce0825e3845",
+  "italic": "03e6ce74e5f2fa502b31d904774eddc1e115f5a3147002446d47b1ad8ec86517",
   "italic-reset": "d4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d",
+  "normal-m-width": "274d9e0aa842c2b45cd40d944e00831e51dae646675650291e4771a628994a66",
+  "italic-m-width": "6cbabdbfcd461763bb26449cf49172b6e3b5ebd661bada63511df37e972eac44",
+  "normal_and_italic_M_width": [
+    8,
+    8
+  ],
+  "normal-cjk-width": "a6f2ba9c69d2ced7fa6b045915d866d36199deb1bb7176364c908d337c4fb739",
+  "italic-cjk-width": "2ccd070703a29ccc9d93459291e390499009be8991310c1b203073c603d01cb5",
+  "normal_and_italic_CJK_width": [
+    14,
+    14
+  ],
   "colon-rgb": "5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd",
   "semicolon-rgb": "5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd",
   "indexed-underline": "272c842da28c632f737808ba8fafcbd0d2aca94997e3c7b6cf2a411ba9e7a3e5",
   "palette-change": "47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063",
   "styled-sync-freeze": "47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063",
   "styled-sync-release": "ad497301196407f3dd29ee2437db5e75f47144ad0d600f4886e69c5c43b3d3fd",
-  "gallery": "26c71f8fc74b661df68fc222075913d3c609a55906f910c22a6951eabc3d1737",
-  "peak_private_ws": 4378624,
-  "peak_total_ws": 20488192,
-  "executable_sha256": "98f3c743bd78005f317aa402771bade9d04b85d2fffe58b6d77646e64c5a04d3"
+  "gallery": "4e24968c4d9b51349642582a1e90fdbbaeec704dfd096d4c24a9e7dfa002d620",
+  "peak_private_ws": 4403200,
+  "peak_total_ws": 20545536,
+  "executable_sha256": "87dd05d6652adca5a564ac567da9018769f8da2db61b3ab9bb72655b95799b0a"
 }

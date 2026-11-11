@@ -1487,11 +1487,12 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
         }
     }
     wgs->font_width = pick_width;
+    wgs->font_gdi_width = pick_width;
 
     quality = conf_get_int(wgs->conf, CONF_font_quality);
 #define f(i,c,w,u)                                                      \
     wgs->fonts[i] = CreateFont(                                         \
-        wgs->font_height, wgs->font_width, 0, 0, w, false, u, false, c, \
+        wgs->font_height, wgs->font_gdi_width, 0, 0, w, false, u, false, c, \
         OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, FONT_QUALITY(quality), \
         FIXED_PITCH | FF_DONTCARE, font->name)
 
@@ -1499,6 +1500,10 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 
     SelectObject(hdc, wgs->fonts[FONT_NORMAL]);
     GetTextMetrics(hdc, &tm);
+    /* CreateFont's width is an average, not the terminal cell advance.
+     * Sarasa's average is almost twice its ASCII advance. Reusing the
+     * grid width for bold/italic would horizontally squeeze their glyphs. */
+    wgs->font_gdi_width = tm.tmAveCharWidth;
     if (GetOutlineTextMetrics(hdc, sizeof(otm), &otm))
         wgs->font_strikethrough_y = tm.tmAscent - otm.otmsStrikeoutPosition;
     else
@@ -1669,7 +1674,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
     w = fw_dontcare;
     u = false;
     s = font->name;
-    x = wgs->font_width;
+    x = wgs->font_gdi_width;
 
     if (fontno & FONT_WIDE)
         x *= 2;

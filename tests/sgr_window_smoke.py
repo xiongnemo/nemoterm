@@ -1,5 +1,5 @@
 """Verify actual styled pixels through the bundled ConPTY and GDI renderer."""
-from native_test_utils import (root, c, u, k, hashlib, json, os, subprocess, sys,
+from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess, sys,
     tempfile, Path, threading, time, read_snapshot, write_snapshot, memory_sample,
     wait_for, find_window, capture)
 
@@ -64,6 +64,22 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-sgr-') as directory:
         assert italic != regular, 'italic font did not change pixels'
         reset_italic = phase('italic-reset', frame('3;23', 'Italic MMMMM and Chinese 中文'))
         assert reset_italic == regular, 'italic reset did not restore pixels'
+        normal_m = phase('normal-m-width', frame('0', 'M'))
+        italic_m = phase('italic-m-width', frame('3', 'M'))
+        rect = w.RECT()
+        u.GetClientRect(hwnd, c.byref(rect))
+        def ink_width(pixels):
+            xs = [i//3 % rect.right for i in range(0, len(pixels), 3)
+                  if pixels[i:i+3] != blank[i:i+3] and max(pixels[i:i+3]) > 64]
+            return max(xs)-min(xs)+1
+        widths = [ink_width(normal_m), ink_width(italic_m)]
+        evidence['normal_and_italic_M_width'] = widths
+        assert widths[1] >= widths[0]-1, ('italic glyph was squeezed', widths)
+        normal_cjk = phase('normal-cjk-width', frame('0', '中'))
+        italic_cjk = phase('italic-cjk-width', frame('3', '中'))
+        widths = [ink_width(normal_cjk), ink_width(italic_cjk)]
+        evidence['normal_and_italic_CJK_width'] = widths
+        assert widths[1] >= widths[0]-1, ('italic CJK glyph was squeezed', widths)
         colon = phase('colon-rgb', frame('38:2::12:34:56;48:2::78:90:123', 'TRUE COLOUR'))
         legacy = phase('semicolon-rgb', frame('38;2;12;34;56;48;2;78;90;123', 'TRUE COLOUR'))
         assert colon == legacy, 'colon and semicolon RGB differ through ConPTY'

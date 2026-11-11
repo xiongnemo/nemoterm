@@ -54,6 +54,7 @@ Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色
 `python tests/sync_window_smoke.py` 验证 2026 同步输出期间的像素保持、
 查询与输入、结束/超时/缩放释放，以及整个进程的工作集；快照使用有界压缩条带。
 `python tests/sgr_window_smoke.py` 检查样式、颜色、复位及同步快照的真实像素，
+并检查中英文斜体字形宽度，防止字体平均宽度和终端格宽混用导致字形被压窄。
 截图见 [SGR 样式](research/sgr-styles.png)。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 

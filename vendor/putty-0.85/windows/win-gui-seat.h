@@ -63,6 +63,7 @@ struct WinGuiSeat {
 
     int extra_width, extra_height;
     int font_width, font_height;
+    int font_gdi_width; /* GDI average width, distinct from the grid advance */
     bool font_dualwidth, font_varpitch;
     int offset_width, offset_height;
     bool was_zoomed;
