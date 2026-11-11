@@ -462,3 +462,51 @@ holds the clipboard with a link address in it and verifies that the child
 receives only the selected label instead.
 The configured ordinary-right-click copy/paste path passes the same busy-lock
 test in a separate profile; default right-click remains copy-only.
+
+### Kitty keyboard checkpoint
+
+The Windows input path now implements the five progressive enhancements from
+https://sw.kovidgoyal.net/kitty/keyboard-protocol/. Query/set/push/pop have
+independent 32-entry main/alternate stacks (66 bytes total), bounded eviction,
+explicit-zero handling, fragmented input and cancellation/overflow tests.
+RIS resets both; cursor save/restore and resize preserve modes. The portable
+encoder bounds associated text to 16 Unicode scalars and output to 256 bytes,
+rejecting invalid scalars and incomplete output without heap allocation.
+
+The Win32 adapter allocates about 12 KiB only after enhancement is used. It
+tracks physical scan positions so a layout change cannot orphan a held key.
+Press/repeat/release, lock state, left/right modifiers, navigation, keypad,
+F1..F24 and media keys are mapped; the portable encoder covers F1..F35.
+Physical PC101 alternatives and OS text are separate. ToUnicodeEx tests use
+explicit US, US International, German and Russian layouts without activating
+them, including dead-key composition and AltGr. No global input is injected.
+Unknown-key text commits use key 0 when associated-text reporting is enabled.
+Report-all without associated-text intentionally omits pure text, as specified.
+Focus loss sends releases for reportable held keys, then clears local state.
+Ctrl+Shift+C/V and local scrolling retain priority; their key releases do not
+leak into the application. Paste remains a text/bracketed-paste operation.
+
+`test_keyboard` passes on Windows and Linux ASan/UBSan. The tenth native suite
+verifies exact child bytes across the bundled ConPTY, repeat counts, modifiers,
+UTF-16 surrogate and IME-character messages, independent screen stacks,
+synchronized output, focus loss, resize, selected-label copy and bracketed
+paste. These synthetic messages do not verify real IME candidate windows,
+physical devices, every locale, Alt-number entry or sustained agent behavior.
+Windows input mode 9001 and modifyOtherKeys remain separate outstanding work.
+
+All 17 core and 10 native suites passed locally for executable SHA-256
+`27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89`.
+The keyboard fixture's phase samples reached 3,670,016 bytes private WS,
+19,542,016 total WS and 4,939,776 private commit. Continuous sampling during
+the hyperlink/Sixel pressure fixture reached 8,454,144 private WS,
+31,358,976 total WS and 9,654,272 private commit. No trimming was performed;
+ConPTY and child processes are separate. Evidence lives in the corresponding
+`research/*-observed.json` files, with `research/keyboard-window.png` captured
+using PrintWindow. CI builds/runs the new core and native suites, includes the
+keyboard core in ASan/UBSan, and uploads the native JSON/log/screenshot.
+
+The earlier Actions outage is resolved for the previous UI checkpoint:
+commit e9ef53886cf982e67d97e1d56bacbc1771291e12 passed remote run 43104641238
+(16 core suites, 9 native suites and sanitizer job), and its downloaded
+artifact manifest and executable hashes were verified. This historical run
+does not claim remote verification of the new keyboard code.

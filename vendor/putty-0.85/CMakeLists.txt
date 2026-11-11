@@ -55,7 +55,7 @@ add_library(agent STATIC
   sshpubk.c pageant.c aqsync.c)
 
 add_library(guiterminal STATIC
-  terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c terminal/nemo_colour.c terminal/nemo_tcap.c terminal/nemo_hyperlink.c
+  terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c terminal/nemo_colour.c terminal/nemo_tcap.c terminal/nemo_hyperlink.c terminal/nemo_keyboard.c
   ldisc.c terminal/lineedit.c config.c dialog.c
   $<TARGET_OBJECTS:logging>)
 

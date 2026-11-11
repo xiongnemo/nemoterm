@@ -6,7 +6,7 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
 私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
 每次 push/PR 的 GitHub Actions 会执行 Windows 回归与构建，另运行 Linux Sixel
-及超链接核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
+超链接及键盘核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
 产物含 EXE、许可证、构建 commit 与 SHA-256，保留 30 天。
 
 ## 构建与启动
@@ -55,6 +55,7 @@ Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色
 冒号RGB、斜体/隐藏、五种下划线及独立下划线颜色、压缩历史中的样式还原，
 DECSCUSR 光标形状/闪烁、DEC 12，以及 DECRQSS 的样式/滚动边界/尺寸读回，
 XTGETTCAP 终端名/颜色/逻辑按键查询、应用光标模式及修饰键组合，
+kitty 键盘协议的五种增强标志、主/备用屏独立模式栈、按下/重复/释放、备用键码与关联文本，
 逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
 OSC 8 已接入字符格、压缩历史、覆盖/擦除和按已绘制画面命中地址的核心接口；
 链接记录上限为 256 KiB / 1024 条，旧编号回收后不会指向新地址。
@@ -64,6 +65,10 @@ file 主机必须为空、localhost 或匹配本机名称。远程文件地址�
 `python tests/hyperlink_window_smoke.py` 通过临时 URI 处理器验证实际打开的完整地址、
 悬停分组像素、最长地址、菜单/剪贴板、配置开关、Shift 拖选、四种应用鼠标模式、
 捕获取消、缩放及同步输出。另用 6,000 个长链接与 800 张 Sixel 验证淘汰和进程内存。
+`python tests/keyboard_window_smoke.py` 检查 kitty 协商后经过实际 ConPTY 的输入字节，
+包括 Unicode 提交、修饰键、失焦清理、窗口缩放和 Ctrl+Shift+C/V 括号粘贴。
+核心测试直接调用 Windows 布局转换器验证美式、俄语、德语 AltGr 和美式国际死键，
+不会激活或切换用户布局；真实 IME 候选窗口、更多物理键盘及长期 agent 使用仍需验收。
 截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。
 `python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
 拖动/像素/滚轮/侧键/焦点输入、多键捕获、Shift 事件隔离，以及连续缩放和最大化/还原的窗口尺寸通知。

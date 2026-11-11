@@ -10,6 +10,7 @@
 #include "nemo_sixel.h"
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
+#include "nemo_keyboard.h"
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
@@ -247,6 +248,8 @@ struct terminal_tag {
     bool alt_utf;
     int alt_t, alt_b;
     int alt_which;
+    NemoKeyboard keyboard[2];
+    uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 
 #define ARGS_MAX 32                    /* max # of esc sequence arguments */

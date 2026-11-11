@@ -1,5 +1,5 @@
 {
-  "test_pid": 31292,
+  "test_pid": 38012,
   "observations": [
     {
       "phase": "sgr-drag",
@@ -73,7 +73,7 @@
     },
     {
       "phase": "focus-handler-roundtrip",
-      "hex": "1b5b4f1b5b49",
+      "hex": "1b5b4f1b5b491b5b4f1b5b49",
       "columns": 80,
       "rows": 24,
       "input_mode": 640

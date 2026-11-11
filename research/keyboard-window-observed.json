@@ -1,0 +1,77 @@
+{
+  "initial-query": {
+    "phase": "initial-query",
+    "hex": "1b5b3f3075",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "push-set-pop": {
+    "phase": "push-set-pop",
+    "hex": "1b5b3f3331751b5b3f31751b5b3f33751b5b3f3075",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "all-flags": {
+    "phase": "all-flags",
+    "hex": "1b5b3f3331751b5b39373b3132393b3937751b5b39373b3132393a323b3937751b5b39373b3132393a323b3937751b5b39373b3132393a33751b5b313b313239411b5b313b3132393a33411b5b31333b3132397e1b5b31333b3132393a337e1b5b35373431343b313239751b5b35373431343b3132393a33751b5b35373434323b313333751b5b3130353b313333751b5b3130353b3133333a33751b5b35373434323b3132393a33751b5b35373434313b313330751b5b39373a36353b3133303b3635751b5b39373a36353b3133303a33751b5b35373434313b3132393a3375",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "unicode-commit": {
+    "phase": "unicode-commit",
+    "hex": "1b5b3f3331751b5b303b313b3230303133751b5b303b313b313238353132751b5b303b313b323539393175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "screen-stacks": {
+    "phase": "screen-stacks",
+    "hex": "1b5b3f30751b5b3f33751b5b3f3331751b5b3f3375611b5b32373b313239751b5b32373b3132393a33750d",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "frozen-key-input": {
+    "phase": "frozen-key-input",
+    "hex": "1b5b3f3331751b5b39373b3132393b3937751b5b39373b3132393a3375",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "focus-cleanup": {
+    "phase": "focus-cleanup",
+    "hex": "1b5b3f3331751b5b39373b3132393b3937751b5b39373b313a3375",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "resize-preserves-mode": {
+    "phase": "resize-preserves-mode",
+    "hex": "1b5b3f3331751b5b39373b3132393b3937751b5b39373b3132393a3375",
+    "columns": 83,
+    "rows": 22,
+    "input_mode": 640
+  },
+  "local-copy-paste": {
+    "phase": "local-copy-paste",
+    "hex": "1b5b3f3331751b5b35373434323b313333751b5b35373434313b313334751b5b3230307e4b4559424f41524420434f5059204c4142454c1b5b3230317e1b5b35373434313b3133333a33751b5b35373434323b3132393a3375",
+    "columns": 83,
+    "rows": 22,
+    "input_mode": 640
+  },
+  "reset-legacy": {
+    "phase": "reset-legacy",
+    "hex": "1b5b3f30751b",
+    "columns": 83,
+    "rows": 22,
+    "input_mode": 640
+  },
+  "executable_sha256": "27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89",
+  "peak_private_ws": 3670016,
+  "peak_total_ws": 19542016,
+  "peak_private_commit": 4939776,
+  "lock_modifiers": 128
+}

@@ -2107,6 +2107,7 @@ static void power_on(Terminal *term, bool clear)
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
+    memset(term->keyboard, 0, sizeof(term->keyboard));
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     term->use_bce = conf_get_bool(term->conf, CONF_bce);
@@ -5107,6 +5108,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = SEEN_CSI;
                     term->esc_nargs = 1;
                     term->esc_args[0] = ARG_DEFAULT;
+                    term->esc_arg_present = 0;
                     memset(term->esc_sub_count, 0, sizeof(term->esc_sub_count));
                     memset(term->esc_sub_present, 0, sizeof(term->esc_sub_present));
                     term->esc_overflow = term->esc_has_subargs = false;
@@ -5335,6 +5337,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 if (isdigit(c)) {
                     if (!term->esc_overflow) {
                         unsigned i = term->esc_nargs - 1;
+                        term->esc_arg_present |= 1u << i;
                         unsigned sub = term->esc_sub_count[i];
                         unsigned *value = sub ? &term->esc_subargs[i][sub-1] :
                             &term->esc_args[i];
@@ -5853,6 +5856,28 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 'u':       /* restore cursor */
                         save_cursor(term, false);
+                        break;
+                      case ANSI('u', 1): /* kitty keyboard flags query */
+                        if (term->esc_nargs == 1 && !term->esc_arg_present && term->ldisc) {
+                            char reply[24];
+                            int n = sprintf(reply, "\033[?%uu", nemo_keyboard_flags(
+                                &term->keyboard[term->alt_which != 0]));
+                            ldisc_send(term->ldisc, reply, n, false);
+                        }
+                        break;
+                      case ANSI('u', '='):
+                        if (term->esc_nargs <= 2)
+                            nemo_keyboard_set(&term->keyboard[term->alt_which != 0],
+                                term->esc_args[0], term->esc_arg_present & 2 ? term->esc_args[1] : 1);
+                        break;
+                      case ANSI('u', '>'):
+                        if (term->esc_nargs == 1)
+                            nemo_keyboard_push(&term->keyboard[term->alt_which != 0], term->esc_args[0]);
+                        break;
+                      case ANSI('u', '<'):
+                        if (term->esc_nargs == 1)
+                            nemo_keyboard_pop(&term->keyboard[term->alt_which != 0],
+                                term->esc_arg_present & 1 ? term->esc_args[0] : 1);
                         break;
                       case 't': /* DECSLPP: set page size - ie window height */
                         /*

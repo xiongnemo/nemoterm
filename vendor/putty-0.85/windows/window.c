@@ -22,6 +22,7 @@
 #include "win-gui-seat.h"
 #include "nemo_snapshot.h"
 #include "nemo_link_ui.h"
+#include "nemo_key_input.h"
 #include "nemo_clipboard.h"
 #include "tree234.h"
 
@@ -896,6 +897,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 static void wgs_cleanup(WinGuiSeat *wgs)
 {
     nemo_link_free(wgs);
+    nemo_keyboard_free(wgs);
     deinit_fonts(wgs);
     sfree(wgs->logpal);
     if (wgs->pal)
@@ -3038,6 +3040,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         break;
       case WM_KILLFOCUS:
         nemo_link_cancel(wgs);
+        nemo_keyboard_focus_lost(wgs);
+        wgs->pending_surrogate = 0;
         show_mouseptr(wgs, true);
         term_set_focus(wgs->term, false);
         term_cancel_selection_drag(wgs->term);
@@ -3466,7 +3470,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
              * instead we send the characters one by one.
              */
             /* don't divide SURROGATE PAIR */
-            if (wgs->ldisc) {
+            if (wgs->ldisc && !nemo_keyboard_text(wgs, (wchar_t *)buff, n/2)) {
                 for (i = 0; i < n; i += 2) {
                     WCHAR hs = *(unsigned short *)(buff+i);
                     if (IS_HIGH_SURROGATE(hs) && i+2 < n) {
@@ -3489,6 +3493,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       }
 
       case WM_IME_CHAR:
+        if (unicode_window) goto unicode_character;
         if (wParam & 0xFF00) {
             char buf[2];
 
@@ -3509,6 +3514,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
          * post the things to us as part of a macro manoeuvre,
          * we're ready to cope.
          */
+      unicode_character:
         if (unicode_window) {
             wchar_t c = wParam;
 
@@ -3518,9 +3524,15 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 wchar_t pair[2];
                 pair[0] = wgs->pending_surrogate;
                 pair[1] = c;
-                term_keyinputw(wgs->term, pair, 2);
+                wgs->pending_surrogate = 0;
+                if (!nemo_keyboard_text(wgs, pair, 2))
+                    term_keyinputw(wgs->term, pair, 2);
             } else if (!IS_SURROGATE(c)) {
-                term_keyinputw(wgs->term, &c, 1);
+                wgs->pending_surrogate = 0;
+                if (!nemo_keyboard_text(wgs, &c, 1))
+                    term_keyinputw(wgs->term, &c, 1);
+            } else {
+                wgs->pending_surrogate = 0;
             }
         } else {
             char c = (unsigned char)wParam;
@@ -4355,6 +4367,10 @@ static void init_winfuncs(void)
 static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
                         LPARAM lParam, unsigned char *output)
 {
+    WPARAM original_key = wParam;
+    bool enhanced = (nemo_keyboard_flags(
+        &wgs->term->keyboard[wgs->term->alt_which != 0]) &
+        (NEMO_KEY_DISAMBIGUATE | NEMO_KEY_EVENTS | NEMO_KEY_ALL)) != 0;
     BYTE keystate[256];
     int scan, shift_state;
     bool left_alt = false, key_down;
@@ -4446,7 +4462,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
 
 
         /* Nastiness with NUMLock - Shift-NUMLock is left alone though */
-        if ((funky_type == FUNKY_VT400 ||
+        if (!enhanced && (funky_type == FUNKY_VT400 ||
              (funky_type <= FUNKY_LINUX && wgs->term->app_keypad_keys &&
               !no_applic_k))
             && wParam == VK_NUMLOCK && !(keystate[VK_SHIFT] & 0x80)) {
@@ -4462,6 +4478,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         SetKeyboardState(keystate);
     }
 
+    nemo_keyboard_prepare(wgs, message, original_key, lParam, keystate);
+
     /* Disable Auto repeat if required */
     if (wgs->term->repeat_off &&
         (HIWORD(lParam) & (KF_UP | KF_REPEAT)) == KF_REPEAT)
@@ -4473,7 +4491,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
     key_down = ((HIWORD(lParam) & KF_UP) == 0);
 
     /* Make sure Ctrl-ALT is not the same as AltGr for ToAscii unless told. */
-    if (left_alt && (keystate[VK_CONTROL] & 0x80)) {
+    if (!enhanced && left_alt && (keystate[VK_CONTROL] & 0x80)) {
         if (ctrlaltkeys)
             keystate[VK_MENU] = 0;
         else {
@@ -4487,34 +4505,36 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         + ((keystate[VK_CONTROL] & 0x80) != 0) * 2;
 
     /* Note if AltGr was pressed and if it was used as a compose key */
-    if (!wgs->compose_state) {
-        wgs->compose_keycode = 0x100;
-        if (conf_get_bool(wgs->conf, CONF_compose_key)) {
-            if (wParam == VK_MENU && (HIWORD(lParam) & KF_EXTENDED))
+    if (!enhanced) {
+        if (!wgs->compose_state) {
+            wgs->compose_keycode = 0x100;
+            if (conf_get_bool(wgs->conf, CONF_compose_key)) {
+                if (wParam == VK_MENU && (HIWORD(lParam) & KF_EXTENDED))
+                    wgs->compose_keycode = wParam;
+            }
+            if (wParam == VK_APPS)
                 wgs->compose_keycode = wParam;
         }
-        if (wParam == VK_APPS)
-            wgs->compose_keycode = wParam;
+
+        if (wParam == wgs->compose_keycode) {
+            if (wgs->compose_state == 0 &&
+                (HIWORD(lParam) & (KF_UP | KF_REPEAT)) == 0)
+                wgs->compose_state = 1;
+            else if (wgs->compose_state == 1 && (HIWORD(lParam) & KF_UP))
+                wgs->compose_state = 2;
+            else
+                wgs->compose_state = 0;
+        } else if (wgs->compose_state == 1 && wParam != VK_CONTROL)
+            wgs->compose_state = 0;
+
+        if (wgs->compose_state > 1 && left_alt)
+            wgs->compose_state = 0;
     }
 
-    if (wParam == wgs->compose_keycode) {
-        if (wgs->compose_state == 0 &&
-            (HIWORD(lParam) & (KF_UP | KF_REPEAT)) == 0)
-            wgs->compose_state = 1;
-        else if (wgs->compose_state == 1 && (HIWORD(lParam) & KF_UP))
-            wgs->compose_state = 2;
-        else
-            wgs->compose_state = 0;
-    } else if (wgs->compose_state == 1 && wParam != VK_CONTROL)
-        wgs->compose_state = 0;
-
-    if (wgs->compose_state > 1 && left_alt)
-        wgs->compose_state = 0;
-
     /* Sanitize the number pad if not using a PC NumPad */
-    if (left_alt || (wgs->term->app_keypad_keys && !no_applic_k
+    if (!enhanced && (left_alt || (wgs->term->app_keypad_keys && !no_applic_k
                      && funky_type != FUNKY_XTERM) ||
-        funky_type == FUNKY_VT400 || nethack_keypad || wgs->compose_state) {
+        funky_type == FUNKY_VT400 || nethack_keypad || wgs->compose_state)) {
         if ((HIWORD(lParam) & KF_EXTENDED) == 0) {
             int nParam = 0;
             switch (wParam) {
@@ -4669,7 +4689,14 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             wgs->term->app_keypad_keys = !wgs->term->app_keypad_keys;
             return 0;
         }
+    }
 
+    if (nemo_keyboard_input(wgs, message, original_key, lParam, keystate, kbd_layout)) {
+        show_mouseptr(wgs, false);
+        return 0;
+    }
+
+    if (key_down && (keystate[VK_RMENU] & 0x80) == 0 && !wgs->compose_state) {
         if (wParam == VK_BACK && shift_state == 0) {    /* Backspace */
             *p++ = (conf_get_bool(wgs->conf, CONF_bksp_is_delete) ?
                     0x7F : 0x08);
