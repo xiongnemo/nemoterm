@@ -67,6 +67,9 @@ XTGETTCAP 终端名/颜色/逻辑按键查询、应用光标模式及修饰键�
 另对照普通/应用光标模式的能力查询与 15 类真实窗口按键消息传给 ConPTY 子进程的字节。
 `python tests/highlight_window_smoke.py` 检查 1001 应用高亮握手、准确选区像素、
 正反向及多击回报、Shift 接管、超时与缩放清理；[高亮截图](research/highlight-selection.png)。
+`python tests/sixel_window_smoke.py` 逐像素检查图片随窗口行列变化保留、横向裁剪/恢复、
+主屏临时历史和备用屏删除行、局部滚动与移动后擦除，并记录工作集。
+图片按原始字符行保存位置，滚动不复制位图；字体尺寸变化时仍清除图片，后续继续补齐。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 
 本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；构建现在随程序

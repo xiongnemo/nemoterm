@@ -64,7 +64,7 @@
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。DECSCL/DECSCA/DECSLRM等其他状态字符串仍不支持；未实现的状态不虚报。 |
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；不是任意terminfo程序查询。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复小于14KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
-| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码/核心测试及色块实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`及现代ConPTY窗口截图通过；共享4MiB预算。仍缺局部滚动图片分片、resize保留、完整调色板重染/像素擦除边界/查询验收。 |
+| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码、局部滚动、行列resize保留及有限实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`及`sixel_window_smoke.py`覆盖按原始字符行移动图片条带、跨滚动边界保留、横向裁剪/恢复、主屏临时历史、备用屏删除行、清历史不删可见部分和移动后擦除。纵横比扩展后按输出像素应用擦除，条带位置计入共享4MiB预算，滚动不复制位图。仍缺字体/DPI变化保留、完整调色板重染、更多像素擦除边界/查询验收。 |
 | kitty graphics：`APC G control;payload ST` | 缺失 | 按 [kitty图像协议](https://sw.kovidgoyal.net/kitty/graphics-protocol/) 细分传输/查询/placement/删除、分块、RGB/RGBA/PNG、缓存与回收；共享内存/文件路径/动画/Unicode占位等扩展单列，不以Sixel代替。 |
 | 其他DCS/APC/PM/SOS、ReGIS、Tektronix、UDK/DRCS等历史家族 | 待逐项清点，未完成 | 当前原版`do_osc`默认忽略这些字符串；Sixel分支合入不会自动实现其余家族。保留xterm总清单作为完整性审计入口。 |
 

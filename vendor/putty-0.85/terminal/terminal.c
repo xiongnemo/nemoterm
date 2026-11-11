@@ -1481,6 +1481,7 @@ static void nemo_image_remove(Terminal *term, NemoTermImage **link)
     *link = image->next;
     term->image_bytes -= image->memory_bytes;
     nemo_sixel_free(image->bitmap);
+    sfree(image->row_positions);
     sfree(image->erased_cells);
     sfree(image);
 }
@@ -1522,17 +1523,80 @@ size_t term_image_read_row(const NemoTermImage *image, unsigned y, unsigned x,
                           uint32_t *out, size_t count)
 {
     NemoSixelStats st = nemo_sixel_stats(image->bitmap);
-    size_t n = nemo_sixel_read_row(image->bitmap, y, x, out, count);
-    if (!image->erased_count || !st.width || !st.height) return n;
-    unsigned cy = (unsigned)((uint64_t)y * image->pixel_height / st.height) /
-        image->cell_height;
+    if (!st.width || !st.height || y >= (unsigned)image->pixel_height ||
+        x >= (unsigned)image->pixel_width || !count) return 0;
+    size_t n = min(count, (size_t)image->pixel_width - x);
+    unsigned scale = st.aspect_horizontal;
+    unsigned first = x / scale, last = (x+n-1) / scale;
+    if (nemo_sixel_read_row(image->bitmap, y / st.aspect_vertical,
+                           first, out, last-first+1) != last-first+1) return 0;
+    /* Expand backwards in the caller's buffer; no second raster allocation. */
+    for (size_t i = n; i-- > 0;) out[i] = out[(x+i)/scale-first];
+    unsigned cy = y / image->cell_height;
+    if (image->row_positions[cy] == INT_MIN) {
+        memset(out, 0, n * sizeof(*out));
+        return n;
+    }
+    if (!image->erased_count) return n;
     for (size_t i = 0; i < n; i++) {
-        unsigned cx = (unsigned)((uint64_t)(x+i) * image->pixel_width / st.width) /
-            image->cell_width;
+        unsigned cx = (x+i) / image->cell_width;
         size_t cell = (size_t)cy * image->cols + cx;
         if (image->erased_cells[cell / 8] & (1u << (cell % 8))) out[i] = 0;
     }
     return n;
+}
+
+static bool nemo_image_erase_cells(NemoTermImage *image, int row,
+                                   int first, int last)
+{
+    bool changed = false;
+    for (int x = first; x < last; x++) {
+        size_t cell = (size_t)row * image->cols + x;
+        unsigned char mask = (unsigned char)(1u << (cell % 8));
+        if (!(image->erased_cells[cell / 8] & mask)) {
+            image->erased_cells[cell / 8] |= mask;
+            image->erased_count++;
+            changed = true;
+        }
+    }
+    return changed;
+}
+
+/* Refresh the cached upper bound and report whether any cells remain. */
+static bool nemo_image_live(NemoTermImage *image)
+{
+    image->y = INT_MAX;
+    for (int row = 0; row < image->rows; row++)
+        if (image->row_positions[row] != INT_MIN)
+            image->y = min(image->y, image->row_positions[row]);
+    return image->erased_count != (size_t)image->cols * image->rows;
+}
+
+/* Move and clip strips when text rows enter/leave temporary scrollback during
+ * a resize, or when history is truncated. This also handles inactive screens. */
+static void nemo_images_rows(Terminal *term, int screen,
+                             int first, int last, int delta)
+{
+    NemoTermImage **link = &term->images;
+    while (*link) {
+        NemoTermImage *image = *link;
+        if (image->screen == screen) {
+            for (int row = 0; row < image->rows; row++) {
+                int *y = &image->row_positions[row];
+                if (*y == INT_MIN) continue;
+                int64_t moved = (int64_t)*y + delta;
+                if (moved < first || moved > last) {
+                    *y = INT_MIN;
+                    nemo_image_erase_cells(image, row, 0, image->cols);
+                } else *y = (int)moved;
+            }
+            if (!nemo_image_live(image)) {
+                nemo_image_remove(term, link);
+                continue;
+            }
+        }
+        link = &image->next;
+    }
 }
 
 /* Erase a half-open, lexicographic range of terminal cells. The bitmap stays
@@ -1544,21 +1608,15 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
     while (*link) {
         NemoTermImage *image = *link;
         if (image->screen == term->alt_which) {
-            int top = max(start.y, image->y);
-            int bottom = min(end.y, image->y + image->rows - 1);
-            for (int y = top; y <= bottom; y++) {
+            for (int row = 0; row < image->rows; row++) {
+                int y = image->row_positions[row];
+                if (y == INT_MIN || y < start.y || y > end.y) continue;
                 int left = max(image->x, y == start.y ? start.x : 0);
                 int right = min(image->x + image->cols,
-                                y == end.y ? end.x : term->cols);
-                for (int x = left; x < right; x++) {
-                    size_t cell = (size_t)(y-image->y) * image->cols + x-image->x;
-                    unsigned char mask = (unsigned char)(1u << (cell % 8));
-                    if (!(image->erased_cells[cell / 8] & mask)) {
-                        image->erased_cells[cell / 8] |= mask;
-                        image->erased_count++;
-                        changed = true;
-                    }
-                }
+                                y == end.y ? end.x : INT_MAX);
+                if (left < right)
+                    changed |= nemo_image_erase_cells(image, row,
+                        left-image->x, right-image->x);
             }
             if (image->erased_count == (size_t)image->cols * image->rows) {
                 nemo_image_remove(term, link);
@@ -1577,33 +1635,30 @@ static void nemo_images_scroll(Terminal *term, int top, int bottom,
     NemoTermImage **link = &term->images;
     while (*link) {
         NemoTermImage *image = *link;
-        bool remove = false;
         if (image->screen == term->alt_which) {
-            int last = image->y + image->rows - 1;
-            if (sb && lines > 0 && image->y <= bottom) {
-                /* A region beginning at row zero can append to history even
-                 * when its bottom margin is above the last screen row. A
-                 * bitmap crossing that margin has both moving and stationary
-                 * pixels, and must not be translated as one image. */
-                if (last > bottom) remove = true;
-                else {
-                    image->y -= lines;
-                    remove = image->y + image->rows <= -term->savelines;
+            for (int row = 0; row < image->rows; row++) {
+                int *y = &image->row_positions[row];
+                if (*y == INT_MIN) continue;
+                bool discard = false;
+                if (sb && lines > 0 && *y <= bottom) {
+                    int64_t moved = (int64_t)*y - lines;
+                    discard = moved < -(int64_t)term->savelines;
+                    if (!discard) *y = (int)moved;
+                } else if (*y >= top && *y <= bottom) {
+                    *y -= lines;
+                    discard = *y < top || *y > bottom;
                 }
-            } else if (last >= top && image->y <= bottom) {
-                /* Images crossing a partial scrolling boundary cannot be
-                 * translated as one bitmap. Invalidate them until image
-                 * fragmentation is implemented, instead of moving pixels
-                 * from outside the scrolling region. */
-                if (image->y < top || last > bottom) remove = true;
-                else {
-                    image->y -= lines;
-                    remove = image->y < top || image->y + image->rows-1 > bottom;
+                if (discard) {
+                    *y = INT_MIN;
+                    nemo_image_erase_cells(image, row, 0, image->cols);
                 }
             }
+            if (!nemo_image_live(image)) {
+                nemo_image_remove(term, link);
+                continue;
+            }
         }
-        if (remove) nemo_image_remove(term, link);
-        else link = &image->next;
+        link = &image->next;
     }
     term_invalidate(term);
 }
@@ -1662,7 +1717,7 @@ static void nemo_sixel_complete(Terminal *term)
     int cols = ((int)pw + term->cell_width-1) / term->cell_width;
     int rows = ((int)ph + term->cell_height-1) / term->cell_height;
     size_t mask_bytes = ((size_t)cols * rows + 7) / 8;
-    size_t extra = mask_bytes + sizeof(NemoTermImage);
+    size_t extra = mask_bytes + rows * sizeof(int) + sizeof(NemoTermImage);
     if (!nemo_image_admit(term, st.allocated_bytes, extra)) {
         nemo_sixel_cancel(term); return;
     }
@@ -1671,6 +1726,9 @@ static void nemo_sixel_complete(Terminal *term)
     image->erased_cells = snewn(mask_bytes, unsigned char);
     memset(image->erased_cells, 0, mask_bytes);
     image->bitmap = decoder;
+    image->row_positions = snewn(rows, int);
+    for (int row = 0; row < rows; row++)
+        image->row_positions[row] = term->sixel_y + row;
     image->x = term->sixel_x; image->y = term->sixel_y;
     image->screen = term->sixel_screen;
     image->cols = cols; image->rows = rows;
@@ -2305,11 +2363,7 @@ void term_reconfig(Terminal *term, Conf *conf)
  */
 void term_clrsb(Terminal *term)
 {
-    NemoTermImage **image_link = &term->images;
-    while (*image_link) {
-        if ((*image_link)->y < 0) nemo_image_remove(term, image_link);
-        else image_link = &(*image_link)->next;
-    }
+    nemo_images_rows(term, 0, 0, INT_MAX, 0);
     unsigned char *line;
     int i;
 
@@ -2670,8 +2724,9 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 
     nemo_highlight_cancel(term, true);
 
-    /* Pixel images cannot be reflowed with text; discard on grid resize. */
-    nemo_images_clear(term);
+    /* A partial DCS has not established its placement yet. Retained images
+     * follow the exact text-row moves below, without reflow or tile copies. */
+    nemo_sixel_cancel(term);
 
     /* Behave sensibly if we're given zero (or negative) rows/cols */
 
@@ -2725,6 +2780,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             addpos234(term->screen, line, 0);
             term->curs.y += 1;
             term->savecurs.y += 1;
+            nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, 1);
         } else {
             /* Add a new blank line at the bottom of the screen. */
             line = newtermline(term, newcols, false);
@@ -2738,6 +2794,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             /* delete bottom row, unless it contains the cursor */
             line = delpos234(term->screen, term->rows - 1);
             freetermline(line);
+            nemo_images_rows(term, 0, INT_MIN+1, term->rows-2, 0);
         } else {
             /* push top row to scrollback */
             line = delpos234(term->screen, 0);
@@ -2745,6 +2802,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->tempsblines += 1;
             term->curs.y -= 1;
             term->savecurs.y -= 1;
+            nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, -1);
         }
         term->rows -= 1;
     }
@@ -2762,6 +2820,9 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     assert(count234(term->scrollback) <= newsavelines);
     assert(count234(term->scrollback) >= term->tempsblines);
     term->disptop = 0;
+
+    nemo_images_rows(term, 0, -sblen, newrows-1, 0);
+    nemo_images_rows(term, 1, 0, newrows-1, 0);
 
     /* Make a new displayed text buffer. */
     newdisp = snewn(newrows, termline *);

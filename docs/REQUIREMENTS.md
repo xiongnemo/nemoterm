@@ -288,3 +288,30 @@ validated snapshot. Font, mouse, sync and SGR callers no longer reopen the
 mailbox to fetch fields after checking a condition. Fault injection returned
 an empty read every third poll:50 font,22 mouse,22 sync and47 SGR misses; all
 four full native suites passed without relaxing their existing assertions.
+
+Sixel images now retain one destination row per original cell-height strip.
+Partial scrolling moves or discards only intersecting strips; it does not
+duplicate decoder tiles or grow a fragment list. The row map and erase mask
+are included in the existing shared 4 MiB budget. Grid resize follows actual
+main-screen row moves into/out of temporary history, deletes alternate-screen
+bottom rows, and preserves horizontally clipped pixels until erased. Clearing
+history preserves the visible portion of an image that crosses row zero.
+Raster reads expand aspect ratios into one bounded scanline before applying
+cell erasure, including source pixels straddling a cell boundary.
+
+`test_sixel_terminal` checks 100 shrink/restore cycles, 100 partial-scroll
+round trips, bitmap identity and unchanged allocation, moved-cell erasure,
+history truncation, independent screens and 3:2 aspect expansion. The seventh
+native suite, `sixel_window_smoke.py`, compares exact red-pixel sets through
+ConPTY across 44 checkpoints, including 12 repeated shrink/grow cycles. It
+also exposed stale pixels in a new window border after shrinking; border
+repainting now happens even when its width remains unchanged.
+Local executable SHA-256 is recorded in `research/sixel-window-observed.json`:
+peak private WS 1,961,984 bytes, total WS 12,345,344 bytes, private commit
+2,576,384 bytes, without trimming. The preceding build's same fixture peaked
+at 3,375,104 / 19,247,104 bytes private / total WS; neither sample is a
+universal application limit. Captures are
+`research/sixel-partial-scroll.png` and `research/sixel-resize-retained.png`.
+This is finite fixture evidence, not long-running agent acceptance. Font/DPI
+cell-size changes still clear images, and palette recolouring and remaining
+graphics protocols remain open in `PROTOCOLS.md`.

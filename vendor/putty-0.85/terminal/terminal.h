@@ -17,11 +17,15 @@ typedef struct NemoTermImage {
     NemoSixel *bitmap;
     int x, y, cols, rows, screen;
     int pixel_width, pixel_height, cell_width, cell_height;
+    /* Destination row of each original cell-height strip. INT_MIN marks a
+     * discarded strip. Splitting scroll regions never copies bitmap tiles. */
+    int *row_positions;
     unsigned char *erased_cells;
     size_t erased_bytes, erased_count, memory_bytes;
 } NemoTermImage;
 
 void term_set_cell_size(Terminal *, int width, int height);
+/* Read aspect-corrected raster pixels, applying the original-cell erase mask. */
 size_t term_image_read_row(const NemoTermImage *, unsigned y, unsigned x,
                           uint32_t *, size_t count);
 

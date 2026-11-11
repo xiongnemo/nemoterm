@@ -104,6 +104,14 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/highlight-window-observed.json test-results/
           Copy-Item research/highlight-selection.png test-results/
+      - name: Test native Sixel resize and partial scrolling
+        shell: pwsh
+        run: |
+          python tests/sixel_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/sixel-window-observed.json test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/sixel-*.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
