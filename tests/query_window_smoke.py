@@ -26,16 +26,23 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         value = read_snapshot(report)
         assert not value.get('error') and process.poll() is None, value
         return value
+    def snapshot_when(predicate):
+        # A sharing violation may yield an empty read. Keep the exact snapshot
+        # that satisfied the predicate instead of reopening the mailbox.
+        def probe():
+            value = current()
+            return value if predicate(value) else None
+        return wait_for(probe)
     def phase(name, sequence, expected):
         write_snapshot(control, {'phase':name, 'sequence':sequence})
         try:
-            wait_for(lambda: current().get('phase') == name and
-                     expected in bytes.fromhex(current().get('hex', '')))
+            observed = snapshot_when(lambda value: value.get('phase') == name and
+                     'hex' in value and expected in bytes.fromhex(value['hex']))
         except AssertionError:
             raise AssertionError((name, expected, current()))
         time.sleep(0.08)
         pixels = capture(hwnd, return_pixels=True)
-        evidence[name] = dict(reply=current()['hex'], sha256=hashlib.sha256(pixels).hexdigest())
+        evidence[name] = dict(reply=observed['hex'], sha256=hashlib.sha256(pixels).hexdigest())
         return pixels
     def cursor_shape(pixels):
         rect = w.RECT()
@@ -69,8 +76,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         phase('geometry', '\x1bP$q$|\x1b\\\x1bP$q*|\x1b\\',
               b'\x1bP1$r40$|\x1b\\\x1bP1$r12*|\x1b\\')
         assert u.MoveWindow(hwnd, 30, 30, 650, 470, True)
-        wait_for(lambda: current().get('columns', 40) != 40)
-        dimensions = current()
+        dimensions = snapshot_when(lambda value: value.get('columns', 40) != 40)
         expected = f"\x1bP1$r{dimensions['columns']}$|\x1b\\\x1bP1$r{dimensions['rows']}*|\x1b\\"
         phase('geometry-after-resize', '\x1bP$q$|\x1b\\\x1bP$q*|\x1b\\', expected.encode())
 
@@ -129,10 +135,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
                 u.SendMessageW(hwnd, 0x101, vk, flags | 0xc0000000)
             expected_input = expected+b''.join(values)
             try:
-                wait_for(lambda: bytes.fromhex(current().get('hex', '')) == expected_input)
+                observed = snapshot_when(lambda value:
+                    bytes.fromhex(value.get('hex', '')) == expected_input)
             except AssertionError:
                 raise AssertionError((name, expected_input.hex(), current()))
-            evidence[name].update(key_input=b''.join(values).hex(), child_input=current()['hex'])
+            evidence[name].update(key_input=b''.join(values).hex(), child_input=observed['hex'])
         phase('tcap-colours', '\x1bP+q436f;544e;524742\x1b\\',
               b'\x1bP1+r436f=323536;544e=787465726d2d323536636f6c6f72;524742=38\x1b\\')
         phase('tcap-unsupported', '\x1bP+q637570\x1b\\', b'\x1bP0+r\x1b\\')

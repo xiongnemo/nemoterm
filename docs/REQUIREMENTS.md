@@ -222,10 +222,18 @@ Win32 now routes F21..F24, Help/Select and keypad Separator through the encoders
 The14th core suite checks exact bytes, all63 function names/aliases, modifier
 combinations, mode/configuration changes, bounded parsing and Sixel coexistence.
 The native query suite checks15 key messages against queried values in both
-cursor modes through the bundled ConPTY. Local sampled peak private WS3,473,408
-bytes, total19,288,064 bytes. These are fixture measurements, not complete agent
+cursor modes through the bundled ConPTY. Local sampled peak private WS3,395,584
+bytes, total19,238,912 bytes. These are fixture measurements, not complete agent
 acceptance. XTGETTCAP describes logical encoders; local shortcuts, OS bindings,
 IME/layout translation and physical-device validation remain separate. Numeric
 keypad modifier semantics and remaining special-key names still need completion.
 Primary references: [xterm control sequences](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.txt),
 [xterm capability mapping](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/xtermcap.c).
+
+The first XTGETTCAP CI run found a test mailbox race: a fresh read after a
+successful wait could encounter a Windows sharing violation and return an
+empty snapshot. The query fixture now uses the exact snapshot that satisfied
+each condition for both assertions and evidence. A local fault-injection run
+returned an empty snapshot on every third read (40 injected misses); all
+native cursor, geometry, capability and keyboard checks still passed. No
+terminal assertions were removed or relaxed.
