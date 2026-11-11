@@ -223,4 +223,13 @@ add_executable(test_resize
 target_link_libraries(test_resize
   guiterminal settings eventloop utils ${platform_libraries})
 
+add_executable(test_mouse
+  ${CMAKE_SOURCE_DIR}/test/test_mouse.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_mouse
+  guiterminal settings eventloop utils ${platform_libraries})
+
 add_sources_from_current_dir(test_conf no-jump-list.c handle-wait.c)

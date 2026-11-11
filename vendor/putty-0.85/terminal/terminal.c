@@ -1739,10 +1739,14 @@ static void power_on(Terminal *term, bool clear)
     term->alt_which = 0;
     term_print_finish(term);
     term->xterm_mouse = 0;
-    term->xterm_extended_mouse = false;
-    term->urxvt_extended_mouse = false;
-    term->raw_mouse_reported_x = 0;
-    term->raw_mouse_reported_y = 0;
+    term->mouse_encoding = 0;
+    term->mouse_focus_reporting = term->mouse_alternate_scroll = false;
+    term->mouse_buttons = 0;
+    term->raw_mouse_reported_code = -1;
+    term->raw_mouse_reported_x = term->raw_mouse_reported_y = -1;
+    term->mouse_last_x = term->mouse_last_y = 0;
+    term->mouse_last_px = term->mouse_last_py = 0;
+    term->mouse_last_ctrl = term->mouse_last_alt = false;
     win_set_raw_mouse_mode(term->win, false);
     term->win_pointer_shape_pending = true;
     term->win_pointer_shape_raw = false;
@@ -1756,9 +1760,16 @@ static void power_on(Terminal *term, bool clear)
     if (term->screen) {
         swap_screen(term, 1, false, false);
         erase_lots(term, false, true, true);
+        for (int y = 0; y < term->rows; y++)
+            scrlineptr(y)->lattr = LATTR_NORM;
         swap_screen(term, 0, false, false);
-        if (clear)
+        if (clear) {
             erase_lots(term, false, true, true);
+            /* erase_lots may skip already blank rows. RIS must also reset
+             * their double-width/height attributes, including on both screens. */
+            for (int y = 0; y < term->rows; y++)
+                scrlineptr(y)->lattr = LATTR_NORM;
+        }
         term->curs.y = find_last_nonempty_line(term, term->screen) + 1;
         if (term->curs.y == term->rows) {
             term->curs.y--;
@@ -3406,23 +3417,34 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             if (term->scroll_on_disp)
                 term->disptop = 0;
             break;
-          case 1000:                   /* xterm mouse 1 (normal) */
-            term->xterm_mouse = state ? 1 : 0;
+          case 9:                      /* X10 press-only tracking */
+          case 1000:                   /* press/release tracking */
+          case 1002:                   /* button-event tracking */
+          case 1003: {                 /* any-event tracking */
+            int tracking = mode == 9 ? -1 : mode == 1000 ? 1 :
+                mode == 1002 ? 2 : 3;
+            /* Tracking modes and coordinate encodings are independent,
+             * mutually exclusive groups: the last SET wins. */
+            term->xterm_mouse = state ? tracking : 0;
+            term->mouse_buttons = 0;
+            term->raw_mouse_reported_code = -1;
             term_update_raw_mouse_mode(term);
             break;
-          case 1002:                   /* xterm mouse 2 (inc. button drags) */
-            term->xterm_mouse = state ? 2 : 0;
-            term_update_raw_mouse_mode(term);
+          }
+          case 1004:
+            term->mouse_focus_reporting = state;
             break;
-          case 1003:                   /* xterm mouse any-event tracking */
-            term->xterm_mouse = state ? 3 : 0;
-            term_update_raw_mouse_mode(term);
+          case 1007:
+            term->mouse_alternate_scroll = state;
             break;
-          case 1006:                   /* xterm extended mouse */
-            term->xterm_extended_mouse = state;
-            break;
-          case 1015:                   /* urxvt extended mouse */
-            term->urxvt_extended_mouse = state;
+          case 1005:                   /* UTF-8 coordinates */
+          case 1006:                   /* SGR cell coordinates */
+          case 1015:                   /* urxvt coordinates */
+          case 1016:                   /* SGR pixel coordinates */
+            if (state || term->mouse_encoding == mode) {
+                term->mouse_encoding = state ? mode : 0;
+                term->raw_mouse_reported_code = -1;
+            }
             break;
           case 1047:                   /* alternate screen */
             compatibility(OTHER);
@@ -7511,22 +7533,172 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
     queue_toplevel_callback(term_paste_callback, term);
 }
 
+/* Coordinates sent to applications describe the viewport, before bidi,
+ * double-width-line and scrollback transforms used for local selection. */
+static int mouse_coord(int value, int count, int size)
+{
+    int64_t limit = (int64_t)count * max(size, 1);
+    return (int)max(0, min((int64_t)value, min(limit, INT_MAX)-1));
+}
+
+static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
+                         int x, int y, int px, int py, bool ctrl, bool alt)
+{
+    int code;
+    unsigned bit = 0;
+    bool wheel = false;
+    switch (button) {
+      case MBT_LEFT: code = 0; bit = 1; break;
+      case MBT_MIDDLE: code = 1; bit = 2; break;
+      case MBT_RIGHT: code = 2; bit = 4; break;
+      case MBT_WHEEL_UP: code = 64; wheel = true; break;
+      case MBT_WHEEL_DOWN: code = 65; wheel = true; break;
+      case MBT_WHEEL_LEFT: code = 66; wheel = true; break;
+      case MBT_WHEEL_RIGHT: code = 67; wheel = true; break;
+      case MBT_NOTHING: code = 3; break;
+      default: return false;
+    }
+    if (!term->ldisc || !term->xterm_mouse || term->no_mouse_rep)
+        return false;
+    if (term->xterm_mouse == -1) {
+        if (a != MA_CLICK || !bit) return false;
+        ctrl = alt = false;
+    }
+    if (wheel) {
+        if (a != MA_CLICK) return false;
+    } else if (a == MA_RELEASE) {
+        if (!(term->mouse_buttons & bit)) return false;
+        if (term->mouse_encoding != 1006 && term->mouse_encoding != 1016)
+            code = 3;
+    } else if (a == MA_CLICK) {
+        if (!bit || (term->mouse_buttons & bit)) return false;
+    } else if (a == MA_DRAG) {
+        if (term->xterm_mouse < 2 || !(term->mouse_buttons & bit)) return false;
+        code += 32;
+    } else if (a == MA_MOVE) {
+        if (term->xterm_mouse != 3 || bit) return false;
+        code += 32;
+    } else {
+        return false;
+    }
+    code += (ctrl ? 16 : 0) + (alt ? 8 : 0);
+    x = mouse_coord(x, term->cols, 1);
+    y = mouse_coord(y, term->rows, 1);
+    px = mouse_coord(px, term->cols, term->cell_width);
+    py = mouse_coord(py, term->rows, term->cell_height);
+    int c = (term->mouse_encoding == 1016 ? px : x) + 1;
+    int r = (term->mouse_encoding == 1016 ? py : y) + 1;
+    if ((a == MA_DRAG || a == MA_MOVE) &&
+        term->raw_mouse_reported_x == c && term->raw_mouse_reported_y == r &&
+        (term->raw_mouse_reported_code & ~32) == (code & ~32))
+        return false;
+
+    char response[64];
+    size_t len = 0;
+    if (term->mouse_encoding == 1006 || term->mouse_encoding == 1016) {
+        len = sprintf(response, "\033[<%d;%d;%d%c", code, c, r,
+                      a == MA_RELEASE ? 'm' : 'M');
+    } else if (term->mouse_encoding == 1015) {
+        len = sprintf(response, "\033[%d;%d;%dM", code+32, c, r);
+    } else {
+        int limit = term->mouse_encoding == 1005 ? 2015 : 223;
+        if (c > limit || r > limit) return false;
+        memcpy(response, "\033[M", 3);
+        len = 3;
+        unsigned values[] = { code+32, c+32, r+32 };
+        for (size_t i = 0; i < lenof(values); i++) {
+            unsigned v = values[i];
+            if (term->mouse_encoding == 1005 && v >= 128) {
+                response[len++] = 0xC0 | (v >> 6);
+                response[len++] = 0x80 | (v & 63);
+            } else {
+                response[len++] = v;
+            }
+        }
+    }
+    ldisc_send(term->ldisc, response, len, false);
+    if (!wheel && term->xterm_mouse != -1) {
+        if (a == MA_CLICK) term->mouse_buttons |= bit;
+        if (a == MA_RELEASE) term->mouse_buttons &= ~bit;
+    }
+    term->raw_mouse_reported_x = c;
+    term->raw_mouse_reported_y = r;
+    term->raw_mouse_reported_code = code;
+    term->mouse_last_x = x; term->mouse_last_y = y;
+    term->mouse_last_px = px; term->mouse_last_py = py;
+    term->mouse_last_ctrl = ctrl; term->mouse_last_alt = alt;
+    return true;
+}
+
+void term_mouse_cancel(Terminal *term)
+{
+    static const Mouse_Button buttons[] = { MBT_LEFT, MBT_MIDDLE, MBT_RIGHT };
+    for (size_t i = 0; i < lenof(buttons); i++)
+        if (term->mouse_buttons & (1U << i))
+            mouse_report(term, buttons[i], MA_RELEASE,
+                         term->mouse_last_x, term->mouse_last_y,
+                         term->mouse_last_px, term->mouse_last_py,
+                         term->mouse_last_ctrl, term->mouse_last_alt);
+    term->mouse_buttons = 0;
+    term->raw_mouse_reported_code = -1;
+}
+
+bool term_mouse_wheel(Terminal *term, Mouse_Button button,
+                      bool shift, bool ctrl, bool alt)
+{
+    if (shift || term->xterm_mouse || !term->mouse_alternate_scroll ||
+        !term->alt_which || !term->ldisc)
+        return false;
+    int key;
+    switch (button) {
+      case MBT_WHEEL_UP: key = 'A'; break;
+      case MBT_WHEEL_DOWN: key = 'B'; break;
+      case MBT_WHEEL_RIGHT: key = 'C'; break;
+      case MBT_WHEEL_LEFT: key = 'D'; break;
+      default: return false;
+    }
+    char buf[32];
+    bool consumed_alt = false;
+    int len = format_arrow_key(buf, term, key, false, ctrl, alt, &consumed_alt);
+    if (alt && !consumed_alt)
+        term_keyinput(term, -1, "\033", 1);
+    term_keyinput(term, -1, buf, len);
+    return true;
+}
+
 void term_mouse(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
                 Mouse_Action a, int x, int y, bool shift, bool ctrl, bool alt)
 {
+    int px = (int)max(0, min((int64_t)max(x, 0) * term->cell_width, INT_MAX-1));
+    int py = (int)max(0, min((int64_t)max(y, 0) * term->cell_height, INT_MAX-1));
+    term_mouse_pixels(term, braw, bcooked, a, x, y, px, py, shift, ctrl, alt);
+}
+
+void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
+                       Mouse_Action a, int x, int y, int px, int py,
+                       bool shift, bool ctrl, bool alt)
+{
     pos selpoint;
     termline *ldata;
-    bool raw_mouse = (term->xterm_mouse &&
-                      !term->no_mouse_rep &&
-                      !shift);
     int default_seltype;
-
-    // Don't do anything if mouse movement events weren't requested;
-    // Note: return early to avoid doing all of this code on every mouse move
-    // event only to throw it away.
-    if (a == MA_MOVE && (!raw_mouse || term->xterm_mouse < 3)) {
+    if (term->rows <= 0 || term->cols <= 0) return;
+    if (shift && term->mouse_buttons) {
+        term_mouse_cancel(term);
+        if (a == MA_DRAG && bcooked == MBT_SELECT)
+            a = MA_CLICK; /* Shift takes over a gesture in progress. */
+    }
+    bool raw_mouse = term->xterm_mouse && !term->no_mouse_rep && !shift &&
+        term->selstate != ABOUT_TO && term->selstate != DRAGGING;
+    if (raw_mouse) {
+        mouse_report(term, braw, a, x, y, px, py, ctrl, alt);
         return;
     }
+    if (braw == MBT_WHEEL_UP || braw == MBT_WHEEL_DOWN ||
+        braw == MBT_WHEEL_LEFT || braw == MBT_WHEEL_RIGHT) {
+        if (a == MA_CLICK) term_mouse_wheel(term, braw, shift, ctrl, alt);
+        return;
+    }
+    if (a == MA_MOVE) return;
 
     if (y < 0) {
         y = 0;
@@ -7575,125 +7747,6 @@ void term_mouse(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
 
     selpoint.x = x;
     unlineptr(ldata);
-
-    /*
-     * If we're in the middle of a selection operation, we ignore raw
-     * mouse mode until it's done (we must have been not in raw mouse
-     * mode when it started).
-     * This makes use of Shift for selection reliable, and avoids the
-     * host seeing mouse releases for which they never saw corresponding
-     * presses.
-     */
-    if (raw_mouse &&
-        (term->selstate != ABOUT_TO) && (term->selstate != DRAGGING)) {
-        int encstate = 0, r, c;
-        bool wheel;
-        char *response = NULL;
-
-        if (term->ldisc) {
-
-            switch (braw) {
-              case MBT_LEFT:
-                encstate = 0x00;               /* left button down */
-                wheel = false;
-                break;
-              case MBT_MIDDLE:
-                encstate = 0x01;
-                wheel = false;
-                break;
-              case MBT_RIGHT:
-                encstate = 0x02;
-                wheel = false;
-                break;
-              case MBT_WHEEL_UP:
-                encstate = 0x40;
-                wheel = true;
-                break;
-              case MBT_WHEEL_DOWN:
-                encstate = 0x41;
-                wheel = true;
-                break;
-              case MBT_WHEEL_LEFT:
-                encstate = 0x42;
-                wheel = true;
-                break;
-              case MBT_WHEEL_RIGHT:
-                encstate = 0x43;
-                wheel = true;
-                break;
-              case MBT_NOTHING:
-                assert( a == MA_MOVE );
-                encstate = 0x03; // release; no buttons pressed
-                wheel = false;
-                break;
-              default:
-                return;
-            }
-            if (wheel) {
-                /* For mouse wheel buttons, we only ever expect to see
-                 * MA_CLICK actions, and we don't try to keep track of
-                 * the buttons being 'pressed' (since without matching
-                 * click/release pairs that's pointless). */
-                if (a != MA_CLICK)
-                    return;
-            } else switch (a) {
-              case MA_DRAG:
-                if (term->xterm_mouse == 1)
-                    return;
-                encstate += 0x20; // motion indicator
-                break;
-              case MA_MOVE:    // mouse move without buttons
-                assert( braw == MBT_NOTHING && bcooked == MBT_NOTHING  );
-                if (term->xterm_mouse < 3)
-                    return;
-
-                if (selpoint.x == term->raw_mouse_reported_x &&
-                    selpoint.y == term->raw_mouse_reported_y)
-                    return;
-
-                term->raw_mouse_reported_x = x;
-                term->raw_mouse_reported_y = y;
-
-                encstate += 0x20; // motion indicator
-                break;
-              case MA_RELEASE:
-                /* If multiple extensions are enabled, the xterm 1006 is used, so it's okay to check for only that */
-                if (!term->xterm_extended_mouse)
-                    encstate = 0x03;
-                term->mouse_is_down = 0;
-                break;
-              case MA_CLICK:
-                if (term->mouse_is_down == braw)
-                    return;
-                term->mouse_is_down = braw;
-                break;
-              default:
-                return;
-            }
-            if (shift)
-                encstate += 0x04;
-            if (ctrl)
-                encstate += 0x10;
-            r = y + 1;
-            c = x + 1;
-
-            /* Check the extensions in decreasing order of preference. Encoding the release event above assumes that 1006 comes first. */
-            if (term->xterm_extended_mouse) {
-                response = dupprintf("\033[<%d;%d;%d%c", encstate, c, r,
-                                     a == MA_RELEASE ? 'm' : 'M');
-            } else if (term->urxvt_extended_mouse) {
-                response = dupprintf("\033[%d;%d;%dM", encstate + 32, c, r);
-            } else if (c <= 223 && r <= 223) {
-                response = dupprintf("\033[M%c%c%c", encstate + 32,
-                                     c + 32, r + 32);
-            }
-            if (response) {
-                ldisc_send(term->ldisc, response, strlen(response), false);
-                sfree(response);
-            }
-        }
-        return;
-    }
 
     /*
      * Set the selection type (rectangular or normal) at the start
@@ -7844,7 +7897,7 @@ void term_cancel_selection_drag(Terminal *term)
      * this function from the front end in such situations to restore
      * sensibleness.
      */
-    if (term->selstate == DRAGGING)
+    if (term->selstate == DRAGGING || term->selstate == ABOUT_TO)
         term->selstate = NO_SELECTION;
     term_out(term, false);
     term_schedule_update(term);
@@ -8197,7 +8250,11 @@ void term_provide_logctx(Terminal *term, LogContext *logctx)
 
 void term_set_focus(Terminal *term, bool has_focus)
 {
+    if (term->has_focus == has_focus) return;
+    if (!has_focus) term_mouse_cancel(term);
     term->has_focus = has_focus;
+    if (term->mouse_focus_reporting && !term->no_mouse_rep && term->ldisc)
+        ldisc_send(term->ldisc, has_focus ? "\033[I" : "\033[O", 3, false);
     term_schedule_cblink(term);
 }
 

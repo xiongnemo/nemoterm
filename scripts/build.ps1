@@ -11,7 +11,7 @@ $cc = (Get-Command gcc.exe -ErrorAction Stop).Source
 & $cmake -S "$root/vendor/putty-0.85" -B "$root/build" -G Ninja "-DCMAKE_MAKE_PROGRAM=$ninja" "-DCMAKE_C_COMPILER=$cc" -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections' '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc' -DPUTTY_GSSAPI=OFF
 if ($LASTEXITCODE) { throw 'Configure failed' }
 $targets = @('pterm')
-if ($Tests) { $targets += @('test_terminal', 'test_conf', 'test_sixel', 'test_sixel_terminal', 'test_resize') }
+if ($Tests) { $targets += @('test_terminal', 'test_conf', 'test_sixel', 'test_sixel_terminal', 'test_resize', 'test_mouse') }
 & $cmake --build "$root/build" --target @targets --parallel 8
 if ($LASTEXITCODE) { throw 'Build failed' }
 New-Item -ItemType Directory -Force "$root/dist" | Out-Null

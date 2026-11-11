@@ -116,7 +116,7 @@ struct WinGuiSeat {
     Mouse_Button lastbtn;
 
     bool send_raw_mouse;
-    int wheel_accumulator;
+    int wheel_accumulator, horizontal_wheel_accumulator;
 
     bool pointer_indicates_raw_mouse;
 

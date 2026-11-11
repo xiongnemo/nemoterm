@@ -2023,6 +2023,10 @@ void term_pwron(Terminal *, bool);
 void term_clrsb(Terminal *);
 void term_mouse(Terminal *, Mouse_Button, Mouse_Button, Mouse_Action,
                 int, int, bool, bool, bool);
+void term_mouse_pixels(Terminal *, Mouse_Button, Mouse_Button, Mouse_Action,
+                       int, int, int, int, bool, bool, bool);
+void term_mouse_cancel(Terminal *);
+bool term_mouse_wheel(Terminal *, Mouse_Button, bool, bool, bool);
 void term_cancel_selection_drag(Terminal *);
 void term_lost_clipboard_ownership(Terminal *, int clipboard);
 void term_update(Terminal *);

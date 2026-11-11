@@ -183,11 +183,14 @@ struct terminal_tag {
 
     bool xterm_mouse_forbidden;
     int xterm_mouse;                   /* send mouse messages to host */
-    bool xterm_extended_mouse;
-    bool urxvt_extended_mouse;
-    int mouse_is_down;                 /* used while tracking mouse buttons */
+    int mouse_encoding;               /* 0, 1005, 1006, 1015 or 1016 */
+    bool mouse_focus_reporting, mouse_alternate_scroll;
+    unsigned mouse_buttons;           /* buttons actually reported to host */
     int raw_mouse_reported_x;
     int raw_mouse_reported_y;
+    int raw_mouse_reported_code;
+    int mouse_last_x, mouse_last_y, mouse_last_px, mouse_last_py;
+    bool mouse_last_ctrl, mouse_last_alt;
 
     bool bracketed_paste, bracketed_paste_active;
     bool no_bracketed_paste;           /* disabled in configuration */

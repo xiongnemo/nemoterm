@@ -1,0 +1,75 @@
+{
+  "test_pid": 35852,
+  "observations": [
+    {
+      "phase": "sgr-drag",
+      "hex": "1b5b3c303b333b314d1b5b3c33323b343b314d1b5b3c303b343b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "pixel-motion",
+      "hex": "1b5b3c33353b32323b32304d1b5b3c33353b32333b32304d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "capture-cancel",
+      "hex": "1b5b3c303b333b314d1b5b3c303b333b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "shift-selection",
+      "hex": "",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "four-direction-wheels",
+      "hex": "1b5b3c36343b333b314d1b5b3c36353b333b314d1b5b3c36373b333b314d1b5b3c36363b333b314d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "independent-wheel-accumulators",
+      "hex": "",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "independent-wheel-accumulators",
+      "hex": "1b5b3c36343b333b314d1b5b3c36373b333b314d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "focus-handler-roundtrip",
+      "hex": "1b5b4f1b5b491b5b4f1b5b49",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "resize",
+      "hex": "",
+      "columns": 108,
+      "rows": 27,
+      "input_mode": 640
+    },
+    {
+      "phase": "resize",
+      "hex": "",
+      "columns": 58,
+      "rows": 12,
+      "input_mode": 640
+    }
+  ]
+}

@@ -2033,14 +2033,14 @@ static void set_input_locale(WinGuiSeat *wgs, HKL kl)
 }
 
 static void click(WinGuiSeat *wgs, Mouse_Button b, int x, int y,
-                  bool shift, bool ctrl, bool alt)
+                  int px, int py, bool shift, bool ctrl, bool alt)
 {
     int thistime = GetMessageTime();
 
     if (wgs->send_raw_mouse && !shift) {
         wgs->lastbtn = MBT_NOTHING;
-        term_mouse(wgs->term, b, translate_button(wgs, b), MA_CLICK,
-                   x, y, shift, ctrl, alt);
+        term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_CLICK,
+                          x, y, px, py, shift, ctrl, alt);
         return;
     }
 
@@ -2053,8 +2053,8 @@ static void click(WinGuiSeat *wgs, Mouse_Button b, int x, int y,
         wgs->lastact = MA_CLICK;
     }
     if (wgs->lastact != MA_NOTHING)
-        term_mouse(wgs->term, b, translate_button(wgs, b), wgs->lastact,
-                   x, y, shift, ctrl, alt);
+        term_mouse_pixels(wgs->term, b, translate_button(wgs, b), wgs->lastact,
+                          x, y, px, py, shift, ctrl, alt);
     wgs->lasttime = thistime;
 }
 
@@ -2739,13 +2739,17 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             if (press) {
                 click(wgs, button,
                       TO_CHR_X(X_POS(lParam)), TO_CHR_Y(Y_POS(lParam)),
+                      X_POS(lParam)-wgs->offset_width,
+                      Y_POS(lParam)-wgs->offset_height,
                       wParam & MK_SHIFT, wParam & MK_CONTROL,
                       is_alt_pressed());
                 SetCapture(hwnd);
             } else {
-                term_mouse(wgs->term, button, translate_button(wgs, button),
+                term_mouse_pixels(wgs->term, button, translate_button(wgs, button),
                            MA_RELEASE, TO_CHR_X(X_POS(lParam)),
-                           TO_CHR_Y(Y_POS(lParam)), wParam & MK_SHIFT,
+                           TO_CHR_Y(Y_POS(lParam)),
+                           X_POS(lParam)-wgs->offset_width,
+                           Y_POS(lParam)-wgs->offset_height, wParam & MK_SHIFT,
                            wParam & MK_CONTROL, is_alt_pressed());
                 if (!(wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON)))
                     ReleaseCapture();
@@ -2781,16 +2785,27 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 b = MBT_MIDDLE;
             else
                 b = MBT_RIGHT;
-            term_mouse(wgs->term, b, translate_button(wgs, b), MA_DRAG,
+            term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_DRAG,
                        TO_CHR_X(X_POS(lParam)),
-                       TO_CHR_Y(Y_POS(lParam)), wParam & MK_SHIFT,
+                       TO_CHR_Y(Y_POS(lParam)),
+                       X_POS(lParam)-wgs->offset_width,
+                       Y_POS(lParam)-wgs->offset_height, wParam & MK_SHIFT,
                        wParam & MK_CONTROL, is_alt_pressed());
         } else {
-            term_mouse(wgs->term, MBT_NOTHING, MBT_NOTHING, MA_MOVE,
+            term_mouse_pixels(wgs->term, MBT_NOTHING, MBT_NOTHING, MA_MOVE,
                        TO_CHR_X(X_POS(lParam)),
-                       TO_CHR_Y(Y_POS(lParam)), (wParam & MK_SHIFT) != 0,
+                       TO_CHR_Y(Y_POS(lParam)),
+                       X_POS(lParam)-wgs->offset_width,
+                       Y_POS(lParam)-wgs->offset_height, (wParam & MK_SHIFT) != 0,
                        (wParam & MK_CONTROL) != 0, is_alt_pressed());
         }
+        return 0;
+      case WM_CAPTURECHANGED:
+      case WM_CANCELMODE:
+        term_mouse_cancel(wgs->term);
+        term_cancel_selection_drag(wgs->term);
+        if (message == WM_CANCELMODE && GetCapture() == hwnd)
+            ReleaseCapture();
         return 0;
       case WM_NCMOUSEMOVE:
         if (wgs->last_mousemove != WM_NCMOUSEMOVE ||
@@ -2928,6 +2943,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_KILLFOCUS:
         show_mouseptr(wgs, true);
         term_set_focus(wgs->term, false);
+        term_cancel_selection_drag(wgs->term);
+        if (GetCapture() == hwnd) ReleaseCapture();
         DestroyCaret();
         wgs->caret_x = wgs->caret_y = -1; /* ensure caret replaced next time */
         term_update(wgs->term);
@@ -3425,14 +3442,16 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (message == wm_mousewheel || message == WM_MOUSEWHEEL
                                                 || message == WM_MOUSEHWHEEL) {
             bool shift_pressed = false, control_pressed = false;
+            int *accumulator = message == WM_MOUSEHWHEEL ?
+                &wgs->horizontal_wheel_accumulator : &wgs->wheel_accumulator;
 
             if (message == WM_MOUSEWHEEL || message == WM_MOUSEHWHEEL) {
-                wgs->wheel_accumulator += (short)HIWORD(wParam);
+                *accumulator += (short)HIWORD(wParam);
                 shift_pressed=LOWORD(wParam) & MK_SHIFT;
                 control_pressed=LOWORD(wParam) & MK_CONTROL;
             } else {
                 BYTE keys[256];
-                wgs->wheel_accumulator += (int)wParam;
+                *accumulator += (int)wParam;
                 if (GetKeyboardState(keys)!=0) {
                     shift_pressed=keys[VK_SHIFT]&0x80;
                     control_pressed=keys[VK_CONTROL]&0x80;
@@ -3440,16 +3459,16 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             }
 
             /* process events when the threshold is reached */
-            while (abs(wgs->wheel_accumulator) >= WHEEL_DELTA) {
+            while (abs(*accumulator) >= WHEEL_DELTA) {
                 int b;
 
                 /* reduce amount for next time */
-                if (wgs->wheel_accumulator > 0) {
+                if (*accumulator > 0) {
                     b = message == WM_MOUSEHWHEEL ? MBT_WHEEL_RIGHT : MBT_WHEEL_UP;
-                    wgs->wheel_accumulator -= WHEEL_DELTA;
-                } else if (wgs->wheel_accumulator < 0) {
+                    *accumulator -= WHEEL_DELTA;
+                } else if (*accumulator < 0) {
                     b =  message == WM_MOUSEHWHEEL ? MBT_WHEEL_LEFT : MBT_WHEEL_DOWN;
-                    wgs->wheel_accumulator += WHEEL_DELTA;
+                    *accumulator += WHEEL_DELTA;
                 } else
                     break;
 
@@ -3459,18 +3478,24 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     POINT p;
                     p.x = X_POS(lParam); p.y = Y_POS(lParam);
                     if (ScreenToClient(hwnd, &p)) {
-                        /* send a mouse-down followed by a mouse up */
-                        term_mouse(wgs->term, b, translate_button(wgs, b),
+                        /* Wheels send presses only, including horizontal axes. */
+                        term_mouse_pixels(wgs->term, b, translate_button(wgs, b),
                                    MA_CLICK,
                                    TO_CHR_X(p.x),
-                                   TO_CHR_Y(p.y), shift_pressed,
+                                   TO_CHR_Y(p.y),
+                                   p.x-wgs->offset_width, p.y-wgs->offset_height,
+                                   shift_pressed,
                                    control_pressed, is_alt_pressed());
                     } /* else: not sure when this can fail */
-                } else if (message != WM_MOUSEHWHEEL) {
-                    /* trigger a scroll */
+                } else if (!term_mouse_wheel(wgs->term, b, shift_pressed,
+                                            control_pressed, is_alt_pressed()) &&
+                           message != WM_MOUSEHWHEEL) {
+                    UINT lines = 3;
+                    SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &lines, 0);
+                    int amount = lines == WHEEL_PAGESCROLL ?
+                        max(wgs->term->rows-1, 1) : min(lines, INT_MAX);
                     term_scroll(wgs->term, 0,
-                                b == MBT_WHEEL_UP ?
-                                -wgs->term->rows / 2 : wgs->term->rows / 2);
+                                b == MBT_WHEEL_UP ? -amount : amount);
                 }
             }
             return 0;

@@ -76,3 +76,16 @@ history restoration and clipboard retention after selection cancellation. Actual
 window resize produced child-observed 80x24 -> 133x35 -> 64x17 sizes, recorded in
 `research/resize-observed.json`. Alternate-screen contents/cursor now survive resize.
 Text reflow and image preservation on resize remain open.
+
+
+Mouse checkpoint: exact-byte tests now cover X10/1000/1002/1003, UTF-8/SGR/
+urxvt/pixel encoding selection, Alt/Control, four wheel directions, focus,
+alternate scrolling, Shift takeover, multiple held buttons and capture cancellation.
+Win32 handlers now retain pixel coordinates, separate wheel-axis accumulators,
+honor Windows local scroll-line settings, and release application buttons on
+capture/focus loss. Blank double-width rows are normalized on reset.
+`tests/mouse_window_smoke.py` launches only its own window and injects window
+messages (not global physical input), checking bytes read by the real ConPTY child.
+Results: `research/mouse-window-observed.json`; resize observed 80x24 -> 108x27 -> 58x12.
+1001 highlight tracking, side buttons, real hardware/trackpad and multi-DPI acceptance
+remain open. Ctrl+right-click remains the documented local-menu override.
