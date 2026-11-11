@@ -87,6 +87,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
         u.SendMessageW(hwnd, 0x286, 0x6587, 1)  # Unicode WM_IME_CHAR
         expected += code(0,text='20013')+code(0,text='128512')+code(0,text='25991')
         check()
+        phase('events-only-chords', '\x1b[=2u\x1b[?u', b'\x1b[?2u')
+        key(17,29); tap(73,23); key(16,42); tap(73,23); key(16,42,3); key(17,29,3)
+        expected += b'\x09'+code(105,locks|4,3)+code(105,locks|5)+code(105,locks|5,3)
+        tap(27,1); expected += b'\x1b'+code(27,locks,3)
+        check()
+        phase('restore-all', '\x1b[=31u\x1b[?u', b'\x1b[?31u')
         phase('screen-stacks', '\x1b[?1049h\x1b[?u\x1b[>3u\x1b[?u'
               '\x1b[?1049l\x1b[?u\x1b[?1049h\x1b[?u',
               b'\x1b[?0u\x1b[?3u\x1b[?31u\x1b[?3u')
@@ -108,7 +114,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-keyboard-') as directory:
         tap(65,30); expected += code(97,locks,text=text_a)+code(97,locks,3)
         check()
 
-        phase('local-copy-paste', '\x1b[2J\x1b[1;1HKEYBOARD COPY LABEL\x1b[?2004h\x1b[?u', b'\x1b[?31u')
+        phase('local-copy-paste', '\x1b[2J\x1b[1;1HKEYBOARD COPY LABEL'
+              '\x1b[?1000;1006;2004h\x1b[?u', b'\x1b[?31u')
         saved = SavedClipboard(hwnd)
         # Grid selection uses Shift in the mouse message itself. Query grid pixels.
         rect = w.RECT(); u.GetClientRect(hwnd,c.byref(rect))

@@ -71,6 +71,12 @@ static void test_encoding(Mock *mk)
     a.type = 1; a.text_len = 0; a.modifiers = 4;
     encoded(mk, 1, a, "\033[97;5u");
     encoded(mk, 2, a, "\001");
+    a.modifiers = 196; encoded(mk, 2, a, "\001");
+    a.modifiers = 5; encoded(mk, 2, a, "\033[97;6u");
+    a.modifiers = 7; encoded(mk, 2, a, "\033[97;8u");
+    a.modifiers = 3; encoded(mk, 6, a, "\033A");
+    a.modifiers = 195; encoded(mk, 6, a, "\033A");
+    a.modifiers = 4;
     a.type = 2; encoded(mk, 2, a, "\033[97;5:2u");
     a.type = 3; encoded(mk, 2, a, "\033[97;5:3u");
     a.type = 1; a.modifiers = 6;
@@ -82,6 +88,8 @@ static void test_encoding(Mock *mk)
     a = (NemoKeyEvent){.type=1, .text=unicode, .text_len=3};
     encoded(mk, 24, a, "\033[0;1;20013:769:128512u");
     encoded(mk, 1, a, "\xe4\xb8\xad\xcc\x81\xf0\x9f\x98\x80");
+    encoded(mk, 2, (NemoKeyEvent){.key='~', .type=1, .modifiers=4}, "\036");
+    encoded(mk, 2, (NemoKeyEvent){.key=27, .type=1, .modifiers=192}, "\033");
     static const struct { uint32_t key; const char *value; } functions[] = {
         {27,"\033[27u"}, {NK_INSERT,"\033[2~"}, {NK_DELETE,"\033[3~"},
         {NK_UP,"\033[A"}, {NK_DOWN,"\033[B"}, {NK_RIGHT,"\033[C"}, {NK_LEFT,"\033[D"},

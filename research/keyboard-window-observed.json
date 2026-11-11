@@ -27,6 +27,20 @@
     "rows": 24,
     "input_mode": 640
   },
+  "events-only-chords": {
+    "phase": "events-only-chords",
+    "hex": "1b5b3f3275091b5b3130353b3133333a33751b5b3130353b313334751b5b3130353b3133343a33751b1b5b32373b3132393a3375",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "restore-all": {
+    "phase": "restore-all",
+    "hex": "1b5b3f333175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
   "screen-stacks": {
     "phase": "screen-stacks",
     "hex": "1b5b3f30751b5b3f33751b5b3f3331751b5b3f3375611b5b32373b313239751b5b32373b3132393a33750d",
@@ -69,9 +83,9 @@
     "rows": 22,
     "input_mode": 640
   },
-  "executable_sha256": "27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89",
-  "peak_private_ws": 3670016,
-  "peak_total_ws": 19542016,
-  "peak_private_commit": 4939776,
+  "executable_sha256": "e7f264688ce64eefc656d7f30b2ec1e124e3f1051157d92a02aac14c83ba4c6b",
+  "peak_private_ws": 3645440,
+  "peak_total_ws": 19505152,
+  "peak_private_commit": 4919296,
   "lock_modifiers": 128
 }

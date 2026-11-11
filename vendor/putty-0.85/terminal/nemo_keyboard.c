@@ -85,6 +85,7 @@ static unsigned legacy_control(unsigned key)
     if (key == ' ' || key == '@' || key == '2') return 0;
     if (key == '/' || key == '?') return key == '/' ? 31 : 127;
     if (key == '8') return 127;
+    if (key == '~') return 30;
     return key;
 }
 
@@ -141,8 +142,13 @@ int nemo_keyboard_encode(unsigned flags, const NemoKeyEvent *e, char *out, size_
         if (is_functional) shifted = base = 0;
         bool extra_event = events && e->type != 1;
         bool classic = !(flags & (NEMO_KEY_DISAMBIGUATE | NEMO_KEY_ALL)) &&
-            !extra_event && !shifted && !base;
-        if (classic && e->key >= 32 && e->key < 127 && !(mods & ~7)) {
+            !extra_event;
+        /* Alternate-key reporting changes a sequence already required by
+         * another enhancement; it must not promote a legacy text chord.
+         * Ctrl+Shift chords are canonical even without disambiguation. */
+        if (classic && e->key >= 32 && e->key < 127 && !(nonlocks & ~7) &&
+            (nonlocks & (NEMO_KEY_CTRL | NEMO_KEY_SHIFT)) !=
+            (NEMO_KEY_CTRL | NEMO_KEY_SHIFT)) {
             uint32_t key = (mods & NEMO_KEY_SHIFT) && e->shifted ? e->shifted : e->key;
             if (mods & NEMO_KEY_ALT) byte(&b, 27);
             if (mods & NEMO_KEY_CTRL) {
@@ -156,7 +162,7 @@ int nemo_keyboard_encode(unsigned flags, const NemoKeyEvent *e, char *out, size_
             bool associated = all && (flags & NEMO_KEY_TEXT) && !release && e->text_len;
             if (!e->key && !associated) return 0;
             /* ESC remains a legacy press until disambiguation is requested. */
-            if (classic && !mods && e->key == 27) byte(&b, 27);
+            if (classic && !nonlocks && e->key == 27) byte(&b, 27);
             else {
                 bool fields = mods || extra_event || associated;
                 byte(&b, 27); byte(&b, '[');

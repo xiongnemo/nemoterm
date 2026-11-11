@@ -510,3 +510,12 @@ commit e9ef53886cf982e67d97e1d56bacbc1771291e12 passed remote run 43104641238
 (16 core suites, 9 native suites and sanitizer job), and its downloaded
 artifact manifest and executable hashes were verified. This historical run
 does not claim remote verification of the new keyboard code.
+
+Follow-up keyboard cases preserve legacy Ctrl/Alt text when only event types
+are requested, ignoring Caps/Num Lock for that legacy byte mapping. Ctrl+Shift
+chords use canonical CSI-u, and the alternate-key flag alone does not promote
+a legacy text chord to CSI-u. Portable and native tests cover these combinations;
+the native copy/paste phase now enables SGR application mouse tracking as well,
+verifying that Shift selection stays local while enhanced keyboard input is on.
+The refreshed `keyboard-window-observed.json` identifies the follow-up binary;
+other local JSON files above remain evidence for their explicitly recorded hash.
