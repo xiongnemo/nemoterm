@@ -340,6 +340,8 @@ static bool termchars_equal_override(termchar *a, termchar *b,
     /* FULL-TERMCHAR */
     if (!truecolour_equal(a->truecolour, b->truecolour))
         return false;
+    if (a->hyperlink != b->hyperlink)
+        return false;
     if (a->chr != bchr)
         return false;
     if ((a->attr &~ DATTR_MASK) != (battr &~ DATTR_MASK))
@@ -650,11 +652,13 @@ static void makeliteral_attr(strbuf *b, termchar *c, unsigned long *state)
 static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
 {
     /*
-     * Put the used parts of the colour info into the buffer.
+     * Put optional colour/link metadata into the buffer. Unlinked cells
+     * retain the original compressed representation.
      */
     put_byte(b, ((c->truecolour.fg.enabled ? 1 : 0) |
                  (c->truecolour.bg.enabled ? 2 : 0) |
-                 (c->truecolour.decoration ? 4 : 0)));
+                 (c->truecolour.decoration ? 4 : 0) |
+                 (c->hyperlink ? 8 : 0)));
     if (c->truecolour.fg.enabled) {
         put_byte(b, c->truecolour.fg.r);
         put_byte(b, c->truecolour.fg.g);
@@ -666,6 +670,7 @@ static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
         put_byte(b, c->truecolour.bg.b);
     }
     if (c->truecolour.decoration) put_uint32(b, c->truecolour.decoration);
+    if (c->hyperlink) put_uint32(b, c->hyperlink);
 }
 static void makeliteral_cc(strbuf *b, termchar *c, unsigned long *state)
 {
@@ -919,6 +924,7 @@ static void readliteral_truecolour(
         c->truecolour.bg = optionalrgb_none;
     }
     c->truecolour.decoration = flags & 4 ? get_uint32(bs) : 0;
+    c->hyperlink = flags & 8 ? get_uint32(bs) : 0;
 }
 static void readliteral_cc(BinarySource *bs, termchar *c, termline *ldata,
                            unsigned long *state)
@@ -2099,6 +2105,7 @@ static void power_on(Terminal *term, bool clear)
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
     term->curr_truecolour.decoration = 0;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
+    term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     term->use_bce = conf_get_bool(term->conf, CONF_bce);
@@ -2313,6 +2320,9 @@ static void term_copy_stuff_from_conf(Terminal *term)
     term->no_dbackspace = conf_get_bool(term->conf, CONF_no_dbackspace);
     term->no_mouse_rep = conf_get_bool(term->conf, CONF_no_mouse_rep);
     term->no_remote_charset = conf_get_bool(term->conf, CONF_no_remote_charset);
+    term->no_remote_hyperlinks = conf_get_bool(term->conf, CONF_no_remote_hyperlinks);
+    if (term->no_remote_hyperlinks)
+        term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->no_remote_resize = conf_get_bool(term->conf, CONF_no_remote_resize);
     term->no_remote_wintitle = conf_get_bool(term->conf, CONF_no_remote_wintitle);
     term->no_remote_clearscroll = conf_get_bool(term->conf, CONF_no_remote_clearscroll);
@@ -2749,6 +2759,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->basic_erase_char.truecolour.fg = optionalrgb_none;
     term->basic_erase_char.truecolour.bg = optionalrgb_none;
     term->basic_erase_char.truecolour.decoration = 0;
+    term->basic_erase_char.hyperlink = 0;
     term->erase_char = term->basic_erase_char;
 
     /* TermWin implementations will typically extend these with
@@ -2776,6 +2787,7 @@ void term_free(Terminal *term)
 {
     term_end_synchronized_update(term);
     nemo_images_clear(term);
+    nemo_hyperlink_free(term->hyperlinks);
     compressed_scrollback_line *cline;
     termline *line;
     struct beeptime *beep;
@@ -2805,6 +2817,9 @@ void term_free(Terminal *term)
         printer_finish_job(term->print_job);
     bufchain_clear(&term->printer_buf);
     sfree(term->paste_buffer);
+    sfree(term->last_selected_text);
+    sfree(term->last_selected_attr);
+    sfree(term->last_selected_tc);
     sfree(term->ltemp);
     sfree(term->wcFrom);
     sfree(term->wcTo);
@@ -3187,6 +3202,10 @@ static void swap_screen(Terminal *term, int which,
         if (!reset)
             term->save_truecolour = term->alt_save_truecolour;
         term->alt_save_truecolour = ttc;
+        uint32_t link = term->save_hyperlink;
+        if (!reset)
+            term->save_hyperlink = term->alt_save_hyperlink;
+        term->alt_save_hyperlink = link;
         bt = term->save_utf;
         if (!reset)
             term->save_utf = term->alt_save_utf;
@@ -3455,6 +3474,7 @@ static void save_cursor(Terminal *term, bool save)
         term->savecurs = term->curs;
         term->save_attr = term->curr_attr;
         term->save_truecolour = term->curr_truecolour;
+        term->save_hyperlink = term->curr_hyperlink;
         term->save_cset = term->cset;
         term->save_utf = term->utf;
         term->save_wnext = term->wrapnext;
@@ -3470,6 +3490,7 @@ static void save_cursor(Terminal *term, bool save)
 
         term->curr_attr = term->save_attr;
         term->curr_truecolour = term->save_truecolour;
+        term->curr_hyperlink = term->save_hyperlink;
         term->cset = term->save_cset;
         term->utf = term->save_utf;
         term->wrapnext = term->save_wnext;
@@ -3523,6 +3544,7 @@ static void check_boundary(Terminal *term, int x, int y)
             clear_cc(ldata, x-1);
             clear_cc(ldata, x);
             ldata->chars[x-1].chr = ' ' | CSET_ASCII;
+            ldata->chars[x-1].hyperlink = 0;
             ldata->chars[x] = ldata->chars[x-1];
         }
     }
@@ -4065,6 +4087,12 @@ static bool osc_colours(Terminal *term, bool bel)
  * Process an OSC or similar sequence, with a whole embedded string,
  * like setting the window title or icon name.
  */
+static int osc_string_limit(Terminal *term)
+{
+    return term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 8 ?
+        NEMO_LINK_OSC_MAX : OSC_STR_MAX;
+}
+
 static void do_osc(Terminal *term, bool bel)
 {
     switch (term->osc_type) {
@@ -4077,6 +4105,12 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 8:
+            term->curr_hyperlink =
+                term->no_remote_hyperlinks || term->osc_overflow ? 0 :
+                nemo_hyperlink_parse(&term->hyperlinks, term->osc_string,
+                                     term->osc_strlen);
+            break;
           case 0:
           case 1:
             if (!term->no_remote_wintitle) {
@@ -4249,6 +4283,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         term->curs.x++;
 
@@ -4258,6 +4293,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         break;
       case 1:
@@ -4272,6 +4308,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         break;
       case 0:
@@ -6304,7 +6341,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     } else {
                         term->termstate = OSC_STRING;
                         term->osc_strlen = 0;
-                        term->osc_overflow = false;
+                        /* OSC 8 requires the separator after its number.
+                         * Preserve PuTTY's permissive title parsing otherwise. */
+                        term->osc_overflow = term->esc_args[0] == 8 && c != ';';
                     }
                 }
                 break;
@@ -6375,7 +6414,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 }
 
                 /* Anything else gets added to the string */
-                if (term->osc_strlen < OSC_STR_MAX)
+                if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = (char)c;
                 else
                     term->osc_overflow = true;
@@ -6392,11 +6431,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* No, so append the pending C2 byte to the OSC string
                  * followed by the current character, and go back to
                  * OSC string accumulation */
-                if (term->osc_strlen < OSC_STR_MAX)
+                if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = 0xC2;
                 else
                     term->osc_overflow = true;
-                if (term->osc_strlen < OSC_STR_MAX)
+                if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = (char)c;
                 else
                     term->osc_overflow = true;
@@ -7222,6 +7261,7 @@ static void do_paint(Terminal *term)
             newline[j].attr = tattr;
             newline[j].chr = tchar;
             newline[j].truecolour = tc;
+            newline[j].hyperlink = d->hyperlink;
             /* Combining characters are still read from lchars */
             newline[j].cc_next = 0;
         }
@@ -7248,7 +7288,8 @@ static void do_paint(Terminal *term)
                 dirtyrect = false;
             }
 
-            if (term->disptext[i]->chars[j].chr != newline[j].chr ||
+            if (term->disptext[i]->chars[j].hyperlink != newline[j].hyperlink ||
+                term->disptext[i]->chars[j].chr != newline[j].chr ||
                 (term->disptext[i]->chars[j].attr &~ DATTR_MASK)
                 != newline[j].attr) {
                 int k;
@@ -7508,9 +7549,23 @@ void term_invalidate(Terminal *term)
     term_schedule_update(term);
 }
 
-/*
- * Paint the window in response to a WM_PAINT message.
- */
+const char *term_hyperlink_uri(Terminal *term, uint32_t handle)
+{
+    return term->no_remote_hyperlinks ? NULL :
+        nemo_hyperlink_lookup(term->hyperlinks, handle);
+}
+
+uint32_t term_hyperlink_at(Terminal *term, int x, int y)
+{
+    if (x < 0 || y < 0 || x >= term->cols || y >= term->rows || !term->disptext)
+        return 0;
+    termline *line = term->disptext[y];
+    if ((line->lattr & LATTR_MODE) != LATTR_NORM) x /= 2;
+    uint32_t handle = line->chars[x].hyperlink;
+    return term_hyperlink_uri(term, handle) ? handle : 0;
+}
+
+/* Paint the window in response to a WM_PAINT message. */
 void term_paint(Terminal *term,
                 int left, int top, int right, int bottom, bool immediately)
 {

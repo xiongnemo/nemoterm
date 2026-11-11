@@ -253,6 +253,15 @@ add_executable(test_sixel_terminal
 target_link_libraries(test_sixel_terminal
   guiterminal settings eventloop charset utils ${platform_libraries})
 
+add_executable(test_hyperlink
+  ${CMAKE_SOURCE_DIR}/test/test_hyperlink.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-printing.c
+  unicode.c no-gtk.c)
+target_link_libraries(test_hyperlink
+  guiterminal settings eventloop charset utils ${platform_libraries})
+
 # Pageant is built whether we have GTK or not; in its absence we
 # degrade to a version that doesn't provide the GTK askpass.
 if(GTK_FOUND)

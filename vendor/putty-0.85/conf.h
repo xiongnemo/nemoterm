@@ -594,6 +594,11 @@ CONF_OPTION(no_dbackspace, /* disable destructive backspace */
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("NoDBackspace"),
 )
+CONF_OPTION(no_remote_hyperlinks, /* disable OSC 8 hyperlinks */
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NoRemoteHyperlinks"),
+)
 CONF_OPTION(no_remote_charset, /* disable remote charset config */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

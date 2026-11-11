@@ -758,6 +758,7 @@ void test_simple(void)
     test_bool_simple(CONF_no_remote_clearscroll, "NoRemoteClearScroll", false);
     test_bool_simple(CONF_no_dbackspace, "NoDBackspace", false);
     test_bool_simple(CONF_no_remote_charset, "NoRemoteCharset", false);
+    test_bool_simple(CONF_no_remote_hyperlinks, "NoRemoteHyperlinks", false);
     /* note we have no test for CONF_remote_qtitle_action because no default */
     test_bool_simple(CONF_app_cursor, "ApplicationCursorKeys", false);
     test_bool_simple(CONF_app_keypad, "ApplicationKeypad", false);

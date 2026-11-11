@@ -357,3 +357,49 @@ the burst and returned to 22. Latest local fixture peak private WS was
 8,089,600 bytes, total WS 24,031,232 bytes and private commit 9,351,168 bytes
 without trimming. The exact executable hash is in
 `research/sixel-font-observed.json`; screenshots are `research/sixel-font-*.png`.
+
+OSC 8 core checkpoint: character cells now carry an opaque 32-bit hyperlink
+handle, independently of SGR. The same handle survives wide/combining glyphs,
+insert/delete operations, cursor save/restore, 1049 screen switching, compressed
+history, clipping/restoration and font-size changes. Erasure and replacement
+clear links; a split wide glyph cannot leave an invisible clickable space.
+The existing optional-colour RLE flags also encode nonzero link handles, so
+unlinked history uses the same compressed representation as before.
+
+A lazily allocated registry accounts for at most 256 KiB and 1024 entries,
+including its fixed pointer ring. URI/id limits are 2083/250 bytes, with a
+4096-byte OSC 8 payload limit; other OSC payload limits stay at 2048 bytes.
+URI syntax is ASCII and percent-encoded, with an absolute scheme. Unknown
+parameters are ignored; duplicate id parameters, malformed URIs, embedded
+controls/NULs and oversized completed commands clear the active attribute.
+Cancelled commands leave the previous attribute unchanged. Nonempty id plus
+identical URI shares a handle; missing/empty id starts a new run. FIFO eviction
+invalidates old handles. Handles are monotonically allocated and never reused,
+including after RIS; the UINT32_MAX guard fails closed instead of wrapping.
+The NoRemoteHyperlinks setting disables parsing and address lookup.
+
+The hit-test API reads the last painted visual grid, including bidi and
+wide/double-width lines. Identical text with a different URI must update this
+metadata on redraw. During synchronized output, the old displayed address
+remains the target until presentation resumes (or becomes inactive if evicted).
+The API returns borrowed registry pointers: a frontend must copy a URI before
+processing nested messages or further terminal output. No activation UI is
+claimed yet: hover/underline, explicit opening, copying addresses, local-file
+host checks and real Win32/ConPTY link interaction remain the next work.
+
+The sixteenth core suite covers these paths, invalid/fragmented framing,
+6000 short/long registry admissions, 100 resize/font cycles, synchronized
+presentation timeout and Shift selection in mouse modes 1000/1001/1002/1003.
+Selected text contains the visible label, without OSC markup or the URI.
+The headless suite passes ASan/UBSan in WSL with leak detection. This exposed
+an existing teardown leak of the last selection's text/attribute/colour
+buffers; term_free now releases all three. It did not accumulate on each
+selection because replacement already freed the previous buffers.
+
+The current local native rerun passed mouse/ConPTY/resize, synchronized
+presentation and the 37-checkpoint Sixel/font suite. In the latter, peak private
+WS was 8,007,680 bytes, total WS 23,941,120 bytes and private commit 9,236,480
+bytes, without trimming. Executable SHA-256:
+`b95449523cdf18865ac2f741705f3d7a732e5df6ceaa2354bbddbf81ef3a1871`.
+This checks the larger cell layout against existing workloads; a native
+link-heavy fixture remains necessary when the activation UI is added.

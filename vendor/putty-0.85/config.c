@@ -2194,6 +2194,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_checkbox(s, "Disable remote-controlled character set configuration",
                   'r', HELPCTX(features_charset), conf_checkbox_handler,
                   I(CONF_no_remote_charset));
+    ctrl_checkbox(s, "Disable OSC 8 hyperlinks", NO_SHORTCUT, HELPCTX(no_help),
+                  conf_checkbox_handler, I(CONF_no_remote_hyperlinks));
     ctrl_checkbox(s, "Disable Arabic text shaping",
                   'l', HELPCTX(features_arabicshaping), conf_checkbox_handler,
                   I(CONF_no_arabicshaping));

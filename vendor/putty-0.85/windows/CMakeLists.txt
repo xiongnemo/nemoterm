@@ -269,6 +269,14 @@ add_executable(test_tcap
 target_link_libraries(test_tcap
   guiterminal settings eventloop utils ${platform_libraries})
 
+add_executable(test_hyperlink
+  ${CMAKE_SOURCE_DIR}/test/test_hyperlink.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  no-jump-list.c)
+target_link_libraries(test_hyperlink
+  guiterminal settings eventloop utils ${platform_libraries})
+
 add_executable(test_highlight
   ${CMAKE_SOURCE_DIR}/test/test_highlight.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c

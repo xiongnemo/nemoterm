@@ -9,6 +9,12 @@
 #include "tree234.h"
 #include "nemo_sixel.h"
 #include "nemo_tcap.h"
+#include "nemo_hyperlink.h"
+
+/* Visual grid coordinates in the last painted frame, not the live screen.
+ * URI is borrowed until further terminal output; copy before nested UI calls. */
+uint32_t term_hyperlink_at(Terminal *, int x, int y);
+const char *term_hyperlink_uri(Terminal *, uint32_t);
 
 enum { MOUSE_TRACK_HIGHLIGHT = 4 };
 
@@ -62,6 +68,7 @@ struct termchar {
     unsigned long chr;
     unsigned long attr;
     truecolour truecolour;
+    uint32_t hyperlink;
 
     /*
      * The cc_next field is used to link multiple termchars
@@ -154,6 +161,8 @@ struct terminal_tag {
 
     int default_attr, curr_attr, save_attr;
     truecolour curr_truecolour, save_truecolour;
+    NemoHyperlinks *hyperlinks;
+    uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
     termchar basic_erase_char, erase_char;
 
     bufchain inbuf;                    /* terminal input buffer */
@@ -256,7 +265,7 @@ struct terminal_tag {
     OscType osc_type;
     int osc_strlen;
     bool osc_overflow;
-    char osc_string[OSC_STR_MAX + 1];
+    char osc_string[NEMO_LINK_OSC_MAX + 1];
 
     char id_string[1024];
 
@@ -404,6 +413,7 @@ struct terminal_tag {
     bool no_dbackspace;
     bool no_mouse_rep;
     bool no_remote_charset;
+    bool no_remote_hyperlinks;
     bool no_remote_resize;
     bool no_remote_wintitle;
     bool no_remote_clearscroll;
