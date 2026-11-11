@@ -100,7 +100,6 @@ static void update_sbar(Terminal *);
 static void deselect(Terminal *);
 static void term_print_finish(Terminal *);
 static void scroll(Terminal *, int, int, int, bool);
-static void parse_optionalrgb(optionalrgb *out, unsigned *values);
 static void term_added_data(Terminal *term, bool);
 static void term_update_raw_mouse_mode(Terminal *term);
 static void term_out_cb(void *);
@@ -652,7 +651,8 @@ static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
      * Put the used parts of the colour info into the buffer.
      */
     put_byte(b, ((c->truecolour.fg.enabled ? 1 : 0) |
-                 (c->truecolour.bg.enabled ? 2 : 0)));
+                 (c->truecolour.bg.enabled ? 2 : 0) |
+                 (c->truecolour.decoration ? 4 : 0)));
     if (c->truecolour.fg.enabled) {
         put_byte(b, c->truecolour.fg.r);
         put_byte(b, c->truecolour.fg.g);
@@ -663,6 +663,7 @@ static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
         put_byte(b, c->truecolour.bg.g);
         put_byte(b, c->truecolour.bg.b);
     }
+    if (c->truecolour.decoration) put_uint32(b, c->truecolour.decoration);
 }
 static void makeliteral_cc(strbuf *b, termchar *c, unsigned long *state)
 {
@@ -915,6 +916,7 @@ static void readliteral_truecolour(
     } else {
         c->truecolour.bg = optionalrgb_none;
     }
+    c->truecolour.decoration = flags & 4 ? get_uint32(bs) : 0;
 }
 static void readliteral_cc(BinarySource *bs, termchar *c, termline *ldata,
                            unsigned long *state)
@@ -1761,6 +1763,7 @@ static void power_on(Terminal *term, bool clear)
     term->default_attr = term->save_attr =
         term->alt_save_attr = term->curr_attr = ATTR_DEFAULT;
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
+    term->curr_truecolour.decoration = 0;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
@@ -2398,6 +2401,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->basic_erase_char.attr = ATTR_DEFAULT;
     term->basic_erase_char.truecolour.fg = optionalrgb_none;
     term->basic_erase_char.truecolour.bg = optionalrgb_none;
+    term->basic_erase_char.truecolour.decoration = 0;
     term->erase_char = term->basic_erase_char;
 
     /* TermWin implementations will typically extend these with
@@ -4203,6 +4207,81 @@ unsigned long term_translate(
  * in-memory display. There's a big state machine in here to
  * process escape sequences...
  */
+static void nemo_underline_style(Terminal *term, unsigned style)
+{
+    if (style > 5) return;
+    if (style) term->curr_attr |= ATTR_UNDER;
+    else term->curr_attr &= ~ATTR_UNDER;
+    term->curr_truecolour.decoration =
+        (term->curr_truecolour.decoration & ~UNDER_STYLE_MASK) |
+        (style << UNDER_STYLE_SHIFT);
+}
+
+/* Consume one extended colour group. The colon form is self-contained;
+ * the legacy semicolon form consumes its defined number of following fields,
+ * even on error, so incomplete RGB does not turn into dim/italic/blink. */
+static void nemo_sgr_colour(Terminal *term, int *argi)
+{
+    int i = *argi;
+    unsigned command = term->esc_args[i], mode, count, present;
+    const unsigned *values;
+    bool colon = false;
+    if (term->esc_sub_count[i]) {
+        if (!(term->esc_sub_present[i] & 1)) return;
+        mode = term->esc_subargs[i][0];
+        values = term->esc_subargs[i] + 1;
+        count = term->esc_sub_count[i] - 1;
+        present = term->esc_sub_present[i] >> 1;
+        colon = true;
+    } else {
+        if (++i >= term->esc_nargs) return;
+        *argi = i;
+        mode = term->esc_args[i];
+        if (term->esc_sub_count[i]) {
+            values = term->esc_subargs[i];
+            count = term->esc_sub_count[i];
+            present = term->esc_sub_present[i];
+            colon = true;
+        } else {
+            unsigned need = mode == 2 ? 3 : mode == 5 ? 1 : 0;
+            count = min(need, (unsigned)(term->esc_nargs-i-1));
+            values = term->esc_args + i + 1;
+            present = (1u << count)-1;
+            *argi += count;
+            for (unsigned j = 1; j <= count; j++)
+                if (term->esc_sub_count[i+j]) return;
+        }
+    }
+    if (mode == 2 && colon && count == 4) {
+        /* ISO colour-space identifier is ignored, as in xterm. */
+        values++; count--; present >>= 1;
+    }
+    unsigned need = mode == 2 ? 3 : mode == 5 ? 1 : 0;
+    if (!need || count != need || (present & ((1u << need)-1)) != (1u << need)-1)
+        return;
+    for (unsigned j = 0; j < count; j++)
+        if (values[j] > 255) return;
+
+    if (command == 58) {
+        uint32_t colour = mode == 5 ? UNDER_INDEXED | values[0] :
+            UNDER_RGB | (values[0] << 16) | (values[1] << 8) | values[2];
+        term->curr_truecolour.decoration =
+            (term->curr_truecolour.decoration & ~UNDER_COLOUR_MASK) | colour;
+    } else {
+        optionalrgb *rgb = command == 38 ? &term->curr_truecolour.fg :
+            &term->curr_truecolour.bg;
+        if (mode == 2) {
+            rgb->enabled = true;
+            rgb->r = values[0]; rgb->g = values[1]; rgb->b = values[2];
+        } else {
+            unsigned mask = command == 38 ? ATTR_FGMASK : ATTR_BGMASK;
+            unsigned shift = command == 38 ? ATTR_FGSHIFT : ATTR_BGSHIFT;
+            *rgb = optionalrgb_none;
+            term->curr_attr = (term->curr_attr & ~mask) | (values[0] << shift);
+        }
+    }
+}
+
 static void term_out(Terminal *term, bool called_from_term_data)
 {
     unsigned long c;
@@ -4323,6 +4402,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
         if (term->termstate >= NEMO_DCS_HEADER &&
             nemo_dcs_byte(term, (unsigned char)c))
             continue;
+
+        if ((c == 0x18 || c == 0x1a) && term->termstate != TOPLEVEL) {
+            term->termstate = TOPLEVEL;
+            term->esc_query = 0;
+            continue;
+        }
 
         /* Do character-set translation. */
         if (term->termstate == TOPLEVEL) {
@@ -4617,6 +4702,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = SEEN_CSI;
                     term->esc_nargs = 1;
                     term->esc_args[0] = ARG_DEFAULT;
+                    memset(term->esc_sub_count, 0, sizeof(term->esc_sub_count));
+                    memset(term->esc_sub_present, 0, sizeof(term->esc_sub_present));
+                    term->esc_overflow = term->esc_has_subargs = false;
                     term->esc_query = 0;
                     break;
                   case ']':             /* OSC: xterm escape sequences */
@@ -4837,23 +4925,30 @@ static void term_out(Terminal *term, bool called_from_term_data)
               case SEEN_CSI:
                 term->termstate = TOPLEVEL;  /* default */
                 if (isdigit(c)) {
-                    if (term->esc_nargs <= ARGS_MAX) {
-                        if (term->esc_args[term->esc_nargs - 1] == ARG_DEFAULT)
-                            term->esc_args[term->esc_nargs - 1] = 0;
-                        if (term->esc_args[term->esc_nargs - 1] <=
-                            UINT_MAX / 10 &&
-                            term->esc_args[term->esc_nargs - 1] * 10 <=
-                            UINT_MAX - c - '0')
-                            term->esc_args[term->esc_nargs - 1] =
-                                10 * term->esc_args[term->esc_nargs - 1] +
-                                c - '0';
-                        else
-                            term->esc_args[term->esc_nargs - 1] = UINT_MAX;
+                    if (!term->esc_overflow) {
+                        unsigned i = term->esc_nargs - 1;
+                        unsigned sub = term->esc_sub_count[i];
+                        unsigned *value = sub ? &term->esc_subargs[i][sub-1] :
+                            &term->esc_args[i];
+                        if (sub) term->esc_sub_present[i] |= 1u << (sub-1);
+                        unsigned digit = c - '0';
+                        *value = *value <= (UINT_MAX-digit)/10 ?
+                            *value*10+digit : UINT_MAX;
                     }
                     term->termstate = SEEN_CSI;
                 } else if (c == ';') {
-                    if (term->esc_nargs < ARGS_MAX)
+                    if (!term->esc_overflow && term->esc_nargs < ARGS_MAX)
                         term->esc_args[term->esc_nargs++] = ARG_DEFAULT;
+                    else
+                        term->esc_overflow = true;
+                    term->termstate = SEEN_CSI;
+                } else if (c == ':') {
+                    unsigned i = term->esc_nargs - 1;
+                    term->esc_has_subargs = true;
+                    if (!term->esc_overflow && term->esc_sub_count[i] < SUBARGS_MAX)
+                        term->esc_subargs[i][term->esc_sub_count[i]++] = 0;
+                    else
+                        term->esc_overflow = true;
                     term->termstate = SEEN_CSI;
                 } else if (c < '@') {
                     if (c == '$' && term->esc_query == 1)
@@ -4865,6 +4960,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     else
                         term->esc_query = c;
                     term->termstate = SEEN_CSI;
+                } else if (term->esc_overflow ||
+                           (term->esc_has_subargs && (c != 'm' || term->esc_query))) {
+                    /* Reject the complete overflowing sequence, and never
+                     * reinterpret colon values as unrelated CSI parameters. */
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
@@ -5153,7 +5252,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * The 39 and 49 attributes are likely to be
                          * unimplemented.
                          */
-                        for (int i = 0; i < term->esc_nargs; i++)
+                        for (int i = 0; i < term->esc_nargs; i++) {
+                        if (term->esc_sub_count[i] &&
+                            term->esc_args[i] != 4 && term->esc_args[i] != 38 &&
+                            term->esc_args[i] != 48 && term->esc_args[i] != 58)
+                            continue;
                         switch (def(term->esc_args[i], 0)) {
                           case 0:       /* restore defaults */
                             term->curr_attr = term->default_attr;
@@ -5168,11 +5271,20 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             compatibility(OTHER);
                             term->curr_attr |= ATTR_DIM;
                             break;
-                          case 21:      /* (enable double underline) */
+                          case 3:
+                            term->curr_attr |= ATTR_ITALIC;
+                            break;
+                          case 21:      /* double underline */
                             compatibility(OTHER);
+                            nemo_underline_style(term, 2);
+                            break;
                           case 4:       /* enable underline */
                             compatibility(VT100AVO);
-                            term->curr_attr |= ATTR_UNDER;
+                            if (!term->esc_sub_count[i])
+                                nemo_underline_style(term, 1);
+                            else if (term->esc_sub_count[i] == 1 &&
+                                     (term->esc_sub_present[i] & 1))
+                                nemo_underline_style(term, term->esc_subargs[i][0]);
                             break;
                           case 5:       /* enable blink */
                             compatibility(VT100AVO);
@@ -5186,6 +5298,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 7:       /* enable reverse video */
                             term->curr_attr |= ATTR_REVERSE;
+                            break;
+                          case 8:
+                            term->curr_attr |= ATTR_CONCEAL;
                             break;
                           case 9:       /* enable strikethrough */
                             term->curr_attr |= ATTR_STRIKE;
@@ -5208,7 +5323,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 24:      /* disable underline */
                             compatibility2(OTHER, VT220);
-                            term->curr_attr &= ~ATTR_UNDER;
+                            nemo_underline_style(term, 0);
+                            break;
+                          case 23:
+                            term->curr_attr &= ~ATTR_ITALIC;
+                            break;
+                          case 28:
+                            term->curr_attr &= ~ATTR_CONCEAL;
                             break;
                           case 25:      /* disable blink */
                             compatibility2(OTHER, VT220);
@@ -5304,43 +5425,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                              * as the background.
                              */
                           case 38:
-                            if (i+2 < term->esc_nargs &&
-                                term->esc_args[i+1] == 5) {
-                                term->curr_attr &= ~ATTR_FGMASK;
-                                term->curr_attr |=
-                                    ((term->esc_args[i+2] & 0xFF)
-                                     << ATTR_FGSHIFT);
-                                term->curr_truecolour.fg =
-                                    optionalrgb_none;
-                                i += 2;
-                            }
-                            if (i + 4 < term->esc_nargs &&
-                                term->esc_args[i + 1] == 2) {
-                                parse_optionalrgb(
-                                    &term->curr_truecolour.fg,
-                                    term->esc_args + (i+2));
-                                i += 4;
-                            }
-                            break;
                           case 48:
-                            if (i+2 < term->esc_nargs &&
-                                term->esc_args[i+1] == 5) {
-                                term->curr_attr &= ~ATTR_BGMASK;
-                                term->curr_attr |=
-                                    ((term->esc_args[i+2] & 0xFF)
-                                     << ATTR_BGSHIFT);
-                                term->curr_truecolour.bg =
-                                    optionalrgb_none;
-                                i += 2;
-                            }
-                            if (i + 4 < term->esc_nargs &&
-                                term->esc_args[i+1] == 2) {
-                                parse_optionalrgb(
-                                    &term->curr_truecolour.bg,
-                                    term->esc_args + (i+2));
-                                i += 4;
-                            }
+                          case 58:
+                            nemo_sgr_colour(term, &i);
                             break;
+                          case 59:
+                            term->curr_truecolour.decoration &= ~UNDER_COLOUR_MASK;
+                            break;
+                        }
                         }
                         set_erase_char(term);
                         break;
@@ -6204,6 +6296,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->curr_attr = ATTR_DEFAULT;
                     term->curr_truecolour.fg = optionalrgb_none;
                     term->curr_truecolour.bg = optionalrgb_none;
+                    term->curr_truecolour.decoration = 0;
                     set_erase_char(term);
                     break;
                   case 'S':
@@ -6275,19 +6368,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
 void term_out_cb(void *ctx)
 {
     term_out((Terminal *)ctx, false);
-}
-
-/*
- * Small subroutine to parse three consecutive escape-sequence
- * arguments representing a true-colour RGB triple into an
- * optionalrgb.
- */
-static void parse_optionalrgb(optionalrgb *out, unsigned *values)
-{
-    out->enabled = true;
-    out->r = values[0] < 256 ? values[0] : 0;
-    out->g = values[1] < 256 ? values[1] : 0;
-    out->b = values[2] < 256 ? values[2] : 0;
 }
 
 /*
@@ -6692,7 +6772,14 @@ static void do_paint(Terminal *term)
                 tc = d->truecolour;
             } else {
                 tc.fg = tc.bg = optionalrgb_none;
+                tc.decoration = d->truecolour.decoration;
+                if (tc.decoration & UNDER_RGB)
+                    tc.decoration &= ~UNDER_COLOUR_MASK;
             }
+            if (!term->ansi_colour ||
+                (!term->xterm_256_colour && (tc.decoration & UNDER_INDEXED) &&
+                 (tc.decoration & 255) >= 16))
+                tc.decoration &= ~UNDER_COLOUR_MASK;
 
             switch (tchar & CSET_MASK) {
               case CSET_ASCII:

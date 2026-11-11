@@ -242,6 +242,15 @@ add_executable(test_modes
 target_link_libraries(test_modes
   guiterminal settings eventloop utils ${platform_libraries})
 
+add_executable(test_sgr
+  ${CMAKE_SOURCE_DIR}/test/test_sgr.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_sgr
+  guiterminal settings eventloop utils ${platform_libraries})
+
 add_executable(test_sync
   ${CMAKE_SOURCE_DIR}/test/test_sync.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c

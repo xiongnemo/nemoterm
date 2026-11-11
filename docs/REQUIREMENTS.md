@@ -132,3 +132,23 @@ tests, and Linux Sixel/colour ASan+UBSan. Downloaded portable EXE and bundled
 ConPTY files matched their SHA-256 records. CI's sync fixture used an actual
 1011x749 viewport, peak private WS 3,067,904 bytes, total WS 20,381,696 bytes;
 these are hosted-runner fixture measurements, not full-agent acceptance.
+
+SGR checkpoint: colon and semicolon RGB/indexed colours, italic3/23,
+conceal8/28, underline4:0..5 and21, independent underline colour58/59.
+Decorations add four bytes per live cell and are RLE encoded in compressed
+history only when present. GDI draws directly into the existing target DC;
+italic font variants are created lazily. No new persistent surface buffer.
+CSI is bounded to32 main arguments and8 subarguments per group; overflow
+rejects the complete sequence. Invalid colon groups cannot become separate
+SGRs. CAN/SUB now cancel unfinished control sequences without consuming the
+following character. Model, compressed history, alternate screen, resizing,
+erase defaults and plain-text copying pass `test_sgr`; extended RTF export,
+other SGR families and full conformance remain open.
+
+`tests/sgr_window_smoke.py` verifies five distinct underline pixel patterns,
+21 double underline,4:0 reset, reverse/explicit underline colour independence,
+palette updates, conceal hiding glyphs/decorations, italic/reset, equivalent
+RGB syntax, and styled pixels in synchronized snapshots through real ConPTY.
+Screenshot: `research/sgr-styles.png`; measurements and hashes:
+`research/sgr-window-observed.json`. Local sampled peak private WS4,378,624
+bytes; total20,488,192 bytes. This is a style fixture, not complete agent acceptance.

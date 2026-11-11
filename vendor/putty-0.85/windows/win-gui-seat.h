@@ -24,7 +24,8 @@ enum { SYSMENU, CTXMENU };             /* indices into popup_menus field */
 #define FONT_OEMUND     0x22
 #define FONT_OEMBOLDUND 0x23
 
-#define FONT_MAXNO      0x40
+#define FONT_ITALIC     0x40
+#define FONT_MAXNO      0x80
 #define FONT_SHIFT      5
 
 enum BoldMode {

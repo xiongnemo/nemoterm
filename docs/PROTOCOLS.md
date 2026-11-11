@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态及压缩快照十一组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另已用真实窗口截图验证字体与Sixel色块，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照及SGR十二组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另用真实窗口截图验证字体、Sixel色块和SGR样式，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -25,7 +25,7 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 | 滚动区域 `CSI top;bottom r`、备用屏 `?47/1047/1048/1049 h/l` | 1049局部已证；其余源码已见 | `test_colour_and_alternate_screen` 证明1049恢复主屏文字、颜色和光标；`test_shift_selection` 在备用屏复制当前内容。滚动历史、resize、嵌套及47/1047差异未认证。 |
 | 左右边距 `?69 h/l`、`CSI left;right s`；选择性擦除/受保护属性；矩形操作（如 `$r/$t/$v/$x/$z/${`） | 缺失或待逐项核实 | 当前 `CSI s/u` 是保存/恢复光标，不能当成 DECSLRM。需从 xterm/DEC 清单拆分每条并确定模式冲突；没有以整体“兼容”覆盖它们。 |
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
-| SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 缺失 | 当前 `SEEN_CSI` 没有子参数数组；SGR21与4共用一个underline位，不证明双下划线。需补解析、存储、压缩、渲染、复制样式及reset。 |
+| SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
 | 光标形状 `CSI Ps SP q`（DECSCUSR）和软复位 `CSI ! p` | 缺失/待逐项核实 | 未见对应现代分派；现有PuTTY设置和SCO私有光标指令不是这些序列。 |
 | Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。完整grapheme宽度、重排后的物理选择、字体fallback、Nerd Font、IME需专项测试。 |
 
@@ -80,7 +80,7 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 
 ## 下一轮实现和验收顺序
 
-1. **直接影响现代agent的缺口**：OSC8、冒号SGR及常见样式、kitty键盘协商；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
+1. **直接影响现代agent的缺口**：OSC8、kitty键盘协商及剩余SGR（如overline等）；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：DECRQSS/XTGETTCAP、OSC52设置与查询策略、鼠标1001与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 

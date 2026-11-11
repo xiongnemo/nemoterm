@@ -215,6 +215,11 @@ struct terminal_tag {
 #define ARG_DEFAULT 0                  /* if an arg isn't specified */
 #define def(a,d) ( (a) == ARG_DEFAULT ? (d) : (a) )
     unsigned esc_args[ARGS_MAX];
+    /* Colon subparameters belong to one argument, never independent SGRs. */
+#define SUBARGS_MAX 8
+    unsigned esc_subargs[ARGS_MAX][SUBARGS_MAX];
+    unsigned char esc_sub_count[ARGS_MAX], esc_sub_present[ARGS_MAX];
+    bool esc_overflow, esc_has_subargs;
     int esc_nargs;
     int esc_query;
 #define ANSI(x,y)       ((x)+((y)*256))

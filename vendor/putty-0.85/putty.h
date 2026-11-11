@@ -264,6 +264,8 @@ extern const int colour_indices_oscp_to_osc4[OSCP_NCOLOURS];
 #define ATTR_COLOURS 0x0003FFFFU
 #define ATTR_DIM     0x01000000U
 #define ATTR_STRIKE  0x02000000U
+#define ATTR_ITALIC  0x04000000U
+#define ATTR_CONCEAL 0x08000000U
 #define ATTR_ACTCURS 0x40000000UL      /* active cursor (block) */
 #define ATTR_PASCURS 0x20000000UL      /* passive cursor (box) */
 #define ATTR_RIGHTCURS 0x10000000UL    /* cursor-on-RHS */
@@ -996,13 +998,23 @@ typedef struct optionalrgb {
 extern const optionalrgb optionalrgb_none;
 typedef struct truecolour {
     optionalrgb fg, bg;
+    /* Packed decoration keeps per-cell overhead at four bytes. The low
+     * 24 bits hold RGB or a palette index; style and colour type are separate. */
+    uint32_t decoration;
 } truecolour;
+#define UNDER_COLOUR_MASK UINT32_C(0x03ffffff)
+#define UNDER_INDEXED     UINT32_C(0x01000000)
+#define UNDER_RGB         UINT32_C(0x02000000)
+#define UNDER_STYLE_SHIFT 26
+#define UNDER_STYLE_MASK  UINT32_C(0x1c000000)
+#define UNDER_STYLE(tc) (((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT)
 #define optionalrgb_equal(r1,r2) (                              \
         (r1).enabled==(r2).enabled &&                           \
         (r1).r==(r2).r && (r1).g==(r2).g && (r1).b==(r2).b)
 #define truecolour_equal(c1,c2) (               \
         optionalrgb_equal((c1).fg, (c2).fg) &&  \
-        optionalrgb_equal((c1).bg, (c2).bg))
+        optionalrgb_equal((c1).bg, (c2).bg) && \
+        (c1).decoration == (c2).decoration)
 
 /*
  * Enumeration of clipboards. We provide some standard ones cross-

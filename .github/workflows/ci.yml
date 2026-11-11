@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -75,7 +75,15 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/sync-window-observed.json test-results/
           Copy-Item research/sync-*.png test-results/
+      - name: Test native SGR styles and colours
+        shell: pwsh
+        run: |
+          python tests/sgr_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item research/sgr-window-observed.json test-results/
+          Copy-Item research/sgr-styles.png test-results/
       - name: Upload portable terminal
+        # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: nemoterm-windows-x64-${{ github.sha }}

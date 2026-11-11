@@ -1686,7 +1686,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
 
     wgs->fonts[fontno] =
         CreateFont(wgs->font_height * (1 + !!(fontno & FONT_HIGH)), x, 0, 0, w,
-                   false, u, false, c, OUT_DEFAULT_PRECIS,
+                   !!(fontno & FONT_ITALIC), u, false, c, OUT_DEFAULT_PRECIS,
                    CLIP_DEFAULT_PRECIS, FONT_QUALITY(quality),
                    DEFAULT_PITCH | FF_DONTCARE, s);
 
@@ -3636,6 +3636,47 @@ static void draw_horizontal_line_on_text(
  *
  * We are allowed to fiddle with the contents of `text'.
  */
+static void nemo_draw_underline(WinGuiSeat *wgs, RECT box, int lattr,
+                                unsigned style, COLORREF colour)
+{
+    if (lattr == LATTR_TOP || box.right <= box.left) return;
+    int height = wgs->font_height, thick = max(1, height / 16);
+    int baseline = wgs->descent;
+    if (lattr == LATTR_BOT) baseline = baseline * 2 - height;
+    baseline = max(0, min(baseline, height-thick));
+    int saved = SaveDC(wgs->wintw_hdc);
+    if (!saved) return;
+    IntersectClipRect(wgs->wintw_hdc, box.left, box.top, box.right, box.bottom);
+    HBRUSH brush = GetStockObject(DC_BRUSH);
+    SetDCBrushColor(wgs->wintw_hdc, colour);
+    if (style <= 2) {
+        RECT line = { box.left, box.top+baseline, box.right, box.top+baseline+thick };
+        FillRect(wgs->wintw_hdc, &line, brush);
+        if (style == 2 && baseline >= 2*thick) {
+            line.top -= 2*thick; line.bottom -= 2*thick;
+            FillRect(wgs->wintw_hdc, &line, brush);
+        }
+    } else {
+        int amplitude = max(1, height/16), period = 4*amplitude;
+        if (style == 3) baseline = max(amplitude, min(baseline, height-thick-amplitude));
+        for (int x = box.left; x < box.right; x++) {
+            int dx = x - wgs->offset_width, dy = 0;
+            if (style == 3) {
+                int phase = dx % period;
+                dy = phase <= amplitude ? phase :
+                    phase <= 3*amplitude ? 2*amplitude-phase : phase-period;
+            } else if (style == 4) {
+                if (dx % (3*thick) >= thick) continue;
+            } else if (style == 5) {
+                if (dx % (5*thick) >= 3*thick) continue;
+            }
+            RECT pixel = { x, box.top+baseline+dy, x+1, box.top+baseline+dy+thick };
+            FillRect(wgs->wintw_hdc, &pixel, brush);
+        }
+    }
+    RestoreDC(wgs->wintw_hdc, saved);
+}
+
 static void do_text_internal(
     WinGuiSeat *wgs, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
@@ -3744,15 +3785,14 @@ static void do_text_internal(
     nbg = ((attr & ATTR_BGMASK) >> ATTR_BGSHIFT);
     if (wgs->bold_font_mode == BOLD_FONT && (attr & ATTR_BOLD))
         nfont |= FONT_BOLD;
-    if (wgs->und_mode == UND_FONT && (attr & ATTR_UNDER))
-        nfont |= FONT_UNDERLINE;
+    if (attr & ATTR_ITALIC) nfont |= FONT_ITALIC;
     another_font(wgs, nfont);
     if (!wgs->fonts[nfont]) {
         if (nfont & FONT_UNDERLINE)
             force_manual_underline = true;
         /* Don't do the same for manual bold, it could be bad news. */
 
-        nfont &= ~(FONT_BOLD | FONT_UNDERLINE);
+        nfont &= ~(FONT_BOLD | FONT_UNDERLINE | FONT_ITALIC);
     }
     another_font(wgs, nfont);
     if (!wgs->fonts[nfont])
@@ -3791,6 +3831,8 @@ static void do_text_internal(
                  GetGValue(fg) * 2 / 3,
                  GetBValue(fg) * 2 / 3);
     }
+
+    if (attr & ATTR_CONCEAL) fg = bg;
 
     SelectObject(wgs->wintw_hdc, wgs->fonts[nfont]);
     SetTextColor(wgs->wintw_hdc, fg);
@@ -3997,10 +4039,16 @@ static void do_text_internal(
         opaque = false;
     }
 
-    if (lattr != LATTR_TOP && 
-        (force_manual_underline || (wgs->und_mode == UND_LINE &&
-                                    (attr & ATTR_UNDER))))
-        draw_horizontal_line_on_text(wgs, wgs->descent, lattr, line_box, fg);
+    if (!(attr & ATTR_CONCEAL) && (force_manual_underline || (attr & ATTR_UNDER))) {
+        uint32_t colour = truecolour.decoration & UNDER_COLOUR_MASK;
+        COLORREF underline = fg;
+        if (colour & UNDER_RGB)
+            underline = RGB((colour >> 16) & 255, (colour >> 8) & 255, colour & 255);
+        else if (colour & UNDER_INDEXED)
+            underline = wgs->colours[colour & 255];
+        nemo_draw_underline(wgs, line_box, lattr,
+                            max(1, UNDER_STYLE(truecolour)), underline);
+    }
 
     if (attr & ATTR_STRIKE)
         draw_horizontal_line_on_text(wgs, wgs->font_strikethrough_y, lattr,
