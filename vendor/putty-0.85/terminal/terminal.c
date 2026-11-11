@@ -1526,9 +1526,15 @@ static void nemo_images_scroll(Terminal *term, int top, int bottom,
         if (image->screen == term->alt_which) {
             int last = image->y + image->rows - 1;
             if (sb && lines > 0 && image->y <= bottom) {
-                /* Full main-screen upward scrolling also shifts history. */
-                image->y -= lines;
-                remove = image->y + image->rows <= -term->savelines;
+                /* A region beginning at row zero can append to history even
+                 * when its bottom margin is above the last screen row. A
+                 * bitmap crossing that margin has both moving and stationary
+                 * pixels, and must not be translated as one image. */
+                if (last > bottom) remove = true;
+                else {
+                    image->y -= lines;
+                    remove = image->y + image->rows <= -term->savelines;
+                }
             } else if (last >= top && image->y <= bottom) {
                 /* Images crossing a partial scrolling boundary cannot be
                  * translated as one bitmap. Invalidate them until image
@@ -2519,8 +2525,6 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             addpos234(term->screen, line, 0);
             term->curs.y += 1;
             term->savecurs.y += 1;
-            term->alt_y += 1;
-            term->alt_savecurs.y += 1;
         } else {
             /* Add a new blank line at the bottom of the screen. */
             line = newtermline(term, newcols, false);
@@ -2541,8 +2545,6 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->tempsblines += 1;
             term->curs.y -= 1;
             term->savecurs.y -= 1;
-            term->alt_y -= 1;
-            term->alt_savecurs.y -= 1;
         }
         term->rows -= 1;
     }
@@ -2575,10 +2577,15 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     sfree(term->disptext);
     term->disptext = newdisp;
 
-    /* Make a new alternate screen. */
+    /* Keep the alternate screen's top-left grid across a resize. Full-screen
+     * applications receive the size notification below and may repaint, but
+     * resizing must not itself erase their current contents or reset their
+     * cursor. As on the main screen, lineptr grows widths lazily and an
+     * untouched clipped tail can reappear if the window is enlarged again. */
     newalt = newtree234(NULL);
     for (i = 0; i < newrows; i++) {
-        line = newtermline(term, newcols, true);
+        line = term->alt_screen ? delpos234(term->alt_screen, 0) : NULL;
+        if (!line) line = newtermline(term, newcols, true);
         addpos234(newalt, line, i);
     }
     if (term->alt_screen) {
@@ -2621,7 +2628,6 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
         term->alt_y = newrows - 1;
     if (term->alt_x >= newcols)
         term->alt_x = newcols - 1;
-    term->alt_x = term->alt_y = 0;
     term->wrapnext = false;
     term->alt_wnext = false;
 

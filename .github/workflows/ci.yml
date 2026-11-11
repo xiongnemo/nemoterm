@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -59,6 +59,9 @@ jobs:
           gcc --version >> dist/BUILD-INFO.txt
           objdump -p dist/nemoterm.exe | sed -n 's/.*DLL Name: /DLL: /p' >> dist/BUILD-INFO.txt
           (cd dist && sha256sum nemoterm.exe > SHA256SUMS.txt)
+      - name: Bundle pinned Microsoft ConPTY runtime
+        shell: pwsh
+        run: ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
       - name: Upload portable terminal
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

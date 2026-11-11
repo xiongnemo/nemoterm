@@ -53,17 +53,26 @@ The installed Sarasa font has a wrong-for-grid OS/2 average width (922/1000 em);
 GDI reports 15px average vs 8px ASCII advances at 16px. Cell sizing now measures
 actual digits; before/after screenshots are retained in research/.
 
-End-to-end Sixel **fails through this machine's Windows 10 19044 ConPTY**:
+Initial end-to-end Sixel **failed through this machine's Windows 10 19044 ConPTY**:
 `research/nemoterm-sixel-conpty.png` shows DCS payload printed as characters.
 This is not evidence of functioning graphics despite passing decoder/core tests.
-Need capture actual ConPTY output and provide a compatible modern PTY transport
-(e.g. bundled supported OpenConsole) before claiming Sixel end-to-end support.
+Resolved for the colour-block fixture by the official pinned Microsoft ConPTY
+1.25.260930003 package. `research/nemoterm-modern-conpty.png` proves the same DCS
+fixture displays graphics through the bundled host. `nemoterm-modern-memory.json`
+records private WS 2,961,408 bytes and total WS up to 13,565,952 bytes, with host
+and Python child listed separately. Still not a stress or real-agent acceptance.
 
 Image-core remaining defects: partial scrolling across image edges is not split;
-top partial-scroll/history interaction needs repair; resize/font change currently
+top partial-scroll/history interaction was repaired with a regression; resize/font change currently
 clears images; scaled pixels crossing erased cell edges need exact clipping;
 palette changes do not recolour existing pixels. Other image protocols remain open.
 
 Latest 80x24 text fixture measurement: private WS 4,218,880 bytes, total WS
 20,123,648 bytes; this is **not** an image or agent workload acceptance result.
 No user pterm process was modified or closed.
+
+Resize suite now passes with Chinese/combining text, main/alternate screen isolation,
+history restoration and clipboard retention after selection cancellation. Actual
+window resize produced child-observed 80x24 -> 133x35 -> 64x17 sizes, recorded in
+`research/resize-observed.json`. Alternate-screen contents/cursor now survive resize.
+Text reflow and image preservation on resize remain open.

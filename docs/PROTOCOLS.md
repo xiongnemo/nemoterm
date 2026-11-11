@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-本次核心验证命令为 `tools/python/cmake/data/bin/cmake.exe --build build --target test_terminal --parallel 8` 和 `build/test_terminal.exe`，在Sixel集成前运行结果为 `Test suite passed`；集成后须重新运行。测试在 `vendor/putty-0.85/test/test_terminal.c`。它验证内存中的字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键、系统剪贴板和 ConPTY 链路测试。
+Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize五组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另已用真实窗口截图验证字体与Sixel色块，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -62,7 +62,7 @@
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 缺失 | 需要根据当前状态返回有效/无效回复；不能把收到请求视为支持。 |
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 缺失 | 十六进制解码、多个能力、成功/失败回复、实际TERM/颜色/键绑定一致性。没有系统terminfo数据库也必须诚实回应。 |
-| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 集成中，未认证 | 独立任务正在集成；本次文档不提前把它标为完成。需decode测试、实屏像素、滚动/擦除/resize/备用屏生命周期、查询/能力宣告、非法/巨大输入和20MB预算。 |
+| Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码/核心测试及色块实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`及现代ConPTY窗口截图通过；共享4MiB预算。仍缺局部滚动图片分片、resize保留、完整调色板重染/像素擦除边界/查询验收。 |
 | kitty graphics：`APC G control;payload ST` | 缺失 | 按 [kitty图像协议](https://sw.kovidgoyal.net/kitty/graphics-protocol/) 细分传输/查询/placement/删除、分块、RGB/RGBA/PNG、缓存与回收；共享内存/文件路径/动画/Unicode占位等扩展单列，不以Sixel代替。 |
 | 其他DCS/APC/PM/SOS、ReGIS、Tektronix、UDK/DRCS等历史家族 | 待逐项清点，未完成 | 当前原版`do_osc`默认忽略这些字符串；Sixel分支合入不会自动实现其余家族。保留xterm总清单作为完整性审计入口。 |
 

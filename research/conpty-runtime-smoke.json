@@ -1,0 +1,21 @@
+{
+  "ParentPID": 15648,
+  "Modules": [
+    {
+      "ModuleName": "conpty.dll",
+      "FileName": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\conpty.dll"
+    }
+  ],
+  "Children": [
+    {
+      "ProcessId": 44988,
+      "Name": "OpenConsole.exe",
+      "ExecutablePath": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\OpenConsole.exe"
+    },
+    {
+      "ProcessId": 11260,
+      "Name": "python.exe",
+      "ExecutablePath": "C:\\Users\\nemo\\scoop\\apps\\python\\current\\python.exe"
+    }
+  ]
+}

@@ -112,6 +112,36 @@ static void test_sixel_screen_lifecycle(Mock *mk)
     term_set_cell_size(mk->term, 8, 16);
 }
 
+static void test_sixel_top_partial_scroll(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "Sixel top partial-scroll lower boundary and history");
+    term_size(mk->term, 24, 80, 100);
+    /* Each image occupies two cell rows: one inside, one crossing the
+     * lower scrolling margin, and one wholly below the margin. */
+    term_data_fragmented(mk->term, "\033[3;1H"); image_feed(mk);
+    term_data_fragmented(mk->term, "\033[5;1H"); image_feed(mk);
+    term_data_fragmented(mk->term, "\033[8;1H"); image_feed(mk);
+    IEQUAL(image_count(mk->term), 3);
+    term_data_fragmented(mk->term, "\033[1;5r\033[5;1H\n");
+    IEQUAL(image_count(mk->term), 2);
+    if (!mk->term->images || !mk->term->images->next) return;
+    IEQUAL(mk->term->images->y, 1);
+    IEQUAL(mk->term->images->next->y, 7);
+    /* Further upward scrolls take the first image into history. Existing
+     * history must continue moving, while the image below the margin stays. */
+    term_data_fragmented(mk->term, "\n\n\n");
+    IEQUAL(mk->term->images->y, -2);
+    IEQUAL(mk->term->images->next->y, 7);
+    IEQUAL(count234(mk->term->scrollback), 4);
+    term_data_fragmented(mk->term, "\033[3J");
+    IEQUAL(image_count(mk->term), 1);
+    IEQUAL(mk->term->images->y, 7);
+    /* Reverse scrolling never pulls bitmap pixels out of history. */
+    term_data_fragmented(mk->term, "\033[1;1H\033M");
+    IEQUAL(mk->term->images->y, 7);
+}
+
 static void test_sixel_budget(Mock *mk)
 {
     reset(mk);
@@ -146,6 +176,7 @@ int main(void)
     test_sixel_framing(mk);
     test_sixel_erase(mk);
     test_sixel_screen_lifecycle(mk);
+    test_sixel_top_partial_scroll(mk);
     test_sixel_budget(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

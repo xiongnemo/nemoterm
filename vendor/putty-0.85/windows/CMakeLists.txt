@@ -214,4 +214,13 @@ add_executable(test_sixel_terminal
 target_link_libraries(test_sixel_terminal
   guiterminal settings eventloop utils ${platform_libraries})
 
+add_executable(test_resize
+  ${CMAKE_SOURCE_DIR}/test/test_resize.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_resize
+  guiterminal settings eventloop utils ${platform_libraries})
+
 add_sources_from_current_dir(test_conf no-jump-list.c handle-wait.c)

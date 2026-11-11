@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import struct
 import sys
+import time
 import zlib
 
 u, g = c.windll.user32, c.windll.gdi32
@@ -43,6 +44,16 @@ if len(matches) != 1:
 hwnd = matches[0]
 rect = w.RECT()
 u.GetWindowRect(hwnd, c.byref(rect))
+if len(sys.argv) == 5:
+    # Explicit dimensions; scoped to the verified test PID only.
+    width, height = int(sys.argv[3]), int(sys.argv[4])
+    if not (200 <= width <= 2000 and 200 <= height <= 1500):
+        raise ValueError('Test window dimensions out of range')
+    u.MoveWindow.argtypes = [w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.BOOL]
+    if not u.MoveWindow(hwnd,rect.left,rect.top,width,height,True):
+        raise RuntimeError('MoveWindow failed')
+    time.sleep(0.7)
+    u.GetWindowRect(hwnd,c.byref(rect))
 width, height = rect.right-rect.left, rect.bottom-rect.top
 dc = u.GetWindowDC(hwnd)
 mem = g.CreateCompatibleDC(dc)
