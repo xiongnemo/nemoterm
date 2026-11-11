@@ -10,6 +10,8 @@
 #include "nemo_sixel.h"
 #include "nemo_tcap.h"
 
+enum { MOUSE_TRACK_HIGHLIGHT = 4 };
+
 typedef struct NemoTermImage {
     struct NemoTermImage *next;
     NemoSixel *bitmap;
@@ -198,6 +200,13 @@ struct terminal_tag {
     int raw_mouse_reported_code;
     int mouse_last_x, mouse_last_y, mouse_last_px, mouse_last_py;
     bool mouse_last_ctrl, mouse_last_alt;
+
+    /* 1001 uses a transient viewport highlight, independent of clipboard
+     * selection and compressed history. No per-cell metadata is needed. */
+    enum { HIGHLIGHT_OFF, HIGHLIGHT_WAIT, HIGHLIGHT_ACTIVE } mouse_highlight;
+    unsigned long mouse_highlight_deadline;
+    int highlight_first, highlight_last, highlight_unit;
+    pos highlight_anchor, highlight_start, highlight_end, highlight_mouse;
 
     bool bracketed_paste, bracketed_paste_active;
     bool no_bracketed_paste;           /* disabled in configuration */

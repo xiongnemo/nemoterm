@@ -137,7 +137,7 @@ static void test_tracking_negotiation(Mock *mk)
 {
     /* Unlike encoding resets, xterm's tracking resets disable reporting
      * even if a different tracking protocol is currently selected. */
-    static const int modes[] = {9, 1000, 1002, 1003};
+    static const int modes[] = {9, 1000, 1001, 1002, 1003};
     for (size_t active = 0; active < lenof(modes); active++) {
         for (size_t disabled = 0; disabled < lenof(modes); disabled++) {
             mouse_setup(mk, "tracking reset unconditionally disables reporting",
@@ -503,7 +503,7 @@ static void test_shift_takeover(Mock *mk)
 
     /* Selection override must cover every reporting/encoding combination,
      * not just the commonly used 1002+1006 pair. */
-    static const int protocols[] = {9, 1000, 1002, 1003};
+    static const int protocols[] = {9, 1000, 1001, 1002, 1003};
     static const int encodings[] = {1005, 1006, 1015, 1016};
     for (size_t p = 0; p < lenof(protocols); p++) {
         for (size_t e = 0; e < lenof(encodings); e++) {

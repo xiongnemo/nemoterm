@@ -174,7 +174,7 @@ static void test_unknown_and_parameter_handling(Mock *mk)
                          "\033[?1001$p\033[?1048$p\033[?9001$p\033[?9999$p");
     MODE_RESPONSE("\033[0;0$y\033[9999;0$y\033[2026;0$y"
                   "\033[?0;0$y\033[?4;0$y\033[?69;0$y"
-                  "\033[?1001;0$y\033[?1048;0$y\033[?9001;0$y\033[?9999;0$y");
+                  "\033[?1001;2$y\033[?1048;0$y\033[?9001;0$y\033[?9999;0$y");
 
     test_context(mk, "DECRQM ignores parameters after its first Ps");
     term_data_fragmented(mk->term,

@@ -2064,7 +2064,8 @@ static void click(WinGuiSeat *wgs, Mouse_Button b, int x, int y,
 {
     int thistime = GetMessageTime();
 
-    if (wgs->send_raw_mouse && !shift) {
+    if (wgs->send_raw_mouse && !shift &&
+        !(b == MBT_LEFT && wgs->term->xterm_mouse == MOUSE_TRACK_HIGHLIGHT)) {
         wgs->lastbtn = MBT_NOTHING;
         term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_CLICK,
                           x, y, px, py, shift, ctrl, alt);

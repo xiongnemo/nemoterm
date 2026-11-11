@@ -237,3 +237,46 @@ each condition for both assertions and evidence. A local fault-injection run
 returned an empty snapshot on every third read (40 injected misses); all
 native cursor, geometry, capability and keyboard checks still passed. No
 terminal assertions were removed or relaxed.
+
+
+1001 highlight checkpoint: a left press reports normally, then accepts the
+application's five-parameter CSI T handshake. First/last rows constrain the
+endpoint, with lastrow exclusive; character selection uses half-open viewport
+boundaries. Forward unchanged boundaries use the short t reply; reversed or
+expanded word/line selection uses the six-coordinate T reply. Legacy,1005,
+1006,1015 and1016 completion formats are tested. As in xterm's implementation,
+1016 press reports pixels but highlight completion describes character cells.
+Unencodable legacy/UTF8 coordinates are rejected rather than truncated.
+
+The highlight is separate from local clipboard selection: fixed terminal
+state and existing text rendering, no per-cell or image allocation. Rendered
+wide glyphs and double-width lines are snapped to whole glyph boundaries.
+Double/triple clicks expand to words/lines; word selection follows wrapped
+rows. Shift cancels the application gesture and starts local selection;
+explicit copying still uses the existing Ctrl+Shift+C path. Active highlighting
+does not suppress terminal output. Local motion/cancellation releases a 2026
+presentation freeze so the displayed selection follows the mouse.
+
+The handshake has a one-second recovery deadline; this is Nemoterm policy,
+not a claim that the xterm specification requires that timeout. Late replies
+are ignored after timeout/release. Host abort retains the eventual physical
+release. Capture/focus loss, resize, cell-size changes, history scrolling,
+alternate screen and configuration/encoding changes finish and clear the
+highlight; mode replacement and RIS discard it. Old timer callbacks cannot
+expire a newer handshake or an active selection. Other buttons retain normal
+press/release behavior. The UI and parser never wait synchronously for a host.
+
+`test_highlight` is the15th core suite; timer helpers are shared with
+`test_sync`. The sixth native suite `highlight_window_smoke.py` verifies a
+cooperating ConPTY child, exact6-cell-by1-row changed pixel bounds, forward/
+reverse and multi-click replies, pixel restoration on release/capture cancel,
+Shift takeover, F1 input during the handshake wait, timeout and resize. The
+local Sarasa capture is `research/highlight-selection.png`; measured values
+and executable hash are in `research/highlight-window-observed.json`. This
+fixture is not full mouse-device, bidi, multi-DPI or long-running-agent
+acceptance; those broader checks remain on the protocol ledger.
+Primary references: [xterm highlight tracking](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.txt)
+and [xterm TrackMouse/EndExtend](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/button.c).
+
+Latest local highlight fixture peak private WS 3,448,832 bytes, total
+WS 19,263,488 bytes, with no working-set trimming.

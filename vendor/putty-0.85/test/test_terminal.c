@@ -602,7 +602,7 @@ static void test_wintitle(Mock *mk)
 
 static void test_shift_selection(Mock *mk)
 {
-    const int modes[] = {1000, 1002, 1003};
+    const int modes[] = {1000, 1001, 1002, 1003};
     const int clipboard = CLIP_LOCAL + 1;
     mk->ucsdata->line_codepage = CP_UTF8;
 
@@ -637,11 +637,11 @@ static void test_shift_selection(Mock *mk)
                 IEQUAL(mk->term->selstate, NO_SELECTION);
                 IEQUAL(mk->clipboard_writes, 0);
                 if (sgr) {
-                    SEQUAL(mk->to_backend->s, mode == 0 ?
+                    SEQUAL(mk->to_backend->s, modes[mode] <= 1001 ?
                            "\033[<0;1;1M\033[<0;5;1m" :
                            "\033[<0;1;1M\033[<32;5;1M\033[<0;5;1m");
                 } else {
-                    SEQUAL(mk->to_backend->s, mode == 0 ?
+                    SEQUAL(mk->to_backend->s, modes[mode] <= 1001 ?
                            "\033[M !!\033[M#%!" :
                            "\033[M !!\033[M@%!\033[M#%!");
                 }

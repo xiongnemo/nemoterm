@@ -29,6 +29,7 @@ threading.Thread(target=reader, daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8')
 phase = None
 request = {}
+responded = set()
 deadline = time.monotonic() + 60
 print('\x1b]2;Nemoterm mouse integration test\x07', end='', flush=True)
 try:
@@ -39,8 +40,15 @@ try:
         if request.get('phase') != phase:
             phase = request.get('phase')
             data.clear()
-            print('\x1b[?9;1000;1002;1003;1004;1005;1006;1015;1016l', end='')
+            responded.clear()
+            print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
             print(request.get('sequence', ''), end='', flush=True)
+        # A cooperating application can answer a mouse report without
+        # changing phases, clearing input, or resetting the tracking mode.
+        for name, reply in request.get('responses', {}).items():
+            if name not in responded and bytes.fromhex(reply['trigger']) in data:
+                print(reply['sequence'], end='', flush=True)
+                responded.add(name)
         size = os.get_terminal_size()
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280}

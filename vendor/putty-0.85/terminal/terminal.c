@@ -102,6 +102,8 @@ static void term_print_finish(Terminal *);
 static void scroll(Terminal *, int, int, int, bool);
 static void term_added_data(Terminal *term, bool);
 static void term_update_raw_mouse_mode(Terminal *term);
+static void nemo_highlight_cancel(Terminal *term, bool report);
+static void nemo_highlight_request(Terminal *term);
 static void term_out_cb(void *);
 
 static termline *newtermline(Terminal *term, int cols, bool bce)
@@ -1319,6 +1321,8 @@ static void term_timer(void *ctx, unsigned long now)
         term->window_update_cooldown = false;
     }
 
+    if (term->mouse_highlight == HIGHLIGHT_WAIT && now == term->mouse_highlight_deadline)
+        nemo_highlight_cancel(term, true);
     if (term->synchronized_update && now == term->synchronized_update_deadline)
         term_end_synchronized_update(term);
     if (term->window_update_pending)
@@ -1506,6 +1510,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
 {
     if (!term || width < 1 || height < 1) return;
     if (term->cell_width == width && term->cell_height == height) return;
+    nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     term->cell_width = width;
@@ -1837,6 +1842,7 @@ static void power_on(Terminal *term, bool clear)
 {
     term->termstate = TOPLEVEL;
     term->esc_query = 0;
+    nemo_highlight_cancel(term, false);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     term->sixel_display_mode = term->sixel_scrolls_right = false;
@@ -2158,6 +2164,7 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     /*
      * Before adopting the new config, check all those terminal
@@ -2661,6 +2668,8 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 
     term_end_synchronized_update(term);
 
+    nemo_highlight_cancel(term, true);
+
     /* Pixel images cannot be reflowed with text; discard on grid resize. */
     nemo_images_clear(term);
 
@@ -2887,6 +2896,7 @@ static void swap_screen(Terminal *term, int which,
     truecolour ttc;
     tree234 *ttr;
 
+    if (which != term->alt_which || reset) nemo_highlight_cancel(term, true);
     if (!which)
         reset = false;                 /* do no weird resetting if which==0 */
 
@@ -3606,10 +3616,12 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 9:                      /* X10 press-only tracking */
           case 1000:                   /* press/release tracking */
+          case 1001:                   /* application-assisted highlight */
           case 1002:                   /* button-event tracking */
           case 1003: {                 /* any-event tracking */
             int tracking = mode == 9 ? -1 : mode == 1000 ? 1 :
-                mode == 1002 ? 2 : 3;
+                mode == 1002 ? 2 : mode == 1001 ? MOUSE_TRACK_HIGHLIGHT : 3;
+            nemo_highlight_cancel(term, false);
             /* Tracking modes and coordinate encodings are independent,
              * mutually exclusive groups: the last SET wins. */
             term->xterm_mouse = state ? tracking : 0;
@@ -3629,6 +3641,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 1015:                   /* urxvt coordinates */
           case 1016:                   /* SGR pixel coordinates */
             if (state || term->mouse_encoding == mode) {
+                nemo_highlight_cancel(term, true);
                 term->mouse_encoding = state ? mode : 0;
                 term->raw_mouse_reported_code = -1;
             }
@@ -3727,10 +3740,10 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 80: state = term->sixel_display_mode; break;
           case 1070: state = term->sixel_private_palette; break;
           case 8452: state = term->sixel_scrolls_right; break;
-          case 9: case 1000: case 1002: case 1003:
+          case 9: case 1000: case 1001: case 1002: case 1003:
             if (term->no_mouse_rep) return 4;
             state = term->xterm_mouse == (mode == 9 ? -1 : mode == 1000 ? 1 :
-                                         mode == 1002 ? 2 : 3); break;
+                                         mode == 1002 ? 2 : mode == 1001 ? MOUSE_TRACK_HIGHLIGHT : 3); break;
           case 1005: case 1006: case 1015: case 1016:
             state = term->mouse_encoding == (int)mode; break;
           case 1004:
@@ -5768,7 +5781,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                def(term->esc_args[0], 1), true);
                         term->wrapnext = false;
                         break;
-                      case 'T':         /* SD: Scroll down */
+                      case 'T':         /* highlight handshake or SD */
+                        if (term->esc_nargs > 1 ||
+                            (term->mouse_highlight == HIGHLIGHT_WAIT && !term->esc_args[0])) {
+                            nemo_highlight_request(term);
+                            break;
+                        }
                         CLAMP(term->esc_args[0], term->rows);
                         compatibility(SCOANSI);
                         scroll(term, term->marg_t, term->marg_b,
@@ -6960,6 +6978,12 @@ static void do_paint(Terminal *term)
                                 posPle_left(scrpos, term->selend));
             } else
                 selected = false;
+            if (term->mouse_highlight == HIGHLIGHT_ACTIVE) {
+                int scale = (ldata->lattr & LATTR_MODE) == LATTR_NORM ? 1 : 2;
+                pos visual = {.x = j * scale, .y = i};
+                selected |= posle(term->highlight_start, visual) &&
+                            poslt(visual, term->highlight_end);
+            }
             tattr = (tattr ^ rv
                      ^ (selected ? ATTR_REVERSE : 0));
 
@@ -7314,6 +7338,7 @@ void term_paint(Terminal *term,
  */
 void term_scroll(Terminal *term, int rel, int where)
 {
+    nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     int sbtop = -sblines(term);
 
@@ -8006,7 +8031,8 @@ static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
     } else if (a == MA_CLICK) {
         if (!bit || (term->mouse_buttons & bit)) return false;
     } else if (a == MA_DRAG) {
-        if (term->xterm_mouse < 2 || !(term->mouse_buttons & bit)) return false;
+        if ((term->xterm_mouse != 2 && term->xterm_mouse != 3) ||
+            !(term->mouse_buttons & bit)) return false;
         code += 32;
     } else if (a == MA_MOVE) {
         if (term->xterm_mouse != 3 || bit) return false;
@@ -8063,8 +8089,222 @@ static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
     return true;
 }
 
+/* Highlight positions are viewport cells, not logical bidi indices. Snap to
+ * complete rendered glyphs, including CJK and double-width terminal lines. */
+static unsigned nemo_highlight_cell(Terminal *term, pos *p, int *width)
+{
+    termline *line = lineptr(p->y + term->disptop);
+    int scale = (line->lattr & LATTR_MODE) == LATTR_NORM ? 1 : 2;
+    termchar *chars = term_bidi_line(term, line, p->y);
+    if (!chars) chars = line->chars;
+    int x = min(p->x / scale, max(0, (term->cols-1) / scale));
+    if (x > 0 && chars[x].chr == UCSWIDE) x--;
+    p->x = x * scale;
+    *width = scale * (x+1 < term->cols && chars[x+1].chr == UCSWIDE ? 2 : 1);
+    unsigned chr = chars[x].chr;
+    unlineptr(line);
+    return chr;
+}
+
+static pos nemo_highlight_point(Terminal *term, int x, int y, int first, int last)
+{
+    pos p = {.x = max(0, min(x, term->cols)), .y = max(first, min(y, last))};
+    int width;
+    if (p.x < term->cols) nemo_highlight_cell(term, &p, &width);
+    return p;
+}
+
+static bool nemo_highlight_wrapped(Terminal *term, int row)
+{
+    termline *line = lineptr(row + term->disptop);
+    bool wrapped = line->lattr & LATTR_WRAPPED;
+    unlineptr(line);
+    return wrapped;
+}
+
+static void nemo_highlight_word(Terminal *term, pos p, pos *lo, pos *hi)
+{
+    int width;
+    int type = wordtype(term, nemo_highlight_cell(term, &p, &width));
+    *lo = p;
+    *hi = (pos){.x = min(term->cols, p.x + width), .y = p.y};
+    for (;;) {
+        pos prev = *lo;
+        if (prev.x) prev.x--;
+        else if (prev.y > term->highlight_first && nemo_highlight_wrapped(term, prev.y-1)) {
+            prev.y--; prev.x = term->cols-1;
+        } else break;
+        if (wordtype(term, nemo_highlight_cell(term, &prev, &width)) != type) break;
+        *lo = prev;
+    }
+    for (;;) {
+        pos next = *hi;
+        if (next.x >= term->cols) {
+            if (next.y >= term->highlight_last || !nemo_highlight_wrapped(term, next.y)) break;
+            next.y++; next.x = 0;
+        }
+        if (wordtype(term, nemo_highlight_cell(term, &next, &width)) != type) break;
+        *hi = (pos){.x = min(term->cols, next.x + width), .y = next.y};
+    }
+}
+
+static void nemo_highlight_update(Terminal *term, int x, int y)
+{
+    pos anchor = term->highlight_anchor;
+    pos mouse = nemo_highlight_point(term, x, y, term->highlight_first, term->highlight_last);
+    term->highlight_mouse = mouse;
+    pos start = poslt(anchor, mouse) ? anchor : mouse;
+    pos end = poslt(anchor, mouse) ? mouse : anchor;
+    if (term->highlight_unit == SM_WORD) {
+        pos a, b, c, d;
+        nemo_highlight_word(term, anchor, &a, &b);
+        nemo_highlight_word(term, mouse, &c, &d);
+        start = poslt(a, c) ? a : c;
+        end = poslt(b, d) ? d : b;
+    } else if (term->highlight_unit == SM_LINE) {
+        start.x = 0;
+        end.x = term->cols;
+    }
+    term->highlight_start = start;
+    term->highlight_end = end;
+    term_schedule_update(term);
+}
+
+static void nemo_highlight_emit(Terminal *term)
+{
+    if (!term->ldisc || poseq(term->highlight_start, term->highlight_end)) return;
+    bool simple = poseq(term->highlight_anchor, term->highlight_start) &&
+                  poseq(term->highlight_mouse, term->highlight_end);
+    pos points[3] = {term->highlight_start, term->highlight_end, term->highlight_mouse};
+    if (simple) points[0] = term->highlight_end;
+    int count = simple ? 1 : 3;
+    bool decimal = term->mouse_encoding == 1006 || term->mouse_encoding == 1015 ||
+                   term->mouse_encoding == 1016;
+    char reply[96], final = simple ? 't' : 'T';
+    size_t len = 0;
+    memcpy(reply, "\033[", 2); len = 2;
+    if (decimal) {
+        if (term->mouse_encoding != 1015) reply[len++] = '<';
+    } else reply[len++] = final;
+    /* In xterm's 1016 mode the press is pixel-based, but the highlight
+     * completion still describes character selection boundaries. */
+    for (int i = 0; i < count; i++) {
+        int coords[] = {points[i].x+1, points[i].y+1};
+        for (int j = 0; j < 2; j++) {
+            int v = coords[j];
+            if (decimal) {
+                if (i || j) reply[len++] = ';';
+                len += sprintf(reply+len, "%d", v);
+            } else {
+                int limit = term->mouse_encoding == 1005 ? 2015 : 223;
+                if (v > limit) return; /* never wrap an unencodable coordinate */
+                v += 32;
+                if (term->mouse_encoding == 1005 && v >= 128) {
+                    reply[len++] = 0xc0 | (v >> 6);
+                    reply[len++] = 0x80 | (v & 63);
+                } else reply[len++] = v;
+            }
+        }
+    }
+    if (decimal) reply[len++] = final;
+    ldisc_send(term->ldisc, reply, len, false);
+}
+
+static void nemo_highlight_cancel(Terminal *term, bool report)
+{
+    if (term->mouse_highlight == HIGHLIGHT_OFF) return;
+    if (report) {
+        if (term->mouse_highlight == HIGHLIGHT_ACTIVE) {
+            term_end_synchronized_update(term);
+            nemo_highlight_emit(term);
+        }
+        else mouse_report(term, MBT_LEFT, MA_RELEASE,
+                          term->mouse_last_x, term->mouse_last_y,
+                          term->mouse_last_px, term->mouse_last_py,
+                          term->mouse_last_ctrl, term->mouse_last_alt);
+    }
+    term->mouse_highlight = HIGHLIGHT_OFF;
+    term->mouse_buttons &= ~1U;
+    term->raw_mouse_reported_code = -1;
+    term_schedule_update(term);
+}
+
+static void nemo_highlight_request(Terminal *term)
+{
+    if (term->mouse_highlight != HIGHLIGHT_WAIT) return;
+    if (!term->esc_args[0]) {
+        nemo_highlight_cancel(term, false);
+        term->mouse_buttons |= 1; /* the physical release still belongs to the host */
+        return;
+    }
+    if (term->esc_nargs != 5) return;
+    /* Lastrow is exclusive and all protocol coordinates are one-based. */
+    int first = (int)max(0, min((int64_t)term->esc_args[3]-1, term->rows-1));
+    int last = (int)max(0, min((int64_t)term->esc_args[4]-2, term->rows-1));
+    if (last < first) {
+        nemo_highlight_cancel(term, false);
+        term->mouse_buttons |= 1;
+        return;
+    }
+    int x = (int)max(0, min((int64_t)term->esc_args[1]-1, term->cols));
+    int y = (int)max(0, min((int64_t)term->esc_args[2]-1, term->rows-1));
+    term->highlight_first = first;
+    term->highlight_last = last;
+    term->highlight_anchor = nemo_highlight_point(term, x, y, 0, term->rows-1);
+    term->highlight_unit = SM_CHAR;
+    term->mouse_highlight = HIGHLIGHT_ACTIVE;
+    term_end_synchronized_update(term);
+    nemo_highlight_update(term, term->highlight_mouse.x, term->highlight_mouse.y);
+}
+
+static bool nemo_highlight_mouse(Terminal *term, Mouse_Button b, Mouse_Action a,
+                                 int x, int y, int px, int py, bool ctrl, bool alt)
+{
+    if (term->xterm_mouse != MOUSE_TRACK_HIGHLIGHT || b != MBT_LEFT) return false;
+    if (a == MA_CLICK || a == MA_2CLK || a == MA_3CLK) {
+        if (term->mouse_buttons & 1) return true;
+        term_end_synchronized_update(term);
+        deselect(term);
+        term->highlight_first = 0;
+        term->highlight_last = term->rows-1;
+        term->highlight_mouse = nemo_highlight_point(term, x, y, 0, term->rows-1);
+        if (a == MA_CLICK) {
+            if (mouse_report(term, b, a, x, y, px, py, ctrl, alt)) {
+                term->mouse_highlight = HIGHLIGHT_WAIT;
+                term->mouse_highlight_deadline = schedule_timer(TICKSPERSEC, term_timer, term);
+            }
+        } else {
+            term->mouse_buttons |= 1;
+            term->mouse_highlight = HIGHLIGHT_ACTIVE;
+            term->highlight_anchor = term->highlight_mouse;
+            term->highlight_unit = a == MA_2CLK ? SM_WORD : SM_LINE;
+            nemo_highlight_update(term, x, y);
+        }
+    } else if (term->mouse_highlight != HIGHLIGHT_OFF) {
+        if (a == MA_DRAG || a == MA_RELEASE) {
+            if (term->mouse_highlight == HIGHLIGHT_ACTIVE) {
+                term_end_synchronized_update(term);
+                nemo_highlight_update(term, x, y);
+            }
+            else {
+                term->highlight_mouse = nemo_highlight_point(term, x, y, 0, term->rows-1);
+                if (a == MA_RELEASE) {
+                    bool sent = mouse_report(term, b, a, x, y, px, py, ctrl, alt);
+                    nemo_highlight_cancel(term, !sent);
+                    return true;
+                }
+            }
+            if (a == MA_RELEASE) nemo_highlight_cancel(term, true);
+        }
+    } else if (a == MA_RELEASE) {
+        mouse_report(term, b, a, x, y, px, py, ctrl, alt);
+    }
+    return true;
+}
+
 void term_mouse_cancel(Terminal *term)
 {
+    nemo_highlight_cancel(term, true);
     static const Mouse_Button buttons[] = {
         MBT_LEFT, MBT_MIDDLE, MBT_RIGHT, MBT_X1, MBT_X2
     };
@@ -8130,6 +8370,7 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     bool raw_mouse = term->xterm_mouse && !term->no_mouse_rep && !shift &&
         term->selstate != ABOUT_TO && term->selstate != DRAGGING;
     if (raw_mouse) {
+        if (nemo_highlight_mouse(term, braw, a, x, y, px, py, ctrl, alt)) return;
         mouse_report(term, braw, a, x, y, px, py, ctrl, alt);
         return;
     }

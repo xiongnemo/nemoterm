@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -97,6 +97,13 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/query-window-observed.json test-results/
           Copy-Item research/cursor-*.png test-results/
+      - name: Test native mouse highlight handshake and pixels
+        shell: pwsh
+        run: |
+          python tests/highlight_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item research/highlight-window-observed.json test-results/
+          Copy-Item research/highlight-selection.png test-results/
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
