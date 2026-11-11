@@ -13,7 +13,7 @@ import tempfile
 import threading
 import time
 import zlib
-from fixture_io import read_snapshot, write_snapshot
+from fixture_io import read_snapshot, write_snapshot, wait_snapshot
 
 root = Path(__file__).resolve().parent.parent
 u, g, k, ps = c.windll.user32, c.windll.gdi32, c.windll.kernel32, c.windll.psapi

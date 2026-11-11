@@ -1,7 +1,7 @@
 """Verify actual styled pixels through the bundled ConPTY and GDI renderer."""
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess, sys,
     tempfile, Path, threading, time, read_snapshot, write_snapshot, memory_sample,
-    wait_for, find_window, capture)
+    wait_for, find_window, capture, wait_snapshot)
 
 with tempfile.TemporaryDirectory(prefix='nemoterm-sgr-') as directory:
     directory = Path(directory)
@@ -28,8 +28,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-sgr-') as directory:
         return value
     def phase(name, sequence, expected=2):
         write_snapshot(control, {'phase':name, 'sequence':sequence+'\x1b[?2026$p'})
-        wait_for(lambda: current().get('phase') == name and
-                 f'\x1b[?2026;{expected}$y'.encode() in bytes.fromhex(current().get('hex', '')))
+        wait_snapshot(current, lambda value: value.get('phase') == name and
+                 f'\x1b[?2026;{expected}$y'.encode() in bytes.fromhex(value.get('hex', '')))
         time.sleep(0.08)
         pixels = capture(hwnd, return_pixels=True)
         evidence[name] = hashlib.sha256(pixels).hexdigest()

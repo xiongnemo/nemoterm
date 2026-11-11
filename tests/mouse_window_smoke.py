@@ -13,7 +13,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from fixture_io import read_snapshot, write_snapshot
+from fixture_io import read_snapshot, write_snapshot, wait_snapshot
 
 root = Path(__file__).resolve().parent.parent
 u = c.windll.user32
@@ -97,7 +97,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mouse-') as directory:
             time.sleep(0.15)  # output must reach the terminal before input
         def recorded():
             time.sleep(0.25)
-            value = snapshot()
+            value = wait_snapshot(snapshot, lambda value: 'hex' in value)
             evidence.append(value)
             return bytes.fromhex(value['hex'])
         phase('sgr-drag', '\x1b[?1002;1006h')
@@ -198,27 +198,24 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mouse-') as directory:
         assert data == b'\x1b]4;5;rgb:abab/cdcd/efef\x07', data
         phase('resize', '')
         u.MoveWindow(hwnd, 50, 50, 900, 600, True)
-        bigger = wait_for(lambda: snapshot() if snapshot().get('columns', 0) > 80 else None)
+        bigger = wait_snapshot(snapshot, lambda value: value.get('columns', 0) > 80)
         u.MoveWindow(hwnd, 50, 50, 500, 300, True)
-        smaller = wait_for(lambda: snapshot() if snapshot().get('columns', 80) < 80 else None)
+        smaller = wait_snapshot(snapshot, lambda value: value.get('columns', 80) < 80)
         evidence.extend([bigger, smaller])
         phase('rapid-resize', '')
         for index in range(25):
             width, height = (900, 600) if index % 2 == 0 else (500, 300)
             assert u.MoveWindow(hwnd, 50, 50, width, height, True)
-        settled = wait_for(lambda: snapshot()
-            if (snapshot().get('columns'), snapshot().get('rows')) ==
-               (bigger['columns'], bigger['rows']) else None)
+        settled = wait_snapshot(snapshot, lambda value:
+            (value.get('columns'), value.get('rows')) == (bigger['columns'], bigger['rows']))
         evidence.append(settled)
         phase('maximize-restore', '')
         u.ShowWindow(hwnd, 3)  # SW_MAXIMIZE on this test's window only
-        maximized = wait_for(lambda: snapshot()
-            if snapshot().get('columns', 0) > bigger['columns'] and
-               snapshot().get('rows', 0) > bigger['rows'] else None)
+        maximized = wait_snapshot(snapshot, lambda value:
+            value.get('columns', 0) > bigger['columns'] and value.get('rows', 0) > bigger['rows'])
         u.ShowWindow(hwnd, 9)  # SW_RESTORE
-        restored = wait_for(lambda: snapshot()
-            if (snapshot().get('columns'), snapshot().get('rows')) ==
-               (bigger['columns'], bigger['rows']) else None)
+        restored = wait_snapshot(snapshot, lambda value:
+            (value.get('columns'), value.get('rows')) == (bigger['columns'], bigger['rows']))
         evidence.extend([maximized, restored])
         target = root/'research/mouse-window-observed.json'
         target.write_text(json.dumps({'test_pid': process.pid, 'observations': evidence}, indent=2))

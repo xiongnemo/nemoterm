@@ -27,3 +27,14 @@ def read_snapshot(path):
         return json.loads(path.read_text(encoding='utf-8'))
     except (FileNotFoundError, PermissionError, json.JSONDecodeError):
         return {}
+
+
+def wait_snapshot(reader, predicate=bool, timeout=8):
+    """Return the exact snapshot checked by the predicate, reading once per poll."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        value = reader()
+        if predicate(value):
+            return value
+        time.sleep(0.015)
+    raise AssertionError('Timed out waiting for fixture snapshot')

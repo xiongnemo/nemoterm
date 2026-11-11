@@ -5,7 +5,7 @@ import argparse
 from contextlib import contextmanager
 from native_test_utils import (root, c, w, u, g, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, time, read_snapshot, write_snapshot, memory_sample,
-    wait_for, find_window, capture)
+    wait_for, find_window, capture, wait_snapshot)
 
 u.GetWindowRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
 u.GetClientRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
@@ -72,10 +72,10 @@ with font_resize_profile() as profile, tempfile.TemporaryDirectory(prefix='nemot
                     '\x1b]11;rgb:0/0/0\x07\x1b[2J\x1b[2;2H'
                     '\x1b['+sgr+'m'+text+'\x1b[?2026$p')
         write_snapshot(control, {'phase':name, 'sequence':sequence})
-        wait_for(lambda: current().get('phase') == name and
-                 b'\x1b[?2026;2$y' in bytes.fromhex(current().get('hex', '')))
+        observed = wait_snapshot(current, lambda value: value.get('phase') == name and
+                 b'\x1b[?2026;2$y' in bytes.fromhex(value.get('hex', '')))
         time.sleep(0.08)
-        assert (current()['columns'], current()['rows']) == (40, 12), current()
+        assert (observed['columns'], observed['rows']) == (40, 12), observed
         return capture(hwnd, return_pixels=True)
     def measure(name):
         blank = phase(name+'-blank', '0', '')

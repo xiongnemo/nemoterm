@@ -1,7 +1,7 @@
 """Pixel and working-set checks on a newly spawned Nemoterm/ConPTY window."""
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess, sys,
     tempfile, Path, threading, time, read_snapshot, write_snapshot, memory_sample,
-    wait_for, find_window, capture, scene)
+    wait_for, find_window, capture, scene, wait_snapshot)
 
 with tempfile.TemporaryDirectory(prefix='nemoterm-sync-') as directory:
     directory = Path(directory)
@@ -29,8 +29,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-sync-') as directory:
     def phase(name, sequence, expected):
         write_snapshot(control, {'phase':name, 'sequence':sequence+'\x1b[?2026$p'})
         reply = f'\x1b[?2026;{expected}$y'.encode()
-        return wait_for(lambda: current() if current().get('phase') == name and
-                        reply in bytes.fromhex(current().get('hex', '')) else None)
+        return wait_snapshot(current, lambda value: value.get('phase') == name and
+                        reply in bytes.fromhex(value.get('hex', '')))
     try:
         hwnd = wait_for(lambda: find_window(process.pid))
         wait_for(current)

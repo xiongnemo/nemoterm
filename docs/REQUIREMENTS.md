@@ -280,3 +280,11 @@ and [xterm TrackMouse/EndExtend](https://github.com/ThomasDickey/xterm-snapshots
 
 Latest local highlight fixture peak private WS 3,448,832 bytes, total
 WS 19,263,488 bytes, with no working-set trimming.
+
+The first1001 CI run passed all15 core suites and the mouse/sync/SGR native
+checks, then exposed the same mailbox race in the older font-resize fixture.
+A shared wait_snapshot helper now reads once per poll and returns the exact
+validated snapshot. Font, mouse, sync and SGR callers no longer reopen the
+mailbox to fetch fields after checking a condition. Fault injection returned
+an empty read every third poll:50 font,22 mouse,22 sync and47 SGR misses; all
+four full native suites passed without relaxing their existing assertions.
