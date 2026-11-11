@@ -86,9 +86,10 @@ jobs:
         shell: pwsh
         run: |
           python tests/font_resize_window_smoke.py
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $testExit = $LASTEXITCODE
           Copy-Item research/font-resize-observed.json test-results/
           Copy-Item research/font-resize-*.png test-results/
+          exit $testExit
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

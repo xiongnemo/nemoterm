@@ -1,4 +1,8 @@
 {
+  "completed": true,
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "resolved_font": "SarasaTermSC Nerd Font Light",
+  "native_cjk": true,
   "observations": [
     {
       "phase": "initial",
@@ -6,14 +10,20 @@
         322,
         242
       ],
-      "widths": [
-        14,
-        14
-      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
       "memory": {
-        "private_ws": 3973120,
-        "total_ws": 20054016,
-        "private_commit": 5656576
+        "private_ws": 4132864,
+        "total_ws": 20221952,
+        "private_commit": 5394432
       },
       "gdi": 23
     },
@@ -23,14 +33,20 @@
         642,
         242
       ],
-      "widths": [
-        27,
-        27
-      ],
+      "widths": {
+        "M": [
+          14,
+          14
+        ],
+        "\u4e2d": [
+          27,
+          27
+        ]
+      },
       "memory": {
-        "private_ws": 3977216,
-        "total_ws": 20074496,
-        "private_commit": 5656576
+        "private_ws": 4136960,
+        "total_ws": 20275200,
+        "private_commit": 5394432
       },
       "gdi": 23
     },
@@ -40,14 +56,20 @@
         322,
         482
       ],
-      "widths": [
-        14,
-        14
-      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
       "memory": {
-        "private_ws": 3977216,
-        "total_ws": 20094976,
-        "private_commit": 5656576
+        "private_ws": 4149248,
+        "total_ws": 20291584,
+        "private_commit": 5394432
       },
       "gdi": 23
     },
@@ -57,14 +79,20 @@
         482,
         362
       ],
-      "widths": [
-        20,
-        20
-      ],
+      "widths": {
+        "M": [
+          10,
+          11
+        ],
+        "\u4e2d": [
+          20,
+          20
+        ]
+      },
       "memory": {
-        "private_ws": 4009984,
-        "total_ws": 20135936,
-        "private_commit": 5656576
+        "private_ws": 4149248,
+        "total_ws": 20312064,
+        "private_commit": 5394432
       },
       "gdi": 23
     },
@@ -74,14 +102,20 @@
         322,
         242
       ],
-      "widths": [
-        14,
-        14
-      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
       "memory": {
-        "private_ws": 4009984,
-        "total_ws": 20152320,
-        "private_commit": 5656576
+        "private_ws": 4149248,
+        "total_ws": 20316160,
+        "private_commit": 5394432
       },
       "gdi": 23
     }

@@ -166,6 +166,13 @@ average-width mistake for normal text. `font_resize_window_smoke.py` uses an
 isolated temporary profile and checks horizontal/vertical/both-axis enlargement
 and restoration while keeping40x12 cells. On this machine Chinese normal/italic
 ink grows from14/14px to27/27px with a twofold horizontal stretch, and returns
-to14/14px. GDI resources stay at23; sampled private WS peaks at4,009,984 bytes.
+to14/14px. GDI resources stay at23; sampled private WS peaks at4,149,248 bytes.
 The JSON and before/wide screenshots are in `research/font-resize-*` and CI.
+The fixture probes the selected font and its native CJK coverage. Latin M is
+always tested; Chinese is additionally tested when the font contains that
+glyph (as the installed Sarasa does). Each style is compared with its own
+baseline, allowing GDI hinting/overhang variation during scaling and requiring
+exact restoration. Local Courier New also passes the Latin checks. Its missing
+Chinese glyph uses independent system fallback, whose non-linear scaling is
+not covered by this native-glyph check; font fallback remains an open item.
 Physical dragging and multi-monitor DPI conformance remain open.
