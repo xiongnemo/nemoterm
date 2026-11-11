@@ -56,6 +56,8 @@ Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色
 `python tests/sgr_window_smoke.py` 检查样式、颜色、复位及同步快照的真实像素，
 并检查中英文斜体字形宽度，防止字体平均宽度和终端格宽混用导致字形被压窄。
 截图见 [SGR 样式](research/sgr-styles.png)。
+`python tests/font_resize_window_smoke.py` 验证“缩放字体”模式下的横向、纵向、
+同时放大和恢复，检查字形宽度、固定行列数及 GDI 句柄回收。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 
 本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；构建现在随程序

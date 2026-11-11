@@ -1487,7 +1487,7 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
         }
     }
     wgs->font_width = pick_width;
-    wgs->font_gdi_width = pick_width;
+    wgs->font_gdi_width = 0;
 
     quality = conf_get_int(wgs->conf, CONF_font_quality);
 #define f(i,c,w,u)                                                      \
@@ -1500,6 +1500,25 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 
     SelectObject(hdc, wgs->fonts[FONT_NORMAL]);
     GetTextMetrics(hdc, &tm);
+    if (pick_width > 0) {
+        /* A font-resizing window requests a cell advance. First measure
+         * the font at its natural width at this height, then translate
+         * the requested cell advance to CreateFont's average width. */
+        int natural_width = get_font_width(wgs, hdc, &tm);
+        if (natural_width > 0 && natural_width != pick_width) {
+            HFONT natural_font = wgs->fonts[FONT_NORMAL];
+            wgs->font_gdi_width = max(1, MulDiv(
+                tm.tmAveCharWidth, pick_width, natural_width));
+            f(FONT_NORMAL, font->charset, fw_dontcare, false);
+            if (wgs->fonts[FONT_NORMAL]) {
+                SelectObject(hdc, wgs->fonts[FONT_NORMAL]);
+                DeleteObject(natural_font);
+                GetTextMetrics(hdc, &tm);
+            } else {
+                wgs->fonts[FONT_NORMAL] = natural_font;
+            }
+        }
+    }
     /* CreateFont's width is an average, not the terminal cell advance.
      * Sarasa's average is almost twice its ASCII advance. Reusing the
      * grid width for bold/italic would horizontally squeeze their glyphs. */

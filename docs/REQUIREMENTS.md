@@ -150,8 +150,8 @@ other SGR families and full conformance remain open.
 palette updates, conceal hiding glyphs/decorations, italic/reset, equivalent
 RGB syntax, and styled pixels in synchronized snapshots through real ConPTY.
 Screenshot: `research/sgr-styles.png`; measurements and hashes:
-`research/sgr-window-observed.json`. Local sampled peak private WS4,403,200
-bytes; total20,545,536 bytes. This is a style fixture, not complete agent acceptance.
+`research/sgr-window-observed.json`. Local sampled peak private WS4,505,600
+bytes; total20,652,032 bytes. This is a style fixture, not complete agent acceptance.
 
 Style fonts now retain the normal font's GDI average width separately from
 the measured terminal grid advance. Passing Sarasa's 8px grid width as the
@@ -160,4 +160,12 @@ pixel regression reproduces that failure; the fix restores normal/italic
 widths to14/14px for Chinese and8/8px for Latin M on this machine. Bold and
 wide/narrow font variants use the same corrected average-width basis.
 See the [CreateFont parameter definition](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createfontw).
-This does not establish multi-monitor DPI or font-resizing conformance.
+Font-resizing windows now translate their requested cell advance using a
+measurement of the natural font at the requested height, avoiding the same
+average-width mistake for normal text. `font_resize_window_smoke.py` uses an
+isolated temporary profile and checks horizontal/vertical/both-axis enlargement
+and restoration while keeping40x12 cells. On this machine Chinese normal/italic
+ink grows from14/14px to27/27px with a twofold horizontal stretch, and returns
+to14/14px. GDI resources stay at23; sampled private WS peaks at4,009,984 bytes.
+The JSON and before/wide screenshots are in `research/font-resize-*` and CI.
+Physical dragging and multi-monitor DPI conformance remain open.

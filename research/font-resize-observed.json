@@ -1,0 +1,90 @@
+{
+  "observations": [
+    {
+      "phase": "initial",
+      "client": [
+        322,
+        242
+      ],
+      "widths": [
+        14,
+        14
+      ],
+      "memory": {
+        "private_ws": 3973120,
+        "total_ws": 20054016,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "wide",
+      "client": [
+        642,
+        242
+      ],
+      "widths": [
+        27,
+        27
+      ],
+      "memory": {
+        "private_ws": 3977216,
+        "total_ws": 20074496,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "tall",
+      "client": [
+        322,
+        482
+      ],
+      "widths": [
+        14,
+        14
+      ],
+      "memory": {
+        "private_ws": 3977216,
+        "total_ws": 20094976,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "both",
+      "client": [
+        482,
+        362
+      ],
+      "widths": [
+        20,
+        20
+      ],
+      "memory": {
+        "private_ws": 4009984,
+        "total_ws": 20135936,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "restore",
+      "client": [
+        322,
+        242
+      ],
+      "widths": [
+        14,
+        14
+      ],
+      "memory": {
+        "private_ws": 4009984,
+        "total_ws": 20152320,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    }
+  ],
+  "executable_sha256": "7fc3e4856e9f1260c8d07c6218c613f4a182ef197518d0bf5c7e2d4435339660"
+}
