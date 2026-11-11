@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from fixture_io import read_snapshot, write_snapshot
 
 root = Path(__file__).resolve().parent.parent
 u = c.windll.user32
@@ -51,14 +52,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mouse-') as directory:
         '--rows', '24', '-e', sys.executable, str(root/'tests/mouse_fixture.py'),
         str(report), str(control)], env=env, creationflags=subprocess.CREATE_NO_WINDOW)
     def request(value):
-        temporary = control.with_suffix('.tmp')
-        temporary.write_text(json.dumps(value))
-        os.replace(temporary, control)
+        write_snapshot(control, value)
     def snapshot():
-        try:
-            return json.loads(report.read_text())
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {}
+        value = read_snapshot(report)
+        if value.get('error'):
+            raise AssertionError(value['error'])
+        if process.poll() is not None:
+            raise AssertionError(f'Fixture exited early ({process.returncode}): {value}')
+        return value
     evidence = []
     try:
         hwnd = wait_for(lambda: windows(process.pid))

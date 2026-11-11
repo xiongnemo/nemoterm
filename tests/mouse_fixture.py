@@ -1,12 +1,13 @@
 """ConPTY child for native mouse integration tests; records actual VT input."""
 import ctypes as c
 from ctypes import wintypes as w
-import json
 import os
 from pathlib import Path
 import sys
 import threading
 import time
+import traceback
+from fixture_io import read_snapshot, write_snapshot
 
 report, control = map(Path, sys.argv[1:3])
 k = c.windll.kernel32
@@ -27,11 +28,12 @@ def reader():
 threading.Thread(target=reader, daemon=True).start()
 sys.stdout.reconfigure(encoding='utf-8')
 phase = None
+request = {}
 deadline = time.monotonic() + 60
 print('\x1b]2;Nemoterm mouse integration test\x07', end='', flush=True)
 try:
     while time.monotonic() < deadline:
-        request = json.loads(control.read_text()) if control.exists() else {}
+        request = read_snapshot(control) or request
         if request.get('stop'):
             break
         if request.get('phase') != phase:
@@ -42,9 +44,10 @@ try:
         size = os.get_terminal_size()
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280}
-        temporary = report.with_suffix('.tmp')
-        temporary.write_text(json.dumps(snapshot))
-        os.replace(temporary, report)
+        write_snapshot(report, snapshot)
         time.sleep(0.04)
+except Exception:
+    write_snapshot(report, {'error': traceback.format_exc(), 'phase': phase})
+    raise
 finally:
     k.SetConsoleMode(stdin, old.value)
