@@ -105,6 +105,9 @@ struct terminal_tag {
     int cell_width, cell_height;
     NemoSixel *sixel_pending;
     unsigned sixel_header[3], sixel_header_index;
+    bool dcs_header_params, dcs_rqss, dcs_query_invalid;
+    unsigned dcs_query_len;
+    char dcs_query[64];
     int sixel_x, sixel_y, sixel_screen;
     bool sixel_display_mode, sixel_scrolls_right, sixel_private_palette;
     uint32_t sixel_palette[256];
@@ -251,7 +254,8 @@ struct terminal_tag {
         VT52_Y2,
         VT52_FG,
         VT52_BG,
-        NEMO_DCS_HEADER, NEMO_DCS_SIXEL, NEMO_DCS_DROP,
+        NEMO_DCS_HEADER, NEMO_DCS_SIXEL, NEMO_DCS_RQSS_PREFIX,
+        NEMO_DCS_RQSS, NEMO_DCS_DROP,
         NEMO_DCS_MAYBE_ST, NEMO_DCS_MAYBE_ST_UTF8
     } termstate;
 
@@ -357,6 +361,7 @@ struct terminal_tag {
     bool no_bidi;
     bool bksp_is_delete;
     bool blink_cur;
+    int cursor_type; /* current style, including application DECSCUSR */
     bool blinktext;
     bool cjk_ambig_wide;
     int conf_height;

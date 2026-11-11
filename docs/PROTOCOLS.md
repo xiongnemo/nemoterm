@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照及SGR十二组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另用真实窗口截图验证字体、Sixel色块和SGR样式，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR及状态字符串十三组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另用真实窗口截图验证字体、Sixel色块、SGR样式和光标，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -26,7 +26,8 @@
 | 左右边距 `?69 h/l`、`CSI left;right s`；选择性擦除/受保护属性；矩形操作（如 `$r/$t/$v/$x/$z/${`） | 缺失或待逐项核实 | 当前 `CSI s/u` 是保存/恢复光标，不能当成 DECSLRM。需从 xterm/DEC 清单拆分每条并确定模式冲突；没有以整体“兼容”覆盖它们。 |
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
 | SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
-| 光标形状 `CSI Ps SP q`（DECSCUSR）和软复位 `CSI ! p` | 缺失/待逐项核实 | 未见对应现代分派；现有PuTTY设置和SCO私有光标指令不是这些序列。 |
+| 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
+| 软复位 `CSI ! p`（DECSTR） | 缺失/待逐项核实 | 不能把RIS或本地Reset Terminal视为DECSTR。 |
 | Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。完整grapheme宽度、重排后的物理选择、字体fallback、Nerd Font、IME需专项测试。 |
 
 ## 输入、鼠标、协商与同步
@@ -61,7 +62,7 @@
 | OSC133：A/B/C/D（D可带退出码）；OSC633扩展 | 缺失 | prompt、command、output和结束标记需要状态/滚动历史绑定；单纯吞掉序列不实现命令选择、导航等语义。依据 [Windows Terminal shell集成](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。 |
 | OSC1337非图像：CurrentDir、RemoteHost、SetMark、用户变量等 | 缺失，需按子命令拆分 | 1337是命名空间，不能只支持一个子命令就整体标绿。对照iTerm2文档逐项登记；扩展需要设置项的保留设置项。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
-| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 缺失 | 需要根据当前状态返回有效/无效回复；不能把收到请求视为支持。 |
+| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。DECSCL/DECSCA/DECSLRM等其他状态字符串仍不支持；未实现的状态不虚报。 |
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 缺失 | 十六进制解码、多个能力、成功/失败回复、实际TERM/颜色/键绑定一致性。没有系统terminfo数据库也必须诚实回应。 |
 | Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码/核心测试及色块实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`及现代ConPTY窗口截图通过；共享4MiB预算。仍缺局部滚动图片分片、resize保留、完整调色板重染/像素擦除边界/查询验收。 |
 | kitty graphics：`APC G control;payload ST` | 缺失 | 按 [kitty图像协议](https://sw.kovidgoyal.net/kitty/graphics-protocol/) 细分传输/查询/placement/删除、分块、RGB/RGBA/PNG、缓存与回收；共享内存/文件路径/动画/Unicode占位等扩展单列，不以Sixel代替。 |

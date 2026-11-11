@@ -2175,7 +2175,6 @@ static void win_seat_notify_remote_exit(Seat *seat)
 static void conf_cache_data(WinGuiSeat *wgs)
 {
     /* Cache some items from conf to speed lookups in very hot code */
-    wgs->cursor_type = conf_get_int(wgs->conf, CONF_cursor_type);
     wgs->vtmode = conf_get_int(wgs->conf, CONF_vtmode);
 }
 
@@ -3740,7 +3739,7 @@ static void do_text_internal(
     y += wgs->offset_height;
 
     if ((attr & ATTR_ACTCURS) &&
-        (wgs->cursor_type == CURSOR_BLOCK || wgs->term->big_cursor)) {
+        (wgs->term->cursor_type == CURSOR_BLOCK || wgs->term->big_cursor)) {
         truecolour.fg = truecolour.bg = optionalrgb_none;
         attr &= ~(ATTR_REVERSE|ATTR_BLINK|ATTR_COLOURS|ATTR_DIM);
         /* cursor fg and bg */
@@ -4138,7 +4137,7 @@ static void wintw_draw_cursor(
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     int fnt_width;
     int char_width;
-    int ctype = wgs->cursor_type;
+    int ctype = wgs->term->cursor_type;
 
     lattr &= LATTR_MODE;
 

@@ -176,3 +176,28 @@ exact restoration. Local Courier New also passes the Latin checks. Its missing
 Chinese glyph uses independent system fallback, whose non-linear scaling is
 not covered by this native-glyph check; font fallback remains an open item.
 Physical dragging and multi-monitor DPI conformance remain open.
+
+Cursor/query checkpoint: DECSCUSR0..7 selects blinking/steady block, underline
+or bar, or restores the configured default; DEC12 toggles blinking independently
+of cursor visibility. The Windows renderer uses the core's current style.
+Unrelated configuration changes preserve application style; explicit cursor
+configuration changes and RIS restore defaults. Local reset also cancels an
+unfinished parser sequence rather than consuming subsequent text as its tail.
+
+DECRQSS supports `m`, `r`, `SP q`, `$|` and `*|` for existing SGR state, scroll
+margins, cursor style and current columns/rows. SGR readback can be replayed,
+including true colour, indexed colours and independent underline style/colour.
+Other requests return `DCS 0 $ r ST` with no reflected payload. Queries use a
+64-byte buffer; overlong input is rejected until termination. Sixel remains
+streamed. `test_queries` covers byte fragmentation, cancellation, bounds,
+readback round trips, configuration/reset and Sixel coexistence. This does not
+complete the remaining DECRQSS strings, XTGETTCAP or DECSTR.
+
+The fifth native suite, `query_window_smoke.py`, verifies actual block8x20,
+underline8x1 and bar1x20 pixels on the local Sarasa setup, visible/hidden blink
+phases, steady output after disabling blink, resized dimensions and queries
+during a frozen presentation. It records when foreground/system settings
+prevent a blink pixel check. Local peak sampled private WS3,485,696 bytes,
+total19,312,640 bytes; see `research/query-window-observed.json` and the cursor
+PNGs. These fixture measurements do not establish complete agent acceptance.
+Protocol reference: [xterm ctlseqs](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.txt).

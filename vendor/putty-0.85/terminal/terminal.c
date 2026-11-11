@@ -1423,6 +1423,24 @@ static void term_schedule_cblink(Terminal *term)
     }
 }
 
+static void nemo_cursor_style(Terminal *term, unsigned style)
+{
+    if (style > 7) return;
+    if (style == 7) {
+        term->cursor_type = conf_get_int(term->conf, CONF_cursor_type);
+        term->blink_cur = conf_get_bool(term->conf, CONF_blink_cur);
+    } else {
+        if (!style) style = 1;
+        term->cursor_type = (style-1)/2;
+        term->blink_cur = (style & 1) != 0;
+    }
+    term->big_cursor = false;
+    term->cblinker = true;
+    term->cblink_pending = false;
+    term_schedule_cblink(term);
+    term_invalidate(term);
+}
+
 /*
  * Call to begin a visual bell.
  */
@@ -1679,37 +1697,124 @@ static void nemo_sixel_complete(Terminal *term)
     term_invalidate(term);
 }
 
+static void nemo_report_sgr_colour(strbuf *reply, unsigned prefix,
+                                   unsigned index, optionalrgb rgb)
+{
+    if (rgb.enabled)
+        put_fmt(reply, ";%u:2::%u:%u:%u", prefix, rgb.r, rgb.g, rgb.b);
+    else if (index < 8)
+        put_fmt(reply, ";%u", (prefix == 38 ? 30 : 40) + index);
+    else if (index < 16)
+        put_fmt(reply, ";%u", (prefix == 38 ? 90 : 100) + index-8);
+    else if (index < 256)
+        put_fmt(reply, ";%u;5;%u", prefix, index);
+}
+
+/* The input string is at most 63 bytes. Replies describe only implemented
+ * state, with bounded output independent of the request's length. */
+static void nemo_decrqss(Terminal *term)
+{
+    if (!term->ldisc) return;
+    const char *query = term->dcs_query;
+    strbuf *reply = strbuf_new();
+    bool valid = !term->dcs_query_invalid;
+    if (valid && !strcmp(query, "m")) {
+        unsigned long attr = term->curr_attr;
+        truecolour tc = term->curr_truecolour;
+        put_byte(reply, '0');
+        static const struct { unsigned long attr; unsigned sgr; } flags[] = {
+            {ATTR_BOLD, 1}, {ATTR_DIM, 2}, {ATTR_ITALIC, 3},
+            {ATTR_BLINK, 5}, {ATTR_REVERSE, 7}, {ATTR_CONCEAL, 8},
+            {ATTR_STRIKE, 9},
+        };
+        for (size_t i = 0; i < lenof(flags); i++)
+            if (attr & flags[i].attr) put_fmt(reply, ";%u", flags[i].sgr);
+        if (attr & ATTR_UNDER) {
+            unsigned style = UNDER_STYLE(tc);
+            if (style <= 1) put_dataz(reply, ";4");
+            else put_fmt(reply, ";4:%u", style);
+        }
+        nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg);
+        nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg);
+        uint32_t colour = tc.decoration & UNDER_COLOUR_MASK;
+        if (colour & UNDER_RGB)
+            put_fmt(reply, ";58:2::%u:%u:%u", (colour >> 16) & 255,
+                    (colour >> 8) & 255, colour & 255);
+        else if (colour & UNDER_INDEXED)
+            put_fmt(reply, ";58;5;%u", colour & 255);
+        put_byte(reply, 'm');
+    } else if (valid && !strcmp(query, "r")) {
+        put_fmt(reply, "%d;%dr", term->marg_t+1, term->marg_b+1);
+    } else if (valid && !strcmp(query, " q")) {
+        int type = term->big_cursor ? CURSOR_BLOCK : term->cursor_type;
+        put_fmt(reply, "%d q", 2*type + (term->blink_cur ? 1 : 2));
+    } else if (valid && !strcmp(query, "$|")) {
+        put_fmt(reply, "%d$|", term->cols);
+    } else if (valid && !strcmp(query, "*|")) {
+        put_fmt(reply, "%d*|", term->rows);
+    } else {
+        valid = false;
+    }
+    ldisc_send(term->ldisc, valid ? "\033P1$r" : "\033P0$r", 5, false);
+    if (valid) ldisc_send(term->ldisc, reply->s, reply->len, false);
+    ldisc_send(term->ldisc, "\033\\", 2, false);
+    strbuf_free(reply);
+}
+
 /* true means the raw byte was consumed here. An unexpected ESC sequence
  * cancels DCS and returns the next byte to PuTTY's normal ESC state machine. */
 static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 {
     if (c == 0x18 || c == 0x1a) {
+        term->dcs_rqss = false;
         nemo_sixel_cancel(term); term->termstate = TOPLEVEL; return true;
     }
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
+        if (term->dcs_rqss) nemo_decrqss(term);
+        term->dcs_rqss = false;
         nemo_sixel_complete(term); term->termstate = TOPLEVEL; return true;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST) {
+        term->dcs_rqss = false;
         nemo_sixel_cancel(term); term->termstate = SEEN_ESC;
         term->esc_query = 0;
         return false;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST_UTF8) {
+        term->dcs_query_invalid = true;
         nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
     }
     if (c == 0x1b) { term->termstate = NEMO_DCS_MAYBE_ST; return true; }
     if (c == 0xc2) { term->termstate = NEMO_DCS_MAYBE_ST_UTF8; return true; }
     if (term->termstate == NEMO_DCS_HEADER) {
         if (c >= '0' && c <= '9') {
+            term->dcs_header_params = true;
             unsigned *p = &term->sixel_header[term->sixel_header_index];
             if (*p > (UINT_MAX - (c-'0')) / 10) term->termstate = NEMO_DCS_DROP;
             else *p = *p * 10 + c-'0';
         } else if (c == ';' && term->sixel_header_index < 2) {
+            term->dcs_header_params = true;
             term->sixel_header_index++;
+        } else if (c == '$' && !term->dcs_header_params) {
+            term->termstate = NEMO_DCS_RQSS_PREFIX;
         } else if (c == 'q') {
             nemo_sixel_begin(term);
             term->termstate = term->sixel_pending ? NEMO_DCS_SIXEL : NEMO_DCS_DROP;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
+    } else if (term->termstate == NEMO_DCS_RQSS_PREFIX) {
+        if (c == 'q') {
+            term->dcs_rqss = true;
+            term->termstate = NEMO_DCS_RQSS;
+        } else if (c >= ' ') term->termstate = NEMO_DCS_DROP;
+    } else if (term->termstate == NEMO_DCS_RQSS) {
+        if (c >= ' ') {
+            if (c > '~' || term->dcs_query_len >= sizeof(term->dcs_query)-1)
+                term->dcs_query_invalid = true;
+            else {
+                term->dcs_query[term->dcs_query_len++] = c;
+                term->dcs_query[term->dcs_query_len] = '\0';
+            }
+        }
     } else if (term->termstate == NEMO_DCS_SIXEL) {
         if (!nemo_sixel_feed(term->sixel_pending, &c, 1)) {
             nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
@@ -1720,6 +1825,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    term->termstate = TOPLEVEL;
+    term->esc_query = 0;
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     term->sixel_display_mode = term->sixel_scrolls_right = false;
@@ -1760,6 +1867,13 @@ static void power_on(Terminal *term, bool clear)
     term->in_vbell = false;
     term->cursor_on = true;
     term->big_cursor = false;
+    term->cursor_type = conf_get_int(term->conf, CONF_cursor_type);
+    term->blink_cur = conf_get_bool(term->conf, CONF_blink_cur);
+    term->dcs_rqss = term->dcs_query_invalid = term->dcs_header_params = false;
+    term->cblinker = true;
+    term->cblink_pending = false;
+    term->dcs_query_len = 0;
+    term->dcs_query[0] = '\0';
     term->default_attr = term->save_attr =
         term->alt_save_attr = term->curr_attr = ATTR_DEFAULT;
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
@@ -1960,6 +2074,7 @@ static void term_copy_stuff_from_conf(Terminal *term)
     term->bksp_is_delete = conf_get_bool(term->conf, CONF_bksp_is_delete);
     term->blink_cur = conf_get_bool(term->conf, CONF_blink_cur);
     term->blinktext = conf_get_bool(term->conf, CONF_blinktext);
+    term->cursor_type = conf_get_int(term->conf, CONF_cursor_type);
     term->cjk_ambig_wide = conf_get_bool(term->conf, CONF_cjk_ambig_wide);
     term->conf_height = conf_get_int(term->conf, CONF_height);
     term->conf_width = conf_get_int(term->conf, CONF_width);
@@ -2039,9 +2154,15 @@ void term_reconfig(Terminal *term, Conf *conf)
      * settings which control power-on defaults; and if they've
      * changed, we will modify the current state as well as the
      * default one. The full list is: Auto wrap mode, DEC Origin
-     * Mode, BCE, blinking text, character classes.
+     * Mode, BCE, blinking text, cursor style, character classes.
      */
     bool reset_wrap, reset_decom, reset_bce, reset_tblink, reset_charclass;
+    bool reset_cursor = conf_get_int(term->conf, CONF_cursor_type) !=
+                        conf_get_int(conf, CONF_cursor_type) ||
+                        conf_get_bool(term->conf, CONF_blink_cur) !=
+                        conf_get_bool(conf, CONF_blink_cur);
+    int old_cursor_type = term->cursor_type;
+    bool old_blink_cur = term->blink_cur;
     bool palette_changed = false;
     int i;
 
@@ -2147,9 +2268,18 @@ void term_reconfig(Terminal *term, Conf *conf)
     }
     if (palette_changed)
         term_notify_palette_changed(term);
+    term_copy_stuff_from_conf(term);
+    if (!reset_cursor) {
+        term->cursor_type = old_cursor_type;
+        term->blink_cur = old_blink_cur;
+    } else {
+        term->big_cursor = false;
+        term->cblinker = true;
+        term->cblink_pending = false;
+        term_invalidate(term);
+    }
     term_schedule_tblink(term);
     term_schedule_cblink(term);
-    term_copy_stuff_from_conf(term);
     term_update_raw_mouse_mode(term);
 }
 
@@ -3446,6 +3576,12 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 8:                      /* DECARM: auto key repeat */
             term->repeat_off = !state;
             break;
+          case 12:                     /* cursor blinking (att610/xterm) */
+            term->blink_cur = state;
+            term->cblinker = true;
+            term_schedule_cblink(term);
+            term_invalidate(term);
+            break;
           case 25:                     /* DECTCEM: enable/disable cursor */
             compatibility2(OTHER, VT220);
             term->cursor_on = state;
@@ -3573,6 +3709,7 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 6: state = term->dec_om; break;
           case 7: state = term->wrap; break;
           case 8: state = !term->repeat_off; break;
+          case 12: state = term->blink_cur; break;
           case 25: state = term->cursor_on; break;
           case 47: case 1047: case 1049:
             if (term->no_alt_screen) return 4;
@@ -4717,10 +4854,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->esc_args[0] = 0;
                     term->esc_nargs = 1;
                     break;
-                  case 'P':             /* DCS: streamed Sixel or ignored */
+                  case 'P':             /* DCS: streamed Sixel or bounded query */
                     nemo_sixel_cancel(term);
                     memset(term->sixel_header, 0, sizeof(term->sixel_header));
                     term->sixel_header_index = 0;
+                    term->dcs_header_params = term->dcs_rqss = term->dcs_query_invalid = false;
+                    term->dcs_query_len = 0;
+                    term->dcs_query[0] = '\0';
                     term->termstate = NEMO_DCS_HEADER;
                     break;
                   case 'X':             /* SOS: Start of String */
@@ -5189,6 +5329,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term->tabs[i] = false;
                             }
                         }
+                        break;
+                      case ANSI('q', ' '): /* DECSCUSR */
+                        if (term->esc_nargs == 1)
+                            nemo_cursor_style(term, def(term->esc_args[0], 0));
                         break;
                       case 'r':       /* DECSTBM: set scroll margins */
                         compatibility(VT100);

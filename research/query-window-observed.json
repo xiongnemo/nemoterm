@@ -1,0 +1,83 @@
+{
+  "hidden": {
+    "reply": "1b503124723220711b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "block": {
+    "reply": "1b503124723220711b5c",
+    "sha256": "c77743c4b148054bcaa33d3bc165458ec7c2f44579891d851fdc8537095decfa",
+    "shape": [
+      8,
+      20,
+      160
+    ]
+  },
+  "underline": {
+    "reply": "1b503124723420711b5c",
+    "sha256": "c33eecae6de7ecb8693297eff6047dea1c8b4beac2eb98f0efaa5443f8f75cb3",
+    "shape": [
+      8,
+      1,
+      8
+    ]
+  },
+  "bar": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "1bd41ed1d0526f1d4c0f2ef0ebd0b8302853000d43ae989db3c714bc8df0a7bc",
+    "shape": [
+      1,
+      20,
+      20
+    ]
+  },
+  "hidden-again": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "sgr": {
+    "reply": "1b50312472303b33313b34346d1b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "margins": {
+    "reply": "1b50312472333b3130721b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "unsupported": {
+    "reply": "1b503024721b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "geometry": {
+    "reply": "1b503124723430247c1b5c1b5031247231322a7c1b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9"
+  },
+  "geometry-after-resize": {
+    "reply": "1b503124723736247c1b5c1b5031247232312a7c1b5c",
+    "sha256": "881e308d1e772dd57d0f50a139fb42aa541d13667c7b7c1ded55e04dea65a28a"
+  },
+  "blink": {
+    "reply": "1b503124723120711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6"
+  },
+  "blink_states": [
+    false,
+    true
+  ],
+  "blink-off": {
+    "reply": "1b5b3f31323b3224791b503124723220711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6"
+  },
+  "steady_states": [
+    true
+  ],
+  "frozen-query": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6"
+  },
+  "released-query": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00"
+  },
+  "peak_private_ws": 3485696,
+  "peak_total_ws": 19312640,
+  "executable_sha256": "1bc7b25aa579b4aa671172ed3db0249b6d2fd0b10bef1c689661f3a247ff6619"
+}

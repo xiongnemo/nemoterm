@@ -48,6 +48,7 @@ ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` 
 1004 焦点、1007 备用屏滚轮、四向滚轮、两个侧键、修饰键与捕获取消，及 1049 备用屏组合，
 Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色、备用屏恢复、
 冒号RGB、斜体/隐藏、五种下划线及独立下划线颜色、压缩历史中的样式还原，
+DECSCUSR 光标形状/闪烁、DEC 12，以及 DECRQSS 的样式/滚动边界/尺寸读回，
 逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
 `python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
 拖动/像素/滚轮/侧键/焦点输入、多键捕获、Shift 事件隔离，以及连续缩放和最大化/还原的窗口尺寸通知。
@@ -58,6 +59,8 @@ Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色
 截图见 [SGR 样式](research/sgr-styles.png)。
 `python tests/font_resize_window_smoke.py` 验证“缩放字体”模式下的横向、纵向、
 同时放大和恢复，检查字形宽度、固定行列数及 GDI 句柄回收。
+`python tests/query_window_smoke.py` 检查三种光标的实际像素、闪烁开关、
+状态查询、缩放后的尺寸读回和同步输出期间的光标保持。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 
 本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；构建现在随程序

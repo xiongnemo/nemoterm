@@ -96,7 +96,6 @@ struct WinGuiSeat {
     struct NemoSnapshot *sync_snapshot;
     bool sync_capture_failed;
 
-    int cursor_type;
     int vtmode;
 
     HFONT fonts[FONT_MAXNO];

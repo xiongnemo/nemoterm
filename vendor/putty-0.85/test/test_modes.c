@@ -61,6 +61,7 @@ static void test_switchable_modes(Mock *mk)
         MODE_CASE("?", "6", "DECOM origin"),
         MODE_CASE("?", "7", "DECAWM autowrap"),
         MODE_CASE("?", "8", "DECARM key repeat, inverse of repeat_off"),
+        MODE_CASE("?", "12", "cursor blinking"),
         MODE_CASE("?", "25", "DECTCEM cursor visibility"),
         MODE_CASE("?", "47", "alternate screen mode 47"),
         MODE_CASE("?", "80", "DECSDM Sixel display mode"),
@@ -169,10 +170,10 @@ static void test_unknown_and_parameter_handling(Mock *mk)
     test_context(mk, "unsupported mode queries are explicitly unknown");
     term_data_fragmented(mk->term,
                          "\033[0$p\033[9999$p\033[2026$p"
-                         "\033[?0$p\033[?4$p\033[?12$p\033[?69$p"
+                         "\033[?0$p\033[?4$p\033[?69$p"
                          "\033[?1001$p\033[?1048$p\033[?9001$p\033[?9999$p");
     MODE_RESPONSE("\033[0;0$y\033[9999;0$y\033[2026;0$y"
-                  "\033[?0;0$y\033[?4;0$y\033[?12;0$y\033[?69;0$y"
+                  "\033[?0;0$y\033[?4;0$y\033[?69;0$y"
                   "\033[?1001;0$y\033[?1048;0$y\033[?9001;0$y\033[?9999;0$y");
 
     test_context(mk, "DECRQM ignores parameters after its first Ps");
