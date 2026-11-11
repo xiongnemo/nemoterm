@@ -87,7 +87,7 @@ capture/focus loss. Blank double-width rows are normalized on reset.
 `tests/mouse_window_smoke.py` launches only its own window and injects window
 messages (not global physical input), checking bytes read by the real ConPTY child.
 Results: `research/mouse-window-observed.json`; resize observed 80x24 -> 108x27 -> 58x12.
-1001 highlight tracking, side buttons, real hardware/trackpad and multi-DPI acceptance
+1001 highlight tracking, real hardware/trackpad and multi-DPI acceptance
 remain open. Ctrl+right-click remains the documented local-menu override.
 
 
@@ -117,3 +117,18 @@ total20,484,096 bytes across5 samples; record `claude-interactive-memory.json`.
 `claude-child-memory.json` lists the separate Claude process; ConPTY and fixture
 Python are also separate. No inference was submitted. This is startup/idle/input
 and resize evidence, not full-agent streaming/long-history or all-feature acceptance.
+
+Side-button and resize checkpoint: XBUTTON1/2 map to xterm buttons 8/9, with
+exact-byte tests for all encodings, modifiers, drag/release, cancellation and
+Shift isolation. The native test reproduces and fixes a multiple-button defect:
+SetCapture on a window that already owns capture sends WM_CAPTURECHANGED with
+the same owner; this must not synthesize releases. Left-button release now
+retains capture while a side button remains held. The own-window ConPTY test
+also verifies 25 consecutive resizes and maximize/restore size notifications.
+No global pointer input is injected; physical mouse and multi-DPI checks remain open.
+
+CI checkpoint: commit 681317f passed all 11 Windows suites, both native window
+tests, and Linux Sixel/colour ASan+UBSan. Downloaded portable EXE and bundled
+ConPTY files matched their SHA-256 records. CI's sync fixture used an actual
+1011x749 viewport, peak private WS 3,067,904 bytes, total WS 20,381,696 bytes;
+these are hosted-runner fixture measurements, not full-agent acceptance.

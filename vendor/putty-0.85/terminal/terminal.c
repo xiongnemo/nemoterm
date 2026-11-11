@@ -7741,6 +7741,8 @@ static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
       case MBT_LEFT: code = 0; bit = 1; break;
       case MBT_MIDDLE: code = 1; bit = 2; break;
       case MBT_RIGHT: code = 2; bit = 4; break;
+      case MBT_X1: code = 128; bit = 8; break;
+      case MBT_X2: code = 129; bit = 16; break;
       case MBT_WHEEL_UP: code = 64; wheel = true; break;
       case MBT_WHEEL_DOWN: code = 65; wheel = true; break;
       case MBT_WHEEL_LEFT: code = 66; wheel = true; break;
@@ -7822,7 +7824,9 @@ static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
 
 void term_mouse_cancel(Terminal *term)
 {
-    static const Mouse_Button buttons[] = { MBT_LEFT, MBT_MIDDLE, MBT_RIGHT };
+    static const Mouse_Button buttons[] = {
+        MBT_LEFT, MBT_MIDDLE, MBT_RIGHT, MBT_X1, MBT_X2
+    };
     for (size_t i = 0; i < lenof(buttons); i++)
         if (term->mouse_buttons & (1U << i))
             mouse_report(term, buttons[i], MA_RELEASE,
@@ -7894,6 +7898,8 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
         return;
     }
     if (a == MA_MOVE) return;
+    /* Side buttons have no local selection, paste or scrolling binding. */
+    if (braw == MBT_X1 || braw == MBT_X2) return;
 
     if (y < 0) {
         y = 0;

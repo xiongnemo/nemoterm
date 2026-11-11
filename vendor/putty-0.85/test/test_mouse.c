@@ -163,6 +163,76 @@ static void test_tracking_negotiation(Mock *mk)
     MOUSE_BYTES("\033[<35;3;4M");
 }
 
+static void test_side_buttons(Mock *mk)
+{
+    mouse_setup(mk, "side buttons retain identity, motion and modifiers",
+                "\033[?1002;1006h");
+    send_mouse(mk, MBT_X1, MA_CLICK, 2, 3, false, true, true);
+    send_mouse(mk, MBT_X1, MA_CLICK, 2, 3, false, true, true);
+    send_mouse(mk, MBT_X1, MA_DRAG, 3, 3, false, true, true);
+    send_mouse(mk, MBT_X1, MA_DRAG, 3, 3, false, true, true);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 3, 3, false, true, true);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 3, 3, false, true, true);
+    send_mouse(mk, MBT_X2, MA_CLICK, 2, 3, false, false, false);
+    send_mouse(mk, MBT_X2, MA_DRAG, 3, 3, false, false, false);
+    send_mouse(mk, MBT_X2, MA_RELEASE, 3, 3, false, false, false);
+    MOUSE_BYTES("\033[<152;3;4M\033[<184;4;4M\033[<152;4;4m"
+                "\033[<129;3;4M\033[<161;4;4M\033[<129;4;4m");
+
+    mouse_setup(mk, "side buttons use legacy byte and generic release",
+                "\033[?1000h");
+    send_mouse(mk, MBT_X1, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X2, MA_CLICK, 0, 0, false, true, true);
+    send_mouse(mk, MBT_X2, MA_RELEASE, 0, 0, false, true, true);
+    MOUSE_BYTES("\033[M\xa0!!\033[M#!!\033[M\xb9!!\033[M;!!");
+
+    mouse_setup(mk, "1005 encodes side-button code as UTF-8",
+                "\033[?1000;1005h");
+    send_mouse(mk, MBT_X2, MA_CLICK, 0, 0, false, true, true);
+    send_mouse(mk, MBT_X2, MA_RELEASE, 0, 0, false, true, true);
+    MOUSE_BYTES("\033[M\xc2\xb9!!\033[M;!!");
+
+    mouse_setup(mk, "urxvt side-button encoding", "\033[?1000;1015h");
+    send_mouse(mk, MBT_X1, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 0, 0, false, false, false);
+    MOUSE_BYTES("\033[160;1;1M\033[35;1;1M");
+
+    mouse_setup(mk, "pixel side-button motion and cancellation",
+                "\033[?1002;1016h");
+    send_mouse(mk, MBT_X1, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X2, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X2, MA_DRAG, 1, 1, false, false, false);
+    term_mouse_cancel(mk->term);
+    term_mouse_cancel(mk->term);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 1, 1, false, false, false);
+    send_mouse(mk, MBT_X2, MA_RELEASE, 1, 1, false, false, false);
+    MOUSE_BYTES("\033[<128;4;8M\033[<129;4;8M\033[<161;12;24M"
+                "\033[<128;12;24m\033[<129;12;24m");
+
+    mouse_setup(mk, "Shift cancels side button without making a selection",
+                "ABCDE\033[?1002;1006h");
+    send_mouse(mk, MBT_X1, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X1, MA_DRAG, 4, 0, true, false, false);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 4, 0, false, false, false);
+    MOUSE_BYTES("\033[<128;1;1M\033[<128;1;1m");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+    IEQUAL(mk->term->mouse_buttons, 0);
+
+    mouse_setup(mk, "local side buttons do not select or scroll",
+                "1\r\n2\r\n3\r\n4\r\n5\r\n6");
+    int disptop = mk->term->disptop;
+    send_mouse(mk, MBT_X1, MA_CLICK, 0, 0, false, false, false);
+    send_mouse(mk, MBT_X1, MA_DRAG, 0, -2, false, false, false);
+    send_mouse(mk, MBT_X1, MA_RELEASE, 0, -2, false, false, false);
+    send_mouse(mk, MBT_X2, MA_CLICK, 1, 0, true, false, false);
+    send_mouse(mk, MBT_X2, MA_DRAG, 3, 0, true, false, false);
+    send_mouse(mk, MBT_X2, MA_RELEASE, 3, 0, true, false, false);
+    MOUSE_BYTES("");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+    IEQUAL(mk->term->disptop, disptop);
+}
+
 static void test_encoding_negotiation(Mock *mk)
 {
     static const int modes[] = {1005, 1006, 1015, 1016};
@@ -504,6 +574,7 @@ int main(void)
 
     test_tracking_modes(mk);
     test_buttons_and_modifiers(mk);
+    test_side_buttons(mk);
     test_tracking_negotiation(mk);
     test_encoding_negotiation(mk);
     test_coordinate_limits(mk);

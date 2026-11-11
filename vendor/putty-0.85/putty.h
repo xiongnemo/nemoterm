@@ -336,7 +336,8 @@ typedef enum {
     MBT_LEFT, MBT_MIDDLE, MBT_RIGHT,   /* `raw' button designations */
     MBT_SELECT, MBT_EXTEND, MBT_PASTE, /* `cooked' button designations */
     MBT_WHEEL_UP, MBT_WHEEL_DOWN,      /* vertical mouse wheel */
-    MBT_WHEEL_LEFT, MBT_WHEEL_RIGHT    /* horizontal mouse wheel */
+    MBT_WHEEL_LEFT, MBT_WHEEL_RIGHT,   /* horizontal mouse wheel */
+    MBT_X1, MBT_X2                   /* side buttons, xterm buttons 8 and 9 */
 } Mouse_Button;
 
 typedef enum {

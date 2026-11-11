@@ -2075,7 +2075,7 @@ static Mouse_Button translate_button(WinGuiSeat *wgs, Mouse_Button button)
     if (button == MBT_RIGHT)
         return conf_get_int(wgs->conf, CONF_mouse_is_xterm) == MOUSE_XTERM ?
             MBT_EXTEND : MBT_PASTE;
-    return 0;                          /* shouldn't happen */
+    return MBT_NOTHING;                /* no local binding for other buttons */
 }
 
 static void show_mouseptr(WinGuiSeat *wgs, bool show)
@@ -2631,6 +2631,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_LBUTTONUP:
       case WM_MBUTTONUP:
       case WM_RBUTTONUP:
+      case WM_XBUTTONDOWN:
+      case WM_XBUTTONUP:
         if (message == WM_RBUTTONUP && wgs->nemo_consumed_right_click) {
             wgs->nemo_consumed_right_click = false;
             return 0;
@@ -2696,6 +2698,19 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 wParam &= ~MK_RBUTTON;
                 press = false;
                 break;
+              case WM_XBUTTONDOWN:
+              case WM_XBUTTONUP: {
+                unsigned xbutton = HIWORD(wParam);
+                if (xbutton != XBUTTON1 && xbutton != XBUTTON2)
+                    return TRUE;
+                button = xbutton == XBUTTON1 ? MBT_X1 : MBT_X2;
+                unsigned mask = xbutton == XBUTTON1 ? MK_XBUTTON1 : MK_XBUTTON2;
+                press = message == WM_XBUTTONDOWN;
+                wParam = LOWORD(wParam);
+                if (press) wParam |= mask;
+                else wParam &= ~mask;
+                break;
+              }
               default: /* shouldn't happen */
                 button = 0;
                 press = false;
@@ -2748,7 +2763,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                       Y_POS(lParam)-wgs->offset_height,
                       wParam & MK_SHIFT, wParam & MK_CONTROL,
                       is_alt_pressed());
-                SetCapture(hwnd);
+                /* Reacquiring our own capture sends WM_CAPTURECHANGED too,
+                 * which must not cancel another button still held down. */
+                if (GetCapture() != hwnd &&
+                    ((button != MBT_X1 && button != MBT_X2) ||
+                     (wgs->send_raw_mouse && !(wParam & MK_SHIFT))))
+                    SetCapture(hwnd);
             } else {
                 term_mouse_pixels(wgs->term, button, translate_button(wgs, button),
                            MA_RELEASE, TO_CHR_X(X_POS(lParam)),
@@ -2756,11 +2776,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                            X_POS(lParam)-wgs->offset_width,
                            Y_POS(lParam)-wgs->offset_height, wParam & MK_SHIFT,
                            wParam & MK_CONTROL, is_alt_pressed());
-                if (!(wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON)))
+                if (!(wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON |
+                                MK_XBUTTON1 | MK_XBUTTON2)))
                     ReleaseCapture();
             }
         }
-        return 0;
+        return message == WM_XBUTTONDOWN || message == WM_XBUTTONUP ? TRUE : 0;
       case WM_MOUSEMOVE:
         /*
          * Windows seems to like to occasionally send MOUSEMOVE
@@ -2781,15 +2802,20 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
          */
         noise_ultralight(NOISE_SOURCE_MOUSEPOS, lParam);
 
-        if (wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON) &&
+        if (wParam & (MK_LBUTTON | MK_MBUTTON | MK_RBUTTON |
+                      MK_XBUTTON1 | MK_XBUTTON2) &&
             GetCapture() == hwnd) {
             Mouse_Button b;
             if (wParam & MK_LBUTTON)
                 b = MBT_LEFT;
             else if (wParam & MK_MBUTTON)
                 b = MBT_MIDDLE;
-            else
+            else if (wParam & MK_RBUTTON)
                 b = MBT_RIGHT;
+            else if (wParam & MK_XBUTTON1)
+                b = MBT_X1;
+            else
+                b = MBT_X2;
             term_mouse_pixels(wgs->term, b, translate_button(wgs, b), MA_DRAG,
                        TO_CHR_X(X_POS(lParam)),
                        TO_CHR_Y(Y_POS(lParam)),
@@ -2806,6 +2832,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         return 0;
       case WM_CAPTURECHANGED:
+        if ((HWND)lParam == hwnd) return 0;
+        /* fall through: only an actual loss cancels reported buttons */
       case WM_CANCELMODE:
         term_mouse_cancel(wgs->term);
         term_cancel_selection_drag(wgs->term);

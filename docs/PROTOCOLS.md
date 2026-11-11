@@ -39,7 +39,8 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 | Win32 input mode `CSI ? 9001 h/l` | 缺失 | W已有Windows消息处理，不等于实现该协议的协商和出站记录格式。需要与ConPTY和现代Windows TUI共同验收。 |
 | 鼠标9/1000/1002/1003；传统编码、1005 UTF-8、1006 SGR字符格、1015 urxvt | 已证（有限范围） | `test_mouse` 精确字节覆盖三键、Alt/Ctrl、四向滚轮、坐标边界、最后SET编码/匹配RESET、tracking RESET、拖动去重、双宽行和历史独立坐标、Shift中途接管及取消。传统坐标最大223、UTF-8最大2015，越界不发；capture取消回最后合法点释放。 |
 | 1016 SGR像素、1007备用屏滚轮 | 已证（有限范围） | 核心测同格内像素移动/resize裁剪，1007仅备用屏且服从DECCKM。真实Win32→ConPTY→Python验证像素移动与窗口缩放；多屏DPI、触控板/物理设备尚需验收。 |
-| 鼠标1001 highlight tracking、额外侧键 | 缺失 | 历史应用协作高亮握手、Windows XBUTTON 仍待实现；不能将常见TUI鼠标覆盖等同所有xterm模式。Ctrl+右键保留为显式本地菜单快捷键。 |
+| 鼠标侧键 XBUTTON1/2（xterm 按钮8/9） | 已证（有限范围） | 核心测试覆盖128/129按钮码、修饰键、各编码、拖动、取消、Shift隔离和无本地绑定。真实Win32→ConPTY验证两个侧键及左键/侧键混合捕获；重复获取自身捕获不再误释放全部按键。物理设备尚待验收。 |
+| 鼠标1001 highlight tracking | 缺失 | 历史应用协作高亮握手仍待实现；不能将常见TUI鼠标覆盖等同所有xterm模式。Ctrl+右键保留为显式本地菜单快捷键。 |
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
 | bracketed paste 2004：`CSI 200~` / `CSI 201~` | 已证（有限范围） | `test_bracketed_paste` 验证UTF-8内容、开关和空粘贴；仍须测大段、多行、取消、内嵌结束符、系统剪贴板及真实ConPTY。 |
 | synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 已证（有限范围） | 解析/输入/查询继续，冻结的是呈现。`test_sync`用可控时钟证明重复SET不续期、单RESET结束、旧timer隔离和1秒超时；`sync_window_smoke.py`证明文本/Sixel/颜色期间像素不变、结束/超时更新、输入继续与resize释放。冻结按32行压缩，模块总预算8MiB；资源不足拒绝本次冻结并记录事件，不保留部分快照。 |
@@ -80,7 +81,7 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 ## 下一轮实现和验收顺序
 
 1. **直接影响现代agent的缺口**：OSC8、冒号SGR及常见样式、kitty键盘协商；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
-2. **交互和协商完整性**：DECRQSS/XTGETTCAP、OSC52设置与查询策略、鼠标1001/侧键、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
+2. **交互和协商完整性**：DECRQSS/XTGETTCAP、OSC52设置与查询策略、鼠标1001与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
 每一项完成至少需要：序列与参数定义 → 对应源码和状态生命周期 → 分块输入与回复测试 → 有界资源测试 → 必要的真实窗口/应用验证。图片、链接、历史和新样式加入后，应重跑代表性agent负载的私有工作集、总工作集和长时间峰值；本账本不证明内存门槛已经成立。
