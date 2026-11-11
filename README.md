@@ -50,6 +50,8 @@ Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色
 逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
 `python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
 拖动/像素/滚轮/焦点输入、Shift 事件隔离及窗口尺寸通知。
+`python tests/sync_window_smoke.py` 验证 2026 同步输出期间的像素保持、
+查询与输入、结束/超时/缩放释放，以及整个进程的工作集；快照使用有界压缩条带。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 
 本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；构建现在随程序

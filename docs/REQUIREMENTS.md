@@ -97,3 +97,23 @@ and110/111/112 restore. Queries preserve BEL vs ST. Overlong colour payloads are
 rejected as a whole with a fixed2048-byte buffer. Pure parser precision tests and
 fragmented terminal-state tests pass; real ConPTY OSC4/10 round trips also pass.
 Full X11 names and Xcms rgbi remain unsupported; no new full-surface framebuffer.
+
+
+2026/DECRQM checkpoint: implemented synchronized presentation with lossless
+32-row XPRESS_HUFF snapshots, an 8MiB module allocation limit, fixed one-second
+recovery, and lifecycle cleanup. No full-window raw framebuffer is retained.
+Snapshot errors are logged and the batch remains unfrozen (mode2); unsupported
+frontends report mode0. Windows Compression API is a system dependency (cabinet).
+All11 local suites pass; native tests cover frozen text/Sixel/background pixels,
+queries, input, timeout and resize. `research/sync-window-observed.json` records
+actual viewport size and private/total WS samples without trimming. Full4K is
+verified in the separate offscreen module test, not this monitor-limited window.
+
+Real Claude Code2.1.322 startup/idle check: `--bare --tools "" --permission-mode plan
+--setting-sources ""`, isolated temporary directory; Sarasa100x30. Native captures
+`claude-interactive.png` and `claude-resized.png` show the interactive UI and
+unsubmitted Chinese/combining-text input after resize. Private WS4,333,568 bytes,
+total20,484,096 bytes across5 samples; record `claude-interactive-memory.json`.
+`claude-child-memory.json` lists the separate Claude process; ConPTY and fixture
+Python are also separate. No inference was submitted. This is startup/idle/input
+and resize evidence, not full-agent streaming/long-history or all-feature acceptance.

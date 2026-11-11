@@ -1,4 +1,6 @@
-param([Parameter(Mandatory)][int]$ProcessId, [string]$Output = 'research/nemoterm-memory.json')
+param([Parameter(Mandatory)][int]$ProcessId,
+      [string]$Output = 'research/nemoterm-memory.json',
+      [string]$Scenario = 'visible 80x24 Sarasa text/colour fixture; no trimming')
 $ErrorActionPreference = 'Stop'
 $p = Get-CimInstance Win32_Process -Filter "ProcessId=$ProcessId"
 if (!$p -or $p.Name -ne 'nemoterm.exe') { throw 'Expected live nemoterm.exe PID' }
@@ -21,7 +23,7 @@ $children = @(Get-CimInstance Win32_Process -Filter "ParentProcessId=$ProcessId"
 })
 [pscustomobject]@{
     executable=$p.ExecutablePath;sha256=(Get-FileHash -LiteralPath $p.ExecutablePath).Hash
-    scenario='visible 80x24 Sarasa text/colour fixture; no trimming';samples=$samples
+    scenario=$Scenario;samples=$samples
     direct_children=$children
     limit_private_bytes=20000000;target_total_bytes=50000000
     private_limit_pass=(@($samples | Where-Object private_working_set_bytes -ge 20000000).Count -eq 0)

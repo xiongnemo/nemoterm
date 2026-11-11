@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析与OSC颜色八组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另已用真实窗口截图验证字体与Sixel色块，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态及压缩快照十一组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另已用真实窗口截图验证字体与Sixel色块，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -42,9 +42,9 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 | 鼠标1001 highlight tracking、额外侧键 | 缺失 | 历史应用协作高亮握手、Windows XBUTTON 仍待实现；不能将常见TUI鼠标覆盖等同所有xterm模式。Ctrl+右键保留为显式本地菜单快捷键。 |
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
 | bracketed paste 2004：`CSI 200~` / `CSI 201~` | 已证（有限范围） | `test_bracketed_paste` 验证UTF-8内容、开关和空粘贴；仍须测大段、多行、取消、内嵌结束符、系统剪贴板及真实ConPTY。 |
-| synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 缺失 | 合并普通重绘/50Hz冷却不等于同步输出。必须继续解析但暂缓呈现，复位/超时/退出后释放，且不冻结本地输入；需像素级“无中间帧”验证。 |
+| synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 已证（有限范围） | 解析/输入/查询继续，冻结的是呈现。`test_sync`用可控时钟证明重复SET不续期、单RESET结束、旧timer隔离和1秒超时；`sync_window_smoke.py`证明文本/Sixel/颜色期间像素不变、结束/超时更新、输入继续与resize释放。冻结按32行压缩，模块总预算8MiB；资源不足拒绝本次冻结并记录事件，不保留部分快照。 |
 | DA/DA2、DSR/CPR：`CSI c`、`CSI > c`、`CSI 5n/6n` | 源码已见 | T已有回复，DA2沿用`>0;136;0c`。需核对实际能力再宣告，验证origin/边距和回包顺序；不能虚报Sixel或未实现功能。 |
-| DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y`；DA3/XTVERSION等进一步查询 | 缺失/待细分 | 需逐项拆分普通/私有模式及0未知、1置位、2复位、3/4永久状态。单独回复2026不能冒称所有模式已支持。 |
+| DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y` | 已证（有限范围） | `test_modes`验证标准4/12/20/34、DEC基础模式、备用屏别名、鼠标各组、Sixel模式、2004及2026，未知0；配置禁用的相关模式返回4。与xterm一致只处理首Ps。额外DA3/XTVERSION等身份查询仍未实现，不能由此称所有查询已支持。 |
 | 窗口操作 `CSI Ps ... t`、像素/字符尺寸、标题栈22/23 | 部分源码已见 | T含窗口大小、位置、最小化等部分操作；每个子参数、权限设置、DPI和查询准确性都待核实，尤其标题栈。 |
 
 ## OSC、DCS、图像与shell语义
@@ -79,8 +79,15 @@ Sixel及resize集成后已运行 `scripts/test.ps1`，配置、终端、Sixel解
 
 ## 下一轮实现和验收顺序
 
-1. **直接影响现代agent的缺口**：2026与模式查询、OSC8、冒号SGR及常见样式、kitty键盘协商；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
+1. **直接影响现代agent的缺口**：OSC8、冒号SGR及常见样式、kitty键盘协商；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：DECRQSS/XTGETTCAP、OSC52设置与查询策略、鼠标1001/侧键、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
 每一项完成至少需要：序列与参数定义 → 对应源码和状态生命周期 → 分块输入与回复测试 → 有界资源测试 → 必要的真实窗口/应用验证。图片、链接、历史和新样式加入后，应重跑代表性agent负载的私有工作集、总工作集和长时间峰值；本账本不证明内存门槛已经成立。
+
+
+2026参考：[Contour同步输出规范](https://contour-terminal.org/vt-extensions/synchronized-output/)。
+本项目的1秒硬超时、重复SET不续期、resize/字体/DPI/reset/reconfig/退出和本地选择/滚动结束冻结，
+是明确的恢复策略，不宣称规范规定唯一时限。8MiB预算含codec自定义分配和条带像素，
+不含OS的句柄内部开销；进程WS须另测。`test_snapshot`离屏验证3840x2160；
+本机真实窗口被显示器限制到1907x1061，不能把该进程内存记录冒称4K窗口实测。

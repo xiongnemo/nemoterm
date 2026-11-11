@@ -175,6 +175,8 @@ struct terminal_tag {
 
     int rows, cols, savelines;
     bool has_focus;
+    bool synchronized_update;
+    unsigned long synchronized_update_deadline;
     bool in_vbell;
     long vbell_end;
     bool app_cursor_keys, app_keypad_keys, vt52_mode;

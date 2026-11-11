@@ -1317,6 +1317,8 @@ static void term_timer(void *ctx, unsigned long now)
         term->window_update_cooldown = false;
     }
 
+    if (term->synchronized_update && now == term->synchronized_update_deadline)
+        term_end_synchronized_update(term);
     if (term->window_update_pending)
         term_update_callback(term);
 }
@@ -1324,7 +1326,7 @@ static void term_timer(void *ctx, unsigned long now)
 static void term_update_callback(void *ctx)
 {
     Terminal *term = (Terminal *)ctx;
-    if (!term->window_update_pending)
+    if (!term->window_update_pending || term->synchronized_update)
         return;
     if (!term->window_update_cooldown) {
         term_update(term);
@@ -1340,6 +1342,32 @@ static void term_schedule_update(Terminal *term)
         term->window_update_pending = true;
         queue_toplevel_callback(term_update_callback, term);
     }
+}
+
+/* DECSET 2026 defers presentation, never input parsing or protocol replies.
+ * A fixed one-second deadline bounds an incomplete update. Repeated SET is
+ * idempotent and does not prolong the deadline. */
+static void term_start_synchronized_update(Terminal *term)
+{
+    if (term->synchronized_update || !term->win->vt->set_synchronized_update)
+        return;
+    term_update(term);
+    if (term->win->vt->set_synchronized_update(term->win, true)) {
+        term->synchronized_update = true;
+        term->synchronized_update_deadline = schedule_timer(
+            TICKSPERSEC, term_timer, term);
+    }
+}
+
+void term_end_synchronized_update(Terminal *term)
+{
+    if (!term->synchronized_update) return;
+    term->synchronized_update = false;
+    term->win->vt->set_synchronized_update(term->win, false);
+    /* The callback queued before the freeze may already have run and deferred
+     * itself. Queue a fresh repaint even when that left pending=true. */
+    term->window_update_pending = false;
+    term_invalidate(term);
 }
 
 /*
@@ -1458,6 +1486,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
 {
     if (!term || width < 1 || height < 1) return;
     if (term->cell_width == width && term->cell_height == height) return;
+    term_end_synchronized_update(term);
     nemo_images_clear(term);
     term->cell_width = width;
     term->cell_height = height;
@@ -1689,6 +1718,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    term_end_synchronized_update(term);
     nemo_images_clear(term);
     term->sixel_display_mode = term->sixel_scrolls_right = false;
     term->sixel_private_palette = true;
@@ -1790,6 +1820,7 @@ static void power_on(Terminal *term, bool clear)
  */
 void term_update(Terminal *term)
 {
+    if (term->synchronized_update) return;
     term->window_update_pending = false;
 
     if (term->win_move_pending) {
@@ -1999,6 +2030,7 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    term_end_synchronized_update(term);
     /*
      * Before adopting the new config, check all those terminal
      * settings which control power-on defaults; and if they've
@@ -2391,6 +2423,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
 void term_free(Terminal *term)
 {
+    term_end_synchronized_update(term);
     nemo_images_clear(term);
     compressed_scrollback_line *cline;
     termline *line;
@@ -2481,6 +2514,8 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     if (newrows == term->rows && newcols == term->cols &&
         newsavelines == term->savelines)
         return;                        /* nothing to do */
+
+    term_end_synchronized_update(term);
 
     /* Pixel images cannot be reflowed with text; discard on grid resize. */
     nemo_images_clear(term);
@@ -3342,6 +3377,7 @@ static void term_request_resize(Terminal *term, int cols, int rows)
         return;                        /* don't need to do anything */
 
     term->win_resize_pending = WIN_RESIZE_NEED_SEND;
+    term_end_synchronized_update(term);
     term->win_resize_pending_w = cols;
     term->win_resize_pending_h = rows;
     term_schedule_update(term);
@@ -3480,6 +3516,10 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 8452:                   /* Sixel cursor to graphic right */
             term->sixel_scrolls_right = state;
             break;
+          case 2026:                   /* synchronized presentation */
+            if (state) term_start_synchronized_update(term);
+            else term_end_synchronized_update(term);
+            break;
           case 2004:                   /* xterm bracketed paste */
             term->bracketed_paste = state ? true : false;
             break;
@@ -3501,6 +3541,61 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             term->big_cursor = !state;
         }
     }
+}
+
+/* DECRQM reports implemented state, not a list of aspirational features.
+ * 0=unknown, 1=set, 2=reset, 4=permanently reset by local configuration. */
+static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
+{
+    bool state;
+    if (!dec) {
+        switch (mode) {
+          case 4: state = term->insert; break;
+          case 12: state = !term->srm_echo; break;
+          case 20: state = term->cr_lf_return; break;
+          case 34: state = !term->big_cursor; break;
+          default: return 0;
+        }
+    } else {
+        switch (mode) {
+          case 1:
+            if (term->no_applic_c) return 4;
+            state = term->app_cursor_keys; break;
+          case 2: state = !term->vt52_mode; break;
+          case 3:
+            if (term->no_remote_resize) return 4;
+            state = term->reset_132; break;
+          case 5: state = term->rvideo; break;
+          case 6: state = term->dec_om; break;
+          case 7: state = term->wrap; break;
+          case 8: state = !term->repeat_off; break;
+          case 25: state = term->cursor_on; break;
+          case 47: case 1047: case 1049:
+            if (term->no_alt_screen) return 4;
+            state = term->alt_which != 0; break;
+          case 80: state = term->sixel_display_mode; break;
+          case 1070: state = term->sixel_private_palette; break;
+          case 8452: state = term->sixel_scrolls_right; break;
+          case 9: case 1000: case 1002: case 1003:
+            if (term->no_mouse_rep) return 4;
+            state = term->xterm_mouse == (mode == 9 ? -1 : mode == 1000 ? 1 :
+                                         mode == 1002 ? 2 : 3); break;
+          case 1005: case 1006: case 1015: case 1016:
+            state = term->mouse_encoding == (int)mode; break;
+          case 1004:
+            if (term->no_mouse_rep) return 4;
+            state = term->mouse_focus_reporting; break;
+          case 1007: state = term->mouse_alternate_scroll; break;
+          case 2004:
+            if (term->no_bracketed_paste) return 4;
+            state = term->bracketed_paste; break;
+          case 2026:
+            if (!term->win->vt->set_synchronized_update) return 0;
+            state = term->synchronized_update; break;
+          default: return 0;
+        }
+    }
+    return state ? 1 : 2;
 }
 
 /* Split the bounded OSC payload without allocations. */
@@ -4761,7 +4856,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         term->esc_args[term->esc_nargs++] = ARG_DEFAULT;
                     term->termstate = SEEN_CSI;
                 } else if (c < '@') {
-                    if (term->esc_query)
+                    if (c == '$' && term->esc_query == 1)
+                        term->esc_query = 0x100 + '$';
+                    else if (term->esc_query)
                         term->esc_query = -1;
                     else if (c == '?')
                         term->esc_query = 1;
@@ -4771,6 +4868,19 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
+                      case ANSI('p', '$'):
+                      case ANSI('p', 0x100 + '$'): {
+                        bool dec = term->esc_query != '$';
+                        unsigned mode = term->esc_args[0];
+                        if (term->ldisc) {
+                            char response[64];
+                            int len = sprintf(response, "\033[%s%u;%u$y",
+                                              dec ? "?" : "", mode,
+                                              term_mode_status(term, mode, dec));
+                            ldisc_send(term->ldisc, response, len, false);
+                        }
+                        break;
+                      }
                       case 'A':       /* CUU: move up N lines */
                         CLAMP(term->esc_args[0], term->rows);
                         move(term, term->curs.x,
@@ -6947,7 +7057,7 @@ void term_paint(Terminal *term,
                 term->disptext[i]->chars[j].attr |= ATTR_INVALID;
     }
 
-    if (immediately) {
+    if (immediately && !term->synchronized_update) {
         do_paint(term);
     } else {
         term_schedule_update(term);
@@ -6963,6 +7073,7 @@ void term_paint(Terminal *term,
  */
 void term_scroll(Terminal *term, int rel, int where)
 {
+    term_end_synchronized_update(term);
     int sbtop = -sblines(term);
 
     term->disptop = (rel < 0 ? 0 : rel > 0 ? sbtop : term->disptop) + where;
@@ -7761,6 +7872,11 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     termline *ldata;
     int default_seltype;
     if (term->rows <= 0 || term->cols <= 0) return;
+    if (term->synchronized_update && (shift || !term->xterm_mouse) &&
+        (a == MA_CLICK || a == MA_DRAG || a == MA_2CLK || a == MA_3CLK)) {
+        term_end_synchronized_update(term);
+        term_update(term); /* local selection must match visible character cells */
+    }
     if (shift && term->mouse_buttons) {
         term_mouse_cancel(term);
         if (a == MA_DRAG && bcooked == MBT_SELECT)

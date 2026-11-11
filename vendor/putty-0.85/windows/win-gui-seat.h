@@ -91,6 +91,8 @@ struct WinGuiSeat {
     Conf *conf;
     LogContext *logctx;
     Terminal *term;
+    struct NemoSnapshot *sync_snapshot;
+    bool sync_capture_failed;
 
     int cursor_type;
     int vtmode;

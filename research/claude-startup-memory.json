@@ -1,0 +1,61 @@
+{
+  "executable": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+  "sha256": "E6B0E48A157FA664629D13489E1F7C7D0EA15D22409B99EE7A65ABAC1B956C57",
+  "scenario": "Claude Code 2.1.322 trust dialog in isolated test directory; 100x30 Sarasa; bare mode, tools disabled; no inference; no trimming",
+  "samples": [
+    {
+      "time": "2026-11-12T03:09:03.8204067+11:00",
+      "pid": 39708,
+      "private_working_set_bytes": 4403200,
+      "total_working_set_bytes": 20533248,
+      "private_committed_bytes": 5873664
+    },
+    {
+      "time": "2026-11-12T03:09:04.8839712+11:00",
+      "pid": 39708,
+      "private_working_set_bytes": 4403200,
+      "total_working_set_bytes": 20533248,
+      "private_committed_bytes": 5873664
+    },
+    {
+      "time": "2026-11-12T03:09:05.9318942+11:00",
+      "pid": 39708,
+      "private_working_set_bytes": 4403200,
+      "total_working_set_bytes": 20533248,
+      "private_committed_bytes": 5873664
+    },
+    {
+      "time": "2026-11-12T03:09:06.9882815+11:00",
+      "pid": 39708,
+      "private_working_set_bytes": 4403200,
+      "total_working_set_bytes": 20533248,
+      "private_committed_bytes": 5873664
+    },
+    {
+      "time": "2026-11-12T03:09:08.0444299+11:00",
+      "pid": 39708,
+      "private_working_set_bytes": 4403200,
+      "total_working_set_bytes": 20533248,
+      "private_committed_bytes": 5873664
+    }
+  ],
+  "direct_children": [
+    {
+      "pid": 20776,
+      "name": "OpenConsole.exe",
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\OpenConsole.exe",
+      "private_working_set_bytes": 1462272,
+      "total_working_set_bytes": 9490432
+    },
+    {
+      "pid": 21200,
+      "name": "python.exe",
+      "path": "C:\\Users\\nemo\\scoop\\apps\\python\\current\\python.exe",
+      "private_working_set_bytes": 7610368,
+      "total_working_set_bytes": 16412672
+    }
+  ],
+  "limit_private_bytes": 20000000,
+  "target_total_bytes": 50000000,
+  "private_limit_pass": true
+}

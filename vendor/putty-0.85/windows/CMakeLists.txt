@@ -63,7 +63,8 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
-  dialog.c controls.c config.c printing.c jump-list.c sizetip.c)
+  dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
+target_link_libraries(guiterminal cabinet)
 add_dependencies(guiterminal generated_licence_h) # dialog.c uses licence.h
 
 # This object awkwardly needs to live in the network library as well
@@ -232,6 +233,23 @@ add_executable(test_mouse
 target_link_libraries(test_mouse
   guiterminal settings eventloop utils ${platform_libraries})
 
+add_executable(test_modes
+  ${CMAKE_SOURCE_DIR}/test/test_modes.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_modes
+  guiterminal settings eventloop utils ${platform_libraries})
+
+add_executable(test_sync
+  ${CMAKE_SOURCE_DIR}/test/test_sync.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  no-jump-list.c)
+target_link_libraries(test_sync
+  guiterminal settings eventloop utils ${platform_libraries})
+
 add_executable(test_osc_colour
   ${CMAKE_SOURCE_DIR}/test/test_osc_colour.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
@@ -242,3 +260,6 @@ target_link_libraries(test_osc_colour
   guiterminal settings eventloop utils ${platform_libraries})
 
 add_sources_from_current_dir(test_conf no-jump-list.c handle-wait.c)
+
+add_executable(test_snapshot ../../tests/test_snapshot.c nemo_snapshot.c)
+target_link_libraries(test_snapshot cabinet gdi32 user32)

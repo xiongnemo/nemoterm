@@ -1,0 +1,61 @@
+{
+  "executable": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+  "sha256": "E6B0E48A157FA664629D13489E1F7C7D0EA15D22409B99EE7A65ABAC1B956C57",
+  "scenario": "Claude Code 2.1.322 interactive idle; 100x30 Sarasa; bare mode, tools disabled; no inference yet; no trimming",
+  "samples": [
+    {
+      "time": "2026-11-12T03:11:08.2600933+11:00",
+      "pid": 40368,
+      "private_working_set_bytes": 4333568,
+      "total_working_set_bytes": 20484096,
+      "private_committed_bytes": 5599232
+    },
+    {
+      "time": "2026-11-12T03:11:09.3221963+11:00",
+      "pid": 40368,
+      "private_working_set_bytes": 4333568,
+      "total_working_set_bytes": 20484096,
+      "private_committed_bytes": 5599232
+    },
+    {
+      "time": "2026-11-12T03:11:10.3720135+11:00",
+      "pid": 40368,
+      "private_working_set_bytes": 4333568,
+      "total_working_set_bytes": 20484096,
+      "private_committed_bytes": 5599232
+    },
+    {
+      "time": "2026-11-12T03:11:11.4226045+11:00",
+      "pid": 40368,
+      "private_working_set_bytes": 4333568,
+      "total_working_set_bytes": 20484096,
+      "private_committed_bytes": 5599232
+    },
+    {
+      "time": "2026-11-12T03:11:12.4703041+11:00",
+      "pid": 40368,
+      "private_working_set_bytes": 4333568,
+      "total_working_set_bytes": 20484096,
+      "private_committed_bytes": 5599232
+    }
+  ],
+  "direct_children": [
+    {
+      "pid": 16880,
+      "name": "OpenConsole.exe",
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\OpenConsole.exe",
+      "private_working_set_bytes": 1470464,
+      "total_working_set_bytes": 9527296
+    },
+    {
+      "pid": 17708,
+      "name": "python.exe",
+      "path": "C:\\Users\\nemo\\scoop\\apps\\python\\current\\python.exe",
+      "private_working_set_bytes": 7479296,
+      "total_working_set_bytes": 16281600
+    }
+  ],
+  "limit_private_bytes": 20000000,
+  "target_total_bytes": 50000000,
+  "private_limit_pass": true
+}

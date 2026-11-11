@@ -1,0 +1,401 @@
+{
+  "before": "ea1d55678feb62284b3814e9a89d06815fe4dcb291943cc68b3a24f22b9a6e0c",
+  "during": "ea1d55678feb62284b3814e9a89d06815fe4dcb291943cc68b3a24f22b9a6e0c",
+  "after": "c2cd17d2c089bf507a0dd919bd8c3126e0b2c457bf245edc1f0a311605358307",
+  "large_viewport": {
+    "width": 1907,
+    "height": 1061,
+    "columns": 238,
+    "rows": 52
+  },
+  "large_viewport_memory": {
+    "private_ws": 5726208,
+    "total_ws": 21868544,
+    "private_commit": 6971392
+  },
+  "samples": [
+    {
+      "private_ws": 159744,
+      "total_ws": 2408448,
+      "private_commit": 405504
+    },
+    {
+      "private_ws": 1482752,
+      "total_ws": 11890688,
+      "private_commit": 2048000
+    },
+    {
+      "private_ws": 2154496,
+      "total_ws": 13668352,
+      "private_commit": 2863104
+    },
+    {
+      "private_ws": 3235840,
+      "total_ws": 18960384,
+      "private_commit": 4431872
+    },
+    {
+      "private_ws": 3235840,
+      "total_ws": 18960384,
+      "private_commit": 4431872
+    },
+    {
+      "private_ws": 3235840,
+      "total_ws": 18960384,
+      "private_commit": 4431872
+    },
+    {
+      "private_ws": 4096000,
+      "total_ws": 20123648,
+      "private_commit": 5304320
+    },
+    {
+      "private_ws": 4096000,
+      "total_ws": 20123648,
+      "private_commit": 5304320
+    },
+    {
+      "private_ws": 4096000,
+      "total_ws": 20123648,
+      "private_commit": 5304320
+    },
+    {
+      "private_ws": 4096000,
+      "total_ws": 20123648,
+      "private_commit": 5304320
+    },
+    {
+      "private_ws": 4096000,
+      "total_ws": 20123648,
+      "private_commit": 5304320
+    },
+    {
+      "private_ws": 4198400,
+      "total_ws": 20250624,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4198400,
+      "total_ws": 20250624,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4198400,
+      "total_ws": 20250624,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4198400,
+      "total_ws": 20250624,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20180992,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20180992,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20180992,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20201472,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20201472,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4112384,
+      "total_ws": 20201472,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20307968,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20221952,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4128768,
+      "total_ws": 20226048,
+      "private_commit": 5558272
+    },
+    {
+      "private_ws": 4214784,
+      "total_ws": 20320256,
+      "private_commit": 5730304
+    },
+    {
+      "private_ws": 4337664,
+      "total_ws": 20455424,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4337664,
+      "total_ws": 20455424,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 4337664,
+      "total_ws": 20463616,
+      "private_commit": 5644288
+    },
+    {
+      "private_ws": 5447680,
+      "total_ws": 21581824,
+      "private_commit": 6684672
+    },
+    {
+      "private_ws": 5451776,
+      "total_ws": 21594112,
+      "private_commit": 6684672
+    },
+    {
+      "private_ws": 5451776,
+      "total_ws": 21594112,
+      "private_commit": 6684672
+    },
+    {
+      "private_ws": 5451776,
+      "total_ws": 21594112,
+      "private_commit": 6684672
+    },
+    {
+      "private_ws": 5726208,
+      "total_ws": 21868544,
+      "private_commit": 6971392
+    },
+    {
+      "private_ws": 5726208,
+      "total_ws": 21868544,
+      "private_commit": 6971392
+    },
+    {
+      "private_ws": 5480448,
+      "total_ws": 21622784,
+      "private_commit": 6721536
+    },
+    {
+      "private_ws": 5480448,
+      "total_ws": 21622784,
+      "private_commit": 6721536
+    }
+  ],
+  "peak_private_ws": 5726208,
+  "peak_total_ws": 21868544,
+  "executable_sha256": "e6b0e48a157fa664629d13489e1f7c7d0ea15d22409b99ee7a65abac1b956c57"
+}

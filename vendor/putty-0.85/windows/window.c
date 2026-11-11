@@ -20,6 +20,7 @@
 #include "putty-rc.h"
 #include "security-api.h"
 #include "win-gui-seat.h"
+#include "nemo_snapshot.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -150,6 +151,7 @@ struct WinGuiSeatListNode wgslisthead = {
      ((wch) >= 0xFE00 && (wch) <= 0xFE0F)) /* VARIATION SELECTOR 1-16 */
 
 static bool wintw_setup_draw_ctx(TermWin *);
+static bool wintw_set_synchronized_update(TermWin *, bool);
 static void wintw_draw_text(TermWin *, int x, int y, wchar_t *text, int len,
                             unsigned long attrs, int lattrs, truecolour tc);
 static void wintw_draw_cursor(TermWin *, int x, int y, wchar_t *text, int len,
@@ -180,6 +182,7 @@ static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
 static const TermWinVtable windows_termwin_vt = {
+    .set_synchronized_update = wintw_set_synchronized_update,
     .setup_draw_ctx = wintw_setup_draw_ctx,
     .draw_text = wintw_draw_text,
     .draw_cursor = wintw_draw_cursor,
@@ -2141,6 +2144,7 @@ static void exit_callback(void *vctx)
 static void win_seat_notify_remote_exit(Seat *seat)
 {
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
+    term_end_synchronized_update(wgs->term);
     queue_toplevel_callback(exit_callback, wgs);
 }
 
@@ -2238,6 +2242,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       }
       case WM_DESTROY:
+        if (wgs->term) term_end_synchronized_update(wgs->term);
         show_mouseptr(wgs, true);
         PostQuitMessage(0);
         return 0;
@@ -2831,6 +2836,17 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
         HideCaret(hwnd);
         hdc = BeginPaint(hwnd, &p);
+        if (wgs->sync_snapshot && wgs->term->synchronized_update) {
+            NemoSnapshotError error;
+            if (nemo_snapshot_paint(wgs->sync_snapshot, hdc, &p.rcPaint, &error)) {
+                EndPaint(hwnd, &p);
+                ShowCaret(hwnd);
+                return 0;
+            }
+            logeventf(wgs->logctx, "Synchronized repaint failed at %s (%lu)",
+                      error.stage, (unsigned long)error.win32_error);
+            term_end_synchronized_update(wgs->term);
+        }
         if (wgs->pal) {
             SelectPalette(hdc, wgs->pal, true);
             RealizePalette(hdc);
@@ -2950,6 +2966,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         term_update(wgs->term);
         break;
       case WM_ENTERSIZEMOVE:
+        term_end_synchronized_update(wgs->term);
         EnableSizeTip(true);
         wgs->resizing = true;
         wgs->need_backend_resize = false;
@@ -3068,6 +3085,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         sys_cursor_update(wgs);
         break;
       case WM_SIZE:
+        term_end_synchronized_update(wgs->term);
         resize_action = conf_get_int(wgs->conf, CONF_resize_action);
         term_notify_minimised(wgs->term, wParam == SIZE_MINIMIZED);
         {
@@ -3166,6 +3184,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         sys_cursor_update(wgs);
         return 0;
       case WM_DPICHANGED:
+        term_end_synchronized_update(wgs->term);
         wgs->dpi_info.cur_dpi.x = LOWORD(wParam);
         wgs->dpi_info.cur_dpi.y = HIWORD(wParam);
         wgs->dpi_info.new_wnd_rect = *(RECT*)(lParam);
@@ -4924,6 +4943,61 @@ static void wintw_set_scrollbar(TermWin *tw, int total, int start, int page)
         SetScrollInfo(wgs->term_hwnd, SB_VERT, &si, true);
 }
 
+/* Snapshot only the presentation at BEGIN, in small compressed bands. No
+ * retained full-window raw bitmap and no live terminal reads during repaint. */
+static bool nemo_render_snapshot_band(HDC dc, int top, int height, void *ctx)
+{
+    WinGuiSeat *wgs = ctx;
+    RECT rect;
+    if (!GetClientRect(wgs->term_hwnd, &rect)) return false;
+    rect.top = top; rect.bottom = top + height;
+    HBRUSH brush = CreateSolidBrush(wgs->colours[ATTR_DEFBG >> ATTR_BGSHIFT]);
+    if (!brush) return false;
+    bool ok = FillRect(dc, &rect, brush) != 0;
+    DeleteObject(brush);
+    if (!ok) return false;
+    if (wgs->pal) { SelectPalette(dc, wgs->pal, false); RealizePalette(dc); }
+    assert(!wgs->wintw_hdc);
+    wgs->wintw_hdc = dc;
+    term_paint(wgs->term, 0, (top-wgs->offset_height)/wgs->font_height-1,
+               wgs->term->cols-1,
+               (top+height-wgs->offset_height)/wgs->font_height+1, true);
+    nemo_paint_images(wgs);
+    wgs->wintw_hdc = NULL;
+    return true;
+}
+
+static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (!enabled) {
+        nemo_snapshot_free(wgs->sync_snapshot);
+        wgs->sync_snapshot = NULL;
+        if (wgs->term_hwnd) InvalidateRect(wgs->term_hwnd, NULL, false);
+        return true;
+    }
+    RECT rect;
+    if (!wgs->term_hwnd || !GetClientRect(wgs->term_hwnd, &rect) ||
+        rect.right <= 0 || rect.bottom <= 0 ||
+        wgs->term->rows <= 0 || wgs->term->cols <= 0)
+        return false;
+    NemoSnapshotError error;
+    wgs->sync_snapshot = nemo_snapshot_create(
+        rect.right, rect.bottom, 8U*1024U*1024U,
+        nemo_render_snapshot_band, wgs, &error);
+    /* Capturing changed the terminal's display cache but not window pixels. */
+    term_invalidate(wgs->term);
+    if (!wgs->sync_snapshot) {
+        if (!wgs->sync_capture_failed)
+            logeventf(wgs->logctx, "Synchronized update not started: %s (%lu)",
+                      error.stage, (unsigned long)error.win32_error);
+        wgs->sync_capture_failed = true;
+        return false;
+    }
+    wgs->sync_capture_failed = false;
+    return true;
+}
+
 static bool wintw_setup_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
@@ -4954,6 +5028,12 @@ static void nemo_paint_images(WinGuiSeat *wgs)
     int saved = SaveDC(dc);
     if (!saved)
         return;
+    RECT paint_clip;
+    int clip_kind = GetClipBox(dc, &paint_clip);
+    if (clip_kind == ERROR || clip_kind == NULLREGION) {
+        RestoreDC(dc, saved);
+        return;
+    }
     IntersectClipRect(dc, wgs->offset_width, wgs->offset_height,
                      wgs->offset_width + term->cols * wgs->font_width,
                      wgs->offset_height + term->rows * wgs->font_height);
@@ -4978,7 +5058,8 @@ static void nemo_paint_images(WinGuiSeat *wgs)
         for (unsigned y = 0; y < stats.height; y++) {
             int y0 = top + (int)((uint64_t)y * img->pixel_height / stats.height);
             int y1 = top + (int)((uint64_t)(y+1) * img->pixel_height / stats.height);
-            if (y1 <= wgs->offset_height || y0 >= wgs->offset_height +
+            if (y1 <= paint_clip.top || y0 >= paint_clip.bottom ||
+                y1 <= wgs->offset_height || y0 >= wgs->offset_height +
                 term->rows * wgs->font_height || y1 == y0)
                 continue;
             size_t n = term_image_read_row(img, y, 0, row, stats.width);

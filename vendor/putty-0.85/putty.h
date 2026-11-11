@@ -1607,6 +1607,9 @@ struct TermWin {
     const struct TermWinVtable *vt;
 };
 struct TermWinVtable {
+    /* Optional presentation snapshot. Enabling may fail under resource limits.
+     * Called without a draw context; disabling must release all saved pixels. */
+    bool (*set_synchronized_update)(TermWin *, bool enabled);
     /*
      * All functions listed here between setup_draw_ctx and
      * free_draw_ctx expect to be _called_ between them too, so that
@@ -2044,6 +2047,7 @@ size_t term_data(Terminal *, const void *data, size_t len);
 void term_provide_backend(Terminal *term, Backend *backend);
 void term_provide_logctx(Terminal *term, LogContext *logctx);
 void term_set_focus(Terminal *term, bool has_focus);
+void term_end_synchronized_update(Terminal *term);
 char *term_get_ttymode(Terminal *term, const char *mode);
 SeatPromptResult term_get_userpass_input(Terminal *term, prompts_t *p);
 void term_set_trust_status(Terminal *term, bool trusted);
