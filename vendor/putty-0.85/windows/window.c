@@ -5155,7 +5155,10 @@ static void nemo_paint_images(WinGuiSeat *wgs)
             stats.width > NEMO_SIXEL_MAX_DIMENSION ||
             img->pixel_width <= 0 || img->pixel_height <= 0)
             continue;
-        int left = wgs->offset_width + img->x * wgs->font_width;
+        int64_t left64 = wgs->offset_width + (int64_t)img->x * wgs->font_width;
+        if (left64 >= paint_clip.right || left64 + img->pixel_width <= paint_clip.left)
+            continue;
+        int left = (int)left64;
         BITMAPINFO bi = {0};
         bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         bi.bmiHeader.biWidth = img->pixel_width;
@@ -5164,15 +5167,15 @@ static void nemo_paint_images(WinGuiSeat *wgs)
         bi.bmiHeader.biBitCount = 32;
         bi.bmiHeader.biCompression = BI_RGB;
         for (int y = 0; y < img->pixel_height; y++) {
-            int dest = img->row_positions[y / img->cell_height];
-            if (dest == INT_MIN) continue;
-            int y0 = wgs->offset_height + (dest-term->disptop) *
-                wgs->font_height + y % img->cell_height;
-            int y1 = y0 + 1;
-            if (y1 <= paint_clip.top || y0 >= paint_clip.bottom ||
-                y1 <= wgs->offset_height || y0 >= wgs->offset_height +
-                term->rows * wgs->font_height || y1 == y0)
+            int64_t dest = term_image_pixel_y(img, y, wgs->font_height);
+            if (dest == INT64_MIN) continue;
+            int64_t y64 = wgs->offset_height + dest -
+                (int64_t)term->disptop * wgs->font_height;
+            if (y64 < paint_clip.top || y64 >= paint_clip.bottom ||
+                y64 < wgs->offset_height || y64 >= wgs->offset_height +
+                (int64_t)term->rows * wgs->font_height)
                 continue;
+            int y0 = (int)y64;
             size_t n = term_image_read_row(img, y, 0, row, img->pixel_width);
             for (unsigned x = 0; x < n;) {
                 if (!(row[x] >> 24)) { x++; continue; }
@@ -5181,7 +5184,7 @@ static void nemo_paint_images(WinGuiSeat *wgs)
                 int x0 = left + x;
                 int x1 = left + end;
                 if (x1 > x0)
-                    StretchDIBits(dc, x0, y0, x1-x0, y1-y0,
+                    StretchDIBits(dc, x0, y0, x1-x0, 1,
                                   x, 0, end-x, 1, row, &bi, DIB_RGB_COLORS, SRCCOPY);
                 x = end;
             }

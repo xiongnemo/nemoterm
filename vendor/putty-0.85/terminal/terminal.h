@@ -12,20 +12,29 @@
 
 enum { MOUSE_TRACK_HIGHLIGHT = 4 };
 
+typedef struct NemoImageRow {
+    unsigned char *erased; /* points into a lazy 32-row erase-mask band */
+    int anchor;            /* text-row origin; INT_MIN means discarded */
+    unsigned erased_pixels;
+} NemoImageRow;
+
 typedef struct NemoTermImage {
     struct NemoTermImage *next;
     NemoSixel *bitmap;
-    int x, y, cols, rows, screen;
-    int pixel_width, pixel_height, cell_width, cell_height;
-    /* Destination row of each original cell-height strip. INT_MIN marks a
-     * discarded strip. Splitting scroll regions never copies bitmap tiles. */
-    int *row_positions;
-    unsigned char *erased_cells;
-    size_t erased_bytes, erased_count, memory_bytes;
+    int x, y, last_y, screen, pixel_width, pixel_height, live_rows;
+    /* Pixel row p is placed at lines[p].anchor * current_cell_height + p.
+     * Font changes retain intrinsic raster dimensions and erase holes;
+     * scrolling changes only the affected rows' character-unit translation. */
+    NemoImageRow *lines;
+    unsigned char **mask_bands;
+    unsigned band_count;
+    size_t erased_bytes, memory_bytes;
 } NemoTermImage;
 
 void term_set_cell_size(Terminal *, int width, int height);
-/* Read aspect-corrected raster pixels, applying the original-cell erase mask. */
+/* INT64_MIN means discarded/out of bounds. Otherwise may be in history. */
+int64_t term_image_pixel_y(const NemoTermImage *, unsigned y, int cell_height);
+/* Read aspect-corrected raster pixels, applying the pixel erase mask. */
 size_t term_image_read_row(const NemoTermImage *, unsigned y, unsigned x,
                           uint32_t *, size_t count);
 

@@ -1,5 +1,6 @@
 #include "putty.h"
 #include "terminal.h"
+#include <wchar.h>
 
 void modalfatalbox(const char *p, ...)
 {

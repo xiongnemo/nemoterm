@@ -240,6 +240,19 @@ if(GTK_FOUND)
     guiterminal settings eventloop utils ${platform_libraries})
 endif()
 
+# Headless parser/image-lifecycle test, including shared-budget eviction.
+# Keep it available without GTK so Linux sanitizers exercise the same core
+# image placement and erase-mask code used by the Windows frontend.
+add_executable(test_sixel_terminal
+  ${CMAKE_SOURCE_DIR}/test/test_sixel_terminal.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-printing.c
+  unicode.c no-gtk.c)
+target_link_libraries(test_sixel_terminal
+  guiterminal settings eventloop charset utils ${platform_libraries})
+
 # Pageant is built whether we have GTK or not; in its absence we
 # degrade to a version that doesn't provide the GTK askpass.
 if(GTK_FOUND)

@@ -1,0 +1,415 @@
+{
+  "observations": [
+    {
+      "phase": "initial",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 5760,
+      "gdi": 22
+    },
+    {
+      "phase": "initial-hole",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 5600,
+      "gdi": 22
+    },
+    {
+      "phase": "wide",
+      "geometry": [
+        1,
+        1,
+        16,
+        20
+      ],
+      "red_pixels": 5600,
+      "gdi": 22
+    },
+    {
+      "phase": "tall",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 5600,
+      "gdi": 22
+    },
+    {
+      "phase": "both",
+      "geometry": [
+        1,
+        1,
+        12,
+        30
+      ],
+      "red_pixels": 5600,
+      "gdi": 22
+    },
+    {
+      "phase": "new-grid-hole",
+      "geometry": [
+        1,
+        1,
+        12,
+        30
+      ],
+      "red_pixels": 5240,
+      "gdi": 22
+    },
+    {
+      "phase": "restored-with-holes",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 5240,
+      "gdi": 22
+    },
+    {
+      "phase": "partial-scroll",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-0",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-0",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-1",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-1",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-2",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-2",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-3",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-3",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-4",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-4",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-5",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-5",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-6",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-6",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "split-tall-7",
+      "geometry": [
+        1,
+        1,
+        8,
+        40
+      ],
+      "red_pixels": 1920,
+      "gdi": 22
+    },
+    {
+      "phase": "split-restore-7",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 3440,
+      "gdi": 22
+    },
+    {
+      "phase": "into-history",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 1680,
+      "gdi": 22
+    },
+    {
+      "phase": "clear-history-keeps-visible",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 1680,
+      "gdi": 22
+    },
+    {
+      "phase": "clear-image",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 0,
+      "gdi": 22
+    },
+    {
+      "phase": "main-new",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 5760,
+      "gdi": 22
+    },
+    {
+      "phase": "alt-empty",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 0,
+      "gdi": 22
+    },
+    {
+      "phase": "alt-new",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 2880,
+      "gdi": 22
+    },
+    {
+      "phase": "alt-wide",
+      "geometry": [
+        1,
+        1,
+        16,
+        20
+      ],
+      "red_pixels": 2880,
+      "gdi": 22
+    },
+    {
+      "phase": "main-restored-wide",
+      "geometry": [
+        1,
+        1,
+        16,
+        20
+      ],
+      "red_pixels": 5760,
+      "gdi": 22
+    },
+    {
+      "phase": "main-final-size",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 5760,
+      "gdi": 22
+    },
+    {
+      "phase": "image-budget",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 1024,
+      "gdi": 23
+    },
+    {
+      "phase": "image-budget-erase",
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "red_pixels": 864,
+      "gdi": 23
+    },
+    {
+      "phase": "image-budget-font-change",
+      "geometry": [
+        1,
+        1,
+        16,
+        40
+      ],
+      "red_pixels": 864,
+      "gdi": 23
+    },
+    {
+      "phase": "image-budget-release",
+      "geometry": [
+        1,
+        1,
+        16,
+        40
+      ],
+      "red_pixels": 0,
+      "gdi": 22
+    }
+  ],
+  "peak_private_ws": 8089600,
+  "peak_total_ws": 24031232,
+  "peak_private_commit": 9351168,
+  "executable_sha256": "3ba91cf3eb8d4bafeed2b5bada6203750add5dd941bcb27d98a0a5635e03545c"
+}

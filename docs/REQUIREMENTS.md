@@ -312,6 +312,48 @@ peak private WS 1,961,984 bytes, total WS 12,345,344 bytes, private commit
 at 3,375,104 / 19,247,104 bytes private / total WS; neither sample is a
 universal application limit. Captures are
 `research/sixel-partial-scroll.png` and `research/sixel-resize-retained.png`.
-This is finite fixture evidence, not long-running agent acceptance. Font/DPI
-cell-size changes still clear images, and palette recolouring and remaining
-graphics protocols remain open in `PROTOCOLS.md`.
+This is finite fixture evidence, not long-running agent acceptance. At that
+checkpoint font/DPI cell-size changes still cleared images; the following
+change supersedes that limitation. Palette recolouring and remaining graphics
+protocols remain open in `PROTOCOLS.md`.
+
+Font-size changes now retain the original Sixel raster and its pixel erasures.
+Each output scanline records its character-row anchor; its original pixel
+offset stays fixed. This follows xterm's unfragmented-image geometry: the
+origin follows the font grid, while raster dimensions do not scale with the
+font ([graphics.c, refresh_graphic](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/graphics.c)).
+For partial scrolling, each affected scanline carries an independent
+character-unit translation. Font changes can therefore make fragments overlap,
+as independently anchored fixed-size images can; restoring the font without
+further edits restores the same pixels. No resampling or cumulative rounding
+occurs. This fragmentation policy is local behavior, not an assertion that
+xterm's partial-scroll implementation is identical.
+
+Erasure uses the current font grid and records exact raster-pixel bits, including
+cells cutting through old cell boundaries. Masks are allocated in 32-row bands,
+not one tiny heap block per row. Bands with no remaining erased live pixels are
+freed. Decoder storage, scanline metadata, band pointers and masks share the
+4 MiB budget. Admission evicts oldest images before traversing the list to
+allocate masks, avoiding iterator invalidation; fully erased rows allocate no
+mask. Font changes allocate no new image storage and cancel only an incomplete
+incoming image. The platform's existing DPI path uses the same cell-size API;
+real multi-monitor DPI transitions remain unverified.
+
+Core tests cover 200 font round trips, exact old/new pixel holes, non-aligned
+scroll margins, history trimming after font changes, in-flight cancellation,
+band reclamation and near-budget eviction with 1,600 image submissions, plus
+2,000 deterministic mixed operations checking allocations, mask contents and
+live-row counts. A headless Unix target runs the same terminal integration
+suite under ASan/UBSan; it also passed locally in WSL Debian with leak detection.
+The eighth native suite, `sixel_font_window_smoke.py`, compares exact pixel sets
+at 37 checkpoints. A green steady cursor measures actual font cells and padding;
+the red raster is checked independently. It covers width-only, height-only and
+combined font changes, erasure before/after scaling, eight split-image font
+round trips, history and distinct main/alternate images. A final burst of 800
+images exercises the shared budget through actual Win32/ConPTY allocations,
+followed by mask allocation, font resize and release. Local Sarasa cells were
+8x20, 16x20, 8x40, 12x30 and 16x40 pixels; GDI objects rose from 22 to 23 during
+the burst and returned to 22. Latest local fixture peak private WS was
+8,089,600 bytes, total WS 24,031,232 bytes and private commit 9,351,168 bytes
+without trimming. The exact executable hash is in
+`research/sixel-font-observed.json`; screenshots are `research/sixel-font-*.png`.

@@ -112,6 +112,14 @@ jobs:
           Copy-Item research/sixel-window-observed.json test-results/ -ErrorAction SilentlyContinue
           Copy-Item research/sixel-*.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test native Sixel font changes and pixel erasure
+        shell: pwsh
+        run: |
+          python tests/sixel_font_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/sixel-font-observed.json test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/sixel-font-*.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -148,3 +156,20 @@ jobs:
             -I vendor/putty-0.85/terminal tests/test_colour.c \
             vendor/putty-0.85/terminal/nemo_colour.c -o test-colour
           ASAN_OPTIONS=detect_leaks=1 ./test-colour
+      - name: Test terminal image lifecycle with sanitizers
+        run: |
+          cmake -S vendor/putty-0.85 -B build-asan -G Ninja \
+            -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
+            '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
+          cmake --build build-asan --target test_sixel_terminal --parallel 4
+          set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_sixel_terminal 2>&1 | tee terminal-image-sanitizers.log
+      - name: Upload image sanitizer log
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: test-results-sanitizers-${{ github.sha }}
+          path: terminal-image-sanitizers.log
+          if-no-files-found: warn
