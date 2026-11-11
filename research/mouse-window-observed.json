@@ -1,5 +1,5 @@
 {
-  "test_pid": 35852,
+  "test_pid": 38116,
   "observations": [
     {
       "phase": "sgr-drag",
@@ -53,6 +53,20 @@
     {
       "phase": "focus-handler-roundtrip",
       "hex": "1b5b4f1b5b491b5b4f1b5b49",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "osc-dynamic-colour-roundtrip",
+      "hex": "1b5d31303b7267623a313231322f333433342f353635361b5c",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640
+    },
+    {
+      "phase": "osc-palette-roundtrip",
+      "hex": "1b5d343b353b7267623a616261622f636463642f6566656607",
       "columns": 80,
       "rows": 24,
       "input_mode": 640

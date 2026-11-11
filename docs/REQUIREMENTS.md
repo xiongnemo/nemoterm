@@ -89,3 +89,11 @@ messages (not global physical input), checking bytes read by the real ConPTY chi
 Results: `research/mouse-window-observed.json`; resize observed 80x24 -> 108x27 -> 58x12.
 1001 highlight tracking, side buttons, real hardware/trackpad and multi-DPI acceptance
 remain open. Ctrl+right-click remains the documented local-menu override.
+
+
+OSC colour checkpoint: allocation-free Xlib rgb:/# parsing, eight explicit names,
+OSC4 multi-set/query and104 selective/all reset, OSC10/11/12 sequential set/query,
+and110/111/112 restore. Queries preserve BEL vs ST. Overlong colour payloads are
+rejected as a whole with a fixed2048-byte buffer. Pure parser precision tests and
+fragmented terminal-state tests pass; real ConPTY OSC4/10 round trips also pass.
+Full X11 names and Xcms rgbi remain unsupported; no new full-surface framebuffer.

@@ -12,6 +12,7 @@
 #include <assert.h>
 #include "putty.h"
 #include "terminal.h"
+#include "nemo_colour.h"
 
 #define VT52_PLUS
 
@@ -3502,11 +3503,103 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
     }
 }
 
+/* Split the bounded OSC payload without allocations. */
+static char *osc_token(char **next)
+{
+    char *token = *next;
+    if (!token) return NULL;
+    char *sep = strchr(token, ';');
+    if (sep) { *sep = 0; *next = sep + 1; }
+    else *next = NULL;
+    return token;
+}
+
+static bool osc_palette_index(const char *s, unsigned *out)
+{
+    if (!s || !*s) return false;
+    unsigned index = 0;
+    for (; *s; s++) {
+        if (*s < '0' || *s > '9') return false;
+        index = index * 10 + (*s - '0');
+        if (index >= 256) return false;
+    }
+    *out = index;
+    return true;
+}
+
+static void osc_colour(Terminal *term, unsigned command, unsigned index,
+                       const char *spec, bool bel)
+{
+    if (!strcmp(spec, "?")) {
+        if (!term->ldisc) return;
+        rgb colour = term->palette[index];
+        char prefix[32], response[96];
+        if (command == 4) sprintf(prefix, "4;%u", index);
+        else sprintf(prefix, "%u", command);
+        int len = sprintf(response, "\033]%s;rgb:%04x/%04x/%04x%s", prefix,
+                          colour.r * 0x0101, colour.g * 0x0101,
+                          colour.b * 0x0101, bel ? "\007" : "\033\\");
+        ldisc_send(term->ldisc, response, len, false);
+    } else {
+        NemoColour colour;
+        if (!nemo_colour_parse(spec, strlen(spec), &colour)) return;
+        term->subpalettes[SUBPAL_SESSION].values[index] =
+            (rgb){colour.r, colour.g, colour.b};
+        term->subpalettes[SUBPAL_SESSION].present[index] = true;
+        palette_rebuild(term); /* later queries in the same OSC see updates */
+    }
+}
+
+static bool osc_colours(Terminal *term, bool bel)
+{
+    unsigned command = term->esc_args[0];
+    static const unsigned dynamic[] = {
+        OSC4_COLOUR_fg, OSC4_COLOUR_bg, OSC4_COLOUR_cursor_bg
+    };
+    if (command != 4 && command != 104 &&
+        !(command >= 10 && command <= 12) &&
+        !(command >= 110 && command <= 112)) return false;
+    /* A truncated or binary colour command must never alter the palette. */
+    if (term->osc_overflow || memchr(term->osc_string, 0, term->osc_strlen))
+        return true;
+    char *next = term->osc_string, *token;
+    if (command == 4) {
+        while ((token = osc_token(&next)) != NULL) {
+            unsigned index;
+            char *spec = osc_token(&next);
+            if (!spec) break;
+            if (osc_palette_index(token, &index))
+                osc_colour(term, 4, index, spec, bel);
+        }
+    } else if (command == 104) {
+        if (!*next) {
+            for (unsigned i = 0; i < 256; i++)
+                term->subpalettes[SUBPAL_SESSION].present[i] = false;
+        } else {
+            while ((token = osc_token(&next)) != NULL) {
+                unsigned index;
+                if (osc_palette_index(token, &index))
+                    term->subpalettes[SUBPAL_SESSION].present[index] = false;
+            }
+        }
+        palette_rebuild(term);
+    } else if (command >= 110) {
+        if (!*next) {
+            term->subpalettes[SUBPAL_SESSION].present[dynamic[command-110]] = false;
+            palette_rebuild(term);
+        }
+    } else {
+        for (; command <= 12 && (token = osc_token(&next)) != NULL; command++)
+            osc_colour(term, command, dynamic[command-10], token, bel);
+    }
+    return true;
+}
+
 /*
  * Process an OSC or similar sequence, with a whole embedded string,
  * like setting the window title or icon name.
  */
-static void do_osc(Terminal *term)
+static void do_osc(Terminal *term, bool bel)
 {
     switch (term->osc_type) {
       case OSCLIKE_OSC_W:
@@ -3516,6 +3609,7 @@ static void do_osc(Terminal *term)
         break;
       case OSCLIKE_OSC:
         term->osc_string[term->osc_strlen] = '\0';
+        if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
           case 0:
           case 1:
@@ -3537,22 +3631,6 @@ static void do_osc(Terminal *term)
                 term->wintitle_codepage = term->ucsdata->line_codepage;
                 term->win_title_pending = true;
                 term_schedule_update(term);
-            }
-            break;
-          case 4:
-            if (term->ldisc && !strcmp(term->osc_string, "?")) {
-                unsigned index = term->esc_args[1];
-                if (index < OSC4_NCOLOURS) {
-                    rgb colour = term->palette[index];
-                    char *reply_buf = dupprintf(
-                        "\033]4;%u;rgb:%04x/%04x/%04x\007", index,
-                        (unsigned)colour.r * 0x0101,
-                        (unsigned)colour.g * 0x0101,
-                        (unsigned)colour.b * 0x0101);
-                    ldisc_send(term->ldisc, reply_buf, strlen(reply_buf),
-                               false);
-                    sfree(reply_buf);
-                }
             }
             break;
         }
@@ -4227,7 +4305,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                      * haven't got into the final OSC_STRING state yet, so that
                      * OSC sequences without a string will be handled cleanly.
                      */
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -4425,7 +4503,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                  * and _if_ we see a backslash, we process it.
                  */
                 if (c == '\\') {
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -4452,6 +4530,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = SEEN_OSC;
                     term->osc_type = OSCLIKE_OSC;
                     term->osc_strlen = 0;
+                    term->osc_overflow = false;
                     term->esc_args[0] = 0;
                     term->esc_nargs = 1;
                     break;
@@ -4476,6 +4555,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                       c == 'X' ? OSCLIKE_SOS :
                                       c == '^' ? OSCLIKE_PM : OSCLIKE_APC);
                     term->osc_strlen = 0;
+                    term->osc_overflow = false;
                     term->esc_args[0] = 0;
                     term->esc_nargs = 1;
                     break;
@@ -5588,6 +5668,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case 'P':            /* Linux palette sequence */
                     term->termstate = SEEN_OSC_P;
                     term->osc_strlen = 0;
+                    term->osc_overflow = false;
                     break;
                   case 'R':            /* Linux palette reset */
                     palette_reset(term, false);
@@ -5617,7 +5698,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 0x9C:
                     /* Terminate even though we aren't in OSC_STRING yet */
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                   case 0xC2:
@@ -5639,19 +5720,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * sequences concurrently.
                          */
                         term->esc_args[0] = 1;
-                    } else if (c == ';' && term->esc_nargs == 1 &&
-                               term->esc_args[0] == 4) {
-                        /*
-                         * xterm's OSC 4 sequence to query the current
-                         * RGB value of a colour takes a second
-                         * numeric argument which is easiest to parse
-                         * using the existing system rather than in
-                         * do_osc.
-                         */
-                        term->esc_args[term->esc_nargs++] = 0;
                     } else {
                         term->termstate = OSC_STRING;
                         term->osc_strlen = 0;
+                        term->osc_overflow = false;
                     }
                 }
                 break;
@@ -5709,7 +5781,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term->ucsdata->unitab_ctrl[c] != 0xFF)) {
                     /* BEL, or the C1 ST appearing as a one-byte
                      * encoding, cleanly terminates the OSC right here */
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -5724,13 +5796,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* Anything else gets added to the string */
                 if (term->osc_strlen < OSC_STR_MAX)
                     term->osc_string[term->osc_strlen++] = (char)c;
+                else
+                    term->osc_overflow = true;
                 break;
               case OSC_MAYBE_ST_UTF8:
                 /* In UTF-8 mode, we've seen C2, so are we now seeing
                  * 9C? */
                 if (c == 0x9C) {
                     /* Yes, so cleanly terminate the OSC */
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -5739,8 +5813,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                  * OSC string accumulation */
                 if (term->osc_strlen < OSC_STR_MAX)
                     term->osc_string[term->osc_strlen++] = 0xC2;
+                else
+                    term->osc_overflow = true;
                 if (term->osc_strlen < OSC_STR_MAX)
                     term->osc_string[term->osc_strlen++] = (char)c;
+                else
+                    term->osc_overflow = true;
                 term->termstate = OSC_STRING;
                 break;
               case SEEN_OSC_P: {
@@ -5797,7 +5875,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 0x9C:
                     /* Terminate even though we aren't in OSC_STRING yet */
-                    do_osc(term);
+                    do_osc(term, c == 7);
                     term->termstate = TOPLEVEL;
                     break;
                   case 0xC2:
@@ -5809,6 +5887,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   default:
                     term->termstate = OSC_STRING;
                     term->osc_strlen = 0;
+                    term->osc_overflow = false;
                 }
                 break;
               case VT52_ESC:

@@ -221,6 +221,7 @@ struct terminal_tag {
 #define OSC_STR_MAX 2048
     OscType osc_type;
     int osc_strlen;
+    bool osc_overflow;
     char osc_string[OSC_STR_MAX + 1];
 
     char id_string[1024];

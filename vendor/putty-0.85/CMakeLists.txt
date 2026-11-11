@@ -55,11 +55,12 @@ add_library(agent STATIC
   sshpubk.c pageant.c aqsync.c)
 
 add_library(guiterminal STATIC
-  terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c
+  terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c terminal/nemo_colour.c
   ldisc.c terminal/lineedit.c config.c dialog.c
   $<TARGET_OBJECTS:logging>)
 
 add_executable(test_sixel ../../tests/test_sixel.c terminal/nemo_sixel.c)
+add_executable(test_colour ../../tests/test_colour.c terminal/nemo_colour.c)
 
 add_library(noterminal STATIC
   stubs/no-term.c ldisc.c)

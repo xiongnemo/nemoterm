@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_mouse test_colour test_osc_colour; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -96,3 +96,10 @@ jobs:
             -I vendor/putty-0.85/terminal tests/test_sixel.c \
             vendor/putty-0.85/terminal/nemo_sixel.c -o test-sixel
           ASAN_OPTIONS=detect_leaks=1 ./test-sixel
+      - name: Test colour parser with sanitizers
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_colour.c \
+            vendor/putty-0.85/terminal/nemo_colour.c -o test-colour
+          ASAN_OPTIONS=detect_leaks=1 ./test-colour

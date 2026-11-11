@@ -139,6 +139,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-mouse-') as directory:
         assert re.fullmatch(rb'(?:\x1b\[[IO])+', data), data
         assert set(events) == {b'I', b'O'}, data
         assert all(a != b for a, b in zip(events, events[1:])), data
+        phase('osc-dynamic-colour-roundtrip',
+              '\x1b]10;rgb:12/34/56\x07\x1b]10;?\x1b\\')
+        data = recorded()
+        assert data == b'\x1b]10;rgb:1212/3434/5656\x1b\\', data
+        phase('osc-palette-roundtrip',
+              '\x1b]4;5;rgb:ab/cd/ef\x07\x1b]4;5;?\x07')
+        data = recorded()
+        assert data == b'\x1b]4;5;rgb:abab/cdcd/efef\x07', data
         phase('resize', '')
         u.MoveWindow(hwnd, 50, 50, 900, 600, True)
         bigger = wait_for(lambda: snapshot() if snapshot().get('columns', 0) > 80 else None)
