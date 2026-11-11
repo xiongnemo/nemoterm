@@ -2077,6 +2077,7 @@ void term_set_preedit_text(Terminal *term, char *preedit_text);
 
 typedef enum SmallKeypadKey {
     SKK_HOME, SKK_END, SKK_INSERT, SKK_DELETE, SKK_PGUP, SKK_PGDN,
+    SKK_FIND, SKK_SELECT, SKK_HELP,
 } SmallKeypadKey;
 int format_arrow_key(char *buf, Terminal *term, int xkey,
                      bool shift, bool ctrl, bool alt, bool *consumed_alt);

@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR及状态字符串十三组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另用真实窗口截图验证字体、Sixel色块、SGR样式和光标，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+已运行 `scripts/test.ps1`，配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR、状态字符串及键能力十四组全部通过。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另用真实窗口截图验证字体、Sixel色块、SGR样式和光标，用子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -63,7 +63,7 @@
 | OSC1337非图像：CurrentDir、RemoteHost、SetMark、用户变量等 | 缺失，需按子命令拆分 | 1337是命名空间，不能只支持一个子命令就整体标绿。对照iTerm2文档逐项登记；扩展需要设置项的保留设置项。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。DECSCL/DECSCA/DECSLRM等其他状态字符串仍不支持；未实现的状态不虚报。 |
-| DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 缺失 | 十六进制解码、多个能力、成功/失败回复、实际TERM/颜色/键绑定一致性。没有系统terminfo数据库也必须诚实回应。 |
+| DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；不是任意terminfo程序查询。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复小于14KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
 | Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码/核心测试及色块实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`及现代ConPTY窗口截图通过；共享4MiB预算。仍缺局部滚动图片分片、resize保留、完整调色板重染/像素擦除边界/查询验收。 |
 | kitty graphics：`APC G control;payload ST` | 缺失 | 按 [kitty图像协议](https://sw.kovidgoyal.net/kitty/graphics-protocol/) 细分传输/查询/placement/删除、分块、RGB/RGBA/PNG、缓存与回收；共享内存/文件路径/动画/Unicode占位等扩展单列，不以Sixel代替。 |
 | 其他DCS/APC/PM/SOS、ReGIS、Tektronix、UDK/DRCS等历史家族 | 待逐项清点，未完成 | 当前原版`do_osc`默认忽略这些字符串；Sixel分支合入不会自动实现其余家族。保留xterm总清单作为完整性审计入口。 |
@@ -82,7 +82,7 @@
 ## 下一轮实现和验收顺序
 
 1. **直接影响现代agent的缺口**：OSC8、kitty键盘协商及剩余SGR（如overline等）；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
-2. **交互和协商完整性**：DECRQSS/XTGETTCAP、OSC52设置与查询策略、鼠标1001与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
+2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52设置与查询策略、鼠标1001与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
 每一项完成至少需要：序列与参数定义 → 对应源码和状态生命周期 → 分块输入与回复测试 → 有界资源测试 → 必要的真实窗口/应用验证。图片、链接、历史和新样式加入后，应重跑代表性agent负载的私有工作集、总工作集和长时间峰值；本账本不证明内存门槛已经成立。

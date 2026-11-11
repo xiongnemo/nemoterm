@@ -4547,7 +4547,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             return 0;
         }
 
-        if (wParam == VK_PRIOR && shift_state == 2) {
+        if (wParam == VK_PRIOR && shift_state == 2 && funky_type != FUNKY_XTERM_216) {
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_LINEUP, 0);
             return 0;
         }
@@ -4555,7 +4555,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_PAGEDOWN, 0);
             return 0;
         }
-        if (wParam == VK_NEXT && shift_state == 2) {
+        if (wParam == VK_NEXT && shift_state == 2 && funky_type != FUNKY_XTERM_216) {
             SendMessage(wgs->term_hwnd, WM_VSCROLL, SB_LINEDOWN, 0);
             return 0;
         }
@@ -4710,6 +4710,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           case VK_SUBTRACT: keypad_key = '-'; goto numeric_keypad;
           case VK_MULTIPLY: keypad_key = '*'; goto numeric_keypad;
           case VK_DIVIDE: keypad_key = '/'; goto numeric_keypad;
+          case VK_SEPARATOR: keypad_key = ','; goto numeric_keypad;
           case VK_EXECUTE: keypad_key = 'G'; goto numeric_keypad;
             /* also the case for VK_RETURN below can sometimes come here */
           numeric_keypad:
@@ -4776,6 +4777,10 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           case VK_F18: fkey_number = 18; goto numbered_function_key;
           case VK_F19: fkey_number = 19; goto numbered_function_key;
           case VK_F20: fkey_number = 20; goto numbered_function_key;
+          case VK_F21: fkey_number = 21; goto numbered_function_key;
+          case VK_F22: fkey_number = 22; goto numbered_function_key;
+          case VK_F23: fkey_number = 23; goto numbered_function_key;
+          case VK_F24: fkey_number = 24; goto numbered_function_key;
           numbered_function_key:
             consumed_alt = false;
             p += format_function_key((char *)p, wgs->term, fkey_number,
@@ -4795,9 +4800,11 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           case VK_DELETE: sk_key = SKK_DELETE; goto small_keypad_key;
           case VK_PRIOR: sk_key = SKK_PGUP; goto small_keypad_key;
           case VK_NEXT: sk_key = SKK_PGDN; goto small_keypad_key;
+          case VK_SELECT: sk_key = SKK_SELECT; goto small_keypad_key;
+          case VK_HELP: sk_key = SKK_HELP; goto small_keypad_key;
           small_keypad_key:
-            /* These keys don't generate terminal input with Ctrl */
-            if (shift_state & 2)
+            /* Retain the old local behaviour in legacy keyboard modes. */
+            if ((shift_state & 2) && funky_type != FUNKY_XTERM_216)
                 break;
 
             consumed_alt = false;

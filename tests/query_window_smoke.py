@@ -1,4 +1,4 @@
-"""Verify cursor pixels and status queries through the real ConPTY path."""
+"""Verify cursor pixels, status queries and keyboard capabilities through ConPTY."""
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
     memory_sample, wait_for, find_window, capture)
@@ -103,12 +103,45 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         released = phase('released-query', '\x1b[?2026l\x1bP$q q\x1b\\',
                          b'\x1bP1$r6 q\x1b\\')
         assert cursor_shape(released)[:2] == shapes[2][:2]
+        # Inject messages only into our own HWND. This exercises the real
+        # Win32 translator; modifier combinations are tested by test_tcap.
+        # Query values must match both the protocol oracle and the child input.
+        keys = [('kf1', 0x70, b'\x1bOP', False), ('kf12', 0x7b, b'\x1b[24~', False),
+                ('kf13', 0x7c, b'\x1b[25~', False), ('kf24', 0x87, b'\x1b[45~', False),
+                ('khome', 0x24, b'\x1b[H', True), ('kend', 0x23, b'\x1b[F', True),
+                ('kcuu1', 0x26, b'\x1b[A', True), ('kcud1', 0x28, b'\x1b[B', True),
+                ('kcuf1', 0x27, b'\x1b[C', True), ('kcub1', 0x25, b'\x1b[D', True),
+                ('kich1', 0x2d, b'\x1b[2~', True), ('kdch1', 0x2e, b'\x1b[3~', True),
+                ('kpp', 0x21, b'\x1b[5~', True), ('knp', 0x22, b'\x1b[6~', True),
+                ('kbs', 0x08, b'\x7f', False)]
+        encoded_names = ';'.join(name.encode().hex() for name, *_ in keys)
+        for app in (False, True):
+            values = [value.replace(b'\x1b[', b'\x1bO')
+                      if app and name in ('khome', 'kend', 'kcuu1', 'kcud1', 'kcuf1', 'kcub1')
+                      else value for name, _, value, _ in keys]
+            expected = b'\x1bP1+r'+b';'.join(name.encode().hex().encode()+b'='+value.hex().encode()
+                for (name, *_), value in zip(keys, values))+b'\x1b\\'
+            name = 'keys-application' if app else 'keys-normal'
+            phase(name, f'\x1b[?1{"h" if app else "l"}\x1bP+q{encoded_names}\x1b\\', expected)
+            for _, vk, _, extended in keys:
+                flags = 1 | (u.MapVirtualKeyW(vk, 0) << 16) | (int(extended) << 24)
+                u.SendMessageW(hwnd, 0x100, vk, flags)
+                u.SendMessageW(hwnd, 0x101, vk, flags | 0xc0000000)
+            expected_input = expected+b''.join(values)
+            try:
+                wait_for(lambda: bytes.fromhex(current().get('hex', '')) == expected_input)
+            except AssertionError:
+                raise AssertionError((name, expected_input.hex(), current()))
+            evidence[name].update(key_input=b''.join(values).hex(), child_input=current()['hex'])
+        phase('tcap-colours', '\x1bP+q436f;544e;524742\x1b\\',
+              b'\x1bP1+r436f=323536;544e=787465726d2d323536636f6c6f72;524742=38\x1b\\')
+        phase('tcap-unsupported', '\x1bP+q637570\x1b\\', b'\x1bP0+r\x1b\\')
         evidence.update(peak_private_ws=max(s['private_ws'] for s in samples),
                         peak_total_ws=max(s['total_ws'] for s in samples),
                         executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
         assert evidence['peak_private_ws'] < 20_000_000, evidence
         (root/'research/query-window-observed.json').write_text(json.dumps(evidence, indent=2))
-        print('Native cursor pixels and queries passed:', evidence)
+        print('Native cursor pixels, queries and keyboard capabilities passed:', evidence)
     finally:
         stop.set()
         worker.join(2)

@@ -742,12 +742,12 @@ void test_simple(void)
     test_bool_simple(CONF_supdup_scroll, "SUPDUPScrolling", false);
     test_bool_simple(CONF_bksp_is_delete, "BackspaceIsDelete", true);
     test_bool_simple(CONF_rxvt_homeend, "RXVTHomeEnd", false);
-    test_int_translated(CONF_funky_type, "LinuxFunctionKeys", FUNKY_TILDE,
+    test_int_translated(CONF_funky_type, "LinuxFunctionKeys", FUNKY_XTERM_216,
                         FUNKY_TILDE, 0, FUNKY_LINUX, 1, FUNKY_XTERM, 2,
                         FUNKY_VT400, 3, FUNKY_VT100P, 4, FUNKY_SCO, 5,
                         FUNKY_XTERM_216, 6, -1);
     test_int_translated(CONF_sharrow_type, "ShiftedArrowKeys",
-                        SHARROW_APPLICATION,
+                        SHARROW_BITMAP,
                         SHARROW_APPLICATION, 0, SHARROW_BITMAP, 1, -1);
     test_bool_simple(CONF_no_applic_c, "NoApplicationCursors", false);
     test_bool_simple(CONF_no_applic_k, "NoApplicationKeys", false);

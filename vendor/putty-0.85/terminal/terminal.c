@@ -1766,16 +1766,24 @@ static void nemo_decrqss(Terminal *term)
 static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 {
     if (c == 0x18 || c == 0x1a) {
-        term->dcs_rqss = false;
+        term->dcs_query_active = false;
         nemo_sixel_cancel(term); term->termstate = TOPLEVEL; return true;
     }
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
-        if (term->dcs_rqss) nemo_decrqss(term);
-        term->dcs_rqss = false;
+        if (term->dcs_query_active) {
+            if (term->dcs_query_type == '$') nemo_decrqss(term);
+            else if (term->ldisc) {
+                strbuf *reply = nemo_tcap_reply(term, term->dcs_query,
+                                               term->dcs_query_invalid);
+                ldisc_send(term->ldisc, reply->s, reply->len, false);
+                strbuf_free(reply);
+            }
+        }
+        term->dcs_query_active = false;
         nemo_sixel_complete(term); term->termstate = TOPLEVEL; return true;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST) {
-        term->dcs_rqss = false;
+        term->dcs_query_active = false;
         nemo_sixel_cancel(term); term->termstate = SEEN_ESC;
         term->esc_query = 0;
         return false;
@@ -1795,20 +1803,22 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         } else if (c == ';' && term->sixel_header_index < 2) {
             term->dcs_header_params = true;
             term->sixel_header_index++;
-        } else if (c == '$' && !term->dcs_header_params) {
-            term->termstate = NEMO_DCS_RQSS_PREFIX;
+        } else if ((c == '$' || c == '+') && !term->dcs_header_params) {
+            term->dcs_query_type = c;
+            term->termstate = NEMO_DCS_QUERY_PREFIX;
         } else if (c == 'q') {
             nemo_sixel_begin(term);
             term->termstate = term->sixel_pending ? NEMO_DCS_SIXEL : NEMO_DCS_DROP;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
-    } else if (term->termstate == NEMO_DCS_RQSS_PREFIX) {
+    } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
         if (c == 'q') {
-            term->dcs_rqss = true;
-            term->termstate = NEMO_DCS_RQSS;
+            term->dcs_query_active = true;
+            term->termstate = NEMO_DCS_QUERY;
         } else if (c >= ' ') term->termstate = NEMO_DCS_DROP;
-    } else if (term->termstate == NEMO_DCS_RQSS) {
+    } else if (term->termstate == NEMO_DCS_QUERY) {
         if (c >= ' ') {
-            if (c > '~' || term->dcs_query_len >= sizeof(term->dcs_query)-1)
+            unsigned limit = term->dcs_query_type == '$' ? 63 : NEMO_DCS_QUERY_SIZE-1;
+            if (c > '~' || term->dcs_query_len >= limit)
                 term->dcs_query_invalid = true;
             else {
                 term->dcs_query[term->dcs_query_len++] = c;
@@ -1869,7 +1879,7 @@ static void power_on(Terminal *term, bool clear)
     term->big_cursor = false;
     term->cursor_type = conf_get_int(term->conf, CONF_cursor_type);
     term->blink_cur = conf_get_bool(term->conf, CONF_blink_cur);
-    term->dcs_rqss = term->dcs_query_invalid = term->dcs_header_params = false;
+    term->dcs_query_active = term->dcs_query_invalid = term->dcs_header_params = false;
     term->cblinker = true;
     term->cblink_pending = false;
     term->dcs_query_len = 0;
@@ -4858,7 +4868,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     nemo_sixel_cancel(term);
                     memset(term->sixel_header, 0, sizeof(term->sixel_header));
                     term->sixel_header_index = 0;
-                    term->dcs_header_params = term->dcs_rqss = term->dcs_query_invalid = false;
+                    term->dcs_header_params = term->dcs_query_active = term->dcs_query_invalid = false;
                     term->dcs_query_len = 0;
                     term->dcs_query[0] = '\0';
                     term->termstate = NEMO_DCS_HEADER;
@@ -8383,10 +8393,10 @@ int format_arrow_key(char *buf, Terminal *term, int xkey,
             break;
         }
 
-        if (app_flg)
-            p += sprintf(p, "\x1BO%c", xkey);
-        else if (bitmap)
+        if (bitmap)
             p += sprintf(p, "\x1B[1;%d%c", bitmap, xkey);
+        else if (app_flg)
+            p += sprintf(p, "\x1BO%c", xkey);
         else
             p += sprintf(p, "\x1B[%c", xkey);
     }
@@ -8405,8 +8415,9 @@ int format_function_key(char *buf, Terminal *term, int key_number,
         23, 24, 25, 26, /*gap*/ 28, 29, /*gap*/ 31, 32, 33, 34,
     };
 
-    assert(key_number > 0);
-    assert(key_number < lenof(key_number_to_tilde_code));
+    if (key_number < 1 || key_number > 63 ||
+        (key_number > 20 && term->funky_type != FUNKY_XTERM_216))
+        return 0;
 
     int index = key_number;
     if (term->funky_type != FUNKY_XTERM_216 && term->funky_type != FUNKY_SCO) {
@@ -8416,7 +8427,7 @@ int format_function_key(char *buf, Terminal *term, int key_number,
         }
     }
 
-    int code = key_number_to_tilde_code[index];
+    int code = index <= 20 ? key_number_to_tilde_code[index] : 42 + index-21;
 
     if (term->funky_type == FUNKY_SCO) {
         /* SCO function keys */
@@ -8480,8 +8491,18 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
       case SKK_END: code = 4; break;
       case SKK_PGUP: code = 5; break;
       case SKK_PGDN: code = 6; break;
+      case SKK_FIND: code = 1; break;
+      case SKK_SELECT: code = 4; break;
+      case SKK_HELP: code = 28; break;
       default: unreachable("bad small keypad key enum value");
     }
+
+    if (term->funky_type == FUNKY_XTERM_216 &&
+        (key == SKK_HOME || key == SKK_END))
+        return format_arrow_key(buf, term, key == SKK_HOME ? 'H' : 'F',
+                                shift, ctrl, alt, consumed_alt);
+    if (term->funky_type == FUNKY_SCO && key == SKK_HELP)
+        return 0;
 
     /* Reorder edit keys to physical order */
     if (term->funky_type == FUNKY_VT400 && code <= 6)
@@ -8496,7 +8517,7 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
         } else {
             p += sprintf(p, "\x1B[%c", codes[code-1]);
         }
-    } else if ((code == 1 || code == 4) && term->rxvt_homeend) {
+    } else if ((key == SKK_HOME || key == SKK_END) && term->rxvt_homeend) {
         p += sprintf(p, code == 1 ? "\x1B[H" : "\x1BOw");
     } else {
         if (term->vt52_mode) {
@@ -8520,6 +8541,8 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
 {
     char *p = buf;
     bool app_keypad = (term->app_keypad_keys && !term->no_applic_k);
+    bool xterm_keypad = term->funky_type == FUNKY_XTERM ||
+                       term->funky_type == FUNKY_XTERM_216;
 
     if (term->nethack_keypad && (key >= '1' && key <= '9')) {
         static const char nh_base[] = "bjnh.lyku";
@@ -8555,6 +8578,7 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
               case '8': xkey = 'x'; break;
               case '9': xkey = 'y'; break;
               case '.': xkey = 'n'; break;
+              case ',': xkey = 'l'; break;
               case '\r': xkey = 'M'; break;
 
               case '+':
@@ -8564,22 +8588,22 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
                  * let Shift select between the two. Worse still,
                  * in xterm function key mode we change which two...
                  */
-                if (term->funky_type == FUNKY_XTERM)
+                if (xterm_keypad)
                     xkey = shift ? 'l' : 'k';
                 else
                     xkey = shift ? 'm' : 'l';
                 break;
 
               case '/':
-                if (term->funky_type == FUNKY_XTERM)
+                if (xterm_keypad)
                     xkey = 'o';
                 break;
               case '*':
-                if (term->funky_type == FUNKY_XTERM)
+                if (xterm_keypad)
                     xkey = 'j';
                 break;
               case '-':
-                if (term->funky_type == FUNKY_XTERM)
+                if (xterm_keypad)
                     xkey = 'm';
                 break;
             }

@@ -187,11 +187,11 @@ unfinished parser sequence rather than consuming subsequent text as its tail.
 DECRQSS supports `m`, `r`, `SP q`, `$|` and `*|` for existing SGR state, scroll
 margins, cursor style and current columns/rows. SGR readback can be replayed,
 including true colour, indexed colours and independent underline style/colour.
-Other requests return `DCS 0 $ r ST` with no reflected payload. Queries use a
-64-byte buffer; overlong input is rejected until termination. Sixel remains
+Other requests return `DCS 0 $ r ST` with no reflected payload. DECRQSS queries are limited to
+63 bytes in the shared DCS query buffer; overlong input is rejected until termination. Sixel remains
 streamed. `test_queries` covers byte fragmentation, cancellation, bounds,
 readback round trips, configuration/reset and Sixel coexistence. This does not
-complete the remaining DECRQSS strings, XTGETTCAP or DECSTR.
+complete the remaining DECRQSS strings or DECSTR; XTGETTCAP is covered below.
 
 The fifth native suite, `query_window_smoke.py`, verifies actual block8x20,
 underline8x1 and bar1x20 pixels on the local Sarasa setup, visible/hidden blink
@@ -201,3 +201,31 @@ prevent a blink pixel check. Local peak sampled private WS3,485,696 bytes,
 total19,312,640 bytes; see `research/query-window-observed.json` and the cursor
 PNGs. These fixture measurements do not establish complete agent acceptance.
 Protocol reference: [xterm ctlseqs](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.txt).
+
+
+XTGETTCAP checkpoint: DCS + q now accepts bounded hexadecimal capability
+names, with one response for multiple names. TN/name shares the actual child
+TERM constant; Co/colors and RGB reflect configured colour support. Logical
+key capabilities use the same encoders as Win32 input, including function
+keys1..63 and termcap aliases, navigation, extended modifiers, keypad and
+backspace. Unknown names terminate the list; known unavailable keys are
+returned without a value. Arbitrary terminfo programs (e.g. cup) are not part
+of xterm's XTGETTCAP special-key query. Requests are bounded to2047 bytes,
+responses below14KiB; DECRQSS retains its63-byte limit. Sixel stays streamed.
+
+Defaults now select modern xterm function keys and modifier bitmaps. Home/End
+follow normal/application cursor modes; modified cursor keys keep modifiers
+in application mode. Ctrl edit/Page keys reach applications in modern mode;
+Shift Page keys and copy/paste shortcuts remain local. Saved legacy profiles
+remain selectable and no longer have their arrow setting overwritten at load.
+Win32 now routes F21..F24, Help/Select and keypad Separator through the encoders.
+The14th core suite checks exact bytes, all63 function names/aliases, modifier
+combinations, mode/configuration changes, bounded parsing and Sixel coexistence.
+The native query suite checks15 key messages against queried values in both
+cursor modes through the bundled ConPTY. Local sampled peak private WS3,473,408
+bytes, total19,288,064 bytes. These are fixture measurements, not complete agent
+acceptance. XTGETTCAP describes logical encoders; local shortcuts, OS bindings,
+IME/layout translation and physical-device validation remain separate. Numeric
+keypad modifier semantics and remaining special-key names still need completion.
+Primary references: [xterm control sequences](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.txt),
+[xterm capability mapping](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/xtermcap.c).

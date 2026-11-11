@@ -544,13 +544,13 @@ CONF_OPTION(rxvt_homeend,
 )
 CONF_OPTION(funky_type,
     VALUE_TYPE(INT),
-    DEFAULT_INT(FUNKY_TILDE),
+    DEFAULT_INT(FUNKY_XTERM_216),
     SAVE_KEYWORD("LinuxFunctionKeys"),
     STORAGE_ENUM(funky_type),
 )
 CONF_OPTION(sharrow_type,
     VALUE_TYPE(INT),
-    DEFAULT_INT(SHARROW_APPLICATION),
+    DEFAULT_INT(SHARROW_BITMAP),
     SAVE_KEYWORD("ShiftedArrowKeys"),
     STORAGE_ENUM(sharrow_type),
 )

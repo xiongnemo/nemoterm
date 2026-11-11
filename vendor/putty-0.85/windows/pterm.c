@@ -1,5 +1,6 @@
 #include "putty.h"
 #include "storage.h"
+#include "nemo_tcap.h"
 
 const unsigned cmdline_tooltype =
     TOOLTYPE_NONNETWORK |
@@ -97,8 +98,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     if (show_settings && !do_config(conf))
         cleanup_exit(0);
 
-    conf_set_int(conf, CONF_sharrow_type, SHARROW_BITMAP);
-    SetEnvironmentVariableA("TERM", "xterm-256color");
+    SetEnvironmentVariableA("TERM", NEMO_TERM_NAME);
     SetEnvironmentVariableA("COLORTERM", "truecolor");
     SetEnvironmentVariableA("TERM_PROGRAM", "nemoterm");
 }
