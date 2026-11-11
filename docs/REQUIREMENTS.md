@@ -591,7 +591,7 @@ All 18 core and 11 native suites passed locally for executable SHA-256
 `358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e`.
 Keyboard checks passed with both default Sarasa and Courier New; the current
 local keyboard JSON/screenshot is the Courier run. OSC 52 continuous sampling
-peaked at 5,681,152 bytes private WS, 21,610,496 total WS and 7,020,544 private
+peaked at 5,804,032 bytes private WS, 21,749,760 total WS and 7,417,856 private
 commit. The mixed hyperlink/Sixel stress fixture peaked at 9,510,912 private
 WS, 36,589,568 total WS and 11,182,080 private commit. No working-set trimming
 was performed; these are terminal-process measurements with ConPTY/child
@@ -600,3 +600,11 @@ hashes and policies; `research/osc52-window.png` is a PrintWindow capture.
 Actionlint 1.7.12 passed. CI now runs all 18 core and 11 native suites (plus
 the second keyboard font), uploads the new evidence and runs the OSC 52 core
 under ASan/UBSan before publishing the portable build.
+
+The first OSC 52 CI run passed the other native suites and sanitizers, then
+found a font-dependent assertion in the clipboard-contention resize fixture.
+The fixture now reduces the measured window width by 12 actual character
+cells and waits for the child to report the new dimensions as well as the
+clipboard reply. Both local Sarasa and Courier New runs report 80 to 68
+columns. This replaces an arbitrary fixed pixel width and a possible stale
+dimension snapshot; it does not relax the required resize notification.

@@ -133,7 +133,9 @@
     "reply_sha256": "6c550873a2c24366ec955fb5806c582c7eeff91ae3f49a882191e3413e607f54"
   },
   "read-lock": {
-    "responsive_resize": true
+    "responsive_resize": true,
+    "columns_before": 80,
+    "columns_after": 68
   },
   "read-write-19-read-after-contention": {
     "input_bytes": 9,
@@ -299,7 +301,8 @@
     "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e",
-  "peak_private_ws": 5681152,
-  "peak_total_ws": 21610496,
-  "peak_private_commit": 7020544
+  "requested_font": "default",
+  "peak_private_ws": 5804032,
+  "peak_total_ws": 21749760,
+  "peak_private_commit": 7417856
 }

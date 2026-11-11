@@ -1,5 +1,6 @@
 """OSC 52 policies, clipboard text and bounded queries through an owned HWND."""
 import base64
+import argparse
 import uuid
 import winreg
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
@@ -9,8 +10,12 @@ from clipboard_test_utils import SavedClipboard, clipboard_text
 
 LIMIT = 256*1024
 MARKER = b'\x1b[?1000;2$y'
+parser=argparse.ArgumentParser()
+parser.add_argument('--font')
+args=parser.parse_args()
 evidence, samples = {}, []
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 u.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,c.POINTER(c.c_size_t)]
 
 def bounded_clipboard_text(hwnd):
@@ -67,6 +72,7 @@ def run_case(name, settings):
             for setting,value in dict(WarnOnClose=0,**settings).items():
                 winreg.SetValueEx(key,setting,0,winreg.REG_DWORD,value)
         process=subprocess.Popen([str(root/'dist/nemoterm.exe'),'-load',profile,
+            *(['--font',args.font] if args.font else []),
             '--cols','80','--rows','24','-e',sys.executable,str(root/'tests/mouse_fixture.py'),
             str(report),str(control)],env=dict(os.environ,NEMOTERM_CONPTY='bundled'),
             creationflags=subprocess.CREATE_NO_WINDOW)
@@ -165,12 +171,16 @@ def run_case(name, settings):
                 try:
                     write_snapshot(control,{'phase':'read-lock','sequence':'\x1b]52;c;?\x07\x1b[?1000$p'})
                     wait_snapshot(current,lambda v:v.get('phase')=='read-lock' and MARKER in bytes.fromhex(v.get('hex','')))
-                    assert u.MoveWindow(hwnd,30,30,760,530,True)
+                    bounds=w.RECT(); assert u.GetWindowRect(hwnd,c.byref(bounds))
+                    assert u.MoveWindow(hwnd,30,30,bounds.right-bounds.left-12*cw,
+                                        bounds.bottom-bounds.top,True)
                     time.sleep(.18)
                 finally:
                     u.CloseClipboard()
-                value=wait_snapshot(current,lambda v:reply('c','','\x07') in bytes.fromhex(v.get('hex','')))
-                evidence['read-lock']={'responsive_resize':value['columns']!=80}
+                value=wait_snapshot(current,lambda v:v.get('columns',80)<80 and
+                                    reply('c','','\x07') in bytes.fromhex(v.get('hex','')))
+                evidence['read-lock']={'responsive_resize':value['columns']<80,
+                                       'columns_before':80,'columns_after':value['columns']}
                 assert evidence['read-lock']['responsive_resize']
                 phase('read-after-contention','\x1b]52;c;?\x07',reply('c','lock test','\x07'))
                 for cancel in (False,True):
@@ -232,6 +242,7 @@ for name,settings in [('default',{}),('disabled',{'NemoOSC52Write':0}),
                       ('read-write',{'NemoOSC52Read':1})]:
     run_case(name,settings)
 evidence.update(executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest(),
+                requested_font=args.font or 'default',
                 peak_private_ws=max(s['private_ws'] for s in samples),
                 peak_total_ws=max(s['total_ws'] for s in samples),
                 peak_private_commit=max(s['private_commit'] for s in samples))
