@@ -127,7 +127,7 @@ jobs:
         run: |
           python tests/shell_marks_window_smoke.py 2>&1 | Tee-Object test-results/shell-marks-native.log
           $testExit = $LASTEXITCODE
-          Copy-Item research/shell-marks-observed.json, research/shell-marks-selected.png test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/shell-marks-observed.json, research/shell-marks-selected.png, research/shell-marks-truncated.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native mouse highlight handshake and pixels
         shell: pwsh
@@ -243,7 +243,7 @@ jobs:
           Remove-Item research/settings-window-observed.json, research/mok-settings.png -ErrorAction SilentlyContinue
           powershell.exe -NoProfile -File tests/settings_window_smoke.ps1 2>&1 | Tee-Object test-results/settings-native.log
           $testExit = $LASTEXITCODE
-          Copy-Item research/settings-window-observed.json, research/mok-settings.png test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/settings-window-observed.json, research/mok-settings.png, research/shell-marks-settings.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test detected shells and delegated console lifetime
         shell: pwsh

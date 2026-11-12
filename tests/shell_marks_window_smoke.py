@@ -49,6 +49,10 @@ try:
             session = frida.attach(process.pid)
             script = session.create_script((root/'tests/agent_key_probe.js').read_text())
             script.load(); script.exports_sync.isolate_mouse(hex(hwnd)); serial = 0
+            wr, cr = w.RECT(), w.RECT()
+            u.GetWindowRect(hwnd, c.byref(wr)); u.GetClientRect(hwnd, c.byref(cr))
+            cw, ch = (cr.right-2)//80, (cr.bottom-2)//24
+            frame_x, frame_y = wr.right-wr.left-cr.right, wr.bottom-wr.top-cr.bottom
 
             def action(key, scan, modifiers=(16, 17, 18, 160, 162, 164)):
                 global serial
@@ -98,6 +102,15 @@ try:
                 '\x1b]133;A\a> \x1b]133;B\x1b\\'+command1+'\x1b]133;C\a'+output1+'\x1b]133;D;0\a\r\n'
                 '\x1b]633;A\a> \x1b]633;B\a'+command2+'\x1b]633;E;different\\x3bmetadata;untrusted\a'
                 '\x1b]633;C\a'+output2+'\x1b]633;D;17\x1b\\\r\n\x1b]133;A\a> ')
+            def painted_scene():
+                pixels = capture(hwnd, return_pixels=True)
+                background = pixels[:3]
+                # The last prompt must have been painted, not merely parsed.
+                if any(pixels[3*(y*cr.right+x):3*(y*cr.right+x)+3] != background
+                       for y in range(1+2*ch, 1+3*ch) for x in range(1, 1+cw)):
+                    return pixels
+                return None
+            baseline = wait_for(painted_scene)
             menu(0x920, command2, 'latest command uses cells, not metadata')
             menu(0x930, output2, '633 output and supplementary Unicode')
             # Selection targets the second command. Previous Prompt moves to the first.
@@ -111,16 +124,24 @@ try:
             assert read_snapshot(report)['hex'] == '1b5b306e', read_snapshot(report)
 
             # Resize the owned window only. Reflow must preserve the selected record.
-            wr, cr = w.RECT(), w.RECT()
-            u.GetWindowRect(hwnd, c.byref(wr)); u.GetClientRect(hwnd, c.byref(cr))
-            cw, ch = (cr.right-2)//80, (cr.bottom-2)//24
-            frame_x, frame_y = wr.right-wr.left-cr.right, wr.bottom-wr.top-cr.bottom
             for cols in (20, 100, 32, 80):
                 assert u.MoveWindow(hwnd, wr.left, wr.top, cols*cw+2+frame_x,
                                     24*ch+2+frame_y, True)
                 wait_snapshot(lambda: read_snapshot(report), lambda v: v.get('columns') == cols)
                 menu(0x920, command2, f'command after resize to {cols}')
                 menu(0x930, output2, f'output after resize to {cols}')
+            def painted_output_selection():
+                pixels = capture(hwnd, return_pixels=True)
+                changed = [i//3 for i in range(0, len(pixels), 3)
+                           if pixels[i:i+3] != baseline[i:i+3]]
+                if not changed: return None
+                bounds = [min(i % cr.right for i in changed), min(i // cr.right for i in changed),
+                          max(i % cr.right for i in changed)+1, max(i // cr.right for i in changed)+1]
+                observed['selection_pixel_bounds'] = bounds
+                expected = [1+12*cw, 1+ch, 1+18*cw, 1+2*ch]
+                observed['expected_selection_pixel_bounds'] = expected
+                return pixels if bounds == expected else None
+            wait_for(painted_output_selection)
             capture(hwnd, 'shell-marks-selected.png')
 
             phase('alternate', '\x1b[?1049h\x1b]133;A\aBAD\x1b]133;B\ax\x1b]133;C\ay\x1b]133;D;1\a')

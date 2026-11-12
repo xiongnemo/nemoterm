@@ -40,7 +40,7 @@ the user's request; use GitHub-hosted execution until the user resumes them.
 
 The lazily allocated table holds at most 256 records with A/B/C/D cell positions,
 optional signed 64-bit exit status and up to 4 KiB decoded command text each,
-within a 64 KiB total text allocation budget. This avoids adding a
+within a 64 KiB retained text allocation budget. This avoids adding a
 field to every character in the grid and scrollback. Record source positions;
 selection continues to use the terminal's existing logical-to-rendered handling.
 
@@ -99,3 +99,14 @@ This was a fixture targeting failure, not evidence of corrupted link metadata.
 Runs: [core 43232871703](https://github.com/xiongnemo/nemoterm/actions/runs/43232871703),
 [single 43232872026](https://github.com/xiongnemo/nemoterm/actions/runs/43232872026).
 The single EXE from this failed run remains unverified and is not promoted.
+
+Revision `75da966` passed both jobs of
+[core run 43234950506](https://github.com/xiongnemo/nemoterm/actions/runs/43234950506),
+including 30 core suites, 13 terminal sanitizer suites, native shell actions,
+truncated-range menu state and settings save/reload. Its MinGW comparison EXE
+hash was `19d668034e84d92936bbdf3da03bdb5c19691c11b13045a7d97516b02998a80d`;
+the shell fixture observed 5,771,264 private WS / 35,586,048 total WS /
+8,609,792 private commit bytes at sampled peaks. These are comparison-build
+results, not single-EXE acceptance. Reviewing an earlier cloud capture showed
+that a screenshot could precede the deferred selection paint. The native test
+now waits for the exact selected-output pixel bounds before capturing evidence.
