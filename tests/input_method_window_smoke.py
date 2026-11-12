@@ -97,8 +97,15 @@ try:
    initial=wait_for(pixels_match)[0];u.SendMessageW(hwnd,0x10d,0,0)
    initial_imm=command('capabilities')
    for dpi in (144,192,120,96):
-    answer=command('dpi',dpi=dpi);geom=wait_for(pixels_match)[0]
-    assert abs(geom[2]/initial[2]-dpi/96)<.2 and abs(geom[3]/initial[3]-dpi/96)<.2,(dpi,geom,initial)
+    answer=command('dpi',dpi=dpi)
+    def resized_pixels():
+     found=pixels_match()
+     if not found:return False
+     geom=found[0]
+     return found if abs(geom[2]/initial[2]-dpi/96)<.2 and abs(geom[3]/initial[3]-dpi/96)<.2 else False
+    # The WM_DPICHANGED callback can finish before the invalidated frame paints.
+    # Require the new scale as well as matching Sixel pixels in the same frame.
+    geom=wait_for(resized_pixels)[0]
     answer=command('capabilities')
     if initial_imm.get('compositionFontHeight'):
      assert abs(answer['compositionFontHeight']/initial_imm['compositionFontHeight']-dpi/96)<.1,(dpi,answer)

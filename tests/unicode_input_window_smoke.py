@@ -7,7 +7,7 @@ profile='unicode-input-'+uuid.uuid4().hex;keypath='Software\\Nemo\\Nemoterm\\Ses
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
 try:
  for chunk in (1,2,3,4,7,1024):
-  for mode in (0x80,0x280,0x82):
+  for mode in (0x80,0x280,0x82,0x83):
    with tempfile.TemporaryDirectory(prefix='nemoterm-unicode-input-') as temporary:
     folder=Path(temporary);report,control=folder/'report',folder/'control';serial=0
     process=subprocess.Popen([str(exe),'-load',profile,'-e',sys.executable,str(root/'tests/unicode_input_fixture.py'),
@@ -27,7 +27,7 @@ try:
      text='A\u4e2d\U0001f642B\U0001f9eae\u0301'
      raw=text.encode('utf-16-le');units=[int.from_bytes(raw[i:i+2],'little') for i in range(0,len(raw),2)]
      if mode&2:
-      put(units+[13]);check((text+'\r\n').encode(),'cooked-mixed-scalars-small-reads')
+      put(units+[13]);check((text+('\r\n' if mode&1 else '\r')).encode(),'cooked-mixed-scalars-small-reads')
       evidence['runs'].append(record);continue
      put(units);check(text.encode(),'mixed-scalars-small-reads')
      put([0xd83d]);time.sleep(.12)

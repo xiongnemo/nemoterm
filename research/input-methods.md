@@ -53,7 +53,7 @@ Frida is a test dependency, is not shipped, and its instrumented working sets
 are not used for the product memory budget.
 
 `tests/unicode_input_window_smoke.py` uses 1/2/3/4/7/1024-byte destinations in
-raw, VT raw and cooked console input. It checks exact UTF-8, delayed surrogate
+raw, VT raw and cooked console input with processing enabled and disabled (24 combinations). It checks exact UTF-8, delayed surrogate
 partners, orphan leaders, input flush and no premature zero-byte read. Cooked
 reads exercise batch conversion across supplementary scalars. All fixture
 processes and registry profiles are private to the test and cleaned up.
@@ -74,3 +74,13 @@ the user's machine already defaults to UTF-8. CI uses installed Consolas for
 synthetic DPI scaling, while local acceptance retains Sarasa. Failed build
 artifacts are clearly named `unverified-single-exe-*` for diagnosis and are not
 the successful one-file deliverable.
+
+The next CI run passed all text/IMM boundary checks, including supplementary
+scalars. Its DPI check then sampled the still-valid old frame immediately after
+WM_DPICHANGED; the recorded IMM font had already changed from -16 to -24.
+The fixture now waits for a frame at the requested scale and checks its Sixel
+pixels together. The same downloaded diagnostic EXE passed locally with Sarasa
+and Consolas, including installed-IME API submission. All 24 console byte-read
+combinations also passed. Cooked-input expectations distinguish CR from CRLF
+according to ENABLE_PROCESSED_INPUT, as specified by the host implementation.
+Full CI acceptance remains pending the synchronized fixture run.
