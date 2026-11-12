@@ -30,6 +30,18 @@ int main(void) {
         ID2D1RenderTarget_DrawBitmap((ID2D1RenderTarget *)retained,atlas,&rect,1,D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,NULL);
         CHECK(ID2D1RenderTarget_EndDraw((ID2D1RenderTarget *)retained,NULL,NULL));
     }
-    sample("atlas-and-120-frames");ID2D1Bitmap_Release(atlas);ID2D1BitmapRenderTarget_Release(retained);ID2D1HwndRenderTarget_Release(hwndtarget);ID2D1Factory_Release(factory);
+    sample("atlas-and-120-frames");
+    ID2D1GdiInteropRenderTarget *interop=NULL;HDC readback=NULL;
+    CHECK(ID2D1BitmapRenderTarget_QueryInterface(retained,&IID_ID2D1GdiInteropRenderTarget,(void **)&interop));
+    ID2D1RenderTarget_BeginDraw((ID2D1RenderTarget *)retained);
+    CHECK(ID2D1GdiInteropRenderTarget_GetDC(interop,D2D1_DC_INITIALIZE_MODE_COPY,&readback));
+    COLORREF pixel=GetPixel(readback,0,0);
+    printf("{\"pixel\":[%u,%u,%u],\"expected\":[2,1,0]}\n",GetRValue(pixel),GetGValue(pixel),GetBValue(pixel));
+    RECT unchanged={0};CHECK(ID2D1GdiInteropRenderTarget_ReleaseDC(interop,&unchanged));
+    CHECK(ID2D1RenderTarget_EndDraw((ID2D1RenderTarget *)retained,NULL,NULL));
+    ID2D1GdiInteropRenderTarget_Release(interop);
+    if(pixel!=RGB(2,1,0))return 6;
+    sample("after-pixel-readback");
+    ID2D1Bitmap_Release(atlas);ID2D1BitmapRenderTarget_Release(retained);ID2D1HwndRenderTarget_Release(hwndtarget);ID2D1Factory_Release(factory);
     DestroyWindow(window);UnregisterClassW(wc.lpszClassName,inst);sample("after-device-destruction");return 0;
 }

@@ -51,8 +51,10 @@ artifact hash, CI run and final local evidence are recorded after CI succeeds.
 DirectX is feasible through the Windows Direct2D/Direct3D APIs, without a
 third-party renderer package. The local hardware-only Direct2D probe creates
 a 1280x960 compatible render target, a 1024x1024 BGRA bitmap and draws 120
-frames: private WS 14,798,848 bytes, total WS 40,230,912, private commit
-70,139,904. Destroying the device leaves private WS 9,306,112 bytes.
+frames with verified pixel readback: private WS 14,254,080 bytes, total WS
+39,784,448, private commit 71,438,336. Destroying the device leaves private WS
+9,289,728 bytes. The preceding no-readback run measured 14,798,848 bytes of
+private WS; these are individual probe observations, not a fixed memory cost.
 This is a feasibility measurement, not a full terminal benchmark. Integration,
 fallback validation and the same pixel/client tests are still required.
 [Microsoft Direct2D architecture](https://learn.microsoft.com/en-us/windows/win32/direct2d/direct2d-overview).

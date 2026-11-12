@@ -45,6 +45,10 @@ try:
                 assert read_snapshot(report)['hex']=='1b5b306e'
                 evidence['checks'].append(dict(action='Alt rectangle and Ctrl+Alt+X copy',application_mouse=appmouse,text=expected))
             # Copy/paste action uses exactly this selection, including Unicode.
+            # End application mouse tracking before typing: cursor visibility
+            # changes can queue a genuine idle-pointer motion report on 1003.
+            # This phase emits no text, so the local selected text is retained.
+            phase('copy-paste','')
             action(key=90,scan=44,modifiers=[16,17,160,162])
             expected_input=b'\x1b[0n'+expected.replace('\r\n','\r').encode()
             wait_snapshot(lambda:read_snapshot(report),lambda v:bytes.fromhex(v.get('hex',''))==expected_input)
