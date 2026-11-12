@@ -24,7 +24,10 @@ def main():
     args = parser.parse_args()
     # Independent cases reset title modes and drain the preceding test's stack.
     # Explicit UTF-8 title I/O removes the X server locale from these cases.
-    reset = op(23, 0)*48+CSI+'>0;1T'+CSI+'>2;3t'+title('BASE')
+    # Draining only the stack does not clear indexed slots. Invalid selector 3
+    # writes an empty item in each slot without increasing the stack depth.
+    reset = (op(23, 0)*48+''.join(op(22, 3, slot) for slot in range(1, 11))+
+             CSI+'>0;1T'+CSI+'>2;3t'+title('BASE'))
     query = op(20)+op(21)
     cases = {
         'set-both': reset+title('BOTH')+query,
