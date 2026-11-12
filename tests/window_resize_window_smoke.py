@@ -26,7 +26,7 @@ class MonitorInfo(c.Structure):
 CSI='\x1b['
 queries=CSI+'14t'+CSI+'14;2t'+CSI+'16t'+CSI+'18t'+CSI+'5n'
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    font=font,reference_run=43265081881,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+    font=font,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()})
 profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1))]
 profiles += [('remote-denied',0,True,0),('locked-window',1,False,0),('font-resize',2,False,0)]
@@ -132,10 +132,26 @@ try:
                             ('lines-extra','31;99t',[base[0],2+31*ch],[83,31]),
                             ('huge-chars-rejected','8;65536;90t',base,[83,27]),
                             ('huge-pixels-limited','4;65536;489t',[489,limit[1]],None),
+                            ('saturated-pixels','4;999999999999999999;489t',[489,limit[1]],None),
+                            ('default-op','t',base,[83,27]),
+                            ('zero-op','0t',base,[83,27]),
+                            ('pixels-keep-current','4;213;489t'+CSI+'4t',[489,213],None),
+                            ('chars-snap-current','4;213;489t'+CSI+'8t',
+                             [2+((489-2)//cw)*cw,2+((213-2)//ch)*ch],None),
                             ('cancelled','4;213;489\x18X',base,[83,27]),
                         ]
                         for label,command,size,grid in cases:
                             phase(label,CSI+'8;27;83t'+CSI+command,client=size,grid=grid)
+                        # The Win32 minimum caption size may exceed one cell.
+                        # Native replies and child dimensions must agree even
+                        # when the OS imposes that extra minimum.
+                        for label,command in (('one-cell','8;1;1t'),
+                                              ('one-pixel','4;1;1t'),
+                                              ('sub-cell-pixels','4;7;7t')):
+                            phase(label,CSI+'8;27;83t'+CSI+command)
+                            actual=rectangles()[1]
+                            assert actual[0]>=cw+2 and actual[1]>=ch+2,(label,actual,cw,ch)
+                            mode['checks'][-1]['requested_client_minimum']=[cw+2,ch+2]
                         # Sequential requests in a single write must not overtake
                         # the resize completion or lose intervening output.
                         phase('ordered-resizes',CSI+'8;20;60t'+CSI+'2JORDERED'+CSI+'8;30;90t',

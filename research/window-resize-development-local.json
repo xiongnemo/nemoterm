@@ -1,7 +1,7 @@
 {
-  "executable_sha256": "389b38a9e249e8fd01e8d424468d7fc05cf1762f113b6bfaca544c34cdd7323a",
+  "executable_sha256": "e0ba55cfa746f277a300f579931b2c4a1739cdf5d98523cbdc9bcf3c286714c3",
   "font": "SarasaTermSC Nerd Font Light",
-  "reference_run": 43265081881,
+  "reference_run": 43271622637,
   "modes": [
     {
       "policy": "normal",
@@ -44,9 +44,9 @@
             27
           ],
           "memory": {
-            "private_ws": 3493888,
-            "total_ws": 20512768,
-            "private_commit": 4534272
+            "private_ws": 3510272,
+            "total_ws": 20525056,
+            "private_commit": 4546560
           }
         },
         {
@@ -86,9 +86,9 @@
             30
           ],
           "memory": {
-            "private_ws": 3731456,
-            "total_ws": 20774912,
-            "private_commit": 4734976
+            "private_ws": 3747840,
+            "total_ws": 20783104,
+            "private_commit": 4747264
           }
         },
         {
@@ -128,9 +128,9 @@
             30
           ],
           "memory": {
-            "private_ws": 3809280,
-            "total_ws": 20873216,
-            "private_commit": 4808704
+            "private_ws": 3825664,
+            "total_ws": 20877312,
+            "private_commit": 4820992
           }
         },
         {
@@ -170,9 +170,9 @@
             27
           ],
           "memory": {
-            "private_ws": 3776512,
-            "total_ws": 20848640,
-            "private_commit": 4755456
+            "private_ws": 3792896,
+            "total_ws": 20844544,
+            "private_commit": 4767744
           }
         },
         {
@@ -212,9 +212,9 @@
             27
           ],
           "memory": {
-            "private_ws": 3715072,
-            "total_ws": 20799488,
-            "private_commit": 4694016
+            "private_ws": 3731456,
+            "total_ws": 20791296,
+            "private_commit": 4706304
           }
         },
         {
@@ -254,9 +254,9 @@
             27
           ],
           "memory": {
-            "private_ws": 3715072,
-            "total_ws": 20799488,
-            "private_commit": 4694016
+            "private_ws": 3731456,
+            "total_ws": 20791296,
+            "private_commit": 4706304
           }
         },
         {
@@ -296,9 +296,9 @@
             51
           ],
           "memory": {
-            "private_ws": 3997696,
-            "total_ws": 21086208,
-            "private_commit": 4980736
+            "private_ws": 4014080,
+            "total_ws": 21073920,
+            "private_commit": 4993024
           }
         },
         {
@@ -338,9 +338,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4554752,
-            "total_ws": 21643264,
-            "private_commit": 5562368
+            "private_ws": 4571136,
+            "total_ws": 21635072,
+            "private_commit": 5570560
           }
         },
         {
@@ -380,9 +380,9 @@
             51
           ],
           "memory": {
-            "private_ws": 5386240,
-            "total_ws": 22474752,
-            "private_commit": 6459392
+            "private_ws": 5398528,
+            "total_ws": 22478848,
+            "private_commit": 6471680
           }
         },
         {
@@ -422,9 +422,9 @@
             10
           ],
           "memory": {
-            "private_ws": 4603904,
-            "total_ws": 21692416,
-            "private_commit": 5668864
+            "private_ws": 4616192,
+            "total_ws": 21704704,
+            "private_commit": 5681152
           }
         },
         {
@@ -464,9 +464,9 @@
             10
           ],
           "memory": {
-            "private_ws": 4603904,
-            "total_ws": 21708800,
-            "private_commit": 5668864
+            "private_ws": 4616192,
+            "total_ws": 21704704,
+            "private_commit": 5681152
           }
         },
         {
@@ -506,9 +506,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4722688,
-            "total_ws": 21839872,
-            "private_commit": 5804032
+            "private_ws": 4734976,
+            "total_ws": 21823488,
+            "private_commit": 5816320
           }
         },
         {
@@ -548,9 +548,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4722688,
-            "total_ws": 21848064,
-            "private_commit": 5804032
+            "private_ws": 4734976,
+            "total_ws": 21827584,
+            "private_commit": 5816320
           }
         },
         {
@@ -590,9 +590,9 @@
             51
           ],
           "memory": {
-            "private_ws": 4317184,
-            "total_ws": 21454848,
-            "private_commit": 5574656
+            "private_ws": 4333568,
+            "total_ws": 21426176,
+            "private_commit": 5586944
           }
         },
         {
@@ -632,9 +632,9 @@
             10
           ],
           "memory": {
-            "private_ws": 4182016,
-            "total_ws": 21327872,
-            "private_commit": 5234688
+            "private_ws": 4198400,
+            "total_ws": 21295104,
+            "private_commit": 5246976
           }
         },
         {
@@ -674,9 +674,9 @@
             51
           ],
           "memory": {
-            "private_ws": 5251072,
-            "total_ws": 22405120,
-            "private_commit": 6279168
+            "private_ws": 5267456,
+            "total_ws": 22364160,
+            "private_commit": 6291456
           }
         },
         {
@@ -716,9 +716,9 @@
             30
           ],
           "memory": {
-            "private_ws": 4677632,
-            "total_ws": 21831680,
-            "private_commit": 5713920
+            "private_ws": 4694016,
+            "total_ws": 21790720,
+            "private_commit": 5726208
           }
         },
         {
@@ -758,9 +758,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4534272,
-            "total_ws": 21688320,
-            "private_commit": 5607424
+            "private_ws": 4550656,
+            "total_ws": 21651456,
+            "private_commit": 5619712
           }
         },
         {
@@ -800,9 +800,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4534272,
-            "total_ws": 21688320,
-            "private_commit": 5607424
+            "private_ws": 4550656,
+            "total_ws": 21651456,
+            "private_commit": 5619712
           }
         },
         {
@@ -842,9 +842,9 @@
             31
           ],
           "memory": {
-            "private_ws": 4595712,
-            "total_ws": 21749760,
-            "private_commit": 5668864
+            "private_ws": 4612096,
+            "total_ws": 21716992,
+            "private_commit": 5681152
           }
         },
         {
@@ -884,9 +884,9 @@
             31
           ],
           "memory": {
-            "private_ws": 4595712,
-            "total_ws": 21753856,
-            "private_commit": 5668864
+            "private_ws": 4612096,
+            "total_ws": 21733376,
+            "private_commit": 5681152
           }
         },
         {
@@ -926,9 +926,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4595712,
-            "total_ws": 21753856,
-            "private_commit": 5668864
+            "private_ws": 4612096,
+            "total_ws": 21733376,
+            "private_commit": 5681152
           }
         },
         {
@@ -968,9 +968,219 @@
             51
           ],
           "memory": {
-            "private_ws": 4251648,
-            "total_ws": 21413888,
-            "private_commit": 5406720
+            "private_ws": 4268032,
+            "total_ws": 21401600,
+            "private_commit": 5419008
+          }
+        },
+        {
+          "name": "saturated-pixels",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 4235264,
+            "total_ws": 21381120,
+            "private_commit": 5214208
+          }
+        },
+        {
+          "name": "default-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4308992,
+            "total_ws": 21454848,
+            "private_commit": 5320704
+          }
+        },
+        {
+          "name": "zero-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4308992,
+            "total_ws": 21454848,
+            "private_commit": 5320704
+          }
+        },
+        {
+          "name": "pixels-keep-current",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 4120576,
+            "total_ws": 21266432,
+            "private_commit": 5099520
+          }
+        },
+        {
+          "name": "chars-snap-current",
+          "client": [
+            482,
+            202
+          ],
+          "outer": [
+            515,
+            241
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              241,
+              515
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 4182016,
+            "total_ws": 21336064,
+            "private_commit": 5160960
           }
         },
         {
@@ -1010,10 +1220,148 @@
             27
           ],
           "memory": {
-            "private_ws": 4198400,
-            "total_ws": 21364736,
-            "private_commit": 5238784
+            "private_ws": 4182016,
+            "total_ws": 21340160,
+            "private_commit": 5160960
           }
+        },
+        {
+          "name": "one-cell",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4182016,
+            "total_ws": 21348352,
+            "private_commit": 5160960
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "one-pixel",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4182016,
+            "total_ws": 21348352,
+            "private_commit": 5160960
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "sub-cell-pixels",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4182016,
+            "total_ws": 21348352,
+            "private_commit": 5160960
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
         },
         {
           "name": "ordered-resizes",
@@ -1052,9 +1400,9 @@
             30
           ],
           "memory": {
-            "private_ws": 4358144,
-            "total_ws": 21528576,
-            "private_commit": 5459968
+            "private_ws": 4190208,
+            "total_ws": 21356544,
+            "private_commit": 5169152
           }
         },
         {
@@ -1094,9 +1442,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4362240,
-            "total_ws": 21557248,
-            "private_commit": 5406720
+            "private_ws": 4317184,
+            "total_ws": 21504000,
+            "private_commit": 5296128
           }
         },
         {
@@ -1136,9 +1484,9 @@
             22
           ],
           "memory": {
-            "private_ws": 4395008,
-            "total_ws": 21606400,
-            "private_commit": 5464064
+            "private_ws": 4300800,
+            "total_ws": 21499904,
+            "private_commit": 5279744
           }
         },
         {
@@ -1178,9 +1526,9 @@
             22
           ],
           "memory": {
-            "private_ws": 4395008,
-            "total_ws": 21606400,
-            "private_commit": 5464064
+            "private_ws": 4300800,
+            "total_ws": 21499904,
+            "private_commit": 5279744
           }
         },
         {
@@ -1220,9 +1568,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4395008,
-            "total_ws": 21606400,
-            "private_commit": 5464064
+            "private_ws": 4362240,
+            "total_ws": 21561344,
+            "private_commit": 5341184
           }
         },
         {
@@ -1262,9 +1610,9 @@
             50
           ],
           "memory": {
-            "private_ws": 5726208,
-            "total_ws": 22937600,
-            "private_commit": 6807552
+            "private_ws": 5763072,
+            "total_ws": 22966272,
+            "private_commit": 6864896
           }
         },
         {
@@ -1304,9 +1652,9 @@
             50
           ],
           "memory": {
-            "private_ws": 5730304,
-            "total_ws": 22945792,
-            "private_commit": 6807552
+            "private_ws": 5767168,
+            "total_ws": 22970368,
+            "private_commit": 6864896
           }
         },
         {
@@ -1346,9 +1694,9 @@
             27
           ],
           "memory": {
-            "private_ws": 4579328,
-            "total_ws": 21798912,
-            "private_commit": 5570560
+            "private_ws": 4763648,
+            "total_ws": 21966848,
+            "private_commit": 6066176
           }
         },
         {
@@ -1388,9 +1736,9 @@
             25
           ],
           "memory": {
-            "private_ws": 4689920,
-            "total_ws": 21913600,
-            "private_commit": 5689344
+            "private_ws": 4816896,
+            "total_ws": 22024192,
+            "private_commit": 6152192
           }
         },
         {
@@ -1430,17 +1778,17 @@
             25
           ],
           "memory": {
-            "private_ws": 4820992,
-            "total_ws": 22044672,
-            "private_commit": 5832704
+            "private_ws": 4886528,
+            "total_ws": 22097920,
+            "private_commit": 6279168
           }
         }
       ],
       "active_renderer": 1,
       "memory_before_instrumentation": {
-        "private_ws": 3493888,
-        "total_ws": 20512768,
-        "private_commit": 4534272
+        "private_ws": 3510272,
+        "total_ws": 20525056,
+        "private_commit": 4546560
       },
       "memory_instrumented": false,
       "initial_client": [
@@ -1498,9 +1846,9 @@
             27
           ],
           "memory": {
-            "private_ws": 30744576,
-            "total_ws": 63057920,
-            "private_commit": 92069888
+            "private_ws": 30769152,
+            "total_ws": 63062016,
+            "private_commit": 91668480
           }
         },
         {
@@ -1540,9 +1888,9 @@
             30
           ],
           "memory": {
-            "private_ws": 31641600,
-            "total_ws": 63963136,
-            "private_commit": 96665600
+            "private_ws": 31682560,
+            "total_ws": 63991808,
+            "private_commit": 96276480
           }
         },
         {
@@ -1582,9 +1930,9 @@
             30
           ],
           "memory": {
-            "private_ws": 31731712,
-            "total_ws": 64061440,
-            "private_commit": 96743424
+            "private_ws": 31772672,
+            "total_ws": 64094208,
+            "private_commit": 96354304
           }
         },
         {
@@ -1624,9 +1972,9 @@
             27
           ],
           "memory": {
-            "private_ws": 31735808,
-            "total_ws": 64086016,
-            "private_commit": 98615296
+            "private_ws": 31776768,
+            "total_ws": 64110592,
+            "private_commit": 98226176
           }
         },
         {
@@ -1666,9 +2014,9 @@
             27
           ],
           "memory": {
-            "private_ws": 31694848,
-            "total_ws": 64049152,
-            "private_commit": 98553856
+            "private_ws": 31731712,
+            "total_ws": 64069632,
+            "private_commit": 98164736
           }
         },
         {
@@ -1708,9 +2056,9 @@
             27
           ],
           "memory": {
-            "private_ws": 31707136,
-            "total_ws": 64061440,
-            "private_commit": 98553856
+            "private_ws": 31748096,
+            "total_ws": 64086016,
+            "private_commit": 98164736
           }
         },
         {
@@ -1750,9 +2098,9 @@
             51
           ],
           "memory": {
-            "private_ws": 31997952,
-            "total_ws": 64356352,
-            "private_commit": 107290624
+            "private_ws": 32043008,
+            "total_ws": 64385024,
+            "private_commit": 110575616
           }
         },
         {
@@ -1792,9 +2140,9 @@
             27
           ],
           "memory": {
-            "private_ws": 32980992,
-            "total_ws": 65343488,
-            "private_commit": 126103552
+            "private_ws": 33026048,
+            "total_ws": 65376256,
+            "private_commit": 117903360
           }
         },
         {
@@ -1834,9 +2182,9 @@
             51
           ],
           "memory": {
-            "private_ws": 33767424,
-            "total_ws": 66142208,
-            "private_commit": 139186176
+            "private_ws": 33812480,
+            "total_ws": 66179072,
+            "private_commit": 146030592
           }
         },
         {
@@ -1876,9 +2224,9 @@
             10
           ],
           "memory": {
-            "private_ws": 33075200,
-            "total_ws": 65458176,
-            "private_commit": 139100160
+            "private_ws": 33120256,
+            "total_ws": 65490944,
+            "private_commit": 145940480
           }
         },
         {
@@ -1918,9 +2266,9 @@
             10
           ],
           "memory": {
-            "private_ws": 33079296,
-            "total_ws": 65474560,
-            "private_commit": 138485760
+            "private_ws": 33107968,
+            "total_ws": 65478656,
+            "private_commit": 145309696
           }
         },
         {
@@ -1960,9 +2308,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33247232,
-            "total_ws": 65642496,
-            "private_commit": 138616832
+            "private_ws": 33275904,
+            "total_ws": 65654784,
+            "private_commit": 145440768
           }
         },
         {
@@ -2002,9 +2350,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33050624,
-            "total_ws": 65449984,
-            "private_commit": 138256384
+            "private_ws": 33079296,
+            "total_ws": 65458176,
+            "private_commit": 145080320
           }
         },
         {
@@ -2044,9 +2392,9 @@
             51
           ],
           "memory": {
-            "private_ws": 32858112,
-            "total_ws": 65257472,
-            "private_commit": 137854976
+            "private_ws": 32886784,
+            "total_ws": 65265664,
+            "private_commit": 144678912
           }
         },
         {
@@ -2086,9 +2434,9 @@
             10
           ],
           "memory": {
-            "private_ws": 32743424,
-            "total_ws": 65142784,
-            "private_commit": 137748480
+            "private_ws": 32772096,
+            "total_ws": 65150976,
+            "private_commit": 144572416
           }
         },
         {
@@ -2128,9 +2476,9 @@
             51
           ],
           "memory": {
-            "private_ws": 34193408,
-            "total_ws": 66596864,
-            "private_commit": 139685888
+            "private_ws": 34222080,
+            "total_ws": 66605056,
+            "private_commit": 146505728
           }
         },
         {
@@ -2170,9 +2518,9 @@
             30
           ],
           "memory": {
-            "private_ws": 33386496,
-            "total_ws": 65798144,
-            "private_commit": 138711040
+            "private_ws": 33415168,
+            "total_ws": 65802240,
+            "private_commit": 145530880
           }
         },
         {
@@ -2212,9 +2560,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33304576,
-            "total_ws": 65716224,
-            "private_commit": 138399744
+            "private_ws": 33333248,
+            "total_ws": 65720320,
+            "private_commit": 145219584
           }
         },
         {
@@ -2254,9 +2602,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33312768,
-            "total_ws": 65724416,
-            "private_commit": 138399744
+            "private_ws": 33341440,
+            "total_ws": 65728512,
+            "private_commit": 145219584
           }
         },
         {
@@ -2296,9 +2644,9 @@
             31
           ],
           "memory": {
-            "private_ws": 33361920,
+            "private_ws": 33386496,
             "total_ws": 65777664,
-            "private_commit": 138403840
+            "private_commit": 145223680
           }
         },
         {
@@ -2338,9 +2686,9 @@
             31
           ],
           "memory": {
-            "private_ws": 33386496,
-            "total_ws": 65806336,
-            "private_commit": 138403840
+            "private_ws": 33411072,
+            "total_ws": 65802240,
+            "private_commit": 145223680
           }
         },
         {
@@ -2380,9 +2728,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33398784,
-            "total_ws": 65818624,
-            "private_commit": 138403840
+            "private_ws": 33427456,
+            "total_ws": 65822720,
+            "private_commit": 145223680
           }
         },
         {
@@ -2422,9 +2770,219 @@
             51
           ],
           "memory": {
-            "private_ws": 32989184,
-            "total_ws": 65409024,
-            "private_commit": 138043392
+            "private_ws": 33017856,
+            "total_ws": 65413120,
+            "private_commit": 144658432
+          }
+        },
+        {
+          "name": "saturated-pixels",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 33021952,
+            "total_ws": 65421312,
+            "private_commit": 144760832
+          }
+        },
+        {
+          "name": "default-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33177600,
+            "total_ws": 65576960,
+            "private_commit": 144912384
+          }
+        },
+        {
+          "name": "zero-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33185792,
+            "total_ws": 65585152,
+            "private_commit": 144912384
+          }
+        },
+        {
+          "name": "pixels-keep-current",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 32935936,
+            "total_ws": 65339392,
+            "private_commit": 145129472
+          }
+        },
+        {
+          "name": "chars-snap-current",
+          "client": [
+            482,
+            202
+          ],
+          "outer": [
+            515,
+            241
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              241,
+              515
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 33005568,
+            "total_ws": 65413120,
+            "private_commit": 145190912
           }
         },
         {
@@ -2464,10 +3022,148 @@
             27
           ],
           "memory": {
-            "private_ws": 32976896,
-            "total_ws": 65404928,
-            "private_commit": 138088448
+            "private_ws": 33009664,
+            "total_ws": 65421312,
+            "private_commit": 145190912
           }
+        },
+        {
+          "name": "one-cell",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33013760,
+            "total_ws": 65425408,
+            "private_commit": 145190912
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "one-pixel",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33013760,
+            "total_ws": 65433600,
+            "private_commit": 145190912
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "sub-cell-pixels",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33013760,
+            "total_ws": 65433600,
+            "private_commit": 145190912
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
         },
         {
           "name": "ordered-resizes",
@@ -2506,9 +3202,9 @@
             30
           ],
           "memory": {
-            "private_ws": 33169408,
-            "total_ws": 65597440,
-            "private_commit": 138121216
+            "private_ws": 33140736,
+            "total_ws": 65564672,
+            "private_commit": 145276928
           }
         },
         {
@@ -2548,9 +3244,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33124352,
-            "total_ws": 65552384,
-            "private_commit": 138055680
+            "private_ws": 33280000,
+            "total_ws": 65703936,
+            "private_commit": 145276928
           }
         },
         {
@@ -2590,9 +3286,9 @@
             22
           ],
           "memory": {
-            "private_ws": 33247232,
-            "total_ws": 65695744,
-            "private_commit": 138141696
+            "private_ws": 35270656,
+            "total_ws": 67706880,
+            "private_commit": 144564224
           }
         },
         {
@@ -2632,9 +3328,9 @@
             22
           ],
           "memory": {
-            "private_ws": 33251328,
-            "total_ws": 65699840,
-            "private_commit": 138141696
+            "private_ws": 35274752,
+            "total_ws": 67710976,
+            "private_commit": 144564224
           }
         },
         {
@@ -2674,9 +3370,9 @@
             27
           ],
           "memory": {
-            "private_ws": 33251328,
-            "total_ws": 65703936,
-            "private_commit": 138141696
+            "private_ws": 35340288,
+            "total_ws": 67780608,
+            "private_commit": 144740352
           }
         },
         {
@@ -2716,9 +3412,9 @@
             50
           ],
           "memory": {
-            "private_ws": 36675584,
-            "total_ws": 69128192,
-            "private_commit": 140079104
+            "private_ws": 36851712,
+            "total_ws": 69292032,
+            "private_commit": 149336064
           }
         },
         {
@@ -2758,9 +3454,9 @@
             50
           ],
           "memory": {
-            "private_ws": 36675584,
-            "total_ws": 69128192,
-            "private_commit": 140079104
+            "private_ws": 36855808,
+            "total_ws": 69296128,
+            "private_commit": 149336064
           }
         },
         {
@@ -2800,9 +3496,9 @@
             27
           ],
           "memory": {
-            "private_ws": 35598336,
-            "total_ws": 68067328,
-            "private_commit": 139091968
+            "private_ws": 35852288,
+            "total_ws": 68308992,
+            "private_commit": 148176896
           }
         },
         {
@@ -2842,9 +3538,9 @@
             25
           ],
           "memory": {
-            "private_ws": 35713024,
-            "total_ws": 68186112,
-            "private_commit": 139214848
+            "private_ws": 35880960,
+            "total_ws": 68341760,
+            "private_commit": 148201472
           }
         },
         {
@@ -2884,17 +3580,17 @@
             25
           ],
           "memory": {
-            "private_ws": 35782656,
-            "total_ws": 68255744,
-            "private_commit": 139345920
+            "private_ws": 35966976,
+            "total_ws": 68427776,
+            "private_commit": 148316160
           }
         }
       ],
       "active_renderer": 2,
       "memory_before_instrumentation": {
-        "private_ws": 29114368,
-        "total_ws": 57450496,
-        "private_commit": 88121344
+        "private_ws": 29147136,
+        "total_ws": 57470976,
+        "private_commit": 87744512
       },
       "memory_instrumented": true,
       "initial_client": [
@@ -2953,8 +3649,8 @@
           ],
           "memory": {
             "private_ws": 3518464,
-            "total_ws": 20516864,
-            "private_commit": 4562944
+            "total_ws": 20520960,
+            "private_commit": 4558848
           }
         },
         {
@@ -2995,8 +3691,8 @@
           ],
           "memory": {
             "private_ws": 3518464,
-            "total_ws": 20520960,
-            "private_commit": 4562944
+            "total_ws": 20533248,
+            "private_commit": 4558848
           }
         },
         {
@@ -3037,8 +3733,8 @@
           ],
           "memory": {
             "private_ws": 3518464,
-            "total_ws": 20520960,
-            "private_commit": 4562944
+            "total_ws": 20533248,
+            "private_commit": 4558848
           }
         },
         {
@@ -3079,8 +3775,8 @@
           ],
           "memory": {
             "private_ws": 3518464,
-            "total_ws": 20520960,
-            "private_commit": 4562944
+            "total_ws": 20533248,
+            "private_commit": 4558848
           }
         },
         {
@@ -3121,16 +3817,16 @@
           ],
           "memory": {
             "private_ws": 3518464,
-            "total_ws": 20520960,
-            "private_commit": 4562944
+            "total_ws": 20533248,
+            "private_commit": 4558848
           }
         }
       ],
       "active_renderer": 1,
       "memory_before_instrumentation": {
         "private_ws": 3518464,
-        "total_ws": 20516864,
-        "private_commit": 4562944
+        "total_ws": 20520960,
+        "private_commit": 4558848
       },
       "memory_instrumented": false,
       "initial_client": [
@@ -3188,7 +3884,7 @@
           ],
           "memory": {
             "private_ws": 3522560,
-            "total_ws": 20545536,
+            "total_ws": 20537344,
             "private_commit": 4562944
           }
         },
@@ -3230,7 +3926,7 @@
           ],
           "memory": {
             "private_ws": 3522560,
-            "total_ws": 20553728,
+            "total_ws": 20545536,
             "private_commit": 4562944
           }
         },
@@ -3272,7 +3968,7 @@
           ],
           "memory": {
             "private_ws": 3522560,
-            "total_ws": 20553728,
+            "total_ws": 20545536,
             "private_commit": 4562944
           }
         },
@@ -3314,7 +4010,7 @@
           ],
           "memory": {
             "private_ws": 3522560,
-            "total_ws": 20553728,
+            "total_ws": 20545536,
             "private_commit": 4562944
           }
         },
@@ -3356,7 +4052,7 @@
           ],
           "memory": {
             "private_ws": 3522560,
-            "total_ws": 20553728,
+            "total_ws": 20545536,
             "private_commit": 4562944
           }
         }
@@ -3364,7 +4060,7 @@
       "active_renderer": 1,
       "memory_before_instrumentation": {
         "private_ws": 3522560,
-        "total_ws": 20545536,
+        "total_ws": 20537344,
         "private_commit": 4562944
       },
       "memory_instrumented": false,
@@ -3422,8 +4118,8 @@
             27
           ],
           "memory": {
-            "private_ws": 3510272,
-            "total_ws": 20504576,
+            "private_ws": 3518464,
+            "total_ws": 20529152,
             "private_commit": 4554752
           }
         },
@@ -3464,8 +4160,8 @@
             20
           ],
           "memory": {
-            "private_ws": 3616768,
-            "total_ws": 20627456,
+            "private_ws": 3624960,
+            "total_ws": 20647936,
             "private_commit": 4628480
           }
         },
@@ -3506,8 +4202,8 @@
             20
           ],
           "memory": {
-            "private_ws": 3682304,
-            "total_ws": 20705280,
+            "private_ws": 3690496,
+            "total_ws": 20729856,
             "private_commit": 4694016
           }
         },
@@ -3548,8 +4244,8 @@
             20
           ],
           "memory": {
-            "private_ws": 3743744,
-            "total_ws": 20774912,
+            "private_ws": 3751936,
+            "total_ws": 20803584,
             "private_commit": 4730880
           }
         },
@@ -3590,8 +4286,8 @@
             20
           ],
           "memory": {
-            "private_ws": 3743744,
-            "total_ws": 20779008,
+            "private_ws": 3751936,
+            "total_ws": 20807680,
             "private_commit": 4730880
           }
         },
@@ -3632,16 +4328,16 @@
             20
           ],
           "memory": {
-            "private_ws": 3743744,
-            "total_ws": 20779008,
+            "private_ws": 3751936,
+            "total_ws": 20815872,
             "private_commit": 4730880
           }
         }
       ],
       "active_renderer": 1,
       "memory_before_instrumentation": {
-        "private_ws": 3510272,
-        "total_ws": 20504576,
+        "private_ws": 3518464,
+        "total_ws": 20529152,
         "private_commit": 4554752
       },
       "memory_instrumented": false,

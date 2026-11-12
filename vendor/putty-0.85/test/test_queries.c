@@ -321,7 +321,11 @@ static void test_window_resize(Mock *mk)
         };
         term_data_fragmented(mk->term, window_resize_cases[i].sequence);
         drain_model(mk);
-        response(mk, window_resize_cases[i].reply);
+        /* Three documented frontend differences have an explicit expectation:
+         * one complete cell minimum and immediately current geometry. Keep
+         * the independent reply alongside it; never rewrite oracle evidence. */
+        response(mk, window_resize_cases[i].adapted_reply ?
+                 window_resize_cases[i].adapted_reply : window_resize_cases[i].reply);
     }
     reset(mk); test_context(mk, "resize completion orders following queries");
     model_defer_resize = true;

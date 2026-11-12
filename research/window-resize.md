@@ -12,7 +12,7 @@ border/scrollbar pixels before requesting a size; pixel requests are passed as
 widget sizes. It then synchronizes X and processes geometry events before
 returning. DECSLPP passes the requested row count and an unchanged column count.
 
-The oracle resets to 83x27 before each of 31 cases, so a fallback to resource
+The oracle resets to 83x27 before each of 39 cases, so a fallback to resource
 defaults cannot masquerade as current-size preservation. It covers absent,
 empty, zero, positive, extra and colon parameters; exact and non-cell-multiple
 pixel dimensions; DECSLPP; and requests beyond X's Dimension limit. It uses the
@@ -20,12 +20,12 @@ same pinned XTerm and private 1024x768 Xvfb as prior references, with `fixed`
 font and limitResize=1. Raw replies and executable hash are retained even if an
 assertion fails. It does not validate window-manager maximization/fullscreen.
 
-Implementation points to revisit after reading the reference:
+Implementation constraints established from the starting source:
 
 - The existing parser already has `esc_arg_present`, so omitted and explicit
   zero parameters can be distinguished without changing the global default.
-- The current CSI 8 maps zero to saved configuration and requires both axes.
-  CSI 4 is empty; DECSLPP always requests 24 rows.
+- The starting CSI 8 mapped zero to saved configuration and required both axes.
+  CSI 4 was empty; DECSLPP always requested 24 rows. These are now corrected.
 - `term_request_resize` uses a pending state and pauses input parsing until the
   frontend acknowledges the request. Pixel requests should retain that ordering
   and remote-resize permissions rather than directly mutating HWND in parsing.
@@ -36,15 +36,14 @@ Implementation points to revisit after reading the reference:
   query ordering and output while minimized need native tests. XTerm's behavior
   is reference evidence, not permission to move or resize unrelated windows.
 
-The current accepted distribution and the geometry candidate are managed on
-main / feature/window-geometry. Keep these research changes separate until
-their own implementation and validation are complete.
+Main's accepted distribution remains source 9ccbad3 until this branch's exact
+single-file implementation and validation are complete.
 
 ## Independent result
 
 Run [43265081881](https://github.com/xiongnemo/nemoterm/actions/runs/43265081881)
 passed all 31 cases (oracle source `ec8c46a24117855fd5dbd8ace894ba0085c59afa`,
-artifact 13964289769). Exact replies are in `geometry-xterm.json`.
+artifact 13964289769). Its replies are retained in `geometry-xterm-initial.json`.
 Empty/absent axes preserve 83x27, explicit zero uses the screen-sized widget,
 and extra semicolon parameters are ignored. Colon subparameters cancel these
 operations. DECSLPP 31 and 31;99 both produce 31x83, not 24 rows.
@@ -62,6 +61,24 @@ before deciding the compatible policy. The pinned parser saturates each numeric
 parameter at 65535 (`ptyx.h::MAX_I_PARAM` and `CASE_ESC_DIGIT` in `charproc.c`),
 which explains the large-pixel result. The implementation applies this bound
 only to the window-size parameters, without changing other protocol parsers.
+
+Expanded run [43271622637](https://github.com/xiongnemo/nemoterm/actions/runs/43271622637)
+captured 39 cases from oracle source `f251c27`. Exact original responses are in
+`geometry-xterm.json`. The replay header retains all 39 original replies, with
+36 exact matches and three explicitly separate expected differences:
+
+- Pixel requests 1x1 and 7x7 retain at least one complete cell plus padding in
+  Nemoterm. XTerm permits sub-cell geometry and reports 65533x65533 text pixels
+  for 1x1 (unsigned subtraction), while its grid still has one cell.
+- Character resize with both axes absent after a non-cell-aligned pixel resize
+  snaps to the current cell grid. XTerm reports the new outer size but stale
+  text dimensions in the captured immediate reply; Nemoterm reports the
+  current dimensions consistently.
+
+Win32 can impose an additional caption minimum. On this machine all three
+tiny requests result in a 103x22 client and 12x1 grid; native checks compare the
+actual HWND, current protocol replies and the child's console grid. The
+reference's Xvfb sizes are not asserted as Windows window-manager behavior.
 
 ## Implementation and local validation in progress
 
@@ -87,17 +104,17 @@ unchanged requests now reassert the frontend's authoritative grid to the backend
 The test waits for that separate size-control pipe to settle before comparing
 child console dimensions. Pre-fix failure evidence is kept separately.
 
-`test_queries` replays all 31 frozen independent replies through the actual
-parser and a geometry model. It also checks asynchronous acknowledgment, output
+`test_queries` replays all 39 frozen cases through the actual parser and a
+geometry model, preserving the three documented differences. It also checks asynchronous acknowledgment, output
 ordering, permission revocation and backend size reassertion. Query, resize,
-mode and terminal core suites pass. The native fixture currently passes 84
+mode and terminal core suites pass. The native fixture currently passes 100
 checks across GDI, hardware GL, remote-denied, locked-window and font-resize
 profiles, including alternate buffers, maximize/restore, minimize-time resize
-and output preservation. GDI sampled private WS peaks at 5,730,304 bytes;
+and output preservation. GDI sampled private WS peaks at 5,767,168 bytes;
 GL samples after retained-frame capture include Frida. The development frontend
-is SHA-256 `389b38a9e249e8fd01e8d424468d7fc05cf1762f113b6bfaca544c34cdd7323a`,
+is SHA-256 `e0ba55cfa746f277a300f579931b2c4a1739cdf5d98523cbdc9bcf3c286714c3`,
 using accepted single-image OpenConsole and the pinned ConPTY DLL.
 
-Exact single-file validation, additional tiny-size reference cases, physical
+Exact single-file validation, physical
 DPI behavior, axis maximization/fullscreen controls and remaining protocol
 families are still open. Main's accepted distribution has not changed yet.
