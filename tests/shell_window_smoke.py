@@ -29,6 +29,14 @@ def shell_path(path, sid):
     if sid == 'git-bash': return '/' + value[0].lower() + value[2:]
     return value
 
+def same_directory(actual, expected, sid):
+    if sid == 'wsl-bash':
+        # This fixture uses a Windows directory mounted in WSL. Compare its
+        # Windows file identity, including short/long names and junctions.
+        assert actual.startswith('/mnt/') and len(actual) > 7 and actual[6] == '/', actual
+        actual = actual[5] + ':' + actual[6:]
+    return os.path.samefile(actual, expected)
+
 def terminal_windows():
     result = {}
     @c.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM)
@@ -81,7 +89,7 @@ try:
                     raise
                 actual = marker.read_text(encoding='utf-8-sig').strip()
                 expected = starting.as_posix() if sid == 'git-bash' else shell_path(starting, sid)
-                assert actual.replace('\\', '/').lower() == expected.lower(), (sid, actual, expected)
+                assert same_directory(actual, starting, sid), (sid, actual, expected)
                 observed['launches'][sid] = dict(command_executed=True,
                     memory=memory_sample(handle), path=shell['path'], directory=actual)
                 if sid in ('git-bash', 'wsl-bash'):
@@ -111,7 +119,7 @@ try:
                         wait_for(duplicate_marker.exists, timeout=30)
                         actual_duplicate = duplicate_marker.read_text(encoding='utf-8-sig').strip()
                         expected_duplicate = destination.as_posix() if sid == 'git-bash' else posix_directory
-                        assert actual_duplicate.lower() == expected_duplicate.lower(), (sid, actual_duplicate, expected_duplicate)
+                        assert same_directory(actual_duplicate, destination, sid), (sid, actual_duplicate, expected_duplicate)
                         observed['launches'][sid]['duplicate_directory'] = actual_duplicate
                     finally:
                         u.PostMessageW(duplicate_hwnd, 0x10, 0, 0)
