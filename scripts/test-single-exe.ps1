@@ -1,10 +1,12 @@
 param(
     [Parameter(Mandatory=$true)][string]$Executable,
-    [string]$Destination = ''
+    [string]$Destination = '',
+    [string]$CodexExecutable = ''
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $Executable = (Resolve-Path -LiteralPath $Executable).Path
+if ($CodexExecutable) { $CodexExecutable = (Resolve-Path -LiteralPath $CodexExecutable).Path }
 if (!$Destination) { $Destination = Join-Path $root 'build/single-exe-check' }
 $Destination = [IO.Path]::GetFullPath($Destination)
 if (Test-Path -LiteralPath $Destination) { throw 'Choose a fresh validation directory to preserve previous evidence.' }
@@ -46,6 +48,16 @@ try {
     & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" 2>&1 | Tee-Object "$Destination/logs/settings.log"
     if ($LASTEXITCODE) { throw 'Single-executable settings test failed' }
     $checks.Add('settings')
+    if ($CodexExecutable) {
+        foreach ($mode in @('default', 'inline')) {
+            $nativeArgs = @('--codex', $CodexExecutable)
+            if ($mode -eq 'inline') { $nativeArgs += '--inline' }
+            if ($env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
+            & python "$Destination/tests/codex_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/codex-$mode.log"
+            if ($LASTEXITCODE) { throw "Single-executable Codex test failed: $mode" }
+            $checks.Add("codex-$mode")
+        }
+    }
     $files = @(Get-ChildItem -LiteralPath "$Destination/dist" -File)
     if ($files.Count -ne 1 -or $files[0].Name -ne 'nemoterm.exe') { throw 'Unexpected sidecar files in isolated executable directory' }
     $digest = Get-FileHash -LiteralPath "$Destination/dist/nemoterm.exe" -Algorithm SHA256

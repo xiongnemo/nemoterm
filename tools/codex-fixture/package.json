@@ -1,0 +1,9 @@
+{
+  "name": "nemoterm-codex-ui-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pinned real client used only by native terminal UI regression tests",
+  "dependencies": {
+    "@openai/codex": "0.167.0"
+  }
+}
