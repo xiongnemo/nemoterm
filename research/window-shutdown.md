@@ -53,6 +53,31 @@ Evidence is in `shutdown-identity-query-local.json` and
 `shutdown-combined-local.json`, both for SHA-256
 `3594290cf9442b566bdc2028432183e5cc53f73410265922c03bcc169ffa0b64`.
 The query fixture sampled 4,149,248 bytes peak private WS.
-The merged independent XTerm reference run 43249194173 passed; core run
-43249194149 and single-EXE run 43249194284 are pending. Earlier isolated
-shutdown CI runs were superseded by this combined revision, not accepted.
+The merged independent XTerm reference run 43249194173, core run 43249194149
+and [single-EXE run 43249194284](https://github.com/xiongnemo/nemoterm/actions/runs/43249194284)
+all passed. Earlier isolated shutdown CI runs were superseded by this combined
+revision, not accepted.
+
+## Accepted single executable
+
+The downloaded 80c6cf2 single EXE is 4,338,176 bytes, SHA-256
+`50b58e1f5f07901bfa3bc496a6e2d5e4b1eaa8397bb4152de29a0fa8c3024822`.
+Its 38 CI check groups include native shutdown, settings, and default/inline
+real Codex. The inline job drained five late processes before deleting its
+temporary home, directly exercising the previously failing cleanup path.
+`shutdown-single-ci.json` and `shutdown-codex-*-ci.json` retain these results.
+Uninstrumented GDI frontend private WS peaks in those two CI client scenarios
+were 5,074,944 and 5,242,880 bytes; total WS was 34,852,864 and 35,008,512.
+Host and client measurements remain separate in the underlying evidence.
+
+The exact downloaded EXE also passed all four local shutdown cases (actual
+OpenGL included), 65 identity queries, and existing cursor/keyboard checks.
+`shutdown-single-local.json` and `shutdown-single-query-local.json` record the
+same hash; local query peak private WS was 4,681,728 bytes. The local Codex
+clipboard restriction is not treated as a passing local client run.
+
+REA import inspection completed all 79 import descriptors, 605 regular and 11
+delay imports with no parsing issues; see `shutdown-single-pe-imports.json`.
+The executable directory contains this EXE alone. These checks do not establish
+completion of the remaining title modes, geometry, tabs, DirectX, or broader
+terminal protocol requirements.

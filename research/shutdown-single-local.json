@@ -1,0 +1,73 @@
+{
+  "executable_sha256": "50b58e1f5f07901bfa3bc496a6e2d5e4b1eaa8397bb4152de29a0fa8c3024822",
+  "cases": [
+    {
+      "renderer": "gdi",
+      "close": "child-exit",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "gdi",
+      "close": "window-close",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "opengl",
+      "close": "child-exit",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 2,
+      "exit_code": 0
+    },
+    {
+      "renderer": "opengl",
+      "close": "window-close",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 2,
+      "exit_code": 0
+    }
+  ]
+}

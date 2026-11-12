@@ -68,8 +68,10 @@ The downloaded EXE hash is
 Both private jobs drained to zero active processes; their respective lifetime
 totals were 67 and 68 processes. A local real-client retry reached
 the window but was blocked by clipboard access-denied before preservation; it
-is not counted as successful validation. Distribution is held for the separately
-reproduced native-window shutdown lifetime fix; see `window-shutdown.md`.
+is not counted as successful validation. The identity changes and native-window
+shutdown repair subsequently passed combined core and single-EXE CI at 80c6cf2.
+The exact single EXE passed the 65 identity cases locally; final artifact hashes
+and acceptance evidence are recorded in `window-shutdown.md`.
 
 The first independent run (43241329669, revision 7732557) disproved the initial
 assumption that XTerm rejects colon subparameters: all four `0:0` requests got
