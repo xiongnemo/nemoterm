@@ -1,5 +1,5 @@
 """A console launcher exits while its attached child remains interactive."""
-import json
+from fixture_io import write_snapshot
 import os
 from pathlib import Path
 import subprocess
@@ -13,7 +13,7 @@ if len(sys.argv) == 3:
     sys.exit(0)
 time.sleep(.8)
 print('DELEGATED_CONSOLE_READY', flush=True)
-report.write_text(json.dumps(dict(launcher=int(sys.argv[3]), child=os.getpid())))
+write_snapshot(report, dict(launcher=int(sys.argv[3]), child=os.getpid()))
 deadline = time.monotonic() + 15
 while not stop.exists() and time.monotonic() < deadline:
     time.sleep(.02)
