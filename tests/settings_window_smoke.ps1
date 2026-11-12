@@ -3,8 +3,18 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+public static class ShellSettingsNative {
+    [DllImport("user32.dll")] public static extern IntPtr SendMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
+    [DllImport("user32.dll")] public static extern IntPtr GetParent(IntPtr hwnd);
+    [DllImport("user32.dll")] public static extern int GetDlgCtrlID(IntPtr hwnd);
+}
+'@
 $root = Split-Path $PSScriptRoot -Parent
 $exe = Join-Path $root 'dist/nemoterm.exe'
+if ($env:NEMOTERM_TEST_EXE) { $exe = $env:NEMOTERM_TEST_EXE }
 $python = (Get-Command python.exe -ErrorAction Stop).Source
 $fixtureProfile = 'settings-test-' + [Guid]::NewGuid().ToString('N')
 $profilePath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $fixtureProfile
@@ -104,13 +114,31 @@ try {
     }
     Select-Node $dialog 'Copy and paste' | Out-Null
     Select-Node $dialog 'Session' | Out-Null
+    $chooseShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
+    if ($chooseShell.Current.IsOffscreen -or !$bounds.Contains($chooseShell.Current.BoundingRectangle)) { throw 'Shell startup option clipped' }
+    $chooseShell.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Toggle()
+    $shellCombo = $dialog.FindFirst($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
+    if (!$shellCombo -or $shellCombo.Current.IsOffscreen -or !$bounds.Contains($shellCombo.Current.BoundingRectangle)) { throw 'Shell selector clipped or missing' }
+    $shellHandle = [IntPtr]$shellCombo.Current.NativeWindowHandle
+    [ShellSettingsNative]::SendMessageW($shellHandle, 0x14E, [IntPtr]4, [IntPtr]::Zero) | Out-Null
+    $fixtureShellControlId = [ShellSettingsNative]::GetDlgCtrlID($shellHandle)
+    [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($shellHandle), 0x111, [IntPtr]($fixtureShellControlId -bor (1 -shl 16)), $shellHandle) | Out-Null
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle shell-settings.png
+    if ($LASTEXITCODE) { throw 'Shell settings capture failed' }
     $saved = Wait-Value { Find-Name $dialog 'Saved Sessions' 'Edit' }
     $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
+    if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
+    if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
     if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0 -or $values.NemoWin32Input -ne 1) { throw 'Settings were not saved' }
     Invoke-Button $dialog 'Cancel'
     if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) { throw 'Settings cancel failed' }
+
+    $app = Start-Process -FilePath $exe -ArgumentList @('-load', $fixtureProfile) -PassThru
+    $dialog = Dialog $app
+    Invoke-Button $dialog 'Cancel'
+    if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) { throw 'Automatic startup shell chooser failed' }
 
     # Windows PowerShell 5 does not interpret `e; construct ESC explicitly.
     Write-Control @{phase='settings-launch';sequence=([char]27 + '[?4m' + [char]27 + '[?4g')}
@@ -118,6 +146,10 @@ try {
     $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'))
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
+    $reloadedShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
+    if ($reloadedShell.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Shell startup preference did not reload' }
+    $shellCombo = $dialog.FindFirst($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
+    if ([ShellSettingsNative]::SendMessageW([IntPtr]$shellCombo.Current.NativeWindowHandle, 0x147, [IntPtr]::Zero, [IntPtr]::Zero).ToInt32() -ne 4) { throw 'Selected default shell did not reload' }
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
     foreach ($name in @('Terminal', 'Keyboard')) {
         $node = Wait-Value { Find-Name $dialog $name }
@@ -139,7 +171,8 @@ try {
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
-        reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;query=$observed}
+        reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
+        saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;query=$observed}
     [IO.File]::WriteAllText((Join-Path $root 'research/settings-window-observed.json'),
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}

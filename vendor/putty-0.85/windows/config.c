@@ -9,6 +9,49 @@
 #include "putty.h"
 #include "dialog.h"
 #include "storage.h"
+#include "nemo_shell.h"
+
+static void shell_list_free(void *v)
+{
+    nemo_shell_free(v);
+}
+static void shell_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event)
+{
+    Conf *conf = data;
+    NemoShellList *list = ctrl->context.p;
+    if (event == EVENT_REFRESH) {
+        char *id = dupstr(conf_get_str(conf, CONF_nemo_shell));
+        int selected = 0;
+        dlg_update_start(ctrl, dlg);
+        dlg_listbox_clear(ctrl, dlg);
+        dlg_listbox_addwithid(ctrl, dlg, "Automatic (pwsh, Windows PowerShell, cmd)", 0);
+        for (int i = 0; i < NEMO_SHELL_COUNT; i++) {
+            char *label = dupprintf("%s%s", nemo_shell_names[i], list->paths[i] ? "" : " (not installed)");
+            dlg_listbox_addwithid(ctrl, dlg, label, i + 1);
+            sfree(label);
+            if (!strcmp(id, nemo_shell_ids[i])) selected = i + 1;
+        }
+        dlg_listbox_addwithid(ctrl, dlg, "Custom command (Session / Shell)", NEMO_SHELL_COUNT + 1);
+        if (!strcmp(id, "custom")) selected = NEMO_SHELL_COUNT + 1;
+        if (strcmp(id, "auto") && strcmp(id, "custom") && nemo_shell_index(id) < 0) {
+            char *label = dupprintf("Unavailable saved shell: %s", id);
+            selected = NEMO_SHELL_COUNT + 2;
+            dlg_listbox_addwithid(ctrl, dlg, label, selected);
+            sfree(label);
+        }
+        dlg_listbox_select(ctrl, dlg, selected);
+        dlg_update_done(ctrl, dlg);
+        conf_set_str(conf, CONF_nemo_shell, id);
+        sfree(id);
+    } else if (event == EVENT_SELCHANGE) {
+        int row = dlg_listbox_index(ctrl, dlg);
+        if (row < 0) return;
+        int id = dlg_listbox_getid(ctrl, dlg, row);
+        if (id < 0 || id > NEMO_SHELL_COUNT + 1) return;
+        conf_set_str(conf, CONF_nemo_shell, id == 0 ? "auto" :
+                     id == NEMO_SHELL_COUNT + 1 ? "custom" : nemo_shell_ids[id - 1]);
+    }
+}
 
 static void about_handler(dlgcontrol *ctrl, dlgparam *dlg,
                           void *data, int event)
@@ -48,6 +91,20 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
     struct controlset *s;
     dlgcontrol *c;
     char *str;
+
+    if (!midsession && protocol < 0) {
+        NemoShellList *list = ctrl_alloc_with_free(b, sizeof(*list), shell_list_free);
+        nemo_shell_detect(list);
+        s = ctrl_getset(b, "Session", "shell", "Local shell");
+        ctrl_droplist(s, "Shell:", NO_SHORTCUT, 100, HELPCTX(no_help), shell_handler, P(list));
+        ctrl_checkbox(s, "Choose shell on startup", NO_SHORTCUT, HELPCTX(no_help),
+                      conf_checkbox_handler, I(CONF_nemo_choose_shell));
+        ctrl_settitle(b, "Session/Shell", "Shell startup command");
+        s = ctrl_getset(b, "Session/Shell", "command", "Custom shell");
+        ctrl_editbox(s, "Command (select Custom on Session):", 'm', 100, HELPCTX(no_help),
+                     conf_editbox_handler, I(CONF_nemo_shell_command), I(1));
+        ctrl_text(s, "Save Default Settings on Session to use your shell at startup. -e overrides the shell for one launch.", HELPCTX(no_help));
+    }
 
     if (!midsession) {
         /*

@@ -27,6 +27,21 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 也可以 Ctrl+右键 → Change Settings，在原生设置窗口配置字体、颜色、光标和历史。
 配置写入 `HKCU\Software\Nemo\Nemoterm`，与现有 PuTTY/pterm 分开。
 
+启动 shell 可选 `--shell auto|pwsh|powershell|busybox-ash|git-bash|wsl-bash|cmd`。
+`--choose-shell` 打开启动选择窗口；Session 的 Shell 下拉框和“Choose shell on
+startup”可随 Default Settings 或命名配置保存。自定义命令使用
+`--shell-command '"C:\path with spaces\shell.exe" --argument'`；`-e` 优先于保存的 shell。
+`--list-shells` 向标准输出打印 JSON，检测不会运行 shell 或启动 WSL 虚拟机。
+Windows PowerShell 从系统目录查找；Git Bash 需验证 Git 安装布局；WSL 需有注册的默认
+发行版。自动选择依次优先 pwsh、Windows PowerShell、cmd。
+本机六种 shell（含 WSL Debian）的交互命令和退出测试已通过；[记录](research/shell-selection.md)。
+
+单 EXE 的源码构建正在 CI 验证：`git submodule update --init` 拉取固定版本的
+Microsoft Terminal，再在 Visual Studio 2026 x64 开发者 shell 中运行
+`scripts/build-single-exe.ps1`。它把 OpenConsole 和 ConPTY 静态链接进 Nemoterm，
+由同一 EXE 的隐藏进程承载控制台，无运行时解压；[源码和 REA 证据](research/single-executable.md)。
+该任务的 `nemoterm-single-exe-x64-<commit>` artifact 只在原生测试成功后上传。
+
 默认字体为机器上安装的 `SarasaTermSC Nerd Font Light`，UTF-8，ClearType。
 字体文件本身没有 U+F120/U+F07B 两个图标；缺失字体字形仍需要补充回退方案。
 

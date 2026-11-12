@@ -158,6 +158,21 @@ CONF_OPTION(proxy_log_to_term,
 )
 
 /* SSH options */
+CONF_OPTION(nemo_shell,
+    VALUE_TYPE(STR),
+    DEFAULT_STR("auto"),
+    SAVE_KEYWORD("NemoShell"),
+)
+CONF_OPTION(nemo_shell_command,
+    VALUE_TYPE(STR_AMBI),
+    DEFAULT_STR(""),
+    SAVE_KEYWORD("NemoShellCommand"),
+)
+CONF_OPTION(nemo_choose_shell,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoChooseShell"),
+)
 CONF_OPTION(remote_cmd,
     VALUE_TYPE(STR_AMBI),
     DEFAULT_STR(""),

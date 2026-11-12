@@ -51,10 +51,10 @@
   "stress-query": {
     "reply": "1b503124723122711b5c1b503024721b5c"
   },
-  "peak_private_ws": 5672960,
-  "peak_total_ws": 21803008,
-  "peak_private_commit": 7319552,
-  "executable_sha256": "2da2d1c060b9936e9b8f708803100c64c355172aa9022b038c8642da24b54419",
+  "peak_private_ws": 5865472,
+  "peak_total_ws": 21905408,
+  "peak_private_commit": 7221248,
+  "executable_sha256": "ad4119965ffdbf7706a5f29de66bcb969ea951becf7af6fe3113eb4c0d257d14",
   "last_snapshot": {
     "phase": "stress-query",
     "hex": "1b503124723122711b5c1b503024721b5c",

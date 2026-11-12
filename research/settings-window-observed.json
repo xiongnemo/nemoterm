@@ -1,6 +1,7 @@
 {
-    "saved_copy_and_paste":  true,
-    "saved_reflow":  false,
+    "saved_level":  3,
+    "local_launch":  true,
+    "copy_only_default":  true,
     "query":  {
                   "phase":  "settings-launch",
                   "hex":  "1b5b3e343b336d1b5b3e343b3166",
@@ -8,13 +9,15 @@
                   "rows":  24,
                   "input_mode":  640
               },
-    "local_launch":  true,
+    "saved_win32":  true,
+    "saved_reflow":  false,
+    "explicit_command_overrides_shell":  true,
+    "saved_copy_and_paste":  true,
+    "saved_shell":  "git-bash",
     "win32_default":  false,
     "saved_format":  1,
-    "cancel_exit":  0,
-    "saved_win32":  true,
-    "copy_only_default":  true,
+    "executable_sha256":  "0fa42f4102bc9a239b8dc42e885e495e158d94f6cc6ef954c19a7191d966b531",
     "reflow_default":  true,
-    "executable_sha256":  "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
-    "saved_level":  3
+    "saved_choose_shell":  true,
+    "cancel_exit":  0
 }

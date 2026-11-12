@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -191,7 +191,7 @@ jobs:
         shell: pwsh
         run: |
           python tests/selective_erase_window_smoke.py
-          if (0) { exit 0 }
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/selective-erase-observed.json, research/selective-erase-*.png test-results/
       - name: Test native settings save, load and local launch
         shell: pwsh
@@ -201,6 +201,14 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/settings-window-observed.json, research/mok-settings.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test detected shells and delegated console lifetime
+        shell: pwsh
+        run: |
+          python tests/shell_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/delegated_console_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item research/shell-window-observed.json, research/delegated-console-observed.json, research/shell-settings.png test-results/
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

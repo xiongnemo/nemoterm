@@ -88,16 +88,21 @@ def main():
     (DEST / "src/host/exe/nemo-licenses.txt").write_text(notices, encoding="utf-8")
     (DEST / "src/host/exe/nemo-licenses.rc").write_text(
         '40000 RCDATA "nemo-licenses.txt"\n', encoding="ascii")
+    # One RC invocation allocates the individual ICON image IDs consistently;
+    # separate .res files both start those implicit IDs at 1 and collide.
+    host_rc = DEST / "src/host/exe/Host.EXE.rc"
+    with host_rc.open("a", encoding="utf-8") as f:
+        f.write('\n#include "' + (ROOT / "vendor/putty-0.85/windows/pterm.rc").as_posix() + '"\n')
+        f.write('#include "nemo-licenses.rc"\n')
+    replace(project, '<ResourceCompile Include="Host.EXE.rc" />', f'''<ResourceCompile Include="Host.EXE.rc">
+      <AdditionalIncludeDirectories>{src};{src}\\..;{generated};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CMAKE_H;NO_MANIFESTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>''')
     additions = f'''
   <ItemGroup>
-    <ResourceCompile Include="nemo-licenses.rc" />
     <ProjectReference Include="..\\..\\winconpty\\lib\\winconptylib.vcxproj">
       <Project>{{58a03bb2-df5a-4b66-91a0-7ef3ba01269a}}</Project>
     </ProjectReference>
-    <ResourceCompile Include="{src}\\pterm.rc">
-      <AdditionalIncludeDirectories>{src};{src}\\..;{generated};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HAVE_CMAKE_H;NO_MANIFESTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ResourceCompile>
   </ItemGroup>
   <ItemDefinitionGroup>
     <Link>

@@ -47,7 +47,8 @@ Source inspection establishes the implementation boundary:
 
 The overlay changes host path selection to the current image, renames the host
 entrypoint, dispatches only a leading `--headless`, disables incoming COM handoff
-and custom GPU shaders, and omits the Windows Terminal UI dependency feature.
+and omits the Windows Terminal UI dependency feature. Renderer build flags stay
+at upstream defaults; headless operation does not construct the visible renderer.
 The underlying console protocol/server implementation remains Microsoft's.
 The frontend uses the three statically linked Conpty functions as one ABI unit;
 `NEMOTERM_CONPTY=system` remains an explicit diagnostic override.

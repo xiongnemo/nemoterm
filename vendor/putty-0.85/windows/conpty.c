@@ -7,6 +7,7 @@
 #include <limits.h>
 
 #include "putty.h"
+#include "nemo_shell.h"
 
 #include <windows.h>
 #include <consoleapi.h>
@@ -18,6 +19,7 @@ struct ConPTY {
     struct handle *out, *in;
     HandleWait *subprocess;
     bool exited;
+    bool wait_for_clients;
     DWORD exitstatus;
     Seat *seat;
     LogContext *logctx;
@@ -29,6 +31,7 @@ DECL_WINDOWS_FUNCTION(static, HRESULT, CreatePseudoConsole,
                       (COORD, HANDLE, HANDLE, DWORD, HPCON *));
 DECL_WINDOWS_FUNCTION(static, void, ClosePseudoConsole, (HPCON));
 DECL_WINDOWS_FUNCTION(static, HRESULT, ResizePseudoConsole, (HPCON, COORD));
+DECL_WINDOWS_FUNCTION(static, HRESULT, ReleasePseudoConsole, (HPCON));
 
 static const char *conpty_api_info;
 static const char *conpty_api_error;
@@ -38,6 +41,7 @@ static DWORD conpty_api_winerror;
 HRESULT WINAPI ConptyCreatePseudoConsole(COORD, HANDLE, HANDLE, DWORD, HPCON *);
 HRESULT WINAPI ConptyResizePseudoConsole(HPCON, COORD);
 void WINAPI ConptyClosePseudoConsole(HPCON);
+HRESULT WINAPI ConptyReleasePseudoConsole(HPCON);
 #endif
 
 /* The NuGet conpty.h exports the same ABI with a Conpty prefix. Never
@@ -48,6 +52,7 @@ static int load_bundled_conpty(void)
     p_CreatePseudoConsole = ConptyCreatePseudoConsole;
     p_ResizePseudoConsole = ConptyResizePseudoConsole;
     p_ClosePseudoConsole = ConptyClosePseudoConsole;
+    p_ReleasePseudoConsole = ConptyReleasePseudoConsole;
     conpty_api_info = "ConPTY runtime: statically linked; same executable hosts console";
     return 1;
 #else
@@ -102,7 +107,9 @@ static int load_bundled_conpty(void)
         GetProcAddress(module, "ConptyResizePseudoConsole");
     t_ClosePseudoConsole close = (t_ClosePseudoConsole)
         GetProcAddress(module, "ConptyClosePseudoConsole");
-    if (!create || !resize || !close) {
+    t_ReleasePseudoConsole release = (t_ReleasePseudoConsole)
+        GetProcAddress(module, "ConptyReleasePseudoConsole");
+    if (!create || !resize || !close || !release) {
         conpty_api_error = "Bundled conpty.dll lacks required Conpty exports";
         FreeLibrary(module);
         return -1;
@@ -110,6 +117,7 @@ static int load_bundled_conpty(void)
     p_CreatePseudoConsole = create;
     p_ResizePseudoConsole = resize;
     p_ClosePseudoConsole = close;
+    p_ReleasePseudoConsole = release;
     conpty_api_info = "ConPTY runtime: bundled conpty.dll and OpenConsole.exe";
     /* Keep the module loaded for the lifetime of all pseudoconsole handles. */
     return 1;
@@ -147,6 +155,7 @@ static bool init_conpty_api(void)
         GET_WINDOWS_FUNCTION(kernel32_module, CreatePseudoConsole);
         GET_WINDOWS_FUNCTION(kernel32_module, ClosePseudoConsole);
         GET_WINDOWS_FUNCTION(kernel32_module, ResizePseudoConsole);
+        GET_WINDOWS_FUNCTION(kernel32_module, ReleasePseudoConsole);
     }
 
     return (p_CreatePseudoConsole != NULL &&
@@ -175,6 +184,7 @@ static void conpty_terminate(ConPTY *conpty)
     if (conpty->subprocess) {
         delete_handle_wait(conpty->subprocess);
         conpty->subprocess = NULL;
+        CloseHandle(conpty->hprocess);
         conpty->hprocess = INVALID_HANDLE_VALUE;
     }
     if (conpty->pseudoconsole != INVALID_HANDLE_VALUE) {
@@ -189,7 +199,7 @@ static void conpty_process_wait_callback(void *vctx)
 
     if (!GetExitCodeProcess(conpty->hprocess, &conpty->exitstatus))
         return;
-    conpty->exited = true;
+    conpty->exited = !conpty->wait_for_clients;
 
     /*
      * We can stop waiting for the process now.
@@ -197,6 +207,7 @@ static void conpty_process_wait_callback(void *vctx)
     if (conpty->subprocess) {
         delete_handle_wait(conpty->subprocess);
         conpty->subprocess = NULL;
+        CloseHandle(conpty->hprocess);
         conpty->hprocess = INVALID_HANDLE_VALUE;
     }
 
@@ -206,7 +217,7 @@ static void conpty_process_wait_callback(void *vctx)
      * ClosePseudoConsole can trigger a final bout of terminal output
      * as things clean themselves up.
      */
-    if (conpty->pseudoconsole != INVALID_HANDLE_VALUE) {
+    if (!conpty->wait_for_clients && conpty->pseudoconsole != INVALID_HANDLE_VALUE) {
         p_ClosePseudoConsole(conpty->pseudoconsole);
         conpty->pseudoconsole = INVALID_HANDLE_VALUE;
     }
@@ -218,6 +229,17 @@ static size_t conpty_gotdata(
     ConPTY *conpty = (ConPTY *)handle_get_privdata(h);
     if (err || len == 0) {
         char *error_msg;
+
+        if (!err && conpty->wait_for_clients) {
+            /* EOF means all console clients detached, including descendants of
+             * an already-exited launcher (for example System32's WSL shim). */
+            if (conpty->hprocess != INVALID_HANDLE_VALUE) {
+                DWORD status;
+                if (GetExitCodeProcess(conpty->hprocess, &status))
+                    conpty->exitstatus = status == STILL_ACTIVE ? 0 : status;
+            }
+            conpty->exited = true;
+        }
 
         conpty_terminate(conpty);
 
@@ -283,6 +305,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
 
     HPCON pcon;
     bool pcon_needs_cleanup = false;
+    bool attributes_initialized = false;
 
     STARTUPINFOEXW si;
     memset(&si, 0, sizeof(si));
@@ -328,6 +351,10 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     out_w = INVALID_HANDLE_VALUE;
 
     si.StartupInfo.cb = sizeof(si);
+    /* Null standard handles deliberately select the new console's handles.
+     * Otherwise GUI-parent redirections can leak into console clients such as
+     * WSL, which then read an unrelated pipe's EOF and exit immediately. */
+    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
 
     SIZE_T attrsize = 0;
     InitializeProcThreadAttributeList(NULL, 1, 0, &attrsize);
@@ -338,6 +365,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
                         win_strerror(GetLastError()));
         goto out;
     }
+    attributes_initialized = true;
     if (!UpdateProcThreadAttribute(
             si.lpAttributeList,
             0, PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE,
@@ -350,25 +378,47 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     PROCESS_INFORMATION pi;
     memset(&pi, 0, sizeof(pi));
 
-    wchar_t *command;
+    wchar_t *command, *environment = NULL;
     {
         bool utf8;
         const char *conf_cmd = conf_get_str_ambi(conf, CONF_remote_cmd, &utf8);
         if (*conf_cmd) {
             command = dup_mb_to_wc(utf8 ? CP_UTF8 : CP_ACP, conf_cmd);
         } else {
-            char *cmd = dupcat(get_system_dir(), "\\cmd.exe");
-            command = dup_mb_to_wc(CP_ACP, cmd);
-            sfree(cmd);
+            const char *id = conf_get_str(conf, CONF_nemo_shell);
+            if (!strcmp(id, "custom")) {
+                const char *custom = conf_get_str_ambi(conf, CONF_nemo_shell_command, &utf8);
+                if (!*custom) { err = dupstr("The custom shell command is empty."); goto out; }
+                command = dup_mb_to_wc(utf8 ? CP_UTF8 : CP_ACP, custom);
+            } else {
+                NemoShellList shells;
+                nemo_shell_detect(&shells);
+                int index = nemo_shell_index(id);
+                if (!strcmp(id, "auto")) {
+                    const int preferred[] = {NEMO_PWSH, NEMO_POWERSHELL, NEMO_CMD, NEMO_BUSYBOX, NEMO_GIT_BASH, NEMO_WSL_BASH};
+                    for (size_t i = 0; i < lenof(preferred); i++)
+                        if (shells.paths[preferred[i]]) { index = preferred[i]; break; }
+                }
+                command = nemo_shell_command(&shells, index);
+                if (command && index == NEMO_GIT_BASH)
+                    environment = nemo_shell_git_environment(shells.paths[index]);
+                nemo_shell_free(&shells);
+                if (!command) {
+                    err = dupprintf("Shell '%s' was not found. Choose another shell in --settings.", id);
+                    goto out;
+                }
+            }
         }
     }
     bool created_ok = CreateProcessW(NULL, command, NULL, NULL,
-                                     false, EXTENDED_STARTUPINFO_PRESENT,
-                                     NULL, NULL, &si.StartupInfo, &pi);
+                                     false, EXTENDED_STARTUPINFO_PRESENT | CREATE_UNICODE_ENVIRONMENT,
+                                     environment, NULL, &si.StartupInfo, &pi);
+    DWORD create_error = created_ok ? ERROR_SUCCESS : GetLastError();
     sfree(command);
+    sfree(environment);
     if (!created_ok) {
         err = dupprintf("CreateProcess: %s",
-                        win_strerror(GetLastError()));
+                        win_strerror(create_error));
         goto out;
     }
 
@@ -391,6 +441,12 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     CloseHandle(pi.hThread);
     conpty->exited = false;
     conpty->exitstatus = 0;
+    /* Drop our reference only after CreateProcess inherited it. The host then
+     * exits naturally after the last console client, without killing delegated
+     * shells when their initial launcher exits. Old inbox APIs retain the
+     * previous root-process lifetime behavior as a diagnostic fallback. */
+    conpty->wait_for_clients = p_ReleasePseudoConsole &&
+        SUCCEEDED(p_ReleasePseudoConsole(pcon));
     conpty->bufsize = 0;
     conpty->backend.vt = vt;
     *backend_handle = &conpty->backend;
@@ -416,6 +472,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
         CloseHandle(out_w);
     if (pcon_needs_cleanup)
         p_ClosePseudoConsole(pcon);
+    if (attributes_initialized)
+        DeleteProcThreadAttributeList(si.lpAttributeList);
     sfree(si.lpAttributeList);
     return err;
 }

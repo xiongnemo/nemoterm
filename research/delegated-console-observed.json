@@ -1,0 +1,31 @@
+{
+  "executable_sha256": "0fa42f4102bc9a239b8dc42e885e495e158d94f6cc6ef954c19a7191d966b531",
+  "fixture": {
+    "launcher": 21768,
+    "child": 41976
+  },
+  "processes": [
+    {
+      "pid": 39432,
+      "parent": 3340,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\native-dist\\OpenConsole.exe",
+      "memory": {
+        "private_ws": 1413120,
+        "total_ws": 9314304,
+        "private_commit": 2027520
+      }
+    },
+    {
+      "pid": 3340,
+      "parent": 18580,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\native-dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 4198400,
+        "total_ws": 25231360,
+        "private_commit": 5623808
+      }
+    }
+  ],
+  "launcher_exit_preserves_child": true,
+  "last_client_exit_closes_terminal": true
+}

@@ -1,6 +1,7 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_sources_from_current_dir(utils
+  nemo_shell.c
   utils/agent_mutex_name.c
   utils/agent_named_pipe_name.c
   utils/arm_arch_queries.c
@@ -379,3 +380,10 @@ add_sources_from_current_dir(test_conf no-jump-list.c handle-wait.c)
 
 add_executable(test_snapshot ${CMAKE_SOURCE_DIR}/../../tests/test_snapshot.c nemo_snapshot.c)
 target_link_libraries(test_snapshot cabinet gdi32 user32)
+
+add_executable(test_shell test/test_shell.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_shell guiterminal settings eventloop utils ${platform_libraries})
