@@ -85,7 +85,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         assert 'error' not in snapshot, snapshot
 
     def copied(child):
-        u.SendMessageW(child['hwnd'], 0x111, 0x1c0, 0)
+        u.SendMessageW(child['hwnd'], 0x111, 0x1e0, 0)
         return clipboard_text(child['hwnd'])
 
     def duplicate(child, expected, name):
@@ -142,7 +142,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         phase(original, 'clear', '\x1b]633;P;Cwd=\a')
         menu = u.GetSystemMenu(hwnd, False)
         u.SendMessageW(hwnd, 0x117, menu, 0)
-        assert u.GetMenuState(menu, 0x1c0, 0) & 3, 'Empty metadata must disable copy-directory'
+        assert u.GetMenuState(menu, 0x1e0, 0) & 3, 'Empty metadata must disable copy-directory'
         duplicate(original, initial, 'clear-falls-back-to-startup')
         disabled = launch(make_profile(False, initial))
         phase(disabled, 'ignored-for-duplication', sequences['osc7'])

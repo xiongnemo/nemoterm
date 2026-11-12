@@ -58,7 +58,7 @@
 #define IDM_COPY      0x0190
 #define IDM_PASTE     0x01A0
 #define IDM_COPYPASTE 0x01B0
-#define IDM_COPYDIR   0x01C0
+#define IDM_COPYDIR   0x01E0
 #define IDM_SPECIALSEP 0x0200
 
 #define IDM_SPECIAL_MIN 0x0400
@@ -801,12 +801,14 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
             AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
             AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
-            AppendMenu(m, MF_GRAYED, IDM_COPYDIR, "Copy Working Directory URI");
         }
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_OPEN_LINK, "&Open Link");
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_COPY_LINK, "Copy Link &Address");
+        for (j = 0; j < lenof(wgs->popup_menus); j++)
+            AppendMenu(wgs->popup_menus[j].menu, MF_GRAYED,
+                       IDM_COPYDIR, "Copy Working Directory URI");
 
         wgs->savedsess_menu = CreateMenu();
         get_sesslist(&sesslist, true);
