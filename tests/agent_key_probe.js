@@ -5,9 +5,18 @@ const getState = new NativeFunction(U.getExportByName('GetKeyboardState'), 'int'
 const setState = new NativeFunction(U.getExportByName('SetKeyboardState'), 'int', ['pointer']);
 const sendMessage = new NativeFunction(U.getExportByName('SendMessageW'), 'pointer', ['pointer','uint','pointer','pointer']);
 let pending = null, completed = null;
+let isolatedMouseWindow = null;
 Interceptor.attach(U.getExportByName('DispatchMessageW'), {onEnter(args) {
     const msg = args[0];
-    if (msg.add(8).readU32() !== 0x8322 || !pending) return;
+    const message = msg.add(Process.pointerSize).readU32();
+    // Opt-in isolation of this fixture's HWND from queued desktop mouse input.
+    // SendMessage-based fixture actions still execute the real window procedure.
+    if (isolatedMouseWindow && msg.readPointer().equals(isolatedMouseWindow) &&
+        message >= 0x200 && message <= 0x20e) {
+        msg.add(Process.pointerSize).writeU32(0); // WM_NULL, only this queued MSG
+        return;
+    }
+    if (message !== 0x8322 || !pending) return;
     const op = pending; pending = null;
     const hwnd = msg.readPointer(), original = Memory.alloc(256), state = Memory.alloc(256);
     if (!getState(original)) { completed = {id:op.id,error:'GetKeyboardState'}; return; }
@@ -27,6 +36,7 @@ Interceptor.attach(U.getExportByName('DispatchMessageW'), {onEnter(args) {
     } finally { setState(original); }
 }});
 rpc.exports = {
+    isolateMouse(hwnd) { isolatedMouseWindow = ptr(hwnd); },
     key(op) { if (pending) throw new Error('Pending key'); completed = null; pending = op; },
     result() { return completed; }
 };

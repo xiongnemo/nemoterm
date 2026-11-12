@@ -136,7 +136,7 @@ jobs:
         run: |
           python tests/sixel_font_window_smoke.py
           $testExit = $LASTEXITCODE
-          Copy-Item research/sixel-font-observed.json test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/sixel-font-*.json test-results/ -ErrorAction SilentlyContinue
           Copy-Item research/sixel-font-*.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native hyperlink hover, activation and mouse interaction

@@ -1,6 +1,7 @@
 """Sixel raster/holes survive font changes in an own HWND and ConPTY child."""
 import uuid
 import winreg
+import argparse
 from contextlib import contextmanager
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
@@ -9,6 +10,10 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
 u.GetClientRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
 u.GetWindowRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
 u.GetGuiResources.argtypes, u.GetGuiResources.restype = [w.HANDLE, w.DWORD], w.DWORD
+parser = argparse.ArgumentParser()
+parser.add_argument('--font', default='SarasaTermSC Nerd Font Light')
+args = parser.parse_args()
+exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 
 @contextmanager
 def profile():
@@ -29,8 +34,8 @@ def solid(width, height):
 with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-sixel-font-') as directory:
     directory = Path(directory)
     report, control = directory/'report.json', directory/'control.json'
-    process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '-load', profile_name,
-        '--cols', '40', '--rows', '12', '--font', 'SarasaTermSC Nerd Font Light', '--font-size', '12',
+    process = subprocess.Popen([str(exe), '-load', profile_name,
+        '--cols', '40', '--rows', '12', '--font', args.font, '--font-size', '12',
         '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
     handle = k.OpenProcess(0x410, False, process.pid)
@@ -117,7 +122,7 @@ with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-six
         capture(hwnd, 'sixel-font-enlarged.png')
         erase('new-grid-hole', 5, 3)
         resize('restored-with-holes', 1, 1)
-        assert observations[-1]['geometry'] == base
+        assert observations[-1]['geometry'] == base, (base, observations)
         # A partial scroll applies to the current physical text rows; retain
         # each surviving source pixel and its character-unit translation.
         ch = base[3]
@@ -167,11 +172,14 @@ with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-six
                       peak_private_ws=max(s['private_ws'] for s in samples),
                       peak_total_ws=max(s['total_ws'] for s in samples),
                       peak_private_commit=max(s['private_commit'] for s in samples),
-                      executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
+                      executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest())
         assert result['peak_private_ws'] < 20_000_000, result
         (root/'research/sixel-font-observed.json').write_text(json.dumps(result, indent=2))
         print('Native Sixel font/raster/erase/scroll/history/screen checks passed:', result)
     finally:
+        (root/'research/sixel-font-last-observations.json').write_text(json.dumps(dict(
+            observations=observations, requested_font=args.font,
+            executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest()), indent=2))
         stop.set(); worker.join(2); k.CloseHandle(handle)
         write_snapshot(control, {'stop':True})
         process.wait(timeout=10)

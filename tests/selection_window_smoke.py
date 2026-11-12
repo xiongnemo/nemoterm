@@ -13,6 +13,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     try:
         hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
         saved=SavedClipboard(hwnd)
+        import frida
+        session=frida.attach(process.pid)
+        script=session.create_script((root/'tests/agent_key_probe.js').read_text())
+        errors=[]
+        script.on('message',lambda message,data:errors.append(message) if message.get('type')=='error' else None)
+        script.load();script.exports_sync.isolate_mouse(hex(hwnd));serial=0
         r=w.RECT();u.GetClientRect(hwnd,c.byref(r));cw,ch=(r.right-2)//80,(r.bottom-2)//24
         def select(x,y,end):
             start=(1+y*ch+ch//2)<<16|(1+x*cw+cw//2)
@@ -28,6 +34,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             if mode=='application-mouse':sequence+='\x1b[?1003;1006h'
             write_snapshot(control,dict(phase=mode,sequence=sequence+'\x1b[5n'))
             wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==mode and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+            # Desktop motion is outside this deterministic input fixture.
+            # The queued message is ignored; synchronous actions below are not.
+            assert u.PostMessageW(hwnd,0x200,0,(ch//2)<<16|(cw//2))
             # Synchronous messages deliberately share a short time interval;
             # only the changed coordinates distinguish these from multi-clicks.
             values=[select(0,0,2),select(2,2,4),select(5,0,7),select(0,2,1)]
@@ -38,12 +47,6 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         # Check the default shortcut on the rectangular local selection. This
         # injects keys only on our owned terminal's UI thread, then restores its
         # state. Clipboard backup/restore still surrounds the entire fixture.
-        import frida
-        session=frida.attach(process.pid)
-        script=session.create_script((root/'tests/agent_key_probe.js').read_text())
-        errors=[]
-        script.on('message',lambda message,data:errors.append(message) if message.get('type')=='error' else None)
-        script.load();serial=0
         def copy_shortcut():
             global serial
             serial+=1
@@ -91,6 +94,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         (root/'research/selection-observed.json').write_text(json.dumps(evidence,indent=2))
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
+        (root/'research/selection-last-snapshot.json').write_text(json.dumps(read_snapshot(report)))
         if script:script.unload()
         if session:session.detach()
         if saved:saved.restore()

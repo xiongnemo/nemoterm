@@ -22,6 +22,7 @@ try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
             saved=SavedClipboard(hwnd);session=frida.attach(process.pid)
             script=session.create_script((root/'tests/agent_key_probe.js').read_text());script.load();serial=0
+            script.exports_sync.isolate_mouse(hex(hwnd))
             def action(**op):
                 global serial
                 serial+=1;script.exports_sync.key(dict(id=serial,**op))
