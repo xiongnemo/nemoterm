@@ -63,7 +63,7 @@ def terminal_windows():
         name, pid = c.create_unicode_buffer(128), w.DWORD()
         u.GetClassNameW(hwnd, name, len(name))
         if name.value == 'Nemoterm' and u.IsWindowVisible(hwnd):
-            u.GetWindowThreadProcessId(hwnd, c.byref(pid)); result[pid.value] = hwnd
+            u.GetWindowThreadProcessId(hwnd, c.byref(pid)); result[hwnd] = pid.value
         return True
     u.EnumWindows(visit, 0)
     return result
@@ -119,12 +119,11 @@ try:
                     before = set(terminal_windows())
                     u.SendMessageW(hwnd, 0x111, 0x30, 0)
                     def duplicated():
-                        new = [(pid, window) for pid, window in terminal_windows().items() if pid not in before]
+                        new = [(pid, window) for window, pid in terminal_windows().items()
+                               if window not in before and pid == process.pid]
                         return new[0] if len(new) == 1 else None
                     duplicate_pid, duplicate_hwnd = wait_for(duplicated, timeout=15)
-                    duplicate_handle = k.OpenProcess(0x100000, False, duplicate_pid)
-                    assert duplicate_handle
-                    k.WaitForSingleObject.argtypes = [w.HANDLE, w.DWORD]
+                    assert duplicate_pid == process.pid
                     try:
                         duplicate_marker = Path(temporary)/(sid+'-duplicate.txt')
                         time.sleep(.7)
@@ -137,8 +136,8 @@ try:
                         observed['launches'][sid]['duplicate_directory'] = actual_duplicate
                     finally:
                         u.PostMessageW(duplicate_hwnd, 0x10, 0, 0)
-                        assert k.WaitForSingleObject(duplicate_handle, 10000) == 0
-                        k.CloseHandle(duplicate_handle)
+                        wait_for(lambda: not u.IsWindow(duplicate_hwnd), timeout=10)
+                        assert process.poll() is None
                 print('Shell launch passed:', sid, flush=True)
                 send(hwnd, 'exit\r')
                 process.wait(timeout=10)

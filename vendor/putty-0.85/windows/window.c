@@ -80,6 +80,13 @@
 #define WM_FULLSCR_ON_MAX (WM_APP + 3)
 #define WM_GOT_CLIPDATA (WM_APP + 4)
 
+typedef struct NemoPasteRequest {
+    HWND hwnd;
+    UINT_PTR session_id;
+    HGLOBAL data;
+    bool unicode;
+} NemoPasteRequest;
+
 /* Needed for Chinese support and apparently not always defined. */
 #ifndef VK_PROCESSKEY
 #define VK_PROCESSKEY 0xE5
@@ -172,6 +179,11 @@ static void clear_full_screen(WinGuiSeat *wgs);
 static void flip_full_screen(WinGuiSeat *wgs);
 static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode);
 static void setup_clipboards(Terminal *, Conf *);
+static void wgs_cleanup(void *vctx);
+static void wgs_request_close(WinGuiSeat *wgs);
+static void wgs_free_menus(WinGuiSeat *wgs);
+static HWND app_event_hwnd;
+static UINT_PTR next_session_id;
 
 /* Window layout information */
 static void reset_window(WinGuiSeat *wgs, int reinit);
@@ -270,7 +282,6 @@ static const TermWinVtable windows_termwin_vt = {
     .unthrottle = wintw_unthrottle,
 };
 
-static HICON trust_icon = INVALID_HANDLE_VALUE;
 
 const bool share_can_be_downstream = true;
 const bool share_can_be_upstream = true;
@@ -345,12 +356,15 @@ static const SeatVtable win_seat_vt = {
     .get_cursor_position = win_seat_get_cursor_position,
 };
 
-static void start_backend(WinGuiSeat *wgs)
+static bool start_backend(WinGuiSeat *wgs)
 {
     const struct BackendVtable *vt;
     char *error, *realhost;
     int i;
 
+    /* A restart must not receive a delayed paste intended for the old shell. */
+    wgs->session_id = ++next_session_id;
+    SetPropW(wgs->term_hwnd, L"NemotermSessionId", (HANDLE)wgs->session_id);
     nemo_cwd_clear(&wgs->term->working_directory);
     wgs->cmdline_get_passwd_state = cmdline_get_passwd_input_state_new;
 
@@ -374,10 +388,11 @@ static void start_backend(WinGuiSeat *wgs)
                             conf_dest(wgs->conf), error);
         }
         sfree(error);
-        MessageBox(NULL, msg, str, MB_ICONERROR | MB_OK);
+        MessageBox(wgs->term_hwnd, msg, str, MB_ICONERROR | MB_OK);
         sfree(str);
         sfree(msg);
-        exit(0);
+        wgs->session_closed = true;
+        return false;
     }
     term_setup_window_titles(wgs->term, realhost);
     sfree(realhost);
@@ -404,6 +419,7 @@ static void start_backend(WinGuiSeat *wgs)
     }
 
     wgs->session_closed = false;
+    return true;
 }
 
 static void close_session(void *vctx)
@@ -423,9 +439,9 @@ static void close_session(void *vctx)
         wgs->ldisc = NULL;
     }
     if (wgs->backend) {
+        term_provide_backend(wgs->term, NULL);
         backend_free(wgs->backend);
         wgs->backend = NULL;
-        term_provide_backend(wgs->term, NULL);
         seat_update_specials_menu(&wgs->seat);
     }
 
@@ -508,48 +524,11 @@ char *terminal_window_class_a(void)
 
 HINSTANCE hinst;
 
-int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
+/* Takes ownership of conf on both success and failure. Application state and
+ * the message pump outlive every session created here. */
+static WinGuiSeat *wgs_create(Conf *conf, int show)
 {
-    MSG msg;
-    HRESULT hr;
     int guess_width, guess_height;
-
-    dll_hijacking_protection();
-    enable_dit();
-
-    hinst = inst;
-    hprev = prev;
-
-    sk_init();
-
-    init_common_controls();
-
-    /* Set Explicit App User Model Id so that jump lists don't cause
-       PuTTY to hang on to removable media. */
-
-    set_explicit_app_user_model_id();
-
-    /* Ensure a Maximize setting in Explorer doesn't maximise the
-     * config box. */
-    defuse_showwindow();
-
-    init_winver();
-
-    /*
-     * If we're running a version of Windows that doesn't support
-     * WM_MOUSEWHEEL, find out what message number we should be
-     * using instead.
-     */
-    if (osMajorVersion < 4 ||
-        (osMajorVersion == 4 && osPlatformId != VER_PLATFORM_WIN32_NT))
-        wm_mousewheel = RegisterWindowMessage("MSWHEEL_ROLLMSG");
-
-    init_help();
-
-    init_winfuncs();
-
-    setup_gui_timing();
-
     WinGuiSeat *wgs = snew(WinGuiSeat);
     memset(wgs, 0, sizeof(*wgs));
     wgs_link(wgs);
@@ -561,26 +540,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     wgs->caret_x = wgs->caret_y = -1;
     wgs->busy_status = BUSY_NOT;
 
-    wgs->conf = conf_new();
-
-    /*
-     * Initialize COM.
-     */
-    hr = CoInitialize(NULL);
-    if (hr != S_OK && hr != S_FALSE) {
-        char *str = dupprintf("%s Fatal Error", appname);
-        MessageBox(NULL, "Failed to initialize COM subsystem",
-                   str, MB_OK | MB_ICONEXCLAMATION);
-        sfree(str);
-        return 1;
-    }
-
-    /*
-     * Process the command line.
-     * (If the command line doesn't provide enough info to start a
-     * session, this will detour via the config box.)
-     */
-    gui_term_process_cmdline(wgs->conf, cmdline);
+    wgs->conf = conf;
 
     memset(&wgs->ucsdata, 0, sizeof(wgs->ucsdata));
 
@@ -644,7 +604,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         wgs->term_hwnd = CreateWindowExW(
             exwinmode, terminal_window_class_w(), uappname,
             winmode, CW_USEDEFAULT, CW_USEDEFAULT,
-            guess_width, guess_height, NULL, NULL, inst, NULL);
+            guess_width, guess_height, NULL, NULL, hinst, NULL);
 #endif
 
 #if defined LEGACY_WINDOWS || defined TEST_ANSI_WINDOW
@@ -658,13 +618,18 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             wgs->term_hwnd = CreateWindowExA(
                 exwinmode, terminal_window_class_a(), appname,
                 winmode, CW_USEDEFAULT, CW_USEDEFAULT,
-                guess_width, guess_height, NULL, NULL, inst, NULL);
+                guess_width, guess_height, NULL, NULL, hinst, NULL);
         }
 #endif
 
         if (!wgs->term_hwnd) {
-            modalfatalbox("Unable to create terminal window: %s",
-                          win_strerror(GetLastError()));
+            char *message = dupprintf("Unable to create terminal window: %s",
+                                      win_strerror(GetLastError()));
+            MessageBoxA(GetActiveWindow(), message, appname, MB_OK | MB_ICONERROR);
+            sfree(message);
+            sfree(uappname);
+            wgs_cleanup(wgs);
+            return NULL;
         }
         memset(&wgs->dpi_info, 0, sizeof(struct _dpi_info));
         init_dpi_info(wgs);
@@ -784,8 +749,6 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
                                     1, 1, bits);
         sfree(bits);
     }
-    CreateCaret(wgs->term_hwnd, wgs->caretbm,
-                wgs->font_width, wgs->font_height);
 
     /*
      * Initialise the scroll bar.
@@ -844,7 +807,6 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         }
 
         wgs->savedsess_menu = CreateMenu();
-        get_sesslist(&sesslist, true);
         update_savedsess_menu(wgs);
 
         for (j = 0; j < lenof(wgs->popup_menus); j++) {
@@ -879,8 +841,10 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         lp_eventlog(&wgs->logpolicy, "Running with restricted process ACL");
     }
 
-    winselgui_set_hwnd(wgs->term_hwnd);
-    start_backend(wgs);
+    if (!start_backend(wgs)) {
+        wgs_cleanup(wgs);
+        return NULL;
+    }
 
     /*
      * Set up the initial input locale.
@@ -897,6 +861,97 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     UpdateWindow(wgs->term_hwnd);
 
     gui_terminal_ready(wgs->term_hwnd, &wgs->seat, wgs->backend);
+
+    return wgs;
+}
+
+/* Socket notifications belong to the application, not the first session's
+ * window. Closing that session must not orphan another backend's events. */
+static LRESULT CALLBACK app_event_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+    if (msg == WM_NETEVENT || msg == WM_DONE_WITH_SOCKET) {
+        winselgui_response(msg, wp, lp);
+        return 0;
+    }
+    return DefWindowProcW(hwnd, msg, wp, lp);
+}
+
+int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
+{
+    MSG msg;
+    HRESULT hr;
+
+    dll_hijacking_protection();
+    enable_dit();
+
+    hinst = inst;
+    hprev = prev;
+
+    sk_init();
+
+    init_common_controls();
+
+    /* Set Explicit App User Model Id so that jump lists don't cause
+       PuTTY to hang on to removable media. */
+
+    set_explicit_app_user_model_id();
+
+    /* Ensure a Maximize setting in Explorer doesn't maximise the
+     * config box. */
+    defuse_showwindow();
+
+    init_winver();
+
+    /*
+     * If we're running a version of Windows that doesn't support
+     * WM_MOUSEWHEEL, find out what message number we should be
+     * using instead.
+     */
+    if (osMajorVersion < 4 ||
+        (osMajorVersion == 4 && osPlatformId != VER_PLATFORM_WIN32_NT))
+        wm_mousewheel = RegisterWindowMessage("MSWHEEL_ROLLMSG");
+
+    init_help();
+
+    init_winfuncs();
+
+    setup_gui_timing();
+
+    Conf *conf = conf_new();
+    /*
+     * Initialize COM.
+     */
+    hr = CoInitialize(NULL);
+    if (hr != S_OK && hr != S_FALSE) {
+        char *str = dupprintf("%s Fatal Error", appname);
+        MessageBox(NULL, "Failed to initialize COM subsystem",
+                   str, MB_OK | MB_ICONEXCLAMATION);
+        sfree(str);
+        conf_free(conf);
+        return 1;
+    }
+
+    /*
+     * Process the command line.
+     * (If the command line doesn't provide enough info to start a
+     * session, this will detour via the config box.)
+     */
+    gui_term_process_cmdline(conf, cmdline);
+
+    WNDCLASSW event_class = {0};
+    event_class.lpfnWndProc = app_event_proc;
+    event_class.hInstance = hinst;
+    event_class.lpszClassName = L"NemotermEvents";
+    RegisterClassW(&event_class);
+    app_event_hwnd = CreateWindowW(event_class.lpszClassName, L"", 0,
+        0, 0, 0, 0, HWND_MESSAGE, NULL, hinst, NULL);
+    if (!app_event_hwnd)
+        modalfatalbox("Unable to create session event window: %s",
+                      win_strerror(GetLastError()));
+    winselgui_set_hwnd(app_event_hwnd);
+    get_sesslist(&sesslist, true);
+    if (!wgs_create(conf, show))
+        cleanup_exit(1);
 
     while (1) {
         int n;
@@ -925,7 +980,13 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         } else {
             timeout = INFINITE;
             /* The messages seem unreliable; especially if we're being tricky */
-            term_set_focus(wgs->term, GetForegroundWindow() == wgs->term_hwnd);
+            HWND foreground = GetForegroundWindow();
+            for (struct WinGuiSeatListNode *node = wgslisthead.next;
+                 node != &wgslisthead; node = node->next) {
+                WinGuiSeat *wgs = container_of(node, WinGuiSeat, wgslistnode);
+                if (!wgs->closing && wgs->term)
+                    term_set_focus(wgs->term, foreground == wgs->term_hwnd);
+            }
         }
 
         HandleWaitList *hwl = get_handle_wait_list();
@@ -976,27 +1037,82 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     return msg.wParam;                 /* ... but optimiser doesn't know */
 }
 
-static void wgs_cleanup(WinGuiSeat *wgs)
+/* Shared submenus must be detached from both parents before destroying them.
+ * DestroyWindow owns the system menu; we own the context menu. */
+static void wgs_free_menus(WinGuiSeat *wgs)
 {
-    nemo_gpu_free(wgs->gpu);
-    wgs->gpu = NULL;
+    for (size_t j = 0; j < lenof(wgs->popup_menus); j++) {
+        HMENU menu = wgs->popup_menus[j].menu;
+        for (int i = GetMenuItemCount(menu)-1; i >= 0; i--) {
+            HMENU sub = GetSubMenu(menu, i);
+            if (sub && (sub == wgs->savedsess_menu || sub == wgs->specials_menu))
+                RemoveMenu(menu, i, MF_BYPOSITION);
+        }
+    }
+    if (wgs->savedsess_menu) DestroyMenu(wgs->savedsess_menu);
+    if (wgs->specials_menu) DestroyMenu(wgs->specials_menu);
+    if (wgs->popup_menus[CTXMENU].menu)
+        DestroyMenu(wgs->popup_menus[CTXMENU].menu);
+    wgs->savedsess_menu = wgs->specials_menu = NULL;
+    memset(wgs->popup_menus, 0, sizeof(wgs->popup_menus));
+}
+
+static void wgs_request_close(WinGuiSeat *wgs)
+{
+    if (wgs->closing) return;
+    wgs->closing = true;
+    /* Never free a seat on a backend or WndProc stack. */
+    queue_toplevel_callback(wgs_cleanup, wgs);
+}
+
+static void wgs_cleanup(void *vctx)
+{
+    WinGuiSeat *wgs = vctx;
+    wgs->closing = true;
+    delete_callbacks_for_context(wgs);
+    expire_timer_context(wgs);
     nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
-    /* A backend exit posts WM_QUIT without destroying the HWND. Retire it
-     * while its callbacks can still use the seat, fonts and keyboard state:
-     * CoUninitialize below can dispatch messages after this function returns.
-     * A window closed through WM_CLOSE has already been destroyed. */
+    if (wgs->term) term_end_synchronized_update(wgs->term);
+
+    if (wgs->ldisc) {
+        ldisc_free(wgs->ldisc);
+        wgs->ldisc = NULL;
+    }
+    if (wgs->term) term_provide_backend(wgs->term, NULL);
+    if (wgs->backend) {
+        backend_free(wgs->backend);
+        wgs->backend = NULL;
+    }
+    wgs->session_closed = true;
+    wgs_free_menus(wgs);
+    nemo_gpu_free(wgs->gpu);
+    wgs->gpu = NULL;
+
+    /* Destroy the HWND while callbacks can still use terminal/font/input
+     * state. COM and other windows can dispatch messages after this returns. */
     if (wgs->term_hwnd &&
         GetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA) == (LONG_PTR)wgs)
         DestroyWindow(wgs->term_hwnd);
     wgs->term_hwnd = NULL;
+    if (wgs->term) term_free(wgs->term);
+    wgs->term = NULL;
+    if (wgs->logctx) log_free(wgs->logctx);
     nemo_keyboard_free(wgs);
     deinit_fonts(wgs);
+    if (wgs->caretbm) DeleteObject(wgs->caretbm);
     sfree(wgs->logpal);
-    if (wgs->pal)
-        DeleteObject(wgs->pal);
+    if (wgs->pal) DeleteObject(wgs->pal);
+    sfree(wgs->window_name);
+    sfree(wgs->icon_name);
+    conf_free(wgs->conf);
+    /* Freeing dependent objects may cancel or schedule more callbacks. */
+    delete_callbacks_for_context(wgs);
+    expire_timer_context(wgs);
     wgs_unlink(wgs);
     sfree(wgs);
+    if (wgslisthead.next == &wgslisthead)
+        PostQuitMessage(0);
 }
 
 char *handle_restrict_acl_cmdline_prefix(char *p)
@@ -1119,6 +1235,10 @@ void cleanup_exit(int code)
         wgs_cleanup(wgs);
     }
     sk_cleanup();
+    winselgui_clear_hwnd();
+    if (app_event_hwnd) DestroyWindow(app_event_hwnd);
+    app_event_hwnd = NULL;
+    get_sesslist(&sesslist, false);
 
     random_save_seed();
     shutdown_help();
@@ -1206,7 +1326,7 @@ static void win_seat_update_specials_menu(Seat *seat)
     for (j = 0; j < lenof(wgs->popup_menus); j++) {
         if (wgs->specials_menu) {
             /* XXX does this free up all submenus? */
-            DeleteMenu(wgs->popup_menus[j].menu, (UINT_PTR)wgs->specials_menu,
+            RemoveMenu(wgs->popup_menus[j].menu, (UINT_PTR)wgs->specials_menu,
                        MF_BYCOMMAND);
             DeleteMenu(wgs->popup_menus[j].menu, IDM_SPECIALSEP, MF_BYCOMMAND);
         }
@@ -1218,6 +1338,7 @@ static void win_seat_update_specials_menu(Seat *seat)
                        MF_BYCOMMAND | MF_SEPARATOR, IDM_SPECIALSEP, 0);
         }
     }
+    if (wgs->specials_menu) DestroyMenu(wgs->specials_menu);
     wgs->specials_menu = new_menu;
 }
 
@@ -1293,7 +1414,7 @@ static void win_seat_connection_fatal(Seat *seat, const char *msg)
     sfree(title);
 
     if (conf_get_int(wgs->conf, CONF_close_on_exit) == FORCE_ON)
-        PostQuitMessage(1);
+        wgs_request_close(wgs);
     else {
         queue_toplevel_callback(close_session, wgs);
     }
@@ -1785,10 +1906,10 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 
     ReleaseDC(wgs->term_hwnd, hdc);
 
-    if (trust_icon != INVALID_HANDLE_VALUE) {
-        DestroyIcon(trust_icon);
+    if (wgs->trust_icon != NULL) {
+        DestroyIcon(wgs->trust_icon);
     }
-    trust_icon = LoadImage(hinst, MAKEINTRESOURCE(IDI_MAINICON),
+    wgs->trust_icon = LoadImage(hinst, MAKEINTRESOURCE(IDI_MAINICON),
                            IMAGE_ICON, wgs->font_width*2, wgs->font_height,
                            LR_DEFAULTCOLOR);
 
@@ -1885,10 +2006,10 @@ static void deinit_fonts(WinGuiSeat *wgs)
         wgs->fontflag[i] = false;
     }
 
-    if (trust_icon != INVALID_HANDLE_VALUE) {
-        DestroyIcon(trust_icon);
+    if (wgs->trust_icon != NULL) {
+        DestroyIcon(wgs->trust_icon);
     }
-    trust_icon = INVALID_HANDLE_VALUE;
+    wgs->trust_icon = NULL;
 }
 
 static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
@@ -2414,14 +2535,14 @@ static void exit_callback(void *vctx)
     WinGuiSeat *wgs = (WinGuiSeat *)vctx;
     int exitcode, close_on_exit;
 
-    if (!wgs->session_closed &&
+    if (!wgs->closing && !wgs->session_closed && wgs->backend &&
         (exitcode = backend_exitcode(wgs->backend)) >= 0) {
         close_on_exit = conf_get_int(wgs->conf, CONF_close_on_exit);
         /* Abnormal exits will already have set session_closed and taken
          * appropriate action. */
         if (close_on_exit == FORCE_ON ||
             (close_on_exit == AUTO && exitcode != INT_MAX)) {
-            PostQuitMessage(0);
+            wgs_request_close(wgs);
         } else {
             queue_toplevel_callback(close_session, wgs);
             wgs->session_closed = true;
@@ -2441,7 +2562,7 @@ static void win_seat_notify_remote_exit(Seat *seat)
 {
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     term_end_synchronized_update(wgs->term);
-    queue_toplevel_callback(exit_callback, wgs);
+    if (!wgs->closing) queue_toplevel_callback(exit_callback, wgs);
 }
 
 static void conf_cache_data(WinGuiSeat *wgs)
@@ -2511,6 +2632,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     HDC hdc;
     int resize_action;
     WinGuiSeat *wgs = (WinGuiSeat *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    if (!wgs) return sw_DefWindowProc(hwnd, message, wParam, lParam);
 
     switch (message) {
       case WM_CREATE:
@@ -2530,7 +2652,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             MessageBox(hwnd, msg, title,
                        MB_ICONWARNING | MB_OKCANCEL | MB_DEFBUTTON1)
             == IDOK)
-            DestroyWindow(hwnd);
+            wgs_request_close(wgs);
         sfree(title);
         sfree(msg);
         sfree(additional);
@@ -2541,8 +2663,13 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         nemo_link_free(wgs);
         if (wgs->term) term_end_synchronized_update(wgs->term);
         show_mouseptr(wgs, true);
-        PostQuitMessage(0);
+        wgs_free_menus(wgs);
+        wgs_request_close(wgs);
         return 0;
+      case WM_NCDESTROY:
+        RemovePropW(hwnd, L"NemotermSessionId");
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+        break;
       case WM_INITMENUPOPUP:
         for (size_t mi=0;mi<lenof(wgs->popup_menus);mi++) {
             EnableMenuItem(wgs->popup_menus[mi].menu,IDM_COPYDIR,MF_BYCOMMAND |
@@ -2590,8 +2717,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
           case IDM_SHOWLOG:
             showeventlog(hwnd);
             break;
-          case IDM_NEWSESS:
           case IDM_DUPSESS:
+            wgs_create(nemo_duplicate_conf(wgs), SW_SHOWNORMAL);
+            break;
+          case IDM_NEWSESS:
           case IDM_SAVEDSESS: {
             wchar_t b[32768];
             char *cl;
@@ -2599,53 +2728,13 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             bool inherit_handles;
             STARTUPINFOW si = {0};
             PROCESS_INFORMATION pi = {0};
-            HANDLE filemap = NULL;
 
             if (restricted_acl())
                 argprefix = "&R";
             else
                 argprefix = "";
 
-            if (wParam == IDM_DUPSESS) {
-                /*
-                 * Allocate a file-mapping memory chunk for the
-                 * config structure.
-                 */
-                SECURITY_ATTRIBUTES sa;
-                strbuf *serbuf;
-                void *p;
-                int size;
-
-                serbuf = strbuf_new();
-                Conf *duplicate=nemo_duplicate_conf(wgs);
-                conf_serialise(BinarySink_UPCAST(serbuf), duplicate);
-                conf_free(duplicate);
-                size = serbuf->len;
-
-                sa.nLength = sizeof(sa);
-                sa.lpSecurityDescriptor = NULL;
-                sa.bInheritHandle = true;
-                filemap = CreateFileMapping(INVALID_HANDLE_VALUE,
-                                            &sa,
-                                            PAGE_READWRITE,
-                                            0, size, NULL);
-                p = filemap ? MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, size) : NULL;
-                if (!p) {
-                    DWORD error=GetLastError();
-                    if (filemap) CloseHandle(filemap);
-                    strbuf_free(serbuf);
-                    char *message=dupprintf("Could not copy session settings: %s",win_strerror(error));
-                    MessageBoxA(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
-                    break;
-                }
-                memcpy(p, serbuf->s, size);
-                UnmapViewOfFile(p);
-
-                strbuf_free(serbuf);
-                inherit_handles = true;
-                cl = dupprintf("putty %s&%p:%u", argprefix,
-                               filemap, (unsigned)size);
-            } else if (wParam == IDM_SAVEDSESS) {
+            if (wParam == IDM_SAVEDSESS) {
                 unsigned int sessno = ((lParam - IDM_SAVED_MIN)
                                        / MENU_SAVED_STEP) + 1;
                 if (sessno < (unsigned)sesslist.nsessions) {
@@ -2684,8 +2773,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             }
             sfree(command);
 
-            if (filemap)
-                CloseHandle(filemap);
             sfree(cl);
             break;
           }
@@ -3914,7 +4001,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         break;
       case WM_GOT_CLIPDATA:
-        process_clipdata(wgs, (HGLOBAL)lParam, wParam);
+        /* The worker owns this request until SendMessage returns. A delayed
+         * clipboard owner may outlive its target window; never route the
+         * result to a new session that reuses that HWND. */
+        if (!wgs->closing && wgs->backend && wgs->ldisc &&
+            wParam == wgs->session_id) {
+            const NemoPasteRequest *request = (const NemoPasteRequest *)lParam;
+            process_clipdata(wgs, request->data, request->unicode);
+        }
         return 0;
       case WM_NEMO_OSC52_READY:
         nemo_osc52_poll(wgs, wParam);
@@ -4702,7 +4796,7 @@ static void wintw_draw_trust_sigil(TermWin *tw, int x, int y)
 
     RECT box = { x, y, x + wgs->font_width*2, y + wgs->font_height };
     if (wgs->gpu_drawing && !nemo_gpu_begin_run(wgs->gpu, box, true)) return;
-    DrawIconEx(wgs->wintw_hdc, x, y, trust_icon,
+    DrawIconEx(wgs->wintw_hdc, x, y, wgs->trust_icon,
                wgs->font_width * 2, wgs->font_height, 0, NULL, DI_NORMAL);
     if (wgs->gpu_drawing) nemo_gpu_end_run(wgs->gpu, box, make_ptrlen(NULL,0));
 }
@@ -6278,20 +6372,21 @@ static void wintw_clip_write(
 
 static DWORD WINAPI clipboard_read_threadfunc(void *param)
 {
-    HWND hwnd = (HWND)param;
-    HGLOBAL clipdata;
+    NemoPasteRequest *request = param;
 
     if (nemo_open_clipboard(NULL)) {
-        if ((clipdata = GetClipboardData(CF_UNICODETEXT))) {
-            SendMessage(hwnd, WM_GOT_CLIPDATA,
-                        (WPARAM)true, (LPARAM)clipdata);
-        } else if ((clipdata = GetClipboardData(CF_TEXT))) {
-            SendMessage(hwnd, WM_GOT_CLIPDATA,
-                        (WPARAM)false, (LPARAM)clipdata);
+        request->data = GetClipboardData(CF_UNICODETEXT);
+        request->unicode = true;
+        if (!request->data) {
+            request->data = GetClipboardData(CF_TEXT);
+            request->unicode = false;
         }
+        if (request->data)
+            SendMessage(request->hwnd, WM_GOT_CLIPDATA,
+                        request->session_id, (LPARAM)request);
         CloseClipboard();
     }
-
+    sfree(request);
     return 0;
 }
 
@@ -6302,15 +6397,15 @@ static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode)
 
     if (unicode) {
         wchar_t *p = GlobalLock(clipdata);
-        wchar_t *p2;
 
         if (p) {
-            /* Unwilling to rely on Windows having wcslen() */
-            for (p2 = p; *p2; p2++);
-            clipboard_length = p2 - p;
+            size_t capacity = GlobalSize(clipdata) / sizeof(wchar_t);
+            while (clipboard_length < capacity && p[clipboard_length])
+                clipboard_length++;
             clipboard_contents = snewn(clipboard_length + 1, wchar_t);
             memcpy(clipboard_contents, p, clipboard_length * sizeof(wchar_t));
             clipboard_contents[clipboard_length] = L'\0';
+            GlobalUnlock(clipdata);
             term_do_paste(wgs->term, clipboard_contents, clipboard_length);
         }
     } else {
@@ -6318,11 +6413,14 @@ static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode)
         int i;
 
         if (s) {
-            i = MultiByteToWideChar(CP_ACP, 0, s, strlen(s) + 1, 0, 0);
-            clipboard_contents = snewn(i, wchar_t);
-            MultiByteToWideChar(CP_ACP, 0, s, strlen(s) + 1,
-                                clipboard_contents, i);
-            clipboard_length = i - 1;
+            size_t capacity = GlobalSize(clipdata), length = 0;
+            while (length < capacity && s[length]) length++;
+            i = length && length <= INT_MAX ?
+                MultiByteToWideChar(CP_ACP, 0, s, length, NULL, 0) : 0;
+            clipboard_contents = snewn(i + 1, wchar_t);
+            if (i) MultiByteToWideChar(CP_ACP, 0, s, length, clipboard_contents, i);
+            GlobalUnlock(clipdata);
+            clipboard_length = i;
             clipboard_contents[clipboard_length] = L'\0';
             term_do_paste(wgs->term, clipboard_contents, clipboard_length);
         }
@@ -6353,10 +6451,16 @@ static void wintw_clip_request_paste(TermWin *tw, int clipboard)
      * that tells us it's OK to paste.
      */
     DWORD in_threadid; /* required for Win9x */
+    if (wgs->closing) return;
+    NemoPasteRequest *request = snew(NemoPasteRequest);
+    *request = (NemoPasteRequest){ .hwnd = wgs->term_hwnd,
+                                 .session_id = wgs->session_id };
     HANDLE hThread = CreateThread(NULL, 0, clipboard_read_threadfunc,
-                                  wgs->term_hwnd, 0, &in_threadid);
+                                  request, 0, &in_threadid);
     if (hThread)
         CloseHandle(hThread);          /* we don't need the thread handle */
+    else
+        sfree(request);
 }
 
 /*

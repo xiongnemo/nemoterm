@@ -23,6 +23,7 @@ u.ReleaseDC.argtypes = [w.HWND, w.HDC]
 u.PrintWindow.argtypes = [w.HWND, w.HDC, w.UINT]
 u.MoveWindow.argtypes = [w.HWND, c.c_int, c.c_int, c.c_int, c.c_int, w.BOOL]
 u.SendMessageW.argtypes = [w.HWND, w.UINT, w.WPARAM, w.LPARAM]
+u.IsWindow.argtypes = [w.HWND]
 g.CreateCompatibleDC.argtypes, g.CreateCompatibleDC.restype = [w.HDC], w.HDC
 g.CreateDIBSection.argtypes = [w.HDC, c.c_void_p, w.UINT,
                               c.POINTER(c.c_void_p), w.HANDLE, w.DWORD]
@@ -69,7 +70,7 @@ def memory_sample(handle):
     return {'private_ws': sum(not (pages[i+1] & 256) for i in range(count))*mmap.PAGESIZE,
             'total_ws': count*mmap.PAGESIZE, 'private_commit': counters.private}
 
-def find_window(pid):
+def find_windows(pid):
     matches = []
     @c.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM)
     def visit(hwnd, _):
@@ -80,6 +81,11 @@ def find_window(pid):
             matches.append(hwnd)
         return True
     u.EnumWindows(visit, 0)
+    return matches
+
+
+def find_window(pid):
+    matches = find_windows(pid)
     return matches[0] if len(matches) == 1 else None
 
 def wait_for(fn, timeout=8):

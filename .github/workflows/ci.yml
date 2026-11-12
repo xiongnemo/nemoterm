@@ -87,6 +87,15 @@ jobs:
           python tests/mouse_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/mouse-window-observed.json test-results/
+      - name: Test independent session ownership and lifetime
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/session_window_smoke.py --renderer $renderer
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/session-window-$renderer-observed.json" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |
