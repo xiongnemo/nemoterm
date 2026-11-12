@@ -4811,6 +4811,52 @@ static void nemo_raster_cursor(
     }
 }
 
+/* Cursor lines need no GPU-to-CPU readback. In Direct2D even a one-cell GetDC
+ * can retain a full-frame staging copy. The base cell (including an active
+ * block cursor's colors) was already painted by win_draw_text. */
+static void nemo_gpu_cursor_fill(WinGuiSeat *wgs, RECT rect, RECT clip,
+                                 COLORREF colour)
+{
+    RECT visible;
+    if (IntersectRect(&visible,&rect,&clip)) nemo_gpu_fill_rect(wgs->gpu,visible,colour);
+}
+static void nemo_gpu_cursor(WinGuiSeat *wgs, RECT box, int cell_width,
+                            const wchar_t *text, unsigned long attr)
+{
+    RECT clip=box;
+    box.right=box.left+cell_width;
+    int type=wgs->term->cursor_type;
+    if ((attr&ATTR_ACTCURS) && (type==CURSOR_BLOCK || wgs->term->big_cursor)) {
+        if (*text!=UCSWIDE) return;
+        type=CURSOR_VERTICAL_LINE;attr|=ATTR_RIGHTCURS;
+    }
+    COLORREF colour=wgs->colours[261];
+    if ((attr&ATTR_PASCURS) && (type==CURSOR_BLOCK || wgs->term->big_cursor)) {
+        RECT edge=box;edge.bottom=edge.top+1;nemo_gpu_cursor_fill(wgs,edge,clip,colour);
+        edge=box;edge.top=edge.bottom-1;nemo_gpu_cursor_fill(wgs,edge,clip,colour);
+        edge=box;edge.right=edge.left+1;nemo_gpu_cursor_fill(wgs,edge,clip,colour);
+        edge=box;edge.left=edge.right-1;nemo_gpu_cursor_fill(wgs,edge,clip,colour);
+    } else if ((attr&(ATTR_ACTCURS|ATTR_PASCURS)) && type!=CURSOR_BLOCK) {
+        RECT line=box;
+        if (type==CURSOR_UNDERLINE) {
+            line.top+=wgs->descent;line.bottom=line.top+1;
+        } else {
+            if (attr&ATTR_RIGHTCURS) line.left=line.right-1;
+            line.right=line.left+1;
+        }
+        if (attr&ATTR_ACTCURS) nemo_gpu_cursor_fill(wgs,line,clip,colour);
+        else {
+            int length=type==CURSOR_UNDERLINE?line.right-line.left:line.bottom-line.top;
+            RECT dot={line.left,line.top,line.left+1,line.top+1};
+            for (int i=0;i<length;i+=2) {
+                nemo_gpu_cursor_fill(wgs,dot,clip,colour);
+                if (type==CURSOR_UNDERLINE) {dot.left+=2;dot.right+=2;}
+                else {dot.top+=2;dot.bottom+=2;}
+            }
+        }
+    }
+}
+
 /* Cache complete rasterized runs, including combining marks, decoration and
  * fallback fonts. Cache hits do no font work and upload no pixels. */
 static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
@@ -4839,6 +4885,7 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
                   wgs->offset_width+wgs->term->cols*wgs->font_width);
     box.bottom=box.top+wgs->font_height;
     if (box.right<=box.left || box.top<0) return;
+    if (cursor) {nemo_gpu_cursor(wgs,box,advance*((attr&ATTR_WIDE)?2:1),text,attr);return;}
     strbuf *key=NULL;
     if (!cursor) {
         key=strbuf_new();
@@ -4849,8 +4896,11 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
                  (wgs->term->cursor_type==CURSOR_BLOCK || wgs->term->big_cursor));
         put_uint32(key,tc.fg.enabled);put_byte(key,tc.fg.r);put_byte(key,tc.fg.g);put_byte(key,tc.fg.b);
         put_uint32(key,tc.bg.enabled);put_byte(key,tc.bg.r);put_byte(key,tc.bg.g);put_byte(key,tc.bg.b);
-        /* Decoration phase can depend on the absolute x coordinate. */
-        put_uint32(key,box.left);put_data(key,text,len*sizeof(*text));
+        /* Patterned underlines can depend on absolute x. Ordinary glyphs
+         * and solid strike-through do not: share those tiles across columns
+         * instead of allocating a GPU bitmap for each repeated cluster. */
+        put_uint32(key,(attr&ATTR_UNDER)?box.left:0);
+        put_data(key,text,len*sizeof(*text));
         if (nemo_gpu_cached(wgs->gpu,box,ptrlen_from_strbuf(key))) {
             strbuf_free(key);return;
         }

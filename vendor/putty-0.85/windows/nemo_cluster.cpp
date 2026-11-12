@@ -170,6 +170,9 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
         RECT rect={0,0,static_cast<LONG>(w),static_cast<LONG>(h)};
         SetDCBrushColor(tile,bg);
         if (!FillRect(tile,&rect,static_cast<HBRUSH>(GetStockObject(DC_BRUSH)))) hr=E_FAIL;
+        /* DirectWrite writes the DIB directly. Finish queued GDI background
+         * drawing before crossing that boundary. */
+        if (!GdiFlush()) hr=E_FAIL;
         s.colour=fg;s.shadow_bold=shadow_bold;s.draw_scale=scale;
         if (SUCCEEDED(hr)) hr=layout->Draw(nullptr,&s,0,
             static_cast<FLOAT>(native.tmAscent+y_offset)-line.baseline);
@@ -177,6 +180,8 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
          * snapshot bands and GPU cache tiles); BitBlt respects both. */
         if (SUCCEEDED(hr) && !BitBlt(dc,box->left,box->top,static_cast<int>(w),
             static_cast<int>(h),tile,0,0,SRCCOPY)) hr=E_FAIL;
+        /* Complete the copy before another cluster reuses the source tile. */
+        if (!GdiFlush()) hr=E_FAIL;
     }
     release(layout);
     return SUCCEEDED(hr);

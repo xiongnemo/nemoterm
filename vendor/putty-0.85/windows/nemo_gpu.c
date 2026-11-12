@@ -39,3 +39,4 @@ METHOD(bool,begin_run,(NemoGPU *g,RECT box,bool overlay),(g->backend,box,overlay
 ACTION(end_run,(NemoGPU *g,RECT box,ptrlen key),(g->backend,box,key))
 ACTION(row,(NemoGPU *g,int x,int y,int width,const uint32_t *pixels),(g->backend,x,y,width,pixels))
 ACTION(borders,(NemoGPU *g,RECT text,COLORREF background),(g->backend,text,background))
+ACTION(fill_rect,(NemoGPU *g,RECT rect,COLORREF colour),(g->backend,rect,colour))

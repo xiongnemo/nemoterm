@@ -94,7 +94,7 @@ changes. It does not prove arbitrary-font visual correctness.
 
 `grapheme-window-observed.json`, `grapheme-font-window-observed.json` and selected
 PNGs record local frontend SHA-256
-`0329acc26b1cb0ab54d1b605c7b139cff5d11242be64fd7309aa5759ad5ac256`.
+`0294da429f90d76976a1a91bf37304ee40ada8bff4961903f2c1a4762e241e53`.
 Both native fixtures passed using SarasaTermSC Nerd Font Light with actual GDI,
 OpenGL and DirectX required. Checks cover exact ConPTY cursor replies, late wrap,
 REP, legacy widths, compositor pixel parity, synchronized saved frames, grid and
@@ -103,21 +103,31 @@ text, Sixel, palette, cursor states, synchronization and resize too. Tests use
 owned HWNDs, with no foreground changes or global keyboard input.
 
 Before capture instrumentation, sampled private working-set peaks across the
-two 80x24 fixtures were 5,652,480 bytes (GDI), 32,038,912 (OpenGL) and 14,581,760
+two 80x24 fixtures were 5,525,504 bytes (GDI), 31,756,288 (OpenGL) and 14,213,120
 (DirectX). OpenGL has the user's memory exception. These are single-window
-local development observations, not single-EXE/default-160x48/tab-preview/long
+local development observations, not single-EXE/tab-preview/long
 workload acceptance; child memory is excluded. JSON retains total working set
 and private commit too.
 
+The subsequent dense 160x48 tab fixtures passed all nine native groups with
+GDI/top and actual DirectX/left. Their sampled private peaks were 9,011,200 and
+19,320,832 bytes, including a temporary third tab, one warm-up and twelve
+create/close cycles. See [follow-up evidence](cluster-renderer-followup.md) for
+the initial failure, memory changes, exact sampling scope and outstanding CI.
+
 Native clipboard checks were skipped locally because this desktop denies
 OpenClipboard. CI requires exact original Unicode from Shift-Ctrl rectangle
-selection and Ctrl-Shift-C in live and frozen synchronized frames, while app
-mouse tracking is enabled. An input barrier checks that no mouse/copy key was
-forwarded. Ordinary and font-resize fixtures are wired into both CI workflows;
-results for the native change are pending. Core copy tests do not substitute
-for this native clipboard check.
+selection and Ctrl-Shift-C with app mouse tracking enabled. Local selection
+releases synchronized output and paints its pending frame before selecting;
+the test checks the clusters in that newly visible frame, plus a reset-mode
+query. It does not promise to select the earlier frozen pixels. An input barrier
+checks that no mouse/copy key was forwarded. Ordinary and font-resize fixtures
+are wired into both CI workflows. The first native CI attempt failed on this
+test's earlier frozen-frame assumption and a two-pixel rendering mismatch;
+the revised tests and rendering changes still need a green CI run. Core copy
+tests do not substitute for that native clipboard verification.
 
-Remaining acceptance: new CI and actual single-EXE artifact, default-size/tabs
+Remaining acceptance: new CI and actual single-EXE artifact, its default-size/tabs
 memory, initial-policy settings, wider missing-font/ZWJ/color behavior and real
 agent workloads. This checkpoint is not complete Unicode/protocol coverage.
 

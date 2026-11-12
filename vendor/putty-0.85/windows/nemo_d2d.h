@@ -18,4 +18,5 @@ bool nemo_d2d_begin_run(NemoD2D *, RECT, bool overlay);
 void nemo_d2d_end_run(NemoD2D *, RECT, ptrlen);
 void nemo_d2d_row(NemoD2D *, int x, int y, int width, const uint32_t *);
 void nemo_d2d_borders(NemoD2D *, RECT, COLORREF);
+void nemo_d2d_fill_rect(NemoD2D *, RECT, COLORREF);
 #endif

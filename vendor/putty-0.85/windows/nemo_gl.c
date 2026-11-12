@@ -355,6 +355,10 @@ bool nemo_gl_print(NemoGL *g, HDC dc)
 {
     return nemo_gl_print_band(g,dc,0,g->height);
 }
+void nemo_gl_fill_rect(NemoGL *g, RECT rect, COLORREF colour)
+{
+    if (!g->failed) fill(g,rect,colour);
+}
 bool nemo_gl_attach(NemoGL *g, HWND parent)
 {
     ShowWindow(g->surface,SW_HIDE);

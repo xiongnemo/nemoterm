@@ -8557,6 +8557,7 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
                                      bidi_char);
             }
 
+            bool needs_processing=ldata->trusted && term->cols>TRUST_SIGIL_WIDTH;
             for (it=0; it<term->cols ; it++) {
                 unsigned long uc = (ldata->chars[it].chr);
 
@@ -8586,6 +8587,23 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
                     (unsigned int)uc;
                 term->wcFrom[it].index = it;
                 term->wcFrom[it].nchars = 1;
+                needs_processing |= is_rtl(uc);
+            }
+
+            /* is_rtl also covers every Arabic shaping character and bidi
+             * control. Identity rows need neither two complete cell/cluster
+             * copies nor forward/backward maps. Drop any older transformed
+             * row so a subsequent mouse hit cannot use stale mappings. */
+            if (!needs_processing) {
+                if (scr_y>=0 && scr_y<term->bidi_cache_size) {
+                    sfree(term->pre_bidi_cache[scr_y].chars);
+                    sfree(term->post_bidi_cache[scr_y].chars);
+                    sfree(term->post_bidi_cache[scr_y].forward);
+                    sfree(term->post_bidi_cache[scr_y].backward);
+                    term->pre_bidi_cache[scr_y]=(struct bidi_cache_entry){.width=-1};
+                    term->post_bidi_cache[scr_y]=(struct bidi_cache_entry){.width=-1};
+                }
+                return NULL;
             }
 
             if (ldata->trusted && term->cols > TRUST_SIGIL_WIDTH) {

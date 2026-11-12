@@ -20,4 +20,5 @@ bool nemo_gpu_begin_run(NemoGPU *, RECT, bool overlay);
 void nemo_gpu_end_run(NemoGPU *, RECT, ptrlen);
 void nemo_gpu_row(NemoGPU *, int x, int y, int width, const uint32_t *);
 void nemo_gpu_borders(NemoGPU *, RECT, COLORREF);
+void nemo_gpu_fill_rect(NemoGPU *, RECT, COLORREF);
 #endif

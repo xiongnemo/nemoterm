@@ -11,7 +11,18 @@ parser.add_argument('--side',choices=('top','bottom','left','right'),default='to
 parser.add_argument('--font',default='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
 parser.add_argument('--cols',type=int,default=160)
 parser.add_argument('--rows',type=int,default=48)
+parser.add_argument('--dense-clusters',action='store_true')
 args=parser.parse_args()
+prefix='cluster-tabs' if args.dense_clusters else 'tabs'
+base_scene=scene
+dense_memory_phase=args.dense_clusters
+def scene(text,colour):
+    result=base_scene(text,colour)
+    if not dense_memory_phase:return result
+    cols,rows=evidence['actual_grid']
+    unit='e\u0301 \U0001f469\u200d\U0001f4bb \U0001f44d\U0001f3fd 1\ufe0f\u20e3 \u1100\u1161\u11a8 '
+    line=unit*max(1,(cols-1)//14)
+    return '\x1b[?2027h'+result+'\x1b[H'+'\r\n'.join(line for _ in range(max(1,rows-1)))
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='tabs-'+uuid.uuid4().hex
 keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
@@ -39,7 +50,8 @@ def windows(pid,kind,parent=None,visible=False):
     return found
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
-              side=args.side,font=args.font,requested_grid=[args.cols,args.rows],completed=False,checks=[],memory_instrumented=False)
+              side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
+              completed=False,checks=[],memory_instrumented=False)
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -97,9 +109,13 @@ try:
                 wait_for(lambda:u.IsWindowVisible(child['hwnd']))
                 assert windows(process.pid,'Nemoterm',host,True)==[child['hwnd']]
             def resources():
+                for visible_hwnd in windows(process.pid,'Nemoterm',host,True):
+                    u.RedrawWindow(visible_hwnd,None,None,0x185)
                 count=w.DWORD();assert k.GetProcessHandleCount(handle,c.byref(count))
                 return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),**memory_sample(handle))
-            first=new_child([]);output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
+            first=new_child([])
+            size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
+            output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
             actual=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0)
             evidence['actual_renderer']=actual
             if args.renderer=='directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert actual==3
@@ -116,9 +132,20 @@ try:
             assert len(windows(process.pid,'NemotermHost'))==1
             evidence['checks'].append('one host with independent child terminals and native tab hit testing')
             # Measure before any injected capture helper loads into the PID.
+            evidence['live_temporary_tabs']=[]
+            if args.dense_clusters:
+                # Warm lazy window/IME/menu resources before comparing handle
+                # counts. Retain both live and post-close memory observations.
+                child=duplicate(second);output(child,scene('WARMUP','60;10;60'))
+                evidence['live_temporary_tabs'].append(resources())
+                u.PostMessageW(child['hwnd'],0x10,0,0)
+                wait_for(lambda:not u.IsWindow(child['hwnd']))
+                select(second,1);wait_for(lambda:job.accounting()['active']==5)
+                evidence['warmup']=resources()
             baseline=resources();evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
             for i in range(12):
                 child=duplicate(second);output(child,scene('TEMPORARY','60;10;60'))
+                if args.dense_clusters:evidence['live_temporary_tabs'].append(resources())
                 u.PostMessageW(child['hwnd'],0x10,0,0)
                 wait_for(lambda:not u.IsWindow(child['hwnd']))
                 select(second,1)
@@ -129,8 +156,13 @@ try:
                 assert sample['gdi']<=baseline['gdi']+3,(baseline,sample)
                 assert sample['user']<=baseline['user']+2,(baseline,sample)
             evidence['checks'].append('12 create/close cycles retain one shared renderer without handle growth')
+            memory_observations=[initial,baseline]+evidence['cycles']+evidence['live_temporary_tabs']
+            evidence['peak_private_ws']=max(v['private_ws'] for v in memory_observations)
             if actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1'):
-                assert max(v['private_ws'] for v in [initial,baseline]+evidence['cycles'])<20_000_000
+                assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
+            if args.dense_clusters:
+                dense_memory_phase=False
+                output(first,scene('TAB ONE','80;20;20'));output(second,scene('TAB TWO','20;70;20'))
             # Capture after memory samples, recording that subsequent pixels
             # use test instrumentation for hardware readback only.
             from gpu_capture import OwnedGPUCapture
@@ -186,7 +218,7 @@ try:
             wait_for(updated_preview)
             assert windows(process.pid,'Nemoterm',host,True)==[second['hwnd']]
             r=w.RECT();u.GetClientRect(preview,c.byref(r));assert 0<r.right<=320 and 0<r.bottom<=200
-            capture(preview,f'tabs-{args.renderer}-{args.side}-preview.png')
+            capture(preview,f'{prefix}-{args.renderer}-{args.side}-preview.png')
             evidence['checks'].append('bounded hover preview refreshes background output without selecting it')
             u.SendMessageW(host,0x2a3,0,0)
             wait_for(lambda:not u.IsWindowVisible(preview))
@@ -233,5 +265,5 @@ try:
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
-    (root/'research'/f'tabs-{args.renderer}-{args.side}-observed.json').write_text(json.dumps(evidence,indent=2))
+    (root/'research'/f'{prefix}-{args.renderer}-{args.side}-observed.json').write_text(json.dumps(evidence,indent=2))
 print('Tabs passed:',args.renderer,args.side,len(evidence['checks']),'checks')

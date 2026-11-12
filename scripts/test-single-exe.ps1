@@ -75,6 +75,12 @@ try {
         if ($LASTEXITCODE) { throw "Single-executable tab host test failed: $name" }
         $checks.Add($name)
     }
+    foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+        $name = "cluster-tabs-$($case[0])-$($case[1])"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --dense-clusters 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        if ($LASTEXITCODE) { throw "Single-executable dense cluster tabs test failed: $name" }
+        $checks.Add($name)
+    }
     & python "$Destination/tests/tabs_regression_suite.py" 2>&1 | Tee-Object "$Destination/logs/tabs-regressions.log"
     if ($LASTEXITCODE) { throw 'Single-executable tab regression suite failed' }
     $checks.Add('tabs-regressions')

@@ -102,6 +102,16 @@ int main()
         CHECK(IntersectClipRect(a.dc,34,42,76,78)!=ERROR);
         CHECK(draw(&renderer,a,box,samples[4],true));RestoreDC(a.dc,saved);
         outside_unchanged(a,RECT{41,51,83,87});
+        /* Reusing one scratch tile across deferred destination copies must
+         * match a controller that explicitly finishes every individual copy. */
+        a.clear();b.clear();
+        for (int pass=0;pass<2;pass++) for (int i=0;i<16;i++) {
+            RECT cell={(i%4)*48,(i/4)*40,(i%4+1)*48,(i/4+1)*40};
+            const wchar_t *text=i%2?L"A\x308":samples[0];
+            CHECK(draw(&renderer,pass?b:a,cell,text));
+            if (pass) GdiFlush();
+        }
+        GdiFlush();CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
         SelectObject(a.dc,old);SelectObject(b.dc,old_b);CHECK(DeleteObject(font));
     }
 

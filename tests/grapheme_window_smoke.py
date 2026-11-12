@@ -120,14 +120,20 @@ try:
                         errors=[];script.on('message',lambda m,d:errors.append(m) if m.get('type')=='error' else None)
                         script.load();script.exports_sync.isolate_mouse(hex(hwnd))
                         texts=[cases[3][1],cases[4][1],cases[2][1]]
-                        expected='\r\n'.join(texts)
                         def point(x,y):return (1+y*new_ch+new_ch//2)<<16|(1+x*new_cw+new_cw//2)
                         for frozen in (False,True):
                             phase='copy-frozen' if frozen else 'copy-live'
                             sequence='\x1b[?1003;1006h\x1b[2J\x1b[H'+'\r\n'.join(texts)
                             send(phase,sequence)
                             u.RedrawWindow(hwnd,None,None,0x185)
-                            if frozen:send(phase+'-hidden','\x1b[?2026h\x1b[2J\x1b[Hdifferent live screen')
+                            copied_texts=texts
+                            if frozen:
+                                # Local selection deliberately releases sync
+                                # output, paints the new frame, then selects
+                                # its visible cells. Exercise different whole
+                                # clusters in that newly presented frame.
+                                copied_texts=list(reversed(texts))
+                                send(phase+'-hidden','\x1b[?2026h\x1b[2J\x1b[H'+'\r\n'.join(copied_texts))
                             u.SendMessageW(hwnd,0x201,13,point(0,0))
                             u.SendMessageW(hwnd,0x200,1,point(1,2))
                             u.SendMessageW(hwnd,0x202,0,point(1,2))
@@ -136,15 +142,16 @@ try:
                             assert u.PostMessageW(hwnd,0x8322,0,0)
                             assert wait_for(lambda:script.exports_sync.result())==dict(id=1+int(frozen))
                             wait_for(lambda:u.GetClipboardSequenceNumber()!=before)
-                            assert clipboard_text(hwnd)==expected,(frozen,clipboard_text(hwnd))
+                            assert clipboard_text(hwnd)=='\r\n'.join(copied_texts),(frozen,clipboard_text(hwnd))
                             assert not errors,errors
                             current_phase=phase+'-hidden' if frozen else phase
                             write_snapshot(control,dict(phase=current_phase,preserve_mouse=True,input_barrier='copy'))
                             delivered=wait_snapshot(lambda:read_snapshot(report),lambda v:
                                 v.get('phase')==current_phase and v.get('input_barrier')=='copy')
                             assert bytes.fromhex(delivered['hex'])==b'\x1b[0n'*2,delivered
-                            if frozen:send('copy-release','\x1b[?2026l')
-                        mode['checks'].append('Shift-Ctrl rectangles and Ctrl-Shift-C preserve original clusters in live and frozen frames')
+                            if frozen:
+                                assert b'\x1b[?2026;2$y' in send('copy-sync-status','\x1b[?2026$p')
+                        mode['checks'].append('Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection releases sync output before selecting')
                         saved.restore();saved=None
                         key_session.detach();key_session=None
                     if gpu:gpu.close();gpu=None

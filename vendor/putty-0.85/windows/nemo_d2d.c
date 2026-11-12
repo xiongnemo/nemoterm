@@ -311,6 +311,12 @@ bool nemo_d2d_print(NemoD2D *g, HDC dc)
 {
     return g->width>0 && g->height>0 && read_pixels(g,dc,0,0,0,0,g->width,g->height);
 }
+void nemo_d2d_fill_rect(NemoD2D *g, RECT rect, COLORREF colour)
+{
+    if (g->failed) return;
+    D2D1_COLOR_F c=color(colour);nemo_d2d_set_color(g->brush,&c);
+    fill(g,rect);
+}
 bool nemo_d2d_attach(NemoD2D *g, HWND parent)
 {
     ShowWindow(g->surface,SW_HIDE);

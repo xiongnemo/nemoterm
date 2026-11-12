@@ -19,5 +19,6 @@ bool nemo_gl_begin_run(NemoGL *g, RECT box, bool overlay);
 void nemo_gl_end_run(NemoGL *g, RECT box, ptrlen key);
 void nemo_gl_row(NemoGL *g, int x, int y, int width, const uint32_t *rgba);
 void nemo_gl_borders(NemoGL *g, RECT text, COLORREF background);
+void nemo_gl_fill_rect(NemoGL *, RECT, COLORREF);
 bool nemo_gl_ok(NemoGL *g);
 #endif

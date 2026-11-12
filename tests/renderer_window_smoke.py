@@ -86,6 +86,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                   '\x1b[7;9mReverse strike\x1b[0m\r\n'
                   '\x1b[38;2;90;180;220;48;2;32;40;48mTruecolour\x1b[0m\r\n'
                   '\x1b#6Double width\r\n\x1b#3Double height\r\n\x1b#4Double height\r\n')
+            text+=('Repeated: '+('e\u0301 A\u0308 ')*6+'\r\n'+
+                   '\x1b[?2027h'+('\U0001f469\u200d\U0001f4bb ')*8+'\x1b[?2027l\r\n'+
+                   'abc \u05d0\u05d1\u05d2 123\r\n')
+            for style in range(1,6):
+                text+=(' '*style+f'\x1b[4:{style};58:2::255:80:0m'+
+                       ('e\u0301 A\u0308 ')*5+'\x1b[0m\r\n')
             render('text',text);base=compare('text')
             # An expose must preserve both unchanged glyphs and the cached frame.
             u.RedrawWindow(hwnd,None,None,0x185);time.sleep(.1)

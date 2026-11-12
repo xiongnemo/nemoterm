@@ -226,6 +226,44 @@ static void test_repeat(Mock *mk)
     IEQUAL(get_termchar(t,4,0).chr,tech[2]);
 }
 
+static bool cluster_test_draw_context(TermWin *win) { return true; }
+static int cluster_test_char_width(TermWin *win, int uc) { return 1; }
+static void cluster_test_free_context(TermWin *win) {}
+static void cluster_test_cursor_pos(TermWin *win, int x, int y) {}
+
+static void test_bidi_cache(Mock *mk)
+{
+    setup_cluster(mk,"identity cluster rows and bidi mapping transitions",4,20);
+    Terminal *t=mk->term;
+    const TermWinVtable *original=mk->tw.vt;
+    TermWinVtable drawing=*original;drawing.setup_draw_ctx=cluster_test_draw_context;
+    drawing.char_width=cluster_test_char_width;drawing.free_draw_ctx=cluster_test_free_context;
+    drawing.set_cursor_pos=cluster_test_cursor_pos;
+    mk->tw.vt=&drawing;t->no_bidi=t->no_arabicshaping=false;
+    static const uint32_t text[]={'e',0x301,0x1f469,0x200d,0x1f4bb};
+    output_scalars(t,text,lenof(text));term_update(t);
+    for (int y=0;y<t->bidi_cache_size;y++) {
+        IEQUAL(t->pre_bidi_cache[y].chars==NULL,true);
+        IEQUAL(t->post_bidi_cache[y].chars==NULL,true);
+    }
+    term_data_fragmented(t,"\033[2J\033[Habc ");
+    static const uint32_t hebrew[]={0x5d0,0x5d1,0x5d2};
+    output_scalars(t,hebrew,lenof(hebrew));term_update(t);
+    IEQUAL(t->bidi_cache_size>0,true);
+    IEQUAL(t->post_bidi_cache[0].chars!=NULL,true);
+    if (t->post_bidi_cache[0].chars) {
+        IEQUAL(t->post_bidi_cache[0].forward[4],6);
+        IEQUAL(t->post_bidi_cache[0].backward[4],6);
+        IEQUAL(t->disptext[0]->chars[4].chr,0x5d2);
+    }
+    term_data_fragmented(t,"\033[2J\033[H");output_scalars(t,text,lenof(text));term_update(t);
+    IEQUAL(t->post_bidi_cache[0].chars==NULL,true);
+    IEQUAL(t->post_bidi_cache[0].forward==NULL,true);
+    IEQUAL(t->post_bidi_cache[0].backward==NULL,true);
+    cluster_contents(mk,1,0,text+2,3);
+    mk->tw.vt=original;
+}
+
 static void test_mode(Mock *mk)
 {
     Terminal *t=mk->term;reset(mk);test_context(mk,"2027 query, save, restore and reset semantics");
@@ -253,7 +291,7 @@ int main(void)
     mk->tw.vt=&supported;mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
-    test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);
+    test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_bidi_cache(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;
