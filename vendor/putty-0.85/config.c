@@ -20,7 +20,9 @@
 static const int nemo_binding_options[] = {
     CONF_nemo_copy_binding, CONF_nemo_paste_binding, CONF_nemo_copy_paste_binding,
     CONF_nemo_previous_prompt_binding, CONF_nemo_next_prompt_binding,
-    CONF_nemo_select_command_binding, CONF_nemo_select_output_binding
+    CONF_nemo_select_command_binding, CONF_nemo_select_output_binding,
+    CONF_nemo_new_tab_binding, CONF_nemo_close_tab_binding,
+    CONF_nemo_next_tab_binding, CONF_nemo_previous_tab_binding
 };
 
 static void nemo_binding_item(dlgcontrol *ctrl, dlgparam *dlg, const char *text,
@@ -109,6 +111,10 @@ static void nemo_bindings_reset(dlgcontrol *ctrl, dlgparam *dlg, void *data, int
     conf_set_int(conf, CONF_nemo_rectangle_modifiers, NEMO_BIND_CTRL);
     for (size_t i = 3; i < lenof(nemo_binding_options); i++)
         conf_set_int(conf, nemo_binding_options[i], 0);
+    conf_set_int(conf, CONF_nemo_new_tab_binding, NEMO_BIND_KEY('T',3));
+    conf_set_int(conf, CONF_nemo_close_tab_binding, NEMO_BIND_KEY('W',3));
+    conf_set_int(conf, CONF_nemo_next_tab_binding, NEMO_BIND_KEY(9,2));
+    conf_set_int(conf, CONF_nemo_previous_tab_binding, NEMO_BIND_KEY(9,3));
     dlg_refresh(NULL, dlg);
 }
 
@@ -2397,7 +2403,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_text(s, "GPU modes cache text textures and compose text and images on "
               "the GPU. They use the installed graphics driver and can use "
               "more memory. GDI is used if the selected GPU mode is unavailable.", HELPCTX(no_help));
-    ctrl_text(s, "Changes apply to this window. After using a GPU mode, restart "
+    ctrl_text(s, "Changes apply to this terminal. After using a GPU mode, restart "
               "the window to fully release graphics driver memory.", HELPCTX(no_help));
 
     /*
@@ -2497,6 +2503,33 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Window/Selection panel.
      */
+    ctrl_settitle(b, "Window/Tabs", "Terminal tabs");
+    s = ctrl_getset(b, "Window/Tabs", "layout", "Tab bar");
+    if (!midsession)
+        ctrl_checkbox(s, "Open sessions in tabs", NO_SHORTCUT, HELPCTX(no_help),
+                      conf_checkbox_handler, I(CONF_nemo_tabs));
+    ctrl_radiobuttons(s, "Position", NO_SHORTCUT, 4, HELPCTX(no_help),
+        conf_radiobutton_handler, I(CONF_nemo_tab_side),
+        "Top", NO_SHORTCUT, I(0), "Bottom", NO_SHORTCUT, I(1),
+        "Left", NO_SHORTCUT, I(2), "Right", NO_SHORTCUT, I(3));
+    ctrl_editbox(s, "Side bar width (96-DPI pixels)", NO_SHORTCUT, 40, HELPCTX(no_help),
+        conf_editbox_handler, I(CONF_nemo_tab_sidebar), ED_INT);
+    ctrl_checkbox(s, "Preview terminal on hover", NO_SHORTCUT, HELPCTX(no_help),
+        conf_checkbox_handler, I(CONF_nemo_tab_preview));
+    s = ctrl_getset(b, "Window/Tabs", "bindings", "Tab shortcuts");
+    const char *const tab_binding_labels[][2] = {
+        {"New tab modifiers", "New tab key"}, {"Close tab modifiers", "Close tab key"},
+        {"Next tab modifiers", "Next tab key"}, {"Previous tab modifiers", "Previous tab key"}
+    };
+    ctrl_columns(s, 2, 50, 50);
+    for (size_t i=0; i<lenof(tab_binding_labels); i++)
+        for (int field=0; field<2; field++) {
+            c=ctrl_droplist(s, tab_binding_labels[i][field], NO_SHORTCUT, 100,
+                HELPCTX(no_help), nemo_binding_handler, I(nemo_binding_options[i+7]*4+field));
+            c->column=field;
+        }
+    ctrl_columns(s, 1, 100);
+
     ctrl_settitle(b, "Window/Bindings", "Keyboard and mouse bindings");
     s = ctrl_getset(b, "Window/Bindings", "keys", "Keyboard shortcuts");
     ctrl_text(s, "Choose Disabled to send the key to the application. AltGr remains available for text input.", HELPCTX(no_help));

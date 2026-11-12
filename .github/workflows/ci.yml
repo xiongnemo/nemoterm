@@ -107,6 +107,19 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/session-restart-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test native tab host, previews and shared GPU lifetime
+        shell: pwsh
+        run: |
+          foreach ($case in @(@('gdi','top'), @('gdi','bottom'), @('directx','left'), @('opengl','right'))) {
+            python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1]
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/tabs-$($case[0])-$($case[1])-*" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+          powershell.exe -NoProfile -File tests/settings_window_smoke.ps1 -TabHost
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tabs-settings-window-observed.json, research/tabs-settings.png test-results/ -ErrorAction SilentlyContinue
+          if ($testExit) { exit $testExit }
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |

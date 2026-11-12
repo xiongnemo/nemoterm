@@ -61,6 +61,7 @@ struct WinGuiSeat {
     HWND term_hwnd;
     UINT_PTR session_id; /* Never reused when a window handle is recycled. */
     bool closing;
+    bool tabbed, tab_ready;
     HICON trust_icon;
     bool nemo_consumed_right_click;
     struct NemoLinkUI *link_ui;

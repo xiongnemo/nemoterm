@@ -64,9 +64,18 @@ try {
             $checks.Add("$name-courier")
         }
     }
+    foreach ($case in @(@('gdi','top'), @('gdi','bottom'), @('directx','left'), @('opengl','right'))) {
+        $name = "tabs-$($case[0])-$($case[1])"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        if ($LASTEXITCODE) { throw "Single-executable tab host test failed: $name" }
+        $checks.Add($name)
+    }
     & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" 2>&1 | Tee-Object "$Destination/logs/settings.log"
     if ($LASTEXITCODE) { throw 'Single-executable settings test failed' }
     $checks.Add('settings')
+    & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" -TabHost 2>&1 | Tee-Object "$Destination/logs/tabs-settings.log"
+    if ($LASTEXITCODE) { throw 'Single-executable tab settings test failed' }
+    $checks.Add('tabs-settings')
     if ($CodexExecutable) {
         foreach ($mode in @('default', 'inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)

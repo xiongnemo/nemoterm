@@ -892,6 +892,38 @@ CONF_OPTION(height,
     DEFAULT_INT(48),
     SAVE_KEYWORD("TermHeight"),
 )
+CONF_OPTION(nemo_tabs,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoTabs"),
+)
+CONF_OPTION(nemo_tab_side,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoTabSide"),
+)
+CONF_OPTION(nemo_tab_sidebar,
+    VALUE_TYPE(INT), DEFAULT_INT(192),
+    SAVE_KEYWORD("NemoTabSidebar"),
+)
+CONF_OPTION(nemo_tab_preview,
+    VALUE_TYPE(BOOL), DEFAULT_BOOL(true),
+    SAVE_KEYWORD("NemoTabPreview"),
+)
+CONF_OPTION(nemo_new_tab_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0x354),
+    SAVE_KEYWORD("NemoNewTabBinding"),
+)
+CONF_OPTION(nemo_close_tab_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0x357),
+    SAVE_KEYWORD("NemoCloseTabBinding"),
+)
+CONF_OPTION(nemo_next_tab_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0x209),
+    SAVE_KEYWORD("NemoNextTabBinding"),
+)
+CONF_OPTION(nemo_previous_tab_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0x309),
+    SAVE_KEYWORD("NemoPreviousTabBinding"),
+)
 CONF_OPTION(nemo_renderer,
     VALUE_TYPE(INT),
     DEFAULT_INT(0),
