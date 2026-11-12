@@ -194,8 +194,12 @@ enabled = false
             sampler = threading.Thread(target=sample, daemon=True); sampler.start()
             prompt = args.input_text
             type_text(prompt)
-            time.sleep(.5)
-            evidence['typed_text'] = all_text()
+            # The first visible frame can precede the client's input loop.
+            # Wait for consumption of the complete prompt, then let its 120 ms
+            # paste-burst Enter window expire. A sender-side startup sleep can
+            # queue text and Return together on slower CI hosts.
+            evidence['typed_text'] = wait_for(lambda: (text if prompt in (text := all_text()) else None), timeout=20)
+            time.sleep(.2)
             key(13, 28)
             wait_for(lambda: server.preview_ready.is_set() or server.errors, timeout=25)
             assert not server.errors, server.errors
