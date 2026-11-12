@@ -1,0 +1,40 @@
+name: Window and title protocol reference
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tests/xterm_window_oracle.py'
+      - 'tests/xterm_state_oracle.py'
+      - '.github/workflows/window-reference.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  xterm-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install upstream build and private display dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev xvfb
+      - name: Build pinned upstream reference
+        run: |
+          git init /tmp/nemoterm-xterm-reference
+          git -C /tmp/nemoterm-xterm-reference remote add origin https://github.com/ThomasDickey/xterm-snapshots.git
+          git -C /tmp/nemoterm-xterm-reference fetch --depth 1 origin 5c75ead9a75d4b2e666ca06fa94503b5766ed93f
+          git -C /tmp/nemoterm-xterm-reference checkout --detach FETCH_HEAD
+          cd /tmp/nemoterm-xterm-reference
+          ./configure
+          make -j2
+      - name: Capture title stacks, title encoding and geometry
+        run: python3 tests/xterm_window_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: window-xterm-${{ github.sha }}
+          path: research/window-xterm.json
+          if-no-files-found: error
