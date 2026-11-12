@@ -39,6 +39,7 @@ static void test_unicode_width_resize(Mock *mk)
 {
     reset(mk);
     test_context(mk, "resize retains CJK width and combining chains");
+    conf_set_bool(mk->term->conf, CONF_nemo_reflow, false);
     mk->ucsdata->line_codepage = CP_UTF8;
     term_size(mk->term, 6, 10, 100);
     term_data_fragmented(mk->term, unicode_text);
@@ -62,6 +63,7 @@ static void test_unicode_width_resize(Mock *mk)
         term_size(mk->term, 6, 12, 100);
         check_unicode_cells(mk, 0, 0, true);
     }
+    conf_set_bool(mk->term->conf, CONF_nemo_reflow, true);
 }
 
 static void test_height_history_resize(Mock *mk)

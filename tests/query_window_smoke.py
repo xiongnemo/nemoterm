@@ -108,7 +108,15 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         assert frozen == steady, 'cursor change escaped synchronized presentation'
         released = phase('released-query', '\x1b[?2026l\x1bP$q q\x1b\\',
                          b'\x1bP1$r6 q\x1b\\')
-        assert cursor_shape(released)[:2] == shapes[2][:2]
+        # A parser reply can precede deferred presentation. Require the exact
+        # final bar geometry within less than the synchronized-update timeout.
+        released = wait_for(lambda: pixels
+                            if cursor_shape(pixels := capture(hwnd, return_pixels=True))[:2] == shapes[2][:2]
+                            else None, timeout=.8)
+        released_shape = cursor_shape(released)
+        if released_shape[:2] != shapes[2][:2]:
+            capture(hwnd, '../build/query-released-failed.png')
+        assert released_shape[:2] == shapes[2][:2], (shapes, released_shape, evidence)
         # Inject messages only into our own HWND. This exercises the real
         # Win32 translator; modifier combinations are tested by test_tcap.
         # Query values must match both the protocol oracle and the child input.

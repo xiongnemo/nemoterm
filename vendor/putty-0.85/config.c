@@ -2268,6 +2268,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_editbox(s, "Lines of scrollback", 's', 50,
                  HELPCTX(window_scrollback),
                  conf_editbox_handler, I(CONF_savelines), ED_INT);
+    ctrl_checkbox(s, "Reflow main-screen text when columns change", 'f',
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_reflow));
     ctrl_checkbox(s, "Display scrollbar", 'd',
                   HELPCTX(window_scrollback),
                   conf_checkbox_handler, I(CONF_scrollbar));

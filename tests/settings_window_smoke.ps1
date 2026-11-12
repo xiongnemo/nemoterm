@@ -84,6 +84,13 @@ try {
     if ($LASTEXITCODE) { throw 'Owned settings capture failed' }
     $windowNode = Find-Name $dialog 'Window'
     $windowNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Window' | Out-Null
+    $reflowLabel = 'Reflow main-screen text when columns change'
+    $reflow = Wait-Value { Find-Name $dialog $reflowLabel }
+    if ($reflow.Current.IsOffscreen -or !$bounds.Contains($reflow.Current.BoundingRectangle)) { throw 'Reflow option clipped' }
+    $toggle = $reflow.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($toggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Reflow was not enabled by default' }
+    $toggle.Toggle()
     Select-Node $dialog 'Selection' | Out-Null
     $copyOnly = Find-Name $dialog 'Copy only'
     if (!$copyOnly.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {
@@ -95,7 +102,7 @@ try {
     $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
     $values = Get-ItemProperty -LiteralPath $profilePath
-    if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1) { throw 'Settings were not saved' }
+    if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0) { throw 'Settings were not saved' }
     Invoke-Button $dialog 'Cancel'
     if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) { throw 'Settings cancel failed' }
 
@@ -106,6 +113,9 @@ try {
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
+    Select-Node $dialog 'Window' | Out-Null
+    $reloaded = Wait-Value { Find-Name $dialog $reflowLabel }
+    if ($reloaded.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Reflow preference did not reload' }
     Invoke-Button $dialog 'Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
@@ -116,7 +126,7 @@ try {
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
-        cancel_exit=0;local_launch=$true;query=$observed}
+        reflow_default=$true;saved_reflow=$false;cancel_exit=0;local_launch=$true;query=$observed}
     [IO.File]::WriteAllText((Join-Path $root 'research/settings-window-observed.json'),
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}

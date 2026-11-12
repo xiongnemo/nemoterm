@@ -334,7 +334,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             cursor, outer = w.POINT(), w.RECT()
             u.GetCursorPos(c.byref(cursor)); u.GetWindowRect(hwnd,c.byref(outer))
             width,height=outer.right-outer.left,outer.bottom-outer.top
-            assert u.MoveWindow(hwnd,cursor.x-width-50,cursor.y-height-50,width,height,True)
+            # Keep it on screen as well: an off-screen DWM surface can retain
+            # the startup cursor even after the text rows have been painted.
+            screen_width = u.GetSystemMetrics(0)
+            park_x = max(0, screen_width-width-20) if cursor.x < screen_width//2 else 20
+            assert u.MoveWindow(hwnd,park_x,20,width,height,True)
             uri = scheme + '://host/path?x=one%20two&y=%22quoted%22#part'
             other = scheme + '://host/other'
             scene = '\x1b[0m\x1b[?25l\x1b[2J\x1b[2;2H' + link(uri, 'LINK')
@@ -345,6 +349,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                 u.SendMessageW(hwnd, 0x2a3, 0, 0)  # own-window WM_MOUSELEAVE
                 pixels = capture(hwnd, return_pixels=True)
                 background = pixels[:3]
+                if any(pixels[i:i+3] != background for i in range(0, rect.right*ch*3, 3)):
+                    return None  # hidden startup cursor must also be erased
                 # The query reply acknowledges parser state, not its deferred
                 # paint. Require all three labels before comparing hover pixels.
                 for lo,hi in ((1,5),(10,14),(20,24)):

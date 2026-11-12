@@ -162,6 +162,9 @@ static void mock_set_title(TermWin *win, const char *title, int codepage)
 static void reset(Mock *mk)
 {
     term_pwron(mk->term, true);
+    /* RIS can preserve scrollback; independent fixtures must not restore it
+     * into their screen when the following resize grows or reflows it. */
+    if (mk->term->rows >= 0) term_clrsb(mk->term);
     term_size(mk->term, 24, 80, 0);
     term_set_trust_status(mk->term, false);
     strbuf_clear(mk->context);

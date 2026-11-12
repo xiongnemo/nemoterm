@@ -737,6 +737,11 @@ CONF_OPTION(wintitle, /* initial window title */
     SAVE_KEYWORD("WinTitle"),
 )
 /* Terminal options */
+CONF_OPTION(nemo_reflow,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(true),
+    SAVE_KEYWORD("NemoReflow"),
+)
 CONF_OPTION(savelines,
     VALUE_TYPE(INT),
     DEFAULT_INT(2000),

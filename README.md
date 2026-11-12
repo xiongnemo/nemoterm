@@ -6,7 +6,7 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
 私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
 每次 push/PR 的 GitHub Actions 会执行 Windows 回归与构建，另运行 Linux Sixel
-超链接、键盘及 OSC 52 核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
+超链接、键盘、OSC 52 及重排核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
 产物含 EXE、许可证、构建 commit 与 SHA-256，保留 30 天。
 
 ## 构建与启动
@@ -110,7 +110,10 @@ file 主机必须为空、localhost 或匹配本机名称。远程文件地址�
 完整协议、图片复杂生命周期与真实 agent 仍需继续验收。
 
 窗口缩放已通过实际 ConPTY 尺寸通知验证，并修复备用屏被清空的问题。
-主屏宽度变化仍采用裁剪/恢复策略，尚未实现历史文本 reflow。
+主屏与回滚历史默认按新列宽重排，保留软/硬换行、宽字符、组合音标、样式和超链接。
+Window 中可关闭重排，恢复裁剪/放大还原行为。备用屏、Sixel 覆盖行及 DEC 双宽/双高行
+保持网格布局；图片不被拆分或重采样。`python tests/reflow_window_smoke.py` 检查真实
+ConPTY 下的长行、历史、Shift 选择复制与宽高变化；[实现与验证](research/reflow.md)。
 
 内存按用户确认的口径：每窗口私有工作集 <20,000,000 bytes，总工作集约
 50,000,000 bytes。量测记录同时列出 ConPTY 和子进程，禁止用主动清空工作集

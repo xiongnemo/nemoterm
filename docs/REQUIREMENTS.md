@@ -679,3 +679,40 @@ and private commit 5,918,720 bytes (5.919 MB / 5.645 MiB). The mixed
 These are continuously sampled terminal-process peaks, without trimming;
 ConPTY and child processes are separate. They do not establish the same
 bounds for every future workload.
+
+
+## Main-screen and history reflow checkpoint (2026-11-12)
+
+This supersedes the earlier open text-reflow status. Column changes now reflow
+main-screen and compressed history text by default. Soft wraps, hard breaks,
+wide/combining characters, decoration colours and hyperlink handles survive.
+Current/saved cursors, pending wrap and a scrolled viewport are mapped. The
+native Window setting can disable reflow and persists across profile reloads.
+Alternate screens, DEC double-size/trusted lines and Sixel-covered rows retain
+fixed grids; surrounding text can move raster rows vertically without copying
+or splitting pixels. History limits and cursor-visible bottom cropping remain
+explicit bounds, not an unlimited preservation claim.
+
+The implementation streams compressed rows and limits retained output to the
+configured history plus screen. A 10,000-row uninterrupted logical paragraph
+is tested through repeated narrowing, widening and bounded eviction. Real
+ConPTY tests additionally verify exact whole-buffer copies, rendered Shift
+selection while mouse reporting is enabled, alternate-screen restoration and
+5,000 output lines during width/height changes. See research/reflow.md for
+policy, fixed-grid exceptions and measured memory. The existing resize,
+hyperlink and Sixel regressions remain enabled; test reset explicitly clears
+history so independent fixtures cannot restore a previous fixture's output.
+
+CI now includes 20 core suites, 14 native groups (16 JSON runs with additional
+keyboard font/configuration runs), six terminal ASan/UBSan suites and standalone
+Sixel/colour sanitizer checks. Physical devices, multi-monitor DPI, real IME,
+full grapheme handling, extended agent sessions and the protocol ledger remain
+open. This checkpoint does not complete the overall terminal goal.
+
+All 20 core suites and 14 native groups passed locally for executable SHA-256
+`9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab`,
+including the additional keyboard font/configuration runs. Reflow, Sixel and
+hyperlink cores passed ASan/UBSan; actionlint passed. Pixel fixtures now wait
+for the actual final cursor geometry, and the hyperlink baseline stays on
+screen away from the pointer and verifies that the hidden startup cursor is
+also erased. The exact underline-group assertion remains unchanged.

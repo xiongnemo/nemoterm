@@ -2928,6 +2928,210 @@ void term_get_cursor_position(Terminal *term, int *x, int *y)
     *y = term->curs.y;
 }
 
+/* Reflow consumes old rows in order and immediately compresses completed
+ * output rows. At most one source and one output row are expanded in addition
+ * to the existing screen; no unbounded logical-line buffer is needed. */
+typedef struct NemoReflowPoint {
+    int row, col, x;
+    int64_t y;
+    bool pending;
+} NemoReflowPoint;
+
+typedef struct NemoReflow {
+    Terminal *term;
+    tree234 *lines;
+    termline *line;
+    int cols, rows, x, capacity;
+    int64_t count, first, limit;
+    NemoReflowPoint point[2]; /* current cursor, saved cursor */
+} NemoReflow;
+
+static void nemo_reflow_emit(NemoReflow *r, bool wrapped)
+{
+    if (!r->line) r->line = newtermline(r->term, r->cols, false);
+    if (wrapped) r->line->lattr |= LATTR_WRAPPED;
+    if (r->count < r->limit) {
+        addpos234(r->lines, compressline_and_free(r->line), count234(r->lines));
+        if (count234(r->lines) > r->capacity) {
+            free_compressed_line(delpos234(r->lines, 0));
+            r->first++;
+        }
+    } else {
+        freetermline(r->line);
+    }
+    r->count++;
+    r->line = NULL;
+    r->x = 0;
+}
+
+static void nemo_reflow_point(NemoReflow *r, int row, int first, int width)
+{
+    for (int i = 0; i < 2; i++) {
+        NemoReflowPoint *p = &r->point[i];
+        if (p->row != row || p->col < first || p->col >= first + width)
+            continue;
+        int x = r->x + p->col - first;
+        p->pending = x >= r->cols;
+        p->x = min(x, r->cols - 1);
+        p->y = r->count;
+        if (!i) r->limit = p->y + r->rows;
+    }
+}
+
+static int nemo_reflow_length(Terminal *term, termline *line)
+{
+    int length = line->cols;
+    if (line->lattr & LATTR_WRAPPED)
+        return length - !!(line->lattr & LATTR_WRAPPED2);
+    /* An erased coloured cell, hyperlink or combining mark is content. */
+    while (length && termchars_equal(&line->chars[length-1], &term->basic_erase_char))
+        length--;
+    return length;
+}
+
+static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
+{
+    int history = count234(term->scrollback);
+    size_t total = (size_t)history + term->rows;
+    int64_t *rowmap = snewn(total, int64_t);
+    bool *fixed = snewn(total, bool);
+    memset(fixed, 0, total * sizeof(*fixed));
+    for (size_t i = 0; i < total; i++) rowmap[i] = -1;
+    NemoReflow r = { .term = term, .lines = newtree234(NULL),
+        .cols = cols, .rows = rows, .limit = INT64_MAX,
+        .capacity = (int)min((int64_t)INT_MAX, (int64_t)rows + savelines),
+        .point = {
+            { .row = term->curs.y, .col = term->curs.x + term->wrapnext },
+            { .row = term->savecurs.y, .col = term->savecurs.x + term->save_wnext }
+        } };
+    int used = max(term->curs.y, term->savecurs.y) + 1;
+    for (int i = term->rows; i-- > used;) {
+        termline *line = index234(term->screen, i);
+        if (nemo_reflow_length(term, line) || line->lattr || line->trusted) {
+            used = i+1;
+            break;
+        }
+    }
+    /* Raster rows keep their grid and intrinsic pixel size. Reflow around
+     * them can move them vertically, but must not merge or split scanlines.
+     * DEC double-size and trusted rows are similar fixed-grid barriers. */
+    for (NemoTermImage *im = term->images; im; im = im->next) {
+        if (im->screen) continue;
+        for (int y = 0; y < im->pixel_height; y++) {
+            if (im->lines[y].anchor == INT_MIN) continue;
+            int64_t at = (int64_t)im->lines[y].anchor + y/term->cell_height;
+            int64_t index = at + history;
+            if (index >= 0 && (uint64_t)index < total) {
+                fixed[index] = true;
+                if (at >= used) used = (int)at + 1;
+            }
+        }
+    }
+
+    for (size_t i = 0; i < total; i++) {
+        termline *src = i < (size_t)history ?
+            decompressline_and_free(delpos234(term->scrollback, 0)) :
+            delpos234(term->screen, 0);
+        src->temporary = false;
+        int oldrow = (int)((int64_t)i - history);
+        if (oldrow >= used) {
+            freetermline(src);
+            continue;
+        }
+        if (fixed[i] || (src->lattr & LATTR_MODE) || src->trusted) {
+            if (r.line) nemo_reflow_emit(&r, true);
+            rowmap[i] = r.count;
+            for (int p = 0; p < 2; p++) {
+                if (r.point[p].row == oldrow) {
+                    r.point[p].x = min(r.point[p].col, cols-1);
+                    r.point[p].y = r.count;
+                    r.point[p].pending = false;
+                    if (!p) r.limit = r.count + rows;
+                }
+            }
+            r.line = src;
+            nemo_reflow_emit(&r, false);
+            continue;
+        }
+        if (r.x >= cols) nemo_reflow_emit(&r, true);
+        rowmap[i] = r.count;
+        int length = nemo_reflow_length(term, src);
+        for (int p = 0; p < 2; p++)
+            if (r.point[p].row == oldrow)
+                length = max(length, r.point[p].col);
+        /* Cursors can address blank cells beyond a lazily grown row. */
+        if (length > src->cols) resizeline(term, src, length);
+        for (int x = 0; x < length;) {
+            int width = x+1 < length && src->chars[x+1].chr == UCSWIDE ? 2 : 1;
+            if (r.x && r.x + width > cols) {
+                if (r.x < cols) r.line->lattr |= LATTR_WRAPPED2;
+                nemo_reflow_emit(&r, true);
+                if (!x) rowmap[i] = r.count;
+            }
+            /* At one column retain the wide pair in a clipped two-cell row.
+             * A later resize can recover it without replacing the character. */
+            if (!r.line) r.line = newtermline(term, max(cols, width), false);
+            nemo_reflow_point(&r, oldrow, x, width);
+            for (int j = 0; j < width; j++)
+                copy_termchar(r.line, r.x+j, &src->chars[x+j]);
+            r.x += width;
+            x += width;
+        }
+        nemo_reflow_point(&r, oldrow, length, 1);
+        bool wrapped = src->lattr & LATTR_WRAPPED;
+        freetermline(src);
+        if (!wrapped) nemo_reflow_emit(&r, false);
+    }
+    if (r.line) nemo_reflow_emit(&r, false);
+
+    int64_t end = min(r.count, r.limit);
+    int boundary = history - term->tempsblines;
+    /* Blank space below the prompt is not a reason to pull unrelated history
+     * back onto a cleared screen. Recover temporary resize history, and allow
+     * added window rows to expose older history, while keeping the cursor. */
+    int64_t top = max((int64_t)0, max(end - rows,
+        rowmap[boundary] - max(0, rows - term->rows)));
+    top = min(top, r.point[0].y);
+    freetree234(term->scrollback);
+    term->scrollback = r.lines;
+    /* Leave the oldest retained rows compressed in the same tree. */
+    int keep = (int)(top - r.first);
+    assert(keep >= 0 && keep <= count234(r.lines));
+    while (count234(r.lines) > keep) {
+        termline *line = decompressline_and_free(delpos234(r.lines, keep));
+        line->temporary = false;
+        addpos234(term->screen, line, count234(term->screen));
+    }
+    while (count234(term->screen) < rows)
+        addpos234(term->screen, newtermline(term, cols, false), count234(term->screen));
+    int newhistory = count234(term->scrollback);
+    term->tempsblines = (int)max((int64_t)0,
+        min((int64_t)newhistory, top - rowmap[boundary]));
+    int64_t view = history + (int64_t)term->disptop;
+    term->disptop = term->disptop < 0 && view >= 0 && (uint64_t)view < total ?
+        (int)max(-(int64_t)newhistory, min((int64_t)0, rowmap[view] - top)) : 0;
+    term->curs = (pos){ .x = r.point[0].x, .y = (int)(r.point[0].y-top) };
+    term->savecurs = (pos){ .x = r.point[1].x,
+        .y = (int)max((int64_t)INT_MIN, r.point[1].y-top) };
+    term->wrapnext = r.point[0].pending;
+    term->save_wnext = r.point[1].pending;
+    for (NemoTermImage *im = term->images; im; im = im->next) {
+        if (im->screen) continue;
+        for (int y = 0; y < im->pixel_height; y++) {
+            if (im->lines[y].anchor == INT_MIN) continue;
+            int64_t at = (int64_t)im->lines[y].anchor + y/term->cell_height + history;
+            int64_t dest = at >= 0 && (uint64_t)at < total ? rowmap[at]-top : INT_MIN;
+            int64_t anchor = dest - y/term->cell_height;
+            if (dest < -newhistory || dest >= rows || anchor <= INT_MIN || anchor > INT_MAX)
+                nemo_image_drop_row(term, im, y);
+            else im->lines[y].anchor = (int)anchor;
+        }
+    }
+    term->rows = rows;
+    sfree(fixed);
+    sfree(rowmap);
+}
+
 /*
  * Set up the terminal for a given size.
  */
@@ -2938,6 +3142,8 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     int i, j, oldrows = term->rows;
     int sblen;
     int save_alt_which = term->alt_which;
+    bool reflow = term->cols > 0 && term->cols != max(newcols, 1) &&
+        conf_get_bool(term->conf, CONF_nemo_reflow);
 
     if (newrows == term->rows && newcols == term->cols &&
         newsavelines == term->savelines)
@@ -2948,16 +3154,19 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     nemo_highlight_cancel(term, true);
 
     /* A partial DCS has not established its placement yet. Retained images
-     * follow the exact text-row moves below, without reflow or tile copies. */
+     * follow text-row moves, without splitting raster rows or copying tiles. */
     nemo_sixel_cancel(term);
 
     /* Behave sensibly if we're given zero (or negative) rows/cols */
 
     if (newrows < 1) newrows = 1;
     if (newcols < 1) newcols = 1;
+    if (newsavelines < 0) newsavelines = 0;
 
     deselect(term);
+    int resize_view = term->disptop;
     swap_screen(term, 0, false, false);
+    if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->alt_t = term->marg_t = 0;
     term->alt_b = term->marg_b = newrows - 1;
@@ -2988,6 +3197,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
      *    amount of scrollback we actually have, we must throw some
      *    away.
      */
+    if (reflow) nemo_reflow(term, newrows, newcols, newsavelines);
     sblen = count234(term->scrollback);
     /* Do this loop to expand the screen if newrows > rows */
     assert(term->rows == count234(term->screen));
@@ -3035,14 +3245,14 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     /* Delete any excess lines from the scrollback. */
     while (sblen > newsavelines) {
         line = delpos234(term->scrollback, 0);
-        sfree(line);
+        free_compressed_line((compressed_scrollback_line *)line);
         sblen--;
     }
     if (sblen < term->tempsblines)
         term->tempsblines = sblen;
     assert(count234(term->scrollback) <= newsavelines);
     assert(count234(term->scrollback) >= term->tempsblines);
-    term->disptop = 0;
+    term->disptop = reflow ? max(term->disptop, -sblen) : 0;
 
     nemo_images_rows(term, 0, -sblen, newrows-1, 0);
     nemo_images_rows(term, 1, 0, newrows-1, 0);
@@ -3112,14 +3322,16 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
         term->alt_y = newrows - 1;
     if (term->alt_x >= newcols)
         term->alt_x = newcols - 1;
-    term->wrapnext = false;
+    if (!reflow) term->wrapnext = false;
     term->alt_wnext = false;
 
     term->rows = newrows;
     term->cols = newcols;
     term->savelines = newsavelines;
 
+    resize_view = term->disptop;
     swap_screen(term, save_alt_which, false, false);
+    if (!save_alt_which && reflow) term->disptop = resize_view;
 
     term->win_scrollbar_update_pending = true;
     term_schedule_update(term);

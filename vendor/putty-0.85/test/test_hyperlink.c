@@ -188,7 +188,7 @@ static void test_scrollback_and_resize(Mock *mk)
     IEQUAL(UNDER_STYLE(get_termchar(mk->term, 0, -1).truecolour), 3);
     IEQUAL(get_termchar(mk->term, 6, -1).hyperlink, 0);
 
-    link_setup(mk, "width clips/restores link cells; font changes keep cell ownership");
+    link_setup(mk, "width reflows/restores link cells; font changes keep cell ownership");
     term_size(mk->term, 3, 12, 20);
     term_data_fragmented(mk->term, LINK_A "abcdefghijkl" LINK_END);
     a = get_termchar(mk->term, 0, 0).hyperlink;

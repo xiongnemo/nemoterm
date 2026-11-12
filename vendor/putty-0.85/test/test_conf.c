@@ -760,6 +760,7 @@ void test_simple(void)
     test_bool_simple(CONF_no_remote_charset, "NoRemoteCharset", false);
     test_bool_simple(CONF_no_remote_hyperlinks, "NoRemoteHyperlinks", false);
     test_bool_simple(CONF_nemo_osc52_write, "NemoOSC52Write", true);
+    test_bool_simple(CONF_nemo_reflow, "NemoReflow", true);
     test_bool_simple(CONF_nemo_osc52_read, "NemoOSC52Read", false);
     test_int_simple(CONF_nemo_modify_other_keys, "NemoModifyOtherKeys", 0);
     test_int_simple(CONF_nemo_format_other_keys, "NemoFormatOtherKeys", 0);
