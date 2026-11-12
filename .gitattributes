@@ -9,3 +9,5 @@
 CMakeLists.txt text eol=lf
 *.png binary
 *.ico binary
+# Unicode download manifests verify the original bytes, including line endings.
+/tools/unicode/18.0.0/*.txt -text
