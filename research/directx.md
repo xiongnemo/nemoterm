@@ -31,72 +31,88 @@ See Microsoft's [GDI interoperability](https://learn.microsoft.com/en-us/windows
 [GetDC contract](https://learn.microsoft.com/en-us/windows/win32/api/d2d1/nf-d2d1-id2d1gdiinteroprendertarget-getdc)
 and [resource domains](https://learn.microsoft.com/en-us/windows/win32/direct2d/resources-and-resource-domains).
 
-## Development evidence; exact single-file acceptance pending
+## Accepted single-executable validation
 
-The local MinGW frontend passes three-mode pixel comparison for Chinese,
-combining characters, styles, Sixel, synchronized output, retained repaint,
-resize, palette and cursor shapes. DirectX text differs from display-DC GDI by
-at most two channel units at the same few ClearType pixels as OpenGL; Sixel
-and retained-frame scenes match exactly. DirectX geometry/minimize/restore
-passes seven phases. Its application-resize profile passes 42 checks, followed
-by the shared permission, locked-window and font-resize profiles.
+Source `9d24b2fe63cccc564e743f8709d1e4c563c693ae` builds a 4,350,976-byte
+single executable, SHA-256
+`88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8`.
+[Single-file CI 43286283156](https://github.com/xiongnemo/nemoterm/actions/runs/43286283156)
+passes all 44 groups, including real Codex default/inline tests, DirectX
+selection/copy (16 Ctrl rectangles), three-mode pixels, settings, geometry,
+application resize, six shutdown cases and injected GPU failures.
+[Core CI 43286283098](https://github.com/xiongnemo/nemoterm/actions/runs/43286283098)
+passes Windows regressions and Linux ASan/UBSan. The artifact has exactly one
+EXE; all 46 hash-bearing CI JSON records match it.
 
-The resize fixture now samples all phases before loading the retained-frame
-capture helper. This development run reaches 15,056,896 private WS,
-46,874,624 total WS and 81,596,416 private-commit bytes. The renderer pixel test
-samples 12,365,824 / 47,316,992 / 60,596,224 before capture instrumentation;
-the later 15,585,280 private-WS sample includes Frida. These are finite frontend
-observations, not all-workload limits or a speed benchmark. The native settings
-test saves/reloads DirectX and switches GDI/OpenGL/DirectX/GDI successfully.
+The final downloaded EXE passes five local groups: single-file isolation,
+three-mode pixels (11 scenes each, with real OpenGL and DirectX), 21 geometry
+checks, 142 resize checks and six shutdown cases. The preceding binary from
+`fee689f`, whose production/build sources are identical (only later test and
+documentation changes differ), additionally passed the full 13-group local
+suite including settings and a 187-second failure/recovery/lifetime test.
+Both binary hashes and their separate evidence are retained in
+[the checkpoint](directx-checkpoint.json); these are not claimed to be the same
+file. All local fixture processes exited.
 
-The local SDK-adapter build (`7d1839338d5dca808ef27f6508455dc53c440d3a05cd9c068e62a94da509a3cf`)
-passes injected factory, EndDraw and Resize failures: each selects GDI, still
-answers DSR and displays fresh pixels, then can explicitly retry DirectX.
-Four further GDI/DirectX cycles keep GDI objects at 31 versus baseline 32,
-USER objects at 32 versus 31 and handles at 457-459 versus 459. All seven owned
-processes drain without forced termination. The test takes 187 seconds.
-MinGW's adapter object has no undefined runtime symbols and the resulting
-frontend imports no C++ runtime DLL. Exact single-EXE CI and its local hardware
-run are still required. The lifecycle fixture's
-first resize-recovery timeout was its child reaching the default 60-second
-lifetime during modal settings operations; its retained last phase and elapsed
-time identify that cause. Only this long fixture opts into a five-minute bound.
-This branch has not replaced the accepted resize distribution on main. Tabs/previews and the remaining
-protocol/physical-device requirements remain open.
+Final EXE resize peaks, sampled before loading capture instrumentation:
 
-## Cursor cache regression and deterministic capture
+| Renderer | Private WS bytes | Total WS bytes | Private commit bytes |
+| --- | ---: | ---: | ---: |
+| GDI | 6,131,712 | 24,768,512 | 7,393,280 |
+| OpenGL | 35,430,400 | 65,486,848 | 160,940,032 |
+| DirectX | 15,405,056 | 48,533,504 | 81,453,056 |
 
-The SDK adapter builds successfully in MSVC (run 43281415204). That run's
-cursor comparison exposed a fixture focus race: its GDI image has a focused
-solid cursor while its DirectX image has an unfocused outline. The fixture now
-uses the existing owned-process focus probe, never desktop activation, and
-covers all three shapes both focused and unfocused. It samples memory before
-instrumentation and labels all later samples, including GDI, as instrumented.
+These are finite frontend observations, excluding the hidden console host and
+shell, not all-workload limits or speed benchmarks. DirectX meets this machine's
+20 MB private-WS and roughly 50 MB total-WS targets in these scenarios. The
+previously authorized optional OpenGL exception remains separate. All pixel
+fixture samples after focus/capture injection, including GDI, are labelled as
+instrumented; the resize figures above are not instrumented.
 
-The stronger test then exposed a real shared GPU cache defect: rasterized text
-with ATTR_ACTCURS depends on whether the active cursor is a block. Changing
-DECSCUSR from block to underline retained the old cached block background.
-The run key now includes that effective block state (including big_cursor).
-The corrected development executable passes 11 scenes in each of GDI,
-hardware OpenGL and hardware DirectX, with both Consolas and SarasaTermSC Nerd
-Font Light. Retained GPU frames remain byte-exact during synchronized output.
-GDI's bounded snapshot rerasterization with Consolas changes two combining-mark
-channels by one on this machine; the freeze assertion permits at most the same
-two-level ClearType rounding as text comparison, only in the two text rows.
-Sixel and all remaining pixels must stay exact.
+CI also exercises genuine DirectX target creation: the requested renderer is
+observed as 3 for pixels, selection, saved settings and lifecycle tests. Its
+four extra GDI/DirectX cycles keep handles exactly at baseline 410, GDI objects
+at 31, and USER objects at 26-27 versus baseline 26. All seven owned lifecycle
+processes drain without forced termination. Local hardware lifecycle samples
+on the preceding production-identical EXE are likewise stable and drain cleanly.
 
-Core run 43281415376 independently caught the hyperlink fixture sampling GDI
-between two underline runs. The first sample spans x=10..45 at y=31, while its
-saved hover PNG already contains both expected spans x=10..45 and x=91..126.
-The fixture now waits for the complete exact two-run pixel set, with bounded
-waiting and diagnostic samples, instead of treating the first changed pixel
-as a completed paint. No hyperlink rendering behavior or pixel criterion changes.
+[REA PE evidence](directx-pe-imports.json) completely examines 79 import/delay
+DLL descriptors, 605 standard imports and 11 delay imports, with no issues.
+No new distributed DLL or C++ runtime DLL is required. Explicit runtime loading
+of system graphics libraries is separate from PE import-table coverage.
+[Rendering settings](directx-settings.png) are captured from the exact CI EXE;
+[local DirectX text](directx-text.png) is captured from the final EXE's retained
+frame, not from the desktop compositor.
 
-Core/sanitizer run 43283989982 passes. Single-file run 43283990051 passes the
-three-mode pixels (including hardware DirectX on that runner), then exposes a
-selection-fixture mailbox race: a transient empty read raises KeyError after
-successful rectangle/pixel/copy checks. Its final snapshot still has exactly
-the expected DSR. Selection now uses the fixture's ordered input barrier and
-retains one complete acknowledged snapshot before checking all input bytes;
-partial results are also saved on failure. Full single-file acceptance remains
-pending; no failed-run executable is promoted to dist.
+## Regressions retained by the tests
+
+The Microsoft SDK leaves Direct2D C interfaces opaque, unlike MinGW's COM
+helper macros. The small SDK C++ adapter fixes the first MSVC link failure
+(run 43278434993) without copying a COM vtable or introducing runtime objects.
+
+A synthetic WM_KILLFOCUS alone is undone by the main loop's real foreground
+check. Pixel tests now use the existing owned-process focus probe, without
+changing desktop focus, to compare all three cursor shapes both active and
+inactive. This exposed a real shared GPU cache bug: active block text uses
+cursor colours, while underline/bar text does not, even though ATTR_ACTCURS is
+unchanged. The cache key now includes that effective block state (including
+big_cursor). Both Consolas and SarasaTermSC Nerd Font Light pass the expanded
+three-mode regression. Retained GPU frames stay byte-exact during synchronized
+output. GDI snapshots rerasterize bounded memory-DC bands: a few combining-mark
+channels can round by up to two; that allowance is restricted to the two text
+rows. Sixel and every other frozen pixel remain exact.
+
+The hyperlink fixture now awaits both complete underline runs instead of the
+first changed GDI pixels; its failed-run saved image already contained both
+expected spans. Selection uses an ordered DSR input barrier and one complete
+mailbox snapshot, avoiding a transient empty read during atomic replacement.
+The lifecycle child explicitly opts into a five-minute bound because repeated
+native settings interactions exceed its ordinary one-minute lifetime. These
+fixes retain exact input/pixel assertions and save partial failure evidence.
+
+## Remaining scope
+
+Four-sided tabs and hover previews are still a design in [tabs-design.md](tabs-design.md),
+not implemented. Remaining protocol coverage, full grapheme behavior, physical
+IME/multi-monitor DPI, live Claude Code and local real-Codex clipboard acceptance
+remain open. This renderer milestone does not complete the overall terminal goal.
