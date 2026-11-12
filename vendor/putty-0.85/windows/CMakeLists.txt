@@ -377,5 +377,5 @@ target_link_libraries(test_osc_colour
 
 add_sources_from_current_dir(test_conf no-jump-list.c handle-wait.c)
 
-add_executable(test_snapshot ../../tests/test_snapshot.c nemo_snapshot.c)
+add_executable(test_snapshot ${CMAKE_SOURCE_DIR}/../../tests/test_snapshot.c nemo_snapshot.c)
 target_link_libraries(test_snapshot cabinet gdi32 user32)
