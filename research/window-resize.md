@@ -1,9 +1,9 @@
 # Remaining application-requested resize operations
 
 This branch starts from geometry-query/minimize validation source `9ccbad3`.
-The implementation now covers the character/pixel resize operations and their
-completion ordering. Final single-executable CI is pending. The reference
-workflow is explicitly dispatched while extending independent edge cases.
+The implementation covers character/pixel resize operations and their
+completion ordering. Source `44ac455` passed core/sanitizer and single-file CI,
+then exact-artifact local validation. Final provenance is recorded below.
 
 The pinned XTerm `charproc.c::window_ops` passes `optional_param(1/2)` to
 `RequestResize` for operations 4 and 8. `RequestResize` distinguishes -1
@@ -63,7 +63,7 @@ which explains the large-pixel result. The implementation applies this bound
 only to the window-size parameters, without changing other protocol parsers.
 
 Expanded run [43271622637](https://github.com/xiongnemo/nemoterm/actions/runs/43271622637)
-captured 39 cases from oracle source `f251c27`. Exact original responses are in
+captured 39 cases from oracle source `f251c27` (artifact 13967623349). Exact original responses are in
 `geometry-xterm.json`. The replay header retains all 39 original replies, with
 36 exact matches and three explicitly separate expected differences:
 
@@ -80,7 +80,7 @@ tiny requests result in a 103x22 client and 12x1 grid; native checks compare the
 actual HWND, current protocol replies and the child's console grid. The
 reference's Xvfb sizes are not asserted as Windows window-manager behavior.
 
-## Implementation and local validation in progress
+## Implementation and development validation
 
 XTWINOPS 4 and 8 preserve absent axes and interpret explicit zero as the current
 monitor's available client size. Character requests account for the configured
@@ -115,6 +115,41 @@ GL samples after retained-frame capture include Frida. The development frontend
 is SHA-256 `e0ba55cfa746f277a300f579931b2c4a1739cdf5d98523cbdc9bcf3c286714c3`,
 using accepted single-image OpenConsole and the pinned ConPTY DLL.
 
-Exact single-file validation, physical
-DPI behavior, axis maximization/fullscreen controls and remaining protocol
-families are still open. Main's accepted distribution has not changed yet.
+## Accepted single-file checkpoint
+
+Source `44ac4554d13405fb2c4c673bd83fec2bbd0cc0ec` passed
+[core, sanitizer and MinGW native CI](https://github.com/xiongnemo/nemoterm/actions/runs/43272768601)
+and [all 42 single-file native groups](https://github.com/xiongnemo/nemoterm/actions/runs/43272768588).
+The [EXE artifact 13969802687](https://github.com/xiongnemo/nemoterm/actions/runs/43272768588/artifacts/13969802687)
+is 4,343,808 bytes, SHA-256
+`9e9e9d663b72c5f31191f9bb0da91f40c07efe9f77b0e5dad5999b491a71fc48`.
+Evidence artifact 13969333849 has 47 JSON files; all 43 top-level executable
+hashes match. The isolated executable directory contains only `nemoterm.exe`.
+The earlier d124d87 pipelines were superseded by stronger tiny-window assertions,
+not accepted as complete runs. Final 44ac455 pipelines passed on their first attempts.
+
+The exact EXE passed nine sequential local groups: 100 application-resize checks,
+GDI/hardware-GL geometry, rendering parity, startup sizing, font resize,
+synchronized output, Sixel, queries and native mouse/ConPTY/manual-window resize.
+The latter drives owned HWND handlers; it is not physical-device automation.
+The final images and JSON are named `window-resize-local-*` / `window-resize-final-*`,
+with the complete provenance index in `window-resize-checkpoint.json`.
+
+Local GDI resize samples peak at 6,242,304 private WS, 25,698,304 total WS and
+7,561,216 private-commit bytes. The local hardware-GL sample before injection
+is 29,470,720 private WS / 59,400,192 total WS; post-injection samples include
+test-only Frida and remain labelled. Cloud GL requests exercise GDI fallback.
+Cloud real-Codex default and inline frontend peaks are respectively
+5,074,944 / 5,099,520 private WS and 34,811,904 / 34,836,480 total WS bytes.
+Host/client processes remain separate; sampled peaks do not prove every workload.
+Local clipboard access was denied at the preceding checkpoint and no new local
+real-Codex clipboard acceptance is claimed here.
+
+REA import inspection covers all 79 descriptors, 605 regular and 11 delayed
+imports without reported issues; dynamic loading is outside that inspection.
+`dist/nemoterm.exe` is replaced with this accepted artifact; the preceding
+9ccbad3 image is retained in `build/dist-before-window-resize-44ac455/`.
+
+Physical DPI behavior, axis maximization/fullscreen controls, DirectX frontend,
+four-sided tabs with hover previews, full grapheme behavior, live Claude Code
+and the remaining protocol families remain open. The original goal is active.

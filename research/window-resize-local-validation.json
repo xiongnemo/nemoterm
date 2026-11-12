@@ -1,0 +1,19 @@
+{
+  "executable_sha256": "9e9e9d663b72c5f31191f9bb0da91f40c07efe9f77b0e5dad5999b491a71fc48",
+  "executable_bytes": 4343808,
+  "checks": [
+    "window_resize",
+    "geometry",
+    "renderer",
+    "startup_size",
+    "font_resize",
+    "sync",
+    "sixel",
+    "query",
+    "mouse"
+  ],
+  "files": [
+    "nemoterm.exe"
+  ],
+  "utc": "2026-11-12T18:00:06.3753019Z"
+}
