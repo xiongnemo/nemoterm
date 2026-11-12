@@ -48,3 +48,32 @@ Those CI results must be checked before claiming CI verification.
 Run the table check with `python scripts/generate-grapheme-tables.py --check`.
 Build `test_grapheme` through the existing CMake project and pass
 `tools/unicode/18.0.0/GraphemeBreakTest.txt` as its sole argument.
+
+## System shaping probe
+
+`probe-dwrite-clusters.cpp` draws into an offscreen bitmap with Windows'
+DirectWrite/GDI interop; it is not linked into Nemoterm. Its usage/build line
+is in the source header. `dwrite-clusters.jsonl` records its executable hash,
+Windows version, actual font faces, glyph IDs/advances and resident memory.
+The PNG has automatic fallback in the left content column; the right column
+uses an NFC rendering copy and selects Segoe UI Emoji for entire emoji cases.
+The original Unicode strings must remain unchanged in terminal storage/copy.
+
+The observed faces were SarasaTermSC Nerd Font Light, Segoe UI Emoji, Segoe UI
+Symbol and Nirmala UI Semilight. DirectWrite formed whole skin-tone and
+woman-technologist glyphs, plus a family composed of positioned glyphs.
+Automatic fallback split the keycap between faces. Whole-sequence emoji face
+selection fixed the keycap; NFC rendering composed the Hangul Jamo syllable.
+The installed emoji font rendered the Australian flag as `AU` in both cases,
+so automatic platform shaping alone does not supply flag artwork. This probe
+uses monochrome outlines, not color-font layers. Natural glyph advance also
+differs from a two-cell terminal width and needs bounded fitting.
+
+The standalone probe's sampled peak was 4,108,288 bytes private working set
+and 11,923,456 bytes total working set. These are not terminal memory results
+or an additive cost estimate; integration still needs measurement in GDI and
+the two GPU paths. The probe uses system DLLs and adds no shipped runtime.
+Microsoft's [GDI surface guide](https://learn.microsoft.com/en-us/windows/win32/directwrite/render-to-a-gdi-surface)
+and [bitmap glyph API](https://learn.microsoft.com/en-us/windows/win32/api/dwrite/nf-dwrite-idwritebitmaprendertarget-drawglyphrun)
+describe this bridge. Bounded per-cluster shaping, fallback choice, optional
+color layers, missing-sequence policy and glyph caching remain product work.
