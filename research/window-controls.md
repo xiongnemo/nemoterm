@@ -2,7 +2,9 @@
 
 This work covers the missing XTWINOPS operations, title stack and title modes.
 CSI 22/23 title stacks are now implemented and pass core and local native tests.
-Title encoding modes and the remaining geometry operations are still pending;
+Title encoding modes now have core and local comparison validation on the
+separate feature branch; see [title-modes.md](title-modes.md). Final single-file
+acceptance and the remaining geometry operations are still pending;
 the broader modern/xterm protocol requirement remains open.
 
 ## Current source gaps
