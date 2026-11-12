@@ -50,11 +50,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             focus_script.load();focused=False
             focus_script.exports_sync.set_focus(hex(hwnd),focused)
             if active in (2,3):gl_capture=OwnedGPUCapture(process.pid,hwnd)
-            mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow'
+            mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow explicit client render'
             mode['memory_instrumented']=True
             mode['focus_model']='owned-process active and inactive states'
             def captured(name=None):
-                return gl_capture.capture(name,True) if gl_capture else capture(hwnd,name,True)
+                # PW_RENDERFULLCONTENT may read an older DWM redirection
+                # surface during resize. PW_CLIENTONLY requests our explicit
+                # WM_PRINTCLIENT render, which also handles frozen GDI output.
+                return gl_capture.capture(name,True) if gl_capture else capture(hwnd,name,True,print_flags=1)
             def render(name,sequence):
                 write_snapshot(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
                 wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
@@ -111,7 +114,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             cw,ch=(client.right-2)//80,(client.bottom-2)//24
             u.MoveWindow(hwnd,outer.left,outer.top,outer.right-outer.left+10*cw,
                          outer.bottom-outer.top+4*ch,True)
-            wait_for(lambda:(read_snapshot(report) or {}).get('columns')==90)
+            wait_for(lambda:(value:=read_snapshot(report)).get('columns')==90 and value.get('rows')==28)
             focus_script.exports_sync.set_focus(hex(hwnd),focused)
             compare('resize')
             # Palette changes must invalidate old cached run colours.

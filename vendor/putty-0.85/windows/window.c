@@ -3371,12 +3371,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (wgs->sync_snapshot && wgs->term->synchronized_update &&
             nemo_snapshot_paint(wgs->sync_snapshot,(HDC)wParam,NULL,NULL)) return 0;
         if (wgs->gpu && nemo_gpu_print(wgs->gpu, (HDC)wParam)) return 0;
-        if (wgs->tabbed) {
+        {
+            /* Render the requested client image directly for standalone GDI
+             * windows too. DefWindowProc/DWM may otherwise return a stale
+             * redirection surface while the resized window is repainting. */
             RECT rect;GetClientRect(hwnd,&rect);
             nemo_render_snapshot_band((HDC)wParam,0,rect.bottom,wgs);
             term_invalidate(wgs->term);return 0;
         }
-        break;
       case WM_PAINT: {
         PAINTSTRUCT p;
 
