@@ -1,0 +1,36 @@
+{
+  "source_commit": "8f7a9d2674e39f7435a42a0810a6c8cad8a99a51",
+  "executable_sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
+  "executable_bytes": 4371456,
+  "core_ci": "https://github.com/xiongnemo/nemoterm/actions/runs/43320056823",
+  "single_exe_ci": "https://github.com/xiongnemo/nemoterm/actions/runs/43320056960",
+  "single_exe_passed_checks": 57,
+  "local_font": "SarasaTermSC Nerd Font Light",
+  "local": [
+    {
+      "renderer": "gdi",
+      "side": "top",
+      "actual_renderer": 1,
+      "grid": [
+        160,
+        48
+      ],
+      "checks": 9,
+      "peak_private_ws": 8011776,
+      "peak_total_ws": 27652096
+    },
+    {
+      "renderer": "directx",
+      "side": "left",
+      "actual_renderer": 3,
+      "grid": [
+        160,
+        48
+      ],
+      "checks": 9,
+      "peak_private_ws": 19550208,
+      "peak_total_ws": 53514240
+    }
+  ],
+  "memory_scope": "Frontend only; two retained sessions and 12 create/close cycles before pixel-capture instrumentation. Not hover-preview peak, child-process sum or arbitrary tab counts. OpenGL has the user-approved exception and its later instrumented capture samples are not memory acceptance."
+}
