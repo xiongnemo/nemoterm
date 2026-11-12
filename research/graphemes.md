@@ -28,7 +28,14 @@ remain separate until the terminal's width policy is implemented.
 Local strict C11 compilation passed all 853 official `GraphemeBreakTest.txt`
 vectors, stream splits, million-scalar combining/RI streams, invalid scalars
 and explicit reset. Windows CI runs the same corpus; Linux CI adds ASan/UBSan.
-Those CI results must be checked before claiming CI verification.
+At source commit `ca1c2805441b8942fb49009899810f467bc5fa1f`,
+[Windows and sanitizer CI](https://github.com/xiongnemo/nemoterm/actions/runs/43315470393)
+passed, with both jobs recording all 853 vectors and bounded-stream checks.
+[Single-EXE CI](https://github.com/xiongnemo/nemoterm/actions/runs/43315470225)
+also passed. This validates the standalone segmenter and unchanged frontend
+regressions; the segmenter remains test-only, so it does not validate cluster
+behavior in terminal cells. Later commits add the offscreen shaping probe,
+local test-command wiring and the accepted tab baseline; their CI is separate.
 
 ## Still required before enabling a terminal mode
 
