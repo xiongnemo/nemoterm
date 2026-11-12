@@ -6440,9 +6440,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = SEEN_CSI;
                 } else if (term->esc_overflow ||
                            (term->esc_has_subargs &&
-                            (c != 'm' || (term->esc_query && term->esc_query != '>')))) {
+                            !((c == 'm' && (!term->esc_query || term->esc_query == '>')) ||
+                              (c == 'c' && (!term->esc_query || term->esc_query == '>' ||
+                               (term->esc_query == '=' && term->compatibility_level != TM_SCOANSI))) ||
+                              (c == 'q' && term->esc_query == '>')))) {
                     /* Reject the complete overflowing sequence, and never
-                     * reinterpret colon values as unrelated CSI parameters. */
+                     * reinterpret colon values as unrelated CSI parameters.
+                     * Xterm discards the whole parameter list on unexpected
+                     * subparameters, then still dispatches identity queries. */
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
@@ -6486,14 +6491,25 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term, term->last_graphic_char);
                         }
                         break;
-                      case ANSI('c', '>'):      /* DA: report xterm version */
+                      case ANSI('c', '>'):      /* DA2: compatibility identity */
                         compatibility(OTHER);
                         /* this reports xterm version 136 so that VIM can
                            use the drag messages from the mouse reporting */
-                        if (term->ldisc)
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
                             ldisc_send(term->ldisc, "\033[>0;136;0c", 11,
                                        false);
                         break;
+                      case ANSI('q', '>'): {    /* XTVERSION */
+                        compatibility(OTHER);
+                        static const char reply[] =
+                            "\033P>|Nemoterm(PuTTY 0.85)\033\\";
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
+                            ldisc_send(term->ldisc, reply, sizeof(reply)-1,
+                                       false);
+                        break;
+                      }
                       case 'a':         /* HPR: move right N cols */
                         compatibility(ANSI);
                         /* FALLTHROUGH */
@@ -6640,8 +6656,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 'c':       /* DA: terminal type query */
                         compatibility(VT100);
-                        /* This is the response for a VT102 */
-                        if (term->ldisc)
+                        /* Report the configured identity only for a request. */
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
                             ldisc_send(term->ldisc, term->id_string,
                                        strlen(term->id_string), false);
                         break;
@@ -7290,7 +7307,19 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         check_selection(term, old_curs, term->curs);
                         break;
                       }
-                      case ANSI('c', '='):      /* Hide or Show Cursor */
+                      case ANSI('c', '='):      /* DA3, or legacy SCO cursor */
+                        /* The default PuTTY superset includes SCO, whose
+                         * cursor control collides with DA3. Only explicit
+                         * SCO mode (DECSCL 42) keeps that legacy meaning. */
+                        if (term->compatibility_level != TM_SCOANSI) {
+                            compatibility(VT420);
+                            static const char reply[] = "\033P!|00000000\033\\";
+                            if (term->ldisc &&
+                                (term->esc_has_subargs || term->esc_args[0] == 0))
+                                ldisc_send(term->ldisc, reply, sizeof(reply)-1,
+                                           false);
+                            break;
+                        }
                         compatibility(SCOANSI);
                         switch(term->esc_args[0]) {
                           case 0:  /* hide cursor */

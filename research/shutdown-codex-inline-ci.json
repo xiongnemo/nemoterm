@@ -1,0 +1,228 @@
+{
+  "executable_sha256": "50b58e1f5f07901bfa3bc496a6e2d5e4b1eaa8397bb4152de29a0fa8c3024822",
+  "codex_launcher": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+  "codex_launcher_sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70",
+  "codex_version": "codex-cli 0.167.0",
+  "mode": "inline",
+  "font": "Consolas",
+  "renderer": "gdi",
+  "backend": "loopback deterministic SSE; no model or tool calls",
+  "checks": [
+    "actual-client-startup",
+    "unicode-input-reaches-real-client",
+    "streamed-markdown-long-reply",
+    "32-live-client-resizes",
+    "shift-grid-select-ctrl-shift-c-exact-unicode",
+    "ctrl-shift-v-exact-unicode-through-real-client"
+  ],
+  "screenshots": [
+    {
+      "file": "codex-inline-startup.png",
+      "pixel_sha256": "a5758c35428660c6ac6cb470b5704ac6a4cfba7e184afa0bb14c87d62eb2446b"
+    },
+    {
+      "file": "codex-inline-markdown.png",
+      "pixel_sha256": "29ae42a1bc9592cf8b02aa4a008432b9da1d302a3f8c605c6ee9ccb441bb1add"
+    },
+    {
+      "file": "codex-inline-response.png",
+      "pixel_sha256": "0f4ee92269a750a4d0115352ebd8679285ca24e11f65e29bee85c4c05e51f7ca"
+    },
+    {
+      "file": "codex-inline-resized.png",
+      "pixel_sha256": "252613ea346fb710c9718e1304efdeb2d26d36e7458576b038311f626ceb1bf0"
+    },
+    {
+      "file": "codex-inline-selection.png",
+      "pixel_sha256": "87165ae24c02e93c9ebe497085f3b680c6f9188dffddeb86185425b8fdac8923"
+    },
+    {
+      "file": "codex-inline-paste.png",
+      "pixel_sha256": "89efab153beed9bff1919e6ca53814f89aa2a14efe7c89eec24724be1ae2759e"
+    }
+  ],
+  "startup_processes": [
+    {
+      "pid": 1192,
+      "parent": 6596,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 4120576,
+        "total_ws": 30146560,
+        "private_commit": 5398528
+      }
+    },
+    {
+      "pid": 4632,
+      "parent": 1192,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1736704,
+        "total_ws": 12468224,
+        "private_commit": 2482176
+      }
+    },
+    {
+      "pid": 2304,
+      "parent": 1192,
+      "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 4087808,
+        "total_ws": 22278144,
+        "private_commit": 7004160
+      },
+      "sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70"
+    }
+  ],
+  "typed_text": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24xfijj4\\work\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24xfijj4\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24\u2026",
+  "markdown_preview": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24xfijj4\\work\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-24xfijj4\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n\r\n\u2022 # Nemoterm real Codex rendering fixture\r\n\r\n  Bold, italic, inline code, and \u4e2d\u6587\u4e0e\u7ec4\u5408\u5b57\u7b26 e\u0301.\r\n\r\n  print(\"\u4e2d\u6587\u4e0e Unicode\")\r\n\r\n  ROW_002\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-\u2026  \u26a0 1 warning \u00b7 f2 to view\r\n",
+  "uninstrumented_frontend": {
+    "samples": 84,
+    "peak_private_ws": 5242880,
+    "peak_total_ws": 35008512,
+    "peak_private_commit": 6520832
+  },
+  "post_resize_processes": [
+    {
+      "pid": 2304,
+      "parent": 1192,
+      "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 24125440,
+        "total_ws": 103849984,
+        "private_commit": 32178176
+      }
+    },
+    {
+      "pid": 1648,
+      "parent": 6580,
+      "path": "C:\\Windows\\System32\\conhost.exe",
+      "memory": {
+        "private_ws": 782336,
+        "total_ws": 6991872,
+        "private_commit": 1241088
+      }
+    },
+    {
+      "pid": 7200,
+      "parent": 6580,
+      "path": "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+      "memory": {
+        "private_ws": 1077248,
+        "total_ws": 7970816,
+        "private_commit": 1978368
+      }
+    },
+    {
+      "pid": 6580,
+      "parent": 2304,
+      "path": "C:\\Program Files\\Git\\cmd\\git.exe",
+      "memory": {
+        "private_ws": 786432,
+        "total_ws": 6586368,
+        "private_commit": 1490944
+      }
+    },
+    {
+      "pid": 2396,
+      "parent": 5996,
+      "path": "C:\\Program Files\\Git\\ucrt64\\libexec\\git-core\\git-remote-https.exe",
+      "memory": {
+        "private_ws": 1699840,
+        "total_ws": 11780096,
+        "private_commit": 3493888
+      }
+    },
+    {
+      "pid": 1192,
+      "parent": 6596,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 5115904,
+        "total_ws": 34381824,
+        "private_commit": 6258688
+      }
+    },
+    {
+      "pid": 4632,
+      "parent": 1192,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1765376,
+        "total_ws": 12603392,
+        "private_commit": 2510848
+      }
+    },
+    {
+      "pid": 5996,
+      "parent": 7200,
+      "path": "C:\\Program Files\\Git\\ucrt64\\libexec\\git-core\\git.exe",
+      "memory": {
+        "private_ws": 970752,
+        "total_ws": 6967296,
+        "private_commit": 1880064
+      }
+    }
+  ],
+  "selected_row": 20,
+  "requests": [
+    {
+      "turn": 1,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 1,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    },
+    {
+      "turn": 2,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42",
+        "NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 2,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    }
+  ],
+  "copy_text": "NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END",
+  "input_scope": "own-HWND Unicode and mouse messages; own UI-thread keyboard state; not physical devices",
+  "owned_job_cleanup": {
+    "before": {
+      "total": 53,
+      "active": 5,
+      "terminated": 0
+    },
+    "after": {
+      "total": 53,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true
+  },
+  "cleanup": [
+    {
+      "pid": 1192,
+      "exit_code": 0
+    },
+    {
+      "pid": 4632,
+      "exit_code": 0
+    },
+    {
+      "pid": 2304,
+      "exit_code": 3221225786
+    }
+  ]
+}

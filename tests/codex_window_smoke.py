@@ -7,6 +7,7 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     tempfile, Path, time, wait_for, find_window, capture, memory_sample)
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from console_process_utils import owned_processes
+from owned_job import OwnedJob
 from codex_fixture_server import FixtureServer, COPY_TEXT, PASTE_TEXT
 import argparse
 import shutil
@@ -122,7 +123,7 @@ def find_marker():
 
 try:
     (root/'build').mkdir(exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='codex-window-', dir=root/'build') as temporary, FixtureServer() as server:
+    with tempfile.TemporaryDirectory(prefix='codex-window-', dir=root/'build') as temporary, FixtureServer() as server, OwnedJob() as job:
         folder = Path(temporary).resolve()
         assert (root/'build').resolve() in folder.parents
         home, work = folder/'codex-home', folder/'work'
@@ -149,7 +150,7 @@ enabled = false
             'APPDATA','LOCALAPPDATA','PROGRAMDATA','PROGRAMFILES','PROGRAMFILES(X86)',
             'NUMBER_OF_PROCESSORS','PROCESSOR_ARCHITECTURE'}}
         env.update(CODEX_HOME=str(home), NEMOTERM_CONPTY='bundled', TERM='xterm-256color')
-        process = subprocess.Popen([str(exe), '-load', profile, '--cols', '100', '--rows', '30',
+        process = job.spawn([str(exe), '-load', profile, '--cols', '100', '--rows', '30',
             '--font', args.font, '-e', str(codex), '--no-daemon',
             '--cd', str(work), *(['--no-alt-screen'] if args.inline else [])],
             cwd=work, env=env, creationflags=subprocess.CREATE_NO_WINDOW)
@@ -284,8 +285,13 @@ enabled = false
             evidence['server_errors'] = server.errors
             evidence['requests'] = server.requests
             if hwnd and process.poll() is None:
-                frame('failure')
-                evidence['failure_text'] = all_text()
+                try:
+                    frame('failure')
+                    # Do not use Copy All if preserving the clipboard failed.
+                    if saved:
+                        evidence['failure_text'] = all_text()
+                except Exception as diagnostic:
+                    evidence['diagnostic_error'] = repr(diagnostic)
             (root/f'build/codex-{mode}-failure.json').write_text(json.dumps(evidence, indent=2), encoding='utf-8')
             raise
         finally:
@@ -301,6 +307,9 @@ enabled = false
             if hwnd and process.poll() is None: u.PostMessageW(hwnd, 0x10, 0, 0)
             try: process.wait(timeout=10)
             except subprocess.TimeoutExpired: process.terminate(); process.wait(timeout=5)
+            # Codex can start auxiliary Git workers after the startup snapshot.
+            # Their inherited job membership remains valid after parents exit.
+            evidence['owned_job_cleanup'] = job.finish()
             cleanup = []
             for pid, handle in handles.items():
                 code = w.DWORD()
