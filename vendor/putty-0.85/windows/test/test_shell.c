@@ -55,6 +55,25 @@ int main(void)
     }
     assert(!nemo_shell_command(&list, -1));
     assert(!nemo_shell_command(&list, NEMO_SHELL_COUNT));
+    const wchar_t *directories[]={ L"/tmp/space \x4e2d;$(echo nope)",
+        L"C:\\Unicode \x4e2d\\", L"/tmp/quote\"slash\\end" };
+    for (size_t i=0;i<lenof(directories);i++) {
+        wchar_t *command=nemo_shell_command_at(&list,NEMO_WSL_BASH,directories[i]);
+        int argc;wchar_t **argv=CommandLineToArgvW(command,&argc);
+        assert(argv && argc==9);
+        assert(!wcscmp(argv[3],L"--cd") && !wcscmp(argv[4],directories[i]));
+        assert(!wcscmp(argv[5],L"--exec") && !wcscmp(argv[8],L"-i"));
+        LocalFree(argv);sfree(command);
+        if (directories[i][0]==L'/') {
+            command=nemo_shell_command_at(&list,NEMO_GIT_BASH,directories[i]);
+            argv=CommandLineToArgvW(command,&argc);
+            assert(argv && argc==5);
+            assert(!wcscmp(argv[1],L"-c"));
+            assert(!wcscmp(argv[2],L"cd -- \"$1\" && exec /usr/bin/bash --login -i"));
+            assert(!wcscmp(argv[4],directories[i]));
+            LocalFree(argv);sfree(command);
+        }
+    }
     char *json = nemo_shell_json(&list);
     assert(strstr(json, "busybox-ash") && strstr(json, "\xe4\xb8\xad"));
     sfree(json);

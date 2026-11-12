@@ -20,6 +20,7 @@ void nemo_shell_detect(NemoShellList *);
 void nemo_shell_free(NemoShellList *);
 int nemo_shell_index(const char *);
 wchar_t *nemo_shell_command(const NemoShellList *, int);
+wchar_t *nemo_shell_command_at(const NemoShellList *, int, const wchar_t *directory);
 wchar_t *nemo_shell_git_environment(const wchar_t *);
 char *nemo_shell_json(const NemoShellList *);
 #endif

@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-当前脚本包含二十七组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证。常规 CI 包含二十一组原生窗口测试及三次字体/键盘配置变体；单 EXE CI 另验证独立目录和同一映像宿主。截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
+当前脚本包含二十九组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。单 EXE 验证脚本包含二十九项检查（含字体/键盘变体），常规 CI 另保留 MinGW 对照和 Linux ASan/UBSan。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证；截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -69,9 +69,10 @@
 | OSC10/11/12及110/111/112：默认前景/背景/光标色，设置/查询/恢复 | 已证（有限范围） | 设置/查询、10顺序参数、各自恢复、与104互不误清均已测；回复匹配BEL/ST。真实ConPTY验证10设置/查询。支持Xlib rgb:1..4位和#四种精度及8个固定色名，非完整X11色名库；rgbi需设备光强转换，当前明确拒绝。 |
 | OSC8：`8;params;URI`，空URI关闭、`id=` | 已证（有限范围） | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中；Shift复制仅含标签。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。真实Win32/ConPTY测试验证完整地址悬停、分组下划线、Ctrl打开/菜单复制、默认与禁用设置、file主机匹配、应用鼠标/多键/Shift/缩放取消及冻结画面的目标。只接受ASCII/百分号编码URI；默认HTTP/HTTPS/FTP/mailto及本机Windows驱动器file，其他注册协议须显式启用。远程file只允许复制；不实现URI片段到文件行号跳转。ASan/UBSan及原生6000长链接+800Sixel压力测试覆盖有界资源。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |
 | OSC52：`52;Pc;Pd`，Base64设置、`?`查询 | 已证（有界文本与Windows映射） | 流式解码，每次UTF-8文本256KiB；读写独立配置，默认允许写、禁止读。c=系统剪贴板，s别名c，p=本地选区，q/0..7共享1MiB辅助缓存；空Pc为s0，按请求顺序查询首个可用目标。BEL/ST、碎片/取消/非法输入、精确上限、缓存淘汰、复位/撤权后的迟到回复、输出积压均有核心测试。原生测试覆盖四种权限、真实中文/emoji剪贴板、保留本地选择、同步输出、锁竞争和延迟渲染期间UI响应；不代表X11选择所有权语义或所有应用验收。详见REQUIREMENTS中的策略。 |
-| OSC7：`7;file://host/path` | 缺失 | 当前工作目录元数据及URI转义/主机处理；不要把终端自身cwd误当shell当前目录。 |
-| OSC133：A/B/C/D（D可带退出码）；OSC633扩展 | 缺失 | prompt、command、output和结束标记需要状态/滚动历史绑定；单纯吞掉序列不实现命令选择、导航等语义。依据 [Windows Terminal shell集成](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。 |
-| OSC1337非图像：CurrentDir、RemoteHost、SetMark、用户变量等 | 缺失，需按子命令拆分 | 1337是命名空间，不能只支持一个子命令就整体标绿。对照iTerm2文档逐项登记；扩展需要设置项的保留设置项。 |
+| OSC7：`7;file://host/path`；OSC9;9；OSC633 P;Cwd | 已证（有限范围） | 有界 UTF-8 目录元数据、百分号/反斜杠转义、主机判断、复制 URI 与复制会话目录继承；支持 Windows、Git Bash 挂载路径和 WSL --cd。核心、真实子进程 OS cwd、中文路径、reset/resize、错误恢复和一万次更新已测；设置与单文件证据见[目录记录](../research/working-directory.md)。 |
+| OSC133：A/B/C/D（D可带退出码）；OSC633其余扩展 | 缺失 | prompt、command、output和结束标记需要状态/滚动历史绑定；单纯吞掉序列不实现命令选择、导航等语义。依据 [Windows Terminal shell集成](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。 |
+| OSC1337 CurrentDir / RemoteHost | 已证（有限范围） | 目录与主机分开更新；远端路径可复制但不用于本机启动。与 OSC7 共用有界存储；[目录记录](../research/working-directory.md)。 |
+| OSC1337 SetMark、用户变量及其余非图像命令 | 缺失 | 命名空间按子命令登记；CurrentDir/RemoteHost 的实现不代表支持其余命令。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL等其他状态字符串仍不支持；未实现的状态不虚报。 |
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；不是任意terminfo程序查询。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复小于14KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
@@ -94,7 +95,7 @@
 
 1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及剩余SGR（如overline等）；继续完成Sixel像素和资源生命周期。同步增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52真实远程应用验收、1001边缘场景与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
-3. **剩余现代及历史范围**：OSC7/133/633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
+3. **剩余现代及历史范围**：OSC133及剩余633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
 每一项完成至少需要：序列与参数定义 → 对应源码和状态生命周期 → 分块输入与回复测试 → 有界资源测试 → 必要的真实窗口/应用验证。图片、链接、历史和新样式加入后，应重跑代表性agent负载的私有工作集、总工作集和长时间峰值；本账本不证明内存门槛已经成立。
 

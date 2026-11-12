@@ -168,6 +168,16 @@ CONF_OPTION(nemo_shell_command,
     DEFAULT_STR(""),
     SAVE_KEYWORD("NemoShellCommand"),
 )
+CONF_OPTION(nemo_starting_directory,
+    VALUE_TYPE(STR_AMBI),
+    DEFAULT_STR(""),
+    SAVE_KEYWORD("NemoStartingDirectory"),
+)
+CONF_OPTION(nemo_inherit_directory,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(true),
+    SAVE_KEYWORD("NemoInheritDirectory"),
+)
 CONF_OPTION(nemo_choose_shell,
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

@@ -102,7 +102,11 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
         ctrl_settitle(b, "Session/Shell", "Shell startup command");
         s = ctrl_getset(b, "Session/Shell", "command", "Custom shell");
         ctrl_editbox(s, "Command (select Custom on Session):", 'm', 100, HELPCTX(no_help),
-                     conf_editbox_handler, I(CONF_nemo_shell_command), I(1));
+                     conf_editbox_handler, I(CONF_nemo_shell_command), ED_STR);
+        ctrl_editbox(s, "Starting directory (blank inherits launcher):", NO_SHORTCUT, 100,
+                     HELPCTX(no_help), conf_editbox_handler, I(CONF_nemo_starting_directory), ED_STR);
+        ctrl_checkbox(s, "Use reported directory for duplicated sessions", NO_SHORTCUT,
+                      HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_inherit_directory));
         ctrl_text(s, "Save Default Settings on Session to use your shell at startup. -e overrides the shell for one launch.", HELPCTX(no_help));
     }
 

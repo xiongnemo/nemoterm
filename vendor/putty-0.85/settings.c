@@ -614,6 +614,19 @@ void save_open_settings(settings_w *sesskey, Conf *conf)
         }
     }
 
+    /* The legacy native-codepage string loses Unicode directories on Western
+     * Windows. Keep an ASCII UTF-8 companion without changing other settings. */
+    {
+        bool is_utf8;
+        const char *directory=conf_get_str_ambi(conf,CONF_nemo_starting_directory,&is_utf8);
+        wchar_t *wide=dup_mb_to_wc(is_utf8?CP_UTF8:DEFAULT_CODEPAGE,directory);
+        char *utf8=dup_wc_to_mb(CP_UTF8,wide,NULL);
+        strbuf *encoded=strbuf_new();
+        for (const unsigned char *p=(const unsigned char *)utf8;*p;p++)
+            put_fmt(encoded,"%02X",*p);
+        write_setting_s(sesskey,"NemoStartingDirectoryUtf8Hex",encoded->s);
+        strbuf_free(encoded);sfree(wide);sfree(utf8);
+    }
     write_setting_i(sesskey, "Present", 1);
     p = "raw";
     {
@@ -788,6 +801,23 @@ void load_open_settings(settings_r *sesskey, Conf *conf)
         }
     }
 
+    {
+        char *encoded=read_setting_s(sesskey,"NemoStartingDirectoryUtf8Hex");
+        if (encoded) {
+            size_t n=strlen(encoded);
+            if (n<=65536 && !(n&1) && strspn(encoded,"0123456789abcdefABCDEF")==n) {
+                char *directory=snewn(n/2+1,char);bool valid=true;
+                for (size_t i=0;i<n;i+=2) {
+                    unsigned value;sscanf(encoded+i,"%2x",&value);
+                    directory[i/2]=value;if (!value) valid=false;
+                }
+                directory[n/2]=0;
+                if (valid) conf_set_utf8(conf,CONF_nemo_starting_directory,directory);
+                sfree(directory);
+            }
+            sfree(encoded);
+        }
+    }
     prot = gpps_raw(sesskey, "Protocol", "default");
     conf_set_int(conf, CONF_protocol, default_protocol);
     conf_set_int(conf, CONF_port, default_port);

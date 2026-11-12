@@ -3049,6 +3049,7 @@ void term_free(Terminal *term)
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     nemo_hyperlink_free(term->hyperlinks);
+    nemo_cwd_clear(&term->working_directory);
     compressed_scrollback_line *cline;
     termline *line;
     struct beeptime *beep;
@@ -5070,6 +5071,9 @@ static void osc52_finish(Terminal *term, bool bel)
 
 static int osc_string_limit(Terminal *term)
 {
+    if (term->osc_type == OSCLIKE_OSC &&
+        (term->esc_args[0] == 7 || term->esc_args[0] == 9 ||
+         term->esc_args[0] == 633 || term->esc_args[0] == 1337)) return NEMO_CWD_OSC_MAX;
     return term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 8 ?
         NEMO_LINK_OSC_MAX : OSC_STR_MAX;
 }
@@ -5086,6 +5090,11 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 7: case 9: case 633: case 1337:
+            if (!term->osc_overflow)
+                nemo_cwd_update(&term->working_directory, term->esc_args[0],
+                                term->osc_string, term->osc_strlen);
+            break;
           case 8:
             term->curr_hyperlink =
                 term->no_remote_hyperlinks || term->osc_overflow ? 0 :

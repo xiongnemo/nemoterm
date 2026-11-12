@@ -18,7 +18,7 @@ $checks = [Collections.Generic.List[string]]::new()
 try {
     $tests = @('single_exe', 'input_method', 'unicode_input', 'mouse', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
-        'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins',
+        'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
         'shell', 'delegated_console')
     foreach ($name in $tests) {
         $nativeArgs = @()

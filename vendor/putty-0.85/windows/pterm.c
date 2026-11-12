@@ -11,7 +11,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
 {
     bool show_settings = false;
     char *exec_command = NULL;
-    char *shell_id = NULL, *shell_command = NULL;
+    char *shell_id = NULL, *shell_command = NULL, *directory = NULL;
     do_defaults(NULL, conf);
     conf_set_str(conf, CONF_remote_cmd, "");
 
@@ -38,6 +38,11 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             bool ok = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), json, (DWORD)strlen(json), &written, NULL);
             nemo_shell_free(&shells); sfree(json);
             cleanup_exit(ok ? 0 : 1);
+        }
+        if (!strcmp(argstr, "--directory")) {
+            if (!nextarg) cmdline_error("option %s requires an argument", argstr);
+            arglistpos++;sfree(directory);directory=dupstr(cmdline_arg_to_utf8(nextarg));
+            continue;
         }
         if (!strcmp(argstr, "--shell") || !strcmp(argstr, "--shell-command")) {
             if (!nextarg) cmdline_error("option %s requires an argument", argstr);
@@ -117,6 +122,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
 
     cmdline_run_saved(conf);
     bool explicit_command = exec_command != NULL;
+    if (directory) { conf_set_utf8(conf, CONF_nemo_starting_directory, directory);sfree(directory); }
     if (shell_id) { conf_set_str(conf, CONF_nemo_shell, shell_id); sfree(shell_id); }
     if (shell_command) { conf_set_utf8(conf, CONF_nemo_shell_command, shell_command); sfree(shell_command); }
     if (exec_command) {

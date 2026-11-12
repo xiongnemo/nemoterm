@@ -125,12 +125,33 @@ try {
     [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($shellHandle), 0x111, [IntPtr]($fixtureShellControlId -bor (1 -shl 16)), $shellHandle) | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle shell-settings.png
     if ($LASTEXITCODE) { throw 'Shell settings capture failed' }
+    $sessionNode = Find-Name $dialog 'Session'
+    $sessionNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Shell' | Out-Null
+    $cwdLabel = 'Starting directory (blank inherits launcher):'
+    $inheritLabel = 'Use reported directory for duplicated sessions'
+    $cwdEdit = Wait-Value { Find-Name $dialog $cwdLabel 'Edit' }
+    $inherit = Wait-Value { Find-Name $dialog $inheritLabel }
+    foreach ($node in @($cwdEdit, $inherit)) {
+        if ($node.Current.IsOffscreen -or !$bounds.Contains($node.Current.BoundingRectangle)) { throw 'Directory control clipped' }
+    }
+    $fixtureCwd = Join-Path $directory ('working ' + [char]0x4e2d)
+    New-Item -ItemType Directory -Path $fixtureCwd | Out-Null
+    $cwdEdit.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureCwd)
+    $inheritToggle = $inherit.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($inheritToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Directory inheritance was not enabled by default' }
+    $inheritToggle.Toggle()
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle cwd-settings.png
+    if ($LASTEXITCODE) { throw 'Directory settings capture failed' }
+    Select-Node $dialog 'Session' | Out-Null
     $saved = Wait-Value { Find-Name $dialog 'Saved Sessions' 'Edit' }
     $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    $expectedHex = -join ([Text.Encoding]::UTF8.GetBytes($fixtureCwd) | ForEach-Object { $_.ToString('X2') })
+    if ($values.NemoStartingDirectoryUtf8Hex -ne $expectedHex -or $values.NemoInheritDirectory -ne 0) { throw 'Unicode directory settings were not saved' }
     if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0 -or $values.NemoWin32Input -ne 1) { throw 'Settings were not saved' }
     Invoke-Button $dialog 'Cancel'
     if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) { throw 'Settings cancel failed' }
@@ -151,6 +172,13 @@ try {
     $shellCombo = $dialog.FindFirst($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
     if ([ShellSettingsNative]::SendMessageW([IntPtr]$shellCombo.Current.NativeWindowHandle, 0x147, [IntPtr]::Zero, [IntPtr]::Zero).ToInt32() -ne 4) { throw 'Selected default shell did not reload' }
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
+    $sessionNode = Find-Name $dialog 'Session'
+    $sessionNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Shell' | Out-Null
+    $reloadedCwd = Wait-Value { Find-Name $dialog $cwdLabel 'Edit' }
+    if ($reloadedCwd.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $fixtureCwd) { throw 'Unicode directory did not reload' }
+    $reloadedInheritance = Wait-Value { Find-Name $dialog $inheritLabel }
+    if ($reloadedInheritance.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Directory inheritance did not reload' }
     foreach ($name in @('Terminal', 'Keyboard')) {
         $node = Wait-Value { Find-Name $dialog $name }
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
@@ -172,7 +200,8 @@ try {
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
-        saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;query=$observed}
+        saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;
+        saved_unicode_directory=$fixtureCwd;saved_directory_inheritance=$false;query=$observed}
     [IO.File]::WriteAllText((Join-Path $root 'research/settings-window-observed.json'),
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}
@@ -198,5 +227,6 @@ try {
         $path = Join-Path $directory $name
         if (Test-Path -LiteralPath $path) { Remove-Item -LiteralPath $path }
     }
+    if ($fixtureCwd -and (Test-Path -LiteralPath $fixtureCwd)) { Remove-Item -LiteralPath $fixtureCwd }
     Remove-Item -LiteralPath $directory
 }

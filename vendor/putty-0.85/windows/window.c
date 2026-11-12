@@ -22,6 +22,7 @@
 #include "win-gui-seat.h"
 #include "nemo_snapshot.h"
 #include "nemo_link_ui.h"
+#include "nemo_shell.h"
 #include "nemo_key_input.h"
 #include "nemo_clipboard.h"
 #include "nemo_osc52_ui.h"
@@ -57,6 +58,7 @@
 #define IDM_COPY      0x0190
 #define IDM_PASTE     0x01A0
 #define IDM_COPYPASTE 0x01B0
+#define IDM_COPYDIR   0x01C0
 #define IDM_SPECIALSEP 0x0200
 
 #define IDM_SPECIAL_MIN 0x0400
@@ -100,6 +102,45 @@
 #ifndef VK_PACKET
 #define VK_PACKET 0xE7
 #endif
+
+static Conf *nemo_duplicate_conf(WinGuiSeat *wgs)
+{
+    Conf *copy=conf_copy(wgs->conf);
+    if (!conf_get_bool(copy,CONF_nemo_inherit_directory)) return copy;
+    NemoCwd *cwd=&wgs->term->working_directory;
+    char hostname[256]="",fqdn[256]="";DWORD n=sizeof(hostname);
+    GetComputerNameA(hostname,&n);n=sizeof(fqdn);
+    GetComputerNameExA(ComputerNameDnsFullyQualified,fqdn,&n);
+    if (!cwd->path || !*cwd->path || !nemo_cwd_local(cwd,hostname,fqdn)) return copy;
+    bool utf8;
+    bool explicit_command=*conf_get_str_ambi(copy,CONF_remote_cmd,&utf8)!=0;
+    const char *shell=conf_get_str(copy,CONF_nemo_shell);
+    bool posix_shell=!explicit_command &&
+        (!strcmp(shell,"git-bash") || !strcmp(shell,"wsl-bash"));
+    char *directory=nemo_cwd_native(cwd,hostname,fqdn,false);
+    if (!directory && posix_shell && cwd->path[0]=='/' && cwd->path[1]!='/')
+        directory=dupstr(cwd->path);
+    if (directory) { conf_set_utf8(copy,CONF_nemo_starting_directory,directory);sfree(directory); }
+    return copy;
+}
+static void nemo_copy_directory(WinGuiSeat *wgs)
+{
+    char *uri=nemo_cwd_uri(&wgs->term->working_directory);
+    if (!uri) return;
+    size_t length=strlen(uri);HGLOBAL memory=GlobalAlloc(GMEM_MOVEABLE,(length+1)*sizeof(wchar_t));
+    wchar_t *out=memory?GlobalLock(memory):NULL;
+    if (out) {
+        for (size_t i=0;i<=length;i++) out[i]=(unsigned char)uri[i];
+        GlobalUnlock(memory);
+        if (nemo_open_clipboard(wgs->term_hwnd)) {
+            wgs->ignore_clip=true;
+            if (EmptyClipboard() && SetClipboardData(CF_UNICODETEXT,memory)) memory=NULL;
+            CloseClipboard();wgs->ignore_clip=false;
+        }
+    }
+    if (memory) GlobalFree(memory);
+    sfree(uri);
+}
 
 static Mouse_Button translate_button(WinGuiSeat *wgs, Mouse_Button button);
 static void show_mouseptr(WinGuiSeat *wgs, bool show);
@@ -297,6 +338,7 @@ static void start_backend(WinGuiSeat *wgs)
     char *error, *realhost;
     int i;
 
+    nemo_cwd_clear(&wgs->term->working_directory);
     wgs->cmdline_get_passwd_state = cmdline_get_passwd_input_state_new;
 
     vt = backend_vt_from_conf(wgs->conf);
@@ -759,6 +801,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
             AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
             AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
+            AppendMenu(m, MF_GRAYED, IDM_COPYDIR, "Copy Working Directory URI");
         }
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_OPEN_LINK, "&Open Link");
@@ -2344,6 +2387,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         PostQuitMessage(0);
         return 0;
       case WM_INITMENUPOPUP:
+        for (size_t mi=0;mi<lenof(wgs->popup_menus);mi++)
+            EnableMenuItem(wgs->popup_menus[mi].menu,IDM_COPYDIR,MF_BYCOMMAND |
+                (wgs->term->working_directory.path && *wgs->term->working_directory.path ? MF_ENABLED : MF_GRAYED));
         if ((HMENU)wParam == wgs->savedsess_menu) {
             /* About to pop up Saved Sessions sub-menu.
              * Refresh the session list. */
@@ -2378,12 +2424,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
           case IDM_NEWSESS:
           case IDM_DUPSESS:
           case IDM_SAVEDSESS: {
-            char b[2048];
+            wchar_t b[32768];
             char *cl;
             const char *argprefix;
             bool inherit_handles;
-            STARTUPINFO si;
-            PROCESS_INFORMATION pi;
+            STARTUPINFOW si = {0};
+            PROCESS_INFORMATION pi = {0};
             HANDLE filemap = NULL;
 
             if (restricted_acl())
@@ -2402,7 +2448,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 int size;
 
                 serbuf = strbuf_new();
-                conf_serialise(BinarySink_UPCAST(serbuf), wgs->conf);
+                Conf *duplicate=nemo_duplicate_conf(wgs);
+                conf_serialise(BinarySink_UPCAST(serbuf), duplicate);
+                conf_free(duplicate);
                 size = serbuf->len;
 
                 sa.nLength = sizeof(sa);
@@ -2412,13 +2460,17 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                                             &sa,
                                             PAGE_READWRITE,
                                             0, size, NULL);
-                if (filemap && filemap != INVALID_HANDLE_VALUE) {
-                    p = MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, size);
-                    if (p) {
-                        memcpy(p, serbuf->s, size);
-                        UnmapViewOfFile(p);
-                    }
+                p = filemap ? MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, size) : NULL;
+                if (!p) {
+                    DWORD error=GetLastError();
+                    if (filemap) CloseHandle(filemap);
+                    strbuf_free(serbuf);
+                    char *message=dupprintf("Could not copy session settings: %s",win_strerror(error));
+                    MessageBoxA(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
+                    break;
                 }
+                memcpy(p, serbuf->s, size);
+                UnmapViewOfFile(p);
 
                 strbuf_free(serbuf);
                 inherit_handles = true;
@@ -2440,7 +2492,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 inherit_handles = false;
             }
 
-            GetModuleFileName(NULL, b, sizeof(b) - 1);
+            DWORD path_length=GetModuleFileNameW(NULL, b, lenof(b));
             si.cb = sizeof(si);
             si.lpReserved = NULL;
             si.lpDesktop = NULL;
@@ -2448,10 +2500,20 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             si.dwFlags = 0;
             si.cbReserved2 = 0;
             si.lpReserved2 = NULL;
-            CreateProcess(b, cl, NULL, NULL, inherit_handles,
-                          NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
+            wchar_t *command=dup_mb_to_wc(CP_ACP,cl);
+            DWORD error=ERROR_SUCCESS;
+            if (!path_length) error=GetLastError();
+            else if (path_length>=lenof(b)) error=ERROR_INSUFFICIENT_BUFFER;
+            else if (!CreateProcessW(b, command, NULL, NULL, inherit_handles,
+                                    NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi)) error=GetLastError();
+            if (error==ERROR_SUCCESS) {
+                CloseHandle(pi.hProcess);
+                CloseHandle(pi.hThread);
+            } else {
+                char *message=dupprintf("Could not create session: %s",win_strerror(error));
+                MessageBoxA(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
+            }
+            sfree(command);
 
             if (filemap)
                 CloseHandle(filemap);
@@ -2645,6 +2707,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             conf_free(prev_conf);
             break;
           }
+          case IDM_COPYDIR:
+            nemo_copy_directory(wgs);
+            break;
           case IDM_COPYALL:
             term_copyall(wgs->term, clips_system, lenof(clips_system));
             break;

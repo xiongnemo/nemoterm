@@ -381,6 +381,26 @@ void test_str_ambi_simple(int confid, const char *saveid,
     conf_free(conf);
 }
 
+static void test_directory_unicode(void)
+{
+    Conf *conf=conf_new();do_defaults(NULL,conf);
+    const char *directory="C:\\\xe4\xb8\xad\\space ;";
+    conf_set_utf8(conf,CONF_nemo_starting_directory,directory);
+    settings_w sw={.n=1,.si[0].key="NemoStartingDirectoryUtf8Hex"};
+    save_open_settings(&sw,conf);
+    assert(sw.si[0].type==SAVE_S);
+    assert(!strcmp(sw.si[0].sval,"433A5CE4B8AD5C7370616365203B"));
+    settings_r sr={.n=1};sr.si[0]=sw.si[0];
+    load_open_settings(&sr,conf);bool utf8;
+    assert(!strcmp(conf_get_str_ambi(conf,CONF_nemo_starting_directory,&utf8),directory) && utf8);
+    const char *invalid[]={"A","GG","430041"};
+    for (size_t i=0;i<lenof(invalid);i++) {
+        strcpy(sr.si[0].sval,invalid[i]);load_open_settings(&sr,conf);
+        assert(!*conf_get_str_ambi(conf,CONF_nemo_starting_directory,&utf8));
+    }
+    conf_free(conf);
+}
+
 void test_int_simple(int confid, const char *saveid, int defexp)
 {
     Conf *conf = conf_new();
@@ -761,6 +781,8 @@ void test_simple(void)
     test_bool_simple(CONF_no_remote_hyperlinks, "NoRemoteHyperlinks", false);
     test_bool_simple(CONF_nemo_osc52_write, "NemoOSC52Write", true);
     test_str_simple(CONF_nemo_shell, "NemoShell", "auto");
+    test_str_ambi_simple(CONF_nemo_starting_directory, "NemoStartingDirectory", "", false);
+    test_bool_simple(CONF_nemo_inherit_directory, "NemoInheritDirectory", true);
     test_str_ambi_simple(CONF_nemo_shell_command, "NemoShellCommand", "", false);
     test_bool_simple(CONF_nemo_choose_shell, "NemoChooseShell", false);
     test_bool_simple(CONF_nemo_reflow, "NemoReflow", true);
@@ -1057,6 +1079,7 @@ void test_conf_key_info(void)
 
 int main(void)
 {
+    test_directory_unicode();
     test_conf_key_info();
     test_simple();
     return nfails != 0;

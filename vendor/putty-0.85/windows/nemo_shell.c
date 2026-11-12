@@ -160,6 +160,8 @@ static wchar_t *quote(const wchar_t *text)
     *p++ = L'"'; *p = 0; return out;
 }
 wchar_t *nemo_shell_command(const NemoShellList *list, int which)
+{ return nemo_shell_command_at(list, which, NULL); }
+wchar_t *nemo_shell_command_at(const NemoShellList *list, int which, const wchar_t *directory)
 {
     if (which < 0 || which >= NEMO_SHELL_COUNT || !list->paths[which]) return NULL;
     wchar_t *exe = quote(list->paths[which]), *out;
@@ -169,8 +171,19 @@ wchar_t *nemo_shell_command(const NemoShellList *list, int which)
          * name literally. Preserve the conventional unquoted argv spelling. */
         wchar_t *distro = wcspbrk(list->wsl_distribution, L" \t\n\v\"") ?
             quote(list->wsl_distribution) : dupwcs(list->wsl_distribution);
-        out = dupwcscat(exe, L" --distribution ", distro, L" --exec bash --login -i");
+        wchar_t *dir = directory && *directory ? quote(directory) : NULL;
+        out = dupwcscat(exe, L" --distribution ", distro,
+                       dir ? L" --cd " : L"", dir ? dir : L"", L" --exec bash --login -i");
+        sfree(dir);
         sfree(distro);
+    } else if (which == NEMO_GIT_BASH && directory && directory[0] == L'/') {
+        /* MSYS owns its mount table (/tmp is often Windows TEMP). Pass the
+         * path as one positional argument to fixed shell code, never as code.
+         * CHERE_INVOKING keeps the login profile in the selected directory. */
+        wchar_t *code=quote(L"cd -- \"$1\" && exec /usr/bin/bash --login -i");
+        wchar_t *dir=quote(directory);
+        out=dupwcscat(exe,L" -c ",code,L" nemoterm ",dir);
+        sfree(code);sfree(dir);
     } else out = dupwcscat(exe, args[which]);
     sfree(exe); return out;
 }

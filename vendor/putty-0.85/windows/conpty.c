@@ -306,6 +306,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     HPCON pcon;
     bool pcon_needs_cleanup = false;
     bool attributes_initialized = false;
+    wchar_t *directory = NULL;
 
     STARTUPINFOEXW si;
     memset(&si, 0, sizeof(si));
@@ -379,6 +380,9 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     memset(&pi, 0, sizeof(pi));
 
     wchar_t *command, *environment = NULL;
+    bool dir_utf8, shell_directory=false;
+    const char *dir_conf=conf_get_str_ambi(conf,CONF_nemo_starting_directory,&dir_utf8);
+    directory=*dir_conf ? dup_mb_to_wc(dir_utf8?CP_UTF8:CP_ACP,dir_conf) : NULL;
     {
         bool utf8;
         const char *conf_cmd = conf_get_str_ambi(conf, CONF_remote_cmd, &utf8);
@@ -399,7 +403,9 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
                     for (size_t i = 0; i < lenof(preferred); i++)
                         if (shells.paths[preferred[i]]) { index = preferred[i]; break; }
                 }
-                command = nemo_shell_command(&shells, index);
+                command = nemo_shell_command_at(&shells, index, directory);
+                shell_directory = index == NEMO_WSL_BASH ||
+                    (index == NEMO_GIT_BASH && directory && directory[0] == L'/');
                 if (command && index == NEMO_GIT_BASH)
                     environment = nemo_shell_git_environment(shells.paths[index]);
                 nemo_shell_free(&shells);
@@ -412,7 +418,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     }
     bool created_ok = CreateProcessW(NULL, command, NULL, NULL,
                                      false, EXTENDED_STARTUPINFO_PRESENT | CREATE_UNICODE_ENVIRONMENT,
-                                     environment, NULL, &si.StartupInfo, &pi);
+                                     environment, shell_directory ? NULL : directory, &si.StartupInfo, &pi);
     DWORD create_error = created_ok ? ERROR_SUCCESS : GetLastError();
     sfree(command);
     sfree(environment);
@@ -475,6 +481,7 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
     if (attributes_initialized)
         DeleteProcThreadAttributeList(si.lpAttributeList);
     sfree(si.lpAttributeList);
+    sfree(directory);
     return err;
 }
 

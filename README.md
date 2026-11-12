@@ -44,6 +44,12 @@ Windows PowerShell 从系统目录查找；Git Bash 需验证 Git 安装布局�
 发行版。自动选择依次优先 pwsh、Windows PowerShell、cmd。
 本机六种 shell（含 WSL Debian）的交互命令和退出测试已通过；[记录](research/shell-selection.md)。
 
+启动目录使用 `--directory "C:\work"`，或在 Session/Shell 保存；留空继承启动器目录。
+内置 Git Bash 和 WSL Bash 也接受各自的 POSIX 路径（WSL 使用默认发行版）。
+当 shell 输出 OSC 7、9;9、633 P;Cwd 或 1337 CurrentDir 时，Duplicate Session
+默认继承报告的本机目录；同页可关闭此行为。菜单的 Copy Working Directory URI
+复制规范化 file URI。远端主机的目录仅作为元数据保留；[协议、配置示例和边界](research/working-directory.md)。
+
 OpenConsole 和 ConPTY 已从固定版本的 Microsoft Terminal 源码链接进 Nemoterm。
 同一 EXE 的隐藏进程承载控制台，无运行时解压，也不需要旁边的 OpenConsole.exe 或
 conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA 证据](research/single-executable.md)。

@@ -10,6 +10,7 @@
 #include "nemo_sixel.h"
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
+#include "nemo_cwd.h"
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
 #include "nemo_osc52.h"
@@ -178,6 +179,7 @@ struct terminal_tag {
     int default_attr, curr_attr, save_attr;
     truecolour curr_truecolour, save_truecolour;
     NemoHyperlinks *hyperlinks;
+    NemoCwd working_directory;
     uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
     uint32_t hover_hyperlink;
     termchar basic_erase_char, erase_char;
@@ -293,7 +295,7 @@ struct terminal_tag {
     OscType osc_type;
     int osc_strlen;
     bool osc_overflow;
-    char osc_string[NEMO_LINK_OSC_MAX + 1];
+    char osc_string[NEMO_CWD_OSC_MAX + 1];
 
     char id_string[1024];
 
