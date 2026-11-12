@@ -28,7 +28,10 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           ./scripts/build-single-exe.ps1 2>&1 | Tee-Object build-single-exe.log
       - name: Install native instrumentation test dependency
-        run: python -m pip install frida==17.24.3
+        run: |
+          python tests/process_tree_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python -m pip install frida==17.24.3
       - name: Install pinned real Codex client for local-response UI tests
         run: npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
       - name: Verify isolated executable with native protocol and pixel tests

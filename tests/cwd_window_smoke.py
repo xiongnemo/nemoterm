@@ -70,6 +70,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         # every process using the copied image instead of racing file removal.
         child['lifetimes'] = []
         for entry in owned_processes(child['parent']):
+            if (Path(entry['path']).parent.resolve() != executable_dir.resolve()
+                    and entry['pid'] != child['pid']):
+                continue
             handle = k.OpenProcess(0x100000, False, entry['pid'])
             if handle:
                 lifetime = (entry['pid'], entry['path'], handle)
