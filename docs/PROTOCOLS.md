@@ -66,7 +66,7 @@
 | 家族 / 具体范围 | 状态 | 工作区证据与缺口 |
 | --- | --- | --- |
 | OSC0/1/2、DECterm21标题 | 0/2局部已证；其余源码已见 | `test_wintitle`验证BEL/ST、逐字节UTF-8标题和DCS不能误当标题。长标题、取消、截断、query配置需补测。 |
-| CSI22/23 标题栈和指定槽位 | 核心与本机原生已测；单文件CI待验 | `test_titles`对照22组独立xterm结果，测试编码、权限、空字段、取消与2万次压栈；`titles_window_smoke.py`核对ConPTY回复及真实窗口标题。10个惰性分配槽位，每字段最多4096字节；溢出深度封顶，指定槽位共享存储。标题模式和其他窗口控制仍待实现，详见`research/window-controls.md`。 |
+| CSI22/23 标题栈和指定槽位 | 已证（有界；单文件CI与本机） | `test_titles`对照22组独立xterm结果，测试编码、权限、空字段、取消与2万次压栈；`titles_window_smoke.py`核对ConPTY回复及真实窗口标题。10个惰性分配槽位，每字段最多4096字节；溢出深度封顶，指定槽位共享存储。源5a8b27f的39组原生CI与本机23项标题检查通过。标题模式和其他窗口控制仍待实现，详见`research/window-controls.md`。 |
 | OSC4调色板设置/查询、多组；104选择性/全部重置 | 已证（有限范围） | `test_colour`穷举数值精度；`test_osc_colour`逐字节验证多项设置/查询、BEL/ST、无效索引、取消、超长整条拒绝。104只清0..255会话覆盖；256..261不沿用PuTTY私有索引。原生ConPTY调色板往返已测。 |
 | OSC10/11/12及110/111/112：默认前景/背景/光标色，设置/查询/恢复 | 已证（有限范围） | 设置/查询、10顺序参数、各自恢复、与104互不误清均已测；回复匹配BEL/ST。真实ConPTY验证10设置/查询。支持Xlib rgb:1..4位和#四种精度及8个固定色名，非完整X11色名库；rgbi需设备光强转换，当前明确拒绝。 |
 | OSC8：`8;params;URI`，空URI关闭、`id=` | 已证（有限范围） | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中；Shift复制仅含标签。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。真实Win32/ConPTY测试验证完整地址悬停、分组下划线、Ctrl打开/菜单复制、默认与禁用设置、file主机匹配、应用鼠标/多键/Shift/缩放取消及冻结画面的目标。只接受ASCII/百分号编码URI；默认HTTP/HTTPS/FTP/mailto及本机Windows驱动器file，其他注册协议须显式启用。远程file只允许复制；不实现URI片段到文件行号跳转。ASan/UBSan及原生6000长链接+800Sixel压力测试覆盖有界资源。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |

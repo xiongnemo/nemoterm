@@ -109,8 +109,32 @@ overlay already repairs this host surrogate-buffer bug. The passing local
 comparison used the verified f6b4409 single EXE as its OpenConsole host, with
 the new MinGW frontend and pinned DLL. It is not a single-file acceptance run.
 The single-EXE workflow runs the same strict native test using the final image;
-its result is pending. No emoji check was removed to accommodate the upstream
+its result is recorded below. No emoji check was removed to accommodate the upstream
 sidecar limitation.
+
+## Accepted single executable (2026-11-13 Sydney)
+
+Source `5a8b27feb6ab980cceaef87e592aaa0ebf900def` passed
+[core and sanitizer CI](https://github.com/xiongnemo/nemoterm/actions/runs/43251676450)
+and [single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43251676493).
+All 39 native CI groups passed, including real Codex default/inline sessions,
+settings, shutdown and the new title stack group. The EXE artifact is
+`13960112313`; full evidence is artifact `13960791747` from the same run.
+
+The exact 4,339,200-byte executable has SHA-256
+`c5970125f2c171a86ff33a50d37357d03dfc3ecfe0bed7832b76bda642629995`.
+Local testing of that downloaded file passed all 23 title checks, including
+actual HWND Unicode titles and the 1,000-entry churn. Its directory contained
+only `nemoterm.exe`, with no development runtime sidecars. Sampled frontend
+peaks were 3,973,120 private WS / 23,314,432 total WS / 5,136,384 private commit
+bytes. The equivalent CI samples were 4,116,480 / 31,571,968 / 5,173,248 bytes.
+These are samples after phases, not a continuous peak measurement; console host
+and client memory are separate from the frontend. Exact observations are in
+`titles-single-local.json`, `titles-window-ci.json` and `titles-single-ci.json`.
+
+This accepts bounded title stacks only. Title encoding modes and remaining
+geometry controls continue in a separate branch. It does not close the broader
+renderer, tab, physical-device or protocol requirements.
 
 ## Implementation constraints
 
