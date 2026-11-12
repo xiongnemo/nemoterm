@@ -9,7 +9,7 @@ const globalLock = new NativeFunction(kernel.getExportByName('GlobalLock'), 'poi
 const globalUnlock = new NativeFunction(kernel.getExportByName('GlobalUnlock'), 'int', ['pointer']);
 const globalFree = new NativeFunction(kernel.getExportByName('GlobalFree'), 'pointer', ['pointer']);
 const getPid = new NativeFunction(user.getExportByName('GetWindowThreadProcessId'), 'uint', ['pointer','pointer']);
-let armed = '', failurePending = false;
+let armed = '', failurePending = false, closeDialogs = false;
 const hits = [];
 Interceptor.attach(kernel.getExportByName('CreateProcessW'), {
     onEnter(args) {
@@ -45,6 +45,10 @@ for (const suffix of ['A','W']) {
     const original = new NativeFunction(address, 'int', ['pointer','pointer','pointer','uint']);
     Interceptor.replace(address, new NativeCallback((hwnd,message,title,flags) => {
         const value = suffix === 'W' ? message.readUtf16String() : message.readUtf8String();
+        if (closeDialogs && value === 'Connection closed by remote host') {
+            hits.push({event:'inactive-dialog'});
+            return 1;
+        }
         if (failurePending && (value.includes('Unable to open terminal:') ||
             value.includes('Unable to create terminal window:'))) {
             failurePending = false;
@@ -62,6 +66,7 @@ function owned(value) {
 }
 rpc.exports = {
     arm(kind) { armed = kind; },
+    inactiveDialogs() { closeDialogs = true; },
     status() { return {armed,failurePending,hits}; },
     session(value) {
         return getProp(owned(value),Memory.allocUtf16String('NemotermSessionId')).toString();

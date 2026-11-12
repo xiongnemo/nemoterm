@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -81,6 +81,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/shutdown-window-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test startup caret creation before first focus
+        shell: pwsh
+        run: |
+          python tests/caret_startup_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/caret-startup-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test native window and ConPTY input and resize
         shell: pwsh
         run: |
@@ -96,6 +103,10 @@ jobs:
             Copy-Item "research/session-window-$renderer-observed.json" test-results/ -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
+          python tests/session_restart_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/session-restart-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |
@@ -316,6 +327,13 @@ jobs:
             -I vendor/putty-0.85/windows tests/test_font_cmap.c \
             vendor/putty-0.85/windows/nemo_font_cmap.c -o test-font-cmap
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-font-cmap
+      - name: Test tab and preview geometry with sanitizers
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/windows tests/test_tabs_layout.c \
+            vendor/putty-0.85/windows/nemo_tabs_layout.c -o test-tabs-layout
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-tabs-layout
       - name: Test terminal image, hyperlink, keyboard and clipboard lifecycle with sanitizers
         run: |
           cmake -S vendor/putty-0.85 -B build-asan -G Ninja \

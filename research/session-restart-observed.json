@@ -1,0 +1,68 @@
+{
+  "executable_sha256": "f0dc0d20ce22a2fdabf030dc0c9d47db372734c7e31a0e19c61eb0c4598f49ad",
+  "completed": true,
+  "cycles": [
+    {
+      "index": 0,
+      "old_session": 1,
+      "new_session": 3,
+      "old_pid": 42388,
+      "new_pid": 27588
+    },
+    {
+      "index": 1,
+      "old_session": 3,
+      "new_session": 4,
+      "old_pid": 27588,
+      "new_pid": 37892
+    },
+    {
+      "index": 2,
+      "old_session": 4,
+      "new_session": 5,
+      "old_pid": 37892,
+      "new_pid": 23640
+    },
+    {
+      "index": 3,
+      "old_session": 5,
+      "new_session": 6,
+      "old_pid": 23640,
+      "new_pid": 35636
+    }
+  ],
+  "instrumented": true,
+  "clipboard": "synthetic request; real clipboard untouched",
+  "instrumentation": {
+    "armed": "",
+    "failurePending": false,
+    "hits": [
+      {
+        "event": "inactive-dialog"
+      },
+      {
+        "event": "inactive-dialog"
+      },
+      {
+        "event": "inactive-dialog"
+      },
+      {
+        "event": "inactive-dialog"
+      }
+    ]
+  },
+  "owned_job_cleanup": {
+    "before": {
+      "total": 13,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 13,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false
+  },
+  "frontend_exit": 0
+}

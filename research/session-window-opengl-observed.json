@@ -1,5 +1,5 @@
 {
-  "executable_sha256": "dc7b462075c18eb735230dc51f3157c519a4d3fe66bb9a8563cb805238ff502a",
+  "executable_sha256": "f0dc0d20ce22a2fdabf030dc0c9d47db372734c7e31a0e19c61eb0c4598f49ad",
   "renderer": "opengl",
   "completed": true,
   "checks": [
@@ -16,97 +16,97 @@
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 30711808,
-      "total_ws": 59486208,
-      "private_commit": 89583616
+      "private_ws": 30736384,
+      "total_ws": 59473920,
+      "private_commit": 88494080
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 30982144,
-      "total_ws": 59777024,
-      "private_commit": 89731072
+      "private_ws": 30953472,
+      "total_ws": 59744256,
+      "private_commit": 88596480
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 31059968,
-      "total_ws": 59879424,
-      "private_commit": 90148864
+      "private_ws": 31019008,
+      "total_ws": 59842560,
+      "private_commit": 89153536
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33308672,
-      "total_ws": 62136320,
-      "private_commit": 90173440
+      "private_ws": 33275904,
+      "total_ws": 62111744,
+      "private_commit": 89030656
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33353728,
-      "total_ws": 62201856,
-      "private_commit": 90062848
+      "private_ws": 33390592,
+      "total_ws": 62246912,
+      "private_commit": 88977408
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33513472,
-      "total_ws": 62382080,
-      "private_commit": 90136576
+      "private_ws": 33521664,
+      "total_ws": 62398464,
+      "private_commit": 88981504
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 34066432,
-      "total_ws": 62943232,
-      "private_commit": 90800128
+      "private_ws": 33533952,
+      "total_ws": 62418944,
+      "private_commit": 89018368
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33595392,
+      "private_ws": 33562624,
+      "total_ws": 62451712,
+      "private_commit": 89067520
+    },
+    {
+      "handles": 414,
+      "gdi": 31,
+      "user": 39,
+      "private_ws": 33554432,
+      "total_ws": 62459904,
+      "private_commit": 89063424
+    },
+    {
+      "handles": 414,
+      "gdi": 31,
+      "user": 39,
+      "private_ws": 33574912,
       "total_ws": 62480384,
-      "private_commit": 90259456
+      "private_commit": 89112576
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33583104,
-      "total_ws": 62476288,
-      "private_commit": 90238976
+      "private_ws": 33579008,
+      "total_ws": 62484480,
+      "private_commit": 89112576
     },
     {
       "handles": 414,
       "gdi": 31,
       "user": 39,
-      "private_ws": 33615872,
+      "private_ws": 33611776,
       "total_ws": 62521344,
-      "private_commit": 90259456
-    },
-    {
-      "handles": 414,
-      "gdi": 31,
-      "user": 39,
-      "private_ws": 33558528,
-      "total_ws": 62468096,
-      "private_commit": 90210304
-    },
-    {
-      "handles": 414,
-      "gdi": 31,
-      "user": 39,
-      "private_ws": 33591296,
-      "total_ws": 62504960,
-      "private_commit": 90238976
+      "private_commit": 89178112
     }
   ],
   "memory_instrumented": false,
@@ -114,9 +114,9 @@
     "handles": 414,
     "gdi": 31,
     "user": 38,
-    "private_ws": 30580736,
-    "total_ws": 59310080,
-    "private_commit": 89849856
+    "private_ws": 30564352,
+    "total_ws": 59260928,
+    "private_commit": 88678400
   },
   "startup_fault": {
     "armed": "",
@@ -170,130 +170,130 @@
   "frontend_exit": 0,
   "children": [
     {
-      "pid": 25672,
-      "parent": 27264,
+      "pid": 19984,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52038270,
+      "hwnd": 11146332,
       "session": 1,
       "renderer": 2
     },
     {
-      "pid": 8420,
-      "parent": 27264,
+      "pid": 34044,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 53218866,
+      "hwnd": 57345470,
       "session": 2,
       "renderer": 2
     },
     {
-      "pid": 14120,
-      "parent": 27264,
+      "pid": 19616,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 94703986,
+      "hwnd": 103746416,
       "session": 3,
       "renderer": 2
     },
     {
-      "pid": 17632,
-      "parent": 27264,
+      "pid": 11532,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52103806,
+      "hwnd": 11211868,
       "session": 4,
       "renderer": 2
     },
     {
-      "pid": 40076,
-      "parent": 27264,
+      "pid": 8624,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52169342,
+      "hwnd": 11277404,
       "session": 5,
       "renderer": 2
     },
     {
-      "pid": 28372,
-      "parent": 27264,
+      "pid": 19896,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52234878,
+      "hwnd": 11342940,
       "session": 6,
       "renderer": 2
     },
     {
-      "pid": 23368,
-      "parent": 27264,
+      "pid": 35428,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52300414,
+      "hwnd": 11408476,
       "session": 7,
       "renderer": 2
     },
     {
-      "pid": 35440,
-      "parent": 27264,
+      "pid": 31784,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52365950,
+      "hwnd": 11474012,
       "session": 8,
       "renderer": 2
     },
     {
-      "pid": 46932,
-      "parent": 27264,
+      "pid": 44136,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52431486,
+      "hwnd": 11539548,
       "session": 9,
       "renderer": 2
     },
     {
-      "pid": 36092,
-      "parent": 27264,
+      "pid": 16508,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52497022,
+      "hwnd": 11605084,
       "session": 10,
       "renderer": 2
     },
     {
-      "pid": 38900,
-      "parent": 27264,
+      "pid": 29684,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52562558,
+      "hwnd": 11670620,
       "session": 11,
       "renderer": 2
     },
     {
-      "pid": 22632,
-      "parent": 27264,
+      "pid": 10620,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52628094,
+      "hwnd": 11736156,
       "session": 12,
       "renderer": 2
     },
     {
-      "pid": 45308,
-      "parent": 27264,
+      "pid": 22952,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52693630,
+      "hwnd": 11801692,
       "session": 13,
       "renderer": 2
     },
     {
-      "pid": 26020,
-      "parent": 27264,
+      "pid": 16032,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52759166,
+      "hwnd": 11867228,
       "session": 14,
       "renderer": 2
     },
     {
-      "pid": 37192,
-      "parent": 27264,
+      "pid": 34072,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 52824702,
+      "hwnd": 11932764,
       "session": 15,
       "renderer": 2
     },
     {
-      "pid": 3772,
-      "parent": 27264,
+      "pid": 18128,
+      "parent": 15168,
       "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
-      "hwnd": 54136370,
+      "hwnd": 40896992,
       "session": 17,
       "renderer": 2
     }

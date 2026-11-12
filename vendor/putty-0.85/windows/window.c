@@ -749,6 +749,14 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
                                     1, 1, bits);
         sfree(bits);
     }
+    /* Startup SetWindowPos can deliver WM_SETFOCUS before caretbm exists.
+     * Complete this seat's caret only if it actually owns keyboard focus;
+     * creating an inactive session must not replace another seat's caret. */
+    if (wgs->caretbm && GetFocus() == wgs->term_hwnd) {
+        CreateCaret(wgs->term_hwnd, wgs->caretbm,
+                    wgs->font_width, wgs->font_height);
+        ShowCaret(wgs->term_hwnd);
+    }
 
     /*
      * Initialise the scroll bar.
@@ -3451,8 +3459,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         return 0;
       case WM_SETFOCUS:
         term_set_focus(wgs->term, true);
-        CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
-        ShowCaret(hwnd);
+        if (wgs->caretbm) {
+            CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
+            ShowCaret(hwnd);
+        }
         flash_window(wgs, 0);               /* stop */
         wgs->compose_state = 0;
         term_update(wgs->term);
