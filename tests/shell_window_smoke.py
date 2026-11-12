@@ -29,6 +29,25 @@ def shell_path(path, sid):
     if sid == 'git-bash': return '/' + value[0].lower() + value[2:]
     return value
 
+def directory_command(marker, sid):
+    path = shell_path(marker, sid)
+    ready = marker.with_suffix('.done')
+    done_path = shell_path(ready, sid)
+    # Redirection creates the output before the command writes it. Publish a
+    # separate completion marker only after that file has been written/closed.
+    # Waiting for marker.exists alone can read an empty or partial directory.
+    if sid in ('pwsh', 'powershell'):
+        command = "[IO.File]::WriteAllText('"+path.replace("'", "''")+"',(Get-Location).ProviderPath)"
+        command += "; [IO.File]::WriteAllText('"+done_path.replace("'", "''")+"','done')"
+    elif sid == 'cmd':
+        # CMD redirects builtins using its ANSI encoding unless /U is set.
+        command = 'cmd /d /u /c cd >"'+str(marker)+'" & type nul >"'+str(ready)+'"'
+    else:
+        command = ("pwd -W > " if sid == "git-bash" else "pwd > ")+shlex.quote(path)
+        command += '; : > '+shlex.quote(done_path)
+    return command, ready
+
+
 def same_directory(actual, expected, sid):
     if sid == 'wsl-bash':
         # This fixture uses a Windows directory mounted in WSL. Compare its
@@ -64,15 +83,7 @@ try:
             if os.environ.get('NEMOTERM_TEST_SHELL') not in (None, sid):
                 continue
             marker = Path(temporary) / (sid + '.txt')
-            path = shell_path(marker, sid)
-            if sid in ('pwsh', 'powershell'):
-                command = "[IO.File]::WriteAllText('"+path.replace("'", "''")+"',(Get-Location).ProviderPath)"
-            elif sid == 'cmd':
-                # CMD redirects builtins using its ANSI encoding unless /U is
-                # set. CHCP changes console I/O, not this redirected file.
-                command = 'cmd /d /u /c cd >"' + str(marker) + '"'
-            else:
-                command = ("pwd -W > " if sid == "git-bash" else "pwd > ") + shlex.quote(path)
+            command, ready_file = directory_command(marker, sid)
             process = subprocess.Popen([str(exe), '-load', profile, '--shell', sid,
                 '--directory', str(starting)],
                 env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
@@ -83,7 +94,7 @@ try:
                 time.sleep(.7)
                 send(hwnd, command + '\r')
                 try:
-                    wait_for(marker.exists, timeout=30)
+                    wait_for(ready_file.exists, timeout=30)
                 except Exception:
                     print('Owned shell terminal exit:', process.poll(), flush=True)
                     if process.poll() is None:
@@ -117,8 +128,9 @@ try:
                     try:
                         duplicate_marker = Path(temporary)/(sid+'-duplicate.txt')
                         time.sleep(.7)
-                        send(duplicate_hwnd, ('pwd -W > ' if sid == 'git-bash' else 'pwd > ')+shlex.quote(shell_path(duplicate_marker, sid))+'\r')
-                        wait_for(duplicate_marker.exists, timeout=30)
+                        duplicate_command, duplicate_ready = directory_command(duplicate_marker, sid)
+                        send(duplicate_hwnd, duplicate_command+'\r')
+                        wait_for(duplicate_ready.exists, timeout=30)
                         actual_duplicate = duplicate_marker.read_text(encoding='utf-8-sig').strip()
                         expected_duplicate = destination.as_posix() if sid == 'git-bash' else posix_directory
                         assert same_directory(actual_duplicate, destination, sid), (sid, actual_duplicate, expected_duplicate)
