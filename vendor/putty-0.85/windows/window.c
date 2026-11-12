@@ -977,6 +977,14 @@ static void wgs_cleanup(WinGuiSeat *wgs)
     wgs->gl = NULL;
     nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
+    /* A backend exit posts WM_QUIT without destroying the HWND. Retire it
+     * while its callbacks can still use the seat, fonts and keyboard state:
+     * CoUninitialize below can dispatch messages after this function returns.
+     * A window closed through WM_CLOSE has already been destroyed. */
+    if (wgs->term_hwnd &&
+        GetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA) == (LONG_PTR)wgs)
+        DestroyWindow(wgs->term_hwnd);
+    wgs->term_hwnd = NULL;
     nemo_keyboard_free(wgs);
     deinit_fonts(wgs);
     sfree(wgs->logpal);

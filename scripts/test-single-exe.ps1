@@ -21,7 +21,7 @@ try {
     $tests = @('single_exe', 'startup_size', 'renderer', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
-        'shell_marks', 'shell', 'delegated_console')
+        'shell_marks', 'shell', 'delegated_console', 'shutdown')
     foreach ($name in $tests) {
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }

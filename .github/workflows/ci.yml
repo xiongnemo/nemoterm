@@ -74,6 +74,13 @@ jobs:
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
+      - name: Test window callback lifetime during native shutdown
+        shell: pwsh
+        run: |
+          python tests/shutdown_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/shutdown-window-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test native window and ConPTY input and resize
         shell: pwsh
         run: |
