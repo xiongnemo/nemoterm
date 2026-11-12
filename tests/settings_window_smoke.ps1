@@ -6,9 +6,9 @@ Add-Type -AssemblyName UIAutomationTypes
 $root = Split-Path $PSScriptRoot -Parent
 $exe = Join-Path $root 'dist/nemoterm.exe'
 $python = (Get-Command python.exe -ErrorAction Stop).Source
-$profile = 'settings-test-' + [Guid]::NewGuid().ToString('N')
-$profilePath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $profile
-$directory = Join-Path ([IO.Path]::GetTempPath()) $profile
+$fixtureProfile = 'settings-test-' + [Guid]::NewGuid().ToString('N')
+$profilePath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $fixtureProfile
+$directory = Join-Path ([IO.Path]::GetTempPath()) $fixtureProfile
 New-Item -ItemType Directory -Path $directory | Out-Null
 $report = Join-Path $directory 'report.json'
 $control = Join-Path $directory 'control.json'
@@ -61,7 +61,7 @@ try {
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
     # This is the visible GUI under test, not a background helper. Hidden
     # startup also hides the modal dialog from the UI Automation tree.
-    $app = Start-Process -FilePath $exe -ArgumentList @('-load', $profile, '--settings') -PassThru
+    $app = Start-Process -FilePath $exe -ArgumentList @('-load', $fixtureProfile, '--settings') -PassThru
     $dialog = Dialog $app
     foreach ($name in @('Terminal', 'Keyboard')) {
         $node = Wait-Value { Find-Name $dialog $name }
@@ -92,7 +92,7 @@ try {
     Select-Node $dialog 'Copy and paste' | Out-Null
     Select-Node $dialog 'Session' | Out-Null
     $saved = Wait-Value { Find-Name $dialog 'Saved Sessions' 'Edit' }
-    $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($profile)
+    $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
     $values = Get-ItemProperty -LiteralPath $profilePath
     if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1) { throw 'Settings were not saved' }
@@ -102,7 +102,7 @@ try {
     # Windows PowerShell 5 does not interpret `e; construct ESC explicitly.
     Write-Control @{phase='settings-launch';sequence=([char]27 + '[?4m' + [char]27 + '[?4g')}
     $fixture = Join-Path $PSScriptRoot 'mouse_fixture.py'
-    $arguments = @('-load', $profile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'))
+    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'))
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
