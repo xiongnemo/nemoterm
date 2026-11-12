@@ -144,6 +144,7 @@ struct WinGuiSeat {
     HDC wintw_hdc;
 
     bool resizing;
+    bool remote_window_resize;
     bool need_backend_resize;
 
     long next_flash;

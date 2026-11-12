@@ -2471,8 +2471,16 @@ void term_update(Terminal *term)
     }
     if (term->win_resize_pending == WIN_RESIZE_NEED_SEND) {
         term->win_resize_pending = WIN_RESIZE_AWAIT_REPLY;
-        win_request_resize(term->win, term->win_resize_pending_w,
-                           term->win_resize_pending_h);
+        if (term->win_resize_kind == WIN_SIZE_CELLS) {
+            win_request_resize(term->win, term->win_resize_pending_w,
+                               term->win_resize_pending_h);
+        } else if (term->no_remote_resize || !term->win->vt->request_window_resize) {
+            term_resize_request_completed(term);
+        } else {
+            term->win->vt->request_window_resize(term->win,
+                term->win_resize_pending_w, term->win_resize_pending_h,
+                term->win_resize_kind == WIN_SIZE_XT_PIXELS);
+        }
     }
     if (term->win_zorder_pending) {
         win_set_zorder(term->win, term->win_zorder_top);
@@ -3663,6 +3671,13 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 void term_resize_request_completed(Terminal *term)
 {
     assert(term->win_resize_pending == WIN_RESIZE_AWAIT_REPLY);
+    /* ConPTY may have already applied CSI 8 to the child's console buffer.
+     * A denied or unchanged request must put it back in agreement with the
+     * actual frontend grid. A changed grid already sent this via term_size. */
+    if (term->win_resize_kind != WIN_SIZE_CELLS && term->backend &&
+        term->cols == term->win_resize_old_cols &&
+        term->rows == term->win_resize_old_rows)
+        backend_size(term->backend, term->cols, term->rows);
     term->win_resize_pending = WIN_RESIZE_NO;
     queue_toplevel_callback(term_out_cb, term);
 }
@@ -4688,9 +4703,40 @@ static void term_request_resize(Terminal *term, int cols, int rows)
         return;                        /* don't need to do anything */
 
     term->win_resize_pending = WIN_RESIZE_NEED_SEND;
+    term->win_resize_kind = WIN_SIZE_CELLS;
     term_end_synchronized_update(term);
     term->win_resize_pending_w = cols;
     term->win_resize_pending_h = rows;
+    term_schedule_update(term);
+}
+
+static int nemo_window_parameter(Terminal *term, unsigned index)
+{
+    if (index >= (unsigned)term->esc_nargs ||
+        !(term->esc_arg_present & (1u << index))) return -1;
+    return min(term->esc_args[index], 65535);
+}
+
+static void nemo_request_window_size(Terminal *term, int w, int h, bool pixels)
+{
+    if (term->no_remote_resize) {
+        if (term->backend) backend_size(term->backend, term->cols, term->rows);
+        return;
+    }
+    if (!term->win->vt->request_window_resize) {
+        /* Preserve ordinary character resizing on older frontends. */
+        if (!pixels && w != 0 && h != 0 && term->win->vt->request_resize)
+            term_request_resize(term, w < 0 ? term->cols : w,
+                                h < 0 ? term->rows : h);
+        return;
+    }
+    term->win_resize_pending = WIN_RESIZE_NEED_SEND;
+    term->win_resize_kind = pixels ? WIN_SIZE_XT_PIXELS : WIN_SIZE_XT_CELLS;
+    term->win_resize_pending_w = w;
+    term->win_resize_pending_h = h;
+    term->win_resize_old_cols = term->cols;
+    term->win_resize_old_rows = term->rows;
+    term_end_synchronized_update(term);
     term_schedule_update(term);
 }
 
@@ -7331,12 +7377,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * illegal values (eg first arg 1..9) for window changing
                          * and reports.
                          */
-                        if (term->esc_nargs <= 1
-                            && (term->esc_args[0] < 1 ||
-                                term->esc_args[0] >= 24)) {
+                        if (term->esc_has_subargs || term->esc_overflow) break;
+                        if (term->esc_args[0] >= 24) {
                             compatibility(VT340TEXT);
-                            if (!term->no_remote_resize)
-                                term_request_resize(term, term->cols, 24);
+                            nemo_request_window_size(term, -1,
+                                nemo_window_parameter(term, 0), false);
                             deselect(term);
                         } else if (term->esc_nargs >= 1 &&
                                    term->esc_args[0] >= 1 &&
@@ -7367,10 +7412,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                 }
                                 break;
                               case 4:
-                                /* We should resize the window to a given
-                                 * size in pixels here, but currently our
-                                 * resizing code isn't healthy enough to
-                                 * manage it. */
+                                nemo_request_window_size(term,
+                                    nemo_window_parameter(term, 2),
+                                    nemo_window_parameter(term, 1), true);
                                 break;
                               case 5:
                                 /* move to top */
@@ -7389,15 +7433,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                 term_schedule_update(term);
                                 break;
                               case 8:
-                                if (term->esc_nargs >= 3 &&
-                                    !term->no_remote_resize) {
-                                    term_request_resize(
-                                        term,
-                                        def(term->esc_args[2],
-                                            term->conf_width),
-                                        def(term->esc_args[1],
-                                            term->conf_height));
-                                }
+                                nemo_request_window_size(term,
+                                    nemo_window_parameter(term, 2),
+                                    nemo_window_parameter(term, 1), false);
                                 break;
                               case 9:
                                 if (term->esc_nargs >= 2) {

@@ -15,6 +15,8 @@ def main():
     args = parser.parse_args()
     operations = {
         'baseline': '',
+        'no-operation-default': 't',
+        'no-operation-zero': '0t',
         'chars-explicit': '8;30;90t',
         'chars-omitted-both': '8t',
         'chars-empty-both': '8;;t',
@@ -45,6 +47,12 @@ def main():
         'lines-subparameters': '31:1t',
         'chars-too-large': '8;65536;90t',
         'pixels-too-large': '4;65536;482t',
+        'chars-one-cell': '8;1;1t',
+        'pixels-one': '4;1;1t',
+        'pixels-small': '4;7;7t',
+        'chars-omitted-after-pixels': '4;217;489t'+CSI+'8t',
+        'pixels-omitted-after-pixels': '4;217;489t'+CSI+'4t',
+        'pixels-saturated': '4;999999999999999999;482t',
     }
     # Each case begins with a different-than-default grid. This distinguishes
     # omitted/current dimensions from resource defaults and explicit zero.
