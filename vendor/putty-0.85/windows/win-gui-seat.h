@@ -8,6 +8,7 @@ typedef struct WinGuiSeat WinGuiSeat;
 
 struct PopupMenu {
     HMENU menu;
+    HMENU shell_menu; /* owned by menu, destroyed with its parent */
 };
 enum { SYSMENU, CTXMENU };             /* indices into popup_menus field */
 

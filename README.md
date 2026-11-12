@@ -75,6 +75,9 @@ conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA �
 * 右键已选择的文本：默认只复制；可在 Window/Selection 改为复制并粘贴。
   复制并粘贴使用当前选区，系统剪贴板繁忙时也不会粘贴旧内容。
 * Ctrl+右键：始终打开上下文菜单，其中有 Copy and Paste。
+* Shell Integration 菜单可跳到上一／下一处提示符，或选择命令、输出后用正常复制键复制。
+  需要 shell 已输出 OSC 133／633 标记；不会自动修改 shell 配置。Window/Bindings/Commands
+  可为四个动作设置快捷键，默认不绑定。选择范围只包含保留的历史；[实现边界与验证状态](research/shell-marks-design.md)。
 * Shift+左键拖选：强制选择终端字符网格，绕过应用鼠标模式；备用屏同样适用。
 * OSC 8 链接悬停显示完整地址，并为同组标签加下划线；Ctrl+左键打开，
   Ctrl+右键菜单可打开或复制地址。拖动或按住 Shift 仍选择标签文本。

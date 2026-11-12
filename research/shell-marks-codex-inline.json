@@ -1,0 +1,165 @@
+{
+  "executable_sha256": "453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571",
+  "codex_launcher": "C:\\Users\\nemo\\.codex\\packages\\standalone\\releases\\0.167.0-x86_64-pc-windows-msvc\\bin\\codex.exe",
+  "codex_launcher_sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70",
+  "codex_version": "codex-cli 0.167.0",
+  "mode": "inline",
+  "font": "SarasaTermSC Nerd Font Light",
+  "renderer": "gdi",
+  "backend": "loopback deterministic SSE; no model or tool calls",
+  "checks": [
+    "actual-client-startup",
+    "unicode-input-reaches-real-client",
+    "streamed-markdown-long-reply",
+    "32-live-client-resizes",
+    "shift-grid-select-ctrl-shift-c-exact-unicode",
+    "ctrl-shift-v-exact-unicode-through-real-client"
+  ],
+  "screenshots": [
+    {
+      "file": "codex-inline-startup.png",
+      "pixel_sha256": "a756de45b05cee90ef0e30a19bd3e07c9462335eedf2cbba09bac3c5df8a8609"
+    },
+    {
+      "file": "codex-inline-markdown.png",
+      "pixel_sha256": "114a1abcfca3a32f95e617fbc1b9d8a3fa2d48648ba32adf7357cc9f92652143"
+    },
+    {
+      "file": "codex-inline-response.png",
+      "pixel_sha256": "973835c377cabf02b4bc0a99f54d821d5e9007bd1b386dd75b015a2b213b02cc"
+    },
+    {
+      "file": "codex-inline-resized.png",
+      "pixel_sha256": "973835c377cabf02b4bc0a99f54d821d5e9007bd1b386dd75b015a2b213b02cc"
+    },
+    {
+      "file": "codex-inline-selection.png",
+      "pixel_sha256": "05049e6b5df0c7046ab767fe03a068766fd9c65d35edb27176eea5a31e14072e"
+    },
+    {
+      "file": "codex-inline-paste.png",
+      "pixel_sha256": "67702a300e8c68174433cb164bed532f5d253bfdb58e686251daccd6ea758815"
+    }
+  ],
+  "startup_processes": [
+    {
+      "pid": 4844,
+      "parent": 46164,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1544192,
+        "total_ws": 10448896,
+        "private_commit": 2236416
+      }
+    },
+    {
+      "pid": 46164,
+      "parent": 11028,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 3973120,
+        "total_ws": 22511616,
+        "private_commit": 5476352
+      }
+    },
+    {
+      "pid": 36404,
+      "parent": 46164,
+      "path": "C:\\Users\\nemo\\.codex\\packages\\standalone\\releases\\0.167.0-x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 4423680,
+        "total_ws": 380436480,
+        "private_commit": 7712768
+      },
+      "sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70"
+    }
+  ],
+  "typed_text": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\\codex-window-22oaa2h8\\work\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\\codex-window-22oaa2h8\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\u2026",
+  "markdown_preview": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\\codex-window-22oaa2h8\\work\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     ~\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\build\\codex-window-22oaa2h8\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n\r\n\u2022 # Nemoterm real Codex rendering fixture\r\n\r\n  Bold, italic, inline code, and \u4e2d\u6587\u4e0e\u7ec4\u5408\u5b57\u7b26 e\u0301.\r\n\r\n  print(\"\u4e2d\u6587\u4e0e Unicode\")\r\n\r\n   Check    Result\r\n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\r\n   \u4e2d\u6587     \u4fdd\u7559\r\n  \u2500\u2500\u2500\u2500\u2500\u2500\u2500  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\r\n   ASCII    kept\r\n\r\n  ROW_001 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_002 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_003 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n\r\n  ROW_005 \u4e2d\u6587 e\u0301: l\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 ~\\Documents\\Projects\\nemoterm\\build\\shel\u2026  \u26a0 1 warning \u00b7 f2 to view\r\n",
+  "uninstrumented_frontend": {
+    "samples": 70,
+    "peak_private_ws": 6070272,
+    "peak_total_ws": 27848704,
+    "peak_private_commit": 7294976
+  },
+  "post_resize_processes": [
+    {
+      "pid": 4844,
+      "parent": 46164,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1576960,
+        "total_ws": 10579968,
+        "private_commit": 2269184
+      }
+    },
+    {
+      "pid": 46164,
+      "parent": 11028,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\shell-marks-ff693f8-local\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 6070272,
+        "total_ws": 27848704,
+        "private_commit": 7282688
+      }
+    },
+    {
+      "pid": 36404,
+      "parent": 46164,
+      "path": "C:\\Users\\nemo\\.codex\\packages\\standalone\\releases\\0.167.0-x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 31477760,
+        "total_ws": 411607040,
+        "private_commit": 39829504
+      }
+    }
+  ],
+  "selected_row": 20,
+  "requests": [
+    {
+      "turn": 1,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 1,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    },
+    {
+      "turn": 2,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42",
+        "NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 2,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    }
+  ],
+  "copy_text": "NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END",
+  "input_scope": "own-HWND Unicode and mouse messages; own UI-thread keyboard state; not physical devices",
+  "cleanup": [
+    {
+      "pid": 4844,
+      "exit_code": 0
+    },
+    {
+      "pid": 46164,
+      "exit_code": 0
+    },
+    {
+      "pid": 36404,
+      "exit_code": 3221225786
+    }
+  ]
+}

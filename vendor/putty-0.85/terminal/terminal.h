@@ -11,11 +11,15 @@
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
+#include "nemo_shell_marks.h"
 #include "nemo_bindings.h"
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
 #include "nemo_osc52.h"
 #include "nemo_win32_input.h"
+
+/* Read-only range query for native menu state; zero means unavailable. */
+uint64_t term_shell_mark_range(Terminal *, bool output, NemoShellPoint *, NemoShellPoint *);
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
@@ -181,6 +185,8 @@ struct terminal_tag {
     truecolour curr_truecolour, save_truecolour;
     NemoHyperlinks *hyperlinks;
     NemoCwd working_directory;
+    NemoShellMarks shell_marks;
+    uint64_t shell_mark_selected; /* navigation target; zero means latest command */
     uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
     uint32_t hover_hyperlink;
     termchar basic_erase_char, erase_char;

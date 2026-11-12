@@ -1,4 +1,6 @@
 """Verify cursor pixels, status queries and keyboard capabilities through ConPTY."""
+import frida
+
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
     memory_sample, wait_for, find_window, capture)
@@ -15,7 +17,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
     handle = k.OpenProcess(0x410, False, process.pid)
     samples, stop = [], threading.Event()
-    evidence = {}
+    evidence = dict(focus_model='owned-process instrumented active and inactive states',
+                    executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
+    session = script = hwnd = None
+    completed = False
     def sampler():
         while not stop.is_set():
             samples.append(memory_sample(handle))
@@ -42,7 +47,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             raise AssertionError((name, expected, current()))
         time.sleep(0.08)
         pixels = capture(hwnd, return_pixels=True)
-        evidence[name] = dict(reply=observed['hex'], sha256=hashlib.sha256(pixels).hexdigest())
+        evidence[name] = dict(reply=observed['hex'], sha256=hashlib.sha256(pixels).hexdigest(),
+                              desktop_foreground=int(u.GetForegroundWindow() or 0))
         return pixels
     def cursor_shape(pixels):
         rect = w.RECT()
@@ -54,6 +60,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
     try:
         hwnd = wait_for(lambda: find_window(process.pid))
         wait_for(current)
+        session = frida.attach(process.pid)
+        script = session.create_script((root/'tests/query_focus_probe.js').read_text())
+        script.load()
+        script.exports_sync.set_focus(hex(hwnd), True)
         blank = phase('hidden', '\x1b[0m\x1b[2 q\x1b[?25l\x1b[2J\x1b[2;2H'
             '\x1b]10;rgb:f/f/f\x07\x1b]11;rgb:0/0/0\x07\x1b]12;rgb:f/0/0\x07'
             '\x1bP$q q\x1b\\', b'\x1bP1$r2 q\x1b\\')
@@ -83,7 +93,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         phase('blink', '\x1b[0m\x1b[r\x1b[2J\x1b[2;2H\x1b[?25h\x1b[1 q\x1bP$q q\x1b\\',
               b'\x1bP1$r1 q\x1b\\')
         blink_ms = u.GetCaretBlinkTime()
-        if u.GetForegroundWindow() == hwnd and 0 < blink_ms <= 1000:
+        if 0 < blink_ms <= 1000:
             states = set()
             deadline = time.monotonic()+2.5*blink_ms/1000
             while time.monotonic() < deadline:
@@ -92,10 +102,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             evidence['blink_states'] = sorted(states)
             assert states == {False, True}, evidence
         else:
-            evidence['blink_pixel_check_skipped'] = 'No foreground focus or system blink disabled/slow'
+            evidence['blink_pixel_check_skipped'] = 'System blink disabled or slow'
         steady = phase('blink-off', '\x1b[?12l\x1b[?12$p\x1bP$q q\x1b\\',
               b'\x1b[?12;2$y\x1bP1$r2 q\x1b\\')
-        if u.GetForegroundWindow() == hwnd and 0 < blink_ms <= 1000:
+        if 0 < blink_ms <= 1000:
             states = set()
             deadline = time.monotonic()+2.5*blink_ms/1000
             while time.monotonic() < deadline:
@@ -117,6 +127,13 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         if released_shape[:2] != shapes[2][:2]:
             capture(hwnd, '../build/query-released-failed.png')
         assert released_shape[:2] == shapes[2][:2], (shapes, released_shape, evidence)
+        script.exports_sync.set_focus(hex(hwnd), False)
+        passive = wait_for(lambda: pixels if (pixels := capture(hwnd, return_pixels=True)) != released else None)
+        passive_shape = cursor_shape(passive)
+        assert passive_shape[0] == 1 and 0 < passive_shape[2] < released_shape[2], passive_shape
+        evidence['inactive-cursor'] = dict(shape=passive_shape, sha256=hashlib.sha256(passive).hexdigest())
+        script.exports_sync.set_focus(hex(hwnd), True)
+        wait_for(lambda: capture(hwnd, return_pixels=True) == released)
         # Inject messages only into our own HWND. This exercises the real
         # Win32 translator; modifier combinations are tested by test_tcap.
         # Query values must match both the protocol oracle and the child input.
@@ -155,9 +172,23 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
                         peak_total_ws=max(s['total_ws'] for s in samples),
                         executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
         assert evidence['peak_private_ws'] < 20_000_000, evidence
-        (root/'research/query-window-observed.json').write_text(json.dumps(evidence, indent=2))
+        completed = True
         print('Native cursor pixels, queries and keyboard capabilities passed:', evidence)
     finally:
+        evidence['completed'] = completed
+        try:
+            if script:
+                evidence['focus_instrumentation'] = script.exports_sync.stats()
+            if not completed and hwnd and process.poll() is None:
+                capture(hwnd, 'query-failure.png')
+        except Exception as error:
+            evidence['diagnostic_error'] = str(error)
+        if session:
+            try:
+                session.detach()
+            except frida.InvalidOperationError:
+                pass
+        (root/'research/query-window-observed.json').write_text(json.dumps(evidence, indent=2))
         stop.set()
         worker.join(2)
         k.CloseHandle(handle)

@@ -2283,6 +2283,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    nemo_shell_marks_clear(&term->shell_marks);
+    term->shell_mark_selected = 0;
     osc52_cancel_query(term);
     term->termstate = TOPLEVEL;
     term->esc_query = 0;
@@ -2779,6 +2781,7 @@ void term_reconfig(Terminal *term, Conf *conf)
  */
 void term_clrsb(Terminal *term)
 {
+    nemo_shell_marks_rows(&term->shell_marks, 0, term->rows-1, 0);
     nemo_images_rows(term, 0, 0, INT_MAX, 0);
     unsigned char *line;
     int i;
@@ -3050,6 +3053,7 @@ void term_free(Terminal *term)
     nemo_images_clear(term);
     nemo_hyperlink_free(term->hyperlinks);
     nemo_cwd_clear(&term->working_directory);
+    nemo_shell_marks_clear(&term->shell_marks);
     compressed_scrollback_line *cline;
     termline *line;
     struct beeptime *beep;
@@ -3137,6 +3141,20 @@ typedef struct NemoReflowPoint {
     bool pending;
 } NemoReflowPoint;
 
+typedef struct NemoReflowMark {
+    NemoShellPoint *dest;
+    int row, col, x;
+    int64_t y;
+    bool mapped;
+} NemoReflowMark;
+
+static int nemo_reflow_mark_order(const void *av, const void *bv)
+{
+    const NemoReflowMark *a = av, *b = bv;
+    if (a->row != b->row) return a->row < b->row ? -1 : 1;
+    return a->col < b->col ? -1 : a->col > b->col;
+}
+
 typedef struct NemoReflow {
     Terminal *term;
     tree234 *lines;
@@ -3144,6 +3162,8 @@ typedef struct NemoReflow {
     int cols, rows, x, capacity;
     int64_t count, first, limit;
     NemoReflowPoint point[2]; /* current cursor, saved cursor */
+    NemoReflowMark *marks;
+    size_t nmarks, nextmark;
 } NemoReflow;
 
 static void nemo_reflow_emit(NemoReflow *r, bool wrapped)
@@ -3166,6 +3186,16 @@ static void nemo_reflow_emit(NemoReflow *r, bool wrapped)
 
 static void nemo_reflow_point(NemoReflow *r, int row, int first, int width)
 {
+    /* The bounded sorted mark stream is consumed once, alongside the cells.
+     * Preserve half-open endpoints at x == cols, including clipped wide pairs. */
+    while (r->nextmark < r->nmarks) {
+        NemoReflowMark *p = &r->marks[r->nextmark];
+        if (p->row != row || p->col < first || p->col >= first + width) break;
+        p->x = r->x + p->col - first;
+        p->y = r->count;
+        p->mapped = true;
+        r->nextmark++;
+    }
     for (int i = 0; i < 2; i++) {
         NemoReflowPoint *p = &r->point[i];
         if (p->row != row || p->col < first || p->col >= first + width)
@@ -3205,6 +3235,20 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
             { .row = term->savecurs.y, .col = term->savecurs.x + term->save_wnext }
         } };
     int used = max(term->curs.y, term->savecurs.y) + 1;
+    if (term->shell_marks.count)
+        r.marks = snewn(term->shell_marks.count * 4, NemoReflowMark);
+    for (size_t i = 0; i < term->shell_marks.count; i++) {
+        for (int j = 0; j < 4; j++) {
+            NemoShellPoint *p = &term->shell_marks.commands[i].point[j];
+            if (!p->valid || p->truncated || p->y < -history || p->y >= term->rows)
+                continue;
+            r.marks[r.nmarks++] = (NemoReflowMark){
+                .dest = p, .row = p->y, .col = p->x };
+            used = max(used, p->y + 1);
+        }
+    }
+    if (r.nmarks > 1)
+        qsort(r.marks, r.nmarks, sizeof(*r.marks), nemo_reflow_mark_order);
     for (int i = term->rows; i-- > used;) {
         termline *line = index234(term->screen, i);
         if (nemo_reflow_length(term, line) || line->lattr || line->trusted) {
@@ -3241,6 +3285,10 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
         if (fixed[i] || (src->lattr & LATTR_MODE) || src->trusted) {
             if (r.line) nemo_reflow_emit(&r, true);
             rowmap[i] = r.count;
+            while (r.nextmark < r.nmarks && r.marks[r.nextmark].row == oldrow) {
+                NemoReflowMark *p = &r.marks[r.nextmark++];
+                p->x = p->col; p->y = r.count; p->mapped = true;
+            }
             for (int p = 0; p < 2; p++) {
                 if (r.point[p].row == oldrow) {
                     r.point[p].x = min(r.point[p].col, cols-1);
@@ -3256,6 +3304,8 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
         if (r.x >= cols) nemo_reflow_emit(&r, true);
         rowmap[i] = r.count;
         int length = nemo_reflow_length(term, src);
+        for (size_t p = r.nextmark; p < r.nmarks && r.marks[p].row == oldrow; p++)
+            length = max(length, r.marks[p].col);
         for (int p = 0; p < 2; p++)
             if (r.point[p].row == oldrow)
                 length = max(length, r.point[p].col);
@@ -3315,6 +3365,19 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
         .y = (int)max((int64_t)INT_MIN, r.point[1].y-top) };
     term->wrapnext = r.point[0].pending;
     term->save_wnext = r.point[1].pending;
+    for (size_t i = 0; i < r.nmarks; i++) {
+        NemoReflowMark *p = &r.marks[i];
+        int64_t y = p->y - top;
+        if (!p->mapped || y >= rows) p->dest->valid = false;
+        else if (y < -newhistory) {
+            p->dest->y = -newhistory-1; p->dest->x = 0;
+            p->dest->truncated = true;
+        } else {
+            p->dest->y = (int)y; p->dest->x = p->x;
+        }
+    }
+    sfree(r.marks);
+    nemo_shell_marks_rows(&term->shell_marks, -newhistory, rows-1, 0);
     for (NemoTermImage *im = term->images; im; im = im->next) {
         if (im->screen) continue;
         for (int y = 0; y < im->pixel_height; y++) {
@@ -3415,6 +3478,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->curs.y += 1;
             term->savecurs.y += 1;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, 1);
+            nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, 1);
         } else {
             /* Add a new blank line at the bottom of the screen. */
             line = newtermline(term, newcols, false);
@@ -3429,6 +3493,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             line = delpos234(term->screen, term->rows - 1);
             freetermline(line);
             nemo_images_rows(term, 0, INT_MIN+1, term->rows-2, 0);
+            nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, term->rows-2, 0);
         } else {
             /* push top row to scrollback */
             line = delpos234(term->screen, 0);
@@ -3437,6 +3502,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->curs.y -= 1;
             term->savecurs.y -= 1;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, -1);
+            nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, -1);
         }
         term->rows -= 1;
     }
@@ -3456,6 +3522,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     term->disptop = reflow ? max(term->disptop, -sblen) : 0;
 
     nemo_images_rows(term, 0, -sblen, newrows-1, 0);
+    nemo_shell_marks_rows(&term->shell_marks, -sblen, newrows-1, 0);
     nemo_images_rows(term, 1, 0, newrows-1, 0);
 
     /* Make a new displayed text buffer. */
@@ -3780,6 +3847,12 @@ static void scroll(Terminal *term, int topline, int botline,
         sb = false;
 
     scrollwinsize = botline - topline + 1;
+    if (!term->alt_which)
+        nemo_shell_marks_scroll(&term->shell_marks, term->marg_l,
+            term->marg_r+1, topline, botline,
+            -max(-scrollwinsize, min(lines, scrollwinsize)),
+            !term->marg_l && term->marg_r == term->cols-1,
+            sb && term->savelines > 0);
     term_scroll_images(term, term->marg_l, term->marg_r+1, topline, botline,
                        max(-scrollwinsize, min(lines, scrollwinsize)), sb);
 
@@ -3805,6 +3878,9 @@ static void scroll(Terminal *term, int topline, int botline,
             for (int x = left; x < right; x++)
                 copy_termchar(dst, x, src ? &src->chars[x] : &term->erase_char);
         }
+        if (!term->alt_which)
+            nemo_shell_marks_rows(&term->shell_marks,
+                -count234(term->scrollback), term->rows-1, 0);
         seen_disp_event(term);
         return;
     }
@@ -3931,6 +4007,9 @@ static void scroll(Terminal *term, int topline, int botline,
         }
     }
 
+    if (!term->alt_which)
+        nemo_shell_marks_rows(&term->shell_marks,
+            -count234(term->scrollback), term->rows-1, 0);
     seen_disp_event(term);
 }
 
@@ -5072,7 +5151,7 @@ static void osc52_finish(Terminal *term, bool bel)
 static int osc_string_limit(Terminal *term)
 {
     if (term->osc_type == OSCLIKE_OSC &&
-        (term->esc_args[0] == 7 || term->esc_args[0] == 9 ||
+        (term->esc_args[0] == 7 || term->esc_args[0] == 9 || term->esc_args[0] == 133 ||
          term->esc_args[0] == 633 || term->esc_args[0] == 1337)) return NEMO_CWD_OSC_MAX;
     return term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 8 ?
         NEMO_LINK_OSC_MAX : OSC_STR_MAX;
@@ -5090,10 +5169,15 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
-          case 7: case 9: case 633: case 1337:
-            if (!term->osc_overflow)
+          case 7: case 9: case 133: case 633: case 1337:
+            if (!term->osc_overflow) {
                 nemo_cwd_update(&term->working_directory, term->esc_args[0],
                                 term->osc_string, term->osc_strlen);
+                if (!term->alt_which)
+                    nemo_shell_marks_update(&term->shell_marks, term->esc_args[0],
+                        term->osc_string, term->osc_strlen,
+                        term->curs.x + term->wrapnext, term->curs.y);
+            }
             break;
           case 8:
             term->curr_hyperlink =
@@ -8720,6 +8804,7 @@ void term_paint(Terminal *term,
  */
 void term_scroll(Terminal *term, int rel, int where)
 {
+    term->shell_mark_selected = 0;
     nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     int sbtop = -sblines(term);
@@ -8731,6 +8816,26 @@ void term_scroll(Terminal *term, int rel, int where)
         term->disptop = 0;
     term->win_scrollbar_update_pending = true;
     term_schedule_update(term);
+}
+
+bool term_shell_mark_navigate(Terminal *term, int direction)
+{
+    if (term->alt_which || !direction) return false;
+    NemoShellPoint from = { .x = term->disptop ? 0 : term->curs.x + term->wrapnext,
+        .y = term->disptop ? term->disptop : term->curs.y, .valid = true }, target;
+    const NemoShellCommand *c = nemo_shell_marks_lookup(
+        &term->shell_marks, term->shell_mark_selected);
+    if (c) for (int i = 0; i < 3; i++) {
+        if (c->point[i].valid && !c->point[i].truncated) {
+            from = c->point[i]; break;
+        }
+    }
+    uint64_t id = nemo_shell_marks_neighbour(&term->shell_marks, direction,
+        from.x, from.y, -count234(term->scrollback), term->rows-1, &target);
+    if (!id) return false;
+    term_scroll(term, -1, target.y);
+    term->shell_mark_selected = id;
+    return true;
 }
 
 /*
@@ -8980,6 +9085,51 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
             sfree(buf.tcbuf);
         }
     }
+}
+
+uint64_t term_shell_mark_range(Terminal *term, bool output,
+                               NemoShellPoint *start, NemoShellPoint *end)
+{
+    if (term->alt_which) return 0;
+    uint64_t selected = nemo_shell_marks_lookup(&term->shell_marks, term->shell_mark_selected) ?
+        term->shell_mark_selected : 0;
+    int first = -count234(term->scrollback);
+    for (size_t i = term->shell_marks.count; i-- > 0;) {
+        const NemoShellCommand *candidate = &term->shell_marks.commands[i];
+        if (selected && candidate->id != selected)
+            continue;
+        if (nemo_shell_marks_range(candidate, output, first, term->rows-1, start, end)) {
+            if (start->x > term->cols) { start->x = term->cols; start->truncated = true; }
+            if (end->x > term->cols) { end->x = term->cols; end->truncated = true; }
+            if (start->y < end->y || (start->y == end->y && start->x < end->x))
+                return candidate->id;
+        }
+    }
+    return 0;
+}
+
+bool term_shell_mark_select(Terminal *term, bool output)
+{
+    NemoShellPoint start, end;
+    uint64_t id = term_shell_mark_range(term, output, &start, &end);
+    if (!id) return false;
+    nemo_highlight_cancel(term, true);
+    term_end_synchronized_update(term);
+    term->selstart = (pos){ .x = min(start.x, term->cols), .y = start.y };
+    term->selend = (pos){ .x = min(end.x, term->cols), .y = end.y };
+    if (!poslt(term->selstart, term->selend)) return false;
+    term->selanchor = term->selstart;
+    term->selstate = SELECTED;
+    term->seltype = LEXICOGRAPHIC;
+    term->selmode = SM_CHAR;
+    /* Selection fills the private clipboard; an explicit Copy action writes
+     * to the system clipboard, matching normal local mouse selection. */
+    int clipboard = CLIP_LOCAL;
+    clipme(term, term->selstart, term->selend, false, false, &clipboard, 1);
+    term_scroll_to_selection(term, 0);
+    term->shell_mark_selected = id;
+    term_invalidate(term);
+    return true;
 }
 
 void term_copyall(Terminal *term, const int *clipboards, int n_clipboards)

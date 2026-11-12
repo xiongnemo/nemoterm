@@ -18,7 +18,9 @@
 #define PORT_BOX_TITLE "Port"
 
 static const int nemo_binding_options[] = {
-    CONF_nemo_copy_binding, CONF_nemo_paste_binding, CONF_nemo_copy_paste_binding
+    CONF_nemo_copy_binding, CONF_nemo_paste_binding, CONF_nemo_copy_paste_binding,
+    CONF_nemo_previous_prompt_binding, CONF_nemo_next_prompt_binding,
+    CONF_nemo_select_command_binding, CONF_nemo_select_output_binding
 };
 
 static void nemo_binding_item(dlgcontrol *ctrl, dlgparam *dlg, const char *text,
@@ -105,6 +107,8 @@ static void nemo_bindings_reset(dlgcontrol *ctrl, dlgparam *dlg, void *data, int
     conf_set_int(conf, CONF_nemo_paste_binding, NEMO_BIND_KEY('V',3));
     conf_set_int(conf, CONF_nemo_copy_paste_binding, 0);
     conf_set_int(conf, CONF_nemo_rectangle_modifiers, NEMO_BIND_CTRL);
+    for (size_t i = 3; i < lenof(nemo_binding_options); i++)
+        conf_set_int(conf, nemo_binding_options[i], 0);
     dlg_refresh(NULL, dlg);
 }
 
@@ -2500,7 +2504,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
         {"Copy and paste modifiers", "Copy and paste key"}
     };
     ctrl_columns(s, 2, 50, 50);
-    for (size_t i = 0; i < lenof(nemo_binding_options); i++) {
+    for (size_t i = 0; i < lenof(binding_labels); i++) {
         for (int field = 0; field < 2; field++) {
             c = ctrl_droplist(s, binding_labels[i][field], NO_SHORTCUT, 100,
                 HELPCTX(no_help), nemo_binding_handler, I(nemo_binding_options[i]*4+field));
@@ -2514,6 +2518,27 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_text(s, "Hold this modifier while dragging with the left button. Add Shift when an application captures the mouse.", HELPCTX(no_help));
     ctrl_text(s, "Shift always forces local selection. Right-click behavior and the default selection shape are under Selection.", HELPCTX(no_help));
     ctrl_pushbutton(s, "Reset bindings", NO_SHORTCUT, HELPCTX(no_help), nemo_bindings_reset, I(0));
+
+    ctrl_settitle(b, "Window/Bindings/Commands", "Shell integration shortcuts");
+    s = ctrl_getset(b, "Window/Bindings/Commands", "keys", "Commands and output");
+    ctrl_text(s, "Requires a shell configured to emit prompt markers. Shortcuts start disabled; use the Shell Integration menu or assign keys here.", HELPCTX(no_help));
+    const char *const shell_binding_labels[][2] = {
+        {"Previous prompt modifiers", "Previous prompt key"},
+        {"Next prompt modifiers", "Next prompt key"},
+        {"Select command modifiers", "Select command key"},
+        {"Select output modifiers", "Select output key"}
+    };
+    ctrl_columns(s, 2, 50, 50);
+    for (size_t i = 0; i < lenof(shell_binding_labels); i++) {
+        for (int field = 0; field < 2; field++) {
+            c = ctrl_droplist(s, shell_binding_labels[i][field], NO_SHORTCUT, 100,
+                HELPCTX(no_help), nemo_binding_handler, I(nemo_binding_options[i+3]*4+field));
+            c->column = field;
+        }
+    }
+    ctrl_columns(s, 1, 100);
+    ctrl_text(s, "Selection uses the prompt you navigated to, or the latest completed range. Only retained history is included. Copy with your normal Copy shortcut.", HELPCTX(no_help));
+    ctrl_text(s, "These actions are inactive while a full-screen application uses the alternate screen.", HELPCTX(no_help));
 
     ctrl_settitle(b, "Window/Selection", "Options controlling copy and paste");
 

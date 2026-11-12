@@ -1,5 +1,11 @@
 # Native rendering, startup geometry and bindings
 
+Local testing resumed on 2026-11-13 Sydney. The combined shell-integration
+artifact `ff693f8` (SHA-256 `453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571`)
+now has exact-artifact GDI/OpenGL pixel checks and both real Codex modes on the
+local GPU. It supersedes the pending local acceptance described in the earlier
+checkpoint below; [current evidence and limits](shell-marks-design.md).
+
 GDI remains the default and retains the original private-working-set target.
 OpenGL is explicitly opt-in: the user permits this mode to exceed that target.
 Both modes ship in the same executable. OpenGL entry points are loaded only

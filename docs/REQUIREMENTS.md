@@ -946,11 +946,34 @@ cache. Oversized startup grids are clamped before screen allocation.
 Actual hardware OpenGL, Sarasa pixel parity and real Codex OpenGL modes passed
 on earlier artifacts. Final cloud checks use GDI fallback when hardware GL is
 unavailable; they do not certify this final artifact on the local NVIDIA driver.
-The user paused local interactive testing until they explicitly say the computer
-is free. `dist` retains the previously accepted `2862f67` artifact, and exact-final
-local hardware/client acceptance remains pending. [Evidence and failure history](../research/rendering.md).
+At that historical checkpoint, local testing was paused and `dist` retained the
+previously accepted `2862f67` artifact. The resumed shell-integration checkpoint
+below supersedes that pending local acceptance status. [Evidence and failure history](../research/rendering.md).
 
 DirectX remains a measured feasibility prototype and integration design. Tabs
 with four-sided placement and hover previews remain designed, not implemented.
 Shell command marks, the remaining protocol ledger and other original goal
 requirements stay open. This checkpoint does not narrow or complete the goal.
+
+## Shell integration and resumed local validation (2026-11-13 Sydney)
+
+OSC 133/633 command marks and OSC 1337 SetMark now support bounded history
+navigation, command/output selection and four configurable shortcuts. Core and
+sanitizer coverage includes reflow, clipping, alternate screens and metadata
+churn. Exact source `ff693f8` has green core and single EXE CI, and the downloaded
+4,338,176-byte artifact passes 37 local check groups in documented sequential
+segments, plus both real Codex modes with hardware OpenGL. SHA-256:
+`453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571`.
+
+GDI real-Codex frontend private WS sampled peaks are 6.1-7.1 MB, with total WS
+27.9-32.9 MB. Optional OpenGL sampled private WS is 44.1-50.1 MB under the user's
+explicit exception. Shell-mark stress peaks at 7.8 MB private WS. All figures
+exclude the separately recorded console host and client. Test focus isolation
+and working-set sampler fixes, exact hashes, artifacts and captures are in
+[the checkpoint record](../research/shell-marks-design.md).
+
+These finite tests do not close extended/live-service agent use, Claude Code,
+physical IME/DPI/device behavior, complete grapheme rendering or the remaining
+protocol families. DirectX frontend rendering and four-sided tabs with hover
+previews are still planned, not implemented. Identity queries continue in the
+separate feature/identity-queries branch and are not part of this accepted EXE.
