@@ -17,6 +17,15 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
   clarified by user 2026-11-12. Record bytes, decimal MB and MiB; no forced working-set trimming.
   Child shell, ConPTY host and agent must be reported separately, not silently excluded from totals.
 * Configurable font, colours, dimensions, history, shell and interaction.
+* Default 160x48 character grid, reduced to the monitor work area when it does
+  not fit. The user selected this rule explicitly.
+* Ctrl+left drag rectangular selection, with configurable action bindings and
+  rectangle modifiers. Shift continues to override application mouse tracking.
+* Switchable GDI/OpenGL rendering. GDI retains the memory limits above; the
+  user explicitly allows optional OpenGL mode to exceed them.
+* Investigate a DirectX renderer without extra distributed dependencies.
+* Plan native tabs with the strip on top, bottom, left or right, and a terminal
+  preview on hover. See `research/tabs-design.md`; tabs are not implemented yet.
 * Default Ctrl+Shift+C/V system clipboard.
 * Selection right-click: configurable copy-only (default) or copy-and-paste.
 * Shift+left drag always selects renderer grid, even in application mouse/alternate screen modes.

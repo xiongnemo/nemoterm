@@ -7,6 +7,7 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
     wait_snapshot, memory_sample, wait_for, find_window, capture)
 from clipboard_test_utils import SavedClipboard, clipboard_text
+from console_process_utils import owned_processes
 import shutil
 import urllib.parse
 import uuid
@@ -18,6 +19,7 @@ u.GetSystemMenu.argtypes, u.GetSystemMenu.restype = [w.HWND, w.BOOL], w.HMENU
 u.GetMenuState.argtypes, u.GetMenuState.restype = [w.HMENU, w.UINT, w.UINT], w.UINT
 k.WaitForSingleObject.argtypes = [w.HANDLE, w.DWORD]
 profiles, processes, children, handles = [], [], [], []
+process_lifetimes = []
 saved_clipboard = None
 samples, stop = [], threading.Event()
 
@@ -63,6 +65,16 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         child['control'] = mailbox/f"{child['pid']}.control.json"
         wait_snapshot(lambda: read_snapshot(child['report']))
         children.append(child)
+        # The frontend can exit just before its console host finishes shutting
+        # down. Retain handles while identities are known, so cleanup waits for
+        # every process using the copied image instead of racing file removal.
+        child['lifetimes'] = []
+        for entry in owned_processes(child['parent']):
+            handle = k.OpenProcess(0x100000, False, entry['pid'])
+            if handle:
+                lifetime = (entry['pid'], entry['path'], handle)
+                child['lifetimes'].append(lifetime)
+                process_lifetimes.append(lifetime)
         return child
 
     def launch(profile, directory=None):
@@ -99,6 +111,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         try:
             write_snapshot(duplicate['control'], {'stop':True})
             assert k.WaitForSingleObject(handle, 10000) == 0, name
+            for pid, path, lifetime in duplicate['lifetimes']:
+                assert k.WaitForSingleObject(lifetime, 5000) == 0, (name, pid, path)
         finally:
             k.CloseHandle(handle)
 
@@ -170,7 +184,17 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
                     assert k.WaitForSingleObject(handle, 5000) == 0
                 k.CloseHandle(handle)
         for process in processes: process.wait(timeout=10)
+        pending = []
+        for pid, path, handle in process_lifetimes:
+            try:
+                if k.WaitForSingleObject(handle, 5000) != 0:
+                    pending.append((pid, path))
+            finally:
+                k.CloseHandle(handle)
+        observed['console_process_exit_checks'] = len(process_lifetimes)
+        observed['pending_console_processes'] = pending
         for handle in handles: k.CloseHandle(handle)
         for path in profiles: winreg.DeleteKey(winreg.HKEY_CURRENT_USER, path)
         observed['sample_count'] = len(samples)
         (root/'research/cwd-window-observed.json').write_text(json.dumps(observed, indent=2), encoding='utf-8')
+        assert not pending, ('Owned console processes did not exit', pending)

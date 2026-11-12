@@ -64,6 +64,9 @@ jobs:
       - name: Bundle pinned Microsoft ConPTY runtime
         shell: pwsh
         run: ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+      - name: Install owned-window input instrumentation
+        shell: pwsh
+        run: python -m pip install frida==17.24.3
       - name: Test native window and ConPTY input and resize
         shell: pwsh
         run: |

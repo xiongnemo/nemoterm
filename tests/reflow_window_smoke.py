@@ -8,6 +8,7 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     memory_sample, wait_for, find_window, capture)
 from clipboard_test_utils import SavedClipboard, clipboard_text
 import threading
+import frida
 
 with tempfile.TemporaryDirectory(prefix='nemoterm-reflow-') as directory:
     directory = Path(directory)
@@ -18,6 +19,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-reflow-') as directory:
     handle = k.OpenProcess(0x410, False, process.pid)
     samples, observations, sampling_errors = [], [], []
     done, saved = threading.Event(), None
+    session = script = None
     def sample():
         while not done.is_set():
             try: samples.append(memory_sample(handle))
@@ -64,6 +66,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-reflow-') as directory:
         hwnd = wait_for(lambda: find_window(process.pid))
         wait_for(current)
         saved = SavedClipboard(hwnd)
+        session = frida.attach(process.pid)
+        script = session.create_script((root/'tests/agent_key_probe.js').read_text())
+        script.load()
+        script.exports_sync.isolate_mouse(hex(hwnd))
         outer, client = w.RECT(), w.RECT()
         u.GetWindowRect(hwnd,c.byref(outer)); u.GetClientRect(hwnd,c.byref(client))
         cell_w, cell_h = (client.right-2)//80, (client.bottom-2)//20
@@ -114,6 +120,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-reflow-') as directory:
         (root/'research/reflow-window-observed.json').write_text(json.dumps(result,indent=2))
         print('Native reflow, history and Shift selection passed:', result)
     finally:
+        (root/'research/reflow-last-snapshot.json').write_text(json.dumps(read_snapshot(report)))
+        if script: script.unload()
+        if session: session.detach()
         if saved: saved.restore()
         done.set(); sampler.join(); k.CloseHandle(handle)
         write_snapshot(control,{'stop':True})
