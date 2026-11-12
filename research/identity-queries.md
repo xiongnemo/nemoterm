@@ -16,8 +16,8 @@ XTerm discards the entire argument list when these identity requests contain
 unexpected colon subparameters, then still dispatches the default query, even
 for a nonzero first parameter. Nemoterm reproduces this observed behavior only
 for these four queries; other non-SGR controls keep their existing validation. The
-bounded parameter/subparameter count is unchanged. A saturated first number is
-nonzero and therefore gets no reply.
+bounded parameter/subparameter count is unchanged. Without colon subparameters,
+a saturated first number is nonzero and therefore gets no reply.
 
 ## Independent sources and host boundary
 
@@ -40,9 +40,20 @@ so duplicate host/frontend responses cannot pass a substring-only assertion.
 The expanded local `test_queries` suite passes: fragmented requests, omitted and
 extra arguments, malformed input, cursor/cell preservation, alternate screen,
 explicit SCO mode, DEC compatibility levels and cancellation/recovery. It joins
-the Linux ASan/UBSan target list. Native/independent reference and exact single
-EXE acceptance are pending; this change does not complete the broader query or
-modern terminal protocol ledger.
+the Linux ASan/UBSan target list. This change does not complete the broader
+query or modern terminal protocol ledger.
+
+Revision `5c08944677594e985439c679884093d1390fac87` passed
+[independent reference run 43242677840](https://github.com/xiongnemo/nemoterm/actions/runs/43242677840):
+all 62 XTerm cases, with [raw bytes and reference EXE hash](identity-xterm.json).
+The Linux sanitizer job also passed in core run 43242677806. The local MinGW
+comparison build passed 65 identity checks through bundled ConPTY, plus the
+existing cursor/status/keyboard tests. [Its exact evidence](identity-native-local.json)
+records EXE SHA-256 `12b5f0ef016692e1d4a0c407f5d0ba388dca4e21a3e9850380a2cd259d9346b3`,
+5,419,008 bytes sampled peak private WS and 26,251,264 total WS. This comparison
+build uses runtime sidecars and is not the final single EXE. Full Windows core
+and single EXE runs 43242677806 / 43242677797 remain in progress; final exact
+artifact acceptance and merge are pending.
 
 The first independent run (43241329669, revision 7732557) disproved the initial
 assumption that XTerm rejects colon subparameters: all four `0:0` requests got
