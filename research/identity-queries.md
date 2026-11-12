@@ -52,8 +52,18 @@ existing cursor/status/keyboard tests. [Its exact evidence](identity-native-loca
 records EXE SHA-256 `12b5f0ef016692e1d4a0c407f5d0ba388dca4e21a3e9850380a2cd259d9346b3`,
 5,419,008 bytes sampled peak private WS and 26,251,264 total WS. This comparison
 build uses runtime sidecars and is not the final single EXE. Full Windows core
-and single EXE runs 43242677806 / 43242677797 remain in progress; final exact
-artifact acceptance and merge are pending.
+run 43242677806 passed. Single-EXE run 43242677797 passed its native checks and
+both real-client scenarios but failed while removing the temporary Codex home:
+late Git subprocesses outlived the startup process snapshot. Its executable is
+retained as unverified and is not promoted.
+
+Revision f6b4409 bounds the complete fixture tree with a private Windows Job,
+assigned before the root's initial thread resumes. Two native tests cover late
+descendants, unrelated-process isolation and natural exit. Core run 43246777771
+passed; single-EXE run 43246777750 is pending. A local real-client retry reached
+the window but was blocked by clipboard access-denied before preservation; it
+is not counted as successful validation. Exact artifact acceptance and merge
+remain pending.
 
 The first independent run (43241329669, revision 7732557) disproved the initial
 assumption that XTerm rejects colon subparameters: all four `0:0` requests got
