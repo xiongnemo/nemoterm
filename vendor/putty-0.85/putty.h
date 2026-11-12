@@ -1010,6 +1010,8 @@ typedef struct truecolour {
 #define UNDER_STYLE(tc) (((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT)
 /* Non-visual cell metadata shares an unused bit; no per-cell allocation. */
 #define CELL_PROTECTED UINT32_C(0x20000000)
+/* Occupancy for DEC stream-attribute operations, without growing a cell. */
+#define CELL_UNDRAWN UINT32_C(0x40000000)
 #define optionalrgb_equal(r1,r2) (                              \
         (r1).enabled==(r2).enabled &&                           \
         (r1).r==(r2).r && (r1).g==(r2).g && (r1).b==(r2).b)

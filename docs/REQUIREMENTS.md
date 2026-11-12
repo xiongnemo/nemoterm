@@ -817,3 +817,17 @@ native group and standalone cmap ASan/UBSan are included in CI. Generic emoji/
 grapheme fallback, real IME/DPI, application sessions and remaining protocols
 remain open. Intermittent local hyperlink fixture timeouts remain recorded and
 are not claimed fixed by this renderer change.
+
+## DEC rectangle editing checkpoint
+
+DECFRA, DECCRA, DECCARA, DECRARA, DECSACE and its DECRQSS query are implemented
+with an independent XTerm(412) oracle, 27 passing core suites and native pixel,
+Unicode clipboard, Sixel, resize and 3,000-copy checks. Temporary copy storage
+is one row; undrawn-cell metadata uses a spare existing bit. Local frontend
+peaks were 5,079,040 / 26,595,328 / 6,615,040 bytes (private WS / total WS /
+private commit). See `research/rectangle-editing.md` for the exact executable,
+reference source, semantics and limits. The single-file CI has 25 checks.
+
+DECLRMM/DECSLRM remain open: Sixel's current whole-row anchor representation
+needs column splitting at horizontal margins. The remaining full protocol,
+physical device/IME/DPI and real-agent requirements are unchanged.

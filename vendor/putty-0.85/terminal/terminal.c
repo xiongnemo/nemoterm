@@ -1995,6 +1995,8 @@ static void nemo_decrqss(Terminal *term)
         put_byte(reply, 'm');
     } else if (valid && !strcmp(query, "r")) {
         put_fmt(reply, "%d;%dr", term->marg_t+1, term->marg_b+1);
+    } else if (valid && !strcmp(query, "*x")) {
+        put_fmt(reply, "%u*x", term->rectangle_extent);
     } else if (valid && !strcmp(query, "\"q")) {
         put_fmt(reply, "%u\"q", !!(term->curr_truecolour.decoration & CELL_PROTECTED));
     } else if (valid && !strcmp(query, " q")) {
@@ -2150,6 +2152,7 @@ static void power_on(Terminal *term, bool clear)
         term->alt_save_attr = term->curr_attr = ATTR_DEFAULT;
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
     term->curr_truecolour.decoration = 0;
+    term->rectangle_extent = 0;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
@@ -2826,7 +2829,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->basic_erase_char.attr = ATTR_DEFAULT;
     term->basic_erase_char.truecolour.fg = optionalrgb_none;
     term->basic_erase_char.truecolour.bg = optionalrgb_none;
-    term->basic_erase_char.truecolour.decoration = 0;
+    term->basic_erase_char.truecolour.decoration = CELL_UNDRAWN;
     term->basic_erase_char.hyperlink = 0;
     term->erase_char = term->basic_erase_char;
 
@@ -3911,6 +3914,7 @@ static void nemo_erase_row(Terminal *term, int row, int left, int right,
                 if (style == NEMO_ERASE_PRESERVE) {
                     fill.attr = line->chars[col].attr;
                     fill.truecolour = line->chars[col].truecolour;
+                    fill.truecolour.decoration &= ~CELL_UNDRAWN;
                 } else if (style == NEMO_ERASE_CURRENT) {
                     /* xterm DECERA uses current rendition, keeping each
                      * existing colour when that current colour is default. */
@@ -3959,22 +3963,160 @@ static void nemo_selective_erase(Terminal *term, bool line_only, unsigned mode)
     seen_disp_event(term);
 }
 
-static void nemo_erase_rectangle(Terminal *term, bool selective)
+/* Half-open coordinates, relative to the origin region when DECOM is set.
+ * The same parser is used by all DEC rectangle operations. No input-sized
+ * allocation or unsigned-to-signed conversion occurs before clamping. */
+struct NemoRect { int top, left, bottom, right; };
+static bool nemo_rectangle(Terminal *term, unsigned first, unsigned count,
+                           struct NemoRect *r)
 {
     int base = term->dec_om ? term->marg_t : 0;
     unsigned height = (term->dec_om ? term->marg_b+1 : term->rows) - base;
-    unsigned limits[] = {height, term->cols, height, term->cols};
-    unsigned coords[4];
+    unsigned limits[] = {height, term->cols, height, term->cols}, coords[4];
+    if (!height || term->cols <= 0) return false;
     for (unsigned i = 0; i < lenof(coords); i++) {
-        unsigned value = i < (unsigned)term->esc_nargs ? term->esc_args[i] : 0;
+        unsigned value = i < count && first+i < (unsigned)term->esc_nargs ?
+            term->esc_args[first+i] : 0;
         if (!value) value = i < 2 ? 1 : limits[i];
         coords[i] = min(value, limits[i]);
     }
-    if (!height || !term->cols || coords[0] > coords[2] || coords[1] > coords[3]) return;
-    for (int row = base+coords[0]-1; row < base+(int)coords[2]; row++)
-        nemo_erase_row(term, row, coords[1]-1, coords[3], selective,
+    if (coords[0] > coords[2] || coords[1] > coords[3]) return false;
+    *r = (struct NemoRect){base+coords[0]-1, coords[1]-1,
+                          base+coords[2], coords[3]};
+    return true;
+}
+
+static void nemo_erase_rectangle(Terminal *term, bool selective)
+{
+    struct NemoRect r;
+    if (!nemo_rectangle(term, 0, 4, &r)) return;
+    for (int row = r.top; row < r.bottom; row++)
+        nemo_erase_row(term, row, r.left, r.right, selective,
                        selective ? NEMO_ERASE_PRESERVE : NEMO_ERASE_CURRENT);
     /* Rectangle operations leave cursor, pending wrap and line attributes. */
+    seen_disp_event(term);
+}
+
+static void nemo_fill_rectangle(Terminal *term)
+{
+    unsigned ch = term->esc_args[0] ? term->esc_args[0] : ' ';
+    if (ch < 32 || (ch >= 127 && ch < 160) || ch > 0x10ffff ||
+        (ch >= 0xd800 && ch <= 0xdfff) || term_char_width(term, ch) <= 0) return;
+    struct NemoRect r;
+    if (!nemo_rectangle(term, 1, 4, &r)) return;
+    /* DEC allows ASCII/Latin-1; xterm also accepts printable Unicode. Each
+     * fill position is one cell, even for that Unicode extension. */
+    if (ch < 128) {
+        if (term->cset_attr[term->cset] == CSET_GBCHR && ch == '#')
+            ch = CSET_LINEDRW | '}';
+        else if (term->cset_attr[term->cset] != CSET_GBCHR)
+            ch |= term->cset_attr[term->cset];
+    }
+    for (int y = r.top; y < r.bottom; y++) {
+        termline *line = scrlineptr(y);
+        check_line_size(term, line); check_trust_status(term, line);
+        check_boundary(term, r.left, y); check_boundary(term, r.right, y);
+        check_selection(term, (pos){y,r.left}, (pos){y,r.right});
+        nemo_images_erase(term, (pos){y,r.left}, (pos){y,r.right});
+        for (int x = r.left; x < r.right; x++) {
+            termchar fill = {.chr=ch, .attr=term->curr_attr,
+                             .truecolour=term->curr_truecolour};
+            /* Like DECERA, default current colours retain the old cell's
+             * colour. Protection comes from the current DECSCA setting. */
+            if ((fill.attr & ATTR_FGMASK) == ATTR_DEFFG && !fill.truecolour.fg.enabled) {
+                fill.attr = (fill.attr & ~ATTR_FGMASK) | (line->chars[x].attr & ATTR_FGMASK);
+                fill.truecolour.fg = line->chars[x].truecolour.fg;
+            }
+            if ((fill.attr & ATTR_BGMASK) == ATTR_DEFBG && !fill.truecolour.bg.enabled) {
+                fill.attr = (fill.attr & ~ATTR_BGMASK) | (line->chars[x].attr & ATTR_BGMASK);
+                fill.truecolour.bg = line->chars[x].truecolour.bg;
+            }
+            copy_termchar(line, x, &fill);
+        }
+    }
+    seen_disp_event(term);
+}
+
+static void nemo_copy_rectangle(Terminal *term)
+{
+    struct NemoRect src, dst;
+    if (!nemo_rectangle(term, 0, 4, &src) || !nemo_rectangle(term, 5, 2, &dst)) return;
+    int width = min(src.right-src.left, dst.right-dst.left);
+    int height = min(src.bottom-src.top, dst.bottom-dst.top);
+    if (width <= 0 || height <= 0) return;
+    /* Like xterm, page numbers address the sole current page. Choose the
+     * traversal direction for overlapping rows and snapshot only one row,
+     * including its combining chains. Scratch space is O(columns), not area. */
+    termline *scratch = newtermline(term, width, false);
+    int step = dst.top > src.top ? -1 : 1;
+    int start = step < 0 ? height-1 : 0;
+    for (int i = start; i >= 0 && i < height; i += step) {
+        termline *from = scrlineptr(src.top+i), *to = scrlineptr(dst.top+i);
+        check_line_size(term, from); check_line_size(term, to);
+        for (int x = 0; x < width; x++) {
+            termchar *cell = &from->chars[src.left+x];
+            if ((!x && cell->chr == UCSWIDE) ||
+                (x == width-1 && src.left+width < term->cols &&
+                 from->chars[src.left+width].chr == UCSWIDE)) {
+                termchar blank = *cell;
+                blank.chr = ' ' | CSET_ASCII; blank.cc_next = 0; blank.hyperlink = 0;
+                copy_termchar(scratch, x, &blank);
+            } else copy_termchar(scratch, x, cell);
+        }
+        check_trust_status(term, to);
+        check_boundary(term, dst.left, dst.top+i);
+        check_boundary(term, dst.left+width, dst.top+i);
+        check_selection(term, (pos){dst.top+i,dst.left}, (pos){dst.top+i,dst.left+width});
+        nemo_images_erase(term, (pos){dst.top+i,dst.left}, (pos){dst.top+i,dst.left+width});
+        for (int x = 0; x < width; x++) {
+            copy_termchar(to, dst.left+x, &scratch->chars[x]);
+            to->chars[dst.left+x].truecolour.decoration &= ~CELL_UNDRAWN;
+        }
+    }
+    freetermline(scratch);
+    seen_disp_event(term);
+}
+
+static void nemo_rectangle_attributes(Terminal *term, bool reverse)
+{
+    struct NemoRect r;
+    if (!nemo_rectangle(term, 0, 4, &r)) return;
+    bool exact = term->rectangle_extent == 2;
+    const unsigned all = ATTR_BOLD | ATTR_UNDER | ATTR_BLINK | ATTR_REVERSE;
+    for (int y = r.top; y < r.bottom; y++) {
+        termline *line = scrlineptr(y); check_line_size(term, line);
+        int left = exact || y == r.top ? r.left : 0;
+        int right = exact || y == r.bottom-1 ? r.right : term->cols;
+        for (int x = left; x < right; x++) {
+            termchar *cell = &line->chars[x];
+            if (cell->truecolour.decoration & CELL_UNDRAWN) {
+                if (!exact) continue;
+                cell->truecolour.decoration &= ~CELL_UNDRAWN;
+            }
+            for (int n = 4; n < term->esc_nargs; n++) {
+                unsigned value = term->esc_args[n], bits = 0;
+                switch (value) {
+                  case 0: bits = all; break;
+                  case 1: case 22: bits = ATTR_BOLD; break;
+                  case 4: case 24: bits = ATTR_UNDER; break;
+                  case 5: case 25: bits = ATTR_BLINK; break;
+                  case 7: case 27: bits = ATTR_REVERSE; break;
+                  case 8: case 28: bits = ATTR_CONCEAL; break;
+                }
+                if (reverse) {
+                    if (value >= 22) continue;
+                    cell->attr ^= bits;
+                } else if (!value || value >= 22) cell->attr &= ~bits;
+                else cell->attr |= bits;
+                if (bits & ATTR_UNDER) {
+                    cell->truecolour.decoration &= ~UNDER_STYLE_MASK;
+                    if (cell->attr & ATTR_UNDER)
+                        cell->truecolour.decoration |= UINT32_C(1) << UNDER_STYLE_SHIFT;
+                }
+            }
+        }
+    }
+    /* Attributes do not change text, its selection, links or raster graphics. */
     seen_disp_event(term);
 }
 
@@ -4164,8 +4306,10 @@ static void insch(Terminal *term, int n)
             move_termchar(ldata,
                           ldata->chars + term->curs.x + j + n,
                           ldata->chars + term->curs.x + j);
+        termchar blank = term->erase_char;
+        blank.truecolour.decoration &= ~CELL_UNDRAWN;
         while (n--)
-            copy_termchar(ldata, term->curs.x + n, &term->erase_char);
+            copy_termchar(ldata, term->curs.x + n, &blank);
     }
 }
 
@@ -5836,6 +5980,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             copy_termchar(ldata, j,
                                           &term->basic_erase_char);
                             ldata->chars[j].chr = 'E';
+                            ldata->chars[j].truecolour.decoration &= ~CELL_UNDRAWN;
                         }
                         ldata->lattr = LATTR_NORM;
                     }
@@ -6123,6 +6268,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case ANSI('{', '$'): /* DECSERA */
                         nemo_erase_rectangle(term, c == '{');
                         break;
+                      case ANSI('x', '$'): /* DECFRA */
+                        nemo_fill_rectangle(term); break;
+                      case ANSI('v', '$'): /* DECCRA */
+                        nemo_copy_rectangle(term); break;
+                      case ANSI('r', '$'): /* DECCARA */
+                      case ANSI('t', '$'): /* DECRARA */
+                        nemo_rectangle_attributes(term, c == 't'); break;
+                      case ANSI('x', '*'): /* DECSACE; xterm retains any value */
+                        term->rectangle_extent = term->esc_args[0]; break;
                       case ANSI('q', '"'): /* DECSCA, independent of SGR */
                         if (term->esc_args[0] <= 2) {
                             term->curr_truecolour.decoration &= ~CELL_PROTECTED;
@@ -6302,7 +6456,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             term->curr_attr = term->default_attr;
                             term->curr_truecolour =
                                 term->basic_erase_char.truecolour;
-                            term->curr_truecolour.decoration |= protected;
+                            term->curr_truecolour.decoration = protected;
                             break;
                           }
                           case 1:       /* enable bold */
@@ -6766,9 +6920,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         check_boundary(term, term->curs.x+n, term->curs.y);
                         check_selection(term, term->curs, cursplus);
                         nemo_images_erase(term, term->curs, cursplus);
+                        termchar blank = term->erase_char;
+                        blank.truecolour.decoration &= ~CELL_UNDRAWN;
                         while (n--)
-                            copy_termchar(cline, p++,
-                                          &term->erase_char);
+                            copy_termchar(cline, p++, &blank);
                         seen_disp_event(term);
                         break;
                       }

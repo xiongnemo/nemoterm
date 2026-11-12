@@ -177,6 +177,7 @@ struct terminal_tag {
     pos savecurs;                      /* saved cursor position */
     int marg_t, marg_b;                /* scroll margins */
     bool dec_om;                       /* DEC origin mode flag */
+    unsigned rectangle_extent;         /* DECSACE: 2=rectangle, others=stream */
     bool wrap, wrapnext;               /* wrap flags */
     bool insert;                       /* insert-mode flag */
     int cset;                          /* 0 or 1: which char set */
