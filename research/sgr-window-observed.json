@@ -31,7 +31,7 @@
   "styled-sync-freeze": "47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063",
   "styled-sync-release": "ad497301196407f3dd29ee2437db5e75f47144ad0d600f4886e69c5c43b3d3fd",
   "gallery": "4e24968c4d9b51349642582a1e90fdbbaeec704dfd096d4c24a9e7dfa002d620",
-  "peak_private_ws": 4542464,
-  "peak_total_ws": 20746240,
-  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e"
+  "peak_private_ws": 4390912,
+  "peak_total_ws": 20520960,
+  "executable_sha256": "9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1"
 }

@@ -609,6 +609,16 @@ CONF_OPTION(nemo_osc52_write, /* allow application clipboard writes */
     DEFAULT_BOOL(true),
     SAVE_KEYWORD("NemoOSC52Write"),
 )
+CONF_OPTION(nemo_modify_other_keys,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoModifyOtherKeys"),
+)
+CONF_OPTION(nemo_format_other_keys,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoFormatOtherKeys"),
+)
 CONF_OPTION(nemo_osc52_read, /* allow clipboard contents to return to a session */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

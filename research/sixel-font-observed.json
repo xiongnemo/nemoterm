@@ -408,8 +408,8 @@
       "gdi": 22
     }
   ],
-  "peak_private_ws": 8126464,
-  "peak_total_ws": 24055808,
-  "peak_private_commit": 9379840,
-  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e"
+  "peak_private_ws": 8884224,
+  "peak_total_ws": 30146560,
+  "peak_private_commit": 10346496,
+  "executable_sha256": "9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1"
 }

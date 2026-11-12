@@ -45,7 +45,8 @@ static unsigned key_index(unsigned vk, LPARAM lp)
 void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp, BYTE state[256])
 {
     if (!wgs->term || key >= 256) return;
-    bool active = enhanced(wgs);
+    bool kitty = enhanced(wgs);
+    bool active = kitty || wgs->term->modify_keys.level > 0;
     if (!wgs->key_input && !active) return;
     if (!wgs->key_input) {
         wgs->key_input = snew(NemoKeyInput);
@@ -70,11 +71,11 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
         state[VK_SHIFT] = state[VK_LSHIFT] | state[VK_RSHIFT];
         state[VK_CONTROL] = state[VK_LCONTROL] | state[VK_RCONTROL];
         state[VK_MENU] = state[VK_LMENU] | state[VK_RMENU];
-        wgs->compose_state = 0; /* Enhanced keys and native IME replace the legacy compose key. */
+        if (kitty) wgs->compose_state = 0; /* Kitty keys and native IME replace legacy compose. */
     }
     HeldKey *held = &ui->held[key_index(key, lp)];
     if (down && !(HIWORD(lp) & KF_REPEAT))
-        *held = (HeldKey){.active=active, .down=true};
+        *held = (HeldKey){.active=kitty, .down=true};
 }
 
 static unsigned modifiers(const BYTE state[256])
@@ -189,6 +190,76 @@ static void send_event(WinGuiSeat *wgs, unsigned mode, const NemoKeyEvent *event
     }
 }
 
+static uint32_t modified_character(unsigned vk, unsigned scan, const BYTE source[256],
+                                   HKL layout, unsigned ignore, bool altgr)
+{
+    BYTE state[256]; memcpy(state, source, sizeof(state));
+    if (!altgr) {
+        state[VK_CONTROL] = state[VK_LCONTROL] = state[VK_RCONTROL] = 0;
+        state[VK_MENU] = state[VK_LMENU] = state[VK_RMENU] = 0;
+    }
+    if (ignore & 1) state[VK_SHIFT] = state[VK_LSHIFT] = state[VK_RSHIFT] = 0;
+    if (ignore & 2) state[VK_CAPITAL] = 0;
+    if (ignore & 16) state[VK_NUMLOCK] = 0;
+    wchar_t wide[16]; uint32_t text[16];
+    int n = ToUnicodeEx(vk, scan, state, wide, lenof(wide), 4, layout);
+    if (n < 0) n = -n;
+    return n && scalars(wide, min(n, (int)lenof(wide)), text) ? text[0] : 0;
+}
+
+static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
+                               const BYTE state[256], HKL layout, HeldKey *held)
+{
+    if (wgs->term->modify_keys.level <= 0 || wgs->compose_state) return false;
+    uint32_t logical = logical_key(vk, lp);
+    /* Cursor/function/keypad/modifier keys keep their existing translators. */
+    if (logical >= NK_INSERT) return false;
+    unsigned scan = (lp >> 16) & 255;
+    wchar_t wide[16]; uint32_t text[16];
+    /* Preview without consuming a pending Windows dead key. If the encoder
+     * declines the event, the legacy path performs the only stateful lookup. */
+    int n = ToUnicodeEx(vk, scan, state, wide, lenof(wide), 4, layout);
+    if (n < 0) return false;
+    size_t count = n > 0 ? scalars(wide, min(n, (int)lenof(wide)), text) : 0;
+    bool altgr = count && (state[VK_RMENU] & 0x80);
+    NemoModifiedKey event = {.key=logical, .modifiers=modifiers(state),
+        .type=(HIWORD(lp) & KF_REPEAT) ? 2 : 1};
+    if (altgr) event.modifiers &= ~(NEMO_KEY_CTRL | NEMO_KEY_ALT);
+    switch (logical) {
+      case 9: event.kind = NMK_TAB; break;
+      case 13: event.kind = NMK_ENTER; break;
+      case 27: event.kind = NMK_ESCAPE; break;
+      case 127:
+        event.kind = NMK_BACKSPACE;
+        event.key = conf_get_bool(wgs->conf, CONF_bksp_is_delete) ? 127 : 8;
+        if (event.modifiers & NEMO_KEY_CTRL) event.key ^= 127 ^ 8;
+        break;
+      default:
+        event.key = modified_character(vk, scan, state, layout, 0, altgr);
+        if (!event.key) return false;
+        event.factored_key = modified_character(vk, scan, state, layout,
+                                                wgs->term->modify_keys.ignore, altgr);
+        break;
+    }
+    char output[16*NEMO_MOK_ENCODED_MAX];
+    size_t used = 0;
+    bool multiple = !logical && count > 1 && wgs->term->modify_keys.level == 3 &&
+        !(event.modifiers & (NEMO_KEY_CTRL | NEMO_KEY_ALT | NEMO_KEY_SUPER));
+    for (size_t i = 0; i < (multiple ? count : 1); i++) {
+        if (multiple) event.key = event.factored_key = text[i];
+        int length = nemo_mok_encode(&wgs->term->modify_keys, &event, output+used, sizeof(output)-used);
+        if (length < 0) return false;
+        if (!length) return true;
+        used += length;
+    }
+    ToUnicodeEx(vk, scan, state, wide, lenof(wide), 0, layout);
+    held->active = held->down = true;
+    held->protocol = false; /* modifyOtherKeys never emits key releases */
+    for (unsigned i = 0, repeat = max(1, LOWORD(lp)); i < repeat; i++)
+        term_keyinput(wgs->term, -1, output, used);
+    return true;
+}
+
 bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
                          const BYTE state[256], HKL layout)
 {
@@ -206,7 +277,7 @@ bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
         memset(held, 0, sizeof(*held));
         return consume;
     }
-    if (!active) return false;
+    if (!active) return modified_key_input(wgs, vk, lp, state, layout, held);
     held->active = held->down = true;
     unsigned scan = (lp >> 16) & 255, mode = flags(wgs);
     uint32_t text[NEMO_KEY_TEXT_MAX], translated[16];
@@ -245,6 +316,22 @@ bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
 bool nemo_keyboard_text(WinGuiSeat *wgs, const wchar_t *text, size_t length)
 {
     unsigned mode = flags(wgs);
+    if (!enhanced(wgs) && wgs->term->modify_keys.level == 3) {
+        while (length) {
+            size_t take = min(length, NEMO_KEY_TEXT_MAX);
+            if (take < length && text[take-1] >= 0xd800 && text[take-1] <= 0xdbff) take--;
+            uint32_t values[NEMO_KEY_TEXT_MAX];
+            size_t count = scalars(text, take, values);
+            for (size_t i = 0; i < count; i++) {
+                NemoModifiedKey key = {.key=values[i], .type=1};
+                char encoded[NEMO_MOK_ENCODED_MAX];
+                int n = nemo_mok_encode(&wgs->term->modify_keys, &key, encoded, sizeof(encoded));
+                if (n > 0) term_keyinput(wgs->term, -1, encoded, n);
+            }
+            text += take; length -= take;
+        }
+        return true;
+    }
     if (!(mode & NEMO_KEY_ALL)) return false;
     while (length) {
         size_t take = min(length, NEMO_KEY_TEXT_MAX);

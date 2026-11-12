@@ -1931,6 +1931,35 @@ static void nemo_report_sgr_colour(strbuf *reply, unsigned prefix,
         put_fmt(reply, ";%u;5;%u", prefix, index);
 }
 
+static void nemo_modify_keys_setting(Terminal *term, bool format)
+{
+    bool reset_all = term->esc_nargs == 1 && !term->esc_arg_present && !term->esc_has_subargs;
+    if (!reset_all && (term->esc_args[0] != 4 || term->esc_nargs > 2)) return;
+    if (term->esc_has_subargs && (format || term->esc_nargs != 2 ||
+        term->esc_sub_count[0] || term->esc_sub_count[1] != 1)) return;
+    unsigned value = (term->esc_arg_present & 2) ? term->esc_args[1] :
+        conf_get_int(term->conf, format ? CONF_nemo_format_other_keys : CONF_nemo_modify_other_keys);
+    if (format) {
+        if (value <= 1) term->modify_keys.format = value;
+    } else if (value <= 3 || value == 65535) {
+        term->modify_keys.level = value == 65535 ? -1 : (int)value;
+        term->modify_keys.ignore = term->esc_has_subargs ? term->esc_subargs[1][0] : 0;
+    }
+}
+
+static void nemo_modify_keys_query(Terminal *term, bool format)
+{
+    if (!term->ldisc) return;
+    for (int i = 0; i < term->esc_nargs; i++) {
+        if (term->esc_args[i] != 4) continue;
+        char reply[32];
+        unsigned value = format ? term->modify_keys.format :
+            term->modify_keys.level < 0 ? 65535 : term->modify_keys.level;
+        int n = sprintf(reply, "\033[>4;%u%c", value, format ? 'f' : 'm');
+        ldisc_send(term->ldisc, reply, n, false);
+    }
+}
+
 /* The input string is at most 63 bytes. Replies describe only implemented
  * state, with bounded output independent of the request's length. */
 static void nemo_decrqss(Terminal *term)
@@ -1973,6 +2002,13 @@ static void nemo_decrqss(Terminal *term)
         put_fmt(reply, "%d$|", term->cols);
     } else if (valid && !strcmp(query, "*|")) {
         put_fmt(reply, "%d*|", term->rows);
+    } else if (valid && (!strcmp(query, ">4m") || !strcmp(query, ">4f"))) {
+        bool format = query[2] == 'f';
+        unsigned value = format ? term->modify_keys.format :
+            term->modify_keys.level < 0 ? 65535 : term->modify_keys.level;
+        put_fmt(reply, ">4;%u", value);
+        if (!format && term->modify_keys.ignore) put_fmt(reply, ":%u", term->modify_keys.ignore);
+        put_byte(reply, format ? 'f' : 'm');
     } else {
         valid = false;
     }
@@ -2115,6 +2151,8 @@ static void power_on(Terminal *term, bool clear)
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
     memset(term->keyboard, 0, sizeof(term->keyboard));
+    nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
+                   conf_get_int(term->conf, CONF_nemo_format_other_keys));
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     term->use_bce = conf_get_bool(term->conf, CONF_bce);
@@ -2398,6 +2436,10 @@ void term_reconfig(Terminal *term, Conf *conf)
      * Mode, BCE, blinking text, cursor style, character classes.
      */
     bool reset_wrap, reset_decom, reset_bce, reset_tblink, reset_charclass;
+    bool reset_mok = conf_get_int(term->conf, CONF_nemo_modify_other_keys) !=
+                     conf_get_int(conf, CONF_nemo_modify_other_keys);
+    bool reset_mok_format = conf_get_int(term->conf, CONF_nemo_format_other_keys) !=
+                            conf_get_int(conf, CONF_nemo_format_other_keys);
     bool reset_cursor = conf_get_int(term->conf, CONF_cursor_type) !=
                         conf_get_int(conf, CONF_cursor_type) ||
                         conf_get_bool(term->conf, CONF_blink_cur) !=
@@ -2476,6 +2518,15 @@ void term_reconfig(Terminal *term, Conf *conf)
 
     conf_free(term->conf);
     term->conf = conf_copy(conf);
+
+    if (reset_mok) {
+        NemoModifyKeys initial;
+        nemo_mok_reset(&initial, conf_get_int(conf, CONF_nemo_modify_other_keys), 0);
+        term->modify_keys.level = initial.level;
+        term->modify_keys.ignore = 0;
+    }
+    if (reset_mok_format)
+        term->modify_keys.format = conf_get_int(conf, CONF_nemo_format_other_keys) == 1;
 
     if (reset_wrap) {
         term->alt_wrap = term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
@@ -5503,7 +5554,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         term->esc_query = c;
                     term->termstate = SEEN_CSI;
                 } else if (term->esc_overflow ||
-                           (term->esc_has_subargs && (c != 'm' || term->esc_query))) {
+                           (term->esc_has_subargs &&
+                            (c != 'm' || (term->esc_query && term->esc_query != '>')))) {
                     /* Reject the complete overflowing sequence, and never
                      * reinterpret colon values as unrelated CSI parameters. */
                 } else
@@ -5987,6 +6039,25 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 'u':       /* restore cursor */
                         save_cursor(term, false);
+                        break;
+                      case ANSI('m', '>'):
+                        nemo_modify_keys_setting(term, false);
+                        break;
+                      case ANSI('f', '>'):
+                        nemo_modify_keys_setting(term, true);
+                        break;
+                      case ANSI('m', 1):
+                        nemo_modify_keys_query(term, false);
+                        break;
+                      case ANSI('g', 1): /* documented XTQFMTKEYS */
+                      case ANSI('g', '>'): /* current xterm parser's spelling */
+                        nemo_modify_keys_query(term, true);
+                        break;
+                      case ANSI('n', '>'):
+                        if (term->esc_nargs == 1 && term->esc_args[0] == 4) {
+                            term->modify_keys.level = -1;
+                            term->modify_keys.ignore = 0;
+                        }
                         break;
                       case ANSI('u', 1): /* kitty keyboard flags query */
                         if (term->esc_nargs == 1 && !term->esc_arg_present && term->ldisc) {

@@ -758,8 +758,9 @@ bool do_config(Conf *conf)
     bool ret;
     PortableDialogStuff *pds = pds_new(2);
 
-    setup_config_box(pds->ctrlbox, false, 0, 0);
-    win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(), false, 0);
+    int protocol = backends[0] ? 0 : -1;
+    setup_config_box(pds->ctrlbox, false, protocol, 0);
+    win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(), false, protocol);
 
     pds->dp->wintitle = dupprintf("%s Configuration", appname);
     pds->dp->data = conf;
@@ -785,7 +786,7 @@ bool do_reconfig(HWND hwnd, Conf *conf, int protcfginfo)
 
     backup_conf = conf_copy(conf);
 
-    protocol = conf_get_int(conf, CONF_protocol);
+    protocol = backends[0] ? conf_get_int(conf, CONF_protocol) : -1;
     setup_config_box(pds->ctrlbox, true, protocol, protcfginfo);
     win_setup_config_box(pds->ctrlbox, &pds->dp->hwnd, has_help(),
                          true, protocol);

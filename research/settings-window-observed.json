@@ -1,0 +1,16 @@
+{
+    "saved_level":  3,
+    "local_launch":  true,
+    "copy_only_default":  true,
+    "saved_copy_and_paste":  true,
+    "query":  {
+                  "phase":  "settings-launch",
+                  "hex":  "1b5b3e343b336d1b5b3e343b3166",
+                  "columns":  80,
+                  "rows":  24,
+                  "input_mode":  640
+              },
+    "saved_format":  1,
+    "executable_sha256":  "9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1",
+    "cancel_exit":  0
+}

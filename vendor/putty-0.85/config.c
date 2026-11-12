@@ -1830,7 +1830,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_settitle(b, "Session", str);
     sfree(str);
 
-    if (!midsession) {
+    if (!midsession && protocol >= 0) {
         struct hostport *hp = (struct hostport *)
             ctrl_alloc(b, sizeof(struct hostport));
         memset(hp, 0, sizeof(*hp));
@@ -2113,6 +2113,18 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       numeric_keypad_handler, P(NULL),
                       "Normal", I(0), "Application", I(1), "NetHack", I(2));
 
+    ctrl_settitle(b, "Terminal/Keyboard/Extended", "Extended character-key reporting");
+    s = ctrl_getset(b, "Terminal/Keyboard/Extended", "modifiedcharacters",
+                    "Initial xterm character-key reporting:");
+    ctrl_radiobuttons(s, "Keys to report:", 'k', 2, HELPCTX(no_help),
+                      conf_radiobutton_handler, I(CONF_nemo_modify_other_keys),
+                      "Off", I(0), "Compatible", I(1), "Modified keys", I(2), "All keys", I(3));
+    ctrl_radiobuttons(s, "Sequence format:", 'f', 2, HELPCTX(no_help),
+                      conf_radiobutton_handler, I(CONF_nemo_format_other_keys),
+                      "xterm (27~)", I(0), "CSI-u", I(1));
+    ctrl_text(s, "Applications can change these settings. Kitty keyboard "
+              "enhancements take priority while enabled.", HELPCTX(no_help));
+
     /*
      * The Terminal/Bell panel.
      */
@@ -2377,7 +2389,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       HELPCTX(selection_clipactions),
                       conf_radiobutton_bool_handler,
                       I(CONF_nemo_right_click_paste),
-                      "Copy only", I(false), "Copy and paste", I(true));
+                      "Copy only", NO_SHORTCUT, I(false),
+                      "Copy and paste", NO_SHORTCUT, I(true));
     ctrl_radiobuttons(s,
                       "Default selection mode (Alt+drag does the other one):",
                       NO_SHORTCUT, 2,
@@ -2617,7 +2630,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
 
     }
 
-    if (!midsession) {
+    if (!midsession && protocol >= 0) {
         /*
          * The Connection/Proxy panel.
          */

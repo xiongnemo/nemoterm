@@ -337,8 +337,20 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             scene = '\x1b[0m\x1b[?25l\x1b[2J\x1b[2;2H' + link(uri, 'LINK')
             scene += '\x1b[2;11H' + link(uri, 'MORE') + '\x1b[2;21H' + link(other, 'ELSE')
             phase('labels', scene)
-            u.SendMessageW(hwnd, 0x2a3, 0, 0)  # own-window WM_MOUSELEAVE
-            baseline = capture(hwnd, return_pixels=True)
+            def painted_baseline():
+                u.SendMessageW(hwnd, 0x2a3, 0, 0)  # own-window WM_MOUSELEAVE
+                pixels = capture(hwnd, return_pixels=True)
+                background = pixels[:3]
+                # The query reply acknowledges parser state, not its deferred
+                # paint. Require all three labels before comparing hover pixels.
+                for lo,hi in ((1,5),(10,14),(20,24)):
+                    if not any(pixels[3*(y*rect.right+x):3*(y*rect.right+x)+3] != background
+                               for y in range(1+ch,1+2*ch-2)
+                               for x in range(1+lo*cw,1+hi*cw)):
+                        return None
+                return pixels
+            baseline = wait_for(painted_baseline)
+            capture(hwnd, 'hyperlink-baseline.png')
             tip, text = hover(uri)
             evidence['hover_text'] = text
             selected = wait_for(lambda: (pixels := capture(hwnd, return_pixels=True)) != baseline and pixels)
@@ -346,10 +358,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             bounds = [min(i%rect.right for i in changed), min(i//rect.right for i in changed),
                       max(i%rect.right for i in changed)+1, max(i//rect.right for i in changed)+1]
             evidence['hover_bounds'] = bounds
+            capture(hwnd, 'hyperlink-hover.png'); capture(tip, 'hyperlink-address.png')
             expected = {bounds[1]*rect.right+x for lo,hi in ((1,5),(10,14))
                         for x in range(1+lo*cw,1+hi*cw)}
             assert bounds[3]-bounds[1] == 1 and set(changed) == expected, bounds
-            capture(hwnd, 'hyperlink-hover.png'); capture(tip, 'hyperlink-address.png')
             msg(0x201, keys=9); msg(0x202, keys=8)
             observed = wait_for(lambda: (data := launched()) and data)
             assert len(observed) == 1 and observed[0]['argv'] == [uri], observed

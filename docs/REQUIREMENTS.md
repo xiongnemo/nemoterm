@@ -608,3 +608,70 @@ cells and waits for the child to report the new dimensions as well as the
 clipboard reply. Both local Sarasa and Courier New runs report 80 to 68
 columns. This replaces an arbitrary fixed pixel width and a possible stale
 dimension snapshot; it does not relax the required resize notification.
+
+The corrected OSC 52 checkpoint, commit
+`458b8fe0271f19ca3fd7e10a60363306bc25b9d2`, passed remote
+[run 43118513619](https://github.com/xiongnemo/nemoterm/actions/runs/43118513619).
+Its downloaded package commit, executable SHA-256, pinned ConPTY files,
+18 core logs, 12 native JSON files and four terminal sanitizer logs were
+verified before this next checkpoint.
+
+### xterm modified keys and native settings checkpoint
+
+`modifyOtherKeys` now has levels 0–3, disable/reset/query, both encoding
+formats, modifier factoring and DECRQSS. The main and alternate screens
+share the eight-byte state; kitty enhancements take input priority without
+overwriting it. Initial settings are saved as NemoModifyOtherKeys and
+NemoFormatOtherKeys, both zero by default, under Terminal/Keyboard/Extended.
+The Windows adapter previews character lookup without consuming a pending
+dead key, commits only handled events, and keeps local commands ahead of
+protocol encoding. Exact syntax, independently reproduced XTerm(412) bytes,
+Windows/XKB differences and remaining resource families are documented in
+[modify-other-keys.md](../research/modify-other-keys.md).
+
+The nineteenth core suite covers parser recovery, queries, reset/reconfigure,
+bounded encoding, global screen state and kitty coexistence. Windows layout
+cases cover US, US International dead keys, German AltGr and Russian without
+changing the user's active layout. The new native input suite checks real
+ConPTY bytes, repeats, Unicode/IME character messages, focus cleanup,
+synchronized output, resize, Shift selection under application mouse mode
+and Ctrl+Shift+C/V. A second run uses Courier New and saved level-3/CSI-u
+defaults, including RIS restoration.
+
+Opening the real settings dialog exposed additional defects missed by the
+terminal fixtures: startup configuration assumed a network backend and
+created orphan proxy controls, local launch validation required a host,
+and the right-click radio options omitted required variadic shortcut fields.
+The new modified-key radio controls also needed correct shortcut arguments.
+These are corrected. The thirteenth native suite uses UI Automation scoped
+to its own process to select visible options, check mutually exclusive
+radio state, verify the default copy-only policy, save a temporary profile,
+cancel, reload it and launch a local session with exact keyboard query replies.
+It deletes its temporary profile and captures only the owned settings window.
+
+The hyperlink fixture now waits until all three test labels have painted
+before taking its baseline. A parser query reply can precede deferred drawing;
+the original one-row, exact-group underline pixel assertion remains unchanged.
+
+CI runs 19 core and 13 native suites, with extra font/configuration runs for
+both keyboard protocols (15 native JSON files), plus five terminal ASan/UBSan
+logs and the standalone Sixel/colour sanitizer checks. Physical devices,
+real IME candidate UI, long agent sessions, history reflow and the remaining
+protocol ledger remain outstanding.
+
+All 19 core suites and 13 native suites passed locally, including the two
+extra keyboard font/configuration runs, for executable SHA-256
+`9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1`.
+The new and existing keyboard cores also passed Linux ASan/UBSan with leak
+detection; actionlint 1.7.12 passed. Current native evidence carries this
+executable hash (the older mouse fixture does not record a hash).
+
+The default modifyOtherKeys run peaked at private WS 4,333,568 bytes
+(4.334 MB / 4.133 MiB), total WS 25,587,712 bytes (25.588 MB / 24.402 MiB),
+and private commit 5,918,720 bytes (5.919 MB / 5.645 MiB). The mixed
+6,000-link/800-Sixel fixture peaked at private WS 8,863,744 bytes
+(8.864 MB / 8.453 MiB), total WS 33,546,240 bytes (33.546 MB / 31.992 MiB),
+and private commit 10,100,736 bytes (10.101 MB / 9.633 MiB).
+These are continuously sampled terminal-process peaks, without trimming;
+ConPTY and child processes are separate. They do not establish the same
+bounds for every future workload.

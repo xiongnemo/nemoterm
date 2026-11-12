@@ -84,9 +84,9 @@
     "input_mode": 640
   },
   "font": "Courier New",
-  "executable_sha256": "358b5e01676886f73cf02e0342041a1002a675fe00a033fec2d4dd4e01e1b65e",
-  "peak_private_ws": 3674112,
-  "peak_total_ws": 19574784,
-  "peak_private_commit": 5091328,
+  "executable_sha256": "9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1",
+  "peak_private_ws": 3567616,
+  "peak_total_ws": 19415040,
+  "peak_private_commit": 4988928,
   "lock_modifiers": 128
 }

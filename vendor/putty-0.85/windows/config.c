@@ -357,7 +357,7 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
     /*
      * Windows supports a local-command proxy.
      */
-    if (!midsession) {
+    if (!midsession && protocol >= 0) {
         int i;
         s = ctrl_getset(b, "Connection/Proxy", "basics", NULL);
         for (i = 0; i < s->ncontrols; i++) {

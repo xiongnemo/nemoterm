@@ -4493,6 +4493,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
     }
 
     nemo_keyboard_prepare(wgs, message, original_key, lParam, keystate);
+    BYTE protocol_keystate[256];
+    memcpy(protocol_keystate, keystate, sizeof(protocol_keystate));
 
     /* Disable Auto repeat if required */
     if (wgs->term->repeat_off &&
@@ -4705,7 +4707,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         }
     }
 
-    if (nemo_keyboard_input(wgs, message, original_key, lParam, keystate, kbd_layout)) {
+    if (nemo_keyboard_input(wgs, message, original_key, lParam, protocol_keystate, kbd_layout)) {
         show_mouseptr(wgs, false);
         return 0;
     }

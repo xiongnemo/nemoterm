@@ -11,6 +11,7 @@
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_keyboard.h"
+#include "nemo_mok.h"
 #include "nemo_osc52.h"
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
@@ -250,6 +251,7 @@ struct terminal_tag {
     int alt_t, alt_b;
     int alt_which;
     NemoKeyboard keyboard[2];
+    NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

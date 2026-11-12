@@ -35,7 +35,7 @@
 | 家族 / 具体范围 | 状态 | 工作区证据与缺口 |
 | --- | --- | --- |
 | 普通/应用光标键、数字键盘、F键、Alt/Ctrl/Shift修饰 | 源码已见 | T `format_arrow_key` 等与W键盘路径；真实Windows键盘布局、AltGr、IME和ConPTY传输尚需验证。 |
-| xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 缺失 | 未见协商状态及对应出站编码；不得以普通Ctrl组合代替。 |
+| xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 已证（字符键与 Windows 映射） | 支持 0–3 级、`>4n` 禁用、`?4m` 查询、`>4;0/1f` 格式、`?4g`/`>4g` 查询及 DECRQSS。`>4;level:mask m` 按 X11 修饰位屏蔽字符查找；主/备用屏共用，RIS 回到配置初值，kitty 增强输入优先。8 字节协议状态，编码无堆分配；Windows 预览字符不消费死键，AltGr、俄语、Unicode 提交及本地快捷键有测试。19 组核心中的 `test_mok` 与真实 ConPTY 精确字节、两套初始配置、鼠标选择和缩放通过。独立 XTerm(412) 对照及 Shift-Tab、格式查询/DECRQSS 差异见 [研究记录](../research/modify-other-keys.md)。其他资源 P0/1/2/3/6/7 尚未实现；物理键盘和真实 IME/agent 仍需验收。 |
 | CSI-u / kitty keyboard：查询 `CSI ? u`，设置 `CSI = flags;mode u`，push `CSI > flags u`，pop `CSI < n u` | 已证（有限范围） | `nemo_keyboard.c`实现flags 1/2/4/8/16，主/备用屏各32项栈、满栈淘汰最旧项、显式pop 0不操作、RIS清空、resize/光标保存不改模式。Win32接入按下/重复/释放、左右修饰键、锁状态、PC101基础键码、布局转换、死键/AltGr、UTF-16文本提交；本地快捷键优先。失焦补发已报告按键的释放并清状态。编码最多16个文本码点/256字节，无部分序列；栈66字节，按键跟踪按需分配约12KiB。`test_keyboard`及真实ConPTY精确字节、主备屏、冻结输出、Unicode提交、Ctrl+Shift+C/V和resize测试通过。Windows物理F键映射到F24，核心编码覆盖F35；Hyper/Meta无物理映射。真实IME候选/组合、Alt数字输入、更多布局和真实agent尚待验收；不以合成消息代替物理设备。参照 [kitty键盘规范](https://sw.kovidgoyal.net/kitty/keyboard-protocol/)；普通CSI u仍保留光标恢复。 |
 | Win32 input mode `CSI ? 9001 h/l` | 缺失 | W已有Windows消息处理，不等于实现该协议的协商和出站记录格式。需要与ConPTY和现代Windows TUI共同验收。 |
 | 鼠标9/1000/1002/1003；传统编码、1005 UTF-8、1006 SGR字符格、1015 urxvt | 已证（有限范围） | `test_mouse` 精确字节覆盖三键、Alt/Ctrl、四向滚轮、坐标边界、最后SET编码/匹配RESET、tracking RESET、拖动去重、双宽行和历史独立坐标、Shift中途接管及取消。传统坐标最大223、UTF-8最大2015，越界不发；capture取消回最后合法点释放。 |

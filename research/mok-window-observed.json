@@ -1,0 +1,114 @@
+{
+  "initial": {
+    "phase": "initial",
+    "hex": "1b5b3e343b336d1b5b3e343b31661b5b39373b3175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "level-one": {
+    "phase": "level-one",
+    "hex": "1b5b3e343b316d011b5b32373b353b34367e1b5b32373b353b34367e1b5b5a1b5b32373b353b397e1b5b32373b323b31337e1b61",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "level-two": {
+    "phase": "level-two",
+    "hex": "1b5b3e343b326d1b5b32373b323b36357e1b5b32373b353b39377e1b5b32373b363b36357e1b5b32373b333b39377e1b5b32373b363b33337e1b5b32373b323b397e1b5b32373b363b397e1b5b32373b333b397e1b5b32373b333b31337e1b5b32373b323b3132377e1b5b32373b353b32377e211b5b32373b353b39377e1b5b32373b353b39377e1b5b32373b353b39377e1b5b411b4f50",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "format-and-mask": {
+    "phase": "format-and-mask",
+    "hex": "1b5b3e343b31661b503124723e343b323a316d1b5c1b5b39373b36751b5b34393b3675",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "all-keys": {
+    "phase": "all-keys",
+    "hex": "1b5b3e343b336d1b5b39373b31751b5b31333b31751b5b32373b31751b5b32303031333b31751b5b3132383531323b31751b5b32353939313b3175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "shared-screen-state": {
+    "phase": "shared-screen-state",
+    "hex": "1b5b3e343b336d1b5b3e343b326d",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "kitty-priority": {
+    "phase": "kitty-priority",
+    "hex": "1b5b3f31751b5b3130353b31333375",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "restore-xterm": {
+    "phase": "restore-xterm",
+    "hex": "1b5b3f30751b5b3e343b336d1b5b39373b3175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "synchronized-input": {
+    "phase": "synchronized-input",
+    "hex": "1b5b3e343b336d1b5b39373b3175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "focus-cleanup": {
+    "phase": "focus-cleanup",
+    "hex": "1b5b3e343b336d1b5b39373b3175",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "resize-preserves": {
+    "phase": "resize-preserves",
+    "hex": "1b5b3e343b336d1b5b39373b3175",
+    "columns": 68,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "local-copy-paste": {
+    "phase": "local-copy-paste",
+    "hex": "1b5b3e343b336d1b5b3230307e4d4f4b20434f5059204c4142454c1b5b3230317e",
+    "columns": 68,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "bounded-mode-burst": {
+    "phase": "bounded-mode-burst",
+    "hex": "1b5b3e343b336d",
+    "columns": 68,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "disabled": {
+    "phase": "disabled",
+    "hex": "1b5b3e343b36353533356d1b",
+    "columns": 68,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "reset-defaults": {
+    "phase": "reset-defaults",
+    "hex": "1b5b3e343b336d1b5b3e343b3166",
+    "columns": 68,
+    "rows": 24,
+    "input_mode": 640
+  },
+  "font": "Courier New",
+  "initial_level": 3,
+  "initial_format": 1,
+  "executable_sha256": "9ff8674c4c42801987d1b7bd3caae6a51d3a66d26902d9382fde4af031362fc1",
+  "peak_private_ws": 4317184,
+  "peak_total_ws": 25579520,
+  "peak_private_commit": 5877760
+}
