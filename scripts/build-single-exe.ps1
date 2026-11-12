@@ -10,7 +10,7 @@ Get-Command cl.exe, msbuild.exe, cmake.exe, ninja.exe, nuget.exe -ErrorAction St
 if ($LASTEXITCODE) { throw 'OpenConsole source preparation failed' }
 $source = Join-Path $root 'build/openconsole-single'
 $frontend = Join-Path $root 'build/frontend-single'
-& cmake -S "$root/vendor/putty-0.85" -B $frontend -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$frontend" -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON
+& cmake -S "$root/vendor/putty-0.85" -B $frontend -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$frontend" -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON
 if ($LASTEXITCODE) { throw 'Frontend configure failed' }
 & cmake --build $frontend --target pterm --parallel 4
 if ($LASTEXITCODE) { throw 'Frontend build failed' }
