@@ -2070,6 +2070,7 @@ static void nemo_sixel_begin(Terminal *term)
 
 static void nemo_sixel_complete(Terminal *term)
 {
+    term->grapheme_pending = false;
     NemoSixel *decoder = term->sixel_pending;
     if (!decoder) return;
     if (!nemo_sixel_finish(decoder)) { nemo_sixel_cancel(term); return; }
@@ -2333,6 +2334,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    term_set_grapheme_clustering(term, false);
     term->title_modes = 0;
     nemo_shell_marks_clear(&term->shell_marks);
     term->shell_mark_selected = 0;
@@ -3184,6 +3186,7 @@ void term_free(Terminal *term)
 
 void term_set_trust_status(Terminal *term, bool trusted)
 {
+    if (term->trusted != trusted) term->grapheme_pending = false;
     term->trusted = trusted;
 }
 
@@ -3461,6 +3464,7 @@ static void nemo_reflow(Terminal *term, int rows, int cols, int savelines)
  */
 void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
 {
+    term->grapheme_pending = false;
     tree234 *newalt;
     termline **newdisp, *line;
     int i, j, oldrows = term->rows;
@@ -3722,6 +3726,7 @@ static int find_last_nonempty_line(Terminal *term, tree234 *screen)
 static void swap_screen(Terminal *term, int which,
                         bool reset, bool keep_cur_pos)
 {
+    term->grapheme_pending = false;
     int t;
     bool bt;
     pos tp;
@@ -5586,14 +5591,139 @@ static void term_print_finish(Terminal *term)
     term->printing = term->only_printing = false;
 }
 
+void term_set_grapheme_clustering(Terminal *term, bool enabled)
+{
+    term->grapheme_mode = enabled;
+    term->grapheme_pending = false;
+    nemo_grapheme_reset(&term->grapheme);
+    term->grapheme_width = (NemoGraphemeWidth){0};
+    term->last_grapheme_len = 0;
+}
+
+static unsigned long nemo_grapheme_scalar(Terminal *term, unsigned long c)
+{
+    switch (c & CSET_MASK) {
+      /* UTF-8 ASCII is tagged for legacy rendering; its font lookup table
+       * can contain direct-font markers, not Unicode scalar values. */
+      case CSET_ASCII: return c & 0xff;
+      case CSET_LINEDRW: return term->ucsdata->unitab_xterm[c & 0xff];
+      case CSET_SCOACS: return term->ucsdata->unitab_scoacs[c & 0xff];
+      default: return c;
+    }
+}
+
+static void nemo_grapheme_remember(Terminal *term, pos anchor, unsigned cells,
+                                  NemoGraphemeState state, NemoGraphemeWidth width)
+{
+    term->grapheme = state;
+    term->grapheme_width = width;
+    term->grapheme_anchor = anchor;
+    term->grapheme_cursor = term->curs;
+    term->grapheme_wrapnext = term->wrapnext;
+    term->grapheme_cells = cells;
+    term->grapheme_pending = true;
+    termchar *ch = &scrlineptr(anchor.y)->chars[anchor.x];
+    term->last_grapheme_len = 0;
+    do {
+        assert(term->last_grapheme_len < lenof(term->last_grapheme));
+        term->last_grapheme[term->last_grapheme_len++] = ch->chr;
+        if (!ch->cc_next) break;
+        ch += ch->cc_next;
+    } while (true);
+}
+
+/* Attach any cluster member, not just zero-width scalars, to the existing
+ * bounded cc chain. Late VS16 widening is a grid mutation, not just drawing. */
+static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
+                                NemoGraphemeState state, NemoGraphemeWidth width)
+{
+    pos anchor = term->grapheme_anchor;
+    unsigned cells = term->grapheme_cells;
+    termline *line = scrlineptr(anchor.y);
+    int right = nemo_right(term);
+    if (line->trusted) right = min(right, term->cols-TRUST_SIGIL_WIDTH-1);
+    check_selection(term, anchor, (pos){anchor.y, anchor.x+(int)cells});
+    if (width.cells > cells) {
+        if (anchor.x == right) {
+            if (!term->wrap || right-term->marg_l+1 < 2) {
+                clear_cc(line, anchor.x);
+                line->chars[anchor.x].chr = 0xfffd;
+                /* Keep the one available cell; subsequent extenders remain
+                 * part of the same bounded replacement cluster. */
+                goto finished;
+            }
+            termline *saved = newtermline(term, 2, false);
+            copy_termchar(saved, 0, &line->chars[anchor.x]);
+            nemo_images_erase(term, anchor, (pos){anchor.y, anchor.x+1});
+            copy_termchar(line, anchor.x, &term->erase_char);
+            if (!term->marg_l && term->marg_r == term->cols-1)
+                line->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
+            nemo_linefeed(term);
+            term->curs.x = term->marg_l;
+            term->wrapnext = false;
+            anchor = term->curs;
+            line = scrlineptr(anchor.y);
+            check_trust_status(term, line);
+            right = nemo_right(term);
+            if (line->trusted) right = min(right, term->cols-TRUST_SIGIL_WIDTH-1);
+            check_boundary(term, anchor.x, anchor.y);
+            check_boundary(term, anchor.x+2, anchor.y);
+            if (term->insert) insch(term, 2);
+            copy_termchar(line, anchor.x, &saved->chars[0]);
+            freetermline(saved);
+        } else {
+            if (term->insert) insch(term, 1);
+            check_boundary(term, anchor.x+2, anchor.y);
+        }
+        check_selection(term, anchor, (pos){anchor.y, anchor.x+2});
+        clear_cc(line, anchor.x+1);
+        line->chars[anchor.x+1] = line->chars[anchor.x];
+        line->chars[anchor.x+1].chr = UCSWIDE;
+        line->chars[anchor.x+1].cc_next = 0;
+        cells = 2;
+        term->curs.x = min(anchor.x+2, right);
+        term->wrapnext = term->wrap && anchor.x+2 > right;
+    }
+    add_cc(line, anchor.x, scalar);
+  finished:
+    nemo_images_erase(term, anchor, (pos){anchor.y, anchor.x+(int)cells});
+    nemo_grapheme_remember(term, anchor, cells, state, width);
+    seen_disp_event(term);
+}
+
 static void term_display_graphic_char(Terminal *term, unsigned long c)
 {
+    if (((c & CSET_MASK) == CSET_ASCII ||
+         (c & CSET_MASK) == 0) && term->logctx)
+        logtraffic(term->logctx, (unsigned char) c, LGTYP_ASCII);
     termline *cline = scrlineptr(term->curs.y);
     int width = 0;
     if (DIRECT_CHAR(c))
         width = 1;
     if (!width)
         width = term_char_width(term, c);
+
+    bool cluster = term->grapheme_mode && in_utf(term) && !term->vt52_mode;
+    NemoGraphemeState cluster_state = {0};
+    NemoGraphemeWidth cluster_width = {0};
+    pos cluster_anchor = term->curs;
+    if (cluster) {
+        unsigned long scalar = nemo_grapheme_scalar(term, c);
+        bool pending = term->grapheme_pending &&
+            term->curs.x == term->grapheme_cursor.x &&
+            term->curs.y == term->grapheme_cursor.y &&
+            term->wrapnext == term->grapheme_wrapnext;
+        if (pending) cluster_state = term->grapheme;
+        bool boundary = nemo_grapheme_feed(&cluster_state, scalar);
+        if (!boundary) cluster_width = term->grapheme_width;
+        width = nemo_grapheme_cell_width(&cluster_width, scalar, width);
+        if (!boundary) {
+            nemo_grapheme_append(term, scalar, cluster_state, cluster_width);
+            return;
+        }
+    } else {
+        term->grapheme_pending = false;
+    }
 
     if (term->wrapnext && term->wrap && width > 0) {
         if (!term->marg_l && term->marg_r == term->cols-1)
@@ -5610,10 +5740,6 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         incpos(cursplus);
         check_selection(term, term->curs, cursplus);
     }
-    if (((c & CSET_MASK) == CSET_ASCII ||
-         (c & CSET_MASK) == 0) && term->logctx)
-        logtraffic(term->logctx, (unsigned char) c, LGTYP_ASCII);
-
     check_trust_status(term, cline);
 
     int linecols = nemo_right(term)+1;
@@ -5632,7 +5758,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
          * If we're in wrapping mode and the terminal is at least 2 cells
          * wide, it's OK, we have a fallback. But otherwise, substitute.
          */
-        if (linecols < 2 || !term->wrap) {
+        if (linecols < 2 || !term->wrap ||
+            (cluster && linecols-term->marg_l < 2)) {
             width = 1;
             c = 0xFFFD;
         }
@@ -5670,6 +5797,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         }
         check_boundary(term, term->curs.x+2, term->curs.y);
 
+        cluster_anchor = term->curs;
+
         nemo_images_erase(term, term->curs,
                           (pos){term->curs.y, term->curs.x + 2});
         /* FULL-TERMCHAR */
@@ -5692,6 +5821,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
 
         break;
       case 1:
+        cluster_anchor = term->curs;
         check_boundary(term, term->curs.x, term->curs.y);
         check_boundary(term, term->curs.x+1, term->curs.y);
 
@@ -5753,6 +5883,8 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
             }
         }
     }
+    if (cluster)
+        nemo_grapheme_remember(term, cluster_anchor, width, cluster_state, cluster_width);
     seen_disp_event(term);
 }
 
@@ -6240,6 +6372,19 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 c = '@' + (c & 0x1F);
             }
         }
+
+        /* A cluster can span transport batches, SGR and status queries.
+         * Cursor/editing controls terminate attachment even when the command
+         * happens to leave the cursor at the same coordinate. OSC metadata
+         * keeps the first member's cell attributes and hyperlink. */
+        if ((term->termstate < DO_CTRLS &&
+             ((c < 0x20 && c != 0 && c != 5 && c != 7 && c != 0x1b) || c == 0x7f)) ||
+            (term->termstate == SEEN_ESC && c >= '0' &&
+             c != '[' && c != ']' && c != 'P' && c != '7') ||
+            (term->termstate == SEEN_CSI && c >= '@' && c <= '~' &&
+             c != 'm' && c != 'n' && c != 'c' &&
+             !(c == 'p' && (term->esc_query == '$' || term->esc_query == 0x100+'$'))))
+            term->grapheme_pending = false;
 
         /* Or the GL control. */
         if (c == '\177' && term->termstate < DO_CTRLS && has_compat(OTHER)) {
@@ -6816,8 +6961,22 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         seen_disp_event(term);
                         break;
                       case 'b':        /* REP: repeat previous grap */
+                        term->esc_args[0] = def(term->esc_args[0], 1);
                         CLAMP(term->esc_args[0], term->rows * term->cols);
-                        if (term->last_graphic_char) {
+                        if (term->grapheme_mode && in_utf(term) &&
+                            !term->vt52_mode && term->last_grapheme_len) {
+                            uint32_t saved[CC_LIMIT + 1];
+                            unsigned n = term->last_grapheme_len;
+                            memcpy(saved, term->last_grapheme, n * sizeof(*saved));
+                            for (unsigned i = 0; i < term->esc_args[0]; i++) {
+                                /* Each repeat is a new cluster, including RI
+                                 * and leading-mark clusters. Display updates
+                                 * last_grapheme, so iterate a local snapshot. */
+                                term->grapheme_pending = false;
+                                for (unsigned j = 0; j < n; j++)
+                                    term_display_graphic_char(term, saved[j]);
+                            }
+                        } else if (term->last_graphic_char) {
                             unsigned i;
                             for (i = 0; i < term->esc_args[0]; i++)
                                 term_display_graphic_char(

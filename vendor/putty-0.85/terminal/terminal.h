@@ -12,14 +12,21 @@
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
 #include "nemo_shell_marks.h"
+#include "nemo_grapheme.h"
 #include "nemo_bindings.h"
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
 #include "nemo_osc52.h"
 #include "nemo_win32_input.h"
 
+/* Bounded cell extension storage; rationale is documented below. */
+#define CC_LIMIT 32
+
 /* Read-only range query for native menu state; zero means unavailable. */
 uint64_t term_shell_mark_range(Terminal *, bool output, NemoShellPoint *, NemoShellPoint *);
+/* Staged core implementation; no UI/protocol advertisement until the native
+ * whole-cluster renderer and remaining protocol semantics are integrated. */
+void term_set_grapheme_clustering(Terminal *, bool);
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
@@ -200,6 +207,11 @@ struct terminal_tag {
     bool dec_om;                       /* DEC origin mode flag */
     unsigned rectangle_extent;         /* DECSACE: 2=rectangle, others=stream */
     bool wrap, wrapnext;               /* wrap flags */
+    bool grapheme_mode, grapheme_pending, grapheme_wrapnext;
+    NemoGraphemeState grapheme;
+    NemoGraphemeWidth grapheme_width;
+    pos grapheme_anchor, grapheme_cursor;
+    unsigned grapheme_cells;
     bool insert;                       /* insert-mode flag */
     int cset;                          /* 0 or 1: which char set */
     int save_cset, save_csattr;        /* saved with cursor position */
@@ -359,6 +371,9 @@ struct terminal_tag {
     struct unicode_data *ucsdata;
 
     unsigned long last_graphic_char;
+    /* REP must survive cursor moves and erasure of the original cell. */
+    uint32_t last_grapheme[CC_LIMIT + 1];
+    unsigned last_grapheme_len;
 
     /*
      * We maintain a full copy of a Conf here, not merely a pointer
@@ -613,7 +628,7 @@ static inline int term_char_width(Terminal *term, unsigned int c)
  * "significantly beyond what is required for any linguistic or
  * technical usage".
  */
-#define CC_LIMIT 32
+/* CC_LIMIT is declared above so REP can use the same storage bound. */
 
 /* ----------------------------------------------------------------------
  * Helper functions for dealing with the small 'pos' structure.

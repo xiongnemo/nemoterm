@@ -17,4 +17,13 @@ void nemo_grapheme_reset(NemoGraphemeState *state);
 /* Consume one scalar; true iff there is a boundary immediately before it. */
 bool nemo_grapheme_feed(NemoGraphemeState *state, uint32_t scalar);
 
+/* Terminal policy, separate from UAX #29: max scalar width, wide/default
+ * emoji at two cells, eligible VS16 may widen, no retroactive narrowing.
+ * Start each cluster with a zeroed state. scalar_width is the caller's
+ * legacy width (including its ambiguous-width preference). */
+typedef struct NemoGraphemeWidth {
+    unsigned char cells, emoji_base;
+} NemoGraphemeWidth;
+unsigned nemo_grapheme_cell_width(NemoGraphemeWidth *, uint32_t, int scalar_width);
+
 #endif

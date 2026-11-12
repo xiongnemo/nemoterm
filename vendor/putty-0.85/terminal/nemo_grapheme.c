@@ -11,16 +11,16 @@ enum { I_NONE, I_CONSONANT, I_EXTEND, I_LINKER };
 
 static unsigned properties(uint32_t cp)
 {
-    if (cp >= 0xac00 && cp <= 0xd7a3)
-        return (cp - 0xac00) % 28 ? G_LVT : G_LV;
+    unsigned hangul = cp >= 0xac00 && cp <= 0xd7a3 ?
+        ((cp - 0xac00) % 28 ? G_LVT : G_LV) : 0;
     size_t lo = 0, hi = sizeof(nemo_grapheme_ranges) / sizeof(*nemo_grapheme_ranges);
     while (lo < hi) {
         size_t mid = lo + (hi-lo)/2;
         if (cp < nemo_grapheme_ranges[mid].first) hi = mid;
         else if (cp > nemo_grapheme_ranges[mid].last) lo = mid+1;
-        else return nemo_grapheme_ranges[mid].value;
+        else return nemo_grapheme_ranges[mid].value | hangul;
     }
-    return G_OTHER;
+    return hangul;
 }
 
 void nemo_grapheme_reset(NemoGraphemeState *state)
@@ -69,4 +69,14 @@ bool nemo_grapheme_feed(NemoGraphemeState *s, uint32_t cp)
     s->previous = (unsigned char)g;
     s->started = 1;
     return boundary;
+}
+
+unsigned nemo_grapheme_cell_width(NemoGraphemeWidth *s, uint32_t cp, int legacy)
+{
+    unsigned props = properties(cp);
+    unsigned width = legacy >= 2 || (props & (0x80 | 0x200)) ||
+        (cp == 0xfe0f && s->emoji_base) ? 2 : 1;
+    if (s->cells < width) s->cells = (unsigned char)width;
+    s->emoji_base = (props & 0x100) != 0;
+    return s->cells;
 }

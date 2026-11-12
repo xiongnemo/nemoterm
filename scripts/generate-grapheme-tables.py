@@ -4,6 +4,7 @@ No network access. Check every input against the committed download manifest.
 The terminal's older wcwidth tables are independent and are not changed here.
 """
 import argparse
+from array import array
 import hashlib
 import json
 from pathlib import Path
@@ -30,7 +31,7 @@ def generate():
         data = (DATA / item['file']).read_bytes()
         if len(data) != item['bytes'] or hashlib.sha256(data).hexdigest() != item['sha256']:
             raise ValueError(f"Unicode input changed: {item['file']}")
-    properties = bytearray(0x110000)
+    properties = array('H', [0]) * 0x110000
     for lo, hi, fields in records('GraphemeBreakProperty.txt'):
         value = GCB.index(fields[0])
         # Hangul syllables alternate every 28 code points. Compute their GCB
@@ -47,9 +48,15 @@ def generate():
                 assert not properties[cp] & 0x30
                 properties[cp] |= INCB.index(fields[1]) << 4
     for lo, hi, fields in records('emoji-data.txt'):
-        if fields[0] == 'Extended_Pictographic':
+        bit = {'Extended_Pictographic': 0x40, 'Emoji_Presentation': 0x80,
+               'Emoji': 0x100}.get(fields[0], 0)
+        if bit:
             for cp in range(lo, hi+1):
-                properties[cp] |= 0x40
+                properties[cp] |= bit
+    for lo, hi, fields in records('EastAsianWidth.txt'):
+        if fields[0] in ('W', 'F'):
+            for cp in range(lo, hi+1):
+                properties[cp] |= 0x200
     rows = []
     lo = 0
     while lo < len(properties):
@@ -64,7 +71,7 @@ def generate():
         ' * Unicode 18.0.0. Copyright 1991-2026 Unicode, Inc.',
         ' * SPDX-License-Identifier: Unicode-3.0',
         ' * See tools/unicode/18.0.0/LICENSE.txt and manifest.json. */',
-        'static const struct { uint32_t first, last; unsigned char value; }',
+        'static const struct { uint32_t first, last; uint16_t value; }',
         'nemo_grapheme_ranges[] = {', *rows, '};', ''])
 
 

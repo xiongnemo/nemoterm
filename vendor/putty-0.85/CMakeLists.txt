@@ -60,6 +60,7 @@ add_library(agent STATIC
   sshpubk.c pageant.c aqsync.c)
 
 add_library(guiterminal STATIC
+  terminal/nemo_grapheme.c
   terminal/nemo_shell_marks.c
   terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c terminal/nemo_colour.c terminal/nemo_tcap.c terminal/nemo_hyperlink.c terminal/nemo_cwd.c terminal/nemo_keyboard.c terminal/nemo_osc52.c terminal/nemo_mok.c terminal/nemo_win32_input.c terminal/nemo_window_size.c
   ldisc.c terminal/lineedit.c config.c dialog.c

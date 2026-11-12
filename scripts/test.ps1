@@ -10,3 +10,5 @@ foreach ($name in @('test_conf', 'test_terminal', 'test_sixel', 'test_sixel_term
 }
 & "$root/build/test_grapheme.exe" "$root/tools/unicode/18.0.0/GraphemeBreakTest.txt"
 if ($LASTEXITCODE) { throw 'Unicode grapheme conformance tests failed' }
+& "$root/build/test_grapheme_terminal.exe"
+if ($LASTEXITCODE) { throw 'Terminal grapheme cell tests failed' }

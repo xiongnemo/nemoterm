@@ -53,8 +53,9 @@ jobs:
       - name: Test Unicode extended grapheme boundaries
         run: |
           set -euo pipefail
-          cmake --build build --target test_grapheme
+          cmake --build build --target test_grapheme test_grapheme_terminal
           ./build/test_grapheme.exe tools/unicode/18.0.0/GraphemeBreakTest.txt 2>&1 | tee test-results/test_grapheme.log
+          ./build/test_grapheme_terminal.exe 2>&1 | tee test-results/test_grapheme_terminal.log
       - name: Package portable executable
         run: |
           set -euo pipefail
@@ -383,7 +384,10 @@ jobs:
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
           cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_queries test_titles --parallel 4
+          cmake --build build-asan --target test_grapheme_terminal --parallel 4
           set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_grapheme_terminal 2>&1 | tee terminal-grapheme-cells-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_sixel_terminal 2>&1 | tee terminal-image-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \

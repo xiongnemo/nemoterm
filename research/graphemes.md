@@ -13,8 +13,8 @@ and shaping work. This is not complete grapheme support.
 `nemo_grapheme.c` is an allocation-free streaming extended-grapheme segmenter
 for [UAX #29 revision 49](https://www.unicode.org/reports/tr29/tr29-49.html),
 using Unicode 18.0.0 data. The six-byte state preserves RI parity, emoji-ZWJ
-context and the revised Indic linker rule across input batches. The 843
-generated ranges occupy 10,116 bytes with the tested compiler. Hangul syllable
+context and the revised Indic linker rule across input batches. The 977
+generated ranges include emoji and East Asian width properties. Hangul syllable
 properties are computed rather than stored as hundreds of alternating ranges.
 Invalid scalar values form isolated replacement clusters. This policy is
 outside UAX #29's valid-scalar test corpus.
@@ -23,7 +23,10 @@ The generator is offline and verifies all pinned inputs against their SHA-256
 manifest. The original Unicode license accompanies the data and is included
 in portable packages and the single-EXE embedded notices. No ICU or other
 runtime dependency is introduced. Existing PuTTY Unicode 16 wcwidth tables
-remain separate until the terminal's width policy is implemented.
+remain the legacy path. The staged cluster policy takes the widest member,
+uses the pinned wide/fullwidth and emoji-presentation properties, and permits
+an eligible VS16 to widen a cluster. It preserves the caller's ambiguous-width
+choice and never retroactively shrinks an already occupied cell.
 
 Local strict C11 compilation passed all 853 official `GraphemeBreakTest.txt`
 vectors, stream splits, million-scalar combining/RI streams, invalid scalars
@@ -32,25 +35,53 @@ At source commit `ca1c2805441b8942fb49009899810f467bc5fa1f`,
 [Windows and sanitizer CI](https://github.com/xiongnemo/nemoterm/actions/runs/43315470393)
 passed, with both jobs recording all 853 vectors and bounded-stream checks.
 [Single-EXE CI](https://github.com/xiongnemo/nemoterm/actions/runs/43315470225)
-also passed. This validates the standalone segmenter and unchanged frontend
-regressions; the segmenter remains test-only, so it does not validate cluster
-behavior in terminal cells. Later commits add the offscreen shaping probe,
-local test-command wiring and the accepted tab baseline; their CI is separate.
+also passed. Those runs validate the standalone segmenter and unchanged
+frontend regressions, before cell integration. Later commits add the offscreen
+shaping probe, local test-command wiring and the accepted tab baseline; their
+CI is separate. At `b421983`, Single-EXE CI passed (43318199242), while the
+portable Windows run (43318199252) timed out resolving the newly opened tab
+content HWND in the settings fixture, after the child's exact query replies
+had already passed. That run is not a full green baseline.
+
+## Staged terminal cells
+
+`term_set_grapheme_clustering` enables the core only from the unit harness.
+The frontend still defaults to legacy behavior, exposes no setting for this
+work, and does not advertise mode 2027. Complete-cluster shaping is not yet
+connected to the frontend, so this checkpoint is not a user-visible emoji fix.
+
+Cells reuse PuTTY's bounded extension chain for all cluster members, including
+positive-width members. A cell stores one base plus at most 32 extensions;
+excess input becomes a fixed replacement cell. Transport batches preserve the
+finite segmentation state. Cursor moves, editing, screen switches, resizing
+and trust changes terminate pending attachment. SGR and status queries retain
+the first member's cell style. Late widening reserves the second cell or
+wraps the whole cluster, with a bounded replacement when two cells cannot fit.
+
+REP retains a bounded copy of the last displayed cluster, independent of the
+source cell's later erasure. Each repeat starts a new cluster; default/zero
+counts repeat once in both width policies. The original raw input remains the
+source for stored text and copy; normalization is a future rendering-only step.
+
+Local MinGW Release verification passed all 34 test executables, including the
+853 official segmentation vectors and `test_grapheme_terminal`. The latter
+checks 13 shapes, fragmented UTF-8, late width changes at right/bottom/margins,
+insert/overwrite, half-wide erasure, exact Unicode copy, alternate screens,
+10,000-member bounded replacement, 40 retained clusters over repeated history
+reflow, independent rectangle copies and REP after erasure/cursor movement.
+The new core suite is wired into Windows CI and Linux ASan/UBSan; these local
+results do not substitute for its subsequent CI run or native rendering tests.
 
 ## Still required before enabling a terminal mode
 
-- Attach complete clusters to screen cells, with bounded storage and defined
-  over-budget replacement, including delayed extensions across output batches.
-- Choose and expose legacy versus cluster width policy; implement late VS16
-  widening and right-margin/wrap handling without corrupting neighbouring cells.
+- Expose legacy versus cluster width policy only after complete native rendering
+  and protocol semantics are verified, including visible behavior at margins.
 - Shape the complete cluster with installed system font fallback in GDI,
   OpenGL and DirectX paths, including emoji ZWJ, regional flags, Indic and Jamo.
-- Preserve clusters through copying, rectangle selection, editing, reflow,
-  scrollback, saved screens and synchronized updates; test erasure of either
-  half of a wide cluster.
+- Verify native rectangle selection, saved frames and synchronized updates with
+  whole-cluster pixels, complementing the core copy/edit/reflow checks.
 - Implement and test mode 2027 query/set/reset/save semantics only once the
-  full terminal behavior exists. The segmenter is currently test-only and the
-  frontend does not advertise mode 2027.
+  full terminal behavior exists. The frontend does not advertise mode 2027.
 
 Run the table check with `python scripts/generate-grapheme-tables.py --check`.
 Build `test_grapheme` through the existing CMake project and pass

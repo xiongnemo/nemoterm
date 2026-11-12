@@ -82,6 +82,20 @@ int main(int argc, char **argv)
     assert(!nemo_grapheme_feed(&s, 0x301));
     nemo_grapheme_reset(&s);
     assert(nemo_grapheme_feed(&s, 0x301));
+    NemoGraphemeWidth width = {0};
+    assert(nemo_grapheme_cell_width(&width, 0x2764, 1) == 1);
+    assert(nemo_grapheme_cell_width(&width, 0xfe0f, 0) == 2);
+    assert(nemo_grapheme_cell_width(&width, 0xfe0e, 0) == 2); /* no shrinking */
+    width = (NemoGraphemeWidth){0};
+    assert(nemo_grapheme_cell_width(&width, 'e', 1) == 1);
+    assert(nemo_grapheme_cell_width(&width, 0xfe0f, 0) == 1); /* not emoji eligible */
+    width = (NemoGraphemeWidth){0};
+    assert(nemo_grapheme_cell_width(&width, 0x1f1e6, 1) == 2);
+    assert(nemo_grapheme_cell_width(&width, 0x1f1fa, 1) == 2);
+    width = (NemoGraphemeWidth){0};
+    assert(nemo_grapheme_cell_width(&width, 0x4e2d, 1) == 2); /* pinned EAW */
+    width = (NemoGraphemeWidth){0};
+    assert(nemo_grapheme_cell_width(&width, 0x3b1, 2) == 2); /* caller's ambiguous policy */
     printf("UAX29 Unicode 18.0.0: %u official vectors, all chunk splits, bounded long streams and invalid scalars passed\n", cases);
     return 0;
 }
