@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell test_font_cmap test_font_fallback --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_shell test_font_cmap test_font_fallback; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -54,6 +54,8 @@ jobs:
           cp build/nemoterm.exe dist/
           cp vendor/putty-0.85/LICENCE dist/LICENCE-PuTTY.txt
           cp LICENSE dist/LICENSE-Nemoterm.txt
+          cp vendor/nerd-fonts/LICENSE dist/LICENSE-Nerd-Symbols.txt
+          cp vendor/nerd-fonts/NOTICE.txt dist/LICENSE-Nerd-Components.txt
           cp README.md dist/
           printf 'Commit: %s\nBuilt: %s\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > dist/BUILD-INFO.txt
           gcc --version >> dist/BUILD-INFO.txt
@@ -97,6 +99,12 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/query-window-observed.json test-results/
           Copy-Item research/cursor-*.png test-results/
+      - name: Test embedded icon fallback, resize and RTL allocation lifetime
+        shell: pwsh
+        run: |
+          python tests/font_fallback_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item research/font-fallback-observed.json, research/font-fallback*.png test-results/
       - name: Test native mouse highlight handshake and pixels
         shell: pwsh
         run: |
@@ -245,6 +253,13 @@ jobs:
             -I vendor/putty-0.85/terminal tests/test_colour.c \
             vendor/putty-0.85/terminal/nemo_colour.c -o test-colour
           ASAN_OPTIONS=detect_leaks=1 ./test-colour
+      - name: Test bounded OpenType cmap lookup with sanitizers
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/windows tests/test_font_cmap.c \
+            vendor/putty-0.85/windows/nemo_font_cmap.c -o test-font-cmap
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-font-cmap
       - name: Test terminal image, hyperlink, keyboard and clipboard lifecycle with sanitizers
         run: |
           cmake -S vendor/putty-0.85 -B build-asan -G Ninja \

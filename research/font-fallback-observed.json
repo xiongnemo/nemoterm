@@ -1,0 +1,28 @@
+{
+  "executable_sha256": "b8169ee7655b118143db53817043fcb5f11237c5f4295e02cf4639c6b1b43353",
+  "icons": [
+    "0xf120",
+    "0xf07b",
+    "0xf0001",
+    "0xf0002"
+  ],
+  "shift_copy": "A\uf120\uf07b\udb80\udc01\udb80\udc02Z",
+  "resize_cycles": 32,
+  "distinct_symbol_stress": 6144,
+  "rtl_repaints": {
+    "count": 5000,
+    "before": {
+      "private_ws": 4886528,
+      "total_ws": 29093888,
+      "private_commit": 6422528
+    },
+    "after": {
+      "private_ws": 4907008,
+      "total_ws": 29110272,
+      "private_commit": 6434816
+    }
+  },
+  "peak_private_ws": 4907008,
+  "peak_total_ws": 31219712,
+  "peak_private_commit": 6443008
+}

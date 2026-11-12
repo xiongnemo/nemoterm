@@ -49,7 +49,9 @@ conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA �
 单文件隔离测试还验证启动器退出后，控制台子进程可以继续运行。
 
 默认字体为机器上安装的 `SarasaTermSC Nerd Font Light`，UTF-8，ClearType。
-字体文件本身没有 U+F120/U+F07B 两个图标；缺失字体字形仍需要补充回退方案。
+该字体缺少的 Nerd 图标由 EXE 内嵌的 Symbols Nerd Font Mono 按需补齐，
+支持 BMP 和补充平面图标，无需额外安装字体；已有字形继续使用所选字体。
+回退保留字符格和复制内容，字体句柄有固定上限；[字体验证](research/font-fallback.md)。
 
 ## 交互
 

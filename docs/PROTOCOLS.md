@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-已运行配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR、状态字符串、键能力、高亮跟踪、超链接、kitty键盘、OSC52、modifyOtherKeys、重排、Win32输入和状态恢复二十二组核心测试；`scripts/test.ps1`包含全部目标。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另有十六组原生窗口测试（另含两次字体/初始配置变体），以截图验证字体、Sixel色块、SGR样式和光标，以子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+当前脚本包含二十六组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证。常规 CI 包含二十组原生窗口测试及两次键盘字体/配置变体；单 EXE CI 另验证独立目录和同一映像宿主。截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -29,7 +29,7 @@
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
 | 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
 | 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有21类模式建立84字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存，G2/G3完整保存尚未补齐。 |
-| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。完整grapheme宽度、重排后的物理选择、字体fallback、Nerd Font、IME需专项测试。 |
+| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](../research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。完整grapheme、emoji、通用字体fallback和真实IME仍需专项测试。 |
 
 ## 窗口与历史重排
 

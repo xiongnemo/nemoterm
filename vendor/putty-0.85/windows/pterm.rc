@@ -7,6 +7,9 @@
 IDI_MAINICON ICON "pterm.ico"
 IDI_CFGICON ICON "ptermcfg.ico"
 
+40001 RCDATA "../../nerd-fonts/SymbolsNerdFontMono-Regular.ttf"
+40002 RCDATA "../../nerd-fonts/LICENSE"
+
 #include "help.rc2"
 #include "putty-common.rc2"
 

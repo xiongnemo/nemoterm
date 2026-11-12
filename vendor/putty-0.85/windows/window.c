@@ -25,6 +25,7 @@
 #include "nemo_key_input.h"
 #include "nemo_clipboard.h"
 #include "nemo_osc52_ui.h"
+#include "nemo_font_fallback.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -1318,6 +1319,8 @@ static void exact_textout(HDC hdc, int x, int y, CONST RECT *lprc,
     ExtTextOut(hdc, x, y,
                ETO_GLYPH_INDEX | ETO_CLIPPED | (opaque ? ETO_OPAQUE : 0),
                lprc, buffer, cbCount, lpDx);
+    sfree(classbuffer);
+    sfree(buffer);
 }
 
 /*
@@ -1329,6 +1332,19 @@ static void exact_textout(HDC hdc, int x, int y, CONST RECT *lprc,
  * and for everything else we use a simple ExtTextOut as we did
  * before exact_textout() was introduced.
  */
+static uint32_t nemo_text_cluster(const unsigned short *text, int available, int *units)
+{
+    uint32_t cp = text[0];
+    *units = 1;
+    if (available > 1 && IS_SURROGATE_PAIR(text[0], text[1])) {
+        cp = 0x10000+((text[0]-0xd800)<<10)+(text[1]-0xdc00);
+        *units = 2;
+    }
+    if (*units < available && IS_LOW_VARSEL(text[*units])) (*units)++;
+    else if (*units+1 < available && IS_HIGH_VARSEL(text[*units], text[*units+1])) *units += 2;
+    return cp;
+}
+
 static void general_textout(
     WinGuiSeat *wgs, HDC hdc, int x, int y, CONST RECT *lprc,
     unsigned short *lpString, UINT cbCount, CONST INT *lpDx, bool opaque)
@@ -1341,13 +1357,24 @@ static void general_textout(
 
     for (i = 0; i < (int)cbCount ;) {
         bool rtl = is_rtl(lpString[i]);
-
-        xn += lpDx[i];
-
-        for (j = i+1; j < (int)cbCount; j++) {
-            if (rtl != is_rtl(lpString[j]))
-                break;
-            xn += lpDx[j];
+        int units;
+        uint32_t cp = nemo_text_cluster(lpString+i, cbCount-i, &units);
+        int advance = 0;
+        for (int k = 0; k < units; k++) advance += lpDx[i+k];
+        WORD glyph_index;
+        HFONT fallback = nemo_font_fallback(&wgs->font_fallback, hdc, cp, advance, &glyph_index);
+        xn += advance;
+        j = i+units;
+        if (!fallback) {
+            while (j < (int)cbCount) {
+                cp = nemo_text_cluster(lpString+j, cbCount-j, &units);
+                advance = 0;
+                for (int k = 0; k < units; k++) advance += lpDx[j+k];
+                if (rtl != is_rtl(lpString[j]) ||
+                    nemo_font_fallback(&wgs->font_fallback, hdc, cp, advance, NULL)) break;
+                xn += advance;
+                j += units;
+            }
         }
 
         /*
@@ -1355,7 +1382,24 @@ static void general_textout(
          * which should be displayed using the same textout
          * function.
          */
-        if (rtl) {
+        if (fallback) {
+            /* Erase the complete run once, then clip an icon to its own cell.
+             * Font linking cannot choose a meaningful private-use icon font. */
+            if (opaque)
+                ExtTextOutW(hdc, xp, y, ETO_OPAQUE | ETO_CLIPPED, lprc, L"", 0, NULL);
+            RECT clip = *lprc;
+            int centre = wgs->font_varpitch ? (xn-xp)/2 : 0;
+            clip.left = max(clip.left, xp-centre);
+            clip.right = min(clip.right, xn-centre);
+            HFONT previous = SelectObject(hdc, fallback);
+            int previous_mode = SetBkMode(hdc, TRANSPARENT);
+            /* Use the verified cmap index directly. GDI's UTF-16 font linking
+             * can otherwise substitute the private supplementary-plane font. */
+            ExtTextOutW(hdc, xp, y, ETO_CLIPPED | ETO_GLYPH_INDEX, &clip,
+                        &glyph_index, 1, wgs->font_varpitch ? NULL : &advance);
+            SetBkMode(hdc, previous_mode);
+            SelectObject(hdc, previous);
+        } else if (rtl) {
             exact_textout(hdc, xp, y, lprc, lpString+i, j-i,
                           wgs->font_varpitch ? NULL : lpDx+i, opaque);
         } else {
@@ -1735,6 +1779,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
 
 static void deinit_fonts(WinGuiSeat *wgs)
 {
+    nemo_font_fallback_free(&wgs->font_fallback);
     int i;
     for (i = 0; i < FONT_MAXNO; i++) {
         if (wgs->fonts[i])
@@ -4105,11 +4150,10 @@ static void do_text_internal(
             /* And the shadow bold hack. */
             if (wgs->bold_font_mode == BOLD_SHADOW && (attr & ATTR_BOLD)) {
                 SetBkMode(wgs->wintw_hdc, TRANSPARENT);
-                ExtTextOutW(
-                    wgs->wintw_hdc, x + xoffset - 1,
+                general_textout(
+                    wgs, wgs->wintw_hdc, x + xoffset - 1,
                     y - wgs->font_height * (lattr == LATTR_BOT) + text_adjust,
-                    ETO_CLIPPED, &line_box, wbuf, len,
-                    (use_lpDx ? lpDx : NULL));
+                    &line_box, wbuf, len, lpDx, false);
             }
         }
 

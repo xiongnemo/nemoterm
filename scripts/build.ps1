@@ -13,12 +13,15 @@ $cc = (Get-Command gcc.exe -ErrorAction Stop).Source
 & $cmake -S "$root/vendor/putty-0.85" -B "$root/build" -G Ninja "-DCMAKE_MAKE_PROGRAM=$ninja" "-DCMAKE_C_COMPILER=$cc" -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections' '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc' -DPUTTY_GSSAPI=OFF
 if ($LASTEXITCODE) { throw 'Configure failed' }
 $targets = @('pterm')
-if ($Tests) { $targets += @('test_terminal', 'test_conf', 'test_sixel', 'test_sixel_terminal', 'test_resize', 'test_reflow', 'test_mouse', 'test_colour', 'test_osc_colour', 'test_modes', 'test_sync', 'test_snapshot', 'test_sgr', 'test_queries', 'test_tcap', 'test_highlight', 'test_hyperlink', 'test_keyboard', 'test_osc52', 'test_mok', 'test_win32_input', 'test_state_control', 'test_selective_erase', 'test_shell') }
+if ($Tests) { $targets += @('test_terminal', 'test_conf', 'test_sixel', 'test_sixel_terminal', 'test_resize', 'test_reflow', 'test_mouse', 'test_colour', 'test_osc_colour', 'test_modes', 'test_sync', 'test_snapshot', 'test_sgr', 'test_queries', 'test_tcap', 'test_highlight', 'test_hyperlink', 'test_keyboard', 'test_osc52', 'test_mok', 'test_win32_input', 'test_state_control', 'test_selective_erase', 'test_shell', 'test_font_cmap', 'test_font_fallback') }
 & $cmake --build "$root/build" --target @targets --parallel 8
 if ($LASTEXITCODE) { throw 'Build failed' }
 New-Item -ItemType Directory -Force $Destination | Out-Null
 Copy-Item "$root/build/nemoterm.exe" (Join-Path $Destination 'nemoterm.exe')
 Copy-Item "$root/vendor/putty-0.85/LICENCE" (Join-Path $Destination 'LICENCE-PuTTY.txt')
 Copy-Item "$root/LICENSE" (Join-Path $Destination 'LICENSE-Nemoterm.txt')
+Copy-Item "$root/vendor/nerd-fonts/LICENSE" (Join-Path $Destination 'LICENSE-Nerd-Symbols.txt')
+Copy-Item "$root/vendor/nerd-fonts/README.md" (Join-Path $Destination 'NOTICE-Nerd-Symbols.md')
+Copy-Item "$root/vendor/nerd-fonts/NOTICE.txt" (Join-Path $Destination 'LICENSE-Nerd-Components.txt')
 & "$PSScriptRoot/fetch-conpty.ps1" -Architecture x64 -Destination $Destination
 Get-Item (Join-Path $Destination 'nemoterm.exe') | Select-Object FullName,Length

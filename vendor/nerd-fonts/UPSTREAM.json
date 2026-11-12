@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/ryanoasis/nerd-fonts",
+  "version": "v3.5.1",
+  "commit": "b894ea7803af6aade63d60a4381e006098ec9c4d",
+  "path": "patched-fonts/NerdFontsSymbolsOnly/SymbolsNerdFontMono-Regular.ttf",
+  "sha256": "fe471e538392f51910faab985fa8e192a39dd3426125edd15b71b3680df0e749",
+  "bytes": 2610012,
+  "modified": false,
+  "notice": "LICENSE and NOTICE.txt retain the upstream symbol-font and component notices. The font is embedded as an EXE resource and loaded privately on demand."
+}

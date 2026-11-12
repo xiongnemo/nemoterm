@@ -797,3 +797,23 @@ correct. The fixture now distinguishes normal all-motion reports (SGR code 35)
 from forbidden Shift/button/drag/release leakage and retains their exact bytes;
 it still requires the exact clipboard text. The terminal implementation is
 unchanged by this fixture correction.
+
+
+## Embedded Nerd symbols and RTL memory checkpoint (2026-11-12)
+
+The single EXE now embeds the unmodified Nerd Fonts Symbols Mono v3.5.1 asset.
+Missing BMP and supplementary icons use a private, lazy-loaded font with eight
+cached HFONTs; primary Sarasa glyphs remain unchanged. Surrogate/variation
+sequences retain one terminal cell and exact original Unicode on Shift-copy.
+Thirty-two font resize cycles and primary pixel restoration are tested.
+The resource and complete notices remain inside the single executable; no font
+is installed globally or extracted. See `research/font-fallback.md`.
+
+Two temporary RTL draw buffers were leaking on each exact glyph paint. An old
+artifact grew 8,368,128 bytes in private commit over 5,000 repaints; the fixed
+artifact grew 12,288 bytes under the same fixture. This is a regression gate,
+not a bound on all possible sessions. Windows now has 26 core suites; the new
+native group and standalone cmap ASan/UBSan are included in CI. Generic emoji/
+grapheme fallback, real IME/DPI, application sessions and remaining protocols
+remain open. Intermittent local hyperlink fixture timeouts remain recorded and
+are not claimed fixed by this renderer change.
