@@ -320,8 +320,16 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             else:
                 accept()
         def data():
-            time.sleep(.06)
-            return bytes.fromhex(wait_snapshot(current, lambda v: 'hex' in v)['hex'])
+            # SendMessage finishes frontend dispatch, not the asynchronous
+            # ConPTY reader or JSON publication. Drain through a DSR reply
+            # before asserting both required and forbidden mouse reports.
+            request = read_snapshot(control)
+            token = uuid.uuid4().hex
+            request['input_barrier'] = token
+            write_snapshot(control, request)
+            value = wait_snapshot(current, lambda v:
+                v.get('phase') == request['phase'] and v.get('input_barrier') == token)
+            return bytes.fromhex(value['hex'])
         try:
             hwnd = wait_for(lambda: find_window(process.pid))
             clipboard = SavedClipboard(hwnd)
@@ -385,10 +393,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                 before = len(launched())
                 msg(0x201, keys=9); msg(0x202, keys=8)
                 wait_for(lambda: len(launched()) == before+1)
-                value = wait_snapshot(current, lambda v: 'hex' in v)
-                reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', bytes.fromhex(value['hex']))
-                assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), value
-                evidence['mouse-'+str(mode)] = value['hex']
+                received = data()
+                reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', received)
+                assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), received
+                evidence['mouse-'+str(mode)] = received.hex()
             phase('menu-copy', scene)
             menu(4)
             wait_for(lambda: clipboard_text(hwnd) == uri)
@@ -414,7 +422,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             msg(0x204, col=2, keys=2); msg(0x205)
             assert clipboard_text(hwnd) == 'LINK', clipboard_text(hwnd)
             assert len(launched()) == before
-            assert not re.search(rb'\x1b\[<(?!35;)', data()), data()
+            received = data()
+            assert not re.search(rb'\x1b\[<(?!35;)', received), received
             evidence['shift_copy'] = 'LINK'
             menu(4)
             wait_for(lambda: clipboard_text(hwnd) == uri)
@@ -446,7 +455,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             msg(0x201, col=1, keys=9); msg(0x200, col=4, keys=9); msg(0x202, col=4, keys=8)
             msg(0x204, keys=2); msg(0x205)
             assert clipboard_text(hwnd) == 'LINK', clipboard_text(hwnd)
-            assert len(launched()) == before and b'\x1b[<' not in data(), data()
+            received = data()
+            assert len(launched()) == before and b'\x1b[<' not in received, received
             evidence['ctrl_drag_copy'] = 'LINK'
 
             phase('shift-takeover', scene+'\x1b[?1002;1006h')
@@ -457,7 +467,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             u.SendMessageW(hwnd, 0x101, 0x10, 0xc0000001)
             msg(0x204, keys=2); msg(0x205)
             assert clipboard_text(hwnd) == 'LINK', clipboard_text(hwnd)
-            assert len(launched()) == before and b'\x1b[<' not in data(), data()
+            received = data()
+            assert len(launched()) == before and b'\x1b[<' not in received, received
             evidence['shift_takeover'] = True
 
             phase('mixed-buttons', scene+'\x1b[?1002;1006h')
@@ -467,11 +478,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             msg(0x200, col=4, keys=41)
             msg(0x20c, col=4, keys=(1 << 16) | 9)
             msg(0x202, col=4, keys=8)
-            reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', data())
+            received = data()
+            reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', received)
             assert reports == [(b'144', b'3', b'2', b'M'), (b'176', b'5', b'2', b'M'),
                                (b'144', b'5', b'2', b'm')], reports
             assert len(launched()) == before and gui_state(hwnd).capture != hwnd
-            evidence['mixed_buttons'] = data().hex()
+            evidence['mixed_buttons'] = received.hex()
 
             phase('cancel-capture', scene+'\x1b[?1003;1006h')
             before = len(launched())
@@ -481,8 +493,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             assert gui_state(hwnd).capture != hwnd
             msg(0x202, keys=8); msg(0x200, col=3)
             assert len(launched()) == before
-            assert b'\x1b[<35;4;2M' in data() and not re.search(rb'\x1b\[<(?!35;)', data()), data()
-            evidence['capture_cancel'] = data().hex()
+            received = data()
+            assert b'\x1b[<35;4;2M' in received and not re.search(rb'\x1b\[<(?!35;)', received), received
+            evidence['capture_cancel'] = received.hex()
 
             phase('cancel-resize', scene+'\x1b[?1002;1006h')
             before = len(launched())
@@ -491,7 +504,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             assert u.MoveWindow(hwnd, outer.left, outer.top,
                                 outer.right-outer.left+2*cw, outer.bottom-outer.top, True)
             msg(0x202, keys=8)
-            assert len(launched()) == before and b'\x1b[<' not in data(), data()
+            received = data()
+            assert len(launched()) == before and b'\x1b[<' not in received, received
             assert u.MoveWindow(hwnd, outer.left, outer.top,
                                 outer.right-outer.left, outer.bottom-outer.top, True)
             evidence['resize_cancel'] = True
@@ -499,7 +513,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             phase('before-frozen', scene)
             u.SendMessageW(hwnd, 0x2a3, 0, 0)
             phase('frozen', '\x1b[?2026h\x1b[2;2H'+link(other, 'LINK')+'\x1b[?2026$p')
-            assert b'\x1b[?2026;1$y' in data(), data()
+            received = data()
+            assert b'\x1b[?2026;1$y' in received, received
             previous = {str(p) for p in launches.glob('*.json')}
             msg(0x201, keys=9); msg(0x202, keys=8)
             new = wait_for(lambda: [p for p in launches.glob('*.json') if str(p) not in previous])

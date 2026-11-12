@@ -124,7 +124,7 @@ try:
             evidence.update(peak_private_ws=max(v['private_ws'] for v in samples),peak_total_ws=max(v['total_ws'] for v in samples),peak_private_commit=max(v['private_commit'] for v in samples))
             assert evidence['peak_private_ws']<20_000_000,evidence
             (root/'research/rectangle-window-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
-            print('Native rectangle pixels, Unicode Shift copy, Sixel, synchronized output and bounded overlap passed:',evidence)
+            print('Native rectangle pixels, Unicode Shift copy, Sixel, synchronized output and bounded overlap passed:',json.dumps(evidence))
         finally:
             if saved:saved.restore()
             stopped.set();worker.join(2);k.CloseHandle(handle);write_snapshot(control,{'stop':True})

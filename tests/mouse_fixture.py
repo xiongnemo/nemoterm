@@ -30,6 +30,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 phase = None
 request = {}
 responded = set()
+barrier_sent = barrier_ack = None
+barrier_start = 0
 deadline = time.monotonic() + 60
 print('\x1b]2;Nemoterm mouse integration test\x07', end='', flush=True)
 try:
@@ -41,6 +43,7 @@ try:
             phase = request.get('phase')
             data.clear()
             responded.clear()
+            barrier_sent = barrier_ack = None
             if not request.get('preserve_mouse'):
                 print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
             print(request.get('sequence', ''), end='', flush=True)
@@ -50,9 +53,21 @@ try:
             if name not in responded and bytes.fromhex(reply['trigger']) in data:
                 print(reply['sequence'], end='', flush=True)
                 responded.add(name)
+        # A DSR reply traverses the same ordered ConPTY input path as mouse
+        # reports. Publish an acknowledgement only after all earlier input
+        # has reached this child, without clearing the phase or its events.
+        barrier = request.get('input_barrier')
+        if barrier is not None and barrier != barrier_sent:
+            barrier_start = len(data)
+            barrier_sent = barrier
+            print('\x1b[5n', end='', flush=True)
+        if barrier_sent is not None and b'\x1b[0n' in data[barrier_start:]:
+            barrier_ack = barrier_sent
         size = os.get_terminal_size()
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280}
+        if barrier is not None:
+            snapshot['input_barrier'] = barrier_ack
         write_snapshot(report, snapshot)
         time.sleep(0.04)
 except Exception:
