@@ -11,6 +11,8 @@ from fixture_io import read_snapshot, write_snapshot
 
 report,control=map(Path,sys.argv[1:3])
 vt='--vt' in sys.argv[3:]
+read_batch=int(sys.argv[sys.argv.index('--batch')+1]) if '--batch' in sys.argv[3:] else 128
+assert 1 <= read_batch <= 128
 k=c.windll.kernel32
 k.GetStdHandle.argtypes=[w.DWORD];k.GetStdHandle.restype=w.HANDLE
 k.GetConsoleMode.argtypes=[w.HANDLE,c.POINTER(w.DWORD)]
@@ -48,7 +50,7 @@ def reader():
         while k.ReadFile(stdin,buf,len(buf),c.byref(count),None) and count.value:
             with lock: data.extend(buf.raw[:count.value])
     else:
-        buf=(Record*128)()
+        buf=(Record*read_batch)()
         while k.ReadConsoleInputW(stdin,buf,len(buf),c.byref(count)):
             batch=[]
             for record in buf[:count.value]:

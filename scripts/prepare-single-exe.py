@@ -133,6 +133,30 @@ def main():
     replace(DEST / "src/host/stream.cpp", "        noDataReadYet = false;",
             "        noDataReadYet = writer.size() == buffer.size(); // A high surrogate alone emitted no bytes.")
 
+    # Text commits have no physical key to release. In particular, inserting
+    # key-up records between UTF-16 surrogate units breaks Windows consumers
+    # that decode the event stream (observed with Codex/crossterm). Match
+    # Terminal::SendCharEvent's key-down-only text delivery for these units.
+    # Cover both the scalar parser action and its plain-string fast path.
+    replace(DEST / "src/terminal/parser/InputStateMachineEngine.cpp",
+            "    input.push_back(rec);\n    rec.Event.KeyEvent.bKeyDown = FALSE;\n    input.push_back(rec);",
+            """    input.push_back(rec);
+    if (wch < 0xd800 || wch > 0xdfff)
+    {
+        rec.Event.KeyEvent.bKeyDown = FALSE;
+        input.push_back(rec);
+    }""")
+    replace(DEST / "src/terminal/adapter/InteractDispatch.cpp",
+            "                CharToKeyEvents(wch, codepage, keyEvents);",
+            """                if (wch >= 0xd800 && wch <= 0xdfff)
+                {
+                    keyEvents.push_back(SynthesizeKeyEvent(true, 1, 0, 0, wch, 0));
+                }
+                else
+                {
+                    CharToKeyEvents(wch, codepage, keyEvents);
+                }""")
+
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.
     features = DEST / "src/features.xml"
