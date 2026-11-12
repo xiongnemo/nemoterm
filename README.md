@@ -145,9 +145,10 @@ VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试
 起点和滚动位移随字符格变化；不复制或重采样位图。真实多屏 DPI 切换仍待验收。
 这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
 
-本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；构建现在随程序
-分发固定版本的微软 ConPTY DLL/OpenConsole，已通过真实窗口 Sixel 色块显示验证。
-请将整个产物目录一起解压，保留 EXE 旁的 DLL 和 OpenConsole。
+本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；单文件版本已将
+固定版本的微软 ConPTY/OpenConsole 源码编入 EXE，并通过真实窗口 Sixel 色块显示验证。
+使用 `nemoterm-single-exe-x64-<commit>` 产物时，只需其中的 `nemoterm.exe`。
+仅 MinGW 开发对照包仍需保留附带的 DLL 和 OpenConsole。
 原生 x64 已实测；`NEMOTERM_CONPTY=system` 可显式选择系统实现用于对照。
 完整协议、图片复杂生命周期与真实 agent 仍需继续验收。
 

@@ -13,6 +13,35 @@ default console handler. The source build and initial native tests passed in
 The single-file artifact is now the primary deliverable; the MinGW sidecar bundle
 remains a separate compiler/backend comparison build.
 
+## Current delivered checkpoint (2026-11-12)
+
+The installed `dist/nemoterm.exe` is built from source commit
+`a6493606a92cd6994fcc805d1a51d8a957ef63a3`: 4,314,112 bytes, SHA-256
+`bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f`.
+The directory contains only that executable. Both
+[single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557)
+and [core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696689)
+passed: 29 native checks, 29 core suites and 12 terminal sanitizer suites.
+The [download artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557/artifacts/13931254248)
+contains only `nemoterm.exe`; test logs and captures are a separate artifact.
+
+REA's complete import inventory for this exact file has 79 descriptors,
+598 ordinary imports and 11 delayed imports, with no parse issues. It has no
+import-table dependency on conpty.dll, WebView2Loader.dll or external
+MSVC redistributable DLLs. Windows system/API-set DLLs, UCRT and ConDrv are still
+required. The isolated runtime test also confirms that the hidden console host
+uses the same executable path, no OpenConsole.exe/conhost.exe child is used,
+and the portable directory still contains only the EXE after shutdown.
+Embedded licences and third-party notices total 79,365 bytes and are available
+through `--licenses` and About / View Licence.
+
+The [working-directory checkpoint](working-directory.md) and
+[`cwd-checkpoint.json`](cwd-checkpoint.json) bind the current artifact to its
+CI, local regression results and memory samples. The earlier measurements below
+are historical checkpoints, not the identity or size of the current file.
+
+## Source integration
+
 Microsoft Terminal is a pinned Git submodule at
 `f6de9e0618015def1c9dda5b82f9d3abf03eb799`. Both OpenConsole and the ConPTY
 implementation are in that repository. Its MIT LICENSE and third-party NOTICE,
@@ -75,8 +104,9 @@ samples: frontend private WS 3,788,800 / total WS 22,237,184 / private commit
 4,894,720 bytes; hidden host 1,548,288 / 10,510,336 / 2,199,552 bytes. These are
 point observations, not lifetime peaks, and the child workload is separate.
 
-`scripts/test-single-exe.ps1` copies only the EXE into its own dist directory
-and runs 20 native groups plus two additional keyboard font/configuration cases.
+At this initial checkpoint, `scripts/test-single-exe.ps1` copied only the EXE
+into its own dist directory and ran 20 native groups plus two additional
+keyboard font/configuration cases.
 The workflow retains all JSON, PrintWindow captures and logs separately from
 the one-file download. Shell detection/default selection is implemented and
 documented in [shell-selection.md](shell-selection.md).
@@ -105,7 +135,7 @@ separately in the requirements ledger.
 
 The later `badf932` source artifact is 4,307,968 bytes with SHA-256
 `25d734ce58418509d423d7091f76c5efe23821759fbee929bc16176e8bf7a892`.
-All 28 single-executable CI checks passed; this is the installed `dist` file.
+All 28 single-executable CI checks passed at that checkpoint.
 It includes the embedded Nerd font and source-host Unicode stream corrections.
 REA again parsed 79 descriptors, now 598 regular and 11 delayed imports, with
 no issues. Runtime isolation still uses only the same EXE and Windows system
