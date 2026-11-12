@@ -39,3 +39,23 @@ Implementation points to revisit after reading the reference:
 The current accepted distribution and the geometry candidate are managed on
 main / feature/window-geometry. Keep these research changes separate until
 their own implementation and validation are complete.
+
+## Independent result
+
+Run [43265081881](https://github.com/xiongnemo/nemoterm/actions/runs/43265081881)
+passed all 31 cases (oracle source `ec8c46a24117855fd5dbd8ace894ba0085c59afa`,
+artifact 13964289769). Exact replies are in `geometry-xterm.json`.
+Empty/absent axes preserve 83x27, explicit zero uses the screen-sized widget,
+and extra semicolon parameters are ignored. Colon subparameters cancel these
+operations. DECSLPP 31 and 31;99 both produce 31x83, not 24 rows.
+
+The reference has four total border pixels per axis and 6x13 cells. A 210x482
+pixel request reports 206x478 text pixels but a 15x79 grid; non-cell-multiple
+pixels remain in XTerm's text area. This differs from Nemoterm's centered cell
+grid, whose current geometry callback treats leftover pixels as padding.
+Do not use a cell-aligned query test as proof of exact pixel-resize parity.
+Explicit zero height gives 764 text pixels and 58 rows inside the 768-pixel
+widget, while screen-character query 19 reports 59 rows (no furniture).
+The 65536 pixel-height case was limited to screen height, whereas the same
+character-height request was ignored; inspect parser saturation and bounds
+before deciding the compatible policy. No product mutation is implemented yet.
