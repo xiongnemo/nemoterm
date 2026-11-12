@@ -100,7 +100,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-state-') as directory:
         mouse(0x202, 4, 3+9*cell, 6)
         mouse(0x204, 4, 3, 6); mouse(0x205, 4, 3, 6)
         wait_for(lambda: clipboard_text(hwnd) == 'SELECTABLE')
-        assert input_bytes() == b'', current()
+        data = input_bytes()
+        # All-motion tracking remains enabled. Releasing native capture can
+        # report the real pointer's unmodified, button-free location. Require
+        # that no Shift-modified, button, drag or release event escaped locally.
+        assert re.fullmatch(rb'(?:\x1b\[<35;\d+;\d+M)*', data), current()
+        evidence['shift-selection']['unmodified_idle_motion'] = data.hex()
         evidence['shift-selection']['copied'] = clipboard_text(hwnd)
         mouse(0x201, 5, 3, 6); mouse(0x202, 4, 3, 6)
         # Frame atomicity survives soft reset; no input is injected while frozen.

@@ -776,9 +776,17 @@ Actionlint 1.7.12 passed. CI now includes 22 core suites, 16 native groups with
 two additional font/configuration runs, and eight terminal sanitizer logs,
 plus the separate Sixel and colour sanitizer checks.
 
-State-control peaks were 4,567,040 bytes private WS, 20,697,088 total WS and
-5,865,472 private commit. The 6,000-link/800-Sixel mixed workload peaked at
+State-control peaks were 4,653,056 bytes private WS, 20,660,224 total WS and
+6,131,712 private commit. The 6,000-link/800-Sixel mixed workload peaked at
 8,818,688 / 33,562,624 / 10,104,832 bytes respectively; reflow peaked at
 6,541,312 / 22,700,032 / 7,888,896. No working-set trimming was used; ConPTY and
 children remain separate measurements. Physical devices/IME, multiple DPI,
 long-running agents and the other protocol families remain unaccepted.
+
+The first CI run of this checkpoint passed all core and preceding native groups,
+but the new Shift-selection fixture rejected an unmodified button-free motion
+report at (463, 310), outside its injected selection path. The copied text was
+correct. The fixture now distinguishes normal all-motion reports (SGR code 35)
+from forbidden Shift/button/drag/release leakage and retains their exact bytes;
+it still requires the exact clipboard text. The terminal implementation is
+unchanged by this fixture correction.

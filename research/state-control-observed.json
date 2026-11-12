@@ -32,6 +32,7 @@
   },
   "shift-selection": {
     "reply": "1b503024721b5c",
+    "unmodified_idle_motion": "",
     "copied": "SELECTABLE"
   },
   "before-freeze": {
@@ -49,9 +50,9 @@
   "alt-soft-reset": {
     "reply": "1b5b393b3130521b5b313b31521b5b353b36521b503024721b5c"
   },
-  "peak_private_ws": 4567040,
-  "peak_total_ws": 20697088,
-  "peak_private_commit": 5865472,
+  "peak_private_ws": 4653056,
+  "peak_total_ws": 20660224,
+  "peak_private_commit": 6131712,
   "executable_sha256": "f99285d0af0dbee1083152fe0b0990a73d1fa56f8c640ee6d2b9c3a292a40687",
   "last_snapshot": {
     "phase": "alt-soft-reset",
