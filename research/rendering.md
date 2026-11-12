@@ -34,8 +34,10 @@ are exact. This is correctness evidence, not a rendering-speed benchmark.
 `NEMOTERM_REQUIRE_OPENGL=1`; on headless CI it verifies the fallback if no
 hardware context is available. `settings_window_smoke.ps1` checks live mode
 switches, saved configuration, control bounds, binding reset and conflicts.
-`startup_size_window_smoke.py` checks the 160x48 default and a 600x200 request
+`startup_size_window_smoke.py` checks the 160x48 default and a 1000x1000 request
 with a large font against the actual monitor work area and child console size.
+The clamp happens before screen allocation, and peak total working set is
+checked to catch a transient oversized allocation even if it is later freed.
 `bindings_window_smoke.py` checks custom Alt/Ctrl combinations, Unicode copy
 and bracketed paste, and forwarding of keys whose default binding was removed.
 

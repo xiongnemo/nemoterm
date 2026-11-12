@@ -12,7 +12,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-size-') as tmp:
         profile='size-test-'+uuid.uuid4().hex;path='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
         report,control=(Path(tmp)/(str(oversized)+n) for n in ('report','control'))
-        args=['--cols','600','--rows','200','--font-size','24'] if oversized else []
+        args=['--cols','1000','--rows','1000','--font-size','24'] if oversized else []
         process=subprocess.Popen([str(exe),'-load',profile,*args,'-e',sys.executable,
             str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
@@ -23,12 +23,16 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-size-') as tmp:
             cols,rows=value['columns'],value['rows'];cw,ch=(client.right-2)//cols,(client.bottom-2)//rows
             maxcols=(info.work.right-info.work.left-(outer.right-outer.left-client.right+2))//cw
             maxrows=(info.work.bottom-info.work.top-(outer.bottom-outer.top-client.bottom+2))//ch
-            assert (cols,rows)==(min(600 if oversized else 160,maxcols),min(200 if oversized else 48,maxrows)),(cols,rows,maxcols,maxrows)
+            assert (cols,rows)==(min(1000 if oversized else 160,maxcols),min(1000 if oversized else 48,maxrows)),(cols,rows,maxcols,maxrows)
             assert outer.left>=info.work.left and outer.top>=info.work.top and outer.right<=info.work.right and outer.bottom<=info.work.bottom
             handle=k.OpenProcess(0x410,False,process.pid)
-            try:memory=memory_sample(handle)
+            try:
+                memory=memory_sample(handle)
+                counters=Counters();counters.cb=c.sizeof(counters)
+                assert ps.GetProcessMemoryInfo(handle,c.byref(counters),counters.cb)
+                memory['peak_total_ws']=counters.peak_ws
             finally:k.CloseHandle(handle)
-            assert memory['private_ws']<20*1024*1024 and memory['total_ws']<50*1024*1024,memory
+            assert memory['private_ws']<20_000_000 and memory['peak_total_ws']<50_000_000,memory
             evidence['checks'].append(dict(oversized=oversized,columns=cols,rows=rows,cell=[cw,ch],memory=memory,workarea=[info.work.left,info.work.top,info.work.right,info.work.bottom]))
         finally:
             write_snapshot(control,dict(stop=True))
