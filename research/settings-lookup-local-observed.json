@@ -1,0 +1,83 @@
+{
+    "saved_renderer":  2,
+    "saved_level":  3,
+    "executable_sha256":  "2470cbcb8fd3560496a74e8d7e08fee4a8ce173b9552a8cf72b1c00a22416adc",
+    "saved_choose_shell":  true,
+    "initial_renderer":  3,
+    "saved_unicode_directory":  "C:\\Users\\nemo\\AppData\\Local\\Temp\\settings-test-548bac18d0064b1ba17553cc2f942bd3\\working 中",
+    "query":  {
+                  "phase":  "settings-launch",
+                  "hex":  "1b5b3e343b336d1b5b3e343b3166",
+                  "columns":  160,
+                  "rows":  48,
+                  "input_mode":  640,
+                  "input_cp":  65001,
+                  "input_api":  "ReadFile"
+              },
+    "saved_shell_bindings":  [
+                                 7,
+                                 45,
+                                 7,
+                                 46,
+                                 7,
+                                 47,
+                                 7,
+                                 48
+                             ],
+    "live_renderer_changes":  [
+                                  {
+                                      "active":  1,
+                                      "requested":  "GDI (low memory)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "requested":  "OpenGL (GPU composition)"
+                                  },
+                                  {
+                                      "active":  3,
+                                      "requested":  "DirectX (Direct2D composition)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "requested":  "GDI (low memory)"
+                                  }
+                              ],
+    "local_launch":  true,
+    "saved_shell":  "git-bash",
+    "reflow_default":  true,
+    "saved_copy_and_paste":  true,
+    "explicit_command_overrides_shell":  true,
+    "cancel_exit":  0,
+    "saved_reflow":  false,
+    "duplicate_binding_rejected":  true,
+    "saved_tab_side":  2,
+    "tab_host":  true,
+    "saved_format":  1,
+    "copy_only_default":  true,
+    "default_grid":  [
+                         160,
+                         48
+                     ],
+    "saved_bindings":  [
+                           6,
+                           24,
+                           5,
+                           25,
+                           3,
+                           26,
+                           5
+                       ],
+    "win32_default":  false,
+    "saved_directory_inheritance":  false,
+    "saved_win32":  true,
+    "saved_tab_bindings":  [
+                               3,
+                               20,
+                               3,
+                               23,
+                               6,
+                               14,
+                               6,
+                               16
+                           ]
+}
