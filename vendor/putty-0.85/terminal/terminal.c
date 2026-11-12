@@ -6440,9 +6440,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->termstate = SEEN_CSI;
                 } else if (term->esc_overflow ||
                            (term->esc_has_subargs &&
-                            (c != 'm' || (term->esc_query && term->esc_query != '>')))) {
+                            !((c == 'm' && (!term->esc_query || term->esc_query == '>')) ||
+                              (c == 'c' && (!term->esc_query || term->esc_query == '>' ||
+                               (term->esc_query == '=' && term->compatibility_level != TM_SCOANSI))) ||
+                              (c == 'q' && term->esc_query == '>')))) {
                     /* Reject the complete overflowing sequence, and never
-                     * reinterpret colon values as unrelated CSI parameters. */
+                     * reinterpret colon values as unrelated CSI parameters.
+                     * Identity queries ignore subparameters, as xterm does. */
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {

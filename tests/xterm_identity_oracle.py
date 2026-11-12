@@ -13,7 +13,8 @@ def main():
     args = parser.parse_args()
     cases = {}
     for prefix, final in [('', 'c'), ('>', 'c'), ('=', 'c'), ('>', 'q')]:
-        for arg in ('', '0', '00', '0;9', ';9', '1', '2', '1;0', '0:0'):
+        for arg in ('', '0', '00', '0;9', ';9', '1', '2', '1;0', '0:0',
+                    '0:1', ':1', '0;1:2', '0:0:0', '1:0', '1;0:0'):
             cases[f'{prefix}{final}-{arg}'] = f'\x1b[{prefix}{arg}{final}'
     cases['visible'] = '\x1b[?25h\x1b[=c\x1b[?25$p'
     cases['hidden'] = '\x1b[?25l\x1b[=c\x1b[=1c\x1b[=2c\x1b[?25$p'
@@ -25,10 +26,10 @@ def main():
     for prefix, final in [('', 'c'), ('>', 'c'), ('=', 'c'), ('>', 'q')]:
         baseline = replies[f'{prefix}{final}-']['reply']
         assert baseline
-        for arg in ('0', '00', '0;9', ';9'):
-            assert replies[f'{prefix}{final}-{arg}']['reply'] == baseline
-        for arg in ('1', '2', '1;0', '0:0'):
-            assert replies[f'{prefix}{final}-{arg}']['reply'] == ''
+        for arg in ('0', '00', '0;9', ';9', '0:0', '0:1', ':1', '0;1:2', '0:0:0'):
+            assert replies[f'{prefix}{final}-{arg}']['reply'] == baseline, (prefix, final, arg)
+        for arg in ('1', '2', '1;0', '1:0', '1;0:0'):
+            assert replies[f'{prefix}{final}-{arg}']['reply'] == '', (prefix, final, arg)
     assert replies['=c-']['reply'] == '\x1bP!|00000000\x1b\\'
     assert replies['>q-']['reply'] == '\x1bP>|XTerm(412)\x1b\\'
     assert replies['visible']['reply'] == '\x1bP!|00000000\x1b\\\x1b[?25;1$y'

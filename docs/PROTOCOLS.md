@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-当前脚本包含二十九组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。单 EXE 验证脚本包含三十一项基础检查（含字体/键盘变体）；提供 CodexExecutable 时另测实际 Codex 的默认与内嵌界面，CI 共三十三项。常规 CI 另保留 MinGW 对照和 Linux ASan/UBSan。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证；截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
+当前脚本包含三十组核心测试；scripts/test.ps1 包含全部目标。单 EXE 脚本有三十五项基础及变体检查，提供 CodexExecutable 时另测默认与内嵌界面，共三十七项。常规 CI 保留 MinGW 对照和 Linux ASan/UBSan。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证；各项证据仅证明对应参数与场景，不能代表完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 

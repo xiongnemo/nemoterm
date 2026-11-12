@@ -12,8 +12,10 @@ source baseline, not a released Nemoterm version. DA2 retains PuTTY's historic
 DA1 retains the configured terminal identity. All four requests use the first
 parameter: zero or omitted requests a reply; positive parameters are ignored.
 Extra ordinary parameters are ignored, including a saturated trailing number.
-Colon subparameters and parameter-count overflow are rejected by the existing
-CSI parser. A saturated first number is nonzero and therefore gets no reply.
+XTerm also ignores colon subparameters for these four identity requests; the
+parser allows them only for these queries and the existing SGR paths. The
+bounded parameter/subparameter count is unchanged. A saturated first number is
+nonzero and therefore gets no reply.
 
 ## Independent sources and host boundary
 
@@ -39,6 +41,12 @@ explicit SCO mode, DEC compatibility levels and cancellation/recovery. It joins
 the Linux ASan/UBSan target list. Native/independent reference and exact single
 EXE acceptance are pending; this change does not complete the broader query or
 modern terminal protocol ledger.
+
+The first independent run (43241329669, revision 7732557) disproved the initial
+assumption that XTerm rejects colon subparameters: all four `0:0` requests got
+their normal reply. The implementation and expanded oracle now follow that
+observed behavior, including nonzero first parameters and ignored trailing
+subparameters. The failed initial run is retained as evidence of the correction.
 
 The existing cursor pixel fixture was also made deterministic about focus.
 Local testing of the preceding single EXE observed desktop foreground changes

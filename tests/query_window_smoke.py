@@ -76,8 +76,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         for prefix, final, reply in [('', 'c', b'\x1b[?62;4;22c'),
                 ('>', 'c', b'\x1b[>0;136;0c'), ('=', 'c', b'\x1bP!|00000000\x1b\\'),
                 ('>', 'q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\')]:
-            for arg in ('', '0', '0;9', ';9', '1', '2', '1;0', '0:0', '999999999999999999999'):
-                expected = reply if arg in ('', '0', '0;9', ';9') else b''
+            valid_args = ('', '0', '0;9', ';9', '0:0', '0:1', ':1', '0;1:2', '0:0:0')
+            for arg in (*valid_args, '1', '2', '1;0', '1:0', '1;0:0', '999999999999999999999'):
+                expected = reply if arg in valid_args else b''
                 identity_phase(f'identity-{prefix}{final}-{arg}', f'\x1b[{prefix}{arg}{final}', expected)
         identity_phase('identity-cursor-visible', '\x1b[?25h\x1b[=c\x1b[?25$p',
                        b'\x1bP!|00000000\x1b\\\x1b[?25;1$y')
