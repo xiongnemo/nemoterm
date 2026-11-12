@@ -30,16 +30,7 @@ jobs:
       - name: Verify isolated executable with native protocol and pixel tests
         shell: pwsh
         run: |
-          $env:NEMOTERM_TEST_EXE = (Resolve-Path build/single-exe-dist/nemoterm.exe).Path
-          Remove-Item research/selective-erase-observed.json, research/selective-erase-*.png -ErrorAction SilentlyContinue
-          python tests/single_exe_window_smoke.py
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python tests/selective_erase_window_smoke.py
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python tests/shell_window_smoke.py
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          powershell.exe -NoProfile -File tests/settings_window_smoke.ps1
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/test-single-exe.ps1 -Executable build/single-exe-dist/nemoterm.exe
       - name: Upload single executable
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -55,10 +46,6 @@ jobs:
           path: |
             build-single-exe.log
             build/single-exe.binlog
-            research/selective-erase-observed.json
-            research/selective-erase-*.png
-            research/single-exe-observed.json
-            research/shell-window-observed.json
-            research/settings-window-observed.json
-            research/shell-settings.png
+            build/single-exe-check/research/
+            build/single-exe-check/logs/
           if-no-files-found: warn

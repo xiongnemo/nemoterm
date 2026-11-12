@@ -1,0 +1,29 @@
+{
+  "executable_sha256": "5eb5f9681eb997d95d7d97d4858044bf5a39fa49462b1965b6565c3c116b8c52",
+  "embedded_licenses_bytes": 27091,
+  "processes": [
+    {
+      "pid": 30916,
+      "parent": 31512,
+      "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d 8gmkt3lv\\portable\\nemoterm.exe",
+      "memory": {
+        "private_ws": 3788800,
+        "total_ws": 22237184,
+        "private_commit": 4894720
+      }
+    },
+    {
+      "pid": 34852,
+      "parent": 30916,
+      "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d 8gmkt3lv\\portable\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1548288,
+        "total_ws": 10510336,
+        "private_commit": 2199552
+      }
+    }
+  ],
+  "host_same_image": true,
+  "launcher_exit_preserves_console": true,
+  "only_executable_in_directory": true
+}

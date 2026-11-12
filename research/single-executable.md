@@ -1,16 +1,17 @@
 # Source-built console host in one executable
 
-## Decision and current validation boundary
+## Decision and verified source build
 
 The user requested source reuse of OpenConsole/ConPTY and a final single
-`nemoterm.exe` (2026-11-12). The implementation being validated links the native
+`nemoterm.exe` (2026-11-12). The implementation links the native
 PuTTY-derived frontend, Microsoft's `conptylib`, and OpenConsole host into one PE.
 It launches that same image with `--headless` for the console server. This is
 one executable file, with separate frontend, host and shell processes. It does
 not extract embedded executables, replace Windows system files, or register a
-default console handler. A source build and native runtime tests must succeed
-before this becomes the default deliverable; the existing MinGW bundle remains
-the tested baseline during integration.
+default console handler. The source build and initial native tests passed in
+[CI run 43152218663](https://github.com/xiongnemo/nemoterm/actions/runs/43152218663).
+The single-file artifact is now the primary deliverable; the MinGW sidecar bundle
+remains a separate compiler/backend comparison build.
 
 Microsoft Terminal is a pinned Git submodule at
 `f6de9e0618015def1c9dda5b82f9d3abf03eb799`. Both OpenConsole and the ConPTY
@@ -50,15 +51,51 @@ entrypoint, dispatches only a leading `--headless`, disables incoming COM handof
 and omits the Windows Terminal UI dependency feature. Renderer build flags stay
 at upstream defaults; headless operation does not construct the visible renderer.
 The underlying console protocol/server implementation remains Microsoft's.
-The frontend uses the three statically linked Conpty functions as one ABI unit;
+The frontend uses the four statically linked Conpty functions as one ABI unit,
+including ReleasePseudoConsole for delegated process lifetime;
 `NEMOTERM_CONPTY=system` remains an explicit diagnostic override.
 
-## Remaining acceptance
+## Downloaded artifact and isolation evidence
 
-Build and download the CI artifact; inspect its dependencies; copy only its EXE
-to an empty path containing spaces/Unicode and exercise console creation,
-keyboard/mouse, resize, Sixel, clipboard and settings. Verify the hidden host is
-the same image and no sidecar executable/DLL is created. Record private working
-set, total working set and private commit separately for frontend and host.
-Shell selection/detection (including Windows PowerShell, pwsh, BusyBox ash,
-Git Bash, and installed WSL distributions) remains a separate active requirement.
+Commit `855dbd81b6c30d3476b70ecc963084741ff01326` produced a 1,633,792-byte EXE,
+SHA256 `5eb5f9681eb997d95d7d97d4858044bf5a39fa49462b1965b6565c3c116b8c52`.
+REA inspected all 79 import descriptors (597 ordinary and 11 delayed functions)
+without parse issues. `single-exe-rea-evidence.json` retains the complete table:
+Windows system/API-set DLLs, including system UCRT and delayed ICU; no conpty.dll,
+OpenConsole sidecar or external MSVC redistributable DLL. Import inspection is
+static evidence and does not claim every imported function executed.
+
+The downloaded file ran alone from an otherwise empty directory containing
+spaces and Chinese characters. The native fixture observed a second process
+with the exact same executable path, tested a child surviving its initial
+launcher, verified clean final shutdown, and checked the directory still
+contained only the EXE. Embedded licence output was 27,091 bytes.
+`single-exe-observed.json` records paths, executable digest and separate memory
+samples: frontend private WS 3,788,800 / total WS 22,237,184 / private commit
+4,894,720 bytes; hidden host 1,548,288 / 10,510,336 / 2,199,552 bytes. These are
+point observations, not lifetime peaks, and the child workload is separate.
+
+`scripts/test-single-exe.ps1` copies only the EXE into its own dist directory
+and runs 20 native groups plus two additional keyboard font/configuration cases.
+The workflow retains all JSON, PrintWindow captures and logs separately from
+the one-file download. Shell detection/default selection is implemented and
+documented in [shell-selection.md](shell-selection.md).
+
+All 20 groups and both additional keyboard cases passed locally for the artifact
+above. `single-exe-validation.json` lists cases and hashes of the original JSON
+observations. The mixed 6,000-link / 800-Sixel workload continuously sampled
+frontend peaks of 9,314,304 bytes private WS, 35,516,416 total WS and 10,670,080
+private commit. Reflow peaked at 7,020,544 / 24,580,096 / 8,400,896 respectively.
+No working-set trimming was used. These workload-specific frontend peaks do
+not include the host or shell, and do not establish bounds for every workload.
+All six locally available shells, including WSL Debian Bash, ran an interactive
+marker command and exited; temporary settings persisted Git Bash and the startup
+chooser while leaving the user's Default Settings unchanged.
+
+The first full local run stopped before modifying an existing bitmap clipboard,
+because the test helper only understood HGLOBAL formats. The helper now uses
+documented OleDuplicateData handling for bitmap/palette objects, releases private
+copies, and leaves a newer external clipboard owner alone. The affected native
+tests then passed with the image clipboard retained. Remaining terminal protocol,
+physical IME, multi-monitor DPI and long-running real-agent acceptance are tracked
+separately in the requirements ledger.

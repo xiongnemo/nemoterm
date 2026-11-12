@@ -1,0 +1,146 @@
+{
+  "source_commit": "855dbd81b6c30d3476b70ecc963084741ff01326",
+  "executable_sha256": "5eb5f9681eb997d95d7d97d4858044bf5a39fa49462b1965b6565c3c116b8c52",
+  "executable_bytes": 1633792,
+  "passed_checks": [
+    "single_exe",
+    "mouse",
+    "sync",
+    "sgr",
+    "font_resize",
+    "query",
+    "highlight",
+    "sixel",
+    "sixel_font",
+    "hyperlink",
+    "reflow",
+    "keyboard",
+    "keyboard-courier",
+    "osc52",
+    "mok",
+    "mok-courier",
+    "win32_input",
+    "state_control",
+    "selective_erase",
+    "shell",
+    "delegated_console",
+    "settings"
+  ],
+  "executable_directory_files": [
+    "nemoterm.exe"
+  ],
+  "recorded_utc": "2026-11-12T04:17:12.442041+00:00",
+  "observed_json": {
+    "delegated-console-observed.json": {
+      "sha256": "1d0f7c244b0555bdd153dd0eabb8b828553f8d87b79eda838878e6d08cdc1ebb"
+    },
+    "font-resize-observed.json": {
+      "sha256": "b87e68d4f7e9c0273d72eb0bea46cae5c591047f85912581d72efd5270b41417"
+    },
+    "highlight-window-observed.json": {
+      "sha256": "427df9f794f38b50f6182d8ebb611b40d18a0a1ea73b3a348560a1f50a591551",
+      "peak_private_ws": 3743744,
+      "peak_total_ws": 20955136
+    },
+    "hyperlink-window-observed.json": {
+      "sha256": "55f05f5fea024adffc5443d79b02494e574a51f64ee4225c0b566ddea30e5cda",
+      "peak_private_ws": 9314304,
+      "peak_total_ws": 35516416,
+      "peak_private_commit": 10670080
+    },
+    "keyboard-default-observed.json": {
+      "sha256": "de1e94162dcc33d2466f46304964412af3e71ae1983528dffd65e1675ad41ac8",
+      "peak_private_ws": 4091904,
+      "peak_total_ws": 21319680,
+      "peak_private_commit": 5574656
+    },
+    "keyboard-window-observed.json": {
+      "sha256": "706023566880dc71011a324509c3314e5bf60ca7c815b6d2d9614166305dd46e",
+      "peak_private_ws": 4050944,
+      "peak_total_ws": 21245952,
+      "peak_private_commit": 5369856
+    },
+    "mok-default-observed.json": {
+      "sha256": "fca5a7a54f3ed421383389f6483d46e9138fd35068f9a1a8d9134357e45f340b",
+      "peak_private_ws": 4673536,
+      "peak_total_ws": 27111424,
+      "peak_private_commit": 6307840
+    },
+    "mok-window-observed.json": {
+      "sha256": "a5ce54e897519e7fac43402d75616f82ec07e98c480d18b5baf9e406adc11202",
+      "peak_private_ws": 4673536,
+      "peak_total_ws": 27099136,
+      "peak_private_commit": 6328320
+    },
+    "mouse-window-observed.json": {
+      "sha256": "c4a6f9e9757d5e232c44cb06e5da6e9209984ac427a8501021ce09dea40de5ec"
+    },
+    "osc52-window-observed.json": {
+      "sha256": "959ce26847db0b7222b8eb4f216f7bc2915496ddb6c79710f8f9bd79abd8edbd",
+      "peak_private_ws": 5140480,
+      "peak_total_ws": 26988544,
+      "peak_private_commit": 6553600
+    },
+    "query-window-observed.json": {
+      "sha256": "88a6e3656d66a7f30a0c44772623bb1781aa3c9f3e42472080f578b719052558",
+      "peak_private_ws": 3829760,
+      "peak_total_ws": 21049344
+    },
+    "reflow-window-observed.json": {
+      "sha256": "f81842342592e132ea8a0de52ef4c30c629e1d6dae142a7a1dbcbcc0b972b471",
+      "peak_private_ws": 7020544,
+      "peak_total_ws": 24580096,
+      "peak_private_commit": 8400896
+    },
+    "selective-erase-observed.json": {
+      "sha256": "839ddc1f78dee70c027d8fa1afa81fb34ea9779c42e7b1e6618c869d2862fb0d",
+      "peak_private_ws": 5967872,
+      "peak_total_ws": 23547904,
+      "peak_private_commit": 7540736
+    },
+    "settings-window-observed.json": {
+      "sha256": "2bdc59b3f4dd9842200a5203c7cccecbf3c0fadc8d5b5b20d9070b93b6806d91"
+    },
+    "sgr-window-observed.json": {
+      "sha256": "faf5221963d8c35028457ebd9825e06e24c0fe47ba561278d0961a239979bc0e",
+      "peak_private_ws": 4706304,
+      "peak_total_ws": 22306816
+    },
+    "shell-window-observed.json": {
+      "sha256": "1a9e1a61475474875c4f533500fb2f23ca80ede252a11f13ba3a9921ba7c9fb7"
+    },
+    "single-exe-observed.json": {
+      "sha256": "df3970dece5c87fe1f58564490cfa49059d571f098db4cd1dadea65e199dabf2"
+    },
+    "sixel-font-observed.json": {
+      "sha256": "f55a2e9122de6f6f5819eba58f34c9ef6f860bbe5c9e0c186d473e9a5b4972a2",
+      "peak_private_ws": 9113600,
+      "peak_total_ws": 31526912,
+      "peak_private_commit": 10702848
+    },
+    "sixel-window-observed.json": {
+      "sha256": "50d26dfe682d7b1de549f1bcf1869213218d977608be7509e98e5f1c3b200a10",
+      "peak_private_ws": 3776512,
+      "peak_total_ws": 21073920,
+      "peak_private_commit": 5091328
+    },
+    "state-control-observed.json": {
+      "sha256": "14ed5f507bc0908b1b34aefd6bc9225b7acc4f3bcfcfac0ab6d3705b7e68635e",
+      "peak_private_ws": 4988928,
+      "peak_total_ws": 22523904,
+      "peak_private_commit": 6467584
+    },
+    "sync-window-observed.json": {
+      "sha256": "23eed7f8a5ef870cfb14266dec8de6215c15aa24f9beb624800e3c8dcead25ba",
+      "peak_private_ws": 6955008,
+      "peak_total_ws": 24494080
+    },
+    "win32-input-observed.json": {
+      "sha256": "e096d0ea8b1798b2c190c09d83a64749f91070a47cfe4912b2fd5cd330571c9c",
+      "peak_private_ws": 4657152,
+      "peak_total_ws": 26972160,
+      "peak_private_commit": 6180864
+    }
+  },
+  "test_helper_note": "Initial hyperlink test stopped before modifying bitmap clipboard data. After adding bitmap/palette preservation, hyperlink and remaining cases passed. Additional font cases also passed."
+}

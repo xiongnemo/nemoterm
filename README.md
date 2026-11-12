@@ -5,16 +5,23 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
 私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
-每次 push/PR 的 GitHub Actions 会执行 Windows 回归与构建，另运行 Linux Sixel
-超链接、键盘、OSC 52 及重排核心的 ASan/UBSan；在成功的 Actions run 中下载 `nemoterm-windows-x64-<commit>` artifact。
-产物含 EXE、许可证、构建 commit 与 SHA-256，保留 30 天。
+每次 push 的 GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原生回归，
+成功后上传 `nemoterm-single-exe-x64-<commit>` artifact，解压后只有 `nemoterm.exe`。
+许可证已嵌入 About / View Licence 和 `--licenses`，测试证据另存 artifact，保留 30 天。
+另一条 CI 执行 Windows 核心回归、MinGW 对照构建和 Linux ASan/UBSan；
+`nemoterm-windows-x64-<commit>` 是供开发对照的旧多文件包。
 
 ## 构建与启动
 
-需要 Windows 10 1809+、MinGW-w64 GCC、Python。构建脚本在项目内安装固定版本的 CMake/Ninja。
+单文件版本已在本机 Windows 10 19044 和 CI Windows Server 2025 验证。
+下载 CI 产物即可使用；源码构建需要 Python、Git 子模块、CMake/Ninja、NuGet 和
+Visual Studio 2026 x64 开发者 shell。MinGW 对照构建仍使用 `scripts/build.ps1 -Tests`。
 
 ```powershell
-.\scripts\build.ps1 -Tests
+git submodule update --init
+.\scripts\build-single-exe.ps1
+.\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
+# 下载的单文件产物可放在任意目录，以下示例放在 dist 中：
 .\dist\nemoterm.exe
 .\dist\nemoterm.exe -e pwsh.exe -NoLogo
 .\dist\nemoterm.exe --cols 100 --rows 30 --font-size 14 -e cmd.exe
@@ -36,11 +43,10 @@ Windows PowerShell 从系统目录查找；Git Bash 需验证 Git 安装布局�
 发行版。自动选择依次优先 pwsh、Windows PowerShell、cmd。
 本机六种 shell（含 WSL Debian）的交互命令和退出测试已通过；[记录](research/shell-selection.md)。
 
-单 EXE 的源码构建正在 CI 验证：`git submodule update --init` 拉取固定版本的
-Microsoft Terminal，再在 Visual Studio 2026 x64 开发者 shell 中运行
-`scripts/build-single-exe.ps1`。它把 OpenConsole 和 ConPTY 静态链接进 Nemoterm，
-由同一 EXE 的隐藏进程承载控制台，无运行时解压；[源码和 REA 证据](research/single-executable.md)。
-该任务的 `nemoterm-single-exe-x64-<commit>` artifact 只在原生测试成功后上传。
+OpenConsole 和 ConPTY 已从固定版本的 Microsoft Terminal 源码链接进 Nemoterm。
+同一 EXE 的隐藏进程承载控制台，无运行时解压，也不需要旁边的 OpenConsole.exe 或
+conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA 证据](research/single-executable.md)。
+单文件隔离测试还验证启动器退出后，控制台子进程可以继续运行。
 
 默认字体为机器上安装的 `SarasaTermSC Nerd Font Light`，UTF-8，ClearType。
 字体文件本身没有 U+F120/U+F07B 两个图标；缺失字体字形仍需要补充回退方案。
