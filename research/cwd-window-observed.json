@@ -1,0 +1,56 @@
+{
+  "executable_sha256": "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+  "cases": {
+    "osc7": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 12932,
+      "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+    },
+    "osc9-quoted": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 29060,
+      "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+    },
+    "osc633": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 27032,
+      "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+    },
+    "osc1337": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 31020,
+      "copied_uri": "file://localhost/C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+    },
+    "reset-resize-retains-directory": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 8284
+    },
+    "remote-directory-does-not-inherit": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+      "parent": 43908
+    },
+    "malformed-and-overflow-keep-last-valid": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 31012
+    },
+    "ten-thousand-updates": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+      "parent": 22804
+    },
+    "clear-falls-back-to-startup": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+      "parent": 37332
+    },
+    "inherit-disabled": {
+      "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+      "parent": 29392
+    }
+  },
+  "unicode_executable_directory_files": [
+    "nemoterm.exe"
+  ],
+  "peak_private_ws": 5947392,
+  "peak_total_ws": 29720576,
+  "peak_private_commit": 7606272,
+  "sample_count": 126
+}

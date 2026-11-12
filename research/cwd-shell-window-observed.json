@@ -1,0 +1,111 @@
+{
+  "executable_sha256": "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+  "detected": [
+    {
+      "id": "pwsh",
+      "name": "PowerShell (pwsh)",
+      "available": true,
+      "path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe",
+      "command": "\"C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe\" -NoLogo"
+    },
+    {
+      "id": "powershell",
+      "name": "Windows PowerShell",
+      "available": true,
+      "path": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "command": "\"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo"
+    },
+    {
+      "id": "busybox-ash",
+      "name": "BusyBox ash",
+      "available": true,
+      "path": "C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe",
+      "command": "\"C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe\" ash -i"
+    },
+    {
+      "id": "git-bash",
+      "name": "Git Bash",
+      "available": true,
+      "path": "C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe",
+      "command": "\"C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe\" --login -i"
+    },
+    {
+      "id": "wsl-bash",
+      "name": "WSL Bash",
+      "available": true,
+      "path": "C:\\Windows\\system32\\wsl.exe",
+      "command": "\"C:\\Windows\\system32\\wsl.exe\" --distribution Debian --exec bash --login -i"
+    },
+    {
+      "id": "cmd",
+      "name": "Command Prompt",
+      "available": true,
+      "path": "C:\\Windows\\system32\\cmd.exe",
+      "command": "\"C:\\Windows\\system32\\cmd.exe\""
+    }
+  ],
+  "launches": {
+    "pwsh": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5607424,
+        "total_ws": 28352512,
+        "private_commit": 7221248
+      },
+      "path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe",
+      "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+    },
+    "powershell": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5468160,
+        "total_ws": 28196864,
+        "private_commit": 7086080
+      },
+      "path": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+    },
+    "busybox-ash": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5435392,
+        "total_ws": 28168192,
+        "private_commit": 7053312
+      },
+      "path": "C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe",
+      "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space"
+    },
+    "git-bash": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5472256,
+        "total_ws": 28213248,
+        "private_commit": 7090176
+      },
+      "path": "C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe",
+      "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space",
+      "duplicate_directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/duplicate \u4e2d;$(literal) git-bash"
+    },
+    "wsl-bash": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5496832,
+        "total_ws": 28233728,
+        "private_commit": 7127040
+      },
+      "path": "C:\\Windows\\system32\\wsl.exe",
+      "directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space",
+      "duplicate_directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/duplicate \u4e2d;$(literal) wsl-bash"
+    },
+    "cmd": {
+      "command_executed": true,
+      "memory": {
+        "private_ws": 5480448,
+        "total_ws": 28196864,
+        "private_commit": 7135232
+      },
+      "path": "C:\\Windows\\system32\\cmd.exe",
+      "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+    }
+  }
+}

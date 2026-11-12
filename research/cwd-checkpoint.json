@@ -1,0 +1,399 @@
+{
+  "source_commit": "a6493606a92cd6994fcc805d1a51d8a957ef63a3",
+  "executable_sha256": "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+  "executable_bytes": 4314112,
+  "upstream_microsoft_terminal_commit": "f6de9e0618015def1c9dda5b82f9d3abf03eb799",
+  "ci": {
+    "single_executable_run": 43192696557,
+    "core_run": 43192696689,
+    "artifact": 13931254248,
+    "evidence_artifact": 13930999767,
+    "conclusion": "success",
+    "core_suites": 29,
+    "terminal_sanitizer_suites": 12,
+    "ci_checks": [
+      "single_exe",
+      "input_method",
+      "unicode_input",
+      "mouse",
+      "sync",
+      "sgr",
+      "font_resize",
+      "font_fallback",
+      "font-fallback-courier",
+      "query",
+      "highlight",
+      "sixel",
+      "sixel_font",
+      "hyperlink",
+      "reflow",
+      "keyboard",
+      "keyboard-courier",
+      "osc52",
+      "mok",
+      "mok-courier",
+      "win32_input",
+      "state_control",
+      "selective_erase",
+      "rectangle",
+      "margins",
+      "cwd",
+      "shell",
+      "delegated_console",
+      "settings"
+    ],
+    "matched_ci_jsons": [
+      "cwd-window-observed.json",
+      "delegated-console-observed.json",
+      "font-fallback-default-observed.json",
+      "font-fallback-observed.json",
+      "font-resize-observed.json",
+      "highlight-window-observed.json",
+      "hyperlink-window-observed.json",
+      "input-method-observed.json",
+      "keyboard-default-observed.json",
+      "keyboard-window-observed.json",
+      "margins-window-observed.json",
+      "mok-default-observed.json",
+      "mok-window-observed.json",
+      "osc52-window-observed.json",
+      "query-window-observed.json",
+      "rectangle-window-observed.json",
+      "reflow-window-observed.json",
+      "selective-erase-observed.json",
+      "settings-window-observed.json",
+      "sgr-window-observed.json",
+      "shell-window-observed.json",
+      "single-exe-observed.json",
+      "single-exe-validation.json",
+      "sixel-font-observed.json",
+      "sixel-window-observed.json",
+      "state-control-observed.json",
+      "sync-window-observed.json",
+      "unicode-input-observed.json",
+      "win32-input-observed.json"
+    ],
+    "embedded_license_bytes": 79365,
+    "memory_samples": {
+      "cwd-window-observed.json": {
+        "peak_private_ws": 4272128,
+        "peak_total_ws": 30449664,
+        "peak_private_commit": 5509120
+      },
+      "font-fallback-default-observed.json": {
+        "peak_private_ws": 3780608,
+        "peak_total_ws": 33222656,
+        "peak_private_commit": 4902912
+      },
+      "font-fallback-observed.json": {
+        "peak_private_ws": 3747840,
+        "peak_total_ws": 31739904,
+        "peak_private_commit": 4861952
+      },
+      "highlight-window-observed.json": {
+        "peak_private_ws": 3297280,
+        "peak_total_ws": 21045248
+      },
+      "hyperlink-window-observed.json": {
+        "peak_private_ws": 9801728,
+        "peak_total_ws": 41414656,
+        "peak_private_commit": 11460608
+      },
+      "keyboard-default-observed.json": {
+        "peak_private_ws": 3514368,
+        "peak_total_ws": 21549056,
+        "peak_private_commit": 4423680
+      },
+      "keyboard-window-observed.json": {
+        "peak_private_ws": 3403776,
+        "peak_total_ws": 21622784,
+        "peak_private_commit": 4562944
+      },
+      "margins-window-observed.json": {
+        "peak_private_ws": 8704000,
+        "peak_total_ws": 33300480,
+        "peak_private_commit": 9928704
+      },
+      "mok-default-observed.json": {
+        "peak_private_ws": 4009984,
+        "peak_total_ws": 28844032,
+        "peak_private_commit": 5140480
+      },
+      "mok-window-observed.json": {
+        "peak_private_ws": 4009984,
+        "peak_total_ws": 29204480,
+        "peak_private_commit": 5181440
+      },
+      "osc52-window-observed.json": {
+        "peak_private_ws": 5332992,
+        "peak_total_ws": 30113792,
+        "peak_private_commit": 6864896
+      },
+      "query-window-observed.json": {
+        "peak_private_ws": 3354624,
+        "peak_total_ws": 21143552
+      },
+      "rectangle-window-observed.json": {
+        "peak_private_ws": 3895296,
+        "peak_total_ws": 28827648,
+        "peak_private_commit": 5005312
+      },
+      "reflow-window-observed.json": {
+        "peak_private_ws": 6098944,
+        "peak_total_ws": 24313856,
+        "peak_private_commit": 7114752
+      },
+      "selective-erase-observed.json": {
+        "peak_private_ws": 4648960,
+        "peak_total_ws": 22482944,
+        "peak_private_commit": 5799936
+      },
+      "sgr-window-observed.json": {
+        "peak_private_ws": 3428352,
+        "peak_total_ws": 22032384
+      },
+      "sixel-font-observed.json": {
+        "peak_private_ws": 8511488,
+        "peak_total_ws": 33341440,
+        "peak_private_commit": 9580544
+      },
+      "sixel-window-observed.json": {
+        "peak_private_ws": 3194880,
+        "peak_total_ws": 20127744,
+        "peak_private_commit": 4075520
+      },
+      "state-control-observed.json": {
+        "peak_private_ws": 3633152,
+        "peak_total_ws": 22011904,
+        "peak_private_commit": 4681728
+      },
+      "sync-window-observed.json": {
+        "peak_private_ws": 4280320,
+        "peak_total_ws": 24469504
+      },
+      "win32-input-observed.json": {
+        "peak_private_ws": 4022272,
+        "peak_total_ws": 28991488,
+        "peak_private_commit": 5013504
+      }
+    }
+  },
+  "local": {
+    "passed_checks": [
+      "single_exe",
+      "cwd",
+      "hyperlink",
+      "mouse",
+      "margins",
+      "shell",
+      "settings"
+    ],
+    "memory_samples": {
+      "cwd-window-observed.json": {
+        "peak_private_ws": 5947392,
+        "peak_total_ws": 29720576,
+        "peak_private_commit": 7606272
+      },
+      "hyperlink-window-observed.json": {
+        "peak_private_ws": 10162176,
+        "peak_total_ws": 40390656,
+        "peak_private_commit": 11907072
+      },
+      "margins-window-observed.json": {
+        "peak_private_ws": 10420224,
+        "peak_total_ws": 33259520,
+        "peak_private_commit": 12242944
+      }
+    },
+    "process_snapshot": {
+      "executable_sha256": "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+      "measurement": "idle snapshot; process working sets overlap on shared pages",
+      "processes": [
+        {
+          "pid": 42640,
+          "parent": 17976,
+          "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\final-single-a649360\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 3911680,
+            "total_ws": 21155840,
+            "private_commit": 5246976
+          },
+          "role": "frontend"
+        },
+        {
+          "pid": 44484,
+          "parent": 42640,
+          "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\final-single-a649360\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1540096,
+            "total_ws": 10510336,
+            "private_commit": 2240512
+          },
+          "role": "same_image_host"
+        },
+        {
+          "pid": 33240,
+          "parent": 42640,
+          "path": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+          "memory": {
+            "private_ws": 8511488,
+            "total_ws": 17436672,
+            "private_commit": 10797056
+          },
+          "role": "fixture_python"
+        }
+      ]
+    },
+    "shell_launches": {
+      "pwsh": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5607424,
+          "total_ws": 28352512,
+          "private_commit": 7221248
+        },
+        "path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe",
+        "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+      },
+      "powershell": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5468160,
+          "total_ws": 28196864,
+          "private_commit": 7086080
+        },
+        "path": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+      },
+      "busybox-ash": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5435392,
+          "total_ws": 28168192,
+          "private_commit": 7053312
+        },
+        "path": "C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe",
+        "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space"
+      },
+      "git-bash": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5472256,
+          "total_ws": 28213248,
+          "private_commit": 7090176
+        },
+        "path": "C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe",
+        "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space",
+        "duplicate_directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/duplicate \u4e2d;$(literal) git-bash"
+      },
+      "wsl-bash": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5496832,
+          "total_ws": 28233728,
+          "private_commit": 7127040
+        },
+        "path": "C:\\Windows\\system32\\wsl.exe",
+        "directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/startup \u4e2d space",
+        "duplicate_directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-0qw68_3d/duplicate \u4e2d;$(literal) wsl-bash"
+      },
+      "cmd": {
+        "command_executed": true,
+        "memory": {
+          "private_ws": 5480448,
+          "total_ws": 28196864,
+          "private_commit": 7135232
+        },
+        "path": "C:\\Windows\\system32\\cmd.exe",
+        "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-0qw68_3d\\startup \u4e2d space"
+      }
+    },
+    "directory_cases": {
+      "osc7": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 12932,
+        "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+      },
+      "osc9-quoted": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 29060,
+        "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+      },
+      "osc633": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 27032,
+        "copied_uri": "file:///C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+      },
+      "osc1337": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 31020,
+        "copied_uri": "file://localhost/C:/Users/nemo/AppData/Local/Temp/nemoterm-cwd-g5uniqtt/reported%20%E4%B8%AD%3B%24%28literal%29"
+      },
+      "reset-resize-retains-directory": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 8284
+      },
+      "remote-directory-does-not-inherit": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+        "parent": 43908
+      },
+      "malformed-and-overflow-keep-last-valid": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 31012
+      },
+      "ten-thousand-updates": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\reported \u4e2d;$(literal)",
+        "parent": 22804
+      },
+      "clear-falls-back-to-startup": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+        "parent": 37332
+      },
+      "inherit-disabled": {
+        "cwd": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-cwd-g5uniqtt\\startup \u4e2d",
+        "parent": 29392
+      }
+    }
+  },
+  "prior_ci_failures": [
+    {
+      "runs": [
+        43187372573,
+        43187372944
+      ],
+      "reason": "Directory menu ID collided with Open Link and shifted existing menu order",
+      "fixed_by": "dca653e122e1ca7c375fd62648d5afc50cf405bd"
+    },
+    {
+      "runs": [
+        43189031774,
+        43189031613
+      ],
+      "reason": "Fixture compared Windows short and long directory spellings as strings",
+      "fixed_by": "1dab7b59f82f5898357964530550bdc5bc20d7ec"
+    },
+    {
+      "runs": [
+        43190840285,
+        43190839888
+      ],
+      "reason": "CMD redirected directory output used ANSI and lost Chinese characters on CI",
+      "fixed_by": "a6493606a92cd6994fcc805d1a51d8a957ef63a3"
+    }
+  ],
+  "limits": [
+    "Directory metadata requires cooperating shell output; no profiles were edited",
+    "Only the documented cwd subcommands of OSC 633/1337 are implemented",
+    "Sampled working sets are not real-agent or physical IME/device acceptance",
+    "Host and child samples are idle snapshots, separate from frontend stress peaks",
+    "System DLLs, including Windows UCRT, and ConDrv remain dependencies"
+  ],
+  "installed_directory_files": [
+    "nemoterm.exe"
+  ],
+  "recorded_utc": "2026-11-12T09:49:28.532098+00:00",
+  "screenshots": {
+    "cwd-window.png": "e8648dd69c8aa7ebd2abbaca8bb713de11c072ae0bd945847c068c1a79c228b3",
+    "cwd-settings.png": "2a61e9c74328f2de69b8d8d0686c3762818c2945cee8b5f84161749c03593f3a"
+  }
+}

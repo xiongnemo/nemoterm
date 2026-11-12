@@ -1,0 +1,39 @@
+{
+  "executable_sha256": "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+  "measurement": "idle snapshot; process working sets overlap on shared pages",
+  "processes": [
+    {
+      "pid": 42640,
+      "parent": 17976,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\final-single-a649360\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 3911680,
+        "total_ws": 21155840,
+        "private_commit": 5246976
+      },
+      "role": "frontend"
+    },
+    {
+      "pid": 44484,
+      "parent": 42640,
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\final-single-a649360\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1540096,
+        "total_ws": 10510336,
+        "private_commit": 2240512
+      },
+      "role": "same_image_host"
+    },
+    {
+      "pid": 33240,
+      "parent": 42640,
+      "path": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+      "memory": {
+        "private_ws": 8511488,
+        "total_ws": 17436672,
+        "private_commit": 10797056
+      },
+      "role": "fixture_python"
+    }
+  ]
+}

@@ -878,3 +878,24 @@ passed that group. Full details and the exact artifact-bound evidence are in
 Physical IME candidate selection, genuine multi-monitor transitions, real agent
 workloads and complete modern/xterm protocol coverage remain unaccepted. This
 checkpoint does not close the broader goal.
+
+
+## Working-directory checkpoint (2026-11-12)
+
+OSC 7, OSC 9;9, OSC 633 P;Cwd and OSC 1337 CurrentDir/RemoteHost now provide
+bounded directory metadata, URI copy and configurable Duplicate Session cwd
+inheritance. Startup `--directory` and saved Unicode directories work with native
+Windows shells, Git Bash mounts and WSL --cd. No shell profiles are changed.
+
+Source `a6493606a92cd6994fcc805d1a51d8a957ef63a3` has green core and single-file CI:
+29 core suites, 12 terminal sanitizer suites and 29 native checks. The installed
+single EXE is 4,314,112 bytes, SHA-256
+`bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f`.
+Seven local groups passed on that exact artifact, including all six shells.
+Local frontend stress peaks were 10,420,224 private WS / 40,390,656 total WS bytes;
+the host and Python fixture have separate idle samples. See the
+[working-directory record](../research/working-directory.md) for limits, failure
+history, screenshots, PE evidence and CI artifact links.
+
+Remaining OSC 133/633/1337 commands, image protocols, complete modern/xterm
+coverage, physical IME/DPI/device behavior and real-agent acceptance remain open.

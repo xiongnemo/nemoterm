@@ -1,0 +1,26 @@
+{
+    "saved_shell":  "git-bash",
+    "query":  {
+                  "phase":  "settings-launch",
+                  "hex":  "1b5b3e343b336d1b5b3e343b3166",
+                  "columns":  80,
+                  "rows":  24,
+                  "input_mode":  640,
+                  "input_cp":  65001
+              },
+    "saved_choose_shell":  true,
+    "saved_format":  1,
+    "saved_level":  3,
+    "copy_only_default":  true,
+    "local_launch":  true,
+    "executable_sha256":  "bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f",
+    "saved_win32":  true,
+    "saved_reflow":  false,
+    "saved_unicode_directory":  "C:\\Users\\nemo\\AppData\\Local\\Temp\\settings-test-34e32d7fe4b7453aba91dfd472e06cfe\\working 中",
+    "reflow_default":  true,
+    "explicit_command_overrides_shell":  true,
+    "saved_directory_inheritance":  false,
+    "cancel_exit":  0,
+    "saved_copy_and_paste":  true,
+    "win32_default":  false
+}

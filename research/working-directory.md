@@ -28,7 +28,7 @@ UI Automation, registry readback and a second settings process.
 | --- | --- |
 | OSC 7 `file://host/absolute-path` | Decode percent-escaped UTF-8 once; replace directory and host. |
 | OSC 9 `9;directory` | Raw UTF-8 Windows path, optionally enclosed in double quotes; host becomes local. |
-| OSC 633 `P;Cwd=directory[;nonce]` | Decode `\\` and `\xHH` once (case-insensitive hex); host becomes local. Nonce is retained only as an ignored delimiter, not authenticated. |
+| OSC 633 `P;Cwd=directory[;nonce]` | Decode `\\` and `\xHH` once (case-insensitive hex); host becomes local. An optional nonce is ignored, not authenticated. |
 | OSC 1337 `CurrentDir=directory` | Raw UTF-8 path; retain independently reported host. |
 | OSC 1337 `RemoteHost=[user@]host` | Replace host without changing the directory; user portion is not stored. |
 
@@ -95,3 +95,37 @@ Sources: [Windows Terminal shell integration](https://learn.microsoft.com/en-us/
 [VS Code parser/escaping implementation](https://github.com/microsoft/vscode/blob/main/src/vs/platform/terminal/common/xterm/shellIntegrationAddon.ts),
 [iTerm2 proprietary sequences](https://iterm2.com/documentation-escape-codes.html).
 No claim of XTerm's OSC 7 support is made: these are cross-terminal extensions.
+
+## Final single-executable checkpoint (2026-11-12)
+
+Source `a6493606a92cd6994fcc805d1a51d8a957ef63a3` passed
+[core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696689) and
+[single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557).
+The [single-file artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557/artifacts/13931254248)
+is 4,314,112 bytes, SHA-256
+`bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f`.
+29 core suites, 12 terminal sanitizer suites and 29 single-file checks passed.
+The exact downloaded artifact passed seven local groups: isolation, cwd,
+hyperlink, mouse, margins, shell and settings. All six local shells passed.
+
+Frontend stress peaks across the local cwd/link/margin fixtures were 10,420,224
+private WS, 40,390,656 total WS and 12,242,944 private commit bytes. Separate idle
+snapshots record the same-image host at 1,540,096 private WS / 10,510,336 total WS,
+and the Python fixture at 8,511,488 private WS / 17,436,672 total WS. Shared resident
+pages overlap across process working sets; these snapshots are not stress peaks.
+CI frontend maxima were 9,801,728 private WS and 41,414,656 total WS bytes.
+
+REA inspected 79 PE descriptors, 598 ordinary imports and 11 delay imports, with
+complete table coverage and no issues. No conpty.dll, WebView2Loader.dll,
+vcruntime or msvcp imports were present. Windows system DLLs (including UCRT) and
+ConDrv remain dependencies. Runtime isolation verified one EXE with the host
+using the same image; 79,365 embedded license bytes were checked.
+
+Records: [checkpoint](cwd-checkpoint.json), [directory](cwd-window-observed.json),
+[shells](cwd-shell-window-observed.json), [settings](cwd-settings-window-observed.json),
+[process memory](cwd-processes-observed.json), [PE evidence](cwd-pe-evidence.json),
+[terminal screenshot](cwd-window.png), [settings screenshot](cwd-settings.png).
+Earlier failures and their fixes are retained in the checkpoint: a menu command
+collision, a short/long path comparison error, and CMD ANSI redirection in the
+fixture. CMD now uses its [documented Unicode output mode](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd).
+The broader full-protocol and real-agent/device acceptance remains open.
