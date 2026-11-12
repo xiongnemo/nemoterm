@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -81,12 +81,55 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/shutdown-window-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test startup caret creation before first focus
+        shell: pwsh
+        run: |
+          python tests/caret_startup_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/caret-startup-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test native window and ConPTY input and resize
         shell: pwsh
         run: |
           python tests/mouse_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/mouse-window-observed.json test-results/
+      - name: Test independent session ownership and lifetime
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/session_window_smoke.py --renderer $renderer
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/session-window-$renderer-observed.json" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+          python tests/session_restart_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/session-restart-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Test native tab host, previews and shared GPU lifetime
+        shell: pwsh
+        run: |
+          foreach ($case in @(@('gdi','top'), @('gdi','bottom'), @('directx','left'), @('opengl','right'))) {
+            python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1]
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/tabs-$($case[0])-$($case[1])-*" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+          powershell.exe -NoProfile -File tests/settings_window_smoke.ps1 -TabHost
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tabs-settings-window-observed.json, research/tabs-settings.png test-results/ -ErrorAction SilentlyContinue
+          if ($testExit) { exit $testExit }
+      - name: Test tab overflow, geometry, resizing, input methods and selection
+        shell: pwsh
+        run: |
+          # This job uses upstream OpenConsole. Its ReadFile surrogate bug is
+          # fixed in our source-built single EXE, whose workflow tests byte I/O.
+          # Check this frontend's complete Unicode input through ReadConsoleW.
+          python tests/tabs_regression_suite.py --input-api wide
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tabs-* test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |
@@ -307,6 +350,13 @@ jobs:
             -I vendor/putty-0.85/windows tests/test_font_cmap.c \
             vendor/putty-0.85/windows/nemo_font_cmap.c -o test-font-cmap
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-font-cmap
+      - name: Test tab and preview geometry with sanitizers
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/windows tests/test_tabs_layout.c \
+            vendor/putty-0.85/windows/nemo_tabs_layout.c -o test-tabs-layout
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-tabs-layout
       - name: Test terminal image, hyperlink, keyboard and clipboard lifecycle with sanitizers
         run: |
           cmake -S vendor/putty-0.85 -B build-asan -G Ninja \

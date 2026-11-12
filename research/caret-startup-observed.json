@@ -1,0 +1,44 @@
+{
+  "executable_sha256": "f0dc0d20ce22a2fdabf030dc0c9d47db372734c7e31a0e19c61eb0c4598f49ad",
+  "completed": true,
+  "instrumented": true,
+  "scope": "Frida-spawned process assigned to an owned job before resume",
+  "startup": [
+    {
+      "hwnd": "0x18408d2",
+      "bitmap": "0xffffffffd8050c5a",
+      "width": 8,
+      "height": 20,
+      "result": true
+    }
+  ],
+  "after_focus": [
+    {
+      "hwnd": "0x18408d2",
+      "bitmap": "0xffffffffd8050c5a",
+      "width": 8,
+      "height": 20,
+      "result": true
+    },
+    {
+      "hwnd": "0x18408d2",
+      "bitmap": "0xffffffffd8050c5a",
+      "width": 8,
+      "height": 20,
+      "result": true
+    }
+  ],
+  "owned_job_cleanup": {
+    "before": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false
+  }
+}

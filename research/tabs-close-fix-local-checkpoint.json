@@ -1,0 +1,153 @@
+{
+  "executable_sha256": "0019ae80c115bf02a42b25a39a8c5d0684fb93360d48447989dcd8cc347f4ddc",
+  "host_cases": [
+    {
+      "renderer": "gdi",
+      "side": "top",
+      "actual": 1,
+      "checks": 9,
+      "rapid_closes": 12,
+      "natural_cleanup": true
+    },
+    {
+      "renderer": "gdi",
+      "side": "bottom",
+      "actual": 1,
+      "checks": 9,
+      "rapid_closes": 12,
+      "natural_cleanup": true
+    },
+    {
+      "renderer": "directx",
+      "side": "left",
+      "actual": 3,
+      "checks": 9,
+      "rapid_closes": 12,
+      "natural_cleanup": true
+    },
+    {
+      "renderer": "opengl",
+      "side": "right",
+      "actual": 2,
+      "checks": 9,
+      "rapid_closes": 12,
+      "natural_cleanup": true
+    }
+  ],
+  "shutdown_cases": 6,
+  "delegated": {
+    "executable_sha256": "0019ae80c115bf02a42b25a39a8c5d0684fb93360d48447989dcd8cc347f4ddc",
+    "fixture": {
+      "launcher": 14400,
+      "child": 7056
+    },
+    "processes": [
+      {
+        "pid": 45528,
+        "parent": 41620,
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree\\build\\native\\OpenConsole.exe",
+        "memory": {
+          "private_ws": 1630208,
+          "total_ws": 10276864,
+          "private_commit": 2334720
+        }
+      },
+      {
+        "pid": 41620,
+        "parent": 36068,
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree\\build\\native\\nemoterm.exe",
+        "memory": {
+          "private_ws": 4345856,
+          "total_ws": 21364736,
+          "private_commit": 5402624
+        }
+      }
+    ],
+    "launcher_exit_preserves_child": true,
+    "last_client_exit_closes_terminal": true
+  },
+  "failures_before_fix": [
+    {
+      "run": 43306482281,
+      "closing_shell_attempt": 1,
+      "remaining": [
+        {
+          "pid": 6748,
+          "image": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 2252,
+          "image": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 3784,
+          "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 8184,
+          "image": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 8180,
+          "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 7924,
+          "image": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 8240,
+          "image": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+          "exit_code": 259
+        }
+      ]
+    },
+    {
+      "run": 43306482009,
+      "closing_shell_attempt": 0,
+      "remaining": [
+        {
+          "pid": 9096,
+          "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 1056,
+          "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 8172,
+          "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 7636,
+          "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 4428,
+          "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 7400,
+          "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 8516,
+          "image": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+          "exit_code": 259
+        }
+      ]
+    }
+  ]
+}

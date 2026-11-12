@@ -311,3 +311,19 @@ bool nemo_d2d_print(NemoD2D *g, HDC dc)
 {
     return g->width>0 && g->height>0 && read_pixels(g,dc,0,0,0,0,g->width,g->height);
 }
+bool nemo_d2d_attach(NemoD2D *g, HWND parent)
+{
+    ShowWindow(g->surface,SW_HIDE);
+    SetLastError(0);
+    if (!SetParent(g->surface,parent) && GetLastError()) return false;
+    g->parent=parent;nemo_d2d_clear_cache(g);return true;
+}
+void nemo_d2d_show(NemoD2D *g, bool visible)
+{
+    ShowWindow(g->surface,visible ? SW_SHOWNOACTIVATE : SW_HIDE);
+}
+bool nemo_d2d_print_band(NemoD2D *g, HDC dc, int top, int height)
+{
+    top=max(0,top);height=min(height,g->height-top);
+    return g->width>0 && height>0 && read_pixels(g,dc,0,top,0,top,g->width,height);
+}

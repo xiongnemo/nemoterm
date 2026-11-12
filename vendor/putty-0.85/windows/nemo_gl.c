@@ -353,13 +353,28 @@ void nemo_gl_borders(NemoGL *g, RECT text, COLORREF colour)
 }
 bool nemo_gl_print(NemoGL *g, HDC dc)
 {
+    return nemo_gl_print_band(g,dc,0,g->height);
+}
+bool nemo_gl_attach(NemoGL *g, HWND parent)
+{
+    ShowWindow(g->surface,SW_HIDE);
+    SetLastError(0);
+    if (!SetParent(g->surface,parent) && GetLastError()) return false;
+    g->parent=parent;nemo_gl_clear_cache(g);return true;
+}
+void nemo_gl_show(NemoGL *g, bool visible)
+{
+    ShowWindow(g->surface,visible ? SW_SHOWNOACTIVATE : SW_HIDE);
+}
+bool nemo_gl_print_band(NemoGL *g, HDC dc, int top, int height)
+{
     if (!g->width || !g->height || !strip(g,g->width,1)) return false;
     g->api.wglMakeCurrent(g->dc,g->context);
     g->api.glBindFramebuffer(GL_FRAMEBUFFER,g->framebuffer);
     BITMAPINFO bi={0};bi.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
     bi.bmiHeader.biWidth=g->width;bi.bmiHeader.biHeight=-1;
     bi.bmiHeader.biPlanes=1;bi.bmiHeader.biBitCount=32;bi.bmiHeader.biCompression=BI_RGB;
-    for (int y=0;y<g->height;y++) {
+    for (int y=max(0,top);y<min(g->height,top+height);y++) {
         g->api.glReadPixels(0,g->height-1-y,g->width,1,GL_BGRA,GL_UNSIGNED_BYTE,g->pixels);
         int copied=StretchDIBits(dc,0,y,g->width,1,0,0,g->width,1,g->pixels,&bi,DIB_RGB_COLORS,SRCCOPY);
         if (!copied || copied==GDI_ERROR) return false;

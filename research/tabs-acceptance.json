@@ -1,0 +1,83 @@
+{
+  "source_commit": "74993afc8582a912ea020f6b784772de5c2d7037",
+  "executable_sha256": "2470cbcb8fd3560496a74e8d7e08fee4a8ce173b9552a8cf72b1c00a22416adc",
+  "executable_bytes": 4371456,
+  "core_ci": "https://github.com/xiongnemo/nemoterm/actions/runs/43314774879",
+  "single_exe_ci": "https://github.com/xiongnemo/nemoterm/actions/runs/43314774958",
+  "local_font": "SarasaTermSC Nerd Font Light",
+  "local": [
+    {
+      "renderer": "directx",
+      "side": "left",
+      "actual_renderer": 3,
+      "checks": 9,
+      "uninstrumented_peak_private_ws": 17891328,
+      "uninstrumented_peak_total_ws": 52006912,
+      "two_tabs": {
+        "handles": 456,
+        "gdi": 37,
+        "user": 39,
+        "private_ws": 16445440,
+        "total_ws": 50163712,
+        "private_commit": 70873088
+      }
+    },
+    {
+      "renderer": "gdi",
+      "side": "bottom",
+      "actual_renderer": 1,
+      "checks": 9,
+      "uninstrumented_peak_private_ws": 8093696,
+      "uninstrumented_peak_total_ws": 27734016,
+      "two_tabs": {
+        "handles": 324,
+        "gdi": 32,
+        "user": 36,
+        "private_ws": 7159808,
+        "total_ws": 26411008,
+        "private_commit": 8413184
+      }
+    },
+    {
+      "renderer": "gdi",
+      "side": "top",
+      "actual_renderer": 1,
+      "checks": 9,
+      "uninstrumented_peak_private_ws": 8146944,
+      "uninstrumented_peak_total_ws": 28569600,
+      "two_tabs": {
+        "handles": 330,
+        "gdi": 32,
+        "user": 36,
+        "private_ws": 7184384,
+        "total_ws": 27275264,
+        "private_commit": 8445952
+      }
+    },
+    {
+      "renderer": "opengl",
+      "side": "right",
+      "actual_renderer": 2,
+      "checks": 9,
+      "uninstrumented_peak_private_ws": 48291840,
+      "uninstrumented_peak_total_ws": 79527936,
+      "two_tabs": {
+        "handles": 434,
+        "gdi": 39,
+        "user": 46,
+        "private_ws": 36175872,
+        "total_ws": 67088384,
+        "private_commit": 114819072
+      }
+    }
+  ],
+  "exclusions": [
+    "Physical keyboard and IME devices",
+    "Multi-monitor DPI transitions",
+    "Uninstrumented hover-preview peak memory",
+    "Arbitrary tab counts and long running workloads",
+    "Live model/Claude services",
+    "Full grapheme display and remaining protocol coverage"
+  ],
+  "recorded_utc": "2026-11-12T22:13:54.475512+00:00"
+}

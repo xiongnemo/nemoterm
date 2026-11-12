@@ -1,0 +1,681 @@
+{
+  "recorded_utc": "2026-11-12T20:45:44.840155+00:00",
+  "base_commit": "3d0883a21e66f0b8dda8721d8c7c2acedd69ccc9",
+  "development_executable_sha256": "1f4fc5f28fb6a5b30c3f07ce69a74fec5b09a0c88ff9781a78ac3d7525aabeaa",
+  "source_hashes": {
+    "windows/window.c": "b8f94143d4e1de92be4eb8a331b9a584520fb95da6193649778336fde6bb254c",
+    "windows/nemo_tabs_host.h": "8b9368c0a6bd6d27beb195dc01d4f2e0a69efa1912db2a90cb73a3f049c4091b",
+    "windows/nemo_tabs_host.inc": "f860c1f112d17fdfa46496f5fd82f9c9ea0f57960251baa7c0e8efdd4c174cfa",
+    "windows/nemo_gpu.c": "5db1401f34b5d7acb59b753bfbde2a086122f6f5146ae5e1d2998e739a892cc5",
+    "windows/nemo_gl.c": "f4cc1ab7991b976a26e7ae3b68343a49fce4cae0475ddd6f76bff35f8fa336ba",
+    "windows/nemo_d2d.c": "ba8295b06050098b66861bf1e683f3767a96837f4a3b44f0fa7c362a20a655a1",
+    "windows/pterm.c": "b164ccbe41da89909e3cd32eebc8b32e4a80465c7559e6944891df4096942499",
+    "config.c": "9c51e0656faac3b55c8ac6bf30dd554fe934a9ba64de9d94784084092694268f",
+    "conf.h": "22739a5672a6730556f7b0865dbd298df6bda26befdfc41a86f906e1adce4cca"
+  },
+  "tab_runs": {
+    "tabs-directx-left-observed.json": {
+      "executable_sha256": "1f4fc5f28fb6a5b30c3f07ce69a74fec5b09a0c88ff9781a78ac3d7525aabeaa",
+      "renderer": "directx",
+      "side": "left",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_renderer": 3,
+      "initial": {
+        "handles": 440,
+        "gdi": 31,
+        "user": 34,
+        "private_ws": 14331904,
+        "total_ws": 46428160,
+        "private_commit": 67493888
+      },
+      "two_tabs": {
+        "handles": 451,
+        "gdi": 36,
+        "user": 40,
+        "private_ws": 15962112,
+        "total_ws": 48168960,
+        "private_commit": 70033408
+      },
+      "cycles": [
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16711680,
+          "total_ws": 49025024,
+          "private_commit": 71471104
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16748544,
+          "total_ws": 49098752,
+          "private_commit": 72581120
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16764928,
+          "total_ws": 49135616,
+          "private_commit": 72273920
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16764928,
+          "total_ws": 49156096,
+          "private_commit": 71966720
+        },
+        {
+          "handles": 457,
+          "gdi": 37,
+          "user": 41,
+          "private_ws": 17031168,
+          "total_ws": 49446912,
+          "private_commit": 72048640
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 17039360,
+          "total_ws": 49467392,
+          "private_commit": 72232960
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16801792,
+          "total_ws": 49229824,
+          "private_commit": 71356416
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 17027072,
+          "total_ws": 49463296,
+          "private_commit": 72048640
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 17035264,
+          "total_ws": 49483776,
+          "private_commit": 72142848
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 16809984,
+          "total_ws": 49270784,
+          "private_commit": 71229440
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 17068032,
+          "total_ws": 49528832,
+          "private_commit": 72232960
+        },
+        {
+          "handles": 457,
+          "gdi": 38,
+          "user": 41,
+          "private_ws": 17195008,
+          "total_ws": 49664000,
+          "private_commit": 71823360
+        }
+      ],
+      "pixel_capture_instrumented": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    },
+    "tabs-gdi-bottom-observed.json": {
+      "executable_sha256": "1f4fc5f28fb6a5b30c3f07ce69a74fec5b09a0c88ff9781a78ac3d7525aabeaa",
+      "renderer": "gdi",
+      "side": "bottom",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_renderer": 1,
+      "initial": {
+        "handles": 307,
+        "gdi": 27,
+        "user": 30,
+        "private_ws": 5263360,
+        "total_ws": 22769664,
+        "private_commit": 6328320
+      },
+      "two_tabs": {
+        "handles": 314,
+        "gdi": 32,
+        "user": 36,
+        "private_ws": 6762496,
+        "total_ws": 24387584,
+        "private_commit": 7868416
+      },
+      "cycles": [
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7225344,
+          "total_ws": 24928256,
+          "private_commit": 8413184
+        },
+        {
+          "handles": 314,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7483392,
+          "total_ws": 25223168,
+          "private_commit": 9191424
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7327744,
+          "total_ws": 25092096,
+          "private_commit": 8798208
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7561216,
+          "total_ws": 25337856,
+          "private_commit": 9334784
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7557120,
+          "total_ws": 25370624,
+          "private_commit": 9510912
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7294976,
+          "total_ws": 25128960,
+          "private_commit": 9338880
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7548928,
+          "total_ws": 25387008,
+          "private_commit": 9027584
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7540736,
+          "total_ws": 25391104,
+          "private_commit": 9773056
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7335936,
+          "total_ws": 25194496,
+          "private_commit": 8507392
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7581696,
+          "total_ws": 25444352,
+          "private_commit": 9310208
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7593984,
+          "total_ws": 25460736,
+          "private_commit": 9048064
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 36,
+          "private_ws": 7397376,
+          "total_ws": 25272320,
+          "private_commit": 8654848
+        }
+      ],
+      "pixel_capture_instrumented": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    },
+    "tabs-gdi-top-observed.json": {
+      "executable_sha256": "1f4fc5f28fb6a5b30c3f07ce69a74fec5b09a0c88ff9781a78ac3d7525aabeaa",
+      "renderer": "gdi",
+      "side": "top",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_renderer": 1,
+      "initial": {
+        "handles": 307,
+        "gdi": 27,
+        "user": 30,
+        "private_ws": 5275648,
+        "total_ws": 22781952,
+        "private_commit": 6328320
+      },
+      "two_tabs": {
+        "handles": 314,
+        "gdi": 32,
+        "user": 36,
+        "private_ws": 6787072,
+        "total_ws": 24416256,
+        "private_commit": 7880704
+      },
+      "cycles": [
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7282688,
+          "total_ws": 25010176,
+          "private_commit": 8605696
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7524352,
+          "total_ws": 25272320,
+          "private_commit": 9793536
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7294976,
+          "total_ws": 25075712,
+          "private_commit": 9007104
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7553024,
+          "total_ws": 25354240,
+          "private_commit": 9805824
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7573504,
+          "total_ws": 25382912,
+          "private_commit": 9043968
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7360512,
+          "total_ws": 25178112,
+          "private_commit": 8589312
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7569408,
+          "total_ws": 25395200,
+          "private_commit": 9007104
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7618560,
+          "total_ws": 25460736,
+          "private_commit": 9310208
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7385088,
+          "total_ws": 25239552,
+          "private_commit": 8884224
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7634944,
+          "total_ws": 25493504,
+          "private_commit": 9367552
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7634944,
+          "total_ws": 25501696,
+          "private_commit": 9011200
+        },
+        {
+          "handles": 316,
+          "gdi": 33,
+          "user": 37,
+          "private_ws": 7376896,
+          "total_ws": 25260032,
+          "private_commit": 8540160
+        }
+      ],
+      "pixel_capture_instrumented": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    },
+    "tabs-opengl-right-observed.json": {
+      "executable_sha256": "1f4fc5f28fb6a5b30c3f07ce69a74fec5b09a0c88ff9781a78ac3d7525aabeaa",
+      "renderer": "opengl",
+      "side": "right",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_renderer": 2,
+      "initial": {
+        "handles": 416,
+        "gdi": 33,
+        "user": 41,
+        "private_ws": 31449088,
+        "total_ws": 60416000,
+        "private_commit": 110366720
+      },
+      "two_tabs": {
+        "handles": 423,
+        "gdi": 38,
+        "user": 46,
+        "private_ws": 35708928,
+        "total_ws": 64794624,
+        "private_commit": 114552832
+      },
+      "cycles": [
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 40824832,
+          "total_ws": 69992448,
+          "private_commit": 119431168
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 41107456,
+          "total_ws": 70303744,
+          "private_commit": 120242176
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 40890368,
+          "total_ws": 70103040,
+          "private_commit": 120623104
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47398912,
+          "total_ws": 76623872,
+          "private_commit": 126550016
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47439872,
+          "total_ws": 76673024,
+          "private_commit": 126902272
+        },
+        {
+          "handles": 423,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47427584,
+          "total_ws": 76677120,
+          "private_commit": 126787584
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47218688,
+          "total_ws": 76476416,
+          "private_commit": 125763584
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47529984,
+          "total_ws": 76795904,
+          "private_commit": 127094784
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47517696,
+          "total_ws": 76791808,
+          "private_commit": 126816256
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47284224,
+          "total_ws": 76570624,
+          "private_commit": 126042112
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47542272,
+          "total_ws": 76832768,
+          "private_commit": 126275584
+        },
+        {
+          "handles": 425,
+          "gdi": 40,
+          "user": 47,
+          "private_ws": 47550464,
+          "total_ws": 76849152,
+          "private_commit": 127082496
+        }
+      ],
+      "pixel_capture_instrumented": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 32,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    }
+  },
+  "settings_executable_sha256": "dcae42a63627d50bf40d75670e4924eb4f09b7fa6508f5218d5f22e50bd99bec",
+  "settings_live_renderer_changes": [
+    {
+      "active": 1,
+      "requested": "GDI (low memory)"
+    },
+    {
+      "active": 1,
+      "requested": "OpenGL (GPU composition)"
+    },
+    {
+      "active": 3,
+      "requested": "DirectX (Direct2D composition)"
+    },
+    {
+      "active": 1,
+      "requested": "GDI (low memory)"
+    }
+  ],
+  "preceding_binary_regressions": {
+    "caret-startup-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "c47de4191cf0c26ef8fd89052fcfedb7fc6133efa8b025dfadac3dad67d66976"
+    },
+    "input-method-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "4eb49367e7fa852a0db9fec60af3665998d36454405a0f092b0646abc781c2a2"
+    },
+    "mouse-window-observed.json": {
+      "sha256": null,
+      "evidence_sha256": "962671575773969c5da5c4ca5d1621b71d7bb2806e59c358e678b270a38fd8af"
+    },
+    "renderer-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "5092a755240e1846d3b7307063fd1c6590ac40c625ad09904486c0b667977bcb"
+    },
+    "session-restart-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "fb58922299c66d4607e8551f7a86e7b1128824468c13a84d78cb934602172175"
+    },
+    "sgr-window-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "84f09a11ce7bd937b3844f276c0f94b090fe3d95ff241af0396dba382b49ab5e"
+    },
+    "shutdown-window-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "bb466bd6d75c1b699f4c58902ee54722cdc2f5f5e8a2cb13d6afaef3c379b24a"
+    },
+    "window-resize-observed.json": {
+      "sha256": "6f2cbd10d107afc569b78807584f988eeeb64e51c5aaf0ad919cfd0d03d4ea8b",
+      "evidence_sha256": "ce0813a3be85b09c30a55f23fb49d30127aa4a4dd00f48503f706c971cd794b2"
+    }
+  },
+  "accepted_main_executable_unchanged": "88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8",
+  "limitations": "Opt-in host; local development sidecars; native overflow and physical DPI/IME still pending; memory sampled before instrumentation."
+}

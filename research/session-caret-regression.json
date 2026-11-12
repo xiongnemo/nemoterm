@@ -1,0 +1,101 @@
+{
+  "before": {
+    "executable_sha256": "fe5438130ce96c94fbf6eb930ce047e39c39e28e0daf01b58d4f08954f311602",
+    "completed": false,
+    "instrumented": true,
+    "scope": "Frida-spawned process assigned to an owned job before resume",
+    "startup": [
+      {
+        "hwnd": "0x19001e2",
+        "bitmap": "0x0",
+        "width": 8,
+        "height": 20,
+        "result": true
+      }
+    ],
+    "after_focus": [
+      {
+        "hwnd": "0x19001e2",
+        "bitmap": "0x0",
+        "width": 8,
+        "height": 20,
+        "result": true
+      },
+      {
+        "hwnd": "0x19001e2",
+        "bitmap": "0xffffffffd0052f63",
+        "width": 8,
+        "height": 20,
+        "result": true
+      }
+    ],
+    "owned_job_cleanup": {
+      "before": {
+        "total": 3,
+        "active": 3,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": true
+    },
+    "error": "AssertionError({'executable_sha256': 'fe5438130ce96c94fbf6eb930ce047e39c39e28e0daf01b58d4f08954f311602', 'completed': False, 'instrumented': True, 'scope': 'Frida-spawned process assigned to an owned job before resume', 'startup': [{'hwnd': '0x19001e2', 'bitmap': '0x0', 'width': 8, 'height': 20, 'result': True}], 'after_focus': [{'hwnd': '0x19001e2', 'bitmap': '0x0', 'width': 8, 'height': 20, 'result': True}, {'hwnd': '0x19001e2', 'bitmap': '0xffffffffd0052f63', 'width': 8, 'height': 20, 'result': True}], 'owned_job_cleanup': {'before': {'total': 3, 'active': 3, 'terminated': 0}, 'after': {'total': 3, 'active': 0, 'terminated': 0}, 'terminated_remaining': True}})"
+  },
+  "after": {
+    "executable_sha256": "f0dc0d20ce22a2fdabf030dc0c9d47db372734c7e31a0e19c61eb0c4598f49ad",
+    "completed": true,
+    "instrumented": true,
+    "scope": "Frida-spawned process assigned to an owned job before resume",
+    "startup": [
+      {
+        "hwnd": "0x18408d2",
+        "bitmap": "0xffffffffd8050c5a",
+        "width": 8,
+        "height": 20,
+        "result": true
+      }
+    ],
+    "after_focus": [
+      {
+        "hwnd": "0x18408d2",
+        "bitmap": "0xffffffffd8050c5a",
+        "width": 8,
+        "height": 20,
+        "result": true
+      },
+      {
+        "hwnd": "0x18408d2",
+        "bitmap": "0xffffffffd8050c5a",
+        "width": 8,
+        "height": 20,
+        "result": true
+      }
+    ],
+    "owned_job_cleanup": {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false
+    }
+  },
+  "pixel_delta": {
+    "old_regular_vs_italic_reset_channels": 480,
+    "bbox": [
+      1,
+      1,
+      9,
+      21
+    ],
+    "same_font_sgr_passed_after_fix": true
+  }
+}

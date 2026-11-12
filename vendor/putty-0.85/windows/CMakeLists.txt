@@ -64,6 +64,7 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
+  nemo_tabs_layout.c
   nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c
   nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
@@ -437,6 +438,8 @@ target_link_libraries(test_shell guiterminal settings eventloop utils ${platform
 
 add_executable(test_font_cmap ${CMAKE_SOURCE_DIR}/../../tests/test_font_cmap.c nemo_font_cmap.c)
 target_include_directories(test_font_cmap PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_executable(test_tabs_layout ${CMAKE_SOURCE_DIR}/../../tests/test_tabs_layout.c nemo_tabs_layout.c)
+target_include_directories(test_tabs_layout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(test_font_fallback test/test_font_fallback.c test/test_font_fallback.rc)
 target_include_directories(test_font_fallback PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(test_font_fallback guiterminal utils ${platform_libraries})

@@ -42,10 +42,9 @@ struct _dpi_info {
 };
 
 /*
- * Against the future possibility of having more than one of these
- * in a process (and the current possibility of having zero), we
- * keep a linked list of all live WinGuiSeats, so that cleanups
- * can be done to any that exist.
+ * Every live session has its own terminal, backend, input and drawing state.
+ * Application initialization and the event loop outlive individual seats.
+ * The list also covers partially initialized seats during fatal cleanup.
  */
 struct WinGuiSeatListNode {
     struct WinGuiSeatListNode *next, *prev;
@@ -60,6 +59,10 @@ struct WinGuiSeat {
     LogPolicy logpolicy;
 
     HWND term_hwnd;
+    UINT_PTR session_id; /* Never reused when a window handle is recycled. */
+    bool closing;
+    bool tabbed, tab_ready;
+    HICON trust_icon;
     bool nemo_consumed_right_click;
     struct NemoLinkUI *link_ui;
     struct NemoKeyInput *key_input;

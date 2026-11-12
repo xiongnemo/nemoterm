@@ -21,13 +21,20 @@ try {
     $tests = @('single_exe', 'startup_size', 'renderer', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
-        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
+        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     foreach ($name in $tests) {
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'session') {
+            foreach ($renderer in @('opengl', 'directx')) {
+                & python "$Destination/tests/session_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/session-$renderer.log"
+                if ($LASTEXITCODE) { throw "Single-executable session lifetime test failed: $renderer" }
+                $checks.Add("session-$renderer")
+            }
+        }
         if ($name -eq 'selection') {
             Copy-Item "$Destination/research/selection-observed.json" "$Destination/research/selection-gdi-observed.json"
             & python "$Destination/tests/selection_window_smoke.py" --renderer 2 2>&1 | Tee-Object "$Destination/logs/selection-directx.log"
@@ -57,13 +64,26 @@ try {
             $checks.Add("$name-courier")
         }
     }
+    foreach ($case in @(@('gdi','top'), @('gdi','bottom'), @('directx','left'), @('opengl','right'))) {
+        $name = "tabs-$($case[0])-$($case[1])"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        if ($LASTEXITCODE) { throw "Single-executable tab host test failed: $name" }
+        $checks.Add($name)
+    }
+    & python "$Destination/tests/tabs_regression_suite.py" 2>&1 | Tee-Object "$Destination/logs/tabs-regressions.log"
+    if ($LASTEXITCODE) { throw 'Single-executable tab regression suite failed' }
+    $checks.Add('tabs-regressions')
     & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" 2>&1 | Tee-Object "$Destination/logs/settings.log"
     if ($LASTEXITCODE) { throw 'Single-executable settings test failed' }
     $checks.Add('settings')
+    & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" -TabHost 2>&1 | Tee-Object "$Destination/logs/tabs-settings.log"
+    if ($LASTEXITCODE) { throw 'Single-executable tab settings test failed' }
+    $checks.Add('tabs-settings')
     if ($CodexExecutable) {
-        foreach ($mode in @('default', 'inline')) {
+        foreach ($mode in @('default', 'inline', 'tabs-default', 'tabs-inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)
-            if ($mode -eq 'inline') { $nativeArgs += '--inline' }
+            if ($mode.EndsWith('inline')) { $nativeArgs += '--inline' }
+            if ($mode.StartsWith('tabs-')) { $nativeArgs += '--tabs' }
             if ($env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
             & python "$Destination/tests/codex_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/codex-$mode.log"
             if ($LASTEXITCODE) { throw "Single-executable Codex test failed: $mode" }

@@ -5,7 +5,7 @@ profiles are edited. The child reports the OS cwd, independently of OSC parsing.
 """
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
-    wait_snapshot, memory_sample, wait_for, find_window, capture)
+    wait_snapshot, memory_sample, wait_for, find_windows, capture)
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from console_process_utils import owned_processes
 import shutil
@@ -43,7 +43,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
     initial, target = base/'startup 中', base/'reported 中;$(literal)'
     initial.mkdir(); target.mkdir()
     mailbox = base/'mailbox'; mailbox.mkdir()
-    # Duplicate Session must find the same executable from a Unicode path.
+    # The frontend and its console host must work from a Unicode path.
     executable_dir = base/'executable 中'
     executable_dir.mkdir()
     owned_exe = executable_dir/'nemoterm.exe'
@@ -53,14 +53,17 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
             shutil.copyfile(exe.parent/name, executable_dir/name)
     observed['unicode_executable_directory_files'] = sorted(p.name for p in executable_dir.iterdir())
 
-    def new_child(known):
+    def new_child(known, before_windows=(), before_processes=()):
         def probe():
             for path in mailbox.glob('*.launch.json'):
                 value = read_snapshot(path)
                 if value and value['pid'] not in known:
                     return value
         child = wait_for(probe, timeout=15)
-        child['hwnd'] = wait_for(lambda: find_window(child['parent']), timeout=15)
+        def new_window():
+            values = set(find_windows(child['parent'])) - set(before_windows)
+            return next(iter(values)) if len(values) == 1 else None
+        child['hwnd'] = wait_for(new_window, timeout=15)
         child['report'] = mailbox/f"{child['pid']}.report.json"
         child['control'] = mailbox/f"{child['pid']}.control.json"
         wait_snapshot(lambda: read_snapshot(child['report']))
@@ -70,6 +73,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
         # every process using the copied image instead of racing file removal.
         child['lifetimes'] = []
         for entry in owned_processes(child['parent']):
+            if entry['pid'] in before_processes:
+                continue
             if (Path(entry['path']).parent.resolve() != executable_dir.resolve()
                     and entry['pid'] != child['pid']):
                 continue
@@ -105,15 +110,20 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-cwd-') as temporary:
 
     def duplicate(child, expected, name):
         known = {ch['pid'] for ch in children}
+        before_windows = find_windows(child['parent'])
+        before_processes = {entry['pid'] for entry in owned_processes(child['parent'])}
         u.SendMessageW(child['hwnd'], 0x111, 0x30, 0)
-        duplicate = new_child(known)
+        duplicate = new_child(known, before_windows, before_processes)
+        assert duplicate['parent'] == child['parent'], duplicate
         assert Path(duplicate['cwd']) == expected, (name, duplicate['cwd'], str(expected))
         observed['cases'][name] = dict(cwd=duplicate['cwd'], parent=duplicate['parent'])
-        handle = k.OpenProcess(0x100000, False, duplicate['parent'])
+        handle = k.OpenProcess(0x100000, False, duplicate['pid'])
         assert handle
         try:
             write_snapshot(duplicate['control'], {'stop':True})
             assert k.WaitForSingleObject(handle, 10000) == 0, name
+            wait_for(lambda: not u.IsWindow(duplicate['hwnd']))
+            assert u.IsWindow(child['hwnd']), 'Closing the duplicate closed the original'
             for pid, path, lifetime in duplicate['lifetimes']:
                 assert k.WaitForSingleObject(lifetime, 5000) == 0, (name, pid, path)
         finally:

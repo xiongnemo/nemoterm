@@ -28,6 +28,7 @@
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
 #include "nemo_gpu.h"
+#include "nemo_tabs_host.h"
 #include "terminal/nemo_window_size.h"
 #include "tree234.h"
 
@@ -79,6 +80,13 @@
 #define WM_IGNORE_CLIP (WM_APP + 2)
 #define WM_FULLSCR_ON_MAX (WM_APP + 3)
 #define WM_GOT_CLIPDATA (WM_APP + 4)
+
+typedef struct NemoPasteRequest {
+    HWND hwnd;
+    UINT_PTR session_id;
+    HGLOBAL data;
+    bool unicode;
+} NemoPasteRequest;
 
 /* Needed for Chinese support and apparently not always defined. */
 #ifndef VK_PROCESSKEY
@@ -166,12 +174,18 @@ static void set_input_locale(WinGuiSeat *wgs, HKL);
 static void update_savedsess_menu(WinGuiSeat *wgs);
 static void init_winfuncs(void);
 
+static bool is_alt_pressed(void);
 static bool is_full_screen(WinGuiSeat *wgs);
 static void make_full_screen(WinGuiSeat *wgs);
 static void clear_full_screen(WinGuiSeat *wgs);
 static void flip_full_screen(WinGuiSeat *wgs);
 static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode);
 static void setup_clipboards(Terminal *, Conf *);
+static void wgs_cleanup(void *vctx);
+static void wgs_request_close(WinGuiSeat *wgs);
+static void wgs_free_menus(WinGuiSeat *wgs);
+static HWND app_event_hwnd;
+static UINT_PTR next_session_id;
 
 /* Window layout information */
 static void reset_window(WinGuiSeat *wgs, int reinit);
@@ -270,7 +284,6 @@ static const TermWinVtable windows_termwin_vt = {
     .unthrottle = wintw_unthrottle,
 };
 
-static HICON trust_icon = INVALID_HANDLE_VALUE;
 
 const bool share_can_be_downstream = true;
 const bool share_can_be_upstream = true;
@@ -345,12 +358,15 @@ static const SeatVtable win_seat_vt = {
     .get_cursor_position = win_seat_get_cursor_position,
 };
 
-static void start_backend(WinGuiSeat *wgs)
+static bool start_backend(WinGuiSeat *wgs)
 {
     const struct BackendVtable *vt;
     char *error, *realhost;
     int i;
 
+    /* A restart must not receive a delayed paste intended for the old shell. */
+    wgs->session_id = ++next_session_id;
+    SetPropW(wgs->term_hwnd, L"NemotermSessionId", (HANDLE)wgs->session_id);
     nemo_cwd_clear(&wgs->term->working_directory);
     wgs->cmdline_get_passwd_state = cmdline_get_passwd_input_state_new;
 
@@ -374,10 +390,11 @@ static void start_backend(WinGuiSeat *wgs)
                             conf_dest(wgs->conf), error);
         }
         sfree(error);
-        MessageBox(NULL, msg, str, MB_ICONERROR | MB_OK);
+        MessageBox(wgs->term_hwnd, msg, str, MB_ICONERROR | MB_OK);
         sfree(str);
         sfree(msg);
-        exit(0);
+        wgs->session_closed = true;
+        return false;
     }
     term_setup_window_titles(wgs->term, realhost);
     sfree(realhost);
@@ -404,6 +421,7 @@ static void start_backend(WinGuiSeat *wgs)
     }
 
     wgs->session_closed = false;
+    return true;
 }
 
 static void close_session(void *vctx)
@@ -423,9 +441,9 @@ static void close_session(void *vctx)
         wgs->ldisc = NULL;
     }
     if (wgs->backend) {
+        term_provide_backend(wgs->term, NULL);
         backend_free(wgs->backend);
         wgs->backend = NULL;
-        term_provide_backend(wgs->term, NULL);
         seat_update_specials_menu(&wgs->seat);
     }
 
@@ -508,11 +526,390 @@ char *terminal_window_class_a(void)
 
 HINSTANCE hinst;
 
+/* Takes ownership of conf on both success and failure. Application state and
+ * the message pump outlive every session created here. */
+static WinGuiSeat *wgs_create(Conf *conf, int show)
+{
+    int guess_width, guess_height;
+    WinGuiSeat *wgs = snew(WinGuiSeat);
+    memset(wgs, 0, sizeof(*wgs));
+    wgs_link(wgs);
+
+    wgs->seat.vt = &win_seat_vt;
+    wgs->logpolicy.vt = &win_gui_logpolicy_vt;
+    wgs->termwin.vt = &windows_termwin_vt;
+
+    wgs->caret_x = wgs->caret_y = -1;
+    wgs->busy_status = BUSY_NOT;
+
+    wgs->conf = conf;
+    wgs->tabbed = conf_get_bool(conf,CONF_nemo_tabs);
+
+    memset(&wgs->ucsdata, 0, sizeof(wgs->ucsdata));
+
+    conf_cache_data(wgs);
+
+    /*
+     * Guess some defaults for the window size. This all gets
+     * updated later, so we don't really care too much. However, we
+     * do want the font width/height guesses to correspond to a
+     * large font rather than a small one...
+     */
+
+    wgs->font_width = 10;
+    wgs->font_height = 20;
+    wgs->extra_width = 25;
+    wgs->extra_height = 28;
+    guess_width = wgs->extra_width + wgs->font_width * conf_get_int(
+        wgs->conf, CONF_width);
+    guess_height = wgs->extra_height + wgs->font_height * conf_get_int(
+        wgs->conf, CONF_height);
+    {
+        RECT r;
+        get_fullscreen_rect(wgs, &r);
+        if (guess_width > r.right - r.left)
+            guess_width = r.right - r.left;
+        if (guess_height > r.bottom - r.top)
+            guess_height = r.bottom - r.top;
+    }
+
+    {
+        if (wgs->tabbed && !nemo_host_create(conf,guess_width,guess_height)) {
+            MessageBoxA(NULL,"Unable to create tab host",appname,MB_OK|MB_ICONERROR);
+            wgs_cleanup(wgs);return NULL;
+        }
+        int winmode = (wgs->tabbed ? WS_CHILD|WS_CLIPSIBLINGS : WS_OVERLAPPEDWINDOW) | WS_VSCROLL;
+        int exwinmode = 0;
+        const struct BackendVtable *vt =
+            backend_vt_from_proto(be_default_protocol);
+        bool resize_forbidden = false;
+        if (vt && vt->flags & BACKEND_RESIZE_FORBIDDEN)
+            resize_forbidden = true;
+        wchar_t *uappname = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
+        wgs->window_name = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
+        wgs->icon_name = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
+        if (!conf_get_bool(wgs->conf, CONF_scrollbar))
+            winmode &= ~(WS_VSCROLL);
+        if (conf_get_int(wgs->conf, CONF_resize_action) == RESIZE_DISABLED ||
+            resize_forbidden)
+            winmode &= ~(WS_THICKFRAME | WS_MAXIMIZEBOX);
+        if (!wgs->tabbed && conf_get_bool(wgs->conf, CONF_alwaysontop))
+            exwinmode |= WS_EX_TOPMOST;
+        if (conf_get_bool(wgs->conf, CONF_sunken_edge))
+            exwinmode |= WS_EX_CLIENTEDGE;
+
+#ifdef TEST_ANSI_WINDOW
+        /* For developer testing of ANSI window support, pretend
+         * CreateWindowExW failed */
+        wgs->term_hwnd = NULL;
+        SetLastError(ERROR_CALL_NOT_IMPLEMENTED);
+#else
+        unicode_window = true;
+        sw_PeekMessage = PeekMessageW;
+        sw_DispatchMessage = DispatchMessageW;
+        sw_DefWindowProc = DefWindowProcW;
+        wgs->term_hwnd = CreateWindowExW(
+            exwinmode, terminal_window_class_w(), uappname,
+            winmode, wgs->tabbed ? 0 : CW_USEDEFAULT, wgs->tabbed ? 0 : CW_USEDEFAULT,
+            guess_width, guess_height, wgs->tabbed ? tab_host.hwnd : NULL, NULL, hinst, NULL);
+#endif
+
+#if defined LEGACY_WINDOWS || defined TEST_ANSI_WINDOW
+        if (!wgs->term_hwnd && GetLastError() == ERROR_CALL_NOT_IMPLEMENTED) {
+            /* Fall back to an ANSI window, swapping in all the ANSI
+             * window message handling functions */
+            unicode_window = false;
+            sw_PeekMessage = PeekMessageA;
+            sw_DispatchMessage = DispatchMessageA;
+            sw_DefWindowProc = DefWindowProcA;
+            wgs->term_hwnd = CreateWindowExA(
+                exwinmode, terminal_window_class_a(), appname,
+                winmode, CW_USEDEFAULT, CW_USEDEFAULT,
+                guess_width, guess_height, NULL, NULL, hinst, NULL);
+        }
+#endif
+
+        if (!wgs->term_hwnd) {
+            char *message = dupprintf("Unable to create terminal window: %s",
+                                      win_strerror(GetLastError()));
+            MessageBoxA(GetActiveWindow(), message, appname, MB_OK | MB_ICONERROR);
+            sfree(message);
+            sfree(uappname);
+            wgs_cleanup(wgs);
+            return NULL;
+        }
+        memset(&wgs->dpi_info, 0, sizeof(struct _dpi_info));
+        init_dpi_info(wgs);
+        sfree(uappname);
+    }
+
+    SetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA, (LONG_PTR)wgs);
+
+    /*
+     * Initialise the fonts, simultaneously correcting the guesses
+     * for font_{width,height}.
+     */
+    init_fonts(wgs, 0, 0);
+
+    /*
+     * Prepare a logical palette.
+     */
+    init_palette(wgs);
+    if (wgs->tabbed) { tab_host.dpi=wgs->dpi_info.cur_dpi.x; nemo_host_font(); nemo_host_layout(); }
+
+    /*
+     * Correct the guesses for extra_{width,height}.
+     */
+    {
+        RECT cr, wr;
+        GetWindowRect(wgs_window(wgs), &wr);
+        GetClientRect(wgs->term_hwnd, &cr);
+        wgs->offset_width = wgs->offset_height =
+            conf_get_int(wgs->conf, CONF_window_border);
+        wgs->extra_width =
+            wr.right - wr.left - cr.right + cr.left + wgs->offset_width*2;
+        wgs->extra_height =
+            wr.bottom - wr.top - cr.bottom + cr.top +wgs->offset_height*2;
+    }
+
+    /*
+     * Clamp the actual-font grid before allocating terminal screen buffers.
+     * Oversized requests must not allocate an offscreen grid, then move its
+     * blank rows into history when shrinking to the work area.
+     */
+    RECT startup_work;
+    if (get_workingarea_rect(wgs, &startup_work)) {
+        int cols = max(1, (startup_work.right-startup_work.left-wgs->extra_width) /
+                           max(1, wgs->font_width));
+        int rows = max(1, (startup_work.bottom-startup_work.top-wgs->extra_height) /
+                           max(1, wgs->font_height));
+        conf_set_int(wgs->conf, CONF_width,
+                     max(1, min(cols, conf_get_int(wgs->conf, CONF_width))));
+        conf_set_int(wgs->conf, CONF_height,
+                     max(1, min(rows, conf_get_int(wgs->conf, CONF_height))));
+    }
+
+    if (wgs->tabbed && tab_host.active) {
+        RECT cr;GetClientRect(wgs->term_hwnd,&cr);
+        int border=conf_get_int(conf,CONF_window_border);
+        conf_set_int(conf,CONF_width,max(1,(cr.right-2*border)/wgs->font_width));
+        conf_set_int(conf,CONF_height,max(1,(cr.bottom-2*border)/wgs->font_height));
+    }
+    /* The window exists before terminal timers can be scheduled. */
+    wgs->term = term_init(wgs->conf, &wgs->ucsdata, &wgs->termwin);
+    term_set_cell_size(wgs->term, wgs->font_width, wgs->font_height);
+    setup_clipboards(wgs->term, wgs->conf);
+    wgs->logctx = log_init(&wgs->logpolicy, wgs->conf);
+    term_provide_logctx(wgs->term, wgs->logctx);
+    term_size(wgs->term, conf_get_int(wgs->conf, CONF_height),
+              conf_get_int(wgs->conf, CONF_width),
+              conf_get_int(wgs->conf, CONF_savelines));
+
+    guess_width = wgs->extra_width + wgs->font_width * wgs->term->cols;
+    guess_height = wgs->extra_height + wgs->font_height * wgs->term->rows;
+
+    /*
+     * Resize the window to that size, also repositioning it if it's extended
+     * off the edge of a monitor.
+     */
+    {
+        /* Find the previous coordinates of the window */
+        RECT winr;
+        GetWindowRect(wgs_window(wgs), &winr);
+
+        int x = winr.left;
+        int y = winr.top;
+
+        /* Adjust them if necessary */
+        RECT war;
+        if (get_workingarea_rect(wgs, &war)) {
+            /*
+             * Try to ensure the window is entirely within the monitor's
+             * working area, by adjusting its position if not.
+             *
+             * We first move it left, if it overlaps off the right side. Then
+             * we move it right if it overlaps off the left side. This means
+             * that if it's wider than the working area (so that some overlap
+             * is unavoidable), we prefer to get its left edge in bounds than
+             * its right edge. Similarly, we do the y checks in the same
+             * order, privileging the top edge over the bottom.
+             */
+            if (x + guess_width > war.right)
+                x = war.right - guess_width;
+            if (x < war.left)
+                x = war.left;
+            if (y + guess_height > war.bottom)
+                y = war.bottom - guess_height;
+            if (y < war.top)
+                y = war.top;
+        }
+
+        /* And set the window to the final size and position we've chosen */
+        if (!wgs->tabbed || !tab_host.active)
+        SetWindowPos(wgs_window(wgs), NULL, x, y, guess_width, guess_height,
+                    SWP_NOREDRAW | SWP_NOZORDER);
+    }
+
+    nemo_renderer_configure(wgs);
+
+    /*
+     * Set up a caret bitmap, with no content.
+     */
+    {
+        char *bits;
+        int size = (wgs->font_width + 15) / 16 * 2 * wgs->font_height;
+        bits = snewn(size, char);
+        memset(bits, 0, size);
+        wgs->caretbm = CreateBitmap(wgs->font_width, wgs->font_height,
+                                    1, 1, bits);
+        sfree(bits);
+    }
+    /* Startup SetWindowPos can deliver WM_SETFOCUS before caretbm exists.
+     * Complete this seat's caret only if it actually owns keyboard focus;
+     * creating an inactive session must not replace another seat's caret. */
+    if (wgs->caretbm && GetFocus() == wgs->term_hwnd) {
+        CreateCaret(wgs->term_hwnd, wgs->caretbm,
+                    wgs->font_width, wgs->font_height);
+        ShowCaret(wgs->term_hwnd);
+    }
+
+    /*
+     * Initialise the scroll bar.
+     */
+    {
+        SCROLLINFO si;
+
+        si.cbSize = sizeof(si);
+        si.fMask = SIF_ALL | SIF_DISABLENOSCROLL;
+        si.nMin = 0;
+        si.nMax = wgs->term->rows - 1;
+        si.nPage = wgs->term->rows;
+        si.nPos = 0;
+        SetScrollInfo(wgs->term_hwnd, SB_VERT, &si, false);
+    }
+
+    /*
+     * Prepare the mouse handler.
+     */
+    wgs->lastact = MA_NOTHING;
+    wgs->lastbtn = MBT_NOTHING;
+    wgs->dbltime = GetDoubleClickTime();
+
+    /*
+     * Set up the session-control options on the system menu.
+     */
+    {
+        HMENU m;
+        int j;
+        char *str;
+
+        wgs->popup_menus[SYSMENU].menu = wgs->tabbed ? NULL : GetSystemMenu(wgs->term_hwnd, false);
+        wgs->popup_menus[CTXMENU].menu = CreatePopupMenu();
+
+        for (j = 0; j < lenof(wgs->popup_menus); j++) {
+            m = wgs->popup_menus[j].menu;
+            AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
+            AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
+            AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
+        }
+        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_OPEN_LINK, "&Open Link");
+        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
+                   IDM_NEMO_COPY_LINK, "Copy Link &Address");
+        for (j = 0; j < lenof(wgs->popup_menus); j++) {
+            if (!wgs->popup_menus[j].menu) continue;
+            AppendMenu(wgs->popup_menus[j].menu, MF_GRAYED,
+                       IDM_COPYDIR, "Copy Working Directory URI");
+            HMENU shell_menu = CreatePopupMenu();
+            wgs->popup_menus[j].shell_menu = shell_menu;
+            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
+            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
+            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTCOMMAND, "Select &Command");
+            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTOUTPUT, "Select &Output");
+            AppendMenu(wgs->popup_menus[j].menu, MF_POPUP | MF_ENABLED,
+                       (UINT_PTR)shell_menu, "Shell &Integration");
+        }
+
+        wgs->savedsess_menu = CreateMenu();
+        update_savedsess_menu(wgs);
+
+        for (j = 0; j < lenof(wgs->popup_menus); j++) {
+            m = wgs->popup_menus[j].menu;
+
+            AppendMenu(m, MF_SEPARATOR, 0, 0);
+            AppendMenu(m, MF_ENABLED, IDM_SHOWLOG, "&Event Log");
+            AppendMenu(m, MF_SEPARATOR, 0, 0);
+            AppendMenu(m, MF_ENABLED, IDM_NEWSESS, "Ne&w Session...");
+            AppendMenu(m, MF_ENABLED, IDM_DUPSESS, "&Duplicate Session");
+            AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
+                       "Sa&ved Sessions");
+            AppendMenu(m, MF_ENABLED, IDM_RECONF, "Chan&ge Settings...");
+            AppendMenu(m, MF_SEPARATOR, 0, 0);
+            AppendMenu(m, MF_ENABLED, IDM_COPYALL, "C&opy All to Clipboard");
+            AppendMenu(m, MF_ENABLED, IDM_CLRSB, "C&lear Scrollback");
+            AppendMenu(m, MF_ENABLED, IDM_RESET, "Rese&t Terminal");
+            AppendMenu(m, MF_SEPARATOR, 0, 0);
+            AppendMenu(m, (conf_get_int(wgs->conf, CONF_resize_action)
+                           == RESIZE_DISABLED) ? MF_GRAYED : MF_ENABLED,
+                       IDM_FULLSCREEN, "&Full Screen");
+            AppendMenu(m, MF_SEPARATOR, 0, 0);
+            if (has_help())
+                AppendMenu(m, MF_ENABLED, IDM_HELP, "&Help");
+            str = dupprintf("&About %s", appname);
+            AppendMenu(m, MF_ENABLED, IDM_ABOUT, str);
+            sfree(str);
+        }
+    }
+
+    if (restricted_acl()) {
+        lp_eventlog(&wgs->logpolicy, "Running with restricted process ACL");
+    }
+
+    if (!start_backend(wgs)) {
+        wgs_cleanup(wgs);
+        return NULL;
+    }
+
+    /*
+     * Set up the initial input locale.
+     */
+    set_input_locale(wgs, GetKeyboardLayout(0));
+
+    /*
+     * Finally show the window!
+     */
+    if (wgs->tabbed) {
+        wgs->tab_ready=true;nemo_host_layout();nemo_host_select(wgs);
+    }
+    ShowWindow(wgs_window(wgs), show);
+    SetForegroundWindow(wgs_window(wgs));
+    if (wgs->tabbed) SetFocus(wgs->term_hwnd);
+
+    term_set_focus(wgs->term, wgs_active(wgs) && GetForegroundWindow() == wgs_window(wgs));
+    UpdateWindow(wgs->term_hwnd);
+
+    gui_terminal_ready(wgs->term_hwnd, &wgs->seat, wgs->backend);
+
+    return wgs;
+}
+
+#include "nemo_tabs_host.inc"
+
+/* Socket notifications belong to the application, not the first session's
+ * window. Closing that session must not orphan another backend's events. */
+static LRESULT CALLBACK app_event_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+    if (msg == WM_NETEVENT || msg == WM_DONE_WITH_SOCKET) {
+        winselgui_response(msg, wp, lp);
+        return 0;
+    }
+    return DefWindowProcW(hwnd, msg, wp, lp);
+}
+
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 {
     MSG msg;
     HRESULT hr;
-    int guess_width, guess_height;
 
     dll_hijacking_protection();
     enable_dit();
@@ -550,19 +947,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
     setup_gui_timing();
 
-    WinGuiSeat *wgs = snew(WinGuiSeat);
-    memset(wgs, 0, sizeof(*wgs));
-    wgs_link(wgs);
-
-    wgs->seat.vt = &win_seat_vt;
-    wgs->logpolicy.vt = &win_gui_logpolicy_vt;
-    wgs->termwin.vt = &windows_termwin_vt;
-
-    wgs->caret_x = wgs->caret_y = -1;
-    wgs->busy_status = BUSY_NOT;
-
-    wgs->conf = conf_new();
-
+    Conf *conf = conf_new();
     /*
      * Initialize COM.
      */
@@ -572,6 +957,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         MessageBox(NULL, "Failed to initialize COM subsystem",
                    str, MB_OK | MB_ICONEXCLAMATION);
         sfree(str);
+        conf_free(conf);
         return 1;
     }
 
@@ -580,323 +966,22 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
      * (If the command line doesn't provide enough info to start a
      * session, this will detour via the config box.)
      */
-    gui_term_process_cmdline(wgs->conf, cmdline);
+    gui_term_process_cmdline(conf, cmdline);
 
-    memset(&wgs->ucsdata, 0, sizeof(wgs->ucsdata));
-
-    conf_cache_data(wgs);
-
-    /*
-     * Guess some defaults for the window size. This all gets
-     * updated later, so we don't really care too much. However, we
-     * do want the font width/height guesses to correspond to a
-     * large font rather than a small one...
-     */
-
-    wgs->font_width = 10;
-    wgs->font_height = 20;
-    wgs->extra_width = 25;
-    wgs->extra_height = 28;
-    guess_width = wgs->extra_width + wgs->font_width * conf_get_int(
-        wgs->conf, CONF_width);
-    guess_height = wgs->extra_height + wgs->font_height * conf_get_int(
-        wgs->conf, CONF_height);
-    {
-        RECT r;
-        get_fullscreen_rect(wgs, &r);
-        if (guess_width > r.right - r.left)
-            guess_width = r.right - r.left;
-        if (guess_height > r.bottom - r.top)
-            guess_height = r.bottom - r.top;
-    }
-
-    {
-        int winmode = WS_OVERLAPPEDWINDOW | WS_VSCROLL;
-        int exwinmode = 0;
-        const struct BackendVtable *vt =
-            backend_vt_from_proto(be_default_protocol);
-        bool resize_forbidden = false;
-        if (vt && vt->flags & BACKEND_RESIZE_FORBIDDEN)
-            resize_forbidden = true;
-        wchar_t *uappname = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
-        wgs->window_name = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
-        wgs->icon_name = dup_mb_to_wc(DEFAULT_CODEPAGE, appname);
-        if (!conf_get_bool(wgs->conf, CONF_scrollbar))
-            winmode &= ~(WS_VSCROLL);
-        if (conf_get_int(wgs->conf, CONF_resize_action) == RESIZE_DISABLED ||
-            resize_forbidden)
-            winmode &= ~(WS_THICKFRAME | WS_MAXIMIZEBOX);
-        if (conf_get_bool(wgs->conf, CONF_alwaysontop))
-            exwinmode |= WS_EX_TOPMOST;
-        if (conf_get_bool(wgs->conf, CONF_sunken_edge))
-            exwinmode |= WS_EX_CLIENTEDGE;
-
-#ifdef TEST_ANSI_WINDOW
-        /* For developer testing of ANSI window support, pretend
-         * CreateWindowExW failed */
-        wgs->term_hwnd = NULL;
-        SetLastError(ERROR_CALL_NOT_IMPLEMENTED);
-#else
-        unicode_window = true;
-        sw_PeekMessage = PeekMessageW;
-        sw_DispatchMessage = DispatchMessageW;
-        sw_DefWindowProc = DefWindowProcW;
-        wgs->term_hwnd = CreateWindowExW(
-            exwinmode, terminal_window_class_w(), uappname,
-            winmode, CW_USEDEFAULT, CW_USEDEFAULT,
-            guess_width, guess_height, NULL, NULL, inst, NULL);
-#endif
-
-#if defined LEGACY_WINDOWS || defined TEST_ANSI_WINDOW
-        if (!wgs->term_hwnd && GetLastError() == ERROR_CALL_NOT_IMPLEMENTED) {
-            /* Fall back to an ANSI window, swapping in all the ANSI
-             * window message handling functions */
-            unicode_window = false;
-            sw_PeekMessage = PeekMessageA;
-            sw_DispatchMessage = DispatchMessageA;
-            sw_DefWindowProc = DefWindowProcA;
-            wgs->term_hwnd = CreateWindowExA(
-                exwinmode, terminal_window_class_a(), appname,
-                winmode, CW_USEDEFAULT, CW_USEDEFAULT,
-                guess_width, guess_height, NULL, NULL, inst, NULL);
-        }
-#endif
-
-        if (!wgs->term_hwnd) {
-            modalfatalbox("Unable to create terminal window: %s",
-                          win_strerror(GetLastError()));
-        }
-        memset(&wgs->dpi_info, 0, sizeof(struct _dpi_info));
-        init_dpi_info(wgs);
-        sfree(uappname);
-    }
-
-    SetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA, (LONG_PTR)wgs);
-
-    /*
-     * Initialise the fonts, simultaneously correcting the guesses
-     * for font_{width,height}.
-     */
-    init_fonts(wgs, 0, 0);
-
-    /*
-     * Prepare a logical palette.
-     */
-    init_palette(wgs);
-
-    /*
-     * Correct the guesses for extra_{width,height}.
-     */
-    {
-        RECT cr, wr;
-        GetWindowRect(wgs->term_hwnd, &wr);
-        GetClientRect(wgs->term_hwnd, &cr);
-        wgs->offset_width = wgs->offset_height =
-            conf_get_int(wgs->conf, CONF_window_border);
-        wgs->extra_width =
-            wr.right - wr.left - cr.right + cr.left + wgs->offset_width*2;
-        wgs->extra_height =
-            wr.bottom - wr.top - cr.bottom + cr.top +wgs->offset_height*2;
-    }
-
-    /*
-     * Clamp the actual-font grid before allocating terminal screen buffers.
-     * Oversized requests must not allocate an offscreen grid, then move its
-     * blank rows into history when shrinking to the work area.
-     */
-    RECT startup_work;
-    if (get_workingarea_rect(wgs, &startup_work)) {
-        int cols = max(1, (startup_work.right-startup_work.left-wgs->extra_width) /
-                           max(1, wgs->font_width));
-        int rows = max(1, (startup_work.bottom-startup_work.top-wgs->extra_height) /
-                           max(1, wgs->font_height));
-        conf_set_int(wgs->conf, CONF_width,
-                     max(1, min(cols, conf_get_int(wgs->conf, CONF_width))));
-        conf_set_int(wgs->conf, CONF_height,
-                     max(1, min(rows, conf_get_int(wgs->conf, CONF_height))));
-    }
-
-    /* The window exists before terminal timers can be scheduled. */
-    wgs->term = term_init(wgs->conf, &wgs->ucsdata, &wgs->termwin);
-    term_set_cell_size(wgs->term, wgs->font_width, wgs->font_height);
-    setup_clipboards(wgs->term, wgs->conf);
-    wgs->logctx = log_init(&wgs->logpolicy, wgs->conf);
-    term_provide_logctx(wgs->term, wgs->logctx);
-    term_size(wgs->term, conf_get_int(wgs->conf, CONF_height),
-              conf_get_int(wgs->conf, CONF_width),
-              conf_get_int(wgs->conf, CONF_savelines));
-
-    guess_width = wgs->extra_width + wgs->font_width * wgs->term->cols;
-    guess_height = wgs->extra_height + wgs->font_height * wgs->term->rows;
-
-    /*
-     * Resize the window to that size, also repositioning it if it's extended
-     * off the edge of a monitor.
-     */
-    {
-        /* Find the previous coordinates of the window */
-        RECT winr;
-        GetWindowRect(wgs->term_hwnd, &winr);
-
-        int x = winr.left;
-        int y = winr.top;
-
-        /* Adjust them if necessary */
-        RECT war;
-        if (get_workingarea_rect(wgs, &war)) {
-            /*
-             * Try to ensure the window is entirely within the monitor's
-             * working area, by adjusting its position if not.
-             *
-             * We first move it left, if it overlaps off the right side. Then
-             * we move it right if it overlaps off the left side. This means
-             * that if it's wider than the working area (so that some overlap
-             * is unavoidable), we prefer to get its left edge in bounds than
-             * its right edge. Similarly, we do the y checks in the same
-             * order, privileging the top edge over the bottom.
-             */
-            if (x + guess_width > war.right)
-                x = war.right - guess_width;
-            if (x < war.left)
-                x = war.left;
-            if (y + guess_height > war.bottom)
-                y = war.bottom - guess_height;
-            if (y < war.top)
-                y = war.top;
-        }
-
-        /* And set the window to the final size and position we've chosen */
-        SetWindowPos(wgs->term_hwnd, NULL, x, y, guess_width, guess_height,
-                    SWP_NOREDRAW | SWP_NOZORDER);
-    }
-
-    nemo_renderer_configure(wgs);
-
-    /*
-     * Set up a caret bitmap, with no content.
-     */
-    {
-        char *bits;
-        int size = (wgs->font_width + 15) / 16 * 2 * wgs->font_height;
-        bits = snewn(size, char);
-        memset(bits, 0, size);
-        wgs->caretbm = CreateBitmap(wgs->font_width, wgs->font_height,
-                                    1, 1, bits);
-        sfree(bits);
-    }
-    CreateCaret(wgs->term_hwnd, wgs->caretbm,
-                wgs->font_width, wgs->font_height);
-
-    /*
-     * Initialise the scroll bar.
-     */
-    {
-        SCROLLINFO si;
-
-        si.cbSize = sizeof(si);
-        si.fMask = SIF_ALL | SIF_DISABLENOSCROLL;
-        si.nMin = 0;
-        si.nMax = wgs->term->rows - 1;
-        si.nPage = wgs->term->rows;
-        si.nPos = 0;
-        SetScrollInfo(wgs->term_hwnd, SB_VERT, &si, false);
-    }
-
-    /*
-     * Prepare the mouse handler.
-     */
-    wgs->lastact = MA_NOTHING;
-    wgs->lastbtn = MBT_NOTHING;
-    wgs->dbltime = GetDoubleClickTime();
-
-    /*
-     * Set up the session-control options on the system menu.
-     */
-    {
-        HMENU m;
-        int j;
-        char *str;
-
-        wgs->popup_menus[SYSMENU].menu = GetSystemMenu(wgs->term_hwnd, false);
-        wgs->popup_menus[CTXMENU].menu = CreatePopupMenu();
-
-        for (j = 0; j < lenof(wgs->popup_menus); j++) {
-            m = wgs->popup_menus[j].menu;
-            AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
-            AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
-            AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
-        }
-        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
-                   IDM_NEMO_OPEN_LINK, "&Open Link");
-        AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
-                   IDM_NEMO_COPY_LINK, "Copy Link &Address");
-        for (j = 0; j < lenof(wgs->popup_menus); j++) {
-            AppendMenu(wgs->popup_menus[j].menu, MF_GRAYED,
-                       IDM_COPYDIR, "Copy Working Directory URI");
-            HMENU shell_menu = CreatePopupMenu();
-            wgs->popup_menus[j].shell_menu = shell_menu;
-            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
-            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
-            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTCOMMAND, "Select &Command");
-            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTOUTPUT, "Select &Output");
-            AppendMenu(wgs->popup_menus[j].menu, MF_POPUP | MF_ENABLED,
-                       (UINT_PTR)shell_menu, "Shell &Integration");
-        }
-
-        wgs->savedsess_menu = CreateMenu();
-        get_sesslist(&sesslist, true);
-        update_savedsess_menu(wgs);
-
-        for (j = 0; j < lenof(wgs->popup_menus); j++) {
-            m = wgs->popup_menus[j].menu;
-
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_SHOWLOG, "&Event Log");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_NEWSESS, "Ne&w Session...");
-            AppendMenu(m, MF_ENABLED, IDM_DUPSESS, "&Duplicate Session");
-            AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
-                       "Sa&ved Sessions");
-            AppendMenu(m, MF_ENABLED, IDM_RECONF, "Chan&ge Settings...");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, MF_ENABLED, IDM_COPYALL, "C&opy All to Clipboard");
-            AppendMenu(m, MF_ENABLED, IDM_CLRSB, "C&lear Scrollback");
-            AppendMenu(m, MF_ENABLED, IDM_RESET, "Rese&t Terminal");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            AppendMenu(m, (conf_get_int(wgs->conf, CONF_resize_action)
-                           == RESIZE_DISABLED) ? MF_GRAYED : MF_ENABLED,
-                       IDM_FULLSCREEN, "&Full Screen");
-            AppendMenu(m, MF_SEPARATOR, 0, 0);
-            if (has_help())
-                AppendMenu(m, MF_ENABLED, IDM_HELP, "&Help");
-            str = dupprintf("&About %s", appname);
-            AppendMenu(m, MF_ENABLED, IDM_ABOUT, str);
-            sfree(str);
-        }
-    }
-
-    if (restricted_acl()) {
-        lp_eventlog(&wgs->logpolicy, "Running with restricted process ACL");
-    }
-
-    winselgui_set_hwnd(wgs->term_hwnd);
-    start_backend(wgs);
-
-    /*
-     * Set up the initial input locale.
-     */
-    set_input_locale(wgs, GetKeyboardLayout(0));
-
-    /*
-     * Finally show the window!
-     */
-    ShowWindow(wgs->term_hwnd, show);
-    SetForegroundWindow(wgs->term_hwnd);
-
-    term_set_focus(wgs->term, GetForegroundWindow() == wgs->term_hwnd);
-    UpdateWindow(wgs->term_hwnd);
-
-    gui_terminal_ready(wgs->term_hwnd, &wgs->seat, wgs->backend);
+    WNDCLASSW event_class = {0};
+    event_class.lpfnWndProc = app_event_proc;
+    event_class.hInstance = hinst;
+    event_class.lpszClassName = L"NemotermEvents";
+    RegisterClassW(&event_class);
+    app_event_hwnd = CreateWindowW(event_class.lpszClassName, L"", 0,
+        0, 0, 0, 0, HWND_MESSAGE, NULL, hinst, NULL);
+    if (!app_event_hwnd)
+        modalfatalbox("Unable to create session event window: %s",
+                      win_strerror(GetLastError()));
+    winselgui_set_hwnd(app_event_hwnd);
+    get_sesslist(&sesslist, true);
+    if (!wgs_create(conf, show))
+        cleanup_exit(1);
 
     while (1) {
         int n;
@@ -925,7 +1010,13 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         } else {
             timeout = INFINITE;
             /* The messages seem unreliable; especially if we're being tricky */
-            term_set_focus(wgs->term, GetForegroundWindow() == wgs->term_hwnd);
+            HWND foreground = GetForegroundWindow();
+            for (struct WinGuiSeatListNode *node = wgslisthead.next;
+                 node != &wgslisthead; node = node->next) {
+                WinGuiSeat *wgs = container_of(node, WinGuiSeat, wgslistnode);
+                if (!wgs->closing && wgs->term)
+                    term_set_focus(wgs->term, wgs_active(wgs) && foreground == wgs_window(wgs));
+            }
         }
 
         HandleWaitList *hwl = get_handle_wait_list();
@@ -976,27 +1067,87 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     return msg.wParam;                 /* ... but optimiser doesn't know */
 }
 
-static void wgs_cleanup(WinGuiSeat *wgs)
+/* Shared submenus must be detached from both parents before destroying them.
+ * DestroyWindow owns the system menu; we own the context menu. */
+static void wgs_free_menus(WinGuiSeat *wgs)
 {
-    nemo_gpu_free(wgs->gpu);
-    wgs->gpu = NULL;
+    for (size_t j = 0; j < lenof(wgs->popup_menus); j++) {
+        HMENU menu = wgs->popup_menus[j].menu;
+        for (int i = GetMenuItemCount(menu)-1; i >= 0; i--) {
+            HMENU sub = GetSubMenu(menu, i);
+            if (sub && (sub == wgs->savedsess_menu || sub == wgs->specials_menu))
+                RemoveMenu(menu, i, MF_BYPOSITION);
+        }
+    }
+    if (wgs->savedsess_menu) DestroyMenu(wgs->savedsess_menu);
+    if (wgs->specials_menu) DestroyMenu(wgs->specials_menu);
+    if (wgs->popup_menus[CTXMENU].menu)
+        DestroyMenu(wgs->popup_menus[CTXMENU].menu);
+    wgs->savedsess_menu = wgs->specials_menu = NULL;
+    memset(wgs->popup_menus, 0, sizeof(wgs->popup_menus));
+}
+
+static void wgs_request_close(WinGuiSeat *wgs)
+{
+    if (wgs->closing) return;
+    wgs->closing = true;
+    /* Never free a seat on a backend or WndProc stack. */
+    queue_toplevel_callback(wgs_cleanup, wgs);
+}
+
+static void wgs_cleanup(void *vctx)
+{
+    WinGuiSeat *wgs = vctx;
+    wgs->closing = true;
+    nemo_host_remove(wgs);
+    delete_callbacks_for_context(wgs);
+    expire_timer_context(wgs);
     nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
-    /* A backend exit posts WM_QUIT without destroying the HWND. Retire it
-     * while its callbacks can still use the seat, fonts and keyboard state:
-     * CoUninitialize below can dispatch messages after this function returns.
-     * A window closed through WM_CLOSE has already been destroyed. */
+    if (wgs->term) term_end_synchronized_update(wgs->term);
+
+    if (wgs->ldisc) {
+        ldisc_free(wgs->ldisc);
+        wgs->ldisc = NULL;
+    }
+    if (wgs->term) term_provide_backend(wgs->term, NULL);
+    if (wgs->backend) {
+        backend_free(wgs->backend);
+        wgs->backend = NULL;
+    }
+    wgs->session_closed = true;
+    wgs_free_menus(wgs);
+    nemo_gpu_free(wgs->gpu);
+    wgs->gpu = NULL;
+
+    /* Destroy the HWND while callbacks can still use terminal/font/input
+     * state. COM and other windows can dispatch messages after this returns. */
     if (wgs->term_hwnd &&
         GetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA) == (LONG_PTR)wgs)
         DestroyWindow(wgs->term_hwnd);
     wgs->term_hwnd = NULL;
+    if (wgs->term) term_free(wgs->term);
+    wgs->term = NULL;
+    if (wgs->logctx) log_free(wgs->logctx);
     nemo_keyboard_free(wgs);
     deinit_fonts(wgs);
+    if (wgs->caretbm) DeleteObject(wgs->caretbm);
     sfree(wgs->logpal);
-    if (wgs->pal)
-        DeleteObject(wgs->pal);
+    if (wgs->pal) DeleteObject(wgs->pal);
+    sfree(wgs->window_name);
+    sfree(wgs->icon_name);
+    conf_free(wgs->conf);
+    /* Freeing dependent objects may cancel or schedule more callbacks. */
+    delete_callbacks_for_context(wgs);
+    expire_timer_context(wgs);
     wgs_unlink(wgs);
     sfree(wgs);
+    if (wgslisthead.next == &wgslisthead) {
+        if (tab_host.hwnd) DestroyWindow(tab_host.hwnd);
+        if (tab_host.font) DeleteObject(tab_host.font);
+        memset(&tab_host,0,sizeof(tab_host));
+        PostQuitMessage(0);
+    }
 }
 
 char *handle_restrict_acl_cmdline_prefix(char *p)
@@ -1119,6 +1270,10 @@ void cleanup_exit(int code)
         wgs_cleanup(wgs);
     }
     sk_cleanup();
+    winselgui_clear_hwnd();
+    if (app_event_hwnd) DestroyWindow(app_event_hwnd);
+    app_event_hwnd = NULL;
+    get_sesslist(&sesslist, false);
 
     random_save_seed();
     shutdown_help();
@@ -1206,7 +1361,7 @@ static void win_seat_update_specials_menu(Seat *seat)
     for (j = 0; j < lenof(wgs->popup_menus); j++) {
         if (wgs->specials_menu) {
             /* XXX does this free up all submenus? */
-            DeleteMenu(wgs->popup_menus[j].menu, (UINT_PTR)wgs->specials_menu,
+            RemoveMenu(wgs->popup_menus[j].menu, (UINT_PTR)wgs->specials_menu,
                        MF_BYCOMMAND);
             DeleteMenu(wgs->popup_menus[j].menu, IDM_SPECIALSEP, MF_BYCOMMAND);
         }
@@ -1218,6 +1373,7 @@ static void win_seat_update_specials_menu(Seat *seat)
                        MF_BYCOMMAND | MF_SEPARATOR, IDM_SPECIALSEP, 0);
         }
     }
+    if (wgs->specials_menu) DestroyMenu(wgs->specials_menu);
     wgs->specials_menu = new_menu;
 }
 
@@ -1293,7 +1449,7 @@ static void win_seat_connection_fatal(Seat *seat, const char *msg)
     sfree(title);
 
     if (conf_get_int(wgs->conf, CONF_close_on_exit) == FORCE_ON)
-        PostQuitMessage(1);
+        wgs_request_close(wgs);
     else {
         queue_toplevel_callback(close_session, wgs);
     }
@@ -1785,10 +1941,10 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
 
     ReleaseDC(wgs->term_hwnd, hdc);
 
-    if (trust_icon != INVALID_HANDLE_VALUE) {
-        DestroyIcon(trust_icon);
+    if (wgs->trust_icon != NULL) {
+        DestroyIcon(wgs->trust_icon);
     }
-    trust_icon = LoadImage(hinst, MAKEINTRESOURCE(IDI_MAINICON),
+    wgs->trust_icon = LoadImage(hinst, MAKEINTRESOURCE(IDI_MAINICON),
                            IMAGE_ICON, wgs->font_width*2, wgs->font_height,
                            LR_DEFAULTCOLOR);
 
@@ -1885,10 +2041,10 @@ static void deinit_fonts(WinGuiSeat *wgs)
         wgs->fontflag[i] = false;
     }
 
-    if (trust_icon != INVALID_HANDLE_VALUE) {
-        DestroyIcon(trust_icon);
+    if (wgs->trust_icon != NULL) {
+        DestroyIcon(wgs->trust_icon);
     }
-    trust_icon = INVALID_HANDLE_VALUE;
+    wgs->trust_icon = NULL;
 }
 
 static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
@@ -1896,7 +2052,7 @@ static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     RECT outer, screen;
     POINT text = {wgs->offset_width, wgs->offset_height};
-    if (!GetWindowRect(wgs->term_hwnd, &outer) ||
+    if (!GetWindowRect(wgs_window(wgs), &outer) ||
         !ClientToScreen(wgs->term_hwnd, &text) ||
         !get_fullscreen_rect(wgs, &screen)) return false;
     *g = (TermWindowGeometry) {
@@ -1909,7 +2065,7 @@ static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
         .screen_width = screen.right - screen.left,
         .screen_height = screen.bottom - screen.top,
         .cell_width = wgs->font_width, .cell_height = wgs->font_height,
-        .minimised = IsIconic(wgs->term_hwnd),
+        .minimised = IsIconic(wgs_window(wgs)),
     };
     return true;
 }
@@ -1920,13 +2076,13 @@ static void wintw_request_resize(TermWin *tw, int w, int h)
     const struct BackendVtable *vt;
     int width, height;
     int resize_action = conf_get_int(wgs->conf, CONF_resize_action);
-    bool deny_resize = false;
+    bool deny_resize = !wgs_active(wgs);
 
     /* Suppress server-originated resizing attempts if local resizing
      * is disabled entirely, or if it's supposed to change
      * rows/columns but the window is maximised. */
     if (resize_action == RESIZE_DISABLED
-        || (resize_action == RESIZE_TERM && IsZoomed(wgs->term_hwnd))) {
+        || (resize_action == RESIZE_TERM && IsZoomed(wgs_window(wgs)))) {
         deny_resize = true;
     }
 
@@ -1960,11 +2116,11 @@ static void wintw_request_resize(TermWin *tw, int w, int h)
         }
     }
 
-    if (resize_action != RESIZE_FONT && !IsZoomed(wgs->term_hwnd)) {
+    if (resize_action != RESIZE_FONT && !IsZoomed(wgs_window(wgs))) {
         width = wgs->extra_width + wgs->font_width * w;
         height = wgs->extra_height + wgs->font_height * h;
 
-        SetWindowPos(wgs->term_hwnd, NULL, 0, 0, width, height,
+        SetWindowPos(wgs_window(wgs), NULL, 0, 0, width, height,
                      SWP_NOACTIVATE | SWP_NOCOPYBITS |
                      SWP_NOMOVE | SWP_NOZORDER);
     } else {
@@ -1984,25 +2140,26 @@ static void wintw_request_resize(TermWin *tw, int w, int h)
 static void wintw_request_window_resize(TermWin *tw, int w, int h, bool pixels)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (!wgs_active(wgs)) {term_resize_request_completed(wgs->term);return;}
     int action = conf_get_int(wgs->conf, CONF_resize_action);
     const struct BackendVtable *backend = backend_vt_from_proto(be_default_protocol);
     if (wgs->term->no_remote_resize || action == RESIZE_DISABLED ||
         (backend && backend->flags & BACKEND_RESIZE_FORBIDDEN) ||
-        ((IsZoomed(wgs->term_hwnd) || is_full_screen(wgs)) &&
+        ((IsZoomed(wgs_window(wgs)) || is_full_screen(wgs)) &&
          (pixels || action != RESIZE_FONT))) goto completed;
 
     RECT outer, client, monitor;
     WINDOWPLACEMENT placement = {sizeof(placement)};
-    bool iconic = IsIconic(wgs->term_hwnd);
+    bool iconic = IsIconic(wgs_window(wgs));
     if (!get_fullscreen_rect(wgs, &monitor) ||
-        !GetWindowRect(wgs->term_hwnd, &outer) ||
+        !GetWindowRect(wgs_window(wgs), &outer) ||
         !GetClientRect(wgs->term_hwnd, &client)) goto completed;
     int frame_w = outer.right-outer.left-client.right;
     int frame_h = outer.bottom-outer.top-client.bottom;
     if (iconic) {
         /* Iconic rectangles describe the minimized icon, not its restore
          * surface. Compute the frame for the current style/DPI instead. */
-        if (!GetWindowPlacement(wgs->term_hwnd, &placement)) goto completed;
+        if (!GetWindowPlacement(wgs_window(wgs), &placement)) goto completed;
         DWORD style = GetWindowLongPtr(wgs->term_hwnd, GWL_STYLE) &
             ~(WS_MINIMIZE | WS_MAXIMIZE);
         DWORD exstyle = GetWindowLongPtr(wgs->term_hwnd, GWL_EXSTYLE);
@@ -2045,7 +2202,7 @@ static void wintw_request_window_resize(TermWin *tw, int w, int h, bool pixels)
     } else if (iconic) {
         placement.rcNormalPosition.right = placement.rcNormalPosition.left+width+frame_w;
         placement.rcNormalPosition.bottom = placement.rcNormalPosition.top+height+frame_h;
-        if (SetWindowPlacement(wgs->term_hwnd, &placement)) {
+        if (SetWindowPlacement(wgs_window(wgs), &placement)) {
             /* Keep draining output at the requested size without showing or
              * activating the minimized window. WM_SIZE finishes on restore. */
             if (action != RESIZE_FONT)
@@ -2053,7 +2210,7 @@ static void wintw_request_window_resize(TermWin *tw, int w, int h, bool pixels)
         }
     } else if (width != client.right || height != client.bottom) {
         wgs->remote_window_resize = true;
-        SetWindowPos(wgs->term_hwnd, NULL, 0, 0, width+frame_w, height+frame_h,
+        SetWindowPos(wgs_window(wgs), NULL, 0, 0, width+frame_w, height+frame_h,
                      SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOMOVE | SWP_NOZORDER);
         wgs->remote_window_resize = false;
     }
@@ -2085,6 +2242,7 @@ static void recompute_window_offset(WinGuiSeat *wgs)
 
 static void reset_window(WinGuiSeat *wgs, int reinit)
 {
+    if (wgs->tabbed) {nemo_host_resize(wgs,reinit);return;}
     /*
      * This function decides how to resize or redraw when the
      * user changes something.
@@ -2096,7 +2254,7 @@ static void reset_window(WinGuiSeat *wgs, int reinit)
     RECT cr, wr;
 
     /* Current window sizes ... */
-    GetWindowRect(wgs->term_hwnd, &wr);
+    GetWindowRect(wgs_window(wgs), &wr);
     GetClientRect(wgs->term_hwnd, &cr);
 
     win_width  = cr.right - cr.left;
@@ -2123,7 +2281,7 @@ static void reset_window(WinGuiSeat *wgs, int reinit)
         recompute_window_offset(wgs);
     }
 
-    if (IsZoomed(wgs->term_hwnd)) {
+    if (IsZoomed(wgs_window(wgs))) {
         /* We're fullscreen, this means we must not change the size of
          * the window so it's the font size or the terminal itself.
          */
@@ -2190,7 +2348,7 @@ static void reset_window(WinGuiSeat *wgs, int reinit)
                    ((wgs->dpi_info.new_wnd_rect.bottom -
                      wgs->dpi_info.new_wnd_rect.top) -
                     (rect.bottom - rect.top)) / 2);
-        SetWindowPos(wgs->term_hwnd, NULL,
+        SetWindowPos(wgs_window(wgs), NULL,
                      wgs->dpi_info.new_wnd_rect.left,
                      wgs->dpi_info.new_wnd_rect.top,
                      rect.right - rect.left, rect.bottom - rect.top,
@@ -2219,7 +2377,7 @@ static void reset_window(WinGuiSeat *wgs, int reinit)
              * allowed window size, we will then be back in here and resize
              * the font or terminal to fit.
              */
-            SetWindowPos(wgs->term_hwnd, NULL, 0, 0,
+            SetWindowPos(wgs_window(wgs), NULL, 0, 0,
                          wgs->font_width*wgs->term->cols + wgs->extra_width,
                          wgs->font_height*wgs->term->rows + wgs->extra_height,
                          SWP_NOMOVE | SWP_NOZORDER);
@@ -2283,7 +2441,7 @@ static void reset_window(WinGuiSeat *wgs, int reinit)
                 }
             }
 
-            SetWindowPos(wgs->term_hwnd, NULL, 0, 0,
+            SetWindowPos(wgs_window(wgs), NULL, 0, 0,
                          wgs->font_width*wgs->term->cols + wgs->extra_width,
                          wgs->font_height*wgs->term->rows + wgs->extra_height,
                          SWP_NOMOVE | SWP_NOZORDER);
@@ -2414,14 +2572,14 @@ static void exit_callback(void *vctx)
     WinGuiSeat *wgs = (WinGuiSeat *)vctx;
     int exitcode, close_on_exit;
 
-    if (!wgs->session_closed &&
+    if (!wgs->closing && !wgs->session_closed && wgs->backend &&
         (exitcode = backend_exitcode(wgs->backend)) >= 0) {
         close_on_exit = conf_get_int(wgs->conf, CONF_close_on_exit);
         /* Abnormal exits will already have set session_closed and taken
          * appropriate action. */
         if (close_on_exit == FORCE_ON ||
             (close_on_exit == AUTO && exitcode != INT_MAX)) {
-            PostQuitMessage(0);
+            wgs_request_close(wgs);
         } else {
             queue_toplevel_callback(close_session, wgs);
             wgs->session_closed = true;
@@ -2441,7 +2599,7 @@ static void win_seat_notify_remote_exit(Seat *seat)
 {
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     term_end_synchronized_update(wgs->term);
-    queue_toplevel_callback(exit_callback, wgs);
+    if (!wgs->closing) queue_toplevel_callback(exit_callback, wgs);
 }
 
 static void conf_cache_data(WinGuiSeat *wgs)
@@ -2511,6 +2669,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     HDC hdc;
     int resize_action;
     WinGuiSeat *wgs = (WinGuiSeat *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    if (!wgs) return sw_DefWindowProc(hwnd, message, wParam, lParam);
+    if (!wgs->term && message!=WM_NCDESTROY && message!=WM_DESTROY)
+        return sw_DefWindowProc(hwnd,message,wParam,lParam);
+    if (wgs->tabbed && message==WM_SYSCOMMAND && wParam>=0xF000 &&
+        (wParam&~0xf)!=SC_VSCROLL && (wParam&~0xf)!=SC_HSCROLL)
+        return SendMessage(wgs_window(wgs),message,wParam,lParam);
 
     switch (message) {
       case WM_CREATE:
@@ -2530,19 +2694,27 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             MessageBox(hwnd, msg, title,
                        MB_ICONWARNING | MB_OKCANCEL | MB_DEFBUTTON1)
             == IDOK)
-            DestroyWindow(hwnd);
+            wgs_request_close(wgs);
         sfree(title);
         sfree(msg);
         sfree(additional);
         return 0;
       }
       case WM_DESTROY:
+        if (wgs->tabbed && !wgs->closing) {
+            wgs_request_close(wgs);nemo_host_remove(wgs);
+        }
         nemo_osc52_window_free(wgs);
         nemo_link_free(wgs);
         if (wgs->term) term_end_synchronized_update(wgs->term);
         show_mouseptr(wgs, true);
-        PostQuitMessage(0);
+        wgs_free_menus(wgs);
+        wgs_request_close(wgs);
         return 0;
+      case WM_NCDESTROY:
+        RemovePropW(hwnd, L"NemotermSessionId");
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+        break;
       case WM_INITMENUPOPUP:
         for (size_t mi=0;mi<lenof(wgs->popup_menus);mi++) {
             EnableMenuItem(wgs->popup_menus[mi].menu,IDM_COPYDIR,MF_BYCOMMAND |
@@ -2590,62 +2762,35 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
           case IDM_SHOWLOG:
             showeventlog(hwnd);
             break;
-          case IDM_NEWSESS:
           case IDM_DUPSESS:
+            wgs_create(nemo_duplicate_conf(wgs), SW_SHOWNORMAL);
+            break;
+          case IDM_NEWSESS:
           case IDM_SAVEDSESS: {
+            if (wgs->tabbed) {
+                if (wParam==IDM_NEWSESS) nemo_host_new_tab(wgs);
+                else {
+                    unsigned int sessno=((lParam-IDM_SAVED_MIN)/MENU_SAVED_STEP)+1;
+                    if (sessno<(unsigned)sesslist.nsessions) {
+                        Conf *conf=conf_new();do_defaults(sesslist.sessions[sessno],conf);
+                        conf_set_bool(conf,CONF_nemo_tabs,true);wgs_create(conf,SW_SHOWNORMAL);
+                    }
+                }
+                break;
+            }
             wchar_t b[32768];
             char *cl;
             const char *argprefix;
             bool inherit_handles;
             STARTUPINFOW si = {0};
             PROCESS_INFORMATION pi = {0};
-            HANDLE filemap = NULL;
 
             if (restricted_acl())
                 argprefix = "&R";
             else
                 argprefix = "";
 
-            if (wParam == IDM_DUPSESS) {
-                /*
-                 * Allocate a file-mapping memory chunk for the
-                 * config structure.
-                 */
-                SECURITY_ATTRIBUTES sa;
-                strbuf *serbuf;
-                void *p;
-                int size;
-
-                serbuf = strbuf_new();
-                Conf *duplicate=nemo_duplicate_conf(wgs);
-                conf_serialise(BinarySink_UPCAST(serbuf), duplicate);
-                conf_free(duplicate);
-                size = serbuf->len;
-
-                sa.nLength = sizeof(sa);
-                sa.lpSecurityDescriptor = NULL;
-                sa.bInheritHandle = true;
-                filemap = CreateFileMapping(INVALID_HANDLE_VALUE,
-                                            &sa,
-                                            PAGE_READWRITE,
-                                            0, size, NULL);
-                p = filemap ? MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, size) : NULL;
-                if (!p) {
-                    DWORD error=GetLastError();
-                    if (filemap) CloseHandle(filemap);
-                    strbuf_free(serbuf);
-                    char *message=dupprintf("Could not copy session settings: %s",win_strerror(error));
-                    MessageBoxA(hwnd,message,"Nemoterm",MB_OK|MB_ICONERROR);sfree(message);
-                    break;
-                }
-                memcpy(p, serbuf->s, size);
-                UnmapViewOfFile(p);
-
-                strbuf_free(serbuf);
-                inherit_handles = true;
-                cl = dupprintf("putty %s&%p:%u", argprefix,
-                               filemap, (unsigned)size);
-            } else if (wParam == IDM_SAVEDSESS) {
+            if (wParam == IDM_SAVEDSESS) {
                 unsigned int sessno = ((lParam - IDM_SAVED_MIN)
                                        / MENU_SAVED_STEP) + 1;
                 if (sessno < (unsigned)sesslist.nsessions) {
@@ -2684,8 +2829,6 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             }
             sfree(command);
 
-            if (filemap)
-                CloseHandle(filemap);
             sfree(cl);
             break;
           }
@@ -2793,11 +2936,11 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     conf_get_bool(prev_conf, CONF_alwaysontop)) {
                     if (conf_get_bool(wgs->conf, CONF_alwaysontop)) {
                         nexflag |= WS_EX_TOPMOST;
-                        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0,
+                        SetWindowPos(wgs_window(wgs), HWND_TOPMOST, 0, 0, 0, 0,
                                      SWP_NOMOVE | SWP_NOSIZE);
                     } else {
                         nexflag &= ~(WS_EX_TOPMOST);
-                        SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0,
+                        SetWindowPos(wgs_window(wgs), HWND_NOTOPMOST, 0, 0, 0, 0,
                                      SWP_NOMOVE | SWP_NOSIZE);
                     }
                 }
@@ -2825,6 +2968,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 else
                     nflg |= WS_MAXIMIZEBOX;
 
+                if (wgs->tabbed) {
+                    nflg &= ~(WS_THICKFRAME|WS_MAXIMIZEBOX);
+                    nexflag &= ~WS_EX_TOPMOST;
+                }
                 if (nflg != flag || nexflag != exflag) {
                     if (nflg != flag)
                         SetWindowLongPtr(hwnd, GWL_STYLE, nflg);
@@ -2880,6 +3027,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 nemo_renderer_configure(wgs);
             }
 
+            nemo_host_configure(wgs);
             conf_free(prev_conf);
             break;
           }
@@ -3220,14 +3368,21 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         wgs->ignore_clip = false;
         return 0;
       case WM_PRINTCLIENT:
+        if (wgs->sync_snapshot && wgs->term->synchronized_update &&
+            nemo_snapshot_paint(wgs->sync_snapshot,(HDC)wParam,NULL,NULL)) return 0;
         if (wgs->gpu && nemo_gpu_print(wgs->gpu, (HDC)wParam)) return 0;
+        if (wgs->tabbed) {
+            RECT rect;GetClientRect(hwnd,&rect);
+            nemo_render_snapshot_band((HDC)wParam,0,rect.bottom,wgs);
+            term_invalidate(wgs->term);return 0;
+        }
         break;
       case WM_PAINT: {
         PAINTSTRUCT p;
 
         HideCaret(hwnd);
         hdc = BeginPaint(hwnd, &p);
-        if (IsIconic(hwnd)) {
+        if (IsIconic(wgs_window(wgs)) || !wgs_active(wgs)) {
             /* A minimized client can be zero-sized. Keep its renderer and
              * dirty terminal cells until restoration instead of treating
              * the unavailable surface as device failure. */
@@ -3363,9 +3518,15 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         winselgui_response(message, wParam, lParam);
         return 0;
       case WM_SETFOCUS:
+        if (wgs->tabbed) {
+            HIMC imc=ImmGetContext(hwnd);
+            if (imc) {ImmSetCompositionFont(imc,&wgs->lfont);ImmReleaseContext(hwnd,imc);}
+        }
         term_set_focus(wgs->term, true);
-        CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
-        ShowCaret(hwnd);
+        if (wgs->caretbm) {
+            CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
+            ShowCaret(hwnd);
+        }
         flash_window(wgs, 0);               /* stop */
         wgs->compose_state = 0;
         term_update(wgs->term);
@@ -3503,6 +3664,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         sys_cursor_update(wgs);
         break;
       case WM_SIZE:
+        if (wgs->tabbed) {
+            if (!tab_host.moving) nemo_host_resize(wgs,0);
+            return 0;
+        }
         nemo_link_cancel(wgs);
         term_end_synchronized_update(wgs->term);
         resize_action = conf_get_int(wgs->conf, CONF_resize_action);
@@ -3914,7 +4079,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         }
         break;
       case WM_GOT_CLIPDATA:
-        process_clipdata(wgs, (HGLOBAL)lParam, wParam);
+        /* The worker owns this request until SendMessage returns. A delayed
+         * clipboard owner may outlive its target window; never route the
+         * result to a new session that reuses that HWND. */
+        if (!wgs->closing && wgs->backend && wgs->ldisc &&
+            wParam == wgs->session_id) {
+            const NemoPasteRequest *request = (const NemoPasteRequest *)lParam;
+            process_clipdata(wgs, request->data, request->unicode);
+        }
         return 0;
       case WM_NEMO_OSC52_READY:
         nemo_osc52_poll(wgs, wParam);
@@ -4702,7 +4874,7 @@ static void wintw_draw_trust_sigil(TermWin *tw, int x, int y)
 
     RECT box = { x, y, x + wgs->font_width*2, y + wgs->font_height };
     if (wgs->gpu_drawing && !nemo_gpu_begin_run(wgs->gpu, box, true)) return;
-    DrawIconEx(wgs->wintw_hdc, x, y, trust_icon,
+    DrawIconEx(wgs->wintw_hdc, x, y, wgs->trust_icon,
                wgs->font_width * 2, wgs->font_height, 0, NULL, DI_NORMAL);
     if (wgs->gpu_drawing) nemo_gpu_end_run(wgs->gpu, box, make_ptrlen(NULL,0));
 }
@@ -4928,6 +5100,10 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         left_alt = true;
 
     key_down = ((HIWORD(lParam) & KF_UP) == 0);
+    if (wgs->tabbed && !key_down && original_key<256 && tab_host.consumed_keys[original_key]) {
+        tab_host.consumed_keys[original_key]=0;
+        return 0;
+    }
 
     /* User bindings precede built-in scrolling and application key protocols.
      * AltGr and compose input retain their text-entry path. Modifier state is
@@ -4936,6 +5112,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         unsigned modifiers = ((keystate[VK_SHIFT] & 0x80) ? NEMO_BIND_SHIFT : 0) |
             ((keystate[VK_CONTROL] & 0x80) ? NEMO_BIND_CTRL : 0) |
             (left_alt ? NEMO_BIND_ALT : 0);
+        if (nemo_host_binding(wgs,original_key,modifiers)) return 0;
         int action = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_binding), original_key, modifiers) ? 1 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_paste_binding), original_key, modifiers) ? 2 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_paste_binding), original_key, modifiers) ? 3 :
@@ -5519,8 +5696,9 @@ static void wintw_set_title(TermWin *tw, const char *title, int codepage)
     }
     sfree(wgs->window_name);
     wgs->window_name = new_window_name;
+    nemo_host_title(wgs);
     if (conf_get_bool(wgs->conf, CONF_win_name_always) ||
-        !IsIconic(wgs->term_hwnd))
+        !IsIconic(wgs_window(wgs)))
         sw_SetWindowText(wgs->term_hwnd, wgs->window_name);
 }
 
@@ -5535,7 +5713,7 @@ static void wintw_set_icon_title(TermWin *tw, const char *title, int codepage)
     sfree(wgs->icon_name);
     wgs->icon_name = new_icon_name;
     if (!conf_get_bool(wgs->conf, CONF_win_name_always) &&
-        IsIconic(wgs->term_hwnd))
+        IsIconic(wgs_window(wgs)))
         sw_SetWindowText(wgs->term_hwnd, wgs->icon_name);
 }
 
@@ -5591,6 +5769,12 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
     if (!enabled) {
         nemo_snapshot_free(wgs->sync_snapshot);
         wgs->sync_snapshot = NULL;
+        if (wgs->tabbed && wgs_active(wgs) && !wgs->closing && !wgs->gpu && tab_host.gpu) {
+            wgs->gpu=tab_host.gpu;term_invalidate(wgs->term);
+            SetWindowLongPtr(wgs->term_hwnd,GWL_STYLE,
+                GetWindowLongPtr(wgs->term_hwnd,GWL_STYLE)|WS_CLIPCHILDREN);
+            SetPropW(wgs->term_hwnd,L"NemotermRenderer",(HANDLE)(UINT_PTR)(tab_host.gpu_kind+1));
+        }
         if (wgs->term_hwnd) InvalidateRect(wgs->term_hwnd, NULL, false);
         return true;
     }
@@ -5618,6 +5802,7 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
 
 static void nemo_renderer_configure(WinGuiSeat *wgs)
 {
+    if (wgs->tabbed) {nemo_host_renderer(wgs);return;}
     nemo_gpu_free(wgs->gpu);wgs->gpu=NULL;wgs->gpu_drawing=false;
     int mode=conf_get_int(wgs->conf,CONF_nemo_renderer);
     if ((mode==1 || mode==2) && !wgs->gpu_failed) {
@@ -5660,7 +5845,7 @@ static bool wintw_setup_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(!wgs->wintw_hdc);
-    if (IsIconic(wgs->term_hwnd)) return false;
+    if (!wgs_active(wgs) || IsIconic(wgs_window(wgs))) return false;
     if (wgs->gpu && nemo_renderer_begin(wgs)) return true;
     wgs->wintw_hdc = make_hdc(wgs);
     return wgs->wintw_hdc != NULL;
@@ -6278,20 +6463,21 @@ static void wintw_clip_write(
 
 static DWORD WINAPI clipboard_read_threadfunc(void *param)
 {
-    HWND hwnd = (HWND)param;
-    HGLOBAL clipdata;
+    NemoPasteRequest *request = param;
 
     if (nemo_open_clipboard(NULL)) {
-        if ((clipdata = GetClipboardData(CF_UNICODETEXT))) {
-            SendMessage(hwnd, WM_GOT_CLIPDATA,
-                        (WPARAM)true, (LPARAM)clipdata);
-        } else if ((clipdata = GetClipboardData(CF_TEXT))) {
-            SendMessage(hwnd, WM_GOT_CLIPDATA,
-                        (WPARAM)false, (LPARAM)clipdata);
+        request->data = GetClipboardData(CF_UNICODETEXT);
+        request->unicode = true;
+        if (!request->data) {
+            request->data = GetClipboardData(CF_TEXT);
+            request->unicode = false;
         }
+        if (request->data)
+            SendMessage(request->hwnd, WM_GOT_CLIPDATA,
+                        request->session_id, (LPARAM)request);
         CloseClipboard();
     }
-
+    sfree(request);
     return 0;
 }
 
@@ -6302,15 +6488,15 @@ static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode)
 
     if (unicode) {
         wchar_t *p = GlobalLock(clipdata);
-        wchar_t *p2;
 
         if (p) {
-            /* Unwilling to rely on Windows having wcslen() */
-            for (p2 = p; *p2; p2++);
-            clipboard_length = p2 - p;
+            size_t capacity = GlobalSize(clipdata) / sizeof(wchar_t);
+            while (clipboard_length < capacity && p[clipboard_length])
+                clipboard_length++;
             clipboard_contents = snewn(clipboard_length + 1, wchar_t);
             memcpy(clipboard_contents, p, clipboard_length * sizeof(wchar_t));
             clipboard_contents[clipboard_length] = L'\0';
+            GlobalUnlock(clipdata);
             term_do_paste(wgs->term, clipboard_contents, clipboard_length);
         }
     } else {
@@ -6318,11 +6504,14 @@ static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode)
         int i;
 
         if (s) {
-            i = MultiByteToWideChar(CP_ACP, 0, s, strlen(s) + 1, 0, 0);
-            clipboard_contents = snewn(i, wchar_t);
-            MultiByteToWideChar(CP_ACP, 0, s, strlen(s) + 1,
-                                clipboard_contents, i);
-            clipboard_length = i - 1;
+            size_t capacity = GlobalSize(clipdata), length = 0;
+            while (length < capacity && s[length]) length++;
+            i = length && length <= INT_MAX ?
+                MultiByteToWideChar(CP_ACP, 0, s, length, NULL, 0) : 0;
+            clipboard_contents = snewn(i + 1, wchar_t);
+            if (i) MultiByteToWideChar(CP_ACP, 0, s, length, clipboard_contents, i);
+            GlobalUnlock(clipdata);
+            clipboard_length = i;
             clipboard_contents[clipboard_length] = L'\0';
             term_do_paste(wgs->term, clipboard_contents, clipboard_length);
         }
@@ -6353,10 +6542,16 @@ static void wintw_clip_request_paste(TermWin *tw, int clipboard)
      * that tells us it's OK to paste.
      */
     DWORD in_threadid; /* required for Win9x */
+    if (wgs->closing) return;
+    NemoPasteRequest *request = snew(NemoPasteRequest);
+    *request = (NemoPasteRequest){ .hwnd = wgs->term_hwnd,
+                                 .session_id = wgs->session_id };
     HANDLE hThread = CreateThread(NULL, 0, clipboard_read_threadfunc,
-                                  wgs->term_hwnd, 0, &in_threadid);
+                                  request, 0, &in_threadid);
     if (hThread)
         CloseHandle(hThread);          /* we don't need the thread handle */
+    else
+        sfree(request);
 }
 
 /*
@@ -6547,12 +6742,13 @@ static void wintw_bell(TermWin *tw, int mode)
 static void wintw_set_minimised(TermWin *tw, bool minimised)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    if (IsIconic(wgs->term_hwnd)) {
+    if (!wgs_active(wgs)) return;
+    if (IsIconic(wgs_window(wgs))) {
         if (!minimised)
-            ShowWindow(wgs->term_hwnd, SW_RESTORE);
+            ShowWindow(wgs_window(wgs), SW_RESTORE);
     } else {
         if (minimised)
-            ShowWindow(wgs->term_hwnd, SW_MINIMIZE);
+            ShowWindow(wgs_window(wgs), SW_MINIMIZE);
     }
 }
 
@@ -6562,13 +6758,14 @@ static void wintw_set_minimised(TermWin *tw, bool minimised)
 static void wintw_move(TermWin *tw, int x, int y)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (!wgs_active(wgs)) return;
     int resize_action = conf_get_int(wgs->conf, CONF_resize_action);
     if (resize_action == RESIZE_DISABLED ||
         resize_action == RESIZE_FONT ||
-        IsZoomed(wgs->term_hwnd))
+        IsZoomed(wgs_window(wgs)))
         return;
 
-    SetWindowPos(wgs->term_hwnd, NULL, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    SetWindowPos(wgs_window(wgs), NULL, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 }
 
 /*
@@ -6578,9 +6775,10 @@ static void wintw_move(TermWin *tw, int x, int y)
 static void wintw_set_zorder(TermWin *tw, bool top)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (!wgs_active(wgs)) return;
     if (conf_get_bool(wgs->conf, CONF_alwaysontop))
         return;                        /* ignore */
-    SetWindowPos(wgs->term_hwnd, top ? HWND_TOP : HWND_BOTTOM, 0, 0, 0, 0,
+    SetWindowPos(wgs_window(wgs), top ? HWND_TOP : HWND_BOTTOM, 0, 0, 0, 0,
                  SWP_NOMOVE | SWP_NOSIZE);
 }
 
@@ -6600,12 +6798,13 @@ static void wintw_refresh(TermWin *tw)
 static void wintw_set_maximised(TermWin *tw, bool maximised)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    if (IsZoomed(wgs->term_hwnd)) {
+    if (!wgs_active(wgs)) return;
+    if (IsZoomed(wgs_window(wgs))) {
         if (!maximised)
-            ShowWindow(wgs->term_hwnd, SW_RESTORE);
+            ShowWindow(wgs_window(wgs), SW_RESTORE);
     } else {
         if (maximised)
-            ShowWindow(wgs->term_hwnd, SW_MAXIMIZE);
+            ShowWindow(wgs_window(wgs), SW_MAXIMIZE);
     }
 }
 
@@ -6614,7 +6813,8 @@ static void wintw_set_maximised(TermWin *tw, bool maximised)
  */
 static bool is_full_screen(WinGuiSeat *wgs)
 {
-    if (!IsZoomed(wgs->term_hwnd))
+    if (wgs->tabbed) return tab_host.fullscreen;
+    if (!IsZoomed(wgs_window(wgs)))
         return false;
     if (GetWindowLongPtr(wgs->term_hwnd, GWL_STYLE) & WS_CAPTION)
         return false;
@@ -6688,7 +6888,7 @@ static void make_full_screen(WinGuiSeat *wgs)
     DWORD style;
     RECT ss;
 
-    assert(IsZoomed(wgs->term_hwnd));
+    assert(IsZoomed(wgs_window(wgs)));
 
     if (is_full_screen(wgs))
         return;
@@ -6704,7 +6904,7 @@ static void make_full_screen(WinGuiSeat *wgs)
 
     /* Resize ourselves to exactly cover the nearest monitor. */
     get_fullscreen_rect(wgs, &ss);
-    SetWindowPos(wgs->term_hwnd, HWND_TOP, ss.left, ss.top,
+    SetWindowPos(wgs_window(wgs), HWND_TOP, ss.left, ss.top,
                  ss.right - ss.left, ss.bottom - ss.top, SWP_FRAMECHANGED);
 
     /* We may have changed size as a result */
@@ -6740,7 +6940,7 @@ static void clear_full_screen(WinGuiSeat *wgs)
         style &= ~WS_VSCROLL;
     if (style != oldstyle) {
         SetWindowLongPtr(wgs->term_hwnd, GWL_STYLE, style);
-        SetWindowPos(wgs->term_hwnd, NULL, 0, 0, 0, 0,
+        SetWindowPos(wgs_window(wgs), NULL, 0, 0, 0, 0,
                      SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
                      SWP_FRAMECHANGED);
     }
@@ -6759,13 +6959,14 @@ static void clear_full_screen(WinGuiSeat *wgs)
  */
 static void flip_full_screen(WinGuiSeat *wgs)
 {
+    if (wgs->tabbed) {nemo_host_fullscreen(!tab_host.fullscreen);return;}
     if (is_full_screen(wgs)) {
-        ShowWindow(wgs->term_hwnd, SW_RESTORE);
-    } else if (IsZoomed(wgs->term_hwnd)) {
+        ShowWindow(wgs_window(wgs), SW_RESTORE);
+    } else if (IsZoomed(wgs_window(wgs))) {
         make_full_screen(wgs);
     } else {
         SendMessage(wgs->term_hwnd, WM_FULLSCR_ON_MAX, 0, 0);
-        ShowWindow(wgs->term_hwnd, SW_MAXIMIZE);
+        ShowWindow(wgs_window(wgs), SW_MAXIMIZE);
     }
 }
 
@@ -6820,7 +7021,7 @@ static bool win_seat_get_window_pixel_size(Seat *seat, int *x, int *y)
 {
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     RECT r;
-    GetWindowRect(wgs->term_hwnd, &r);
+    GetWindowRect(wgs_window(wgs), &r);
     *x = r.right - r.left;
     *y = r.bottom - r.top;
     return true;

@@ -30,6 +30,18 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             show_settings = true;
             continue;
         }
+        if (!strcmp(argstr, "--tabs")) {
+            conf_set_bool(conf, CONF_nemo_tabs, true);
+            continue;
+        }
+        if (!strcmp(argstr, "--tab-side")) {
+            if (!nextarg) cmdline_error("option %s requires an argument", argstr);
+            const char *side=cmdline_arg_to_str(nextarg);
+            int value=!strcmp(side,"top") ? 0 : !strcmp(side,"bottom") ? 1 :
+                      !strcmp(side,"left") ? 2 : !strcmp(side,"right") ? 3 : -1;
+            if (value<0) cmdline_error("--tab-side expects top, bottom, left or right");
+            conf_set_int(conf,CONF_nemo_tab_side,value);arglistpos++;continue;
+        }
         if (!strcmp(argstr, "--list-shells")) {
             NemoShellList shells;
             nemo_shell_detect(&shells);

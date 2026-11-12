@@ -163,7 +163,7 @@ static bool init_conpty_api(void)
             p_ResizePseudoConsole != NULL);
 }
 
-static void conpty_terminate(ConPTY *conpty)
+static void conpty_terminate(ConPTY *conpty, bool close_session)
 {
     if (conpty->out) {
         handle_free(conpty->out);
@@ -184,12 +184,28 @@ static void conpty_terminate(ConPTY *conpty)
     if (conpty->subprocess) {
         delete_handle_wait(conpty->subprocess);
         conpty->subprocess = NULL;
-        CloseHandle(conpty->hprocess);
-        conpty->hprocess = INVALID_HANDLE_VALUE;
     }
     if (conpty->pseudoconsole != INVALID_HANDLE_VALUE) {
         p_ClosePseudoConsole(conpty->pseudoconsole);
         conpty->pseudoconsole = INVALID_HANDLE_VALUE;
+    }
+    if (conpty->hprocess != INVALID_HANDLE_VALUE) {
+        /* Closing a tab while PowerShell is starting can leave its console
+         * close request unhandled. Keep the original process handle until
+         * after closing the PTY, then bound that explicitly cancelled session.
+         * Natural EOF and an exited launcher's delegated clients keep their
+         * existing lifetime rules. No process-name or descendant PID search
+         * is used, and detached children are not terminated as a job tree. */
+        if (close_session &&
+            WaitForSingleObject(conpty->hprocess, 100) == WAIT_TIMEOUT &&
+            !TerminateProcess(conpty->hprocess, 1)) {
+            DWORD error = GetLastError();
+            if (WaitForSingleObject(conpty->hprocess, 0) == WAIT_TIMEOUT)
+                logeventf(conpty->logctx, "Unable to terminate closed session: %s",
+                          win_strerror(error));
+        }
+        CloseHandle(conpty->hprocess);
+        conpty->hprocess = INVALID_HANDLE_VALUE;
     }
 }
 
@@ -241,7 +257,7 @@ static size_t conpty_gotdata(
             conpty->exited = true;
         }
 
-        conpty_terminate(conpty);
+        conpty_terminate(conpty, false);
 
         seat_notify_remote_exit(conpty->seat);
 
@@ -278,7 +294,7 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
     if (err) {
         const char *error_msg = "Error writing to conpty device";
 
-        conpty_terminate(conpty);
+        conpty_terminate(conpty, false);
 
         seat_notify_remote_exit(conpty->seat);
 
@@ -489,7 +505,7 @@ static void conpty_free(Backend *be)
 {
     ConPTY *conpty = container_of(be, ConPTY, backend);
 
-    conpty_terminate(conpty);
+    conpty_terminate(conpty, true);
     expire_timer_context(conpty);
     sfree(conpty);
 }

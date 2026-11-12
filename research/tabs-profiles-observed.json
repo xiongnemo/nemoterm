@@ -1,0 +1,129 @@
+{
+  "executable_sha256": "0019ae80c115bf02a42b25a39a8c5d0684fb93360d48447989dcd8cc347f4ddc",
+  "completed": true,
+  "font": "SarasaTermSC Nerd Font Light",
+  "checks": [
+    "saved-session menu opens three distinct profiles in one host",
+    "each tab retains its own font geometry and requested renderer",
+    "input stays in its session and active-profile custom tab bindings work",
+    "background window requests preserve host position, size and active session",
+    "36 mixed-renderer switches preserve exact frames and stable handles",
+    "frozen pixels survive destroying and recreating the shared renderer"
+  ],
+  "profiles": [
+    {
+      "name": "tab-profile-e7f9098f0e1342029185c103d1025bce",
+      "requested_renderer": 0,
+      "font_size": 10,
+      "actual_renderer": 1,
+      "cell": [
+        17,
+        7
+      ],
+      "frame_sha256": "ca2ad2f16eb575cc8f6f7c3be6dc17378e1a6e76d146c2e70dbf499ff5d96426"
+    },
+    {
+      "name": "tab-profile-5ffda65cdc1d47ff9b7f0d1aee76d718",
+      "requested_renderer": 1,
+      "font_size": 12,
+      "actual_renderer": 2,
+      "cell": [
+        20,
+        8
+      ],
+      "frame_sha256": "ae4d8eae99eaf0bf0d17ad04239437de283ede6dbf24181f1d18848994e64843"
+    },
+    {
+      "name": "tab-profile-ae51dfffa8064a7bbff6abdf9407e4d1",
+      "requested_renderer": 2,
+      "font_size": 14,
+      "actual_renderer": 3,
+      "cell": [
+        23,
+        10
+      ],
+      "frame_sha256": "1cc097f6aff1d9497234a8e94dbb8d4fedb41702590c2b3d13fb0b6874a0ad4f"
+    }
+  ],
+  "cycles": [
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 57
+    },
+    {
+      "handles": 563,
+      "gdi": 45,
+      "user": 56
+    }
+  ],
+  "memory_instrumented": true,
+  "switch_position": [
+    11,
+    2
+  ],
+  "owned_job_cleanup": {
+    "before": {
+      "total": 7,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 7,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  }
+}

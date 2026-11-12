@@ -7,6 +7,8 @@ const sendMessage = new NativeFunction(user32.getExportByName('SendMessageW'),
     'pointer', ['pointer', 'uint', 'pointer', 'pointer']);
 const getProc = new NativeFunction(user32.getExportByName('GetWindowLongPtrW'),
     'pointer', ['pointer', 'int']);
+const rootWindow = new NativeFunction(user32.getExportByName('GetAncestor'),
+    'pointer', ['pointer', 'uint']);
 let window = null, focused = true, installed = false;
 let mouseMessages = 0, focusMessages = 0;
 
@@ -19,7 +21,7 @@ rpc.exports = {
         if (!installed) {
             installed = true;
             Interceptor.attach(user32.getExportByName('GetForegroundWindow'), {
-                onLeave(result) { result.replace(focused ? window : ptr(0)); }
+                onLeave(result) { result.replace(focused ? rootWindow(window,2) : ptr(0)); }
             });
             Interceptor.attach(getProc(window, -4), {onEnter(args) {
                 if (!args[0].equals(window)) return;

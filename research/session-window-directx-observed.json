@@ -1,0 +1,301 @@
+{
+  "executable_sha256": "f0dc0d20ce22a2fdabf030dc0c9d47db372734c7e31a0e19c61eb0c4598f49ad",
+  "renderer": "directx",
+  "completed": true,
+  "checks": [
+    "three sessions route input/output independently in one process",
+    "middle child exit and original window close preserve remaining session",
+    "12 image/synchronized-output open/close cycles release handles",
+    "failed shell start leaves existing session alive and permits retry",
+    "window creation failure frees a partial seat and preserves both running sessions",
+    "synthetic delayed paste rejects another session identity; valid paste stays isolated",
+    "last session exit drains all owned processes naturally"
+  ],
+  "resources": [
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 17293312,
+      "total_ws": 49369088,
+      "private_commit": 86200320
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 33,
+      "private_ws": 18173952,
+      "total_ws": 50282496,
+      "private_commit": 86286336
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 18694144,
+      "total_ws": 50819072,
+      "private_commit": 86200320
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 19099648,
+      "total_ws": 51224576,
+      "private_commit": 86130688
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 19566592,
+      "total_ws": 51716096,
+      "private_commit": 86155264
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 20119552,
+      "total_ws": 52285440,
+      "private_commit": 86654976
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 33,
+      "private_ws": 20103168,
+      "total_ws": 52293632,
+      "private_commit": 86151168
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 20635648,
+      "total_ws": 52846592,
+      "private_commit": 86507520
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 20885504,
+      "total_ws": 53116928,
+      "private_commit": 86487040
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 21090304,
+      "total_ws": 53329920,
+      "private_commit": 86548480
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 34,
+      "private_ws": 21168128,
+      "total_ws": 53407744,
+      "private_commit": 86695936
+    },
+    {
+      "handles": 442,
+      "gdi": 28,
+      "user": 33,
+      "private_ws": 21385216,
+      "total_ws": 53628928,
+      "private_commit": 86671360
+    }
+  ],
+  "memory_instrumented": false,
+  "baseline": {
+    "handles": 442,
+    "gdi": 28,
+    "user": 33,
+    "private_ws": 16773120,
+    "total_ws": 48812032,
+    "private_commit": 87216128
+  },
+  "startup_fault": {
+    "armed": "",
+    "failurePending": false,
+    "hits": [
+      {
+        "event": "create-failure",
+        "result": 0
+      },
+      {
+        "event": "start-error",
+        "message": "Unable to open terminal:\nCreateProcess: Error 3: The system cannot find the path specified.\r"
+      }
+    ]
+  },
+  "window_fault": {
+    "armed": "",
+    "failurePending": false,
+    "hits": [
+      {
+        "event": "create-failure",
+        "result": 0
+      },
+      {
+        "event": "start-error",
+        "message": "Unable to open terminal:\nCreateProcess: Error 3: The system cannot find the path specified.\r"
+      },
+      {
+        "event": "window-failure",
+        "result": "0x0"
+      },
+      {
+        "event": "start-error",
+        "message": "Unable to create terminal window: Error 1407: Cannot find window class.\r"
+      }
+    ]
+  },
+  "owned_job_cleanup": {
+    "before": {
+      "total": 34,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 34,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false
+  },
+  "frontend_exit": 0,
+  "children": [
+    {
+      "pid": 33104,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 36834576,
+      "session": 1,
+      "renderer": 3
+    },
+    {
+      "pid": 32340,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 12194194,
+      "session": 2,
+      "renderer": 3
+    },
+    {
+      "pid": 20856,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 68945316,
+      "session": 3,
+      "renderer": 3
+    },
+    {
+      "pid": 26176,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 36900112,
+      "session": 4,
+      "renderer": 3
+    },
+    {
+      "pid": 24848,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 36965648,
+      "session": 5,
+      "renderer": 3
+    },
+    {
+      "pid": 33292,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 37031184,
+      "session": 6,
+      "renderer": 3
+    },
+    {
+      "pid": 41828,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 37096720,
+      "session": 7,
+      "renderer": 3
+    },
+    {
+      "pid": 1192,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 37162256,
+      "session": 8,
+      "renderer": 3
+    },
+    {
+      "pid": 16380,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 37227792,
+      "session": 9,
+      "renderer": 3
+    },
+    {
+      "pid": 11772,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15208098,
+      "session": 10,
+      "renderer": 3
+    },
+    {
+      "pid": 33996,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15273634,
+      "session": 11,
+      "renderer": 3
+    },
+    {
+      "pid": 14416,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15339170,
+      "session": 12,
+      "renderer": 3
+    },
+    {
+      "pid": 38164,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15404706,
+      "session": 13,
+      "renderer": 3
+    },
+    {
+      "pid": 932,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15470242,
+      "session": 14,
+      "renderer": 3
+    },
+    {
+      "pid": 43232,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 15535778,
+      "session": 15,
+      "renderer": 3
+    },
+    {
+      "pid": 22580,
+      "parent": 16844,
+      "cwd": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-worktree",
+      "hwnd": 33557792,
+      "session": 17,
+      "renderer": 3
+    }
+  ]
+}

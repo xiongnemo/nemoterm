@@ -1,3 +1,4 @@
+param([switch]$TabHost)
 # Exercise the real startup settings dialog, save/load and local-session launch.
 # UI Automation is scoped to a new process; no global mouse or keyboard input.
 $ErrorActionPreference = 'Stop'
@@ -7,6 +8,16 @@ Add-Type @'
 using System;
 using System.Runtime.InteropServices;
 public static class ShellSettingsNative {
+    private delegate bool EnumChildProc(IntPtr hwnd, IntPtr data);
+    [DllImport("user32.dll")] private static extern bool EnumChildWindows(IntPtr hwnd, EnumChildProc callback, IntPtr data);
+    public static IntPtr Content(IntPtr host) {
+        IntPtr found=IntPtr.Zero;
+        EnumChildWindows(host,(hwnd,data)=> {
+            if (GetPropW(hwnd,"NemotermRenderer")!=IntPtr.Zero) {found=hwnd;return false;}
+            return true;
+        },IntPtr.Zero);
+        return found;
+    }
     [DllImport("user32.dll")] public static extern IntPtr SendMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
     [DllImport("user32.dll")] public static extern IntPtr GetParent(IntPtr hwnd);
     [DllImport("user32.dll")] public static extern int GetDlgCtrlID(IntPtr hwnd);
@@ -168,6 +179,24 @@ try {
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle shell-marks-settings.png
     if ($LASTEXITCODE) { throw 'Shell integration settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
+    Select-Node $dialog 'Tabs' | Out-Null
+    $tabs=Wait-Value { Find-Name $dialog 'Open sessions in tabs' }
+    $tabsToggle=$tabs.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($tabsToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Staged tab host unexpectedly enabled by default' }
+    if ($TabHost) { $tabsToggle.Toggle() }
+    foreach ($label in @('Open sessions in tabs','Top','Bottom','Left','Right','Preview terminal on hover')) {
+        $node=Find-Name $dialog $label
+        if (!$node -or $node.Current.IsOffscreen -or !$bounds.Contains($node.Current.BoundingRectangle)) { throw "Clipped tab setting: $label" }
+    }
+    Select-Node $dialog 'Left' | Out-Null
+    $tabBindings=@(3,20,3,23,2,72,3,72)
+    $tabCombos=Binding-Controls $dialog $tabBindings 'Tabs'
+    foreach ($choice in @(@(4,6),@(5,14),@(6,6),@(7,16))) { Set-Combo $tabCombos[$choice[0]] $choice[1] }
+    $tabBindings=@(3,20,3,23,6,14,6,16)
+    Binding-Controls $dialog $tabBindings 'Tabs' | Out-Null
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle tabs-settings.png
+    if ($LASTEXITCODE) { throw 'Tab settings capture failed' }
+    Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
     Select-Node $dialog 'DirectX (Direct2D composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
@@ -215,6 +244,8 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
+        $values.NemoNextTabBinding -ne 0x64e -or $values.NemoPreviousTabBinding -ne 0x650) { throw 'Tab settings did not save' }
     if ($values.NemoCopyBinding -ne 0x658 -or $values.NemoPasteBinding -ne 0x559 -or
         $values.NemoCopyPasteBinding -ne 0x35a -or $values.NemoRectangleModifiers -ne 6 -or
         $values.NemoRenderer -ne 2) { throw 'Bindings or renderer did not save' }
@@ -265,6 +296,8 @@ try {
     $windowNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     Binding-Controls $dialog $customBindings | Out-Null
     Binding-Controls $dialog $customShellBindings 'Commands' | Out-Null
+    Binding-Controls $dialog $tabBindings 'Tabs' | Out-Null
+    if (!(Find-Name $dialog 'Left').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Tab position did not reload' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'DirectX (Direct2D composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
     Invoke-Button $dialog 'Open'
@@ -275,7 +308,13 @@ try {
             if ($value.hex -eq '1b5b3e343b336d1b5b3e343b3166') { $value }
         }
     }
-    $termHandle=Wait-Value { $app.Refresh(); if ($app.MainWindowHandle -and [ShellSettingsNative]::GetPropW($app.MainWindowHandle,'NemotermRenderer').ToInt32()) { $app.MainWindowHandle } }
+    $termHandle=Wait-Value {
+        $app.Refresh()
+        if ($app.MainWindowHandle) {
+            if ($TabHost) { $content=[ShellSettingsNative]::Content($app.MainWindowHandle); if ($content -ne [IntPtr]::Zero) { $content } }
+            elseif ([ShellSettingsNative]::GetPropW($app.MainWindowHandle,'NemotermRenderer').ToInt32()) { $app.MainWindowHandle }
+        }
+    }
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
     $rendererChanges=@()
     foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
@@ -296,13 +335,14 @@ try {
         $rendererChanges += @{requested=$mode;active=$active}
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
-        default_grid=@(160,48);saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
+        default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;
         saved_unicode_directory=$fixtureCwd;saved_directory_inheritance=$false;query=$observed}
-    [IO.File]::WriteAllText((Join-Path $root 'research/settings-window-observed.json'),
+    $evidenceName=if ($TabHost) {'research/tabs-settings-window-observed.json'} else {'research/settings-window-observed.json'}
+    [IO.File]::WriteAllText((Join-Path $root $evidenceName),
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}
     if (!$app.WaitForExit(5000) -or $app.ExitCode -ne 0) { throw 'Fixture shutdown failed' }

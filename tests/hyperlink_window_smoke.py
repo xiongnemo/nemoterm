@@ -17,6 +17,8 @@ u.GetWindowThreadProcessId.argtypes = [w.HWND, c.POINTER(w.DWORD)]
 u.IsWindowVisible.argtypes = [w.HWND]
 u.PostMessageW.argtypes = [w.HWND, w.UINT, w.WPARAM, w.LPARAM]
 u.SetWindowPos.argtypes = [w.HWND, w.HWND, c.c_int, c.c_int, c.c_int, c.c_int, w.UINT]
+k.WaitForSingleObject.argtypes, k.WaitForSingleObject.restype = [w.HANDLE, w.DWORD], w.DWORD
+k.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 
 def align_pointer(hwnd, x, y):
     # TrackMouseEvent uses the real desktop hit test. Keep only our test
@@ -253,7 +255,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         handle = k.OpenProcess(0x410, False, process.pid)
-        evidence, samples, stop, clipboard, hwnd = {'preferences': preferences}, [], threading.Event(), None, None
+        evidence, samples, stop, clipboard, hwnd = {
+            'preferences': preferences, 'completed': False, 'activations': []
+        }, [], threading.Event(), None, None
         def sampler():
             while not stop.is_set():
                 samples.append(memory_sample(handle)); stop.wait(.025)
@@ -274,6 +278,42 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             return f'\x1b]8;id={ident};{uri}\x1b\\{label}\x1b]8;;\x1b\\'
         def launched():
             return [read_snapshot(path) for path in sorted(launches.glob('*.json'))]
+        def activate(uri):
+            before = len(launched())
+            previous_pids = {v.get('pid') for v in launched()}
+            observation = dict(phase=read_snapshot(control).get('phase'), before=before)
+            evidence['activations'].append(observation)
+            msg(0x201, keys=9)
+            observation['capture_after_down'] = gui_state(hwnd).capture
+            msg(0x202, keys=8)
+            try:
+                observed = wait_snapshot(launched, lambda values:
+                    len(values) == before+1 and all(v.get('argv') == [uri] for v in values))
+            except AssertionError:
+                observation.update(launches=launched(), fixture=current(),
+                    foreground=u.GetForegroundWindow(), capture=gui_state(hwnd).capture,
+                    tooltip=tooltip(process.pid))
+                capture(hwnd, 'hyperlink-activation-failed.png')
+                raise AssertionError(('hyperlink activation', observation))
+            observation['after'] = len(observed)
+            # The handler publishes its mailbox before Python shuts down.
+            # Let that owned handler exit before the next click, so its exit
+            # cannot change focus in the middle of our next down/up pair.
+            for value in observed:
+                if value['pid'] in previous_pids:
+                    continue
+                handler = k.OpenProcess(0x100000 | 0x1000, False, value['pid'])
+                if handler:
+                    try:
+                        assert k.WaitForSingleObject(handler, 8000) == 0, value
+                        status = w.DWORD()
+                        assert k.GetExitCodeProcess(handler, c.byref(status)) and status.value == 0, value
+                    finally:
+                        k.CloseHandle(handler)
+                else:
+                    assert k.GetLastError() == 87, ('handler process lookup', value, k.GetLastError())
+            observation['handler_exited'] = True
+            return observed
         def hover(uri):
             last = None
             def probe():
@@ -403,15 +443,12 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             evidence['hover_bounds'] = bounds
             evidence['hover_paint_samples']=hover_samples
             capture(hwnd, 'hyperlink-hover.png'); capture(tip, 'hyperlink-address.png')
-            msg(0x201, keys=9); msg(0x202, keys=8)
-            observed = wait_for(lambda: (data := launched()) and data)
+            observed = activate(uri)
             assert len(observed) == 1 and observed[0]['argv'] == [uri], observed
             evidence['opened'] = observed[0]['argv']
             for mode in (1000, 1001, 1002, 1003):
                 phase('mouse-'+str(mode), scene+f'\x1b[?{mode};1006h')
-                before = len(launched())
-                msg(0x201, keys=9); msg(0x202, keys=8)
-                wait_for(lambda: len(launched()) == before+1)
+                activate(uri)
                 received = data()
                 reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', received)
                 assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), received
@@ -572,9 +609,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                             peak_private_commit=max(s['private_commit'] for s in samples),
                             executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
             assert evidence['peak_private_ws'] < 20_000_000, evidence
+            evidence['completed'] = True
             (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
             print('Native hyperlink checks passed:', evidence)
         finally:
+            (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
             try:
                 if clipboard: clipboard.restore()
             finally:

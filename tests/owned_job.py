@@ -49,6 +49,9 @@ k.ResumeThread.argtypes, k.ResumeThread.restype = [w.HANDLE], w.DWORD
 k.OpenProcess.argtypes, k.OpenProcess.restype = [w.DWORD, w.BOOL, w.DWORD], w.HANDLE
 k.IsProcessInJob.argtypes = [w.HANDLE, w.HANDLE, c.POINTER(w.BOOL)]
 k.WaitForSingleObject.argtypes, k.WaitForSingleObject.restype = [w.HANDLE, w.DWORD], w.DWORD
+k.GetProcessId.argtypes, k.GetProcessId.restype = [w.HANDLE], w.DWORD
+k.QueryFullProcessImageNameW.argtypes = [w.HANDLE, w.DWORD, w.LPWSTR, c.POINTER(w.DWORD)]
+k.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 
 
 def resume_initial_thread(pid):
@@ -146,7 +149,17 @@ class OwnedJob:
             time.sleep(.02)
         forced = before['active'] > 0
         handles = self.member_handles()
+        remaining_processes = []
         try:
+            for handle in handles:
+                path = c.create_unicode_buffer(32768); length = w.DWORD(len(path))
+                status = w.DWORD()
+                record = dict(pid=k.GetProcessId(handle))
+                if k.QueryFullProcessImageNameW(handle, 0, path, c.byref(length)):
+                    record['image'] = path.value
+                if k.GetExitCodeProcess(handle, c.byref(status)):
+                    record['exit_code'] = status.value
+                remaining_processes.append(record)
             if forced and not k.TerminateJobObject(self.handle, 1):
                 raise c.WinError(c.get_last_error())
             deadline = time.monotonic()+5
@@ -161,7 +174,8 @@ class OwnedJob:
         finally:
             for handle in handles:
                 k.CloseHandle(handle)
-        self.cleanup = dict(before=before, after=after, terminated_remaining=forced)
+        self.cleanup = dict(before=before, after=after, terminated_remaining=forced,
+                            remaining_processes=remaining_processes)
         return self.cleanup
 
     def __enter__(self):
