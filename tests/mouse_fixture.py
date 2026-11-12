@@ -41,7 +41,8 @@ try:
             phase = request.get('phase')
             data.clear()
             responded.clear()
-            print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
+            if not request.get('preserve_mouse'):
+                print('\x1b[?9;1000;1001;1002;1003;1004;1005;1006;1015;1016l', end='')
             print(request.get('sequence', ''), end='', flush=True)
         # A cooperating application can answer a mouse report without
         # changing phases, clearing input, or resetting the tracking mode.

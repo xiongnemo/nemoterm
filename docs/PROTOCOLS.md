@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-已运行配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR、状态字符串、键能力、高亮跟踪、超链接、kitty键盘、OSC52、modifyOtherKeys及重排二十组核心测试；`scripts/test.ps1`包含全部目标。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另有十四组原生窗口测试，以截图验证字体、Sixel色块、SGR样式和光标，以子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
+已运行配置、终端、Sixel解码、Sixel集成、resize、mouse、颜色解析、OSC颜色、模式查询、同步状态、压缩快照、SGR、状态字符串、键能力、高亮跟踪、超链接、kitty键盘、OSC52、modifyOtherKeys、重排、Win32输入和状态恢复二十二组核心测试；`scripts/test.ps1`包含全部目标。核心测试验证字符格和输出字节，**不代替** GDI 像素、字体、Win32 快捷键和系统剪贴板。另有十六组原生窗口测试（另含两次字体/初始配置变体），以截图验证字体、Sixel色块、SGR样式和光标，以子进程尺寸报告验证ConPTY resize；均非完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -27,7 +27,8 @@
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
 | SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
-| 软复位 `CSI ! p`（DECSTR） | 缺失/待逐项核实 | 不能把RIS或本地Reset Terminal视为DECSTR。 |
+| 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
+| 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有21类模式建立84字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存，G2/G3完整保存尚未补齐。 |
 | Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。完整grapheme宽度、重排后的物理选择、字体fallback、Nerd Font、IME需专项测试。 |
 
 ## 窗口与历史重排
@@ -45,8 +46,8 @@
 | --- | --- | --- |
 | 普通/应用光标键、数字键盘、F键、Alt/Ctrl/Shift修饰 | 源码已见 | T `format_arrow_key` 等与W键盘路径；真实Windows键盘布局、AltGr、IME和ConPTY传输尚需验证。 |
 | xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 已证（字符键与 Windows 映射） | 支持 0–3 级、`>4n` 禁用、`?4m` 查询、`>4;0/1f` 格式、`?4g`/`>4g` 查询及 DECRQSS。`>4;level:mask m` 按 X11 修饰位屏蔽字符查找；主/备用屏共用，RIS 回到配置初值，kitty 增强输入优先。8 字节协议状态，编码无堆分配；Windows 预览字符不消费死键，AltGr、俄语、Unicode 提交及本地快捷键有测试。20 组核心中的 `test_mok` 与真实 ConPTY 精确字节、两套初始配置、鼠标选择和缩放通过。独立 XTerm(412) 对照及 Shift-Tab、格式查询/DECRQSS 差异见 [研究记录](../research/modify-other-keys.md)。其他资源 P0/1/2/3/6/7 尚未实现；物理键盘和真实 IME/agent 仍需验收。 |
-| CSI-u / kitty keyboard：查询 `CSI ? u`，设置 `CSI = flags;mode u`，push `CSI > flags u`，pop `CSI < n u` | 已证（有限范围） | `nemo_keyboard.c`实现flags 1/2/4/8/16，主/备用屏各32项栈、满栈淘汰最旧项、显式pop 0不操作、RIS清空、resize/光标保存不改模式。Win32接入按下/重复/释放、左右修饰键、锁状态、PC101基础键码、布局转换、死键/AltGr、UTF-16文本提交；本地快捷键优先。失焦补发已报告按键的释放并清状态。编码最多16个文本码点/256字节，无部分序列；栈66字节，按键跟踪按需分配约12KiB。`test_keyboard`及真实ConPTY精确字节、主备屏、冻结输出、Unicode提交、Ctrl+Shift+C/V和resize测试通过。Windows物理F键映射到F24，核心编码覆盖F35；Hyper/Meta无物理映射。真实IME候选/组合、Alt数字输入、更多布局和真实agent尚待验收；不以合成消息代替物理设备。参照 [kitty键盘规范](https://sw.kovidgoyal.net/kitty/keyboard-protocol/)；普通CSI u仍保留光标恢复。 |
-| Win32 input mode `CSI ? 9001 h/l` | 缺失 | W已有Windows消息处理，不等于实现该协议的协商和出站记录格式。需要与ConPTY和现代Windows TUI共同验收。 |
+| CSI-u / kitty keyboard：查询 `CSI ? u`，设置 `CSI = flags;mode u`，push `CSI > flags u`，pop `CSI < n u` | 已证（有限范围） | `nemo_keyboard.c`实现flags 1/2/4/8/16，主/备用屏各32项栈、满栈淘汰最旧项、显式pop 0不操作、RIS清空、resize/光标保存不改模式。Win32接入按下/重复/释放、左右修饰键、锁状态、PC101基础键码、布局转换、死键/AltGr、UTF-16文本提交；本地快捷键优先。失焦补发已报告按键的释放并清状态。编码最多16个文本码点/256字节，无部分序列；栈66字节，按键跟踪按需分配约24KiB。`test_keyboard`及真实ConPTY精确字节、主备屏、冻结输出、Unicode提交、Ctrl+Shift+C/V和resize测试通过。Windows物理F键映射到F24，核心编码覆盖F35；Hyper/Meta无物理映射。真实IME候选/组合、Alt数字输入、更多布局和真实agent尚待验收；不以合成消息代替物理设备。参照 [kitty键盘规范](https://sw.kovidgoyal.net/kitty/keyboard-protocol/)；普通CSI u仍保留光标恢复。 |
+| Windows Win32 input `?9001 h/l` | 可选路径已证（有限范围） | 默认关闭；Terminal/Keyboard/Extended可启用。48字节栈编码器，按需约24KiB按键表，UTF-16、左右修饰键、重复/释放、控制信号、真实控制台鼠标及resize记录有测试；kitty/modifyOtherKeys优先。当前ConPTY普通VT转换丢失F21–F24，且绕过传统自定义按键，不能视为完整键盘验收；见[记录](../research/win32-input.md)。 |
 | 鼠标9/1000/1002/1003；传统编码、1005 UTF-8、1006 SGR字符格、1015 urxvt | 已证（有限范围） | `test_mouse` 精确字节覆盖三键、Alt/Ctrl、四向滚轮、坐标边界、最后SET编码/匹配RESET、tracking RESET、拖动去重、双宽行和历史独立坐标、Shift中途接管及取消。传统坐标最大223、UTF-8最大2015，越界不发；capture取消回最后合法点释放。 |
 | 1016 SGR像素、1007备用屏滚轮 | 已证（有限范围） | 核心测同格内像素移动/resize裁剪，1007仅备用屏且服从DECCKM。真实Win32→ConPTY→Python验证像素移动与窗口缩放；多屏DPI、触控板/物理设备尚需验收。 |
 | 鼠标侧键 XBUTTON1/2（xterm 按钮8/9） | 已证（有限范围） | 核心测试覆盖128/129按钮码、修饰键、各编码、拖动、取消、Shift隔离和无本地绑定。真实Win32→ConPTY验证两个侧键及左键/侧键混合捕获；重复获取自身捕获不再误释放全部按键。物理设备尚待验收。 |

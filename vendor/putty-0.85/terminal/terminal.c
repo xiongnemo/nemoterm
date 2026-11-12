@@ -2115,6 +2115,7 @@ static void power_on(Terminal *term, bool clear)
             term->tabs[i] = (i % 8 == 0 ? true : false);
     }
     term->alt_om = term->dec_om = conf_get_bool(term->conf, CONF_dec_om);
+    term->save_om = term->alt_save_om = term->dec_om;
     term->alt_ins = false;
     term->insert = false;
     term->alt_wnext = false;
@@ -3492,6 +3493,9 @@ static void swap_screen(Terminal *term, int which,
         if (!reset)
             term->save_wnext = term->alt_save_wnext;
         term->alt_save_wnext = bt;
+        bt = term->save_om;
+        if (!reset) term->save_om = term->alt_save_om;
+        term->alt_save_om = bt;
         t = term->save_sco_acs;
         if (!reset)
             term->save_sco_acs = term->alt_save_sco_acs;
@@ -3756,6 +3760,7 @@ static void save_cursor(Terminal *term, bool save)
         term->save_cset = term->cset;
         term->save_utf = term->utf;
         term->save_wnext = term->wrapnext;
+        term->save_om = term->dec_om;
         term->save_csattr = term->cset_attr[term->cset];
         term->save_sco_acs = term->sco_acs;
     } else {
@@ -3765,6 +3770,9 @@ static void save_cursor(Terminal *term, bool save)
             term->curs.x = term->cols - 1;
         if (term->curs.y >= term->rows)
             term->curs.y = term->rows - 1;
+        term->dec_om = term->save_om;
+        if (term->dec_om)
+            term->curs.y = max(term->marg_t, min(term->marg_b, term->curs.y));
 
         term->curr_attr = term->save_attr;
         term->curr_truecolour = term->save_truecolour;
@@ -3783,6 +3791,39 @@ static void save_cursor(Terminal *term, bool save)
         set_erase_char(term);
         seen_disp_event(term);
     }
+}
+
+/* DECSTR changes operating state without erasing either buffer or history.
+ * Follow xterm's resource defaults for wrapping, application keys and cursor
+ * style. Mouse/paste/keyboard transports, UTF-8, tab stops, images, the active
+ * screen and current cursor position survive. Only its saved cursor is reset. */
+static void nemo_soft_reset(Terminal *term)
+{
+    term->insert = term->dec_om = false;
+    term->marg_t = 0;
+    term->marg_b = max(0, term->rows - 1);
+    term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
+    term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
+    term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
+    nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
+                   conf_get_int(term->conf, CONF_nemo_format_other_keys));
+    term->cset = term->sco_acs = 0;
+    term->cset_attr[0] = term->cset_attr[1] = CSET_ASCII;
+    term->default_attr = term->curr_attr = ATTR_DEFAULT;
+    term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
+    term->curr_truecolour.decoration = 0;
+    term->curr_hyperlink = 0;
+    set_erase_char(term);
+    save_cursor(term, true);
+    term->savecurs = (pos){0, 0};
+    term->save_wnext = false;
+    /* xterm restores OSC 4 entries, while keeping OSC 10/11/12 overrides. */
+    for (unsigned i = 0; i < 256; i++)
+        term->subpalettes[SUBPAL_SESSION].present[i] = false;
+    palette_rebuild(term);
+    term->cursor_on = true;
+    nemo_cursor_style(term, 7);
+    term_schedule_update(term);
 }
 
 /*
@@ -4094,6 +4135,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 6:                      /* DECOM: DEC origin mode */
             term->dec_om = state;
+            move(term, 0, state ? term->marg_t : 0, 0);
+            seen_disp_event(term);
             break;
           case 7:                      /* DECAWM: auto wrap */
             term->wrap = state;
@@ -4113,6 +4156,9 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             compatibility2(OTHER, VT220);
             term->cursor_on = state;
             seen_disp_event(term);
+            break;
+          case 66:                     /* DECNKM: numeric/application keypad */
+            term->app_keypad_keys = state;
             break;
           case 47:                     /* alternate screen */
             compatibility(OTHER);
@@ -4245,6 +4291,9 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 8: state = !term->repeat_off; break;
           case 12: state = term->blink_cur; break;
           case 25: state = term->cursor_on; break;
+          case 66:
+            if (term->no_applic_k) return 4;
+            state = term->app_keypad_keys; break;
           case 47: case 1047: case 1049:
             if (term->no_alt_screen) return 4;
             state = term->alt_which != 0; break;
@@ -4274,6 +4323,49 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
         }
     }
     return state ? 1 : 2;
+}
+
+static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
+{
+    /* 1048 operates on DECSC/DECRC's cursor slot, not a Boolean mode. */
+    if (mode == 1048) {
+        if (!term->no_alt_screen) save_cursor(term, save);
+        return;
+    }
+    switch (mode) {
+      case 1001: case 1002: case 1003: mode = 1000; break;
+      case 1006: case 1015: case 1016: mode = 1005; break;
+      case 1047: case 1049: mode = 47; break;
+    }
+    static const unsigned modes[] = {
+        1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 80,
+        1000, 1004, 1005, 1007, 1070, 2004, 2026, 8452, 9001
+    };
+    assert(lenof(modes) == lenof(term->saved_dec_modes));
+    size_t i;
+    for (i = 0; i < lenof(modes) && modes[i] != mode; i++);
+    if (i == lenof(modes)) return;
+    unsigned status = term_mode_status(term, mode, true);
+    if (!status || status >= 3) return; /* local policy always wins */
+    if (save) {
+        term->saved_dec_modes[i] = mode == 9 || mode == 1000 ? term->xterm_mouse :
+            mode == 1005 ? term->mouse_encoding : status == 1;
+    } else {
+        int value = term->saved_dec_modes[i];
+        if (mode == 9 || mode == 1000) {
+            unsigned tracking = value == -1 ? 9 : value == 2 ? 1002 : value == 3 ? 1003 :
+                value == MOUSE_TRACK_HIGHLIGHT ? 1001 : 1000;
+            toggle_mode(term, tracking, 1, value != 0);
+        } else if (mode == 1005) {
+            /* A single integer preserves the complete encoding, including
+             * 1016. Do not narrow it through an 8-bit Boolean. */
+            nemo_highlight_cancel(term, true);
+            term->mouse_encoding = value;
+            term->raw_mouse_reported_code = -1;
+        } else {
+            toggle_mode(term, mode, 1, value != 0);
+        }
+    }
 }
 
 /* Split the bounded OSC payload without allocations. */
@@ -5784,6 +5876,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
+                      case ANSI('p', '!'): /* DECSTR; parameters are ignored */
+                        nemo_soft_reset(term);
+                        break;
                       case ANSI('p', '$'):
                       case ANSI('p', 0x100 + '$'): {
                         bool dec = term->esc_query != '$';
@@ -5954,7 +6049,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         if (term->ldisc) {
                             if (term->esc_args[0] == 6) {
                                 char buf[32];
-                                sprintf(buf, "\033[%d;%dR", term->curs.y + 1,
+                                sprintf(buf, "\033[%d;%dR", term->curs.y + 1 -
+                                        (term->dec_om ? term->marg_t : 0),
                                         term->curs.x + 1);
                                 ldisc_send(term->ldisc, buf, strlen(buf),
                                            false);
@@ -6259,6 +6355,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 's':       /* save cursor */
                         save_cursor(term, true);
+                        break;
+                      case ANSI_QUE('s'): /* XTSAVE */
+                      case ANSI_QUE('r'): /* XTRESTORE */
+                        for (int i = 0; i < term->esc_nargs; i++)
+                            nemo_saved_dec_mode(term, term->esc_args[i], c == 's');
                         break;
                       case 'u':       /* restore cursor */
                         save_cursor(term, false);

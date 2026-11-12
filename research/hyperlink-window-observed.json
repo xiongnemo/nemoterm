@@ -6,7 +6,7 @@
     "right_copy_paste_with_busy_clipboard": true,
     "disabled": true
   },
-  "hover_text": "Ctrl+click to open; Ctrl+right-click for link actions.\nnemoterm-test-6648908a6a7745b58200d62eb8d4a028://host/path?x=one%20two&y=%22quoted%22#part",
+  "hover_text": "Ctrl+click to open; Ctrl+right-click for link actions.\nnemoterm-test-546326bf832746729702339f1e126f5c://host/path?x=one%20two&y=%22quoted%22#part",
   "hover_bounds": [
     9,
     37,
@@ -14,19 +14,19 @@
     38
   ],
   "opened": [
-    "nemoterm-test-6648908a6a7745b58200d62eb8d4a028://host/path?x=one%20two&y=%22quoted%22#part"
+    "nemoterm-test-546326bf832746729702339f1e126f5c://host/path?x=one%20two&y=%22quoted%22#part"
   ],
   "mouse-1000": "1b5b3f313030303b312479",
   "mouse-1001": "1b5b3f313030303b322479",
   "mouse-1002": "1b5b3f313030303b322479",
   "mouse-1003": "1b5b3f313030303b3224791b5b3c33353b333b324d",
-  "copied_address": "nemoterm-test-6648908a6a7745b58200d62eb8d4a028://host/path?x=one%20two&y=%22quoted%22#part",
+  "copied_address": "nemoterm-test-546326bf832746729702339f1e126f5c://host/path?x=one%20two&y=%22quoted%22#part",
   "menu_open": true,
   "menu_cancel": true,
   "shift_copy": "LINK",
-  "clipboard_transient_lock_seconds": 0.05997029994614422,
+  "clipboard_transient_lock_seconds": 0.06451840000227094,
   "copy_address_preserves_selection": true,
-  "clipboard_lock_timeout_seconds": 0.11255720001645386,
+  "clipboard_lock_timeout_seconds": 0.10860599996522069,
   "copy_paste_uses_selection_when_clipboard_busy": true,
   "ctrl_drag_copy": "LINK",
   "shift_takeover": true,
@@ -34,8 +34,8 @@
   "capture_cancel": "1b5b3f313030303b3224791b5b3c33353b343b324d",
   "resize_cancel": true,
   "synchronized_clicks": [
-    "nemoterm-test-6648908a6a7745b58200d62eb8d4a028://host/path?x=one%20two&y=%22quoted%22#part",
-    "nemoterm-test-6648908a6a7745b58200d62eb8d4a028://host/other"
+    "nemoterm-test-546326bf832746729702339f1e126f5c://host/path?x=one%20two&y=%22quoted%22#part",
+    "nemoterm-test-546326bf832746729702339f1e126f5c://host/other"
   ],
   "remote_file_copy_only": "file://nemoterm-remote.invalid/C:/sample.txt",
   "budget_eviction": {
@@ -43,8 +43,8 @@
     "images": 800,
     "old_link_inactive": true
   },
-  "peak_private_ws": 8876032,
-  "peak_total_ws": 33669120,
-  "peak_private_commit": 10190848,
-  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d"
+  "peak_private_ws": 8818688,
+  "peak_total_ws": 33562624,
+  "peak_private_commit": 10104832,
+  "executable_sha256": "f99285d0af0dbee1083152fe0b0990a73d1fa56f8c640ee6d2b9c3a292a40687"
 }

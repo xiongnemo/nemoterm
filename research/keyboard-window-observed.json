@@ -65,28 +65,28 @@
   "resize-preserves-mode": {
     "phase": "resize-preserves-mode",
     "hex": "1b5b3f3331751b5b39373b3132393b3937751b5b39373b3132393a3375",
-    "columns": 66,
-    "rows": 25,
+    "columns": 83,
+    "rows": 22,
     "input_mode": 640
   },
   "local-copy-paste": {
     "phase": "local-copy-paste",
     "hex": "1b5b3f3331751b5b35373434323b313333751b5b35373434313b313334751b5b3230307e4b4559424f41524420434f5059204c4142454c1b5b3230317e1b5b35373434313b3133333a33751b5b35373434323b3132393a3375",
-    "columns": 66,
-    "rows": 25,
+    "columns": 83,
+    "rows": 22,
     "input_mode": 640
   },
   "reset-legacy": {
     "phase": "reset-legacy",
     "hex": "1b5b3f30751b",
-    "columns": 66,
-    "rows": 25,
+    "columns": 83,
+    "rows": 22,
     "input_mode": 640
   },
-  "font": "Courier New",
-  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
-  "peak_private_ws": 3674112,
-  "peak_total_ws": 19464192,
-  "peak_private_commit": 4988928,
+  "font": "default",
+  "executable_sha256": "f99285d0af0dbee1083152fe0b0990a73d1fa56f8c640ee6d2b9c3a292a40687",
+  "peak_private_ws": 3604480,
+  "peak_total_ws": 19435520,
+  "peak_private_commit": 4841472,
   "lock_modifiers": 128
 }

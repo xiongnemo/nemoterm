@@ -62,6 +62,7 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色、备用屏恢复、
 冒号RGB、斜体/隐藏、五种下划线及独立下划线颜色、压缩历史中的样式还原，
 DECSCUSR 光标形状/闪烁、DEC 12，以及 DECRQSS 的样式/滚动边界/尺寸读回，
+DECSTR软复位、XTSAVE/XTRESTORE模式组保存、DECNKM小键盘和DECOM光标恢复，
 XTGETTCAP 终端名/颜色/逻辑按键查询、应用光标模式及修饰键组合，
 kitty 键盘协议的五种增强标志、主/备用屏独立模式栈、按下/重复/释放、备用键码与关联文本，
 逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
@@ -78,6 +79,8 @@ file 主机必须为空、localhost 或匹配本机名称。远程文件地址�
 `python tests/mok_window_smoke.py` 检查 xterm modifyOtherKeys 的等级、格式、修饰位屏蔽、
 查询/复位、Unicode、kitty 优先级和相同的复制/鼠标/缩放行为；另测保存的初始配置。
 独立 xterm 对照、Windows 映射和已知差异见 [编码记录](research/modify-other-keys.md)。
+`python tests/state_control_window_smoke.py` 检查软复位保留文字/Sixel、鼠标模式组恢复、
+缩放后的像素坐标、Shift复制和同步绘制；[XTerm对照与状态语义](research/state-control.md)。
 `python tests/win32_input_window_smoke.py` 使用临时配置启用 Win32 输入，验证真实
 `ReadConsoleInputW` 记录、UTF-16、重复次数、Ctrl+C/Ctrl+Break 信号、尺寸通知和
 VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试结束删除临时配置。

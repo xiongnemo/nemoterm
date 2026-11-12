@@ -182,6 +182,7 @@ struct terminal_tag {
     int cset;                          /* 0 or 1: which char set */
     int save_cset, save_csattr;        /* saved with cursor position */
     bool save_utf, save_wnext;         /* saved with cursor position */
+    bool save_om;
     bool rvideo;                       /* global reverse video flag */
     unsigned long rvbell_startpoint;   /* for ESC[?5hESC[?5l vbell */
     bool cursor_on;                    /* cursor enabled flag */
@@ -206,6 +207,7 @@ struct terminal_tag {
     int alt_save_cset, alt_save_csattr;
     bool alt_save_utf;
     bool alt_save_wnext;
+    bool alt_save_om;
     int alt_save_sco_acs;
 
     int rows, cols, savelines;
@@ -255,6 +257,9 @@ struct terminal_tag {
     NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
     bool win32_input; /* DEC 9001 is global, including the alternate screen */
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
+    /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
+     * groups and alternate-screen aliases share entries (84 bytes total). */
+    int saved_dec_modes[21];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

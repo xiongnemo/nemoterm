@@ -755,3 +755,30 @@ continuously sampled peaks of 8,876,032 private WS, 33,669,120 total WS and
 bytes respectively. No working-set trimming was used; ConPTY and children are
 separate processes. Physical keyboard/IME, DPI, long-running real agents and
 the remaining protocol families remain open.
+
+## 2026-11-12: soft reset and saved private modes
+
+Added DECSTR, XTSAVE/XTRESTORE for the existing mode families, DECNKM 66,
+DECOM homing/relative CPR and saved-origin cursor restoration. The mode cache
+is fixed at 84 bytes and preserves enum-valued mouse modes and screen aliases.
+Twenty independent XTerm 412 cases and source comparison informed the behavior;
+intentional differences and the exact lifecycle are recorded in
+`research/state-control.md`. This does not fill unsupported mode families.
+
+All 22 core suites passed locally. The new state suite passed Linux ASan/UBSan
+with leak detection. Six native groups passed for executable SHA-256
+`f99285d0af0dbee1083152fe0b0990a73d1fa56f8c640ee6d2b9c3a292a40687`:
+mouse, query/cursor, keyboard, reflow, hyperlink/stress and state control.
+The last verifies unchanged text/Sixel pixels through soft reset, real child
+mouse bytes, restored 1016 coordinates after resize, exact Shift clipboard
+selection, synchronized presentation and main/alternate cursor state.
+Actionlint 1.7.12 passed. CI now includes 22 core suites, 16 native groups with
+two additional font/configuration runs, and eight terminal sanitizer logs,
+plus the separate Sixel and colour sanitizer checks.
+
+State-control peaks were 4,567,040 bytes private WS, 20,697,088 total WS and
+5,865,472 private commit. The 6,000-link/800-Sixel mixed workload peaked at
+8,818,688 / 33,562,624 / 10,104,832 bytes respectively; reflow peaked at
+6,541,312 / 22,700,032 / 7,888,896. No working-set trimming was used; ConPTY and
+children remain separate measurements. Physical devices/IME, multiple DPI,
+long-running agents and the other protocol families remain unaccepted.

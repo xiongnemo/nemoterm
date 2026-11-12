@@ -1,0 +1,63 @@
+{
+  "scene": {
+    "reply": "1b503024721b5c"
+  },
+  "soft-keeps-scene": {
+    "reply": "1b50312472306d1b5c1b50312472313b3234721b5c1b503024721b5c",
+    "pixel_sha256": "b4fc8b38c6c94b4bac8ff30617142325aa261557f25496e76a0600161e5e72bd"
+  },
+  "soft-keyboard": {
+    "reply": "1b503024721b5c"
+  },
+  "soft-mouse": {
+    "reply": "1b503024721b5c"
+  },
+  "saved-pixel-mouse": {
+    "reply": "1b5b3f313030333b3124791b5b3f313031363b3124791b503024721b5c"
+  },
+  "saved-pixel-motion": {
+    "reply": "1b503024721b5c",
+    "input": "1b5b3c33353b32333b32304d1b5b3c33353b32343b32304d"
+  },
+  "saved-after-resize": {
+    "reply": "1b5b3f313030333b3124791b5b3f313031363b3124791b503024721b5c",
+    "dimensions": [
+      75,
+      21
+    ]
+  },
+  "saved-resized-motion": {
+    "reply": "1b503024721b5c",
+    "input": "1b5b3c33353b34313b31314d1b5b3c33353b34323b31314d"
+  },
+  "shift-selection": {
+    "reply": "1b503024721b5c",
+    "copied": "SELECTABLE"
+  },
+  "before-freeze": {
+    "reply": "1b503024721b5c"
+  },
+  "soft-frozen": {
+    "reply": "1b5b3f323032363b3124791b503024721b5c"
+  },
+  "soft-released": {
+    "reply": "1b503024721b5c"
+  },
+  "origin-and-saved-cursor": {
+    "reply": "1b5b313b31521b5b343b38521b503024721b5c"
+  },
+  "alt-soft-reset": {
+    "reply": "1b5b393b3130521b5b313b31521b5b353b36521b503024721b5c"
+  },
+  "peak_private_ws": 4567040,
+  "peak_total_ws": 20697088,
+  "peak_private_commit": 5865472,
+  "executable_sha256": "f99285d0af0dbee1083152fe0b0990a73d1fa56f8c640ee6d2b9c3a292a40687",
+  "last_snapshot": {
+    "phase": "alt-soft-reset",
+    "hex": "1b5b393b3130521b5b313b31521b5b353b36521b503024721b5c",
+    "columns": 75,
+    "rows": 21,
+    "input_mode": 640
+  }
+}
