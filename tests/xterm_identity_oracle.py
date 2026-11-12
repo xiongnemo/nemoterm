@@ -26,9 +26,9 @@ def main():
     for prefix, final in [('', 'c'), ('>', 'c'), ('=', 'c'), ('>', 'q')]:
         baseline = replies[f'{prefix}{final}-']['reply']
         assert baseline
-        for arg in ('0', '00', '0;9', ';9', '0:0', '0:1', ':1', '0;1:2', '0:0:0'):
+        for arg in ('0', '00', '0;9', ';9', '0:0', '0:1', ':1', '0;1:2', '0:0:0', '1:0', '1;0:0'):
             assert replies[f'{prefix}{final}-{arg}']['reply'] == baseline, (prefix, final, arg)
-        for arg in ('1', '2', '1;0', '1:0', '1;0:0'):
+        for arg in ('1', '2', '1;0'):
             assert replies[f'{prefix}{final}-{arg}']['reply'] == '', (prefix, final, arg)
     assert replies['=c-']['reply'] == '\x1bP!|00000000\x1b\\'
     assert replies['>q-']['reply'] == '\x1bP>|XTerm(412)\x1b\\'

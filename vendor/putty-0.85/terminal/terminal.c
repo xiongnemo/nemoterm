@@ -6446,7 +6446,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                               (c == 'q' && term->esc_query == '>')))) {
                     /* Reject the complete overflowing sequence, and never
                      * reinterpret colon values as unrelated CSI parameters.
-                     * Identity queries ignore subparameters, as xterm does. */
+                     * Xterm discards the whole parameter list on unexpected
+                     * subparameters, then still dispatches identity queries. */
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
@@ -6494,7 +6495,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(OTHER);
                         /* this reports xterm version 136 so that VIM can
                            use the drag messages from the mouse reporting */
-                        if (term->esc_args[0] == 0 && term->ldisc)
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
                             ldisc_send(term->ldisc, "\033[>0;136;0c", 11,
                                        false);
                         break;
@@ -6502,7 +6504,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(OTHER);
                         static const char reply[] =
                             "\033P>|Nemoterm(PuTTY 0.85)\033\\";
-                        if (term->esc_args[0] == 0 && term->ldisc)
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
                             ldisc_send(term->ldisc, reply, sizeof(reply)-1,
                                        false);
                         break;
@@ -6654,7 +6657,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'c':       /* DA: terminal type query */
                         compatibility(VT100);
                         /* Report the configured identity only for a request. */
-                        if (term->esc_args[0] == 0 && term->ldisc)
+                        if (term->ldisc &&
+                            (term->esc_has_subargs || term->esc_args[0] == 0))
                             ldisc_send(term->ldisc, term->id_string,
                                        strlen(term->id_string), false);
                         break;
@@ -7310,7 +7314,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         if (term->compatibility_level != TM_SCOANSI) {
                             compatibility(VT420);
                             static const char reply[] = "\033P!|00000000\033\\";
-                            if (term->esc_args[0] == 0 && term->ldisc)
+                            if (term->ldisc &&
+                                (term->esc_has_subargs || term->esc_args[0] == 0))
                                 ldisc_send(term->ldisc, reply, sizeof(reply)-1,
                                            false);
                             break;
