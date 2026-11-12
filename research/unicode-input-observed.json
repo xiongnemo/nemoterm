@@ -1,0 +1,221 @@
+{
+  "executable_sha256": "25d734ce58418509d423d7091f76c5efe23821759fbee929bc16176e8bf7a892",
+  "runs": [
+    {
+      "chunk": 1,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 1,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 1,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 1,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 2,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 2,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 2,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 2,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 3,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 3,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 3,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 3,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 4,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 4,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 4,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 4,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 7,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 7,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 7,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 7,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 1024,
+      "input_mode": 128,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 1024,
+      "input_mode": 640,
+      "checks": [
+        "mixed-scalars-small-reads",
+        "pair-across-wait",
+        "orphan-then-ascii",
+        "orphan-then-pair",
+        "flush-pending-leader"
+      ]
+    },
+    {
+      "chunk": 1024,
+      "input_mode": 130,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    },
+    {
+      "chunk": 1024,
+      "input_mode": 131,
+      "checks": [
+        "cooked-mixed-scalars-small-reads"
+      ]
+    }
+  ]
+}

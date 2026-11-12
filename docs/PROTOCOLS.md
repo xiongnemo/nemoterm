@@ -30,7 +30,7 @@
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
 | 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
 | 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有22类模式建立88字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存，G2/G3完整保存尚未补齐。 |
-| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](../research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。完整grapheme、emoji、通用字体fallback和真实IME仍需专项测试。 |
+| Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](../research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。IMM 提交、补充平面字节输入和合成 DPI 已有[专项证据](../research/input-methods.md)。完整grapheme、emoji整形、通用字体fallback和物理IME候选操作仍需专项测试。 |
 
 ## 窗口与历史重排
 
@@ -73,7 +73,7 @@
 | OSC133：A/B/C/D（D可带退出码）；OSC633扩展 | 缺失 | prompt、command、output和结束标记需要状态/滚动历史绑定；单纯吞掉序列不实现命令选择、导航等语义。依据 [Windows Terminal shell集成](https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration)。 |
 | OSC1337非图像：CurrentDir、RemoteHost、SetMark、用户变量等 | 缺失，需按子命令拆分 | 1337是命名空间，不能只支持一个子命令就整体标绿。对照iTerm2文档逐项登记；扩展需要设置项的保留设置项。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
-| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSCL/DECSLRM等其他状态字符串仍不支持；未实现的状态不虚报。 |
+| DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL等其他状态字符串仍不支持；未实现的状态不虚报。 |
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；不是任意terminfo程序查询。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复小于14KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
 | Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码、局部滚动、行列/字体resize保留及有限实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`和两组Sixel原生窗口测试覆盖跨滚动边界保留、横向裁剪/恢复、主屏临时历史、备用屏删除行、清历史不删可见部分及移动后擦除。图片保持原始像素尺寸，按扫描行记录字符单位的滚动位移；字体变化后孔洞不变，新擦除按当前格宽/格高精确换算。擦除位图按32行按需分配，位置/掩码/解码器同享4MiB预算。仍缺真实多屏DPI切换验收、完整调色板重染、更多像素擦除边界/查询验收。 |
 | kitty graphics：`APC G control;payload ST` | 缺失 | 按 [kitty图像协议](https://sw.kovidgoyal.net/kitty/graphics-protocol/) 细分传输/查询/placement/删除、分块、RGB/RGBA/PNG、缓存与回收；共享内存/文件路径/动画/Unicode占位等扩展单列，不以Sixel代替。 |
@@ -106,7 +106,7 @@
 本机真实窗口被显示器限制到1907x1061，不能把该进程内存记录冒称4K窗口实测。
 
 
-DECSCA、DECSEL/DECSED、DECERA/DECSERA 已实现并通过核心、原生像素和剪贴板测试；独立 XTerm 对照及有意差异见 [选择性擦除记录](../research/selective-erase.md)。ISO SPA/EPA、左右边距和其他矩形操作仍待实现。
+DECSCA、DECSEL/DECSED、DECERA/DECSERA 已实现并通过核心、原生像素和剪贴板测试；独立 XTerm 对照及有意差异见 [选择性擦除记录](../research/selective-erase.md)。ISO SPA/EPA 仍待实现；左右边距和矩形填充/复制/属性操作已完成有限验收，见对应表格行。
 
 
 ### Windows 输入法、Unicode 字节流与 DPI

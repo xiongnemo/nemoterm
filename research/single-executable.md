@@ -99,3 +99,15 @@ copies, and leaves a newer external clipboard owner alone. The affected native
 tests then passed with the image clipboard retained. Remaining terminal protocol,
 physical IME, multi-monitor DPI and long-running real-agent acceptance are tracked
 separately in the requirements ledger.
+
+
+## Unicode input checkpoint
+
+The later `badf932` source artifact is 4,307,968 bytes with SHA-256
+`25d734ce58418509d423d7091f76c5efe23821759fbee929bc16176e8bf7a892`.
+All 28 single-executable CI checks passed; this is the installed `dist` file.
+It includes the embedded Nerd font and source-host Unicode stream corrections.
+REA again parsed 79 descriptors, now 598 regular and 11 delayed imports, with
+no issues. Runtime isolation still uses only the same EXE and Windows system
+components. See [input-method validation](input-methods.md) for CI links,
+local verification, memory samples and the remaining acceptance boundaries.

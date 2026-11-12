@@ -5,7 +5,7 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
 
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
 私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
-每次 push 的 GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原生回归，
+GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原生回归，
 成功后上传 `nemoterm-single-exe-x64-<commit>` artifact，解压后只有 `nemoterm.exe`。
 许可证已嵌入 About / View Licence 和 `--licenses`，测试证据另存 artifact，保留 30 天。
 另一条 CI 执行 Windows 核心回归、MinGW 对照构建和 Linux ASan/UBSan；

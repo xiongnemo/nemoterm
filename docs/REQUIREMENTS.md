@@ -853,3 +853,28 @@ explicit differences, memory samples and reproducible tests. CI now includes
 
 The broader full-protocol, Unicode/grapheme, real IME/DPI and real-agent workload
 acceptance remains open. This checkpoint does not close those requirements.
+
+
+## IMM / Unicode / DPI checkpoint (2026-11-12)
+
+Source commit `badf932e75e083a072fb232b44debcc6dc108263` has green core and
+single-executable CI: 28 core suites, 11 terminal sanitizer suites and 28 native
+single-file checks. The installed artifact is 4,307,968 bytes, SHA-256
+`25d734ce58418509d423d7091f76c5efe23821759fbee929bc16176e8bf7a892`.
+IMM short-read boundaries, WM_UNICHAR, active composition font scaling and
+OpenConsole UTF-16/UTF-8 byte boundaries are fixed. The source overlay retains
+one pending UTF-16 unit and preserves string decoder state during internal
+stream reads. Raw/VT/cooked reads have 24 buffer/mode combinations; actual IMM
+API submission and synthetic DPI pixel checks pass locally with Sarasa.
+
+The final artifact passed six local groups, including mouse/resize and all six
+shells. Uninstrumented frontend margin stress peaked at 10,006,528 private WS,
+32,813,056 total WS and 11,771,904 private commit bytes. Host and shell samples
+remain separate. An earlier local full run's delayed clipboard fixture was
+preempted by an external read and is explicitly not claimed passed; final CI
+passed that group. Full details and the exact artifact-bound evidence are in
+[the input-method record](../research/input-methods.md).
+
+Physical IME candidate selection, genuine multi-monitor transitions, real agent
+workloads and complete modern/xterm protocol coverage remain unaccepted. This
+checkpoint does not close the broader goal.
