@@ -22,19 +22,21 @@ parser.add_argument('--input-text', default='NEMOTERM_INPUT 中文 e\u0301 \U000
 parser.add_argument('--trace-input', action='store_true', help='Trace owned Codex console reads for diagnosis')
 parser.add_argument('--diagnose-surrogates', action='store_true', help='Diagnostic mutation only; suppress surrogate release text in Codex reads')
 parser.add_argument('--font', default='SarasaTermSC Nerd Font Light')
+parser.add_argument('--renderer', choices=('gdi','opengl'), default='gdi')
 args = parser.parse_args()
 assert args.codex, 'Provide --codex with an installed native Codex executable'
 codex = Path(args.codex).resolve()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
-mode = 'inline' if args.inline else 'default'
+mode = ('inline' if args.inline else 'default')+('-opengl' if args.renderer=='opengl' else '')
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     codex_launcher=str(codex), codex_launcher_sha256=hashlib.sha256(codex.read_bytes()).hexdigest(),
     codex_version=subprocess.check_output([str(codex), '--version'], text=True, timeout=15).strip(),
-    mode=mode, font=args.font, backend='loopback deterministic SSE; no model or tool calls', checks=[], screenshots=[])
+    mode=mode, font=args.font, renderer=args.renderer, backend='loopback deterministic SSE; no model or tool calls', checks=[], screenshots=[])
 profile = 'codex-window-'+uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
+    winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, 1 if args.renderer=='opengl' else 0)
 
 
 def key(vk, scan):
@@ -157,6 +159,8 @@ enabled = false
         hwnd = None
         try:
             hwnd = wait_for(lambda: find_window(process.pid), timeout=15)
+            u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
+            assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==(2 if args.renderer=='opengl' else 1),'Requested renderer unavailable'
             saved = SavedClipboard(hwnd)
             wait_for(lambda: 'Ask Codex to do anything' in all_text(), timeout=20)
             evidence['checks'].append('actual-client-startup')
@@ -231,7 +235,8 @@ enabled = false
             evidence['uninstrumented_frontend'] = dict(samples=len(samples),
                 **{'peak_'+key: max(item[key] for item in samples)
                    for key in ('private_ws','total_ws','private_commit')})
-            assert evidence['uninstrumented_frontend']['peak_private_ws'] < 20_000_000
+            if args.renderer=='gdi':
+                assert evidence['uninstrumented_frontend']['peak_private_ws'] < 20_000_000
             evidence['post_resize_processes'] = owned_processes(process.pid)
 
             # Only this phase is instrumented. It is excluded from memory peaks.
