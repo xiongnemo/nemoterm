@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'tests/xterm_window_oracle.py'
+      - 'tests/xterm_geometry_oracle.py'
       - 'tests/xterm_state_oracle.py'
       - '.github/workflows/window-reference.yml'
 
@@ -32,9 +33,13 @@ jobs:
           make -j2
       - name: Capture title stacks, title encoding and geometry
         run: python3 tests/xterm_window_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm
+      - name: Capture resize parameter semantics
+        run: python3 tests/xterm_geometry_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: window-xterm-${{ github.sha }}
-          path: research/window-xterm.json
+          path: |
+            research/window-xterm.json
+            research/geometry-xterm.json
           if-no-files-found: error
