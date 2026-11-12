@@ -32,6 +32,13 @@ active renderer. This is a sidecar comparison build, not a new accepted single
 EXE. Both CI workflows now run this regression; single-EXE validation remains
 required before distribution.
 
+The same local build also passed the native settings fixture: saving and
+reloading bindings/shell preferences, opening the terminal, switching
+OpenGL -> GDI -> OpenGL -> GDI, and natural fixture exit. The observed renderer
+values are 1 -> 2 -> 1 for those three switches. Exact settings evidence is in
+`shutdown-settings-local.json`; `shutdown-rendering-settings.png` shows the
+rendering panel. This run used owned-window UI Automation, not physical input.
+
 The new process-job helper separately bounds real-client test descendants from
 creation, including late Git workers. Two native lifecycle tests verify a late
 child is drained after its parent exits, an unrelated process survives, and a
