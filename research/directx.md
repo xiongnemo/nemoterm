@@ -91,3 +91,12 @@ saved hover PNG already contains both expected spans x=10..45 and x=91..126.
 The fixture now waits for the complete exact two-run pixel set, with bounded
 waiting and diagnostic samples, instead of treating the first changed pixel
 as a completed paint. No hyperlink rendering behavior or pixel criterion changes.
+
+Core/sanitizer run 43283989982 passes. Single-file run 43283990051 passes the
+three-mode pixels (including hardware DirectX on that runner), then exposes a
+selection-fixture mailbox race: a transient empty read raises KeyError after
+successful rectangle/pixel/copy checks. Its final snapshot still has exactly
+the expected DSR. Selection now uses the fixture's ordered input barrier and
+retains one complete acknowledged snapshot before checking all input bytes;
+partial results are also saved on failure. Full single-file acceptance remains
+pending; no failed-run executable is promoted to dist.
