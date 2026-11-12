@@ -95,7 +95,7 @@ def main():
       <Project>{{58a03bb2-df5a-4b66-91a0-7ef3ba01269a}}</Project>
     </ProjectReference>
     <ResourceCompile Include="{src}\\pterm.rc">
-      <AdditionalIncludeDirectories>{src};{generated};{generated}\\generated;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>{src};{src}\\..;{generated};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CMAKE_H;NO_MANIFESTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemGroup>
