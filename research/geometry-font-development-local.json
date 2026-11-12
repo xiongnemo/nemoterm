@@ -1,0 +1,124 @@
+{
+  "completed": true,
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "resolved_font": "SarasaTermSC Nerd Font Light",
+  "native_cjk": true,
+  "observations": [
+    {
+      "phase": "initial",
+      "client": [
+        322,
+        242
+      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
+      "memory": {
+        "private_ws": 4083712,
+        "total_ws": 21454848,
+        "private_commit": 5595136
+      },
+      "gdi": 21
+    },
+    {
+      "phase": "wide",
+      "client": [
+        642,
+        242
+      ],
+      "widths": {
+        "M": [
+          14,
+          14
+        ],
+        "\u4e2d": [
+          27,
+          27
+        ]
+      },
+      "memory": {
+        "private_ws": 4145152,
+        "total_ws": 21544960,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "tall",
+      "client": [
+        322,
+        482
+      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
+      "memory": {
+        "private_ws": 4161536,
+        "total_ws": 21581824,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "both",
+      "client": [
+        482,
+        362
+      ],
+      "widths": {
+        "M": [
+          10,
+          11
+        ],
+        "\u4e2d": [
+          20,
+          20
+        ]
+      },
+      "memory": {
+        "private_ws": 4165632,
+        "total_ws": 21602304,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    },
+    {
+      "phase": "restore",
+      "client": [
+        322,
+        242
+      ],
+      "widths": {
+        "M": [
+          8,
+          8
+        ],
+        "\u4e2d": [
+          14,
+          14
+        ]
+      },
+      "memory": {
+        "private_ws": 4165632,
+        "total_ws": 21606400,
+        "private_commit": 5656576
+      },
+      "gdi": 23
+    }
+  ],
+  "executable_sha256": "a43d8ad789d5263762dd4b63f3e59bcafc5c06efc271da83dc86132048331bbb"
+}

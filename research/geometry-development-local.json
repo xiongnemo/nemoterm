@@ -13,6 +13,525 @@
             ],
             [
               3,
+              156,
+              156
+            ],
+            [
+              3,
+              165,
+              188
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3452928,
+            "total_ws": 20467712,
+            "private_commit": 4493312
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            156,
+            156,
+            831,
+            677
+          ]
+        },
+        {
+          "name": "negative-position",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              65376,
+              65446
+            ],
+            [
+              3,
+              65385,
+              65478
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3452928,
+            "total_ws": 20467712,
+            "private_commit": 4493312
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            -160,
+            -90,
+            515,
+            431
+          ]
+        },
+        {
+          "name": "relocated",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3452928,
+            "total_ws": 20471808,
+            "private_commit": 4493312
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            40,
+            40,
+            715,
+            561
+          ]
+        },
+        {
+          "name": "resized-grid",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              561,
+              699
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3629056,
+            "total_ws": 20668416,
+            "private_commit": 4702208
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            40,
+            40,
+            739,
+            601
+          ]
+        },
+        {
+          "name": "minimized",
+          "replies": [
+            [
+              2
+            ],
+            [
+              3,
+              33536,
+              33536
+            ],
+            [
+              3,
+              33537,
+              33537
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              28,
+              160
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3629056,
+            "total_ws": 20668416,
+            "private_commit": 4702208
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            -32000,
+            -32000,
+            -31840,
+            -31972
+          ]
+        },
+        {
+          "name": "restored",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              561,
+              699
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3629056,
+            "total_ws": 20676608,
+            "private_commit": 4702208
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            40,
+            40,
+            739,
+            601
+          ]
+        },
+        {
+          "name": "synchronized-queries",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              561,
+              699
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 3735552,
+            "total_ws": 20803584,
+            "private_commit": 4780032
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            40,
+            40,
+            739,
+            601
+          ]
+        }
+      ],
+      "active_renderer": 1,
+      "memory_before_instrumentation": {
+        "private_ws": 3444736,
+        "total_ws": 20447232,
+        "private_commit": 4493312
+      },
+      "capture_method": "PrintWindow",
+      "memory_instrumented": false,
+      "cell": [
+        8,
+        20
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "output_while_minimized_preserved": true
+    },
+    {
+      "requested_renderer": 1,
+      "checks": [
+        {
+          "name": "initial",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
               208,
               208
             ],
@@ -53,9 +572,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3444736,
-            "total_ws": 20496384,
-            "private_commit": 4481024
+            "private_ws": 31178752,
+            "total_ws": 63639552,
+            "private_commit": 87666688
           },
           "cell": [
             8,
@@ -124,9 +643,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3444736,
-            "total_ws": 20496384,
-            "private_commit": 4481024
+            "private_ws": 31260672,
+            "total_ws": 63725568,
+            "private_commit": 87666688
           },
           "cell": [
             8,
@@ -195,9 +714,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3444736,
-            "total_ws": 20500480,
-            "private_commit": 4481024
+            "private_ws": 31285248,
+            "total_ws": 63766528,
+            "private_commit": 87666688
           },
           "cell": [
             8,
@@ -266,9 +785,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3620864,
-            "total_ws": 20705280,
-            "private_commit": 4689920
+            "private_ws": 31604736,
+            "total_ws": 64106496,
+            "private_commit": 91414528
           },
           "cell": [
             8,
@@ -337,9 +856,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3620864,
-            "total_ws": 20705280,
-            "private_commit": 4689920
+            "private_ws": 31604736,
+            "total_ws": 64106496,
+            "private_commit": 91414528
           },
           "cell": [
             8,
@@ -408,9 +927,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3620864,
-            "total_ws": 20709376,
-            "private_commit": 4689920
+            "private_ws": 31707136,
+            "total_ws": 64208896,
+            "private_commit": 91414528
           },
           "cell": [
             8,
@@ -479,527 +998,9 @@
             ]
           ],
           "memory": {
-            "private_ws": 3727360,
-            "total_ws": 20844544,
-            "private_commit": 4767744
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            83,
-            26
-          ],
-          "native_outer": [
-            40,
-            40,
-            739,
-            601
-          ]
-        }
-      ],
-      "active_renderer": 1,
-      "memory_before_instrumentation": {
-        "private_ws": 3436544,
-        "total_ws": 20475904,
-        "private_commit": 4481024
-      },
-      "capture_method": "PrintWindow",
-      "memory_instrumented": false,
-      "cell": [
-        8,
-        20
-      ],
-      "offset": [
-        1,
-        1
-      ]
-    },
-    {
-      "requested_renderer": 1,
-      "checks": [
-        {
-          "name": "initial",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              26,
-              26
-            ],
-            [
-              3,
-              35,
-              58
-            ],
-            [
-              4,
-              480,
-              640
-            ],
-            [
-              4,
-              521,
-              675
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              24,
-              80
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31240192,
-            "total_ws": 63713280,
-            "private_commit": 86806528
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            80,
-            24
-          ],
-          "native_outer": [
-            26,
-            26,
-            701,
-            547
-          ]
-        },
-        {
-          "name": "negative-position",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              65376,
-              65446
-            ],
-            [
-              3,
-              65385,
-              65478
-            ],
-            [
-              4,
-              480,
-              640
-            ],
-            [
-              4,
-              521,
-              675
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              24,
-              80
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31313920,
-            "total_ws": 63795200,
-            "private_commit": 86806528
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            80,
-            24
-          ],
-          "native_outer": [
-            -160,
-            -90,
-            515,
-            431
-          ]
-        },
-        {
-          "name": "relocated",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              40,
-              40
-            ],
-            [
-              3,
-              49,
-              72
-            ],
-            [
-              4,
-              480,
-              640
-            ],
-            [
-              4,
-              521,
-              675
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              24,
-              80
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31338496,
-            "total_ws": 63832064,
-            "private_commit": 86806528
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            80,
-            24
-          ],
-          "native_outer": [
-            40,
-            40,
-            715,
-            561
-          ]
-        },
-        {
-          "name": "resized-grid",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              40,
-              40
-            ],
-            [
-              3,
-              49,
-              72
-            ],
-            [
-              4,
-              520,
-              664
-            ],
-            [
-              4,
-              561,
-              699
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              26,
-              83
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31662080,
-            "total_ws": 64180224,
-            "private_commit": 90558464
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            83,
-            26
-          ],
-          "native_outer": [
-            40,
-            40,
-            739,
-            601
-          ]
-        },
-        {
-          "name": "minimized",
-          "replies": [
-            [
-              2
-            ],
-            [
-              3,
-              33536,
-              33536
-            ],
-            [
-              3,
-              33537,
-              33537
-            ],
-            [
-              4,
-              520,
-              664
-            ],
-            [
-              4,
-              28,
-              160
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              26,
-              83
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31662080,
-            "total_ws": 64180224,
-            "private_commit": 90558464
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            83,
-            26
-          ],
-          "native_outer": [
-            -32000,
-            -32000,
-            -31840,
-            -31972
-          ]
-        },
-        {
-          "name": "restored",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              40,
-              40
-            ],
-            [
-              3,
-              49,
-              72
-            ],
-            [
-              4,
-              520,
-              664
-            ],
-            [
-              4,
-              561,
-              699
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              26,
-              83
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31698944,
-            "total_ws": 64225280,
-            "private_commit": 90558464
-          },
-          "cell": [
-            8,
-            20
-          ],
-          "text_offset": [
-            1,
-            1
-          ],
-          "child_grid": [
-            83,
-            26
-          ],
-          "native_outer": [
-            40,
-            40,
-            739,
-            601
-          ]
-        },
-        {
-          "name": "synchronized-queries",
-          "replies": [
-            [
-              1
-            ],
-            [
-              3,
-              40,
-              40
-            ],
-            [
-              3,
-              49,
-              72
-            ],
-            [
-              4,
-              520,
-              664
-            ],
-            [
-              4,
-              561,
-              699
-            ],
-            [
-              5,
-              1080,
-              1920
-            ],
-            [
-              6,
-              20,
-              8
-            ],
-            [
-              8,
-              26,
-              83
-            ],
-            [
-              9,
-              54,
-              240
-            ]
-          ],
-          "memory": {
-            "private_ws": 31698944,
-            "total_ws": 64225280,
-            "private_commit": 90562560
+            "private_ws": 31707136,
+            "total_ws": 64208896,
+            "private_commit": 91418624
           },
           "cell": [
             8,
@@ -1023,9 +1024,9 @@
       ],
       "active_renderer": 2,
       "memory_before_instrumentation": {
-        "private_ws": 29003776,
-        "total_ws": 57352192,
-        "private_commit": 82198528
+        "private_ws": 28925952,
+        "total_ws": 57257984,
+        "private_commit": 83009536
       },
       "capture_method": "owned-process-retained-frame",
       "memory_instrumented": true,
@@ -1036,7 +1037,8 @@
       "offset": [
         1,
         1
-      ]
+      ],
+      "output_while_minimized_preserved": true
     }
   ],
   "runtime_files": {

@@ -1,0 +1,397 @@
+{
+  "focus_model": "owned-process instrumented active and inactive states",
+  "executable_sha256": "9d8133f2cf4bbaa709d0e6b98014359c485125364d06a2c47cb91f1f55c5f909",
+  "identity-c-": {
+    "sequence": "\u001b[c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0": {
+    "sequence": "\u001b[0c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0;9": {
+    "sequence": "\u001b[0;9c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-;9": {
+    "sequence": "\u001b[;9c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0:0": {
+    "sequence": "\u001b[0:0c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0:1": {
+    "sequence": "\u001b[0:1c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-:1": {
+    "sequence": "\u001b[:1c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0;1:2": {
+    "sequence": "\u001b[0;1:2c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-0:0:0": {
+    "sequence": "\u001b[0:0:0c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-1:0": {
+    "sequence": "\u001b[1:0c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-1;0:0": {
+    "sequence": "\u001b[1;0:0c",
+    "reply": "1b5b3f36323b343b3232631b5b306e"
+  },
+  "identity-c-1": {
+    "sequence": "\u001b[1c",
+    "reply": "1b5b306e"
+  },
+  "identity-c-2": {
+    "sequence": "\u001b[2c",
+    "reply": "1b5b306e"
+  },
+  "identity-c-1;0": {
+    "sequence": "\u001b[1;0c",
+    "reply": "1b5b306e"
+  },
+  "identity-c-999999999999999999999": {
+    "sequence": "\u001b[999999999999999999999c",
+    "reply": "1b5b306e"
+  },
+  "identity->c-": {
+    "sequence": "\u001b[>c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0": {
+    "sequence": "\u001b[>0c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0;9": {
+    "sequence": "\u001b[>0;9c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-;9": {
+    "sequence": "\u001b[>;9c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0:0": {
+    "sequence": "\u001b[>0:0c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0:1": {
+    "sequence": "\u001b[>0:1c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-:1": {
+    "sequence": "\u001b[>:1c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0;1:2": {
+    "sequence": "\u001b[>0;1:2c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-0:0:0": {
+    "sequence": "\u001b[>0:0:0c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-1:0": {
+    "sequence": "\u001b[>1:0c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-1;0:0": {
+    "sequence": "\u001b[>1;0:0c",
+    "reply": "1b5b3e303b3133363b30631b5b306e"
+  },
+  "identity->c-1": {
+    "sequence": "\u001b[>1c",
+    "reply": "1b5b306e"
+  },
+  "identity->c-2": {
+    "sequence": "\u001b[>2c",
+    "reply": "1b5b306e"
+  },
+  "identity->c-1;0": {
+    "sequence": "\u001b[>1;0c",
+    "reply": "1b5b306e"
+  },
+  "identity->c-999999999999999999999": {
+    "sequence": "\u001b[>999999999999999999999c",
+    "reply": "1b5b306e"
+  },
+  "identity-=c-": {
+    "sequence": "\u001b[=c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0": {
+    "sequence": "\u001b[=0c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0;9": {
+    "sequence": "\u001b[=0;9c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-;9": {
+    "sequence": "\u001b[=;9c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0:0": {
+    "sequence": "\u001b[=0:0c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0:1": {
+    "sequence": "\u001b[=0:1c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-:1": {
+    "sequence": "\u001b[=:1c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0;1:2": {
+    "sequence": "\u001b[=0;1:2c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-0:0:0": {
+    "sequence": "\u001b[=0:0:0c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-1:0": {
+    "sequence": "\u001b[=1:0c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-1;0:0": {
+    "sequence": "\u001b[=1;0:0c",
+    "reply": "1b50217c30303030303030301b5c1b5b306e"
+  },
+  "identity-=c-1": {
+    "sequence": "\u001b[=1c",
+    "reply": "1b5b306e"
+  },
+  "identity-=c-2": {
+    "sequence": "\u001b[=2c",
+    "reply": "1b5b306e"
+  },
+  "identity-=c-1;0": {
+    "sequence": "\u001b[=1;0c",
+    "reply": "1b5b306e"
+  },
+  "identity-=c-999999999999999999999": {
+    "sequence": "\u001b[=999999999999999999999c",
+    "reply": "1b5b306e"
+  },
+  "identity->q-": {
+    "sequence": "\u001b[>q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0": {
+    "sequence": "\u001b[>0q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0;9": {
+    "sequence": "\u001b[>0;9q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-;9": {
+    "sequence": "\u001b[>;9q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0:0": {
+    "sequence": "\u001b[>0:0q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0:1": {
+    "sequence": "\u001b[>0:1q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-:1": {
+    "sequence": "\u001b[>:1q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0;1:2": {
+    "sequence": "\u001b[>0;1:2q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-0:0:0": {
+    "sequence": "\u001b[>0:0:0q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-1:0": {
+    "sequence": "\u001b[>1:0q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-1;0:0": {
+    "sequence": "\u001b[>1;0:0q",
+    "reply": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "identity->q-1": {
+    "sequence": "\u001b[>1q",
+    "reply": "1b5b306e"
+  },
+  "identity->q-2": {
+    "sequence": "\u001b[>2q",
+    "reply": "1b5b306e"
+  },
+  "identity->q-1;0": {
+    "sequence": "\u001b[>1;0q",
+    "reply": "1b5b306e"
+  },
+  "identity->q-999999999999999999999": {
+    "sequence": "\u001b[>999999999999999999999q",
+    "reply": "1b5b306e"
+  },
+  "identity-cursor-visible": {
+    "sequence": "\u001b[?25h\u001b[=c\u001b[?25$p",
+    "reply": "1b50217c30303030303030301b5c1b5b3f32353b3124791b5b306e"
+  },
+  "identity-cursor-hidden": {
+    "sequence": "\u001b[?25l\u001b[=c\u001b[=1c\u001b[=2c\u001b[?25$p",
+    "reply": "1b50217c30303030303030301b5c1b5b3f32353b3224791b5b306e"
+  },
+  "identity-sco-cursor": {
+    "sequence": "\u001b[?25h\u001b[42\"p\u001b[=c\u001b[41\"p\u001b[?25$p",
+    "reply": "1b5b3f32353b3224791b5b306e"
+  },
+  "identity-alt": {
+    "sequence": "\u001b[?1049h\u001b[=c\u001b[>q\u001b[?1049l",
+    "reply": "1b50217c30303030303030301b5c1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e"
+  },
+  "hidden": {
+    "reply": "1b503124723220711b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "block": {
+    "reply": "1b503124723220711b5c",
+    "sha256": "c77743c4b148054bcaa33d3bc165458ec7c2f44579891d851fdc8537095decfa",
+    "desktop_foreground": 11078936,
+    "shape": [
+      8,
+      20,
+      160
+    ]
+  },
+  "underline": {
+    "reply": "1b503124723420711b5c",
+    "sha256": "c33eecae6de7ecb8693297eff6047dea1c8b4beac2eb98f0efaa5443f8f75cb3",
+    "desktop_foreground": 11078936,
+    "shape": [
+      8,
+      1,
+      8
+    ]
+  },
+  "bar": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "1bd41ed1d0526f1d4c0f2ef0ebd0b8302853000d43ae989db3c714bc8df0a7bc",
+    "desktop_foreground": 11078936,
+    "shape": [
+      1,
+      20,
+      20
+    ]
+  },
+  "identity-visible-pixels": {
+    "sequence": "\u001b[=c\u001b[>q",
+    "reply": "1b50217c30303030303030301b5c1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e",
+    "sha256": "1bd41ed1d0526f1d4c0f2ef0ebd0b8302853000d43ae989db3c714bc8df0a7bc"
+  },
+  "hidden-again": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "sgr": {
+    "reply": "1b50312472303b33313b34346d1b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "margins": {
+    "reply": "1b50312472333b3130721b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "unsupported": {
+    "reply": "1b503024721b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "geometry": {
+    "reply": "1b503124723430247c1b5c1b5031247231322a7c1b5c",
+    "sha256": "f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9",
+    "desktop_foreground": 11078936
+  },
+  "geometry-after-resize": {
+    "reply": "1b503124723736247c1b5c1b5031247232312a7c1b5c",
+    "sha256": "881e308d1e772dd57d0f50a139fb42aa541d13667c7b7c1ded55e04dea65a28a",
+    "desktop_foreground": 11078936
+  },
+  "blink": {
+    "reply": "1b503124723120711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6",
+    "desktop_foreground": 11078936
+  },
+  "blink_states": [
+    false,
+    true
+  ],
+  "blink-off": {
+    "reply": "1b5b3f31323b3224791b503124723220711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6",
+    "desktop_foreground": 11078936
+  },
+  "steady_states": [
+    true
+  ],
+  "frozen-query": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6",
+    "desktop_foreground": 11078936
+  },
+  "released-query": {
+    "reply": "1b503124723620711b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00",
+    "desktop_foreground": 11078936
+  },
+  "inactive-cursor": {
+    "shape": [
+      1,
+      19,
+      10
+    ],
+    "sha256": "43b5853642562dea7356053cc20f568a6150382026e226881acce8849d639d96"
+  },
+  "keys-normal": {
+    "reply": "1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162356234383b36623635366536343d3162356234363b366236333735373533313d3162356234313b366236333735363433313d3162356234323b366236333735363633313d3162356234333b366236333735363233313d3162356234343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00",
+    "desktop_foreground": 11078936,
+    "key_input": "1b4f501b5b32347e1b5b32357e1b5b34357e1b5b481b5b461b5b411b5b421b5b431b5b441b5b327e1b5b337e1b5b357e1b5b367e7f",
+    "child_input": "1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162356234383b36623635366536343d3162356234363b366236333735373533313d3162356234313b366236333735363433313d3162356234323b366236333735363633313d3162356234333b366236333735363233313d3162356234343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c1b4f501b5b32347e1b5b32357e1b5b34357e1b5b481b5b461b5b411b5b421b5b431b5b441b5b327e1b5b337e1b5b357e1b5b367e7f"
+  },
+  "keys-application": {
+    "reply": "1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162346634383b36623635366536343d3162346634363b366236333735373533313d3162346634313b366236333735363433313d3162346634323b366236333735363633313d3162346634333b366236333735363233313d3162346634343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00",
+    "desktop_foreground": 11078936,
+    "key_input": "1b4f501b5b32347e1b5b32357e1b5b34357e1b4f481b4f461b4f411b4f421b4f431b4f441b5b327e1b5b337e1b5b357e1b5b367e7f",
+    "child_input": "1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162346634383b36623635366536343d3162346634363b366236333735373533313d3162346634313b366236333735363433313d3162346634323b366236333735363633313d3162346634333b366236333735363233313d3162346634343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c1b4f501b5b32347e1b5b32357e1b5b34357e1b4f481b4f461b4f411b4f421b4f431b4f441b5b327e1b5b337e1b5b357e1b5b367e7f"
+  },
+  "tcap-colours": {
+    "reply": "1b50312b72343336663d3332333533363b353434653d373837343635373236643264333233353336363336663663366637323b3532343734323d33381b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00",
+    "desktop_foreground": 11078936
+  },
+  "tcap-unsupported": {
+    "reply": "1b50302b721b5c",
+    "sha256": "ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00",
+    "desktop_foreground": 11078936
+  },
+  "peak_private_ws": 4743168,
+  "peak_total_ws": 21258240,
+  "completed": true,
+  "focus_instrumentation": {
+    "focused": true,
+    "suppressed_mouse_messages": 0,
+    "suppressed_focus_messages": 0
+  }
+}
