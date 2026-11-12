@@ -676,21 +676,6 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     init_palette(wgs);
 
     /*
-     * Initialise the terminal. (We have to do this _after_
-     * creating the window, since the terminal is the first thing
-     * which will call schedule_timer(), which will in turn call
-     * timer_change_notify() which will expect hwnd to exist.)
-     */
-    wgs->term = term_init(wgs->conf, &wgs->ucsdata, &wgs->termwin);
-    term_set_cell_size(wgs->term, wgs->font_width, wgs->font_height);
-    setup_clipboards(wgs->term, wgs->conf);
-    wgs->logctx = log_init(&wgs->logpolicy, wgs->conf);
-    term_provide_logctx(wgs->term, wgs->logctx);
-    term_size(wgs->term, conf_get_int(wgs->conf, CONF_height),
-              conf_get_int(wgs->conf, CONF_width),
-              conf_get_int(wgs->conf, CONF_savelines));
-
-    /*
      * Correct the guesses for extra_{width,height}.
      */
     {
@@ -706,7 +691,9 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     }
 
     /*
-     * Compute what size we _really_ want the window to be.
+     * Clamp the actual-font grid before allocating terminal screen buffers.
+     * Oversized requests must not allocate an offscreen grid, then move its
+     * blank rows into history when shrinking to the work area.
      */
     RECT startup_work;
     if (get_workingarea_rect(wgs, &startup_work)) {
@@ -714,14 +701,22 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
                            max(1, wgs->font_width));
         int rows = max(1, (startup_work.bottom-startup_work.top-wgs->extra_height) /
                            max(1, wgs->font_height));
-        cols = min(cols, wgs->term->cols);
-        rows = min(rows, wgs->term->rows);
-        if (cols != wgs->term->cols || rows != wgs->term->rows) {
-            conf_set_int(wgs->conf, CONF_width, cols);
-            conf_set_int(wgs->conf, CONF_height, rows);
-            term_size(wgs->term, rows, cols, conf_get_int(wgs->conf, CONF_savelines));
-        }
+        conf_set_int(wgs->conf, CONF_width,
+                     max(1, min(cols, conf_get_int(wgs->conf, CONF_width))));
+        conf_set_int(wgs->conf, CONF_height,
+                     max(1, min(rows, conf_get_int(wgs->conf, CONF_height))));
     }
+
+    /* The window exists before terminal timers can be scheduled. */
+    wgs->term = term_init(wgs->conf, &wgs->ucsdata, &wgs->termwin);
+    term_set_cell_size(wgs->term, wgs->font_width, wgs->font_height);
+    setup_clipboards(wgs->term, wgs->conf);
+    wgs->logctx = log_init(&wgs->logpolicy, wgs->conf);
+    term_provide_logctx(wgs->term, wgs->logctx);
+    term_size(wgs->term, conf_get_int(wgs->conf, CONF_height),
+              conf_get_int(wgs->conf, CONF_width),
+              conf_get_int(wgs->conf, CONF_savelines));
+
     guess_width = wgs->extra_width + wgs->font_width * wgs->term->cols;
     guess_height = wgs->extra_height + wgs->font_height * wgs->term->rows;
 
