@@ -975,5 +975,32 @@ and working-set sampler fixes, exact hashes, artifacts and captures are in
 These finite tests do not close extended/live-service agent use, Claude Code,
 physical IME/DPI/device behavior, complete grapheme rendering or the remaining
 protocol families. DirectX frontend rendering and four-sided tabs with hover
-previews are still planned, not implemented. Identity queries continue in the
-separate feature/identity-queries branch and are not part of this accepted EXE.
+previews are still planned, not implemented. Identity queries were not part of
+that artifact; the following checkpoint supersedes that distribution.
+
+## Identity queries and native shutdown (2026-11-13 Sydney)
+
+DA3 and truthful XTVERSION now match 62 independently captured XTerm query
+cases, including parameter reset on colon subparameters. The same implementation
+passes 65 native identity checks. The natural child-exit path also now destroys
+its HWND before freeing callback state, which removes a reproduced stale-window
+lifetime defect. A private Windows Job bounds late real-client test subprocesses.
+
+Source 80c6cf2 has green core, sanitizer, independent-reference and single-EXE CI.
+The exact 4,338,176-byte artifact passed 38 CI groups and local GDI/OpenGL shutdown
+and query checks. `dist/nemoterm.exe` now contains that accepted artifact, SHA-256
+`50b58e1f5f07901bfa3bc496a6e2d5e4b1eaa8397bb4152de29a0fa8c3024822`.
+The previous ff693f8 artifact is backed up under
+`build/dist-before-window-shutdown-80c6cf2/`.
+
+CI's default and inline real Codex GDI frontend peaks are 5.07 and 5.24 MB private
+WS, 34.85 and 35.01 MB total WS; host and client are recorded separately. The
+local query peak is 4.68 MB private WS. The local real-Codex retry hit Windows
+clipboard access-denied and is not counted as passed. Exact provenance and
+observations are in [window-shutdown.md](../research/window-shutdown.md).
+
+Title stacks are implemented on feature/window-controls with core and native
+comparison tests; their single-EXE CI is pending and they are not in this accepted
+artifact. Title encoding modes, geometry gaps, DirectX frontend rendering,
+four-sided tabs/previews, physical input/IME/DPI and the wider protocol ledger
+remain open. The original goal is still active.
