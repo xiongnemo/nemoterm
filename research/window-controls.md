@@ -45,6 +45,31 @@ screen, title hex mode and geometry. Baseline semantic assertions prevent a
 disabled XTerm feature from looking like a valid empty result. Raw replies
 must be inspected before creating the Nemoterm fixture.
 
+## Independent reference captured
+
+[Run 43244992756](https://github.com/xiongnemo/nemoterm/actions/runs/43244992756)
+passed all baseline assertions and captured 30 cases from XTerm 412. Exact
+sequences and replies are retained in `window-xterm.json`, including the
+reference executable hash. This verifies the reference behavior only.
+
+Icon and window fields share ten slots. A pop can fill a missing field from an
+older slot. Invalid selectors still consume a slot on push or pop; direct slot
+reads do not pop, and slot 11 aliases slot 1. Stack and direct writes share
+storage. After twelve pushes, only STACK11 through STACK2 can be recovered;
+further pops leave the last restored title unchanged. RIS, DECSTR and alternate
+screen changes preserve the stored titles in these cases.
+
+Hex queries return uppercase encoded UTF-8. Odd or invalid hex updates preserve
+the prior title; decoded NUL/control bytes truncate the observed title. A
+4096-byte update is rejected. Geometry queries distinguish the text origin from
+the outer origin, and text pixels from outer pixels; screen and cell reports
+agree with the private 1024x768 display and 6x13 font cell.
+
+The earlier run 43244575456 did not clear indexed slots between cases. It is
+superseded: direct-slot-and-stack previously inherited BASE from another case.
+The corrected fixture empties all ten indexed slots and observes SLOT for both
+queries. Keep this isolation when adding more cases.
+
 ## Implementation constraints
 
 Use lazy bounded storage, including metadata and title bytes. Preserve explicit
