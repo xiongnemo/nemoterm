@@ -361,7 +361,8 @@ bool nemo_gl_print(NemoGL *g, HDC dc)
     bi.bmiHeader.biPlanes=1;bi.bmiHeader.biBitCount=32;bi.bmiHeader.biCompression=BI_RGB;
     for (int y=0;y<g->height;y++) {
         g->api.glReadPixels(0,g->height-1-y,g->width,1,GL_BGRA,GL_UNSIGNED_BYTE,g->pixels);
-        if (StretchDIBits(dc,0,y,g->width,1,0,0,g->width,1,g->pixels,&bi,DIB_RGB_COLORS,SRCCOPY)==GDI_ERROR) return false;
+        int copied=StretchDIBits(dc,0,y,g->width,1,0,0,g->width,1,g->pixels,&bi,DIB_RGB_COLORS,SRCCOPY);
+        if (!copied || copied==GDI_ERROR) return false;
     }
     return nemo_gl_ok(g);
 }

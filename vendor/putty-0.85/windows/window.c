@@ -224,6 +224,7 @@ static void wintw_clip_write(
 static void wintw_clip_request_paste(TermWin *, int clipboard);
 static void wintw_refresh(TermWin *);
 static void wintw_request_resize(TermWin *, int w, int h);
+static bool wintw_get_geometry(TermWin *, TermWindowGeometry *);
 static void wintw_set_title(TermWin *, const char *title, int codepage);
 static void wintw_set_icon_title(TermWin *, const char *icontitle,
                                  int codepage);
@@ -236,6 +237,7 @@ static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
 static const TermWinVtable windows_termwin_vt = {
+    .get_geometry = wintw_get_geometry,
     .set_synchronized_update = wintw_set_synchronized_update,
     .setup_draw_ctx = wintw_setup_draw_ctx,
     .draw_text = wintw_draw_text,
@@ -1886,6 +1888,29 @@ static void deinit_fonts(WinGuiSeat *wgs)
     trust_icon = INVALID_HANDLE_VALUE;
 }
 
+static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    RECT outer, screen;
+    POINT text = {wgs->offset_width, wgs->offset_height};
+    if (!GetWindowRect(wgs->term_hwnd, &outer) ||
+        !ClientToScreen(wgs->term_hwnd, &text) ||
+        !get_fullscreen_rect(wgs, &screen)) return false;
+    *g = (TermWindowGeometry) {
+        .outer_x = outer.left, .outer_y = outer.top,
+        .outer_width = outer.right - outer.left,
+        .outer_height = outer.bottom - outer.top,
+        .text_x = text.x, .text_y = text.y,
+        .text_width = wgs->term->cols * wgs->font_width,
+        .text_height = wgs->term->rows * wgs->font_height,
+        .screen_width = screen.right - screen.left,
+        .screen_height = screen.bottom - screen.top,
+        .cell_width = wgs->font_width, .cell_height = wgs->font_height,
+        .minimised = IsIconic(wgs->term_hwnd),
+    };
+    return true;
+}
+
 static void wintw_request_resize(TermWin *tw, int w, int h)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
@@ -3117,6 +3142,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
         HideCaret(hwnd);
         hdc = BeginPaint(hwnd, &p);
+        if (IsIconic(hwnd)) {
+            /* A minimized client can be zero-sized. Keep its renderer and
+             * dirty terminal cells until restoration instead of treating
+             * the unavailable surface as device failure. */
+            EndPaint(hwnd, &p);
+            ShowCaret(hwnd);
+            return 0;
+        }
         if (wgs->gl) {
             if (!wgs->term->synchronized_update && nemo_renderer_begin(wgs)) {
                 term_paint(wgs->term, 0, 0, wgs->term->cols-1,
@@ -5537,6 +5570,7 @@ static bool wintw_setup_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(!wgs->wintw_hdc);
+    if (IsIconic(wgs->term_hwnd)) return false;
     if (wgs->gl && nemo_renderer_begin(wgs)) return true;
     wgs->wintw_hdc = make_hdc(wgs);
     return wgs->wintw_hdc != NULL;

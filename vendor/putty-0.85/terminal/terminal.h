@@ -500,7 +500,8 @@ struct terminal_tag {
     /* The composite palette that we make out of the above */
     rgb palette[OSC4_NCOLOURS];
 
-    unsigned winpos_x, winpos_y, winpixsize_x, winpixsize_y;
+    int winpos_x, winpos_y;
+    unsigned winpixsize_x, winpixsize_y;
 
     /*
      * Assorted 'pending' flags for ancillary window changes performed

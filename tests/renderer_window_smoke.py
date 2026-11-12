@@ -4,6 +4,7 @@ Hardware is optional on CI: absence must take the working GDI fallback path.
 Use NEMOTERM_REQUIRE_OPENGL=1 for the hardware acceptance run.
 """
 from native_test_utils import *
+from gl_capture import OwnedGLCapture
 import uuid
 import winreg
 
@@ -23,6 +24,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
         process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24',
             '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+        gl_capture = None
         try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
             active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
@@ -30,12 +32,17 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             if requested==0:assert active==1
             if requested and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2,'OpenGL fell back'
             mode=dict(requested=requested,active='OpenGL' if active==2 else 'GDI',checks=[])
+            if active==2:gl_capture=OwnedGLCapture(process.pid,hwnd)
+            mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow'
+            mode['memory_instrumented']=bool(gl_capture)
+            def captured(name=None):
+                return gl_capture.capture(name,True) if gl_capture else capture(hwnd,name,True)
             def render(name,sequence):
                 write_snapshot(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
                 wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
                 time.sleep(.15)
             def compare(name):
-                pixels=capture(hwnd,f'renderer-{requested}-{name}.png',True)
+                pixels=captured(f'renderer-{requested}-{name}.png')
                 if not requested:references[name]=pixels
                 else:
                     expected=references[name]
@@ -58,11 +65,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             render('text',text);base=compare('text')
             # An expose must preserve both unchanged glyphs and the cached frame.
             u.RedrawWindow(hwnd,None,None,0x185);time.sleep(.1)
-            assert capture(hwnd,return_pixels=True)==base
+            assert captured()==base
             render('sixel',scene('SIXEL GPU composition','100;25;0'));base=compare('sixel')
             render('sync','\x1b[?2026h\x1b[Hhidden during synchronized update')
             u.RedrawWindow(hwnd,None,None,0x185)
-            assert capture(hwnd,return_pixels=True)==base
+            assert captured()==base
             render('sync-end','\x1b[?2026l');compare('sync-end')
             outer,client=w.RECT(),w.RECT()
             u.GetWindowRect(hwnd,c.byref(outer));u.GetClientRect(hwnd,c.byref(client))
@@ -86,6 +93,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             finally:k.CloseHandle(handle)
             evidence['modes'].append(mode)
         finally:
+            if gl_capture:gl_capture.close()
             write_snapshot(control,dict(stop=True))
             try:process.wait(timeout=8)
             except subprocess.TimeoutExpired:process.terminate();process.wait(timeout=5)

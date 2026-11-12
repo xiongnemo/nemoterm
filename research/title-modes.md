@@ -74,6 +74,19 @@ Its frontend is the new MinGW build; its OpenConsole host is the previously
 accepted 5a8b27f single executable, with the pinned ConPTY DLL. Exact hashes and
 sampled memory are in `title-modes-window-observed.json` and
 `title-modes-stack-local.json`. This comparison is not a final single-file run.
-The single-executable workflow adds the strict native mode group; acceptance of
-its exact artifact is pending. Geometry, remaining protocol families, DirectX
-frontend rendering and tabs/previews remain open.
+The single-executable workflow adds the strict native mode group.
+
+Source `3a97358ddd0be96b348b3d846df82194bc6666cb` passed core CI
+[43256696505](https://github.com/xiongnemo/nemoterm/actions/runs/43256696505) and
+single-file CI [43256696406](https://github.com/xiongnemo/nemoterm/actions/runs/43256696406),
+including all 40 native groups. Artifact 13961763752 is 4,341,248 bytes, SHA-256
+`9d9b1cab1186af8933152b8451532184a7933033e9ecb04ed71aaf04cac16ae5`.
+The exact download passed 87 local mode checks and 23 stack checks; the local
+mode private-WS sample peaked at 3,928,064 bytes. Evidence is retained as
+`title-modes-single-local.json`, `title-modes-single-stack-local.json`,
+`title-modes-single-ci.json` and `title-modes-single-validation.json`.
+
+That candidate has not replaced `dist/nemoterm.exe`: the subsequent geometry
+work identified and fixed an existing minimize-to-GDI defect, and the combined
+candidate still needs final validation. Geometry mutations, remaining protocol
+families, DirectX frontend rendering and tabs/previews remain open.

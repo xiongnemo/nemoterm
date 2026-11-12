@@ -5329,6 +5329,55 @@ static bool nemo_osc_title(Terminal *term)
         (term->esc_args[0] <= 2 || term->esc_args[0] == 21);
 }
 
+static void nemo_query_geometry(Terminal *term, unsigned command)
+{
+    if (!term->ldisc) return;
+    TermWindowGeometry g = {
+        .outer_x = term->winpos_x, .outer_y = term->winpos_y,
+        .outer_width = term->winpixsize_x, .outer_height = term->winpixsize_y,
+        .text_x = term->winpos_x, .text_y = term->winpos_y,
+        .text_width = term->cols * term->cell_width,
+        .text_height = term->rows * term->cell_height,
+        .cell_width = term->cell_width, .cell_height = term->cell_height,
+        .minimised = term->minimised,
+    };
+    if (term->win->vt->get_geometry) {
+        TermWindowGeometry current;
+        if (term->win->vt->get_geometry(term->win, &current)) g = current;
+    }
+    bool second = term->esc_nargs > 1 && term->esc_args[1] == 2;
+    char reply[96];
+    int n = 0;
+    switch (command) {
+      case 11: n = sprintf(reply, "\033[%dt", g.minimised ? 2 : 1); break;
+      case 13:
+        /* XTerm's UParmOf encodes signed positions as unsigned 16-bit CSI
+         * parameters. A literal minus sign is not a CSI parameter byte and
+         * ConPTY rejects that response instead of delivering it to the child. */
+        n = sprintf(reply, "\033[3;%u;%ut", (unsigned)(uint16_t)(second ? g.text_x : g.outer_x),
+                    (unsigned)(uint16_t)(second ? g.text_y : g.outer_y)); break;
+      case 14:
+        n = sprintf(reply, "\033[4;%d;%dt", second ? g.outer_height : g.text_height,
+                    second ? g.outer_width : g.text_width); break;
+      case 15:
+        if (g.screen_width > 0 && g.screen_height > 0)
+            n = sprintf(reply, "\033[5;%d;%dt", g.screen_height, g.screen_width);
+        break;
+      case 16:
+        if (g.cell_width > 0 && g.cell_height > 0)
+            n = sprintf(reply, "\033[6;%d;%dt", g.cell_height, g.cell_width);
+        break;
+      case 18: n = sprintf(reply, "\033[8;%d;%dt", term->rows, term->cols); break;
+      case 19:
+        if (g.screen_width > 0 && g.screen_height > 0 &&
+            g.cell_width > 0 && g.cell_height > 0)
+            n = sprintf(reply, "\033[9;%d;%dt", g.screen_height / g.cell_height,
+                        g.screen_width / g.cell_width);
+        break;
+    }
+    if (n) ldisc_send(term->ldisc, reply, n, false);
+}
+
 static void nemo_title_stack_op(Terminal *term, bool push)
 {
     if (term->no_remote_wintitle) return;
@@ -7295,9 +7344,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             compatibility(OTHER);
 
                             switch (term->esc_args[0]) {
-                                int len;
-                                char buf[80];
-                                const char *p;
                               case 1:
                                 term->win_minimise_pending = true;
                                 term->win_minimise_enable = false;
@@ -7361,51 +7407,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term_schedule_update(term);
                                 }
                                 break;
-                              case 11:
-                                if (term->ldisc)
-                                    ldisc_send(term->ldisc, term->minimised ?
-                                               "\033[2t" : "\033[1t", 4,
-                                               false);
-                                break;
-                              case 13:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[3;%u;%ut",
-                                                  term->winpos_x,
-                                                  term->winpos_y);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 14:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[4;%u;%ut",
-                                                  term->winpixsize_y,
-                                                  term->winpixsize_x);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 18:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[8;%d;%dt",
-                                                  term->rows, term->cols);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 19:
-                                /*
-                                 * Hmmm. Strictly speaking we
-                                 * should return `the size of the
-                                 * screen in characters', but
-                                 * that's not easy: (a) window
-                                 * furniture being what it is it's
-                                 * hard to compute, and (b) in
-                                 * resize-font mode maximising the
-                                 * window wouldn't change the
-                                 * number of characters. *shrug*. I
-                                 * think we'll ignore it for the
-                                 * moment and see if anyone
-                                 * complains, and then ask them
-                                 * what they would like it to do.
-                                 */
+                              case 11: case 13: case 14: case 15:
+                              case 16: case 18: case 19:
+                                nemo_query_geometry(term, term->esc_args[0]);
                                 break;
                               case 20:
                                 nemo_query_title(term, true);
