@@ -1051,7 +1051,32 @@ clipboard access remains denied, so local real-Codex copy/paste was not accepted
 again. Exact provenance and boundaries are in
 [the checkpoint record](../research/window-geometry.md).
 
-Geometry mutations now have 31 independent XTerm reference cases on
-`feature/window-resize`, but remain unimplemented here. DirectX frontend
+At that checkpoint geometry mutations had 31 independent XTerm reference cases
+but were not yet implemented. The following resize checkpoint supersedes it. DirectX frontend
 rendering, four-sided tabs/previews, physical input/IME/DPI, full grapheme
 support, live Claude Code and the remaining protocol ledger remain open.
+
+## Application-requested window resize (2026-11-13 Sydney)
+
+XTWINOPS character/pixel resize and DECSLPP now handle missing, empty, zero,
+large and malformed parameters with ordered completion. Rejected requests
+reassert the actual grid to ConPTY, fixing an independently reproduced child
+console/frontend mismatch. Minimized requests and subsequent output survive
+restore, and remote-resize, locked-window and font-resize policies are honored.
+The 39-case independent XTerm reference has 36 exact model replies and three
+documented differences for sub-cell minima and current rather than stale pixels.
+
+Source `44ac455` passed core/ASan/UBSan CI and all 42 native single-file groups.
+The exact artifact passed nine local groups, including 100 application-resize
+checks, native mouse input/window resizing and hardware OpenGL pixel parity.
+`dist/nemoterm.exe` is the accepted 4,343,808-byte single executable, SHA-256
+`9e9e9d663b72c5f31191f9bb0da91f40c07efe9f77b0e5dad5999b491a71fc48`.
+The prior image is backed up under `build/dist-before-window-resize-44ac455/`.
+
+Local GDI resize sampled peaks are 6.24 MB private WS / 25.70 MB total WS.
+Cloud real-Codex default/inline frontend private-WS peaks are 5.07 / 5.10 MB;
+host/client memory remains separate. Local clipboard acceptance is not renewed.
+The [resize checkpoint](../research/window-resize.md) links exact CI artifacts,
+per-phase evidence, screenshots and measurement boundaries. DirectX frontend,
+four-sided tabs/previews, physical input/IME/DPI, full graphemes, axis window
+controls, live Claude Code and the remaining protocol ledger are still open.

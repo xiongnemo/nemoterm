@@ -28,6 +28,7 @@
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
 #include "nemo_gl.h"
+#include "terminal/nemo_window_size.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -224,6 +225,7 @@ static void wintw_clip_write(
 static void wintw_clip_request_paste(TermWin *, int clipboard);
 static void wintw_refresh(TermWin *);
 static void wintw_request_resize(TermWin *, int w, int h);
+static void wintw_request_window_resize(TermWin *, int w, int h, bool pixels);
 static bool wintw_get_geometry(TermWin *, TermWindowGeometry *);
 static void wintw_set_title(TermWin *, const char *title, int codepage);
 static void wintw_set_icon_title(TermWin *, const char *icontitle,
@@ -256,6 +258,7 @@ static const TermWinVtable windows_termwin_vt = {
     .osc52_read = nemo_osc52_system_read,
     .refresh = wintw_refresh,
     .request_resize = wintw_request_resize,
+    .request_window_resize = wintw_request_window_resize,
     .set_title = wintw_set_title,
     .set_icon_title = wintw_set_icon_title,
     .set_minimised = wintw_set_minimised,
@@ -1978,6 +1981,87 @@ static void wintw_request_resize(TermWin *tw, int w, int h)
     InvalidateRect(wgs->term_hwnd, NULL, true);
 }
 
+static void wintw_request_window_resize(TermWin *tw, int w, int h, bool pixels)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    int action = conf_get_int(wgs->conf, CONF_resize_action);
+    const struct BackendVtable *backend = backend_vt_from_proto(be_default_protocol);
+    if (wgs->term->no_remote_resize || action == RESIZE_DISABLED ||
+        (backend && backend->flags & BACKEND_RESIZE_FORBIDDEN) ||
+        ((IsZoomed(wgs->term_hwnd) || is_full_screen(wgs)) &&
+         (pixels || action != RESIZE_FONT))) goto completed;
+
+    RECT outer, client, monitor;
+    WINDOWPLACEMENT placement = {sizeof(placement)};
+    bool iconic = IsIconic(wgs->term_hwnd);
+    if (!get_fullscreen_rect(wgs, &monitor) ||
+        !GetWindowRect(wgs->term_hwnd, &outer) ||
+        !GetClientRect(wgs->term_hwnd, &client)) goto completed;
+    int frame_w = outer.right-outer.left-client.right;
+    int frame_h = outer.bottom-outer.top-client.bottom;
+    if (iconic) {
+        /* Iconic rectangles describe the minimized icon, not its restore
+         * surface. Compute the frame for the current style/DPI instead. */
+        if (!GetWindowPlacement(wgs->term_hwnd, &placement)) goto completed;
+        DWORD style = GetWindowLongPtr(wgs->term_hwnd, GWL_STYLE) &
+            ~(WS_MINIMIZE | WS_MAXIMIZE);
+        DWORD exstyle = GetWindowLongPtr(wgs->term_hwnd, GWL_EXSTYLE);
+        RECT frame = {0};
+        UINT dpi = wgs->dpi_info.cur_dpi.x;
+        if (p_AdjustWindowRectExForDpi) {
+            if (!p_AdjustWindowRectExForDpi(&frame, style, false, exstyle, dpi))
+                goto completed;
+        } else if (!AdjustWindowRectEx(&frame, style, false, exstyle)) goto completed;
+        frame_w = frame.right-frame.left;
+        frame_h = frame.bottom-frame.top;
+        if (style & WS_VSCROLL)
+            frame_w += p_GetSystemMetricsForDpi ?
+                p_GetSystemMetricsForDpi(SM_CXVSCROLL, dpi) : GetSystemMetrics(SM_CXVSCROLL);
+        if (style & WS_HSCROLL)
+            frame_h += p_GetSystemMetricsForDpi ?
+                p_GetSystemMetricsForDpi(SM_CYHSCROLL, dpi) : GetSystemMetrics(SM_CYHSCROLL);
+        client.right = placement.rcNormalPosition.right-placement.rcNormalPosition.left-frame_w;
+        client.bottom = placement.rcNormalPosition.bottom-placement.rcNormalPosition.top-frame_h;
+    }
+    int border = conf_get_int(wgs->conf, CONF_window_border);
+    if (frame_w < 0 || frame_h < 0 || border < 0 || border > 32767) goto completed;
+    NemoWindowSize metrics = {
+        .width = client.right, .height = client.bottom,
+        .cols = wgs->term->cols, .rows = wgs->term->rows,
+        .cell_width = wgs->font_width, .cell_height = wgs->font_height,
+        .padding_width = 2*border, .padding_height = 2*border,
+        .limit_width = monitor.right-monitor.left-frame_w,
+        .limit_height = monitor.bottom-monitor.top-frame_h,
+    };
+    int width, height;
+    if (!nemo_window_size(&metrics, w, h, pixels, &width, &height)) goto completed;
+    int cols = (width-2*border)/wgs->font_width;
+    int rows = (height-2*border)/wgs->font_height;
+    if (!pixels && action == RESIZE_FONT) {
+        /* Character requests change the grid; the configured font-resize
+         * policy fits that grid into the existing window. */
+        term_size(wgs->term, rows, cols, conf_get_int(wgs->conf, CONF_savelines));
+        reset_window(wgs, 0);
+    } else if (iconic) {
+        placement.rcNormalPosition.right = placement.rcNormalPosition.left+width+frame_w;
+        placement.rcNormalPosition.bottom = placement.rcNormalPosition.top+height+frame_h;
+        if (SetWindowPlacement(wgs->term_hwnd, &placement)) {
+            /* Keep draining output at the requested size without showing or
+             * activating the minimized window. WM_SIZE finishes on restore. */
+            if (action != RESIZE_FONT)
+                term_size(wgs->term, rows, cols, conf_get_int(wgs->conf, CONF_savelines));
+        }
+    } else if (width != client.right || height != client.bottom) {
+        wgs->remote_window_resize = true;
+        SetWindowPos(wgs->term_hwnd, NULL, 0, 0, width+frame_w, height+frame_h,
+                     SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOMOVE | SWP_NOZORDER);
+        wgs->remote_window_resize = false;
+    }
+    InvalidateRect(wgs->term_hwnd, NULL, true);
+  completed:
+    term_resize_request_completed(wgs->term);
+}
+
 static void recompute_window_offset(WinGuiSeat *wgs)
 {
     RECT cr;
@@ -3493,7 +3577,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 /* do nothing */
             } else if (resize_action == RESIZE_TERM ||
                        (resize_action == RESIZE_EITHER &&
-                        !is_alt_pressed())) {
+                        (wgs->remote_window_resize || !is_alt_pressed()))) {
                 wm_size_resize_term(wgs, lParam);
 
                 /*

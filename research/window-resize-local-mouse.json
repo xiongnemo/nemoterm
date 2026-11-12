@@ -1,0 +1,149 @@
+{
+  "test_pid": 10960,
+  "observations": [
+    {
+      "phase": "sgr-drag",
+      "hex": "1b5b3c303b333b314d1b5b3c33323b343b314d1b5b3c303b343b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "side-button-drag",
+      "hex": "1b5b3c3134343b333b314d1b5b3c3137363b343b314d1b5b3c3134343b343b316d1b5b3c3134353b333b314d1b5b3c3137373b343b314d1b5b3c3134353b343b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "mixed-buttons-capture",
+      "hex": "1b5b3c303b333b314d1b5b3c3132383b333b314d1b5b3c303b333b316d1b5b3c3136303b343b314d1b5b3c3132383b343b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "side-button-shift",
+      "hex": "",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "pixel-motion",
+      "hex": "1b5b3c33353b32323b32304d1b5b3c33353b32333b32304d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "capture-cancel",
+      "hex": "1b5b3c303b333b314d1b5b3c303b333b316d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "shift-selection",
+      "hex": "",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "four-direction-wheels",
+      "hex": "1b5b3c36343b333b314d1b5b3c36353b333b314d1b5b3c36373b333b314d1b5b3c36363b333b314d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "independent-wheel-accumulators",
+      "hex": "",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "independent-wheel-accumulators",
+      "hex": "1b5b3c36343b333b314d1b5b3c36373b333b314d",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "focus-handler-roundtrip",
+      "hex": "1b5b491b5b4f1b5b491b5b4f",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "osc-dynamic-colour-roundtrip",
+      "hex": "1b5d31303b7267623a313231322f333433342f353635361b5c",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "osc-palette-roundtrip",
+      "hex": "1b5d343b353b7267623a616261622f636463642f6566656607",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "resize",
+      "hex": "",
+      "columns": 108,
+      "rows": 27,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "resize",
+      "hex": "",
+      "columns": 58,
+      "rows": 12,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "rapid-resize",
+      "hex": "",
+      "columns": 108,
+      "rows": 27,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "maximize-restore",
+      "hex": "",
+      "columns": 237,
+      "rows": 50,
+      "input_mode": 640,
+      "input_cp": 65001
+    },
+    {
+      "phase": "maximize-restore",
+      "hex": "",
+      "columns": 108,
+      "rows": 27,
+      "input_mode": 640,
+      "input_cp": 65001
+    }
+  ]
+}

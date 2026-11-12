@@ -557,6 +557,8 @@ struct terminal_tag {
         WIN_RESIZE_NO, WIN_RESIZE_NEED_SEND, WIN_RESIZE_AWAIT_REPLY
     } win_resize_pending;
     int win_resize_pending_w, win_resize_pending_h;
+    enum { WIN_SIZE_CELLS, WIN_SIZE_XT_CELLS, WIN_SIZE_XT_PIXELS } win_resize_kind;
+    int win_resize_old_cols, win_resize_old_rows;
 
     /*
      * Indicates whether term_get_userpass_input is currently using

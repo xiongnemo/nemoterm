@@ -1701,6 +1701,10 @@ struct TermWinVtable {
      * The calls to term_size and term_resize_request_completed may be
      * synchronous callbacks from within the call to request_resize(). */
     void (*request_resize)(TermWin *, int w, int h);
+    /* Optional XTWINOPS request, with the same completion contract. Width
+     * and height are cells or client pixels; -1 keeps an axis, 0 uses the
+     * containing monitor's available client size. */
+    void (*request_window_resize)(TermWin *, int w, int h, bool pixels);
 
     void (*set_title)(TermWin *, const char *title, int codepage);
     void (*set_icon_title)(TermWin *, const char *icontitle, int codepage);

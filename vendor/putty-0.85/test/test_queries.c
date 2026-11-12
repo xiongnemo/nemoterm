@@ -2,6 +2,8 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "terminal/nemo_window_size.h"
+#include "window_resize_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -248,6 +250,125 @@ static void test_geometry(Mock *mk)
     response(mk, "\033[3;65533;65529t\033[4;384;640t\033[4;500;800t\033[6;16;8t");
 }
 
+static unsigned model_resize_calls;
+static bool model_defer_resize, model_deny_resize;
+static int model_width, model_height;
+static bool model_pixels;
+static unsigned model_backend_calls;
+static int model_backend_cols, model_backend_rows;
+
+static void model_backend_size(Backend *be, int cols, int rows)
+{
+    model_backend_calls++;
+    model_backend_cols = cols; model_backend_rows = rows;
+}
+
+static void finish_model_resize(Mock *mk)
+{
+    NemoWindowSize m = {
+        .width = geometry.outer_width, .height = geometry.outer_height,
+        .cols = mk->term->cols, .rows = mk->term->rows,
+        .cell_width = 6, .cell_height = 13,
+        .padding_width = 4, .padding_height = 4,
+        .limit_width = 1024, .limit_height = 768,
+    };
+    int w, h;
+    if (!model_deny_resize &&
+        nemo_window_size(&m, model_width, model_height, model_pixels, &w, &h)) {
+        geometry.outer_width = w; geometry.outer_height = h;
+        geometry.text_width = w-4; geometry.text_height = h-4;
+        term_size(mk->term, (h-4)/13, (w-4)/6, 0);
+    }
+    term_resize_request_completed(mk->term);
+}
+
+static void model_resize(TermWin *tw, int w, int h, bool pixels)
+{
+    Mock *mk = container_of(tw, Mock, tw);
+    model_resize_calls++;
+    model_width = w; model_height = h; model_pixels = pixels;
+    if (!model_defer_resize) finish_model_resize(mk);
+}
+
+static void drain_model(Mock *mk)
+{
+    for (unsigned i = 0; i < 64; i++) {
+        if (mk->term->win_resize_pending == WIN_RESIZE_NEED_SEND) term_update(mk->term);
+        run_toplevel_callbacks();
+        if (!bufchain_size(&mk->term->inbuf) &&
+            mk->term->win_resize_pending == WIN_RESIZE_NO) return;
+    }
+    report_fail(mk, __FILE__, __LINE__, "resize response did not drain");
+}
+
+static void test_window_resize(Mock *mk)
+{
+    TermWinVtable vt = mock_termwin_vt;
+    vt.get_geometry = mock_geometry;
+    vt.request_window_resize = model_resize;
+    mk->tw.vt = &vt;
+    BackendVtable backend_vt = mock_backend_vt;
+    backend_vt.size = model_backend_size;
+    mk->backend.vt = &backend_vt;
+    term_provide_backend(mk->term, &mk->backend);
+    for (unsigned i = 0; i < lenof(window_resize_cases); i++) {
+        reset(mk); test_context(mk, "independent resize: %s", window_resize_cases[i].name);
+        geometry = (TermWindowGeometry) {
+            .outer_width = 484, .outer_height = 316,
+            .text_width = 480, .text_height = 312,
+            .screen_width = 1024, .screen_height = 768,
+            .cell_width = 6, .cell_height = 13,
+        };
+        term_data_fragmented(mk->term, window_resize_cases[i].sequence);
+        drain_model(mk);
+        /* Three documented frontend differences have an explicit expectation:
+         * one complete cell minimum and immediately current geometry. Keep
+         * the independent reply alongside it; never rewrite oracle evidence. */
+        response(mk, window_resize_cases[i].adapted_reply ?
+                 window_resize_cases[i].adapted_reply : window_resize_cases[i].reply);
+    }
+    reset(mk); test_context(mk, "resize completion orders following queries");
+    model_defer_resize = true;
+    term_data_fragmented(mk->term, "\033[8;30;90tZ\033[18t\033[5n");
+    IEQUAL(mk->to_backend->len, 0);
+    term_update(mk->term);
+    IEQUAL(mk->term->win_resize_pending, WIN_RESIZE_AWAIT_REPLY);
+    IEQUAL(mk->term->rows, 24); IEQUAL(mk->to_backend->len, 0);
+    finish_model_resize(mk); model_defer_resize = false;
+    drain_model(mk);
+    response(mk, "\033[8;30;90t\033[0n");
+    IEQUAL(get_termchar(mk->term, 0, 0).chr & ~CSET_MASK, 'Z');
+
+    reset(mk); test_context(mk, "revoked permission and denied frontend recover parser");
+    unsigned before = model_resize_calls;
+    unsigned backend_before = model_backend_calls;
+    term_data_fragmented(mk->term, "\033[4;210;482t\033[18t");
+    mk->term->no_remote_resize = true;
+    drain_model(mk);
+    IEQUAL(model_resize_calls, before);
+    IEQUAL(model_backend_calls, backend_before+1);
+    IEQUAL(model_backend_cols, 80); IEQUAL(model_backend_rows, 24);
+    response(mk, "\033[8;24;80t");
+    term_data_fragmented(mk->term, "\033[8;0;0t\033[48t\033[18t");
+    drain_model(mk);
+    IEQUAL(model_resize_calls, before);
+    IEQUAL(model_backend_calls, backend_before+3);
+    response(mk, "\033[8;24;80t");
+    mk->term->no_remote_resize = false;
+    model_deny_resize = true;
+    term_data_fragmented(mk->term, "\033[8;30;90t\033[18t");
+    drain_model(mk); response(mk, "\033[8;24;80t");
+    IEQUAL(model_backend_calls, backend_before+4);
+    model_deny_resize = false;
+    term_data_fragmented(mk->term, "\033[8;30;90t\033[18t");
+    drain_model(mk); response(mk, "\033[8;30;90t");
+    IEQUAL(model_backend_calls, backend_before+5);
+    IEQUAL(model_backend_cols, 90); IEQUAL(model_backend_rows, 30);
+    term_provide_backend(mk->term, NULL);
+    mk->backend.vt = &mock_backend_vt;
+    mk->tw.vt = &mock_termwin_vt;
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -258,6 +379,7 @@ int main(void)
     test_state_strings(mk);
     test_dcs_recovery(mk);
     test_geometry(mk);
+    test_window_resize(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

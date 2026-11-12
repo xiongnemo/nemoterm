@@ -1,0 +1,318 @@
+{
+  "initial": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "width-clipped": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      12
+    ]
+  },
+  "width-restored": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "height-to-history": {
+    "red_pixels": 4800,
+    "grid": [
+      40,
+      10
+    ]
+  },
+  "height-restored": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "partial-up": {
+    "red_pixels": 4800,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "partial-down": {
+    "red_pixels": 4800,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "overwrite-moved-strip": {
+    "red_pixels": 4640,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "whole-region-delete": {
+    "red_pixels": 2880,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "history-setup": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "into-history": {
+    "red_pixels": 4800,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "clear-history-keeps-visible": {
+    "red_pixels": 4800,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "erase-all": {
+    "red_pixels": 0,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "alt-main": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "alt-empty": {
+    "red_pixels": 0,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "alt-image": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "alt-height-clipped": {
+    "red_pixels": 3840,
+    "grid": [
+      30,
+      5
+    ]
+  },
+  "alt-height-no-resurrection": {
+    "red_pixels": 3840,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "main-height-no-resurrection": {
+    "red_pixels": 3840,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "repeated-resize": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-0": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-0": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-1": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-1": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-2": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-2": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-3": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-3": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-4": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-4": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-5": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-5": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-6": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-6": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-7": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-7": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-8": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-8": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-9": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-9": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-10": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-10": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "resize-small-11": {
+    "red_pixels": 3840,
+    "grid": [
+      24,
+      10
+    ]
+  },
+  "resize-large-11": {
+    "red_pixels": 5760,
+    "grid": [
+      40,
+      12
+    ]
+  },
+  "cell_pixels": [
+    8,
+    20
+  ],
+  "peak_private_ws": 2834432,
+  "peak_total_ws": 15101952,
+  "peak_private_commit": 3661824,
+  "executable_sha256": "9e9e9d663b72c5f31191f9bb0da91f40c07efe9f77b0e5dad5999b491a71fc48"
+}

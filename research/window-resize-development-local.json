@@ -1,0 +1,4363 @@
+{
+  "executable_sha256": "e0ba55cfa746f277a300f579931b2c4a1739cdf5d98523cbdc9bcf3c286714c3",
+  "font": "SarasaTermSC Nerd Font Light",
+  "reference_run": 43271622637,
+  "modes": [
+    {
+      "policy": "normal",
+      "requested_renderer": 0,
+      "checks": [
+        {
+          "name": "initial",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3506176,
+            "total_ws": 20512768,
+            "private_commit": 4546560
+          }
+        },
+        {
+          "name": "chars",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 3756032,
+            "total_ws": 20770816,
+            "private_commit": 4751360
+          }
+        },
+        {
+          "name": "row-only",
+          "client": [
+            666,
+            602
+          ],
+          "outer": [
+            699,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              664
+            ],
+            [
+              4,
+              641,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            30
+          ],
+          "memory": {
+            "private_ws": 3833856,
+            "total_ws": 20856832,
+            "private_commit": 4825088
+          }
+        },
+        {
+          "name": "column-only",
+          "client": [
+            722,
+            542
+          ],
+          "outer": [
+            755,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              720
+            ],
+            [
+              4,
+              581,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            27
+          ],
+          "memory": {
+            "private_ws": 3801088,
+            "total_ws": 20824064,
+            "private_commit": 4780032
+          }
+        },
+        {
+          "name": "omitted",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3739648,
+            "total_ws": 20779008,
+            "private_commit": 4718592
+          }
+        },
+        {
+          "name": "empty",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3739648,
+            "total_ws": 20779008,
+            "private_commit": 4718592
+          }
+        },
+        {
+          "name": "zero-row",
+          "client": [
+            666,
+            1041
+          ],
+          "outer": [
+            699,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              664
+            ],
+            [
+              4,
+              1080,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            51
+          ],
+          "memory": {
+            "private_ws": 4018176,
+            "total_ws": 21061632,
+            "private_commit": 5001216
+          }
+        },
+        {
+          "name": "zero-column",
+          "client": [
+            1887,
+            542
+          ],
+          "outer": [
+            1920,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              1880
+            ],
+            [
+              4,
+              581,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            27
+          ],
+          "memory": {
+            "private_ws": 4579328,
+            "total_ws": 21630976,
+            "private_commit": 5574656
+          }
+        },
+        {
+          "name": "zero-both",
+          "client": [
+            1887,
+            1041
+          ],
+          "outer": [
+            1920,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              1880
+            ],
+            [
+              4,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            51
+          ],
+          "memory": {
+            "private_ws": 5406720,
+            "total_ws": 22458368,
+            "private_commit": 6471680
+          }
+        },
+        {
+          "name": "pixels",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 4562944,
+            "total_ws": 21618688,
+            "private_commit": 5681152
+          }
+        },
+        {
+          "name": "pixel-row",
+          "client": [
+            666,
+            213
+          ],
+          "outer": [
+            699,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              664
+            ],
+            [
+              4,
+              252,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            10
+          ],
+          "memory": {
+            "private_ws": 4562944,
+            "total_ws": 21622784,
+            "private_commit": 5681152
+          }
+        },
+        {
+          "name": "pixel-column",
+          "client": [
+            489,
+            542
+          ],
+          "outer": [
+            522,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              480
+            ],
+            [
+              4,
+              581,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            27
+          ],
+          "memory": {
+            "private_ws": 4726784,
+            "total_ws": 21790720,
+            "private_commit": 5820416
+          }
+        },
+        {
+          "name": "pixel-omitted",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4534272,
+            "total_ws": 21602304,
+            "private_commit": 5644288
+          }
+        },
+        {
+          "name": "pixel-zero-row",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 4337664,
+            "total_ws": 21417984,
+            "private_commit": 5328896
+          }
+        },
+        {
+          "name": "pixel-zero-column",
+          "client": [
+            1887,
+            213
+          ],
+          "outer": [
+            1920,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              1880
+            ],
+            [
+              4,
+              252,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            10
+          ],
+          "memory": {
+            "private_ws": 4272128,
+            "total_ws": 21356544,
+            "private_commit": 5607424
+          }
+        },
+        {
+          "name": "pixel-zero-both",
+          "client": [
+            1887,
+            1041
+          ],
+          "outer": [
+            1920,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              1880
+            ],
+            [
+              4,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            51
+          ],
+          "memory": {
+            "private_ws": 5279744,
+            "total_ws": 22368256,
+            "private_commit": 6311936
+          }
+        },
+        {
+          "name": "extra-parameters",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 4726784,
+            "total_ws": 21819392,
+            "private_commit": 6463488
+          }
+        },
+        {
+          "name": "colon-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4571136,
+            "total_ws": 21667840,
+            "private_commit": 5599232
+          }
+        },
+        {
+          "name": "pixel-colon-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4571136,
+            "total_ws": 21667840,
+            "private_commit": 5599232
+          }
+        },
+        {
+          "name": "lines-31",
+          "client": [
+            666,
+            622
+          ],
+          "outer": [
+            699,
+            661
+          ],
+          "replies": [
+            [
+              4,
+              620,
+              664
+            ],
+            [
+              4,
+              661,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              31,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            31
+          ],
+          "memory": {
+            "private_ws": 4632576,
+            "total_ws": 21733376,
+            "private_commit": 5677056
+          }
+        },
+        {
+          "name": "lines-extra",
+          "client": [
+            666,
+            622
+          ],
+          "outer": [
+            699,
+            661
+          ],
+          "replies": [
+            [
+              4,
+              620,
+              664
+            ],
+            [
+              4,
+              661,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              31,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            31
+          ],
+          "memory": {
+            "private_ws": 4632576,
+            "total_ws": 21741568,
+            "private_commit": 5677056
+          }
+        },
+        {
+          "name": "huge-chars-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4632576,
+            "total_ws": 21745664,
+            "private_commit": 5677056
+          }
+        },
+        {
+          "name": "huge-pixels-limited",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 4304896,
+            "total_ws": 21422080,
+            "private_commit": 5341184
+          }
+        },
+        {
+          "name": "saturated-pixels",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 4243456,
+            "total_ws": 21368832,
+            "private_commit": 5226496
+          }
+        },
+        {
+          "name": "default-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4321280,
+            "total_ws": 21454848,
+            "private_commit": 5382144
+          }
+        },
+        {
+          "name": "zero-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4321280,
+            "total_ws": 21454848,
+            "private_commit": 5382144
+          }
+        },
+        {
+          "name": "pixels-keep-current",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 4128768,
+            "total_ws": 21262336,
+            "private_commit": 5111808
+          }
+        },
+        {
+          "name": "chars-snap-current",
+          "client": [
+            482,
+            202
+          ],
+          "outer": [
+            515,
+            241
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              241,
+              515
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 4194304,
+            "total_ws": 21327872,
+            "private_commit": 5181440
+          }
+        },
+        {
+          "name": "cancelled",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4194304,
+            "total_ws": 21331968,
+            "private_commit": 5181440
+          }
+        },
+        {
+          "name": "one-cell",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4194304,
+            "total_ws": 21331968,
+            "private_commit": 5181440
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "one-pixel",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4194304,
+            "total_ws": 21331968,
+            "private_commit": 5181440
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "sub-cell-pixels",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 4194304,
+            "total_ws": 21340160,
+            "private_commit": 5181440
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "ordered-resizes",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 4198400,
+            "total_ws": 21348352,
+            "private_commit": 5181440
+          }
+        },
+        {
+          "name": "sync-resize",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4308992,
+            "total_ws": 21483520,
+            "private_commit": 5316608
+          }
+        },
+        {
+          "name": "alternate-resize",
+          "client": [
+            578,
+            442
+          ],
+          "outer": [
+            611,
+            481
+          ],
+          "replies": [
+            [
+              4,
+              440,
+              576
+            ],
+            [
+              4,
+              481,
+              611
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              22,
+              72
+            ]
+          ],
+          "child_grid": [
+            72,
+            22
+          ],
+          "memory": {
+            "private_ws": 4296704,
+            "total_ws": 21483520,
+            "private_commit": 5304320
+          }
+        },
+        {
+          "name": "main-return",
+          "client": [
+            578,
+            442
+          ],
+          "outer": [
+            611,
+            481
+          ],
+          "replies": [
+            [
+              4,
+              440,
+              576
+            ],
+            [
+              4,
+              481,
+              611
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              22,
+              72
+            ]
+          ],
+          "child_grid": [
+            72,
+            22
+          ],
+          "memory": {
+            "private_ws": 4296704,
+            "total_ws": 21483520,
+            "private_commit": 5304320
+          }
+        },
+        {
+          "name": "pre-maximize",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4362240,
+            "total_ws": 21549056,
+            "private_commit": 5365760
+          }
+        },
+        {
+          "name": "maximized",
+          "client": [
+            1903,
+            1017
+          ],
+          "outer": [
+            1936,
+            1056
+          ],
+          "replies": [
+            [
+              4,
+              1000,
+              1896
+            ],
+            [
+              4,
+              1056,
+              1936
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              50,
+              237
+            ]
+          ],
+          "child_grid": [
+            237,
+            50
+          ],
+          "memory": {
+            "private_ws": 5734400,
+            "total_ws": 22921216,
+            "private_commit": 6844416
+          }
+        },
+        {
+          "name": "maximized-request-denied",
+          "client": [
+            1903,
+            1017
+          ],
+          "outer": [
+            1936,
+            1056
+          ],
+          "replies": [
+            [
+              4,
+              1000,
+              1896
+            ],
+            [
+              4,
+              1056,
+              1936
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              50,
+              237
+            ]
+          ],
+          "child_grid": [
+            237,
+            50
+          ],
+          "memory": {
+            "private_ws": 5738496,
+            "total_ws": 22925312,
+            "private_commit": 6844416
+          }
+        },
+        {
+          "name": "unmaximized",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 4734976,
+            "total_ws": 21921792,
+            "private_commit": 5959680
+          }
+        },
+        {
+          "name": "minimized-request",
+          "client": [
+            0,
+            0
+          ],
+          "outer": [
+            160,
+            28
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              648
+            ],
+            [
+              4,
+              28,
+              160
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              25,
+              81
+            ]
+          ],
+          "child_grid": [
+            81,
+            25
+          ],
+          "memory": {
+            "private_ws": 4788224,
+            "total_ws": 21979136,
+            "private_commit": 6000640
+          }
+        },
+        {
+          "name": "restored-request",
+          "client": [
+            650,
+            502
+          ],
+          "outer": [
+            683,
+            541
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              648
+            ],
+            [
+              4,
+              541,
+              683
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              25,
+              81
+            ]
+          ],
+          "child_grid": [
+            81,
+            25
+          ],
+          "memory": {
+            "private_ws": 4857856,
+            "total_ws": 22061056,
+            "private_commit": 6144000
+          }
+        }
+      ],
+      "active_renderer": 1,
+      "memory_before_instrumentation": {
+        "private_ws": 3506176,
+        "total_ws": 20512768,
+        "private_commit": 4546560
+      },
+      "memory_instrumented": false,
+      "initial_client": [
+        666,
+        542
+      ],
+      "frame": [
+        33,
+        39
+      ],
+      "screen": [
+        1920,
+        1080
+      ],
+      "minimized_output_preserved": true
+    },
+    {
+      "policy": "normal",
+      "requested_renderer": 1,
+      "checks": [
+        {
+          "name": "initial",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 30887936,
+            "total_ws": 63176704,
+            "private_commit": 93298688
+          }
+        },
+        {
+          "name": "chars",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 31784960,
+            "total_ws": 64094208,
+            "private_commit": 97894400
+          }
+        },
+        {
+          "name": "row-only",
+          "client": [
+            666,
+            602
+          ],
+          "outer": [
+            699,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              664
+            ],
+            [
+              4,
+              641,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            30
+          ],
+          "memory": {
+            "private_ws": 31887360,
+            "total_ws": 64212992,
+            "private_commit": 97968128
+          }
+        },
+        {
+          "name": "column-only",
+          "client": [
+            722,
+            542
+          ],
+          "outer": [
+            755,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              720
+            ],
+            [
+              4,
+              581,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            27
+          ],
+          "memory": {
+            "private_ws": 31875072,
+            "total_ws": 64208896,
+            "private_commit": 99831808
+          }
+        },
+        {
+          "name": "omitted",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 31834112,
+            "total_ws": 64167936,
+            "private_commit": 99770368
+          }
+        },
+        {
+          "name": "empty",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 31846400,
+            "total_ws": 64180224,
+            "private_commit": 99770368
+          }
+        },
+        {
+          "name": "zero-row",
+          "client": [
+            666,
+            1041
+          ],
+          "outer": [
+            699,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              664
+            ],
+            [
+              4,
+              1080,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            51
+          ],
+          "memory": {
+            "private_ws": 32141312,
+            "total_ws": 64479232,
+            "private_commit": 113696768
+          }
+        },
+        {
+          "name": "zero-column",
+          "client": [
+            1887,
+            542
+          ],
+          "outer": [
+            1920,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              1880
+            ],
+            [
+              4,
+              581,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            27
+          ],
+          "memory": {
+            "private_ws": 33128448,
+            "total_ws": 65474560,
+            "private_commit": 118927360
+          }
+        },
+        {
+          "name": "zero-both",
+          "client": [
+            1887,
+            1041
+          ],
+          "outer": [
+            1920,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              1880
+            ],
+            [
+              4,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            51
+          ],
+          "memory": {
+            "private_ws": 33910784,
+            "total_ws": 66256896,
+            "private_commit": 146997248
+          }
+        },
+        {
+          "name": "pixels",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 33198080,
+            "total_ws": 65552384,
+            "private_commit": 147111936
+          }
+        },
+        {
+          "name": "pixel-row",
+          "client": [
+            666,
+            213
+          ],
+          "outer": [
+            699,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              664
+            ],
+            [
+              4,
+              252,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            10
+          ],
+          "memory": {
+            "private_ws": 33222656,
+            "total_ws": 65585152,
+            "private_commit": 146530304
+          }
+        },
+        {
+          "name": "pixel-column",
+          "client": [
+            489,
+            542
+          ],
+          "outer": [
+            522,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              480
+            ],
+            [
+              4,
+              581,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            27
+          ],
+          "memory": {
+            "private_ws": 33406976,
+            "total_ws": 65785856,
+            "private_commit": 146661376
+          }
+        },
+        {
+          "name": "pixel-omitted",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33206272,
+            "total_ws": 65593344,
+            "private_commit": 146079744
+          }
+        },
+        {
+          "name": "pixel-zero-row",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 33017856,
+            "total_ws": 65404928,
+            "private_commit": 145739776
+          }
+        },
+        {
+          "name": "pixel-zero-column",
+          "client": [
+            1887,
+            213
+          ],
+          "outer": [
+            1920,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              1880
+            ],
+            [
+              4,
+              252,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            10
+          ],
+          "memory": {
+            "private_ws": 32927744,
+            "total_ws": 65314816,
+            "private_commit": 145698816
+          }
+        },
+        {
+          "name": "pixel-zero-both",
+          "client": [
+            1887,
+            1041
+          ],
+          "outer": [
+            1920,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              1880
+            ],
+            [
+              4,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              235
+            ]
+          ],
+          "child_grid": [
+            235,
+            51
+          ],
+          "memory": {
+            "private_ws": 34320384,
+            "total_ws": 66707456,
+            "private_commit": 156041216
+          }
+        },
+        {
+          "name": "extra-parameters",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 33525760,
+            "total_ws": 65912832,
+            "private_commit": 155037696
+          }
+        },
+        {
+          "name": "colon-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33423360,
+            "total_ws": 65810432,
+            "private_commit": 154853376
+          }
+        },
+        {
+          "name": "pixel-colon-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33431552,
+            "total_ws": 65818624,
+            "private_commit": 154853376
+          }
+        },
+        {
+          "name": "lines-31",
+          "client": [
+            666,
+            622
+          ],
+          "outer": [
+            699,
+            661
+          ],
+          "replies": [
+            [
+              4,
+              620,
+              664
+            ],
+            [
+              4,
+              661,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              31,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            31
+          ],
+          "memory": {
+            "private_ws": 33517568,
+            "total_ws": 65908736,
+            "private_commit": 154931200
+          }
+        },
+        {
+          "name": "lines-extra",
+          "client": [
+            666,
+            622
+          ],
+          "outer": [
+            699,
+            661
+          ],
+          "replies": [
+            [
+              4,
+              620,
+              664
+            ],
+            [
+              4,
+              661,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              31,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            31
+          ],
+          "memory": {
+            "private_ws": 33542144,
+            "total_ws": 65937408,
+            "private_commit": 154931200
+          }
+        },
+        {
+          "name": "huge-chars-rejected",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33554432,
+            "total_ws": 65949696,
+            "private_commit": 154931200
+          }
+        },
+        {
+          "name": "huge-pixels-limited",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 33181696,
+            "total_ws": 65581056,
+            "private_commit": 154484736
+          }
+        },
+        {
+          "name": "saturated-pixels",
+          "client": [
+            489,
+            1041
+          ],
+          "outer": [
+            522,
+            1080
+          ],
+          "replies": [
+            [
+              4,
+              1020,
+              480
+            ],
+            [
+              4,
+              1080,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              51,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            51
+          ],
+          "memory": {
+            "private_ws": 33161216,
+            "total_ws": 65564672,
+            "private_commit": 154419200
+          }
+        },
+        {
+          "name": "default-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33243136,
+            "total_ws": 65646592,
+            "private_commit": 155181056
+          }
+        },
+        {
+          "name": "zero-op",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33251328,
+            "total_ws": 65654784,
+            "private_commit": 155181056
+          }
+        },
+        {
+          "name": "pixels-keep-current",
+          "client": [
+            489,
+            213
+          ],
+          "outer": [
+            522,
+            252
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              252,
+              522
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 33591296,
+            "total_ws": 65994752,
+            "private_commit": 155070464
+          }
+        },
+        {
+          "name": "chars-snap-current",
+          "client": [
+            482,
+            202
+          ],
+          "outer": [
+            515,
+            241
+          ],
+          "replies": [
+            [
+              4,
+              200,
+              480
+            ],
+            [
+              4,
+              241,
+              515
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              10,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            10
+          ],
+          "memory": {
+            "private_ws": 33673216,
+            "total_ws": 66076672,
+            "private_commit": 155299840
+          }
+        },
+        {
+          "name": "cancelled",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33677312,
+            "total_ws": 66084864,
+            "private_commit": 155299840
+          }
+        },
+        {
+          "name": "one-cell",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33685504,
+            "total_ws": 66097152,
+            "private_commit": 155299840
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "one-pixel",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33685504,
+            "total_ws": 66097152,
+            "private_commit": 155299840
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "sub-cell-pixels",
+          "client": [
+            103,
+            22
+          ],
+          "outer": [
+            136,
+            61
+          ],
+          "replies": [
+            [
+              4,
+              20,
+              96
+            ],
+            [
+              4,
+              61,
+              136
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              1,
+              12
+            ]
+          ],
+          "child_grid": [
+            12,
+            1
+          ],
+          "memory": {
+            "private_ws": 33685504,
+            "total_ws": 66097152,
+            "private_commit": 155299840
+          },
+          "requested_client_minimum": [
+            10,
+            22
+          ]
+        },
+        {
+          "name": "ordered-resizes",
+          "client": [
+            722,
+            602
+          ],
+          "outer": [
+            755,
+            641
+          ],
+          "replies": [
+            [
+              4,
+              600,
+              720
+            ],
+            [
+              4,
+              641,
+              755
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              30,
+              90
+            ]
+          ],
+          "child_grid": [
+            90,
+            30
+          ],
+          "memory": {
+            "private_ws": 33808384,
+            "total_ws": 66220032,
+            "private_commit": 154423296
+          }
+        },
+        {
+          "name": "sync-resize",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 33882112,
+            "total_ws": 66293760,
+            "private_commit": 154615808
+          }
+        },
+        {
+          "name": "alternate-resize",
+          "client": [
+            578,
+            442
+          ],
+          "outer": [
+            611,
+            481
+          ],
+          "replies": [
+            [
+              4,
+              440,
+              576
+            ],
+            [
+              4,
+              481,
+              611
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              22,
+              72
+            ]
+          ],
+          "child_grid": [
+            72,
+            22
+          ],
+          "memory": {
+            "private_ws": 35946496,
+            "total_ws": 68370432,
+            "private_commit": 154423296
+          }
+        },
+        {
+          "name": "main-return",
+          "client": [
+            578,
+            442
+          ],
+          "outer": [
+            611,
+            481
+          ],
+          "replies": [
+            [
+              4,
+              440,
+              576
+            ],
+            [
+              4,
+              481,
+              611
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              22,
+              72
+            ]
+          ],
+          "child_grid": [
+            72,
+            22
+          ],
+          "memory": {
+            "private_ws": 35946496,
+            "total_ws": 68370432,
+            "private_commit": 154423296
+          }
+        },
+        {
+          "name": "pre-maximize",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 36012032,
+            "total_ws": 68440064,
+            "private_commit": 154525696
+          }
+        },
+        {
+          "name": "maximized",
+          "client": [
+            1903,
+            1017
+          ],
+          "outer": [
+            1936,
+            1056
+          ],
+          "replies": [
+            [
+              4,
+              1000,
+              1896
+            ],
+            [
+              4,
+              1056,
+              1936
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              50,
+              237
+            ]
+          ],
+          "child_grid": [
+            237,
+            50
+          ],
+          "memory": {
+            "private_ws": 37523456,
+            "total_ws": 69959680,
+            "private_commit": 156426240
+          }
+        },
+        {
+          "name": "maximized-request-denied",
+          "client": [
+            1903,
+            1017
+          ],
+          "outer": [
+            1936,
+            1056
+          ],
+          "replies": [
+            [
+              4,
+              1000,
+              1896
+            ],
+            [
+              4,
+              1056,
+              1936
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              50,
+              237
+            ]
+          ],
+          "child_grid": [
+            237,
+            50
+          ],
+          "memory": {
+            "private_ws": 37527552,
+            "total_ws": 69963776,
+            "private_commit": 156426240
+          }
+        },
+        {
+          "name": "unmaximized",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 36511744,
+            "total_ws": 68964352,
+            "private_commit": 155361280
+          }
+        },
+        {
+          "name": "minimized-request",
+          "client": [
+            0,
+            0
+          ],
+          "outer": [
+            160,
+            28
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              648
+            ],
+            [
+              4,
+              28,
+              160
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              25,
+              81
+            ]
+          ],
+          "child_grid": [
+            81,
+            25
+          ],
+          "memory": {
+            "private_ws": 36552704,
+            "total_ws": 69009408,
+            "private_commit": 155414528
+          }
+        },
+        {
+          "name": "restored-request",
+          "client": [
+            650,
+            502
+          ],
+          "outer": [
+            683,
+            541
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              648
+            ],
+            [
+              4,
+              541,
+              683
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              25,
+              81
+            ]
+          ],
+          "child_grid": [
+            81,
+            25
+          ],
+          "memory": {
+            "private_ws": 36630528,
+            "total_ws": 69087232,
+            "private_commit": 155480064
+          }
+        }
+      ],
+      "active_renderer": 2,
+      "memory_before_instrumentation": {
+        "private_ws": 29175808,
+        "total_ws": 57495552,
+        "private_commit": 89120768
+      },
+      "memory_instrumented": true,
+      "initial_client": [
+        666,
+        542
+      ],
+      "frame": [
+        33,
+        39
+      ],
+      "screen": [
+        1920,
+        1080
+      ],
+      "minimized_output_preserved": true
+    },
+    {
+      "policy": "remote-denied",
+      "requested_renderer": 0,
+      "checks": [
+        {
+          "name": "initial",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3502080,
+            "total_ws": 20512768,
+            "private_commit": 4550656
+          }
+        },
+        {
+          "name": "denied-0",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3502080,
+            "total_ws": 20529152,
+            "private_commit": 4550656
+          }
+        },
+        {
+          "name": "denied-1",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3502080,
+            "total_ws": 20529152,
+            "private_commit": 4550656
+          }
+        },
+        {
+          "name": "denied-2",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3502080,
+            "total_ws": 20529152,
+            "private_commit": 4550656
+          }
+        },
+        {
+          "name": "denied-3",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3502080,
+            "total_ws": 20529152,
+            "private_commit": 4550656
+          }
+        }
+      ],
+      "active_renderer": 1,
+      "memory_before_instrumentation": {
+        "private_ws": 3502080,
+        "total_ws": 20512768,
+        "private_commit": 4550656
+      },
+      "memory_instrumented": false,
+      "initial_client": [
+        666,
+        542
+      ],
+      "frame": [
+        33,
+        39
+      ],
+      "screen": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "policy": "locked-window",
+      "requested_renderer": 0,
+      "checks": [
+        {
+          "name": "initial",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            689,
+            571
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              571,
+              689
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3534848,
+            "total_ws": 20520960,
+            "private_commit": 4571136
+          }
+        },
+        {
+          "name": "denied-0",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            689,
+            571
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              571,
+              689
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3534848,
+            "total_ws": 20529152,
+            "private_commit": 4571136
+          }
+        },
+        {
+          "name": "denied-1",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            689,
+            571
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              571,
+              689
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3534848,
+            "total_ws": 20529152,
+            "private_commit": 4571136
+          }
+        },
+        {
+          "name": "denied-2",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            689,
+            571
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              571,
+              689
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3534848,
+            "total_ws": 20529152,
+            "private_commit": 4571136
+          }
+        },
+        {
+          "name": "denied-3",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            689,
+            571
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              571,
+              689
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3534848,
+            "total_ws": 20529152,
+            "private_commit": 4571136
+          }
+        }
+      ],
+      "active_renderer": 1,
+      "memory_before_instrumentation": {
+        "private_ws": 3534848,
+        "total_ws": 20520960,
+        "private_commit": 4571136
+      },
+      "memory_instrumented": false,
+      "initial_client": [
+        666,
+        542
+      ],
+      "frame": [
+        23,
+        29
+      ],
+      "screen": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "policy": "font-resize",
+      "requested_renderer": 0,
+      "checks": [
+        {
+          "name": "initial",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              664
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              27,
+              83
+            ]
+          ],
+          "child_grid": [
+            83,
+            27
+          ],
+          "memory": {
+            "private_ws": 3547136,
+            "total_ws": 20549632,
+            "private_commit": 4583424
+          }
+        },
+        {
+          "name": "font-grid",
+          "client": [
+            666,
+            542
+          ],
+          "outer": [
+            699,
+            581
+          ],
+          "replies": [
+            [
+              4,
+              540,
+              660
+            ],
+            [
+              4,
+              581,
+              699
+            ],
+            [
+              6,
+              27,
+              11
+            ],
+            [
+              8,
+              20,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            20
+          ],
+          "memory": {
+            "private_ws": 3661824,
+            "total_ws": 20688896,
+            "private_commit": 4657152
+          }
+        },
+        {
+          "name": "font-pixels",
+          "client": [
+            703,
+            503
+          ],
+          "outer": [
+            736,
+            542
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              660
+            ],
+            [
+              4,
+              542,
+              736
+            ],
+            [
+              6,
+              25,
+              11
+            ],
+            [
+              8,
+              20,
+              60
+            ]
+          ],
+          "child_grid": [
+            60,
+            20
+          ],
+          "memory": {
+            "private_ws": 3727360,
+            "total_ws": 20766720,
+            "private_commit": 4722688
+          }
+        },
+        {
+          "name": "font-partial-grid",
+          "client": [
+            703,
+            503
+          ],
+          "outer": [
+            736,
+            542
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              700
+            ],
+            [
+              4,
+              542,
+              736
+            ],
+            [
+              6,
+              25,
+              10
+            ],
+            [
+              8,
+              20,
+              70
+            ]
+          ],
+          "child_grid": [
+            70,
+            20
+          ],
+          "memory": {
+            "private_ws": 3784704,
+            "total_ws": 20828160,
+            "private_commit": 4759552
+          }
+        },
+        {
+          "name": "font-minimized-pixels",
+          "client": [
+            0,
+            0
+          ],
+          "outer": [
+            160,
+            28
+          ],
+          "replies": [
+            [
+              4,
+              500,
+              700
+            ],
+            [
+              4,
+              28,
+              160
+            ],
+            [
+              6,
+              25,
+              10
+            ],
+            [
+              8,
+              20,
+              70
+            ]
+          ],
+          "child_grid": [
+            70,
+            20
+          ],
+          "memory": {
+            "private_ws": 3784704,
+            "total_ws": 20836352,
+            "private_commit": 4759552
+          }
+        },
+        {
+          "name": "font-restored-pixels",
+          "client": [
+            733,
+            563
+          ],
+          "outer": [
+            766,
+            602
+          ],
+          "replies": [
+            [
+              4,
+              560,
+              700
+            ],
+            [
+              4,
+              602,
+              766
+            ],
+            [
+              6,
+              28,
+              10
+            ],
+            [
+              8,
+              20,
+              70
+            ]
+          ],
+          "child_grid": [
+            70,
+            20
+          ],
+          "memory": {
+            "private_ws": 3784704,
+            "total_ws": 20840448,
+            "private_commit": 4759552
+          }
+        }
+      ],
+      "active_renderer": 1,
+      "memory_before_instrumentation": {
+        "private_ws": 3547136,
+        "total_ws": 20549632,
+        "private_commit": 4583424
+      },
+      "memory_instrumented": false,
+      "initial_client": [
+        666,
+        542
+      ],
+      "frame": [
+        33,
+        39
+      ],
+      "screen": [
+        1920,
+        1080
+      ]
+    }
+  ],
+  "runtime_files": {
+    "OpenConsole.exe": "9d8133f2cf4bbaa709d0e6b98014359c485125364d06a2c47cb91f1f55c5f909",
+    "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+  },
+  "completed": true
+}

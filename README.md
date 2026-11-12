@@ -42,6 +42,11 @@ OpenGL 使用系统 DLL 和已安装显卡驱动，无新增分发依赖；初�
 GPU 模式允许超过原内存目标，切回 GDI 后需重启窗口才能完全释放驱动内存。
 它缓存栅格化文字并由 GPU 合成，不代表已经证明比 GDI 更快。[实现与验证](research/rendering.md)。
 
+应用可通过字符或像素请求调整窗口大小；省略的维度保持当前值，显式零使用所在显示器
+可容纳的尺寸。请求遵守禁止远程调整、锁定窗口及字体缩放设置；最小化期间仍可处理
+输出和恢复尺寸。极小窗口受字符格和 Windows 标题栏最小尺寸限制。
+[参数、原生测试及平台差异](research/window-resize.md)。
+
 启动 shell 可选 `--shell auto|pwsh|powershell|busybox-ash|git-bash|wsl-bash|cmd`。
 `--choose-shell` 打开启动选择窗口；Session 的 Shell 下拉框和“Choose shell on
 startup”可随 Default Settings 或命名配置保存。自定义命令使用
