@@ -1,0 +1,436 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
+  "cases": {
+    "initial-modes": {
+      "sequence": "\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b503124723e303b303b303b30741b5c"
+    },
+    "baseline": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\\u001bP1$r>0;0;1;1t\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c1b503124723e303b303b313b31741b5c"
+    },
+    "mode-0": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e303b303b303b30741b5c"
+    },
+    "mode-1": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>1;0;0;0t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e313b303b303b30741b5c"
+    },
+    "mode-2": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>1t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>0;1;0;0t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e303b313b303b30741b5c"
+    },
+    "mode-3": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;1t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>1;1;0;0t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e313b313b303b30741b5c"
+    },
+    "mode-4": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>2t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>0;0;1;0t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e303b303b313b30741b5c"
+    },
+    "mode-5": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;2t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>1;0;1;0t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e313b303b313b30741b5c"
+    },
+    "mode-6": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>1;2t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>0;1;1;0t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e303b313b313b30741b5c"
+    },
+    "mode-7": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;1;2t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>1;1;1;0t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e313b313b313b30741b5c"
+    },
+    "mode-8": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>3t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>0;0;0;1t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e303b303b303b31741b5c"
+    },
+    "mode-9": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;3t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>1;0;0;1t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e313b303b303b31741b5c"
+    },
+    "mode-10": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>1;3t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>0;1;0;1t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e303b313b303b31741b5c"
+    },
+    "mode-11": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;1;3t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>1;1;0;1t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e313b313b303b31741b5c"
+    },
+    "mode-12": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>0;0;1;1t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e303b303b313b31741b5c"
+    },
+    "mode-13": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;2;3t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LA\u00e9\u4e2d\u001b\\\u001b]lA\u00e9\u4e2d\u001b\\\u001bP1$r>1;0;1;1t\u001b\\",
+      "reply_hex": "1b5d4c41c3a9e4b8ad1b5c1b5d6c41c3a9e4b8ad1b5c1b503124723e313b303b313b31741b5c"
+    },
+    "mode-14": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>1;2;3t\u001b]0;A\u00e9\u4e2d\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>0;1;1;1t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e303b313b313b31741b5c"
+    },
+    "mode-15": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3T\u001b[>0;1;2;3t\u001b]0;41c3a9e4b8ad\u001b\\\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L41C3A9E4B8AD\u001b\\\u001b]l41C3A9E4B8AD\u001b\\\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b5d4c3431433341394534423841441b5c1b5d6c3431433341394534423841441b5c1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->T": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>T\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->;t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>;t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->;T": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>;T\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->0;t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>0;t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->;1T": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>;1T\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;0;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b303b313b31741b5c"
+    },
+    "parameters->9t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>9t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->0;9;3t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>0;9;3t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->9999999999999t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>9999999999999t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b503124723e313b313b313b31741b5c"
+    },
+    "parameters->0:0t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>0:0t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b503124723e303b303b303b30741b5c"
+    },
+    "parameters->1:2T": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>1:2T\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b503124723e303b303b303b30741b5c"
+    },
+    "parameters->0;1:2t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[>0;1:2t\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b503124723e303b303b303b30741b5c"
+    },
+    "reset-ris": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001bc\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\\u001bP1$r>0;0;0;0t\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c1b503124723e303b303b303b30741b5c"
+    },
+    "reset-soft": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[!p\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L42415345\u001b\\\u001b]l42415345\u001b\\\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b5d4c34323431353334351b5c1b5d6c34323431353334351b5c1b503124723e313b313b313b31741b5c"
+    },
+    "reset-alternate": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0;1;2;3t\u001b[?1049h\u001b[?1049l\u001b[20t\u001b[21t\u001bP$q>t\u001b\\",
+      "reply": "\u001b]L42415345\u001b\\\u001b]l42415345\u001b\\\u001bP1$r>1;1;1;1t\u001b\\",
+      "reply_hex": "1b5d4c34323431353334351b5c1b5d6c34323431353334351b5c1b503124723e313b313b313b31741b5c"
+    },
+    "rqss->t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>t\u001b\\",
+      "reply": "\u001bP1$r>0;0;1;1t\u001b\\",
+      "reply_hex": "1b503124723e303b303b313b31741b5c"
+    },
+    "rqss->0t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>0t\u001b\\",
+      "reply": "\u001bP1$r>0t\u001b\\",
+      "reply_hex": "1b503124723e30741b5c"
+    },
+    "rqss->1t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>1t\u001b\\",
+      "reply": "\u001bP1$r>0t\u001b\\",
+      "reply_hex": "1b503124723e30741b5c"
+    },
+    "rqss->2t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>2t\u001b\\",
+      "reply": "\u001bP1$r>1t\u001b\\",
+      "reply_hex": "1b503124723e31741b5c"
+    },
+    "rqss->3t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>3t\u001b\\",
+      "reply": "\u001bP1$r>1t\u001b\\",
+      "reply_hex": "1b503124723e31741b5c"
+    },
+    "rqss->4t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>4t\u001b\\",
+      "reply": "\u001bP0$r\u001b\\",
+      "reply_hex": "1b503024721b5c"
+    },
+    "rqss->0;1;2;3t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>0;1;2;3t\u001b\\",
+      "reply": "\u001bP1$r>0t\u001b\\",
+      "reply_hex": "1b503124723e30741b5c"
+    },
+    "rqss->;t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>;t\u001b\\",
+      "reply": "\u001bP1$r>0;0;1;1t\u001b\\",
+      "reply_hex": "1b503124723e303b303b313b31741b5c"
+    },
+    "rqss->0:1t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>0:1t\u001b\\",
+      "reply": "\u001bP0$r\u001b\\",
+      "reply_hex": "1b503024721b5c"
+    },
+    "rqss->999999999999t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>999999999999t\u001b\\",
+      "reply": "\u001bP0$r\u001b\\",
+      "reply_hex": "1b503024721b5c"
+    },
+    "rqss->1;1t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>1;1t\u001b\\",
+      "reply": "\u001bP1$r>0t\u001b\\",
+      "reply_hex": "1b503124723e30741b5c"
+    },
+    "rqss->0;9t": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001bP$q>0;9t\u001b\\",
+      "reply": "\u001bP1$r>0t\u001b\\",
+      "reply_hex": "1b503124723e30741b5c"
+    },
+    "hex-": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-41": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-4": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;4\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-414": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;414\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-414g": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;414g\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-41 42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41 42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-41;42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41;42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-410042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;410042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-410742": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;410742\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-410942": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;410942\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-410A42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;410A42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-411842": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;411842\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-411A42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;411A42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-411B42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;411B42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "hex-417F42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;417F42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-418042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;418042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-418542": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;418542\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-419C42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;419C42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-41C29C42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41C29C42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-41C28042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41C28042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "hex-41C2A042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41C2A042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u00a0B\u001b\\\u001b]lA\u00a0B\u001b\\",
+      "reply_hex": "1b5d4c41c2a0421b5c1b5d6c41c2a0421b5c"
+    },
+    "hex-41C0AF42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41C0AF42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA/B\u001b\\\u001b]lA/B\u001b\\",
+      "reply_hex": "1b5d4c412f421b5c1b5d6c412f421b5c"
+    },
+    "hex-41EDA08042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41EDA08042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": null,
+      "reply_hex": "1b5d4c41eda080421b5c1b5d6c41eda080421b5c"
+    },
+    "hex-41F490808042": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41F490808042\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": null,
+      "reply_hex": "1b5d4c41f4908080421b5c1b5d6c41f4908080421b5c"
+    },
+    "hex-41F09F918B42": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;41F09F918B42\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\ud83d\udc4bB\u001b\\\u001b]lA\ud83d\udc4bB\u001b\\",
+      "reply_hex": "1b5d4c41f09f918b421b5c1b5d6c41f09f918b421b5c"
+    },
+    "length-999": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]Lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b]lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\",
+      "reply_hex": "1b5d4c7878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878781b5c1b5d6c7878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878781b5c"
+    },
+    "length-1000": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]Lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b]lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\",
+      "reply_hex": "1b5d4c787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878781b5c1b5d6c787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878781b5c"
+    },
+    "length-1001": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "length-2048": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "length-4096": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "hex-length-500": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;4141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b\\\u001b]lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b\\",
+      "reply_hex": "1b5d4c41414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141411b5c1b5d6c41414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141411b5c"
+    },
+    "hex-length-501": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b[>0t\u001b]0;414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141\u001b\\\u001b[>0T\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "raw-nul": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\u0000B\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\u001b\\\u001b]lA\u001b\\",
+      "reply_hex": "1b5d4c411b5c1b5d6c411b5c"
+    },
+    "raw-tab": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\tB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\tB\u001b\\\u001b]lA\tB\u001b\\",
+      "reply_hex": "1b5d4c4109421b5c1b5d6c4109421b5c"
+    },
+    "raw-lf": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\nB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA\nB\u001b\\\u001b]lA\nB\u001b\\",
+      "reply_hex": "1b5d4c410a421b5c1b5d6c410a421b5c"
+    },
+    "raw-cr": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\rB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "raw-can": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\u0018B\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "raw-sub": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\u001aB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LBASE\u001b\\\u001b]lBASE\u001b\\",
+      "reply_hex": "1b5d4c424153451b5c1b5d6c424153451b5c"
+    },
+    "raw-del": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\u007fB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "raw-utf8-st": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;A\u009cB\u001b\\\u001b[20t\u001b[21t",
+      "reply": "\u001b]LA?B\u001b\\\u001b]lA?B\u001b\\",
+      "reply_hex": "1b5d4c413f421b5c1b5d6c413f421b5c"
+    },
+    "stack-with-modes": {
+      "sequence": "\u001b[>0;1;2;3T\u001b[>2;3t\u001b]0;BASE\u001b\\\u001b]0;\u00e9\u4e2d\u001b\\\u001b[22t\u001b[>0t\u001b]0;4142\u001b\\\u001b[23t\u001b[>1t\u001b[20t\u001b[21t",
+      "reply": "\u001b]L4142\u001b\\\u001b]l4142\u001b\\",
+      "reply_hex": "1b5d4c343134321b5c1b5d6c343134321b5c"
+    }
+  }
+}

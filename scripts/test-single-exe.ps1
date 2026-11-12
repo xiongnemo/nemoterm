@@ -28,6 +28,11 @@ try {
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'titles') {
+            & python "$Destination/tests/titles_window_smoke.py" --modes 2>&1 | Tee-Object "$Destination/logs/title-modes.log"
+            if ($LASTEXITCODE) { throw 'Single-executable title encoding test failed' }
+            $checks.Add('title-modes')
+        }
         if ($name -eq 'font_fallback') {
             Copy-Item "$Destination/research/font-fallback-observed.json" "$Destination/research/font-fallback-default-observed.json"
             Copy-Item "$Destination/research/font-fallback.png" "$Destination/research/font-fallback-default.png"

@@ -480,6 +480,7 @@ struct terminal_tag {
     char *window_title, *icon_title;
     int wintitle_codepage, icontitle_codepage;
     struct nemo_title_stack *title_stack;
+    unsigned title_modes;             /* XTSMTITLE bits 0..3, shared by screens */
     bool minimised;
 
     BidiContext *bidi_ctx;

@@ -127,7 +127,6 @@ def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False):
                 else:
                     results['cases'][name]=dict(sequence=sequence,reply=response.decode())
                     print(name,repr(response.decode()),flush=True)
-            Path(output).write_text(json.dumps(results,indent=2))
         finally:
             Path(output).write_text(json.dumps(results,indent=2))
             terminal.terminate();terminal.wait(timeout=5)
