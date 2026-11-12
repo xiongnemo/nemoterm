@@ -1,6 +1,6 @@
 # Nemoterm
 
-Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/GDI 和 ConPTY。
+Windows 原生 C/C++ 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32 和 ConPTY。
 不使用 WebView。**开发中，尚未完成全部现代终端协议与真实 agent 验收。**
 
 这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
@@ -37,10 +37,11 @@ python -m pip install frida==17.24.3 # native input/DPI test instrumentation onl
 
 新配置默认 **160×48 字符**。启动时按实际字体与窗口边框计算尺寸，放不下时
 缩小字符网格到所在屏幕工作区；显式尺寸和已有配置继续生效。
-Window/Rendering 可在默认低内存 GDI 与可选 OpenGL GPU 合成之间切换。
-OpenGL 使用系统 DLL 和已安装显卡驱动，无新增分发依赖；初始化或绘制失败自动回退 GDI。
-GPU 模式允许超过原内存目标，切回 GDI 后需重启窗口才能完全释放驱动内存。
-它缓存栅格化文字并由 GPU 合成，不代表已经证明比 GDI 更快。[实现与验证](research/rendering.md)。
+Window/Rendering 可选择默认低内存 GDI、OpenGL 或 DirectX（Direct2D 合成）。
+两种 GPU 模式使用系统 DLL 和已安装显卡驱动，无新增分发依赖；初始化或绘制失败自动回退 GDI，
+之后可通过切换模式重试。OpenGL 已允许超过原内存目标，切回 GDI 后可能需要重启窗口
+才能释放驱动保留的内存。它们缓存栅格化文字并由 GPU 合成，尚未证明比 GDI 更快。
+[OpenGL 实现与验证](research/rendering.md)；[DirectX 实现与验证](research/directx.md)。
 
 应用可通过字符或像素请求调整窗口大小；省略的维度保持当前值，显式零使用所在显示器
 可容纳的尺寸。请求遵守禁止远程调整、锁定窗口及字体缩放设置；最小化期间仍可处理

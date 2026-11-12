@@ -21,13 +21,20 @@ try {
     $tests = @('single_exe', 'startup_size', 'renderer', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
-        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'titles', 'geometry', 'window_resize')
+        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     foreach ($name in $tests) {
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'selection') {
+            Copy-Item "$Destination/research/selection-observed.json" "$Destination/research/selection-gdi-observed.json"
+            & python "$Destination/tests/selection_window_smoke.py" --renderer 2 2>&1 | Tee-Object "$Destination/logs/selection-directx.log"
+            if ($LASTEXITCODE) { throw 'Single-executable DirectX selection test failed' }
+            Copy-Item "$Destination/research/selection-observed.json" "$Destination/research/selection-directx-observed.json"
+            $checks.Add('selection-directx')
+        }
         if ($name -eq 'titles') {
             & python "$Destination/tests/titles_window_smoke.py" --modes 2>&1 | Tee-Object "$Destination/logs/title-modes.log"
             if ($LASTEXITCODE) { throw 'Single-executable title encoding test failed' }

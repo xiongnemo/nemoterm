@@ -1,4 +1,4 @@
-/* Capture one owned terminal's retained GL frame using process-local GDI
+/* Capture one owned terminal's retained GPU frame using process-local GDI
  * objects. A foreign-process memory HDC is not a valid WM_PRINTCLIENT target. */
 const user32 = Process.getModuleByName('user32.dll');
 const gdi32 = Process.getModuleByName('gdi32.dll');

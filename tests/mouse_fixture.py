@@ -10,6 +10,10 @@ import traceback
 from fixture_io import read_snapshot, write_snapshot
 
 report, control = map(Path, sys.argv[1:3])
+# Settings lifecycle tests need time for several modal UI Automation rounds.
+# Keep the ordinary fixture's one-minute bound; opt in explicitly up to five.
+lifetime = int(sys.argv[3]) if len(sys.argv) > 3 else 60
+assert 1 <= lifetime <= 300
 k = c.windll.kernel32
 k.GetStdHandle.argtypes = [w.DWORD]
 k.GetStdHandle.restype = w.HANDLE
@@ -43,7 +47,7 @@ request = {}
 responded = set()
 barrier_sent = barrier_ack = None
 barrier_start = 0
-deadline = time.monotonic() + 60
+deadline = time.monotonic() + lifetime
 print('\x1b]2;Nemoterm mouse integration test\x07', end='', flush=True)
 try:
     while time.monotonic() < deadline:

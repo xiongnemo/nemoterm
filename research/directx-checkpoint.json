@@ -1,0 +1,1173 @@
+{
+  "source_commit": "9d24b2fe63cccc564e743f8709d1e4c563c693ae",
+  "executable_sha256": "88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8",
+  "executable_bytes": 4350976,
+  "core_ci": {
+    "run": 43286283098,
+    "status": "success",
+    "artifacts": [
+      13975402077,
+      13975806782,
+      13976020091
+    ]
+  },
+  "single_ci": {
+    "run": 43286283156,
+    "status": "success",
+    "executable_artifact": 13975172857,
+    "evidence_artifact": 13975452429,
+    "json_records": 50,
+    "matching_executable_hashes": 46,
+    "checks": [
+      "single_exe",
+      "startup_size",
+      "renderer",
+      "bindings",
+      "input_method",
+      "unicode_input",
+      "console_unicode",
+      "mouse",
+      "selection",
+      "selection-directx",
+      "sync",
+      "sgr",
+      "font_resize",
+      "font_fallback",
+      "font-fallback-courier",
+      "query",
+      "highlight",
+      "sixel",
+      "sixel_font",
+      "hyperlink",
+      "reflow",
+      "keyboard",
+      "keyboard-courier",
+      "osc52",
+      "mok",
+      "mok-courier",
+      "win32_input",
+      "state_control",
+      "selective_erase",
+      "rectangle",
+      "margins",
+      "cwd",
+      "shell_marks",
+      "shell",
+      "delegated_console",
+      "shutdown",
+      "titles",
+      "title-modes",
+      "geometry",
+      "window_resize",
+      "gpu_lifecycle",
+      "settings",
+      "codex-default",
+      "codex-inline"
+    ],
+    "directx_selection": {
+      "active_renderer": 3,
+      "rectangles": 16
+    },
+    "lifecycle": {
+      "executable_sha256": "88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8",
+      "checks": [
+        {
+          "fault": "factory",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        },
+        {
+          "fault": "draw",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        },
+        {
+          "fault": "resize",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        }
+      ],
+      "completed": true,
+      "memory_instrumented": true,
+      "input_scope": "owned HWND and COM HRESULT injection",
+      "mode_changes": [
+        {
+          "requested": 2,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        }
+      ],
+      "output_replies": [
+        {
+          "elapsed": 4.264999999999986,
+          "phase": "factory-recovery",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 4.968000000000075,
+          "phase": "draw-failure",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 5.0470000000000255,
+          "phase": "draw-recovery",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 5.75,
+          "phase": "resize-recovery",
+          "hex": "1b5b306e",
+          "columns": 88,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 6.9220000000000255,
+          "phase": "cycle-0",
+          "hex": "1b5b306e",
+          "columns": 88,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 7.531000000000063,
+          "phase": "cycle-1",
+          "hex": "1b5b306e",
+          "columns": 88,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 8.139999999999986,
+          "phase": "cycle-2",
+          "hex": "1b5b306e",
+          "columns": 88,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 437
+        },
+        {
+          "elapsed": 8.702999999999975,
+          "phase": "cycle-3",
+          "hex": "1b5b306e",
+          "columns": 88,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 437
+        }
+      ],
+      "hardware_directx": true,
+      "resources": {
+        "baseline": {
+          "gdi": 31,
+          "user": 26,
+          "handles": 410
+        },
+        "samples": [
+          {
+            "gdi": 31,
+            "user": 26,
+            "handles": 410
+          },
+          {
+            "gdi": 31,
+            "user": 26,
+            "handles": 410
+          },
+          {
+            "gdi": 31,
+            "user": 27,
+            "handles": 410
+          },
+          {
+            "gdi": 31,
+            "user": 26,
+            "handles": 410
+          }
+        ]
+      },
+      "elapsed_seconds": 8.889999999999986,
+      "last_child_snapshot": {
+        "phase": "cycle-3",
+        "hex": "1b5b306e",
+        "columns": 88,
+        "rows": 26,
+        "input_mode": 640,
+        "input_cp": 437
+      },
+      "last_ui_snapshot": {
+        "id": 15,
+        "applied": 2
+      },
+      "frontend_exit": 0,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 7,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 7,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    }
+  },
+  "local_exact": {
+    "validation": {
+      "executable_sha256": "88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8",
+      "executable_bytes": 4350976,
+      "checks": [
+        "single_exe",
+        "renderer",
+        "geometry",
+        "window_resize",
+        "shutdown"
+      ],
+      "hardware_required": [
+        "OpenGL",
+        "DirectX"
+      ],
+      "directx_resize_private_ws_peak": 15405056.0,
+      "recorded_utc": "2026-11-12T19:18:20.0046849Z"
+    },
+    "evidence_directory": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\directx-worktree\\build\\directx-9d24-local\\research",
+    "renderer": {
+      "executable_sha256": "88759c693b3fd0a7a8d2e80ef1708a062c68b44fe874487c0abcb9d0ca8281e8",
+      "font": "SarasaTermSC Nerd Font Light",
+      "modes": [
+        {
+          "requested": 0,
+          "active": "GDI",
+          "checks": [
+            {
+              "scene": "text"
+            },
+            {
+              "scene": "sixel"
+            },
+            {
+              "scene": "sync-end"
+            },
+            {
+              "scene": "resize"
+            },
+            {
+              "scene": "palette"
+            },
+            {
+              "scene": "cursor-active-2"
+            },
+            {
+              "scene": "cursor-active-4"
+            },
+            {
+              "scene": "cursor-active-6"
+            },
+            {
+              "scene": "cursor-inactive-2"
+            },
+            {
+              "scene": "cursor-inactive-4"
+            },
+            {
+              "scene": "cursor-inactive-6"
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 3854336,
+            "total_ws": 23113728,
+            "private_commit": 4993024
+          },
+          "capture_method": "PrintWindow",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "gdi_snapshot_rounding": {
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 6721536,
+            "total_ws": 30621696,
+            "private_commit": 9846784
+          }
+        },
+        {
+          "requested": 1,
+          "active": "OpenGL",
+          "checks": [
+            {
+              "scene": "text",
+              "changed_channels": 60,
+              "max_channel_error": 1
+            },
+            {
+              "scene": "sixel",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "sync-end",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "resize",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "palette",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 29433856,
+            "total_ws": 59351040,
+            "private_commit": 83120128
+          },
+          "capture_method": "owned-process-retained-frame",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 36532224,
+            "total_ws": 71139328,
+            "private_commit": 96485376
+          }
+        },
+        {
+          "requested": 2,
+          "active": "DirectX",
+          "checks": [
+            {
+              "scene": "text",
+              "changed_channels": 60,
+              "max_channel_error": 1
+            },
+            {
+              "scene": "sixel",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "sync-end",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "resize",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "palette",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 12214272,
+            "total_ws": 45019136,
+            "private_commit": 61288448
+          },
+          "capture_method": "owned-process-retained-frame",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 16846848,
+            "total_ws": 54362112,
+            "private_commit": 72163328
+          }
+        }
+      ],
+      "completed": true
+    },
+    "resize_peaks": [
+      {
+        "mode": 0,
+        "active": 1,
+        "checks": 42,
+        "private_ws": 6131712,
+        "total_ws": 24768512,
+        "private_commit": 7393280
+      },
+      {
+        "mode": 1,
+        "active": 2,
+        "checks": 42,
+        "private_ws": 35430400,
+        "total_ws": 65486848,
+        "private_commit": 160940032
+      },
+      {
+        "mode": 2,
+        "active": 3,
+        "checks": 42,
+        "private_ws": 15405056,
+        "total_ws": 48533504,
+        "private_commit": 81453056
+      }
+    ],
+    "geometry_checks": 21,
+    "shutdown_cases": 6
+  },
+  "preceding_production_identical_local": {
+    "source_commit": "fee689fc8e86c554dc82b1b1515e1728bc477274",
+    "validation": {
+      "executable_sha256": "4658a8893280ca0bb455b10b44d5adbde1355b26353e687e0b2d3d0ba757c28a",
+      "executable_bytes": 4350976,
+      "checks": [
+        "single_exe",
+        "renderer",
+        "geometry",
+        "window_resize",
+        "gpu_lifecycle",
+        "shutdown",
+        "startup_size",
+        "font_resize",
+        "sync",
+        "sixel",
+        "query",
+        "mouse",
+        "settings"
+      ],
+      "hardware_required": [
+        "OpenGL",
+        "DirectX"
+      ],
+      "directx_resize_private_ws_peak": 15466496.0,
+      "recorded_utc": "2026-11-12T19:11:07.9004031Z"
+    },
+    "production_diff_to_source_commit": "empty for vendor and build preparation scripts; later changes only test mailbox handling and documentation",
+    "lifecycle": {
+      "executable_sha256": "4658a8893280ca0bb455b10b44d5adbde1355b26353e687e0b2d3d0ba757c28a",
+      "checks": [
+        {
+          "fault": "factory",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        },
+        {
+          "fault": "draw",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        },
+        {
+          "fault": "resize",
+          "status": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          },
+          "renderer": 1
+        }
+      ],
+      "completed": true,
+      "memory_instrumented": true,
+      "input_scope": "owned HWND and COM HRESULT injection",
+      "mode_changes": [
+        {
+          "requested": 2,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "factory",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "draw",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 0
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "faults": {
+            "armed": "",
+            "hits": [
+              {
+                "fault": "resize",
+                "original": 0
+              }
+            ],
+            "targets": 2
+          }
+        }
+      ],
+      "output_replies": [
+        {
+          "elapsed": 13.139767699991353,
+          "phase": "factory-recovery",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 38.06161440000869,
+          "phase": "draw-failure",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 38.141931199934334,
+          "phase": "draw-recovery",
+          "hex": "1b5b306e",
+          "columns": 80,
+          "rows": 24,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 63.038427499937825,
+          "phase": "resize-recovery",
+          "hex": "1b5b306e",
+          "columns": 90,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 112.65508379996754,
+          "phase": "cycle-0",
+          "hex": "1b5b306e",
+          "columns": 90,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 137.47340279992204,
+          "phase": "cycle-1",
+          "hex": "1b5b306e",
+          "columns": 90,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 162.27704319998156,
+          "phase": "cycle-2",
+          "hex": "1b5b306e",
+          "columns": 90,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 65001
+        },
+        {
+          "elapsed": 187.12408609990962,
+          "phase": "cycle-3",
+          "hex": "1b5b306e",
+          "columns": 90,
+          "rows": 26,
+          "input_mode": 640,
+          "input_cp": 65001
+        }
+      ],
+      "hardware_directx": true,
+      "resources": {
+        "baseline": {
+          "gdi": 32,
+          "user": 31,
+          "handles": 464
+        },
+        "samples": [
+          {
+            "gdi": 31,
+            "user": 31,
+            "handles": 463
+          },
+          {
+            "gdi": 31,
+            "user": 31,
+            "handles": 461
+          },
+          {
+            "gdi": 31,
+            "user": 32,
+            "handles": 460
+          },
+          {
+            "gdi": 31,
+            "user": 31,
+            "handles": 460
+          }
+        ]
+      },
+      "elapsed_seconds": 187.30756979994476,
+      "last_child_snapshot": {
+        "phase": "cycle-3",
+        "hex": "1b5b306e",
+        "columns": 90,
+        "rows": 26,
+        "input_mode": 640,
+        "input_cp": 65001
+      },
+      "last_ui_snapshot": {
+        "id": 15,
+        "applied": 2
+      },
+      "frontend_exit": 0,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 7,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 7,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false
+      }
+    }
+  },
+  "pe": {
+    "evidence_id": "ev_2aef95aa167e21f8ac14dde27a28442bc6be71d82350a06c34d41b1536a72a76",
+    "coverage": {
+      "status": "complete",
+      "reason": null,
+      "examined_dlls": 79,
+      "imports": 605,
+      "delay_imports": 11
+    },
+    "issues": [],
+    "record": "directx-pe-imports.json"
+  },
+  "previous_distribution": {
+    "sha256": "9e9e9d663b72c5f31191f9bb0da91f40c07efe9f77b0e5dad5999b491a71fc48",
+    "backup": "build/dist-before-directx-fee689f/nemoterm.exe"
+  },
+  "remaining": [
+    "Four-sided tabs and hover previews",
+    "Remaining protocol ledger and full grapheme behavior",
+    "Physical IME and multi-monitor DPI acceptance",
+    "Live Claude Code and local real-Codex clipboard acceptance"
+  ]
+}

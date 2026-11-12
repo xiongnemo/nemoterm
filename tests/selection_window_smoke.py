@@ -2,23 +2,58 @@
 from native_test_utils import (root,c,w,u,hashlib,json,os,subprocess,sys,tempfile,
     Path,time,wait_for,find_window,read_snapshot,write_snapshot,wait_snapshot,capture)
 from clipboard_test_utils import SavedClipboard,clipboard_text
+from gpu_capture import OwnedGPUCapture
+import argparse
+import uuid
+import winreg
+parser=argparse.ArgumentParser()
+parser.add_argument('--renderer',type=int,choices=(0,1,2),default=0)
+args=parser.parse_args()
+u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
+profile='selection-'+uuid.uuid4().hex
+keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
+with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
+    winreg.SetValueEx(key,'NemoRenderer',0,winreg.REG_DWORD,args.renderer)
+    winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
-evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[])
+evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
-    process=subprocess.Popen([str(exe),'--cols','80','--rows','24','-e',sys.executable,
+    process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24','-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
-    saved=None; session=None; script=None
+    saved=None; session=None; script=None; gpu=None
     try:
         hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
+        active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
+        assert active in (1,2,3)
+        if args.renderer==0:assert active==1
+        if args.renderer==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3
+        evidence['active_renderer']=active
         saved=SavedClipboard(hwnd)
+        if active in (2,3):gpu=OwnedGPUCapture(process.pid,hwnd)
         import frida
         session=frida.attach(process.pid)
         script=session.create_script((root/'tests/agent_key_probe.js').read_text())
         errors=[]
         script.on('message',lambda message,data:errors.append(message) if message.get('type')=='error' else None)
         script.load();script.exports_sync.isolate_mouse(hex(hwnd));serial=0
+        def captured(name=None,return_pixels=False):
+            return gpu.capture(name,return_pixels) if gpu else capture(hwnd,name,return_pixels)
+        phase_request=None
+        def begin_phase(name,sequence):
+            global phase_request
+            phase_request=dict(phase=name,sequence=sequence+'\x1b[5n')
+            write_snapshot(control,phase_request)
+            wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+        def no_forwarded_input():
+            # The fixture may briefly deny a mailbox read during atomic
+            # replacement. Retain one complete acknowledged snapshot, and
+            # drain preceding mouse/key input before asserting its exact bytes.
+            barrier=phase_request['phase']
+            write_snapshot(control,dict(phase_request,input_barrier=barrier))
+            value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==barrier and v.get('input_barrier')==barrier and 'hex' in v)
+            assert bytes.fromhex(value['hex'])==b'\x1b[0n'*2,value
         r=w.RECT();u.GetClientRect(hwnd,c.byref(r));cw,ch=(r.right-2)//80,(r.bottom-2)//24
         def select(x,y,end):
             start=(1+y*ch+ch//2)<<16|(1+x*cw+cw//2)
@@ -32,8 +67,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         for mode in ('legacy','application-mouse'):
             sequence='\x1b[?1000;1002;1003l\x1b[2J\x1b[HABCDEFGHIJ\r\n\r\n0123456789'
             if mode=='application-mouse':sequence+='\x1b[?1003;1006h'
-            write_snapshot(control,dict(phase=mode,sequence=sequence+'\x1b[5n'))
-            wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==mode and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
+            begin_phase(mode,sequence)
             # Desktop motion is outside this deterministic input fixture.
             # The queued message is ignored; synchronous actions below are not.
             assert u.PostMessageW(hwnd,0x200,0,(ch//2)<<16|(cw//2))
@@ -42,8 +76,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
             values=[select(0,0,2),select(2,2,4),select(5,0,7),select(0,2,1)]
             assert values==['ABC','234','FGH','01'],(mode,values)
             evidence['checks'].append(dict(mode=mode,selections=values))
-            assert bytes.fromhex(read_snapshot(report)['hex'])==b'\x1b[0n',read_snapshot(report)
-        time.sleep(.1);capture(hwnd,'selection-window.png')
+            no_forwarded_input()
+        time.sleep(.1);captured('selection-window.png')
         # Check the default shortcut on the rectangular local selection. This
         # injects keys only on our owned terminal's UI thread, then restores its
         # state. Clipboard backup/restore still surrounds the entire fixture.
@@ -69,9 +103,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     sequence+='\x1b[?9;1000;1001;1002;1003l\x1b[?25l\x1b[0m\x1b[2J\x1b[H'
                     sequence+='0123456789\r\nab中e\u0301FGHIJ\r\nklmnopqrst'
                     if mode=='application-mouse':sequence+='\x1b[?1003;1006h'
-                    write_snapshot(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
-                    wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
-                    time.sleep(.1);before=capture(hwnd,return_pixels=True)
+                    begin_phase(name,sequence)
+                    time.sleep(.1);before=captured(return_pixels=True)
                     x,y=(5 if corner&1 else 1),(2 if corner&2 else 0)
                     keys=9|(4 if mode=='application-mouse' else 0)
                     u.SendMessageW(hwnd,0x201,keys,point(x,y))
@@ -80,7 +113,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     u.SendMessageW(hwnd,0x200,1,point(6-x,2-y))
                     u.SendMessageW(hwnd,0x202,0,point(6-x,2-y))
                     time.sleep(.1)
-                    after=capture(hwnd,'selection-rectangle.png' if not alternate and mode=='legacy' and corner==0 else None,return_pixels=True)
+                    after=captured('selection-rectangle.png' if not alternate and mode=='legacy' and corner==0 else None,return_pixels=True)
                     for row in range(4):
                         for col in range(10):
                             selected=row<=2 and 1<=col<=5
@@ -89,15 +122,19 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
                     assert copied==expected,(name,copied)
                     u.SendMessageW(hwnd,0x204,2,point(0,0));u.SendMessageW(hwnd,0x205,0,point(0,0))
                     assert clipboard_text(hwnd)==expected
-                    assert bytes.fromhex(read_snapshot(report)['hex'])==b'\x1b[0n',read_snapshot(report)
+                    no_forwarded_input()
                     evidence['rectangles'].append(dict(mode=mode,alternate=alternate,corner=corner,text=copied,pixels=True))
-        (root/'research/selection-observed.json').write_text(json.dumps(evidence,indent=2))
+        evidence['completed']=True
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
+        if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
+        (root/'research/selection-observed.json').write_text(json.dumps(evidence,indent=2))
         (root/'research/selection-last-snapshot.json').write_text(json.dumps(read_snapshot(report)))
+        if gpu:gpu.close()
         if script:script.unload()
         if session:session.detach()
         if saved:saved.restore()
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
         write_snapshot(control,dict(stop=True))
         try:process.wait(timeout=10)
         except subprocess.TimeoutExpired:process.terminate();process.wait(timeout=5);raise
