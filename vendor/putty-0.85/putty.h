@@ -2043,6 +2043,8 @@ void term_resize_request_completed(Terminal *);
 void term_paint(Terminal *, int, int, int, int, bool);
 void term_scroll(Terminal *, int, int);
 void term_scroll_to_selection(Terminal *, int);
+bool term_shell_mark_navigate(Terminal *, int direction);
+bool term_shell_mark_select(Terminal *, bool output);
 void term_pwron(Terminal *, bool);
 void term_clrsb(Terminal *);
 void term_mouse(Terminal *, Mouse_Button, Mouse_Button, Mouse_Action,

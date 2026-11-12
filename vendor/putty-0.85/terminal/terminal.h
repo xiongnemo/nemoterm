@@ -11,6 +11,7 @@
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
+#include "nemo_shell_marks.h"
 #include "nemo_bindings.h"
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
@@ -181,6 +182,8 @@ struct terminal_tag {
     truecolour curr_truecolour, save_truecolour;
     NemoHyperlinks *hyperlinks;
     NemoCwd working_directory;
+    NemoShellMarks shell_marks;
+    uint64_t shell_mark_selected; /* navigation target; zero means latest command */
     uint32_t curr_hyperlink, save_hyperlink, alt_save_hyperlink;
     uint32_t hover_hyperlink;
     termchar basic_erase_char, erase_char;

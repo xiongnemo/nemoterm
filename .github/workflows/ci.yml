@@ -38,12 +38,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell test_font_cmap test_font_fallback --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell test_font_cmap test_font_fallback; do
+          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -295,7 +295,7 @@ jobs:
             -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
-          cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd --parallel 4
+          cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks --parallel 4
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_sixel_terminal 2>&1 | tee terminal-image-sanitizers.log
@@ -321,6 +321,8 @@ jobs:
             ./build-asan/test_margins 2>&1 | tee terminal-margins-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_cwd 2>&1 | tee terminal-cwd-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_shell_marks 2>&1 | tee terminal-shell-marks-sanitizers.log
       - name: Upload sanitizer logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

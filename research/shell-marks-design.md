@@ -1,7 +1,8 @@
 # Shell mark implementation notes
 
-Work in progress on `feature/shell-marks`. No shell-mark implementation or
-acceptance is claimed by this document. Local interactive tests are paused by
+Work in progress on `feature/shell-marks`. Core implementation and regression
+tests are in progress; native UI and end-to-end acceptance are pending.
+Local interactive tests are paused by
 the user's request; use GitHub-hosted execution until the user resumes them.
 
 ## Verified protocol and source boundaries
@@ -19,11 +20,13 @@ the user's request; use GitHub-hosted execution until the user resumes them.
   implemented. It should not invent an output range for an unknown command.
 * Pinned Microsoft's `AdaptDispatch::DoFinalTermAction` processes OSC 133 inside
   the host, while `ConhostInternalGetSet::NotifyShellIntegrationMark` is empty.
-  `DoITerm2Action` also recognizes SetMark. The overlay must preserve these
-  sequences through ConPTY to the frontend, using the original pinned source
-  and `scripts/prepare-single-exe.py`; do not edit the submodule directly.
-* `terminal.c::do_osc` currently passes 633/1337 only to `nemo_cwd_update` and has
-  no OSC 133 handling. The string-size/overflow path must be considered as well.
+  `DoITerm2Action` also recognizes SetMark. However, `_stream.cpp::WriteCharsVT`
+  forwards the original string after `ProcessString`, with only its recorded
+  injections and newline translation. Dispatcher recognition does **not** mean
+  the raw sequence is consumed. No duplicate forwarding overlay is warranted
+  by this source. Confirm exactly-once delivery with native cloud tests.
+* `terminal.c::do_osc` now dispatches main-screen OSC 133/633/1337 marks alongside
+  the existing working-directory handler, with a 16 KiB overflow bound.
 * `NemoReflowPoint` currently maps the current and saved cursor during streaming
   reflow. Completed rows are immediately compressed, avoiding a whole-paragraph
   allocation. New marks must preserve that bound, including zero-length marks
@@ -32,19 +35,23 @@ the user's request; use GitHub-hosted execution until the user resumes them.
   `erase_lots`, `insch`, screen swapping, scrollback clearing and reset. Partial
   horizontal margins and rectangle operations also require an explicit policy.
 
-## Candidate storage approach to validate
+## Storage and movement implementation to validate
 
-Keep a bounded, lazily allocated command/mark table with A/B/C/D cell positions,
-optional exit status and bounded decoded command metadata. This avoids adding a
+The lazily allocated table holds at most 256 records with A/B/C/D cell positions,
+optional signed 64-bit exit status and up to 4 KiB decoded command text each,
+within a 64 KiB total text allocation budget. This avoids adding a
 field to every character in the grid and scrollback. Record source positions;
 selection continues to use the terminal's existing logical-to-rendered handling.
 
-Coordinate anchors must move with full and partial scrolling, history eviction,
-height changes and width reflow. For reflow, sort the bounded anchor list and
-map it in the existing streaming pass rather than searching every mark for every
-cell. Preserve erased/retained-history semantics, zero-width endpoints and
-one-column wide-character rows. A command whose leading output has left bounded
-history needs a visibly truncated range, not an unbounded hidden text copy.
+Coordinate anchors move with full and partial scrolling, history eviction,
+height changes and width reflow. Reflow sorts at most 1024 anchors and maps them
+in the existing streaming pass. Anchors are positions, not per-character tags:
+ordinary overwrite, erase, ICH/DCH and rectangular cell copies do not duplicate
+or move them. Selection reads the current cells at these positions. Removed rows
+invalidate anchors; lost history permanently clips them, even after enlargement.
+RIS clears the table; DECSTR retains it. Alternate-screen marks are ignored and
+main-screen marks survive a TUI visit. A clipped range contains retained history
+only; a native indication of truncation remains a UI requirement.
 
 Alternative: semantic fields in `termchar` naturally follow copying/reflow but
 increase every cell and require compression/equality changes. They do not alone
