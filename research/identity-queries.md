@@ -60,10 +60,16 @@ retained as unverified and is not promoted.
 Revision f6b4409 bounds the complete fixture tree with a private Windows Job,
 assigned before the root's initial thread resumes. Two native tests cover late
 descendants, unrelated-process isolation and natural exit. Core run 43246777771
-passed; single-EXE run 43246777750 is pending. A local real-client retry reached
+passed; [single-EXE run 43246777750](https://github.com/xiongnemo/nemoterm/actions/runs/43246777750)
+also passed all 37 check groups, including default and inline real Codex UI.
+`identity-single-ci.json` retains its executable hash and complete group list.
+The downloaded EXE hash is
+`d8bbb52a7712f912a2c57b0a0c74727359d01354cec650ee62fd8b049a47ad34`.
+Both private jobs drained to zero active processes; their respective lifetime
+totals were 67 and 68 processes. A local real-client retry reached
 the window but was blocked by clipboard access-denied before preservation; it
-is not counted as successful validation. Exact artifact acceptance and merge
-remain pending.
+is not counted as successful validation. Distribution is held for the separately
+reproduced native-window shutdown lifetime fix; see `window-shutdown.md`.
 
 The first independent run (43241329669, revision 7732557) disproved the initial
 assumption that XTerm rejects colon subparameters: all four `0:0` requests got

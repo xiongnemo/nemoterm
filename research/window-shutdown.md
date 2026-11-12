@@ -45,3 +45,14 @@ child is drained after its parent exits, an unrelated process survives, and a
 natural exit needs no forced termination. It sets no CPU, working-set or UI
 limits. The local Codex retry was blocked before clipboard preservation by
 Windows access-denied; that attempt is not counted as a successful client test.
+
+The verified identity-query branch was merged into revision 80c6cf2. The merged
+local MinGW build passes the core query suite, all 65 native identity checks
+with existing cursor/keyboard checks, and the four native shutdown cases.
+Evidence is in `shutdown-identity-query-local.json` and
+`shutdown-combined-local.json`, both for SHA-256
+`3594290cf9442b566bdc2028432183e5cc53f73410265922c03bcc169ffa0b64`.
+The query fixture sampled 4,149,248 bytes peak private WS.
+The merged independent XTerm reference run 43249194173 passed; core run
+43249194149 and single-EXE run 43249194284 are pending. Earlier isolated
+shutdown CI runs were superseded by this combined revision, not accepted.
