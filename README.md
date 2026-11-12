@@ -123,6 +123,12 @@ VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试
 每次 OSC 52 文本上限 256 KiB；系统剪贴板、本地选区及有界的辅助缓冲区分别处理。
 核心测试直接调用 Windows 布局转换器验证美式、俄语、德语 AltGr 和美式国际死键，
 不会激活或切换用户布局；真实 IME 候选窗口、更多物理键盘及长期 agent 使用仍需验收。
+`python tests/codex_window_smoke.py` 使用实际 Codex 0.167.0 客户端连接本地测试响应，
+验证中文/emoji、流式 Markdown、长回复、32 次缩放、Shift 选择和 Ctrl+Shift+C/V；
+`--inline` 验证非备用屏模式。配置和会话使用临时目录，无需 API 密钥或在线模型。
+CI 固定客户端版本并运行两种模式；[复现、修复及验收范围](research/real-agent.md)。
+内置宿主已修复 UTF-16 代理项释放事件导致的 emoji 丢失；快速跨位置拖选也不会再被
+误判为双击/三击。同位置的词/行选择及应用高亮协议继续保留。
 截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。
 `python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
 拖动/像素/滚轮/侧键/焦点输入、多键捕获、Shift 事件隔离，以及连续缩放和最大化/还原的窗口尺寸通知。

@@ -16,13 +16,13 @@ remains a separate compiler/backend comparison build.
 ## Current delivered checkpoint (2026-11-12)
 
 The installed `dist/nemoterm.exe` is built from source commit
-`a6493606a92cd6994fcc805d1a51d8a957ef63a3`: 4,314,112 bytes, SHA-256
-`bfe1523105d1ef10de53c51e9fab4abcee710e5e93f59d3475401cc8a148b86f`.
+`2862f6768478c2933a8ae3f60640a7e34e3190ea`: 4,314,112 bytes, SHA-256
+`955c4c7b66fdb98dce4edef2b7dc6645678b8fb582b67742d45732da15edda56`.
 The directory contains only that executable. Both
-[single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557)
-and [core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43192696689)
-passed: 29 native checks, 29 core suites and 12 terminal sanitizer suites.
-The [download artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43192696557/artifacts/13931254248)
+[single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43206539384)
+and [core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43206539406)
+passed: 33 native checks, 29 core suites and 12 terminal sanitizer suites.
+The [download artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43206539384/artifacts/13938628132)
 contains only `nemoterm.exe`; test logs and captures are a separate artifact.
 
 REA's complete import inventory for this exact file has 79 descriptors,
@@ -35,9 +35,13 @@ and the portable directory still contains only the EXE after shutdown.
 Embedded licences and third-party notices total 79,365 bytes and are available
 through `--licenses` and About / View Licence.
 
-The [working-directory checkpoint](working-directory.md) and
-[`cwd-checkpoint.json`](cwd-checkpoint.json) bind the current artifact to its
-CI, local regression results and memory samples. The earlier measurements below
+The [real-client checkpoint](real-agent.md) and
+[`real-agent-checkpoint.json`](real-agent-checkpoint.json) bind the current artifact
+to its CI, seven local regression groups and memory samples. Default/inline Codex
+frontend private WS peaks were 7,008,256 / 7,213,056 bytes, with total WS peaks
+32,604,160 / 32,882,688 bytes; host and client records are separate. The latest
+fixes preserve surrogate text events in native clients and keep rapid selections
+at different positions independent. The earlier measurements below
 are historical checkpoints, not the identity or size of the current file.
 
 ## Source integration

@@ -1,0 +1,23 @@
+{
+  "executable_sha256": "955c4c7b66fdb98dce4edef2b7dc6645678b8fb582b67742d45732da15edda56",
+  "checks": [
+    {
+      "mode": "legacy",
+      "selections": [
+        "ABC",
+        "234",
+        "FGH",
+        "01"
+      ]
+    },
+    {
+      "mode": "application-mouse",
+      "selections": [
+        "ABC",
+        "234",
+        "FGH",
+        "01"
+      ]
+    }
+  ]
+}

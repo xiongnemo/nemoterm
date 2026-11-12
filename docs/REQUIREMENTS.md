@@ -899,3 +899,27 @@ history, screenshots, PE evidence and CI artifact links.
 
 Remaining OSC 133/633/1337 commands, image protocols, complete modern/xterm
 coverage, physical IME/DPI/device behavior and real-agent acceptance remain open.
+
+## Real Codex input and selection checkpoint (2026-11-12)
+
+The source-built host now preserves supplementary Unicode text in native
+ReadConsoleInputW consumers by omitting synthetic surrogate text releases.
+Rapid selections at different positions no longer become double/triple clicks;
+same-position word/line selection and the highlight handshake remain tested.
+The actual Codex 0.167.0 client passes exact Unicode input, streamed Markdown,
+long responses, 32 live resizes, Shift grid selection and Ctrl+Shift+C/V in both
+default and inline modes, using deterministic local responses.
+
+Source `2862f6768478c2933a8ae3f60640a7e34e3190ea` has green core and single-file
+CI: 29 core suites, 12 terminal sanitizer suites and 33 native checks. The final
+EXE is 4,314,112 bytes, SHA-256
+`955c4c7b66fdb98dce4edef2b7dc6645678b8fb582b67742d45732da15edda56`.
+Seven local groups passed against that exact file, including all six shells
+and Sarasa rendering in both Codex modes. Frontend private WS sampled peaks
+were 7,008,256 / 7,213,056 bytes; total WS peaks were 32,604,160 / 32,882,688.
+Headless host and client memory are recorded separately. Details, CI artifacts,
+failure history and captures are in [the real-client record](../research/real-agent.md).
+
+This finite client regression does not close live-service/long-term agent use,
+Claude Code, physical IME/DPI/device behavior, complete grapheme rendering or
+the remaining protocol ledger.

@@ -1,0 +1,17 @@
+{
+  "executable_sha256": "955c4c7b66fdb98dce4edef2b7dc6645678b8fb582b67742d45732da15edda56",
+  "executable_bytes": 4314112,
+  "passed_checks": [
+    "single_exe",
+    "console_unicode",
+    "selection",
+    "highlight",
+    "shell",
+    "codex-default",
+    "codex-inline"
+  ],
+  "executable_directory_files": [
+    "nemoterm.exe"
+  ],
+  "recorded_utc": "2026-11-12T11:22:05.5014683Z"
+}
