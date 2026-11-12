@@ -9,7 +9,24 @@ using System;
 using System.Runtime.InteropServices;
 public static class ShellSettingsNative {
     private delegate bool EnumChildProc(IntPtr hwnd, IntPtr data);
+    [DllImport("user32.dll")] private static extern bool EnumWindows(EnumChildProc callback, IntPtr data);
     [DllImport("user32.dll")] private static extern bool EnumChildWindows(IntPtr hwnd, EnumChildProc callback, IntPtr data);
+    [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] private static extern int GetClassNameW(IntPtr hwnd, System.Text.StringBuilder name, int capacity);
+    public static IntPtr Terminal(int pid, bool tabbed) {
+        IntPtr found=IntPtr.Zero;
+        EnumWindows((hwnd,data)=> {
+            uint owner; GetWindowThreadProcessId(hwnd,out owner);
+            if (owner!=(uint)pid) return true;
+            if (tabbed) {
+                var name=new System.Text.StringBuilder(128);
+                GetClassNameW(hwnd,name,name.Capacity);
+                if (name.ToString()=="NemotermHost") found=Content(hwnd);
+            } else if (GetPropW(hwnd,"NemotermRenderer")!=IntPtr.Zero) found=hwnd;
+            return found==IntPtr.Zero;
+        },IntPtr.Zero);
+        return found;
+    }
     public static IntPtr Content(IntPtr host) {
         IntPtr found=IntPtr.Zero;
         EnumChildWindows(host,(hwnd,data)=> {
@@ -267,7 +284,9 @@ try {
     # Windows PowerShell 5 does not interpret `e; construct ESC explicitly.
     Write-Control @{phase='settings-launch';sequence=([char]27 + '[?4m' + [char]27 + '[?4g')}
     $fixture = Join-Path $PSScriptRoot 'mouse_fixture.py'
-    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'))
+    # The child remains alive across several modal UIA rounds. Each operation
+    # still has its own short deadline; this is only the owned child's ceiling.
+    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'), '300')
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     $reloadedShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
@@ -310,10 +329,12 @@ try {
     }
     $termHandle=Wait-Value {
         $app.Refresh()
-        if ($app.MainWindowHandle) {
-            if ($TabHost) { $content=[ShellSettingsNative]::Content($app.MainWindowHandle); if ($content -ne [IntPtr]::Zero) { $content } }
-            elseif ([ShellSettingsNative]::GetPropW($app.MainWindowHandle,'NemotermRenderer').ToInt32()) { $app.MainWindowHandle }
-        }
+        if ($app.HasExited) { throw "Settings child ended before renderer lookup: exit $($app.ExitCode)" }
+        # A process can have a settings dialog, host and transient windows.
+        # Find the exact terminal belonging to this PID, rather than relying
+        # on .NET's heuristic MainWindowHandle selection.
+        $content=[ShellSettingsNative]::Terminal($app.Id,[bool]$TabHost)
+        if ($content -ne [IntPtr]::Zero) { $content }
     }
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
     $rendererChanges=@()
@@ -349,6 +370,10 @@ try {
     Write-Output 'Native settings save/load, visible controls and local launch passed'
 } catch {
     Write-Output $_.ScriptStackTrace
+    if (Test-Path -LiteralPath $report) {
+        Write-Output 'Last owned child report:'
+        Get-Content -LiteralPath $report -Raw
+    }
     if ($app -and $app.HasExited) { Write-Output "Owned process exit: $($app.ExitCode)" }
     if ($app -and !$app.HasExited) {
         $owner = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $app.Id)
