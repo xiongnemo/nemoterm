@@ -56,6 +56,73 @@ static void test_cursor(Mock *mk)
     response(mk, "\033P1$r6 q\033\\\033P1$r6 q\033\\");
 }
 
+static void test_identity(Mock *mk)
+{
+    reset(mk);
+    static const char *requests[] = { "c", ">c", "=c", ">q" };
+    static const char *replies[] = {
+        "\033[?62;4;22c", "\033[>0;136;0c", "\033P!|00000000\033\\",
+        "\033P>|Nemoterm(PuTTY 0.85)\033\\"
+    };
+    static const char *arguments[] = {
+        "", "0", "00", "0;9", ";9", "0;999999999999999999999999"
+    };
+    static const char *ignored[] = {
+        "1", "2", "999", "1;0", "0:0", "999999999999999999999999"
+    };
+    for (size_t i = 0; i < lenof(requests); i++) {
+        char prefix = strlen(requests[i]) == 2 ? requests[i][0] : 0;
+        char final = requests[i][strlen(requests[i])-1];
+        for (size_t j = 0; j < lenof(arguments)+lenof(ignored); j++) {
+            const char *arg = j < lenof(arguments) ? arguments[j] :
+                ignored[j-lenof(arguments)];
+            test_context(mk, "identity %s argument %s", requests[i], arg);
+            char sequence[100];
+            snprintf(sequence, sizeof(sequence), "\033[%s%s%c",
+                     prefix ? (prefix == '>' ? ">" : "=") : "", arg, final);
+            term_data_fragmented(mk->term, sequence);
+            response(mk, j < lenof(arguments) ? replies[i] : "");
+            IEQUAL(mk->term->cursor_on, true);
+            IEQUAL(mk->term->big_cursor, false);
+            IEQUAL(mk->term->curs.x, 0);
+            IEQUAL(mk->term->curs.y, 0);
+        }
+    }
+    test_context(mk, "identity does not show a hidden cursor or change cells");
+    term_data_fragmented(mk->term, "X\033[?25l\033[=c\033[=1c\033[=2c\033[>q");
+    response(mk, "\033P!|00000000\033\\\033P>|Nemoterm(PuTTY 0.85)\033\\");
+    IEQUAL(mk->term->cursor_on, false);
+    IEQUAL(mk->term->curs.x, 1);
+    IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII|'X');
+    term_data_fragmented(mk->term, "\033[?25h\033[?1049h\033[=c\033[>q\033[?1049l");
+    response(mk, "\033P!|00000000\033\\\033P>|Nemoterm(PuTTY 0.85)\033\\");
+    IEQUAL(mk->term->cursor_on, true);
+
+    test_context(mk, "explicit SCO cursor controls and suppressed identities");
+    term_data_fragmented(mk->term, "\033[42\"p\033[=c");
+    response(mk, "");
+    IEQUAL(mk->term->cursor_on, false);
+    term_data_fragmented(mk->term, "\033[=2c");
+    IEQUAL(mk->term->cursor_on, true);
+    IEQUAL(mk->term->big_cursor, true);
+    term_data_fragmented(mk->term, "\033[=1c\033[c\033[>c\033[>q");
+    response(mk, "");
+    IEQUAL(mk->term->cursor_on, true);
+    IEQUAL(mk->term->big_cursor, false);
+
+    test_context(mk, "DA3 needs VT420; default mode restores modern query");
+    term_data_fragmented(mk->term, "\033[41\"p\033[61\"p\033[=c"
+                         "\033[62\"p\033[=c\033[64\"p\033[=c");
+    response(mk, "\033P!|00000000\033\\");
+    term_data_fragmented(mk->term, "\033[41\"p\033[=c");
+    response(mk, "\033P!|00000000\033\\");
+
+    test_context(mk, "cancelled identity requests do not reply; parser recovers");
+    term_data_fragmented(mk->term, "\033[=0\030\033[>0\032\033[0\033[>q");
+    response(mk, "\033P>|Nemoterm(PuTTY 0.85)\033\\");
+    IEQUAL(mk->term->cursor_on, true);
+}
+
 static void test_state_strings(Mock *mk)
 {
     reset(mk); test_context(mk, "SGR, margins and dimensions");
@@ -137,6 +204,7 @@ int main(void)
     Mock *mk = mock_new();
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    test_identity(mk);
     test_cursor(mk);
     test_state_strings(mk);
     test_dcs_recovery(mk);
