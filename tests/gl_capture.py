@@ -10,6 +10,7 @@ from native_test_utils import root, c, w, u, struct, capture_result
 class OwnedGLCapture:
     def __init__(self, pid, hwnd):
         owner = w.DWORD()
+        u.GetWindowThreadProcessId.argtypes = [w.HWND, c.POINTER(w.DWORD)]
         u.GetWindowThreadProcessId(hwnd, c.byref(owner))
         if owner.value != pid:
             raise ValueError('Capture HWND does not belong to the fixture PID')

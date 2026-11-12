@@ -30,9 +30,11 @@ class MonitorInfo(c.Structure):
     _fields_ = [('size', w.DWORD), ('monitor', w.RECT), ('work', w.RECT), ('flags', w.DWORD)]
 
 queries = '\x1b[11t\x1b[13t\x1b[13;2t\x1b[14t\x1b[14;2t\x1b[15t\x1b[16t\x1b[18t\x1b[19t'
-drawing = ('\x1b[?25l\x1b[0m\x1b]11;#000000\x07\x1b[2J'
-           '\x1b[1;1H\x1b[48;2;17;201;83m  \x1b[0m'
-           '\x1b[3;4H\x1b[48;2;23;67;219m \x1b[0m')
+def drawing(colors):
+    green, blue = (';'.join(map(str, color)) for color in colors)
+    return ('\x1b[?25l\x1b[0m\x1b]11;#000000\x07\x1b[2J'
+            f'\x1b[1;1H\x1b[48;2;{green}m  \x1b[0m'
+            f'\x1b[3;4H\x1b[48;2;{blue}m \x1b[0m')
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     requested_font=args.font, modes=[], runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe', exe.parent/'conpty.dll') if p.exists()})
@@ -42,6 +44,7 @@ try:
         profile = 'geometry-'+uuid.uuid4().hex
         keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         mode = dict(requested_renderer=renderer, checks=[])
+        colors = [(17,201,83), (23,67,219)]
         evidence['modes'].append(mode)
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
             for name, value in dict(WarnOnClose=0, NemoRenderer=renderer, LockSize=0).items():
@@ -106,7 +109,7 @@ try:
                             def pixel_geometry():
                                 image = captured()
                                 boxes = []
-                                for color in (bytes((17,201,83)), bytes((23,67,219))):
+                                for color in map(bytes, colors):
                                     offsets = [i//3 for i in range(0,len(image),3) if image[i:i+3] == color]
                                     if not offsets: return None
                                     xs = [i % client.right for i in offsets]
@@ -145,7 +148,7 @@ try:
                             native_outer=[outer.left,outer.top,outer.right,outer.bottom]))
                         return outer, client, value
 
-                    initial, _, _ = phase('initial', drawing)
+                    initial, _, _ = phase('initial', drawing(colors))
                     captured(f'geometry-{renderer}.png')
                     assert u.SetWindowPos(hwnd, None, -160, -90, 0, 0, 0x1|0x4|0x10)
                     phase('negative-position')
@@ -156,13 +159,17 @@ try:
                         current.bottom-current.top+mode['cell'][1]*2, 0x4|0x10)
                     wait_snapshot(lambda: read_snapshot(report), lambda v:
                         v.get('columns') == grid['columns']+3 and v.get('rows') == grid['rows']+2)
-                    phase('resized-grid', drawing)
+                    phase('resized-grid', drawing(colors))
                     u.ShowWindow(hwnd, 7)  # minimize only the owned window, without activation
                     wait_for(lambda: u.IsIconic(hwnd))
-                    phase('minimized', pixels=False)
+                    # New pixels arrive while no drawing surface exists. Restore
+                    # must display them without resending the scene afterwards.
+                    colors = [(29,181,97), (31,79,223)]
+                    phase('minimized', drawing(colors), pixels=False)
                     u.ShowWindow(hwnd, 9)
                     wait_for(lambda: not u.IsIconic(hwnd))
-                    phase('restored', drawing)
+                    phase('restored')
+                    mode['output_while_minimized_preserved'] = True
                     phase('synchronized-queries', '\x1b[?2026h', pixels=False)
                     write_snapshot(control, dict(phase='sync-state', sequence='\x1b[?2026$p\x1b[?2026l\x1b[5n'))
                     value = wait_snapshot(lambda: read_snapshot(report), lambda v:
