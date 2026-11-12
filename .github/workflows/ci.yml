@@ -71,6 +71,10 @@ jobs:
           printf 'Commit: %s\nBuilt: %s\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > dist/BUILD-INFO.txt
           gcc --version >> dist/BUILD-INFO.txt
           objdump -p dist/nemoterm.exe | sed -n 's/.*DLL Name: /DLL: /p' >> dist/BUILD-INFO.txt
+          if grep -Ei 'DLL: (libstdc\+\+|libgcc|libwinpthread)' dist/BUILD-INFO.txt; then
+            echo 'Portable frontend unexpectedly needs a compiler runtime DLL' >&2
+            exit 1
+          fi
           (cd dist && sha256sum nemoterm.exe > SHA256SUMS.txt)
       - name: Bundle pinned Microsoft ConPTY runtime
         shell: pwsh

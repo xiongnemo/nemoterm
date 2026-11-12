@@ -137,7 +137,10 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
         } else if ((c>=0xdc00 && c<=0xdfff) || c<32 || (c>=127 && c<160) ||
                    c==0x2028 || c==0x2029) return false;
     }
-    if (!*slot) *slot=new(std::nothrow) NemoClusterRenderer;
+    if (!*slot) {
+        void *storage=HeapAlloc(GetProcessHeap(),0,sizeof(NemoClusterRenderer));
+        if (storage) *slot=new(storage) NemoClusterRenderer;
+    }
     if (!*slot) return false;
     auto &s=**slot;
     if (!s.init() || !s.select_font(dc) || !s.resize(dc,static_cast<unsigned>(w),static_cast<unsigned>(h))) return false;
@@ -181,7 +184,11 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
 
 void nemo_cluster_free(NemoClusterRenderer **p)
 {
-    if (p) {delete *p;*p=nullptr;}
+    if (p && *p) {
+        (*p)->~NemoClusterRenderer();
+        HeapFree(GetProcessHeap(),0,*p);
+        *p=nullptr;
+    }
 }
 size_t nemo_cluster_raster_bytes(const NemoClusterRenderer *p)
 {return p?static_cast<size_t>(p->width)*p->height*4:0;}

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.7...3.28)
 project(putty LANGUAGES C)
 if(WIN32)
   # The Microsoft Direct2D SDK exposes its COM methods through C++.
-  # Only the small call adapter uses C++; the terminal remains C.
+  # The COM adapter and bounded cluster renderer use C++; the terminal is C.
   enable_language(CXX)
 endif()
 

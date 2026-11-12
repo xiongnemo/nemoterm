@@ -54,6 +54,9 @@ Old raster storage is released before resizing, layouts are transient, and the
 renderer is freed with its window. This scratch cap excludes DirectWrite font
 caches and other process allocations. Invalid input, oversize tiles or system
 API failure uses a width-preserving replacement. No additional DLL/font ships.
+The renderer uses the process heap and builds without exceptions or RTTI.
+Import-table verification rejects compiler runtime DLLs in the portable build;
+the MSVC single-image build already uses its static runtime.
 
 Outlines are currently monochrome. The installed Segoe UI Emoji renders the
 Australian regional-indicator pair as `AU`, not flag artwork. Correct two-cell
@@ -91,7 +94,7 @@ changes. It does not prove arbitrary-font visual correctness.
 
 `grapheme-window-observed.json`, `grapheme-font-window-observed.json` and selected
 PNGs record local frontend SHA-256
-`0579ebc6bde376fda455cb13b94619db6bd736a014f6a80d4f425d09c7369ba8`.
+`0329acc26b1cb0ab54d1b605c7b139cff5d11242be64fd7309aa5759ad5ac256`.
 Both native fixtures passed using SarasaTermSC Nerd Font Light with actual GDI,
 OpenGL and DirectX required. Checks cover exact ConPTY cursor replies, late wrap,
 REP, legacy widths, compositor pixel parity, synchronized saved frames, grid and
@@ -100,7 +103,7 @@ text, Sixel, palette, cursor states, synchronization and resize too. Tests use
 owned HWNDs, with no foreground changes or global keyboard input.
 
 Before capture instrumentation, sampled private working-set peaks across the
-two 80x24 fixtures were 5,754,880 bytes (GDI), 32,219,136 (OpenGL) and 14,643,200
+two 80x24 fixtures were 5,652,480 bytes (GDI), 32,038,912 (OpenGL) and 14,581,760
 (DirectX). OpenGL has the user's memory exception. These are single-window
 local development observations, not single-EXE/default-160x48/tab-preview/long
 workload acceptance; child memory is excluded. JSON retains total working set

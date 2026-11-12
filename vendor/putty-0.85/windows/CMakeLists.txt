@@ -74,6 +74,16 @@ target_link_libraries(guiterminal cabinet)
 add_executable(test_cluster_renderer
   ${CMAKE_SOURCE_DIR}/../../tests/test_cluster_renderer.cpp nemo_cluster.cpp)
 target_link_libraries(test_cluster_renderer ${platform_libraries})
+# The COM bridges do not throw or use RTTI. Keep the portable frontend free
+# of a compiler-specific C++ runtime DLL as well as the static MSVC build.
+foreach(cluster_target guiterminal test_cluster_renderer)
+  if(MSVC)
+    target_compile_options(${cluster_target} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:/GR->)
+  else()
+    target_compile_options(${cluster_target} PRIVATE
+      $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti> $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>)
+  endif()
+endforeach()
 add_dependencies(guiterminal generated_licence_h) # dialog.c uses licence.h
 
 # This object awkwardly needs to live in the network library as well
