@@ -51,6 +51,88 @@ def main():
     replace(DEST / "src/host/exe/exemain.cpp", "int CALLBACK wWinMain(", "int CALLBACK NemoConsoleMain(")
     shutil.copyfile(ROOT / "native/single_exe/entry.cpp", DEST / "src/host/exe/nemo-entry.cpp")
 
+    # ReadFile/ReadConsoleA raw input supplies Consume one UTF-16 unit at a
+    # time. Preserve a high surrogate until its partner arrives, including
+    # across pending reads and small destination buffers. Keep this overlay
+    # separate from the pinned, unmodified upstream checkout.
+    replace(DEST / "src/host/inputBuffer.hpp",
+            "    std::string _cachedTextA;",
+            "    wchar_t _nemoReadHighSurrogate = 0;\n    std::string _cachedTextA;")
+    replace(DEST / "src/host/inputBuffer.cpp",
+            "        const auto cp = ServiceLocator::LocateGlobals().getConsoleInformation().CP;",
+            """        const auto cp = ServiceLocator::LocateGlobals().getConsoleInformation().CP;
+
+        if (_nemoReadHighSurrogate)
+        {
+            const auto high = std::exchange(_nemoReadHighSurrogate, wchar_t{});
+            wchar_t prefix[3]{ UNICODE_REPLACEMENT, 0, 0 };
+            size_t length = 1;
+            if (til::is_trailing_surrogate(source.front()))
+            {
+                prefix[0] = high;
+                prefix[1] = source.front();
+                source.remove_prefix(1);
+                length = 2;
+            }
+            else if (cp == CP_UTF8 && til::is_leading_surrogate(source.front()) && source.size() == 1)
+            {
+                _nemoReadHighSurrogate = source.front();
+                source.remove_prefix(1);
+            }
+            else
+            {
+                prefix[1] = source.front();
+                source.remove_prefix(1);
+                length = 2;
+                if (til::is_leading_surrogate(prefix[1]) && !source.empty() && til::is_trailing_surrogate(source.front()))
+                {
+                    prefix[2] = source.front();
+                    source.remove_prefix(1);
+                    length = 3;
+                }
+            }
+            // Consume at least the incoming unit even if the orphan's
+            // replacement fills a one-byte destination. Raw reads pass one
+            // unit and cannot retain an unconsumed lookahead character.
+            char bytes[12];
+            const auto written = WideCharToMultiByte(cp, 0, prefix, static_cast<int>(length), bytes, sizeof(bytes), nullptr, nullptr);
+            THROW_LAST_ERROR_IF(written <= 0);
+            std::string_view pending{ bytes, static_cast<size_t>(written) };
+            til::bytes_transfer(target, pending);
+            if (!pending.empty())
+            {
+                _cachedTextA = pending;
+                _cachedTextReaderA = _cachedTextA;
+            }
+            if (source.empty() || target.empty())
+            {
+                return;
+            }
+        }
+        if (cp == CP_UTF8 && source.size() == 1 && til::is_leading_surrogate(source.front()))
+        {
+            _nemoReadHighSurrogate = source.front();
+            source = {};
+            return;
+        }""")
+    # GetChar uses Read(Stream=true) internally. Do not switch to event mode
+    # there: that discards the string decoder's state between UTF-16 units.
+    replace(DEST / "src/host/inputBuffer.cpp", "    if (Peek)\n    {\n        PeekCached(Unicode, AmountToRead, OutEvents);\n    }\n    else\n    {\n        ConsumeCached(Unicode, AmountToRead, OutEvents);\n    }",
+            "    if (!Stream)\n    {\n        if (Peek) PeekCached(Unicode, AmountToRead, OutEvents);\n        else ConsumeCached(Unicode, AmountToRead, OutEvents);\n    }")
+    replace(DEST / "src/host/inputBuffer.cpp", "    Cache(Unicode, OutEvents, AmountToRead);",
+            "    if (!Stream) Cache(Unicode, OutEvents, AmountToRead);")
+    replace(DEST / "src/host/inputBuffer.cpp", "                ++read;",
+            "                read += s.size(); // UTF-16 units, not scalar count.")
+    replace(DEST / "src/host/inputBuffer.cpp",
+            "void InputBuffer::_switchReadingModeSlowPath(ReadingMode mode)\n{",
+            "void InputBuffer::_switchReadingModeSlowPath(ReadingMode mode)\n{\n    _nemoReadHighSurrogate = 0;")
+    replace(DEST / "src/host/inputBuffer.cpp", "void InputBuffer::ReinitializeInputBuffer()\n{",
+            "void InputBuffer::ReinitializeInputBuffer()\n{\n    _nemoReadHighSurrogate = 0;")
+    replace(DEST / "src/host/inputBuffer.cpp", "void InputBuffer::Flush()\n{",
+            "void InputBuffer::Flush()\n{\n    _nemoReadHighSurrogate = 0;")
+    replace(DEST / "src/host/stream.cpp", "        noDataReadYet = false;",
+            "        noDataReadYet = writer.size() == buffer.size(); // A high surrogate alone emitted no bytes.")
+
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.
     features = DEST / "src/features.xml"

@@ -1721,6 +1721,14 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
     wgs->fontflag[2] = true;
 
     init_ucs(wgs->conf, &wgs->ucsdata);
+
+    /* An active composition survives a font or DPI change. Update its font
+     * here as well as at WM_IME_STARTCOMPOSITION. */
+    HIMC hIMC = ImmGetContext(wgs->term_hwnd);
+    if (hIMC) {
+        ImmSetCompositionFont(hIMC, &wgs->lfont);
+        ImmReleaseContext(wgs->term_hwnd, hIMC);
+    }
 }
 
 static void another_font(WinGuiSeat *wgs, int fontno)
@@ -3489,11 +3497,17 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         sys_cursor_update(wgs);
         break;
       case WM_IME_STARTCOMPOSITION: {
+        wgs->pending_surrogate = 0;
         HIMC hImc = ImmGetContext(hwnd);
-        ImmSetCompositionFont(hImc, &wgs->lfont);
-        ImmReleaseContext(hwnd, hImc);
+        if (hImc) {
+            ImmSetCompositionFont(hImc, &wgs->lfont);
+            ImmReleaseContext(hwnd, hImc);
+        }
         break;
       }
+      case WM_IME_ENDCOMPOSITION:
+        wgs->pending_surrogate = 0;
+        break;
       case WM_IME_COMPOSITION: {
         HIMC hIMC;
         int n;
@@ -3507,12 +3521,19 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             break; /* fall back to DefWindowProc */
 
         hIMC = ImmGetContext(hwnd);
+        if (!hIMC) break;
         n = ImmGetCompositionStringW(hIMC, GCS_RESULTSTR, NULL, 0);
 
-        if (n > 0) {
+        /* Both IMM calls return byte counts. A commit may disappear or
+         * shrink between them; never send uninitialized or stale tail bytes.
+         * Bound transient IME storage independently of terminal history. */
+        if (n > 0 && n <= 65536 && !(n & 1)) {
             int i;
             buff = snewn(n, char);
-            ImmGetCompositionStringW(hIMC, GCS_RESULTSTR, buff, n);
+            int actual = ImmGetCompositionStringW(hIMC, GCS_RESULTSTR, buff, n);
+            if (actual < 0 || actual > n || (actual & 1)) actual = 0;
+            n = actual;
+            wgs->pending_surrogate = 0;
             /*
              * Jaeyoun Chung reports that Korean character
              * input doesn't work correctly if we do a single
@@ -3591,6 +3612,24 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 term_keyinput(wgs->term, CP_ACP, &c, 1);
         }
         return 0;
+      case WM_UNICHAR: {
+        /* UTF-32 input (including the UNICODE_NOCHAR capability probe). */
+        if (wParam == 0xffff) return TRUE;
+        wgs->pending_surrogate = 0;
+        if (wParam > 0x10ffff || (wParam >= 0xd800 && wParam <= 0xdfff))
+            return 0;
+        wchar_t text[2];
+        int length = 1;
+        if (wParam >= 0x10000) {
+            unsigned scalar = (unsigned)wParam - 0x10000;
+            text[0] = 0xd800 + (scalar >> 10);
+            text[1] = 0xdc00 + (scalar & 0x3ff);
+            length = 2;
+        } else text[0] = (wchar_t)wParam;
+        if (!nemo_keyboard_text(wgs, text, length))
+            term_keyinputw(wgs->term, text, length);
+        return 0;
+      }
       case WM_SYSCOLORCHANGE:
         if (conf_get_bool(wgs->conf, CONF_system_colour)) {
             /* Refresh palette from system colours. */

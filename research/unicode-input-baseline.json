@@ -1,0 +1,42 @@
+{
+  "evidence": {
+    "executable_sha256": "7f73ad19089f583fac169eedd5f35cda3d6c6dd38ce3073a5d437f457e1fd873",
+    "runs": []
+  },
+  "run": {
+    "chunk": 1,
+    "input_mode": 128,
+    "checks": []
+  },
+  "snapshot": {
+    "id": 1,
+    "hex": "41e4b8adefbfbdefbfbd42efbfbdefbfbd65cc81",
+    "read_sizes": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "reader_done": false,
+    "read_error": 0,
+    "events_pending": 0
+  },
+  "expected_utf8_hex": "41e4b8adf09f998242f09fa7aa65cc81",
+  "observation": "Unmodified single-executable baseline: first raw ReadFile case, one-byte destination"
+}

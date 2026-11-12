@@ -1,0 +1,206 @@
+{
+  "evidence_id": "ev_3f608b5a6043d59cb74c7450e7a672c43de3f1ff598acda0dc71f7c89b28b1b9",
+  "subject": null,
+  "provider": {
+    "id": "frida",
+    "name": "Frida",
+    "version": null
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.frida.instrumentation-observation",
+  "operation": "frida_session_status",
+  "parameters": {
+    "session_id": "700273ff-fef8-479b-873c-e5239ab416f7"
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "session_id": "700273ff-fef8-479b-873c-e5239ab416f7",
+    "device_id": "local",
+    "state": "running",
+    "target": "nemoterm.exe (pid 39240)",
+    "pid": 39240,
+    "mode": "attach",
+    "scripts": [
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "name": "rea-55f200e9-bd6e-4755-9370-429322808d30"
+      },
+      {
+        "script_id": "7e248f67-c3dc-41aa-8a08-fce085a9911f",
+        "name": "rea-7e248f67-c3dc-41aa-8a08-fce085a9911f"
+      }
+    ],
+    "messages": [
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "ready": true
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "action": 0,
+          "hwnd": "0x680224",
+          "thread": 28752,
+          "focus": "0x680224",
+          "context": "0xfffffffff2af1ed1",
+          "layout": "0x8040804",
+          "open": 1,
+          "caps": 7,
+          "compBytes": 0,
+          "windowOk": 1,
+          "window": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "action": 1,
+          "hwnd": "0x680224",
+          "thread": 28752,
+          "focus": "0x680224",
+          "context": "0xfffffffff2af1ed1",
+          "layout": "0x8040804",
+          "open": 1,
+          "caps": 7,
+          "setOpen": 1,
+          "setComp": 1,
+          "compBytes": 0,
+          "windowOk": 1,
+          "window": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "action": 2,
+          "hwnd": "0x680224",
+          "thread": 28752,
+          "focus": "0x680224",
+          "context": "0xfffffffff2af1ed1",
+          "layout": "0x8040804",
+          "open": 1,
+          "caps": 7,
+          "complete": 1,
+          "compBytes": 0,
+          "windowOk": 1,
+          "window": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "script_id": "29185135-86eb-407f-af3e-a33e01287c01",
+        "type": "send",
+        "payload": {
+          "shortReadProbe": true
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "action": 1,
+          "hwnd": "0x680224",
+          "thread": 28752,
+          "focus": "0x680224",
+          "context": "0xfffffffff2af1ed1",
+          "layout": "0x8040804",
+          "open": 1,
+          "caps": 7,
+          "setOpen": 1,
+          "setComp": 1,
+          "compBytes": 0,
+          "windowOk": 1,
+          "window": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "action": 2,
+          "hwnd": "0x680224",
+          "thread": 28752,
+          "focus": "0x680224",
+          "context": "0xfffffffff2af1ed1",
+          "layout": "0x8040804",
+          "open": 1,
+          "caps": 7,
+          "complete": 1,
+          "compBytes": 0,
+          "windowOk": 1,
+          "window": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          }
+        }
+      },
+      {
+        "script_id": "7e248f67-c3dc-41aa-8a08-fce085a9911f",
+        "type": "send",
+        "payload": {
+          "shortReadReady": true
+        }
+      },
+      {
+        "script_id": "55f200e9-bd6e-4755-9370-429322808d30",
+        "type": "send",
+        "payload": {
+          "event": "ime-message",
+          "message": 271,
+          "flags": "0x800"
+        }
+      },
+      {
+        "script_id": "7e248f67-c3dc-41aa-8a08-fce085a9911f",
+        "type": "send",
+        "payload": {
+          "event": "short-read-injection",
+          "capacity": 0,
+          "reported": 10
+        }
+      },
+      {
+        "script_id": "7e248f67-c3dc-41aa-8a08-fce085a9911f",
+        "type": "send",
+        "payload": {
+          "event": "short-read-injection",
+          "capacity": 10,
+          "reported": 2
+        }
+      }
+    ],
+    "messages_truncated": false
+  },
+  "confidence": "observed",
+  "authority": "external-service",
+  "environment": null,
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "The target operating system and architecture were not reported by this observation."
+  ],
+  "relationship_coverage": null,
+  "locations": [],
+  "evidence_links": []
+}

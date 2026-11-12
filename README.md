@@ -20,6 +20,7 @@ Visual Studio 2026 x64 开发者 shell。MinGW 对照构建仍使用 `scripts/bu
 ```powershell
 git submodule update --init
 .\scripts\build-single-exe.ps1
+python -m pip install frida==17.24.3 # native input/DPI test instrumentation only
 .\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
 # 下载的单文件产物可放在任意目录，以下示例放在 dist 中：
 .\dist\nemoterm.exe

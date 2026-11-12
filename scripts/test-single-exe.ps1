@@ -19,7 +19,7 @@ try {
     $tests = @('single_exe', 'mouse', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins',
-        'shell', 'delegated_console')
+        'input_method', 'unicode_input', 'shell', 'delegated_console')
     foreach ($name in $tests) {
         & python "$Destination/tests/${name}_window_smoke.py" 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
