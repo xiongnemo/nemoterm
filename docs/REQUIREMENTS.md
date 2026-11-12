@@ -999,8 +999,28 @@ local query peak is 4.68 MB private WS. The local real-Codex retry hit Windows
 clipboard access-denied and is not counted as passed. Exact provenance and
 observations are in [window-shutdown.md](../research/window-shutdown.md).
 
-Title stacks are implemented on feature/window-controls with core and native
-comparison tests; their single-EXE CI is pending and they are not in this accepted
-artifact. Title encoding modes, geometry gaps, DirectX frontend rendering,
+Title stacks were not part of that artifact; the following checkpoint supersedes
+that distribution. Title encoding modes, geometry gaps, DirectX frontend rendering,
 four-sided tabs/previews, physical input/IME/DPI and the wider protocol ledger
 remain open. The original goal is still active.
+
+## Bounded title stacks (2026-11-13 Sydney)
+
+CSI 22/23 now saves and restores icon/window titles in ten bounded, lazy slots,
+including indexed access and per-title encoding. Source `5a8b27f` passed core,
+sanitizer and single-file CI; all 39 native CI groups passed. The exact final
+artifact also passed 23 local title checks, including real HWND titles, Chinese,
+emoji and 1,000 pushes/pops. Its GDI frontend samples peaked at 3.97 MB private
+WS and 23.31 MB total WS. These are samples after phases, not continuous maxima.
+
+`dist/nemoterm.exe` now contains the accepted 4,339,200-byte single executable,
+SHA-256 `c5970125f2c171a86ff33a50d37357d03dfc3ecfe0bed7832b76bda642629995`.
+The previous artifact is retained in `build/dist-before-titles-5a8b27f/`.
+PE inspection found 605 regular and 11 delayed imports across 79 descriptors,
+with complete table coverage and no reported issues. See
+[the title-stack record](../research/window-controls.md) for artifacts, exact
+responses, limits and the earlier development-host failure.
+
+Title encoding modes continue on `feature/title-modes`. Geometry gaps, DirectX
+frontend rendering, four-sided tabs/previews, physical input/IME/DPI, full
+grapheme support and the wider protocol ledger remain open.
