@@ -162,7 +162,8 @@ for vt in (False, True):
                 phase('kitty-priority','\x1b[?9001l\x1b[=3u')
                 tap(27,1)
                 mods=(64 if locks&128 else 0)|(128 if locks&32 else 0)
-                bytes_equal(f'\x1b[27;{mods+1}u\x1b[27;{mods+1}:3u'.encode())
+                press_modifiers=f';{mods+1}' if mods else ''
+                bytes_equal(f'\x1b[27{press_modifiers}u\x1b[27;{mods+1}:3u'.encode())
                 phase('mok-priority','\x1b[=0u\x1b[>4;3m')
                 tap(65,30)
                 bytes_equal(f'\x1b[27;1;{a}~'.encode())

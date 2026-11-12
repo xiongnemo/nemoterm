@@ -569,7 +569,7 @@
     "vt": true
   },
   "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
-  "peak_private_ws": 4386816,
-  "peak_total_ws": 25546752,
-  "peak_private_commit": 5787648
+  "peak_private_ws": 4395008,
+  "peak_total_ws": 25542656,
+  "peak_private_commit": 5812224
 }
