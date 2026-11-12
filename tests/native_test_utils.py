@@ -43,9 +43,24 @@ def memory_sample(handle):
     # PSAPI_WORKING_SET_BLOCK.Shared is bit 8; non-sharable resident pages
     # give private WS. Never trim the working set to improve the measurement.
     # https://learn.microsoft.com/windows/win32/api/psapi/ns-psapi-psapi_working_set_block
-    pages = (c.c_size_t * 65537)()
-    if not ps.QueryWorkingSet(handle, pages, c.sizeof(pages)):
-        raise c.WinError()
+    # Agent children can exceed the initial 256 MiB coverage. ERROR_BAD_LENGTH
+    # reports the required entry count; account for growth between retries.
+    # The buffer belongs to this test controller, never to the terminal.
+    capacity = 65536
+    for attempt in range(8):
+        pages = (c.c_size_t * (capacity+1))()
+        if ps.QueryWorkingSet(handle, pages, c.sizeof(pages)):
+            if pages[0] > capacity:
+                raise RuntimeError('QueryWorkingSet returned more entries than its buffer')
+            break
+        error = k.GetLastError()
+        if error != 24:
+            raise c.WinError(error)
+        capacity = max(capacity*2, int(pages[0])+4096)
+        if capacity > 4_194_304:  # at most 32 MiB of controller metadata on x64
+            raise RuntimeError('Working-set query exceeds the 16 GiB observation limit')
+    else:
+        raise RuntimeError('Working set kept growing during eight query attempts')
     count = pages[0]
     counters = Counters()
     counters.cb = c.sizeof(counters)

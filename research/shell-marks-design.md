@@ -110,3 +110,48 @@ the shell fixture observed 5,771,264 private WS / 35,586,048 total WS /
 results, not single-EXE acceptance. Reviewing an earlier cloud capture showed
 that a screenshot could precede the deferred selection paint. The native test
 now waits for the exact selected-output pixel bounds before capturing evidence.
+
+## Accepted bounded shell integration checkpoint
+
+Application revision `ff693f8292c89c6ebf3a0c82359fca0f6bcc4fbe` passed
+[core CI 43236732838](https://github.com/xiongnemo/nemoterm/actions/runs/43236732838)
+(30 core suites, 13 terminal sanitizer suites and native regressions) and
+[single EXE CI 43236732510](https://github.com/xiongnemo/nemoterm/actions/runs/43236732510)
+(37 checks). The downloadable [single executable artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43236732510/artifacts/13952698481)
+contains the 4,338,176-byte EXE with SHA-256
+`453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571`.
+
+After the user resumed local testing, the exact artifact passed the same 37
+check groups in sequential segments, plus both real Codex modes using hardware
+OpenGL. [The local manifest](shell-marks-local-validation.json) records the
+segments, hashes and limitations. Two test-harness corrections were necessary:
+desktop focus changes made an active-cursor assertion compare passive pixels;
+the query fixture now models both focus states inside the owned process and
+records intercepted events. The old fixed working-set buffer could not sample
+a Codex child above 256 MiB; it now follows QueryWorkingSet's required count,
+with bounded growth and tests for errors. Neither correction changes the EXE.
+Original failures remain in the local evidence hashes; all affected checks were
+rerun successfully. The full harness was not restarted from its first test.
+
+Local [shell evidence](shell-marks-local.json) verifies 19 exact-copy cases,
+prompt navigation, four width changes with eight copy checks, alternate-screen isolation, metadata
+churn and clipped history. Its sampled private WS peak was 7,737,344 bytes.
+The selected output [capture](shell-marks-selected.png) agrees with the exact
+expected bounds; [settings](shell-marks-settings.png) fit and saved/reloaded all
+four bindings. The [cloud shell evidence](shell-marks-ci-shell-marks-observed.json)
+has the same EXE hash and a sampled private WS peak of 6,426,624 bytes.
+
+The real Codex 0.167.0 local-response fixtures used SarasaTermSC Nerd Font Light.
+GDI default/inline frontend sampled peaks were 7,041,024 / 6,070,272 private WS,
+32,878,592 / 27,848,704 total WS, and 8,957,952 / 7,294,976 private commit bytes.
+Hardware OpenGL default/inline sampled private WS peaks were 50,032,640 /
+44,077,056 bytes, using the user's explicit optional-GPU exception. Each passed
+Unicode input, streamed Markdown, 32 live resizes, Shift grid copy and paste.
+Host/client samples are separate in the four `shell-marks-codex-*.json` records.
+This does not establish live-service or extended agent-session acceptance.
+
+[REA PE inspection](shell-marks-pe-imports.json) reports complete table coverage:
+79 descriptors, 605 regular and 11 delayed imports, no parsing issues. The
+single-file runtime test verifies same-image console startup without sidecars;
+PE imports alone do not establish that no library is dynamically loaded.
+DirectX frontend rendering, tabs and the rest of OSC 133/633/1337 remain open.

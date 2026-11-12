@@ -1,0 +1,92 @@
+{
+  "executable_sha256": "453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571",
+  "font": "SarasaTermSC Nerd Font Light",
+  "modes": [
+    {
+      "requested": 0,
+      "active": "GDI",
+      "checks": [
+        {
+          "scene": "text"
+        },
+        {
+          "scene": "sixel"
+        },
+        {
+          "scene": "sync-end"
+        },
+        {
+          "scene": "resize"
+        },
+        {
+          "scene": "palette"
+        },
+        {
+          "scene": "cursor-2"
+        },
+        {
+          "scene": "cursor-4"
+        },
+        {
+          "scene": "cursor-6"
+        }
+      ],
+      "memory": {
+        "private_ws": 5836800,
+        "total_ws": 28950528,
+        "private_commit": 7458816
+      }
+    },
+    {
+      "requested": 1,
+      "active": "OpenGL",
+      "checks": [
+        {
+          "scene": "text",
+          "changed_channels": 60,
+          "max_channel_error": 1
+        },
+        {
+          "scene": "sixel",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sync-end",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "resize",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "palette",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-2",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-4",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-6",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        }
+      ],
+      "memory": {
+        "private_ws": 33837056,
+        "total_ws": 64327680,
+        "private_commit": 92323840
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-当前脚本包含二十九组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。单 EXE 验证脚本包含三十一项基础检查（含字体/键盘变体）；提供 CodexExecutable 时另测实际 Codex 的默认与内嵌界面，CI 共三十三项。常规 CI 另保留 MinGW 对照和 Linux ASan/UBSan。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证；截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
+当前脚本包含三十组核心测试；scripts/test.ps1 包含全部目标。单 EXE 脚本有三十五项基础及变体检查，提供 CodexExecutable 时另测默认与内嵌界面，共三十七项。常规 CI 保留 MinGW 对照和 Linux ASan/UBSan。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证；各项证据仅证明对应参数与场景，不能代表完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
@@ -70,10 +70,10 @@
 | OSC8：`8;params;URI`，空URI关闭、`id=` | 已证（有限范围） | `test_hyperlink`验证逐字节BEL/ST、取消/非法/超长输入、同id+URI分组、SGR独立、保存恢复/1049/RIS、宽/组合字符、插删擦除、压缩历史、resize/字体变化、bidi、2026冻结/超时与已绘制画面的命中；Shift复制仅含标签。记录256KiB/1024条FIFO上限，URI2083字节、id250字节、OSC8载荷4096字节；超限旧编号失效且不复用。真实Win32/ConPTY测试验证完整地址悬停、分组下划线、Ctrl打开/菜单复制、默认与禁用设置、file主机匹配、应用鼠标/多键/Shift/缩放取消及冻结画面的目标。只接受ASCII/百分号编码URI；默认HTTP/HTTPS/FTP/mailto及本机Windows驱动器file，其他注册协议须显式启用。远程file只允许复制；不实现URI片段到文件行号跳转。ASan/UBSan及原生6000长链接+800Sixel压力测试覆盖有界资源。参照 [OSC8原始规范](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)。 |
 | OSC52：`52;Pc;Pd`，Base64设置、`?`查询 | 已证（有界文本与Windows映射） | 流式解码，每次UTF-8文本256KiB；读写独立配置，默认允许写、禁止读。c=系统剪贴板，s别名c，p=本地选区，q/0..7共享1MiB辅助缓存；空Pc为s0，按请求顺序查询首个可用目标。BEL/ST、碎片/取消/非法输入、精确上限、缓存淘汰、复位/撤权后的迟到回复、输出积压均有核心测试。原生测试覆盖四种权限、真实中文/emoji剪贴板、保留本地选择、同步输出、锁竞争和延迟渲染期间UI响应；不代表X11选择所有权语义或所有应用验收。详见REQUIREMENTS中的策略。 |
 | OSC7：`7;file://host/path`；OSC9;9；OSC633 P;Cwd | 已证（有限范围） | 有界 UTF-8 目录元数据、百分号/反斜杠转义、主机判断、复制 URI 与复制会话目录继承；支持 Windows、Git Bash 挂载路径和 WSL --cd。核心、真实子进程 OS cwd、中文路径、reset/resize、错误恢复和一万次更新已测；设置与单文件证据见[目录记录](../research/working-directory.md)。 |
-| OSC133 A/B/C/D；OSC633 A/B/C/D/E、P IsWindows / HasRichCommandDetection | 实现中，云端验收中 | 有界命令标记、可选退出码和转义命令文本；主屏历史定位、重排、导航和命令／输出选择。原生菜单与可配置快捷键已接线；不自动注入 shell 配置。属性目前仅记录，nonce 不用于认证。具体状态见[标记记录](../research/shell-marks-design.md)。 |
+| OSC133 A/B/C/D；OSC633 A/B/C/D/E、P IsWindows / HasRichCommandDetection | 已证（有限范围） | 有界命令标记、可选退出码和转义命令文本；主屏历史定位、重排、导航和命令／输出选择。核心、ASan/UBSan、云端及本机单文件验证通过，含原生菜单与可配置快捷键；不自动注入 shell 配置。属性目前仅记录，nonce 不用于认证。具体状态见[标记记录](../research/shell-marks-design.md)。 |
 | OSC633 其余扩展 | 缺失 | Completions 等未实现；已支持的子命令不代表整个命名空间完成。 |
 | OSC1337 CurrentDir / RemoteHost | 已证（有限范围） | 目录与主机分开更新；远端路径可复制但不用于本机启动。与 OSC7 共用有界存储；[目录记录](../research/working-directory.md)。 |
-| OSC1337 SetMark | 实现中，云端验收中 | 独立位置书签，参与导航；不虚构未知命令或输出范围。[标记记录](../research/shell-marks-design.md)。 |
+| OSC1337 SetMark | 已证（有限范围） | 独立位置书签，参与导航；不虚构未知命令或输出范围。[标记记录](../research/shell-marks-design.md)。 |
 | OSC1337 用户变量及其余非图像命令 | 缺失 | 命名空间按子命令登记；已支持的子命令不代表支持其余命令。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 缺失 | 图像尺寸、分块、编码、滚动、擦除、备用屏、动画/静态差异和资源预算均需独立验证。参照 [iTerm2图像协议](https://iterm2.com/documentation-images.html)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL等其他状态字符串仍不支持；未实现的状态不虚报。 |

@@ -932,3 +932,26 @@ failure history and captures are in [the real-client record](../research/real-ag
 This finite client regression does not close live-service/long-term agent use,
 Claude Code, physical IME/DPI/device behavior, complete grapheme rendering or
 the remaining protocol ledger.
+
+## Shell integration and resumed local validation (2026-11-13 Sydney)
+
+OSC 133/633 command marks and OSC 1337 SetMark now support bounded history
+navigation, command/output selection and four configurable shortcuts. Core and
+sanitizer coverage includes reflow, clipping, alternate screens and metadata
+churn. Exact source `ff693f8` has green core and single EXE CI, and the downloaded
+4,338,176-byte artifact passes 37 local check groups in documented sequential
+segments, plus both real Codex modes with hardware OpenGL. SHA-256:
+`453db4ea641cedf56a8a80b843dc51c2bf5690a5190ad7b22aa0df15a9583571`.
+
+GDI real-Codex frontend private WS sampled peaks are 6.1-7.1 MB, with total WS
+27.9-32.9 MB. Optional OpenGL sampled private WS is 44.1-50.1 MB under the user's
+explicit exception. Shell-mark stress peaks at 7.8 MB private WS. All figures
+exclude the separately recorded console host and client. Test focus isolation
+and working-set sampler fixes, exact hashes, artifacts and captures are in
+[the checkpoint record](../research/shell-marks-design.md).
+
+These finite tests do not close extended/live-service agent use, Claude Code,
+physical IME/DPI/device behavior, complete grapheme rendering or the remaining
+protocol families. DirectX frontend rendering and four-sided tabs with hover
+previews are still planned, not implemented. Identity queries continue in the
+separate feature/identity-queries branch and are not part of this accepted EXE.
