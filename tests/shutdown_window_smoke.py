@@ -10,20 +10,22 @@ from owned_job import OwnedJob
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
 
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--renderer', choices=('gdi', 'opengl', 'both'), default='both')
+parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx', 'both', 'all'), default='all')
 args = parser.parse_args()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), cases=[])
 profile = 'shutdown-test-'+uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 try:
-    renderers = ('gdi', 'opengl') if args.renderer == 'both' else (args.renderer,)
+    renderers = ('gdi', 'opengl', 'directx') if args.renderer == 'all' else (
+        ('gdi', 'opengl') if args.renderer == 'both' else (args.renderer,))
     for renderer in renderers:
         for close in ('child-exit', 'window-close'):
             with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
                 winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
                 winreg.SetValueEx(key, 'CloseOnExit', 0, winreg.REG_DWORD, 1)
-                winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD, int(renderer == 'opengl'))
+                winreg.SetValueEx(key, 'NemoRenderer', 0, winreg.REG_DWORD,
+                                 {'gdi':0,'opengl':1,'directx':2}[renderer])
             with tempfile.TemporaryDirectory(prefix='nemoterm-shutdown-') as tmp, OwnedJob() as job:
                 report, control = Path(tmp)/'report', Path(tmp)/'control'
                 process = job.spawn([str(exe), '-load', profile, '--cols', '40', '--rows', '12',
@@ -36,7 +38,9 @@ try:
                     hwnd = wait_for(lambda: find_window(process.pid))
                     wait_for(lambda: read_snapshot(report))
                     case['active_renderer'] = int(u.GetPropW(hwnd, 'NemotermRenderer') or 0)
-                    assert case['active_renderer'] in (1, 2), case
+                    assert case['active_renderer'] in (1, 2, 3), case
+                    if renderer == 'directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX') == '1':
+                        assert case['active_renderer'] == 3, case
                     session = frida.attach(process.pid)
                     script = session.create_script((root/'tests/shutdown_probe.js').read_text())
                     script.on('message', lambda message, data: events.append(

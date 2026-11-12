@@ -4,8 +4,11 @@ This branch adds a Direct2D hardware compositor behind the same strip/run API
 as OpenGL. It is a frontend implementation, separate from the Microsoft host's
 existing DirectX imports. GDI remains the default and creates no GPU object.
 
-The implementation is C and dynamically loads the system `d2d1.dll`; it adds
-no distributed DLL, toolkit, WebView, shader compiler or C++ runtime. Existing
+The compositor is C and dynamically loads the system `d2d1.dll`. A small C++
+translation unit calls the official SDK COM methods through a C ABI; it uses
+no STL, allocation or exceptions. This avoids relying on MinGW-only C helper
+macros, which caused the first MSVC link to fail (run 43278434993). It adds
+no distributed DLL, toolkit, WebView or shader compiler. Existing
 GDI glyph rasterization, font fallback, decoration and Sixel pixels are reused.
 One retained GPU frame is bounded at 128 MiB. The 256-entry run cache is bounded
 at 4 MiB of pixel data, with keys limited to 16 KiB each. Reusable CPU and
@@ -46,7 +49,17 @@ the later 15,585,280 private-WS sample includes Frida. These are finite frontend
 observations, not all-workload limits or a speed benchmark. The native settings
 test saves/reloads DirectX and switches GDI/OpenGL/DirectX/GDI successfully.
 
-Device-failure injection, repeated resource lifetime checks, exact single-EXE
-CI and its local hardware run are still required. This branch has not replaced
-the accepted resize distribution on main. Tabs/previews and the remaining
+The local SDK-adapter build (`7d1839338d5dca808ef27f6508455dc53c440d3a05cd9c068e62a94da509a3cf`)
+passes injected factory, EndDraw and Resize failures: each selects GDI, still
+answers DSR and displays fresh pixels, then can explicitly retry DirectX.
+Four further GDI/DirectX cycles keep GDI objects at 31 versus baseline 32,
+USER objects at 32 versus 31 and handles at 457-459 versus 459. All seven owned
+processes drain without forced termination. The test takes 187 seconds.
+MinGW's adapter object has no undefined runtime symbols and the resulting
+frontend imports no C++ runtime DLL. Exact single-EXE CI and its local hardware
+run are still required. The lifecycle fixture's
+first resize-recovery timeout was its child reaching the default 60-second
+lifetime during modal settings operations; its retained last phase and elapsed
+time identify that cause. Only this long fixture opts into a five-minute bound.
+This branch has not replaced the accepted resize distribution on main. Tabs/previews and the remaining
 protocol/physical-device requirements remain open.

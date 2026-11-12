@@ -5,8 +5,7 @@
  * GDI, not to an unreported Direct2D software rasterizer. */
 #include "putty.h"
 #include "nemo_d2d.h"
-#define D2D_USE_C_DEFINITIONS
-#include <d2d1.h>
+#include "nemo_d2d_api.h"
 
 #define CACHE_COUNT 256
 #define CACHE_BYTES (4U*1024U*1024U)
@@ -66,7 +65,7 @@ static LRESULT CALLBACK surface_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 }
 static void evict(NemoD2D *g, D2DRun *r)
 {
-    if (r->bitmap) ID2D1Bitmap_Release(r->bitmap);
+    if (r->bitmap) nemo_d2d_release(r->bitmap);
     if (r->key) strbuf_free(r->key);
     g->cache_bytes-=r->bytes;memset(r,0,sizeof(*r));
 }
@@ -78,18 +77,18 @@ static bool end_frame(NemoD2D *g)
 {
     if (g->drawing) {
         g->drawing=false;
-        check(g,ID2D1RenderTarget_EndDraw(RT(g),NULL,NULL));
+        check(g,nemo_d2d_end(RT(g),NULL,NULL));
     }
     return !g->failed;
 }
 static void free_frame(NemoD2D *g)
 {
     end_frame(g);nemo_d2d_clear_cache(g);
-    if (g->interop) ID2D1GdiInteropRenderTarget_Release(g->interop);
-    if (g->brush) ID2D1SolidColorBrush_Release(g->brush);
-    if (g->upload) ID2D1Bitmap_Release(g->upload);
-    if (g->image) ID2D1Bitmap_Release(g->image);
-    if (g->frame) ID2D1BitmapRenderTarget_Release(g->frame);
+    if (g->interop) nemo_d2d_release(g->interop);
+    if (g->brush) nemo_d2d_release(g->brush);
+    if (g->upload) nemo_d2d_release(g->upload);
+    if (g->image) nemo_d2d_release(g->image);
+    if (g->frame) nemo_d2d_release(g->frame);
     g->interop=NULL;g->brush=NULL;g->upload=NULL;g->image=NULL;g->frame=NULL;
     g->upload_width=g->upload_height=0;
 }
@@ -97,8 +96,8 @@ void nemo_d2d_free(NemoD2D *g)
 {
     if (!g) return;
     free_frame(g);
-    if (g->target) ID2D1HwndRenderTarget_Release(g->target);
-    if (g->factory) ID2D1Factory_Release(g->factory);
+    if (g->target) nemo_d2d_release(g->target);
+    if (g->factory) nemo_d2d_release(g->factory);
     if (g->bitmap) {SelectObject(g->scratch,g->oldbitmap);DeleteObject(g->bitmap);}
     if (g->scratch) DeleteDC(g->scratch);
     if (g->surface) DestroyWindow(g->surface);
@@ -128,8 +127,8 @@ NemoD2D *nemo_d2d_create(HWND parent)
     props.dpiX=props.dpiY=96;
     D2D1_HWND_RENDER_TARGET_PROPERTIES win={0};
     win.hwnd=g->surface;win.pixelSize.width=win.pixelSize.height=1;
-    if (!check(g,ID2D1Factory_CreateHwndRenderTarget(g->factory,&props,&win,&g->target))) goto fail;
-    g->limit=ID2D1RenderTarget_GetMaximumBitmapSize((ID2D1RenderTarget *)g->target);
+    if (!check(g,nemo_d2d_create_hwnd(g->factory,&props,&win,&g->target))) goto fail;
+    g->limit=nemo_d2d_max_size((ID2D1RenderTarget *)g->target);
     return g;
   fail:
     nemo_d2d_free(g);return NULL;
@@ -146,20 +145,20 @@ int nemo_d2d_frame(NemoD2D *g, COLORREF background)
     if (changed) {
         free_frame(g);
         D2D1_SIZE_U size={(UINT32)r.right,(UINT32)r.bottom};
-        if (!check(g,ID2D1HwndRenderTarget_Resize(g->target,&size))) return 0;
-        if (!check(g,ID2D1RenderTarget_CreateCompatibleRenderTarget(
+        if (!check(g,nemo_d2d_resize(g->target,&size))) return 0;
+        if (!check(g,nemo_d2d_compatible(
                 (ID2D1RenderTarget *)g->target,NULL,&size,NULL,
                 D2D1_COMPATIBLE_RENDER_TARGET_OPTIONS_GDI_COMPATIBLE,&g->frame))) return 0;
-        if (!check(g,ID2D1BitmapRenderTarget_GetBitmap(g->frame,&g->image)) ||
-            !check(g,ID2D1BitmapRenderTarget_QueryInterface(g->frame,&interop_iid,(void **)&g->interop))) return 0;
+        if (!check(g,nemo_d2d_get_bitmap(g->frame,&g->image)) ||
+            !check(g,nemo_d2d_query(g->frame,&interop_iid,(void **)&g->interop))) return 0;
         D2D1_COLOR_F c=color(background);
-        if (!check(g,ID2D1RenderTarget_CreateSolidColorBrush(RT(g),&c,NULL,&g->brush))) return 0;
-        ID2D1RenderTarget_SetAntialiasMode(RT(g),D2D1_ANTIALIAS_MODE_ALIASED);
+        if (!check(g,nemo_d2d_solid_brush(RT(g),&c,NULL,&g->brush))) return 0;
+        nemo_d2d_antialias(RT(g),D2D1_ANTIALIAS_MODE_ALIASED);
         g->width=r.right;g->height=r.bottom;
         SetWindowPos(g->surface,NULL,0,0,g->width,g->height,SWP_NOACTIVATE|SWP_NOZORDER);
     }
-    if (!g->drawing) {ID2D1RenderTarget_BeginDraw(RT(g));g->drawing=true;}
-    if (changed) {D2D1_COLOR_F c=color(background);ID2D1RenderTarget_Clear(RT(g),&c);}
+    if (!g->drawing) {nemo_d2d_begin(RT(g));g->drawing=true;}
+    if (changed) {D2D1_COLOR_F c=color(background);nemo_d2d_clear(RT(g),&c);}
     return changed?2:1;
 }
 bool nemo_d2d_present(NemoD2D *g)
@@ -167,10 +166,10 @@ bool nemo_d2d_present(NemoD2D *g)
     if (!end_frame(g) || !g->image) return false;
     ID2D1RenderTarget *target=(ID2D1RenderTarget *)g->target;
     D2D1_RECT_F rect={0,0,(float)g->width,(float)g->height};
-    ID2D1RenderTarget_BeginDraw(target);
-    ID2D1RenderTarget_DrawBitmap(target,g->image,&rect,1,
+    nemo_d2d_begin(target);
+    nemo_d2d_draw_bitmap(target,g->image,&rect,1,
                                 D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,NULL);
-    if (!check(g,ID2D1RenderTarget_EndDraw(target,NULL,NULL))) return false;
+    if (!check(g,nemo_d2d_end(target,NULL,NULL))) return false;
     if (!IsWindowVisible(g->surface)) ShowWindow(g->surface,SW_SHOWNOACTIVATE);
     return true;
 }
@@ -203,7 +202,7 @@ static void draw(NemoD2D *g, ID2D1Bitmap *image, RECT box)
 {
     D2D1_RECT_F dst={(float)box.left,(float)box.top,(float)box.right,(float)box.bottom};
     D2D1_RECT_F src={0,0,(float)(box.right-box.left),(float)(box.bottom-box.top)};
-    ID2D1RenderTarget_DrawBitmap(RT(g),image,&dst,1,D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,&src);
+    nemo_d2d_draw_bitmap(RT(g),image,&dst,1,D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,&src);
 }
 bool nemo_d2d_cached(NemoD2D *g, RECT box, ptrlen key)
 {
@@ -222,12 +221,12 @@ static bool read_pixels(NemoD2D *g, HDC dest, int dx, int dy, int x, int y, int 
 {
     if (g->failed || !g->interop) return false;
     bool opened=!g->drawing;
-    if (opened) {ID2D1RenderTarget_BeginDraw(RT(g));g->drawing=true;}
+    if (opened) {nemo_d2d_begin(RT(g));g->drawing=true;}
     HDC source=NULL;
-    if (check(g,ID2D1GdiInteropRenderTarget_GetDC(g->interop,D2D1_DC_INITIALIZE_MODE_COPY,&source))) {
+    if (check(g,nemo_d2d_get_dc(g->interop,D2D1_DC_INITIALIZE_MODE_COPY,&source))) {
         bool copied=BitBlt(dest,dx,dy,w,h,source,x,y,SRCCOPY);
         RECT unchanged={0};
-        check(g,ID2D1GdiInteropRenderTarget_ReleaseDC(g->interop,&unchanged));
+        check(g,nemo_d2d_release_dc(g->interop,&unchanged));
         if (!copied) g->failed=true;
     }
     if (opened) end_frame(g);
@@ -247,7 +246,7 @@ static bool bitmap(NemoD2D *g, int w, int h, const void *data, unsigned pitch, I
     D2D1_BITMAP_PROPERTIES props={0};props.pixelFormat.format=DXGI_FORMAT_B8G8R8A8_UNORM;
     props.pixelFormat.alphaMode=D2D1_ALPHA_MODE_IGNORE;props.dpiX=props.dpiY=96;
     D2D1_SIZE_U size={(UINT32)w,(UINT32)h};
-    return check(g,ID2D1RenderTarget_CreateBitmap(RT(g),size,data,pitch,&props,out));
+    return check(g,nemo_d2d_create_bitmap(RT(g),size,data,pitch,&props,out));
 }
 static void upload(NemoD2D *g, RECT box, const void *pixels, unsigned pitch)
 {
@@ -258,12 +257,12 @@ static void upload(NemoD2D *g, RECT box, const void *pixels, unsigned pitch)
     if (w>g->upload_width || h>g->upload_height) {
         int nw=max(w,g->upload_width),nh=max(h,g->upload_height);
         if ((uint64_t)nw*nh*4>CACHE_BYTES) {g->failed=true;return;}
-        if (g->upload) {ID2D1Bitmap_Release(g->upload);g->upload=NULL;}
+        if (g->upload) {nemo_d2d_release(g->upload);g->upload=NULL;}
         if (!bitmap(g,nw,nh,NULL,0,&g->upload)) return;
         g->upload_width=nw;g->upload_height=nh;
     }
     D2D1_RECT_U rect={0,0,(UINT32)w,(UINT32)h};
-    if (check(g,ID2D1Bitmap_CopyFromMemory(g->upload,&rect,pixels,pitch))) draw(g,g->upload,box);
+    if (check(g,nemo_d2d_copy_memory(g->upload,&rect,pixels,pitch))) draw(g,g->upload,box);
 }
 void nemo_d2d_end_run(NemoD2D *g, RECT box, ptrlen key)
 {
@@ -297,12 +296,12 @@ static void fill(NemoD2D *g, RECT r)
 {
     if (r.right<=r.left || r.bottom<=r.top) return;
     D2D1_RECT_F box={(float)r.left,(float)r.top,(float)r.right,(float)r.bottom};
-    ID2D1RenderTarget_FillRectangle(RT(g),&box,(ID2D1Brush *)g->brush);
+    nemo_d2d_fill(RT(g),&box,(ID2D1Brush *)g->brush);
 }
 void nemo_d2d_borders(NemoD2D *g, RECT text, COLORREF background)
 {
     if (g->failed) return;
-    D2D1_COLOR_F c=color(background);ID2D1SolidColorBrush_SetColor(g->brush,&c);
+    D2D1_COLOR_F c=color(background);nemo_d2d_set_color(g->brush,&c);
     RECT r={0,0,g->width,text.top};fill(g,r);
     r.top=text.bottom;r.bottom=g->height;fill(g,r);
     r.top=text.top;r.bottom=text.bottom;r.right=text.left;fill(g,r);
