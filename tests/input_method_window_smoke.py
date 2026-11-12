@@ -95,7 +95,7 @@ try:
     (x,y,cw,ch),red=found
     return found if red=={(x+2*cw+xx,y+2*ch+yy) for xx in range(24) for yy in range(12)} else False
    initial=wait_for(pixels_match)[0];u.SendMessageW(hwnd,0x10d,0,0)
-   initial_imm=command('capabilities')
+   initial_imm=command('focused-capabilities')
    for dpi in (144,192,120,96):
     answer=command('dpi',dpi=dpi)
     def resized_pixels():
@@ -106,7 +106,7 @@ try:
     # The WM_DPICHANGED callback can finish before the invalidated frame paints.
     # Require the new scale as well as matching Sixel pixels in the same frame.
     geom=wait_for(resized_pixels)[0]
-    answer=command('capabilities')
+    answer=command('focused-capabilities')
     if initial_imm.get('compositionFontHeight'):
      assert abs(answer['compositionFontHeight']/initial_imm['compositionFontHeight']-dpi/96)<.1,(dpi,answer)
      assert (answer['compositionWindow']['x'],answer['compositionWindow']['y'])==geom[:2],(dpi,answer,geom)

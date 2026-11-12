@@ -13,6 +13,7 @@ const compWindow=api(I,'ImmGetCompositionWindow','int',['pointer','pointer']);
 const compFont=api(I,'ImmGetCompositionFontW','int',['pointer','pointer']);
 const sendMessage=api(U,'SendMessageW','pointer',['pointer','uint','pointer','pointer']);
 const getRect=api(U,'GetWindowRect','int',['pointer','pointer']);
+const getFocus=api(U,'GetFocus','pointer',[]);
 let fault=null,operation=null,lastDpi=96,originalOpen=null;
 Interceptor.attach(I.getExportByName('ImmGetContext'),{onLeave(r){if(fault&&r.isNull())r.replace(ptr(0x1234));}});
 Interceptor.attach(I.getExportByName('ImmGetCompositionStringW'),{
@@ -30,6 +31,12 @@ Interceptor.attach(U.getExportByName('DispatchMessageW'),{onEnter(a){
   rect.add(12).writeS32(rect.add(4).readS32()+Math.round((rect.add(12).readS32()-rect.add(4).readS32())*op.dpi/lastDpi));
   sendMessage(hwnd,0x2e0,ptr(op.dpi|(op.dpi<<16)),rect);lastDpi=op.dpi;
  }
+ // IMM geometry is intentionally updated only for a focused terminal. Own
+ // the test window's focus messages within this UI-thread operation without
+ // activating its window or changing the user's real foreground focus.
+ const controlledFocus=op.kind==='focused-capabilities';
+ const hadFocus=getFocus().equals(hwnd);
+ if(controlledFocus){sendMessage(hwnd,0x7,ptr(0),ptr(0));answer.controlledFocus=true;}
  const h=context(hwnd);answer.context=!h.isNull();answer.layout=layout(0).toString();answer.caps=prop(layout(0),0x14);
  if(!h.isNull()){
   if(originalOpen===null)originalOpen=open(h);
@@ -42,6 +49,7 @@ Interceptor.attach(U.getExportByName('DispatchMessageW'),{onEnter(a){
   const lf=Memory.alloc(92);if(compFont(h,lf))answer.compositionFontHeight=lf.readS32();
   release(hwnd,h);
  }
+ if(controlledFocus&&!hadFocus)sendMessage(hwnd,0x8,ptr(0),ptr(0));
  send(answer);
 }});
 rpc.exports={configure(value){fault=value;return true;},command(value){operation=value;return true;}};
