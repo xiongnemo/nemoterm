@@ -22,6 +22,9 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Verify pinned Unicode data and generated grapheme tables
+        shell: pwsh
+        run: python scripts/generate-grapheme-tables.py --check
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
           msystem: UCRT64
@@ -47,6 +50,11 @@ jobs:
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
+      - name: Test Unicode extended grapheme boundaries
+        run: |
+          set -euo pipefail
+          cmake --build build --target test_grapheme
+          ./build/test_grapheme.exe tools/unicode/18.0.0/GraphemeBreakTest.txt 2>&1 | tee test-results/test_grapheme.log
       - name: Package portable executable
         run: |
           set -euo pipefail
@@ -56,6 +64,7 @@ jobs:
           cp LICENSE dist/LICENSE-Nemoterm.txt
           cp vendor/nerd-fonts/LICENSE dist/LICENSE-Nerd-Symbols.txt
           cp vendor/nerd-fonts/NOTICE.txt dist/LICENSE-Nerd-Components.txt
+          cp tools/unicode/18.0.0/LICENSE.txt dist/LICENSE-Unicode.txt
           cp README.md dist/
           printf 'Commit: %s\nBuilt: %s\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > dist/BUILD-INFO.txt
           gcc --version >> dist/BUILD-INFO.txt
@@ -343,6 +352,16 @@ jobs:
             -I vendor/putty-0.85/terminal tests/test_colour.c \
             vendor/putty-0.85/terminal/nemo_colour.c -o test-colour
           ASAN_OPTIONS=detect_leaks=1 ./test-colour
+      - name: Test Unicode grapheme boundaries with sanitizers
+        run: |
+          python3 scripts/generate-grapheme-tables.py --check
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_grapheme.c \
+            vendor/putty-0.85/terminal/nemo_grapheme.c -o test-grapheme
+          set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./test-grapheme tools/unicode/18.0.0/GraphemeBreakTest.txt 2>&1 | tee terminal-grapheme-sanitizers.log
       - name: Test bounded OpenType cmap lookup with sanitizers
         run: |
           gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \

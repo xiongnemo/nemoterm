@@ -191,7 +191,8 @@ def main():
     notices = "\n\n".join(p.read_text(encoding="utf-8-sig") for p in (
         ROOT / "LICENSE", ROOT / "vendor/putty-0.85/LICENCE",
         UPSTREAM / "LICENSE", UPSTREAM / "NOTICE.md",
-        ROOT / "vendor/nerd-fonts/LICENSE", ROOT / "vendor/nerd-fonts/NOTICE.txt"))
+        ROOT / "vendor/nerd-fonts/LICENSE", ROOT / "vendor/nerd-fonts/NOTICE.txt",
+        ROOT / "tools/unicode/18.0.0/LICENSE.txt"))
     (DEST / "src/host/exe/nemo-licenses.txt").write_text(notices, encoding="utf-8")
     (DEST / "src/host/exe/nemo-licenses.rc").write_text(
         '40000 RCDATA "nemo-licenses.txt"\n', encoding="ascii")
