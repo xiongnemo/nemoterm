@@ -63,3 +63,31 @@ lifetime during modal settings operations; its retained last phase and elapsed
 time identify that cause. Only this long fixture opts into a five-minute bound.
 This branch has not replaced the accepted resize distribution on main. Tabs/previews and the remaining
 protocol/physical-device requirements remain open.
+
+## Cursor cache regression and deterministic capture
+
+The SDK adapter builds successfully in MSVC (run 43281415204). That run's
+cursor comparison exposed a fixture focus race: its GDI image has a focused
+solid cursor while its DirectX image has an unfocused outline. The fixture now
+uses the existing owned-process focus probe, never desktop activation, and
+covers all three shapes both focused and unfocused. It samples memory before
+instrumentation and labels all later samples, including GDI, as instrumented.
+
+The stronger test then exposed a real shared GPU cache defect: rasterized text
+with ATTR_ACTCURS depends on whether the active cursor is a block. Changing
+DECSCUSR from block to underline retained the old cached block background.
+The run key now includes that effective block state (including big_cursor).
+The corrected development executable passes 11 scenes in each of GDI,
+hardware OpenGL and hardware DirectX, with both Consolas and SarasaTermSC Nerd
+Font Light. Retained GPU frames remain byte-exact during synchronized output.
+GDI's bounded snapshot rerasterization with Consolas changes two combining-mark
+channels by one on this machine; the freeze assertion permits at most the same
+two-level ClearType rounding as text comparison, only in the two text rows.
+Sixel and all remaining pixels must stay exact.
+
+Core run 43281415376 independently caught the hyperlink fixture sampling GDI
+between two underline runs. The first sample spans x=10..45 at y=31, while its
+saved hover PNG already contains both expected spans x=10..45 and x=91..126.
+The fixture now waits for the complete exact two-run pixel set, with bounded
+waiting and diagnostic samples, instead of treating the first changed pixel
+as a completed paint. No hyperlink rendering behavior or pixel criterion changes.

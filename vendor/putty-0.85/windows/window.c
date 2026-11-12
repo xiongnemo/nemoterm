@@ -4661,6 +4661,10 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
     if (!cursor) {
         key=strbuf_new();
         put_uint32(key,attr);put_uint32(key,lattr);put_uint32(key,tc.decoration);
+        /* Rasterized text includes the active block cursor's colours.
+         * DECSCUSR changes that rendering without changing ATTR_ACTCURS. */
+        put_byte(key,(attr&ATTR_ACTCURS) &&
+                 (wgs->term->cursor_type==CURSOR_BLOCK || wgs->term->big_cursor));
         put_uint32(key,tc.fg.enabled);put_byte(key,tc.fg.r);put_byte(key,tc.fg.g);put_byte(key,tc.fg.b);
         put_uint32(key,tc.bg.enabled);put_byte(key,tc.bg.r);put_byte(key,tc.bg.g);put_byte(key,tc.bg.b);
         /* Decoration phase can depend on the absolute x coordinate. */

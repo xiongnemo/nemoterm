@@ -381,15 +381,28 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             capture(hwnd, 'hyperlink-baseline.png')
             tip, text = hover(uri)
             evidence['hover_text'] = text
-            selected = wait_for(lambda: (pixels := capture(hwnd, return_pixels=True)) != baseline and pixels)
-            changed = [i//3 for i in range(0, len(selected), 3) if selected[i:i+3] != baseline[i:i+3]]
-            bounds = [min(i%rect.right for i in changed), min(i//rect.right for i in changed),
-                      max(i%rect.right for i in changed)+1, max(i//rect.right for i in changed)+1]
+            # GDI draws separate runs directly. The first changed pixel can be
+            # only LINK's underline, before MORE is painted in the same update.
+            # Await the complete, still exact two-run pixel contract.
+            hover_samples=[]
+            def complete_hover():
+                pixels=capture(hwnd,return_pixels=True)
+                changed={i//3 for i in range(0,len(pixels),3) if pixels[i:i+3]!=baseline[i:i+3]}
+                if not changed:return None
+                bounds=[min(i%rect.right for i in changed),min(i//rect.right for i in changed),
+                        max(i%rect.right for i in changed)+1,max(i//rect.right for i in changed)+1]
+                sample=dict(bounds=bounds,pixels=len(changed))
+                if not hover_samples or hover_samples[-1]!=sample:hover_samples.append(sample)
+                expected={bounds[1]*rect.right+x for lo,hi in ((1,5),(10,14))
+                          for x in range(1+lo*cw,1+hi*cw)}
+                return bounds if bounds[3]-bounds[1]==1 and changed==expected else None
+            try:bounds=wait_for(complete_hover)
+            except AssertionError:
+                capture(hwnd,'hyperlink-hover-failed.png')
+                raise AssertionError(('incomplete hover paint',hover_samples))
             evidence['hover_bounds'] = bounds
+            evidence['hover_paint_samples']=hover_samples
             capture(hwnd, 'hyperlink-hover.png'); capture(tip, 'hyperlink-address.png')
-            expected = {bounds[1]*rect.right+x for lo,hi in ((1,5),(10,14))
-                        for x in range(1+lo*cw,1+hi*cw)}
-            assert bounds[3]-bounds[1] == 1 and set(changed) == expected, bounds
             msg(0x201, keys=9); msg(0x202, keys=8)
             observed = wait_for(lambda: (data := launched()) and data)
             assert len(observed) == 1 and observed[0]['argv'] == [uri], observed

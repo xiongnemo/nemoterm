@@ -8,6 +8,7 @@ from gpu_capture import OwnedGPUCapture
 import uuid
 import winreg
 import atexit
+import frida
 
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
@@ -26,7 +27,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
         process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24',
             '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
-        gl_capture = None
+        gl_capture = focus_session = None
         try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
             active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
@@ -39,15 +40,28 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             handle=k.OpenProcess(0x410,False,process.pid)
             try:mode['memory_before_instrumentation']=memory_sample(handle)
             finally:k.CloseHandle(handle)
+            # A synthetic WM_KILLFOCUS alone is undone by the main loop's
+            # real GetForegroundWindow check. Pin focus only inside this owned
+            # process so GDI and GPU samples see the same cursor state.
+            focus_session=frida.attach(process.pid)
+            focus_script=focus_session.create_script((root/'tests/query_focus_probe.js').read_text())
+            focus_errors=[]
+            focus_script.on('message',lambda message,data:focus_errors.append(message) if message.get('type')=='error' else None)
+            focus_script.load();focused=False
+            focus_script.exports_sync.set_focus(hex(hwnd),focused)
             if active in (2,3):gl_capture=OwnedGPUCapture(process.pid,hwnd)
             mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow'
-            mode['memory_instrumented']=bool(gl_capture)
+            mode['memory_instrumented']=True
+            mode['focus_model']='owned-process active and inactive states'
             def captured(name=None):
                 return gl_capture.capture(name,True) if gl_capture else capture(hwnd,name,True)
             def render(name,sequence):
                 write_snapshot(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
                 wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==name and bytes.fromhex(v.get('hex','')).endswith(b'\x1b[0n'))
-                time.sleep(.15)
+                # The DSR acknowledges parsing. This synchronous owned-window
+                # focus update also completes pending painting before capture.
+                # Synchronized-output mode must still preserve its frozen frame.
+                focus_script.exports_sync.set_focus(hex(hwnd),focused)
             def compare(name):
                 pixels=captured(f'renderer-{requested}-{name}.png')
                 if not requested:references[name]=pixels
@@ -59,8 +73,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                     # glyphs. Geometry, solid colours and retained repaints
                     # remain strict; do not mask shifts or missing glyphs.
                     error=max(abs(a-b) for a,b in zip(pixels,expected))
-                    assert len(pixels)==len(expected) and error<=2 and mismatch<=len(pixels)//1000,(name,mismatch,error)
                     mode['checks'].append(dict(scene=name,changed_channels=mismatch,max_channel_error=error))
+                    assert len(pixels)==len(expected) and error<=2 and mismatch<=len(pixels)//1000,(requested,name,mismatch,error)
                 if not requested:mode['checks'].append(dict(scene=name))
                 return pixels
             text=('\x1b[?25l\x1b[0m\x1b[2J\x1b[HASCII abc XYZ 0123\r\n'
@@ -72,11 +86,25 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             render('text',text);base=compare('text')
             # An expose must preserve both unchanged glyphs and the cached frame.
             u.RedrawWindow(hwnd,None,None,0x185);time.sleep(.1)
-            assert captured()==base
+            assert captured(f'renderer-{requested}-expose.png')==base
             render('sixel',scene('SIXEL GPU composition','100;25;0'));base=compare('sixel')
             render('sync','\x1b[?2026h\x1b[Hhidden during synchronized update')
             u.RedrawWindow(hwnd,None,None,0x185)
-            assert captured()==base
+            frozen=captured(f'renderer-{requested}-sync-frozen.png')
+            if active==1:
+                # GDI snapshots rerasterize into bounded memory-DC bands.
+                # Consolas fallback/combining glyphs can round a few ClearType
+                # channels by <=2. Limit that tolerance to the two text rows;
+                # Sixel and every other pixel must remain byte-exact. Retained
+                # GPU frames below have no such rerasterization allowance.
+                client=w.RECT();assert u.GetClientRect(hwnd,c.byref(client))
+                text_end=client.right*(1+2*((client.bottom-2)//24))*3
+                changed=sum(a!=b for a,b in zip(frozen,base))
+                error=max(abs(a-b) for a,b in zip(frozen,base))
+                mode['gdi_snapshot_rounding']=dict(changed_channels=changed,max_channel_error=error)
+                assert len(frozen)==len(base) and changed<=len(base)//1000 and error<=2
+                assert frozen[text_end:]==base[text_end:]
+            else:assert frozen==base
             render('sync-end','\x1b[?2026l');compare('sync-end')
             outer,client=w.RECT(),w.RECT()
             u.GetWindowRect(hwnd,c.byref(outer));u.GetClientRect(hwnd,c.byref(client))
@@ -84,22 +112,25 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             u.MoveWindow(hwnd,outer.left,outer.top,outer.right-outer.left+10*cw,
                          outer.bottom-outer.top+4*ch,True)
             wait_for(lambda:(read_snapshot(report) or {}).get('columns')==90)
-            time.sleep(.2)
+            focus_script.exports_sync.set_focus(hex(hwnd),focused)
             compare('resize')
             # Palette changes must invalidate old cached run colours.
             render('palette','\x1b]10;#00ff80\x07\x1b]11;#101820\x07'+text)
             compare('palette')
-            for shape in (2,4,6):
-                render('cursor-'+str(shape),'\x1b[?12l\x1b['+str(shape)+' q\x1b[?25h\x1b[2;4H')
-                u.SendMessageW(hwnd,0x8,0,0) # consistent inactive cursor on owned windows
-                time.sleep(.1)
-                compare('cursor-'+str(shape))
+            for focused in (True,False):
+                for shape in (2,4,6):
+                    name='cursor-'+('active-' if focused else 'inactive-')+str(shape)
+                    render(name,'\x1b[?12l\x1b['+str(shape)+' q\x1b[?25h\x1b[2;4H')
+                    compare(name)
+            mode['focus_observations']=focus_script.exports_sync.stats()
+            assert not focus_errors,focus_errors
             assert int(u.GetPropW(hwnd,'NemotermRenderer'))==active,'Renderer failed during drawing'
             handle=k.OpenProcess(0x410,False,process.pid)
             try:mode['memory']=memory_sample(handle)
             finally:k.CloseHandle(handle)
         finally:
             if gl_capture:gl_capture.close()
+            if focus_session:focus_session.detach()
             write_snapshot(control,dict(stop=True))
             try:process.wait(timeout=8)
             except subprocess.TimeoutExpired:process.terminate();process.wait(timeout=5)
