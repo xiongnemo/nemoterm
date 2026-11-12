@@ -24,6 +24,13 @@ try {
         & python "$Destination/tests/${name}_window_smoke.py" 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'font_fallback') {
+            Copy-Item "$Destination/research/font-fallback-observed.json" "$Destination/research/font-fallback-default-observed.json"
+            Copy-Item "$Destination/research/font-fallback.png" "$Destination/research/font-fallback-default.png"
+            & python "$Destination/tests/font_fallback_window_smoke.py" --font Courier 2>&1 | Tee-Object "$Destination/logs/font-fallback-courier.log"
+            if ($LASTEXITCODE) { throw 'Single-executable bitmap-primary font fallback test failed' }
+            $checks.Add('font-fallback-courier')
+        }
         if ($name -eq 'keyboard' -or $name -eq 'mok') {
             Copy-Item "$Destination/research/$name-window-observed.json" "$Destination/research/$name-default-observed.json"
             Copy-Item "$Destination/research/$name-window.png" "$Destination/research/$name-default.png"

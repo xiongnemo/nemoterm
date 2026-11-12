@@ -12,6 +12,7 @@ u.GetGuiResources.argtypes, u.GetGuiResources.restype = [w.HANDLE, w.DWORD], w.D
 u.RedrawWindow.argtypes = [w.HWND, c.c_void_p, w.HANDLE, w.UINT]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--rtl-only', action='store_true')
+parser.add_argument('--font', default='SarasaTermSC Nerd Font Light')
 options = parser.parse_args()
 name = 'font-fallback-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + name
@@ -20,11 +21,11 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
     winreg.SetValueEx(key, 'ScrollbackLines', 0, winreg.REG_DWORD, 0)
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe'))
-evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest())
+evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), requested_font=options.font)
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-symbols-') as directory:
         directory = Path(directory); report, control = directory/'report', directory/'control'
-        process = subprocess.Popen([str(exe), '-load', name, '--cols', '40', '--rows', '12',
+        process = subprocess.Popen([str(exe), '-load', name, '--font', options.font, '--cols', '40', '--rows', '12',
             '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         handle = k.OpenProcess(0x410, False, process.pid)

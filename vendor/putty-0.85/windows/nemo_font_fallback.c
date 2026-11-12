@@ -17,6 +17,7 @@ struct NemoFontFallback {
     struct FontSlot slots[FONT_CACHE];
     unsigned next;
     HFONT primary;
+    bool primary_raster;
     void *primary_cmap;
     size_t primary_cmap_size;
 };
@@ -35,6 +36,12 @@ static bool primary_has(struct NemoFontFallback *s, HDC dc, uint32_t cp)
     if (s->primary != primary) {
         sfree(s->primary_cmap); s->primary_cmap = NULL; s->primary_cmap_size = 0;
         s->primary = primary;
+        /* Legacy bitmap fonts (e.g. Courier when Sarasa is absent) have no
+         * cmap and cannot contain supplementary-plane glyphs. Keep the
+         * conservative unknown result for vector/device fonts without a cmap. */
+        TEXTMETRICW metrics;
+        s->primary_raster = GetTextMetricsW(dc, &metrics) &&
+            !(metrics.tmPitchAndFamily & (TMPF_VECTOR | TMPF_TRUETYPE | TMPF_DEVICE));
         DWORD length = GetFontData(dc, 0x70616d63, 0, NULL, 0); /* cmap, little endian tag */
         if (length != GDI_ERROR && length >= 4 && length <= CMAP_LIMIT) {
             void *data = snewn(length, char);
@@ -43,7 +50,8 @@ static bool primary_has(struct NemoFontFallback *s, HDC dc, uint32_t cp)
             } else sfree(data);
         }
     }
-    return !s->primary_cmap || nemo_cmap_glyph(s->primary_cmap, s->primary_cmap_size, cp);
+    return s->primary_cmap ? nemo_cmap_glyph(s->primary_cmap, s->primary_cmap_size, cp)
+                          : !s->primary_raster;
 }
 
 HFONT nemo_font_fallback(struct NemoFontFallback **state, HDC dc,

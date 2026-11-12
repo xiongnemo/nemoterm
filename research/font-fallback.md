@@ -29,7 +29,14 @@ BMP coverage uses the selected GDI font's glyph lookup. Supplementary-plane
 coverage uses its actual OpenType cmap rather than treating UTF-16 surrogate
 halves as glyphs. The allocation-free parser supports Unicode formats 4, 12
 and 13, prefers the full-repertoire table, and bounds every offset/length.
-Unsupported primary supplementary maps conservatively keep the existing font.
+Unknown vector/device-font supplementary coverage conservatively keeps the existing font.
+Legacy bitmap faces have no supplementary-plane glyphs and use the symbol
+fallback even though `GetFontData` cannot return a cmap. The first CI run
+exposed this distinction: absent Sarasa resolved to raster Courier and both
+supplementary icons initially rendered as the same missing-glyph box. A local
+explicit Courier regression reproduced the failure before the fix. The native
+core suite now exercises Consolas, raster Courier, requested Sarasa and an
+intentionally absent family, records the actual face and checks its coverage.
 Surrogate pairs and variation selectors stay together during run splitting;
 fallback icons use verified glyph indices, are clipped to their own cells and
 inherit colour/style. Windows does not re-map supplementary icon text a second time.
@@ -53,6 +60,8 @@ from 6,422,528 to 6,434,816 bytes after the same warm-up and repaint count.
 The regression rejects growth of 2,000,000 bytes or more. Run it independently
 with `python tests/font_fallback_window_smoke.py --rtl-only` and an explicit
 `NEMOTERM_TEST_EXE` when comparing artifacts.
+Use `--font Courier` to exercise bitmap-primary fallback independently of which
+fonts the machine happens to have installed.
 
 All 26 core suites passed locally. The complete new window fixture passed on
 the fixed executable above: peak private WS 4,907,008 bytes (4.907 MB /
@@ -62,6 +71,15 @@ this workload, with no working-set trimming; host and child are separate.
 Single-executable CI recompiles the embedded font and runs the new window
 fixture alongside the existing native groups. Its exact artifact/evidence
 digest is recorded in the CI validation manifest.
+
+After the raster-font correction, local executable
+`5ae1e95a6f610e8cb2e60a02d0e979a28f6d5303ae3b65833b0132f5ce70f5ae`
+passed the complete fixture with both Courier and Sarasa. Courier peaks were
+4,182,016 / 30,339,072 / 5,816,320 bytes (private WS / total WS / private commit);
+Sarasa peaks were 4,939,776 / 29,147,136 / 6,471,680 bytes. Both completed the
+same 32 resize cycles, 6,144 symbols and 5,000 RTL repaints. Each CI pipeline now
+also runs an explicit Courier variant; the single-file validation has 24 checks
+(21 native groups and three font/keyboard variants).
 
 The previously observed intermittent local hyperlink fixture timeouts remain
 unresolved: no source or timing change here is claimed to fix them. They occurred

@@ -105,6 +105,10 @@ jobs:
           python tests/font_fallback_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/font-fallback-observed.json, research/font-fallback*.png test-results/
+          python tests/font_fallback_window_smoke.py --font Courier
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item research/font-fallback-observed.json test-results/font-fallback-courier-observed.json
+          Copy-Item research/font-fallback.png test-results/font-fallback-courier.png
       - name: Test native mouse highlight handshake and pixels
         shell: pwsh
         run: |

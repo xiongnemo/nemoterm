@@ -10,7 +10,7 @@
 - **待核实**：证据不足，不算完成。
 - **集成中**：有独立开发任务，合入和验收之前不算支持。
 
-当前脚本包含二十六组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证。常规 CI 包含二十组原生窗口测试及两次键盘字体/配置变体；单 EXE CI 另验证独立目录和同一映像宿主。截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
+当前脚本包含二十六组核心测试，含终端协议、配置、shell、OpenType cmap 和有界字体回退；`scripts/test.ps1`包含全部目标。核心测试不代替 GDI 像素、系统剪贴板和真实 ConPTY 验证。常规 CI 包含二十组原生窗口测试及三次字体/键盘配置变体；单 EXE CI 另验证独立目录和同一映像宿主。截图、内存与字节证据均有各自的文件哈希和范围，不代表完整兼容认证。
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
