@@ -69,11 +69,15 @@ function Write-Control($value) {
     [IO.File]::WriteAllText($temporary, ($value | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
     Move-Item -LiteralPath $temporary -Destination $control -Force
 }
-function Binding-Controls($dialog, $expected) {
-    Select-Node $dialog 'Bindings' | Out-Null
+function Binding-Controls($dialog, $expected, [string]$page = 'Bindings') {
+    $bindingNode = Select-Node $dialog 'Bindings'
+    if ($page -ne 'Bindings') {
+        $bindingNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+        Select-Node $dialog $page | Out-Null
+    }
     $combos = $dialog.FindAll($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
-    if ($combos.Count -ne 7) { throw 'Missing binding controls' }
-    for ($i=0; $i -lt 7; $i++) {
+    if ($combos.Count -ne $expected.Count) { throw 'Missing binding controls' }
+    for ($i=0; $i -lt $expected.Count; $i++) {
         $combo=$combos[$i]
         if ($combo.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($combo.Current.BoundingRectangle)) { throw 'Binding control clipped' }
         $selected=[ShellSettingsNative]::SendMessageW([IntPtr]$combo.Current.NativeWindowHandle,0x147,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32()
@@ -156,6 +160,13 @@ try {
     for ($i=0;$i -lt 7;$i++) { Set-Combo $combos[$i] $customBindings[$i] }
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle bindings-settings.png
     if ($LASTEXITCODE) { throw 'Bindings settings capture failed' }
+    $defaultShellBindings=@(0,0,0,0,0,0,0,0)
+    $customShellBindings=@(7,45,7,46,7,47,7,48)
+    $shellCombos=Binding-Controls $dialog $defaultShellBindings 'Commands'
+    for ($i=0;$i -lt 8;$i++) { Set-Combo $shellCombos[$i] $customShellBindings[$i] }
+    Binding-Controls $dialog $customShellBindings 'Commands' | Out-Null
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle shell-marks-settings.png
+    if ($LASTEXITCODE) { throw 'Shell integration settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
     Select-Node $dialog 'OpenGL (GPU composition)' | Out-Null
@@ -207,6 +218,10 @@ try {
     if ($values.NemoCopyBinding -ne 0x658 -or $values.NemoPasteBinding -ne 0x559 -or
         $values.NemoCopyPasteBinding -ne 0x35a -or $values.NemoRectangleModifiers -ne 6 -or
         $values.NemoRenderer -ne 1) { throw 'Bindings or renderer did not save' }
+    if ($values.NemoPreviousPromptBinding -ne 0x778 -or $values.NemoNextPromptBinding -ne 0x779 -or
+        $values.NemoSelectCommandBinding -ne 0x77a -or $values.NemoSelectOutputBinding -ne 0x77b) {
+        throw 'Shell integration bindings did not save'
+    }
     $expectedHex = -join ([Text.Encoding]::UTF8.GetBytes($fixtureCwd) | ForEach-Object { $_.ToString('X2') })
     if ($values.NemoStartingDirectoryUtf8Hex -ne $expectedHex -or $values.NemoInheritDirectory -ne 0) { throw 'Unicode directory settings were not saved' }
     if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0 -or $values.NemoWin32Input -ne 1) { throw 'Settings were not saved' }
@@ -249,6 +264,7 @@ try {
     $windowNode=Find-Name $dialog 'Window'
     $windowNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     Binding-Controls $dialog $customBindings | Out-Null
+    Binding-Controls $dialog $customShellBindings 'Commands' | Out-Null
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'OpenGL (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
     Invoke-Button $dialog 'Open'
@@ -279,6 +295,7 @@ try {
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
+        saved_shell_bindings=$customShellBindings;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;

@@ -6,7 +6,7 @@
 static bool mark(NemoShellMarks *m, unsigned osc, const char *s, int x, int y)
 { return nemo_shell_marks_update(m, osc, s, strlen(s), x, y); }
 
-static void setup(Mock *mk, const char *name, int rows, int cols, int history)
+static void shell_setup(Mock *mk, const char *name, int rows, int cols, int history)
 {
     reset(mk); test_context(mk, "%s", name);
     mk->ucsdata->line_codepage = CP_UTF8;
@@ -110,7 +110,7 @@ static void test_rejection_and_budgets(Mock *mk)
 
 static void test_streams_and_reflow(Mock *mk)
 {
-    setup(mk, "fragmented BEL/ST, Unicode ranges and repeated width reflow", 20, 8, 100);
+    shell_setup(mk, "fragmented BEL/ST, Unicode ranges and repeated width reflow", 20, 8, 100);
     Terminal *t = mk->term;
     term_data_fragmented(t, "\033]133;A\a$ \033]133;B\033\\ab\xe4\xb8\xad" "e\xcc\x81"
         "\033]133;C\aXYZ\033]133;D;7\033\\");
@@ -132,7 +132,7 @@ static void test_streams_and_reflow(Mock *mk)
     IEQUAL(t->shell_marks.count, count);
     term_data_fragmented(t, "\033]1337;SetMark\a"); IEQUAL(t->shell_marks.count, count+1);
 
-    setup(mk, "blank endpoints below cursor remain addressable during reflow", 8, 12, 100);
+    shell_setup(mk, "blank endpoints below cursor remain addressable during reflow", 8, 12, 100);
     term_data_fragmented(t, "\033[4;10H\033]133;A\a\033]133;B\a\033[4;12H\033]133;C\a\033[H");
     term_size(t, 12, 4, 100);
     IEQUAL(t->shell_marks.commands[0].point[1].x, 1);
@@ -145,7 +145,7 @@ static void test_streams_and_reflow(Mock *mk)
 
 static void test_history_reset_and_alternate(Mock *mk)
 {
-    setup(mk, "history clipping never resurrects discarded anchors", 3, 12, 3);
+    shell_setup(mk, "history clipping never resurrects discarded anchors", 3, 12, 3);
     Terminal *t = mk->term; NemoShellPoint a, b;
     term_data_fragmented(t, "\033]133;A\a$ \033]133;B\aecho\033]133;C\a");
     for (int i = 0; i < 10; i++) term_data_fragmented(t, "\r\nline");
@@ -162,7 +162,7 @@ static void test_history_reset_and_alternate(Mock *mk)
     for (int i = 0; i < 25; i++) term_data_fragmented(t, "\r\nnext");
     IEQUAL(t->shell_marks.count, 0);
 
-    setup(mk, "alternate screen isolated; soft reset preserves; RIS clears", 8, 12, 100);
+    shell_setup(mk, "alternate screen isolated; soft reset preserves; RIS clears", 8, 12, 100);
     term_data_fragmented(t, "\033]633;A\a$ \033]633;B\aCOMMAND\033]633;C\aOUT\033]633;D;0\a");
     term_data_fragmented(t, "\033[?1049h\033]133;A\aBAD\033]133;D;1\a");
     IEQUAL(t->shell_marks.count, 1);
@@ -176,7 +176,7 @@ static void test_history_reset_and_alternate(Mock *mk)
 
 static void test_scrolling_and_navigation(Mock *mk)
 {
-    setup(mk, "prompt navigation, explicit selection and ordinary scroll reset", 8, 20, 100);
+    shell_setup(mk, "prompt navigation, explicit selection and ordinary scroll reset", 8, 20, 100);
     Terminal *t = mk->term;
     term_data_fragmented(t, "\033]133;A\a>\033]133;B\aone\033]133;C\aONE\033]133;D;0\a\r\n"
         "\033]633;A\a>\033]633;B\atwo\033]633;C\aTWO\033]633;D;0\a\r\n"
@@ -190,7 +190,7 @@ static void test_scrolling_and_navigation(Mock *mk)
     term_scroll(t, -1, 0); IEQUAL(t->shell_mark_selected, 0);
     copy_range(mk, false, L"two");
 
-    setup(mk, "partial vertical and horizontal scroll follows affected anchors", 8, 12, 100);
+    shell_setup(mk, "partial vertical and horizontal scroll follows affected anchors", 8, 12, 100);
     term_data_fragmented(t, "\033[3;3H\033]1337;SetMark\a\033[3;10H\033]1337;SetMark\a"
         "\033[?69h\033[2;6s\033[2;6r\033[2;2H\033[S");
     IEQUAL(t->shell_marks.count, 2);
@@ -201,7 +201,7 @@ static void test_scrolling_and_navigation(Mock *mk)
     term_data_fragmented(t, "\033[?69l\033[2;6r\033[2;1H\033[5M");
     IEQUAL(t->shell_marks.count, 0);
 
-    setup(mk, "progress and erased cells keep position anchors, not secret text copies", 8, 20, 100);
+    shell_setup(mk, "progress and erased cells keep position anchors, not secret text copies", 8, 20, 100);
     term_data_fragmented(t, "\033]133;A\a\033]133;B\acmd\033]133;C\aold\033]133;D;0\a\r\033[3Cnew");
     copy_range(mk, true, L"new");
     term_data_fragmented(t, "\033[2J");

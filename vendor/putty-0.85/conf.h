@@ -1051,6 +1051,22 @@ CONF_OPTION(nemo_rectangle_modifiers,
     DEFAULT_INT(2), /* Ctrl; additional Shift forces local selection */
     SAVE_KEYWORD("NemoRectangleModifiers"),
 )
+CONF_OPTION(nemo_previous_prompt_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoPreviousPromptBinding"),
+)
+CONF_OPTION(nemo_next_prompt_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoNextPromptBinding"),
+)
+CONF_OPTION(nemo_select_command_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoSelectCommandBinding"),
+)
+CONF_OPTION(nemo_select_output_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoSelectOutputBinding"),
+)
 CONF_OPTION(nemo_right_click_paste,
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

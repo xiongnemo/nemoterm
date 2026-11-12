@@ -64,6 +64,10 @@
 
 #define IDM_SPECIAL_MIN 0x0400
 #define IDM_SPECIAL_MAX 0x0800
+#define IDM_PREVPROMPT 0x0900
+#define IDM_NEXTPROMPT 0x0910
+#define IDM_SELECTCOMMAND 0x0920
+#define IDM_SELECTOUTPUT 0x0930
 
 #define IDM_SAVED_MIN 0x1000
 #define IDM_SAVED_MAX 0x5000
@@ -816,6 +820,12 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
             AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
             AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
+            HMENU shell_menu = CreatePopupMenu();
+            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
+            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
+            AppendMenu(shell_menu, MF_ENABLED, IDM_SELECTCOMMAND, "Select &Command");
+            AppendMenu(shell_menu, MF_ENABLED, IDM_SELECTOUTPUT, "Select &Output (Retained History)");
+            AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)shell_menu, "Shell &Integration");
         }
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_OPEN_LINK, "&Open Link");
@@ -2742,6 +2752,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
           }
           case IDM_COPYDIR:
             nemo_copy_directory(wgs);
+            break;
+          case IDM_PREVPROMPT:
+          case IDM_NEXTPROMPT:
+            term_shell_mark_navigate(wgs->term, (wParam & ~0xF) == IDM_PREVPROMPT ? -1 : 1);
+            break;
+          case IDM_SELECTCOMMAND:
+          case IDM_SELECTOUTPUT:
+            term_shell_mark_select(wgs->term, (wParam & ~0xF) == IDM_SELECTOUTPUT);
             break;
           case IDM_COPYALL:
             term_copyall(wgs->term, clips_system, lenof(clips_system));
@@ -4775,7 +4793,16 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             (left_alt ? NEMO_BIND_ALT : 0);
         int action = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_binding), original_key, modifiers) ? 1 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_paste_binding), original_key, modifiers) ? 2 :
-            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_paste_binding), original_key, modifiers) ? 3 : 0;
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_paste_binding), original_key, modifiers) ? 3 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_previous_prompt_binding), original_key, modifiers) ? 4 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_next_prompt_binding), original_key, modifiers) ? 5 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_select_command_binding), original_key, modifiers) ? 6 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_select_output_binding), original_key, modifiers) ? 7 : 0;
+        if (action >= 4) {
+            if (action <= 5) term_shell_mark_navigate(wgs->term, action == 4 ? -1 : 1);
+            else term_shell_mark_select(wgs->term, action == 7);
+            return 0;
+        }
         if (action == 3) {
             term_request_copy(wgs->term, clips_system, lenof(clips_system));
             term_request_paste(wgs->term, CLIP_LOCAL);

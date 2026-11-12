@@ -1,7 +1,8 @@
 # Shell mark implementation notes
 
 Work in progress on `feature/shell-marks`. Core implementation and regression
-tests are in progress; native UI and end-to-end acceptance are pending.
+tests are in progress. Native menu actions and configurable shortcuts are wired;
+cloud end-to-end acceptance is pending.
 Local interactive tests are paused by
 the user's request; use GitHub-hosted execution until the user resumes them.
 
@@ -61,9 +62,13 @@ evidence, not a drop-in data model for the PuTTY core.
 
 ## Required completion checks
 
-Support prompt/output navigation and command/output selection via native menu
-actions and configurable bindings. Do not steal existing application shortcuts
-without an explicit saved binding. Inactive/alternate-screen behavior, duplicate
+The Shell Integration menu offers previous/next prompt and command/output
+selection. `Window / Bindings / Commands` configures their shortcuts; all four
+start disabled. Selection populates the local clipboard and the normal Copy
+shortcut writes it to the system clipboard. Navigation chooses a record;
+ordinary scrolling clears that target and selection then chooses the latest
+usable range. An evicted target falls back to the latest retained record.
+Inactive/alternate-screen behavior, duplicate
 marks, aborted/empty commands and missing/out-of-order events must be deliberate.
 
 Core tests must cover fragmented BEL/ST streams, malformed/overflow input,
@@ -74,3 +79,12 @@ repeated mark churn. Native cloud tests must verify host passthrough, exact copi
 Unicode ranges, pixel selection and memory; hardware/local tests remain paused.
 Keep unsupported 633/1337 subcommands in the protocol ledger rather than labeling
 the entire OSC families complete.
+
+## Validation history
+
+First core revision `0a57a38` passed the Windows core suites in run
+[43231572145](https://github.com/xiongnemo/nemoterm/actions/runs/43231572145).
+The Unix sanitizer job stopped at compilation because the new test's `setup`
+helper conflicted with a Unix declaration. Rename it to `shell_setup` and rerun;
+this was not a sanitizer runtime finding. Native actions, settings and metadata
+churn are added to both cloud test workflows. No new local runtime test was run.

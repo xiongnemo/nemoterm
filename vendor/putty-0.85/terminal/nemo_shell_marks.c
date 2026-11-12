@@ -204,7 +204,7 @@ bool nemo_shell_marks_update(NemoShellMarks *m, unsigned osc,
 void nemo_shell_marks_rows(NemoShellMarks *m, int first, int last, int delta)
 {
     for (size_t i=0; i<m->count;) {
-        NemoShellCommand *c=&m->commands[i]; bool retained=false;
+        NemoShellCommand *c=&m->commands[i]; bool retained=false, lost=false;
         for (int j=0; j<4; j++) {
             NemoShellPoint *p=&c->point[j];
             if (!p->valid) continue;
@@ -212,8 +212,14 @@ void nemo_shell_marks_rows(NemoShellMarks *m, int first, int last, int delta)
             if (p->truncated || y<first) {
                 p->y=first==INT_MIN ? INT_MIN : first-1;
                 p->x=0; p->truncated=true;
-            } else if (y>last) p->valid=false;
+                lost=true;
+            } else if (y>last) { p->valid=false; lost=true; }
             else { p->y=(int)y; retained=true; }
+        }
+        /* Clearing/truncating history must also discard its hidden metadata. */
+        if (lost && c->text) {
+            m->text_bytes-=c->text_bytes; sfree(c->text);
+            c->text=NULL; c->text_bytes=0;
         }
         if (c->finished && !retained) drop(m,i);
         else i++;

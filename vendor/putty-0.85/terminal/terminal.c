@@ -9090,6 +9090,8 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
 bool term_shell_mark_select(Terminal *term, bool output)
 {
     if (term->alt_which) return false;
+    if (!nemo_shell_marks_lookup(&term->shell_marks, term->shell_mark_selected))
+        term->shell_mark_selected = 0;
     NemoShellPoint start, end;
     const NemoShellCommand *c = NULL;
     int first = -count234(term->scrollback);

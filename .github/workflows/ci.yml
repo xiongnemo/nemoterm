@@ -122,6 +122,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/cwd-window-observed.json, research/cwd-window.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test native shell marks, command selection and bounded memory
+        shell: pwsh
+        run: |
+          python tests/shell_marks_window_smoke.py 2>&1 | Tee-Object test-results/shell-marks-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/shell-marks-observed.json, research/shell-marks-selected.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test native mouse highlight handshake and pixels
         shell: pwsh
         run: |
