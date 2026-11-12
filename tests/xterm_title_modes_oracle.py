@@ -46,7 +46,7 @@ def main():
     cases['stack-with-modes'] = reset+title('é中')+CSI+'22t'+CSI+'>0t'+title('4142')+CSI+'23t'+CSI+'>1t'+query
     run_cases(args.xterm, args.output, cases, (
         '-xrm','*allowTitleOps: true','-xrm','*allowWindowOps: true',
-        '-xrm','*disallowedWindowOps:','-xrm','*titleModes: 0'))
+        '-xrm','*disallowedWindowOps:','-xrm','*titleModes: 0'), raw_replies=True)
     v=json.loads(Path(args.output).read_text())
     assert v['cases']['baseline']['reply'].startswith('\x1b]LBASE'+ST+'\x1b]lBASE'+ST)
     assert v['cases']['hex-41']['reply']=='\x1b]LA'+ST+'\x1b]lA'+ST
