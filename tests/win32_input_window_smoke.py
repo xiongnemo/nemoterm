@@ -119,7 +119,11 @@ for vt in (False, True):
                 point=(1+3*ch+ch//2)<<16|(1+2*cw+cw//2)
                 u.SendMessageW(hwnd,0x201,1,point);u.SendMessageW(hwnd,0x202,0,point)
                 expected_mouse=[dict(type='mouse',x=2,y=3,buttons=buttons,control=0,flags=0) for buttons in (1,0)]
-                result=wait_snapshot(current,lambda v:[e for e in v['events'] if e['type']=='mouse']==expected_mouse)
+                # Releasing capture can enqueue a move at the real pointer's
+                # position. Check both button records exactly, retaining those
+                # independent move records in the evidence for diagnosis.
+                result=wait_snapshot(current,lambda v:[e for e in v['events']
+                    if e['type']=='mouse' and e['flags']!=1]==expected_mouse)
                 evidence[phase_name]=result
                 phase('focus-release')
                 key(65,30);u.SendMessageW(hwnd,8,0,0);key(65,30,False)
@@ -179,6 +183,13 @@ for vt in (False, True):
                 saved.restore();saved=None
                 phase('complete','\x1b[?1000;1006;2004l\x1b[2J\x1b[HWin32 input regression passed\r\nConsole records / VT / Unicode / resize / copy-paste\r\n')
                 capture(hwnd,'win32-input-window.png')
+        except Exception as error:
+            evidence.update(failure=repr(error),failed_phase=phase_name,
+                failed_snapshot=read_snapshot(report),
+                executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
+            (root/'research/win32-input-observed.json').write_text(json.dumps(evidence,indent=2))
+            print('Win32 failure snapshot:',evidence['failed_snapshot'])
+            raise
         finally:
             if saved:saved.restore()
             k.CloseHandle(handle)
