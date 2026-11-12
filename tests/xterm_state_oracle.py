@@ -88,7 +88,7 @@ def main():
     run_cases(args.xterm, args.output, cases)
 
 
-def run_cases(xterm, output, cases, extra_args=()):
+def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False):
     with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-oracle-') as temporary:
         folder=Path(temporary);report=folder/'report.json';control=folder/'control.json'
         r,w=os.pipe()
@@ -113,10 +113,22 @@ def run_cases(xterm, output, cases, extra_args=()):
                     if result.get('phase')==name and data.endswith(b'\x1b[0n'):break
                     time.sleep(.01)
                 else:raise AssertionError((name,result))
-                results['cases'][name]=dict(sequence=sequence,reply=data[:-4].decode())
-                print(name,repr(data[:-4].decode()),flush=True)
-            Path(output).write_text(json.dumps(results,indent=2))
+                response = data[:-4]
+                if raw_replies:
+                    # Malformed input can make the reference return invalid
+                    # UTF-8. Preserve exact wire bytes without replacement.
+                    try:
+                        decoded = response.decode('utf-8')
+                    except UnicodeDecodeError:
+                        decoded = None
+                    results['cases'][name] = dict(sequence=sequence,
+                        reply=decoded, reply_hex=response.hex())
+                    print(name, repr(response), flush=True)
+                else:
+                    results['cases'][name]=dict(sequence=sequence,reply=response.decode())
+                    print(name,repr(response.decode()),flush=True)
         finally:
+            Path(output).write_text(json.dumps(results,indent=2))
             terminal.terminate();terminal.wait(timeout=5)
             xvfb.terminate();xvfb.wait(timeout=5)
 

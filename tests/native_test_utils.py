@@ -91,7 +91,22 @@ def wait_for(fn, timeout=8):
         time.sleep(0.015)
     raise AssertionError('Timed out waiting for native fixture')
 
-def capture(hwnd, name=None, return_pixels=False):
+def capture_result(width, height, pixels, name=None, return_pixels=False):
+    """Encode top-down BGRA pixels from either capture backend consistently."""
+    assert 0 < width*height <= 4_194_304 and len(pixels) == width*height*4
+    rgb = bytearray(width*height*3)
+    rgb[0::3], rgb[1::3], rgb[2::3] = pixels[2::4], pixels[1::4], pixels[0::4]
+    if name:
+        scanlines = b''.join(b'\0'+rgb[y*width*3:(y+1)*width*3] for y in range(height))
+        def chunk(kind, data):
+            return struct.pack('>I', len(data))+kind+data+struct.pack('>I', zlib.crc32(kind+data))
+        (root/'research'/name).write_bytes(b'\x89PNG\r\n\x1a\n' +
+            chunk(b'IHDR', struct.pack('>IIBBBBB', width,height,8,2,0,0,0)) +
+            chunk(b'IDAT', zlib.compress(scanlines)) + chunk(b'IEND', b''))
+    return bytes(rgb) if return_pixels else hashlib.sha256(rgb).hexdigest()
+
+
+def capture(hwnd, name=None, return_pixels=False, print_flags=3):
     rect = w.RECT()
     u.GetClientRect(hwnd, c.byref(rect))
     width, height = rect.right, rect.bottom
@@ -105,20 +120,11 @@ def capture(hwnd, name=None, return_pixels=False):
         raise c.WinError()
     previous = g.SelectObject(mem, bitmap)
     try:
-        if not u.PrintWindow(hwnd, mem, 3):
+        if not u.PrintWindow(hwnd, mem, print_flags):
             raise c.WinError()
         g.GdiFlush()
         pixels = c.string_at(bits, width*height*4)
-        rgb = bytearray(width*height*3)
-        rgb[0::3], rgb[1::3], rgb[2::3] = pixels[2::4], pixels[1::4], pixels[0::4]
-        if name:
-            scanlines = b''.join(b'\0'+rgb[y*width*3:(y+1)*width*3] for y in range(height))
-            def chunk(kind, data):
-                return struct.pack('>I', len(data))+kind+data+struct.pack('>I', zlib.crc32(kind+data))
-            (root/'research'/name).write_bytes(b'\x89PNG\r\n\x1a\n' +
-                chunk(b'IHDR', struct.pack('>IIBBBBB', width,height,8,2,0,0,0)) +
-                chunk(b'IDAT', zlib.compress(scanlines)) + chunk(b'IEND', b''))
-        return bytes(rgb) if return_pixels else hashlib.sha256(rgb).hexdigest()
+        return capture_result(width, height, pixels, name, return_pixels)
     finally:
         g.SelectObject(mem, previous)
         g.DeleteObject(bitmap)

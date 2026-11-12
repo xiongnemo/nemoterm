@@ -63,6 +63,7 @@ static const char *const EMPTY_WINDOW_TITLE = "";
  * any locally configured title, and retain each string's original encoding. */
 #define TITLE_STACK_SLOTS 10
 #define TITLE_STACK_STRING_MAX 4096
+#define TITLE_WIRE_MAX 1000
 struct nemo_saved_title {
     char *text[2];                  /* icon, window; NULL differs from empty */
     int codepage[2];
@@ -2230,6 +2231,25 @@ static void nemo_decrqss(Terminal *term)
         put_fmt(reply, ">4;%u", value);
         if (!format && term->modify_keys.ignore) put_fmt(reply, ":%u", term->modify_keys.ignore);
         put_byte(reply, format ? 'f' : 'm');
+    } else if (valid && query[0] == '>' &&
+               !strcmp(query + 1 + strspn(query + 1, "0123456789;"), "t")) {
+        /* XTerm reports all four bits for an omitted first parameter, or
+         * only the requested bit. Remaining numeric parameters are ignored. */
+        const char *p = query + 1;
+        unsigned bit = 0;
+        bool present = *p >= '0' && *p <= '9';
+        while (*p >= '0' && *p <= '9') {
+            if (bit > 3) valid = false;
+            if (valid) bit = bit * 10 + (*p - '0');
+            p++;
+        }
+        if (!present)
+            put_fmt(reply, ">%u;%u;%u;%ut", !!(term->title_modes & 1),
+                    !!(term->title_modes & 2), !!(term->title_modes & 4),
+                    !!(term->title_modes & 8));
+        else if (valid && bit < 4)
+            put_fmt(reply, ">%ut", !!(term->title_modes & (1u << bit)));
+        else valid = false;
     } else {
         valid = false;
     }
@@ -2313,6 +2333,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    term->title_modes = 0;
     nemo_shell_marks_clear(&term->shell_marks);
     term->shell_mark_selected = 0;
     osc52_cancel_query(term);
@@ -5180,6 +5201,183 @@ static void osc52_finish(Terminal *term, bool bel)
     nemo_osc52_cancel(term->osc52);
 }
 
+/* Normalize titles before native display and query. UTF-8 decoding is strict:
+ * unlike XTerm's legacy decoder we never return overlong encodings, surrogates
+ * or values above U+10FFFF. Invalid sequences become '?'. */
+static strbuf *nemo_title_normalize(const char *text, size_t len, int from, int to)
+{
+    strbuf *converted = strbuf_new(), *clean = strbuf_new();
+    if (from == CP_UTF8) {
+        put_data(converted, text, len);
+    } else {
+        strbuf *wide = strbuf_new();
+        if (put_mb_to_wc(wide, from, text, len)) {
+            /* Win32's cached font reverse mapping for CP_UTF8 is a
+             * single-byte map, not a UTF-8 encoder. Encode scalars here. */
+            const wchar_t *wc = (wchar_t *)wide->s;
+            size_t count = wide->len / sizeof(wchar_t);
+            for (size_t i = 0; i < count; i++) {
+                unsigned c = wc[i];
+                if (sizeof(wchar_t) == 2 && c >= 0xd800 && c < 0xdc00 &&
+                    i+1 < count && wc[i+1] >= 0xdc00 && wc[i+1] < 0xe000) {
+                    c = 0x10000 + ((c-0xd800) << 10) + (wc[i+1]-0xdc00);
+                    i++;
+                }
+                if ((c >= 0xd800 && c < 0xe000) || c > 0x10ffff) c = '?';
+                put_utf8_char(converted, c);
+            }
+        }
+        strbuf_free(wide);
+    }
+    BinarySource src[1];
+    BinarySource_BARE_INIT(src, converted->s, converted->len);
+    while (get_avail(src)) {
+        DecodeUTF8Failure err;
+        unsigned c = decode_utf8(src, &err);
+        if (!c) break;
+        if (err != DUTF8_SUCCESS || (c < 32 && c != '\t' && c != '\n') ||
+            (c >= 0x7f && c < 0xa0)) c = '?';
+        put_utf8_char(clean, c);
+    }
+    strbuf_free(converted);
+    if (to != CP_UTF8) {
+        strbuf *wide = strbuf_new(), *encoded = strbuf_new();
+        if (clean->len && put_mb_to_wc(wide, CP_UTF8, clean->s, clean->len))
+            put_wc_to_mb(encoded, to, (wchar_t *)wide->s,
+                         wide->len / sizeof(wchar_t), "?");
+        strbuf_free(wide);
+        strbuf_free(clean);
+        clean = encoded;
+    }
+    return clean;
+}
+
+static int nemo_title_hex(unsigned char c)
+{
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return -1;
+}
+
+static void nemo_set_title(Terminal *term, unsigned kind, const char *text,
+                           size_t len, int codepage)
+{
+    if (term->no_remote_wintitle) return;
+    strbuf *decoded = strbuf_new();
+    if (term->title_modes & 1) {
+        if (!len || len % 2) goto done;
+        for (size_t i = 0; i < len; i += 2) {
+            int hi = nemo_title_hex(text[i]), lo = nemo_title_hex(text[i+1]);
+            if (hi < 0 || lo < 0) goto done;
+            put_byte(decoded, (hi << 4) | lo);
+        }
+        text = decoded->s;
+        len = decoded->len;
+        for (size_t i = 0; i < len; i++) {
+            if ((unsigned char)text[i] < 32) { len = i; break; }
+        }
+    }
+    if (term->title_modes & 4) codepage = CP_UTF8;
+    strbuf *clean = nemo_title_normalize(text, len, codepage, codepage);
+    if (kind == 0 || kind == 1) {
+        sfree(term->icon_title);
+        term->icon_title = dupstr(clean->s);
+        term->icontitle_codepage = codepage;
+        term->win_icon_title_pending = true;
+    }
+    if (kind == 0 || kind == 2 || kind == 21) {
+        sfree(term->window_title);
+        term->window_title = dupstr(clean->s);
+        term->wintitle_codepage = codepage;
+        term->win_title_pending = true;
+    }
+    strbuf_free(clean);
+    term_schedule_update(term);
+  done:
+    strbuf_free(decoded);
+}
+
+static void nemo_query_title(Terminal *term, bool icon)
+{
+    if (!term->ldisc || term->remote_qtitle_action == TITLE_NONE) return;
+    const char *text = term->remote_qtitle_action == TITLE_REAL ?
+        (icon ? term->icon_title : term->window_title) : "";
+    int from = icon ? term->icontitle_codepage : term->wintitle_codepage;
+    int to = (term->title_modes & 8) || in_utf(term) ?
+        CP_UTF8 : term->ucsdata->line_codepage;
+    size_t len;
+    for (len = 0; len < TITLE_STACK_STRING_MAX && text[len]; len++);
+    strbuf *clean = nemo_title_normalize(text, len, from, to);
+    strbuf *reply = strbuf_new();
+    put_dataz(reply, icon ? "\033]L" : "\033]l");
+    if (term->title_modes & 2) {
+        static const char hex[] = "0123456789ABCDEF";
+        for (size_t i = 0; i < clean->len; i++) {
+            unsigned char c = clean->s[i];
+            put_byte(reply, hex[c >> 4]); put_byte(reply, hex[c & 15]);
+        }
+    } else put_data(reply, clean->s, clean->len);
+    put_dataz(reply, "\033\\");
+    ldisc_send(term->ldisc, reply->s, reply->len, false);
+    strbuf_free(reply); strbuf_free(clean);
+}
+
+static bool nemo_osc_title(Terminal *term)
+{
+    return term->osc_type == OSCLIKE_OSC &&
+        (term->esc_args[0] <= 2 || term->esc_args[0] == 21);
+}
+
+static void nemo_query_geometry(Terminal *term, unsigned command)
+{
+    if (!term->ldisc) return;
+    TermWindowGeometry g = {
+        .outer_x = term->winpos_x, .outer_y = term->winpos_y,
+        .outer_width = term->winpixsize_x, .outer_height = term->winpixsize_y,
+        .text_x = term->winpos_x, .text_y = term->winpos_y,
+        .text_width = term->cols * term->cell_width,
+        .text_height = term->rows * term->cell_height,
+        .cell_width = term->cell_width, .cell_height = term->cell_height,
+        .minimised = term->minimised,
+    };
+    if (term->win->vt->get_geometry) {
+        TermWindowGeometry current;
+        if (term->win->vt->get_geometry(term->win, &current)) g = current;
+    }
+    bool second = term->esc_nargs > 1 && term->esc_args[1] == 2;
+    char reply[96];
+    int n = 0;
+    switch (command) {
+      case 11: n = sprintf(reply, "\033[%dt", g.minimised ? 2 : 1); break;
+      case 13:
+        /* XTerm's UParmOf encodes signed positions as unsigned 16-bit CSI
+         * parameters. A literal minus sign is not a CSI parameter byte and
+         * ConPTY rejects that response instead of delivering it to the child. */
+        n = sprintf(reply, "\033[3;%u;%ut", (unsigned)(uint16_t)(second ? g.text_x : g.outer_x),
+                    (unsigned)(uint16_t)(second ? g.text_y : g.outer_y)); break;
+      case 14:
+        n = sprintf(reply, "\033[4;%d;%dt", second ? g.outer_height : g.text_height,
+                    second ? g.outer_width : g.text_width); break;
+      case 15:
+        if (g.screen_width > 0 && g.screen_height > 0)
+            n = sprintf(reply, "\033[5;%d;%dt", g.screen_height, g.screen_width);
+        break;
+      case 16:
+        if (g.cell_width > 0 && g.cell_height > 0)
+            n = sprintf(reply, "\033[6;%d;%dt", g.cell_height, g.cell_width);
+        break;
+      case 18: n = sprintf(reply, "\033[8;%d;%dt", term->rows, term->cols); break;
+      case 19:
+        if (g.screen_width > 0 && g.screen_height > 0 &&
+            g.cell_width > 0 && g.cell_height > 0)
+            n = sprintf(reply, "\033[9;%d;%dt", g.screen_height / g.cell_height,
+                        g.screen_width / g.cell_width);
+        break;
+    }
+    if (n) ldisc_send(term->ldisc, reply, n, false);
+}
+
 static void nemo_title_stack_op(Terminal *term, bool push)
 {
     if (term->no_remote_wintitle) return;
@@ -5231,14 +5429,8 @@ static void nemo_title_stack_op(Terminal *term, bool push)
                 struct nemo_saved_title *source = &stack->slot[
                     (slot+TITLE_STACK_SLOTS-distance) % TITLE_STACK_SLOTS];
                 if (!source->text[i]) continue;
-                char **target = i ? &term->window_title : &term->icon_title;
-                int *cp = i ? &term->wintitle_codepage : &term->icontitle_codepage;
-                sfree(*target);
-                *target = dupstr(source->text[i]);
-                *cp = source->codepage[i];
-                if (i) term->win_title_pending = true;
-                else term->win_icon_title_pending = true;
-                term_schedule_update(term);
+                nemo_set_title(term, i+1, source->text[i],
+                               strlen(source->text[i]), source->codepage[i]);
                 break;
             }
         }
@@ -5288,25 +5480,12 @@ static void do_osc(Terminal *term, bool bel)
             break;
           case 0:
           case 1:
-            if (!term->no_remote_wintitle) {
-                sfree(term->icon_title);
-                term->icon_title = dupstr(term->osc_string);
-                term->icontitle_codepage = term->ucsdata->line_codepage;
-                term->win_icon_title_pending = true;
-                term_schedule_update(term);
-            }
-            if (term->esc_args[0] == 1)
-                break;
-            /* fall through: parameter 0 means set both */
           case 2:
           case 21:
-            if (!term->no_remote_wintitle) {
-                sfree(term->window_title);
-                term->window_title = dupstr(term->osc_string);
-                term->wintitle_codepage = term->ucsdata->line_codepage;
-                term->win_title_pending = true;
-                term_schedule_update(term);
-            }
+            if (!term->osc_overflow && term->osc_strlen <= TITLE_WIRE_MAX)
+                nemo_set_title(term, term->esc_args[0], term->osc_string,
+                               term->osc_strlen, in_utf(term) ?
+                               CP_UTF8 : term->ucsdata->line_codepage);
             break;
         }
         break;
@@ -6541,7 +6720,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             !((c == 'm' && (!term->esc_query || term->esc_query == '>')) ||
                               (c == 'c' && (!term->esc_query || term->esc_query == '>' ||
                                (term->esc_query == '=' && term->compatibility_level != TM_SCOANSI))) ||
-                              (c == 'q' && term->esc_query == '>')))) {
+                              ((c == 'q' || c == 't' || c == 'T') && term->esc_query == '>')))) {
                     /* Reject the complete overflowing sequence, and never
                      * reinterpret colon values as unrelated CSI parameters.
                      * Xterm discards the whole parameter list on unexpected
@@ -6549,6 +6728,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
+                      case ANSI('t', '>'): case ANSI('T', '>'):
+                        if (term->esc_has_subargs) term->title_modes = 0;
+                        else for (int i = 0; i < term->esc_nargs; i++) {
+                            if (!(term->esc_arg_present & (1u << i)) ||
+                                term->esc_args[i] > 3) continue;
+                            unsigned bit = 1u << term->esc_args[i];
+                            if (c == 't') term->title_modes |= bit;
+                            else term->title_modes &= ~bit;
+                        }
+                        break;
                       case ANSI('p', '!'): /* DECSTR; parameters are ignored */
                         nemo_soft_reset(term);
                         break;
@@ -7155,9 +7344,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             compatibility(OTHER);
 
                             switch (term->esc_args[0]) {
-                                int len;
-                                char buf[80];
-                                const char *p;
                               case 1:
                                 term->win_minimise_pending = true;
                                 term->win_minimise_enable = false;
@@ -7221,81 +7407,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     term_schedule_update(term);
                                 }
                                 break;
-                              case 11:
-                                if (term->ldisc)
-                                    ldisc_send(term->ldisc, term->minimised ?
-                                               "\033[2t" : "\033[1t", 4,
-                                               false);
-                                break;
-                              case 13:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[3;%u;%ut",
-                                                  term->winpos_x,
-                                                  term->winpos_y);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 14:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[4;%u;%ut",
-                                                  term->winpixsize_y,
-                                                  term->winpixsize_x);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 18:
-                                if (term->ldisc) {
-                                    len = sprintf(buf, "\033[8;%d;%dt",
-                                                  term->rows, term->cols);
-                                    ldisc_send(term->ldisc, buf, len, false);
-                                }
-                                break;
-                              case 19:
-                                /*
-                                 * Hmmm. Strictly speaking we
-                                 * should return `the size of the
-                                 * screen in characters', but
-                                 * that's not easy: (a) window
-                                 * furniture being what it is it's
-                                 * hard to compute, and (b) in
-                                 * resize-font mode maximising the
-                                 * window wouldn't change the
-                                 * number of characters. *shrug*. I
-                                 * think we'll ignore it for the
-                                 * moment and see if anyone
-                                 * complains, and then ask them
-                                 * what they would like it to do.
-                                 */
+                              case 11: case 13: case 14: case 15:
+                              case 16: case 18: case 19:
+                                nemo_query_geometry(term, term->esc_args[0]);
                                 break;
                               case 20:
-                                if (term->ldisc &&
-                                    term->remote_qtitle_action != TITLE_NONE) {
-                                    if(term->remote_qtitle_action == TITLE_REAL)
-                                        p = term->icon_title;
-                                    else
-                                        p = EMPTY_WINDOW_TITLE;
-                                    len = strlen(p);
-                                    ldisc_send(term->ldisc, "\033]L", 3,
-                                               false);
-                                    ldisc_send(term->ldisc, p, len, false);
-                                    ldisc_send(term->ldisc, "\033\\", 2,
-                                               false);
-                                }
+                                nemo_query_title(term, true);
                                 break;
                               case 21:
-                                if (term->ldisc &&
-                                    term->remote_qtitle_action != TITLE_NONE) {
-                                    if(term->remote_qtitle_action == TITLE_REAL)
-                                        p = term->window_title;
-                                    else
-                                        p = EMPTY_WINDOW_TITLE;
-                                    len = strlen(p);
-                                    ldisc_send(term->ldisc, "\033]l", 3,
-                                               false);
-                                    ldisc_send(term->ldisc, p, len, false);
-                                    ldisc_send(term->ldisc, "\033\\", 2,
-                                               false);
-                                }
+                                nemo_query_title(term, false);
                                 break;
                               case 22: case 23:
                                 nemo_title_stack_op(term, term->esc_args[0] == 22);
@@ -7686,7 +7806,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                  * any ESC that is *not* followed by \.
                  */
 
-                if (c == '\012' || c == '\015' ||
+                if ((!nemo_osc_title(term) && (c == '\012' || c == '\015')) ||
+                    (nemo_osc_title(term) && (c == 0x18 || c == 0x1a)) ||
                     (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52 &&
                      (c == 0x18 || c == 0x1a))) {
                     /* CR or LF aborts */
@@ -7711,7 +7832,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                 }
 
-                if (c == 0xC2 && in_utf(term)) {
+                if (c == 0xC2 && in_utf(term) && !nemo_osc_title(term)) {
                     /* 0xC2 is the UTF-8 character that might
                      * introduce the encoding of C1 ST */
                     term->termstate = OSC_MAYBE_ST_UTF8;

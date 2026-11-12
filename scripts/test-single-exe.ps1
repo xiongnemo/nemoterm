@@ -21,13 +21,18 @@ try {
     $tests = @('single_exe', 'startup_size', 'renderer', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
-        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'titles')
+        'shell_marks', 'shell', 'delegated_console', 'shutdown', 'titles', 'geometry')
     foreach ($name in $tests) {
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'titles') {
+            & python "$Destination/tests/titles_window_smoke.py" --modes 2>&1 | Tee-Object "$Destination/logs/title-modes.log"
+            if ($LASTEXITCODE) { throw 'Single-executable title encoding test failed' }
+            $checks.Add('title-modes')
+        }
         if ($name -eq 'font_fallback') {
             Copy-Item "$Destination/research/font-fallback-observed.json" "$Destination/research/font-fallback-default-observed.json"
             Copy-Item "$Destination/research/font-fallback.png" "$Destination/research/font-fallback-default.png"

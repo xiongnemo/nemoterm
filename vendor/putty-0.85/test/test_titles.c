@@ -3,6 +3,7 @@
 #include "test_terminal.c"
 #undef main
 #include "title_cases.h"
+#include "title_mode_cases.h"
 
 static Mock *title_mock(void)
 {
@@ -29,8 +30,9 @@ static void policies_and_encoding(Mock *mk)
     IEQUAL(mk->term->title_stack == NULL, true);
     term_data_fragmented(mk->term, "\033[23t\033[23;0;9t");
     IEQUAL(mk->term->title_stack == NULL, true); /* reads allocate nothing */
-    mk->ucsdata->line_codepage = 1252;
+    mk->ucsdata->line_codepage = CP_ISO8859_1;
     term_data_fragmented(mk->term, "\033]0;caf\351\007\033[22t");
+    SEQUAL(mk->term->window_title, "caf\351");
     mk->ucsdata->line_codepage = CP_UTF8;
     term_data_fragmented(mk->term, "\033]0;TOP\007");
     conf_set_bool(mk->conf, CONF_no_remote_wintitle, true);
@@ -41,8 +43,8 @@ static void policies_and_encoding(Mock *mk)
     term_reconfig(mk->term, mk->conf);
     term_data_fragmented(mk->term, "\033[23t");
     SEQUAL(mk->term->window_title, "caf\351");
-    IEQUAL(mk->term->wintitle_codepage, 1252);
-    IEQUAL(mk->term->icontitle_codepage, 1252);
+    IEQUAL(mk->term->wintitle_codepage, CP_ISO8859_1);
+    IEQUAL(mk->term->icontitle_codepage, CP_ISO8859_1);
     term_update(mk->term);
     SEQUAL(mk->title->s, "caf\351");
 
@@ -92,9 +94,54 @@ static void bounds_and_recovery(Mock *mk)
     SEQUAL(mk->term->window_title, "BEFORE");
 }
 
+static void modes_and_codepages(Mock *mk)
+{
+    /* Queries encode the stored title for the current protocol mode, even
+     * after a codepage change. Do not use a font reverse map for UTF-8. */
+    mk->ucsdata->line_codepage = CP_ISO8859_1;
+    term_data_fragmented(mk->term, "\033]0;caf\351\007\033[>3t\033[21t");
+    response(mk, "\033]lcaf\303\251\033\\");
+    term_data_fragmented(mk->term, "\033[>3T\033[21t");
+    response(mk, "\033]lcaf\351\033\\");
+    term_data_fragmented(mk->term, "\033[>2t\033]0;caf\303\251\007\033[21t");
+    IEQUAL(mk->term->wintitle_codepage, CP_UTF8);
+    response(mk, "\033]lcaf\351\033\\");
+    term_data_fragmented(mk->term, "\033[>3;1t\033[20t");
+    response(mk, "\033]L636166C3A9\033\\");
+    unsigned saved = mk->term->title_modes;
+    term_reconfig(mk->term, mk->conf);
+    IEQUAL(mk->term->title_modes, saved);
+    for (int policy = TITLE_NONE; policy <= TITLE_EMPTY; policy++) {
+        conf_set_int(mk->conf, CONF_remote_qtitle_action, policy);
+        term_reconfig(mk->term, mk->conf);
+        term_data_fragmented(mk->term, "\033[20t\033[21t");
+        response(mk, policy == TITLE_NONE ? "" : "\033]L\033\\\033]l\033\\");
+    }
+    conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033[>0;1;2;3T");
+    /* Locally configured titles also cannot inject a query terminator. */
+    sfree(mk->term->window_title);
+    mk->term->window_title = dupstr("A\033\\B");
+    mk->term->wintitle_codepage = CP_UTF8;
+    term_data_fragmented(mk->term, "\033[>3t\033[21t");
+    response(mk, "\033]lA?\\B\033\\");
+    term_data_fragmented(mk->term, "\033]0;BASE\007\033]0;A\302\030B\033\\\033[21t");
+    response(mk, "\033]lBASE\033\\");
+}
+
 int main(void)
 {
     bool failed = false;
+    for (unsigned i = 0; i < lenof(title_mode_cases); i++) {
+        Mock *mk = title_mock();
+        test_context(mk, "%s", title_mode_cases[i].name);
+        for (size_t j = 0; j < title_mode_cases[i].length; j++)
+            term_data(mk->term, title_mode_cases[i].sequence+j, 1);
+        response(mk, title_mode_cases[i].reply);
+        failed |= mk->any_test_failed;
+        mock_free(mk);
+    }
     for (unsigned i = 0; i < lenof(title_cases); i++) {
         Mock *mk = title_mock();
         test_context(mk, "%s", title_cases[i].name);
@@ -109,6 +156,10 @@ int main(void)
     mock_free(mk);
     mk = title_mock();
     bounds_and_recovery(mk);
+    failed |= mk->any_test_failed;
+    mock_free(mk);
+    mk = title_mock();
+    modes_and_codepages(mk);
     failed |= mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Title suite FAILED" : "Title suite passed");

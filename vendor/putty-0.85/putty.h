@@ -1623,7 +1623,18 @@ typedef struct rgb {
 struct TermWin {
     const struct TermWinVtable *vt;
 };
+/* Current physical-pixel geometry. Text size excludes padding and window
+ * furniture; screen size describes the monitor containing the window. */
+typedef struct TermWindowGeometry {
+    int outer_x, outer_y, outer_width, outer_height;
+    int text_x, text_y, text_width, text_height;
+    int screen_width, screen_height, cell_width, cell_height;
+    bool minimised;
+} TermWindowGeometry;
+
 struct TermWinVtable {
+    /* Optional, synchronous snapshot; must not draw, resize or allocate. */
+    bool (*get_geometry)(TermWin *, TermWindowGeometry *);
     /* Optional presentation snapshot. Enabling may fail under resource limits.
      * Called without a draw context; disabling must release all saved pixels. */
     bool (*set_synchronized_update)(TermWin *, bool enabled);

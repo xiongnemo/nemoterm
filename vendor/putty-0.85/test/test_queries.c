@@ -201,6 +201,53 @@ static void test_dcs_recovery(Mock *mk)
     IEQUAL(mk->term->image_bytes, bytes);
 }
 
+static TermWindowGeometry geometry;
+static bool mock_geometry(TermWin *tw, TermWindowGeometry *result)
+{
+    *result = geometry;
+    return true;
+}
+
+static void test_geometry(Mock *mk)
+{
+    reset(mk); test_context(mk, "current geometry and independent XTerm shape");
+    TermWinVtable vt = mock_termwin_vt;
+    vt.get_geometry = mock_geometry;
+    mk->tw.vt = &vt;
+    geometry = (TermWindowGeometry) {
+        .outer_x = 1, .outer_y = 1, .outer_width = 484, .outer_height = 316,
+        .text_x = 2, .text_y = 2, .text_width = 480, .text_height = 312,
+        .screen_width = 1024, .screen_height = 768,
+        .cell_width = 6, .cell_height = 13,
+    };
+    /* Exact geometry query captured in independent XTerm run 43244992756. */
+    term_data_fragmented(mk->term, "\033[11t\033[13t\033[13;2t\033[14t"
+        "\033[14;2t\033[15t\033[16t\033[18t\033[19t");
+    response(mk, "\033[1t\033[3;1;1t\033[3;2;2t\033[4;312;480t"
+        "\033[4;316;484t\033[5;768;1024t\033[6;13;6t\033[8;24;80t\033[9;59;170t");
+    /* Windows virtual-screen coordinates use XTerm's 16-bit wire encoding. */
+    geometry.outer_x = -300; geometry.outer_y = -40;
+    geometry.text_x = -298; geometry.text_y = -38;
+    geometry.minimised = true;
+    term_data_fragmented(mk->term, "\033[13t\033[13;2t\033[11t");
+    response(mk, "\033[3;65236;65496t\033[3;65238;65498t\033[2t");
+    term_data_fragmented(mk->term, "\033[13;0t\033[13;9t\033[14;0t\033[14;9t");
+    response(mk, "\033[3;65236;65496t\033[3;65236;65496t\033[4;312;480t\033[4;312;480t");
+    geometry.screen_width = 3840; geometry.screen_height = 2160;
+    geometry.cell_width = 11; geometry.cell_height = 23;
+    term_data_fragmented(mk->term, "\033[15;99t\033[16t\033[19t");
+    response(mk, "\033[5;2160;3840t\033[6;23;11t\033[9;93;349t");
+    geometry.cell_width = geometry.cell_height = 0;
+    term_data_fragmented(mk->term, "\033[16t\033[19t\033[13:2t\033[14;2\030X\033[5n");
+    response(mk, "\033[0n");
+    mk->tw.vt = &mock_termwin_vt;
+    term_notify_window_pos(mk->term, -3, -7);
+    term_notify_window_size_pixels(mk->term, 800, 500);
+    term_set_cell_size(mk->term, 8, 16);
+    term_data_fragmented(mk->term, "\033[13t\033[14t\033[14;2t\033[15t\033[16t\033[19t");
+    response(mk, "\033[3;65533;65529t\033[4;384;640t\033[4;500;800t\033[6;16;8t");
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -210,6 +257,7 @@ int main(void)
     test_cursor(mk);
     test_state_strings(mk);
     test_dcs_recovery(mk);
+    test_geometry(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

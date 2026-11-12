@@ -1,0 +1,47 @@
+{
+  "executable_sha256": "9d8133f2cf4bbaa709d0e6b98014359c485125364d06a2c47cb91f1f55c5f909",
+  "checks": [
+    {
+      "oversized": false,
+      "columns": 160,
+      "rows": 48,
+      "cell": [
+        8,
+        20
+      ],
+      "memory": {
+        "private_ws": 4726784,
+        "total_ws": 23175168,
+        "private_commit": 5881856,
+        "peak_total_ws": 23212032
+      },
+      "workarea": [
+        0,
+        0,
+        1920,
+        1040
+      ]
+    },
+    {
+      "oversized": true,
+      "columns": 117,
+      "rows": 24,
+      "cell": [
+        16,
+        40
+      ],
+      "memory": {
+        "private_ws": 3981312,
+        "total_ws": 22433792,
+        "private_commit": 5128192,
+        "peak_total_ws": 22532096
+      },
+      "workarea": [
+        0,
+        0,
+        1920,
+        1040
+      ]
+    }
+  ]
+}

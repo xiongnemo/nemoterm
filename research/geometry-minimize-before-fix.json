@@ -1,0 +1,393 @@
+{
+  "executable_sha256": "e4bc4f6b896eb24c80b057eda2c2c1073ec0583dd7b720bc3637492d54d84b18",
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "modes": [
+    {
+      "requested_renderer": 1,
+      "checks": [
+        {
+          "name": "initial",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              26,
+              26
+            ],
+            [
+              3,
+              35,
+              58
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 31342592,
+            "total_ws": 63811584,
+            "private_commit": 88219648
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            26,
+            26,
+            701,
+            547
+          ]
+        },
+        {
+          "name": "negative-position",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              65376,
+              65446
+            ],
+            [
+              3,
+              65385,
+              65478
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 31412224,
+            "total_ws": 63885312,
+            "private_commit": 88219648
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            -160,
+            -90,
+            515,
+            431
+          ]
+        },
+        {
+          "name": "relocated",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              480,
+              640
+            ],
+            [
+              4,
+              521,
+              675
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              24,
+              80
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 31436800,
+            "total_ws": 63918080,
+            "private_commit": 88219648
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            80,
+            24
+          ],
+          "native_outer": [
+            40,
+            40,
+            715,
+            561
+          ]
+        },
+        {
+          "name": "resized-grid",
+          "replies": [
+            [
+              1
+            ],
+            [
+              3,
+              40,
+              40
+            ],
+            [
+              3,
+              49,
+              72
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              561,
+              699
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 31760384,
+            "total_ws": 64270336,
+            "private_commit": 91967488
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            40,
+            40,
+            739,
+            601
+          ]
+        },
+        {
+          "name": "minimized",
+          "replies": [
+            [
+              2
+            ],
+            [
+              3,
+              33536,
+              33536
+            ],
+            [
+              3,
+              33537,
+              33537
+            ],
+            [
+              4,
+              520,
+              664
+            ],
+            [
+              4,
+              28,
+              160
+            ],
+            [
+              5,
+              1080,
+              1920
+            ],
+            [
+              6,
+              20,
+              8
+            ],
+            [
+              8,
+              26,
+              83
+            ],
+            [
+              9,
+              54,
+              240
+            ]
+          ],
+          "memory": {
+            "private_ws": 30478336,
+            "total_ws": 63119360,
+            "private_commit": 89149440
+          },
+          "cell": [
+            8,
+            20
+          ],
+          "text_offset": [
+            1,
+            1
+          ],
+          "child_grid": [
+            83,
+            26
+          ],
+          "native_outer": [
+            -32000,
+            -32000,
+            -31840,
+            -31972
+          ]
+        }
+      ],
+      "active_renderer": 2,
+      "capture_method": "owned",
+      "probe": [],
+      "cell": [
+        8,
+        20
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "pixel_failure_colors": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          347652
+        ]
+      ],
+      "renderer_after_failure": 1
+    }
+  ],
+  "runtime_files": {
+    "OpenConsole.exe": "c5970125f2c171a86ff33a50d37357d03dfc3ecfe0bed7832b76bda642629995",
+    "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+  },
+  "error": "AssertionError('Timed out waiting for native fixture')"
+}

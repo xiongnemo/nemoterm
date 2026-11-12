@@ -480,6 +480,7 @@ struct terminal_tag {
     char *window_title, *icon_title;
     int wintitle_codepage, icontitle_codepage;
     struct nemo_title_stack *title_stack;
+    unsigned title_modes;             /* XTSMTITLE bits 0..3, shared by screens */
     bool minimised;
 
     BidiContext *bidi_ctx;
@@ -499,7 +500,8 @@ struct terminal_tag {
     /* The composite palette that we make out of the above */
     rgb palette[OSC4_NCOLOURS];
 
-    unsigned winpos_x, winpos_y, winpixsize_x, winpixsize_y;
+    int winpos_x, winpos_y;
+    unsigned winpixsize_x, winpixsize_y;
 
     /*
      * Assorted 'pending' flags for ancillary window changes performed

@@ -17,6 +17,13 @@ k.GetConsoleMode.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
 k.ReadFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 stdin = k.GetStdHandle(-10)
+stdout = k.GetStdHandle(-11)
+old_output = w.DWORD()
+exact_output = os.environ.get('NEMOTERM_TEST_EXACT_OUTPUT') == '1'
+if exact_output:
+    if not k.GetConsoleMode(stdout, c.byref(old_output)) or not k.SetConsoleMode(
+            stdout, old_output.value | 0x4 | 0x8):
+        raise c.WinError()
 old_input_cp = k.GetConsoleCP()
 if os.environ.get("NEMOTERM_TEST_UTF8_INPUT") == "1":
     assert k.SetConsoleCP(65001)
@@ -29,7 +36,8 @@ def reader():
     while k.ReadFile(stdin, buf, len(buf), c.byref(n), None) and n.value:
         data.extend(buf.raw[:n.value])
 threading.Thread(target=reader, daemon=True).start()
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8',
+    newline='' if exact_output else None)
 phase = None
 request = {}
 responded = set()
@@ -79,3 +87,5 @@ except Exception:
 finally:
     k.SetConsoleMode(stdin, old.value)
     k.SetConsoleCP(old_input_cp)
+    if exact_output:
+        k.SetConsoleMode(stdout, old_output.value)
