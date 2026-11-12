@@ -155,7 +155,15 @@ set_target_properties(puttygen PROPERTIES WIN32_EXECUTABLE ON)
 installed_program(puttygen)
 
 if(HAVE_CONPTY)
-  add_executable(pterm
+  option(NEMOTERM_SINGLE_EXE "Link frontend into the OpenConsole host executable" OFF)
+  if(NEMOTERM_SINGLE_EXE)
+    add_library(pterm STATIC)
+    target_compile_definitions(pterm PRIVATE NEMOTERM_SINGLE_EXE WinMain=NemoGuiMain)
+  else()
+    add_executable(pterm)
+    target_sources(pterm PRIVATE pterm.rc)
+  endif()
+  target_sources(pterm PRIVATE
     window.c
     pterm.c
     help.c
@@ -165,15 +173,16 @@ if(HAVE_CONPTY)
     ${CMAKE_SOURCE_DIR}/stubs/no-console.c
     ${CMAKE_SOURCE_DIR}/stubs/no-rand.c
     ${CMAKE_SOURCE_DIR}/stubs/no-dit.c
-    ${CMAKE_SOURCE_DIR}/proxy/nosshproxy.c
-    pterm.rc)
+    ${CMAKE_SOURCE_DIR}/proxy/nosshproxy.c)
   be_list(pterm Nemoterm)
   add_dependencies(pterm generated_licence_h)
   target_link_libraries(pterm
     guiterminal guimisc eventloop settings network utils
     ${platform_libraries})
   set_target_properties(pterm PROPERTIES WIN32_EXECUTABLE ON OUTPUT_NAME nemoterm)
-  installed_program(pterm)
+  if(NOT NEMOTERM_SINGLE_EXE)
+    installed_program(pterm)
+  endif()
 else()
   message("ConPTY not available; cannot build Windows pterm")
 endif()
@@ -312,6 +321,15 @@ add_executable(test_state_control
   ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
   no-jump-list.c)
 target_link_libraries(test_state_control
+  guiterminal settings eventloop utils ${platform_libraries})
+
+add_executable(test_selective_erase
+  ${CMAKE_SOURCE_DIR}/test/test_selective_erase.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  no-jump-list.c)
+target_link_libraries(test_selective_erase
   guiterminal settings eventloop utils ${platform_libraries})
 
 add_executable(test_reflow

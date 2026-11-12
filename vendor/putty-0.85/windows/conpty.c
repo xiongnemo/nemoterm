@@ -34,10 +34,23 @@ static const char *conpty_api_info;
 static const char *conpty_api_error;
 static DWORD conpty_api_winerror;
 
+#ifdef NEMOTERM_SINGLE_EXE
+HRESULT WINAPI ConptyCreatePseudoConsole(COORD, HANDLE, HANDLE, DWORD, HPCON *);
+HRESULT WINAPI ConptyResizePseudoConsole(HPCON, COORD);
+void WINAPI ConptyClosePseudoConsole(HPCON);
+#endif
+
 /* The NuGet conpty.h exports the same ABI with a Conpty prefix. Never
  * mix functions from that DLL and kernel32 for a single HPCON. */
 static int load_bundled_conpty(void)
 {
+#ifdef NEMOTERM_SINGLE_EXE
+    p_CreatePseudoConsole = ConptyCreatePseudoConsole;
+    p_ResizePseudoConsole = ConptyResizePseudoConsole;
+    p_ClosePseudoConsole = ConptyClosePseudoConsole;
+    conpty_api_info = "ConPTY runtime: statically linked; same executable hosts console";
+    return 1;
+#else
     wchar_t *path = snewn(32768, wchar_t);
     DWORD len = GetModuleFileNameW(NULL, path, 32768);
     if (!len || len >= 32768 - 32) {
@@ -100,6 +113,7 @@ static int load_bundled_conpty(void)
     conpty_api_info = "ConPTY runtime: bundled conpty.dll and OpenConsole.exe";
     /* Keep the module loaded for the lifetime of all pseudoconsole handles. */
     return 1;
+#endif
 }
 
 static bool init_conpty_api(void)

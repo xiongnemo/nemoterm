@@ -99,7 +99,7 @@ static void test_state_strings(Mock *mk)
 static void test_dcs_recovery(Mock *mk)
 {
     reset(mk); test_context(mk, "bounded query, cancellation and parser recovery");
-    term_data_fragmented(mk->term, "\033P$q\033\\\033P$qunknown\033\\\033P$q\"q\033\\");
+    term_data_fragmented(mk->term, "\033P$q\033\\\033P$qunknown\033\\\033P$q\"p\033\\");
     response(mk, "\033P0$r\033\\\033P0$r\033\\\033P0$r\033\\");
     term_data_fragmented(mk->term, "\033P$q");
     for (int i = 0; i < 10000; i++) term_data(mk->term, "m", 1);

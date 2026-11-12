@@ -85,17 +85,21 @@ def main():
         'saved-8-ignored':'\x1bc\x1b[?8h\x1b[?8s\x1b[?8l\x1b[?8r\x1b[?8$p',
         'soft-arguments':'\x1bc\x1b[?1h\x1b[123!p\x1b[?1$p',
     }
-    with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-state-') as temporary:
+    run_cases(args.xterm, args.output, cases)
+
+
+def run_cases(xterm, output, cases, extra_args=()):
+    with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-oracle-') as temporary:
         folder=Path(temporary);report=folder/'report.json';control=folder/'control.json'
         r,w=os.pipe()
         xvfb=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','1024x768x24','-nolisten','tcp'],
                               pass_fds=[w],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         os.close(w);display=os.read(r,100).decode().strip();os.close(r)
-        terminal=subprocess.Popen([args.xterm,'-geometry','80x24','-u8','-e',sys.executable,
+        terminal=subprocess.Popen([xterm,'-geometry','80x24','-u8',*extra_args,'-e',sys.executable,
             str(Path(__file__).resolve()),'--child',str(report),str(control)],
             env=dict(os.environ,DISPLAY=':'+display),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-        results=dict(version=subprocess.check_output([args.xterm,'-version'],text=True).strip(),
-            executable_sha256=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(),cases={})
+        results=dict(version=subprocess.check_output([xterm,'-version'],text=True).strip(),
+            executable_sha256=hashlib.sha256(Path(xterm).read_bytes()).hexdigest(),cases={})
         try:
             deadline=time.monotonic()+8
             while not report.exists() and time.monotonic()<deadline:time.sleep(.01)
@@ -111,7 +115,7 @@ def main():
                 else:raise AssertionError((name,result))
                 results['cases'][name]=dict(sequence=sequence,reply=data[:-4].decode())
                 print(name,repr(data[:-4].decode()),flush=True)
-            Path(args.output).write_text(json.dumps(results,indent=2))
+            Path(output).write_text(json.dumps(results,indent=2))
         finally:
             terminal.terminate();terminal.wait(timeout=5)
             xvfb.terminate();xvfb.wait(timeout=5)

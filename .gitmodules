@@ -1,0 +1,3 @@
+[submodule "vendor/microsoft-terminal"]
+	path = vendor/microsoft-terminal
+	url = https://github.com/microsoft/terminal.git

@@ -6,6 +6,12 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
 ## Acceptance
 
 * Native C/Win32; no WebView/browser runtime.
+* One final executable file. Reuse pinned open-source OpenConsole/ConPTY sources;
+  a second process of the same image is allowed by the implementation design,
+  with its memory reported separately. Do not call a sidecar bundle a single EXE.
+* Startup shell choice and persisted default: detect pwsh, Windows PowerShell,
+  BusyBox ash, Git Bash and WSL Bash with installed distributions, retaining cmd
+  as a fallback. Detection and launch validation are still active work.
 * Per-window **private working set <20 MB**; total working set approximately 50 MB,
   clarified by user 2026-11-12. Record bytes, decimal MB and MiB; no forced working-set trimming.
   Child shell, ConPTY host and agent must be reported separately, not silently excluded from totals.

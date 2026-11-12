@@ -1,0 +1,65 @@
+{
+  "protected-scene": {
+    "reply": "1b503024721b5c"
+  },
+  "selective-display": {
+    "reply": "1b503124723022711b5c1b503024721b5c",
+    "red_pixels": 960,
+    "copied": "KEEP\u4e2d\r\n\r\n\r\n\r\n"
+  },
+  "shift-copy": {
+    "reply": "1b503024721b5c",
+    "copied": "KEEP\u4e2d"
+  },
+  "protected-after-resize": {
+    "reply": "1b503024721b5c",
+    "red_pixels": 960,
+    "dimensions": {
+      "phase": "protected-after-resize",
+      "hex": "1b503024721b5c",
+      "columns": 60,
+      "rows": 16,
+      "input_mode": 640
+    }
+  },
+  "alternate-soft-reset": {
+    "reply": "1b503024721b5c",
+    "copied": "KEEP\u4e2d\r\n\r\n\r\n\r\nALT"
+  },
+  "return-main": {
+    "reply": "1b503024721b5c"
+  },
+  "rectangle-reference": {
+    "reply": "1b503024721b5c"
+  },
+  "selective-rectangle": {
+    "reply": "1b503024721b5c",
+    "pixel_sha256": "a41486cf094a010969b33ff064ed297a43bcb3f52de0f91dbe8840a7d7fd09aa"
+  },
+  "frozen-erase": {
+    "reply": "1b503024721b5c"
+  },
+  "released-erase": {
+    "reply": "1b503024721b5c"
+  },
+  "ordinary-erases-protected": {
+    "reply": "1b503024721b5c"
+  },
+  "history-stress": {
+    "reply": "1b503124723022711b5c1b503024721b5c"
+  },
+  "stress-query": {
+    "reply": "1b503124723122711b5c1b503024721b5c"
+  },
+  "peak_private_ws": 5672960,
+  "peak_total_ws": 21803008,
+  "peak_private_commit": 7319552,
+  "executable_sha256": "2da2d1c060b9936e9b8f708803100c64c355172aa9022b038c8642da24b54419",
+  "last_snapshot": {
+    "phase": "stress-query",
+    "hex": "1b503124723122711b5c1b503024721b5c",
+    "columns": 60,
+    "rows": 16,
+    "input_mode": 640
+  }
+}

@@ -386,6 +386,22 @@ static INT_PTR CALLBACK LicenceProc(HWND hwnd, UINT msg,
         SetWindowText(hwnd, str);
         sfree(str);
         SetDlgItemText(hwnd, IDA_TEXT, LICENCE_TEXT("\r\n\r\n"));
+        HRSRC resource = FindResourceW(hinst, MAKEINTRESOURCEW(40000), MAKEINTRESOURCEW(10));
+        if (resource) {
+            HGLOBAL loaded = LoadResource(hinst, resource);
+            const char *bytes = loaded ? LockResource(loaded) : NULL;
+            DWORD length = SizeofResource(hinst, resource);
+            if (bytes && length < INT_MAX) {
+                char *text = snewn((size_t)length + 1, char);
+                memcpy(text, bytes, length);
+                text[length] = '\0';
+                wchar_t *wide = dup_mb_to_wc(CP_UTF8, text);
+                SendDlgItemMessage(hwnd, IDA_TEXT, EM_SETLIMITTEXT, length + 1, 0);
+                SetDlgItemTextW(hwnd, IDA_TEXT, wide);
+                sfree(wide);
+                sfree(text);
+            }
+        }
         return 1;
       }
       case WM_COMMAND:

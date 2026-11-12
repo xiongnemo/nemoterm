@@ -1,0 +1,54 @@
+name: Single executable from source
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: single-exe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  single-exe:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          submodules: true
+      - name: Build frontend and OpenConsole into the same image
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 2>&1 | Tee-Object build-single-exe.log
+      - name: Verify isolated executable with native protocol and pixel tests
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path build/single-exe-dist/nemoterm.exe).Path
+          Remove-Item research/selective-erase-observed.json, research/selective-erase-*.png -ErrorAction SilentlyContinue
+          python tests/selective_erase_window_smoke.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Upload single executable
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: nemoterm-single-exe-x64-${{ github.sha }}
+          path: build/single-exe-dist/nemoterm.exe
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload build and native test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: single-exe-evidence-${{ github.sha }}
+          path: |
+            build-single-exe.log
+            build/single-exe.binlog
+            research/selective-erase-observed.json
+            research/selective-erase-*.png
+          if-no-files-found: warn
