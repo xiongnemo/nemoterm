@@ -48,6 +48,7 @@ u.GetMenuBarInfo.argtypes = [w.HWND, w.LONG, w.LONG, c.POINTER(MenuBarInfo)]
 u.GetMenuState.argtypes = [w.HANDLE, w.UINT, w.UINT]
 u.GetMenuStringW.argtypes = [w.HANDLE, w.UINT, w.LPWSTR, c.c_int, w.UINT]
 u.GetMenuItemCount.argtypes = [w.HANDLE]
+u.GetMenuItemID.argtypes, u.GetMenuItemID.restype = [w.HANDLE, c.c_int], w.UINT
 
 def popup_menu(pid):
     result = []
@@ -62,7 +63,8 @@ def popup_menu(pid):
             for index in range(u.GetMenuItemCount(info.menu)):
                 text = c.create_unicode_buffer(256)
                 u.GetMenuStringW(info.menu, index, text, len(text), 0x400)
-                items.append((text.value, u.GetMenuState(info.menu, index, 0x400)))
+                items.append((text.value, u.GetMenuState(info.menu, index, 0x400),
+                              u.GetMenuItemID(info.menu, index)))
             result.append((hwnd, items))
         return True
     u.EnumWindows(visit, 0)
@@ -286,7 +288,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             except AssertionError:
                 capture(hwnd, 'hyperlink-failed.png')
                 raise AssertionError(('hover', uri, last, cw, ch, current()))
-        def menu(index, can_open=True, clipboard_hold=0):
+        def menu(command, can_open=True, clipboard_hold=0):
             # Put the owned popup away from the real pointer so desktop mouse
             # movement cannot replace its keyboard-selected menu item.
             cursor, outer = w.POINT(), w.RECT()
@@ -299,7 +301,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             wait_for(lambda: gui_state(hwnd).menu == hwnd)
             time.sleep(.12)  # let the popup finish layout before navigation
             visible = wait_for(lambda: popup_menu(process.pid))
-            assert bool(visible[1][3][1] & 3) == (not can_open), visible
+            # Resolve stable command IDs: new menu groups must not redirect a
+            # copy test into Open Link just because their row positions change.
+            index = next(i for i, item in enumerate(visible[1]) if item[2] == command)
+            open_index = next(i for i, item in enumerate(visible[1]) if item[2] == 0x1c0)
+            assert bool(visible[1][open_index][1] & 3) == (not can_open), visible
             assert not (visible[1][index][1] & 3), visible
             # Some Windows popup menus initially have no selected item; Home
             # need not select item zero. Navigate against the actual highlight.
@@ -398,10 +404,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                 assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), received
                 evidence['mouse-'+str(mode)] = received.hex()
             phase('menu-copy', scene)
-            menu(4)
+            menu(0x1d0)
             wait_for(lambda: clipboard_text(hwnd) == uri)
             evidence['copied_address'] = uri
-            before = len(launched()); menu(3)
+            before = len(launched()); menu(0x1c0)
             wait_for(lambda: len(launched()) == before+1)
             evidence['menu_open'] = True
 
@@ -425,7 +431,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             received = data()
             assert not re.search(rb'\x1b\[<(?!35;)', received), received
             evidence['shift_copy'] = 'LINK'
-            menu(4)
+            menu(0x1d0)
             wait_for(lambda: clipboard_text(hwnd) == uri)
             def copy_selected():
                 msg(0x204, keys=2); msg(0x205)
@@ -435,16 +441,16 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             assert .025 <= elapsed < .25, elapsed
             evidence['clipboard_transient_lock_seconds'] = elapsed
             evidence['copy_address_preserves_selection'] = True
-            menu(4)
+            menu(0x1d0)
             wait_for(lambda: clipboard_text(hwnd) == uri)
             elapsed = clipboard_contention(copy_selected, .4)
             assert .07 <= elapsed < .3 and clipboard_text(hwnd) == uri, elapsed
             copy_selected()
             assert clipboard_text(hwnd) == 'LINK', clipboard_text(hwnd)
             evidence['clipboard_lock_timeout_seconds'] = elapsed
-            menu(4)
+            menu(0x1d0)
             wait_for(lambda: clipboard_text(hwnd) == uri)
-            menu(1, clipboard_hold=.4)  # Copy and Paste must use the label.
+            menu(0x1b0, clipboard_hold=.4)  # Copy and Paste must use the label.
             received = bytes.fromhex(wait_snapshot(current, lambda v:
                 b'LINK' in bytes.fromhex(v.get('hex', '')))['hex'])
             assert uri.encode() not in received and clipboard_text(hwnd) == uri, received
@@ -530,7 +536,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             phase('remote-file', '\x1b[2;2H'+link(foreign, 'LINK'))
             tip, text = hover(foreign)
             assert 'Remote file link' in text, text
-            menu(4, can_open=False)
+            menu(0x1d0, can_open=False)
             wait_for(lambda: clipboard_text(hwnd) == foreign)
             evidence['remote_file_copy_only'] = foreign
 

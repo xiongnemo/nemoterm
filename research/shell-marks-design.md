@@ -52,7 +52,8 @@ or move them. Selection reads the current cells at these positions. Removed rows
 invalidate anchors; lost history permanently clips them, even after enlargement.
 RIS clears the table; DECSTR retains it. Alternate-screen marks are ignored and
 main-screen marks survive a TUI visit. A clipped range contains retained history
-only; a native indication of truncation remains a UI requirement.
+only. Native selection menu items display `(Truncated)` for clipped ranges and
+are disabled when there is no usable range, including on the alternate screen.
 
 Alternative: semantic fields in `termchar` naturally follow copying/reflow but
 increase every cell and require compression/equality changes. They do not alone
@@ -88,3 +89,13 @@ The Unix sanitizer job stopped at compilation because the new test's `setup`
 helper conflicted with a Unix declaration. Rename it to `shell_setup` and rerun;
 this was not a sanitizer runtime finding. Native actions, settings and metadata
 churn are added to both cloud test workflows. No new local runtime test was run.
+
+Revision `30602ae` passed the core and sanitizer suites and the new Windows
+native shell-mark test. Both full workflows then stopped at the existing
+hyperlink menu test: its hard-coded row 4 selected Open Link after the new
+submenu shifted the entries. Preserve the established copy/link group order
+and resolve native test targets by command ID before navigating the real menu.
+This was a fixture targeting failure, not evidence of corrupted link metadata.
+Runs: [core 43232871703](https://github.com/xiongnemo/nemoterm/actions/runs/43232871703),
+[single 43232872026](https://github.com/xiongnemo/nemoterm/actions/runs/43232872026).
+The single EXE from this failed run remains unverified and is not promoted.

@@ -2521,7 +2521,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
 
     ctrl_settitle(b, "Window/Bindings/Commands", "Shell integration shortcuts");
     s = ctrl_getset(b, "Window/Bindings/Commands", "keys", "Commands and output");
-    ctrl_text(s, "Requires shell prompt markers (OSC 133 or 633). Shortcuts start disabled; use the Shell Integration menu or assign keys here.", HELPCTX(no_help));
+    ctrl_text(s, "Requires a shell configured to emit prompt markers. Shortcuts start disabled; use the Shell Integration menu or assign keys here.", HELPCTX(no_help));
     const char *const shell_binding_labels[][2] = {
         {"Previous prompt modifiers", "Previous prompt key"},
         {"Next prompt modifiers", "Next prompt key"},
@@ -2538,7 +2538,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     }
     ctrl_columns(s, 1, 100);
     ctrl_text(s, "Selection uses the prompt you navigated to, or the latest completed range. Only retained history is included. Copy with your normal Copy shortcut.", HELPCTX(no_help));
-    ctrl_text(s, "Markers do not run commands or modify shell profiles. These actions are inactive on the alternate screen.", HELPCTX(no_help));
+    ctrl_text(s, "These actions are inactive while a full-screen application uses the alternate screen.", HELPCTX(no_help));
 
     ctrl_settitle(b, "Window/Selection", "Options controlling copy and paste");
 

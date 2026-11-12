@@ -69,6 +69,28 @@ static void test_protocol(Mock *mk)
     nemo_shell_marks_clear(&m);
 }
 
+static void test_clipped_navigation(Mock *mk)
+{
+    test_context(mk, "navigation falls back to retained command/output anchors");
+    NemoShellMarks m = {0}; NemoShellPoint p;
+    mark(&m, 133, "A", 0, 0); mark(&m, 133, "B", 2, 1);
+    mark(&m, 633, "E;do-not-retain-cleared-command", 2, 1);
+    mark(&m, 133, "C", 0, 2); mark(&m, 133, "D;0", 4, 3);
+    nemo_shell_marks_rows(&m, 0, 7, -1);
+    IEQUAL(m.commands[0].point[0].truncated, true);
+    IEQUAL(m.commands[0].text == NULL, true); IEQUAL(m.text_bytes, 0);
+    IEQUAL(nemo_shell_marks_neighbour(&m, -1, 0, 7, 0, 7, &p) == m.commands[0].id, true);
+    IEQUAL(p.x, 2); IEQUAL(p.y, 0);
+    nemo_shell_marks_rows(&m, 0, 7, -1);
+    IEQUAL(nemo_shell_marks_neighbour(&m, -1, 0, 7, 0, 7, &p) == m.commands[0].id, true);
+    IEQUAL(p.x, 0); IEQUAL(p.y, 0);
+    nemo_shell_marks_rows(&m, INT_MIN+1, INT_MAX, 3);
+    nemo_shell_marks_rows(&m, 0, 7, 0);
+    IEQUAL(m.commands[0].point[0].y, -1);
+    IEQUAL(m.commands[0].point[1].y, -1);
+    nemo_shell_marks_clear(&m);
+}
+
 static void test_rejection_and_budgets(Mock *mk)
 {
     test_context(mk, "malformed metadata is atomic; marks and text stay bounded");
@@ -143,6 +165,34 @@ static void test_streams_and_reflow(Mock *mk)
     IEQUAL(t->shell_marks.commands[0].point[1].y, 3);
 }
 
+static void test_fixed_rows_and_height(Mock *mk)
+{
+    shell_setup(mk, "fixed double-width rows keep mark columns through narrow/restore", 16, 12, 100);
+    Terminal *t = mk->term;
+    term_data_fragmented(t, "abcdefghij\r\n\033#6\033]133;A\a$ \033]133;B\aab\033]133;C\aO\033]133;D;0\a");
+    term_size(t, 16, 3, 100);
+    IEQUAL(t->shell_marks.commands[0].point[1].x, 2);
+    IEQUAL(t->shell_marks.commands[0].point[1].y, 4);
+    IEQUAL(t->shell_marks.commands[0].point[2].x, 4);
+    term_size(t, 16, 12, 100);
+    copy_range(mk, false, L"ab"); copy_range(mk, true, L"O");
+
+    shell_setup(mk, "height-only shrink and temporary history restore mark positions", 4, 12, 100);
+    term_data_fragmented(t, "\033]133;A\a>\033]133;B\acmd\033]133;C\aout\033]133;D;0\a"
+        "\r\nfiller\r\nfiller\r\nbottom");
+    term_size(t, 2, 12, 100);
+    IEQUAL(t->shell_marks.commands[0].point[0].y, -2);
+    copy_range(mk, false, L"cmd"); copy_range(mk, true, L"out");
+    term_size(t, 4, 12, 100);
+    IEQUAL(t->shell_marks.commands[0].point[0].y, 0);
+    copy_range(mk, false, L"cmd"); copy_range(mk, true, L"out");
+
+    shell_setup(mk, "deleted bottom rows remove their bookmarks", 4, 12, 100);
+    term_data_fragmented(t, "\033[4;1H\033]1337;SetMark\a\033[H");
+    term_size(t, 2, 12, 100); IEQUAL(t->shell_marks.count, 0);
+    term_size(t, 4, 12, 100); IEQUAL(t->shell_marks.count, 0);
+}
+
 static void test_history_reset_and_alternate(Mock *mk)
 {
     shell_setup(mk, "history clipping never resurrects discarded anchors", 3, 12, 3);
@@ -214,7 +264,9 @@ int main(void)
 {
     Mock *mk = mock_new(); mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
-    test_protocol(mk); test_rejection_and_budgets(mk); test_streams_and_reflow(mk);
+    test_protocol(mk); test_clipped_navigation(mk);
+    test_rejection_and_budgets(mk); test_streams_and_reflow(mk);
+    test_fixed_rows_and_height(mk);
     test_history_reset_and_alternate(mk); test_scrolling_and_navigation(mk);
     bool failed = mk->any_test_failed; mock_free(mk);
     puts(failed ? "Shell mark suite FAILED" : "Shell mark suite passed");

@@ -8,6 +8,13 @@ import frida
 import uuid
 import winreg
 
+u.GetSystemMenu.argtypes, u.GetSystemMenu.restype = [w.HWND, w.BOOL], w.HMENU
+u.GetSubMenu.argtypes, u.GetSubMenu.restype = [w.HMENU, c.c_int], w.HMENU
+u.GetMenuItemCount.argtypes, u.GetMenuItemCount.restype = [w.HMENU], c.c_int
+u.GetMenuItemID.argtypes, u.GetMenuItemID.restype = [w.HMENU, c.c_int], w.UINT
+u.GetMenuState.argtypes, u.GetMenuState.restype = [w.HMENU, w.UINT, w.UINT], w.UINT
+u.GetMenuStringW.argtypes = [w.HMENU, w.UINT, w.LPWSTR, c.c_int, w.UINT]
+
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 profile = 'shell-marks-test-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + profile
@@ -68,6 +75,23 @@ try:
                 u.SendMessageW(hwnd, 0x111, command, 0)
                 copy_selected(expected, name)
 
+            def find_menu(parent, command):
+                for index in range(u.GetMenuItemCount(parent)):
+                    if u.GetMenuItemID(parent, index) == command:
+                        return parent
+                    child = u.GetSubMenu(parent, index)
+                    found = find_menu(child, command) if child else None
+                    if found: return found
+                return None
+
+            def menu_state(command):
+                parent = find_menu(u.GetSystemMenu(hwnd, False), command)
+                assert parent
+                u.SendMessageW(hwnd, 0x117, parent, 0)  # update owned submenu without opening it
+                text = c.create_unicode_buffer(160)
+                assert u.GetMenuStringW(parent, command, text, len(text), 0)
+                return dict(label=text.value, disabled=bool(u.GetMenuState(parent, command, 0) & 3))
+
             command1, output1 = 'echo 中 e\u0301', 'ONE 中 e\u0301'
             command2, output2 = 'printf two', 'TWO 👋'
             phase('protocols', '\x1b[?25l\x1b[2J\x1b[H'
@@ -100,9 +124,11 @@ try:
             capture(hwnd, 'shell-marks-selected.png')
 
             phase('alternate', '\x1b[?1049h\x1b]133;A\aBAD\x1b]133;B\ax\x1b]133;C\ay\x1b]133;D;1\a')
+            assert menu_state(0x930)['disabled'], menu_state(0x930)
             u.SendMessageW(hwnd, 0x111, 0x930, 0)
             copy_selected(output2, 'alternate screen cannot replace main command selection')
             phase('back', '\x1b[?1049l')
+            assert not menu_state(0x930)['disabled'], menu_state(0x930)
             menu(0x930, output2, 'main output retained across alternate screen')
 
             phase('bookmark', '\x1b[5;1H\x1b]1337;SetMark\a\r\nAFTER')
@@ -119,6 +145,16 @@ try:
                 '\x1b]633;A\a\x1b]633;B\ac\x1b]633;E;'+('x'*4096)+
                 '\a\x1b]633;C\ao\x1b]633;D;0\a\r\n' for _ in range(1000)))
             menu(0x930, 'o', 'latest output after bounded metadata churn')
+
+            phase('clipped-history', '\x1bc\x1b[3J\x1b[2J\x1b[H'
+                '\x1b]133;A\a>\x1b]133;B\ac\x1b]133;C\a'+
+                ('\r\nline'*150)+'\x1b]133;D;0\a')
+            state = menu_state(0x930)
+            assert not state['disabled'] and '(Truncated)' in state['label'], state
+            assert menu_state(0x920)['disabled'], menu_state(0x920)
+            menu(0x930, '\r\n'.join(['line']*124), 'output clipped to 100 history plus 24 screen rows')
+            observed['truncated_menu'] = state
+            capture(hwnd, 'shell-marks-truncated.png')
             observed['samples'].append(memory_sample(handle))
             observed['private_ws_sampled_peak'] = max(s['private_ws'] for s in observed['samples'])
             assert observed['private_ws_sampled_peak'] < 20_000_000, observed['samples']

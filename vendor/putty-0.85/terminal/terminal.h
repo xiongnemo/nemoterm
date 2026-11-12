@@ -18,6 +18,9 @@
 #include "nemo_osc52.h"
 #include "nemo_win32_input.h"
 
+/* Read-only range query for native menu state; zero means unavailable. */
+uint64_t term_shell_mark_range(Terminal *, bool output, NemoShellPoint *, NemoShellPoint *);
+
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
 uint32_t term_hyperlink_at(Terminal *, int x, int y);

@@ -9087,23 +9087,32 @@ static void clipme(Terminal *term, pos top, pos bottom, bool rect, bool desel,
     }
 }
 
-bool term_shell_mark_select(Terminal *term, bool output)
+uint64_t term_shell_mark_range(Terminal *term, bool output,
+                               NemoShellPoint *start, NemoShellPoint *end)
 {
-    if (term->alt_which) return false;
-    if (!nemo_shell_marks_lookup(&term->shell_marks, term->shell_mark_selected))
-        term->shell_mark_selected = 0;
-    NemoShellPoint start, end;
-    const NemoShellCommand *c = NULL;
+    if (term->alt_which) return 0;
+    uint64_t selected = nemo_shell_marks_lookup(&term->shell_marks, term->shell_mark_selected) ?
+        term->shell_mark_selected : 0;
     int first = -count234(term->scrollback);
     for (size_t i = term->shell_marks.count; i-- > 0;) {
         const NemoShellCommand *candidate = &term->shell_marks.commands[i];
-        if (term->shell_mark_selected && candidate->id != term->shell_mark_selected)
+        if (selected && candidate->id != selected)
             continue;
-        if (nemo_shell_marks_range(candidate, output, first, term->rows-1, &start, &end)) {
-            c = candidate; break;
+        if (nemo_shell_marks_range(candidate, output, first, term->rows-1, start, end)) {
+            if (start->x > term->cols) { start->x = term->cols; start->truncated = true; }
+            if (end->x > term->cols) { end->x = term->cols; end->truncated = true; }
+            if (start->y < end->y || (start->y == end->y && start->x < end->x))
+                return candidate->id;
         }
     }
-    if (!c) return false;
+    return 0;
+}
+
+bool term_shell_mark_select(Terminal *term, bool output)
+{
+    NemoShellPoint start, end;
+    uint64_t id = term_shell_mark_range(term, output, &start, &end);
+    if (!id) return false;
     nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
     term->selstart = (pos){ .x = min(start.x, term->cols), .y = start.y };
@@ -9117,7 +9126,6 @@ bool term_shell_mark_select(Terminal *term, bool output)
      * to the system clipboard, matching normal local mouse selection. */
     int clipboard = CLIP_LOCAL;
     clipme(term, term->selstart, term->selend, false, false, &clipboard, 1);
-    uint64_t id = c->id;
     term_scroll_to_selection(term, 0);
     term->shell_mark_selected = id;
     term_invalidate(term);

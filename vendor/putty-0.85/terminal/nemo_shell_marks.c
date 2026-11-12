@@ -262,8 +262,12 @@ uint64_t nemo_shell_marks_neighbour(const NemoShellMarks *m, int direction,
     for (size_t i=0; i<m->count; i++) {
         const NemoShellCommand *c=&m->commands[i];
         NemoShellPoint p={0};
-        for (int j=0; j<3; j++) if (c->point[j].valid) { p=c->point[j]; break; }
-        if (!p.valid || p.y<first || p.y>last) continue;
+        for (int j=0; j<3; j++) {
+            NemoShellPoint candidate=c->point[j];
+            if (candidate.valid && !candidate.truncated &&
+                candidate.y>=first && candidate.y<=last) { p=candidate; break; }
+        }
+        if (!p.valid) continue;
         int cmp=compare(p,ref);
         if ((direction<0 && cmp>=0) || (direction>0 && cmp<=0)) continue;
         if (!found || (direction<0 ? compare(p,*point)>0 : compare(p,*point)<0)) {

@@ -820,20 +820,23 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
             AppendMenu(m, MF_ENABLED, IDM_COPY, "&Copy");
             AppendMenu(m, MF_ENABLED, IDM_COPYPASTE, "Copy a&nd Paste");
             AppendMenu(m, MF_ENABLED, IDM_PASTE, "&Paste");
-            HMENU shell_menu = CreatePopupMenu();
-            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
-            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
-            AppendMenu(shell_menu, MF_ENABLED, IDM_SELECTCOMMAND, "Select &Command");
-            AppendMenu(shell_menu, MF_ENABLED, IDM_SELECTOUTPUT, "Select &Output (Retained History)");
-            AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)shell_menu, "Shell &Integration");
         }
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_OPEN_LINK, "&Open Link");
         AppendMenu(wgs->popup_menus[CTXMENU].menu, MF_ENABLED,
                    IDM_NEMO_COPY_LINK, "Copy Link &Address");
-        for (j = 0; j < lenof(wgs->popup_menus); j++)
+        for (j = 0; j < lenof(wgs->popup_menus); j++) {
             AppendMenu(wgs->popup_menus[j].menu, MF_GRAYED,
                        IDM_COPYDIR, "Copy Working Directory URI");
+            HMENU shell_menu = CreatePopupMenu();
+            wgs->popup_menus[j].shell_menu = shell_menu;
+            AppendMenu(shell_menu, MF_ENABLED, IDM_PREVPROMPT, "&Previous Prompt");
+            AppendMenu(shell_menu, MF_ENABLED, IDM_NEXTPROMPT, "&Next Prompt");
+            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTCOMMAND, "Select &Command");
+            AppendMenu(shell_menu, MF_GRAYED, IDM_SELECTOUTPUT, "Select &Output");
+            AppendMenu(wgs->popup_menus[j].menu, MF_POPUP | MF_ENABLED,
+                       (UINT_PTR)shell_menu, "Shell &Integration");
+        }
 
         wgs->savedsess_menu = CreateMenu();
         get_sesslist(&sesslist, true);
@@ -2424,9 +2427,21 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         PostQuitMessage(0);
         return 0;
       case WM_INITMENUPOPUP:
-        for (size_t mi=0;mi<lenof(wgs->popup_menus);mi++)
+        for (size_t mi=0;mi<lenof(wgs->popup_menus);mi++) {
             EnableMenuItem(wgs->popup_menus[mi].menu,IDM_COPYDIR,MF_BYCOMMAND |
                 (wgs->term->working_directory.path && *wgs->term->working_directory.path ? MF_ENABLED : MF_GRAYED));
+            HMENU shell = wgs->popup_menus[mi].shell_menu;
+            for (int output = 0; output < 2; output++) {
+                NemoShellPoint start, end;
+                bool available = term_shell_mark_range(wgs->term, output, &start, &end) != 0;
+                bool clipped = available && (start.truncated || end.truncated);
+                UINT id = output ? IDM_SELECTOUTPUT : IDM_SELECTCOMMAND;
+                const char *label = output ? (clipped ? "Select &Output (Truncated)" : "Select &Output") :
+                    (clipped ? "Select &Command (Truncated)" : "Select &Command");
+                ModifyMenu(shell, id, MF_BYCOMMAND | MF_STRING |
+                    (available ? MF_ENABLED : MF_GRAYED), id, label);
+            }
+        }
         if ((HMENU)wParam == wgs->savedsess_menu) {
             /* About to pop up Saved Sessions sub-menu.
              * Refresh the session list. */
