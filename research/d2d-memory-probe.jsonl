@@ -1,0 +1,4 @@
+{"phase":"hidden-window-before-device","private_ws":1298432,"total_ws":7147520,"private_commit":1748992}
+{"phase":"hardware-device-and-retained-frame","private_ws":9105408,"total_ws":32759808,"private_commit":60403712}
+{"phase":"atlas-and-120-frames","private_ws":14798848,"total_ws":40230912,"private_commit":70139904}
+{"phase":"after-device-destruction","private_ws":9306112,"total_ws":21409792,"private_commit":29646848}

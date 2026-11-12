@@ -10,11 +10,103 @@
 #include "dialog.h"
 #include "storage.h"
 #include "tree234.h"
+#include "nemo_bindings.h"
 
 #define PRINTER_DISABLED_STRING "None (printing disabled)"
 
 #define HOST_BOX_TITLE "Host Name (or IP address)"
 #define PORT_BOX_TITLE "Port"
+
+static const int nemo_binding_options[] = {
+    CONF_nemo_copy_binding, CONF_nemo_paste_binding, CONF_nemo_copy_paste_binding
+};
+
+static void nemo_binding_item(dlgcontrol *ctrl, dlgparam *dlg, const char *text,
+                              int id, int wanted, int *index, int *selected)
+{
+    dlg_listbox_addwithid(ctrl, dlg, text, id);
+    if (id == wanted) *selected = *index;
+    (*index)++;
+}
+
+static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event)
+{
+    Conf *conf = data;
+    int option = ctrl->context.i / 4, field = ctrl->context.i % 4;
+    int value = conf_get_int(conf, option);
+    if (event == EVENT_REFRESH) {
+        int wanted = field == 2 ? value : field == 1 ? value & 255 : (value >> 8) & 7;
+        int index = 0, selected = 0;
+        dlg_update_start(ctrl, dlg);
+        dlg_listbox_clear(ctrl, dlg);
+        if (field != 1) {
+            static const char *const names[] = {
+                "None", "Shift", "Ctrl", "Ctrl+Shift", "Alt", "Alt+Shift", "Ctrl+Alt", "Ctrl+Alt+Shift"
+            };
+            for (int i = 0; i < 8; i++) {
+                if (field == 2 && i == NEMO_BIND_SHIFT) continue;
+                nemo_binding_item(ctrl, dlg, field == 2 && !i ? "Disabled" : names[i],
+                                  i, wanted, &index, &selected);
+            }
+        } else {
+            nemo_binding_item(ctrl, dlg, "Disabled", 0, wanted, &index, &selected);
+            for (int i = 'A'; i <= 'Z'; i++) {
+                char name[] = {(char)i, 0};
+                nemo_binding_item(ctrl, dlg, name, i, wanted, &index, &selected);
+            }
+            for (int i = '0'; i <= '9'; i++) {
+                char name[] = {(char)i, 0};
+                nemo_binding_item(ctrl, dlg, name, i, wanted, &index, &selected);
+            }
+            for (int i = 1; i <= 24; i++) {
+                char name[8]; sprintf(name, "F%d", i);
+                nemo_binding_item(ctrl, dlg, name, 0x6f+i, wanted, &index, &selected);
+            }
+            static const struct { const char *name; int key; } special[] = {
+                {"Insert",0x2d},{"Delete",0x2e},{"Home",0x24},{"End",0x23},
+                {"Page Up",0x21},{"Page Down",0x22},{"Up",0x26},{"Down",0x28},
+                {"Left",0x25},{"Right",0x27},{"Enter",0x0d},{"Tab",0x09},
+                {"Space",0x20},{"Escape",0x1b},{"Backspace",0x08},
+                {"Semicolon",0xba},{"Plus",0xbb},{"Comma",0xbc},{"Minus",0xbd},
+                {"Period",0xbe},{"Slash",0xbf},{"Backtick",0xc0},{"Left bracket",0xdb},
+                {"Backslash",0xdc},{"Right bracket",0xdd},{"Apostrophe",0xde}
+            };
+            for (size_t i = 0; i < lenof(special); i++)
+                nemo_binding_item(ctrl, dlg, special[i].name, special[i].key,
+                                  wanted, &index, &selected);
+        }
+        dlg_listbox_select(ctrl, dlg, selected);
+        dlg_update_done(ctrl, dlg);
+    } else if (event == EVENT_SELCHANGE) {
+        int index = dlg_listbox_index(ctrl, dlg);
+        if (index < 0) return;
+        int chosen = dlg_listbox_getid(ctrl, dlg, index);
+        int candidate = field == 2 ? chosen : field == 1 ?
+            (value & ~255) | chosen : (value & 255) | (chosen << 8);
+        if (field != 2 && (candidate & 255)) {
+            for (size_t i = 0; i < lenof(nemo_binding_options); i++) {
+                if (option != nemo_binding_options[i] &&
+                    conf_get_int(conf, nemo_binding_options[i]) == candidate) {
+                    dlg_error_msg(dlg, "This shortcut is already assigned to another action. Choose a different key or disable that action first.");
+                    dlg_refresh(ctrl, dlg);
+                    return;
+                }
+            }
+        }
+        conf_set_int(conf, option, candidate);
+    }
+}
+
+static void nemo_bindings_reset(dlgcontrol *ctrl, dlgparam *dlg, void *data, int event)
+{
+    if (event != EVENT_ACTION) return;
+    Conf *conf = data;
+    conf_set_int(conf, CONF_nemo_copy_binding, NEMO_BIND_KEY('C',3));
+    conf_set_int(conf, CONF_nemo_paste_binding, NEMO_BIND_KEY('V',3));
+    conf_set_int(conf, CONF_nemo_copy_paste_binding, 0);
+    conf_set_int(conf, CONF_nemo_rectangle_modifiers, NEMO_BIND_CTRL);
+    dlg_refresh(NULL, dlg);
+}
 
 void conf_radiobutton_handler(dlgcontrol *ctrl, dlgparam *dlg,
                               void *data, int event)
@@ -2291,6 +2383,18 @@ void setup_config_box(struct controlbox *b, bool midsession,
                   conf_checkbox_handler,
                   I(CONF_erase_to_scrollback));
 
+    ctrl_settitle(b, "Window/Rendering", "Rendering mode");
+    s = ctrl_getset(b, "Window/Rendering", "renderer", "Renderer");
+    ctrl_radiobuttons(s, "", NO_SHORTCUT, 1, HELPCTX(no_help),
+                     conf_radiobutton_handler, I(CONF_nemo_renderer),
+                     "GDI (low memory)", NO_SHORTCUT, I(0),
+                     "OpenGL (GPU composition)", NO_SHORTCUT, I(1));
+    ctrl_text(s, "OpenGL caches text textures and composes text and images on "
+              "the GPU. It uses the installed graphics driver and can use "
+              "more memory. GDI is used if OpenGL is unavailable.", HELPCTX(no_help));
+    ctrl_text(s, "Changes apply to this window. After using OpenGL, restart "
+              "the window to fully release graphics driver memory.", HELPCTX(no_help));
+
     /*
      * The Window/Appearance panel.
      */
@@ -2388,6 +2492,29 @@ void setup_config_box(struct controlbox *b, bool midsession,
     /*
      * The Window/Selection panel.
      */
+    ctrl_settitle(b, "Window/Bindings", "Keyboard and mouse bindings");
+    s = ctrl_getset(b, "Window/Bindings", "keys", "Keyboard shortcuts");
+    ctrl_text(s, "Choose Disabled to send the key to the application. AltGr remains available for text input.", HELPCTX(no_help));
+    const char *const binding_labels[][2] = {
+        {"Copy modifiers", "Copy key"}, {"Paste modifiers", "Paste key"},
+        {"Copy and paste modifiers", "Copy and paste key"}
+    };
+    ctrl_columns(s, 2, 50, 50);
+    for (size_t i = 0; i < lenof(nemo_binding_options); i++) {
+        for (int field = 0; field < 2; field++) {
+            c = ctrl_droplist(s, binding_labels[i][field], NO_SHORTCUT, 100,
+                HELPCTX(no_help), nemo_binding_handler, I(nemo_binding_options[i]*4+field));
+            c->column = field;
+        }
+    }
+    ctrl_columns(s, 1, 100);
+    s = ctrl_getset(b, "Window/Bindings", "mouse", "Mouse selection");
+    ctrl_droplist(s, "Rectangle modifier", NO_SHORTCUT, 55, HELPCTX(no_help),
+                  nemo_binding_handler, I(CONF_nemo_rectangle_modifiers*4+2));
+    ctrl_text(s, "Hold this modifier while dragging with the left button. Add Shift when an application captures the mouse.", HELPCTX(no_help));
+    ctrl_text(s, "Shift always forces local selection. Right-click behavior and the default selection shape are under Selection.", HELPCTX(no_help));
+    ctrl_pushbutton(s, "Reset bindings", NO_SHORTCUT, HELPCTX(no_help), nemo_bindings_reset, I(0));
+
     ctrl_settitle(b, "Window/Selection", "Options controlling copy and paste");
 
     s = ctrl_getset(b, "Window/Selection", "mouse",
@@ -2401,7 +2528,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "Copy only", NO_SHORTCUT, I(false),
                       "Copy and paste", NO_SHORTCUT, I(true));
     ctrl_radiobuttons(s,
-                      "Default selection mode (Alt+drag does the other one):",
+                      "Default selection shape:",
                       NO_SHORTCUT, 2,
                       HELPCTX(selection_rect),
                       conf_radiobutton_bool_handler,
@@ -2421,7 +2548,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
     clipboard_control(s, "{Ctrl,Shift} + Ins:", NO_SHORTCUT, 60,
                       HELPCTX(selection_clipactions),
                       CONF_ctrlshiftins, CONF_ctrlshiftins_custom);
-    clipboard_control(s, "Ctrl + Shift + {C,V}:", NO_SHORTCUT, 60,
+    clipboard_control(s, "Copy/paste keyboard actions:", NO_SHORTCUT, 60,
                       HELPCTX(selection_clipactions),
                       CONF_ctrlshiftcv, CONF_ctrlshiftcv_custom);
 

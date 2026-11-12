@@ -566,6 +566,75 @@ static void test_unencodable_release_cancel(Mock *mk)
     MOUSE_BYTES("\033[M !!\033[M#!!");
 }
 
+static void test_ctrl_rectangle(Mock *mk)
+{
+#ifdef _WIN32
+#define BLOCK_NL L"\r\n"
+#else
+#define BLOCK_NL L"\n"
+#endif
+    const int clipboard = CLIP_LOCAL + 1;
+    const int modes[] = {0, 9, 1000, 1001, 1002, 1003};
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t mode = 0; mode < lenof(modes); mode++)
+        for (unsigned corner = 0; corner < 4; corner++)
+            for (int alternate = 0; alternate < 2; alternate++) {
+                mouse_setup(mk, "Ctrl rectangle, all directions and mouse owners", "");
+                if (alternate) term_data_fragmented(mk->term, "\033[?1049h");
+                term_data_fragmented(mk->term,
+                    "0123456789\r\nab\xe4\xb8\xad" "e\xcc\x81" "FGHIJ\r\nklmnopqrst");
+                if (modes[mode]) {
+                    char *s = dupprintf("\033[?%d;1006h", modes[mode]);
+                    term_data_fragmented(mk->term, s); sfree(s);
+                }
+                int x = corner & 1 ? 5 : 1, y = corner & 2 ? 2 : 0;
+                bool shift = modes[mode] != 0;
+                /* Ctrl stays rectangular even when rectangle is the default,
+                 * and releasing modifiers cannot change an ongoing gesture. */
+                mk->term->rect_select = !!alternate;
+                send_mouse(mk, MBT_LEFT, MA_CLICK, x, y, shift, true, false);
+                send_mouse(mk, MBT_LEFT, MA_DRAG, 6-x, 2-y, false, false, false);
+                send_mouse(mk, MBT_LEFT, MA_RELEASE, 6-x, 2-y, false, false, false);
+                IEQUAL(mk->term->seltype, RECTANGULAR);
+                IEQUAL(mk->term->selstate, SELECTED);
+                MOUSE_BYTES("");
+                term_request_copy(mk->term, &clipboard, 1);
+                check_clipboard(mk, L"12345" BLOCK_NL L"b\x4e2d" L"e\x301" L"F" BLOCK_NL L"lmnop");
+            }
+    mouse_setup(mk, "Ctrl repeated clicks start character blocks", "ABCDE\r\n01234");
+    for (Mouse_Action action = MA_2CLK; action <= MA_3CLK; action++) {
+        send_mouse(mk, MBT_LEFT, action, 1, 0, false, true, false);
+        send_mouse(mk, MBT_LEFT, MA_DRAG, 2, 1, false, true, false);
+        send_mouse(mk, MBT_LEFT, MA_RELEASE, 2, 1, false, true, false);
+        IEQUAL(mk->term->seltype, RECTANGULAR);
+        IEQUAL(mk->term->selmode, SM_CHAR);
+        mk->clipboard_writes = 0;
+        term_request_copy(mk->term, &clipboard, 1);
+        check_clipboard(mk, L"BC" BLOCK_NL L"12");
+    }
+    mouse_setup(mk, "Ctrl alone retains application mouse modifiers", "\033[?1002;1006h");
+    send_mouse(mk, MBT_LEFT, MA_CLICK, 1, 0, false, true, false);
+    send_mouse(mk, MBT_LEFT, MA_DRAG, 2, 1, false, true, false);
+    send_mouse(mk, MBT_LEFT, MA_RELEASE, 2, 1, false, true, false);
+    MOUSE_BYTES("\033[<16;2;1M\033[<48;3;2M\033[<16;3;2m");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+#undef BLOCK_NL
+    const int bindings[] = {0,1,2,3,4,5,6,7,8};
+    for (size_t b=0;b<lenof(bindings);b++)
+        for (unsigned pressed=0;pressed<8;pressed++) {
+            mouse_setup(mk,"Configured rectangle modifier and invalid values","ABCD\r\n1234");
+            mk->term->rect_select=false;
+            conf_set_int(mk->term->conf,CONF_nemo_rectangle_modifiers,bindings[b]);
+            send_mouse(mk,MBT_LEFT,MA_CLICK,0,0,pressed&1,pressed&2,pressed&4);
+            send_mouse(mk,MBT_LEFT,MA_DRAG,1,1,false,false,false);
+            send_mouse(mk,MBT_LEFT,MA_RELEASE,1,1,false,false,false);
+            bool rectangle=bindings[b]>=2 && bindings[b]<=7 &&
+                (pressed & bindings[b])==(unsigned)bindings[b];
+            IEQUAL(mk->term->seltype,rectangle?RECTANGULAR:LEXICOGRAPHIC);
+        }
+    conf_set_int(mk->term->conf,CONF_nemo_rectangle_modifiers,2);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -586,6 +655,7 @@ int main(void)
     test_shift_takeover(mk);
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
+    test_ctrl_rectangle(mk);
 
     bool failed = mk->any_test_failed;
     mock_free(mk);

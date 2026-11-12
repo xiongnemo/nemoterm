@@ -835,8 +835,9 @@ void test_simple(void)
     test_bool_simple(CONF_bce, "BCE", true);
     test_bool_simple(CONF_blinktext, "BlinkText", false);
     test_bool_simple(CONF_win_name_always, "WinNameAlways", true);
-    test_int_simple(CONF_width, "TermWidth", 80);
-    test_int_simple(CONF_height, "TermHeight", 24);
+    test_int_simple(CONF_width, "TermWidth", 160);
+    test_int_simple(CONF_height, "TermHeight", 48);
+    test_int_simple(CONF_nemo_renderer, "NemoRenderer", 0);
     test_font_simple(CONF_font, "Font");
     test_int_translated(CONF_font_quality, "FontQuality", FQ_CLEARTYPE,
                         FQ_DEFAULT, 0, FQ_ANTIALIASED, 1, FQ_NONANTIALIASED, 2,
@@ -875,6 +876,10 @@ void test_simple(void)
     test_bool_simple(CONF_mouse_override, "MouseOverride", true);
     test_bool_simple(CONF_mouseautocopy, "MouseAutocopy", false);
     test_bool_simple(CONF_nemo_right_click_paste, "RightClickCopyAndPaste", false);
+    test_int_simple(CONF_nemo_copy_binding, "NemoCopyBinding", 0x343);
+    test_int_simple(CONF_nemo_paste_binding, "NemoPasteBinding", 0x356);
+    test_int_simple(CONF_nemo_copy_paste_binding, "NemoCopyPasteBinding", 0);
+    test_int_simple(CONF_nemo_rectangle_modifiers, "NemoRectangleModifiers", 2);
     test_int_translated(CONF_vtmode, "FontVTMode", VT_UNICODE,
                         VT_XWINDOWS, 0,
                         VT_OEMANSI, 1,

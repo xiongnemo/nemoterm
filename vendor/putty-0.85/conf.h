@@ -884,13 +884,18 @@ CONF_OPTION(win_name_always,
 )
 CONF_OPTION(width,
     VALUE_TYPE(INT),
-    DEFAULT_INT(80),
+    DEFAULT_INT(160),
     SAVE_KEYWORD("TermWidth"),
 )
 CONF_OPTION(height,
     VALUE_TYPE(INT),
-    DEFAULT_INT(24),
+    DEFAULT_INT(48),
     SAVE_KEYWORD("TermHeight"),
+)
+CONF_OPTION(nemo_renderer,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoRenderer"),
 )
 CONF_OPTION(font,
     VALUE_TYPE(FONT),
@@ -1026,6 +1031,26 @@ CONF_OPTION(colours,
 )
 
 /* Selection options */
+CONF_OPTION(nemo_copy_binding,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0x343), /* Ctrl+Shift+C */
+    SAVE_KEYWORD("NemoCopyBinding"),
+)
+CONF_OPTION(nemo_paste_binding,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0x356), /* Ctrl+Shift+V */
+    SAVE_KEYWORD("NemoPasteBinding"),
+)
+CONF_OPTION(nemo_copy_paste_binding,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoCopyPasteBinding"),
+)
+CONF_OPTION(nemo_rectangle_modifiers,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(2), /* Ctrl; additional Shift forces local selection */
+    SAVE_KEYWORD("NemoRectangleModifiers"),
+)
 CONF_OPTION(nemo_right_click_paste,
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

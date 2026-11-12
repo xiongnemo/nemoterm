@@ -11,6 +11,7 @@
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
+#include "nemo_bindings.h"
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
 #include "nemo_osc52.h"

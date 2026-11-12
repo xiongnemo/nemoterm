@@ -1,0 +1,6 @@
+{"phase":"hidden-window-before-context","private_ws":1454080,"total_ws":7507968,"private_commit":1941504}
+{"vendor":"NVIDIA Corporation","renderer":"NVIDIA GeForce RTX 3060 Laptop GPU/PCIe/SSE2","version":"4.6.0 NVIDIA 581.32","generic":false}
+{"phase":"context-current","private_ws":23838720,"total_ws":42565632,"private_commit":84635648}
+{"gl_error":0,"pixel":[0,1,2,3]}
+{"phase":"atlas-and-120-frames","private_ws":52436992,"total_ws":75669504,"private_commit":121020416}
+{"phase":"after-context-destruction","private_ws":51265536,"total_ws":74649600,"private_commit":118419456}

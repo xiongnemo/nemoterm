@@ -27,6 +27,7 @@
 #include "nemo_clipboard.h"
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
+#include "nemo_gl.h"
 #include "tree234.h"
 
 #ifdef NO_MULTIMON
@@ -149,6 +150,9 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
                         LPARAM lParam, unsigned char *output);
 static void init_palette(WinGuiSeat *wgs);
 static void init_fonts(WinGuiSeat *wgs, int, int);
+static void nemo_renderer_configure(WinGuiSeat *wgs);
+static bool nemo_renderer_begin(WinGuiSeat *wgs);
+static void nemo_renderer_finish(WinGuiSeat *wgs);
 static void nemo_paint_images(WinGuiSeat *wgs);
 static void init_dpi_info(WinGuiSeat *wgs);
 static void another_font(WinGuiSeat *wgs, int);
@@ -704,6 +708,20 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     /*
      * Compute what size we _really_ want the window to be.
      */
+    RECT startup_work;
+    if (get_workingarea_rect(wgs, &startup_work)) {
+        int cols = max(1, (startup_work.right-startup_work.left-wgs->extra_width) /
+                           max(1, wgs->font_width));
+        int rows = max(1, (startup_work.bottom-startup_work.top-wgs->extra_height) /
+                           max(1, wgs->font_height));
+        cols = min(cols, wgs->term->cols);
+        rows = min(rows, wgs->term->rows);
+        if (cols != wgs->term->cols || rows != wgs->term->rows) {
+            conf_set_int(wgs->conf, CONF_width, cols);
+            conf_set_int(wgs->conf, CONF_height, rows);
+            term_size(wgs->term, rows, cols, conf_get_int(wgs->conf, CONF_savelines));
+        }
+    }
     guess_width = wgs->extra_width + wgs->font_width * wgs->term->cols;
     guess_height = wgs->extra_height + wgs->font_height * wgs->term->rows;
 
@@ -747,6 +765,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
         SetWindowPos(wgs->term_hwnd, NULL, x, y, guess_width, guess_height,
                     SWP_NOREDRAW | SWP_NOZORDER);
     }
+
+    nemo_renderer_configure(wgs);
 
     /*
      * Set up a caret bitmap, with no content.
@@ -945,6 +965,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
 static void wgs_cleanup(WinGuiSeat *wgs)
 {
+    nemo_gl_free(wgs->gl);
+    wgs->gl = NULL;
     nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
     nemo_keyboard_free(wgs);
@@ -1832,6 +1854,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
 
 static void deinit_fonts(WinGuiSeat *wgs)
 {
+    nemo_gl_clear_cache(wgs->gl);
     nemo_font_fallback_free(&wgs->font_fallback);
     int i;
     for (i = 0; i < FONT_MAXNO; i++) {
@@ -2713,6 +2736,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             InvalidateRect(hwnd, NULL, true);
             reset_window(wgs, init_lvl);
 
+            if (conf_get_int(wgs->conf, CONF_nemo_renderer) !=
+                conf_get_int(prev_conf, CONF_nemo_renderer)) {
+                term_end_synchronized_update(wgs->term);
+                nemo_renderer_configure(wgs);
+            }
+
             conf_free(prev_conf);
             break;
           }
@@ -3044,11 +3073,28 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             term_lost_clipboard_ownership(wgs->term, CLIP_SYSTEM);
         wgs->ignore_clip = false;
         return 0;
+      case WM_PRINTCLIENT:
+        if (wgs->gl && nemo_gl_print(wgs->gl, (HDC)wParam)) return 0;
+        break;
       case WM_PAINT: {
         PAINTSTRUCT p;
 
         HideCaret(hwnd);
         hdc = BeginPaint(hwnd, &p);
+        if (wgs->gl) {
+            if (!wgs->term->synchronized_update && nemo_renderer_begin(wgs)) {
+                term_paint(wgs->term, 0, 0, wgs->term->cols-1,
+                           wgs->term->rows-1, !wgs->term->window_update_pending);
+                nemo_renderer_finish(wgs);
+            } else if (wgs->gl && !nemo_gl_present(wgs->gl)) {
+                wgs->gl_failed = true;
+                nemo_renderer_configure(wgs);
+            }
+            EndPaint(hwnd, &p);
+            ShowCaret(hwnd);
+            nemo_link_refresh(wgs);
+            return 0;
+        }
         if (wgs->sync_snapshot && wgs->term->synchronized_update) {
             NemoSnapshotError error;
             if (nemo_snapshot_paint(wgs->sync_snapshot, hdc, &p.rcPaint, &error)) {
@@ -4302,7 +4348,7 @@ static void do_text_internal(
 /*
  * Wrapper that handles combining characters.
  */
-static void wintw_draw_text(
+static void nemo_raster_text(
     TermWin *tw, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
 {
@@ -4346,7 +4392,7 @@ static void wintw_draw_text(
         do_text_internal(wgs, x, y, text, len, attr, lattr, truecolour);
 }
 
-static void wintw_draw_cursor(
+static void nemo_raster_cursor(
     TermWin *tw, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
 {
@@ -4360,7 +4406,7 @@ static void wintw_draw_cursor(
     if ((attr & ATTR_ACTCURS) &&
         (ctype == CURSOR_BLOCK || wgs->term->big_cursor)) {
         if (*text != UCSWIDE) {
-            win_draw_text(tw, x, y, text, len, attr, lattr, truecolour);
+            nemo_raster_text(tw, x, y, text, len, attr, lattr, truecolour);
             return;
         }
         ctype = CURSOR_VERTICAL_LINE;
@@ -4429,6 +4475,64 @@ static void wintw_draw_cursor(
     }
 }
 
+/* Cache complete rasterized runs, including combining marks, decoration and
+ * fallback fonts. Cache hits do no font work and upload no pixels. */
+static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
+                         unsigned long attr, int lattr, truecolour tc, bool cursor)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (!wgs->gl_drawing) {
+        if (cursor) nemo_raster_cursor(tw,x,y,text,len,attr,lattr,tc);
+        else nemo_raster_text(tw,x,y,text,len,attr,lattr,tc);
+        return;
+    }
+    int cells=0;
+    for (int i=0;i<len;i++) {
+        if (i+1<len && IS_HIGH_VARSEL(text[i],text[i+1])) i++;
+        else if (IS_LOW_VARSEL(text[i])) continue;
+        else {
+            cells++;
+            if (i+1<len && IS_SURROGATE_PAIR(text[i],text[i+1])) i++;
+        }
+    }
+    if (attr&TATTR_COMBINING) cells=1;
+    if (cursor) cells=1;
+    int advance=wgs->font_width*(1+((lattr&LATTR_MODE)!=LATTR_NORM));
+    RECT box={wgs->offset_width+x*advance,wgs->offset_height+y*wgs->font_height,0,0};
+    box.right=min(box.left+cells*advance*((attr&ATTR_WIDE)?2:1),
+                  wgs->offset_width+wgs->term->cols*wgs->font_width);
+    box.bottom=box.top+wgs->font_height;
+    if (box.right<=box.left || box.top<0) return;
+    strbuf *key=NULL;
+    if (!cursor) {
+        key=strbuf_new();
+        put_uint32(key,attr);put_uint32(key,lattr);put_uint32(key,tc.decoration);
+        put_uint32(key,tc.fg.enabled);put_byte(key,tc.fg.r);put_byte(key,tc.fg.g);put_byte(key,tc.fg.b);
+        put_uint32(key,tc.bg.enabled);put_byte(key,tc.bg.r);put_byte(key,tc.bg.g);put_byte(key,tc.bg.b);
+        /* Decoration phase can depend on the absolute x coordinate. */
+        put_uint32(key,box.left);put_data(key,text,len*sizeof(*text));
+        if (nemo_gl_cached(wgs->gl,box,ptrlen_from_strbuf(key))) {
+            strbuf_free(key);return;
+        }
+    }
+    if (nemo_gl_begin_run(wgs->gl,box,cursor)) {
+        if (cursor) nemo_raster_cursor(tw,x,y,text,len,attr,lattr,tc);
+        else nemo_raster_text(tw,x,y,text,len,attr,lattr,tc);
+        nemo_gl_end_run(wgs->gl,box,key?ptrlen_from_strbuf(key):make_ptrlen(NULL,0));
+    }
+    if (key) strbuf_free(key);
+}
+static void wintw_draw_text(TermWin *tw, int x, int y, wchar_t *text, int len,
+                            unsigned long attr, int lattr, truecolour tc)
+{
+    nemo_draw_run(tw,x,y,text,len,attr,lattr,tc,false);
+}
+static void wintw_draw_cursor(TermWin *tw, int x, int y, wchar_t *text, int len,
+                              unsigned long attr, int lattr, truecolour tc)
+{
+    nemo_draw_run(tw,x,y,text,len,attr,lattr,tc,true);
+}
+
 static void wintw_draw_trust_sigil(TermWin *tw, int x, int y)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
@@ -4438,8 +4542,11 @@ static void wintw_draw_trust_sigil(TermWin *tw, int x, int y)
     x += wgs->offset_width;
     y += wgs->offset_height;
 
+    RECT box = { x, y, x + wgs->font_width*2, y + wgs->font_height };
+    if (wgs->gl_drawing && !nemo_gl_begin_run(wgs->gl, box, true)) return;
     DrawIconEx(wgs->wintw_hdc, x, y, trust_icon,
                wgs->font_width * 2, wgs->font_height, 0, NULL, DI_NORMAL);
+    if (wgs->gl_drawing) nemo_gl_end_run(wgs->gl, box, make_ptrlen(NULL,0));
 }
 
 /* This function gets the actual width of a character in the normal font.
@@ -4664,6 +4771,33 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
 
     key_down = ((HIWORD(lParam) & KF_UP) == 0);
 
+    /* User bindings precede built-in scrolling and application key protocols.
+     * AltGr and compose input retain their text-entry path. Modifier state is
+     * read before the legacy Ctrl+Alt/AltGr conversion below. */
+    if (key_down && !(keystate[VK_RMENU] & 0x80) && !wgs->compose_state) {
+        unsigned modifiers = ((keystate[VK_SHIFT] & 0x80) ? NEMO_BIND_SHIFT : 0) |
+            ((keystate[VK_CONTROL] & 0x80) ? NEMO_BIND_CTRL : 0) |
+            (left_alt ? NEMO_BIND_ALT : 0);
+        int action = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_binding), original_key, modifiers) ? 1 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_paste_binding), original_key, modifiers) ? 2 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_paste_binding), original_key, modifiers) ? 3 : 0;
+        if (action == 3) {
+            term_request_copy(wgs->term, clips_system, lenof(clips_system));
+            term_request_paste(wgs->term, CLIP_LOCAL);
+            return 0;
+        }
+        if (action) {
+            int clipboard = conf_get_int(wgs->conf, CONF_ctrlshiftcv);
+            if (action == 1 && clipboard == CLIPUI_EXPLICIT)
+                term_request_copy(wgs->term, clips_system, lenof(clips_system));
+            if (action == 2 && clipboard == CLIPUI_EXPLICIT)
+                term_request_paste(wgs->term, CLIP_SYSTEM);
+            if (action == 2 && clipboard == CLIPUI_IMPLICIT)
+                term_request_paste(wgs->term, CLIP_LOCAL);
+            return 0;
+        }
+    }
+
     /* Make sure Ctrl-ALT is not the same as AltGr for ToAscii unless told. */
     if (!enhanced && left_alt && (keystate[VK_CONTROL] & 0x80)) {
         if (ctrlaltkeys)
@@ -4805,32 +4939,6 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         }
         if (wParam == VK_INSERT && shift_state == 1) {
             switch (conf_get_int(wgs->conf, CONF_ctrlshiftins)) {
-              case CLIPUI_IMPLICIT:
-                term_request_paste(wgs->term, CLIP_LOCAL);
-                break;
-              case CLIPUI_EXPLICIT:
-                term_request_paste(wgs->term, CLIP_SYSTEM);
-                break;
-              default:
-                break;
-            }
-            return 0;
-        }
-        if (wParam == 'C' && shift_state == 3) {
-            switch (conf_get_int(wgs->conf, CONF_ctrlshiftcv)) {
-              case CLIPUI_IMPLICIT:
-                break;          /* no need to re-copy to CLIP_LOCAL */
-              case CLIPUI_EXPLICIT:
-                term_request_copy(wgs->term, clips_system,
-                                  lenof(clips_system));
-                break;
-              default:
-                break;
-            }
-            return 0;
-        }
-        if (wParam == 'V' && shift_state == 3) {
-            switch (conf_get_int(wgs->conf, CONF_ctrlshiftcv)) {
               case CLIPUI_IMPLICIT:
                 term_request_paste(wgs->term, CLIP_LOCAL);
                 break;
@@ -5310,6 +5418,9 @@ static bool nemo_render_snapshot_band(HDC dc, int top, int height, void *ctx)
 static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    /* The retained GPU frame is already an immutable presentation while
+     * synchronized output suppresses the terminal's paint callbacks. */
+    if (enabled && wgs->gl) return true;
     if (!enabled) {
         nemo_snapshot_free(wgs->sync_snapshot);
         wgs->sync_snapshot = NULL;
@@ -5338,10 +5449,50 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
     return true;
 }
 
+static void nemo_renderer_configure(WinGuiSeat *wgs)
+{
+    nemo_gl_free(wgs->gl);wgs->gl=NULL;wgs->gl_drawing=false;
+    if (conf_get_int(wgs->conf,CONF_nemo_renderer)==1 && !wgs->gl_failed) {
+        wgs->gl=nemo_gl_create(wgs->term_hwnd);
+        if (wgs->gl) logeventf(wgs->logctx,"OpenGL renderer: %s",nemo_gl_device(wgs->gl));
+    }
+    if (conf_get_int(wgs->conf,CONF_nemo_renderer)==1 && !wgs->gl)
+        logevent(wgs->logctx,"OpenGL unavailable; using GDI renderer");
+    if (conf_get_int(wgs->conf,CONF_nemo_renderer)!=1) wgs->gl_failed=false;
+    LONG_PTR style=GetWindowLongPtr(wgs->term_hwnd,GWL_STYLE);
+    SetWindowLongPtr(wgs->term_hwnd,GWL_STYLE,
+                     wgs->gl ? style|WS_CLIPCHILDREN : style&~WS_CLIPCHILDREN);
+    SetPropW(wgs->term_hwnd,L"NemotermRenderer",(HANDLE)(UINT_PTR)(wgs->gl?2:1));
+    term_invalidate(wgs->term);
+    InvalidateRect(wgs->term_hwnd,NULL,false);
+}
+static bool nemo_renderer_begin(WinGuiSeat *wgs)
+{
+    int result=nemo_gl_frame(wgs->gl,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
+    if (!result) {
+        wgs->gl_failed=true;nemo_renderer_configure(wgs);return false;
+    }
+    if (result==2) term_invalidate(wgs->term);
+    wgs->wintw_hdc=nemo_gl_dc(wgs->gl);wgs->gl_drawing=true;
+    return true;
+}
+static void nemo_renderer_finish(WinGuiSeat *wgs)
+{
+    nemo_paint_images(wgs);
+    RECT text={wgs->offset_width,wgs->offset_height,
+        wgs->offset_width+wgs->font_width*wgs->term->cols,
+        wgs->offset_height+wgs->font_height*wgs->term->rows};
+    nemo_gl_borders(wgs->gl,text,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
+    bool ok=nemo_gl_present(wgs->gl);
+    wgs->wintw_hdc=NULL;wgs->gl_drawing=false;
+    if (!ok) { wgs->gl_failed=true;nemo_renderer_configure(wgs); }
+}
+
 static bool wintw_setup_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(!wgs->wintw_hdc);
+    if (wgs->gl && nemo_renderer_begin(wgs)) return true;
     wgs->wintw_hdc = make_hdc(wgs);
     return wgs->wintw_hdc != NULL;
 }
@@ -5350,6 +5501,11 @@ static void wintw_free_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(wgs->wintw_hdc);
+    if (wgs->gl_drawing) {
+        nemo_renderer_finish(wgs);
+        nemo_link_refresh(wgs);
+        return;
+    }
     nemo_paint_images(wgs);
     free_hdc(wgs, wgs->wintw_hdc);
     wgs->wintw_hdc = NULL;
@@ -5366,11 +5522,19 @@ static void nemo_paint_images(WinGuiSeat *wgs)
         return;
     uint32_t row[NEMO_SIXEL_MAX_DIMENSION];
     HDC dc = wgs->wintw_hdc;
-    int saved = SaveDC(dc);
-    if (!saved)
+    int saved = wgs->gl_drawing ? 0 : SaveDC(dc);
+    if (!saved && !wgs->gl_drawing)
         return;
     RECT paint_clip;
-    int clip_kind = GetClipBox(dc, &paint_clip);
+    int clip_kind;
+    if (wgs->gl_drawing) {
+        GetClientRect(wgs->term_hwnd, &paint_clip);
+        paint_clip.left = wgs->offset_width;
+        paint_clip.top = wgs->offset_height;
+        paint_clip.right = min(paint_clip.right, wgs->offset_width + term->cols*wgs->font_width);
+        paint_clip.bottom = min(paint_clip.bottom, wgs->offset_height + term->rows*wgs->font_height);
+        clip_kind = SIMPLEREGION;
+    } else clip_kind = GetClipBox(dc, &paint_clip);
     if (clip_kind == ERROR || clip_kind == NULLREGION) {
         RestoreDC(dc, saved);
         return;
@@ -5415,14 +5579,17 @@ static void nemo_paint_images(WinGuiSeat *wgs)
                 while (end < n && (row[end] >> 24)) end++;
                 int x0 = left + x;
                 int x1 = left + end;
-                if (x1 > x0)
+                if (x1 > x0 && wgs->gl_drawing) {
+                    int a = max(x0, paint_clip.left), b = min(x1, paint_clip.right);
+                    if (b > a) nemo_gl_row(wgs->gl, a, y0, b-a, row + x + a-x0);
+                } else if (x1 > x0)
                     StretchDIBits(dc, x0, y0, x1-x0, 1,
                                   x, 0, end-x, 1, row, &bi, DIB_RGB_COLORS, SRCCOPY);
                 x = end;
             }
         }
     }
-    RestoreDC(dc, saved);
+    if (saved) RestoreDC(dc, saved);
 }
 
 /*
@@ -5443,6 +5610,7 @@ static void wintw_palette_set(TermWin *tw, unsigned start,
                               unsigned ncolours, const rgb *colours_in)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    nemo_gl_clear_cache(wgs->gl);
     assert(start <= OSC4_NCOLOURS);
     assert(ncolours <= OSC4_NCOLOURS - start);
 

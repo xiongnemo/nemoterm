@@ -10,6 +10,9 @@ public static class ShellSettingsNative {
     [DllImport("user32.dll")] public static extern IntPtr SendMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
     [DllImport("user32.dll")] public static extern IntPtr GetParent(IntPtr hwnd);
     [DllImport("user32.dll")] public static extern int GetDlgCtrlID(IntPtr hwnd);
+    [DllImport("user32.dll")] public static extern bool PostMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
+    [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern IntPtr GetPropW(IntPtr hwnd, string name);
+    [DllImport("user32.dll")] public static extern bool IsWindow(IntPtr hwnd);
 }
 '@
 $root = Split-Path $PSScriptRoot -Parent
@@ -66,6 +69,24 @@ function Write-Control($value) {
     [IO.File]::WriteAllText($temporary, ($value | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
     Move-Item -LiteralPath $temporary -Destination $control -Force
 }
+function Binding-Controls($dialog, $expected) {
+    Select-Node $dialog 'Bindings' | Out-Null
+    $combos = $dialog.FindAll($scope, (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::ComboBox)))
+    if ($combos.Count -ne 7) { throw 'Missing binding controls' }
+    for ($i=0; $i -lt 7; $i++) {
+        $combo=$combos[$i]
+        if ($combo.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($combo.Current.BoundingRectangle)) { throw 'Binding control clipped' }
+        $selected=[ShellSettingsNative]::SendMessageW([IntPtr]$combo.Current.NativeWindowHandle,0x147,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32()
+        if ($selected -ne $expected[$i]) { throw "Binding $i expected $($expected[$i]), got $selected" }
+    }
+    return ,$combos
+}
+function Set-Combo($combo, [int]$index) {
+    $handle=[IntPtr]$combo.Current.NativeWindowHandle
+    [ShellSettingsNative]::SendMessageW($handle,0x14E,[IntPtr]$index,[IntPtr]::Zero) | Out-Null
+    $id=[ShellSettingsNative]::GetDlgCtrlID($handle)
+    [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($handle),0x111,[IntPtr]($id -bor (1 -shl 16)),$handle) | Out-Null
+}
 try {
     New-Item -Path $profilePath -Force | Out-Null
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
@@ -107,6 +128,39 @@ try {
     $toggle = $reflow.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
     if ($toggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Reflow was not enabled by default' }
     $toggle.Toggle()
+    $columns=Find-Name $dialog 'Columns' 'Edit'
+    $rows=Find-Name $dialog 'Rows' 'Edit'
+    if ($columns.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne '160' -or
+        $rows.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne '48') { throw 'Default grid was not 160 x 48' }
+    $defaultBindings=@(3,3,3,22,0,0,1)
+    $customBindings=@(6,24,5,25,3,26,5)
+    $combos=Binding-Controls $dialog $defaultBindings
+    for ($i=0;$i -lt 7;$i++) { Set-Combo $combos[$i] $customBindings[$i] }
+    Binding-Controls $dialog $customBindings | Out-Null
+    # A duplicate shortcut opens a modal error. Post only the notification so
+    # the test thread can inspect and dismiss that owned modal window.
+    Set-Combo $combos[2] 6
+    $pasteHandle=[IntPtr]$combos[3].Current.NativeWindowHandle
+    [ShellSettingsNative]::SendMessageW($pasteHandle,0x14E,[IntPtr]24,[IntPtr]::Zero) | Out-Null
+    $pasteId=[ShellSettingsNative]::GetDlgCtrlID($pasteHandle)
+    [ShellSettingsNative]::PostMessageW([ShellSettingsNative]::GetParent($pasteHandle),0x111,[IntPtr]($pasteId -bor (1 -shl 16)),$pasteHandle) | Out-Null
+    $errorCondition=New-Object System.Windows.Automation.AndCondition(
+        (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$app.Id)),
+        (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty,'#32770')))
+    $errorDialog=Wait-Value { $dialog.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$errorCondition) }
+    Invoke-Button $errorDialog 'OK'
+    Wait-Value { [ShellSettingsNative]::SendMessageW($pasteHandle,0x147,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32() -eq 25 } | Out-Null
+    Set-Combo $combos[2] 5
+    Invoke-Button $dialog 'Reset bindings'
+    $combos=Binding-Controls $dialog $defaultBindings
+    for ($i=0;$i -lt 7;$i++) { Set-Combo $combos[$i] $customBindings[$i] }
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle bindings-settings.png
+    if ($LASTEXITCODE) { throw 'Bindings settings capture failed' }
+    Select-Node $dialog 'Rendering' | Out-Null
+    if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
+    Select-Node $dialog 'OpenGL (GPU composition)' | Out-Null
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
+    if ($LASTEXITCODE) { throw 'Rendering settings capture failed' }
     Select-Node $dialog 'Selection' | Out-Null
     $copyOnly = Find-Name $dialog 'Copy only'
     if (!$copyOnly.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {
@@ -150,6 +204,9 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoCopyBinding -ne 0x658 -or $values.NemoPasteBinding -ne 0x559 -or
+        $values.NemoCopyPasteBinding -ne 0x35a -or $values.NemoRectangleModifiers -ne 6 -or
+        $values.NemoRenderer -ne 1) { throw 'Bindings or renderer did not save' }
     $expectedHex = -join ([Text.Encoding]::UTF8.GetBytes($fixtureCwd) | ForEach-Object { $_.ToString('X2') })
     if ($values.NemoStartingDirectoryUtf8Hex -ne $expectedHex -or $values.NemoInheritDirectory -ne 0) { throw 'Unicode directory settings were not saved' }
     if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0 -or $values.NemoWin32Input -ne 1) { throw 'Settings were not saved' }
@@ -189,6 +246,11 @@ try {
     Select-Node $dialog 'Window' | Out-Null
     $reloaded = Wait-Value { Find-Name $dialog $reflowLabel }
     if ($reloaded.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Reflow preference did not reload' }
+    $windowNode=Find-Name $dialog 'Window'
+    $windowNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Binding-Controls $dialog $customBindings | Out-Null
+    Select-Node $dialog 'Rendering' | Out-Null
+    if (!(Find-Name $dialog 'OpenGL (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
     Invoke-Button $dialog 'Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
@@ -197,7 +259,26 @@ try {
             if ($value.hex -eq '1b5b3e343b336d1b5b3e343b3166') { $value }
         }
     }
+    $termHandle=Wait-Value { $app.Refresh(); if ($app.MainWindowHandle -and [ShellSettingsNative]::GetPropW($app.MainWindowHandle,'NemotermRenderer').ToInt32()) { $app.MainWindowHandle } }
+    $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
+    $rendererChanges=@()
+    foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','GDI (low memory)')) {
+        [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
+        $dialog=Dialog $app
+        $node=Find-Name $dialog 'Window'
+        $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+        Select-Node $dialog 'Rendering' | Out-Null
+        Select-Node $dialog $mode | Out-Null
+        $dialogHandle=[IntPtr]$dialog.Current.NativeWindowHandle
+        Invoke-Button $dialog 'Apply'
+        Wait-Value { ![ShellSettingsNative]::IsWindow($dialogHandle) } | Out-Null
+        $expectedRenderer=if ($mode -eq 'GDI (low memory)') {1} else {$initialRenderer}
+        $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -eq $expectedRenderer) { $value } }
+        if ($mode -eq 'GDI (low memory)' -and $active -ne 1) { throw 'Live GDI switch failed' }
+        $rendererChanges += @{requested=$mode;active=$active}
+    }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
+        default_grid=@(160,48);saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;

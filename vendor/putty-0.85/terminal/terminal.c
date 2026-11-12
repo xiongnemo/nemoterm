@@ -9765,6 +9765,19 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     /* Side buttons have no local selection, paste or scrolling binding. */
     if (braw == MBT_X1 || braw == MBT_X2) return;
 
+    /* The configured modifier requests a block explicitly. Mouse reporting takes
+     * precedence above; Shift is the local-selection override in that mode.
+     * Repeated Ctrl clicks must not turn the block into a word/line gesture. */
+    bool block = nemo_rectangle_binding(conf_get_int(term->conf, CONF_nemo_rectangle_modifiers),
+                                        shift, ctrl, alt);
+    default_seltype = block || term->rect_select ?
+        RECTANGULAR : LEXICOGRAPHIC;
+    if (block && bcooked == MBT_SELECT && (a == MA_2CLK || a == MA_3CLK))
+        a = MA_CLICK;
+    if (term->selstate == NO_SELECTION ||
+        (bcooked == MBT_SELECT && a == MA_CLICK))
+        term->seltype = default_seltype;
+
     if (y < 0) {
         y = 0;
         if (a == MA_DRAG && !raw_mouse)
@@ -9812,19 +9825,6 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
 
     selpoint.x = x;
     unlineptr(ldata);
-
-    /*
-     * Set the selection type (rectangular or normal) at the start
-     * of a selection attempt, from the state of Alt.
-     */
-    if (!alt ^ !term->rect_select)
-        default_seltype = RECTANGULAR;
-    else
-        default_seltype = LEXICOGRAPHIC;
-
-    if (term->selstate == NO_SELECTION) {
-        term->seltype = default_seltype;
-    }
 
     if (bcooked == MBT_SELECT && a == MA_CLICK) {
         deselect(term);

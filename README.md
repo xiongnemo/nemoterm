@@ -35,6 +35,13 @@ python -m pip install frida==17.24.3 # native input/DPI test instrumentation onl
 也可以 Ctrl+右键 → Change Settings，在原生设置窗口配置字体、颜色、光标和历史。
 配置写入 `HKCU\Software\Nemo\Nemoterm`，与现有 PuTTY/pterm 分开。
 
+新配置默认 **160×48 字符**。启动时按实际字体与窗口边框计算尺寸，放不下时
+缩小字符网格到所在屏幕工作区；显式尺寸和已有配置继续生效。
+Window/Rendering 可在默认低内存 GDI 与可选 OpenGL GPU 合成之间切换。
+OpenGL 使用系统 DLL 和已安装显卡驱动，无新增分发依赖；初始化或绘制失败自动回退 GDI。
+GPU 模式允许超过原内存目标，切回 GDI 后需重启窗口才能完全释放驱动内存。
+它缓存栅格化文字并由 GPU 合成，不代表已经证明比 GDI 更快。[实现与验证](research/rendering.md)。
+
 启动 shell 可选 `--shell auto|pwsh|powershell|busybox-ash|git-bash|wsl-bash|cmd`。
 `--choose-shell` 打开启动选择窗口；Session 的 Shell 下拉框和“Choose shell on
 startup”可随 Default Settings 或命名配置保存。自定义命令使用
@@ -63,6 +70,8 @@ conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA �
 ## 交互
 
 * Ctrl+Shift+C：复制选择内容；Ctrl+Shift+V：粘贴系统剪贴板。
+  Window/Bindings 可改复制、粘贴、复制并粘贴的快捷键，以及矩形选择修饰键。
+* Ctrl+左键拖选：矩形选择；应用捕获鼠标时加 Shift。拖动中松开修饰键保持选区形状。
 * 右键已选择的文本：默认只复制；可在 Window/Selection 改为复制并粘贴。
   复制并粘贴使用当前选区，系统剪贴板繁忙时也不会粘贴旧内容。
 * Ctrl+右键：始终打开上下文菜单，其中有 Copy and Paste。
