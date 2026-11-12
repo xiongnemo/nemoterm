@@ -51,11 +51,11 @@ def main():
     replace(DEST / "src/host/exe/exemain.cpp", "int CALLBACK wWinMain(", "int CALLBACK NemoConsoleMain(")
     shutil.copyfile(ROOT / "native/single_exe/entry.cpp", DEST / "src/host/exe/nemo-entry.cpp")
 
-    # No COM handoff registration, legacy conhost loading, or GPU shader support
+    # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.
     features = DEST / "src/features.xml"
     value = features.read_text(encoding="utf-8")
-    for feature in ("ReceiveIncomingHandoff", "ConhostAtlasEngineCustomShaders"):
+    for feature in ("ReceiveIncomingHandoff",):
         value, count = re.subn(
             rf"(<name>Feature_{feature}</name>.*?<stage>)AlwaysEnabled(</stage>)",
             r"\g<1>AlwaysDisabled\2", value, flags=re.S)
