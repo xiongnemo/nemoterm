@@ -68,7 +68,9 @@ try:
             if sid in ('pwsh', 'powershell'):
                 command = "[IO.File]::WriteAllText('"+path.replace("'", "''")+"',(Get-Location).ProviderPath)"
             elif sid == 'cmd':
-                command = 'chcp 65001>nul & cd >"' + str(marker) + '"'
+                # CMD redirects builtins using its ANSI encoding unless /U is
+                # set. CHCP changes console I/O, not this redirected file.
+                command = 'cmd /d /u /c cd >"' + str(marker) + '"'
             else:
                 command = ("pwd -W > " if sid == "git-bash" else "pwd > ") + shlex.quote(path)
             process = subprocess.Popen([str(exe), '-load', profile, '--shell', sid,
@@ -87,7 +89,7 @@ try:
                     if process.poll() is None:
                         capture(hwnd, root/'build'/('shell-failed-' + sid + '.png'))
                     raise
-                actual = marker.read_text(encoding='utf-8-sig').strip()
+                actual = marker.read_text(encoding='utf-16-le' if sid == 'cmd' else 'utf-8-sig').strip()
                 expected = starting.as_posix() if sid == 'git-bash' else shell_path(starting, sid)
                 assert same_directory(actual, starting, sid), (sid, actual, expected)
                 observed['launches'][sid] = dict(command_executed=True,
