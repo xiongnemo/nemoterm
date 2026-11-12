@@ -11,9 +11,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 4313088,
-        "total_ws": 20348928,
-        "private_commit": 5529600
+        "private_ws": 4329472,
+        "total_ws": 20385792,
+        "private_commit": 5554176
       }
     },
     {
@@ -26,9 +26,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 4468736,
-        "total_ws": 20545536,
-        "private_commit": 5685248
+        "private_ws": 4485120,
+        "total_ws": 20578304,
+        "private_commit": 5709824
       }
     },
     {
@@ -41,9 +41,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 4354048,
-        "total_ws": 20439040,
-        "private_commit": 5570560
+        "private_ws": 4370432,
+        "total_ws": 20480000,
+        "private_commit": 5595136
       }
     },
     {
@@ -56,9 +56,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 4382720,
-        "total_ws": 20471808,
-        "private_commit": 5599232
+        "private_ws": 4399104,
+        "total_ws": 20520960,
+        "private_commit": 5623808
       }
     },
     {
@@ -71,9 +71,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 4419584,
-        "total_ws": 20512768,
-        "private_commit": 5636096
+        "private_ws": 4435968,
+        "total_ws": 20570112,
+        "private_commit": 5660672
       }
     },
     {
@@ -90,9 +90,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 6664192,
-        "total_ws": 22818816,
-        "private_commit": 8011776
+        "private_ws": 6287360,
+        "total_ws": 22462464,
+        "private_commit": 7606272
       }
     },
     {
@@ -105,9 +105,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 7532544,
-        "total_ws": 23691264,
-        "private_commit": 8851456
+        "private_ws": 6094848,
+        "total_ws": 22274048,
+        "private_commit": 7421952
       }
     },
     {
@@ -120,9 +120,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 6144000,
-        "total_ws": 22315008,
-        "private_commit": 7462912
+        "private_ws": 7434240,
+        "total_ws": 23625728,
+        "private_commit": 8757248
       }
     },
     {
@@ -135,9 +135,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 5664768,
-        "total_ws": 21843968,
-        "private_commit": 6975488
+        "private_ws": 6377472,
+        "total_ws": 22568960,
+        "private_commit": 7720960
       }
     },
     {
@@ -150,9 +150,9 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 5873664,
-        "total_ws": 22056960,
-        "private_commit": 7184384
+        "private_ws": 6582272,
+        "total_ws": 22777856,
+        "private_commit": 7925760
       }
     },
     {
@@ -165,15 +165,15 @@
         "input_mode": 640
       },
       "memory": {
-        "private_ws": 6864896,
-        "total_ws": 23052288,
-        "private_commit": 8183808
+        "private_ws": 5632000,
+        "total_ws": 21827584,
+        "private_commit": 6946816
       }
     }
   ],
-  "executable_sha256": "9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab",
-  "samples": 112,
-  "peak_private_ws": 7569408,
-  "peak_total_ws": 23740416,
-  "peak_private_commit": 8888320
+  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
+  "samples": 113,
+  "peak_private_ws": 6299648,
+  "peak_total_ws": 22478848,
+  "peak_private_commit": 7741440
 }

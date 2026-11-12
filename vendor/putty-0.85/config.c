@@ -2124,6 +2124,13 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "xterm (27~)", I(0), "CSI-u", I(1));
     ctrl_text(s, "Applications can change these settings. Kitty keyboard "
               "enhancements take priority while enabled.", HELPCTX(no_help));
+#ifdef _WIN32
+    s = ctrl_getset(b, "Terminal/Keyboard/Extended", "windowskeys", "Windows console applications:");
+    ctrl_checkbox(s, "Preserve Windows key events (experimental)", 'w',
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_win32_input));
+    ctrl_text(s, "Supports Shift+Enter in Windows console apps. Changes custom "
+              "key mappings; F21-F24 in plain VT apps are limited.", HELPCTX(no_help));
+#endif
 
     /*
      * The Terminal/Bell panel.

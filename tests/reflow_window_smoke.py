@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-reflow-') as directory:
     sampler = threading.Thread(target=sample)
     sampler.start()
     def current():
-        value = read_snapshot(report)
+        value = wait_snapshot(lambda: read_snapshot(report))
         assert process.poll() is None and not value.get('error'), value
         return value
     def phase(name, sequence):

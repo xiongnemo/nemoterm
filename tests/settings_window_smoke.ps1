@@ -70,8 +70,14 @@ try {
     Select-Node $dialog 'Extended' | Out-Null
     Select-Node $dialog 'All keys' | Out-Null
     Select-Node $dialog 'CSI-u' | Out-Null
+    $win32Label = 'Preserve Windows key events (experimental)'
+    $win32 = Wait-Value { Find-Name $dialog $win32Label }
+    $win32Toggle = $win32.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($win32Toggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Experimental Win32 input was enabled by default' }
+    $win32Toggle.Toggle()
     # All visible controls must remain within the fixed-height dialog.
     $bounds = $dialog.Current.BoundingRectangle
+    if ($win32.Current.IsOffscreen -or !$bounds.Contains($win32.Current.BoundingRectangle)) { throw 'Win32 input option clipped' }
     foreach ($name in @('Off', 'Compatible', 'Modified keys', 'All keys', 'xterm (27~)', 'CSI-u')) {
         $node = Find-Name $dialog $name
         if (!$node -or $node.Current.IsOffscreen -or !$bounds.Contains($node.Current.BoundingRectangle)) {
@@ -102,7 +108,7 @@ try {
     $saved.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($fixtureProfile)
     Invoke-Button $dialog 'Save'
     $values = Get-ItemProperty -LiteralPath $profilePath
-    if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0) { throw 'Settings were not saved' }
+    if ($values.NemoModifyOtherKeys -ne 3 -or $values.NemoFormatOtherKeys -ne 1 -or $values.RightClickCopyAndPaste -ne 1 -or $values.NemoReflow -ne 0 -or $values.NemoWin32Input -ne 1) { throw 'Settings were not saved' }
     Invoke-Button $dialog 'Cancel'
     if (!$app.WaitForExit(3000) -or $app.ExitCode -ne 0) { throw 'Settings cancel failed' }
 
@@ -113,6 +119,13 @@ try {
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     if (Find-Name $dialog 'Connection') { throw 'Local terminal exposed network settings' }
+    foreach ($name in @('Terminal', 'Keyboard')) {
+        $node = Wait-Value { Find-Name $dialog $name }
+        $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    }
+    Select-Node $dialog 'Extended' | Out-Null
+    $reloadedWin32 = Wait-Value { Find-Name $dialog $win32Label }
+    if ($reloadedWin32.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Win32 preference did not reload' }
     Select-Node $dialog 'Window' | Out-Null
     $reloaded = Wait-Value { Find-Name $dialog $reflowLabel }
     if ($reloaded.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Reflow preference did not reload' }
@@ -126,7 +139,7 @@ try {
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
-        reflow_default=$true;saved_reflow=$false;cancel_exit=0;local_launch=$true;query=$observed}
+        reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;query=$observed}
     [IO.File]::WriteAllText((Join-Path $root 'research/settings-window-observed.json'),
         ($evidence | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     Write-Control @{stop=$true}

@@ -9,10 +9,12 @@
                   "input_mode":  640
               },
     "local_launch":  true,
+    "win32_default":  false,
     "saved_format":  1,
     "cancel_exit":  0,
+    "saved_win32":  true,
     "copy_only_default":  true,
     "reflow_default":  true,
-    "executable_sha256":  "9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab",
+    "executable_sha256":  "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
     "saved_level":  3
 }

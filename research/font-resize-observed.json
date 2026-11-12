@@ -21,11 +21,11 @@
         ]
       },
       "memory": {
-        "private_ws": 4841472,
-        "total_ws": 26288128,
-        "private_commit": 6373376
+        "private_ws": 3878912,
+        "total_ws": 21123072,
+        "private_commit": 5001216
       },
-      "gdi": 23
+      "gdi": 22
     },
     {
       "phase": "wide",
@@ -44,11 +44,11 @@
         ]
       },
       "memory": {
-        "private_ws": 4857856,
-        "total_ws": 26370048,
-        "private_commit": 6373376
+        "private_ws": 3883008,
+        "total_ws": 21147648,
+        "private_commit": 5001216
       },
-      "gdi": 23
+      "gdi": 22
     },
     {
       "phase": "tall",
@@ -67,11 +67,11 @@
         ]
       },
       "memory": {
-        "private_ws": 4857856,
-        "total_ws": 26394624,
-        "private_commit": 6373376
+        "private_ws": 3903488,
+        "total_ws": 21192704,
+        "private_commit": 5001216
       },
-      "gdi": 23
+      "gdi": 22
     },
     {
       "phase": "both",
@@ -90,11 +90,11 @@
         ]
       },
       "memory": {
-        "private_ws": 4861952,
-        "total_ws": 26406912,
-        "private_commit": 6373376
+        "private_ws": 3903488,
+        "total_ws": 21209088,
+        "private_commit": 5001216
       },
-      "gdi": 23
+      "gdi": 22
     },
     {
       "phase": "restore",
@@ -113,12 +113,12 @@
         ]
       },
       "memory": {
-        "private_ws": 4866048,
-        "total_ws": 26423296,
-        "private_commit": 6373376
+        "private_ws": 3907584,
+        "total_ws": 21233664,
+        "private_commit": 5001216
       },
-      "gdi": 23
+      "gdi": 22
     }
   ],
-  "executable_sha256": "9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab"
+  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d"
 }

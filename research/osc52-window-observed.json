@@ -300,9 +300,9 @@
     "reply_bytes": 0,
     "reply_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
-  "executable_sha256": "9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab",
+  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d",
   "requested_font": "default",
-  "peak_private_ws": 4808704,
-  "peak_total_ws": 25358336,
-  "peak_private_commit": 6057984
+  "peak_private_ws": 4677632,
+  "peak_total_ws": 25317376,
+  "peak_private_commit": 6189056
 }

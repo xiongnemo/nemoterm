@@ -372,7 +372,7 @@
         20
       ],
       "red_pixels": 1024,
-      "gdi": 23
+      "gdi": 24
     },
     {
       "phase": "image-budget-erase",
@@ -383,7 +383,7 @@
         20
       ],
       "red_pixels": 864,
-      "gdi": 24
+      "gdi": 23
     },
     {
       "phase": "image-budget-font-change",
@@ -394,7 +394,7 @@
         40
       ],
       "red_pixels": 864,
-      "gdi": 24
+      "gdi": 23
     },
     {
       "phase": "image-budget-release",
@@ -408,8 +408,8 @@
       "gdi": 22
     }
   ],
-  "peak_private_ws": 8876032,
-  "peak_total_ws": 30154752,
-  "peak_private_commit": 10334208,
-  "executable_sha256": "9d7a47eeb829b1584fa5308f17165ddcfa315ea3cb42555f366752eb593111ab"
+  "peak_private_ws": 8884224,
+  "peak_total_ws": 30162944,
+  "peak_private_commit": 10342400,
+  "executable_sha256": "f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d"
 }

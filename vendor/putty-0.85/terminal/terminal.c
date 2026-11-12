@@ -2151,6 +2151,8 @@ static void power_on(Terminal *term, bool clear)
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
     memset(term->keyboard, 0, sizeof(term->keyboard));
+    term->win32_input = false;
+    term->win32_input_epoch++;
     nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
                    conf_get_int(term->conf, CONF_nemo_format_other_keys));
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
@@ -2436,6 +2438,8 @@ void term_reconfig(Terminal *term, Conf *conf)
      * Mode, BCE, blinking text, cursor style, character classes.
      */
     bool reset_wrap, reset_decom, reset_bce, reset_tblink, reset_charclass;
+    if (conf_get_bool(term->conf, CONF_nemo_win32_input) !=
+        conf_get_bool(conf, CONF_nemo_win32_input)) term->win32_input_epoch++;
     bool reset_mok = conf_get_int(term->conf, CONF_nemo_modify_other_keys) !=
                      conf_get_int(conf, CONF_nemo_modify_other_keys);
     bool reset_mok_format = conf_get_int(term->conf, CONF_nemo_format_other_keys) !=
@@ -4189,6 +4193,10 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 2004:                   /* xterm bracketed paste */
             term->bracketed_paste = state ? true : false;
             break;
+          case 9001:                   /* Win32 KEY_EVENT_RECORD transport */
+            if (term->win32_input != state) term->win32_input_epoch++;
+            term->win32_input = state;
+            break;
         }
     } else if (query == 0) {
         switch (mode) {
@@ -4256,6 +4264,9 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 2004:
             if (term->no_bracketed_paste) return 4;
             state = term->bracketed_paste; break;
+          case 9001:
+            if (!conf_get_bool(term->conf, CONF_nemo_win32_input)) return 4;
+            state = term->win32_input; break;
           case 2026:
             if (!term->win->vt->set_synchronized_update) return 0;
             state = term->synchronized_update; break;

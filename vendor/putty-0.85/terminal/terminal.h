@@ -13,6 +13,7 @@
 #include "nemo_keyboard.h"
 #include "nemo_mok.h"
 #include "nemo_osc52.h"
+#include "nemo_win32_input.h"
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
  * URI is borrowed until further terminal output; copy before nested UI calls. */
@@ -252,6 +253,8 @@ struct terminal_tag {
     int alt_which;
     NemoKeyboard keyboard[2];
     NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
+    bool win32_input; /* DEC 9001 is global, including the alternate screen */
+    unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

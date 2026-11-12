@@ -473,7 +473,8 @@ RIS resets both; cursor save/restore and resize preserve modes. The portable
 encoder bounds associated text to 16 Unicode scalars and output to 256 bytes,
 rejecting invalid scalars and incomplete output without heap allocation.
 
-The Win32 adapter allocates about 12 KiB only after enhancement is used. It
+The Win32 adapter originally allocated about 12 KiB after enhancement was used;
+the later optional 9001 checkpoint extends this lazy allocation to about 24 KiB. It
 tracks physical scan positions so a layout change cannot orphan a held key.
 Press/repeat/release, lock state, left/right modifiers, navigation, keypad,
 F1..F24 and media keys are mapped; the portable encoder covers F1..F35.
@@ -492,7 +493,8 @@ UTF-16 surrogate and IME-character messages, independent screen stacks,
 synchronized output, focus loss, resize, selected-label copy and bracketed
 paste. These synthetic messages do not verify real IME candidate windows,
 physical devices, every locale, Alt-number entry or sustained agent behavior.
-Windows input mode 9001 and modifyOtherKeys remain separate outstanding work.
+Windows input mode 9001 and modifyOtherKeys were outstanding at this checkpoint;
+the later sections record their implementations and remaining limitations.
 
 All 17 core and 10 native suites passed locally for executable SHA-256
 `27a3e0e2658cfd237a0fa5d112dca84b011ca6328c40982b4a15dd26c2c57a89`.
@@ -716,3 +718,40 @@ hyperlink cores passed ASan/UBSan; actionlint passed. Pixel fixtures now wait
 for the actual final cursor geometry, and the hyperlink baseline stays on
 screen away from the pointer and verifies that the hidden startup cursor is
 also erased. The exact underline-group assertion remains unchanged.
+
+## Optional Win32 input checkpoint (2026-11-12)
+
+DEC 9001 negotiation and bounded KEY_EVENT_RECORD encoding are implemented,
+with UTF-16, scan/virtual keys, left/right modifiers, lock flags, repeat counts,
+press/release, focus cleanup and policy epochs. The profile option under
+Terminal/Keyboard/Extended defaults off. Enabling it supports native Windows
+console key identity; kitty and active modifyOtherKeys retain priority.
+The pinned ConPTY preserves native F24 but drops it when re-encoding ordinary
+VT input, and this path bypasses traditional custom key mappings. Keeping it
+optional preserves the existing direct-VT F21-F24 capability/input regression.
+See [win32-input.md](../research/win32-input.md) for upstream references and
+the measured limitation; this does not complete keyboard acceptance.
+
+The new native fixture reads real ReadConsoleInputW records, console control
+signals, mouse events and resize records, then separately checks VT input,
+application 9001, kitty/modifyOtherKeys coexistence and local Shift selection
+with Ctrl+Shift+C/V paste. The settings fixture checks the visible option's
+default, saved value and reload. The reflow fixture now waits for a complete
+JSON snapshot when Windows temporarily denies access during atomic replacement;
+its exact text, selection and dimension assertions are unchanged.
+
+All 21 core suites and 15 native groups passed locally, including the two
+additional keyboard font/configuration runs, for executable SHA-256
+`f96bcb1d963015408ad79c8924c8dab0ad7ca964208d1994f06d1a35dc1af15d`.
+Win32 input, kitty and modified-key cores passed ASan/UBSan with leak detection;
+actionlint 1.7.12 passed. PrintWindow captures show the owned terminal and
+settings controls. CI includes 17 native JSON runs, seven terminal sanitizer
+logs and the separate Sixel/colour sanitizer checks.
+
+The optional Win32 fixture sampled 4,399,104 bytes private WS, 25,538,560 total
+WS and 5,812,224 private commit. The mixed 6,000-link/800-Sixel stress fixture
+continuously sampled peaks of 8,876,032 private WS, 33,669,120 total WS and
+10,190,848 private commit. Reflow peaked at 6,299,648 / 22,478,848 / 7,741,440
+bytes respectively. No working-set trimming was used; ConPTY and children are
+separate processes. Physical keyboard/IME, DPI, long-running real agents and
+the remaining protocol families remain open.

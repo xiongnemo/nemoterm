@@ -4384,7 +4384,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
     WPARAM original_key = wParam;
     bool enhanced = (nemo_keyboard_flags(
         &wgs->term->keyboard[wgs->term->alt_which != 0]) &
-        (NEMO_KEY_DISAMBIGUATE | NEMO_KEY_EVENTS | NEMO_KEY_ALL)) != 0;
+        (NEMO_KEY_DISAMBIGUATE | NEMO_KEY_EVENTS | NEMO_KEY_ALL)) != 0 ||
+        nemo_win32_input_active(wgs);
     BYTE keystate[256];
     int scan, shift_state;
     bool left_alt = false, key_down;
@@ -4701,7 +4702,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             return -1;
         }
         /* Control-Numlock for app-keypad mode switch */
-        if (wParam == VK_PAUSE && shift_state == 2) {
+        if (!enhanced && wParam == VK_PAUSE && shift_state == 2) {
             wgs->term->app_keypad_keys = !wgs->term->app_keypad_keys;
             return 0;
         }

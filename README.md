@@ -46,6 +46,10 @@ Windows 原生 C 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32/G
   Ctrl+PageUp/PageDown 在默认模式下发送给应用；Shift+PageUp/PageDown 保留本地滚动。
 * 支持应用协商 xterm modifyOtherKeys 的 0–3 级和两种编码格式；
   Terminal/Keyboard/Extended 可设置初始值，默认关闭。kitty 增强键盘启用时优先。
+* 同一页面可启用实验选项 `Preserve Windows key events`，通过 Win32 输入协议
+  保留 Windows 控制台应用的 Shift+Enter、Ctrl+Space、左右修饰键和按键释放。
+  默认关闭：当前 ConPTY 的普通 VT 转换会丢失 F21–F24，且此路径会绕过自定义
+  传统按键编码。kitty/modifyOtherKeys 协商仍优先；[验证与限制](research/win32-input.md)。
 
 ## 验证与边界
 
@@ -74,6 +78,9 @@ file 主机必须为空、localhost 或匹配本机名称。远程文件地址�
 `python tests/mok_window_smoke.py` 检查 xterm modifyOtherKeys 的等级、格式、修饰位屏蔽、
 查询/复位、Unicode、kitty 优先级和相同的复制/鼠标/缩放行为；另测保存的初始配置。
 独立 xterm 对照、Windows 映射和已知差异见 [编码记录](research/modify-other-keys.md)。
+`python tests/win32_input_window_smoke.py` 使用临时配置启用 Win32 输入，验证真实
+`ReadConsoleInputW` 记录、UTF-16、重复次数、Ctrl+C/Ctrl+Break 信号、尺寸通知和
+VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试结束删除临时配置。
 `powershell.exe -NoProfile -File tests/settings_window_smoke.ps1` 检查真实设置窗口的
 选项可见性、右键默认策略、保存/加载和从设置页启动本地会话；[设置截图](research/mok-settings.png)。
 `python tests/osc52_window_smoke.py` 检查四种应用剪贴板权限、中文/emoji、

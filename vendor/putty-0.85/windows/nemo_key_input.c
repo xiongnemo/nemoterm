@@ -7,11 +7,14 @@
 typedef struct HeldKey {
     uint32_t key, shifted, base;
     bool active, protocol, down;
+    bool win32;
+    NemoWin32Key raw;
 } HeldKey;
 
 typedef struct NemoKeyInput {
     HeldKey held[768];
     unsigned known_mods, down_mods;
+    unsigned win32_epoch;
 } NemoKeyInput;
 
 static unsigned flags(WinGuiSeat *wgs)
@@ -22,6 +25,23 @@ static unsigned flags(WinGuiSeat *wgs)
 static bool enhanced(WinGuiSeat *wgs)
 {
     return (flags(wgs) & (NEMO_KEY_DISAMBIGUATE | NEMO_KEY_EVENTS | NEMO_KEY_ALL)) != 0;
+}
+
+bool nemo_win32_input_active(WinGuiSeat *wgs)
+{
+    /* ConPTY requests 9001 on startup. Application keyboard negotiations must
+     * still take precedence over that underlying transport request. */
+    return wgs->term->win32_input && conf_get_bool(wgs->term->conf, CONF_nemo_win32_input) &&
+        !flags(wgs) && wgs->term->modify_keys.level <= 0;
+}
+
+static void refresh_win32_epoch(WinGuiSeat *wgs)
+{
+    NemoKeyInput *ui = wgs->key_input;
+    if (ui->win32_epoch == wgs->term->win32_input_epoch) return;
+    for (size_t i = 0; i < lenof(ui->held); i++)
+        if (ui->held[i].win32) memset(&ui->held[i], 0, sizeof(ui->held[i]));
+    ui->win32_epoch = wgs->term->win32_input_epoch;
 }
 
 static unsigned specific_key(unsigned vk, LPARAM lp)
@@ -46,13 +66,15 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
 {
     if (!wgs->term || key >= 256) return;
     bool kitty = enhanced(wgs);
-    bool active = kitty || wgs->term->modify_keys.level > 0;
+    bool raw = nemo_win32_input_active(wgs);
+    bool active = kitty || raw || wgs->term->modify_keys.level > 0;
     if (!wgs->key_input && !active) return;
     if (!wgs->key_input) {
         wgs->key_input = snew(NemoKeyInput);
         memset(wgs->key_input, 0, sizeof(*wgs->key_input));
     }
     NemoKeyInput *ui = wgs->key_input;
+    refresh_win32_epoch(wgs);
     bool down = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
     unsigned vk = specific_key(key, lp);
     static const unsigned modifiers[] = {
@@ -71,11 +93,11 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
         state[VK_SHIFT] = state[VK_LSHIFT] | state[VK_RSHIFT];
         state[VK_CONTROL] = state[VK_LCONTROL] | state[VK_RCONTROL];
         state[VK_MENU] = state[VK_LMENU] | state[VK_RMENU];
-        if (kitty) wgs->compose_state = 0; /* Kitty keys and native IME replace legacy compose. */
+        if (kitty || raw) wgs->compose_state = 0; /* Native layout/IME replaces legacy compose. */
     }
     HeldKey *held = &ui->held[key_index(key, lp)];
     if (down && !(HIWORD(lp) & KF_REPEAT))
-        *held = (HeldKey){.active=kitty, .down=true};
+        *held = (HeldKey){.active=kitty || raw, .down=true};
 }
 
 static unsigned modifiers(const BYTE state[256])
@@ -260,6 +282,49 @@ static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
     return true;
 }
 
+static void win32_send(WinGuiSeat *wgs, const NemoWin32Key *key)
+{
+    char output[NEMO_WIN32_ENCODED_MAX];
+    int n = nemo_win32_encode(key, output, sizeof(output));
+    if (n > 0) term_keyinput(wgs->term, -1, output, n);
+}
+
+static uint32_t win32_modifiers(const BYTE state[256], LPARAM lp)
+{
+    return (state[VK_RMENU] & 0x80 ? RIGHT_ALT_PRESSED : 0) |
+        (state[VK_LMENU] & 0x80 ? LEFT_ALT_PRESSED : 0) |
+        (state[VK_RCONTROL] & 0x80 ? RIGHT_CTRL_PRESSED : 0) |
+        (state[VK_LCONTROL] & 0x80 ? LEFT_CTRL_PRESSED : 0) |
+        (state[VK_SHIFT] & 0x80 ? SHIFT_PRESSED : 0) |
+        (state[VK_NUMLOCK] & 1 ? NUMLOCK_ON : 0) |
+        (state[VK_SCROLL] & 1 ? SCROLLLOCK_ON : 0) |
+        (state[VK_CAPITAL] & 1 ? CAPSLOCK_ON : 0) |
+        (HIWORD(lp) & KF_EXTENDED ? ENHANCED_KEY : 0);
+}
+
+static void win32_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
+                            const BYTE state[256], HKL layout, HeldKey *held, bool down)
+{
+    unsigned scan = (lp >> 16) & 255;
+    wchar_t wide[16];
+    /* Key-up previews must not consume a pending dead key. The menu flag
+     * prevents Alt+navigation from unexpectedly producing a text character. */
+    int n = ToUnicodeEx(vk, scan, state, wide, lenof(wide), down ? 1 : 5, layout);
+    /* A preview can combine the pending dead key with itself on release.
+     * It is not a second text commit and must not produce multiple releases. */
+    if (n < 0 || (!down && n != 1)) n = 0;
+    n = min(n, (int)lenof(wide));
+    NemoWin32Key key = {.vk=vk, .scan=scan, .down=down,
+        .control=win32_modifiers(state, lp), .repeat=max(1, LOWORD(lp))};
+    for (int i = 0; i < max(1, n); i++) {
+        key.character = n ? (uint16_t)wide[i] : 0;
+        win32_send(wgs, &key);
+    }
+    held->active = held->down = down;
+    held->win32 = true;
+    held->raw = key;
+}
+
 bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
                          const BYTE state[256], HKL layout)
 {
@@ -267,15 +332,22 @@ bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
     HeldKey *held = &wgs->key_input->held[key_index(vk, lp)];
     bool down = message == WM_KEYDOWN || message == WM_SYSKEYDOWN;
     bool active = enhanced(wgs);
+    bool raw = nemo_win32_input_active(wgs);
     if (!down) {
-        bool consume = held->active || active;
-        if (active && held->protocol) {
+        bool consume = held->active || active || raw;
+        if (raw && held->win32 && held->down) {
+            win32_key_input(wgs, vk, lp, state, layout, held, false);
+        } else if (active && held->protocol) {
             NemoKeyEvent event = {.key=held->key, .shifted=held->shifted, .base=held->base,
                                  .modifiers=modifiers(state), .type=3};
             send_event(wgs, flags(wgs), &event, NULL);
         }
         memset(held, 0, sizeof(*held));
         return consume;
+    }
+    if (raw) {
+        win32_key_input(wgs, vk, lp, state, layout, held, true);
+        return true;
     }
     if (!active) return modified_key_input(wgs, vk, lp, state, layout, held);
     held->active = held->down = true;
@@ -316,6 +388,16 @@ bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
 bool nemo_keyboard_text(WinGuiSeat *wgs, const wchar_t *text, size_t length)
 {
     unsigned mode = flags(wgs);
+    if (nemo_win32_input_active(wgs)) {
+        /* IME/WM_CHAR text has no physical key identity. Preserve UTF-16 units
+         * (including surrogate pairs) in the protocol's UnicodeChar field. */
+        NemoWin32Key key = {.down=true, .repeat=1};
+        for (size_t i = 0; i < length; i++) {
+            key.character = (uint16_t)text[i];
+            win32_send(wgs, &key);
+        }
+        return true;
+    }
     if (!enhanced(wgs) && wgs->term->modify_keys.level == 3) {
         while (length) {
             size_t take = min(length, NEMO_KEY_TEXT_MAX);
@@ -347,9 +429,16 @@ bool nemo_keyboard_text(WinGuiSeat *wgs, const wchar_t *text, size_t length)
 void nemo_keyboard_focus_lost(WinGuiSeat *wgs)
 {
     if (!wgs->key_input) return;
+    refresh_win32_epoch(wgs);
     for (size_t i = 0; i < lenof(wgs->key_input->held); i++) {
         HeldKey *held = &wgs->key_input->held[i];
-        if (held->protocol && held->down) {
+        if (held->win32 && held->down && nemo_win32_input_active(wgs)) {
+            NemoWin32Key key = held->raw;
+            key.down = false;
+            key.repeat = 1;
+            key.control &= ENHANCED_KEY | CAPSLOCK_ON | NUMLOCK_ON | SCROLLLOCK_ON;
+            win32_send(wgs, &key);
+        } else if (held->protocol && held->down) {
             NemoKeyEvent event = {.key=held->key, .shifted=held->shifted,
                                  .base=held->base, .type=3};
             send_event(wgs, flags(wgs), &event, NULL);
