@@ -58,6 +58,36 @@
 
 static const char *const EMPTY_WINDOW_TITLE = "";
 
+/* XTerm shares ten slots between stack and indexed title operations. Allocate
+ * only on the first push. Bound both depth and saved strings independently of
+ * any locally configured title, and retain each string's original encoding. */
+#define TITLE_STACK_SLOTS 10
+#define TITLE_STACK_STRING_MAX 4096
+struct nemo_saved_title {
+    char *text[2];                  /* icon, window; NULL differs from empty */
+    int codepage[2];
+};
+struct nemo_title_stack {
+    unsigned next, depth;
+    struct nemo_saved_title slot[TITLE_STACK_SLOTS];
+};
+
+static void nemo_saved_title_free(struct nemo_saved_title *title)
+{
+    for (unsigned i = 0; i < 2; i++) {
+        sfree(title->text[i]);
+        title->text[i] = NULL;
+    }
+}
+
+static void nemo_title_stack_free(struct nemo_title_stack *stack)
+{
+    if (!stack) return;
+    for (unsigned i = 0; i < TITLE_STACK_SLOTS; i++)
+        nemo_saved_title_free(&stack->slot[i]);
+    sfree(stack);
+}
+
 static const char sco2ansicolour[] = { 0, 4, 2, 6, 1, 5, 3, 7 };
 
 #define sel_nl_sz  (sizeof(sel_nl)/sizeof(wchar_t))
@@ -3110,6 +3140,8 @@ void term_free(Terminal *term)
     sfree(term->window_title);
     sfree(term->icon_title);
 
+    nemo_title_stack_free(term->title_stack);
+
     bidi_free_context(term->bidi_ctx);
 
     /* In case a term_userpass_state is still around */
@@ -5146,6 +5178,72 @@ static void osc52_finish(Terminal *term, bool bel)
         if (mask) nemo_osc52_store(term->osc52, mask, text, packet.length);
     }
     nemo_osc52_cancel(term->osc52);
+}
+
+static void nemo_title_stack_op(Terminal *term, bool push)
+{
+    if (term->no_remote_wintitle) return;
+    unsigned kind = term->esc_nargs >= 2 ? term->esc_args[1] : 0;
+    unsigned which = term->esc_nargs >= 3 ? term->esc_args[2] : 0;
+    struct nemo_title_stack *stack = term->title_stack;
+    if (!push && (!stack || (!which && !stack->depth))) return;
+
+    struct nemo_saved_title saved = {0};
+    if (push) {
+        const char *text[] = {term->icon_title, term->window_title};
+        int cp[] = {term->icontitle_codepage, term->wintitle_codepage};
+        for (unsigned i = 0; i < 2; i++) {
+            if (kind && kind != i+1) continue;
+            size_t n;
+            for (n = 0; n <= TITLE_STACK_STRING_MAX && text[i][n]; n++);
+            if (n > TITLE_STACK_STRING_MAX) {
+                nemo_saved_title_free(&saved);
+                return;             /* reject the whole push, no partial save */
+            }
+            saved.text[i] = dupstr(text[i]);
+            saved.codepage[i] = cp[i];
+        }
+        if (!stack) {
+            stack = snew(struct nemo_title_stack);
+            memset(stack, 0, sizeof(*stack));
+            term->title_stack = stack;
+        }
+    }
+    unsigned slot;
+    if (which) {
+        slot = (which-1) % TITLE_STACK_SLOTS;
+    } else if (push) {
+        slot = stack->next;
+        stack->next = (slot+1) % TITLE_STACK_SLOTS;
+        if (stack->depth < TITLE_STACK_SLOTS) stack->depth++;
+    } else {
+        slot = (stack->next+TITLE_STACK_SLOTS-1) % TITLE_STACK_SLOTS;
+        stack->next = slot;
+        if (!--stack->depth) stack->next = 0;
+    }
+    if (push) {
+        nemo_saved_title_free(&stack->slot[slot]);
+        stack->slot[slot] = saved;
+    } else {
+        for (unsigned i = 0; i < 2; i++) {
+            if (kind && kind != i+1) continue;
+            for (unsigned distance = 0; distance < TITLE_STACK_SLOTS; distance++) {
+                struct nemo_saved_title *source = &stack->slot[
+                    (slot+TITLE_STACK_SLOTS-distance) % TITLE_STACK_SLOTS];
+                if (!source->text[i]) continue;
+                char **target = i ? &term->window_title : &term->icon_title;
+                int *cp = i ? &term->wintitle_codepage : &term->icontitle_codepage;
+                sfree(*target);
+                *target = dupstr(source->text[i]);
+                *cp = source->codepage[i];
+                if (i) term->win_title_pending = true;
+                else term->win_icon_title_pending = true;
+                term_schedule_update(term);
+                break;
+            }
+        }
+        if (!which) nemo_saved_title_free(&stack->slot[slot]);
+    }
 }
 
 static int osc_string_limit(Terminal *term)
@@ -7198,6 +7296,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                     ldisc_send(term->ldisc, "\033\\", 2,
                                                false);
                                 }
+                                break;
+                              case 22: case 23:
+                                nemo_title_stack_op(term, term->esc_args[0] == 22);
                                 break;
                             }
                         }

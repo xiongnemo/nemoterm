@@ -1,15 +1,16 @@
 # Window and title controls: investigation and implementation boundary
 
 This work covers the missing XTWINOPS operations, title stack and title modes.
-It does not replace the broader modern/xterm protocol requirement. No new
-application implementation is claimed by this initial reference checkpoint.
+CSI 22/23 title stacks are now implemented and pass core and local native tests.
+Title encoding modes and the remaining geometry operations are still pending;
+the broader modern/xterm protocol requirement remains open.
 
 ## Current source gaps
 
 The inherited `terminal.c` window-control switch supports only part of the
 family. Pixel resize (4) and screen size in characters (19) are empty branches.
 Cell pixels (16), monitor pixels (15), full-screen controls (10), axis-specific
-maximization (9;2/3), title push/pop (22/23), and title-mode set/reset are absent.
+maximization (9;2/3), and title-mode set/reset are absent.
 Requests 13/14 ignore their text-area versus outer-window selector. On Windows,
 WM_MOVE reports the client origin while the default query wants the outer
 window position; WM_SIZE reports client dimensions including padding rather
@@ -69,6 +70,47 @@ The earlier run 43244575456 did not clear indexed slots between cases. It is
 superseded: direct-slot-and-stack previously inherited BASE from another case.
 The corrected fixture empties all ten indexed slots and observes SLOT for both
 queries. Keep this isolation when adding more cases.
+
+## Title stack implementation and current validation
+
+CSI 22/23 shares ten lazily allocated slots. Each saved icon/window string keeps
+its codepage and distinguishes empty strings from absent fields. Partial saves,
+older-field fallback, indexed access, documented selector defaults, invalid
+selectors and modulo-ten indices match the 22 relevant captured reference
+cases. RIS, DECSTR and alternate screens preserve the stack. Local title-update
+policy blocks both push and pop without consuming stored entries; title-query
+none/empty/real policy still applies independently.
+
+Depth saturates at ten instead of growing an unbounded counter. Once all ten
+retained entries are consumed, stack pops do nothing and the next push starts
+at slot zero. This deliberately defines bounded overflow behavior; it does not
+copy XTerm's unbounded count or claim identical behavior for interleaved direct
+writes after an overflow. Each string is limited to 4096 bytes; a push containing
+an oversized local title is rejected atomically. The twenty strings therefore
+use at most 81,940 bytes plus slot metadata. No stack allocation occurs on reads.
+
+`test_titles` compares the 22 independent replies, checks encoding and policy
+preservation, empty fields, oversized titles, cancellation, large indices and
+20,000 pushes. Windows core CI and Linux ASan/UBSan include it. Frozen reference
+vectors are in `test/title_cases.h` and `tests/title_stack_reference.json`, both
+derived from the retained XTerm result. Title-mode and geometry cases are not
+claimed by these stack tests.
+
+`titles_window_smoke.py` verifies the 22 exact replies through ConPTY and the
+actual Win32 title, plus 1,000 pushes/pops with long strings. It changes no
+clipboard or global input. The local comparison build passed all 23 checks
+with Chinese, combining characters and emoji; sampled peak private WS was
+3,502,080 bytes, total WS 20,590,592, private commit 4,513,792. Exact frontend,
+DLL and host hashes are in `titles-window-observed.json`.
+
+The official sidecar OpenConsole initially converted the astral query character
+to two U+FFFD characters in raw UTF-8 ReadFile. The existing single-EXE source
+overlay already repairs this host surrogate-buffer bug. The passing local
+comparison used the verified f6b4409 single EXE as its OpenConsole host, with
+the new MinGW frontend and pinned DLL. It is not a single-file acceptance run.
+The single-EXE workflow runs the same strict native test using the final image;
+its result is pending. No emoji check was removed to accommodate the upstream
+sidecar limitation.
 
 ## Implementation constraints
 
