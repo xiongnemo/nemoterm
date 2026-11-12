@@ -1,0 +1,31 @@
+{
+  "source_commit": "9ccbad39fac2c308909220eccd201258b2af12d6",
+  "core_run": 43264272761,
+  "attempt_1": {
+    "failed_check": "native hyperlink hover group pixel comparison",
+    "assertion_bounds": [10, 31, 46, 32],
+    "observation": "The first changed capture underlined LINK only; the expected group also contains MORE. Baseline and failure captures are preserved alongside this file.",
+    "artifact_id": 13964159921,
+    "product_cause": "not established"
+  },
+  "attempt_2": {
+    "failed_step": "msys2 setup",
+    "observation": "mirror.msys2.org database signature downloads timed out before compilation or tests."
+  },
+  "exact_single_executable_run": {
+    "run": 43264272710,
+    "observation": "The full native hyperlink test passed with the source-built MSVC single executable, as did all 41 native groups."
+  },
+  "attempt_3": {
+    "conclusion": "success",
+    "observation": "The unchanged source passed the full core/native workflow, including the complete hyperlink test.",
+    "artifact_id": 13965728991,
+    "hyperlink_result": "geometry-core-hyperlink-final.json"
+  },
+  "local_hover_diagnostic": {
+    "status": "inconclusive",
+    "observation": "A clipboard-free reduced probe could not maintain a stable hover baseline and timed out; one Sarasa capture changed glyph pixels as well as the underline. These are not passing comparisons or proof of the CI failure's cause.",
+    "archive": "build/window-geometry-worktree/build/hover-diagnostic"
+  },
+  "follow_up": "Retain and investigate any recurrence; no product fix is attributed to this intermittent first-frame observation. The minimized GL fallback defect has separate pre-fix and passing evidence."
+}

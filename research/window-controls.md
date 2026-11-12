@@ -1,13 +1,12 @@
 # Window and title controls: investigation and implementation boundary
 
 This work covers the missing XTWINOPS operations, title stack and title modes.
-CSI 22/23 title stacks are now implemented and pass core and local native tests.
-Title encoding modes now have core and local comparison validation on the
-separate feature branch; see [title-modes.md](title-modes.md). Final single-file
-acceptance and the remaining geometry operations are still pending;
-the broader modern/xterm protocol requirement remains open.
+CSI 22/23 title stacks, [title encoding modes](title-modes.md), and
+[geometry queries](window-geometry.md) are now implemented and have single-file
+CI and local validation. Geometry mutation gaps and the broader modern/xterm
+protocol requirement remain open.
 
-## Current source gaps
+## Initial source gaps before the following checkpoints
 
 The inherited `terminal.c` window-control switch supports only part of the
 family. Pixel resize (4) and screen size in characters (19) are empty branches.

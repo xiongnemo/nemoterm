@@ -136,3 +136,10 @@ clipboard and close requests to the correct tab. Render a thumbnail on demand
 for the hovered tab, with a bounded cache and cancellation on close/switch;
 do not retain a full-resolution screenshot for every inactive tab. This work
 is not implemented or validated by the renderer changes above.
+
+The user subsequently authorized local testing again. The newer
+[geometry checkpoint](window-geometry.md) validates exact source `9ccbad3` with
+hardware OpenGL and fixes loss of the renderer after minimization. It also
+replaces unreliable external GL PrintWindow captures with test-only retained
+frame readback inside the owned process. The historical pause and distribution
+hashes above describe their original checkpoints, not the current test state.

@@ -1024,3 +1024,34 @@ responses, limits and the earlier development-host failure.
 Title encoding modes continue on `feature/title-modes`. Geometry gaps, DirectX
 frontend rendering, four-sided tabs/previews, physical input/IME/DPI, full
 grapheme support and the wider protocol ledger remain open.
+
+## Title modes, geometry queries and minimized rendering (2026-11-13 Sydney)
+
+The preceding title-stack distribution is superseded by source `9ccbad3`.
+It includes the bounded title encoding modes, live text/window/monitor/cell
+queries, and a fix that preserves OpenGL and newly received output across
+minimize/restore. Core, ASan/UBSan and all 41 single-file native CI groups passed.
+The exact EXE passed nine local groups, including hardware GL pixel comparison,
+both geometry renderers, 23 stack and 87 title-mode checks, startup sizing,
+font resize, Sixel, queries and synchronized output.
+
+`dist/nemoterm.exe` is now the accepted 4,342,272-byte single executable,
+SHA-256 `9d8133f2cf4bbaa709d0e6b98014359c485125364d06a2c47cb91f1f55c5f909`.
+The prior executable is backed up under `build/dist-before-geometry-9ccbad3/`.
+Local GDI geometry peaks at 4.17 MB private WS and 23.55 MB total WS; the largest
+private-WS peak across these nine groups is 6.16 MB. Cloud real-Codex default and
+inline peaks are 5.35 and 5.51 MB private WS. These finite measurements exclude
+host/client processes and do not establish all-workload limits. GL samples
+after screenshot instrumentation are explicitly labelled.
+
+The first MinGW native CI attempt had a hyperlink hover capture assertion; the
+unchanged source passed on attempt three after an intervening mirror-download
+failure. Its cause remains unconfirmed, with the first capture retained. Local
+clipboard access remains denied, so local real-Codex copy/paste was not accepted
+again. Exact provenance and boundaries are in
+[the checkpoint record](../research/window-geometry.md).
+
+Geometry mutations now have 31 independent XTerm reference cases on
+`feature/window-resize`, but remain unimplemented here. DirectX frontend
+rendering, four-sided tabs/previews, physical input/IME/DPI, full grapheme
+support, live Claude Code and the remaining protocol ledger remain open.

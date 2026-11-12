@@ -86,7 +86,8 @@ mode private-WS sample peaked at 3,928,064 bytes. Evidence is retained as
 `title-modes-single-local.json`, `title-modes-single-stack-local.json`,
 `title-modes-single-ci.json` and `title-modes-single-validation.json`.
 
-That candidate has not replaced `dist/nemoterm.exe`: the subsequent geometry
-work identified and fixed an existing minimize-to-GDI defect, and the combined
-candidate still needs final validation. Geometry mutations, remaining protocol
-families, DirectX frontend rendering and tabs/previews remain open.
+That candidate did not replace `dist/nemoterm.exe` directly: the subsequent
+geometry work identified and fixed an existing minimize-to-GDI defect. The
+combined source `9ccbad3` has now passed final validation and supersedes it;
+see [the geometry checkpoint](window-geometry.md). Geometry mutations, remaining
+protocol families, DirectX frontend rendering and tabs/previews remain open.

@@ -1,0 +1,96 @@
+{
+  "executable_sha256": "9d8133f2cf4bbaa709d0e6b98014359c485125364d06a2c47cb91f1f55c5f909",
+  "font": "SarasaTermSC Nerd Font Light",
+  "modes": [
+    {
+      "requested": 0,
+      "active": "GDI",
+      "checks": [
+        {
+          "scene": "text"
+        },
+        {
+          "scene": "sixel"
+        },
+        {
+          "scene": "sync-end"
+        },
+        {
+          "scene": "resize"
+        },
+        {
+          "scene": "palette"
+        },
+        {
+          "scene": "cursor-2"
+        },
+        {
+          "scene": "cursor-4"
+        },
+        {
+          "scene": "cursor-6"
+        }
+      ],
+      "capture_method": "PrintWindow",
+      "memory_instrumented": false,
+      "memory": {
+        "private_ws": 5029888,
+        "total_ws": 24031232,
+        "private_commit": 6266880
+      }
+    },
+    {
+      "requested": 1,
+      "active": "OpenGL",
+      "checks": [
+        {
+          "scene": "text",
+          "changed_channels": 60,
+          "max_channel_error": 1
+        },
+        {
+          "scene": "sixel",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sync-end",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "resize",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "palette",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-2",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-4",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        },
+        {
+          "scene": "cursor-6",
+          "changed_channels": 84,
+          "max_channel_error": 2
+        }
+      ],
+      "capture_method": "owned-process-retained-frame",
+      "memory_instrumented": true,
+      "memory": {
+        "private_ws": 35721216,
+        "total_ws": 70344704,
+        "private_commit": 96174080
+      }
+    }
+  ]
+}
