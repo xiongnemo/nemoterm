@@ -75,6 +75,9 @@ def all_text():
 
 
 def frame(name):
+    # Selection updates invalidate a frame asynchronously; capture the paint
+    # after the native message handler has returned, not its preceding frame.
+    time.sleep(.1)
     filename = f'codex-{mode}-{name}.png'
     evidence['screenshots'].append(dict(file=filename, pixel_sha256=capture(hwnd, filename)))
 

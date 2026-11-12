@@ -33,7 +33,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-highlight-') as directory:
     def msg(kind, col, row, wp=0):
         x, y = 1+col*cw+cw//2, 1+row*ch+ch//2
         return u.SendMessageW(hwnd, kind, wp, (x & 0xffff) | ((y & 0xffff) << 16))
-    def phase(name, handshake=True):
+    def phase(name, handshake=True, start_col=2):
         # A normal-tracking click resets the frontend multi-click chain. It
         # targets only our HWND and is discarded with the setup phase's log.
         write_snapshot(control, {'phase':name+'-reset', 'sequence':'\x1b[?1000;1006h\x1b[?1000$p'})
@@ -41,17 +41,17 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-highlight-') as directory:
                  b'\x1b[?1000;1$y' in bytes.fromhex(value.get('hex', '')))
         msg(0x201, 2, 3, 1); msg(0x202, 2, 3)
         has(b'\x1b[<0;3;4m')
-        reply = '\x1b[1;3;4;2;8T' if handshake else ''
+        reply = f'\x1b[1;{start_col+1};4;2;8T' if handshake else ''
         seq = '\x1b[0m\x1b[?25l\x1b[2J\x1b]10;rgb:f/f/f\x07\x1b]11;rgb:0/0/0\x07'
         seq += ''.join(f'\x1b[{row};1Hone two three '+26*'x' for row in range(1, 13))
         seq += '\x1b[1;1H\x1b[?1001;1006h\x1b[?1001$p'
         write_snapshot(control, {'phase':name, 'sequence':seq, 'responses':{
-            'press':{'trigger':b'\x1b[<0;3;4M'.hex(), 'sequence':reply+'\x1b[?1000$p'}}})
+            'press':{'trigger':f'\x1b[<0;{start_col+1};4M'.encode().hex(), 'sequence':reply+'\x1b[?1000$p'}}})
         observed(lambda value: value.get('phase') == name and
                  b'\x1b[?1001;1$y' in bytes.fromhex(value.get('hex', '')))
         time.sleep(0.08)
         baseline = capture(hwnd, return_pixels=True)
-        msg(0x201, 2, 3, 1)
+        msg(0x201, start_col, 3, 1)
         has(b'\x1b[?1000;2$y')
         return baseline
     def select(baseline):
@@ -79,8 +79,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-highlight-') as directory:
         msg(0x200, 0, 3, 1); msg(0x202, 0, 3)
         evidence['reverse'] = has(b'\x1b[<1;4;3;4;1;4T')['hex']
         wait_for(lambda: capture(hwnd, return_pixels=True) == baseline)
-        baseline = phase('multi-click')
-        msg(0x202, 2, 3)  # empty character selection
+        # A word/line multi-click stays at the same point. Rapid clicks at
+        # different positions are independent selections (selection fixture).
+        baseline = phase('multi-click', start_col=5)
+        msg(0x202, 5, 3)  # empty character selection
         msg(0x201, 5, 3, 1)
         wait_for(lambda: capture(hwnd, return_pixels=True) != baseline)
         msg(0x202, 5, 3)
