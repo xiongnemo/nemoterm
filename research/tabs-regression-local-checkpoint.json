@@ -1,0 +1,66 @@
+{
+  "executable_sha256": "473b7338f632169ebc9c316bd5cc45ee56cdb2b33a5e98efd3652d4fb4efce65",
+  "overflow_sides": [
+    "top",
+    "bottom",
+    "left",
+    "right"
+  ],
+  "geometry": [
+    {
+      "renderer": 1,
+      "checks": 7
+    },
+    {
+      "renderer": 2,
+      "checks": 7
+    },
+    {
+      "renderer": 3,
+      "checks": 7
+    }
+  ],
+  "resize": [
+    {
+      "policy": "normal",
+      "renderer": 1,
+      "checks": 42
+    },
+    {
+      "policy": "normal",
+      "renderer": 2,
+      "checks": 42
+    },
+    {
+      "policy": "normal",
+      "renderer": 3,
+      "checks": 42
+    },
+    {
+      "policy": "remote-denied",
+      "renderer": 1,
+      "checks": 5
+    },
+    {
+      "policy": "locked-window",
+      "renderer": 1,
+      "checks": 5
+    },
+    {
+      "policy": "font-resize",
+      "renderer": 1,
+      "checks": 6
+    }
+  ],
+  "startup_stress": {
+    "executable_sha256": "38f362256ec392e8d43d0eaf2735969658a75641decf3fa9babf4150d315bad3",
+    "runs": 16,
+    "rapid_default_shell_closes": 192,
+    "natural_cleanup": true
+  },
+  "prior_ci_failures": {
+    "core": 43303590174,
+    "single_exe": 43303590094
+  },
+  "local_clipboard": "Access denied before selection checks; real clipboard coverage remains a CI requirement"
+}

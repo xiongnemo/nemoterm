@@ -120,6 +120,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/tabs-settings-window-observed.json, research/tabs-settings.png test-results/ -ErrorAction SilentlyContinue
           if ($testExit) { exit $testExit }
+      - name: Test tab overflow, geometry, resizing, input methods and selection
+        shell: pwsh
+        run: |
+          python tests/tabs_regression_suite.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tabs-* test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |

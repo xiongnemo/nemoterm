@@ -1,0 +1,11 @@
+{
+  "tab_host": true,
+  "tab_side": "top",
+  "executable_sha256": "473b7338f632169ebc9c316bd5cc45ee56cdb2b33a5e98efd3652d4fb4efce65",
+  "checks": [],
+  "rectangles": [],
+  "requested_renderer": 0,
+  "completed": false,
+  "active_renderer": 1,
+  "error": "AssertionError('Timed out waiting for native fixture')"
+}

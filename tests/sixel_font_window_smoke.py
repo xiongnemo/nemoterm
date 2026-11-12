@@ -69,7 +69,7 @@ with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-six
         xs, ys = [p[0] for p in green], [p[1] for p in green]
         geom = min(xs), min(ys), max(xs)-min(xs)+1, max(ys)-min(ys)+1
         return geom, red, (rect.right, rect.bottom)
-    def check(name):
+    def check(name, geometry_matches=lambda geom: True):
         last, expected, geom = set(), set(), None
         def matches():
             nonlocal last, expected, geom
@@ -79,7 +79,10 @@ with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-six
                         for y, anchor in enumerate(anchors) if anchor is not None
                         and 0 <= anchor*ch+y < 12*ch
                         for x in range(width) if (x, y) not in holes}
-            return last == expected
+            # The console query acknowledges parsed output, not completion of
+            # the queued native paint. A correct raster in the old font grid
+            # must not satisfy a resize check before the new frame arrives.
+            return geometry_matches(geom) and last == expected
         try:
             wait_for(matches)
         except AssertionError:
@@ -94,7 +97,9 @@ with profile() as profile_name, tempfile.TemporaryDirectory(prefix='nemoterm-six
             outer.right-outer.left + round((sx-1)*(client.right-2)),
             outer.bottom-outer.top + round((sy-1)*(client.bottom-2)), True)
         phase(name)
-        return check(name)
+        return check(name, lambda geom: geom == base if sx == sy == 1 else
+                     abs(geom[2]-base[2]*sx) <= 1 and
+                     abs(geom[3]-base[3]*sy) <= 1)
     def erase(name, col, row):
         _, _, cw, ch = read_pixels()[0]
         for y, anchor in enumerate(anchors):

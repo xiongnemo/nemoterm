@@ -13,6 +13,7 @@ const compWindow=api(I,'ImmGetCompositionWindow','int',['pointer','pointer']);
 const compFont=api(I,'ImmGetCompositionFontW','int',['pointer','pointer']);
 const sendMessage=api(U,'SendMessageW','pointer',['pointer','uint','pointer','pointer']);
 const getRect=api(U,'GetWindowRect','int',['pointer','pointer']);
+const rootWindow=api(U,'GetAncestor','pointer',['pointer','uint']);
 const getFocus=api(U,'GetFocus','pointer',[]);
 let fault=null,operation=null,lastDpi=96,originalOpen=null;
 Interceptor.attach(I.getExportByName('ImmGetContext'),{onLeave(r){if(fault&&r.isNull())r.replace(ptr(0x1234));}});
@@ -26,10 +27,10 @@ Interceptor.attach(U.getExportByName('DispatchMessageW'),{onEnter(a){
  const msg=a[0];if(msg.add(8).readU32()!==0x8321||!operation)return;
  const op=operation;operation=null;const hwnd=msg.readPointer();const answer={event:'operation',id:op.id,kind:op.kind};
  if(op.kind==='dpi'){
-  const rect=Memory.alloc(16);getRect(hwnd,rect);
+  const target=rootWindow(hwnd,2),rect=Memory.alloc(16);getRect(target,rect);
   rect.add(8).writeS32(rect.readS32()+Math.round((rect.add(8).readS32()-rect.readS32())*op.dpi/lastDpi));
   rect.add(12).writeS32(rect.add(4).readS32()+Math.round((rect.add(12).readS32()-rect.add(4).readS32())*op.dpi/lastDpi));
-  sendMessage(hwnd,0x2e0,ptr(op.dpi|(op.dpi<<16)),rect);lastDpi=op.dpi;
+  sendMessage(target,0x2e0,ptr(op.dpi|(op.dpi<<16)),rect);lastDpi=op.dpi;
  }
  // IMM geometry is intentionally updated only for a focused terminal. Own
  // the test window's focus messages within this UI-thread operation without

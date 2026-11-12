@@ -9,6 +9,8 @@ import winreg
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--renderer',type=int,choices=(0,1,2))
+parser.add_argument('--tabs',action='store_true')
+parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
 args=parser.parse_args()
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
@@ -25,7 +27,7 @@ class MonitorInfo(c.Structure):
 
 CSI='\x1b['
 queries=CSI+'14t'+CSI+'14;2t'+CSI+'16t'+CSI+'18t'+CSI+'5n'
-evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
+evidence=dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     font=font,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()})
 profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1,2))]
@@ -42,7 +44,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-window-resize-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
-                process=job.spawn([str(exe),'-load',profile,'--cols','83','--rows','27',
+                process=job.spawn([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','83','--rows','27',
                     '--font',font,'--font-size','12','-e',sys.executable,
                     str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
@@ -63,7 +65,7 @@ try:
                     mode['memory_instrumented']=False
                     def rectangles():
                         outer,client=w.RECT(),w.RECT()
-                        assert u.GetWindowRect(hwnd,c.byref(outer));assert u.GetClientRect(hwnd,c.byref(client))
+                        assert u.GetWindowRect(terminal_host(hwnd),c.byref(outer));assert u.GetClientRect(hwnd,c.byref(client))
                         return [outer.right-outer.left,outer.bottom-outer.top],[client.right,client.bottom]
                     outer,initial=rectangles()
                     frame=[outer[i]-initial[i] for i in (0,1)]
@@ -91,7 +93,7 @@ try:
                         assert replies[3]==[8,value['rows'],value['columns']],(label,replies,value)
                         if client is not None:assert actual==client,(label,actual,client)
                         if grid is not None:assert [value['columns'],value['rows']]==grid,(label,value,grid)
-                        assert bool(u.IsIconic(hwnd))==iconic,(label,'iconic state changed')
+                        assert bool(u.IsIconic(terminal_host(hwnd)))==iconic,(label,'iconic state changed')
                         assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==active,(label,'renderer changed')
                         mode['checks'].append(dict(name=label,client=actual,outer=outer,replies=replies,
                             child_grid=[value['columns'],value['rows']],memory=memory_sample(handle)))
@@ -106,9 +108,9 @@ try:
                         phase('font-grid',CSI+'8;20;60t',client=initial,grid=[60,20])
                         phase('font-pixels',CSI+'4;503;703t',client=[703,503],grid=[60,20])
                         phase('font-partial-grid',CSI+'8;;70t',client=[703,503],grid=[70,20])
-                        u.ShowWindow(hwnd,7);wait_for(lambda:u.IsIconic(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),7);wait_for(lambda:u.IsIconic(terminal_host(hwnd)))
                         phase('font-minimized-pixels',CSI+'4;563;733t',grid=[70,20],iconic=True)
-                        u.ShowWindow(hwnd,9);wait_for(lambda:not u.IsIconic(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),9);wait_for(lambda:not u.IsIconic(terminal_host(hwnd)))
                         phase('font-restored-pixels',client=[733,563],grid=[70,20])
                     else:
                         cases=[
@@ -165,16 +167,16 @@ try:
                               client=[2+72*cw,2+22*ch],grid=[72,22])
                         phase('main-return',CSI+'?1049l',client=[2+72*cw,2+22*ch],grid=[72,22])
                         phase('pre-maximize',CSI+'8;27;83t',client=base,grid=[83,27])
-                        u.ShowWindow(hwnd,3);wait_for(lambda:u.IsZoomed(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),3);wait_for(lambda:u.IsZoomed(terminal_host(hwnd)))
                         phase('maximized')
                         maximized_client=rectangles()[1]
                         phase('maximized-request-denied',CSI+'8;20;60t',client=maximized_client)
-                        u.ShowWindow(hwnd,9);wait_for(lambda:not u.IsZoomed(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),9);wait_for(lambda:not u.IsZoomed(terminal_host(hwnd)))
                         phase('unmaximized',client=base,grid=[83,27])
-                        u.ShowWindow(hwnd,7);wait_for(lambda:u.IsIconic(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),7);wait_for(lambda:u.IsIconic(terminal_host(hwnd)))
                         drawing=CSI+'?25l'+CSI+'2J'+CSI+'1;1H'+CSI+'48;2;19;193;101m  '+CSI+'0m'
                         phase('minimized-request',CSI+'8;25;81t'+drawing,grid=[81,25],iconic=True)
-                        u.ShowWindow(hwnd,9);wait_for(lambda:not u.IsIconic(hwnd))
+                        u.ShowWindow(terminal_host(hwnd),9);wait_for(lambda:not u.IsIconic(terminal_host(hwnd)))
                         phase('restored-request',client=[2+81*cw,2+25*ch],grid=[81,25])
                         if active in (2,3):gl=OwnedGPUCapture(process.pid,hwnd)
                         mode['capture_instrumented']=bool(gl)
@@ -196,5 +198,5 @@ try:
     evidence['completed']=True
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
-    (root/'research/window-resize-observed.json').write_text(json.dumps(evidence,indent=2))
+    (root/'research'/('tabs-window-resize-observed.json' if args.tabs else 'window-resize-observed.json')).write_text(json.dumps(evidence,indent=2))
 print('Native window resize passed:',[(m['policy'],m['active_renderer'],len(m['checks'])) for m in evidence['modes']])

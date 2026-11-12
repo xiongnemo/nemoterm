@@ -221,6 +221,15 @@ static void nemo_host_remove(WinGuiSeat *w)
         }
     }
     w->gpu=NULL;w->tab_ready=false;nemo_host_layout();
+    /* Removing an earlier tab shifts the active index. It can now sit just
+     * before the scroll origin even though the active seat did not change. */
+    if (tab_host.active && !tab_host.active->closing) {
+        int index=0,count=nemo_host_count();
+        while (index<count && nemo_host_item(index)!=tab_host.active) index++;
+        if (index==count) return;
+        int first=nemo_tabs_reveal(&tab_host.layout,index);
+        if (first!=tab_host.first) {tab_host.first=first;nemo_host_layout();}
+    }
 }
 static void nemo_host_configure(WinGuiSeat *w)
 {

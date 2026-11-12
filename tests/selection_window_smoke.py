@@ -8,6 +8,8 @@ import uuid
 import winreg
 parser=argparse.ArgumentParser()
 parser.add_argument('--renderer',type=int,choices=(0,1,2),default=0)
+parser.add_argument('--tabs',action='store_true')
+parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
 args=parser.parse_args()
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 profile='selection-'+uuid.uuid4().hex
@@ -16,10 +18,10 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     winreg.SetValueEx(key,'NemoRenderer',0,winreg.REG_DWORD,args.renderer)
     winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
-evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
+evidence=dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
-    process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24','-e',sys.executable,
+    process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
         str(root/'tests/mouse_fixture.py'),str(report),str(control)],
         env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
     saved=None; session=None; script=None; gpu=None
@@ -128,7 +130,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
         print('Rapid independent selections and 16 Ctrl rectangles, exact Unicode, shortcut/right-click copy and pixels passed')
     finally:
         if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
-        (root/'research/selection-observed.json').write_text(json.dumps(evidence,indent=2))
+        (root/'research'/('tabs-selection-observed.json' if args.tabs else 'selection-observed.json')).write_text(json.dumps(evidence,indent=2))
         (root/'research/selection-last-snapshot.json').write_text(json.dumps(read_snapshot(report)))
         if gpu:gpu.close()
         if script:script.unload()

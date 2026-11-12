@@ -1,0 +1,277 @@
+{
+  "tab_host": true,
+  "executable_sha256": "473b7338f632169ebc9c316bd5cc45ee56cdb2b33a5e98efd3652d4fb4efce65",
+  "frida_version": "17.24.3",
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "input_cp": 65001,
+  "checks": [
+    "short-read",
+    "cancelled",
+    "read-error",
+    "odd-result",
+    "oversize-result",
+    "odd-query",
+    "empty-query",
+    "failed-query",
+    "over-budget",
+    "complete-unicode",
+    "max-size-commit",
+    "kitty-ime-text",
+    "wm-unichar-scalars-and-probe",
+    "composition-surrogate-boundary",
+    "kitty-unichar",
+    "installed-imm-api-unicode-submission",
+    "synthetic-dpi-pixels-preserve-sixel"
+  ],
+  "dpi": [
+    {
+      "dpi": 144,
+      "geometry": [
+        2,
+        9,
+        12,
+        30
+      ],
+      "imm": {
+        "event": "operation",
+        "id": 38,
+        "kind": "focused-capabilities",
+        "controlledFocus": true,
+        "context": true,
+        "layout": "0x8040804",
+        "caps": 7,
+        "compositionWindow": {
+          "style": 2,
+          "x": 2,
+          "y": 9
+        },
+        "compositionFontHeight": -24
+      }
+    },
+    {
+      "dpi": 192,
+      "geometry": [
+        6,
+        17,
+        16,
+        40
+      ],
+      "imm": {
+        "event": "operation",
+        "id": 40,
+        "kind": "focused-capabilities",
+        "controlledFocus": true,
+        "context": true,
+        "layout": "0x8040804",
+        "caps": 7,
+        "compositionWindow": {
+          "style": 2,
+          "x": 6,
+          "y": 17
+        },
+        "compositionFontHeight": -32
+      }
+    },
+    {
+      "dpi": 120,
+      "geometry": [
+        4,
+        5,
+        10,
+        25
+      ],
+      "imm": {
+        "event": "operation",
+        "id": 42,
+        "kind": "focused-capabilities",
+        "controlledFocus": true,
+        "context": true,
+        "layout": "0x8040804",
+        "caps": 7,
+        "compositionWindow": {
+          "style": 2,
+          "x": 4,
+          "y": 5
+        },
+        "compositionFontHeight": -20
+      }
+    },
+    {
+      "dpi": 96,
+      "geometry": [
+        1,
+        1,
+        8,
+        20
+      ],
+      "imm": {
+        "event": "operation",
+        "id": 44,
+        "kind": "focused-capabilities",
+        "controlledFocus": true,
+        "context": true,
+        "layout": "0x8040804",
+        "caps": 7,
+        "compositionWindow": {
+          "style": 2,
+          "x": 1,
+          "y": 1
+        },
+        "compositionFontHeight": -16
+      }
+    }
+  ],
+  "imm_capabilities": {
+    "event": "operation",
+    "id": 32,
+    "kind": "capabilities",
+    "context": true,
+    "layout": "0x8040804",
+    "caps": 7,
+    "compositionWindow": {
+      "style": 2,
+      "x": 1,
+      "y": 1
+    },
+    "compositionFontHeight": -16
+  },
+  "real_imm_submission": {
+    "event": "operation",
+    "id": 33,
+    "kind": "ime",
+    "context": true,
+    "layout": "0x8040804",
+    "caps": 7,
+    "setOpen": 1,
+    "setComposition": 1,
+    "complete": 1,
+    "compositionWindow": {
+      "style": 2,
+      "x": 1,
+      "y": 1
+    },
+    "compositionFontHeight": -16
+  },
+  "imm_reads": [
+    {
+      "event": "read",
+      "name": "short-read",
+      "capacity": 0,
+      "returned": 10
+    },
+    {
+      "event": "read",
+      "name": "short-read",
+      "capacity": 10,
+      "returned": 2
+    },
+    {
+      "event": "read",
+      "name": "cancelled",
+      "capacity": 0,
+      "returned": 10
+    },
+    {
+      "event": "read",
+      "name": "cancelled",
+      "capacity": 10,
+      "returned": 0
+    },
+    {
+      "event": "read",
+      "name": "read-error",
+      "capacity": 0,
+      "returned": 10
+    },
+    {
+      "event": "read",
+      "name": "read-error",
+      "capacity": 10,
+      "returned": -1
+    },
+    {
+      "event": "read",
+      "name": "odd-result",
+      "capacity": 0,
+      "returned": 10
+    },
+    {
+      "event": "read",
+      "name": "odd-result",
+      "capacity": 10,
+      "returned": 3
+    },
+    {
+      "event": "read",
+      "name": "oversize-result",
+      "capacity": 0,
+      "returned": 10
+    },
+    {
+      "event": "read",
+      "name": "oversize-result",
+      "capacity": 10,
+      "returned": 12
+    },
+    {
+      "event": "read",
+      "name": "odd-query",
+      "capacity": 0,
+      "returned": 9
+    },
+    {
+      "event": "read",
+      "name": "empty-query",
+      "capacity": 0,
+      "returned": 0
+    },
+    {
+      "event": "read",
+      "name": "failed-query",
+      "capacity": 0,
+      "returned": -1
+    },
+    {
+      "event": "read",
+      "name": "over-budget",
+      "capacity": 0,
+      "returned": 65538
+    },
+    {
+      "event": "read",
+      "name": "complete-unicode",
+      "capacity": 0,
+      "returned": 12
+    },
+    {
+      "event": "read",
+      "name": "complete-unicode",
+      "capacity": 12,
+      "returned": 12
+    },
+    {
+      "event": "read",
+      "name": "max-size-commit",
+      "capacity": 0,
+      "returned": 65536
+    },
+    {
+      "event": "read",
+      "name": "max-size-commit",
+      "capacity": 65536,
+      "returned": 65536
+    },
+    {
+      "event": "read",
+      "name": "kitty-ime-text",
+      "capacity": 0,
+      "returned": 8
+    },
+    {
+      "event": "read",
+      "name": "kitty-ime-text",
+      "capacity": 8,
+      "returned": 8
+    }
+  ]
+}

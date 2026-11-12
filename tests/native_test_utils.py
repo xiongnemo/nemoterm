@@ -79,9 +79,19 @@ def find_windows(pid):
         u.GetClassNameW(hwnd, cls, 128)
         if owner.value == pid and cls.value == 'Nemoterm' and u.IsWindowVisible(hwnd):
             matches.append(hwnd)
+        if owner.value == pid and cls.value == 'NemotermHost':
+            u.EnumChildWindows(hwnd, visit, 0)
         return True
     u.EnumWindows(visit, 0)
     return matches
+
+
+u.GetAncestor.argtypes, u.GetAncestor.restype = [w.HWND, w.UINT], w.HWND
+u.EnumChildWindows.argtypes = [w.HWND, c.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM), w.LPARAM]
+
+def terminal_host(hwnd):
+    """Outer-window actions use the host; cell input/capture use the view."""
+    return u.GetAncestor(hwnd, 2)  # GA_ROOT; standalone returns itself
 
 
 def find_window(pid):

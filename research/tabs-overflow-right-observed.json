@@ -1,0 +1,25 @@
+{
+  "executable_sha256": "473b7338f632169ebc9c316bd5cc45ee56cdb2b33a5e98efd3652d4fb4efce65",
+  "side": "right",
+  "completed": true,
+  "checks": [
+    "each newly appended tab is visible despite overflow",
+    "keyboard cycles all ten tabs and reveals the selected item",
+    "closing a preceding background tab keeps the active tab visible",
+    "wheel scroll and subsequent keyboard navigation restore visibility",
+    "middle-click closes the hit tab and reveals a live successor"
+  ],
+  "owned_job_cleanup": {
+    "before": {
+      "total": 21,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 21,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false
+  }
+}

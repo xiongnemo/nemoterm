@@ -150,13 +150,18 @@ try:
             wait_for(lambda:u.IsWindowVisible(first['hwnd']))
             key(first,9,[17,162])
             wait_for(lambda:u.IsWindowVisible(second['hwnd']))
-            before_tabs=set(windows(process.pid,'Nemoterm',host))
-            key(second,ord('T'),[16,17,160,162])
-            created=wait_for(lambda:next(iter(set(windows(process.pid,'Nemoterm',host))-before_tabs),None))
-            wait_for(lambda:u.IsWindowVisible(created))
-            key(dict(hwnd=created),ord('W'),[16,17,160,162])
-            wait_for(lambda:not u.IsWindow(created))
-            select(second,1)
+            evidence['rapid_shell_closes']=[]
+            for attempt in range(12):
+                before_tabs=set(windows(process.pid,'Nemoterm',host))
+                key(second,ord('T'),[16,17,160,162])
+                created=wait_for(lambda:next(iter(set(windows(process.pid,'Nemoterm',host))-before_tabs),None))
+                wait_for(lambda:u.IsWindowVisible(created))
+                key(dict(hwnd=created),ord('W'),[16,17,160,162])
+                wait_for(lambda:not u.IsWindow(created))
+                select(second,1)
+                evidence['closing_shell_attempt']=attempt
+                wait_for(lambda:job.accounting()['active']==5)
+                evidence['rapid_shell_closes'].append(job.accounting())
             evidence['checks'].append('new, close, next and previous shortcuts act through the terminal input thread')
             faults=hover_session.create_script((root/'tests/session_faults.js').read_text());faults.load()
             for fault in ('process','window'):

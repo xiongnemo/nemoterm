@@ -5,7 +5,7 @@ import uuid
 import winreg
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, wait_for, read_snapshot, write_snapshot, wait_snapshot,
-    find_window, memory_sample, capture)
+    find_window, memory_sample, capture, terminal_host)
 from owned_job import OwnedJob
 from gpu_capture import OwnedGPUCapture
 
@@ -14,6 +14,8 @@ parser.add_argument('--font', default=os.environ.get('NEMOTERM_TEST_FONT',
     'Consolas' if os.environ.get('CI') == 'true' else 'SarasaTermSC Nerd Font Light'))
 parser.add_argument('--renderer', type=int, choices=(0,1,2))
 parser.add_argument('--observe', action='store_true')
+parser.add_argument('--tabs',action='store_true')
+parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
 args = parser.parse_args()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 u.GetWindowRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
@@ -35,7 +37,7 @@ def drawing(colors):
     return ('\x1b[?25l\x1b[0m\x1b]11;#000000\x07\x1b[2J'
             f'\x1b[1;1H\x1b[48;2;{green}m  \x1b[0m'
             f'\x1b[3;4H\x1b[48;2;{blue}m \x1b[0m')
-evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
+evidence = dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     requested_font=args.font, modes=[], runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe', exe.parent/'conpty.dll') if p.exists()})
 
@@ -52,7 +54,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-geometry-') as tmp, OwnedJob() as job:
                 report, control = Path(tmp)/'report', Path(tmp)/'control'
-                process = job.spawn([str(exe), '-load', profile, '--cols', '80', '--rows', '24',
+                process = job.spawn([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load', profile, '--cols', '80', '--rows', '24',
                     '--font-size', '12', '--font', args.font, '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_UTF8_INPUT='1',
@@ -93,7 +95,7 @@ try:
                     def snapshot():
                         outer, client, origin, monitor = w.RECT(), w.RECT(), w.POINT(), MonitorInfo()
                         monitor.size = c.sizeof(monitor)
-                        assert u.GetWindowRect(hwnd, c.byref(outer))
+                        assert u.GetWindowRect(terminal_host(hwnd), c.byref(outer))
                         assert u.GetClientRect(hwnd, c.byref(client))
                         assert u.ClientToScreen(hwnd, c.byref(origin))
                         assert u.GetMonitorInfoW(u.MonitorFromWindow(hwnd, 2), c.byref(monitor))
@@ -137,7 +139,7 @@ try:
                             cw, ch = mode['cell']
                             left, top = mode['offset']
                         sw, sh = monitor.right-monitor.left, monitor.bottom-monitor.top
-                        expected = [[2 if u.IsIconic(hwnd) else 1], [3,outer.left&65535,outer.top&65535],
+                        expected = [[2 if u.IsIconic(terminal_host(hwnd)) else 1], [3,outer.left&65535,outer.top&65535],
                             [3,(origin.x+left)&65535,(origin.y+top)&65535], [4,value['rows']*ch,value['columns']*cw],
                             [4,outer.bottom-outer.top,outer.right-outer.left], [5,sh,sw], [6,ch,cw],
                             [8,value['rows'],value['columns']], [9,sh//ch,sw//cw]]
@@ -152,24 +154,24 @@ try:
 
                     initial, _, _ = phase('initial', drawing(colors))
                     captured(f'geometry-{renderer}.png')
-                    assert u.SetWindowPos(hwnd, None, -160, -90, 0, 0, 0x1|0x4|0x10)
+                    assert u.SetWindowPos(terminal_host(hwnd), None, -160, -90, 0, 0, 0x1|0x4|0x10)
                     phase('negative-position')
-                    assert u.SetWindowPos(hwnd, None, 40, 40, 0, 0, 0x1|0x4|0x10)
+                    assert u.SetWindowPos(terminal_host(hwnd), None, 40, 40, 0, 0, 0x1|0x4|0x10)
                     current, _, grid = phase('relocated')
-                    assert u.SetWindowPos(hwnd, None, 40, 40,
+                    assert u.SetWindowPos(terminal_host(hwnd), None, 40, 40,
                         current.right-current.left+mode['cell'][0]*3,
                         current.bottom-current.top+mode['cell'][1]*2, 0x4|0x10)
                     wait_snapshot(lambda: read_snapshot(report), lambda v:
                         v.get('columns') == grid['columns']+3 and v.get('rows') == grid['rows']+2)
                     phase('resized-grid', drawing(colors))
-                    u.ShowWindow(hwnd, 7)  # minimize only the owned window, without activation
-                    wait_for(lambda: u.IsIconic(hwnd))
+                    u.ShowWindow(terminal_host(hwnd), 7)  # minimize only the owned window, without activation
+                    wait_for(lambda: u.IsIconic(terminal_host(hwnd)))
                     # New pixels arrive while no drawing surface exists. Restore
                     # must display them without resending the scene afterwards.
                     colors = [(29,181,97), (31,79,223)]
                     phase('minimized', drawing(colors), pixels=False)
-                    u.ShowWindow(hwnd, 9)
-                    wait_for(lambda: not u.IsIconic(hwnd))
+                    u.ShowWindow(terminal_host(hwnd), 9)
+                    wait_for(lambda: not u.IsIconic(terminal_host(hwnd)))
                     phase('restored')
                     mode['output_while_minimized_preserved'] = True
                     phase('synchronized-queries', '\x1b[?2026h', pixels=False)
@@ -195,5 +197,5 @@ try:
 finally:
     if sys.exc_info()[0] is not None:
         evidence['error'] = repr(sys.exc_info()[1])
-    (root/'research/geometry-window-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
+    (root/'research'/('tabs-geometry-window-observed.json' if args.tabs else 'geometry-window-observed.json')).write_text(json.dumps(evidence,indent=2),encoding='utf-8')
 print('Native geometry queries passed:', [(m['active_renderer'],len(m['checks'])) for m in evidence['modes']])

@@ -80,8 +80,45 @@ are distinguished from the final executable in `tabs-host-local-checkpoint.json`
   movements or keyboard input are used. Preview leave tracking is simulated
   inside that PID; physical desktop hover is still a separate check.
 - The geometry helper covers overflow and monitor-edge placement exhaustively;
-  native overflow navigation and physical multi-monitor DPI/IME testing still
-  need coverage. Mixed renderer profiles, long-running agent workloads, tabbed
-  clipboard/selection stress, and all existing native suites in tab mode remain
+  physical multi-monitor DPI/IME testing still needs coverage. Mixed renderer
+  profiles, long-running agent workloads, tabbed clipboard/selection stress,
+  and all existing native suites in tab mode remain
   before making the host the default or promoting a new accepted binary.
 - No new dependency, webview, helper executable or per-tab GPU device was added.
+
+## Overflow and protocol regression checkpoint
+
+Closing a background tab before the selected tab could shift the selected tab
+outside the visible strip. Removal now reveals its new index, while excluding
+closing seats during host teardown. `tabs_overflow_window_smoke.py` reproduces
+the original failure and passes five native checks for each of the four sides:
+ten-tab creation, keyboard wrap, background close, wheel scrolling and middle
+click close. These are real HWND/pixel checks with input confined to the fixture.
+
+`tabs-regression-local-checkpoint.json` identifies the development executable.
+GDI, actual OpenGL and actual DirectX each passed seven geometry phases and 42
+application resize checks inside the host. Denied remote resizing, fixed window
+size and font resizing also passed. The IME record covers injected fault cases,
+an installed IMM submission and synthetic DPI changes, not physical composition
+or moving between monitors. Local clipboard access was unavailable before the
+selection assertions; that attempt is recorded separately and is not a pass.
+
+Both workflows now run `tabs_regression_suite.py`, including four overflow sides,
+geometry and resizing in all three renderer modes, IME/DPI, and three selection
+variants. Core CI preserves these records even on failure. Single-EXE CI runs
+the same tests from its isolated copy without console sidecars.
+
+The prior revision's CI was not accepted:
+[Core 43303590174](https://github.com/xiongnemo/nemoterm/actions/runs/43303590174)
+left two owned descendants after host exit;
+[Single EXE 43303590094](https://github.com/xiongnemo/nemoterm/actions/runs/43303590094)
+observed the previous font geometry after a Sixel resize. The latter check now
+waits for both the requested geometry and matching image pixels, because an
+output query reply alone does not acknowledge native painting. Its exact binary
+passed locally with the strengthened check. The process-cleanup failure has not
+been reproduced in 16 local runs (192 immediate default-shell tab closes) on
+that same CI executable. Each host test now repeats those closes and requires
+the owned job to return to its original membership; failure records include
+remaining process image names and PIDs. No termination assertion was relaxed,
+and no speculative console-lifetime change was made. New CI results are still
+required before accepting a single executable or enabling tabs by default.

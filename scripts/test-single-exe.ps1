@@ -70,6 +70,9 @@ try {
         if ($LASTEXITCODE) { throw "Single-executable tab host test failed: $name" }
         $checks.Add($name)
     }
+    & python "$Destination/tests/tabs_regression_suite.py" 2>&1 | Tee-Object "$Destination/logs/tabs-regressions.log"
+    if ($LASTEXITCODE) { throw 'Single-executable tab regression suite failed' }
+    $checks.Add('tabs-regressions')
     & powershell.exe -NoProfile -File "$Destination/tests/settings_window_smoke.ps1" 2>&1 | Tee-Object "$Destination/logs/settings.log"
     if ($LASTEXITCODE) { throw 'Single-executable settings test failed' }
     $checks.Add('settings')
