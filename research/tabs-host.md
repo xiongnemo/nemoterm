@@ -1,10 +1,43 @@
 # Native tab host checkpoint
 
-The feature/tabs branch now contains an opt-in, native Win32 tab host. Launch
+The validated tabs implementation contains an opt-in, native Win32 tab host. Launch
 with `nemoterm.exe --tabs --tab-side left` (also top, bottom, right), or enable
 **Window > Tabs > Open sessions in tabs** in startup settings and save the
-profile. Standalone windows remain the default during the migration. This
-checkpoint is not a replacement for the accepted executable in the main checkout.
+profile. Standalone windows remain the default. The accepted single-EXE build
+and its exact source/CI identity are recorded in `tabs-acceptance.json`.
+
+## Accepted single executable
+
+Source commit `74993afc8582a912ea020f6b784772de5c2d7037` passed both
+[Core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43314774879) and
+[Single-EXE CI](https://github.com/xiongnemo/nemoterm/actions/runs/43314774958).
+The latter passed all 57 named checks, including the 11-part tab regression
+suite, settings and actual Codex 0.167.0 in standalone/tabs and default/inline
+layouts. Each Codex case checked Unicode input, streamed Markdown, 32 resizes,
+Shift selection/copy and paste through the real client against a deterministic
+loopback responder. It did not call an online model or execute agent tools.
+Full records and selected screenshots are in `tabs-ci-acceptance/`.
+
+The downloaded artifact contains only the 4,371,456-byte `nemoterm.exe`, SHA-256
+`2470cbcb8fd3560496a74e8d7e08fee4a8ce173b9552a8cf72b1c00a22416adc`.
+That exact binary also passed all four local native host cases using the
+requested Sarasa font: GDI top/bottom, hardware DirectX left and OpenGL right.
+Each case passed nine groups and drained all owned processes without forced
+job cleanup. The local memory samples precede capture instrumentation:
+
+| Case | Private WS peak, MB | Total WS peak, MB |
+| --- | ---: | ---: |
+| GDI top | 8.15 | 28.57 |
+| GDI bottom | 8.09 | 27.73 |
+| DirectX left | 17.89 | 52.01 |
+| OpenGL right | 48.29 | 79.53 |
+
+These samples cover two retained sessions and 12 create/close cycles, not
+unlimited tab counts or preview-time peaks. OpenGL uses the explicitly allowed
+memory exception. Codex's CI frontend peaks were 5.07–5.17 MB private WS and
+34.81–34.91 MB total WS; its hidden host and agent are recorded separately.
+Physical input, multi-monitor DPI, long workloads, live Claude/model sessions,
+complete grapheme rendering and the protocol ledger remain open.
 
 ## Implemented
 
