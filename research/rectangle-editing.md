@@ -3,8 +3,8 @@
 Implemented DECFRA (`CSI Pc;Pt;Pl;Pb;Pr $ x`), DECCRA (`... $ v`),
 DECCARA (`... $ r`), DECRARA (`... $ t`) and DECSACE (`CSI Ps * x`),
 including DECRQSS `*x`. DECERA/DECSERA now share the coordinate parser.
-This checkpoint does not implement DECLRMM/DECSLRM: horizontal scrolling
-needs Sixel columns to split at the margins, rather than moving whole raster rows.
+DECLRMM/DECSLRM and bounded Sixel column splitting were added subsequently;
+see [horizontal margins](horizontal-margins.md).
 
 ## Independent reference
 

@@ -100,6 +100,25 @@ static void update_sbar(Terminal *);
 static void deselect(Terminal *);
 static void term_print_finish(Terminal *);
 static void scroll(Terminal *, int, int, int, bool);
+static void check_boundary(Terminal *, int, int);
+static bool nemo_in_lr(Terminal *term)
+{
+    return term->curs.x >= term->marg_l && term->curs.x <= term->marg_r;
+}
+static int nemo_cr_x(Terminal *term)
+{
+    return term->curs.x >= term->marg_l ? term->marg_l : 0;
+}
+static int nemo_right(Terminal *term)
+{
+    return term->curs.x <= term->marg_r ? term->marg_r : term->cols-1;
+}
+static void nemo_linefeed(Terminal *term)
+{
+    if (term->curs.y == term->marg_b) {
+        if (nemo_in_lr(term)) scroll(term, term->marg_t, term->marg_b, 1, true);
+    } else if (term->curs.y < term->rows-1) term->curs.y++;
+}
 static void term_added_data(Terminal *term, bool);
 static void term_update_raw_mouse_mode(Terminal *term);
 static void nemo_highlight_cancel(Terminal *term, bool report);
@@ -1494,7 +1513,12 @@ static void nemo_image_remove(Terminal *term, NemoTermImage **link)
     NemoTermImage *image = *link;
     *link = image->next;
     term->image_bytes -= image->memory_bytes;
-    nemo_sixel_free(image->bitmap);
+    assert(image->source->references);
+    if (!--image->source->references) {
+        term->image_bytes -= image->source->memory_bytes;
+        nemo_sixel_free(image->source->bitmap);
+        sfree(image->source);
+    }
     for (unsigned i = 0; i < image->band_count; i++) sfree(image->mask_bands[i]);
     sfree(image->mask_bands);
     sfree(image->lines);
@@ -1549,16 +1573,17 @@ int64_t term_image_pixel_y(const NemoTermImage *image, unsigned y, int cell_heig
 size_t term_image_read_row(const NemoTermImage *image, unsigned y, unsigned x,
                           uint32_t *out, size_t count)
 {
-    NemoSixelStats st = nemo_sixel_stats(image->bitmap);
+    NemoSixelStats st = nemo_sixel_stats(image->source->bitmap);
     if (!st.width || !st.height || y >= (unsigned)image->pixel_height ||
         x >= (unsigned)image->pixel_width || !count) return 0;
     size_t n = min(count, (size_t)image->pixel_width - x);
     unsigned scale = st.aspect_horizontal;
-    unsigned first = x / scale, last = (x+n-1) / scale;
-    if (nemo_sixel_read_row(image->bitmap, y / st.aspect_vertical,
+    unsigned source_x = image->pixel_x + x;
+    unsigned first = source_x / scale, last = (source_x+n-1) / scale;
+    if (nemo_sixel_read_row(image->source->bitmap, y / st.aspect_vertical,
                            first, out, last-first+1) != last-first+1) return 0;
     /* Expand backwards in the caller's buffer; no second raster allocation. */
-    for (size_t i = n; i-- > 0;) out[i] = out[(x+i)/scale-first];
+    for (size_t i = n; i-- > 0;) out[i] = out[(source_x+i)/scale-first];
     const NemoImageRow *row = &image->lines[y];
     if (row->anchor == INT_MIN) {
         memset(out, 0, n * sizeof(*out));
@@ -1680,9 +1705,9 @@ static bool nemo_image_erase_range(Terminal *term, NemoTermImage *image, int y,
     int64_t row = (int64_t)image->lines[y].anchor + y / term->cell_height;
     if (row < start.y || row > end.y) return false;
     int64_t x0 = row == start.y ?
-        ((int64_t)start.x-image->x) * term->cell_width : 0;
+        ((int64_t)start.x-image->x) * term->cell_width - image->pixel_x : 0;
     int64_t x1 = row == end.y ?
-        ((int64_t)end.x-image->x) * term->cell_width : image->pixel_width;
+        ((int64_t)end.x-image->x) * term->cell_width - image->pixel_x : image->pixel_width;
     *left = (int)max(0, min((int64_t)image->pixel_width, x0));
     *right = (int)max(0, min((int64_t)image->pixel_width, x1));
     return *left < *right;
@@ -1783,14 +1808,164 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
     if (changed) term_invalidate(term);
 }
 
-static void nemo_images_scroll(Terminal *term, int top, int bottom,
-                               int lines, bool sb)
+/* An upper bound on a cropped view, including temporarily duplicated masks.
+ * The immutable decoder is already charged once to its shared owner. */
+static size_t nemo_image_crop_need(const NemoTermImage *image, int width)
 {
-    if (!lines) return;
+    size_t bytes = sizeof(*image) + image->pixel_height*sizeof(NemoImageRow) +
+        image->band_count*sizeof(unsigned char *);
+    for (unsigned band = 0; band < image->band_count; band++)
+        if (image->mask_bands[band])
+            bytes += ((size_t)width+7)/8 *
+                min(NEMO_IMAGE_MASK_ROWS, image->pixel_height-band*NEMO_IMAGE_MASK_ROWS);
+    return bytes;
+}
+
+/* Admission precedes this operation; it cannot evict the source being read. */
+static NemoTermImage *nemo_image_crop(Terminal *term, const NemoTermImage *src,
+                                     int left, int right)
+{
+    NemoTermImage *dst = snew(NemoTermImage);
+    *dst = *src;
+    dst->next = NULL;
+    dst->source->references++;
+    dst->pixel_x += left;
+    dst->pixel_width = right-left;
+    dst->erased_bytes = 0;
+    dst->memory_bytes = sizeof(*dst) + dst->pixel_height*sizeof(NemoImageRow) +
+        dst->band_count*sizeof(unsigned char *);
+    dst->lines = snewn(dst->pixel_height, NemoImageRow);
+    memset(dst->lines, 0, dst->pixel_height*sizeof(NemoImageRow));
+    dst->mask_bands = snewn(dst->band_count, unsigned char *);
+    memset(dst->mask_bands, 0, dst->band_count*sizeof(unsigned char *));
+    for (int y = 0; y < dst->pixel_height; y++)
+        dst->lines[y].anchor = src->lines[y].anchor;
+    size_t stride = nemo_image_mask_bytes(dst);
+    for (unsigned band = 0; band < dst->band_count; band++) {
+        if (!src->mask_bands[band]) continue;
+        size_t bytes = nemo_image_band_bytes(dst, band);
+        unsigned char *mask = snewn(bytes, unsigned char);
+        memset(mask, 0, bytes);
+        int first = band*NEMO_IMAGE_MASK_ROWS;
+        int last = min(first+NEMO_IMAGE_MASK_ROWS, dst->pixel_height);
+        bool used = false;
+        for (int y = first; y < last; y++) {
+            if (dst->lines[y].anchor == INT_MIN) continue;
+            NemoImageRow *row = &dst->lines[y];
+            row->erased = mask + (y-first)*stride;
+            if (src->lines[y].erased)
+                for (int x = left; x < right; x++)
+                    if (src->lines[y].erased[x/8] & (1u << (x%8))) {
+                        row->erased[(x-left)/8] |= 1u << ((x-left)%8);
+                        row->erased_pixels++;
+                        used = true;
+                    }
+        }
+        if (used) {
+            dst->mask_bands[band] = mask;
+            dst->erased_bytes += bytes;
+            dst->memory_bytes += bytes;
+        } else {
+            sfree(mask);
+            for (int y = first; y < last; y++) dst->lines[y].erased = NULL;
+        }
+    }
+    term->image_bytes += dst->memory_bytes;
+    /* Masks are fully copied before dropping any row: dropping the last
+     * erased row in a band releases that band's allocation. */
+    for (int y = 0; y < dst->pixel_height; y++)
+        if (dst->lines[y].anchor != INT_MIN &&
+            dst->lines[y].erased_pixels == (unsigned)dst->pixel_width)
+            nemo_image_drop_row(term, dst, y);
+    nemo_image_live(term, dst);
+    return dst;
+}
+
+static unsigned nemo_image_column_cuts(Terminal *term, const NemoTermImage *image,
+                                       int left, int right, int top, int bottom,
+                                       int cuts[4])
+{
+    if (image->screen != term->alt_which || image->y > bottom || image->last_y < top)
+        return 0;
+    int64_t a = ((int64_t)left-image->x)*term->cell_width - image->pixel_x;
+    int64_t b = ((int64_t)right-image->x)*term->cell_width - image->pixel_x;
+    if (a >= image->pixel_width || b <= 0 || (a <= 0 && b >= image->pixel_width))
+        return 0;
+    bool intersects = false;
+    for (int y = 0; y < image->pixel_height && !intersects; y++) {
+        if (image->lines[y].anchor == INT_MIN) continue;
+        int64_t row = (int64_t)image->lines[y].anchor + y/term->cell_height;
+        intersects = row >= top && row <= bottom;
+    }
+    if (!intersects) return 0;
+    unsigned count = 0;
+    cuts[count++] = 0;
+    if (a > 0 && a < image->pixel_width) cuts[count++] = (int)a;
+    if (b > 0 && b < image->pixel_width) cuts[count++] = (int)b;
+    cuts[count++] = image->pixel_width;
+    return count;
+}
+
+static size_t nemo_image_column_need(Terminal *term, const NemoTermImage *image,
+                                     int left, int right, int top, int bottom)
+{
+    int cuts[4];
+    unsigned count = nemo_image_column_cuts(term, image, left, right, top, bottom, cuts);
+    size_t bytes = 0;
+    for (unsigned i = 1; i < count; i++)
+        bytes += nemo_image_crop_need(image, cuts[i]-cuts[i-1]);
+    return bytes;
+}
+
+static void nemo_images_split_columns(Terminal *term, int left, int right,
+                                       int top, int bottom)
+{
+    size_t needed = 0;
+    for (NemoTermImage *image = term->images; image; image = image->next)
+        needed += nemo_image_column_need(term, image, left, right, top, bottom);
+    size_t pending = nemo_sixel_stats(term->sixel_pending).allocated_bytes;
+    /* Include peak temporary view storage. Evict before constructing any view
+     * so no source, mask or iterator can be invalidated during a crop. */
+    while (term->images && needed > NEMO_SIXEL_DEFAULT_BUDGET-pending-term->image_bytes) {
+        needed -= nemo_image_column_need(term, term->images, left, right, top, bottom);
+        nemo_image_remove(term, &term->images);
+    }
     NemoTermImage **link = &term->images;
     while (*link) {
         NemoTermImage *image = *link;
-        if (image->screen == term->alt_which) {
+        int cuts[4];
+        unsigned count = nemo_image_column_cuts(term, image, left, right, top, bottom, cuts);
+        if (!count) { link = &image->next; continue; }
+        NemoTermImage *first = NULL, **tail = &first;
+        for (unsigned i = 1; i < count; i++) {
+            *tail = nemo_image_crop(term, image, cuts[i-1], cuts[i]);
+            tail = &(*tail)->next;
+            assert(pending + term->image_bytes <= NEMO_SIXEL_DEFAULT_BUDGET);
+        }
+        nemo_image_remove(term, link);
+        *tail = *link;
+        *link = first;
+        link = tail;
+    }
+}
+
+void term_scroll_images(Terminal *term, int left, int right, int top, int bottom,
+                         int lines, bool sb)
+{
+    left = max(0, left); right = min(term->cols, right);
+    top = max(0, top); bottom = min(term->rows-1, bottom);
+    if (!lines || left >= right || top > bottom) return;
+    lines = max(top-bottom-1, min(lines, bottom-top+1));
+    bool partial = left != 0 || right != term->cols;
+    if (partial || top || term->alt_which) sb = false;
+    if (partial) nemo_images_split_columns(term, left, right, top, bottom);
+    NemoTermImage **link = &term->images;
+    while (*link) {
+        NemoTermImage *image = *link;
+        int64_t x = (int64_t)image->x*term->cell_width + image->pixel_x;
+        bool inside = !partial || (x < (int64_t)right*term->cell_width &&
+                                   x+image->pixel_width > (int64_t)left*term->cell_width);
+        if (image->screen == term->alt_which && inside) {
             for (int y = 0; y < image->pixel_height; y++) {
                 NemoImageRow *row = &image->lines[y];
                 if (row->anchor == INT_MIN) continue;
@@ -1810,10 +1985,11 @@ static void nemo_images_scroll(Terminal *term, int top, int bottom,
                 }
                 if (discard) nemo_image_drop_row(term, image, y);
             }
-            if (!nemo_image_live(term, image)) {
-                nemo_image_remove(term, link);
-                continue;
-            }
+            nemo_image_live(term, image);
+        }
+        if (!image->live_rows) {
+            nemo_image_remove(term, link);
+            continue;
         }
         link = &image->next;
     }
@@ -1875,13 +2051,15 @@ static void nemo_sixel_complete(Terminal *term)
     int rows = ((int)ph-1) / term->cell_height + 1;
     unsigned bands = ((unsigned)ph+NEMO_IMAGE_MASK_ROWS-1) / NEMO_IMAGE_MASK_ROWS;
     size_t extra = ph * sizeof(NemoImageRow) + bands*sizeof(unsigned char *) +
-        sizeof(NemoTermImage);
+        sizeof(NemoTermImage) + sizeof(NemoImageSource);
     if (!nemo_image_admit(term, st.allocated_bytes, extra)) {
         nemo_sixel_cancel(term); return;
     }
     NemoTermImage *image = snew(NemoTermImage);
     memset(image, 0, sizeof(*image));
-    image->bitmap = decoder;
+    image->source = snew(NemoImageSource);
+    *image->source = (NemoImageSource){decoder, 1,
+        st.allocated_bytes + sizeof(NemoImageSource)};
     image->lines = snewn(ph, NemoImageRow);
     memset(image->lines, 0, ph * sizeof(NemoImageRow));
     for (unsigned y = 0; y < ph; y++) image->lines[y].anchor = term->sixel_y;
@@ -1893,11 +2071,11 @@ static void nemo_sixel_complete(Terminal *term)
     image->screen = term->sixel_screen;
     image->pixel_width = (int)pw; image->pixel_height = (int)ph;
     image->live_rows = (int)ph;
-    image->memory_bytes = st.allocated_bytes + extra;
+    image->memory_bytes = extra - sizeof(NemoImageSource);
     NemoTermImage **tail = &term->images;
     while (*tail) tail = &(*tail)->next;
     *tail = image;
-    term->image_bytes += image->memory_bytes;
+    term->image_bytes += image->memory_bytes + image->source->memory_bytes;
     term->sixel_pending = NULL;
     nemo_sixel_set_allocation_guard(decoder, NULL, NULL);
     if (!term->sixel_private_palette) {
@@ -1906,13 +2084,20 @@ static void nemo_sixel_complete(Terminal *term)
     }
     if (!term->sixel_display_mode) {
         int target_y = term->sixel_y + rows - 1;
-        while (target_y > term->marg_b && term->curs.y <= term->marg_b) {
+        int target_x = term->sixel_x + (term->sixel_scrolls_right ? cols : 0);
+        /* XTerm's graphic completion wraps once at the right margin and
+         * scrolls into the vertical region, including a graphic that began
+         * outside that region. DECSDM display mode leaves the cursor alone. */
+        if (target_x > term->marg_r) {
+            target_x = term->marg_l;
+            target_y++;
+        }
+        while (target_y > term->marg_b) {
             scroll(term, term->marg_t, term->marg_b, 1, true);
             target_y--;
         }
         term->curs.y = min(target_y, term->rows-1);
-        term->curs.x = min(term->sixel_x + (term->sixel_scrolls_right ? cols : 0),
-                           term->cols-1);
+        term->curs.x = target_x;
         term->wrapnext = false;
     }
     term_invalidate(term);
@@ -1995,6 +2180,8 @@ static void nemo_decrqss(Terminal *term)
         put_byte(reply, 'm');
     } else if (valid && !strcmp(query, "r")) {
         put_fmt(reply, "%d;%dr", term->marg_t+1, term->marg_b+1);
+    } else if (valid && !strcmp(query, "s")) {
+        put_fmt(reply, "%d;%ds", term->marg_l+1, term->marg_r+1);
     } else if (valid && !strcmp(query, "*x")) {
         put_fmt(reply, "%u*x", term->rectangle_extent);
     } else if (valid && !strcmp(query, "\"q")) {
@@ -2108,11 +2295,13 @@ static void power_on(Terminal *term, bool clear)
     term->alt_x = term->alt_y = 0;
     term->savecurs.x = term->savecurs.y = 0;
     term->alt_savecurs.x = term->alt_savecurs.y = 0;
-    term->alt_t = term->marg_t = 0;
+    term->marg_t = 0;
+    term->marg_l = 0; term->marg_r = max(0, term->cols-1);
+    term->lrmm = false;
     if (term->rows != -1)
-        term->alt_b = term->marg_b = term->rows - 1;
+        term->marg_b = term->rows - 1;
     else
-        term->alt_b = term->marg_b = 0;
+        term->marg_b = 0;
     if (term->cols != -1) {
         int i;
         for (i = 0; i < term->cols; i++)
@@ -3178,8 +3367,9 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     swap_screen(term, 0, false, false);
     if (!save_alt_which && reflow) term->disptop = resize_view;
 
-    term->alt_t = term->marg_t = 0;
-    term->alt_b = term->marg_b = newrows - 1;
+    term->marg_t = 0;
+    term->marg_b = newrows - 1;
+    term->marg_l = 0; term->marg_r = newcols-1;
 
     if (term->rows == -1) {
         term->scrollback = newtree234(NULL);
@@ -3438,12 +3628,7 @@ static void swap_screen(Terminal *term, int which,
         if (!reset && !keep_cur_pos)
             term->curs.y = term->alt_y;
         term->alt_y = t;
-        t = term->marg_t;
-        if (!reset) term->marg_t = term->alt_t;
-        term->alt_t = t;
-        t = term->marg_b;
-        if (!reset) term->marg_b = term->alt_b;
-        term->alt_b = t;
+        /* Scrolling margins are global operating state, as in xterm. */
         bt = term->dec_om;
         if (!reset) term->dec_om = term->alt_om;
         term->alt_om = bt;
@@ -3594,8 +3779,34 @@ static void scroll(Terminal *term, int topline, int botline,
         sb = false;
 
     scrollwinsize = botline - topline + 1;
-    nemo_images_scroll(term, topline, botline,
+    term_scroll_images(term, term->marg_l, term->marg_r+1, topline, botline,
                        max(-scrollwinsize, min(lines, scrollwinsize)), sb);
+
+    if (term->marg_l || term->marg_r != term->cols-1) {
+        lines = max(-scrollwinsize, min(lines, scrollwinsize));
+        if (!lines) return;
+        int left = term->marg_l, right = term->marg_r+1;
+        /* Clean wide-glyph boundaries before any row becomes a source.
+         * Only full-width rotation can move complete lines into history. */
+        for (int y = topline; y <= botline; y++) {
+            termline *row = scrlineptr(y); check_line_size(term, row);
+            check_boundary(term, left, y); check_boundary(term, right, y);
+            check_selection(term, (pos){y,left}, (pos){y,right});
+            row->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2);
+        }
+        int step = lines > 0 ? 1 : -1;
+        for (int y = step > 0 ? topline : botline;
+             y >= topline && y <= botline; y += step) {
+            termline *dst = scrlineptr(y);
+            check_trust_status(term, dst);
+            termline *src = y+lines >= topline && y+lines <= botline ?
+                scrlineptr(y+lines) : NULL;
+            for (int x = left; x < right; x++)
+                copy_termchar(dst, x, src ? &src->chars[x] : &term->erase_char);
+        }
+        seen_disp_event(term);
+        return;
+    }
 
     if (lines < 0) {
         lines = -lines;
@@ -3735,6 +3946,10 @@ static void move(Terminal *term, int x, int y, int marg_clip)
     if (x >= term->cols)
         x = term->cols - 1;
     if (marg_clip) {
+        if ((term->curs.x >= term->marg_l || marg_clip == 2) && x < term->marg_l)
+            x = term->marg_l;
+        if ((term->curs.x <= term->marg_r || marg_clip == 2) && x > term->marg_r)
+            x = term->marg_r;
         if ((term->curs.y >= term->marg_t || marg_clip == 2) &&
             y < term->marg_t)
             y = term->marg_t;
@@ -3776,8 +3991,10 @@ static void save_cursor(Terminal *term, bool save)
         if (term->curs.y >= term->rows)
             term->curs.y = term->rows - 1;
         term->dec_om = term->save_om;
-        if (term->dec_om)
+        if (term->dec_om) {
             term->curs.y = max(term->marg_t, min(term->marg_b, term->curs.y));
+            term->curs.x = max(term->marg_l, min(term->marg_r, term->curs.x));
+        }
 
         term->curr_attr = term->save_attr;
         term->curr_truecolour = term->save_truecolour;
@@ -3789,7 +4006,7 @@ static void save_cursor(Terminal *term, bool save)
          * wrapnext might reset to False if the x position is no
          * longer at the rightmost edge.
          */
-        if (term->wrapnext && term->curs.x < term->cols-1)
+        if (term->wrapnext && term->curs.x < nemo_right(term))
             term->wrapnext = false;
         term->cset_attr[term->cset] = term->save_csattr;
         term->sco_acs = term->save_sco_acs;
@@ -3807,6 +4024,8 @@ static void nemo_soft_reset(Terminal *term)
     term->insert = term->dec_om = false;
     term->marg_t = 0;
     term->marg_b = max(0, term->rows - 1);
+    term->marg_l = 0; term->marg_r = max(0, term->cols-1);
+    term->lrmm = false;
     term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
@@ -3972,7 +4191,9 @@ static bool nemo_rectangle(Terminal *term, unsigned first, unsigned count,
 {
     int base = term->dec_om ? term->marg_t : 0;
     unsigned height = (term->dec_om ? term->marg_b+1 : term->rows) - base;
-    unsigned limits[] = {height, term->cols, height, term->cols}, coords[4];
+    int xbase = term->dec_om ? term->marg_l : 0;
+    unsigned width = (term->dec_om ? term->marg_r+1 : term->cols)-xbase;
+    unsigned limits[] = {height, width, height, width}, coords[4];
     if (!height || term->cols <= 0) return false;
     for (unsigned i = 0; i < lenof(coords); i++) {
         unsigned value = i < count && first+i < (unsigned)term->esc_nargs ?
@@ -3981,8 +4202,8 @@ static bool nemo_rectangle(Terminal *term, unsigned first, unsigned count,
         coords[i] = min(value, limits[i]);
     }
     if (coords[0] > coords[2] || coords[1] > coords[3]) return false;
-    *r = (struct NemoRect){base+coords[0]-1, coords[1]-1,
-                          base+coords[2], coords[3]};
+    *r = (struct NemoRect){base+coords[0]-1, xbase+coords[1]-1,
+                          base+coords[2], xbase+coords[3]};
     return true;
 }
 
@@ -4085,6 +4306,8 @@ static void nemo_rectangle_attributes(Terminal *term, bool reverse)
     const unsigned all = ATTR_BOLD | ATTR_UNDER | ATTR_BLINK | ATTR_REVERSE;
     for (int y = r.top; y < r.bottom; y++) {
         termline *line = scrlineptr(y); check_line_size(term, line);
+        /* Stream extent covers whole intervening physical lines, even when
+         * DECOM made the two endpoint coordinates relative to margins. */
         int left = exact || y == r.top ? r.left : 0;
         int right = exact || y == r.bottom-1 ? r.right : term->cols;
         for (int x = left; x < right; x++) {
@@ -4240,17 +4463,20 @@ static void erase_lots(Terminal *term,
  */
 static void insch(Terminal *term, int n)
 {
+    if (!nemo_in_lr(term)) return;
+    int end = term->marg_r+1;
+    term->wrapnext = false;
     int dir = (n < 0 ? -1 : +1);
     int m, j;
     pos eol;
     termline *ldata;
 
     nemo_images_erase(term, term->curs,
-                      (pos){term->curs.y, term->cols});
+                      (pos){term->curs.y, end});
     n = (n < 0 ? -n : n);
-    if (n > term->cols - term->curs.x)
-        n = term->cols - term->curs.x;
-    m = term->cols - term->curs.x - n;
+    if (n > end - term->curs.x)
+        n = end - term->curs.x;
+    m = end - term->curs.x - n;
 
     /*
      * We must de-highlight the selection if it overlaps any part of
@@ -4261,7 +4487,7 @@ static void insch(Terminal *term, int n)
      * simply move the highlight with the text.
      */
     eol.y = term->curs.y;
-    eol.x = term->cols;
+    eol.x = end;
     if (poslt(term->curs, term->selend) && poslt(term->selstart, eol)) {
         pos okstart = term->curs;
         pos okend = eol;
@@ -4290,6 +4516,7 @@ static void insch(Terminal *term, int n)
     }
 
     check_boundary(term, term->curs.x, term->curs.y);
+    check_boundary(term, end, term->curs.y);
     if (dir < 0)
         check_boundary(term, term->curs.x + n, term->curs.y);
     ldata = scrlineptr(term->curs.y);
@@ -4360,8 +4587,9 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             if (!term->no_remote_resize)
                 term_request_resize(term, state ? 132 : 80, term->rows);
             term->reset_132 = state;
-            term->alt_t = term->marg_t = 0;
-            term->alt_b = term->marg_b = term->rows - 1;
+            term->marg_t = 0;
+            term->marg_b = term->rows - 1;
+            term->marg_l = 0; term->marg_r = term->cols-1;
             move(term, 0, 0, 0);
             erase_lots(term, false, true, true);
             break;
@@ -4384,7 +4612,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 6:                      /* DECOM: DEC origin mode */
             term->dec_om = state;
-            move(term, 0, state ? term->marg_t : 0, 0);
+            move(term, state ? term->marg_l : 0, state ? term->marg_t : 0, 0);
             seen_disp_event(term);
             break;
           case 7:                      /* DECAWM: auto wrap */
@@ -4408,6 +4636,15 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             break;
           case 66:                     /* DECNKM: numeric/application keypad */
             term->app_keypad_keys = state;
+            break;
+          case 69:                     /* DECLRMM: left/right margins */
+            term->lrmm = state;
+            if (!state) { term->marg_l = 0; term->marg_r = term->cols-1; }
+            else for (int y = 0; y < term->rows; y++) {
+                termline *line = scrlineptr(y);
+                line->lattr &= ~LATTR_MODE;
+            }
+            seen_disp_event(term);
             break;
           case 47:                     /* alternate screen */
             compatibility(OTHER);
@@ -4546,6 +4783,7 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 47: case 1047: case 1049:
             if (term->no_alt_screen) return 4;
             state = term->alt_which != 0; break;
+          case 69: state = term->lrmm; break;
           case 80: state = term->sixel_display_mode; break;
           case 1070: state = term->sixel_private_palette; break;
           case 8452: state = term->sixel_scrolls_right; break;
@@ -4587,7 +4825,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
       case 1047: case 1049: mode = 47; break;
     }
     static const unsigned modes[] = {
-        1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 80,
+        1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
         1000, 1004, 1005, 1007, 1070, 2004, 2026, 8452, 9001
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
@@ -4942,12 +5180,10 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         width = term_char_width(term, c);
 
     if (term->wrapnext && term->wrap && width > 0) {
-        cline->lattr |= LATTR_WRAPPED;
-        if (term->curs.y == term->marg_b)
-            scroll(term, term->marg_t, term->marg_b, 1, true);
-        else if (term->curs.y < term->rows - 1)
-            term->curs.y++;
-        term->curs.x = 0;
+        if (!term->marg_l && term->marg_r == term->cols-1)
+            cline->lattr |= LATTR_WRAPPED;
+        nemo_linefeed(term);
+        term->curs.x = term->marg_l;
         term->wrapnext = false;
         cline = scrlineptr(term->curs.y);
     }
@@ -4964,9 +5200,9 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
 
     check_trust_status(term, cline);
 
-    int linecols = term->cols;
+    int linecols = nemo_right(term)+1;
     if (cline->trusted)
-        linecols -= TRUST_SIGIL_WIDTH;
+        linecols = min(linecols, term->cols-TRUST_SIGIL_WIDTH);
 
     /*
      * Before we switch on the character width, do a preliminary check for
@@ -5003,23 +5239,20 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
          * column. xterm concurs.)
          */
         check_boundary(term, term->curs.x, term->curs.y);
-        check_boundary(term, term->curs.x+2, term->curs.y);
         if (term->curs.x >= linecols-1) {
             assert(term->wrap);    /* we handled the non-wrapping case above */
             copy_termchar(cline, term->curs.x,
                           &term->erase_char);
-            cline->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
-            if (term->curs.y == term->marg_b)
-                scroll(term, term->marg_t, term->marg_b,
-                       1, true);
-            else if (term->curs.y < term->rows - 1)
-                term->curs.y++;
-            term->curs.x = 0;
+            if (!term->marg_l && term->marg_r == term->cols-1)
+                cline->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
+            nemo_images_erase(term, term->curs, (pos){term->curs.y,term->curs.x+1});
+            nemo_linefeed(term);
+            term->curs.x = term->marg_l;
             cline = scrlineptr(term->curs.y);
             /* Now we must check_boundary again, of course. */
             check_boundary(term, term->curs.x, term->curs.y);
-            check_boundary(term, term->curs.x+2, term->curs.y);
         }
+        check_boundary(term, term->curs.x+2, term->curs.y);
 
         nemo_images_erase(term, term->curs,
                           (pos){term->curs.y, term->curs.x + 2});
@@ -5704,7 +5937,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 break;
               }
               case '\b':              /* BS: Back space */
-                if (term->wrapnext) {
+                if (term->lrmm) {
+                    if (term->curs.x > nemo_cr_x(term)) term->curs.x--;
+                    term->wrapnext = false;
+                } else if (term->wrapnext) {
                     term->wrapnext = false;
                 } else if (term->curs.x == 0 &&
                            (term->curs.y == 0 || !term->wrap)) {
@@ -5758,15 +5994,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 }
                 break;
               case '\015':            /* CR: Carriage return */
-                term->curs.x = 0;
+                term->curs.x = nemo_cr_x(term);
                 term->wrapnext = false;
                 seen_disp_event(term);
 
                 if (term->crhaslf) {
-                    if (term->curs.y == term->marg_b)
-                        scroll(term, term->marg_t, term->marg_b, 1, true);
-                    else if (term->curs.y < term->rows - 1)
-                        term->curs.y++;
+                    nemo_linefeed(term);
                 }
                 if (term->logctx)
                     logtraffic(term->logctx, (unsigned char) c, LGTYP_ASCII);
@@ -5784,12 +6017,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
               case '\013':            /* VT: Line tabulation */
                 compatibility(VT100);
               case '\012':            /* LF: Line feed */
-                if (term->curs.y == term->marg_b)
-                    scroll(term, term->marg_t, term->marg_b, 1, true);
-                else if (term->curs.y < term->rows - 1)
-                    term->curs.y++;
+                nemo_linefeed(term);
                 if (term->lfhascr)
-                    term->curs.x = 0;
+                    term->curs.x = nemo_cr_x(term);
                 term->wrapnext = false;
                 seen_disp_event(term);
                 if (term->logctx)
@@ -5798,18 +6028,19 @@ static void term_out(Terminal *term, bool called_from_term_data)
               case '\t': {              /* HT: Character tabulation */
                 pos old_curs = term->curs;
                 termline *ldata = scrlineptr(term->curs.y);
+                int right = nemo_right(term);
 
                 do {
                     term->curs.x++;
-                } while (term->curs.x < term->cols - 1 &&
+                } while (term->curs.x < right &&
                          !term->tabs[term->curs.x]);
 
                 if ((ldata->lattr & LATTR_MODE) != LATTR_NORM) {
                     if (term->curs.x >= term->cols / 2)
                         term->curs.x = term->cols / 2 - 1;
                 } else {
-                    if (term->curs.x >= term->cols)
-                        term->curs.x = term->cols - 1;
+                    if (term->curs.x > right)
+                        term->curs.x = right;
                 }
 
                 check_selection(term, old_curs, term->curs);
@@ -5916,27 +6147,22 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'D':            /* IND: exactly equivalent to LF */
                     compatibility(VT100);
-                    if (term->curs.y == term->marg_b)
-                        scroll(term, term->marg_t, term->marg_b, 1, true);
-                    else if (term->curs.y < term->rows - 1)
-                        term->curs.y++;
+                    nemo_linefeed(term);
                     term->wrapnext = false;
                     seen_disp_event(term);
                     break;
                   case 'E':            /* NEL: exactly equivalent to CR-LF */
                     compatibility(VT100);
-                    term->curs.x = 0;
-                    if (term->curs.y == term->marg_b)
-                        scroll(term, term->marg_t, term->marg_b, 1, true);
-                    else if (term->curs.y < term->rows - 1)
-                        term->curs.y++;
+                    nemo_linefeed(term);
+                    term->curs.x = nemo_cr_x(term);
                     term->wrapnext = false;
                     seen_disp_event(term);
                     break;
                   case 'M':            /* RI: reverse index - backwards LF */
                     compatibility(VT100);
-                    if (term->curs.y == term->marg_t)
-                        scroll(term, term->marg_t, term->marg_b, -1, true);
+                    if (term->curs.y == term->marg_t) {
+                        if (nemo_in_lr(term)) scroll(term, term->marg_t, term->marg_b, -1, true);
+                    }
                     else if (term->curs.y > 0)
                         term->curs.y--;
                     term->wrapnext = false;
@@ -5999,6 +6225,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case ANSI('5', '#'):
                   case ANSI('6', '#'): {
                     compatibility(VT100);
+                    if (term->lrmm) break;
                     int nlattr;
                     termline *ldata;
 
@@ -6207,8 +6434,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case '`':       /* HPA: set horizontal posn */
                         compatibility(ANSI);
                         CLAMP(term->esc_args[0], term->cols);
-                        move(term, def(term->esc_args[0], 1) - 1,
-                             term->curs.y, 0);
+                        move(term, (term->dec_om ? term->marg_l : 0) + def(term->esc_args[0], 1) - 1,
+                             term->curs.y, term->dec_om ? 2 : 0);
                         seen_disp_event(term);
                         break;
                       case 'd':       /* VPA: set vertical posn */
@@ -6226,7 +6453,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             term->esc_args[1] = ARG_DEFAULT;
                         CLAMP(term->esc_args[0], term->rows);
                         CLAMP(term->esc_args[1], term->cols);
-                        move(term, def(term->esc_args[1], 1) - 1,
+                        move(term, (term->dec_om ? term->marg_l : 0) + def(term->esc_args[1], 1) - 1,
                              ((term->dec_om ? term->marg_t : 0) +
                               def(term->esc_args[0], 1) - 1),
                              (term->dec_om ? 2 : 0));
@@ -6287,18 +6514,22 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'L':       /* IL: insert lines */
                         compatibility(VT102);
                         CLAMP(term->esc_args[0], term->rows);
-                        if (term->curs.y <= term->marg_b)
+                        if (term->curs.y >= term->marg_t && term->curs.y <= term->marg_b && nemo_in_lr(term)) {
                             scroll(term, term->curs.y, term->marg_b,
                                    -def(term->esc_args[0], 1), false);
+                            term->curs.x = term->marg_l; term->wrapnext = false;
+                        }
                         seen_disp_event(term);
                         break;
                       case 'M':       /* DL: delete lines */
                         compatibility(VT102);
                         CLAMP(term->esc_args[0], term->rows);
-                        if (term->curs.y <= term->marg_b)
+                        if (term->curs.y >= term->marg_t && term->curs.y <= term->marg_b && nemo_in_lr(term)) {
                             scroll(term, term->curs.y, term->marg_b,
                                    def(term->esc_args[0], 1),
                                    true);
+                            term->curs.x = term->marg_l; term->wrapnext = false;
+                        }
                         seen_disp_event(term);
                         break;
                       case '@':       /* ICH: insert chars */
@@ -6327,7 +6558,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                 char buf[32];
                                 sprintf(buf, "\033[%d;%dR", term->curs.y + 1 -
                                         (term->dec_om ? term->marg_t : 0),
-                                        term->curs.x + 1);
+                                        term->curs.x + 1 - (term->dec_om ? term->marg_l : 0));
                                 ldisc_send(term->ldisc, buf, strlen(buf),
                                            false);
                             } else if (term->esc_args[0] == 5) {
@@ -6402,7 +6633,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             if (bot - top > 0) {
                                 term->marg_t = top;
                                 term->marg_b = bot;
-                                term->curs.x = 0;
+                                term->curs.x = term->dec_om ? term->marg_l : 0;
+                                term->wrapnext = false;
                                 /*
                                  * I used to think the cursor should be
                                  * placed at the top of the newly marginned
@@ -6632,8 +6864,19 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         }
                         set_erase_char(term);
                         break;
-                      case 's':       /* save cursor */
-                        save_cursor(term, true);
+                      case 's':       /* DECSLRM, or ANSI cursor save */
+                        if (!term->lrmm) save_cursor(term, true);
+                        else {
+                            unsigned l = def(term->esc_args[0], 1);
+                            unsigned r = term->esc_nargs < 2 ? term->cols : def(term->esc_args[1], term->cols);
+                            l = min(l, (unsigned)term->cols); r = min(r, (unsigned)term->cols);
+                            if (l < r) {
+                                term->marg_l = l-1; term->marg_r = r-1;
+                                move(term, term->dec_om ? term->marg_l : 0,
+                                     term->dec_om ? term->marg_t : 0, 0);
+                                seen_disp_event(term);
+                            }
+                        }
                         break;
                       case ANSI_QUE('s'): /* XTSAVE */
                       case ANSI_QUE('r'): /* XTRESTORE */

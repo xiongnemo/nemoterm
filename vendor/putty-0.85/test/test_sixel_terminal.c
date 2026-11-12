@@ -6,6 +6,8 @@
 #include "test_terminal.c"
 #undef main
 
+static void check_image_accounting(Mock *mk);
+
 static size_t image_count(Terminal *term)
 {
     size_t count = 0;
@@ -36,7 +38,7 @@ static void test_sixel_framing(Mock *mk)
     image_feed(mk);
     IEQUAL(image_count(mk->term), 1);
     if (!mk->term->images) return;
-    NemoSixelStats st = nemo_sixel_stats(mk->term->images->bitmap);
+    NemoSixelStats st = nemo_sixel_stats(mk->term->images->source->bitmap);
     IEQUAL(st.width, 32); IEQUAL(st.height, 32);
     IEQUAL(mk->term->images->pixel_width, 32);
     IEQUAL(mk->term->curs.y, 0);
@@ -188,14 +190,14 @@ static void test_sixel_grid_resize(Mock *mk)
     solid_image(mk, 32, 64);
     NemoTermImage *image = mk->term->images;
     if (!image) { IEQUAL(image_count(mk->term), 1); return; }
-    NemoSixel *bitmap = image->bitmap;
+    NemoSixel *bitmap = image->source->bitmap;
     size_t bytes = mk->term->image_bytes;
     term_data_fragmented(mk->term, "\033[8;1H");
     for (unsigned repeat = 0; repeat < 100; repeat++) {
         term_size(mk->term, 6, 2, 20);
         IEQUAL(image_row(mk->term, image, 0), -2);
         IEQUAL(image_row(mk->term, image, 3), 1);
-        IEQUAL(image->bitmap == bitmap, true);
+        IEQUAL(image->source->bitmap == bitmap, true);
         term_size(mk->term, 8, 10, 20);
         IEQUAL(image_row(mk->term, image, 0), 0);
         IEQUAL(image_row(mk->term, image, 3), 3);
@@ -322,13 +324,7 @@ static void test_sixel_budget(Mock *mk)
     }
     term_data_fragmented(mk->term, "!512B\033\\");
     IEQUAL(mk->term->image_bytes <= NEMO_SIXEL_DEFAULT_BUDGET, true);
-    size_t accounted = 0;
-    for (NemoTermImage *image = mk->term->images; image; image = image->next)
-        accounted += sizeof(*image) + image->erased_bytes +
-            image->pixel_height*sizeof(NemoImageRow) +
-            image->band_count*sizeof(unsigned char *) +
-            nemo_sixel_stats(image->bitmap).allocated_bytes;
-    IEQUAL(accounted, mk->term->image_bytes);
+    check_image_accounting(mk);
 }
 
 static void test_sixel_font_resize(Mock *mk)
@@ -341,7 +337,7 @@ static void test_sixel_font_resize(Mock *mk)
     solid_image(mk, 24, 48);
     NemoTermImage *image = mk->term->images;
     if (!image) { IEQUAL(image_count(mk->term), 1); return; }
-    NemoSixel *bitmap = image->bitmap;
+    NemoSixel *bitmap = image->source->bitmap;
     uint32_t pixels[24];
     size_t initial = mk->term->image_bytes;
     IEQUAL(image->erased_bytes, 0);
@@ -352,7 +348,7 @@ static void test_sixel_font_resize(Mock *mk)
     for (unsigned repeat = 0; repeat < 100; repeat++) {
         term_set_cell_size(mk->term, 16, 24);
         IEQUAL(image_count(mk->term), 1);
-        IEQUAL(image->bitmap == bitmap, true);
+        IEQUAL(image->source->bitmap == bitmap, true);
         IEQUAL(image->pixel_width, 24); IEQUAL(image->pixel_height, 48);
         IEQUAL(term_image_pixel_y(image, 0, 24), 48);
         IEQUAL(term_image_pixel_y(image, 47, 24), 95);
@@ -429,19 +425,14 @@ static void test_sixel_mask_budget(Mock *mk)
     }
     IEQUAL(image_count(mk->term) > 1, true);
     IEQUAL(image_count(mk->term) < before, true);
-    size_t accounted = 0;
     for (NemoTermImage *image = mk->term->images; image; image = image->next) {
         uint32_t pixels[32];
         term_image_read_row(image, 0, 0, pixels, 32);
         IEQUAL(pixels[0], UINT32_C(0xffff0000)); IEQUAL(pixels[1], 0);
         IEQUAL(pixels[2], UINT32_C(0xffff0000));
         IEQUAL(image->erased_bytes, 128);
-        accounted += sizeof(*image) + 32*sizeof(NemoImageRow) +
-            sizeof(unsigned char *) + 128 +
-            nemo_sixel_stats(image->bitmap).allocated_bytes;
     }
-    IEQUAL(accounted, mk->term->image_bytes);
-    IEQUAL(accounted <= NEMO_SIXEL_DEFAULT_BUDGET, true);
+    check_image_accounting(mk);
     term_data_fragmented(mk->term, "\033[H\033[2J");
     /* Images extend below this small grid; RIS also releases unseen rows. */
     term_data_fragmented(mk->term, "\033c");
@@ -484,10 +475,22 @@ static void check_image_accounting(Mock *mk)
         IEQUAL(live > 0, true);
         IEQUAL(masks, image->erased_bytes);
         size_t bytes = sizeof(*image) + image->pixel_height*sizeof(NemoImageRow) +
-            image->band_count*sizeof(unsigned char *) + masks +
-            nemo_sixel_stats(image->bitmap).allocated_bytes;
+            image->band_count*sizeof(unsigned char *) + masks;
         IEQUAL(bytes, image->memory_bytes);
         total += bytes;
+        unsigned references = 0;
+        bool first = true, seen = false;
+        for (NemoTermImage *other = mk->term->images; other; other = other->next) {
+            if (other == image) seen = true;
+            if (other->source == image->source) {
+                references++;
+                if (!seen) first = false;
+            }
+        }
+        IEQUAL(image->source->references, references);
+        IEQUAL(image->source->memory_bytes, sizeof(NemoImageSource) +
+            nemo_sixel_stats(image->source->bitmap).allocated_bytes);
+        if (first) total += image->source->memory_bytes;
     }
     IEQUAL(total, mk->term->image_bytes);
     IEQUAL(total <= NEMO_SIXEL_DEFAULT_BUDGET, true);
@@ -540,6 +543,157 @@ static void test_sixel_mixed_lifecycle(Mock *mk)
     term_set_cell_size(mk->term, 8, 16);
 }
 
+enum { CANVAS_WIDTH = 96, CANVAS_HEIGHT = 80 };
+static void image_canvas(Terminal *term, uint32_t *pixels)
+{
+    memset(pixels, 0, CANVAS_WIDTH*CANVAS_HEIGHT*sizeof(*pixels));
+    uint32_t row[NEMO_SIXEL_MAX_DIMENSION];
+    for (NemoTermImage *im = term->images; im; im = im->next) {
+        if (im->screen != term->alt_which) continue;
+        for (int y = 0; y < im->pixel_height; y++) {
+            int64_t at = term_image_pixel_y(im, y, term->cell_height);
+            if (at < 0 || at >= CANVAS_HEIGHT) continue;
+            size_t n = term_image_read_row(im, y, 0, row, im->pixel_width);
+            for (unsigned x = 0; x < n; x++) {
+                int dest = im->x*term->cell_width + im->pixel_x + x;
+                if (dest >= 0 && dest < CANVAS_WIDTH && row[x] >> 24)
+                    pixels[at*CANVAS_WIDTH+dest] = row[x];
+            }
+        }
+    }
+}
+
+/* An independent flat pixel canvas models the visible effect, regardless of
+ * how many views, masks, shared decoders or row anchors implement it. */
+static void check_column_scroll(Mock *mk, int left, int right, int top, int bottom, int lines)
+{
+    uint32_t before[CANVAS_WIDTH*CANVAS_HEIGHT], after[CANVAS_WIDTH*CANVAS_HEIGHT];
+    image_canvas(mk->term, before);
+    term_scroll_images(mk->term, left, right, top, bottom, lines, true);
+    image_canvas(mk->term, after);
+    int x0 = left*mk->term->cell_width, x1 = right*mk->term->cell_width;
+    int y0 = top*mk->term->cell_height, y1 = (bottom+1)*mk->term->cell_height;
+    int dy = lines*mk->term->cell_height;
+    for (int y = 0; y < CANVAS_HEIGHT; y++)
+        for (int x = 0; x < CANVAS_WIDTH; x++) {
+            uint32_t expected = before[y*CANVAS_WIDTH+x];
+            if (x >= x0 && x < x1 && y >= y0 && y < y1)
+                expected = y+dy >= y0 && y+dy < y1 ? before[(y+dy)*CANVAS_WIDTH+x] : 0;
+            if (expected != after[y*CANVAS_WIDTH+x]) {
+                test_context(mk, "column scroll mismatch pixel %d,%d, region %d,%d,%d,%d delta %d",
+                             x,y,left,right,top,bottom,lines);
+                IEQUAL(after[y*CANVAS_WIDTH+x], expected);
+                return;
+            }
+        }
+    check_image_accounting(mk);
+}
+
+static void test_sixel_column_scroll(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "Sixel partial columns share pixels and preserve outside/masked regions");
+    term_size(mk->term, 8, 12, 40);
+    term_set_cell_size(mk->term, 3, 3);
+    term_data_fragmented(mk->term,
+        "\033[2;2H\033P0;1q\"1;1;24;18"
+        "#1;2;100;0;0!24~-#2;2;0;100;0!24~-#3;2;0;0;100!24~\033\\"
+        "\033[4;5H\033[X");
+    IEQUAL(image_count(mk->term), 1);
+    if (!mk->term->images) return;
+    NemoImageSource *source = mk->term->images->source;
+    NemoSixel *bitmap = source->bitmap;
+    size_t source_bytes = source->memory_bytes;
+    check_column_scroll(mk, 3, 7, 2, 5, 1);
+    IEQUAL(image_count(mk->term), 3);
+    IEQUAL(source->references, 3);
+    for (NemoTermImage *im = mk->term->images; im; im = im->next) {
+        IEQUAL(im->source == source, true);
+        IEQUAL(im->source->bitmap == bitmap, true);
+        IEQUAL(im->source->memory_bytes, source_bytes);
+    }
+    /* Cuts become unaligned with the new cells and with the previous strips. */
+    term_set_cell_size(mk->term, 5, 4);
+    check_column_scroll(mk, 2, 5, 1, 6, -2);
+    term_data_fragmented(mk->term, "\033[5;4H\033[2X");
+    check_column_scroll(mk, 1, 6, 1, 6, 2);
+    term_set_cell_size(mk->term, 3, 3);
+    check_column_scroll(mk, 2, 6, 1, 6, -1);
+    /* A different screen does not split, move or erase the main image. */
+    uint32_t main_pixels[CANVAS_WIDTH*CANVAS_HEIGHT], restored[CANVAS_WIDTH*CANVAS_HEIGHT];
+    image_canvas(mk->term, main_pixels);
+    size_t main_bytes = mk->term->image_bytes;
+    term_data_fragmented(mk->term, "\033[?1049h");
+    term_scroll_images(mk->term, 2, 6, 1, 6, 2, false);
+    IEQUAL(mk->term->image_bytes, main_bytes);
+    term_data_fragmented(mk->term, "\033[?1049l");
+    image_canvas(mk->term, restored);
+    IEQUAL(memcmp(main_pixels, restored, sizeof(main_pixels)), 0);
+    /* Reflow and history must retain shared ownership and charge it once. */
+    term_size(mk->term, 7, 10, 40); check_image_accounting(mk);
+    term_size(mk->term, 8, 12, 40); check_image_accounting(mk);
+    term_data_fragmented(mk->term, "\033[r\033[8;1H\n\n");
+    check_image_accounting(mk);
+    term_clrsb(mk->term); check_image_accounting(mk);
+    term_data_fragmented(mk->term, "\033c");
+    IEQUAL(mk->term->image_bytes, 0);
+
+    test_context(mk, "Sixel repeated changing column cuts and aspect-scaled source reads");
+    term_set_cell_size(mk->term, 2, 2);
+    term_data_fragmented(mk->term,
+        "\033P0;1q\"1;3;12;12#1;2;100;0;0!12~-#2;2;0;100;0!12~\033\\");
+    uint32_t state = UINT32_C(0x7391cd55);
+    for (unsigned i = 0; i < 400; i++) {
+        int left = (image_random(&state)>>16)%8+1;
+        int right = left+(image_random(&state)>>16)%(11-left)+1;
+        int top = (image_random(&state)>>16)%5;
+        int bottom = top+(image_random(&state)>>16)%(7-top)+1;
+        check_column_scroll(mk,left,right,top,bottom,(i&1)?-1:1);
+        if (i%7 == 0) term_set_cell_size(mk->term, i%3+2, i%5+2);
+        if (i%19 == 0) {
+            term_data_fragmented(mk->term, "\033[2;2H");
+            solid_image(mk, 24, 12);
+        }
+    }
+    term_data_fragmented(mk->term, "\033c");
+    IEQUAL(mk->term->image_bytes, 0);
+    term_set_cell_size(mk->term, 8, 16);
+}
+
+static void test_sixel_column_budget(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "Sixel column view admission/eviction with an in-flight decoder");
+    term_size(mk->term, 24, 40, 100);
+    term_set_cell_size(mk->term, 1, 1);
+    term_data_fragmented(mk->term, "\033[?80h");
+    for (int i = 0; i < 1200; i++) image_feed(mk);
+    size_t before = image_count(mk->term);
+    term_data_fragmented(mk->term, "\033P0;1q\"1;1;128;128!128~");
+    term_scroll_images(mk->term, 7, 23, 2, 18, 1, false);
+    size_t sources = 0;
+    for (NemoTermImage *im = mk->term->images; im; im = im->next) {
+        bool first = true;
+        for (NemoTermImage *prev = mk->term->images; prev != im; prev = prev->next)
+            if (prev->source == im->source) first = false;
+        sources += first;
+    }
+    IEQUAL(sources > 0 && sources < before, true);
+    IEQUAL(image_count(mk->term) > sources, true);
+    check_image_accounting(mk);
+    IEQUAL(mk->term->image_bytes+nemo_sixel_stats(mk->term->sixel_pending).allocated_bytes
+           <= NEMO_SIXEL_DEFAULT_BUDGET, true);
+    term_data_fragmented(mk->term, "-!128~\033\\");
+    check_image_accounting(mk);
+    for (int i = 0; i < 80; i++) {
+        term_scroll_images(mk->term, i%25+1, i%25+3, 0, 23, (i&1)?-1:1, false);
+        check_image_accounting(mk);
+    }
+    term_data_fragmented(mk->term, "\033c");
+    IEQUAL(mk->term->image_bytes, 0);
+    term_set_cell_size(mk->term, 8, 16);
+}
+
 int main(void)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -556,6 +710,8 @@ int main(void)
     test_sixel_budget(mk);
     test_sixel_mask_budget(mk);
     test_sixel_mixed_lifecycle(mk);
+    test_sixel_column_scroll(mk);
+    test_sixel_column_budget(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Sixel terminal suite FAILED" : "Sixel terminal suite passed");

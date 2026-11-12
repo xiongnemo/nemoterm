@@ -1,0 +1,274 @@
+{
+  "executable_sha256": "817b572beedccbbffbc8dccb94c562873466da12923f99fd6b06d951b7e96d55",
+  "runs": [
+    {
+      "font_resize": false,
+      "checks": [
+        "SU-SD-IL-DL-pixels",
+        "pixel-model-grid-resize",
+        "300-image-split-scrolls"
+      ],
+      "observations": [
+        {
+          "phase": "initial",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 11520
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 11360
+        },
+        {
+          "phase": "partial-up",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10560
+        },
+        {
+          "phase": "resize-0",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10560
+        },
+        {
+          "phase": "partial-down",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10400
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10240
+        },
+        {
+          "phase": "resize-1",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10240
+        },
+        {
+          "phase": "partial-up",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10240
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10080
+        },
+        {
+          "phase": "resize-2",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10080
+        },
+        {
+          "phase": "partial-down",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10080
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10080
+        }
+      ],
+      "shift_copy": "A\u0301\u4e2d\u6587Z",
+      "peak_private_ws": 9699328,
+      "peak_total_ws": 31789056,
+      "peak_private_commit": 11317248
+    },
+    {
+      "font_resize": true,
+      "checks": [
+        "pixel-model-font-resize",
+        "300-image-split-scrolls"
+      ],
+      "observations": [
+        {
+          "phase": "initial",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 11520
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 11360
+        },
+        {
+          "phase": "partial-up",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10560
+        },
+        {
+          "phase": "resize-0",
+          "geometry": [
+            1,
+            1,
+            12,
+            30
+          ],
+          "pixels": 10080
+        },
+        {
+          "phase": "partial-down",
+          "geometry": [
+            1,
+            1,
+            12,
+            30
+          ],
+          "pixels": 10080
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            12,
+            30
+          ],
+          "pixels": 9720
+        },
+        {
+          "phase": "resize-1",
+          "geometry": [
+            1,
+            1,
+            6,
+            15
+          ],
+          "pixels": 10200
+        },
+        {
+          "phase": "partial-up",
+          "geometry": [
+            1,
+            1,
+            6,
+            15
+          ],
+          "pixels": 10110
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            6,
+            15
+          ],
+          "pixels": 10020
+        },
+        {
+          "phase": "resize-2",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 10020
+        },
+        {
+          "phase": "partial-down",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 9340
+        },
+        {
+          "phase": "erase-hole",
+          "geometry": [
+            1,
+            1,
+            8,
+            20
+          ],
+          "pixels": 9180
+        }
+      ],
+      "peak_private_ws": 8884224,
+      "peak_total_ws": 30027776,
+      "peak_private_commit": 10416128
+    }
+  ],
+  "peak_private_ws": 9699328,
+  "peak_total_ws": 31789056,
+  "peak_private_commit": 11317248
+}

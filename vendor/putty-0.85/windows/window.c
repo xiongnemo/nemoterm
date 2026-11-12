@@ -5269,12 +5269,12 @@ static void nemo_paint_images(WinGuiSeat *wgs)
     for (NemoTermImage *img = term->images; img; img = img->next) {
         if (img->screen != term->alt_which)
             continue;
-        NemoSixelStats stats = nemo_sixel_stats(img->bitmap);
+        NemoSixelStats stats = nemo_sixel_stats(img->source->bitmap);
         if (stats.status != NEMO_SIXEL_OK || !stats.width || !stats.height ||
             stats.width > NEMO_SIXEL_MAX_DIMENSION ||
             img->pixel_width <= 0 || img->pixel_height <= 0)
             continue;
-        int64_t left64 = wgs->offset_width + (int64_t)img->x * wgs->font_width;
+        int64_t left64 = wgs->offset_width + (int64_t)img->x * wgs->font_width + img->pixel_x;
         if (left64 >= paint_clip.right || left64 + img->pixel_width <= paint_clip.left)
             continue;
         int left = (int)left64;

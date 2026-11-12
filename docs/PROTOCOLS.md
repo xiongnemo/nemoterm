@@ -23,13 +23,13 @@
 | CSI 光标和编辑：`A/B/C/D/E/F/G/H/f/d/a/e`、`@/P/L/M/X/J/K`、`S/T`、`I/Z/g`、`b` | 源码已见，局部已证 | T `SEEN_CSI`；已有 `test_wrap/test_nonwrap` 覆盖换行、退格与宽字符边界。移动/插删/擦除/重复/制表仍需系统测试，尤其空参数、0、超大参数和滚动边界。 |
 | 标准模式 4/12/20；DEC 模式 1/2/3/5/6/7/8/25 | 源码已见 | T `toggle_mode`。需验证插入、回显、换行、应用光标、VT52、80/132列、反色、origin、wrap、重复键及光标状态之间的交互。 |
 | 滚动区域 `CSI top;bottom r`、备用屏 `?47/1047/1048/1049 h/l` | 1049局部已证；其余源码已见 | `test_colour_and_alternate_screen` 证明1049恢复主屏文字、颜色和光标；`test_shift_selection` 在备用屏复制当前内容。滚动历史、resize、嵌套及47/1047差异未认证。 |
-| 左右边距 `?69 h/l`、`CSI left;right s` | 缺失 | 当前 `CSI s/u` 是保存/恢复光标，不能当成 DECSLRM。横向边界需要同步处理文字及跨边界 Sixel 图像的按列分割。 |
+| 左右边距 `?69 h/l`、`CSI left;right s` | 已证（有限范围） | 支持查询/保存/复位、origin、移动/换行/制表、IL/DL/ICH/DCH、SU/SD及矩形坐标；69关闭时保留ANSI光标保存。Sixel按列分割视图并共用位图，维持4MiB总预算。114项独立XTerm对照、宽字符/组合链/历史/选择及ASan/UBSan已测；真实ConPTY像素、Shift复制、字体和网格缩放见[边距记录](../research/horizontal-margins.md)。 |
 | 矩形复制/填充/属性：DECCRA `$v`、DECFRA `$x`、DECCARA `$r`、DECRARA `$t`、DECSACE `*x` | 已证（有限范围） | 共用有界坐标解析；一行临时存储处理重叠复制，保留组合字符/颜色/保护/链接；支持流式与矩形属性、Unicode填充、DECRQSS `*x`。独立XTerm单元/属性对照、ASan/UBSan、真实ConPTY像素/Shift复制/Sixel/缩放及3000次复制压力已测，见[矩形记录](../research/rectangle-editing.md)。页号按xterm处理为当前页；复制字符而不复制Sixel像素。DECSCA、DECSEL/DECSED、DECERA/DECSERA 见[擦除记录](../research/selective-erase.md)。 |
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
 | SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
 | 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
-| 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有21类模式建立84字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存，G2/G3完整保存尚未补齐。 |
+| 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有22类模式建立88字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存，G2/G3完整保存尚未补齐。 |
 | Unicode：UTF-8、宽字符、组合字符；emoji/ZWJ/variation selectors/区域旗帜、bidi、grapheme | 前三项局部已证；其余待核实 | 测试包含跨读取边界中文和组合音标、选择复制。Nerd 图标回退现已验证 BMP/补充平面、变体选择符、格宽、Shift复制和缩放，见[字体验证](../research/font-fallback.md)。RTL绘制缓冲泄漏已用旧/新二进制的5000次重绘对照验证修复。完整grapheme、emoji、通用字体fallback和真实IME仍需专项测试。 |
 
 ## 窗口与历史重排

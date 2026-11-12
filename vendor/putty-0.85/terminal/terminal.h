@@ -29,10 +29,17 @@ typedef struct NemoImageRow {
     unsigned erased_pixels;
 } NemoImageRow;
 
+typedef struct NemoImageSource {
+    NemoSixel *bitmap; /* immutable after the DCS has completed */
+    unsigned references;
+    size_t memory_bytes; /* decoder plus this shared owner, charged once */
+} NemoImageSource;
+
 typedef struct NemoTermImage {
     struct NemoTermImage *next;
-    NemoSixel *bitmap;
+    NemoImageSource *source;
     int x, y, last_y, screen, pixel_width, pixel_height, live_rows;
+    int pixel_x; /* fixed source/display pixel offset from the character anchor */
     /* Pixel row p is placed at lines[p].anchor * current_cell_height + p.
      * Font changes retain intrinsic raster dimensions and erase holes;
      * scrolling changes only the affected rows' character-unit translation. */
@@ -43,6 +50,10 @@ typedef struct NemoTermImage {
 } NemoTermImage;
 
 void term_set_cell_size(Terminal *, int width, int height);
+/* Move only image pixels in a half-open column range and inclusive row range.
+ * The text scroll path and core lifecycle tests share this internal operation. */
+void term_scroll_images(Terminal *, int left, int right, int top, int bottom,
+                        int lines, bool scrollback);
 /* INT64_MIN means discarded/out of bounds. Otherwise may be in history. */
 int64_t term_image_pixel_y(const NemoTermImage *, unsigned y, int cell_height);
 /* Read aspect-corrected raster pixels, applying the pixel erase mask. */
@@ -175,7 +186,8 @@ struct terminal_tag {
 
     pos curs;                          /* cursor */
     pos savecurs;                      /* saved cursor position */
-    int marg_t, marg_b;                /* scroll margins */
+    int marg_t, marg_b, marg_l, marg_r; /* inclusive scroll margins */
+    bool lrmm;                        /* DECLRMM enables DECSLRM */
     bool dec_om;                       /* DEC origin mode flag */
     unsigned rectangle_extent;         /* DECSACE: 2=rectangle, others=stream */
     bool wrap, wrapnext;               /* wrap flags */
@@ -252,7 +264,6 @@ struct terminal_tag {
     bool alt_om, alt_wrap;
     int alt_cset, alt_sco_acs;
     bool alt_utf;
-    int alt_t, alt_b;
     int alt_which;
     NemoKeyboard keyboard[2];
     NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
@@ -260,7 +271,7 @@ struct terminal_tag {
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
      * groups and alternate-screen aliases share entries (84 bytes total). */
-    int saved_dec_modes[21];
+    int saved_dec_modes[22];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

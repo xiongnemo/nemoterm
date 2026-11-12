@@ -831,3 +831,25 @@ reference source, semantics and limits. The single-file CI has 25 checks.
 DECLRMM/DECSLRM remain open: Sixel's current whole-row anchor representation
 needs column splitting at horizontal margins. The remaining full protocol,
 physical device/IME/DPI and real-agent requirements are unchanged.
+
+
+## Horizontal margins checkpoint
+
+DECLRMM/DECSLRM, mode/query/save/reset integration and origin-relative horizontal
+coordinates now have 114 independent XTerm comparisons plus direct regression
+cases. Partial-column scrolling preserves outside text/pixels, combining chains,
+protection and hyperlinks. Sixel views share immutable raster storage and split
+row anchors/masks within the existing 4 MiB budget. Full-width history scrolling
+retains the line-rotation path; partial columns do not create whole history lines.
+Saved DEC state now has 22 slots (88 bytes), including mode 69.
+
+All 28 core suites passed locally. ASan/UBSan with leak detection passed margin,
+image, rectangle, reflow and state-control suites. The native fixture verifies
+exact text/Sixel pixels, Shift-copy under application mouse/keyboard protocols,
+grid and font resizing, and 300 repeated image splits per resize policy. See
+[horizontal margins](../research/horizontal-margins.md) for reference anomalies,
+explicit differences, memory samples and reproducible tests. CI now includes
+11 terminal sanitizer suites and 26 single-executable checks.
+
+The broader full-protocol, Unicode/grapheme, real IME/DPI and real-agent workload
+acceptance remains open. This checkpoint does not close those requirements.

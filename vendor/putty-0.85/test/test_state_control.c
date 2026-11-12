@@ -210,7 +210,7 @@ static void test_saved_extensions_and_recovery(Mock *mk)
     state_reply(mk,"\033[?1h\033[!\032p\033[?1$p\033[!1:2p\033[?1$p"
         "\033[123!p\033[?1$p","\033[?1;1$y\033[?1;1$y\033[?1;2$y");
     for (int i=0;i<20000;i++) term_data_fragmented(t,"\033[?4294967295;99999s\033[?4294967295;99999r");
-    IEQUAL(sizeof(t->saved_dec_modes),84);
+    IEQUAL(sizeof(t->saved_dec_modes),22*sizeof(int));
     state_reply(mk,"\033[?1r\033[?1$p","\033[?1;1$y");
 }
 
