@@ -150,7 +150,9 @@ try:
                                               ('sub-cell-pixels','4;7;7t')):
                             phase(label,CSI+'8;27;83t'+CSI+command)
                             actual=rectangles()[1]
-                            assert actual[0]>=cw+2 and actual[1]>=ch+2,(label,actual,cw,ch)
+                            minimum=[max(cw+2,u.GetSystemMetrics(34)-frame[0]),
+                                     max(ch+2,u.GetSystemMetrics(35)-frame[1])]
+                            assert actual==minimum,(label,actual,minimum)
                             mode['checks'][-1]['requested_client_minimum']=[cw+2,ch+2]
                         # Sequential requests in a single write must not overtake
                         # the resize completion or lose intervening output.
