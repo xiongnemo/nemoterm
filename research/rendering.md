@@ -45,19 +45,32 @@ Bindings currently expose copy, paste, copy-and-paste, and rectangle modifiers.
 Shift-only remains reserved for local selection; AltGr remains text input.
 Additional actions will be registered as their features are implemented.
 
-The development build is not the final single-EXE deliverable. Exact MSVC
-artifact hash, CI run and final local evidence are recorded after CI succeeds.
+Source `8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e` has successful
+[single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43225946626)
+and [core/sanitizer CI](https://github.com/xiongnemo/nemoterm/actions/runs/43225946477).
+The single EXE is 4,329,472 bytes, SHA-256
+`6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684`;
+[download the artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43225946626/artifacts/13948278905).
+There are 36 native single-file checks, 29 C core suites, 12 terminal sanitizer
+suites and four process-identity cases. The [checkpoint](rendering-checkpoint.json)
+matches 37 CI JSON records to the artifact hash and preserves the earlier local
+evidence separately. [REA import inspection](rendering-pe-imports.json) covered
+79 descriptors, 604 regular imports and 11 delay imports without parsing issues;
+dynamic loads remain outside static import-table coverage.
 
-Validation is still in progress. Single-file CI runs
-[43221661143](https://github.com/xiongnemo/nemoterm/actions/runs/43221661143) and
-[43223716650](https://github.com/xiongnemo/nemoterm/actions/runs/43223716650)
-passed all 36 native checks, including the real Codex client in default and
-inline modes. These runners exercise GDI fallback for OpenGL. The corresponding
-MinGW workflow exposed fixture cleanup races, including historical parent-PID
-reuse; process creation times and the unique copied-image directory now constrain
-ownership, with four regression cases. An earlier MinGW Sixel font restoration
-failure has not reproduced locally or in those MSVC runs; the strict assertion
-and new geometry diagnostics remain in place.
+Cloud Codex frontend GDI peaks were 5,308,416 private WS bytes (5.31 MB / 5.06 MiB)
+and 36,950,016 total WS bytes (36.95 MB / 35.24 MiB) in default mode; inline mode
+used 5,382,144 private WS bytes (5.38 MB / 5.13 MiB) and 37,212,160 total WS bytes
+(37.21 MB / 35.49 MiB). Private commit and separate host/client processes are in
+the checkpoint. Cloud OpenGL selection exercised GDI fallback, not GPU rendering.
+
+Earlier runs exposed fixture cleanup races and queued desktop pointer motion.
+Owned-window input isolation, process creation times and the unique copied-image
+directory now constrain the fixtures. The final directory test waited for 36
+owned process exits with no pending processes. An earlier MinGW Sixel restoration
+failure has not reproduced locally or in the final MinGW/MSVC runs; its strict
+assertion and geometry diagnostics remain in place. No product fix is attributed
+to that unconfirmed failure.
 
 Local interactive validation was paused at the user's request on 2026-11-13
 (Sydney). No local windows, input/clipboard actions or GPU probes may resume
@@ -68,6 +81,12 @@ unbuttoned mouse motion in the reflow fixture; it is not a full acceptance pass.
 The earlier `1495d2c` artifact passed real Codex in both OpenGL modes, but that
 does not replace exact-final-artifact hardware validation. `dist/nemoterm.exe`
 therefore still holds the previous verified `2862f67` single executable.
+
+Screenshots: [custom bindings](rendering-ci-bindings.png) and
+[renderer settings](rendering-ci-settings.png) are from the final cloud artifact.
+[OpenGL text](rendering-local-opengl-text.png) and
+[Ctrl rectangle](rendering-local-rectangle.png) are from the prior local
+`317b54d` artifact, not a local run of the final artifact.
 
 ## Follow-up requested during implementation
 

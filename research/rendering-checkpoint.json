@@ -1,0 +1,1641 @@
+{
+  "source_commit": "8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+  "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+  "executable_bytes": 4329472,
+  "ci": {
+    "single_executable_run": 43225946626,
+    "core_run": 43225946477,
+    "audit": {
+      "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+      "executable_bytes": 4329472,
+      "passed_checks": [
+        "single_exe",
+        "startup_size",
+        "renderer",
+        "bindings",
+        "input_method",
+        "unicode_input",
+        "console_unicode",
+        "mouse",
+        "selection",
+        "sync",
+        "sgr",
+        "font_resize",
+        "font_fallback",
+        "font-fallback-courier",
+        "query",
+        "highlight",
+        "sixel",
+        "sixel_font",
+        "hyperlink",
+        "reflow",
+        "keyboard",
+        "keyboard-courier",
+        "osc52",
+        "mok",
+        "mok-courier",
+        "win32_input",
+        "state_control",
+        "selective_erase",
+        "rectangle",
+        "margins",
+        "cwd",
+        "shell",
+        "delegated_console",
+        "settings",
+        "codex-default",
+        "codex-inline"
+      ],
+      "executable_directory_files": [
+        "nemoterm.exe"
+      ],
+      "recorded_utc": "2026-11-12T13:29:30.2968422Z"
+    },
+    "matched_json_sha256": {
+      "bindings-observed.json": "fdcce6f81173e13f55ee6b3f085ec92dec0ed77444b8ed40f2d3f833de19d1e4",
+      "codex-default-observed.json": "ff0c5dee4d8c5709e91917a251c25e0d0e0398b4739cb682c2746eaf14e3247f",
+      "codex-inline-observed.json": "67928e9646094f64926efefcc5f719e541f500f005a31476e42b008329facc4e",
+      "console-unicode-observed.json": "d3c2b763fdc24c973382fcbf19dcfdf5d9f2dbba367bd1ad6a90adfc1e28e4c3",
+      "cwd-window-observed.json": "88e928cf033c1f78bd9ff807982f4a16a991a418ed5988943ce23e58f6324e56",
+      "delegated-console-observed.json": "ce09c16df661ea62fef97bf124234ea1ce971dd653307da27c235e6d072fe7dc",
+      "font-fallback-default-observed.json": "44036fb9947c69419ae7070fca52446d42acb4576fcbd061be84042807280338",
+      "font-fallback-observed.json": "da6782e141077f6373b66999f706f058c98b2f4ea14909d52ee36b44f5a61c22",
+      "font-resize-observed.json": "bf6f4fe481b9cbea2ddc3c0c80543d7cdb8277e91b1a039b7aabcd7bb021da66",
+      "highlight-window-observed.json": "045b9d6b0ab39afd0f4af31fe7d6a273370080a52ddb8b3c03348b38d0ac7990",
+      "hyperlink-window-observed.json": "0f6b3f81d3ff588d0e86e99bdce892e6813d0ede08a1cff8465695ae3cf8411f",
+      "input-method-observed.json": "71b1e3235a9abb90e5f456fe276c8ccbc169de035a7edf51fbcb69c6f4d581f4",
+      "keyboard-default-observed.json": "7e27e110d63cea1d0fd5bc6a8968b073b00ccbe65c9a94ea75ff11ff4bbc0290",
+      "keyboard-window-observed.json": "ac9aaf4cb2319fbb4af33987a904218960f267c95f5475f3f03af36b59cd1e65",
+      "margins-window-observed.json": "da471fddf2038c8b2f6a42b01c1339b616c5cf6d1a8ddb04081ace64ef3b446c",
+      "mok-default-observed.json": "8808c31a52a8439a097f3f179255e3c7f309f0aa8f753ee852add84f115416ce",
+      "mok-window-observed.json": "b754be5c694060c763c067bcb27627b010acda1366bd967f8fc2fe8e12b9ad6e",
+      "osc52-window-observed.json": "d172724b7fed81d96d15f738c59ecf2d19f4554cc06a43ae65682f6f6dd6df25",
+      "query-window-observed.json": "958e3a0a10fb85e09527719f239fbadb14824241243876d248477f261e4159d3",
+      "rectangle-window-observed.json": "ad9ba2bba373332908c00c01776bb3b29d98573ef4648b8586ddb879e3359429",
+      "reflow-window-observed.json": "4f8f5a8f2b9135029a4a98f8b2f23b43b9802e0d2d1626011b9d3edceb5d5833",
+      "renderer-observed.json": "2eee165cec6e774487e4ef4b529da5fc517b6727fd70b471ab6105f151129cb1",
+      "selection-observed.json": "e9f8fda25f32100f2ba0a6e3473270b1b16c660a938bbdf8f74cc1cf2bed79df",
+      "selective-erase-observed.json": "2d1865fb7f809f5859e335bc2b4c416211bd2d1ae6d0b49ad0942b545d0a115d",
+      "settings-window-observed.json": "df88d19b929d46cab5e483ab399ddb04196110a33d1f30d8b9b482f16fcf9618",
+      "sgr-window-observed.json": "47b7f5204d6b904a762f81e36de16d3fb08a33ee273c4734864781bfc76b0721",
+      "shell-window-observed.json": "63358e00f00b617f40df56483ac3d0f67dd313903ce70a444c95a6bcc7a56f21",
+      "single-exe-observed.json": "9bf23d5f7f915c6b85d3b95d366ec71bde459b233f7875b505fe1e84c57a0ede",
+      "single-exe-validation.json": "ddf57d780b6060f688ea24f6d7458578b330d79bed715f1516b9deb36b144d8d",
+      "sixel-font-last-observations.json": "50d700ac39016e1f2d452a79490fcfc95bf8ebc086e38a9631a156940b23f310",
+      "sixel-font-observed.json": "ba9788aa87d0c20e38a09decc223919b501f0cbde08bc8c4558c1610a971554b",
+      "sixel-window-observed.json": "9ab32a7a64765d8e2019b65ce8f26553a0ea998216737185fcb5c1f5b32767c9",
+      "startup-size-observed.json": "1d34d01608d47347034f50cb35d641c7e24f6fe34e4c0e42f7aa92ddaadc562e",
+      "state-control-observed.json": "c1df7d5d487a540ba832cb4bcfcca06249f35fea8dde18b35ac580b62d8ab889",
+      "sync-window-observed.json": "1d4c0077b9dd47f1ceae3a1389e08f79a15aa1f3b0297a48322d6995fa7650f5",
+      "unicode-input-observed.json": "97891f78e43e9af3a387705f19e4789853bdf2a84febbdafdcafd66ebbd5eed0",
+      "win32-input-observed.json": "16bb17a1e71822d027470a54fc3a6d8b70753c1e79b73bb3eca2e8c2adc0f888"
+    },
+    "core_suites": 29,
+    "terminal_sanitizer_suites": 12,
+    "process_identity_cases": 4,
+    "statuses": {
+      "single": {
+        "conclusion": "success",
+        "status": "completed"
+      },
+      "core": {
+        "conclusion": "success",
+        "status": "completed"
+      }
+    },
+    "artifacts": {
+      "single": [
+        {
+          "expires_at": "2027-02-10T13:17:53Z",
+          "id": 13949510223,
+          "name": "single-exe-evidence-8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+          "size_in_bytes": 1319451
+        },
+        {
+          "expires_at": "2026-12-12T13:29:31Z",
+          "id": 13948278905,
+          "name": "nemoterm-single-exe-x64-8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+          "size_in_bytes": 2479782
+        }
+      ],
+      "core": [
+        {
+          "expires_at": "2026-12-12T13:28:03Z",
+          "id": 13949325408,
+          "name": "nemoterm-windows-x64-8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+          "size_in_bytes": 2647568
+        },
+        {
+          "expires_at": "2027-02-10T13:17:53Z",
+          "id": 13949125579,
+          "name": "test-results-windows-8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+          "size_in_bytes": 106301
+        },
+        {
+          "expires_at": "2027-02-10T13:17:53Z",
+          "id": 13946984698,
+          "name": "test-results-sanitizers-8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e",
+          "size_in_bytes": 2256
+        }
+      ]
+    }
+  },
+  "pe_import_coverage": {
+    "status": "complete",
+    "reason": null,
+    "examined_dlls": 79,
+    "imports": 604,
+    "delay_imports": 11
+  },
+  "renderer_ci": {
+    "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+    "font": "Consolas",
+    "modes": [
+      {
+        "requested": 0,
+        "active": "GDI",
+        "checks": [
+          {
+            "scene": "text"
+          },
+          {
+            "scene": "sixel"
+          },
+          {
+            "scene": "sync-end"
+          },
+          {
+            "scene": "resize"
+          },
+          {
+            "scene": "palette"
+          },
+          {
+            "scene": "cursor-2"
+          },
+          {
+            "scene": "cursor-4"
+          },
+          {
+            "scene": "cursor-6"
+          }
+        ],
+        "memory": {
+          "private_ws": 4419584,
+          "total_ws": 35397632,
+          "private_commit": 5672960
+        }
+      },
+      {
+        "requested": 1,
+        "active": "GDI",
+        "checks": [
+          {
+            "scene": "text",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "sixel",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "sync-end",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "resize",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "palette",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "cursor-2",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "cursor-4",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          {
+            "scene": "cursor-6",
+            "changed_channels": 0,
+            "max_channel_error": 0
+          }
+        ],
+        "memory": {
+          "private_ws": 4395008,
+          "total_ws": 35434496,
+          "private_commit": 5533696
+        }
+      }
+    ]
+  },
+  "startup_ci": {
+    "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+    "checks": [
+      {
+        "oversized": false,
+        "columns": 109,
+        "rows": 42,
+        "cell": [
+          9,
+          16
+        ],
+        "memory": {
+          "private_ws": 4493312,
+          "total_ws": 33968128,
+          "private_commit": 5562368,
+          "peak_total_ws": 34000896
+        },
+        "workarea": [
+          0,
+          0,
+          1024,
+          720
+        ]
+      },
+      {
+        "oversized": true,
+        "columns": 52,
+        "rows": 18,
+        "cell": [
+          19,
+          36
+        ],
+        "memory": {
+          "private_ws": 3866624,
+          "total_ws": 32423936,
+          "private_commit": 4919296,
+          "peak_total_ws": 32452608
+        },
+        "workarea": [
+          0,
+          0,
+          1024,
+          720
+        ]
+      }
+    ]
+  },
+  "clients_ci": {
+    "default": {
+      "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+      "codex_launcher": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "codex_launcher_sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70",
+      "codex_version": "codex-cli 0.167.0",
+      "mode": "default",
+      "font": "Consolas",
+      "renderer": "gdi",
+      "backend": "loopback deterministic SSE; no model or tool calls",
+      "checks": [
+        "actual-client-startup",
+        "unicode-input-reaches-real-client",
+        "streamed-markdown-long-reply",
+        "32-live-client-resizes",
+        "shift-grid-select-ctrl-shift-c-exact-unicode",
+        "ctrl-shift-v-exact-unicode-through-real-client"
+      ],
+      "screenshots": [
+        {
+          "file": "codex-default-startup.png",
+          "pixel_sha256": "843e2004309c0fe3e23ec870edcc7d322951d74a40196c0e8668f2a5caae537a"
+        },
+        {
+          "file": "codex-default-markdown.png",
+          "pixel_sha256": "900c5c852e82fd4941070421e69a6cb6d179d1d7347b0a3eb543f8b2ccfe1226"
+        },
+        {
+          "file": "codex-default-response.png",
+          "pixel_sha256": "82188c9c3f6f39b457bf2fd33387ec47121874c1e70c32c818a24b82f16dc632"
+        },
+        {
+          "file": "codex-default-resized.png",
+          "pixel_sha256": "d088d0bfff9b960a91ba3b71e690742b514cf5fa37c432564487d7b24bc17046"
+        },
+        {
+          "file": "codex-default-selection.png",
+          "pixel_sha256": "5960cb89fd03a3c13f6c93f58c3fcc1de854ccfec22a77c994086ad2cb9c2f88"
+        },
+        {
+          "file": "codex-default-paste.png",
+          "pixel_sha256": "9bdd7966a1af3fefa10879a6b01b3637f283cd70457262e9e2104d9931dce781"
+        }
+      ],
+      "startup_processes": [
+        {
+          "pid": 6924,
+          "parent": 3780,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 4374528,
+            "total_ws": 32452608,
+            "private_commit": 5836800
+          }
+        },
+        {
+          "pid": 7996,
+          "parent": 6924,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1777664,
+            "total_ws": 12517376,
+            "private_commit": 2543616
+          }
+        },
+        {
+          "pid": 2292,
+          "parent": 6924,
+          "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+          "memory": {
+            "private_ws": 4513792,
+            "total_ws": 27435008,
+            "private_commit": 6619136
+          },
+          "sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70"
+        }
+      ],
+      "typed_text": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-dfj48rvb\\work\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-df\u2026\r\n\r\n",
+      "markdown_preview": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-dfj48rvb\\work\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n\r\n\u2022 # Nemoterm real Codex rendering fixture\r\n\r\n  Bold, italic, inline code, and \u4e2d\u6587\u4e0e\u7ec4\u5408\u5b57\u7b26 e\u0301.\r\n\r\n  print(\"\u4e2d\u6587\u4e0e Unicode\")\r\n\r\n   Check    Result\r\n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\r\n   \u4e2d\u6587     \u4fdd\u7559\r\n  \u2500\u2500\u2500\u2500\u2500\u2500\u2500  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\r\n   ASCII    kept\r\n  ROW_001 \u4e2d\u6587 e\u0301: long-output scr\r\n\r\n\r\n\r\n\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-df\u2026\r\n  \u2190 for agents \u00b7 ? for shortcuts                                           \u26a0 1 warning \u00b7 f2 to view\r\n",
+      "uninstrumented_frontend": {
+        "samples": 81,
+        "peak_private_ws": 5308416,
+        "peak_total_ws": 36950016,
+        "peak_private_commit": 6922240
+      },
+      "post_resize_processes": [
+        {
+          "pid": 6924,
+          "parent": 3780,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 5033984,
+            "total_ws": 36356096,
+            "private_commit": 6193152
+          }
+        },
+        {
+          "pid": 7996,
+          "parent": 6924,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1826816,
+            "total_ws": 12636160,
+            "private_commit": 2592768
+          }
+        },
+        {
+          "pid": 2292,
+          "parent": 6924,
+          "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+          "memory": {
+            "private_ws": 24793088,
+            "total_ws": 104681472,
+            "private_commit": 31756288
+          }
+        }
+      ],
+      "selected_row": 19,
+      "requests": [
+        {
+          "turn": 1,
+          "auxiliary": false,
+          "path": "/v1/responses",
+          "user_text": [
+            "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42"
+          ]
+        },
+        {
+          "turn": 1,
+          "auxiliary": true,
+          "path": "/v1/responses",
+          "user_text": []
+        },
+        {
+          "turn": 2,
+          "auxiliary": false,
+          "path": "/v1/responses",
+          "user_text": [
+            "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42",
+            "NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42"
+          ]
+        },
+        {
+          "turn": 2,
+          "auxiliary": true,
+          "path": "/v1/responses",
+          "user_text": []
+        }
+      ],
+      "copy_text": "NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END",
+      "input_scope": "own-HWND Unicode and mouse messages; own UI-thread keyboard state; not physical devices",
+      "cleanup": [
+        {
+          "pid": 6924,
+          "exit_code": 0
+        },
+        {
+          "pid": 7996,
+          "exit_code": 0
+        },
+        {
+          "pid": 2292,
+          "exit_code": 3221225786
+        }
+      ]
+    },
+    "inline": {
+      "executable_sha256": "6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684",
+      "codex_launcher": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "codex_launcher_sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70",
+      "codex_version": "codex-cli 0.167.0",
+      "mode": "inline",
+      "font": "Consolas",
+      "renderer": "gdi",
+      "backend": "loopback deterministic SSE; no model or tool calls",
+      "checks": [
+        "actual-client-startup",
+        "unicode-input-reaches-real-client",
+        "streamed-markdown-long-reply",
+        "32-live-client-resizes",
+        "shift-grid-select-ctrl-shift-c-exact-unicode",
+        "ctrl-shift-v-exact-unicode-through-real-client"
+      ],
+      "screenshots": [
+        {
+          "file": "codex-inline-startup.png",
+          "pixel_sha256": "588efeeb29eccf3214e17fdd6b7dbb0b74b545fd4107680ca72ff1cd8d488eac"
+        },
+        {
+          "file": "codex-inline-markdown.png",
+          "pixel_sha256": "7d9b1fe47aebd338188e3728d010a7b161e113daaac75c382f1e374a152673e3"
+        },
+        {
+          "file": "codex-inline-response.png",
+          "pixel_sha256": "5925975a9514b5d4c50c2575cb128ef1970c24d435beb24f57cc2c001a072bfe"
+        },
+        {
+          "file": "codex-inline-resized.png",
+          "pixel_sha256": "7627cee1804e3806c7866039c769a95c84d8e4e4ec2b57c63aaeee889f08c2ea"
+        },
+        {
+          "file": "codex-inline-selection.png",
+          "pixel_sha256": "bb766bbe278b70c315602f16b3d714f90c72a1467088e5352707f820bfda3000"
+        },
+        {
+          "file": "codex-inline-paste.png",
+          "pixel_sha256": "267e9d141af81dc44e83032ec61026782b8184a6591bd2625e57c7f2e3c51821"
+        }
+      ],
+      "startup_processes": [
+        {
+          "pid": 2444,
+          "parent": 3124,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1753088,
+            "total_ws": 12488704,
+            "private_commit": 2514944
+          }
+        },
+        {
+          "pid": 3124,
+          "parent": 3872,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 4431872,
+            "total_ws": 32526336,
+            "private_commit": 5775360
+          }
+        },
+        {
+          "pid": 3116,
+          "parent": 3124,
+          "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+          "memory": {
+            "private_ws": 4833280,
+            "total_ws": 27652096,
+            "private_commit": 7680000
+          },
+          "sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70"
+        }
+      ],
+      "typed_text": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1vzrymgk\\work\r\n\r\n\r\n\u203a N\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1v\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1vzrymgk\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1v\u2026",
+      "markdown_preview": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1vzrymgk\\work\r\n\r\n\r\n\u203a N\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1v\u2026\r\n\r\n\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1vzrymgk\\work\r\n\r\n  Tip: Maximize usage with GPT-6.1 Sol. Try it on complex work for near-Astra performance at a lower\r\n  cost.\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n\r\n\u2022 # Nemoterm real Codex rendering fixture\r\n\r\n  Bold, italic, inline code, and \u4e2d\u6587\u4e0e\u7ec4\u5408\u5b57\u7b26 e\u0301.\r\n\r\n  print(\"\u4e2d\u6587\u4e0e Unicode\")\r\n\r\n\r\n   Check    Result\r\n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\r\n   \u4e2d\u6587     \u4fdd\u7559\r\n  \u2500\u2500\u2500\u2500\u2500\u2500\u2500  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\r\n   ASCII    kept\r\n  ROW_001 \u4e2d\u6587 e\u0301: long-output scr\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-\u2026  \u26a0 1 warning \u00b7 f2 to view\r\n",
+      "uninstrumented_frontend": {
+        "samples": 77,
+        "peak_private_ws": 5382144,
+        "peak_total_ws": 37212160,
+        "peak_private_commit": 6619136
+      },
+      "post_resize_processes": [
+        {
+          "pid": 2444,
+          "parent": 3124,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1781760,
+            "total_ws": 12615680,
+            "private_commit": 2543616
+          }
+        },
+        {
+          "pid": 3124,
+          "parent": 3872,
+          "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+          "memory": {
+            "private_ws": 5308416,
+            "total_ws": 36638720,
+            "private_commit": 6483968
+          }
+        },
+        {
+          "pid": 3116,
+          "parent": 3124,
+          "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+          "memory": {
+            "private_ws": 24334336,
+            "total_ws": 104042496,
+            "private_commit": 32034816
+          }
+        }
+      ],
+      "selected_row": 20,
+      "requests": [
+        {
+          "turn": 1,
+          "auxiliary": false,
+          "path": "/v1/responses",
+          "user_text": [
+            "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42"
+          ]
+        },
+        {
+          "turn": 1,
+          "auxiliary": true,
+          "path": "/v1/responses",
+          "user_text": []
+        },
+        {
+          "turn": 2,
+          "auxiliary": false,
+          "path": "/v1/responses",
+          "user_text": [
+            "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42",
+            "NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42"
+          ]
+        },
+        {
+          "turn": 2,
+          "auxiliary": true,
+          "path": "/v1/responses",
+          "user_text": []
+        }
+      ],
+      "copy_text": "NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END",
+      "input_scope": "own-HWND Unicode and mouse messages; own UI-thread keyboard state; not physical devices",
+      "cleanup": [
+        {
+          "pid": 2444,
+          "exit_code": 0
+        },
+        {
+          "pid": 3124,
+          "exit_code": 0
+        },
+        {
+          "pid": 3116,
+          "exit_code": 3221225786
+        }
+      ]
+    }
+  },
+  "local_acceptance": {
+    "status": "paused by user; final artifact not run locally",
+    "restriction": "No local windows, input, clipboard or GPU probes until user resumes.",
+    "prior_partial_run": "build/renderer-full-fd26698",
+    "prior_executable_source_commit": "317b54d371a5cc515d5c27dcd4c0a857c6a144f5",
+    "prior_executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+    "prior_checks": {
+      "startup-size-observed.json": {
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+        "checks": [
+          {
+            "oversized": false,
+            "columns": 160,
+            "rows": 48,
+            "cell": [
+              8,
+              20
+            ],
+            "memory": {
+              "private_ws": 5582848,
+              "total_ws": 28807168,
+              "private_commit": 7168000,
+              "peak_total_ws": 28848128
+            },
+            "workarea": [
+              0,
+              0,
+              1920,
+              1040
+            ]
+          },
+          {
+            "oversized": true,
+            "columns": 117,
+            "rows": 24,
+            "cell": [
+              16,
+              40
+            ],
+            "memory": {
+              "private_ws": 4018176,
+              "total_ws": 22392832,
+              "private_commit": 5160960,
+              "peak_total_ws": 22499328
+            },
+            "workarea": [
+              0,
+              0,
+              1920,
+              1040
+            ]
+          }
+        ]
+      },
+      "renderer-observed.json": {
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+        "font": "SarasaTermSC Nerd Font Light",
+        "modes": [
+          {
+            "requested": 0,
+            "active": "GDI",
+            "checks": [
+              {
+                "scene": "text"
+              },
+              {
+                "scene": "sixel"
+              },
+              {
+                "scene": "sync-end"
+              },
+              {
+                "scene": "resize"
+              },
+              {
+                "scene": "palette"
+              },
+              {
+                "scene": "cursor-2"
+              },
+              {
+                "scene": "cursor-4"
+              },
+              {
+                "scene": "cursor-6"
+              }
+            ],
+            "memory": {
+              "private_ws": 5967872,
+              "total_ws": 28942336,
+              "private_commit": 7577600
+            }
+          },
+          {
+            "requested": 1,
+            "active": "OpenGL",
+            "checks": [
+              {
+                "scene": "text",
+                "changed_channels": 60,
+                "max_channel_error": 1
+              },
+              {
+                "scene": "sixel",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "sync-end",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "resize",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "palette",
+                "changed_channels": 84,
+                "max_channel_error": 2
+              },
+              {
+                "scene": "cursor-2",
+                "changed_channels": 84,
+                "max_channel_error": 2
+              },
+              {
+                "scene": "cursor-4",
+                "changed_channels": 84,
+                "max_channel_error": 2
+              },
+              {
+                "scene": "cursor-6",
+                "changed_channels": 84,
+                "max_channel_error": 2
+              }
+            ],
+            "memory": {
+              "private_ws": 33796096,
+              "total_ws": 64196608,
+              "private_commit": 92368896
+            }
+          }
+        ]
+      },
+      "bindings-observed.json": {
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+        "checks": [
+          {
+            "action": "Alt rectangle and Ctrl+Alt+X copy",
+            "application_mouse": false,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop"
+          },
+          {
+            "action": "Alt rectangle and Ctrl+Alt+X copy",
+            "application_mouse": true,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop"
+          },
+          {
+            "action": "Ctrl+Shift+Z copy and paste",
+            "hex": "1b5b306e31323334350d62e4b8ad65cc81460d6c6d6e6f70"
+          },
+          {
+            "action": "Alt+Shift+Y bracketed paste",
+            "hex": "1b5b306e1b5b3230307e31323334350d62e4b8ad65cc81460d6c6d6e6f701b5b3230317e"
+          },
+          {
+            "action": "Old shortcuts forwarded to child",
+            "hex": "0316"
+          }
+        ]
+      },
+      "selection-observed.json": {
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+        "checks": [
+          {
+            "mode": "legacy",
+            "selections": [
+              "ABC",
+              "234",
+              "FGH",
+              "01"
+            ]
+          },
+          {
+            "mode": "application-mouse",
+            "selections": [
+              "ABC",
+              "234",
+              "FGH",
+              "01"
+            ]
+          }
+        ],
+        "rectangles": [
+          {
+            "mode": "legacy",
+            "alternate": false,
+            "corner": 0,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": false,
+            "corner": 1,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": false,
+            "corner": 2,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": false,
+            "corner": 3,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": false,
+            "corner": 0,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": false,
+            "corner": 1,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": false,
+            "corner": 2,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": false,
+            "corner": 3,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": true,
+            "corner": 0,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": true,
+            "corner": 1,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": true,
+            "corner": 2,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "legacy",
+            "alternate": true,
+            "corner": 3,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": true,
+            "corner": 0,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": true,
+            "corner": 1,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": true,
+            "corner": 2,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          },
+          {
+            "mode": "application-mouse",
+            "alternate": true,
+            "corner": 3,
+            "text": "12345\r\nb\u4e2de\u0301F\r\nlmnop",
+            "pixels": true
+          }
+        ]
+      },
+      "input-method-observed.json": {
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda",
+        "frida_version": "17.24.3",
+        "requested_font": "SarasaTermSC Nerd Font Light",
+        "input_cp": 65001,
+        "checks": [
+          "short-read",
+          "cancelled",
+          "read-error",
+          "odd-result",
+          "oversize-result",
+          "odd-query",
+          "empty-query",
+          "failed-query",
+          "over-budget",
+          "complete-unicode",
+          "max-size-commit",
+          "kitty-ime-text",
+          "wm-unichar-scalars-and-probe",
+          "composition-surrogate-boundary",
+          "kitty-unichar",
+          "installed-imm-api-unicode-submission",
+          "synthetic-dpi-pixels-preserve-sixel"
+        ],
+        "dpi": [
+          {
+            "dpi": 144,
+            "geometry": [
+              2,
+              9,
+              12,
+              30
+            ],
+            "imm": {
+              "event": "operation",
+              "id": 38,
+              "kind": "focused-capabilities",
+              "controlledFocus": true,
+              "context": true,
+              "layout": "0x8040804",
+              "caps": 7,
+              "compositionWindow": {
+                "style": 2,
+                "x": 2,
+                "y": 9
+              },
+              "compositionFontHeight": -24
+            }
+          },
+          {
+            "dpi": 192,
+            "geometry": [
+              6,
+              17,
+              16,
+              40
+            ],
+            "imm": {
+              "event": "operation",
+              "id": 40,
+              "kind": "focused-capabilities",
+              "controlledFocus": true,
+              "context": true,
+              "layout": "0x8040804",
+              "caps": 7,
+              "compositionWindow": {
+                "style": 2,
+                "x": 6,
+                "y": 17
+              },
+              "compositionFontHeight": -32
+            }
+          },
+          {
+            "dpi": 120,
+            "geometry": [
+              4,
+              5,
+              10,
+              25
+            ],
+            "imm": {
+              "event": "operation",
+              "id": 42,
+              "kind": "focused-capabilities",
+              "controlledFocus": true,
+              "context": true,
+              "layout": "0x8040804",
+              "caps": 7,
+              "compositionWindow": {
+                "style": 2,
+                "x": 4,
+                "y": 5
+              },
+              "compositionFontHeight": -20
+            }
+          },
+          {
+            "dpi": 96,
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "imm": {
+              "event": "operation",
+              "id": 44,
+              "kind": "focused-capabilities",
+              "controlledFocus": true,
+              "context": true,
+              "layout": "0x8040804",
+              "caps": 7,
+              "compositionWindow": {
+                "style": 2,
+                "x": 1,
+                "y": 1
+              },
+              "compositionFontHeight": -16
+            }
+          }
+        ],
+        "imm_capabilities": {
+          "event": "operation",
+          "id": 32,
+          "kind": "capabilities",
+          "context": true,
+          "layout": "0x8040804",
+          "caps": 7,
+          "compositionWindow": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          },
+          "compositionFontHeight": -16
+        },
+        "real_imm_submission": {
+          "event": "operation",
+          "id": 33,
+          "kind": "ime",
+          "context": true,
+          "layout": "0x8040804",
+          "caps": 7,
+          "setOpen": 1,
+          "setComposition": 1,
+          "complete": 1,
+          "compositionWindow": {
+            "style": 2,
+            "x": 1,
+            "y": 1
+          },
+          "compositionFontHeight": -16
+        },
+        "imm_reads": [
+          {
+            "event": "read",
+            "name": "short-read",
+            "capacity": 0,
+            "returned": 10
+          },
+          {
+            "event": "read",
+            "name": "short-read",
+            "capacity": 10,
+            "returned": 2
+          },
+          {
+            "event": "read",
+            "name": "cancelled",
+            "capacity": 0,
+            "returned": 10
+          },
+          {
+            "event": "read",
+            "name": "cancelled",
+            "capacity": 10,
+            "returned": 0
+          },
+          {
+            "event": "read",
+            "name": "read-error",
+            "capacity": 0,
+            "returned": 10
+          },
+          {
+            "event": "read",
+            "name": "read-error",
+            "capacity": 10,
+            "returned": -1
+          },
+          {
+            "event": "read",
+            "name": "odd-result",
+            "capacity": 0,
+            "returned": 10
+          },
+          {
+            "event": "read",
+            "name": "odd-result",
+            "capacity": 10,
+            "returned": 3
+          },
+          {
+            "event": "read",
+            "name": "oversize-result",
+            "capacity": 0,
+            "returned": 10
+          },
+          {
+            "event": "read",
+            "name": "oversize-result",
+            "capacity": 10,
+            "returned": 12
+          },
+          {
+            "event": "read",
+            "name": "odd-query",
+            "capacity": 0,
+            "returned": 9
+          },
+          {
+            "event": "read",
+            "name": "empty-query",
+            "capacity": 0,
+            "returned": 0
+          },
+          {
+            "event": "read",
+            "name": "failed-query",
+            "capacity": 0,
+            "returned": -1
+          },
+          {
+            "event": "read",
+            "name": "over-budget",
+            "capacity": 0,
+            "returned": 65538
+          },
+          {
+            "event": "read",
+            "name": "complete-unicode",
+            "capacity": 0,
+            "returned": 12
+          },
+          {
+            "event": "read",
+            "name": "complete-unicode",
+            "capacity": 12,
+            "returned": 12
+          },
+          {
+            "event": "read",
+            "name": "max-size-commit",
+            "capacity": 0,
+            "returned": 65536
+          },
+          {
+            "event": "read",
+            "name": "max-size-commit",
+            "capacity": 65536,
+            "returned": 65536
+          },
+          {
+            "event": "read",
+            "name": "kitty-ime-text",
+            "capacity": 0,
+            "returned": 8
+          },
+          {
+            "event": "read",
+            "name": "kitty-ime-text",
+            "capacity": 8,
+            "returned": 8
+          }
+        ]
+      },
+      "sixel-font-observed.json": {
+        "observations": [
+          {
+            "phase": "initial",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 5760,
+            "gdi": 22
+          },
+          {
+            "phase": "initial-hole",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 5600,
+            "gdi": 22
+          },
+          {
+            "phase": "wide",
+            "geometry": [
+              1,
+              1,
+              16,
+              20
+            ],
+            "red_pixels": 5600,
+            "gdi": 24
+          },
+          {
+            "phase": "tall",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 5600,
+            "gdi": 24
+          },
+          {
+            "phase": "both",
+            "geometry": [
+              1,
+              1,
+              12,
+              30
+            ],
+            "red_pixels": 5600,
+            "gdi": 24
+          },
+          {
+            "phase": "new-grid-hole",
+            "geometry": [
+              1,
+              1,
+              12,
+              30
+            ],
+            "red_pixels": 5240,
+            "gdi": 24
+          },
+          {
+            "phase": "restored-with-holes",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 5240,
+            "gdi": 24
+          },
+          {
+            "phase": "partial-scroll",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-0",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-0",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-1",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-1",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-2",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-2",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-3",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-3",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-4",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-4",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-5",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-5",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-6",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-6",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "split-tall-7",
+            "geometry": [
+              1,
+              1,
+              8,
+              40
+            ],
+            "red_pixels": 1920,
+            "gdi": 24
+          },
+          {
+            "phase": "split-restore-7",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 3440,
+            "gdi": 24
+          },
+          {
+            "phase": "into-history",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 1680,
+            "gdi": 24
+          },
+          {
+            "phase": "clear-history-keeps-visible",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 1680,
+            "gdi": 24
+          },
+          {
+            "phase": "clear-image",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 0,
+            "gdi": 24
+          },
+          {
+            "phase": "main-new",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 5760,
+            "gdi": 24
+          },
+          {
+            "phase": "alt-empty",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 0,
+            "gdi": 24
+          },
+          {
+            "phase": "alt-new",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 2880,
+            "gdi": 24
+          },
+          {
+            "phase": "alt-wide",
+            "geometry": [
+              1,
+              1,
+              16,
+              20
+            ],
+            "red_pixels": 2880,
+            "gdi": 24
+          },
+          {
+            "phase": "main-restored-wide",
+            "geometry": [
+              1,
+              1,
+              16,
+              20
+            ],
+            "red_pixels": 5760,
+            "gdi": 24
+          },
+          {
+            "phase": "main-final-size",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 5760,
+            "gdi": 24
+          },
+          {
+            "phase": "image-budget",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 1024,
+            "gdi": 25
+          },
+          {
+            "phase": "image-budget-erase",
+            "geometry": [
+              1,
+              1,
+              8,
+              20
+            ],
+            "red_pixels": 864,
+            "gdi": 26
+          },
+          {
+            "phase": "image-budget-font-change",
+            "geometry": [
+              1,
+              1,
+              16,
+              40
+            ],
+            "red_pixels": 864,
+            "gdi": 25
+          },
+          {
+            "phase": "image-budget-release",
+            "geometry": [
+              1,
+              1,
+              16,
+              40
+            ],
+            "red_pixels": 0,
+            "gdi": 24
+          }
+        ],
+        "peak_private_ws": 9334784,
+        "peak_total_ws": 31952896,
+        "peak_private_commit": 10956800,
+        "executable_sha256": "87ffee7740993d0b564ee78ed909759e1040a1efc4dce14abebe81c26c2ebbda"
+      }
+    },
+    "failed_check": "reflow: extra unbuttoned motion under mode 1003; strict input assertion failed",
+    "remaining": [
+      "Exact final artifact hardware OpenGL",
+      "Live renderer/settings changes",
+      "Real Codex GDI/OpenGL default and inline",
+      "Reflow isolation and console exit regression"
+    ]
+  },
+  "delivered_dist": {
+    "status": "Retains previous verified version until local acceptance resumes",
+    "executable_sha256": "955c4c7b66fdb98dce4edef2b7dc6645678b8fb582b67742d45732da15edda56"
+  },
+  "limitations": [
+    "Cloud OpenGL selection exercised GDI fallback on a runner without a hardware context.",
+    "DirectX is a feasibility probe and integration design; no frontend DirectX mode yet.",
+    "Four-sided tabs and hover previews are designed, not implemented.",
+    "The broader terminal protocol, physical input and live-service goal remains active."
+  ]
+}

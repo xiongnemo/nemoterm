@@ -932,3 +932,25 @@ failure history and captures are in [the real-client record](../research/real-ag
 This finite client regression does not close live-service/long-term agent use,
 Claude Code, physical IME/DPI/device behavior, complete grapheme rendering or
 the remaining protocol ledger.
+
+## Rendering, bindings and startup checkpoint (2026-11-13)
+
+Source `8fb697a933ee56f3b5cb49b1bf4199d3a3dd278e` has green core and single-file
+CI: 29 C core suites, 12 terminal sanitizer suites, four process-identity cases
+and 36 native checks. The single artifact is 4,329,472 bytes, SHA-256
+`6dd61201097f31083d9339ebfa809628857fb3ed7634b3d499fa5a29986d8684`.
+It includes configurable copy/paste/rectangle bindings, Ctrl rectangles, the
+160x48/work-area startup rule and optional OpenGL composition with bounded text
+cache. Oversized startup grids are clamped before screen allocation.
+
+Actual hardware OpenGL, Sarasa pixel parity and real Codex OpenGL modes passed
+on earlier artifacts. Final cloud checks use GDI fallback when hardware GL is
+unavailable; they do not certify this final artifact on the local NVIDIA driver.
+The user paused local interactive testing until they explicitly say the computer
+is free. `dist` retains the previously accepted `2862f67` artifact, and exact-final
+local hardware/client acceptance remains pending. [Evidence and failure history](../research/rendering.md).
+
+DirectX remains a measured feasibility prototype and integration design. Tabs
+with four-sided placement and hover previews remain designed, not implemented.
+Shell command marks, the remaining protocol ledger and other original goal
+requirements stay open. This checkpoint does not narrow or complete the goal.
