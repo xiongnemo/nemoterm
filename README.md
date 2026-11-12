@@ -10,6 +10,8 @@ GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原�
 许可证已嵌入 About / View Licence 和 `--licenses`，测试证据另存 artifact，保留 30 天。
 另一条 CI 执行 Windows 核心回归、MinGW 对照构建和 Linux ASan/UBSan；
 `nemoterm-windows-x64-<commit>` 是供开发对照的旧多文件包。
+该对照包使用上游预编译 OpenConsole，不包含我们的 Unicode 字节读取修复；
+实际使用请选上面的单文件产物。
 
 ## 构建与启动
 
@@ -47,6 +49,11 @@ Window/Rendering 可选择默认低内存 GDI、OpenGL 或 DirectX（Direct2D �
 可容纳的尺寸。请求遵守禁止远程调整、锁定窗口及字体缩放设置；最小化期间仍可处理
 输出和恢复尺寸。极小窗口受字符格和 Windows 标题栏最小尺寸限制。
 [参数、原生测试及平台差异](research/window-resize.md)。
+
+多标签使用 `--tabs` 开启，`--tab-side top|bottom|left|right` 设置标签栏位置。
+Window/Tabs 可保存启动偏好、标签栏位置和悬停终端预览设置；默认 Ctrl+Shift+T
+新建标签、Ctrl+Shift+W 关闭、Ctrl+Tab / Ctrl+Shift+Tab 切换，快捷键均可配置。
+中键关闭标签，标签过多时可滚动；[开发状态与验证范围](research/tabs-host.md)。
 
 启动 shell 可选 `--shell auto|pwsh|powershell|busybox-ash|git-bash|wsl-bash|cmd`。
 `--choose-shell` 打开启动选择窗口；Session 的 Shell 下拉框和“Choose shell on
@@ -144,7 +151,8 @@ VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试
 `python tests/codex_window_smoke.py` 使用实际 Codex 0.167.0 客户端连接本地测试响应，
 验证中文/emoji、流式 Markdown、长回复、32 次缩放、Shift 选择和 Ctrl+Shift+C/V；
 `--inline` 验证非备用屏模式。配置和会话使用临时目录，无需 API 密钥或在线模型。
-CI 固定客户端版本并运行两种模式；[复现、修复及验收范围](research/real-agent.md)。
+`--tabs` 将同一套检查放入标签窗口；单文件 CI 固定客户端版本并运行独立窗口、
+标签窗口各自的备用屏与非备用屏模式。[复现、修复及验收范围](research/real-agent.md)。
 内置宿主已修复 UTF-16 代理项释放事件导致的 emoji 丢失；快速跨位置拖选也不会再被
 误判为双击/三击。同位置的词/行选择及应用高亮协议继续保留。
 截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。

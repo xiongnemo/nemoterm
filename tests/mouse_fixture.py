@@ -1,5 +1,6 @@
 """ConPTY child for native mouse integration tests; records actual VT input."""
 import ctypes as c
+import codecs
 from ctypes import wintypes as w
 import os
 from pathlib import Path
@@ -20,6 +21,7 @@ k.GetStdHandle.restype = w.HANDLE
 k.GetConsoleMode.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
 k.ReadFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
+k.ReadConsoleW.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 stdin = k.GetStdHandle(-10)
 stdout = k.GetStdHandle(-11)
 old_output = w.DWORD()
@@ -35,7 +37,14 @@ old = w.DWORD()
 if not k.GetConsoleMode(stdin, c.byref(old)) or not k.SetConsoleMode(stdin, 0x280):
     raise c.WinError()
 data = bytearray()
+wide_input = os.environ.get('NEMOTERM_TEST_WIDE_INPUT') == '1'
 def reader():
+    if wide_input:
+        buf, n = c.create_string_buffer(2048), w.DWORD()
+        decoder = codecs.getincrementaldecoder('utf-16-le')()
+        while k.ReadConsoleW(stdin, buf, 1024, c.byref(n), None) and n.value:
+            data.extend(decoder.decode(buf.raw[:n.value*2]).encode('utf-8'))
+        return
     buf, n = c.create_string_buffer(1024), w.DWORD()
     while k.ReadFile(stdin, buf, len(buf), c.byref(n), None) and n.value:
         data.extend(buf.raw[:n.value])
@@ -80,7 +89,8 @@ try:
             barrier_ack = barrier_sent
         size = os.get_terminal_size()
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
-                    'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP()}
+                    'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
+                    'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
         if barrier is not None:
             snapshot['input_barrier'] = barrier_ack
         write_snapshot(report, snapshot)

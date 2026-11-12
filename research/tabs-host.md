@@ -145,3 +145,30 @@ frozen frame across destruction/recreation of the shared GPU renderer. It runs
 in both CI variants through the shared tab regression suite. Its local record
 uses actual GDI, OpenGL and DirectX; capture instrumentation means that record
 is not a memory acceptance measurement.
+
+## Input runtime distinction
+
+Core run 43308880738 passed the four host cases (including all rapid closes),
+native settings, four overflow sides, mixed profiles, geometry and resizing.
+Its added IME check exposed the known upstream OpenConsole `ReadFile` surrogate
+conversion bug: U+1F642 became two U+FFFD characters. The same failure reproduces
+locally without tabs when using the pinned NuGet host, so it is not a host-window
+input regression. Our source-built OpenConsole overlay already repairs this
+byte-input path (`scripts/prepare-single-exe.py`).
+
+Core CI now checks the exact complete Unicode strings through `ReadConsoleW`,
+whose UTF-16 units the fixture incrementally decodes. Single-EXE CI continues to
+use `ReadFile` and additionally runs the existing small-read Unicode suite.
+Neither path accepts replacement characters or omits the emoji assertions.
+`tabs-input-runtime-checkpoint.json` records the local three-way comparison and
+the two different runtime hashes. The single-EXE verifier also adds real Codex
+tab-host cases for both alternate-screen and inline modes; local real-clipboard
+access remains unavailable, so these new Codex cases require CI verification.
+
+Single-EXE run 43308880805 also passed all four rapid-close host cases with
+the cancellation fix. It stopped later because the mixed-profile fixture read
+an empty transient mailbox snapshot and indexed `hex` immediately. That check
+now waits for a valid snapshot, retaining the input-isolation assertion. The
+same CI binary (`60f32c8bb844ba11e0493a81417cb6b7666e86c7191861fa2fb89d0300b01c1c`)
+passes all six mixed-profile checks locally with this correction. This is a
+test transport correction, not a change to terminal input handling.

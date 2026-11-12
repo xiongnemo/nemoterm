@@ -1,5 +1,6 @@
 """Run the existing native protocol checks inside the optional tab host."""
 import json
+import argparse
 import os
 from pathlib import Path
 import shutil
@@ -7,19 +8,22 @@ import subprocess
 import sys
 
 root = Path(__file__).resolve().parent.parent
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--input-api',choices=('byte','wide'),default='byte')
+options=parser.parse_args()
 cases = [(f'overflow-{side}', 'tabs_overflow', ['--side', side], None)
          for side in ('top', 'bottom', 'left', 'right')]
 cases += [
     ('profiles', 'tabs_profiles', [], None),
     ('geometry', 'geometry', ['--tabs', '--tab-side', 'bottom'], None),
     ('window-resize', 'window_resize', ['--tabs', '--tab-side', 'left'], None),
-    ('input-method', 'input_method', ['--tabs'] +
+    ('input-method', 'input_method', ['--tabs','--input-api',options.input_api] +
         (['--font', 'Consolas'] if os.environ.get('CI') == 'true' else []), None),
 ]
 cases += [(f'selection-{name}', 'selection', ['--tabs', '--tab-side', 'right',
            '--renderer', str(renderer)], 'tabs-selection-observed.json')
           for renderer, name in ((0, 'gdi'), (1, 'opengl'), (2, 'directx'))]
-evidence = dict(completed=False, checks=[])
+evidence = dict(completed=False, input_api=options.input_api, checks=[])
 try:
     for name, script, args, record in cases:
         log = root/'research'/f'tabs-{name}.log'

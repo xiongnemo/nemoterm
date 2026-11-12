@@ -4,7 +4,7 @@ No online model, global input or existing Codex session is used. This proves
 specific real-client rendering/input paths, not long-term live-service use.
 """
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
-    tempfile, Path, time, wait_for, find_window, capture, memory_sample)
+    tempfile, Path, time, wait_for, find_window, capture, memory_sample, terminal_host)
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from console_process_utils import owned_processes
 from owned_job import OwnedJob
@@ -19,6 +19,7 @@ import winreg
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--codex', default=shutil.which('codex.exe'))
 parser.add_argument('--inline', action='store_true', help='Also test Codex --no-alt-screen')
+parser.add_argument('--tabs', action='store_true', help='Run the real client inside the tab host')
 parser.add_argument('--input-text', default='NEMOTERM_INPUT 中文 e\u0301 \U0001f642')
 parser.add_argument('--trace-input', action='store_true', help='Trace owned Codex console reads for diagnosis')
 parser.add_argument('--diagnose-surrogates', action='store_true', help='Diagnostic mutation only; suppress surrogate release text in Codex reads')
@@ -29,6 +30,7 @@ assert args.codex, 'Provide --codex with an installed native Codex executable'
 codex = Path(args.codex).resolve()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 mode = ('inline' if args.inline else 'default')+('-opengl' if args.renderer=='opengl' else '')
+if args.tabs:mode='tabs-'+mode
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     codex_launcher=str(codex), codex_launcher_sha256=hashlib.sha256(codex.read_bytes()).hexdigest(),
     codex_version=subprocess.check_output([str(codex), '--version'], text=True, timeout=15).strip(),
@@ -150,7 +152,7 @@ enabled = false
             'APPDATA','LOCALAPPDATA','PROGRAMDATA','PROGRAMFILES','PROGRAMFILES(X86)',
             'NUMBER_OF_PROCESSORS','PROCESSOR_ARCHITECTURE'}}
         env.update(CODEX_HOME=str(home), NEMOTERM_CONPTY='bundled', TERM='xterm-256color')
-        process = job.spawn([str(exe), '-load', profile, '--cols', '100', '--rows', '30',
+        process = job.spawn([str(exe)]+(['--tabs'] if args.tabs else [])+['-load', profile, '--cols', '100', '--rows', '30',
             '--font', args.font, '-e', str(codex), '--no-daemon',
             '--cd', str(work), *(['--no-alt-screen'] if args.inline else [])],
             cwd=work, env=env, creationflags=subprocess.CREATE_NO_WINDOW)
@@ -174,7 +176,7 @@ enabled = false
                     p['sha256'] = hashlib.sha256(Path(p['path']).read_bytes()).hexdigest()
             r = w.RECT(); u.GetClientRect(hwnd, c.byref(r))
             cell_w, cell_h = (r.right-2)//100, (r.bottom-2)//30
-            initial = w.RECT(); u.GetWindowRect(hwnd, c.byref(initial))
+            initial = w.RECT(); u.GetWindowRect(terminal_host(hwnd), c.byref(initial))
             frame('startup')
             if args.trace_input or args.diagnose_surrogates:
                 import frida
@@ -225,7 +227,7 @@ enabled = false
                      (initial.right-initial.left, initial.bottom-initial.top)]
             for cycle in range(8):
                 for width, height in sizes:
-                    assert u.MoveWindow(hwnd, 30, 30, width, height, True)
+                    assert u.MoveWindow(terminal_host(hwnd), 30, 30, width, height, True)
                     time.sleep(.12)
                     assert process.poll() is None
             wait_for(lambda: 'NEMOTERM_REPLY_1_DONE' in all_text(), timeout=10)

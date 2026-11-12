@@ -123,7 +123,10 @@ jobs:
       - name: Test tab overflow, geometry, resizing, input methods and selection
         shell: pwsh
         run: |
-          python tests/tabs_regression_suite.py
+          # This job uses upstream OpenConsole. Its ReadFile surrogate bug is
+          # fixed in our source-built single EXE, whose workflow tests byte I/O.
+          # Check this frontend's complete Unicode input through ReadConsoleW.
+          python tests/tabs_regression_suite.py --input-api wide
           $testExit = $LASTEXITCODE
           Copy-Item research/tabs-* test-results/ -ErrorAction SilentlyContinue
           exit $testExit

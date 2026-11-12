@@ -80,9 +80,10 @@ try {
     if ($LASTEXITCODE) { throw 'Single-executable tab settings test failed' }
     $checks.Add('tabs-settings')
     if ($CodexExecutable) {
-        foreach ($mode in @('default', 'inline')) {
+        foreach ($mode in @('default', 'inline', 'tabs-default', 'tabs-inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)
-            if ($mode -eq 'inline') { $nativeArgs += '--inline' }
+            if ($mode.EndsWith('inline')) { $nativeArgs += '--inline' }
+            if ($mode.StartsWith('tabs-')) { $nativeArgs += '--tabs' }
             if ($env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
             & python "$Destination/tests/codex_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/codex-$mode.log"
             if ($LASTEXITCODE) { throw "Single-executable Codex test failed: $mode" }

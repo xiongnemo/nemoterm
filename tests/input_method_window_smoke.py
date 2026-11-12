@@ -11,6 +11,7 @@ import frida,uuid,winreg,argparse
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
 parser.add_argument('--tabs',action='store_true')
+parser.add_argument('--input-api',choices=('byte','wide'),default='byte')
 args=parser.parse_args()
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
@@ -18,13 +19,16 @@ exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='input-method-'+uuid.uuid4().hex;keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
  for name,value in dict(WarnOnClose=0,NemoWin32Input=0).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
-evidence=dict(tab_host=args.tabs,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,requested_font=args.font,input_cp=65001,checks=[],dpi=[])
+evidence=dict(tab_host=args.tabs,input_api='ReadConsoleW' if args.input_api=='wide' else 'ReadFile',executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,requested_font=args.font,input_cp=65001,checks=[],dpi=[])
+evidence['runtime_files']={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+ for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()}
 try:
  with tempfile.TemporaryDirectory(prefix='nemoterm-input-method-') as temporary:
   p=Path(temporary);report,control=p/'report',p/'control'
   process=subprocess.Popen([str(exe)]+(['--tabs'] if args.tabs else [])+['-load',profile,'--cols','40','--rows','12','--font',args.font,
     '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],creationflags=subprocess.CREATE_NO_WINDOW,
-    env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'))
+    env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1',
+             NEMOTERM_TEST_WIDE_INPUT='1' if args.input_api=='wide' else '0'))
   session=script=None;command=None;messages=[];serial=0;request={};phase_id=''
   try:
    hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
@@ -40,6 +44,7 @@ try:
     serial+=1;token=str(serial);request['input_barrier']=token;write_snapshot(control,request)
     value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==phase_id and v.get('input_barrier')==token)
     assert value['input_cp']==65001,value
+    assert value['input_api']==evidence['input_api'],value
     actual=bytes.fromhex(value['hex']);want=b'\x1b[0n'+expected+b'\x1b[0n'
     assert actual==want,(name,actual.hex(),want.hex());evidence['checks'].append(name)
    def command(kind,**fields):

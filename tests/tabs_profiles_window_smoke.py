@@ -75,6 +75,10 @@ try:
                 serial+=1;write_snapshot(child['control'],dict(phase=serial,sequence=sequence+'\x1b[5n'))
                 return wait_snapshot(lambda:read_snapshot(child['report']),lambda value:
                     value.get('phase')==serial and bytes.fromhex(value.get('hex','')).endswith(b'\x1b[0n'))
+            def observed(child):
+                # A concurrent atomic mailbox update can briefly deny reads on
+                # Windows. Require a real snapshot before checking isolation.
+                return wait_snapshot(lambda:read_snapshot(child['report']),lambda value:'hex' in value)
             for index,child in enumerate(children):
                 output(child,scene('PROFILE '+str(index),('90;10;10','10;90;10','10;10;90')[index]))
                 captures.append(OwnedGPUCapture(process.pid,child['hwnd']))
@@ -109,12 +113,12 @@ try:
                 for ch in token:u.SendMessageW(current['hwnd'],0x102,ord(ch),1)
                 wait_for(lambda:token.encode().hex() in read_snapshot(current['report']).get('hex',''))
                 for other in children:
-                    if other is not current:assert token.encode().hex() not in read_snapshot(other['report'])['hex']
+                    if other is not current:assert token.encode().hex() not in observed(other)['hex']
             assert len({tuple(p['cell']) for p in evidence['profiles']})==3
             evidence['checks'].append('each tab retains its own font geometry and requested renderer')
             evidence['checks'].append('input stays in its session and active-profile custom tab bindings work')
             before=w.RECT();u.GetWindowRect(host,c.byref(before))
-            old_grid=read_snapshot(children[0]['report'])
+            old_grid=observed(children[0])
             hidden=output(children[0],'\x1b[2t\x1b[9;1t\x1b[3;77;88t\x1b[8;9;21t\x1b[18t')
             after=w.RECT();u.GetWindowRect(host,c.byref(after))
             assert bytes(before)==bytes(after)
