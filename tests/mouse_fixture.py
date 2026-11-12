@@ -17,6 +17,9 @@ k.GetConsoleMode.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
 k.ReadFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 stdin = k.GetStdHandle(-10)
+old_input_cp = k.GetConsoleCP()
+if os.environ.get("NEMOTERM_TEST_UTF8_INPUT") == "1":
+    assert k.SetConsoleCP(65001)
 old = w.DWORD()
 if not k.GetConsoleMode(stdin, c.byref(old)) or not k.SetConsoleMode(stdin, 0x280):
     raise c.WinError()
@@ -65,7 +68,7 @@ try:
             barrier_ack = barrier_sent
         size = os.get_terminal_size()
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
-                    'rows': size.lines, 'input_mode': 0x280}
+                    'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP()}
         if barrier is not None:
             snapshot['input_barrier'] = barrier_ack
         write_snapshot(report, snapshot)
@@ -75,3 +78,4 @@ except Exception:
     raise
 finally:
     k.SetConsoleMode(stdin, old.value)
+    k.SetConsoleCP(old_input_cp)

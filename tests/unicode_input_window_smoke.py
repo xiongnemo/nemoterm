@@ -38,6 +38,8 @@ try:
      # The key-to-VT translator drops orphan leaders in VT mode. Raw ReadFile
      # conversion uses the Unicode replacement scalar, preserving the next key.
      check(('\ufffdZ' if mode==0x80 else 'Z').encode(),'orphan-then-ascii')
+     put([0xd83d]);time.sleep(.12);put([0xd83e,0xddea],reset=False)
+     check(('\ufffd\U0001f9ea' if mode==0x80 else '\U0001f9ea').encode(),'orphan-then-pair')
      put([0xd83d]);time.sleep(.12);put([ord('F')],reset=False,flush=True);check(b'F','flush-pending-leader')
      evidence['runs'].append(record)
     except Exception:

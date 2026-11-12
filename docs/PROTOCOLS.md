@@ -107,3 +107,16 @@
 
 
 DECSCA、DECSEL/DECSED、DECERA/DECSERA 已实现并通过核心、原生像素和剪贴板测试；独立 XTerm 对照及有意差异见 [选择性擦除记录](../research/selective-erase.md)。ISO SPA/EPA、左右边距和其他矩形操作仍待实现。
+
+
+### Windows 输入法、Unicode 字节流与 DPI
+
+原生前端按 IMM 第二次读取的实际字节数提交文本，拒绝异常/奇数长度，临时
+提交缓冲上限 64 KiB。新增 WM_UNICHAR 标量输入及能力探测；组合边界清理
+待配对的 WM_CHAR 代理项。字体和 DPI 变化同步更新 IMM 组合字体。
+源码构建的 OpenConsole 保留跨读取的 UTF-16 代理对，正确处理很小的 UTF-8
+目标缓冲；内部流读取不再清掉解码状态。详见[实现、基线与验收范围](../research/input-methods.md)。
+
+新增原生 CI 组覆盖 IMM 故障注入、Unicode/kitty 文本、合成 DPI 像素和
+1–1024 字节的控制台原始/行输入。物理 IME 候选操作、真实多屏切换及完整
+字素整形仍未验收，不能由合成消息测试替代。

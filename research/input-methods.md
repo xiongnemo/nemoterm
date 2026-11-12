@@ -66,3 +66,11 @@ remain separate acceptance work. The local desktop has one 96-DPI monitor.
 
 Validation status: the baseline failures and frontend DPI correction are
 reproduced locally. Full source-host validation is pending the new CI build.
+
+The first CI run built the combined EXE and passed the preceding native groups,
+but the new IMM fixture received OEM-codepage replacements on the US-English
+runner. The child now explicitly selects CP_UTF8 for this test and records it;
+the user's machine already defaults to UTF-8. CI uses installed Consolas for
+synthetic DPI scaling, while local acceptance retains Sarasa. Failed build
+artifacts are clearly named `unverified-single-exe-*` for diagnosis and are not
+the successful one-file deliverable.

@@ -40,6 +40,14 @@ jobs:
           path: build/single-exe-dist/nemoterm.exe
           if-no-files-found: error
           retention-days: 30
+      - name: Retain failed-build executable for diagnosis
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unverified-single-exe-x64-${{ github.sha }}
+          path: build/single-exe-dist/nemoterm.exe
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload build and native test evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

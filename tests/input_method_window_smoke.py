@@ -7,20 +7,23 @@ It is not physical key conversion, candidate UI or multi-monitor certification.
 """
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_snapshot,wait_for,capture,find_window)
-import frida,uuid,winreg
+import frida,uuid,winreg,argparse
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
+args=parser.parse_args()
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='input-method-'+uuid.uuid4().hex;keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
  for name,value in dict(WarnOnClose=0,NemoWin32Input=0).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
-evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,checks=[],dpi=[])
+evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,requested_font=args.font,input_cp=65001,checks=[],dpi=[])
 try:
  with tempfile.TemporaryDirectory(prefix='nemoterm-input-method-') as temporary:
   p=Path(temporary);report,control=p/'report',p/'control'
-  process=subprocess.Popen([str(exe),'-load',profile,'--cols','40','--rows','12','--font','SarasaTermSC Nerd Font Light',
+  process=subprocess.Popen([str(exe),'-load',profile,'--cols','40','--rows','12','--font',args.font,
     '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],creationflags=subprocess.CREATE_NO_WINDOW,
-    env=dict(os.environ,NEMOTERM_CONPTY='bundled'))
+    env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'))
   session=script=None;command=None;messages=[];serial=0;request={};phase_id=''
   try:
    hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
@@ -35,6 +38,7 @@ try:
     global serial
     serial+=1;token=str(serial);request['input_barrier']=token;write_snapshot(control,request)
     value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==phase_id and v.get('input_barrier')==token)
+    assert value['input_cp']==65001,value
     actual=bytes.fromhex(value['hex']);want=b'\x1b[0n'+expected+b'\x1b[0n'
     assert actual==want,(name,actual.hex(),want.hex());evidence['checks'].append(name)
    def command(kind,**fields):

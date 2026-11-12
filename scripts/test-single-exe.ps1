@@ -16,12 +16,14 @@ $previousExe = $env:NEMOTERM_TEST_EXE
 $env:NEMOTERM_TEST_EXE = "$Destination/dist/nemoterm.exe"
 $checks = [Collections.Generic.List[string]]::new()
 try {
-    $tests = @('single_exe', 'mouse', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
+    $tests = @('single_exe', 'input_method', 'unicode_input', 'mouse', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins',
-        'input_method', 'unicode_input', 'shell', 'delegated_console')
+        'shell', 'delegated_console')
     foreach ($name in $tests) {
-        & python "$Destination/tests/${name}_window_smoke.py" 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        $nativeArgs = @()
+        if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
+        & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
         if ($name -eq 'font_fallback') {
