@@ -12,3 +12,5 @@ foreach ($name in @('test_conf', 'test_terminal', 'test_sixel', 'test_sixel_term
 if ($LASTEXITCODE) { throw 'Unicode grapheme conformance tests failed' }
 & "$root/build/test_grapheme_terminal.exe"
 if ($LASTEXITCODE) { throw 'Terminal grapheme cell tests failed' }
+& "$root/build/test_cluster_renderer.exe"
+if ($LASTEXITCODE) { throw 'Native cluster renderer tests failed' }

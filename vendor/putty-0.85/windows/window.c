@@ -27,6 +27,7 @@
 #include "nemo_clipboard.h"
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
+#include "nemo_cluster.h"
 #include "nemo_gpu.h"
 #include "nemo_tabs_host.h"
 #include "terminal/nemo_window_size.h"
@@ -253,6 +254,7 @@ static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
 static const TermWinVtable windows_termwin_vt = {
+    .grapheme_clusters = true,
     .get_geometry = wintw_get_geometry,
     .set_synchronized_update = wintw_set_synchronized_update,
     .setup_draw_ctx = wintw_setup_draw_ctx,
@@ -1130,6 +1132,7 @@ static void wgs_cleanup(void *vctx)
     wgs->term = NULL;
     if (wgs->logctx) log_free(wgs->logctx);
     nemo_keyboard_free(wgs);
+    nemo_cluster_free(&wgs->cluster_renderer);
     deinit_fonts(wgs);
     if (wgs->caretbm) DeleteObject(wgs->caretbm);
     sfree(wgs->logpal);
@@ -3371,12 +3374,14 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (wgs->sync_snapshot && wgs->term->synchronized_update &&
             nemo_snapshot_paint(wgs->sync_snapshot,(HDC)wParam,NULL,NULL)) return 0;
         if (wgs->gpu && nemo_gpu_print(wgs->gpu, (HDC)wParam)) return 0;
-        if (wgs->tabbed) {
+        {
+            /* Render the requested client image directly for standalone GDI
+             * windows too. DefWindowProc/DWM may otherwise return a stale
+             * redirection surface while the resized window is repainting. */
             RECT rect;GetClientRect(hwnd,&rect);
             nemo_render_snapshot_band((HDC)wParam,0,rect.bottom,wgs);
             term_invalidate(wgs->term);return 0;
         }
-        break;
       case WM_PAINT: {
         PAINTSTRUCT p;
 
@@ -4310,6 +4315,31 @@ static void do_text_internal(
     char *cbuf = NULL;
     size_t wbuflen = 0, cbuflen = 0;
     int len2; /* for SURROGATE PAIR */
+    bool whole_cluster = (attr & TATTR_COMBINING) != 0;
+    wchar_t cluster_text[2*(CC_LIMIT+1)];
+    bool emoji = false, emoji_base = false;
+
+    if (whole_cluster && len > 0 && len <= (int)lenof(cluster_text)) {
+        memcpy(cluster_text, text, len*sizeof(*text));
+        for (int i=0;i<len;i++) {
+            unsigned long cp=cluster_text[i];
+            if (i+1<len && IS_SURROGATE_PAIR(cp,cluster_text[i+1])) {
+                cp=FROM_SURROGATES(cp,cluster_text[i+1]);i++;
+            } else if (DIRECT_FONT(cp)) {
+                /* ASCII in the terminal's translated line table can carry
+                 * a direct-font marker. Genuine surrogate pairs above must
+                 * never enter this legacy font-byte conversion. */
+                char byte=(char)(cp&255);wchar_t scalar=0xfffd;
+                MultiByteToWideChar((cp&CSET_MASK)==CSET_OEMCP?CP_OEMCP:
+                    wgs->ucsdata.font_codepage,0,&byte,1,&scalar,1);
+                cp=cluster_text[i]=scalar;
+            }
+            if (cp==0xfe0e) emoji=false;
+            else if ((cp==0xfe0f && emoji_base) || nemo_grapheme_is_emoji(cp,true)) emoji=true;
+            emoji_base=nemo_grapheme_is_emoji(cp,false);
+        }
+        text=cluster_text;
+    }
 
     lattr &= LATTR_MODE;
 
@@ -4477,8 +4507,23 @@ static void do_text_internal(
     }
 
     /* Only want the left half of double width lines */
+    if (whole_cluster) line_box.right = line_box.left + char_width;
     if (line_box.right > wgs->font_width*wgs->term->cols+wgs->offset_width)
         line_box.right = wgs->font_width*wgs->term->cols+wgs->offset_width;
+
+    if (whole_cluster) {
+        if (len <= (int)lenof(cluster_text) && nemo_cluster_draw(
+                &wgs->cluster_renderer,wgs->wintw_hdc,&line_box,text,len,
+                text_adjust-wgs->font_height*(lattr==LATTR_BOT),fg,bg,emoji,
+                (lattr==LATTR_WIDE?2.0f:1.0f)*((attr&ATTR_NARROW)?0.5f:1.0f),
+                wgs->bold_font_mode==BOLD_SHADOW && (attr&ATTR_BOLD)))
+            goto decorations;
+        /* Preserve this cluster's grid width even if a system API/font or
+         * the bounded scratch allocation is unavailable. */
+        cluster_text[0]=0xfffd;text=cluster_text;len=1;
+        attr &= ~TATTR_COMBINING;
+        SetBkMode(wgs->wintw_hdc,OPAQUE);
+    }
 
     if (wgs->font_varpitch) {
         /*
@@ -4650,6 +4695,7 @@ static void do_text_internal(
         opaque = false;
     }
 
+  decorations:
     if (!(attr & ATTR_CONCEAL) && (force_manual_underline || (attr & ATTR_UNDER))) {
         uint32_t colour = truecolour.decoration & UNDER_COLOUR_MASK;
         COLORREF underline = fg;
@@ -4679,43 +4725,7 @@ static void nemo_raster_text(
     unsigned long attr, int lattr, truecolour truecolour)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    if (attr & TATTR_COMBINING) {
-        unsigned long a = 0;
-        int len0 = 1;
-        /* don't divide SURROGATE PAIR and VARIATION SELECTOR */
-        if (len >= 2 && IS_SURROGATE_PAIR(text[0], text[1]))
-            len0 = 2;
-        if (len-len0 >= 1 && IS_LOW_VARSEL(text[len0])) {
-            attr &= ~TATTR_COMBINING;
-            do_text_internal(wgs, x, y, text, len0+1, attr, lattr, truecolour);
-            text += len0+1;
-            len -= len0+1;
-            a = TATTR_COMBINING;
-        } else if (len-len0 >= 2 && IS_HIGH_VARSEL(text[len0], text[len0+1])) {
-            attr &= ~TATTR_COMBINING;
-            do_text_internal(wgs, x, y, text, len0+2, attr, lattr, truecolour);
-            text += len0+2;
-            len -= len0+2;
-            a = TATTR_COMBINING;
-        } else {
-            attr &= ~TATTR_COMBINING;
-        }
-
-        while (len--) {
-            if (len >= 1 && IS_SURROGATE_PAIR(text[0], text[1])) {
-                do_text_internal(wgs, x, y, text, 2, attr | a, lattr,
-                                 truecolour);
-                len--;
-                text++;
-            } else
-                do_text_internal(wgs, x, y, text, 1, attr | a, lattr,
-                                 truecolour);
-
-            text++;
-            a = TATTR_COMBINING;
-        }
-    } else
-        do_text_internal(wgs, x, y, text, len, attr, lattr, truecolour);
+    do_text_internal(wgs, x, y, text, len, attr, lattr, truecolour);
 }
 
 static void nemo_raster_cursor(

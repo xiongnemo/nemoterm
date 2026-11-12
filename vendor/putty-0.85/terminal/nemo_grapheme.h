@@ -25,5 +25,6 @@ typedef struct NemoGraphemeWidth {
     unsigned char cells, emoji_base;
 } NemoGraphemeWidth;
 unsigned nemo_grapheme_cell_width(NemoGraphemeWidth *, uint32_t, int scalar_width);
+bool nemo_grapheme_is_emoji(uint32_t scalar, bool default_presentation);
 
 #endif

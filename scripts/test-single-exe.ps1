@@ -18,7 +18,7 @@ $previousExe = $env:NEMOTERM_TEST_EXE
 $env:NEMOTERM_TEST_EXE = "$Destination/dist/nemoterm.exe"
 $checks = [Collections.Generic.List[string]]::new()
 try {
-    $tests = @('single_exe', 'startup_size', 'renderer', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
+    $tests = @('single_exe', 'startup_size', 'renderer', 'grapheme', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'selective_erase', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'delegated_console', 'shutdown', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
@@ -28,6 +28,11 @@ try {
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'grapheme') {
+            & python "$Destination/tests/grapheme_window_smoke.py" --font-resize 2>&1 | Tee-Object "$Destination/logs/grapheme-font.log"
+            if ($LASTEXITCODE) { throw 'Single-executable grapheme font resize test failed' }
+            $checks.Add('grapheme-font')
+        }
         if ($name -eq 'session') {
             foreach ($renderer in @('opengl', 'directx')) {
                 & python "$Destination/tests/session_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/session-$renderer.log"

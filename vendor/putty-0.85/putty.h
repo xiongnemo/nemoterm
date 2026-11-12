@@ -1633,6 +1633,8 @@ typedef struct TermWindowGeometry {
 } TermWindowGeometry;
 
 struct TermWinVtable {
+    /* This frontend can shape a complete bounded cluster in one grid cell. */
+    bool grapheme_clusters;
     /* Optional, synchronous snapshot; must not draw, resize or allocate. */
     bool (*get_geometry)(TermWin *, TermWindowGeometry *);
     /* Optional presentation snapshot. Enabling may fail under resource limits.

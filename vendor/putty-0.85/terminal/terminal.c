@@ -4174,6 +4174,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
+    term_set_grapheme_clustering(term, false);
     term->insert = term->dec_om = false;
     term->marg_t = 0;
     term->marg_b = max(0, term->rows - 1);
@@ -4906,6 +4907,10 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             if (state) term_start_synchronized_update(term);
             else term_end_synchronized_update(term);
             break;
+          case 2027:                   /* Unicode grapheme cluster widths */
+            if (term->win->vt->grapheme_clusters)
+                term_set_grapheme_clustering(term, state);
+            break;
           case 2004:                   /* xterm bracketed paste */
             term->bracketed_paste = state ? true : false;
             break;
@@ -4990,6 +4995,9 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 2026:
             if (!term->win->vt->set_synchronized_update) return 0;
             state = term->synchronized_update; break;
+          case 2027:
+            if (!term->win->vt->grapheme_clusters) return 0;
+            state = term->grapheme_mode; break;
           default: return 0;
         }
     }
@@ -5010,7 +5018,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     }
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
-        1000, 1004, 1005, 1007, 1070, 2004, 2026, 8452, 9001
+        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;

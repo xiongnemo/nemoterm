@@ -53,9 +53,10 @@ jobs:
       - name: Test Unicode extended grapheme boundaries
         run: |
           set -euo pipefail
-          cmake --build build --target test_grapheme test_grapheme_terminal
+          cmake --build build --target test_grapheme test_grapheme_terminal test_cluster_renderer
           ./build/test_grapheme.exe tools/unicode/18.0.0/GraphemeBreakTest.txt 2>&1 | tee test-results/test_grapheme.log
           ./build/test_grapheme_terminal.exe 2>&1 | tee test-results/test_grapheme_terminal.log
+          ./build/test_cluster_renderer.exe 2>&1 | tee test-results/test_cluster_renderer.log
       - name: Package portable executable
         run: |
           set -euo pipefail
@@ -97,6 +98,17 @@ jobs:
           python tests/caret_startup_window_smoke.py
           $testExit = $LASTEXITCODE
           Copy-Item research/caret-startup-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Test native grapheme widths, shapes, rectangles and font changes
+        shell: pwsh
+        run: |
+          python tests/grapheme_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/grapheme-* test-results/ -ErrorAction SilentlyContinue
+          if ($testExit) { exit $testExit }
+          python tests/grapheme_window_smoke.py --font-resize
+          $testExit = $LASTEXITCODE
+          Copy-Item research/grapheme-font-* test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native window and ConPTY input and resize
         shell: pwsh

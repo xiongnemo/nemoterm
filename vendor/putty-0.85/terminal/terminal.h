@@ -24,8 +24,7 @@
 
 /* Read-only range query for native menu state; zero means unavailable. */
 uint64_t term_shell_mark_range(Terminal *, bool output, NemoShellPoint *, NemoShellPoint *);
-/* Staged core implementation; no UI/protocol advertisement until the native
- * whole-cluster renderer and remaining protocol semantics are integrated. */
+/* Core policy setter; protocol negotiation checks the frontend capability. */
 void term_set_grapheme_clustering(Terminal *, bool);
 
 /* Visual grid coordinates in the last painted frame, not the live screen.
@@ -292,7 +291,7 @@ struct terminal_tag {
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
      * groups and alternate-screen aliases share entries (84 bytes total). */
-    int saved_dec_modes[22];
+    int saved_dec_modes[23];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

@@ -80,3 +80,8 @@ unsigned nemo_grapheme_cell_width(NemoGraphemeWidth *s, uint32_t cp, int legacy)
     s->emoji_base = (props & 0x100) != 0;
     return s->cells;
 }
+
+bool nemo_grapheme_is_emoji(uint32_t cp, bool default_presentation)
+{
+    return (properties(cp) & (default_presentation ? 0x80 : 0x100)) != 0;
+}

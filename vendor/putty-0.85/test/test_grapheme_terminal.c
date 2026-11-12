@@ -9,7 +9,7 @@ static void setup_cluster(Mock *mk, const char *name, int rows, int cols)
     mk->ucsdata->line_codepage = CP_UTF8;
     term_size(mk->term, rows, cols, 100);
     term_data_fragmented(mk->term, "\033[2J\033[H\033%G");
-    term_set_grapheme_clustering(mk->term, true);
+    term_data_fragmented(mk->term, "\033[?2027h");
 }
 
 static void output_scalars(Terminal *term, const uint32_t *cp, size_t n)
@@ -226,12 +226,34 @@ static void test_repeat(Mock *mk)
     IEQUAL(get_termchar(t,4,0).chr,tech[2]);
 }
 
+static void test_mode(Mock *mk)
+{
+    Terminal *t=mk->term;reset(mk);test_context(mk,"2027 query, save, restore and reset semantics");
+    term_data_fragmented(t,"\033[?2027$p\033[?2027h\033[?2027$p\033[?2027s"
+        "\033[?2027l\033[?2027$p\033[?2027r\033[?2027$p\033[!p\033[?2027$p");
+    SEQUAL(mk->to_backend->s,"\033[?2027;2$y\033[?2027;1$y\033[?2027;2$y"
+        "\033[?2027;1$y\033[?2027;2$y");
+    strbuf_clear(mk->to_backend);
+    /* Like the other XTSAVE slots, an explicit later restore can re-enable
+     * saved state; RIS itself must first report the reset mode. */
+    term_data_fragmented(t,"\033[?2027h\033[?2027s\033c\033[?2027$p"
+        "\033[?2027r\033[?2027$p\033[?2027l");
+    SEQUAL(mk->to_backend->s,"\033[?2027;2$y\033[?2027;1$y");
+    strbuf_clear(mk->to_backend);
+    const TermWinVtable *original=mk->tw.vt;
+    TermWinVtable unsupported=*original;unsupported.grapheme_clusters=false;mk->tw.vt=&unsupported;
+    term_data_fragmented(t,"\033[?2027h\033[?2027$p");
+    SEQUAL(mk->to_backend->s,"\033[?2027;0$y");IEQUAL(t->grapheme_mode,false);
+    mk->tw.vt=original;
+}
+
 int main(void)
 {
-    Mock *mk=mock_new();mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
+    Mock *mk=mock_new();TermWinVtable supported=*mk->tw.vt;supported.grapheme_clusters=true;
+    mk->tw.vt=&supported;mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
-    test_reflow_and_rectangle(mk);test_repeat(mk);
+    test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;
