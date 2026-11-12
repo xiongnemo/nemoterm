@@ -10,6 +10,7 @@ root = Path(__file__).resolve().parent.parent
 cases = [(f'overflow-{side}', 'tabs_overflow', ['--side', side], None)
          for side in ('top', 'bottom', 'left', 'right')]
 cases += [
+    ('profiles', 'tabs_profiles', [], None),
     ('geometry', 'geometry', ['--tabs', '--tab-side', 'bottom'], None),
     ('window-resize', 'window_resize', ['--tabs', '--tab-side', 'left'], None),
     ('input-method', 'input_method', ['--tabs'] +

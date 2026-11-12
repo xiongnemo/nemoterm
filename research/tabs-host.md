@@ -80,8 +80,8 @@ are distinguished from the final executable in `tabs-host-local-checkpoint.json`
   movements or keyboard input are used. Preview leave tracking is simulated
   inside that PID; physical desktop hover is still a separate check.
 - The geometry helper covers overflow and monitor-edge placement exhaustively;
-  physical multi-monitor DPI/IME testing still needs coverage. Mixed renderer
-  profiles, long-running agent workloads, tabbed clipboard/selection stress,
+  physical multi-monitor DPI/IME testing still needs coverage. Long-running
+  agent workloads, tabbed clipboard/selection stress,
   and all existing native suites in tab mode remain
   before making the host the default or promoting a new accepted binary.
 - No new dependency, webview, helper executable or per-tab GPU device was added.
@@ -122,3 +122,26 @@ the owned job to return to its original membership; failure records include
 remaining process image names and PIDs. No termination assertion was relaxed,
 and no speculative console-lifetime change was made. New CI results are still
 required before accepting a single executable or enabling tabs by default.
+
+## Rapid shell cancellation and mixed profiles
+
+[Core 43306482281](https://github.com/xiongnemo/nemoterm/actions/runs/43306482281)
+reproduced the cleanup failure on the second immediate default-shell close.
+The new diagnostics identify the extra processes as PowerShell 7 and its
+OpenConsole host. Closing the ConPTY alone was insufficient during that startup
+race. Explicit session disposal now retains the original process handle through
+ConPTY closure, gives it 100 ms to exit, and terminates it if still running.
+This applies only to the owned initial process on explicit disposal; natural
+EOF and already-exited launchers retain their previous behavior, and detached
+descendants are not killed by a process-tree sweep. Delegated-client lifetime
+and all six GDI/OpenGL/DirectX shutdown cases pass locally with this change.
+The CI rapid-close test remains mandatory to validate the reproduced case.
+
+`tabs_profiles_window_smoke.py` loads three saved sessions through the native
+menu into one host. It checks distinct font sizes and rendering modes, isolated
+input, an active profile's custom tab binding, rejected background window
+requests, 36 switches with exact retained frames and stable handles, and a
+frozen frame across destruction/recreation of the shared GPU renderer. It runs
+in both CI variants through the shared tab regression suite. Its local record
+uses actual GDI, OpenGL and DirectX; capture instrumentation means that record
+is not a memory acceptance measurement.
