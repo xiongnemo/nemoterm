@@ -48,6 +48,27 @@ Additional actions will be registered as their features are implemented.
 The development build is not the final single-EXE deliverable. Exact MSVC
 artifact hash, CI run and final local evidence are recorded after CI succeeds.
 
+Validation is still in progress. Single-file CI runs
+[43221661143](https://github.com/xiongnemo/nemoterm/actions/runs/43221661143) and
+[43223716650](https://github.com/xiongnemo/nemoterm/actions/runs/43223716650)
+passed all 36 native checks, including the real Codex client in default and
+inline modes. These runners exercise GDI fallback for OpenGL. The corresponding
+MinGW workflow exposed fixture cleanup races, including historical parent-PID
+reuse; process creation times and the unique copied-image directory now constrain
+ownership, with four regression cases. An earlier MinGW Sixel font restoration
+failure has not reproduced locally or in those MSVC runs; the strict assertion
+and new geometry diagnostics remain in place.
+
+Local interactive validation was paused at the user's request on 2026-11-13
+(Sydney). No local windows, input/clipboard actions or GPU probes may resume
+until the user says the computer is free. Before that pause, the `317b54d`
+artifact passed startup sizing, GDI/OpenGL pixels, custom bindings, rectangle
+selection, IMM/DPI and Sixel font tests. Its full run stopped on external
+unbuttoned mouse motion in the reflow fixture; it is not a full acceptance pass.
+The earlier `1495d2c` artifact passed real Codex in both OpenGL modes, but that
+does not replace exact-final-artifact hardware validation. `dist/nemoterm.exe`
+therefore still holds the previous verified `2862f67` single executable.
+
 ## Follow-up requested during implementation
 
 DirectX is feasible through the Windows Direct2D/Direct3D APIs, without a
@@ -60,6 +81,26 @@ private WS; these are individual probe observations, not a fixed memory cost.
 This is a feasibility measurement, not a full terminal benchmark. Integration,
 fallback validation and the same pixel/client tests are still required.
 [Microsoft Direct2D architecture](https://learn.microsoft.com/en-us/windows/win32/direct2d/direct2d-overview).
+
+The pinned Microsoft source already includes `src/renderer/atlas`, and
+`src/host/exe/Host.EXE.vcxproj` references it. The single-image import table
+therefore includes Direct2D, DirectWrite, DXGI and D3D11 even while the frontend
+uses GDI. Their presence is not evidence of a DirectX frontend renderer.
+`AtlasEngine` implements Microsoft's `IRenderEngine` using `TextBuffer`,
+`TextAttribute`, `ImageSlice`, `IRenderData` and its own shaping/font pipeline.
+Reusing it directly would require a substantial adapter and new pixel/font
+acceptance; it is not a drop-in replacement for PuTTY's drawing callbacks.
+
+A smaller first integration can retain the current GDI font rasterizer and
+bounded run cache, replacing GL composition with a hardware Direct2D window
+target and a retained compatible bitmap target. Use physical pixels (96-DPI
+target units, with the existing frontend DPI/font sizing), opaque BGRA run
+bitmaps, and the same 4 MiB cache budget. Device-loss errors must release target
+resources and fall back to GDI. Cursor readback, synchronized-frame retention,
+`WM_PRINTCLIENT`, live renderer changes and hidden-tab previews need explicit
+coverage; GDI interoperation can synchronize GPU work and must be profiled.
+The standalone probe does not establish the complete renderer's memory or
+speed. See [Microsoft GDI interoperation](https://learn.microsoft.com/en-us/windows/win32/direct2d/direct2d-and-gdi-interoperation-overview).
 
 Tabs are requested with a bar on any of the four sides and terminal previews
 on hover. The current frontend has per-window terminal state but a single
