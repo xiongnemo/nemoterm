@@ -121,6 +121,7 @@ struct WinGuiSeat {
     struct _dpi_info dpi_info;
 
     int dbltime, lasttime, lastact;
+    int lastclick_x, lastclick_y;
     Mouse_Button lastbtn;
 
     bool send_raw_mouse;

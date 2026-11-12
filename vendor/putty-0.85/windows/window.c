@@ -2188,7 +2188,12 @@ static void click(WinGuiSeat *wgs, Mouse_Button b, int x, int y,
         return;
     }
 
-    if (wgs->lastbtn == b && thistime - wgs->lasttime < wgs->dbltime) {
+    /* Separate drags elsewhere in the grid are not double/triple clicks.
+     * Use the system's click rectangle as well as its time threshold. */
+    if (wgs->lastbtn == b &&
+        (DWORD)thistime - (DWORD)wgs->lasttime < (DWORD)wgs->dbltime &&
+        abs(px - wgs->lastclick_x) <= GetSystemMetrics(SM_CXDOUBLECLK) / 2 &&
+        abs(py - wgs->lastclick_y) <= GetSystemMetrics(SM_CYDOUBLECLK) / 2) {
         wgs->lastact = (wgs->lastact == MA_CLICK ? MA_2CLK :
                    wgs->lastact == MA_2CLK ? MA_3CLK :
                    wgs->lastact == MA_3CLK ? MA_CLICK : MA_NOTHING);
@@ -2200,6 +2205,8 @@ static void click(WinGuiSeat *wgs, Mouse_Button b, int x, int y,
         term_mouse_pixels(wgs->term, b, translate_button(wgs, b), wgs->lastact,
                           x, y, px, py, shift, ctrl, alt);
     wgs->lasttime = thistime;
+    wgs->lastclick_x = px;
+    wgs->lastclick_y = py;
 }
 
 /*
