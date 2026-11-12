@@ -27,7 +27,7 @@
 #include "nemo_clipboard.h"
 #include "nemo_osc52_ui.h"
 #include "nemo_font_fallback.h"
-#include "nemo_gl.h"
+#include "nemo_gpu.h"
 #include "terminal/nemo_window_size.h"
 #include "tree234.h"
 
@@ -978,8 +978,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
 
 static void wgs_cleanup(WinGuiSeat *wgs)
 {
-    nemo_gl_free(wgs->gl);
-    wgs->gl = NULL;
+    nemo_gpu_free(wgs->gpu);
+    wgs->gpu = NULL;
     nemo_osc52_window_free(wgs);
     nemo_link_free(wgs);
     /* A backend exit posts WM_QUIT without destroying the HWND. Retire it
@@ -1875,7 +1875,7 @@ static void another_font(WinGuiSeat *wgs, int fontno)
 
 static void deinit_fonts(WinGuiSeat *wgs)
 {
-    nemo_gl_clear_cache(wgs->gl);
+    nemo_gpu_clear_cache(wgs->gpu);
     nemo_font_fallback_free(&wgs->font_fallback);
     int i;
     for (i = 0; i < FONT_MAXNO; i++) {
@@ -2876,6 +2876,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             if (conf_get_int(wgs->conf, CONF_nemo_renderer) !=
                 conf_get_int(prev_conf, CONF_nemo_renderer)) {
                 term_end_synchronized_update(wgs->term);
+                wgs->gpu_failed = false;
                 nemo_renderer_configure(wgs);
             }
 
@@ -3219,7 +3220,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         wgs->ignore_clip = false;
         return 0;
       case WM_PRINTCLIENT:
-        if (wgs->gl && nemo_gl_print(wgs->gl, (HDC)wParam)) return 0;
+        if (wgs->gpu && nemo_gpu_print(wgs->gpu, (HDC)wParam)) return 0;
         break;
       case WM_PAINT: {
         PAINTSTRUCT p;
@@ -3234,13 +3235,13 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             ShowCaret(hwnd);
             return 0;
         }
-        if (wgs->gl) {
+        if (wgs->gpu) {
             if (!wgs->term->synchronized_update && nemo_renderer_begin(wgs)) {
                 term_paint(wgs->term, 0, 0, wgs->term->cols-1,
                            wgs->term->rows-1, !wgs->term->window_update_pending);
                 nemo_renderer_finish(wgs);
-            } else if (wgs->gl && !nemo_gl_present(wgs->gl)) {
-                wgs->gl_failed = true;
+            } else if (wgs->gpu && !nemo_gpu_present(wgs->gpu)) {
+                wgs->gpu_failed = true;
                 nemo_renderer_configure(wgs);
             }
             EndPaint(hwnd, &p);
@@ -4634,7 +4635,7 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
                          unsigned long attr, int lattr, truecolour tc, bool cursor)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    if (!wgs->gl_drawing) {
+    if (!wgs->gpu_drawing) {
         if (cursor) nemo_raster_cursor(tw,x,y,text,len,attr,lattr,tc);
         else nemo_raster_text(tw,x,y,text,len,attr,lattr,tc);
         return;
@@ -4664,14 +4665,14 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
         put_uint32(key,tc.bg.enabled);put_byte(key,tc.bg.r);put_byte(key,tc.bg.g);put_byte(key,tc.bg.b);
         /* Decoration phase can depend on the absolute x coordinate. */
         put_uint32(key,box.left);put_data(key,text,len*sizeof(*text));
-        if (nemo_gl_cached(wgs->gl,box,ptrlen_from_strbuf(key))) {
+        if (nemo_gpu_cached(wgs->gpu,box,ptrlen_from_strbuf(key))) {
             strbuf_free(key);return;
         }
     }
-    if (nemo_gl_begin_run(wgs->gl,box,cursor)) {
+    if (nemo_gpu_begin_run(wgs->gpu,box,cursor)) {
         if (cursor) nemo_raster_cursor(tw,x,y,text,len,attr,lattr,tc);
         else nemo_raster_text(tw,x,y,text,len,attr,lattr,tc);
-        nemo_gl_end_run(wgs->gl,box,key?ptrlen_from_strbuf(key):make_ptrlen(NULL,0));
+        nemo_gpu_end_run(wgs->gpu,box,key?ptrlen_from_strbuf(key):make_ptrlen(NULL,0));
     }
     if (key) strbuf_free(key);
 }
@@ -4696,10 +4697,10 @@ static void wintw_draw_trust_sigil(TermWin *tw, int x, int y)
     y += wgs->offset_height;
 
     RECT box = { x, y, x + wgs->font_width*2, y + wgs->font_height };
-    if (wgs->gl_drawing && !nemo_gl_begin_run(wgs->gl, box, true)) return;
+    if (wgs->gpu_drawing && !nemo_gpu_begin_run(wgs->gpu, box, true)) return;
     DrawIconEx(wgs->wintw_hdc, x, y, trust_icon,
                wgs->font_width * 2, wgs->font_height, 0, NULL, DI_NORMAL);
-    if (wgs->gl_drawing) nemo_gl_end_run(wgs->gl, box, make_ptrlen(NULL,0));
+    if (wgs->gpu_drawing) nemo_gpu_end_run(wgs->gpu, box, make_ptrlen(NULL,0));
 }
 
 /* This function gets the actual width of a character in the normal font.
@@ -5582,7 +5583,7 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     /* The retained GPU frame is already an immutable presentation while
      * synchronized output suppresses the terminal's paint callbacks. */
-    if (enabled && wgs->gl) return true;
+    if (enabled && wgs->gpu) return true;
     if (!enabled) {
         nemo_snapshot_free(wgs->sync_snapshot);
         wgs->sync_snapshot = NULL;
@@ -5613,29 +5614,30 @@ static bool wintw_set_synchronized_update(TermWin *tw, bool enabled)
 
 static void nemo_renderer_configure(WinGuiSeat *wgs)
 {
-    nemo_gl_free(wgs->gl);wgs->gl=NULL;wgs->gl_drawing=false;
-    if (conf_get_int(wgs->conf,CONF_nemo_renderer)==1 && !wgs->gl_failed) {
-        wgs->gl=nemo_gl_create(wgs->term_hwnd);
-        if (wgs->gl) logeventf(wgs->logctx,"OpenGL renderer: %s",nemo_gl_device(wgs->gl));
+    nemo_gpu_free(wgs->gpu);wgs->gpu=NULL;wgs->gpu_drawing=false;
+    int mode=conf_get_int(wgs->conf,CONF_nemo_renderer);
+    if ((mode==1 || mode==2) && !wgs->gpu_failed) {
+        wgs->gpu=nemo_gpu_create(wgs->term_hwnd,mode);
+        if (wgs->gpu) logeventf(wgs->logctx,"GPU renderer: %s",nemo_gpu_device(wgs->gpu));
     }
-    if (conf_get_int(wgs->conf,CONF_nemo_renderer)==1 && !wgs->gl)
-        logevent(wgs->logctx,"OpenGL unavailable; using GDI renderer");
-    if (conf_get_int(wgs->conf,CONF_nemo_renderer)!=1) wgs->gl_failed=false;
+    if ((mode==1 || mode==2) && !wgs->gpu)
+        logevent(wgs->logctx,"Selected GPU renderer unavailable; using GDI renderer");
+    if (!mode) wgs->gpu_failed=false;
     LONG_PTR style=GetWindowLongPtr(wgs->term_hwnd,GWL_STYLE);
     SetWindowLongPtr(wgs->term_hwnd,GWL_STYLE,
-                     wgs->gl ? style|WS_CLIPCHILDREN : style&~WS_CLIPCHILDREN);
-    SetPropW(wgs->term_hwnd,L"NemotermRenderer",(HANDLE)(UINT_PTR)(wgs->gl?2:1));
+                     wgs->gpu ? style|WS_CLIPCHILDREN : style&~WS_CLIPCHILDREN);
+    SetPropW(wgs->term_hwnd,L"NemotermRenderer",(HANDLE)(UINT_PTR)(wgs->gpu?mode+1:1));
     term_invalidate(wgs->term);
     InvalidateRect(wgs->term_hwnd,NULL,false);
 }
 static bool nemo_renderer_begin(WinGuiSeat *wgs)
 {
-    int result=nemo_gl_frame(wgs->gl,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
+    int result=nemo_gpu_frame(wgs->gpu,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
     if (!result) {
-        wgs->gl_failed=true;nemo_renderer_configure(wgs);return false;
+        wgs->gpu_failed=true;nemo_renderer_configure(wgs);return false;
     }
     if (result==2) term_invalidate(wgs->term);
-    wgs->wintw_hdc=nemo_gl_dc(wgs->gl);wgs->gl_drawing=true;
+    wgs->wintw_hdc=nemo_gpu_dc(wgs->gpu);wgs->gpu_drawing=true;
     return true;
 }
 static void nemo_renderer_finish(WinGuiSeat *wgs)
@@ -5644,10 +5646,10 @@ static void nemo_renderer_finish(WinGuiSeat *wgs)
     RECT text={wgs->offset_width,wgs->offset_height,
         wgs->offset_width+wgs->font_width*wgs->term->cols,
         wgs->offset_height+wgs->font_height*wgs->term->rows};
-    nemo_gl_borders(wgs->gl,text,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
-    bool ok=nemo_gl_present(wgs->gl);
-    wgs->wintw_hdc=NULL;wgs->gl_drawing=false;
-    if (!ok) { wgs->gl_failed=true;nemo_renderer_configure(wgs); }
+    nemo_gpu_borders(wgs->gpu,text,wgs->colours[ATTR_DEFBG>>ATTR_BGSHIFT]);
+    bool ok=nemo_gpu_present(wgs->gpu);
+    wgs->wintw_hdc=NULL;wgs->gpu_drawing=false;
+    if (!ok) { wgs->gpu_failed=true;nemo_renderer_configure(wgs); }
 }
 
 static bool wintw_setup_draw_ctx(TermWin *tw)
@@ -5655,7 +5657,7 @@ static bool wintw_setup_draw_ctx(TermWin *tw)
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(!wgs->wintw_hdc);
     if (IsIconic(wgs->term_hwnd)) return false;
-    if (wgs->gl && nemo_renderer_begin(wgs)) return true;
+    if (wgs->gpu && nemo_renderer_begin(wgs)) return true;
     wgs->wintw_hdc = make_hdc(wgs);
     return wgs->wintw_hdc != NULL;
 }
@@ -5664,7 +5666,7 @@ static void wintw_free_draw_ctx(TermWin *tw)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     assert(wgs->wintw_hdc);
-    if (wgs->gl_drawing) {
+    if (wgs->gpu_drawing) {
         nemo_renderer_finish(wgs);
         nemo_link_refresh(wgs);
         return;
@@ -5685,12 +5687,12 @@ static void nemo_paint_images(WinGuiSeat *wgs)
         return;
     uint32_t row[NEMO_SIXEL_MAX_DIMENSION];
     HDC dc = wgs->wintw_hdc;
-    int saved = wgs->gl_drawing ? 0 : SaveDC(dc);
-    if (!saved && !wgs->gl_drawing)
+    int saved = wgs->gpu_drawing ? 0 : SaveDC(dc);
+    if (!saved && !wgs->gpu_drawing)
         return;
     RECT paint_clip;
     int clip_kind;
-    if (wgs->gl_drawing) {
+    if (wgs->gpu_drawing) {
         GetClientRect(wgs->term_hwnd, &paint_clip);
         paint_clip.left = wgs->offset_width;
         paint_clip.top = wgs->offset_height;
@@ -5742,9 +5744,9 @@ static void nemo_paint_images(WinGuiSeat *wgs)
                 while (end < n && (row[end] >> 24)) end++;
                 int x0 = left + x;
                 int x1 = left + end;
-                if (x1 > x0 && wgs->gl_drawing) {
+                if (x1 > x0 && wgs->gpu_drawing) {
                     int a = max(x0, paint_clip.left), b = min(x1, paint_clip.right);
-                    if (b > a) nemo_gl_row(wgs->gl, a, y0, b-a, row + x + a-x0);
+                    if (b > a) nemo_gpu_row(wgs->gpu, a, y0, b-a, row + x + a-x0);
                 } else if (x1 > x0)
                     StretchDIBits(dc, x0, y0, x1-x0, 1,
                                   x, 0, end-x, 1, row, &bi, DIB_RGB_COLORS, SRCCOPY);
@@ -5773,7 +5775,7 @@ static void wintw_palette_set(TermWin *tw, unsigned start,
                               unsigned ncolours, const rgb *colours_in)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
-    nemo_gl_clear_cache(wgs->gl);
+    nemo_gpu_clear_cache(wgs->gpu);
     assert(start <= OSC4_NCOLOURS);
     assert(ncolours <= OSC4_NCOLOURS - start);
 

@@ -169,7 +169,7 @@ try {
     if ($LASTEXITCODE) { throw 'Shell integration settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
-    Select-Node $dialog 'OpenGL (GPU composition)' | Out-Null
+    Select-Node $dialog 'DirectX (Direct2D composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
     if ($LASTEXITCODE) { throw 'Rendering settings capture failed' }
     Select-Node $dialog 'Selection' | Out-Null
@@ -217,7 +217,7 @@ try {
     $values = Get-ItemProperty -LiteralPath $profilePath
     if ($values.NemoCopyBinding -ne 0x658 -or $values.NemoPasteBinding -ne 0x559 -or
         $values.NemoCopyPasteBinding -ne 0x35a -or $values.NemoRectangleModifiers -ne 6 -or
-        $values.NemoRenderer -ne 1) { throw 'Bindings or renderer did not save' }
+        $values.NemoRenderer -ne 2) { throw 'Bindings or renderer did not save' }
     if ($values.NemoPreviousPromptBinding -ne 0x778 -or $values.NemoNextPromptBinding -ne 0x779 -or
         $values.NemoSelectCommandBinding -ne 0x77a -or $values.NemoSelectOutputBinding -ne 0x77b) {
         throw 'Shell integration bindings did not save'
@@ -266,7 +266,7 @@ try {
     Binding-Controls $dialog $customBindings | Out-Null
     Binding-Controls $dialog $customShellBindings 'Commands' | Out-Null
     Select-Node $dialog 'Rendering' | Out-Null
-    if (!(Find-Name $dialog 'OpenGL (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
+    if (!(Find-Name $dialog 'DirectX (Direct2D composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
     Invoke-Button $dialog 'Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
@@ -278,7 +278,7 @@ try {
     $termHandle=Wait-Value { $app.Refresh(); if ($app.MainWindowHandle -and [ShellSettingsNative]::GetPropW($app.MainWindowHandle,'NemotermRenderer').ToInt32()) { $app.MainWindowHandle } }
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
     $rendererChanges=@()
-    foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','GDI (low memory)')) {
+    foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
         $dialog=Dialog $app
         $node=Find-Name $dialog 'Window'
@@ -288,14 +288,16 @@ try {
         $dialogHandle=[IntPtr]$dialog.Current.NativeWindowHandle
         Invoke-Button $dialog 'Apply'
         Wait-Value { ![ShellSettingsNative]::IsWindow($dialogHandle) } | Out-Null
-        $expectedRenderer=if ($mode -eq 'GDI (low memory)') {1} else {$initialRenderer}
-        $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -eq $expectedRenderer) { $value } }
+        $allowed=if ($mode -eq 'GDI (low memory)') {@(1)} elseif ($mode -eq 'OpenGL (GPU composition)') {@(1,2)} else {@(1,3)}
+        if ($mode -eq 'OpenGL (GPU composition)' -and $env:NEMOTERM_REQUIRE_OPENGL -eq '1') {$allowed=@(2)}
+        if ($mode -eq 'DirectX (Direct2D composition)' -and $env:NEMOTERM_REQUIRE_DIRECTX -eq '1') {$allowed=@(3)}
+        $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
         if ($mode -eq 'GDI (low memory)' -and $active -ne 1) { throw 'Live GDI switch failed' }
         $rendererChanges += @{requested=$mode;active=$active}
     }
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
-        saved_shell_bindings=$customShellBindings;
+        saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;

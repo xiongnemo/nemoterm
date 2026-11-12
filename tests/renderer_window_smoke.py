@@ -1,20 +1,22 @@
-"""Owned GDI/OpenGL windows: pixel parity, retained repaint, resize and sync.
+"""Owned GDI/OpenGL/DirectX windows: pixel parity, retained repaint, resize and sync.
 
 Hardware is optional on CI: absence must take the working GDI fallback path.
 Use NEMOTERM_REQUIRE_OPENGL=1 for the hardware acceptance run.
 """
 from native_test_utils import *
-from gl_capture import OwnedGLCapture
+from gpu_capture import OwnedGPUCapture
 import uuid
 import winreg
+import atexit
 
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
 font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
-evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,modes=[])
+evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,modes=[],completed=False)
+atexit.register(lambda:(root/'research/renderer-observed.json').write_text(json.dumps(evidence,indent=2)))
 references={}
 with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
-    for requested in (0,1):
+    for requested in (0,1,2):
         profile='renderer-test-'+uuid.uuid4().hex
         path='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:
@@ -28,11 +30,16 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
         try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
             active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
-            assert active in (1,2),(requested,active)
+            assert active in (1,2,3),(requested,active)
             if requested==0:assert active==1
-            if requested and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2,'OpenGL fell back'
-            mode=dict(requested=requested,active='OpenGL' if active==2 else 'GDI',checks=[])
-            if active==2:gl_capture=OwnedGLCapture(process.pid,hwnd)
+            if requested==1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2,'OpenGL fell back'
+            if requested==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3,'DirectX fell back'
+            mode=dict(requested=requested,active={1:'GDI',2:'OpenGL',3:'DirectX'}[active],checks=[])
+            evidence['modes'].append(mode)
+            handle=k.OpenProcess(0x410,False,process.pid)
+            try:mode['memory_before_instrumentation']=memory_sample(handle)
+            finally:k.CloseHandle(handle)
+            if active in (2,3):gl_capture=OwnedGPUCapture(process.pid,hwnd)
             mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow'
             mode['memory_instrumented']=bool(gl_capture)
             def captured(name=None):
@@ -91,12 +98,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             handle=k.OpenProcess(0x410,False,process.pid)
             try:mode['memory']=memory_sample(handle)
             finally:k.CloseHandle(handle)
-            evidence['modes'].append(mode)
         finally:
             if gl_capture:gl_capture.close()
             write_snapshot(control,dict(stop=True))
             try:process.wait(timeout=8)
             except subprocess.TimeoutExpired:process.terminate();process.wait(timeout=5)
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,path)
-(root/'research/renderer-observed.json').write_text(json.dumps(evidence,indent=2))
-print('GDI/OpenGL pixel parity, text, Sixel, resize, expose and synchronized update passed:',[(v['active'],v['memory']) for v in evidence['modes']])
+evidence['completed']=True
+print('GDI/OpenGL/DirectX pixel parity, text, Sixel, resize, expose and synchronized update passed:',[(v['active'],v['memory']) for v in evidence['modes']])

@@ -2392,11 +2392,12 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_radiobuttons(s, "", NO_SHORTCUT, 1, HELPCTX(no_help),
                      conf_radiobutton_handler, I(CONF_nemo_renderer),
                      "GDI (low memory)", NO_SHORTCUT, I(0),
-                     "OpenGL (GPU composition)", NO_SHORTCUT, I(1));
-    ctrl_text(s, "OpenGL caches text textures and composes text and images on "
-              "the GPU. It uses the installed graphics driver and can use "
-              "more memory. GDI is used if OpenGL is unavailable.", HELPCTX(no_help));
-    ctrl_text(s, "Changes apply to this window. After using OpenGL, restart "
+                     "OpenGL (GPU composition)", NO_SHORTCUT, I(1),
+                     "DirectX (Direct2D composition)", NO_SHORTCUT, I(2));
+    ctrl_text(s, "GPU modes cache text textures and compose text and images on "
+              "the GPU. They use the installed graphics driver and can use "
+              "more memory. GDI is used if the selected GPU mode is unavailable.", HELPCTX(no_help));
+    ctrl_text(s, "Changes apply to this window. After using a GPU mode, restart "
               "the window to fully release graphics driver memory.", HELPCTX(no_help));
 
     /*

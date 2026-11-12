@@ -7,12 +7,12 @@ from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, wait_for, read_snapshot, write_snapshot, wait_snapshot,
     find_window, memory_sample, capture)
 from owned_job import OwnedJob
-from gl_capture import OwnedGLCapture
+from gpu_capture import OwnedGPUCapture
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--font', default=os.environ.get('NEMOTERM_TEST_FONT',
     'Consolas' if os.environ.get('CI') == 'true' else 'SarasaTermSC Nerd Font Light'))
-parser.add_argument('--renderer', type=int, choices=(0,1))
+parser.add_argument('--renderer', type=int, choices=(0,1,2))
 parser.add_argument('--observe', action='store_true')
 args = parser.parse_args()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
@@ -40,7 +40,7 @@ evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     for p in (exe.parent/'OpenConsole.exe', exe.parent/'conpty.dll') if p.exists()})
 
 try:
-    for renderer in ((args.renderer,) if args.renderer is not None else (0, 1)):
+    for renderer in ((args.renderer,) if args.renderer is not None else (0, 1, 2)):
         profile = 'geometry-'+uuid.uuid4().hex
         keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         mode = dict(requested_renderer=renderer, checks=[])
@@ -64,13 +64,15 @@ try:
                     hwnd = wait_for(lambda: find_window(process.pid))
                     wait_for(lambda: read_snapshot(report))
                     mode['active_renderer'] = int(u.GetPropW(hwnd, 'NemotermRenderer') or 0)
-                    assert mode['active_renderer'] in (1, 2)
+                    assert mode['active_renderer'] in (1, 2, 3)
                     if renderer == 0: assert mode['active_renderer'] == 1
-                    if renderer and os.environ.get('NEMOTERM_REQUIRE_OPENGL') == '1':
+                    if renderer==1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL') == '1':
                         assert mode['active_renderer'] == 2, 'OpenGL fell back'
+                    if renderer==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX') == '1':
+                        assert mode['active_renderer'] == 3, 'DirectX fell back'
                     mode['memory_before_instrumentation'] = memory_sample(handle)
-                    if mode['active_renderer'] == 2:
-                        gl_capture = OwnedGLCapture(process.pid, hwnd)
+                    if mode['active_renderer'] in (2, 3):
+                        gl_capture = OwnedGPUCapture(process.pid, hwnd)
                     mode['capture_method'] = 'owned-process-retained-frame' if gl_capture else 'PrintWindow'
                     mode['memory_instrumented'] = bool(gl_capture or args.observe)
                     if args.observe:

@@ -1,14 +1,14 @@
 """Application resize requests through real ConPTY, with Win32 size evidence."""
 from native_test_utils import *
 from owned_job import OwnedJob
-from gl_capture import OwnedGLCapture
+from gpu_capture import OwnedGPUCapture
 import argparse
 import re
 import uuid
 import winreg
 
 parser=argparse.ArgumentParser()
-parser.add_argument('--renderer',type=int,choices=(0,1))
+parser.add_argument('--renderer',type=int,choices=(0,1,2))
 args=parser.parse_args()
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
@@ -28,7 +28,7 @@ queries=CSI+'14t'+CSI+'14;2t'+CSI+'16t'+CSI+'18t'+CSI+'5n'
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     font=font,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()})
-profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1))]
+profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1,2))]
 profiles += [('remote-denied',0,True,0),('locked-window',1,False,0),('font-resize',2,False,0)]
 
 try:
@@ -52,13 +52,15 @@ try:
                 try:
                     hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
                     active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
-                    assert active in (1,2)
+                    assert active in (1,2,3)
                     if not renderer:assert active==1
-                    if renderer and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2
+                    if renderer==1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2
+                    if renderer==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3
                     mode['active_renderer']=active
                     mode['memory_before_instrumentation']=memory_sample(handle)
-                    if active==2:gl=OwnedGLCapture(process.pid,hwnd)
-                    mode['memory_instrumented']=bool(gl)
+                    # Sample all resize phases before loading capture tooling.
+                    # Only the final retained-pixel assertion needs injection.
+                    mode['memory_instrumented']=False
                     def rectangles():
                         outer,client=w.RECT(),w.RECT()
                         assert u.GetWindowRect(hwnd,c.byref(outer));assert u.GetClientRect(hwnd,c.byref(client))
@@ -174,11 +176,13 @@ try:
                         phase('minimized-request',CSI+'8;25;81t'+drawing,grid=[81,25],iconic=True)
                         u.ShowWindow(hwnd,9);wait_for(lambda:not u.IsIconic(hwnd))
                         phase('restored-request',client=[2+81*cw,2+25*ch],grid=[81,25])
+                        if active in (2,3):gl=OwnedGPUCapture(process.pid,hwnd)
+                        mode['capture_instrumented']=bool(gl)
                         def captured():
                             return gl.capture(return_pixels=True) if gl else capture(hwnd,return_pixels=True)
                         colour=bytes((19,193,101))
                         wait_for(lambda:captured().count(colour)>=2*cw*ch)
-                        if gl:gl.capture('window-resize-opengl.png')
+                        if gl:gl.capture(f'window-resize-gpu-{active}.png')
                         else:capture(hwnd,'window-resize-gdi.png')
                         mode['minimized_output_preserved']=True
                     if active==1:
