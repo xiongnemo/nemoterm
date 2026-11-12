@@ -56,8 +56,9 @@
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
 | bracketed paste 2004：`CSI 200~` / `CSI 201~` | 已证（有限范围） | `test_bracketed_paste` 验证UTF-8内容、开关和空粘贴；仍须测大段、多行、取消、内嵌结束符、系统剪贴板及真实ConPTY。 |
 | synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 已证（有限范围） | 解析/输入/查询继续，冻结的是呈现。`test_sync`用可控时钟证明重复SET不续期、单RESET结束、旧timer隔离和1秒超时；`sync_window_smoke.py`证明文本/Sixel/颜色期间像素不变、结束/超时更新、输入继续与resize释放。冻结按32行压缩，模块总预算8MiB；资源不足拒绝本次冻结并记录事件，不保留部分快照。 |
-| DA/DA2、DSR/CPR：`CSI c`、`CSI > c`、`CSI 5n/6n` | 源码已见 | T已有回复，DA2沿用`>0;136;0c`。需核对实际能力再宣告，验证origin/边距和回包顺序；不能虚报Sixel或未实现功能。 |
-| DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y` | 已证（有限范围） | `test_modes`验证标准4/12/20/34、DEC基础模式、备用屏别名、鼠标各组、Sixel模式、2004及2026，未知0；配置禁用的相关模式返回4。与xterm一致只处理首Ps。额外DA3/XTVERSION等身份查询仍未实现，不能由此称所有查询已支持。 |
+| DA/DA2/DA3/XTVERSION：`CSI c`、`CSI > c`、`CSI = c`、`CSI > q` | 集成中，核心测试已过 | DA3 不再触发默认模式的 SCO 隐藏光标，显式 SCO 模式保留旧行为；首参数零／省略才回复，额外普通参数忽略。XTVERSION 明确标识 Nemoterm(PuTTY 0.85)，DA2 保留旧兼容值。独立 XTerm、原生整流回复和像素验证待完成，见[身份查询记录](../research/identity-queries.md)。 |
+| DSR/CPR：`CSI 5n/6n` | 源码已见，局部已证 | 状态／光标回复已有专项测试；完整 origin/边距组合与回包顺序仍须逐项证明。 |
+| DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y` | 已证（有限范围） | `test_modes`验证标准4/12/20/34、DEC基础模式、备用屏别名、鼠标各组、Sixel模式、2004及2026，未知0；配置禁用的相关模式返回4。与xterm一致只处理首Ps。身份查询见上一行；不能由有限模式报告称所有查询已支持。 |
 | 窗口操作 `CSI Ps ... t`、像素/字符尺寸、标题栈22/23 | 部分源码已见 | T含窗口大小、位置、最小化等部分操作；每个子参数、权限设置、DPI和查询准确性都待核实，尤其标题栈。 |
 
 ## OSC、DCS、图像与shell语义
