@@ -328,15 +328,19 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             wait_for(current)
             rect = w.RECT(); u.GetClientRect(hwnd, c.byref(rect))
             cw, ch = (rect.right-2)//40, (rect.bottom-2)//12
-            # TrackMouseEvent checks the real cursor position. Move only our
-            # window under that existing position; never move/inject the cursor.
-            outer = w.RECT()
-            align_pointer(hwnd, 1+2*cw+cw//2, 1+ch+ch//2)
+            # Keep the baseline away from the existing pointer. A synthetic
+            # WM_MOUSELEAVE alone cannot prevent a real hover refresh, and its
+            # underline removal can still be waiting for deferred painting.
+            cursor, outer = w.POINT(), w.RECT()
+            u.GetCursorPos(c.byref(cursor)); u.GetWindowRect(hwnd,c.byref(outer))
+            width,height=outer.right-outer.left,outer.bottom-outer.top
+            assert u.MoveWindow(hwnd,cursor.x-width-50,cursor.y-height-50,width,height,True)
             uri = scheme + '://host/path?x=one%20two&y=%22quoted%22#part'
             other = scheme + '://host/other'
             scene = '\x1b[0m\x1b[?25l\x1b[2J\x1b[2;2H' + link(uri, 'LINK')
             scene += '\x1b[2;11H' + link(uri, 'MORE') + '\x1b[2;21H' + link(other, 'ELSE')
-            phase('labels', scene)
+            phase('plain-labels','\x1b[0m\x1b[?25l\x1b[2J\x1b[2;2HLINK'
+                  '\x1b[2;11HMORE\x1b[2;21HELSE')
             def painted_baseline():
                 u.SendMessageW(hwnd, 0x2a3, 0, 0)  # own-window WM_MOUSELEAVE
                 pixels = capture(hwnd, return_pixels=True)
@@ -350,6 +354,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                         return None
                 return pixels
             baseline = wait_for(painted_baseline)
+            phase('labels', scene)
+            # Adding OSC 8 metadata while not hovered must leave all pixels
+            # unchanged. Only then exercise hover and compare the underline.
+            wait_for(lambda:capture(hwnd,return_pixels=True)==baseline)
             capture(hwnd, 'hyperlink-baseline.png')
             tip, text = hover(uri)
             evidence['hover_text'] = text

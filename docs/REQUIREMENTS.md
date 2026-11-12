@@ -652,6 +652,9 @@ It deletes its temporary profile and captures only the owned settings window.
 The hyperlink fixture now waits until all three test labels have painted
 before taking its baseline. A parser query reply can precede deferred drawing;
 the original one-row, exact-group underline pixel assertion remains unchanged.
+It first renders plain labels away from the real pointer, then adds OSC 8
+metadata and waits for identical pixels before triggering hover. This prevents
+a synthetic mouse-leave event from capturing an already-underlined baseline.
 
 CI runs 19 core and 13 native suites, with extra font/configuration runs for
 both keyboard protocols (15 native JSON files), plus five terminal ASan/UBSan
@@ -669,9 +672,10 @@ executable hash (the older mouse fixture does not record a hash).
 The default modifyOtherKeys run peaked at private WS 4,333,568 bytes
 (4.334 MB / 4.133 MiB), total WS 25,587,712 bytes (25.588 MB / 24.402 MiB),
 and private commit 5,918,720 bytes (5.919 MB / 5.645 MiB). The mixed
-6,000-link/800-Sixel fixture peaked at private WS 8,863,744 bytes
-(8.864 MB / 8.453 MiB), total WS 33,546,240 bytes (33.546 MB / 31.992 MiB),
-and private commit 10,100,736 bytes (10.101 MB / 9.633 MiB).
+6,000-link/800-Sixel fixture's final baseline-fix run peaked at private WS
+10,067,968 bytes (10.068 MB / 9.602 MiB), total WS 38,830,080 bytes
+(38.830 MB / 37.031 MiB), and private commit 11,833,344 bytes
+(11.833 MB / 11.285 MiB).
 These are continuously sampled terminal-process peaks, without trimming;
 ConPTY and child processes are separate. They do not establish the same
 bounds for every future workload.
