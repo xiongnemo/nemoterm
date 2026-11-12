@@ -172,3 +172,23 @@ now waits for a valid snapshot, retaining the input-isolation assertion. The
 same CI binary (`60f32c8bb844ba11e0493a81417cb6b7666e86c7191861fa2fb89d0300b01c1c`)
 passes all six mixed-profile checks locally with this correction. This is a
 test transport correction, not a change to terminal input handling.
+
+## 0044bd0 CI checkpoint
+
+Core run 43311619116 passed both Windows tests/build and ASan/UBSan, including
+the complete native tab regression suite. Single-EXE run 43311619227 stopped
+earlier, at the existing hyperlink activation test, before reaching tab or
+real-Codex checks. Its binary hash is
+`5a0c8a9ef6e88465df06baaf4f78cf028cfd305de113d1da33a81f5e95ada8c8`.
+
+The exact binary passed 48 local consecutive Ctrl-click activations across
+mouse modes 1000/1001/1002/1003. The CI failure has not been reproduced locally.
+The URI fixture writes its mailbox before Python exits; the activation helper
+now waits for the owned handler to exit before starting another click, and
+retains phase, capture, tooltip, child input and a screenshot on an activation
+failure. No retry clicks or omitted launch/input assertions are used. Another
+48 local activations passed using that exact helper, including the absence of
+unwanted application mouse reports; see `hyperlink-activation-observed.json`.
+This is a fixture synchronization/diagnostics change, not a proven fix for a
+terminal defect. Local clipboard tests remain unavailable, and the complete
+single-EXE suite still requires a passing CI run.
