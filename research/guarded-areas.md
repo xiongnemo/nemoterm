@@ -1,5 +1,25 @@
 # ISO guarded areas: source and build checkpoint
 
+## Current remote verification (2026-11-14 Sydney)
+
+All 63 authored replies match the independently built XTerm(412) in
+[reference run 43454910323](https://github.com/xiongnemo/nemoterm/actions/runs/43454910323);
+the [manifest](protocol-reference-validation.json) retains the raw reference
+bytes. The later [single-image run at ea042bc](https://github.com/xiongnemo/nemoterm/actions/runs/43458313477)
+passes the complete guarded-area fixture, including protected text/Sixel pixel
+comparisons, synchronized erasure, resets and 1,000 state transitions. Its
+[raw evidence](attribute-reset-evidence/guarded-area-observed.json.gz) is bound
+to the EXE by the [single-image manifest](attribute-reset-validation.json).
+The owned process group exits naturally. This is remote CI evidence; local
+runtime tests remain paused and the accepted local EXE is unchanged.
+
+The MinGW frontend with the upstream sidecar host still fails `pending-wrap-K`
+after 58 completed cases: its identity barrier arrives between the two expected
+cursor replies. The [retained failure and diagnostic plan](ci-fixture-recovery.md)
+remain separate from the successful single-image result. Full compatibility
+across both host paths is not established. The sections below preserve the
+original source/build checkpoint and its then-unrun tests.
+
 The development source adds SPA (`ESC V`) and EPA (`ESC W`). SPA selects the ISO
 protection family and marks subsequently written cells protected. EPA ends
 protected writes without removing protection from existing cells or changing

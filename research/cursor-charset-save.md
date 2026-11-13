@@ -1,5 +1,21 @@
 # Cursor charset save/restore: source and build checkpoint
 
+## Current remote verification (2026-11-14 Sydney)
+
+The 44 authored cases now match independent XTerm(412) replies in
+[reference run 43454910323](https://github.com/xiongnemo/nemoterm/actions/runs/43454910323).
+The [reference manifest](protocol-reference-validation.json) retains the raw
+bytes. Core/sanitizer checks pass, and the
+[ea042bc single-image run](https://github.com/xiongnemo/nemoterm/actions/runs/43458313477)
+passes the presentation-state fixture with these 44 cases plus its existing
+142 captures and ten other direct cases. The restored four-bank pixel scene
+matches its explicit baseline; replay, resize, read-only checks and protected
+text/Sixel checks also pass. The [raw native record](attribute-reset-evidence/presentation-state-observed.json.gz)
+is linked to its EXE by the [manifest](attribute-reset-validation.json), with
+natural process-group cleanup. This does not extend the implemented charset
+repertoire or prove full ISO 2022 conformance. Local runtime testing remains
+paused; the sections below preserve the initial compile-only checkpoint.
+
 The inherited cursor cache saved only the designation of the currently selected
 GL bank. For example, an application could designate line drawing in G2, save
 the cursor while G0 was selected, change G2 to ASCII, and restore the cursor;

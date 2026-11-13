@@ -1,0 +1,117 @@
+{
+  "source_commit": "d2aa14aaf1b70323cc742d31995f5024722ddbc9",
+  "core_run": 43461348513,
+  "artifact": 14057042437,
+  "core_result": "failure: guarded-area response ordering after colour tests passed",
+  "renderers": {
+    "reset-palette-directx-observed.json": {
+      "actual": 3,
+      "pixel_checks": 23,
+      "sha256": "5784c4c7e255d0f6aa44ed6137b82271f1d564f6bb466ce443f2ab88b3aefa98",
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "reset-palette-gdi-observed.json": {
+      "actual": 1,
+      "pixel_checks": 23,
+      "sha256": "5784c4c7e255d0f6aa44ed6137b82271f1d564f6bb466ce443f2ab88b3aefa98",
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "reset-palette-opengl-observed.json": {
+      "actual": 1,
+      "pixel_checks": 23,
+      "sha256": "5784c4c7e255d0f6aa44ed6137b82271f1d564f6bb466ce443f2ab88b3aefa98",
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "research/reset-palette-evidence/reset-palette-directx-observed.json.gz",
+      "original_sha256": "90c1abedf8a982b8b3d939f5a3b14094b8e9808e813cce78f3dc23bd03aac8c4",
+      "gzip_sha256": "14355979edf4cd073e899336188c3d6e3e54c4e8aae43f3f442f5643130f25fb"
+    },
+    {
+      "path": "research/reset-palette-evidence/reset-palette-gdi-observed.json.gz",
+      "original_sha256": "5b11adaae7d17e4e0155c19762ba92559f348b2fd28b431beaab3097c76631da",
+      "gzip_sha256": "5c984ccb50039139a7b92bc275de2671fe56d96559a756341ac75f8823f01a6c"
+    },
+    {
+      "path": "research/reset-palette-evidence/reset-palette-opengl-observed.json.gz",
+      "original_sha256": "6fa8c7444b8c40fac4b6f426a029e8ef4ca79f02a8d2b05bc163d57d3eceea5d",
+      "gzip_sha256": "3f923d9eb6015e5afed69aa7aea8ffc3f9ccaf67d66b5e87b92f03ec1ed9940e"
+    }
+  ],
+  "single_run": 43461348325,
+  "single_result": "pending",
+  "sidecar_trace": {
+    "run": 43463148682,
+    "artifact": 14057660498,
+    "commit": "1820cbf32cc41ae9fc9ed002f72da931af4ef809",
+    "result": "failure: reply ordering; observer detach also timed out",
+    "records": 379,
+    "io_records": 318,
+    "truncated": false,
+    "cleanup_verified": false,
+    "files": [
+      {
+        "path": "research/reset-palette-evidence/sidecar-1820cbf-guarded-area-wire.jsonl.gz",
+        "original_sha256": "c40989cec73253d6450c33504650b85c24a9f16e70e0959e29e65bf532ad1ba9",
+        "gzip_sha256": "4d5aa498798cab8de83ef31756cf1b3cffc23335385ba3453cd2bd408b60a41d"
+      },
+      {
+        "path": "research/reset-palette-evidence/sidecar-1820cbf-guarded-area-observed.json.gz",
+        "original_sha256": "ab17d2645ae3102df38d86513cc8b131299f001fd959d8eb6f098fdddd85d979",
+        "gzip_sha256": "27c3eb511c5bc186d45a387760859100653e7b2d1a564d1b9ba0ee6e9050cca9"
+      },
+      {
+        "path": "research/reset-palette-evidence/sidecar-1820cbf-guarded-area-wire.log.gz",
+        "original_sha256": "21dd4635d31415e4dd1f4dcdfd7819a89ebf33ef459f34a7953e2e370d21a2a0",
+        "gzip_sha256": "933ea1c681d1344f309443c61a2732ad7f4532aec37d8de179efffee0f31cbae"
+      },
+      {
+        "path": "research/reset-palette-evidence/sidecar-1820cbf-CONPTY-RUNTIME.json.gz",
+        "original_sha256": "d5aba82742aca53ac40b5122c4f3504bf35cce56df8962db3a7424c3311c70a2",
+        "gzip_sha256": "452713680064a8d73c169b28272d28cac1eb2df5cc34a1db844c6fffc62ba055"
+      }
+    ]
+  },
+  "local_runtime_tests_executed": false
+}

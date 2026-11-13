@@ -121,6 +121,36 @@ Neither the failed wire assertion nor its deadline was changed. A trace across
 the frontend/host pipe is still needed to distinguish response interception
 from host output scheduling; the application snapshot alone cannot do that.
 
+### Observed pipe boundary (2026-11-14 Sydney)
+
+[Diagnostic run 43463148682](https://github.com/xiongnemo/nemoterm/actions/runs/43463148682)
+at `1820cbf` observes the MinGW frontend's synchronous pipe calls with Frida.
+Only callers whose return address lies inside the fixture-owned frontend image
+are recorded. The [raw trace and manifest](reset-palette-validation.json)
+contain 379 records, including 318 I/O completions; no truncation was reported.
+Reads already pending at attachment are outside the capture's coverage.
+
+For `pending-wrap-K`, the frontend reads the complete application sequence
+(two CPR queries followed by the identity query), then a separate host-generated
+`CSI 6n`. It writes three CPR replies: the first before a second write containing
+the second CPR, identity marker, then third CPR. The application's final
+snapshot contains only CPR, identity marker, CPR. Thus the frontend preserves
+the query order at its pipe boundary; one of the two application replies is
+removed before application delivery and the host's later reply reaches the
+application. This matches the source's `CaptureNextCursorPositionReport`
+boolean consuming the first ordinary CPR while an internal query is pending.
+Because the three coordinate strings are identical, this capture alone does
+not identify the removed reply by its content or trace the internal dispatch.
+
+The same observation also exposes a collector teardown failure: detaching while
+an intercepted synchronous `ReadFile` remains blocked exceeds 15 seconds.
+It does not turn the protocol failure into a passing run. The follow-up keeps
+the observer through natural process exit on success; on failure it drains
+only the existing private test job before detachment, retaining the failed
+snapshot first. A controlled A/B job will keep the frontend and conpty.dll
+fixed while substituting the verified source-built image as the headless host.
+This diagnostic substitution is not a new distribution package.
+
 DirectX allocation ownership, historical close stalls, physical IME/multi-monitor
 behaviour, the requested local Sarasa workload and the remaining protocol ledger
 are still open. This checkpoint does not complete the terminal goal.

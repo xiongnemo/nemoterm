@@ -54,7 +54,7 @@ def exercise(hwnd, phase, current):
 
 
 run('guarded-area', (), extra_cases=CASES, exercise=exercise,
-    source_reference='Authored specification/source expectations; independent XTerm capture pending',
+    source_reference='Authored cases independently matched XTerm(412); research/protocol-reference-validation.json',
     barrier=(CSI+'>q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'),
     profile=dict(NemoRenderer=0, NemoAllowChecksum=1, MouseAutocopy=0, WarnOnClose=0),
     font=os.environ.get('NEMOTERM_TEST_FONT',

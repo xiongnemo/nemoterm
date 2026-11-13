@@ -82,12 +82,12 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                 phase('visible-scene', scene, '')
                 time.sleep(.2)
                 capture(hwnd, name+'-window.png')
-            if wire_trace:
-                evidence['wire_observer'] = wire_trace.close()
-                wire_trace = None
             write_snapshot(control, dict(stop=True))
             process.wait(timeout=10)
             assert process.returncode == 0, process.returncode
+            if wire_trace:
+                evidence['wire_observer'] = wire_trace.close()
+                wire_trace = None
             evidence['cleanup'] = job.finish()
             evidence['completed'] = True
             print(f'Native {name}: {len(cases)} XTerm and {len(extra_cases)} direct cases passed')
@@ -95,6 +95,12 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             evidence['last_snapshot'] = read_snapshot(report)
             try:
                 if wire_trace:
+                    # This observer hooks blocking ReadFile calls. Detaching a
+                    # live blocked invocation can stall Frida script teardown.
+                    # On failure drain this private job first (the same cleanup
+                    # the context manager would perform), preserving the failed
+                    # snapshot above. A successful run requires natural exit.
+                    evidence['cleanup'] = job.finish()
                     evidence['wire_observer'] = wire_trace.close()
             finally:
                 (root/'research'/f'{name}-observed.json').write_text(json.dumps(evidence, indent=2))

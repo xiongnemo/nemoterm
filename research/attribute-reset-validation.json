@@ -165,6 +165,18 @@
       "original_bytes": 2806,
       "original_sha256": "db3a55935e4164a0b8f66e5fdd5cfcaeadecaf043c01c87cab3dd8b10f19fd89",
       "gzip_sha256": "15513d0389a7ad983c382e2f022269caababb6805a621b8cda6751e53cd9a5c0"
+    },
+    {
+      "path": "research/attribute-reset-evidence/guarded-area-observed.json.gz",
+      "original_bytes": 22533,
+      "original_sha256": "14ce7805412966577e69b7b50c1083e3e2134333dda5eed4764e1ef28b4a4c13",
+      "gzip_sha256": "efd15ed3430ea54b8912d13e305bd06db48522cd71d5081e1b1246db15bde92c"
+    },
+    {
+      "path": "research/attribute-reset-evidence/presentation-state-observed.json.gz",
+      "original_bytes": 43028,
+      "original_sha256": "e495d58f43c73b46d580a9fa044f2e2d490afa787bd8c92bab3cc693cf527c5c",
+      "gzip_sha256": "d8ae7b83da26a8e37430161d19312776e58f53951e1d8ef6d527db22488ec723"
     }
   ],
   "uninstrumented_frontend_memory": {

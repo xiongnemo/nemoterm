@@ -24,6 +24,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   xterm-reference:
@@ -77,7 +78,7 @@ jobs:
           path: build/protocol-reference/
           if-no-files-found: error
 
-  sidecar-wire:
+  sidecar-build:
     if: github.event_name == 'workflow_dispatch' && inputs.family == 'sidecar-wire'
     runs-on: windows-2025
     timeout-minutes: 12
@@ -101,12 +102,53 @@ jobs:
           cmake --build build --target pterm --parallel 4
           mkdir -p dist
           cp build/nemoterm.exe dist/
-      - name: Prepare the pinned sidecar host and observer
+      - name: Prepare the pinned sidecar host
+        shell: pwsh
+        run: ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sidecar-diagnostic-runtime-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
+
+  sidecar-wire:
+    needs: sidecar-build
+    runs-on: windows-2025
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [upstream, source]
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Fetch the identical frontend and runtime for both observations
         shell: pwsh
         run: |
-          ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+          gh run download "$env:GITHUB_RUN_ID" --repo "$env:GITHUB_REPOSITORY" --name "sidecar-diagnostic-runtime-$env:GITHUB_SHA" --dir dist
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Substitute the verified source-built console host for the A/B comparison
+        if: matrix.host == 'source'
+        shell: pwsh
+        run: |
+          gh run download 43458313477 --repo "$env:GITHUB_REPOSITORY" --name nemoterm-single-exe-x64-ea042bc34b43c10c91b126240a48fafb11bfd6f5 --dir build/source-host
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $sourceHost = 'build/source-host/nemoterm.exe'
+          $sha = (Get-FileHash -LiteralPath $sourceHost -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sha -ne '470491a27c2899396482c4224293382fee039b73d20c8366e4d2bc7222e5af0e') { throw 'Source host hash mismatch' }
+          Copy-Item -LiteralPath $sourceHost -Destination dist/OpenConsole.exe
+          [ordered]@{
+            SourceRun = 43458313477
+            SourceArtifact = 14057575850
+            SourceCommit = 'ea042bc34b43c10c91b126240a48fafb11bfd6f5'
+            SHA256 = $sha
+            Mode = 'The combined image handles --headless as OpenConsole; its GUI is unused.'
+            Scope = 'Diagnostic host replacement only; conpty.dll and the MinGW frontend are unchanged.'
+          } | ConvertTo-Json | Set-Content dist/SOURCE-HOST-OVERRIDE.json -Encoding utf8
       - name: Trace strict guarded-area replies without changing assertions
         timeout-minutes: 3
         shell: pwsh
@@ -119,10 +161,11 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: sidecar-wire-${{ github.sha }}
+          name: sidecar-wire-${{ matrix.host }}-${{ github.sha }}
           path: |
             research/guarded-area-wire.jsonl
             research/guarded-area-observed.json
             guarded-area-wire.log
             dist/CONPTY-RUNTIME.json
+            dist/SOURCE-HOST-OVERRIDE.json
           if-no-files-found: error

@@ -1,5 +1,34 @@
 # Nemoterm requirements and evidence ledger
 
+## Current development checkpoint (2026-11-14 Sydney)
+
+User-approved memory acceptance is now strict **20,000,000 private-working-set
+bytes for GDI** and inclusive **25,000,000 for DirectX**, with the existing optional
+OpenGL exception. Private commitment and roughly 50 MB total WS remain separate
+measurements. Earlier failures keep their original thresholds and results.
+
+Development source `ea042bc` passes all 85 single-image groups, including
+attribute-colour reset/settings, cursor character sets, ISO guarded areas,
+real Codex default/inline and tab variants, and uninjected two-tab workloads.
+Its frontend peaks are 11,206,656 private / 40,538,112 total bytes for GDI and
+21,819,392 private / 60,420,096 total bytes for DirectX. Both private-WS gates
+pass; DirectX total WS remains above the approximate target. The
+[exact artifact and retained results](../research/attribute-reset-validation.json)
+also identify natural process cleanup. This is a development snapshot, not a
+replacement of the accepted local executable or proof of all-load memory bounds.
+
+The separate MinGW workflow still fails guarded-area cursor-reply ordering with
+the upstream sidecar host. The [following colour-reset patch](../research/reset-palette.md)
+has passed core sanitizer, MSVC renderer jobs and all 25 new native colour
+replies plus 23 pixel checkpoints under actual GDI/DirectX. Requested OpenGL
+falls back to GDI; single-image completion remains pending. Independent XTerm
+captures now verify the recorded identity, guard,
+selection and cursor-charset families, while two attribute-colour divergences
+remain explicit. Full protocol coverage, physical IME/multi-monitor behaviour,
+the final local Sarasa workload and long-lived real-agent acceptance remain open.
+Local runtime testing is still paused. Older dated sections below are historical
+checkpoints, superseded only within the verification scopes stated here.
+
 ## Public CI recovery (2026-11-13; local runtime testing still paused)
 
 [Recovery evidence](../research/ci-public-recovery.md) supersedes the earlier

@@ -52,9 +52,14 @@ Source `d2aa14aaf1b70323cc742d31995f5024722ddbc9` passes the ASan/UBSan
 and MSVC renderer jobs in
 [core run 43461348513](https://github.com/xiongnemo/nemoterm/actions/runs/43461348513).
 The sanitizer OSC-colour suite includes all 25 captured cases. The Windows
-native job and
+native job also passes all 25 replies and 23 pixel checkpoints with actual
+GDI and DirectX. Its requested OpenGL profile falls back to GDI, so it does
+not establish OpenGL pixel acceptance. That job then fails the pre-existing
+guarded-area reply-ordering assertion. The
 [single-image run 43461348325](https://github.com/xiongnemo/nemoterm/actions/runs/43461348325)
-are still pending at this checkpoint. The accepted local executable is unchanged.
+is still pending at this checkpoint. The
+[manifest](reset-palette-validation.json) retains the three native reports and
+their actual renderer IDs. The accepted local executable is unchanged.
 
 The preceding `ea042bc` core workflow passed the sanitizer and MSVC renderer
 jobs but failed the native guarded-area fixture again. Its downloaded evidence
