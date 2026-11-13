@@ -245,7 +245,10 @@ enabled = false
             # Only this phase is instrumented. It is excluded from memory peaks.
             import frida
             session = frida.attach(process.pid)
-            script = session.create_script((root/'tests/agent_key_probe.js').read_text())
+            script = session.create_script(
+                'const ownedClipboardWindow=ptr("'+hex(hwnd)+'");\n'+
+                (root/'tests/agent_key_probe.js').read_text()+'\n'+
+                (root/'tests/clipboard_delivery_probe.js').read_text())
             key_errors = []
             script.on('message', lambda message, data: key_errors.append(message) if message.get('type') == 'error' else None)
             script.load(); serial = 0
@@ -270,7 +273,18 @@ enabled = false
                 raise
             evidence['checks'].append('shift-grid-select-ctrl-shift-c-exact-unicode')
             set_clipboard(PASTE_TEXT)
+            delivered = script.exports_sync.clipboard_deliveries()
+            paste_started = time.monotonic()
             chord(86,47,[16,17,160,162])
+            # Ctrl+V starts a clipboard worker. Copy All must not replace its
+            # source before WM_GOT_CLIPDATA returns. Once delivered, observe
+            # client consumption before starting Codex's Enter guard interval,
+            # just as for the initial typed prompt above.
+            wait_for(lambda: script.exports_sync.clipboard_deliveries() > delivered)
+            evidence['paste_delivery_seconds'] = time.monotonic()-paste_started
+            evidence['pasted_text'] = wait_for(lambda:
+                (text if PASTE_TEXT in (text := all_text()) else None), timeout=20)
+            evidence['paste_visible_seconds'] = time.monotonic()-paste_started
             time.sleep(.2); key(13,28)
             wait_for(lambda: len(server.completed) == 2 or server.errors, timeout=20)
             assert not server.errors, server.errors

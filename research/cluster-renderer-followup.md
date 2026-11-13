@@ -216,3 +216,45 @@ glyphs in Consolas or Sarasa, while Segoe UI and Arial provide them. PuTTY's
 `exact_textout` intentionally disables font linking for RTL runs. A separate
 RTL fallback fix and glyph-presence assertions remain required; agreement
 among compositors alone is not proof that every script rendered correctly.
+
+## Complete portable CI and single-image client follow-up
+
+At `fb1588f`, [portable/core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43341444900)
+is fully green, including the real clipboard and the revised hyperlink fixture.
+The fast MSVC job passes all eight repeated sibling-close cases and its full
+hyperlink test. Both jobs' retained Application Error event lists are empty.
+
+The [single-image run](https://github.com/xiongnemo/nemoterm/actions/runs/43341444851)
+passes all six ordinary/dense tab cases, all eleven tab regression subcases,
+and both settings tests. It fails later in the real Codex default-mode test:
+the second prompt is visible in the composer but the fixture has sent Enter
+before observing its consumption. Only the first request reaches the loopback
+server. The screenshot and failure JSON are retained as `cluster-ci-fb-codex-*`.
+This run also has no recorded Application Error event. Its unverified image is
+SHA-256 `6def9f241239165bf6a0f7ca37c80594793425b820016fd23051a421d61207ad`.
+
+The paste fixture now waits for the owned terminal's asynchronous clipboard
+delivery to return, then observes the complete prompt in the client's rendered
+text before starting the same 200 ms Enter guard used for the initial prompt.
+Observing delivery first prevents Copy All from overwriting the clipboard while
+its paste worker still needs it. The observer does not alter clipboard data or
+key events. Codex's pinned [PasteBurst source](https://github.com/openai/codex/blob/rust-v0.167.0/codex-rs/tui/src/bottom_pane/paste_burst.rs)
+defines a 120 ms Enter suppression interval. This is a fixture synchronization
+correction; it does not establish an exact console-read timeline for the failed
+run, and no delay is added to Nemoterm itself. Real clipboard verification of
+the revised fixture requires CI because local clipboard access is unavailable.
+
+The earlier exact `551bae24` single image passed local actual GDI/OpenGL/DirectX
+renderer and grapheme/font-resize checks. Dense 160x48 Sarasa tabs passed with
+sampled private peaks of 9,547,776 bytes (GDI) and 19,505,152 bytes (DirectX),
+including live temporary third tabs and twelve create/close cycles. Samples
+precede capture instrumentation and exclude child processes and preview peaks.
+`cluster-single-local-*-dense.json` retains these observations.
+
+A separate controller-only diagnostic attached, captured and detached the GPU
+capture helper forty times on that single image before closing its original
+tab. It passed with a live sibling, normal owned-job shutdown and no ProcDump
+crash dump. Neither this negative reproduction nor the newer green tab cases
+explains the previous `4c93714` access violation. The accepted main executable
+remains unchanged while the single-image acceptance and crash investigation
+continue.
