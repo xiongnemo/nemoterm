@@ -41,7 +41,10 @@ try:
                                          for name in files}
             source = '\n'.join((root/'tests'/name).read_text(encoding='utf-8') for name in files[:2])
             evidence['results'] = {}
-            for retain_live, name in ((False, 'destroyed-heap'), (True, 'live-snapshot')):
+            for retain_live, range_scope, name in (
+                    (False, False, 'destroyed-heap'),
+                    (True, False, 'live-snapshot'),
+                    (True, True, 'reservation-range-snapshot')):
                 script = call_frida('census-create-script', session.create_script, source)
                 errors = []
                 script.on('message', lambda message, data: errors.append(message)
@@ -50,10 +53,10 @@ try:
                 call_frida('census-load', script.load)
                 checkpoint(name+'-transitions')
                 result = script.exports_sync.selftest(process.pid,
-                    (root/'tests/allocation_census.h').read_text(encoding='utf-8'), retain_live)
+                    (root/'tests/allocation_census.h').read_text(encoding='utf-8'), retain_live, range_scope)
                 evidence['results'][name] = result
                 assert not errors, errors
-                assert len(result['checks']) == 6
+                assert len(result['checks']) == (8 if range_scope else 6)
                 assert result['final']['valid'] and not result['final']['counts']['active']
                 assert result['final']['pid'] == process.pid
                 entries = result['final']['entries']
@@ -64,6 +67,12 @@ try:
                     assert entry['heap'] == result['expected_heap']
                     assert entry['requested_bytes'] == '128'
                     assert int(entry['generation']) > 0 and int(entry['caller'], 16) > 0
+                    if range_scope:
+                        scope = result['final']['scope']
+                        assert 'heap' not in scope and len(scope['ranges']) == 1
+                        interval = scope['ranges'][0]
+                        assert int(interval['start'], 16) <= int(entry['address'], 16)
+                        assert int(entry['address'], 16) + 128 <= int(interval['end'], 16)
                 else:
                     assert entries == []
                 checkpoint(name+'-unload')
