@@ -1,0 +1,60 @@
+{
+  "executable_sha256": "7769317f88308ee79cfc640c57bef98e50caf7c870cd9ceba708f55a6e89710a",
+  "checks": [],
+  "completed": false,
+  "memory_instrumented": true,
+  "input_scope": "owned HWND and COM HRESULT injection",
+  "elapsed_seconds": 20.202999999999975,
+  "last_child_snapshot": {
+    "phase": null,
+    "hex": "",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640,
+    "input_cp": 437,
+    "input_api": "ReadFile"
+  },
+  "last_ui_snapshot": {},
+  "frontend_exit": null,
+  "owned_job_cleanup": {
+    "before": {
+      "total": 7,
+      "active": 5,
+      "terminated": 0
+    },
+    "after": {
+      "total": 7,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true,
+    "remaining_processes": [
+      {
+        "pid": 5040,
+        "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 9004,
+        "image": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 9336,
+        "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 7924,
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 9916,
+        "image": "C:\\Windows\\System32\\conhost.exe",
+        "exit_code": 259
+      }
+    ]
+  },
+  "error": "AssertionError('Timed out waiting for fixture snapshot')"
+}

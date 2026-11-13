@@ -176,11 +176,14 @@ cd nemoterm
 | --- | --- | --- |
 | `52d0962`，关闭诊断修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324) |
 | `52d0962`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43452081929) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43452081806) |
+| `3f68d9c`，DirectX 25 MB 标准 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43453467534) | [首轮辅助进程启动超时，复跑中](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235) |
 | `1b09f82`，早期修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
 | `1b09f82`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
 
 早期超时的单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
 新检查点的 6 个关闭场景均正常完成，不能由此宣称所有历史卡住现象已解决。
+25 MB 标准的边界检查已通过；该轮单文件测试在 GPU 辅助程序报告就绪前超时，
+尚未完成整轮验收，固定下载仍指向上面的 `52d0962`。见 [内存标准验证记录](research/memory-budget.md)。
 固定快照的通过记录不代表后续运行均通过。页面顶部徽章显示 `main` 的工作流状态，
 具体提交的测试范围、日志和产物应以对应运行记录为准。
 
