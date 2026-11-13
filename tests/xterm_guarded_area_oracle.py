@@ -1,4 +1,4 @@
-"""Prepared independent guarded-area collector. Run only after testing resumes."""
+"""Independent guarded-area collector for an authorized Linux test environment."""
 import argparse
 import json
 from pathlib import Path

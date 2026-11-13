@@ -1,4 +1,4 @@
-"""Independent reference collector, prepared but not run during the test pause."""
+"""Independent cursor/charset collector for an authorized Linux test environment."""
 import argparse
 import json
 from pathlib import Path

@@ -1,7 +1,6 @@
 """Collect independent XTerm replies; never substitute authored expectations.
 
-Run only after runtime testing is authorized again. This collector has not yet
-been executed for the selection-colour implementation.
+Run in an authorized Linux test environment, including an isolated CI runner.
 """
 import argparse
 import json

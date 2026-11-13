@@ -1,6 +1,6 @@
-"""Independent reference collector, prepared but not executed.
+"""Independent reference collector for an authorized Linux test environment.
 
-Run after runtime testing resumes. Explicit special-colour resources make the
+Explicit special-colour resources make the
 reset expectations independent of the user's XTerm resource database.
 """
 import argparse

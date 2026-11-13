@@ -2,6 +2,18 @@ name: Independent protocol reference
 
 on:
   workflow_dispatch:
+    inputs:
+      family:
+        description: Protocol family to compare with the pinned upstream XTerm
+        type: choice
+        default: identity
+        options:
+          - identity
+          - guarded-area
+          - attribute-colour
+          - selection-colour
+          - cursor-charset
+          - all
   push:
     paths:
       - 'tests/xterm_identity_oracle.py'
@@ -12,7 +24,7 @@ permissions:
   contents: read
 
 jobs:
-  xterm-identity:
+  xterm-reference:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -30,11 +42,31 @@ jobs:
           cd /tmp/nemoterm-xterm-reference
           ./configure
           make -j2
+      - name: Record reference identity and create a fresh output directory
+        run: |
+          mkdir -p build/protocol-reference
+          git -C /tmp/nemoterm-xterm-reference rev-parse HEAD > build/protocol-reference/upstream-commit.txt
+          git rev-parse HEAD > build/protocol-reference/fixture-commit.txt
+          sha256sum /tmp/nemoterm-xterm-reference/xterm > build/protocol-reference/executable-sha256.txt
+          /tmp/nemoterm-xterm-reference/xterm -version > build/protocol-reference/version.txt
       - name: Compare identity argument and cursor semantics
-        run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm
+        if: ${{ (success() || failure()) && (inputs.family == '' || inputs.family == 'identity' || inputs.family == 'all') }}
+        run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/identity-xterm.json
+      - name: Compare guarded-area and pending-wrap semantics
+        if: ${{ (success() || failure()) && (inputs.family == 'guarded-area' || inputs.family == 'all') }}
+        run: python3 tests/xterm_guarded_area_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/guarded-area-xterm.json
+      - name: Compare attribute-colour query and reset semantics
+        if: ${{ (success() || failure()) && (inputs.family == 'attribute-colour' || inputs.family == 'all') }}
+        run: python3 tests/xterm_attribute_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/attribute-colour-xterm.json
+      - name: Compare selection-colour query and reset semantics
+        if: ${{ (success() || failure()) && (inputs.family == 'selection-colour' || inputs.family == 'all') }}
+        run: python3 tests/xterm_selection_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/selection-colour-xterm.json
+      - name: Compare cursor and character-set restore semantics
+        if: ${{ (success() || failure()) && (inputs.family == 'cursor-charset' || inputs.family == 'all') }}
+        run: python3 tests/xterm_cursor_charset_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/cursor-charset-xterm.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: identity-xterm-${{ github.sha }}
-          path: research/identity-xterm.json
+          name: protocol-reference-${{ inputs.family || 'identity' }}-${{ github.sha }}
+          path: build/protocol-reference/
           if-no-files-found: error
