@@ -16,15 +16,20 @@ font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='tr
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,modes=[],completed=False)
 atexit.register(lambda:(root/'research/renderer-observed.json').write_text(json.dumps(evidence,indent=2)))
 references={}
+order=tuple(map(int,os.environ.get('NEMOTERM_TEST_RENDERER_ORDER','0,1,2').split(',')))
+assert order and order[0]==0 and all(v in (0,1,2) for v in order)
+diagnostic='NEMOTERM_TEST_RENDERER_ORDER' in os.environ
+parity_failures=[]
 with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
-    for requested in (0,1,2):
+    for iteration,requested in enumerate(order):
         profile='renderer-test-'+uuid.uuid4().hex
         path='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,path) as key:
             for name,value in dict(NemoRenderer=requested,WarnOnClose=0).items():
                 winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
         report,control=(Path(tmp)/(str(requested)+n) for n in ('report','control'))
-        trace=root/'research'/f'renderer-{requested}-clusters.txt'
+        label=f'{iteration}-{requested}' if diagnostic else str(requested)
+        trace=root/'research'/f'renderer-{label}-clusters.txt'
         child_env=dict(os.environ,NEMOTERM_CONPTY='bundled')
         if os.environ.get('CI')=='true' or os.environ.get('NEMOTERM_TEST_CLUSTER_TRACE')=='1':
             trace.write_text('')
@@ -40,7 +45,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             if requested==0:assert active==1
             if requested==1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert active==2,'OpenGL fell back'
             if requested==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3,'DirectX fell back'
-            mode=dict(requested=requested,active={1:'GDI',2:'OpenGL',3:'DirectX'}[active],checks=[])
+            mode=dict(iteration=iteration,requested=requested,active={1:'GDI',2:'OpenGL',3:'DirectX'}[active],checks=[])
             evidence['modes'].append(mode)
             handle=k.OpenProcess(0x410,False,process.pid)
             try:mode['memory_before_instrumentation']=memory_sample(handle)
@@ -71,8 +76,8 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                 # Synchronized-output mode must still preserve its frozen frame.
                 focus_script.exports_sync.set_focus(hex(hwnd),focused)
             def compare(name):
-                pixels=captured(f'renderer-{requested}-{name}.png')
-                if not requested:references[name]=pixels
+                pixels=captured(f'renderer-{label}-{name}.png')
+                if not iteration:references[name]=pixels
                 else:
                     expected=references[name]
                     mismatch=sum(a!=b for a,b in zip(pixels,expected))
@@ -82,8 +87,11 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                     # remain strict; do not mask shifts or missing glyphs.
                     error=max(abs(a-b) for a,b in zip(pixels,expected))
                     mode['checks'].append(dict(scene=name,changed_channels=mismatch,max_channel_error=error))
-                    assert len(pixels)==len(expected) and error<=2 and mismatch<=len(pixels)//1000,(requested,name,mismatch,error)
-                if not requested:mode['checks'].append(dict(scene=name))
+                    passed=len(pixels)==len(expected) and error<=2 and mismatch<=len(pixels)//1000
+                    if not passed:
+                        parity_failures.append(dict(iteration=iteration,requested=requested,scene=name,changed_channels=mismatch,max_channel_error=error))
+                    if not diagnostic:assert passed,parity_failures[-1:]
+                if not iteration:mode['checks'].append(dict(scene=name))
                 return pixels
             text=('\x1b[?25l\x1b[0m\x1b[2J\x1b[HASCII abc XYZ 0123\r\n'
                   '中文 e\u0301 A\u0308 \U0001f680 \ue0b0\r\n'
@@ -149,5 +157,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             try:process.wait(timeout=8)
             except subprocess.TimeoutExpired:process.terminate();process.wait(timeout=5)
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,path)
-evidence['completed']=True
+evidence['parity_failures']=parity_failures
+evidence['completed']=not parity_failures
+assert not parity_failures,parity_failures
 print('GDI/OpenGL/DirectX pixel parity, text, Sixel, resize, expose and synchronized update passed:',[(v['active'],v['memory']) for v in evidence['modes']])

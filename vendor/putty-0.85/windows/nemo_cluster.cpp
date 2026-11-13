@@ -133,6 +133,15 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     HRESULT STDMETHODCALLTYPE DrawGlyphRun(void*,FLOAT x,FLOAT y,DWRITE_MEASURING_MODE mode,
         const DWRITE_GLYPH_RUN *run,const DWRITE_GLYPH_RUN_DESCRIPTION*,IUnknown*) override {
         if (trace_glyph) {
+            DWRITE_RENDERING_MODE recommended=DWRITE_RENDERING_MODE_DEFAULT;
+            HRESULT recommended_hr=run->fontFace->GetRecommendedRenderingMode(
+                run->fontEmSize,1,mode,params,&recommended);
+            DWRITE_MATRIX actual{};target->GetCurrentTransform(&actual);
+            trace_line("face type=%u simulations=%u recommended=%u recommended-hr=%lx transform=%a,%a,%a,%a,%a,%a",
+                static_cast<unsigned>(run->fontFace->GetType()),static_cast<unsigned>(run->fontFace->GetSimulations()),
+                static_cast<unsigned>(recommended),static_cast<unsigned long>(recommended_hr),
+                static_cast<double>(actual.m11),static_cast<double>(actual.m12),static_cast<double>(actual.m21),
+                static_cast<double>(actual.m22),static_cast<double>(actual.dx),static_cast<double>(actual.dy));
             trace_line("glyph x=%a y=%a mode=%u em=%a count=%u sideways=%u bidi=%u face=%u",
                 static_cast<double>(x),static_cast<double>(y),static_cast<unsigned>(mode),
                 static_cast<double>(run->fontEmSize),run->glyphCount,run->isSideways,

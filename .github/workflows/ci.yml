@@ -37,6 +37,8 @@ jobs:
           ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
       - name: Compare native frames and retain exact shaping inputs
         shell: pwsh
+        env:
+          NEMOTERM_TEST_RENDERER_ORDER: '0,0,1,0,2'
         run: |
           python -m pip install frida==17.24.3
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
