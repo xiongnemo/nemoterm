@@ -71,7 +71,10 @@ Single-run variations are not a causal attribution. Neither experiment is
 present in product source. `tab-workload-validation.json` records both image
 identities, patch hashes, measurements, final tests and evidence hashes. The
 next optimization requires evidence attributing the additional private
-allocations, rather than another speculative limit change.
+allocations, rather than another speculative limit change. The subsequent
+[allocation-attribution checkpoint](directx-allocation-attribution.md) records
+mixed heap callers and a rejected fixed-atlas experiment; it still does not
+establish ownership of the excess or satisfy the DirectX memory gate.
 
 ## Measurement and remaining gates
 

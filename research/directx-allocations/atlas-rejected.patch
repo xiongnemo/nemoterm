@@ -1,0 +1,142 @@
+diff --git a/vendor/putty-0.85/windows/nemo_d2d.c b/vendor/putty-0.85/windows/nemo_d2d.c
+index cc4b83b..409d739 100644
+--- a/vendor/putty-0.85/windows/nemo_d2d.c
++++ b/vendor/putty-0.85/windows/nemo_d2d.c
+@@ -9,6 +9,8 @@
+ 
+ #define CACHE_COUNT 256
+ #define CACHE_BYTES (4U*1024U*1024U)
++#define ATLAS_WIDTH 2048U
++#define ATLAS_HEIGHT 128U
+ #define FRAME_BYTES (128U*1024U*1024U)
+ static const GUID factory_iid =
+     {0x06152247,0x6f50,0x465a,{0x92,0x45,0x11,0x8b,0xfd,0x3b,0x60,0x07}};
+@@ -17,11 +19,10 @@ static const GUID interop_iid =
+ typedef HRESULT (WINAPI *CreateFactoryFn)(D2D1_FACTORY_TYPE, REFIID,
+     const D2D1_FACTORY_OPTIONS *, void **);
+ typedef struct D2DRun {
+-    ID2D1Bitmap *bitmap;
+     unsigned bytes;
+     uint64_t hash, used;
+     strbuf *key;
+-    int width, height;
++    int width, height, x, y;
+ } D2DRun;
+ struct NemoD2D {
+     HWND parent, surface;
+@@ -29,7 +30,7 @@ struct NemoD2D {
+     ID2D1Factory *factory;
+     ID2D1HwndRenderTarget *target;
+     ID2D1BitmapRenderTarget *frame;
+-    ID2D1Bitmap *image, *upload;
++    ID2D1Bitmap *image, *upload, *atlas;
+     ID2D1SolidColorBrush *brush;
+     ID2D1GdiInteropRenderTarget *interop;
+     HDC scratch;
+@@ -37,6 +38,7 @@ struct NemoD2D {
+     HGDIOBJ oldbitmap;
+     uint32_t *pixels;
+     int width, height, strip_width, strip_height, upload_width, upload_height;
++    unsigned atlas_x, atlas_y, atlas_row_height;
+     unsigned limit, cache_bytes;
+     uint64_t tick;
+     bool drawing, failed;
+@@ -65,13 +67,15 @@ static LRESULT CALLBACK surface_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
+ }
+ static void evict(NemoD2D *g, D2DRun *r)
+ {
+-    if (r->bitmap) nemo_d2d_release(r->bitmap);
+     if (r->key) strbuf_free(r->key);
+     g->cache_bytes-=r->bytes;memset(r,0,sizeof(*r));
+ }
+ void nemo_d2d_clear_cache(NemoD2D *g)
+ {
+-    if (g) for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
++    if (g) {
++        for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
++        g->atlas_x=g->atlas_y=g->atlas_row_height=0;
++    }
+ }
+ static bool end_frame(NemoD2D *g)
+ {
+@@ -87,9 +91,11 @@ static void free_frame(NemoD2D *g)
+     if (g->interop) nemo_d2d_release(g->interop);
+     if (g->brush) nemo_d2d_release(g->brush);
+     if (g->upload) nemo_d2d_release(g->upload);
++    if (g->atlas) nemo_d2d_release(g->atlas);
+     if (g->image) nemo_d2d_release(g->image);
+     if (g->frame) nemo_d2d_release(g->frame);
+     g->interop=NULL;g->brush=NULL;g->upload=NULL;g->image=NULL;g->frame=NULL;
++    g->atlas=NULL;
+     g->upload_width=g->upload_height=0;
+ }
+ void nemo_d2d_free(NemoD2D *g)
+@@ -198,12 +204,16 @@ static uint64_t keyhash(ptrlen key)
+     for (size_t i=0;i<key.len;i++) hash=(hash^p[i])*UINT64_C(1099511628211);
+     return hash;
+ }
+-static void draw(NemoD2D *g, ID2D1Bitmap *image, RECT box)
++static void draw_at(NemoD2D *g, ID2D1Bitmap *image, RECT box, int x, int y)
+ {
+     D2D1_RECT_F dst={(float)box.left,(float)box.top,(float)box.right,(float)box.bottom};
+-    D2D1_RECT_F src={0,0,(float)(box.right-box.left),(float)(box.bottom-box.top)};
++    D2D1_RECT_F src={(float)x,(float)y,(float)(x+box.right-box.left),(float)(y+box.bottom-box.top)};
+     nemo_d2d_draw_bitmap(RT(g),image,&dst,1,D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,&src);
+ }
++static void draw(NemoD2D *g, ID2D1Bitmap *image, RECT box)
++{
++    draw_at(g,image,box,0,0);
++}
+ bool nemo_d2d_cached(NemoD2D *g, RECT box, ptrlen key)
+ {
+     if (g->failed) return false;
+@@ -212,7 +222,7 @@ bool nemo_d2d_cached(NemoD2D *g, RECT box, ptrlen key)
+         D2DRun *r=&g->cache[i];
+         if (r->key && r->hash==hash && r->width==box.right-box.left &&
+             r->height==box.bottom-box.top && ptrlen_eq_ptrlen(ptrlen_from_strbuf(r->key),key)) {
+-            r->used=++g->tick;draw(g,r->bitmap,box);return true;
++            r->used=++g->tick;draw_at(g,g->atlas,box,r->x,r->y);return true;
+         }
+     }
+     return false;
+@@ -268,25 +278,29 @@ void nemo_d2d_end_run(NemoD2D *g, RECT box, ptrlen key)
+ {
+     GdiFlush();
+     if (g->failed) return;
+-    unsigned bytes=(unsigned)(box.right-box.left)*(box.bottom-box.top)*4;
+-    if (!key.len || key.len>16384 || bytes>CACHE_BYTES) {
++    unsigned w=box.right-box.left,h=box.bottom-box.top,bytes=w*h*4;
++    unsigned atlas_width=min(g->limit,ATLAS_WIDTH),atlas_height=min(g->limit,ATLAS_HEIGHT);
++    if (!key.len || key.len>16384 || w>atlas_width || h>atlas_height) {
+         upload(g,box,g->pixels,g->strip_width*4);return;
+     }
++    if (!g->atlas && !bitmap(g,atlas_width,atlas_height,NULL,0,&g->atlas)) return;
++    if (g->atlas_x+w>atlas_width) {
++        g->atlas_x=0;g->atlas_y+=g->atlas_row_height;g->atlas_row_height=0;
++    }
++    if (g->atlas_y+h>atlas_height) nemo_d2d_clear_cache(g);
+     D2DRun *r=NULL;
+     for (unsigned i=0;i<CACHE_COUNT;i++)
+         if (!r || g->cache[i].used<r->used) r=&g->cache[i];
+     evict(g,r);
+-    while (g->cache_bytes+bytes>CACHE_BYTES) {
+-        D2DRun *old=NULL;
+-        for (unsigned i=0;i<CACHE_COUNT;i++)
+-            if (g->cache[i].bitmap && (!old || g->cache[i].used<old->used)) old=&g->cache[i];
+-        if (!old) break;
+-        evict(g,old);
+-    }
+-    if (!bitmap(g,box.right-box.left,box.bottom-box.top,g->pixels,g->strip_width*4,&r->bitmap)) return;
++    D2D1_RECT_U rect={g->atlas_x,g->atlas_y,g->atlas_x+w,g->atlas_y+h};
++    /* CopyFromMemory flushes pending uses of this bitmap before overwriting
++     * tiles. Old draws therefore keep their pixels even when the shelf wraps. */
++    if (!check(g,nemo_d2d_copy_memory(g->atlas,&rect,g->pixels,g->strip_width*4))) return;
++    r->x=g->atlas_x;r->y=g->atlas_y;
++    g->atlas_x+=w;g->atlas_row_height=max(g->atlas_row_height,h);
+     r->bytes=bytes;g->cache_bytes+=bytes;r->used=++g->tick;r->hash=keyhash(key);
+     r->width=box.right-box.left;r->height=box.bottom-box.top;
+-    r->key=strbuf_new();put_datapl(r->key,key);draw(g,r->bitmap,box);
++    r->key=strbuf_new();put_datapl(r->key,key);draw_at(g,g->atlas,box,r->x,r->y);
+ }
+ void nemo_d2d_row(NemoD2D *g, int x, int y, int width, const uint32_t *pixels)
+ {

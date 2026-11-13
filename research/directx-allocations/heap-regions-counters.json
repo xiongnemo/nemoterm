@@ -1,0 +1,750 @@
+{
+  "kind": "done",
+  "pid": 29000,
+  "ranges": [
+    {
+      "start": "0x1f769650000",
+      "end": "0x1f769a50000",
+      "committed": 4190208,
+      "before_private_ws": 4009984
+    },
+    {
+      "start": "0x1f775760000",
+      "end": "0x1f775f60000",
+      "committed": 3031040,
+      "before_private_ws": 2658304
+    },
+    {
+      "start": "0x1f769440000",
+      "end": "0x1f769640000",
+      "committed": 2093056,
+      "before_private_ws": 1642496
+    },
+    {
+      "start": "0x1f769a60000",
+      "end": "0x1f76ba60000",
+      "committed": 11464704,
+      "before_private_ws": 1617920
+    },
+    {
+      "start": "0x1f766680000",
+      "end": "0x1f766780000",
+      "committed": 1044480,
+      "before_private_ws": 1044480
+    },
+    {
+      "start": "0x1f7692b0000",
+      "end": "0x1f7693b0000",
+      "committed": 1044480,
+      "before_private_ws": 1044480
+    },
+    {
+      "start": "0x1f776420000",
+      "end": "0x1f776820000",
+      "committed": 1150976,
+      "before_private_ws": 1028096
+    },
+    {
+      "start": "0x1f769190000",
+      "end": "0x1f769290000",
+      "committed": 1015808,
+      "before_private_ws": 794624
+    }
+  ],
+  "entries": [
+    {
+      "region": 5,
+      "caller": "0x7ffe212e0f7c",
+      "module": "d3d11.dll",
+      "offset": "0x20f7c",
+      "calls": 6,
+      "bytes": 8976,
+      "maximum": 1496
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe212e0f7c",
+      "module": "d3d11.dll",
+      "offset": "0x20f7c",
+      "calls": 49,
+      "bytes": 66934,
+      "maximum": 1496
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe212e0f7c",
+      "module": "d3d11.dll",
+      "offset": "0x20f7c",
+      "calls": 606,
+      "bytes": 9696,
+      "maximum": 16
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe212e0f7c",
+      "module": "d3d11.dll",
+      "offset": "0x20f7c",
+      "calls": 65007,
+      "bytes": 1557730,
+      "maximum": 1496
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe212e0f7c",
+      "module": "d3d11.dll",
+      "offset": "0x20f7c",
+      "calls": 6567,
+      "bytes": 354936,
+      "maximum": 1496
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe21e910ca",
+      "module": "dxgi.dll",
+      "offset": "0x110ca",
+      "calls": 44,
+      "bytes": 1056,
+      "maximum": 24
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe21e910ca",
+      "module": "dxgi.dll",
+      "offset": "0x110ca",
+      "calls": 4,
+      "bytes": 96,
+      "maximum": 24
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe261a1343",
+      "module": "ntdll.dll",
+      "offset": "0x71343",
+      "calls": 1,
+      "bytes": 1008,
+      "maximum": 1008
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe261a1343",
+      "module": "ntdll.dll",
+      "offset": "0x71343",
+      "calls": 2,
+      "bytes": 2016,
+      "maximum": 1008
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe261a1343",
+      "module": "ntdll.dll",
+      "offset": "0x71343",
+      "calls": 2,
+      "bytes": 2016,
+      "maximum": 1008
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe261a1343",
+      "module": "ntdll.dll",
+      "offset": "0x71343",
+      "calls": 7,
+      "bytes": 7056,
+      "maximum": 1008
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe237b1699",
+      "module": "ucrtbase.dll",
+      "offset": "0x11699",
+      "calls": 212851,
+      "bytes": 1005005580,
+      "maximum": 7616
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe237b1699",
+      "module": "ucrtbase.dll",
+      "offset": "0x11699",
+      "calls": 55404,
+      "bytes": 269868516,
+      "maximum": 7616
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe237b1699",
+      "module": "ucrtbase.dll",
+      "offset": "0x11699",
+      "calls": 1,
+      "bytes": 768,
+      "maximum": 768
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe237b1699",
+      "module": "ucrtbase.dll",
+      "offset": "0x11699",
+      "calls": 7801,
+      "bytes": 33630104,
+      "maximum": 7616
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe237b1699",
+      "module": "ucrtbase.dll",
+      "offset": "0x11699",
+      "calls": 12,
+      "bytes": 16080,
+      "maximum": 4200
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 300,
+      "bytes": 71760,
+      "maximum": 336
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 7729,
+      "bytes": 33261480,
+      "maximum": 7616
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 12,
+      "bytes": 16080,
+      "maximum": 4200
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe23a81bcd",
+      "module": "KERNELBASE.dll",
+      "offset": "0x31bcd",
+      "calls": 204,
+      "bytes": 15504,
+      "maximum": 160
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe23a81bcd",
+      "module": "KERNELBASE.dll",
+      "offset": "0x31bcd",
+      "calls": 256,
+      "bytes": 20744,
+      "maximum": 128
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe23a81bcd",
+      "module": "KERNELBASE.dll",
+      "offset": "0x31bcd",
+      "calls": 6,
+      "bytes": 144,
+      "maximum": 24
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 55177,
+      "bytes": 268677732,
+      "maximum": 7616
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 1,
+      "bytes": 768,
+      "maximum": 768
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe26151bf2",
+      "module": "ntdll.dll",
+      "offset": "0x21bf2",
+      "calls": 212649,
+      "bytes": 1003828652,
+      "maximum": 7616
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe23d62505",
+      "module": "gdi32full.dll",
+      "offset": "0x12505",
+      "calls": 4,
+      "bytes": 886,
+      "maximum": 434
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe23d62505",
+      "module": "gdi32full.dll",
+      "offset": "0x12505",
+      "calls": 14,
+      "bytes": 806238,
+      "maximum": 400382
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe26152615",
+      "module": "ntdll.dll",
+      "offset": "0x22615",
+      "calls": 45,
+      "bytes": 244444,
+      "maximum": 7056
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe26152615",
+      "module": "ntdll.dll",
+      "offset": "0x22615",
+      "calls": 6,
+      "bytes": 35392,
+      "maximum": 7056
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe26152615",
+      "module": "ntdll.dll",
+      "offset": "0x22615",
+      "calls": 7,
+      "bytes": 32676,
+      "maximum": 4704
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe26152615",
+      "module": "ntdll.dll",
+      "offset": "0x22615",
+      "calls": 127,
+      "bytes": 85328,
+      "maximum": 1344
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe092a2dd8",
+      "module": "nvwgf2umx.dll",
+      "offset": "0xf12dd8",
+      "calls": 3358,
+      "bytes": 6219016,
+      "maximum": 1852
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe092a2dd8",
+      "module": "nvwgf2umx.dll",
+      "offset": "0xf12dd8",
+      "calls": 1,
+      "bytes": 88,
+      "maximum": 88
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe092a2dd8",
+      "module": "nvwgf2umx.dll",
+      "offset": "0xf12dd8",
+      "calls": 133238,
+      "bytes": 47962322,
+      "maximum": 73728
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe092a2dd8",
+      "module": "nvwgf2umx.dll",
+      "offset": "0xf12dd8",
+      "calls": 9524,
+      "bytes": 1133725,
+      "maximum": 1852
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe092a2dd8",
+      "module": "nvwgf2umx.dll",
+      "offset": "0xf12dd8",
+      "calls": 701,
+      "bytes": 55212,
+      "maximum": 2080
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe212f36f1",
+      "module": "d3d11.dll",
+      "offset": "0x336f1",
+      "calls": 24,
+      "bytes": 1536,
+      "maximum": 64
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe26193df7",
+      "module": "ntdll.dll",
+      "offset": "0x63df7",
+      "calls": 1,
+      "bytes": 4144,
+      "maximum": 4144
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe212f3ef5",
+      "module": "d3d11.dll",
+      "offset": "0x33ef5",
+      "calls": 40,
+      "bytes": 23584,
+      "maximum": 664
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe212f3ef5",
+      "module": "d3d11.dll",
+      "offset": "0x33ef5",
+      "calls": 33,
+      "bytes": 13728,
+      "maximum": 416
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe212f3ef5",
+      "module": "d3d11.dll",
+      "offset": "0x33ef5",
+      "calls": 42994,
+      "bytes": 23214776,
+      "maximum": 664
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe212f3ef5",
+      "module": "d3d11.dll",
+      "offset": "0x33ef5",
+      "calls": 4417,
+      "bytes": 2383224,
+      "maximum": 664
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe212f41ee",
+      "module": "d3d11.dll",
+      "offset": "0x341ee",
+      "calls": 1,
+      "bytes": 32,
+      "maximum": 32
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe212f41ee",
+      "module": "d3d11.dll",
+      "offset": "0x341ee",
+      "calls": 361,
+      "bytes": 11552,
+      "maximum": 32
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe212f41ee",
+      "module": "d3d11.dll",
+      "offset": "0x341ee",
+      "calls": 23392,
+      "bytes": 748544,
+      "maximum": 32
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe212d56ba",
+      "module": "d3d11.dll",
+      "offset": "0x156ba",
+      "calls": 341,
+      "bytes": 10912,
+      "maximum": 32
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe259489af",
+      "module": "USER32.dll",
+      "offset": "0x89af",
+      "calls": 4,
+      "bytes": 880,
+      "maximum": 220
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe26149785",
+      "module": "ntdll.dll",
+      "offset": "0x19785",
+      "calls": 180,
+      "bytes": 3960,
+      "maximum": 22
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe26149785",
+      "module": "ntdll.dll",
+      "offset": "0x19785",
+      "calls": 595,
+      "bytes": 15254,
+      "maximum": 122
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe26149785",
+      "module": "ntdll.dll",
+      "offset": "0x19785",
+      "calls": 1023,
+      "bytes": 94116,
+      "maximum": 92
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe24629d40",
+      "module": "msvcrt.dll",
+      "offset": "0x19d40",
+      "calls": 146027,
+      "bytes": 19693646,
+      "maximum": 32768
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe24629e07",
+      "module": "msvcrt.dll",
+      "offset": "0x19e07",
+      "calls": 598,
+      "bytes": 261264,
+      "maximum": 2368
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe2462a131",
+      "module": "msvcrt.dll",
+      "offset": "0x1a131",
+      "calls": 3,
+      "bytes": 2444,
+      "maximum": 1196
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffdec28a702",
+      "module": "Oleacc.dll",
+      "offset": "0xa702",
+      "calls": 63,
+      "bytes": 1008,
+      "maximum": 16
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffdec28a702",
+      "module": "Oleacc.dll",
+      "offset": "0xa702",
+      "calls": 12,
+      "bytes": 192,
+      "maximum": 16
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffdec28a702",
+      "module": "Oleacc.dll",
+      "offset": "0xa702",
+      "calls": 3,
+      "bytes": 48,
+      "maximum": 16
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe23d6bb64",
+      "module": "gdi32full.dll",
+      "offset": "0x1bb64",
+      "calls": 2,
+      "bytes": 32768,
+      "maximum": 16384
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe237add3e",
+      "module": "ucrtbase.dll",
+      "offset": "0xdd3e",
+      "calls": 22,
+      "bytes": 79968,
+      "maximum": 8224
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe237add3e",
+      "module": "ucrtbase.dll",
+      "offset": "0xdd3e",
+      "calls": 28,
+      "bytes": 88928,
+      "maximum": 3176
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe212edda7",
+      "module": "d3d11.dll",
+      "offset": "0x2dda7",
+      "calls": 724,
+      "bytes": 28960,
+      "maximum": 40
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe212edda7",
+      "module": "d3d11.dll",
+      "offset": "0x2dda7",
+      "calls": 46784,
+      "bytes": 1871360,
+      "maximum": 40
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe2514e9af",
+      "module": "RPCRT4.dll",
+      "offset": "0x3e9af",
+      "calls": 1,
+      "bytes": 4172,
+      "maximum": 4172
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe2619ed5e",
+      "module": "ntdll.dll",
+      "offset": "0x6ed5e",
+      "calls": 516,
+      "bytes": 17544,
+      "maximum": 34
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe2614f44f",
+      "module": "ntdll.dll",
+      "offset": "0x1f44f",
+      "calls": 1,
+      "bytes": 8192,
+      "maximum": 8192
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe2614f44f",
+      "module": "ntdll.dll",
+      "offset": "0x1f44f",
+      "calls": 13,
+      "bytes": 1630208,
+      "maximum": 270336
+    },
+    {
+      "region": 7,
+      "caller": "0x7ffe2614f44f",
+      "module": "ntdll.dll",
+      "offset": "0x1f44f",
+      "calls": 52,
+      "bytes": 339968,
+      "maximum": 8192
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe2614f44f",
+      "module": "ntdll.dll",
+      "offset": "0x1f44f",
+      "calls": 41,
+      "bytes": 1809408,
+      "maximum": 131072
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe2614f44f",
+      "module": "ntdll.dll",
+      "offset": "0x1f44f",
+      "calls": 424,
+      "bytes": 24766464,
+      "maximum": 270336
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe2614f4e5",
+      "module": "ntdll.dll",
+      "offset": "0x1f4e5",
+      "calls": 2,
+      "bytes": 535488,
+      "maximum": 267744
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe2513f4cc",
+      "module": "RPCRT4.dll",
+      "offset": "0x2f4cc",
+      "calls": 1,
+      "bytes": 232,
+      "maximum": 232
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe2614f4e5",
+      "module": "ntdll.dll",
+      "offset": "0x1f4e5",
+      "calls": 9,
+      "bytes": 2417312,
+      "maximum": 270304
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe237afde6",
+      "module": "ucrtbase.dll",
+      "offset": "0xfde6",
+      "calls": 3633,
+      "bytes": 2085724,
+      "maximum": 4112
+    },
+    {
+      "region": 5,
+      "caller": "0x7ffe237afde6",
+      "module": "ucrtbase.dll",
+      "offset": "0xfde6",
+      "calls": 38273,
+      "bytes": 128645592,
+      "maximum": 6132
+    },
+    {
+      "region": 2,
+      "caller": "0x7ffe237afde6",
+      "module": "ucrtbase.dll",
+      "offset": "0xfde6",
+      "calls": 113,
+      "bytes": 40956,
+      "maximum": 560
+    },
+    {
+      "region": 4,
+      "caller": "0x7ffe2594fd88",
+      "module": "USER32.dll",
+      "offset": "0xfd88",
+      "calls": 24,
+      "bytes": 12672,
+      "maximum": 528
+    },
+    {
+      "region": 0,
+      "caller": "0x7ffe237afde6",
+      "module": "ucrtbase.dll",
+      "offset": "0xfde6",
+      "calls": 581288,
+      "bytes": 192451092,
+      "maximum": 16344
+    },
+    {
+      "region": 1,
+      "caller": "0x7ffe237afde6",
+      "module": "ucrtbase.dll",
+      "offset": "0xfde6",
+      "calls": 956168,
+      "bytes": 871498047,
+      "maximum": 16384
+    }
+  ],
+  "overflow": 0
+}

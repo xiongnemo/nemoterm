@@ -1,0 +1,235 @@
+{
+  "product_commit": "fab17ec243463613524d3f7fd8746f08012a57fb",
+  "test_commit": "43e3ced61f4d98c63389748d05a85c3be490756f",
+  "probes": [
+    {
+      "label": "virtual-large",
+      "executable_sha256": "d6a46003b58a48bc5927437af6214c5492d78273e98911da6c21dda49b5546c3",
+      "evidence_id": "ev_ff0bd3124797f17a4bdb3e200291645fbb37ca6d1f4a3f0d115f88f4fc2768a8",
+      "session_id": "582c1c27-6b68-4a41-8d98-80e5987bf602",
+      "pid": 38164,
+      "messages": 120,
+      "functional_groups": 9,
+      "instrumented": true,
+      "memory_acceptance": false,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "allocations": 57,
+      "frees": 61
+    },
+    {
+      "label": "virtual-all",
+      "executable_sha256": "d6a46003b58a48bc5927437af6214c5492d78273e98911da6c21dda49b5546c3",
+      "evidence_id": "ev_bbe7c785ca9f1deea8de3f6a5222d1ffb535156d5885e258735f8c6dc2f85d9f",
+      "session_id": "c472feb0-cbc1-4fb1-97cd-a609684528cf",
+      "pid": 7224,
+      "messages": 219,
+      "functional_groups": 9,
+      "instrumented": true,
+      "memory_acceptance": false,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "allocations": 156,
+      "frees": 61
+    },
+    {
+      "label": "heap-regions",
+      "executable_sha256": "d6a46003b58a48bc5927437af6214c5492d78273e98911da6c21dda49b5546c3",
+      "evidence_id": "ev_6b41f60bed5181f26c14d3d29300370874e43d8de4daf7a275276acedfd13f53",
+      "session_id": "1a816486-073a-4636-98a0-79526ff93860",
+      "pid": 29000,
+      "messages": 2,
+      "functional_groups": 9,
+      "instrumented": true,
+      "memory_acceptance": false,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "counter_overflow": 0
+    }
+  ],
+  "files": {
+    "fixture-gate-preparation.py": {
+      "sha256": "a2ed8e18e34c9b71ab2960d8a806dda77f2f9c77f1f812260d6883787552eca9",
+      "bytes": 1486
+    },
+    "virtual-large-evidence.json": {
+      "sha256": "65d56263b9d30fe2290c96779eefe5c91577d7b4dd0f797a488f2787874e9cd9",
+      "bytes": 99206
+    },
+    "virtual-large-before.json": {
+      "sha256": "1f03dbce1aa83d76bc4e7b94cf7c65c9464be320b97c7d8ac75aad9012e4f75c",
+      "bytes": 29136
+    },
+    "virtual-large-after.json": {
+      "sha256": "0db541c79d70d0567021a3feb0e2ec4ccc8f51b9888c850c846ccc0d8c4dc330",
+      "bytes": 34617
+    },
+    "virtual-large-observed.json": {
+      "sha256": "093d643160ad514ac511a5b8c1d24b12dc3a0188f4f50610fdca85200021d058",
+      "bytes": 14546
+    },
+    "virtual-large.js": {
+      "sha256": "a42ab92c056c6e99cb04bbcdf63b587186d912408ab4bb731065718758f8a877",
+      "bytes": 3169
+    },
+    "virtual-all-evidence.json": {
+      "sha256": "f9201269d283e38c006e09b3711bcc6db15092617c831c02b47fadb60a7cdd95",
+      "bytes": 456269
+    },
+    "virtual-all-before.json": {
+      "sha256": "44ac3f6728fa7e378d36c15905325b235ce20000aa6bb08ba524d658af969eef",
+      "bytes": 29149
+    },
+    "virtual-all-after.json": {
+      "sha256": "fdd79850ecac3dd2725a2a8fc2d62f49eed99cea253dcc76574606c455585c1e",
+      "bytes": 34924
+    },
+    "virtual-all-observed.json": {
+      "sha256": "72e7d8e02232ac6a32f384bb1420174e8476c1aa8de9aef8cb9bf20287ff223d",
+      "bytes": 14547
+    },
+    "virtual-all.js": {
+      "sha256": "d25008f9eea16378a252b67cdc5c44571d8e7849b8d8583f6bc687455acdd35c",
+      "bytes": 3126
+    },
+    "heap-regions-counters.json": {
+      "sha256": "e42947637cdf7f353a10e0e93a1150dafd06c1ce1e06587b00e4f23b7659db8e",
+      "bytes": 15574
+    },
+    "heap-regions-evidence.json": {
+      "sha256": "e3a8b4487ce4338bd8b63d180c6e89e90d07e7fa8ecf72f3d42400584a4b8cc5",
+      "bytes": 25080
+    },
+    "heap-regions-before.json": {
+      "sha256": "e57a99fa48f85bc3ce8fe7d51512e15e022d026393e53712d226d92c00cf1fc1",
+      "bytes": 29145
+    },
+    "heap-regions-after.json": {
+      "sha256": "77e4963bdc1c401fb927f5092eb1ed2060714bc70fc2ae13ab6f9da33051fc32",
+      "bytes": 34226
+    },
+    "heap-regions-observed.json": {
+      "sha256": "0d7554eacdb9c6ba0fb4940f423a74a9e62ca119da62bbde7c8923cdbffd257c",
+      "bytes": 14516
+    },
+    "heap-regions.js": {
+      "sha256": "7b8dda44a31bdf3f69f820e7bce8584f55b880d2eba72c924041bd39f670d15f",
+      "bytes": 4547
+    },
+    "atlas-observed.json": {
+      "sha256": "eb3553f3b7aa2af30e27375c35aa3ccf034fae846804404c3b4db6a3aad29f31",
+      "bytes": 14450
+    },
+    "atlas-memory.json": {
+      "sha256": "47597b654c151ec73d76fbfdc2eb3eb00fcbd6fa07eda0a700b496d636fb52b0",
+      "bytes": 973951
+    },
+    "atlas-renderer-observed.json": {
+      "sha256": "a3acc24586ac4f2adae4ab9343e090a0f794a8b66c27274c78fc8dc0928375d3",
+      "bytes": 5857
+    },
+    "atlas-rejected.patch": {
+      "sha256": "4cbc576b426e3fa2118d564b6465404eaeb2841233936f15df1cfb872907d730",
+      "bytes": 6074
+    }
+  },
+  "atlas_experiment": {
+    "executable_sha256": "9fff8ad2d029dfa04e39589cd50048f76fa3c4c13bac1ef7cc9fcb274e9fe971",
+    "retained": false,
+    "renderer_parity_passed": true,
+    "tab_functional_groups": 9,
+    "memory_limit_passed": false,
+    "memory_sample_count": 357,
+    "seconds": 38.609,
+    "peaks": {
+      "frontend": {
+        "count": 1,
+        "private_ws": 28962816,
+        "total_ws": 65388544,
+        "private_commit": 97873920
+      },
+      "hosts": {
+        "count": 3,
+        "private_ws": 6803456,
+        "total_ws": 33644544,
+        "private_commit": 9789440
+      },
+      "clients": {
+        "count": 3,
+        "private_ws": 26554368,
+        "total_ws": 53432320,
+        "private_commit": 32964608
+      },
+      "all": {
+        "count": 7,
+        "private_ws": 52555776,
+        "total_ws": 143155200,
+        "private_commit": 128827392
+      }
+    },
+    "cleanup": {
+      "before": {
+        "total": 56,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 56,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  },
+  "restored_build": {
+    "executable_sha256": "0b9b5164494663ced1d6db64f3275793ca0d917632db9c0c0f2ff78f9882565d",
+    "text_section": {
+      "rva": 4096,
+      "sha256": "6767c4e237a55c67bbca1f3f93b143510a2568ba148a85daee2bb2857af6600a"
+    },
+    "text_matches_original_probe_image": true,
+    "accepted_main_replaced": false
+  },
+  "failed_probe": {
+    "path": "build/local-directx-heap-region-probe",
+    "reason": "Frida size_t return was compared to a JS number without conversion; no ranges were admitted and no allocation hooks were installed.",
+    "outcome": "Script load error and fixture gate timeout; excluded from measurements. The corrected v2 explicitly converts the size_t result and rejects an empty map."
+  }
+}
