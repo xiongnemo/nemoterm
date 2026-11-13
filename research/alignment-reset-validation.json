@@ -1,0 +1,481 @@
+{
+  "recorded_utc": "2026-11-13T21:48:49.882287+00:00",
+  "source_base_commit": "ced2992be7c2312a55b569b4c8c973cbb71a423f",
+  "source_hash_format": "SHA-256 of UTF-8 checkout files with CRLF normalized to LF",
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/terminal.c": "ad6f25b8d084f1f4a06bbb4c3095df438f857b9dca62061358b423376294c932",
+    "vendor/putty-0.85/test/test_state_control.c": "95161b04e742344546f4568904ffb0621888629c88b2c22523f7350da2531f09",
+    "vendor/putty-0.85/test/test_sixel_terminal.c": "51a2e5e9ad3bea8015f870676e7246db8a3588296d2fbbc7386c3f8937866a11",
+    "tests/alignment_window_smoke.py": "2fb6edf8b47d8970b0777eca3700fda5d6802aa7fd68b0d02f70e4beb5439612",
+    "tests/generate_alignment_oracle.py": "8a9b5016f81f8f3dc03ef89864479a3fd572b71a93424c978364279412dc5fa9",
+    "tests/alignment_oracle_cases.h": "ce9c40c454fd79f85ce90390229a636e5d893130e9d3b17ccac0bbf2daff33f2",
+    "tests/alignment_oracle_cases.py": "f83083f83dbe5e460a4026f5249f48c6972037ad3f0029996112a677c6f2f1c3",
+    ".github/workflows/ci.yml": "d3e751d681e16cd07e31a7814b9f92104cbf8d982496292fdbcc64887496be9a",
+    "scripts/test-single-exe.ps1": "ad302909bedddd102e53c47de0319065aba703a51abbc6bd4a7d56075ac8ae0f"
+  },
+  "frontend": {
+    "sha256": "19846c394bcd1fc6d1e6b7c064a913c7543a31088fa55c8449c92dde9cd034fa",
+    "bytes": 3878174,
+    "compiler": "MinGW MSVCRT, Release",
+    "distribution": "development sidecar frontend"
+  },
+  "source_host": {
+    "SourceCommit": "37ef26dae839319f7bf703bb648038c343c357f1",
+    "MicrosoftTerminalCommit": "f6de9e0618015def1c9dda5b82f9d3abf03eb799",
+    "OverlaySHA256": "993ff82d76c40ada627bc069ac01e907d1111e503722da85feae93059339dbea",
+    "EntrySHA256": "3a82a39c1c50e29746548140a241077442ab46dcae45e6aa4367890c7e9ce8e2",
+    "Executable": {
+      "SHA256": "d0a95950e45f77c541f7ae524d20003e56caf57fe7e9b3480d8102385dab9d6a",
+      "Bytes": 4448768
+    }
+  },
+  "local_core_suites": [
+    "test_state_control",
+    "test_sixel_terminal",
+    "test_hyperlink"
+  ],
+  "linux_asan_ubsan_suites": [
+    "test_state_control",
+    "test_sixel_terminal",
+    "test_hyperlink"
+  ],
+  "native": {
+    "gdi": {
+      "reference_cases": 13,
+      "direct_cases": 1,
+      "pixel_checks": 12,
+      "actual_renderer": 1,
+      "resized_grid": [
+        93,
+        24
+      ],
+      "natural_cleanup": true,
+      "controller": {
+        "executable_sha256": "19846c394bcd1fc6d1e6b7c064a913c7543a31088fa55c8449c92dde9cd034fa",
+        "name": "alignment",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 21904,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 3.445
+      },
+      "memory_instrumented": false,
+      "memory_acceptance": false
+    },
+    "opengl": {
+      "reference_cases": 13,
+      "direct_cases": 1,
+      "pixel_checks": 12,
+      "actual_renderer": 2,
+      "resized_grid": [
+        93,
+        24
+      ],
+      "natural_cleanup": true,
+      "controller": {
+        "executable_sha256": "19846c394bcd1fc6d1e6b7c064a913c7543a31088fa55c8449c92dde9cd034fa",
+        "name": "alignment",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 24636,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 5.557
+      },
+      "memory_instrumented": true,
+      "memory_acceptance": false
+    },
+    "directx": {
+      "reference_cases": 13,
+      "direct_cases": 1,
+      "pixel_checks": 12,
+      "actual_renderer": 3,
+      "resized_grid": [
+        93,
+        24
+      ],
+      "natural_cleanup": true,
+      "controller": {
+        "executable_sha256": "19846c394bcd1fc6d1e6b7c064a913c7543a31088fa55c8449c92dde9cd034fa",
+        "name": "alignment",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 18332,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 3.675
+      },
+      "memory_instrumented": true,
+      "memory_acceptance": false
+    }
+  },
+  "reference": "research/alignment-audit-validation.json",
+  "known_difference": "Retain valid RGB colour representation; XTerm(412) reports packed RGB as indexed integers after DECALN.",
+  "remote_ci": "initial-generation-preflight-failed; UTF-8 fix awaiting full CI",
+  "accepted_distribution_replaced": false,
+  "full_goal_complete": false,
+  "files": [
+    {
+      "path": "research/alignment-reset-evidence/gdi-alignment-gdi-observed.json.gz",
+      "bytes": 1291,
+      "sha256": "308b404edfb795fd96e9ae5803ed1b6044767ac91861f285289d8e9a59e5986b",
+      "raw_bytes": 6252,
+      "raw_sha256": "5ef889985146ef05361518f962621c0203c5191d3d03637aa71d1e67ec612bff",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/gdi-alignment-controller.json.gz",
+      "bytes": 265,
+      "sha256": "ded6a9d20b2bbcab077c65ce4de63b8cf561dac98265b726c0967d1db4fa789c",
+      "raw_bytes": 471,
+      "raw_sha256": "7c33bde95fa73e5f91594b892f50b91919aa0a540265ffdf689c807b2f4b8ec6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/gdi-alignment-gdi-window.png.gz",
+      "bytes": 386,
+      "sha256": "d7ba2bed2b72fa6df350e7a3ca896c522524b154a7fc51735b47830aabfd109a",
+      "raw_bytes": 3554,
+      "raw_sha256": "5388666e735b5c7c31e28d644092496148f72063f32b4563042add5d6663cc37",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/gdi-alignment.log.gz",
+      "bytes": 78,
+      "sha256": "4fb724eaf7fd1810dc36ebd4b6f1475164cdfad2dac0a8f1065d30575c7951ea",
+      "raw_bytes": 58,
+      "raw_sha256": "4dfb654969313ef3fadf5bd4a07cd96790ad6638c6c040fd40684c834ff3e225",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/opengl-alignment-opengl-observed.json.gz",
+      "bytes": 1291,
+      "sha256": "2ce5b526e9133bd60bb2ab42621e72145a0874682aca613d71e8ce2ed2e43b4c",
+      "raw_bytes": 6251,
+      "raw_sha256": "d54fb1253feaef82c6fefdf3b3a5b8e2090950375187eb2eb2ccb89abca1503d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/opengl-alignment-controller.json.gz",
+      "bytes": 265,
+      "sha256": "86f71d6944ea448a60e7e99abedbb79e84ecb4a2f8d59d829ca17894523feeb7",
+      "raw_bytes": 471,
+      "raw_sha256": "b5c0023edd7ab8448c2f3740cd55324c7d37235e94a4428335e25d6e919b97ea",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/opengl-alignment-opengl-window.png.gz",
+      "bytes": 386,
+      "sha256": "d7ba2bed2b72fa6df350e7a3ca896c522524b154a7fc51735b47830aabfd109a",
+      "raw_bytes": 3554,
+      "raw_sha256": "5388666e735b5c7c31e28d644092496148f72063f32b4563042add5d6663cc37",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/opengl-alignment.log.gz",
+      "bytes": 81,
+      "sha256": "00814e680027e84a96f016407322e7e65f3efb01813dc01f6088a4d78ee63d3d",
+      "raw_bytes": 61,
+      "raw_sha256": "9f6edf87759e7a86316388a3b590e9795d8aed793cdbd930551db03386f4fe56",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/directx-alignment-directx-observed.json.gz",
+      "bytes": 1291,
+      "sha256": "80432204485f5711aee5fce3a1eafcfe28560c84f2e945d30e02ac6f61afe220",
+      "raw_bytes": 6251,
+      "raw_sha256": "34a3a20bbb64abb7cb8c05a040c17a6b97556d2a7feeb4ca36ffdf38ab124b74",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/directx-alignment-controller.json.gz",
+      "bytes": 265,
+      "sha256": "ac4d12924a7bca48b6c516945f5281e28c49be10c3c8c7367f344190207fbe2f",
+      "raw_bytes": 471,
+      "raw_sha256": "3723156fa157cd964687ac51557928d80084647db1f7c896e6996aa3b4833252",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/directx-alignment-directx-window.png.gz",
+      "bytes": 386,
+      "sha256": "d7ba2bed2b72fa6df350e7a3ca896c522524b154a7fc51735b47830aabfd109a",
+      "raw_bytes": 3554,
+      "raw_sha256": "5388666e735b5c7c31e28d644092496148f72063f32b4563042add5d6663cc37",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/directx-alignment.log.gz",
+      "bytes": 78,
+      "sha256": "6e177fba83d02e3b1ff4f9784811610c66b13ed7dd9326e46258d6cbc01b8abd",
+      "raw_bytes": 62,
+      "raw_sha256": "cc45d87b58d2c4133bb4029c18c7c217f913e70c928f59d6f56c26c62e1eb785",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/configure.log.gz",
+      "bytes": 737,
+      "sha256": "3b0371baee4eb6bfb84723f2ccc347803fda5cbb18d60d2f1b53a2a5cc99316a",
+      "raw_bytes": 2896,
+      "raw_sha256": "c1d5e3a0af68564e3b8fb445bdffe5df0dd4ef860b1a0f481e9de799ccbebf99",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/core-build-final.log.gz",
+      "bytes": 185,
+      "sha256": "744b3a62844f5253ef0c5c5b31b334a02ae55de89f6c318ac6f4d05ce99a7444",
+      "raw_bytes": 249,
+      "raw_sha256": "1a96f60543b7da1f0b22ff9a9be1c431d05a16e5b137072a9ae19521d003fd95",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/frontend-build.log.gz",
+      "bytes": 513,
+      "sha256": "58233652b403b2cfe35d4efe17fb64536293d4e9eca93a45352d00c8502592a7",
+      "raw_bytes": 2357,
+      "raw_sha256": "e0acd9c2c17e091dbad7b2808d42a75badb962b3c83979d7af74bc7da4b8a288",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/test_state_control.log.gz",
+      "bytes": 48,
+      "sha256": "0326bd5c209013dfa89e5ba48e6ed3268a4a2d1bcd418b8d72782a753ec2cc00",
+      "raw_bytes": 28,
+      "raw_sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/test_sixel_terminal.log.gz",
+      "bytes": 49,
+      "sha256": "bf1b241f5096cb95828db86da0d54626a0477cd9babcc4f45eb38328475aaa54",
+      "raw_bytes": 29,
+      "raw_sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/test_hyperlink.log.gz",
+      "bytes": 49,
+      "sha256": "599572340736980f666777d870ed1ae6081a6d26a865f9a017c53f1f3e85562d",
+      "raw_bytes": 29,
+      "raw_sha256": "6462b368612e7ebe26e1bae02d79d8e1cf84e92029634dd71df918b612581461",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/asan-configure.log.gz",
+      "bytes": 934,
+      "sha256": "e88724a29750b59fddb66d7e793671451721001b5ec4530374daa786a0919a45",
+      "raw_bytes": 4298,
+      "raw_sha256": "9f76e7c723826c1f660a24abd030b463a99c13a81faf249e1e7548cd2c14a6c1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/asan-build.log.gz",
+      "bytes": 2079,
+      "sha256": "8928ff3686f50daa7bf2f0273cfb2018541d3bb072915cf21161eebe50b7c7a7",
+      "raw_bytes": 13480,
+      "raw_sha256": "fd055ada74d97b94a8da33e02572d03dc51fdb8fb5ff84f727c037ef5a631466",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/asan-test_state_control.log.gz",
+      "bytes": 47,
+      "sha256": "edceb48e4a4836d9583caedc7739d201453c813d6a4415b573685a03b016186c",
+      "raw_bytes": 27,
+      "raw_sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/asan-test_sixel_terminal.log.gz",
+      "bytes": 48,
+      "sha256": "a317a9fe6de1148005b23bbfc8f8e4623b0a386ca87e6e1b95eb2072f67bd6bf",
+      "raw_bytes": 28,
+      "raw_sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/asan-test_hyperlink.log.gz",
+      "bytes": 48,
+      "sha256": "17af69a486414c3c4476cde0195ff664f8d5cb98252379ff38c09f2f0e9c67be",
+      "raw_bytes": 28,
+      "raw_sha256": "a58b0dbedc1464792e429e360a7dd67a6b4c8a94d2198d3a9478565e058fa740",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/run-sanitizers.py.gz",
+      "bytes": 645,
+      "sha256": "aef4afdcb87e79cc297c504cd39759bd62d5a455b13a32f96edaa9b7e200e618",
+      "raw_bytes": 1115,
+      "raw_sha256": "2d40d7262cf83a84900ffa55b175d6fb040bd8c2a3ebbc79fd3d7a5fd1ff314b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-host.json.gz",
+      "bytes": 314,
+      "sha256": "56bbcb7583c675e5f5cc6ff41d9761c47e42fc83ce3774cba9558066293808ce",
+      "raw_bytes": 446,
+      "raw_sha256": "64d443b82c81996baad52df61f69ba2105c816e363c57472f2af2b0aa29923db",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-vendor_putty-0.85_terminal_terminal.c.gz",
+      "bytes": 114182,
+      "sha256": "d0415c133c9d351df3d27cafa20b242fa73a395bd4f1639da16837b52fd6eee2",
+      "raw_bytes": 504095,
+      "raw_sha256": "ad6f25b8d084f1f4a06bbb4c3095df438f857b9dca62061358b423376294c932",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-vendor_putty-0.85_test_test_state_control.c.gz",
+      "bytes": 5386,
+      "sha256": "6822d7432229e9e040e7fafc7af68c551b9dbb71f8a80ebcc3e75b5d0f35c895",
+      "raw_bytes": 20839,
+      "raw_sha256": "95161b04e742344546f4568904ffb0621888629c88b2c22523f7350da2531f09",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-vendor_putty-0.85_test_test_sixel_terminal.c.gz",
+      "bytes": 7348,
+      "sha256": "39393abf4290ca7b5c689253b95e866a9a54cef3b3f535b0f2ba02ad68390710",
+      "raw_bytes": 37681,
+      "raw_sha256": "51a2e5e9ad3bea8015f870676e7246db8a3588296d2fbbc7386c3f8937866a11",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-tests_alignment_window_smoke.py.gz",
+      "bytes": 1792,
+      "sha256": "9218ac435e57cbbd2989fa1e014d96942d2d0b7bda979125c933729f289ed15c",
+      "raw_bytes": 4089,
+      "raw_sha256": "2fb6edf8b47d8970b0777eca3700fda5d6802aa7fd68b0d02f70e4beb5439612",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-tests_generate_alignment_oracle.py.gz",
+      "bytes": 1038,
+      "sha256": "0e276e974595fb7e4742d4461c4c374b81e9c4dfb3605872cd9db24a82cfca48",
+      "raw_bytes": 2073,
+      "raw_sha256": "8a9b5016f81f8f3dc03ef89864479a3fd572b71a93424c978364279412dc5fa9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-tests_alignment_oracle_cases.h.gz",
+      "bytes": 585,
+      "sha256": "6edced16668f76836449875bc79d63f635623da1fc5d372b7d659d57022da5ad",
+      "raw_bytes": 4033,
+      "raw_sha256": "ce9c40c454fd79f85ce90390229a636e5d893130e9d3b17ccac0bbf2daff33f2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-tests_alignment_oracle_cases.py.gz",
+      "bytes": 528,
+      "sha256": "7acdf8e63591c4a0a40f48bbca69377806a8c8bbe558adc5484235fca96fa9ba",
+      "raw_bytes": 3894,
+      "raw_sha256": "f83083f83dbe5e460a4026f5249f48c6972037ad3f0029996112a677c6f2f1c3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-.github_workflows_ci.yml.gz",
+      "bytes": 7081,
+      "sha256": "58b0f47bfb9e965fc3c39ce8647b0ea0144ef7b69cb0cf9ec393b0fba48f72df",
+      "raw_bytes": 41970,
+      "raw_sha256": "d3e751d681e16cd07e31a7814b9f92104cbf8d982496292fdbcc64887496be9a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/source-scripts_test-single-exe.ps1.gz",
+      "bytes": 2660,
+      "sha256": "e221fde7a01a385d83fbf8d00d5099c0fd661345bdcaa61b06d897b128c29709",
+      "raw_bytes": 11488,
+      "raw_sha256": "ad302909bedddd102e53c47de0319065aba703a51abbc6bd4a7d56075ac8ae0f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-run.json.gz",
+      "bytes": 2716,
+      "sha256": "410de97fe28205ae900daafb8aa349cd409de4249e60d8d1246fb08bc706657e",
+      "raw_bytes": 26818,
+      "raw_sha256": "c62e9f44788621de58dbe4f0aa296744cac7e1e7307829478dcd7b6276154c03",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-artifacts.json.gz",
+      "bytes": 841,
+      "sha256": "e8a061b162368b0f969e4192333d9d15ca1de35fa7b44ecd324b9a4823d85659",
+      "raw_bytes": 3803,
+      "raw_sha256": "628eb79c0bfd1772653ad35718fc4f48b4182e96708fedf4b8fc97b3eba51d4e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-failed.log.gz",
+      "bytes": 1348,
+      "sha256": "9c728c8bc8ef852dbb724f0713374e136dedc83ecdf5e69b354d0d371452d743",
+      "raw_bytes": 10842,
+      "raw_sha256": "12905cf28f35dd014e6a08b1622ea977d3153eaab800b3a836e807e545bbdd8f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/generator-encoding-check.log.gz",
+      "bytes": 117,
+      "sha256": "f9d045b2574a2cf994cef6cd6edeba7bfab72b12ebed9704a767c23fc5c86f74",
+      "raw_bytes": 108,
+      "raw_sha256": "cc953f45fad28ae264103b5e6822d0e61de2fbe978bccdbc97c4d26f3f055233",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/generator-encoding-followup.py.gz",
+      "bytes": 1040,
+      "sha256": "70f1ca9dec8328e575d2bc365e5cc0615816b1f8bc9c035e6fdd6c0bca5900b9",
+      "raw_bytes": 2089,
+      "raw_sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9",
+      "encoding": "gzip"
+    }
+  ],
+  "initial_ci_failure": {
+    "source_commit": "f72272f81a5bca2198f263beaeaeced9861284fd",
+    "core_run": 43514099964,
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43514099964",
+    "failed_job": "Windows x64 tests and portable build",
+    "cause": "New generator omitted encoding on the audit manifest read; strict EncodingWarning stopped generated-data preflight before build/native tests.",
+    "product_assertion_failure": false,
+    "unchanged_rerun": false,
+    "correction": "Explicit UTF-8 for the JSON manifest read; generated expectations and product code unchanged.",
+    "local_strict_check_passed": true,
+    "updated_generator_sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9",
+    "recorded_utc": "2026-11-13T21:58:27.405979+00:00"
+  }
+}

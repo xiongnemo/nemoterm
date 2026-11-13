@@ -5,6 +5,77 @@
 #include "../../../tests/tabulation_oracle_cases.h"
 #include "../../../tests/double_size_oracle_cases.h"
 #include "../../../tests/cursor_charset_cases.h"
+#include "../../../tests/alignment_oracle_cases.h"
+
+static void test_alignment(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(alignment_oracle); i++) {
+        reset(mk);
+        term_size(mk->term, 24, 80, 200);
+        test_context(mk, "alignment reference: %s", alignment_oracle[i].name);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, alignment_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, alignment_oracle[i].reply);
+    }
+
+    reset(mk);
+    test_context(mk, "alignment clears cell payloads and selection, but retains current RGB/protection");
+    term_size(mk->term, 4, 8, 200);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    term_data_fragmented(mk->term, "\033[38:2::1:2:3;48:2::4:5:6;1;4:3;53m"
+                         "\033[1\"q\033]8;;https://example.invalid/alignment\033\\"
+                         "\xe4\xb8\xad" "e\xcc\x81\033#6\033[2;1H\033#3");
+    mk->term->selstate = SELECTED;
+    mk->term->selstart = (pos){0, 0};
+    mk->term->selend = (pos){2, 0};
+    term_data_fragmented(mk->term, "\033#8");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+    for (int y = 0; y < 4; y++) {
+        termline *line = term_get_line(mk->term, y);
+        IEQUAL(line->lattr, LATTR_NORM);
+        for (int x = 0; x < 8; x++) {
+            termchar *ch = &line->chars[x];
+            IEQUAL(ch->chr, 'E'); IEQUAL(ch->attr, ATTR_DEFAULT);
+            IEQUAL(ch->cc_next, 0); IEQUAL(ch->hyperlink, 0);
+            IEQUAL(ch->truecolour.decoration, 0);
+            IEQUAL(ch->truecolour.fg.enabled, false);
+            IEQUAL(ch->truecolour.bg.enabled, false);
+        }
+        term_release_line(line);
+    }
+    strbuf_clear(mk->to_backend);
+    term_data_fragmented(mk->term, "\033P$qm\033\\\033P$q\"q\033\\Q");
+    SEQUAL(mk->to_backend->s, "\033P1$r0;38:2::1:2:3;48:2::4:5:6m\033\\\033P1$r1\"q\033\\");
+    termchar ch = get_termchar(mk->term, 0, 0);
+    IEQUAL(ch.chr & ~CSET_MASK, 'Q');
+    IEQUAL(ch.truecolour.fg.enabled, true); IEQUAL(ch.truecolour.fg.r, 1);
+    IEQUAL(ch.truecolour.bg.enabled, true); IEQUAL(ch.truecolour.bg.b, 6);
+    IEQUAL(ch.truecolour.decoration, CELL_PROTECTED);
+    IEQUAL(ch.hyperlink != 0, true);
+
+    reset(mk);
+    test_context(mk, "alignment preserves text history and unrelated input/wrap/tab state");
+    term_size(mk->term, 3, 8, 200);
+    term_data_fragmented(mk->term, "HISTORY\r\nline2\r\nline3\r\n"
+                         "\033[?1;69;2004h\033[?7l\033[4h\033[3g\033[1;4H\033H\033#8");
+    IEQUAL(count234(mk->term->scrollback), 1);
+    ch = get_termchar(mk->term, 0, -1);
+    IEQUAL(ch.chr & ~CSET_MASK, 'H');
+    IEQUAL(mk->term->lrmm, true); IEQUAL(mk->term->wrap, false);
+    IEQUAL(mk->term->insert, true); IEQUAL(mk->term->app_cursor_keys, true);
+    IEQUAL(mk->term->bracketed_paste, true); IEQUAL(mk->term->tabs[3], true);
+    IEQUAL(mk->term->tabs[0], false);
+
+    reset(mk);
+    test_context(mk, "alignment one-cell grid and repeated payload replacement");
+    term_size(mk->term, 1, 1, 0);
+    for (int i = 0; i < 1000; i++) {
+        term_data_fragmented(mk->term, "X\033#6\033#8");
+        IEQUAL(mk->term->curs.x, 0); IEQUAL(mk->term->curs.y, 0);
+        IEQUAL(mk->term->wrapnext, false);
+        IEQUAL(get_termchar(mk->term, 0, 0).chr, 'E');
+    }
+}
 
 static void test_double_size(Mock *mk)
 {
@@ -377,6 +448,7 @@ int main(void)
     test_saved_extensions_and_recovery(mk);
     test_tabulation(mk);
     test_double_size(mk);
+    test_alignment(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "State control suite FAILED" : "State control suite passed");

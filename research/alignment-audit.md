@@ -1,8 +1,9 @@
 # Screen-alignment state audit
 
-`ESC # 8` (DECALN) fills the screen with `E` characters, but the current inherited
-handler does not implement several state changes made by XTerm. This is an
-unfixed compatibility finding, not a completed implementation checkpoint.
+The initial `ESC # 8` (DECALN) audit below found that the inherited handler filled
+the screen with `E` characters but omitted several state changes made by XTerm.
+The [development fix and local validation](alignment-reset.md) now address the
+state and visible-image lifetime findings; full remote CI for that fix is pending.
 The control is listed in the [XTerm sequence reference](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html).
 
 A private Xvfb/XTerm capture and a newly spawned native Nemoterm/ConPTY process

@@ -165,6 +165,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_guarded_area_cases.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_alignment_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_horizontal_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_reverse_wrap_oracle.py --check
@@ -506,6 +508,15 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/double-size-observed.json, research/double-size-window.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test screen alignment state, raster retirement and synchronized frames
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/alignment_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/alignment-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/alignment-$renderer-observed.json", "research/alignment-$renderer-window.png" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test graphics capability replies, resized geometry and palette pixels
         shell: pwsh
         run: |
