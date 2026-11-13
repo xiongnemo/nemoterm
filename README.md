@@ -175,6 +175,7 @@ cd nemoterm
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
 | `52d0962`，关闭诊断修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324) |
+| `52d0962`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43452081929) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43452081806) |
 | `1b09f82`，早期修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
 | `1b09f82`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
 

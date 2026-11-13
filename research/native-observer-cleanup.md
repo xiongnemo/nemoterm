@@ -72,3 +72,12 @@ contains one 4,371,456-byte EXE; its downloaded SHA-256 is
 The [new validation manifest](shutdown-diagnostics-validation.json) binds those
 records. This confirms the diagnostic changes pass existing checks; the earlier
 timeout remains unexplained and no local runtime acceptance is inferred.
+
+The same source subsequently passes both main-branch repeats:
+[core 43452081929](https://github.com/xiongnemo/nemoterm/actions/runs/43452081929)
+and [single-image 43452081806](https://github.com/xiongnemo/nemoterm/actions/runs/43452081806).
+The latter passes all 57 groups and again packages exactly one EXE. Both builds
+retain six successful shutdown cases. This separate rebuild has SHA-256
+`b1365427c8eac795c100b2c58d41f980f63db6e969372cb2f5fa07187430cbcd`;
+the original fixed download above remains available. The validation manifest's
+`main_repeat` section identifies the new artifacts and retained records.
