@@ -54,7 +54,8 @@ def main():
     folder=Path(tempfile.mkdtemp(prefix='file-drop-',dir=ROOT/'build'))
     paths=[str(folder/"space ' 中文 & $name.txt"),str(folder/'folder with spaces')]
     Path(paths[0]).write_text('owned fixture',encoding='utf-8');Path(paths[1]).mkdir()
-    result=dict(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,checks=[])
+    result=dict(exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
+                folder=str(folder),checks=[],cleanup=[])
     detected=json.loads(subprocess.check_output([str(exe),'--list-shells'],creationflags=subprocess.CREATE_NO_WINDOW))
     locations={v['id']:v['path'] for v in detected if v['available']}
     result['shell_argument_checks']={}
@@ -81,7 +82,17 @@ def main():
                 expected=bytearray()
                 def check(data,label):
                     expected.extend(data)
-                    wait_for(lambda:received()==bytes(expected))
+                    try:
+                        wait_for(lambda:received()==bytes(expected))
+                    except BaseException:
+                        result['failure']=dict(shell=shell,phase=label,expected_hex=expected.hex(),
+                                               received_hex=received().hex(),instance=api.request(endpoint))
+                        try:
+                            result['failure']['screen']=api.request(endpoint,'text',sid)
+                        except Exception as exc:
+                            result['failure']['capture_error']=repr(exc)
+                        print(json.dumps(result['failure'],ensure_ascii=True),flush=True)
+                        raise
                     assert b'\r' not in expected,'Path paste must not submit a command'
                     result['checks'].append(shell+': '+label)
                 def clipboard(formats):
@@ -160,7 +171,8 @@ def main():
                     result['checks'].append('malformed DROPFILES offset is rejected without input')
                 saved.restore();saved=None
                 api.request(endpoint,'input',sid,'quit\r');assert process.wait(timeout=15)==0
-                cleanup=job.finish();assert not cleanup['terminated_remaining'],cleanup
+                cleanup=job.finish();result['cleanup'].append(dict(shell=shell,**cleanup))
+                assert not cleanup['terminated_remaining'],cleanup
                 print(shell+': passed',flush=True)
         finally:
             if saved:saved.restore()
