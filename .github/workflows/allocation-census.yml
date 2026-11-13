@@ -3,8 +3,10 @@ name: Allocation census bookkeeping
 on:
   push:
     paths:
-      - 'tests/allocation_census.h'
+      - 'tests/allocation_census*'
       - 'tests/test_allocation_census.c'
+      - 'tests/frida_test_utils.py'
+      - 'tests/owned_job.py'
       - '.github/workflows/allocation-census.yml'
   workflow_dispatch:
 
@@ -31,4 +33,24 @@ jobs:
         with:
           name: allocation-census-bookkeeping-${{ github.sha }}
           path: allocation-census-test.log
+          if-no-files-found: warn
+
+  native-adapter:
+    runs-on: windows-2025
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install pinned native observer
+        run: python -m pip install frida==17.24.3
+      - name: Observe controlled allocation and free lifetimes
+        shell: pwsh
+        run: |
+          python tests/allocation_census_native_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Retain native observer validation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: allocation-census-native-${{ github.sha }}
+          path: allocation-census-native.json
           if-no-files-found: warn
