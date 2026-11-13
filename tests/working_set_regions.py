@@ -44,6 +44,32 @@ def reservation_range(handle, allocation):
     raise RuntimeError('Reservation query exceeded region limit')
 
 
+def reservation_layout(handle, interval):
+    """Describe a fixed selected range, including reserved/free pages.
+
+    AllocationBase equality cannot prove identity after an address is reused.
+    Keep raw region state so callers do not confuse commitment with residency.
+    """
+    start,end=int(interval['start'],16),int(interval['end'],16)
+    if not 0<start<end:raise ValueError('Invalid selected reservation')
+    cursor=start;regions=[];committed=0
+    for _ in range(4096):
+        part=Region()
+        if k.VirtualQueryEx(handle,cursor,c.byref(part),c.sizeof(part))!=c.sizeof(part):
+            raise c.WinError()
+        following=min(end,part.base+part.size)
+        if following<=cursor:raise RuntimeError('Non-advancing layout query')
+        allocation=None if part.state==0x10000 else part.allocation
+        regions.append(dict(start=hex(cursor),end=hex(following),state=part.state,
+            protection=part.protect,kind=part.kind,
+            allocation=hex(allocation) if allocation is not None else None))
+        if part.state==0x1000 and allocation==start:committed+=following-cursor
+        cursor=following
+        if cursor==end:
+            return dict(**interval,committed_bytes=committed,regions=regions)
+    raise RuntimeError('Selected layout exceeded region limit')
+
+
 def private_regions(handle):
     addresses=private_page_addresses(handle)
     allocations={};regions=set();current=Region()

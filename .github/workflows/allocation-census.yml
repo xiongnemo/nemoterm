@@ -10,8 +10,15 @@ on:
       - 'tests/working_set_regions.py'
       - 'tests/tab_workload_memory.py'
       - 'tests/tabs_window_smoke.py'
+      - 'tests/virtual_memory*'
       - '.github/workflows/allocation-census.yml'
   workflow_dispatch:
+    inputs:
+      observation:
+        description: Native observer validation, or frontend heap diagnostics
+        type: choice
+        default: native
+        options: [native, heap]
 
 permissions:
   contents: read
@@ -58,18 +65,22 @@ jobs:
         run: |
           python tests/allocation_census_native_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/virtual_memory_native_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Retain native observer validation
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: allocation-census-native-${{ github.sha }}
-          path: allocation-census-native.json
+          path: |
+            allocation-census-native.json
+            virtual-memory-native.json
           if-no-files-found: warn
 
   frontend-workload:
     # Explicit diagnostics only. Normal test/build workflows retain their
     # uninstrumented 20,000,000-byte gate and do not recognize diagnostic exit 2.
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && inputs.observation == 'heap'
     needs: [bookkeeping, native-adapter]
     strategy:
       fail-fast: false

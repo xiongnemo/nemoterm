@@ -98,7 +98,7 @@ retained for seven days; expiry requires explicitly selecting another verified
 candidate identity, not silently substituting the latest image.
 
 ```powershell
-gh workflow run allocation-census.yml --repo xiongnemo/nemoterm --ref feature/allocation-census-20261114
+gh workflow run allocation-census.yml --repo xiongnemo/nemoterm --ref feature/allocation-census-20261114 -f observation=heap
 ```
 
 `tabs_window_smoke.py --workload-memory --allocation-census` is CI-only and
