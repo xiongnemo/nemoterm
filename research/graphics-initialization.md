@@ -1,5 +1,10 @@
 # Graphics initialization observations
 
+Follow-up: the [complete Direct3D 9Ex compositor](direct3d9-compositor.md)
+passes the local pixel suite but fails the unchanged full-workload budget at
+31,731,712 private-working-set bytes. Disabling its run cache reaches 33,579,008
+bytes. Neither candidate is retained in the product.
+
 This checkpoint changes no product renderer. The exact downloaded `9370c1f`
 image remains over the local DirectX budget: **30,433,280 private-working-set
 bytes** in the full Sarasa 160x48 two-tab workload. See [overline acceptance](overline.md).
