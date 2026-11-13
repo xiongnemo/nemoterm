@@ -7,9 +7,20 @@ Windows core and Linux sanitizer jobs at `d2aa14a`; their workflow later fails
 the separate upstream-host guarded-area check. The
 [retained validation](reset-palette-validation.json) records that failure and
 the successful 88-group single-image run. This establishes product parser
-coverage, not an independent full-table XTerm comparison: the 66-batch XTerm
-collector described below remains unrun. Local runtime testing remains paused.
-The remaining sections preserve the initial source/build checkpoint.
+coverage. The subsequent [independent run 43468632067](https://github.com/xiongnemo/nemoterm/actions/runs/43468632067)
+matches all 66 batches: 782 table names, 782 case variants and ten rejected
+names. The [manifest and raw captures](x11-colours-reference-validation.json)
+identify XTerm(412) and the installed X11 libraries/server. No local runtime
+test was needed for this checkpoint. The remaining sections preserve the
+initial source/build checkpoint.
+
+The first capture failed because a query was placed in the same OSC 4 command
+after an invalid name. The pinned XTerm
+[`ChangeAnsiColorRequest`](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/misc.c#L2815-L2860)
+stops processing that command on a colour-allocation error, so it omits the
+query. The follow-up uses separate set and query commands to observe the old
+sentinel colour after rejection. The original 66-batch capture is retained;
+this correction does not claim malformed combined-command recovery parity.
 
 ## Implementation
 

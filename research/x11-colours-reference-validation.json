@@ -43,5 +43,50 @@
       }
     ]
   },
-  "follow_up": "Separate set and query OSC commands so invalid-name rejection has an observable sentinel reply; remote verification pending"
+  "follow_up": {
+    "run": 43468632067,
+    "artifact": 14059492940,
+    "fixture_commit": "467087458b5c2c27ad70816770b482b03c21449d",
+    "result": "success",
+    "matched_batches": 66,
+    "matched_names_and_rejections": 1574,
+    "table_names": 782,
+    "case_variants": 782,
+    "invalid_names": 10,
+    "executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
+    "version": "XTerm(412)",
+    "files": [
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-x11-colour-xterm.json.gz",
+        "original_sha256": "7fab957359ab09e5cc7cd2b4162e4e65c467abadd2a4f3462d5b6b19e1f6f244",
+        "gzip_sha256": "70c77e098d332898a840e3efb148f979fb55262be969d6ece5d96ab22545d262"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-fixture-commit.txt.gz",
+        "original_sha256": "484c183a2e4fac5172d42e7e995620a00e3465add9e9faf209d8130a57b3cf1f",
+        "gzip_sha256": "106654a26f7e0c8d450a575c2b8de00b3a65906285db542e5e2f3b49c77d821e"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-upstream-commit.txt.gz",
+        "original_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27",
+        "gzip_sha256": "489843670b24868c6c4fe67946274e9f0f83f91ff3ee07f94a02c2818beffa36"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-executable-sha256.txt.gz",
+        "original_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd",
+        "gzip_sha256": "5f2c3d9b90e7f55655e939f0a2144ab4d78e95ec65c1a24122e76665c3c56208"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-version.txt.gz",
+        "original_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a",
+        "gzip_sha256": "8783835ebbbbd1538615aac45306014aaf663c9b5d35a2ba08fb129a8ded8c22"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/separate-command-x11-packages.txt.gz",
+        "original_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3",
+        "gzip_sha256": "b3949f1b394f70dbd0a69e37a4d6aea69a43718091364ca1f52fb3419bdb0717"
+      }
+    ],
+    "scope": "Separate OSC setter and query; does not assert malformed combined-command recovery parity"
+  }
 }
