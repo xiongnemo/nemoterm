@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import struct
 import xml.etree.ElementTree as ET
 
@@ -55,14 +56,21 @@ for action,elem in parse:
         if len(result['stack_examples'])<2:result['stack_examples'].append(ET.tostring(elem,encoding='unicode'))
         payload=elem.findtext('e:ProcessingErrorData/e:EventPayload',namespaces=ns)
         try:
-            if not payload:raise ValueError('Expected raw StackWalk payload from this tracerpt version')
-            raw=bytes.fromhex(payload)
-            if len(raw)<16 or (len(raw)-16)%8:raise ValueError('Invalid x64 StackWalk payload length')
-            qpc,stack_pid,thread=struct.unpack_from('<QII',raw)
+            if payload:
+                raw=bytes.fromhex(payload)
+                if len(raw)<16 or (len(raw)-16)%8:raise ValueError('Invalid x64 StackWalk payload length')
+                qpc,stack_pid,thread=struct.unpack_from('<QII',raw)
+                frames=[hex(value[0]) for value in struct.iter_unpack('<Q',raw[16:])]
+            else:
+                qpc,stack_pid,thread=(number(data[key]) for key in ('EventTimeStamp','StackProcess','StackThread'))
+                indexed=sorted((int(key[5:]),number(value)) for key,value in data.items() if re.fullmatch(r'Stack\d+',key))
+                if [i for i,_ in indexed]!=list(range(1,len(indexed)+1)):
+                    raise ValueError('Non-contiguous decoded stack frames')
+                frames=[hex(address) for _,address in indexed]
             if stack_pid==pid:
                 result['stacks'].append(dict(qpc=qpc,pid=stack_pid,thread=thread,time=event['time'],
-                    frames=[hex(value[0]) for value in struct.iter_unpack('<Q',raw[16:])],raw_payload=payload))
-        except ValueError as error:
+                    frames=frames,raw_payload=payload,decoded_data=data if not payload else None))
+        except (KeyError,ValueError) as error:
             result['stack_decode_error_count']+=1
             if len(result['stack_decode_errors'])<8:result['stack_decode_errors'].append(str(error))
     elem.clear();root.clear()
