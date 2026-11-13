@@ -260,7 +260,8 @@ jobs:
             bitmap-*.log
             bitmap-candidate.json
             build/single-exe-dist/nemoterm.exe
-            research/renderer-printclient-observed.json
+            research/renderer-observed.json
+            research/renderer-*.png
             research/workload-tabs-*
             build/*failure.json
           retention-days: 30

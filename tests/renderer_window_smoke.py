@@ -150,6 +150,19 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                     name='cursor-'+('active-' if focused else 'inactive-')+str(shape)
                     render(name,'\x1b[?12l\x1b['+str(shape)+' q\x1b[?25h\x1b[2;4H')
                     compare(name)
+            # More distinct equal-size runs than the 256-entry GPU cache.
+            # Alternate every tile's contents, then restore them. Pending
+            # draws must keep their old pixels when an evicted bitmap is reused.
+            for cycle,variant in enumerate((0,1,0)):
+                tiles='\x1b[0m\x1b[?25l\x1b[2J'
+                for row in range(20):
+                    tiles+=f'\x1b[{row+1};1H\x1b#5'
+                    for column in range(40):
+                        value=row*40+column+variant*800
+                        red,green,blue=value%251,(value//251)*31,(value*43)%251
+                        tiles+=f'\x1b[38;2;255;255;255;48;2;{red};{green};{blue}m'+('XY' if variant==0 else 'AB')
+                name=f'cache-eviction-{cycle}'
+                render(name,tiles+'\x1b[0m');compare(name)
             mode['focus_observations']=focus_script.exports_sync.stats()
             assert not focus_errors,focus_errors
             assert int(u.GetPropW(hwnd,'NemotermRenderer'))==active,'Renderer failed during drawing'
