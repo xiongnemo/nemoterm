@@ -13,8 +13,12 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
   BusyBox ash, Git Bash and WSL Bash with installed distributions, retaining cmd
   as a fallback. Implemented: all six local shells passed real interactive launch
   and exit, with native settings save/reload; see `research/shell-selection.md`.
-* Per-window **private working set <20 MB**; total working set approximately 50 MB,
-  clarified by user 2026-11-12. Record bytes, decimal MB and MiB; no forced working-set trimming.
+* Per-window frontend private working set: **GDI <20 MB**, **DirectX <=25 MB**.
+  The user approved the DirectX allowance on 2026-11-14, with further optimization deferred.
+  Optional OpenGL retains its explicit exception. Total working set remains approximately 50 MB.
+  Record bytes, decimal MB and MiB; no forced working-set trimming.
+  Apply limits to the actual renderer, so fallback to GDI does not inherit the DirectX allowance.
+  Historical evidence keeps its original limits; a new evaluation must identify the new policy.
   Child shell, ConPTY host and agent must be reported separately, not silently excluded from totals.
 * Configurable font, colours, dimensions, history, shell and interaction.
 * Default 160x48 character grid, reduced to the monitor work area when it does

@@ -75,6 +75,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/memory_sample_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/memory_limits_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3

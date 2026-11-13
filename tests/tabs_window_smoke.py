@@ -1,5 +1,6 @@
 """Owned native tab host: routing, four-sided chrome, preview and GPU lifetime."""
 from native_test_utils import *
+from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 import argparse
 import uuid
@@ -129,8 +130,11 @@ try:
                 assert sample['gdi']<=baseline['gdi']+3,(baseline,sample)
                 assert sample['user']<=baseline['user']+2,(baseline,sample)
             evidence['checks'].append('12 create/close cycles retain one shared renderer without handle growth')
-            if actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1'):
-                assert max(v['private_ws'] for v in [initial,baseline]+evidence['cycles'])<20_000_000
+            evidence.update(private_ws_policy(actual))
+            evidence['peak_private_ws']=max(v['private_ws'] for v in [initial,baseline]+evidence['cycles'])
+            evidence['memory_limit_passed']=private_ws_passes(actual,evidence['peak_private_ws'])
+            if evidence['memory_limit_required']:
+                assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             # Capture after memory samples, recording that subsequent pixels
             # use test instrumentation for hardware readback only.
             from gpu_capture import OwnedGPUCapture
