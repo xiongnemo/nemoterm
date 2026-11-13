@@ -87,7 +87,10 @@ function startVirtualTrace(scope) {
         trace.active=false;trace.hooks.forEach(h=>h.detach());trace.hooks=[];
         throw error;
     }
-    return {apis:Object.keys(trace.calls),event_capacity:capacity};
+    return {apis:Object.keys(trace.calls),event_capacity:capacity,
+        entrypoints:Object.fromEntries(['NtAllocateVirtualMemory','ZwAllocateVirtualMemory',
+            'NtAllocateVirtualMemoryEx','ZwAllocateVirtualMemoryEx','NtFreeVirtualMemory','ZwFreeVirtualMemory']
+            .map(name=>[name,nt.findExportByName(name)?.toString() || null]))};
 }
 
 function freezeVirtualTrace() {

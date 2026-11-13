@@ -41,6 +41,11 @@ class VirtualMemoryTrace(AllocationCensus):
         call_frida('virtual-load',self.script.load)
         self.checkpoint('initialize-native-hooks')
         self.result['initialized']=self.script.exports_sync.initialize(self.result['scope'])
+        # Attaching and creating the script can grow existing target heaps.
+        # Keep that interval separate from the subsequent terminal workload.
+        self.result['observation_start_layouts']=[reservation_layout(self.handle,r) for r in ranges]
+        self.result['observation_start_private_pages']=[hex(p) for p in private_page_addresses(self.handle)]
+        self.result['observation_start_memory']=memory_sample(self.handle)
         self.checkpoint('observe-workload')
 
     def freeze(self):
@@ -60,7 +65,9 @@ class VirtualMemoryTrace(AllocationCensus):
             raise RuntimeError('Virtual memory capture is invalid')
         before_private={e['allocation']:e['private_ws'] for e in self.result['before']['allocations']}
         changes=[]
-        for before_layout,after_layout in zip(self.result['before_layouts'],after_layouts):
+        observation_pages=[int(p,16) for p in self.result['observation_start_private_pages']]
+        for before_layout,observation_layout,after_layout in zip(
+                self.result['before_layouts'],self.result['observation_start_layouts'],after_layouts):
             start,end=int(before_layout['start'],16),int(before_layout['end'],16)
             matching=[]
             for event in snapshot['events']:
@@ -69,7 +76,9 @@ class VirtualMemoryTrace(AllocationCensus):
                     matching.append(event['sequence'])
             changes.append(dict(start=before_layout['start'],end=before_layout['end'],reserved_bytes=end-start,
                 before_committed_bytes=before_layout['committed_bytes'],after_committed_bytes=after_layout['committed_bytes'],
+                observation_start_committed_bytes=observation_layout['committed_bytes'],
                 before_private_ws=before_private.get(before_layout['start'],0),
+                observation_start_private_ws=sum(start<=p<end for p in observation_pages)*mmap.PAGESIZE,
                 after_private_ws=sum(start<=p<end for p in pages)*mmap.PAGESIZE,
                 event_sequences=matching))
         self.result['reservation_changes']=changes

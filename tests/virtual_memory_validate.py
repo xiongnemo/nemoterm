@@ -34,7 +34,7 @@ for sequence,event in enumerate(snapshot['events'],1):
     assert any(start<=address<end if size==0 else address<end and address+size>start for start,end in ranges)
 assert len(census['reservation_changes'])==len(ranges)
 for change in census['reservation_changes']:
-    for key in ('before_committed_bytes','after_committed_bytes'):
+    for key in ('before_committed_bytes','observation_start_committed_bytes','after_committed_bytes'):
         assert 0<=change[key]<=change['reserved_bytes'] and change[key]%census['page_size']==0
 for name,expected in census['source_sha256'].items():
     assert hashlib.sha256((root/'tests'/name).read_bytes()).hexdigest()==expected,name
