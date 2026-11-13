@@ -1,0 +1,196 @@
+{
+  "recorded_utc": "2026-11-13T19:38:56.476817+00:00",
+  "source_commit": "9eeaadac15930e9ca9190f75d43ef23ed7f0bc92",
+  "executable": {
+    "sha256": "ac83f2e022b60068d39e0e00a51d175f1c4a5e3ddeb68229d524ce2661e20a20",
+    "bytes": 4467200,
+    "provenance": "Local incremental MSVC single image; exact digest is the runtime identity, not the reused embedded version text."
+  },
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_tcap.c": "f7fab2e9f8207e2b4c2d63869679b3cec108acfa74192e49a17656019a17a20b",
+    "vendor/putty-0.85/test/test_tcap.c": "e0ef92b29ffd8f3425bc64fc08771f12dde9e4d6e8e7a2727ac18fca8f1c908e",
+    "tests/query_window_smoke.py": "9d01883bdd5299ba10c8ac57a0ef384666e52a034ec5e54c58a89b592d01c3d7",
+    "tests/query_focus_probe.js": "71f2ba5bf1e7fdf93f665647b1e5eecae0eea6f679c5f34b03928a3b32444a79",
+    "tests/mouse_fixture.py": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a",
+    "tests/native_test_utils.py": "a674222aba14da360018c21cd8429edbc0b1d981c2b6422e00663ffb8fbf761f",
+    "tests/owned_job.py": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+  },
+  "source_hash_format": "Exact checkout bytes; Windows line endings may differ from git blobs.",
+  "core_suites": [
+    "tcap",
+    "sgr",
+    "queries"
+  ],
+  "native": {
+    "completed": true,
+    "rendition_names": 12,
+    "unsupported_names": 5,
+    "returned_sequences_replayed": true,
+    "exact_decrqss": true,
+    "natural_cleanup": true,
+    "seconds": 13.563,
+    "memory_instrumented": true,
+    "memory_acceptance": false,
+    "physical_display_acceptance": false
+  },
+  "accepted_distribution_replaced": false,
+  "full_goal_complete": false,
+  "ci": {
+    "status": "pending"
+  },
+  "files": [
+    {
+      "path": "research/rendition-capabilities-evidence/query.log.gz",
+      "status": "passed",
+      "sha256": "180c584fd0bf445b951c370ab0d25b31a3415e55c94a6260b39de9df5c935dff",
+      "bytes": 2191,
+      "raw_sha256": "d37d5300134e9abd739f390fdb7e2feb2c38f53e6d0e256416e0b988e94b89af",
+      "raw_bytes": 14809,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/test_tcap.log.gz",
+      "status": "passed",
+      "sha256": "21de01dded530315e1f59fa478d2eab54da8acef9921d415338d28fccb288abe",
+      "bytes": 54,
+      "raw_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156",
+      "raw_bytes": 34,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/test_sgr.log.gz",
+      "status": "passed",
+      "sha256": "656a58fc296aefd28cfafbf9c8a1b889da90fd967859254735523e6b486bd5f3",
+      "bytes": 38,
+      "raw_sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1",
+      "raw_bytes": 18,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/test_queries.log.gz",
+      "status": "passed",
+      "sha256": "b33549e66031796d1d2ec81d72646fa95f3b09f5b3a3bfcdf2d6f0f0001b8e27",
+      "bytes": 40,
+      "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1",
+      "raw_bytes": 20,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/core-build.log.gz",
+      "status": "passed",
+      "sha256": "126fcf92a1ba008e00dd16c368fcbeabd20a24e30dee1d04afe7517545644e9e",
+      "bytes": 179,
+      "raw_sha256": "ae408c02562c6b3e8963011a296df3aa8fca0cc8516aa6117451a8d37a554a48",
+      "raw_bytes": 219,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/query-window-observed.json.gz",
+      "status": "passed",
+      "sha256": "ce280d5c951d9f83ab0ea55a3efef648b99e0974f2fb133ea506ff61838e4c57",
+      "bytes": 2266,
+      "raw_sha256": "95e3269a1d0aeb5ce5a31c1ed80dd6742d1f6a8d3cae39ff9ea5679c689c0549",
+      "raw_bytes": 17292,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/query-controller.json.gz",
+      "status": "passed",
+      "sha256": "1e52264de7b5227f12a3e623b5d461e0f40859923fa9d2427c74d3e5b5313b14",
+      "bytes": 262,
+      "raw_sha256": "82d12ba448e4cd9b731f6826730227fadf1233784d01fd8a40939e4bb06f6535",
+      "raw_bytes": 468,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/cursor-block.png.gz",
+      "status": "passed",
+      "sha256": "61de61e31608de8578e8db008c268ca35010bfc73cd3c7ea9ec18696f2503dbe",
+      "bytes": 145,
+      "raw_sha256": "b893f7a97b083ca5fbd673a58db35298b9ebe2f024b791716fe2883e3864fff2",
+      "raw_bytes": 352,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/cursor-bar.png.gz",
+      "status": "passed",
+      "sha256": "a2802410d5534cfe8123ed58c21c2b1cfb3cc6e688af19ac4f0582621ea7fd87",
+      "bytes": 148,
+      "raw_sha256": "299864167b513ef88b66c733e6cb32611cb9b6f049f6bfb08cafa2d10ff70280",
+      "raw_bytes": 354,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/cursor-underline.png.gz",
+      "status": "passed",
+      "sha256": "92043d109ac82c388e370803a477960868e3dfce160f3bd78c54e79dde7396b6",
+      "bytes": 111,
+      "raw_sha256": "2e8e2236ebfa41a7c456eff1ed76f3614a26b06538d1af594ede8c19d32028f4",
+      "raw_bytes": 312,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/frontend-build.log.gz",
+      "status": "passed",
+      "sha256": "ce376c541acec6501baf97da4c6aa7fb65d30abc8348df02f31f04f06449994b",
+      "bytes": 181,
+      "raw_sha256": "700f8a3e9d1f734c3205402fc7e0802312c6d4a19b87987c9238c25a2b47861c",
+      "raw_bytes": 219,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/host-build.log.gz",
+      "status": "passed",
+      "sha256": "fd94c649bed3538dc1d7004f8e5f0d011b1801cf0bbb13966d589aa6a08d4a69",
+      "bytes": 584,
+      "raw_sha256": "aab6486e4b573c533803fac1e0a5e54dcad59edc2b7985363b644b7f2a5b962b",
+      "raw_bytes": 3051,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/initial-core-config-failed.log.gz",
+      "status": "failed fixture expectation",
+      "sha256": "81e6d2371a2faae51015bc4ba25bcf8b9d62ec16fc236cf6959bd621f7386e77",
+      "bytes": 141,
+      "raw_sha256": "841176abf8cde4794f7ffd917bb899f8e8d8deb2bce65a1a7ac3363fb69cded7",
+      "raw_bytes": 135,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/initial-native-order-failed.log.gz",
+      "status": "failed fixture expectation",
+      "sha256": "bdcbbd02a0303294d1ae676481840a0057b8f159c8cf0de16709405e2e68b6d8",
+      "bytes": 446,
+      "raw_sha256": "8ef8ea5c4327a20d15446d76736da0cb4db3bf1e683960682e9485a0aca0bb90",
+      "raw_bytes": 996,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/initial-native-query-window-observed.json.gz",
+      "status": "failed fixture expectation",
+      "sha256": "2454859b4e34950bff793f46b2f57822ba6d5320cf008d27413fae792c170ba2",
+      "bytes": 2164,
+      "raw_sha256": "5b6b9bc878fd09a19608b46dd42e8bc33fe252710ef6f1a489be8835f752abbd",
+      "raw_bytes": 16883,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/initial-native-query-controller.json.gz",
+      "status": "failed fixture expectation",
+      "sha256": "f08c9f0e56f0dddd8c90cc3d779c35243e50934f54014622ca3656da783d20ae",
+      "bytes": 258,
+      "raw_sha256": "3b53a8641e46a24228623e2d50ec5f8e481c3289fba03b4a55e736cf1119785a",
+      "raw_bytes": 469,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/rendition-capabilities-evidence/initial-native-query-failure.png.gz",
+      "status": "failed fixture expectation",
+      "sha256": "b76a6ddbdc5a22cdc8c6cbd105c37cedaca8efe6ea1ba0285af056ff9e78d1ca",
+      "bytes": 144,
+      "raw_sha256": "4c28b3e87f1f7526f5accb3c025693e38536b30fb61871babca24c9bf4877504",
+      "raw_bytes": 901,
+      "encoding": "gzip"
+    }
+  ]
+}

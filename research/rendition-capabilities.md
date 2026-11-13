@@ -43,6 +43,16 @@ The first native replay expected the DECRQSS fields in numeric order; the
 existing encoder emits italic, crossed-out, underline, overline. The expected
 reply now uses that existing order. Neither correction changed product code.
 
-Local validation and remote CI evidence will be linked here after completion.
-This change is not a renderer memory optimization and does not replace the
-accepted local distribution.
+Local `tcap`, SGR and query core suites pass, as does the full native cursor,
+query and keyboard fixture with the twelve new names and replay checks. The
+single image is 4,467,200 bytes, SHA-256
+`ac83f2e022b60068d39e0e00a51d175f1c4a5e3ddeb68229d524ce2661e20a20`.
+All five owned job members drained naturally. The
+[evidence manifest](rendition-capabilities-validation.json) retains exact source
+hashes, replies, logs, cursor images and the two corrected fixture attempts.
+The existing cursor fixture instruments focus inside the owned process; its
+memory readings are diagnostic, not memory acceptance or physical-display
+acceptance.
+
+Remote CI is pending. This change is not a renderer memory optimization and
+does not replace the accepted local distribution.
