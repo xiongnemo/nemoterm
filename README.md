@@ -11,7 +11,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本项目独立维护，非 PuTTY 或 Microsoft 官方版本。
 
 **项目仍在开发中。** CI 产物是开发快照；协议兼容性、真实终端应用和长期资源占用仍在持续验证。
-已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md) 和 [需求与验证记录](docs/REQUIREMENTS.md)。
+本文说明以 `main` 分支为准。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
+和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
 ## 功能
 
@@ -25,14 +26,18 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-在 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)
-中选择 **`main` 分支上成功的运行**，在页面底部的 Artifacts 下载：
+1. 登录 GitHub，打开 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)。
+2. 筛选 `main` 分支，选择一次 **成功完成** 的运行。
+3. 在运行页面的 **Artifacts** 中下载 `nemoterm-single-exe-x64-<commit>`，解压并运行 `nemoterm.exe`。
+
+GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
+产物有保留期限；过期后请选择较新的成功运行，或按下文从源码构建。
 
 | 产物 | 用途 |
 | --- | --- |
 | `nemoterm-single-exe-x64-<commit>` | 单文件版本，解压后只有 `nemoterm.exe`；保留 30 天 |
 | `single-exe-evidence-<commit>` | 构建日志与原生测试证据 |
-| `unverified-single-exe-x64-<commit>` | 失败运行保留的诊断版本，未通过该轮验收 |
+| `unverified-single-exe-x64-<commit>` | 失败运行保留的诊断版本，未通过该轮验收；保留 7 天 |
 
 另一条 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
 会生成 `nemoterm-windows-x64-<commit>`。这是 MinGW 开发对照包，需要配套的
@@ -60,14 +65,16 @@ OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码�
 
 ### Shell 与启动目录
 
-`--shell` 接受 `auto`、`pwsh`、`powershell`、`busybox-ash`、`git-bash`、`wsl-bash`、`cmd`。
-`auto` 依次尝试 PowerShell 7、Windows PowerShell、cmd。
+`--shell` 接受 `auto`、`pwsh`、`powershell`、`busybox-ash`、`git-bash`、`wsl-bash`、`cmd`、`custom`。
+`auto` 依次尝试 PowerShell 7、Windows PowerShell、cmd，再尝试其余已检测到的 shell。
 
 - `--list-shells` 输出检测结果的 JSON；检测本身不运行 shell，也不启动 WSL 虚拟机。
 - Windows PowerShell 从系统目录查找；Git Bash 需有有效的 Git 安装；WSL Bash 需有已注册的默认发行版。
+- 检测到 WSL 发行版不代表其中一定安装了 Bash；显式指定的 shell 不存在时会报错。
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
-- 在 Session / Shell 中保存默认选择；`-load "配置名"` 可加载命名配置。
+- 在 **Session** 中选择 shell，并保存到 `Default Settings` 或命名配置；`-load "配置名"` 可加载命名配置。
+- **Session / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 
 更多说明见 [Shell 检测](research/shell-selection.md) 与 [工作目录集成](research/working-directory.md)。
 
@@ -89,7 +96,8 @@ OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码�
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
 多标签启动使用 `--tabs`，或保存对应设置。
 
-通过 `--settings` 或上下文菜单中的 **Change Settings** 调整字体、颜色、光标、回滚和渲染器。
+`--choose-shell` 和 `--settings` 都会先打开启动设置窗口；也可从运行中的上下文菜单选择
+**Change Settings**，调整字体、颜色、光标、回滚和渲染器。
 配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开。
 
 OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
@@ -105,7 +113,9 @@ GDI 的优化目标是前端私有工作集 **低于 20 MB**、总工作集约 *
 可选 OpenGL 模式不受 20 MB 目标约束，DirectX 仍有超标场景。切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
-它继续依赖 Windows 的 ConDrv 驱动和系统 DLL。详见 [单文件架构](research/single-executable.md)、
+ConPTY 提供伪控制台连接；OpenConsole 在宿主进程中处理 Windows 控制台 API，
+并与 Nemoterm 前端交换终端输入输出。窗口、标签和最终绘制由 Nemoterm 前端负责。
+程序继续依赖 Windows 的 ConDrv 驱动和系统 DLL。详见 [单文件架构](research/single-executable.md)、
 [OpenGL](research/rendering.md) 与 [DirectX](research/directx.md)。
 
 ## 从源码构建
@@ -120,20 +130,28 @@ cd nemoterm
 .\build\single-exe-dist\nemoterm.exe
 ```
 
-已有 checkout 可先运行 `git submodule update --init`。
+已有 checkout 可先运行 `git submodule update --init --recursive`。
 脚本将固定版本的 Microsoft Terminal 源码复制到 `build/`，应用集成修改并链接生成单 EXE；
 不修改上游子模块。首次构建需要联网获取构建依赖。
 
 ### 测试与 CI
 
-- **Test and build**：Windows 核心回归、MinGW 对照构建、MSVC 原生渲染诊断，以及 Linux ASan / UBSan 检查。
-- **Single executable from source**：从源码构建单文件版本，在隔离目录运行原生集成测试，并保存产物与证据。
+| 工作流 | 主分支上的检查与产物 |
+| --- | --- |
+| [Test and build](.github/workflows/ci.yml) | Windows 核心回归、MinGW 对照构建及原生集成测试，Linux ASan / UBSan；保留对照包和测试日志 |
+| [Single executable from source](.github/workflows/single-exe.yml) | MSVC 从源码构建单 EXE，在隔离目录执行原生协议、像素和客户端测试；保留单文件产物与测试证据 |
+
+两条工作流独立报告结果；验证某个提交时，应同时查看两条工作流的日志。
+历史检查点可参考 [设置快捷键修复的验证记录](research/settings-shortcuts.md)。
 
 本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
 
 ```powershell
-.\scripts\test.ps1
+.\scripts\test.ps1 -Destination .\build\mingw-dist
 ```
+
+这条命令也会构建 MinGW 对照包；示例将其放到 `build/mingw-dist`。
+单文件构建产物仍位于 `build/single-exe-dist`。
 
 单文件原生集成测试：
 
