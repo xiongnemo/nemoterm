@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
@@ -17,6 +18,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  source-host:
+    name: Source-built console host for compiler comparison
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          submodules: true
+      - name: Build the current source host with the same overlay as the single image
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 -Destination build/source-console-host
+          $image = Get-Item -LiteralPath build/source-console-host/nemoterm.exe
+          [ordered]@{
+            SourceCommit = (git rev-parse HEAD).Trim()
+            MicrosoftTerminalCommit = (git -C vendor/microsoft-terminal rev-parse HEAD).Trim()
+            OverlaySHA256 = (Get-FileHash scripts/prepare-single-exe.py -Algorithm SHA256).Hash.ToLowerInvariant()
+            EntrySHA256 = (Get-FileHash native/single_exe/entry.cpp -Algorithm SHA256).Hash.ToLowerInvariant()
+            Executable = [ordered]@{
+              SHA256 = (Get-FileHash -LiteralPath $image.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+              Bytes = $image.Length
+            }
+          } | ConvertTo-Json -Depth 4 | Set-Content build/source-console-host/SOURCE-HOST.json -Encoding utf8
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-console-host-x64-${{ github.sha }}
+          path: build/source-console-host/
+          retention-days: 7
+          if-no-files-found: error
   cluster-msvc-diagnostics:
     name: MSVC native renderer diagnostics
     runs-on: windows-2025
@@ -84,6 +118,7 @@ jobs:
           retention-days: 14
   windows:
     name: Windows x64 tests and portable build
+    needs: source-host
     runs-on: windows-latest
     timeout-minutes: 20
     defaults:
@@ -189,6 +224,15 @@ jobs:
       - name: Bundle pinned Microsoft ConPTY runtime
         shell: pwsh
         run: ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+      - name: Use the same source host fixes for MinGW integration tests
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download "$env:GITHUB_RUN_ID" --repo "$env:GITHUB_REPOSITORY" --name "source-console-host-x64-$env:GITHUB_SHA" --dir build/source-console-host
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/install-source-conpty-host.ps1 -SourceDirectory build/source-console-host -Destination dist -ExpectedCommit "$env:GITHUB_SHA"
+          Copy-Item dist/CONPTY-RUNTIME.json, dist/SOURCE-HOST.json test-results/
       - name: Install owned-window input instrumentation
         shell: pwsh
         run: |
@@ -281,10 +325,9 @@ jobs:
       - name: Test tab overflow, geometry, resizing, input methods and selection
         shell: pwsh
         run: |
-          # This job uses upstream OpenConsole. Its ReadFile surrogate bug is
-          # fixed in our source-built single EXE, whose workflow tests byte I/O.
-          # Check this frontend's complete Unicode input through ReadConsoleW.
-          python tests/tabs_regression_suite.py --input-api wide
+          # The source-built host includes the same raw UTF-8 and tagged cursor
+          # synchronization fixes as the single EXE. Exercise byte I/O here too.
+          python tests/tabs_regression_suite.py --input-api byte
           $testExit = $LASTEXITCODE
           Copy-Item research/tabs-* test-results/ -ErrorAction SilentlyContinue
           exit $testExit

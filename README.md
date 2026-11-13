@@ -51,7 +51,8 @@ GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https
 
 另一条 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
 会生成 `nemoterm-windows-x64-<commit>`。这是 MinGW 开发对照包，需要配套的
-OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码集成修复。
+OpenConsole / ConPTY 文件，不是单文件版本。该 CI 现在为 MinGW 前端配套同一提交
+构建的源码宿主，包含字节输入和光标回复同步修复；构建来源与哈希保存在包内清单。
 
 当前发布目标为 **Windows x64**，已有 Windows 10 19044 与 CI Windows Server 2025 的验证记录。
 不同系统版本、显卡和应用的覆盖范围以对应提交的测试记录为准。
