@@ -104,6 +104,11 @@ def main():
                         assert u.EmptyClipboard()
                         for fmt,data in formats:assert u.SetClipboardData(fmt,block(data))
                     finally:u.CloseClipboard()
+                api.request(endpoint,'input',sid,'Unicode input 中文')
+                check('Unicode input 中文'.encode(),'Unicode input reaches the selected child')
+                api.request(endpoint,'paste',sid,'Unicode paste 中文')
+                check(b'\x1b[200~'+'Unicode paste 中文'.encode()+b'\x1b[201~',
+                      'Unicode bracketed paste reaches the selected child')
                 # Windows marshals WM_DROPFILES to the owned content window.
                 handle=block(drop_data(paths))
                 assert u.PostMessageW(hwnd,0x233,handle,0)
@@ -112,7 +117,7 @@ def main():
                 k.GlobalFree(handle)
                 # Let installed real shells parse the bytes delivered by the
                 # terminal. This independently checks quoting, beyond VT bytes.
-                expression=received()[6:-6].decode('utf-8')
+                expression=received()[-len(pasted)+6:-6].decode('utf-8')
                 if shell in locations and shell in ('pwsh','powershell','busybox-ash','git-bash'):
                     if shell in ('pwsh','powershell'):
                         code="[Console]::OutputEncoding=[Text.UTF8Encoding]::new(); & { $args | ConvertTo-Json -Compress } "+expression
