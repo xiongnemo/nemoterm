@@ -1,0 +1,506 @@
+{
+  "recorded_utc": "2026-11-13T19:04:51.469857+00:00",
+  "base_commit": "c4a4c59bdb216348314116f6a35123e3b6c29bc6",
+  "product_source_commit": "abafbbfbe4274fb84b54f5b5f25d9d568aefa36d",
+  "accepted_distribution_replaced": false,
+  "renderer_changes_retained": false,
+  "memory_requirement_bytes": 25000000,
+  "memory_requirement_inclusive": true,
+  "diagnostics": {
+    "gdi": {
+      "executable_sha256": "9e79a655adbd20429d9f31caf037fb77c66a7da8e6028d3258a7908e6e23fbb1",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "actual_renderer": 1,
+      "font": "SarasaTermSC Nerd Font Light",
+      "side": "left",
+      "memory_acceptance": false,
+      "counts": {
+        "active": 0,
+        "errors": 0,
+        "generation": "5925013",
+        "live_count": 7620,
+        "live_requested_bytes": "5335330",
+        "capacity": 262144,
+        "ignored_nested_calls": {
+          "alloc": "334185",
+          "realloc": "28",
+          "free": "334130",
+          "destroy": "0"
+        }
+      },
+      "caller_modules": [
+        {
+          "module": "ucrtbase.dll",
+          "allocations": 7580,
+          "requested_bytes": 4568672,
+          "requested_bytes_on_private_pages": 4568672,
+          "private_pages_touched": 1321
+        },
+        {
+          "module": "gdi32full.dll",
+          "allocations": 16,
+          "requested_bytes": 764034,
+          "requested_bytes_on_private_pages": 764034,
+          "private_pages_touched": 198
+        },
+        {
+          "module": "msvcrt.dll",
+          "allocations": 18,
+          "requested_bytes": 1760,
+          "requested_bytes_on_private_pages": 1760,
+          "private_pages_touched": 8
+        },
+        {
+          "module": "USER32.dll",
+          "allocations": 1,
+          "requested_bytes": 528,
+          "requested_bytes_on_private_pages": 528,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "RPCRT4.dll",
+          "allocations": 1,
+          "requested_bytes": 232,
+          "requested_bytes_on_private_pages": 232,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "KERNELBASE.dll",
+          "allocations": 2,
+          "requested_bytes": 48,
+          "requested_bytes_on_private_pages": 48,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "ntdll.dll",
+          "allocations": 1,
+          "requested_bytes": 48,
+          "requested_bytes_on_private_pages": 48,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "textinputframework.dll",
+          "allocations": 1,
+          "requested_bytes": 8,
+          "requested_bytes_on_private_pages": 8,
+          "private_pages_touched": 1
+        }
+      ],
+      "memory_before_attachment": 9474048,
+      "instrumented_memory_after_freeze": {
+        "private_ws": 33480704,
+        "total_ws": 63909888,
+        "private_commit": 37998592
+      },
+      "natural_cleanup": true,
+      "source_sha256": {
+        "allocation_census_probe.js": "4a666f219eceb94aae8ef64b6b3edec81866efe3a279a7434992bf3214e8b012",
+        "allocation_census.h": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e",
+        "allocation_census_pages.py": "57ec190a8ea1ed17b0a1a8446dee28160064b45ec6df279da6699a78cbc20fd9",
+        "working_set_regions.py": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610",
+        "allocation_census.py": "2bd40dc781e6b89447377b3f75c68bcf0d8bf2f0866045b8f15d76d23e24cbd0",
+        "tabs_window_smoke.py": "0d30b8f47a12ba5a0e9b716fa596d6f0fcaefd1bbf0daf64fb391005e84fbe4c",
+        "tab_workload_memory.py": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a"
+      }
+    },
+    "directx": {
+      "executable_sha256": "9e79a655adbd20429d9f31caf037fb77c66a7da8e6028d3258a7908e6e23fbb1",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "actual_renderer": 3,
+      "font": "SarasaTermSC Nerd Font Light",
+      "side": "left",
+      "memory_acceptance": false,
+      "counts": {
+        "active": 0,
+        "errors": 0,
+        "generation": "2743649",
+        "live_count": 8840,
+        "live_requested_bytes": "5998540",
+        "capacity": 262144,
+        "ignored_nested_calls": {
+          "alloc": "336046",
+          "realloc": "31",
+          "free": "335972",
+          "destroy": "0"
+        }
+      },
+      "caller_modules": [
+        {
+          "module": "ucrtbase.dll",
+          "allocations": 7620,
+          "requested_bytes": 4580192,
+          "requested_bytes_on_private_pages": 4580192,
+          "private_pages_touched": 1331
+        },
+        {
+          "module": "gdi32full.dll",
+          "allocations": 23,
+          "requested_bytes": 772724,
+          "requested_bytes_on_private_pages": 772724,
+          "private_pages_touched": 204
+        },
+        {
+          "module": "nvwgf2umx.dll",
+          "allocations": 929,
+          "requested_bytes": 553392,
+          "requested_bytes_on_private_pages": 553392,
+          "private_pages_touched": 243
+        },
+        {
+          "module": "msvcrt.dll",
+          "allocations": 118,
+          "requested_bytes": 62416,
+          "requested_bytes_on_private_pages": 62416,
+          "private_pages_touched": 32
+        },
+        {
+          "module": "d3d11.dll",
+          "allocations": 146,
+          "requested_bytes": 29232,
+          "requested_bytes_on_private_pages": 29232,
+          "private_pages_touched": 20
+        },
+        {
+          "module": "USER32.dll",
+          "allocations": 1,
+          "requested_bytes": 528,
+          "requested_bytes_on_private_pages": 528,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "KERNELBASE.dll",
+          "allocations": 2,
+          "requested_bytes": 48,
+          "requested_bytes_on_private_pages": 48,
+          "private_pages_touched": 1
+        },
+        {
+          "module": "textinputframework.dll",
+          "allocations": 1,
+          "requested_bytes": 8,
+          "requested_bytes_on_private_pages": 8,
+          "private_pages_touched": 1
+        }
+      ],
+      "memory_before_attachment": 19394560,
+      "instrumented_memory_after_freeze": {
+        "private_ws": 58552320,
+        "total_ws": 104050688,
+        "private_commit": 122454016
+      },
+      "natural_cleanup": true,
+      "source_sha256": {
+        "allocation_census_probe.js": "4a666f219eceb94aae8ef64b6b3edec81866efe3a279a7434992bf3214e8b012",
+        "allocation_census.h": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e",
+        "allocation_census_pages.py": "57ec190a8ea1ed17b0a1a8446dee28160064b45ec6df279da6699a78cbc20fd9",
+        "working_set_regions.py": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610",
+        "allocation_census.py": "2bd40dc781e6b89447377b3f75c68bcf0d8bf2f0866045b8f15d76d23e24cbd0",
+        "tabs_window_smoke.py": "0d30b8f47a12ba5a0e9b716fa596d6f0fcaefd1bbf0daf64fb391005e84fbe4c",
+        "tab_workload_memory.py": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a"
+      }
+    }
+  },
+  "experiments": {
+    "bounded-readback": {
+      "executable": {
+        "sha256": "5bb30eb5ee12e5f7ee4f998c19a6d8362025b79ea9ddf57d34ef0f852d86dd8d",
+        "bytes": 4466688
+      },
+      "decision": "reverted",
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 30597120,
+          "total_ws": 71655424,
+          "private_commit": 116039680
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7057408,
+          "total_ws": 33972224,
+          "private_commit": 9605120
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26624000,
+          "total_ws": 53506048,
+          "private_commit": 33091584
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 54513664,
+          "total_ws": 148545536,
+          "private_commit": 146980864
+        }
+      },
+      "sample_count": 251,
+      "seconds": 27.1,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "functional_groups": 9,
+      "memory_gate_passed": false,
+      "natural_cleanup": true,
+      "source_sha256": "6552acf3a2aa3757b0eb676130d726a7cfea6dd5e9c40bcae0cff6daf7b12eee"
+    },
+    "frame-reuse": {
+      "executable": {
+        "sha256": "3325913ff4a69bc74f41644850b07afded7721f62a1f38092f640bb3f05d1056",
+        "bytes": 4466176
+      },
+      "decision": "reverted",
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 30367744,
+          "total_ws": 71528448,
+          "private_commit": 98295808
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7081984,
+          "total_ws": 34107392,
+          "private_commit": 10444800
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26787840,
+          "total_ws": 53661696,
+          "private_commit": 33193984
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 54611968,
+          "total_ws": 148566016,
+          "private_commit": 129679360
+        }
+      },
+      "sample_count": 273,
+      "seconds": 29.448,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "functional_groups": 9,
+      "memory_gate_passed": false,
+      "natural_cleanup": true,
+      "source_sha256": "864bee09a48551106555a87c1649ac364a9a334b0441a57eadca40f00ab199a5"
+    }
+  },
+  "files": [
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-gdi-left-census.json.gz",
+      "sha256": "f320b43d1acfc705be72cb4f6b55072b862f0a04bf728932dc70b901bc8c672e",
+      "bytes": 100154,
+      "raw_sha256": "372c1a8f41690ba3179d1e93576173d94031a067dac22bdb884b0d010d53f40b",
+      "raw_bytes": 1754500,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-gdi-left-observed.json.gz",
+      "sha256": "4226106e559e8daafd03f9fe0ce05c919151b6e74e9666e10d4fd61f9787dd81",
+      "bytes": 2452,
+      "raw_sha256": "62eeb9ab90c703fddd732d9a7e3cc5a7a36634225f3ef0f39620997bb03cd106",
+      "raw_bytes": 14920,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-gdi-left-memory.json.gz",
+      "sha256": "9e7a5baeb19e59e8feca6c7d808d19e64eab2b725584ca4046e37d62c51700d0",
+      "bytes": 32764,
+      "raw_sha256": "8e9d2550702588e388a32875a49efa2a368a0235a303f8e4d4db0b8f7c5fae00",
+      "raw_bytes": 1301271,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/census-gdi.log.gz",
+      "sha256": "97e9e069dbb310fb93cc34ee5e13c4f5a056b5c2d8419acfb29cfbaf7e2344a4",
+      "bytes": 211,
+      "raw_sha256": "f8b0de848d0ceca67eee84c954854fed138a6827f71fdcd79370c417e562fde1",
+      "raw_bytes": 441,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-directx-left-census.json.gz",
+      "sha256": "c7e3b15961783bbaaa46e717a8463a3553a1d24b2e40e6e37b88aea030b521cb",
+      "bytes": 130424,
+      "raw_sha256": "1b6cb7b060fd819c5e0ac73ee59a7bbfa5f9e2c38434618390b15d31c4d9795b",
+      "raw_bytes": 2123042,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-directx-left-observed.json.gz",
+      "sha256": "2ba09c4a27a00470f55ceebb0f5d8f07483281911351e4e043cd67528e119a54",
+      "bytes": 2479,
+      "raw_sha256": "a2636b39c26c865f88d32735f948aacaeacce107e21c22386d9c64e813724cbc",
+      "raw_bytes": 14970,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/local-heap-tabs-directx-left-memory.json.gz",
+      "sha256": "84a7ffd7c3bb372f5ee058a6aca1be17420661adffeb40f9ab76b71d91ba3951",
+      "bytes": 20226,
+      "raw_sha256": "f97840d091ccad16e054c151d9cf79234e5699b300481a1364a4558e6cecc3cb",
+      "raw_bytes": 726083,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/census-directx.log.gz",
+      "sha256": "97e9e069dbb310fb93cc34ee5e13c4f5a056b5c2d8419acfb29cfbaf7e2344a4",
+      "bytes": 211,
+      "raw_sha256": "f8b0de848d0ceca67eee84c954854fed138a6827f71fdcd79370c417e562fde1",
+      "raw_bytes": 441,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/allocation-census-native.json.gz",
+      "sha256": "53636b9c7d2761fb7c68efa4a39ae0b1e4ce68b9afefaef532ee0e82dc4a0303",
+      "bytes": 15081,
+      "raw_sha256": "985594e7d5b0184b16de70ce151f88331273034baad0b4c902996b965fe81ef0",
+      "raw_bytes": 408389,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/native-adapter.log.gz",
+      "sha256": "0263582415aea484537f604e030881ac22abf892de8bc45759308f381ee66a4a",
+      "bytes": 203,
+      "raw_sha256": "81ee710bf81f7bfe7833255324e32a86c559b9c49417c88ec4374cfdd739dacc",
+      "raw_bytes": 975,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback-observed.json.gz",
+      "sha256": "99e93e3d576bb0e0a6d25c7f360a8eea7c313ed8ca5ac224d4c3602455809844",
+      "bytes": 2618,
+      "raw_sha256": "b2f29ed9210205fd4316f78b6364871f97c5e79b006c1146a34a2cef56198bad",
+      "raw_bytes": 16089,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback-memory.json.gz",
+      "sha256": "0a7fadf30b206d410482c3d29a86d983e2eab3fcb58e29b9a0edda76ee261abf",
+      "bytes": 18363,
+      "raw_sha256": "98326ee02b3ccf4ec43c2c13922356b2da5f9ddc2955f68345ddd2ed04ec22e6",
+      "raw_bytes": 682254,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback.log.gz",
+      "sha256": "1fa91f2574b3b510d36fa48dc50acddff822fc369bc35ea33f8702d95555875e",
+      "bytes": 246,
+      "raw_sha256": "fd4c45178717f6589679cdafe5ba3ba735485b25f4e4a1a66aef2e90d1dd7b0b",
+      "raw_bytes": 323,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback.patch.gz",
+      "sha256": "17ee23e1be6dc3f9c65237b0b4228c5998122c6d070d75300100f6f7a791536a",
+      "bytes": 1868,
+      "raw_sha256": "8ee7856b3deef21e73633d80b59187892c388402bda2f428ca7ba7a44ed071df",
+      "raw_bytes": 5517,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback-nemo_d2d.c.gz",
+      "sha256": "d782571f7e7325919cd7fe64f68a920f085941ad8cdc8fa440433487afff932c",
+      "bytes": 5280,
+      "raw_sha256": "6552acf3a2aa3757b0eb676130d726a7cfea6dd5e9c40bcae0cff6daf7b12eee",
+      "raw_bytes": 16762,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/bounded-readback-preview.png.gz",
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "bytes": 976,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "raw_bytes": 1051,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse-observed.json.gz",
+      "sha256": "0b8b19f998cbf914b2f3668fc90dbe74872bc6789a6bd13c177f8188c51835e3",
+      "bytes": 2549,
+      "raw_sha256": "e8afd0ce54d69ac054c716173e854c4831dba3e1704085bda042be594c1b2c90",
+      "raw_bytes": 16066,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse-memory.json.gz",
+      "sha256": "832e479fd9d2e0f11f5c19d51f9cba8eeb33d2df8de5cf6504cd245a5034d95f",
+      "bytes": 19613,
+      "raw_sha256": "3843be6cf20081689e3a461e6f66dd6869e1e295fea390c50ed4706fc4c718de",
+      "raw_bytes": 743848,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse.log.gz",
+      "sha256": "794a7087d27cea05c0ba2bae0336227b38e4fd2b7ccf276e85ee8931f3b74dd0",
+      "bytes": 247,
+      "raw_sha256": "bba9e84ec05ec96421b41e63a259bf2b236ec9d9d565e52ea9cba1867ecd01e1",
+      "raw_bytes": 326,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse.patch.gz",
+      "sha256": "25b69b7eeb797a4113a14244b1b59f3acea339d6dc334008d171757a22a590fd",
+      "bytes": 1118,
+      "raw_sha256": "66ab80d9e09a613404f5a10f10e5291372a898331f901ca19d56db5a6d194613",
+      "raw_bytes": 3083,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse-nemo_d2d.c.gz",
+      "sha256": "77cdf924041ddf7b315aebdcaf77e6b0a1ec43bba5aef3ddfc606466325af287",
+      "bytes": 4978,
+      "raw_sha256": "864bee09a48551106555a87c1649ac364a9a334b0441a57eadca40f00ab199a5",
+      "raw_bytes": 15500,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/frame-reuse-preview.png.gz",
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "bytes": 976,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "raw_bytes": 1051,
+      "encoding": "gzip, original bytes preserved"
+    }
+  ],
+  "diagnostic_executable": {
+    "sha256": "9e79a655adbd20429d9f31caf037fb77c66a7da8e6028d3258a7908e6e23fbb1",
+    "bytes": 4466176
+  },
+  "diagnostic_limits": "Injected metadata only; pre-attach blocks, non-heap paths, allocator overhead and retention remain unassigned. Requested bytes are not working set.",
+  "native_adapter": {
+    "completed": true,
+    "checks": 27,
+    "source_sha256": {
+      "allocation_census_probe.js": "4a666f219eceb94aae8ef64b6b3edec81866efe3a279a7434992bf3214e8b012",
+      "allocation_census_selftest.js": "1891011f0536637272c8f495cd7f0ceb098289151c7f9edfe42d58462fdf924e",
+      "allocation_census.h": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e"
+    }
+  },
+  "unchanged_source_baseline": {
+    "executable": {
+      "sha256": "9e79a655adbd20429d9f31caf037fb77c66a7da8e6028d3258a7908e6e23fbb1",
+      "bytes": 4466176
+    },
+    "private_ws_peak": 30547968,
+    "total_ws_peak": 70971392,
+    "private_commit_peak": 100216832,
+    "evidence": "research/automation-input-validation.json",
+    "new_run": false
+  },
+  "accepted_local_distribution": {
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
+    "bytes": 4371456
+  }
+}

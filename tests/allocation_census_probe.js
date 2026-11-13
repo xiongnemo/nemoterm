@@ -15,7 +15,10 @@ function startCensus(scope, header) {
         (capacity & (capacity - 1)) !== 0) throw Error('Invalid table capacity');
     const ranges = scope.ranges || [];
     const heap = ptr(scope.heap || '0');
-    if (ranges.length > 128 || (heap.isNull() && ranges.length === 0))
+    const allHeaps = scope.all_post_attach_heaps === true;
+    if (allHeaps && (!heap.isNull() || ranges.length))
+        throw Error('All-heap observation cannot also select a heap or ranges');
+    if (ranges.length > 128 || (!allHeaps && heap.isNull() && ranges.length === 0))
         throw Error('An explicit heap or pre-injection allocation ranges are required');
     const limits = Memory.alloc(Math.max(1, ranges.length) * 16);
     ranges.forEach((r, i) => {
@@ -47,6 +50,7 @@ extern void release(gpointer);
 static int selected(ACValue address, ACValue heap) {
     unsigned i;
     if (!address) return 0;
+    if (${allHeaps ? 1 : 0}) return 1;
     if (selected_heap) return heap==selected_heap;
     for (i=0;i<${ranges.length};i++)
         if (address>=limits[i].start && address<limits[i].end) return 1;

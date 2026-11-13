@@ -1,4 +1,40 @@
 /* Appended only by the controlled native adapter test, never the app probe. */
+rpc.exports.allheapstest = function(pid, header) {
+    const kernel = Process.getModuleByName('kernel32.dll');
+    const nt = Process.getModuleByName('ntdll.dll');
+    const create = new NativeFunction(kernel.getExportByName('HeapCreate'),
+        'pointer', ['uint', 'size_t', 'size_t']);
+    const destroy = new NativeFunction(kernel.getExportByName('HeapDestroy'), 'int', ['pointer']);
+    const alloc = new NativeFunction(nt.getExportByName('RtlAllocateHeap'),
+        'pointer', ['pointer', 'uint', 'size_t']);
+    const free = new NativeFunction(nt.getExportByName('RtlFreeHeap'),
+        'uint8', ['pointer', 'uint', 'pointer']);
+    const first = create(0, 0, 0), second = create(0, 0, 0);
+    if (first.isNull() || second.isNull()) throw Error('Private heap creation failed');
+    try {
+        let rejected = false;
+        try { startCensus({pid, heap:first.toString(), all_post_attach_heaps:true}, header); }
+        catch (e) { rejected = String(e).includes('cannot also select'); }
+        if (!rejected) throw Error('Mixed scope was not rejected');
+        startCensus({pid, all_post_attach_heaps:true, capacity:65536}, header);
+        const a = alloc(first, 0, 113), b = alloc(second, 0, 257), gone = alloc(second, 0, 509);
+        if (a.isNull() || b.isNull() || gone.isNull()) throw Error('Test allocation failed');
+        if (!free(second, 0, gone)) throw Error('Test free failed');
+        const result = freezeCensus();
+        const entryA = result.entries.find(e => e.address === a.toString());
+        const entryB = result.entries.find(e => e.address === b.toString());
+        if (!result.valid || !entryA || !entryB || entryA.heap !== first.toString() ||
+            entryB.heap !== second.toString() || entryA.requested_bytes !== '113' ||
+            entryB.requested_bytes !== '257' || result.entries.some(e =>
+                e.address === gone.toString() && e.heap === second.toString()))
+            throw Error('All-heap live allocation metadata mismatch');
+        return {checks:['mixed scope rejected','two independent heaps captured',
+            'freed block absent'], final:result, expected_entries:[entryA,entryB]};
+    } finally {
+        if (census && !census.stopped) freezeCensus();
+        destroy(first);destroy(second);
+    }
+};
 rpc.exports.selftest = function(pid, header, retainLiveBlock, rangeScope) {
     const kernel = Process.getModuleByName('kernel32.dll');
     const nt = Process.getModuleByName('ntdll.dll');

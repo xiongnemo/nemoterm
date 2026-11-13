@@ -17,11 +17,12 @@ k.GetProcessId.argtypes,k.GetProcessId.restype=[w.HANDLE],w.DWORD
 
 
 class AllocationCensus:
-    def __init__(self,pid,handle,path):
+    def __init__(self,pid,handle,path,all_post_attach_heaps=False):
         if k.GetProcessId(handle)!=pid:raise ValueError('Handle does not match owned PID')
         self.pid,self.handle,self.path=pid,handle,Path(path)
         self.session=self.script=None
         self.errors=[]
+        self.all_post_attach_heaps=all_post_attach_heaps
         self.result=dict(pid=pid,instrumented=True,memory_acceptance=False,completed=False,
                          observer_detached=False,snapshots_atomic=False)
 
@@ -41,6 +42,11 @@ class AllocationCensus:
             selection=dict(minimum_private_ws=65536,maximum_reservations=64,
                 selected_reservations=len(selected),eligible_reservations=len(candidates),
                 selected_private_ws=sum(r['private_ws'] for r in selected)))
+        if self.all_post_attach_heaps:
+            self.result['scope']=dict(pid=self.pid,ranges=[],capacity=262144,
+                                      all_post_attach_heaps=True)
+            self.result['selection']=dict(mode='all post-attach outermost heap calls',
+                limits='Includes observer activity; excludes pre-attach blocks and non-heap allocation paths.')
         folder=Path(__file__).resolve().parent
         names=('allocation_census_probe.js','allocation_census.h','allocation_census_pages.py',
                'working_set_regions.py','allocation_census.py','tabs_window_smoke.py','tab_workload_memory.py')
@@ -75,6 +81,13 @@ class AllocationCensus:
             raise RuntimeError('Native allocation capture is invalid')
         self.result['correlation']=correlate_pages(snapshot['entries'],pages,
                                                   self.result['scope']['ranges'],mmap.PAGESIZE)
+        if self.all_post_attach_heaps:
+            # A virtual address range is not a meaningful scope for all heaps.
+            # Keep private-page coverage, but do not mislabel outside-range bytes.
+            self.result['correlation']['selected_scope_private_ws']=None
+            self.result['correlation']['outside_scope_private_ws']=None
+            for page in self.result['correlation']['observed_pages']:
+                page['in_selected_scope']=None
         self.result['completed']=True
         self.checkpoint('capture-complete')
         return dict(path=self.path.name,counts=snapshot['counts'],

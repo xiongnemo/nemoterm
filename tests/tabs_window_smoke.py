@@ -18,18 +18,22 @@ parser.add_argument('--workload-memory',action='store_true',
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
+observation.add_argument('--local-heap-census',action='store_true',
+                    help='explicit owned-process all-heap diagnostic; requires --workload-memory, exits 2, never acceptance')
 observation.add_argument('--virtual-memory-trace',action='store_true',
                     help='CI-only scoped virtual commit/release diagnostic; exits 2, never acceptance')
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
-injected_observer=args.allocation_census or args.virtual_memory_trace
+injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
 diagnostic=injected_observer or args.etw_memory_trace
-if diagnostic and (not args.workload_memory or os.environ.get('CI')!='true'):
+if diagnostic and not args.workload_memory:
+    parser.error('Memory observers require --workload-memory')
+if diagnostic and not args.local_heap_census and os.environ.get('CI')!='true':
     parser.error('Memory observers require --workload-memory on a dedicated CI runner')
 if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
-prefix='etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
+prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -200,7 +204,8 @@ try:
                     else:
                         from allocation_census import AllocationCensus as Observer
                     census_observer=Observer(process.pid,handle,
-                        root/'research'/f'{prefix}-{args.renderer}-{args.side}-census.json')
+                        root/'research'/f'{prefix}-{args.renderer}-{args.side}-census.json',
+                        **({'all_post_attach_heaps':True} if args.local_heap_census else {}))
                     census_observer.result['executable_sha256']=evidence['executable_sha256']
                     census_observer.start()
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene)

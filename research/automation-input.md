@@ -129,3 +129,7 @@ DirectX after the conversion fixes on the `9e79a655...` candidate records
 commit bytes), again with all nine functional groups and natural cleanup.
 The DirectX memory gate still fails. Smaller hosted-runner grids do not
 supersede these observations. The current work does not complete the terminal goal.
+
+The [local heap lifetime follow-up](local-directx-heap.md) retains broader
+allocation metadata and two further rejected renderer experiments. It changes
+diagnostic tools only; the product image and this acceptance failure remain.

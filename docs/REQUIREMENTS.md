@@ -1,5 +1,15 @@
 # Nemoterm requirements and evidence ledger
 
+## Local DirectX allocation follow-up (2026-11-14 Sydney)
+
+An explicit owned-process all-heap diagnostic now complements the earlier
+reservation census. It is instrumented, exits 2 on successful collection and
+cannot count as memory acceptance. Local GDI/DirectX captures complete with
+natural cleanup; 27 native collector checks and five page-accounting tests pass.
+Two renderer experiments still exceed 25 MB (30.60 MB bounded readback,
+30.37 MB frame reuse) and are reverted. Product source and the accepted local
+distribution remain unchanged. See the [records and limits](../research/local-directx-heap.md).
+
 ## Automation and input-transfer checkpoint (2026-11-14 Sydney)
 
 Local runtime tests resumed with user authorization. Opt-in named-pipe discovery,

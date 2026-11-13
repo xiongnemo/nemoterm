@@ -1,6 +1,6 @@
 """Validate native heap-hook metadata in an owned disposable Python process.
 
-This executes only on a dedicated Windows test runner. It does not launch
+This executes in a fresh, private kill-on-close job. It does not launch
 Nemoterm, sample its working set, use the clipboard or touch a desktop window.
 """
 import faulthandler
@@ -45,7 +45,8 @@ try:
                     (False, False, 'destroyed-heap'),
                     (True, False, 'live-snapshot'),
                     (True, True, 'reservation-range-snapshot'),
-                    (True, False, 'lfh-external-requests')):
+                    (True, False, 'lfh-external-requests'),
+                    (True, False, 'all-post-attach-heaps')):
                 script = call_frida('census-create-script', session.create_script, source)
                 errors = []
                 script.on('message', lambda message, data: errors.append(message)
@@ -55,15 +56,20 @@ try:
                 checkpoint(name+'-transitions')
                 header=(root/'tests/allocation_census.h').read_text(encoding='utf-8')
                 lfh=name=='lfh-external-requests'
-                result = (script.exports_sync.lfhtest(process.pid,header) if lfh else
+                all_heaps=name=='all-post-attach-heaps'
+                result = (script.exports_sync.allheapstest(process.pid,header) if all_heaps else
+                          script.exports_sync.lfhtest(process.pid,header) if lfh else
                           script.exports_sync.selftest(process.pid,header,retain_live,range_scope))
                 evidence['results'][name] = result
                 assert not errors, errors
-                assert len(result['checks']) == (4 if lfh else 8 if range_scope else 6)
+                assert len(result['checks']) == (3 if all_heaps else 4 if lfh else 8 if range_scope else 6)
                 assert result['final']['valid'] and not result['final']['counts']['active']
                 assert result['final']['pid'] == process.pid
                 entries = result['final']['entries']
-                if lfh:
+                if all_heaps:
+                    assert result['final']['scope']['all_post_attach_heaps']
+                    assert len(result['expected_entries'])==2
+                elif lfh:
                     assert result['lfh_mode']==2 and len(entries)==1024
                     actual={e['address']:int(e['requested_bytes']) for e in entries}
                     expected={e['address']:e['size'] for e in result['expected_entries']}
