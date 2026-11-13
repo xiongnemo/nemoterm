@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -74,11 +75,13 @@ def main():
                     creationflags=subprocess.CREATE_NO_WINDOW)
                 instance=wait_for(lambda:next(iter(api.discover(process.pid)),None),timeout=20)
                 endpoint=instance['endpoint'];seat=instance['sessions'][0];sid=seat['id'];hwnd=seat['hwnd']
-                wait_for(lambda:'NEMOTERM_DEBUG_READY' in api.request(endpoint,'text',sid))
+                ready=wait_for(lambda:(text if re.search(r'NEMOTERM_DEBUG_READY \d+ *\n',
+                    (text:=api.request(endpoint,'text',sid))) else None))
+                child_pid=int(re.search(r'NEMOTERM_DEBUG_READY\s+(\d+)',ready)[1])
                 saved=SavedClipboard(hwnd)
                 def received():
-                    reports=[read_snapshot(p) for p in child_dir.glob('child-*.json')]
-                    return next((bytes.fromhex(r['hex']) for r in reports if r),b'')
+                    report=read_snapshot(child_dir/f'child-{child_pid}.json')
+                    return bytes.fromhex(report['hex']) if report else b''
                 expected=bytearray()
                 def check(data,label):
                     expected.extend(data)

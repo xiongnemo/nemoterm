@@ -1,0 +1,82 @@
+name: Input compatibility for an existing image
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: Run containing the single executable artifact
+        required: true
+        default: '43478442381'
+      artifact:
+        description: Exact artifact name
+        required: true
+        default: unverified-single-exe-x64-fa35542f84e24776d1bfffccf1cfd93582b5b5c6
+      image_sha256:
+        description: Expected executable SHA-256
+        required: true
+        default: ebe0bbd388c6f92aa724fbc4eaff81c1bf50c68ce36ec35b0a127460c7221169
+  push:
+    branches: ['diagnose/input-*']
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  input:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ inputs.source_run || '43478442381' }}
+      SOURCE_ARTIFACT: ${{ inputs.artifact || 'unverified-single-exe-x64-fa35542f84e24776d1bfffccf1cfd93582b5b5c6' }}
+      IMAGE_SHA256: ${{ inputs.image_sha256 || 'ebe0bbd388c6f92aa724fbc4eaff81c1bf50c68ce36ec35b0a127460c7221169' }}
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+      NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Fetch and verify the exact existing image
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist, build -Force | Out-Null
+          gh run download $env:SOURCE_RUN --name $env:SOURCE_ARTIFACT --dir dist
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $digest = (Get-FileHash dist/nemoterm.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -ne $env:IMAGE_SHA256) { throw 'Executable digest differs from requested image' }
+          gh run view $env:SOURCE_RUN --json headSha,url,status,conclusion | Set-Content research/input-image-source.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          @{ run = $env:SOURCE_RUN; artifact = $env:SOURCE_ARTIFACT; sha256 = $digest } |
+            ConvertTo-Json | Set-Content research/input-image-identity.json
+      - name: Test file drop and clipboard input
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'directx')) {
+            python tests/drop_window_smoke.py --renderer $renderer
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+      - name: Install isolated real-client test dependencies
+        run: |
+          python -m pip install Pillow==13.0.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Test real Codex image paste through the local provider
+        shell: pwsh
+        run: |
+          $clients = @(Get-ChildItem tools/codex-fixture/node_modules -Recurse -Filter codex.exe)
+          if ($clients.Count -ne 1) { throw 'Expected one pinned native Codex executable' }
+          python tests/agent_clipboard_smoke.py --client codex --client-exe $clients[0].FullName --font Consolas
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Retain input observations including failed cases
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: input-compatibility-${{ github.sha }}
+          path: |
+            research/input-image-*.json
+            research/drop-*-observed.json
+            research/agent-clipboard-*.json
+            research/agent-codex-*.png
+            build/agent-image-*/**/failure.*
+            build/agent-image-*/**/observed.json
+          if-no-files-found: error
