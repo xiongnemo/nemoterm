@@ -604,10 +604,13 @@ try {
     $graphemeChecks+=Check-Grapheme 'grapheme-live-disabled' '' $false
     Set-GraphemePreference $true
     $graphemeChecks+=Check-Grapheme 'grapheme-live-enabled' '' $true
-    $graphemeChecks+=Check-Grapheme 'grapheme-soft-reset' ([char]27+'[!p') $false
-    $graphemeChecks+=Check-Grapheme 'grapheme-hard-reset' ([char]27+'[?2027h'+[char]27+'c') $false
-    $selectionColourChecks+=Check-SelectionColours 'selection-colour-unrelated-settings' '' 'ffff/0000/0000' '0000/0000/ffff'
     $attributeChecks+=Check-AttributeColours 'attribute-unrelated-settings' '' $attributeOverride
+    $graphemeChecks+=Check-Grapheme 'grapheme-soft-reset' ([char]27+'[!p') $false
+    $attributeChecks+=Check-AttributeColours 'attribute-soft-reset-defaults' '' $attributeReplies
+    $graphemeChecks+=Check-Grapheme 'grapheme-hard-reset' ([char]27+'[?2027h'+[char]27+'c') $false
+    $attributeChecks+=Check-AttributeColours 'attribute-hard-reset-defaults' '' $attributeReplies
+    $selectionColourChecks+=Check-SelectionColours 'selection-colour-unrelated-settings' '' 'ffff/0000/0000' '0000/0000/ffff'
+    $attributeChecks+=Check-AttributeColours 'attribute-override-after-reset' ($esc+']5;0;red'+$bel) $attributeOverride
     $attributeChecks+=Check-AttributeColours 'attribute-configured-reset' ($esc+']105;0'+$bel) $attributeReplies
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-configured-reset' ($esc+']117'+$bel+$esc+']119'+$bel) '1111/2222/3333' 'dddd/eeee/ffff'
     [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
