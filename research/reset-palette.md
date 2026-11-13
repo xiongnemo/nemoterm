@@ -45,8 +45,8 @@ samples are not used for the uninstrumented DirectX acceptance threshold.
 
 Local checks are limited to fixture generation, Python/PowerShell parsing,
 compilation/linking and whitespace inspection. Product execution remains in
-GitHub CI while local runtime testing is paused. Complete native acceptance
-is pending for this patch.
+GitHub CI while local runtime testing is paused. The completed remote scope
+is recorded below; native OpenGL coverage remains unproven on these runners.
 
 Source `d2aa14aaf1b70323cc742d31995f5024722ddbc9` passes the ASan/UBSan
 and MSVC renderer jobs in
@@ -57,9 +57,19 @@ GDI and DirectX. Its requested OpenGL profile falls back to GDI, so it does
 not establish OpenGL pixel acceptance. That job then fails the pre-existing
 guarded-area reply-ordering assertion. The
 [single-image run 43461348325](https://github.com/xiongnemo/nemoterm/actions/runs/43461348325)
-is still pending at this checkpoint. The
+passes all **88** groups, including all three requested colour-reset renderer
+profiles, broader protocol/input/settings checks, real Codex variants and
+uninjected tab workloads. GDI and DirectX are actual renderers; OpenGL again
+falls back to GDI. The single 4,438,016-byte EXE has SHA256
+`e055646edb544b3d53dde1edf28fa0200b9fe65cf785329d9475e6b69650ea4d` and
+[artifact 14058011250](https://github.com/xiongnemo/nemoterm/actions/runs/43461348325/artifacts/14058011250).
+Frontend private-WS peaks are 11,145,216 bytes for GDI and 21,622,784 for DirectX;
+total-WS peaks are 40,390,656 and 59,797,504. Both private-WS gates pass and both
+owned jobs drain naturally; DirectX total WS remains above the approximate
+50 MB target. The
 [manifest](reset-palette-validation.json) retains the three native reports and
-their actual renderer IDs. The accepted local executable is unchanged.
+their actual renderer IDs, full single-image validation and raw memory samples.
+The accepted local executable is unchanged.
 
 The preceding `ea042bc` core workflow passed the sanitizer and MSVC renderer
 jobs but failed the native guarded-area fixture again. Its downloaded evidence

@@ -151,6 +151,30 @@ snapshot first. A controlled A/B job will keep the frontend and conpty.dll
 fixed while substituting the verified source-built image as the headless host.
 This diagnostic substitution is not a new distribution package.
 
+[A/B run 43464339748](https://github.com/xiongnemo/nemoterm/actions/runs/43464339748)
+uses one shared frontend artifact in both jobs (SHA256
+`7f7dccd24612f4f51b621a5a5ba07e93fb3f643976107bbc0ecd2eea4aa5e047`),
+with identical conpty.dll bytes. The upstream host repeats the same failure;
+substituting the verified `ea042bc` combined image as the headless host passes
+all 63 cases and subsequent pixel checks, with natural cleanup. The
+[manifest](reset-palette-validation.json) retains both observations. Their pipe
+traces contain no I/O: Frida's `Process.mainModule` reports `sechost.dll` or
+`policymanager.dll` instead of the executable in these runs. Application-level
+comparison remains valid, but these traces do not add pipe-boundary evidence.
+The collector now binds the exact controller-supplied executable path and rejects
+a successful trace without both read and write events; the follow-up is remote.
+The earlier blocked-detach failure is fixed: the failed upstream job records
+its bounded owned-job termination and completes observer cleanup normally.
+
+Commit `98178a0` makes the ordinary MinGW CI build its console host from the
+same source commit and overlay as the single image. A manifest verifies the
+host's source commit, image hash and byte length, and the unchanged NuGet DLL
+hash before installation. The package records the original upstream host hash
+and the actual replacement. Raw UTF-8 tab input is enabled in the MinGW suite
+as well. The main single-image distribution remains one executable; the
+multi-file MinGW package is a compiler comparison build. This workflow change
+still needs its own full remote run and does not erase earlier failures.
+
 DirectX allocation ownership, historical close stalls, physical IME/multi-monitor
 behaviour, the requested local Sarasa workload and the remaining protocol ledger
 are still open. This checkpoint does not complete the terminal goal.

@@ -21,7 +21,10 @@ The separate MinGW workflow still fails guarded-area cursor-reply ordering with
 the upstream sidecar host. The [following colour-reset patch](../research/reset-palette.md)
 has passed core sanitizer, MSVC renderer jobs and all 25 new native colour
 replies plus 23 pixel checkpoints under actual GDI/DirectX. Requested OpenGL
-falls back to GDI; single-image completion remains pending. Independent XTerm
+falls back to GDI. Its complete single-image run at `d2aa14a` now passes 88
+groups, with 11,145,216 GDI / 21,622,784 DirectX frontend private-WS peaks.
+The compiler comparison is being rerun with the same source-built host fixes.
+Independent XTerm
 captures now verify the recorded identity, guard,
 selection and cursor-charset families, while two attribute-colour divergences
 remain explicit. Full protocol coverage, physical IME/multi-monitor behaviour,

@@ -80,7 +80,7 @@
     }
   ],
   "single_run": 43461348325,
-  "single_result": "pending",
+  "single_result": "success",
   "sidecar_trace": {
     "run": 43463148682,
     "artifact": 14057660498,
@@ -113,5 +113,286 @@
       }
     ]
   },
-  "local_runtime_tests_executed": false
+  "local_runtime_tests_executed": false,
+  "single_verification": {
+    "image_artifact": 14058011250,
+    "evidence_artifact": 14058295913,
+    "executable_sha256": "e055646edb544b3d53dde1edf28fa0200b9fe65cf785329d9475e6b69650ea4d",
+    "executable_bytes": 4438016,
+    "passed_checks": [
+      "single_exe",
+      "shutdown",
+      "startup_size",
+      "renderer",
+      "grapheme",
+      "grapheme-font",
+      "rtl",
+      "rtl-courier",
+      "bindings",
+      "input_method",
+      "unicode_input",
+      "console_unicode",
+      "mouse",
+      "selection",
+      "selection-directx",
+      "sync",
+      "sgr",
+      "font_resize",
+      "font_fallback",
+      "font-fallback-courier",
+      "query",
+      "highlight",
+      "sixel",
+      "sixel_font",
+      "hyperlink",
+      "reflow",
+      "keyboard",
+      "keyboard-courier",
+      "osc52",
+      "mok",
+      "mok-courier",
+      "win32_input",
+      "state_control",
+      "tabulation",
+      "double_size",
+      "graphics_query",
+      "dec_status",
+      "checksum",
+      "sgr_stack",
+      "palette_stack",
+      "palette_stack-opengl",
+      "palette_stack-directx",
+      "reset_palette",
+      "reset_palette-opengl",
+      "reset_palette-directx",
+      "selection_colour",
+      "selection_colour-opengl",
+      "selection_colour-directx",
+      "selection-colour-gdi-configured",
+      "attribute_colour",
+      "attribute_colour-opengl",
+      "attribute_colour-directx",
+      "attribute-colour-gdi-configured",
+      "presentation_state",
+      "horizontal",
+      "reverse_wrap",
+      "selective_erase",
+      "guarded_area",
+      "rectangle",
+      "margins",
+      "cwd",
+      "shell_marks",
+      "shell",
+      "powershell_environment",
+      "delegated_console",
+      "caret_startup",
+      "session",
+      "session-opengl",
+      "session-directx",
+      "session_restart",
+      "titles",
+      "title-modes",
+      "geometry",
+      "window_resize",
+      "gpu_lifecycle",
+      "tabs-gdi-top",
+      "tabs-gdi-bottom",
+      "tabs-directx-left",
+      "tabs-opengl-right",
+      "tabs-regressions",
+      "settings",
+      "tabs-settings",
+      "codex-default",
+      "codex-inline",
+      "codex-tabs-default",
+      "codex-tabs-inline",
+      "workload-tabs-gdi-top",
+      "workload-tabs-directx-left"
+    ],
+    "files": [
+      {
+        "path": "research/reset-palette-evidence/single-single-exe-validation.json.gz",
+        "original_sha256": "c562c698dccf70593527be87da07ab1ea3f8af652be3ab80740943261996e704",
+        "gzip_sha256": "f85af97bbd0681f2280181d202e40964c1c45775ba784f5764e46d8be175f19e"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-reset-palette-gdi-observed.json.gz",
+        "original_sha256": "2bcc707e8e6aaebefb1dba3aebf5235f514b47f1be65699634584381b085ffd1",
+        "gzip_sha256": "9a33198cccc4e28c6cdaa29da82e20695aa2058e775d12af56a9d8acf767367c"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-reset-palette-directx-observed.json.gz",
+        "original_sha256": "1558d5b5302a8f49ad906a6bdb93ecb001b25da18f898c0f3f04fba3870562b8",
+        "gzip_sha256": "494c70c9a9616443a1ea3513124b21434358653dc58aa825103d73a6817a99da"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-reset-palette-opengl-observed.json.gz",
+        "original_sha256": "d2f4de8f9c3b79be835f1a938ff5f7b0f60952cfb3df8f8090ba979d0e06135d",
+        "gzip_sha256": "59373a63dfb324b868b01a7893523a65600a4d29017520f4134bf23074f5c47f"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-workload-tabs-gdi-top-memory.json.gz",
+        "original_sha256": "bf56454a7711576149196d5ccea2e08b81eded7a3fec3883ca9d75242c07647b",
+        "gzip_sha256": "bdefd89d934c50800d2c6457964740aec032ec7cdf408df45d6667180ca5c096"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-workload-tabs-directx-left-memory.json.gz",
+        "original_sha256": "76bf9567afea0ccac7d136f47633ea02714b7da323c71a8aa632d1869c020764",
+        "gzip_sha256": "2baaa5a2ce642875d62609e959b0947a1fde4707addfd9923950110fde044454"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-workload-tabs-gdi-top-observed.json.gz",
+        "original_sha256": "1502745e774f10dc78d0d7af34ccdb8f061a6598a0471238aa97c07edc233209",
+        "gzip_sha256": "11dc381671266036d92674ec1e8456838c1f902a48ae103f142034e48b755b64"
+      },
+      {
+        "path": "research/reset-palette-evidence/single-workload-tabs-directx-left-observed.json.gz",
+        "original_sha256": "2a8f06b46b70779d97846a5302dbc3a21f7d5840dafe1469ad18af9b651568d1",
+        "gzip_sha256": "e3b7e66f88ecc5bf09a7de9333a62d259601d40b88f68888c5ca29ac85a4a5cf"
+      }
+    ],
+    "memory": {
+      "gdi": {
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 11145216,
+          "total_ws": 40390656,
+          "private_commit": 13209600
+        },
+        "sample_count": 393,
+        "uninstrumented": true,
+        "natural_cleanup": true
+      },
+      "directx": {
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 21622784,
+          "total_ws": 59797504,
+          "private_commit": 24240128
+        },
+        "sample_count": 246,
+        "uninstrumented": true,
+        "natural_cleanup": true
+      }
+    }
+  },
+  "sidecar_host_ab": {
+    "run": 43464339748,
+    "fixture_commit": "eebe2c040846d66edea53d2ef8efe4c5c459d0b9",
+    "runtime_artifact": 14058280558,
+    "scope": "Identical frontend and conpty.dll; only the host executable is replaced. Application observations valid; pipe trace module binding failed in both jobs.",
+    "hosts": {
+      "upstream": {
+        "artifact": 14058975139,
+        "completed": false,
+        "frontend_sha256": "7f7dccd24612f4f51b621a5a5ba07e93fb3f643976107bbc0ecd2eea4aa5e047",
+        "conpty_sha256": "FEEEF341D891643C62D30B6B07800BC70F0BC148F44CB8C3BEE84AA557AE805A",
+        "completed_phases": 58,
+        "cleanup": {
+          "before": {
+            "total": 3,
+            "active": 3,
+            "terminated": 0
+          },
+          "after": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": true,
+          "remaining_processes": [
+            {
+              "pid": 7712,
+              "image": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 6304,
+              "image": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 6224,
+              "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+              "exit_code": 259
+            }
+          ]
+        },
+        "trace_module": "C:\\Windows\\System32\\sechost.dll",
+        "trace_io_records": 0,
+        "files": [
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-upstream-guarded-area-wire.jsonl.gz",
+            "original_sha256": "575feffe8fe08d59977039c89b3d8c1a20463a101ed8bd612e8700f839c3bd8b",
+            "gzip_sha256": "875ac5049efd8b61fa646f90ff93852a5a27bc6aa973a4c55082e56b573f6791"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-upstream-guarded-area-observed.json.gz",
+            "original_sha256": "22dc670ce567b14c5634c70458d049f46826816a52aa8f700ce6b18427fe1e0b",
+            "gzip_sha256": "f2ee8fb0c1bf50c05f8daf741aa1f3797c6d8f2b5ff1fc72fc55a56b5f15f5bf"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-upstream-guarded-area-wire.log.gz",
+            "original_sha256": "cfd75fe2660fbe9efe889b0623d453dc6e8ac0a8485e163d24f8547065d94dd9",
+            "gzip_sha256": "2f2cad350c7d722cf62d04404551ec66fe4cbce2ed314a56c3ede258b8d95d02"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-upstream-CONPTY-RUNTIME.json.gz",
+            "original_sha256": "d5aba82742aca53ac40b5122c4f3504bf35cce56df8962db3a7424c3311c70a2",
+            "gzip_sha256": "452713680064a8d73c169b28272d28cac1eb2df5cc34a1db844c6fffc62ba055"
+          }
+        ]
+      },
+      "source": {
+        "artifact": 14059015089,
+        "completed": true,
+        "frontend_sha256": "7f7dccd24612f4f51b621a5a5ba07e93fb3f643976107bbc0ecd2eea4aa5e047",
+        "conpty_sha256": "FEEEF341D891643C62D30B6B07800BC70F0BC148F44CB8C3BEE84AA557AE805A",
+        "completed_phases": 76,
+        "cleanup": {
+          "before": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "trace_module": "C:\\Windows\\SYSTEM32\\policymanager.dll",
+        "trace_io_records": 0,
+        "files": [
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-source-guarded-area-wire.jsonl.gz",
+            "original_sha256": "213180292728a5a9037b6dd61f9828e8ea84c97bc5f28def61b19b1dc0388d9c",
+            "gzip_sha256": "22b7ea275683fa79906e2e9d5c03c0ac16290f93207c0f3bdbf45ab784356b88"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-source-guarded-area-observed.json.gz",
+            "original_sha256": "d2d32534f407c5f84e079d5a1f579bcd03b5bd5f8602f89049a911a62800d1bb",
+            "gzip_sha256": "c51229a788d53fff9fb48cc0f5d1f535978966cf7cc366bb7f602f652b5c4e45"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-source-guarded-area-wire.log.gz",
+            "original_sha256": "b7f32562d77ef2e261c762f4ba6886c3573a95334c3590fde63cbecca69f28ae",
+            "gzip_sha256": "a0c883a890c7e62c6ad9c6d70a1d8fae172418f44650f5885e06875efc4aebae"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-source-CONPTY-RUNTIME.json.gz",
+            "original_sha256": "d5aba82742aca53ac40b5122c4f3504bf35cce56df8962db3a7424c3311c70a2",
+            "gzip_sha256": "452713680064a8d73c169b28272d28cac1eb2df5cc34a1db844c6fffc62ba055"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-ab-source-SOURCE-HOST-OVERRIDE.json.gz",
+            "original_sha256": "9ff7278f068ae1d582a1bb22c465e3547ff180cf16fcfdc66737d8c53caaf50c",
+            "gzip_sha256": "38194e3bf9be3d933b45e20758179d8197ca36ae1c569a2074cd45e903c1ae2b"
+          }
+        ]
+      }
+    }
+  }
 }
