@@ -19,6 +19,11 @@ def cases():
                               ('reverse', CSI+'?5h')):
             result[name+'-'+state] = SET+prefix+control+QUERY
         result[name+'-saved-palette'] = SET+CSI+'1#P'+control+QUERY+CSI+'1#Q'+QUERY
+    for command in (10, 11, 12):
+        result[f'reverse-set-{command}'] = SET+CSI+'?5h'+OSC+str(command)+';#56789a'+ST+QUERY+CSI+'?5l'+QUERY
+        result[f'reverse-reset-{command}'] = SET+CSI+'?5h'+OSC+str(command+100)+ST+QUERY+CSI+'?5l'+QUERY
+    for name, colour in (('foreground', '#123456'), ('background', '#234567'), ('independent', '#456789')):
+        result['cursor-reverse-'+name] = SET+OSC+'12;'+colour+ST+CSI+'?5h'+QUERY+CSI+'?5l'+QUERY
     return result
 
 
