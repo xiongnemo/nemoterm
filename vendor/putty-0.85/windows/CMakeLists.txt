@@ -64,6 +64,7 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
+  nemo_debug.c
   nemo_tabs_layout.c
   nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c

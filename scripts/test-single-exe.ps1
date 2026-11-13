@@ -13,11 +13,18 @@ if (Test-Path -LiteralPath $Destination) { throw 'Choose a fresh validation dire
 New-Item -ItemType Directory -Path $Destination | Out-Null
 New-Item -ItemType Directory -Path "$Destination/dist", "$Destination/research", "$Destination/build", "$Destination/logs" | Out-Null
 Copy-Item -LiteralPath "$root/tests" -Destination "$Destination/tests" -Recurse
+New-Item -ItemType Directory -Path "$Destination/tools" | Out-Null
+Copy-Item -LiteralPath "$root/tools/nemoterm_debug.py" -Destination "$Destination/tools/nemoterm_debug.py"
 Copy-Item -LiteralPath $Executable -Destination "$Destination/dist/nemoterm.exe"
 $previousExe = $env:NEMOTERM_TEST_EXE
 $env:NEMOTERM_TEST_EXE = "$Destination/dist/nemoterm.exe"
 $checks = [Collections.Generic.List[string]]::new()
 try {
+    foreach ($renderer in @('gdi', 'directx')) {
+        & python "$Destination/tests/automation_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/automation-$renderer.log"
+        if ($LASTEXITCODE) { throw "Local automation integration test failed: $renderer" }
+        $checks.Add("automation-$renderer")
+    }
     $tests = @('single_exe', 'shutdown', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',

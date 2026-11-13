@@ -2,6 +2,7 @@
 #include "storage.h"
 #include "nemo_tcap.h"
 #include "nemo_shell.h"
+#include "nemo_debug.h"
 
 const unsigned cmdline_tooltype =
     TOOLTYPE_NONNETWORK |
@@ -26,6 +27,10 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
         CmdlineArg *arg = arglist->args[arglistpos++];
         CmdlineArg *nextarg = arglist->args[arglistpos];
         const char *argstr = cmdline_arg_to_str(arg);
+        if (!strcmp(argstr, "--automation")) {
+            nemo_debug_enabled = true;
+            continue;
+        }
         if (!strcmp(argstr, "--settings") || !strcmp(argstr, "--choose-shell")) {
             show_settings = true;
             continue;

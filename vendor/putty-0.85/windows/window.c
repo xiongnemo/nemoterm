@@ -21,6 +21,7 @@
 #include "security-api.h"
 #include "win-gui-seat.h"
 #include "nemo_snapshot.h"
+#include "nemo_debug.h"
 #include "nemo_link_ui.h"
 #include "nemo_shell.h"
 #include "nemo_key_input.h"
@@ -896,11 +897,16 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
 }
 
 #include "nemo_tabs_host.inc"
+#include "nemo_debug_ui.inc"
 
 /* Socket notifications belong to the application, not the first session's
  * window. Closing that session must not orphan another backend's events. */
 static LRESULT CALLBACK app_event_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
+    if (msg == NEMO_DEBUG_MESSAGE) {
+        nemo_debug_dispatch();
+        return 0;
+    }
     if (msg == WM_NETEVENT || msg == WM_DONE_WITH_SOCKET) {
         winselgui_response(msg, wp, lp);
         return 0;
@@ -984,6 +990,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show)
     get_sesslist(&sesslist, true);
     if (!wgs_create(conf, show))
         cleanup_exit(1);
+    if (nemo_debug_enabled && !nemo_debug_start(app_event_hwnd,nemo_debug_ui))
+        modalfatalbox("Unable to start local automation: %s",win_strerror(GetLastError()));
 
     while (1) {
         int n;
@@ -1264,6 +1272,7 @@ static void setup_clipboards(Terminal *term, Conf *conf)
  */
 void cleanup_exit(int code)
 {
+    nemo_debug_stop();
     /*
      * Clean up.
      */
