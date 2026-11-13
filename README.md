@@ -30,10 +30,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `9370c1f` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131/artifacts/14071326631)。
+已通过 CI 的开发快照：[下载 `4ed7e08` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43494224840/artifacts/14072536453)。
 两条完整工作流通过，单文件 CI 共 93 组检查；包含本机自动化接口、文件路径拖放、
-图片粘贴、Unicode 路径修复，以及新增的上划线 SGR 53/55。EXE 为 **4,448,256 字节**。
-产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/overline.md)。
+图片粘贴、Unicode 路径修复、上划线 SGR 53/55，以及样式能力查询。EXE 为 **4,448,768 字节**。
+产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/rendition-capabilities.md)。
 本机大窗口 DirectX 内存验收仍未达标，见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
@@ -144,9 +144,9 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `9370c1f` 在本机 Sarasa、160×48、双标签负载下，GDI 私有工作集峰值为 **16.45 MB**，
-DirectX 为 **30.43 MB**，尚未满足 25 MB 目标。总工作集分别为 42.50 MB 和 66.72 MB。
-CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/overline.md)。
+下载的 `4ed7e08` 在本机 Sarasa、160×48、双标签负载下，GDI 私有工作集峰值为 **15.63 MB**，
+DirectX 为 **29.57 MB**，尚未满足 25 MB 目标。总工作集分别为 37.50 MB 和 69.78 MB。
+CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/rendition-capabilities.md)。
 后续 [本机分配诊断](research/local-directx-heap.md) 保留了两次未达标的优化实验；产品渲染器未合入这些改动。
 [首次初始化与 Direct3D 9Ex 探针](research/graphics-initialization.md) 补充了驱动分配证据；独立小程序的差异尚不能证明终端达标。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
@@ -184,6 +184,7 @@ cd nemoterm
 
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
+| `4ed7e08`，样式能力查询及真实回放 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43494224555) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43494224840) |
 | `9370c1f`，上划线及查询、历史和像素验证 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43491888532) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131) |
 | `abafbbf`，接口、文件/图片输入与转换修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43482108469) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43482108697) |
 | `4ab6939`，Unicode 路径修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43481683098) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43481683584) |

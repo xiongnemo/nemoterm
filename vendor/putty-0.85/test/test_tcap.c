@@ -95,6 +95,49 @@ static void test_queries_and_bounds(Mock *mk)
     query(mk, "Co", "2");
 }
 
+static void test_renditions(Mock *mk)
+{
+    conf_set_bool(mk->conf, CONF_true_colour, true);
+    conf_set_bool(mk->conf, CONF_ansi_colour, true);
+    conf_set_bool(mk->conf, CONF_xterm_256_colour, true);
+    term_reconfig(mk->term, mk->conf);
+    reset(mk);
+    term_data_fragmented(mk->term, "\033[3;4:3;9;53;38:2::11:22:33;58:5:6m\033[3;7H");
+    unsigned long attr = mk->term->curr_attr;
+    truecolour colour = mk->term->curr_truecolour;
+    static const struct { const char *name, *value; } cases[] = {
+        {"smul", "\033[4m"}, {"us", "\033[4m"},
+        {"rmul", "\033[24m"}, {"ue", "\033[24m"},
+        {"sitm", "\033[3m"}, {"ZH", "\033[3m"},
+        {"ritm", "\033[23m"}, {"ZR", "\033[23m"},
+        {"smxx", "\033[9m"}, {"rmxx", "\033[29m"},
+        {"Smol", "\033[53m"}, {"Rmol", "\033[55m"},
+    };
+    for (size_t i = 0; i < lenof(cases); i++) {
+        query(mk, cases[i].name, cases[i].value);
+        IEQUAL(mk->term->curr_attr, attr);
+        IEQUAL(truecolour_equal(mk->term->curr_truecolour, colour), true);
+        IEQUAL(mk->term->curs.x, 6); IEQUAL(mk->term->curs.y, 2);
+    }
+    /* Extended names are case sensitive; unsupported parameter programs do
+     * not acquire a misleading positive response from the new whitelist. */
+    static const char *unknown[] = {"smol", "rmol", "SMOL", "Smulx", "Setulc", "Su"};
+    for (size_t i = 0; i < lenof(unknown); i++) {
+        strbuf *input = strbuf_new();
+        put_dataz(input, "\033P+q"); hex(input, unknown[i]); put_dataz(input, "\033\\");
+        term_data_fragmented(mk->term, input->s); response(mk, "\033P0+r\033\\");
+        strbuf_free(input);
+    }
+    term_data_fragmented(mk->term, "\033P+q536D6F6C;526D6F6C;436f\033\\");
+    response(mk, "\033P1+r536D6F6C=1b5b35336d;526D6F6C=1b5b35356d;436f=323536\033\\");
+    term_data_fragmented(mk->term, "\033P+q536d6f6c;736d6f6c;526d6f6c\033\\");
+    response(mk, "\033P1+r536d6f6c=1b5b35336d;\033\\");
+    conf_set_bool(mk->conf, CONF_true_colour, false);
+    conf_set_bool(mk->conf, CONF_ansi_colour, false);
+    term_reconfig(mk->term, mk->conf);
+    for (size_t i = 0; i < lenof(cases); i++) query(mk, cases[i].name, cases[i].value);
+}
+
 static void test_keyboard(Mock *mk)
 {
     reset(mk);
@@ -185,6 +228,7 @@ int main(void)
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     test_queries_and_bounds(mk);
+    test_renditions(mk);
     test_keyboard(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

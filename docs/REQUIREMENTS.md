@@ -1,5 +1,17 @@
 # Nemoterm requirements and evidence ledger
 
+## Rendition discovery and current artifact (2026-11-14 Sydney)
+
+Eight parameter-free rendition sequences and four termcap aliases now have
+XTGETTCAP replies. Both complete workflows pass at `4ed7e08`, including all
+93 single-image groups and actual replay of the returned values through ConPTY.
+The exact downloaded EXE passes that query fixture locally. Its uninstrumented
+Sarasa 160x48 two-tab workload passes GDI at 15,626,240 private-working-set bytes
+but fails DirectX at 29,569,024 against 25,000,000; all nine functional groups
+and natural cleanup complete in both modes. No renderer optimization is claimed
+from differences between runs. See the [artifact and raw evidence](../research/rendition-capabilities.md).
+The accepted local distribution and remaining full-goal requirements are unchanged.
+
 ## Initial graphics allocations (2026-11-14 Sydney)
 
 A first-switch diagnostic now captures graphics initialization previously

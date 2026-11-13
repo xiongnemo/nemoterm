@@ -4,15 +4,15 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `9370c1f` passes both full workflows,
-including 93 single-image groups. Its [manifest](../research/overline-validation.json)
-identifies the exact EXE, overline state/pixel results and separate local memory
-failure: the downloaded image passes GDI at 16.45 MB in the Sarasa 160x48 workload;
-DirectX reaches 30.43 MB and remains above 25 MB.
+The published product checkpoint at `4ed7e08` passes both full workflows,
+including 93 single-image groups. Its [manifest](../research/rendition-capabilities-validation.json)
+identifies the exact EXE, rendition discovery/replay results and separate local
+memory failure: the downloaded image passes GDI at 15.63 MB in the Sarasa 160x48
+workload; DirectX reaches 29.57 MB and remains above 25 MB.
 The earlier sidecar reply-order issue was resolved by building the same host
 source and overlay for compiler comparison. Local testing has resumed.
-The [overline checkpoint](../research/overline.md) includes local checks of the
-downloaded image under all three renderers; CI's OpenGL request used GDI fallback.
+The preceding [overline checkpoint](../research/overline.md) includes local checks
+of its downloaded image under all three renderers; CI's OpenGL request used GDI fallback.
 
 Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 (page identifies patch 411); independent captures use the pinned
@@ -139,7 +139,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | >m/>n/?m; >f/?g/>g (modifyOtherKeys family) | Partial | `mok`, native key tests and independent reference; supported resource is modifyOtherKeys, not all xterm key resources. |
 | ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |
 | DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
-| DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key capability whitelist, not arbitrary terminfo access. |
+| DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key and parameter-free rendition whitelist. `smul/rmul`, `sitm/ritm`, `smxx/rmxx`, `Smol/Rmol`, plus `us/ue/ZH/ZR` aliases; not arbitrary terminfo access or parameterized programs (`Smulx/Setulc`). See [rendition query evidence](../research/rendition-capabilities.md). |
 | DCS +p ... ST (XTSETTCAP), user-defined keys and full terminal-state restoration | Missing | Query-only termcap support; presentation-state restoration is listed separately. |
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
 | CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
