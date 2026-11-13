@@ -394,5 +394,136 @@
         ]
       }
     }
+  },
+  "verified_sidecar_host_ab": {
+    "run": 43465324984,
+    "fixture_commit": "8049284701e52117751b777010b29e97a2c855a4",
+    "runtime_artifact": 14057762463,
+    "scope": "Identical frontend and conpty.dll; host replacement only, with validated pipe observations",
+    "hosts": {
+      "upstream": {
+        "artifact": 14057742634,
+        "completed": false,
+        "frontend_sha256": "ddf8217ff40ea5c70df4d6937ea7cb20758b46d7cc1b08acfb1f58033fe75199",
+        "conpty_sha256": "FEEEF341D891643C62D30B6B07800BC70F0BC148F44CB8C3BEE84AA557AE805A",
+        "completed_phases": 58,
+        "cleanup": {
+          "before": {
+            "total": 3,
+            "active": 3,
+            "terminated": 0
+          },
+          "after": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": true,
+          "remaining_processes": [
+            {
+              "pid": 1992,
+              "image": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 5144,
+              "image": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 2020,
+              "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+              "exit_code": 259
+            }
+          ]
+        },
+        "trace_module": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+        "trace_io_counts": {
+          "ReadFile": 175,
+          "WriteFile": 141
+        },
+        "files": [
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-upstream-guarded-area-wire.jsonl.gz",
+            "original_sha256": "e6e593ff5dcab74da09387af4755b508c3252673ec34b708386b7b5ee9f9da6e",
+            "gzip_sha256": "6cfa1d6eba0b643b60cdb6da1b5cbf8e077cea086d9fd762700ac844986dc026"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-upstream-guarded-area-observed.json.gz",
+            "original_sha256": "0337a9d61f022153124d16b31842fbe8c15c242fc256d5d926ddc23a71ffe82d",
+            "gzip_sha256": "c9911febbe4ab691c3d943505514c11166ea458c648bc418c6410ad4eb37aa7c"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-upstream-guarded-area-wire.log.gz",
+            "original_sha256": "cfd75fe2660fbe9efe889b0623d453dc6e8ac0a8485e163d24f8547065d94dd9",
+            "gzip_sha256": "2f2cad350c7d722cf62d04404551ec66fe4cbce2ed314a56c3ede258b8d95d02"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-upstream-CONPTY-RUNTIME.json.gz",
+            "original_sha256": "d5aba82742aca53ac40b5122c4f3504bf35cce56df8962db3a7424c3311c70a2",
+            "gzip_sha256": "452713680064a8d73c169b28272d28cac1eb2df5cc34a1db844c6fffc62ba055"
+          }
+        ]
+      },
+      "source": {
+        "artifact": 14058516865,
+        "completed": true,
+        "frontend_sha256": "ddf8217ff40ea5c70df4d6937ea7cb20758b46d7cc1b08acfb1f58033fe75199",
+        "conpty_sha256": "FEEEF341D891643C62D30B6B07800BC70F0BC148F44CB8C3BEE84AA557AE805A",
+        "completed_phases": 76,
+        "cleanup": {
+          "before": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 3,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "trace_module": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+        "trace_io_counts": {
+          "ReadFile": 230,
+          "WriteFile": 166
+        },
+        "files": [
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-source-guarded-area-wire.jsonl.gz",
+            "original_sha256": "fd7715b7e2f6fb875a088887ba68a0ca16a47260ef9b86c1ed59ce21d339a0fc",
+            "gzip_sha256": "31668051595517ce3a39b276fa8324f1ba90f1a513cc80c4718c7e175d99561e"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-source-guarded-area-observed.json.gz",
+            "original_sha256": "d0622dc395b0f0069bb00ed5764ffb85d81e9b05c90a763c339d511aab8a3ae8",
+            "gzip_sha256": "67d7954c09f2f86efcb434493780ab73fde4e5cf6ec7b8085ed3ead3a472e542"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-source-guarded-area-wire.log.gz",
+            "original_sha256": "b7f32562d77ef2e261c762f4ba6886c3573a95334c3590fde63cbecca69f28ae",
+            "gzip_sha256": "a0c883a890c7e62c6ad9c6d70a1d8fae172418f44650f5885e06875efc4aebae"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-source-CONPTY-RUNTIME.json.gz",
+            "original_sha256": "d5aba82742aca53ac40b5122c4f3504bf35cce56df8962db3a7424c3311c70a2",
+            "gzip_sha256": "452713680064a8d73c169b28272d28cac1eb2df5cc34a1db844c6fffc62ba055"
+          },
+          {
+            "path": "research/reset-palette-evidence/sidecar-verified-source-SOURCE-HOST-OVERRIDE.json.gz",
+            "original_sha256": "9ff7278f068ae1d582a1bb22c465e3547ff180cf16fcfdc66737d8c53caaf50c",
+            "gzip_sha256": "38194e3bf9be3d933b45e20758179d8197ca36ae1c569a2074cd45e903c1ae2b"
+          }
+        ]
+      }
+    }
+  },
+  "source_host_ci_follow_up": {
+    "source_commit": "98178a050ea366de10dee5c6d1b830afc39f3e03",
+    "core_run": 43465690888,
+    "single_run": 43465690968,
+    "status": "pending"
   }
 }

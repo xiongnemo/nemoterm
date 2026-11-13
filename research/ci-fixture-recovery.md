@@ -175,6 +175,26 @@ as well. The main single-image distribution remains one executable; the
 multi-file MinGW package is a compiler comparison build. This workflow change
 still needs its own full remote run and does not erase earlier failures.
 
+[Corrected observer run 43465324984](https://github.com/xiongnemo/nemoterm/actions/runs/43465324984)
+repeats the controlled host comparison with identical frontend SHA256
+`ddf8217ff40ea5c70df4d6937ea7cb20758b46d7cc1b08acfb1f58033fe75199`
+and identical conpty.dll. Both observers bind `dist/nemoterm.exe`, capture both
+directions and finish without capture errors or truncation. The upstream host
+fails after 58 cases with 175 reads / 141 writes captured; the source host passes
+all 63 cases and the subsequent pixel checks with 230 reads / 166 writes, then
+exits naturally. Raw traces, identity and cleanup are retained in the manifest.
+
+At the failing boundary, upstream sends an extra untagged `CSI 6n`. The frontend
+responds with the two application CPRs, identity marker, then that internal CPR;
+the application loses an earlier CPR and receives the later internal one. With
+the source host, the same internal query is `CSI ?9001;59n` and the reply is
+`CSI ?9001;59;1;80R`. The application's two ordinary CPRs stay before its marker,
+and the tagged reply is consumed by the host. This supports the existing tagged
+query fix with both boundary observations and a controlled host replacement.
+The ordinary [core follow-up](https://github.com/xiongnemo/nemoterm/actions/runs/43465690888)
+and [single-image follow-up](https://github.com/xiongnemo/nemoterm/actions/runs/43465690968)
+at `98178a0` remain separate full-suite acceptance runs.
+
 DirectX allocation ownership, historical close stalls, physical IME/multi-monitor
 behaviour, the requested local Sarasa workload and the remaining protocol ledger
 are still open. This checkpoint does not complete the terminal goal.
