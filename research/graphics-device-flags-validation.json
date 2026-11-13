@@ -1,0 +1,179 @@
+{
+  "recorded_utc": "2026-11-13T20:44:51.033534+00:00",
+  "executable": {
+    "sha256": "21e217254bec0cd10158b7da791c42da238095fe277e71033af1253f5e0eb356",
+    "bytes": 4448256,
+    "source_commit": "9370c1f"
+  },
+  "frida_version": "17.24.3",
+  "diagnostic": {
+    "executable_sha256": "21e217254bec0cd10158b7da791c42da238095fe277e71033af1253f5e0eb356",
+    "font": "SarasaTermSC Nerd Font Light",
+    "requested_grid": [
+      160,
+      48
+    ],
+    "target": "directx",
+    "instrumented": true,
+    "memory_acceptance": false,
+    "diagnostic_completed": true,
+    "scope": "Observe D3D11CreateDevice arguments at first renderer application; no argument mutation or memory acceptance",
+    "warmup": {
+      "phase": "warmup-gdi",
+      "hex": "1b5b306e",
+      "columns": 160,
+      "rows": 48,
+      "input_mode": 640,
+      "input_cp": 65001,
+      "input_api": "ReadFile"
+    },
+    "actual_renderer_property": 3,
+    "rendered": {
+      "phase": "after-settings",
+      "hex": "1b5b306e",
+      "columns": 160,
+      "rows": 48,
+      "input_mode": 640,
+      "input_cp": 65001,
+      "input_api": "ReadFile"
+    },
+    "device_trace": {
+      "hooks": [
+        {
+          "module": "d3d11.dll",
+          "entry": "D3D11CreateDevice"
+        }
+      ],
+      "events": [
+        {
+          "flags": 41,
+          "driver_type": 0,
+          "adapter_supplied": true,
+          "requested_levels": [
+            45312,
+            45056,
+            41216,
+            40960,
+            37632,
+            37376,
+            37120
+          ],
+          "thread": 37344,
+          "requested_level_count": 7,
+          "caller": "d2d1.dll+0x27475c",
+          "hresult": 0,
+          "selected_level": 45312
+        }
+      ],
+      "errors": [],
+      "truncated": false
+    },
+    "cleanup": {
+      "before": {
+        "total": 7,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 7,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  },
+  "controller": {
+    "executable_sha256": "21e217254bec0cd10158b7da791c42da238095fe277e71033af1253f5e0eb356",
+    "name": "device_flags",
+    "completed": false,
+    "exit_code": 2,
+    "controller_pid": 36716,
+    "cleanup": {
+      "before": {
+        "total": 9,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 9,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "seconds": 2.249
+  },
+  "product_changed": false,
+  "memory_acceptance": false,
+  "accepted_distribution_replaced": false,
+  "accepted_executable_sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
+  "full_goal_complete": false,
+  "fixture_base_commit": "6cbe05f11ff5ba1bf061d74a10d4916b0d4483f6",
+  "helper_sha256": {
+    "gpu_settings_driver.ps1": "96a0e6dd3a8a1b41823f76d03d35423a48b09d8e205495fb7adc84f4ecadab93",
+    "native_test_utils.py": "a674222aba14da360018c21cd8429edbc0b1d981c2b6422e00663ffb8fbf761f",
+    "fixture_io.py": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b",
+    "owned_job.py": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+    "mouse_fixture.py": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a"
+  },
+  "files": [
+    {
+      "path": "research/graphics-device-flags-evidence/device-flags-observed.json.gz",
+      "sha256": "5b2c368d189fc14dd8075717c1b4035f8ecbf940ea313cd4cd0aedf0cae4a1e3",
+      "bytes": 708,
+      "raw_sha256": "75d3d2900889af31b7bc3a4a356a867bf351b74ccd89e03093fc6c2fb45aeda8",
+      "raw_bytes": 1736,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/controller.json.gz",
+      "sha256": "38a7ab8389ae227229167a67d5d978937dbc0bfc68b9826f533eede07c0b4a2f",
+      "bytes": 263,
+      "raw_sha256": "b091eaf9b18638b9305f4856627171898e467f6684b7be474ac6f71bbc5d6d7c",
+      "raw_bytes": 475,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/controller.log.gz",
+      "sha256": "77757507e934f8999193250dd5442fd2ae2361b9ccc7ab5713d6dd24748f60b5",
+      "bytes": 723,
+      "raw_sha256": "c22dab3f0b27aaaf9480c33856f884fe5bc5f615dc90f7a670d445778a48395e",
+      "raw_bytes": 1636,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/fixture.log.gz",
+      "sha256": "49d8958bbb2b4216c6e2b2aad73f1042e973878e6e71b955aefedf5cee3e828a",
+      "bytes": 643,
+      "raw_sha256": "05f50c6b353e67e0490282477b0a78894a84b0801914a45a7c06b87c18d66151",
+      "raw_bytes": 1262,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/device_flags_window_smoke.py.gz",
+      "sha256": "4b936b826c8fdfae0a4f2bc4df8dbd398f6fcb43fa6712b89b3fbae6a2692121",
+      "bytes": 2143,
+      "raw_sha256": "a6910d4d6db5ceca5d06f7de5ee3ef29acabf5174454e7a6cf4c8ec25e7c7900",
+      "raw_bytes": 5103,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/device_flags_observer.py.gz",
+      "sha256": "1024de54025fa0ef8489a54933e33fde905e8f8aad341d9d622698de0ed44abd",
+      "bytes": 1002,
+      "raw_sha256": "e5ee44e442c2388d1bb3494869311609effad62241a138a39811c09448b9b27c",
+      "raw_bytes": 2381,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-device-flags-evidence/run-owned-check.py.gz",
+      "sha256": "9fc37419bfffb2a4e7a5a642f2c5318db79286825339a8afa8ef0b0ac11e283f",
+      "bytes": 744,
+      "raw_sha256": "01562d334381d7b582141bbfc3f59f2002691ee8b7e6e36c4d440fd2a130081f",
+      "raw_bytes": 1482,
+      "encoding": "gzip"
+    }
+  ]
+}

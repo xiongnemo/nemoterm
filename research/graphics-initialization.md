@@ -5,6 +5,10 @@ passes the local pixel suite but fails the unchanged full-workload budget at
 31,731,712 private-working-set bytes. Disabling its run cache reaches 33,579,008
 bytes. Neither candidate is retained in the product.
 
+A [first-device flag observation](graphics-device-flags.md) also confirms that
+the existing Direct2D path already requests a single-threaded D3D11 device on
+this machine; setting that flag is not an untried memory optimization.
+
 This checkpoint changes no product renderer. The exact downloaded `9370c1f`
 image remains over the local DirectX budget: **30,433,280 private-working-set
 bytes** in the full Sarasa 160x48 two-tab workload. See [overline acceptance](overline.md).

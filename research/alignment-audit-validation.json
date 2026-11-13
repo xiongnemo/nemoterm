@@ -1,0 +1,196 @@
+{
+  "recorded_utc": "2026-11-13T21:23:53.766083+00:00",
+  "source_main_commit": "981aa7df2525d6183439acd84b84f506c73a0913",
+  "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+  "executable_source_commit": "6cbe05f11ff5ba1bf061d74a10d4916b0d4483f6",
+  "product_source": "vendor/putty-0.85/terminal/terminal.c",
+  "product_source_sha256_lf": "6b58a97cb281a90e8289326b75a59f3fc386cdbc7c2540bb8c87733ede307598",
+  "source_matches_main": true,
+  "reference": {
+    "version": "XTerm(412)",
+    "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c"
+  },
+  "cases": 14,
+  "different_replies": 13,
+  "matching_cases": [
+    "double-width"
+  ],
+  "state_difference_examples": [
+    "cursor home",
+    "vertical and horizontal margin bounds",
+    "origin reset",
+    "pending wrap",
+    "rendition state"
+  ],
+  "known_reference_encoding_difference": "RGB rendition query after DECALN uses indexed packed integers in XTerm; do not blindly copy this format.",
+  "native_transport_completed": true,
+  "compatibility_passed": false,
+  "natural_cleanup": true,
+  "controller": {
+    "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+    "name": "alignment_audit",
+    "completed": false,
+    "exit_code": 1,
+    "controller_pid": 16724,
+    "cleanup": {
+      "before": {
+        "total": 5,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 5,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "seconds": 1.657
+  },
+  "source_changed": false,
+  "accepted_distribution_replaced": false,
+  "limitations": [
+    "State query comparison only; no complete fill-cell, Sixel, pixel, selection, scrollback or resizing coverage.",
+    "Different reply count is not a count of independent product bugs.",
+    "The initial wrapper used a wrong output filename after successful transport; original failure retained."
+  ],
+  "files": [
+    {
+      "path": "research/alignment-audit-evidence/cases.py.gz",
+      "bytes": 472,
+      "sha256": "40a1b171df544b5a3ae01d1fffc1dffd1da1426a6c5c0d0c927d4b219a495a9d",
+      "raw_bytes": 1134,
+      "raw_sha256": "31f6ca9bebf8e75b0ca302954313b922287e3865f842d04b80aa2abbc52e16f1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/capture.py.gz",
+      "bytes": 253,
+      "sha256": "eafbe76c91274f2e7b4421ecce352cf5cfa5073d406a353c13691a233c2fc689",
+      "raw_bytes": 353,
+      "raw_sha256": "abec18c4822a0cf879eaf39b6d4fd9528f1f84b6bba079687b659f5fe651279a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/xterm.json.gz",
+      "bytes": 793,
+      "sha256": "9a472874602b1f640ae7a822ef1a21ca781081cc7485639d1f436b617d542b17",
+      "raw_bytes": 8224,
+      "raw_sha256": "bccb5d1fc9b38a1c78735e3a2b02c45fbf295a8179eba0119841e09b49159da1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/xterm.log.gz",
+      "bytes": 292,
+      "sha256": "f6f30bf47ce6a94f2272384b33ef019d5fc3c330bf8d49b818a6260b52365888",
+      "raw_bytes": 1953,
+      "raw_sha256": "c2c0f67c004525273d001a09054aaacbdc7ab1d621de8ef0be1c00654b532fda",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/xterm_state_oracle.py.gz",
+      "bytes": 2455,
+      "sha256": "cadd8af5e2e5ea7619af2696a674a014cc5cbef8cb684e4330e09a18555a9266",
+      "raw_bytes": 6589,
+      "raw_sha256": "dc3a747ffd2145c0e530c90801a6167fbd0bd321e3ed77f6414bb92e2b9e9cce",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/xterm-charproc.c.gz",
+      "bytes": 104525,
+      "sha256": "50cce2565cdb629dfa2f79066a4ea7cbf3d0d63f1be7532050684d4920fd8ffc",
+      "raw_bytes": 413168,
+      "raw_sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/terminal-before.c.gz",
+      "bytes": 113917,
+      "sha256": "26953ec0da6c0e3d6d8ed191a0bbf16240fdc2467066b6a615c4e238a44c415b",
+      "raw_bytes": 502891,
+      "raw_sha256": "6b58a97cb281a90e8289326b75a59f3fc386cdbc7c2540bb8c87733ede307598",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/protocol_oracle_window.py.gz",
+      "bytes": 2218,
+      "sha256": "1f4ce6b1169457fba7b0216a93086f4a1c845070d8a31a062ef09075126c86d5",
+      "raw_bytes": 6023,
+      "raw_sha256": "0d1b1d6c7d58f24c8ae3c1ba5366c3298bd71d94b4c5a4aa72868f6933fc90ae",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/owned-controller.py.gz",
+      "bytes": 744,
+      "sha256": "9fc37419bfffb2a4e7a5a642f2c5318db79286825339a8afa8ef0b0ac11e283f",
+      "raw_bytes": 1482,
+      "raw_sha256": "01562d334381d7b582141bbfc3f59f2002691ee8b7e6e36c4d440fd2a130081f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-alignment_audit_window_smoke.py.gz",
+      "bytes": 556,
+      "sha256": "99580be372e62594343438da2935cc8b24ea55e75037f0e84af63417c16186e4",
+      "raw_bytes": 1137,
+      "raw_sha256": "8f1c3129111cd692f89949df5d7f64427ae9cea35b9d5fbf7deb3d9d5ee0f851",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-alignment-audit-observed.json.gz",
+      "bytes": 988,
+      "sha256": "f2fa705e7ed918d3b8efba6c01067c871bc56606673fe04fc2d846e52fbe5f50",
+      "raw_bytes": 9302,
+      "raw_sha256": "c8e67733fd8f1d7098f6aa1e07edde5b12738036772b8dea3e24ae7aa3d87f64",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-alignment_audit-controller.json.gz",
+      "bytes": 265,
+      "sha256": "8afced8375de2281d732335f2349c409408c33b89a96bc7464936ca8b92927d8",
+      "raw_bytes": 478,
+      "raw_sha256": "c4bf3d757abfcceb753e4c11a93b7fd23f85e8e81ffeafc9f8c50655d088f529",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-alignment_audit.log.gz",
+      "bytes": 471,
+      "sha256": "422d0e75c2d4328deb49c0052289838bea1977c62549c657a259b9e1f3bd630d",
+      "raw_bytes": 1040,
+      "raw_sha256": "4200b0b292ad1891077c29009468c8009f7b968049c96a54096ecb5d52e8e019",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-final-alignment_audit_window_smoke.py.gz",
+      "bytes": 553,
+      "sha256": "ec0dd3c16e8911ce3a67073766b6d08b0d5d21cbd7e73453547e54ba2df93000",
+      "raw_bytes": 1130,
+      "raw_sha256": "b3801df6c2876a37acebac4f7021033a3e0447b59742cc2b0f404f244b5b92c2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-final-alignment-audit-observed.json.gz",
+      "bytes": 1017,
+      "sha256": "3d11e10fa8c20ac593aa2b63d92ba4b93eb6cbcfa6423ec4defc8997e59db1df",
+      "raw_bytes": 9371,
+      "raw_sha256": "3014f2a4fb1a98857dbd3895feced6b49049fbcaf047e0202489b35451045326",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-final-alignment_audit-controller.json.gz",
+      "bytes": 265,
+      "sha256": "621f262920fdfbd18111f68cc82344e4c1347059802b8bc7dfc74db2f9ec7134",
+      "raw_bytes": 478,
+      "raw_sha256": "bb921def7fef8aed69da0cfc06dc94e6a7449b31df263e9460bc03ab8272a011",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-audit-evidence/native-final-alignment_audit.log.gz",
+      "bytes": 113,
+      "sha256": "8824cc581d24d56c62f59db69faf3a7351bbe94c99acec6016b7f8c7f37ca0e2",
+      "raw_bytes": 107,
+      "raw_sha256": "012a8bedffb59a3575103d235f867f24243b91bbac880dfbd90fc88b8c3e4c17",
+      "encoding": "gzip"
+    }
+  ]
+}
