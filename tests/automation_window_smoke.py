@@ -24,6 +24,9 @@ def child():
     k = c.windll.kernel32
     k.GetStdHandle.argtypes = [w.DWORD]; k.GetStdHandle.restype = w.HANDLE
     k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
+    # The fixture writes UTF-8 bytes; do not inherit the runner's OEM code page.
+    assert k.SetConsoleCP(65001)
+    assert k.SetConsoleOutputCP(65001)
     handle = k.GetStdHandle(-10)
     assert k.SetConsoleMode(handle, 0x200)
     assert k.SetConsoleMode(k.GetStdHandle(-11), 7)
