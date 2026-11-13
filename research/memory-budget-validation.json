@@ -1,0 +1,174 @@
+{
+  "recorded_utc": "2026-11-13T15:58:34.791192+00:00",
+  "policy": {
+    "gdi_private_ws_lt": 20000000,
+    "directx_private_ws_lte": 25000000,
+    "optional_opengl_exception": true,
+    "total_ws_approximate_target": 50000000
+  },
+  "local_runtime_tests_executed": false,
+  "accepted_local_executable_replaced": false,
+  "main_policy": {
+    "source_commit": "3f68d9c644ae049d981288920fcfb579ac456441",
+    "single_exe_run": 43453467235,
+    "attempt": 2,
+    "result": "success",
+    "groups": 57,
+    "artifact": 14054661905,
+    "evidence_artifact": 14054661910,
+    "executable_sha256": "52d2c11b4a6575c074260f5f1fed3f03954bed4c4578c2249a863479841ac7a1",
+    "executable_bytes": 4371456,
+    "files": [
+      {
+        "path": "research/memory-budget-evidence/main-policy-single-exe-validation.json",
+        "sha256": "db78a636f671557f00f1f3089656bd3f4df0ea407cabb9ea03a3e038cfadd31a",
+        "original_bytes": 1401,
+        "original_sha256": "db78a636f671557f00f1f3089656bd3f4df0ea407cabb9ea03a3e038cfadd31a"
+      },
+      {
+        "path": "research/memory-budget-evidence/main-policy-gpu-lifecycle-observed.json",
+        "sha256": "95262a1cc34d7d73ae5f780f2c68d1e84e29f604e6950427bd45646e00c61a0f",
+        "original_bytes": 7539,
+        "original_sha256": "95262a1cc34d7d73ae5f780f2c68d1e84e29f604e6950427bd45646e00c61a0f"
+      },
+      {
+        "path": "research/memory-budget-evidence/main-policy-tabs-profiles-observed.json",
+        "sha256": "2432f37efd21dde7d1d78a29f081c2d912ee80cbccbc9c9610b4162046e7f4ef",
+        "original_bytes": 2806,
+        "original_sha256": "2432f37efd21dde7d1d78a29f081c2d912ee80cbccbc9c9610b4162046e7f4ef"
+      },
+      {
+        "path": "research/memory-budget-evidence/main-policy-tabs-directx-left-observed.json",
+        "sha256": "97b93189657ead843210acd25df299eff9713ea1d0bea6f21d443a2a9cf9804d",
+        "original_bytes": 4833,
+        "original_sha256": "97b93189657ead843210acd25df299eff9713ea1d0bea6f21d443a2a9cf9804d"
+      }
+    ],
+    "memory": {},
+    "core_run": 43453467534,
+    "core_result": "success"
+  },
+  "development": {
+    "source_commit": "7fc3c9c1a0493aa11257c40bf7b96d7c3d9e7b9d",
+    "single_exe_run": 43453719414,
+    "attempt": 1,
+    "result": "success",
+    "groups": 85,
+    "artifact": 14053789697,
+    "evidence_artifact": 14053794345,
+    "executable_sha256": "5ac65874e49ea7b08077b44aa62ebb55524c01e0da88213702a161dc21ec25d1",
+    "executable_bytes": 4437504,
+    "files": [
+      {
+        "path": "research/memory-budget-evidence/development-single-exe-validation.json",
+        "sha256": "2e57aed766108171887d3d46f416a258fde17e08e17ba9bb5786d5c3be523553",
+        "original_bytes": 2113,
+        "original_sha256": "2e57aed766108171887d3d46f416a258fde17e08e17ba9bb5786d5c3be523553"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-gpu-lifecycle-observed.json",
+        "sha256": "46d583b07cea2f0f7eb018249cfc5bee96324e857af95a8477922844a62a07e4",
+        "original_bytes": 7564,
+        "original_sha256": "46d583b07cea2f0f7eb018249cfc5bee96324e857af95a8477922844a62a07e4"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-tabs-profiles-observed.json",
+        "sha256": "2020ba072271e9c4c8ac06e9d57ad3ee97a556f7774bd502d4536bec4733e89c",
+        "original_bytes": 2806,
+        "original_sha256": "2020ba072271e9c4c8ac06e9d57ad3ee97a556f7774bd502d4536bec4733e89c"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-workload-tabs-gdi-top-observed.json",
+        "sha256": "debcf3005b1800de0d71ff214c0713ec0f2a541d35def919eceac7f4163eaae1",
+        "original_bytes": 15938,
+        "original_sha256": "debcf3005b1800de0d71ff214c0713ec0f2a541d35def919eceac7f4163eaae1"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-workload-tabs-directx-left-observed.json",
+        "sha256": "d123b78d989481524390d8685779dd976226896125fa0d73d600abc19840f055",
+        "original_bytes": 16001,
+        "original_sha256": "d123b78d989481524390d8685779dd976226896125fa0d73d600abc19840f055"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-workload-tabs-gdi-top-memory.json.gz",
+        "sha256": "17edea5c117c84232cc4c684fee045c6ab77d1e63620b959d88db338030d605f",
+        "original_bytes": 1043568,
+        "original_sha256": "28590f76153bd0e47cd3f4f7dc35fa723e89976b8a91302290d4f98ab06549b9"
+      },
+      {
+        "path": "research/memory-budget-evidence/development-workload-tabs-directx-left-memory.json.gz",
+        "sha256": "aee49c9a373cba3a13edd0c29dfecf662db621cc1c10d7c3bca19869c5d39bff",
+        "original_bytes": 649741,
+        "original_sha256": "754ef2fb8eb229401dd80120d0889a5727dcaebb08a289cf2c3e0baf8272654c"
+      }
+    ],
+    "memory": {
+      "gdi": {
+        "actual_renderer": 1,
+        "peak_private_ws": 10981376,
+        "limit": 20000000,
+        "peak_counters": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 10981376,
+            "total_ws": 40300544,
+            "private_commit": 12603392
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 6582272,
+            "total_ws": 40792064,
+            "private_commit": 9232384
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26198016,
+            "total_ws": 52117504,
+            "private_commit": 31674368
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 39104512,
+            "total_ws": 128397312,
+            "private_commit": 48713728
+          }
+        },
+        "sample_count": 404
+      },
+      "directx": {
+        "actual_renderer": 3,
+        "peak_private_ws": 21970944,
+        "limit": 25000000,
+        "peak_counters": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 21970944,
+            "total_ws": 59580416,
+            "private_commit": 24432640
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 6283264,
+            "total_ws": 39186432,
+            "private_commit": 8986624
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26218496,
+            "total_ws": 51826688,
+            "private_commit": 31739904
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 46014464,
+            "total_ws": 142745600,
+            "private_commit": 55693312
+          }
+        },
+        "sample_count": 254
+      }
+    },
+    "core_run": 43453719351,
+    "core_result": "failure: mixed-profile frontend close timeout in the MinGW sidecar comparison"
+  }
+}

@@ -28,10 +28,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-已验证的固定快照：[下载 `52d0962` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324/artifacts/14050547004)。
-该提交已合入 `main`，在修复分支上通过两条 CI 和 57 组单文件检查；
-包含关闭测试的阶段记录与超时诊断。早期运行的超时问题及验证范围见下方 [CI 状态](#测试与-ci)。
-产物预计于 **2026-12-13（UTC）** 过期，SHA-256 和完整范围见 [验证记录](research/native-observer-cleanup.md)。
+已验证的固定快照：[下载 `3f68d9c` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235/artifacts/14054661905)。
+该提交已合入 `main`，核心 CI 通过，单文件 CI 第二次运行通过 57 组检查；
+包含关闭诊断和 DirectX 25 MB 验收标准。首轮辅助进程超时及验证范围见下方 [CI 状态](#测试与-ci)。
+产物预计于 **2026-12-13（UTC）** 过期，SHA-256 和完整范围见 [验证记录](research/memory-budget.md)。
 
 查找后续开发构建：
 
@@ -176,14 +176,14 @@ cd nemoterm
 | --- | --- | --- |
 | `52d0962`，关闭诊断修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324) |
 | `52d0962`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43452081929) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43452081806) |
-| `3f68d9c`，DirectX 25 MB 标准 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43453467534) | [首轮辅助进程启动超时，复跑中](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235) |
+| `3f68d9c`，DirectX 25 MB 标准 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43453467534) | [第二次运行通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235/attempts/2) |
 | `1b09f82`，早期修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
 | `1b09f82`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
 
 早期超时的单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
 新检查点的 6 个关闭场景均正常完成，不能由此宣称所有历史卡住现象已解决。
-25 MB 标准的边界检查已通过；该轮单文件测试在 GPU 辅助程序报告就绪前超时，
-尚未完成整轮验收，固定下载仍指向上面的 `52d0962`。见 [内存标准验证记录](research/memory-budget.md)。
+25 MB 标准的边界检查已通过；首轮单文件测试在 GPU 辅助程序报告就绪前超时，
+第二次运行完整通过，原始失败记录保留在 [内存标准验证记录](research/memory-budget.md) 中。
 固定快照的通过记录不代表后续运行均通过。页面顶部徽章显示 `main` 的工作流状态，
 具体提交的测试范围、日志和产物应以对应运行记录为准。
 
