@@ -1,0 +1,234 @@
+{
+  "base_commit": "65b849a22655d4da54ac9741e28c06f92b6d73ce",
+  "windows_frontend_sha256": "f255a10e2f436cab0bfa4053ac394d6a15d082e3c8771c62eb5d7fb6a6254fdd",
+  "single_executable": false,
+  "windows_core_tests": {
+    "test_cluster_renderer": {
+      "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed",
+      "log_sha256": "d8a99567357c6ac201922edc4f30ea0d93b3df4ce09555d6f354288a45a72a3e",
+      "recheck": "Rebuilt and passed with bounded single-character layout cache, turnover, geometry reuse and opaque fallback"
+    },
+    "test_colour": {
+      "output": "OSC colour parser tests passed",
+      "log_sha256": "0e112b31c6b9f24a8008d802fea49590e1b060c042d8c1313643b8bb9b75b000"
+    },
+    "test_conf": {
+      "output": "",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "test_cwd": {
+      "output": "Directory metadata suite passed",
+      "log_sha256": "f0dcf78126e56ea9f8839a6a41bc91a3646edafb234643ad418aadccf6c8a544"
+    },
+    "test_font_cmap": {
+      "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed",
+      "log_sha256": "ab78c75069de7ba0202f89d16a7866822ad9157b8321b0f61ba1b4901b5c789d"
+    },
+    "test_font_fallback": {
+      "output": "Requested Consolas; initially selected Consolas\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\nRequested Courier; initially selected Courier\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\nRequested Nemo Test Missing Font 938471; initially selected Arial\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache",
+      "log_sha256": "cd979e64a84b79363810c157f66403c537a48b9b1be797f2ce754d93a8393fa2"
+    },
+    "test_grapheme": {
+      "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed",
+      "log_sha256": "f3a0ed43ca94c929939bd967c9ddf21f99eba542829b4ff9094435b62df81842"
+    },
+    "test_grapheme_terminal": {
+      "output": "Grapheme terminal suite passed",
+      "log_sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0",
+      "oversized_row_recheck": "Passed after adding the two 2048-column RTL rows and mouse remapping regression"
+    },
+    "test_highlight": {
+      "output": "Highlight suite passed",
+      "log_sha256": "120e2b243b432acd0e328eff1f6d0a642629ea6f8724e3096bd5fe677ab22f5b"
+    },
+    "test_hyperlink": {
+      "output": "Hyperlink test suite passed",
+      "log_sha256": "6462b368612e7ebe26e1bae02d79d8e1cf84e92029634dd71df918b612581461"
+    },
+    "test_keyboard": {
+      "output": "Keyboard protocol suite passed",
+      "log_sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0"
+    },
+    "test_margins": {
+      "output": "Margin suite passed",
+      "log_sha256": "0b900d400e5fc1ec998a59ef390a81637026ad6ad185dfafd9955060049a73e4"
+    },
+    "test_modes": {
+      "output": "Mode test suite passed",
+      "log_sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843"
+    },
+    "test_mok": {
+      "output": "Modified keys suite passed",
+      "log_sha256": "4c986100b63bbdc59bb633d908cb71765f68c220345e4a2ce59b0cbea35ec77b"
+    },
+    "test_mouse": {
+      "output": "Mouse test suite passed",
+      "log_sha256": "472f27dbb97edade3d44427aa024ca65d0e6585bd6802b41c1fb609f3fc74a56"
+    },
+    "test_osc52": {
+      "output": "OSC 52 suite passed",
+      "log_sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+    },
+    "test_osc_colour": {
+      "output": "OSC colour suite passed",
+      "log_sha256": "4cd154ad75c54b329bc6ca05c4900ad052cfc4356736361da62a0e9960574e8c"
+    },
+    "test_queries": {
+      "output": "Query suite passed",
+      "log_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    "test_rectangle": {
+      "output": "Rectangle editing and independent XTerm oracle suite passed",
+      "log_sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    "test_reflow": {
+      "output": "Reflow suite passed",
+      "log_sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    "test_resize": {
+      "output": "Resize suite passed",
+      "log_sha256": "023398bd1fed7f20d837565b10a6c7e3a9ed39cba6a60fd6cd26525b38201114"
+    },
+    "test_selective_erase": {
+      "output": "Selective erase suite passed",
+      "log_sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2"
+    },
+    "test_sgr": {
+      "output": "SGR suite passed",
+      "log_sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    "test_shell": {
+      "output": "Shell detection, Unicode command quoting and child environment suite passed",
+      "log_sha256": "35e17b6930b82490f551fe7c3733568cdb632e518b8b9ec79c45b63a0cbc7d71"
+    },
+    "test_shell_marks": {
+      "output": "Shell mark suite passed",
+      "log_sha256": "3b159797825571adc538687810fef8457cb4617b2169a9c8d3e429b765a1687a"
+    },
+    "test_sixel": {
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed",
+      "log_sha256": "4afb222291fe779247a50d3aaca204ffc3bbe9c8bc6a7013270d17b7af859ae8"
+    },
+    "test_sixel_terminal": {
+      "output": "Sixel terminal suite passed",
+      "log_sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    "test_snapshot": {
+      "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\nsnapshot tests passed",
+      "log_sha256": "b6265320e28f100005f957723548f63d4b6b8cbd24698321ed02614e7a5dc1cd"
+    },
+    "test_state_control": {
+      "output": "State control suite passed",
+      "log_sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    "test_sync": {
+      "output": "Synchronized output test suite passed",
+      "log_sha256": "775314ae84994666444c822e8e751a0b8fdd8e79d62ed4ac55d4240e27e6badf"
+    },
+    "test_tabs_layout": {
+      "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed",
+      "log_sha256": "f5ecc41ba851d70ab2a6f3c2e4ac88deb9f2f4b4b1c8f6b2b9b94fadd082a039"
+    },
+    "test_tcap": {
+      "output": "Capability/keyboard suite passed",
+      "log_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+    },
+    "test_terminal": {
+      "output": "Test suite passed",
+      "log_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    "test_titles": {
+      "output": "Title suite passed",
+      "log_sha256": "ccfe9ee484c6347c85ab1614d9cfc7aa75846ba44b81e4e61d957d7d3c76d4f3"
+    },
+    "test_win32_input": {
+      "output": "Win32 input suite passed",
+      "log_sha256": "2e1bf51c8d29aad5e216fa45e67b3d628fce73a20c2552dc1fcbccd3d69e771a"
+    }
+  },
+  "linux_sanitizers": {
+    "environment": "Debian WSL1, GCC 14.2.0, CMake 3.31.6",
+    "c_flags": "-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer",
+    "ASAN_OPTIONS": "detect_leaks=1",
+    "UBSAN_OPTIONS": "halt_on_error=1",
+    "tests": {
+      "test_cwd": {
+        "output": "Directory metadata suite passed",
+        "log_sha256": "fc9ea46fc4d4839fc0f5f81236a59d480bf20c8577037f644bcbb69b2c0629b0"
+      },
+      "test_grapheme_terminal": {
+        "output": "Grapheme terminal suite passed",
+        "log_sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+      },
+      "test_hyperlink": {
+        "output": "Hyperlink test suite passed",
+        "log_sha256": "a58b0dbedc1464792e429e360a7dd67a6b4c8a94d2198d3a9478565e058fa740"
+      },
+      "test_keyboard": {
+        "output": "Keyboard protocol suite passed",
+        "log_sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+      },
+      "test_margins": {
+        "output": "Margin suite passed",
+        "log_sha256": "af51874d376db1a9ed01e41bd9834a7b59aeb949569acd7ec1a704f59528b6c4"
+      },
+      "test_mok": {
+        "output": "Modified keys suite passed",
+        "log_sha256": "dcbb73e02ce6d7ab0c3ec2ed7e7158a04049de38a14b50d7d13e742308177d62"
+      },
+      "test_osc52": {
+        "output": "OSC 52 suite passed",
+        "log_sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+      },
+      "test_queries": {
+        "output": "Query suite passed",
+        "log_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+      },
+      "test_rectangle": {
+        "output": "Rectangle editing and independent XTerm oracle suite passed",
+        "log_sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+      },
+      "test_reflow": {
+        "output": "Reflow suite passed",
+        "log_sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+      },
+      "test_selective_erase": {
+        "output": "Selective erase suite passed",
+        "log_sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+      },
+      "test_shell_marks": {
+        "output": "Shell mark suite passed",
+        "log_sha256": "6127b1adf352035535d287aa96231b7745161521df12602f4ba423993b694a06"
+      },
+      "test_sixel_terminal": {
+        "output": "Sixel terminal suite passed",
+        "log_sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+      },
+      "test_state_control": {
+        "output": "State control suite passed",
+        "log_sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+      },
+      "test_titles": {
+        "output": "Title suite passed",
+        "log_sha256": "5855200953a47b62cc6b1d4e0846196cc8f2507c9a2f4afbda0cb530fb17daf1"
+      },
+      "test_win32_input": {
+        "output": "Win32 input suite passed",
+        "log_sha256": "1c49f9bf08624d22cd82ae4b09b4dee3a972e26ce538e62a18a674933387e456"
+      }
+    }
+  },
+  "source_sha256_lf": {
+    "vendor/putty-0.85/terminal/terminal.c": "df9c04bbbfeb4b7d0cdacc6cf23ce7653b866c3d842a01863552f33349531920",
+    "vendor/putty-0.85/terminal/terminal.h": "ca68436eeb77a5635758399ad0f5b40d48e941b6037d4ec7949ab088cfdeb07c",
+    "vendor/putty-0.85/windows/nemo_cluster.cpp": "4a557b7dc82c74fe0401f23bc2bb093a825c4a4139597141507a48a2b7ef33bf",
+    "vendor/putty-0.85/windows/nemo_cluster.h": "4e9de0b79eeb3059831490e02d41b78b857d13fb0d35f6ad11f0416b6d58d7e7",
+    "vendor/putty-0.85/windows/window.c": "99ca52b79d0294d8e87efbd6c20db4d47f37cb22ff04d8a5aa66a3ca1c350b23",
+    "vendor/putty-0.85/test/test_grapheme_terminal.c": "8e97ca5c8a48179a544aa777f8516eec1212caa8b70b6dc1ea9c3a890f9f6800",
+    "tests/test_cluster_renderer.cpp": "6d3e4e2be0c2a5f11c0298cdb43859aed39583018f0b7a45539e54efe8c09afa"
+  },
+  "runtime_files_sha256": {
+    "OpenConsole.exe": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
+    "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+  }
+}

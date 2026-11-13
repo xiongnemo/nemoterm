@@ -192,6 +192,18 @@ jobs:
           python tests/mouse_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/mouse-window-observed.json test-results/
+      - name: Test native RTL glyph presence, shaping and font resize
+        shell: pwsh
+        run: |
+          python tests/rtl_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/rtl-* test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/rtl-window-observed.json test-results/rtl-default-observed.json -ErrorAction SilentlyContinue
+          if ($testExit) { exit $testExit }
+          python tests/rtl_window_smoke.py --font Courier
+          $testExit = $LASTEXITCODE
+          Copy-Item research/rtl-* test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test independent session ownership and lifetime
         shell: pwsh
         run: |

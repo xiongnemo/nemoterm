@@ -1,0 +1,292 @@
+{
+  "executable_sha256": "7c0bb4482567dbd62f1737ff36d348ede91f8fa46c481f3b944bd40b1767b3c6",
+  "renderer": "directx",
+  "side": "left",
+  "font": "SarasaTermSC Nerd Font Light",
+  "requested_grid": [
+    160,
+    48
+  ],
+  "dense_clusters": true,
+  "completed": false,
+  "checks": [
+    "one host with independent child terminals and native tab hit testing",
+    "12 create/close cycles retain one shared renderer without handle growth"
+  ],
+  "memory_instrumented": false,
+  "actual_grid": [
+    160,
+    48
+  ],
+  "actual_renderer": 3,
+  "live_temporary_tabs": [
+    {
+      "handles": 471,
+      "gdi": 45,
+      "user": 47,
+      "private_ws": 20602880,
+      "total_ws": 55468032,
+      "private_commit": 75665408
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20582400,
+      "total_ws": 55500800,
+      "private_commit": 75689984
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20594688,
+      "total_ws": 55558144,
+      "private_commit": 75309056
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20664320,
+      "total_ws": 55652352,
+      "private_commit": 75309056
+    },
+    {
+      "handles": 471,
+      "gdi": 45,
+      "user": 47,
+      "private_ws": 20606976,
+      "total_ws": 55607296,
+      "private_commit": 75464704
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20783104,
+      "total_ws": 55799808,
+      "private_commit": 75608064
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20795392,
+      "total_ws": 55828480,
+      "private_commit": 75624448
+    },
+    {
+      "handles": 471,
+      "gdi": 45,
+      "user": 47,
+      "private_ws": 20807680,
+      "total_ws": 55848960,
+      "private_commit": 75436032
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 20824064,
+      "total_ws": 55869440,
+      "private_commit": 75575296
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 46,
+      "private_ws": 20889600,
+      "total_ws": 55947264,
+      "private_commit": 75522048
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 46,
+      "private_ws": 21053440,
+      "total_ws": 56123392,
+      "private_commit": 75714560
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 46,
+      "private_ws": 21184512,
+      "total_ws": 56258560,
+      "private_commit": 75849728
+    },
+    {
+      "handles": 471,
+      "gdi": 44,
+      "user": 47,
+      "private_ws": 21065728,
+      "total_ws": 56143872,
+      "private_commit": 75866112
+    }
+  ],
+  "warmup": {
+    "handles": 466,
+    "gdi": 37,
+    "user": 41,
+    "private_ws": 19591168,
+    "total_ws": 54472704,
+    "private_commit": 75132928
+  },
+  "initial": {
+    "handles": 449,
+    "gdi": 30,
+    "user": 35,
+    "private_ws": 15769600,
+    "total_ws": 50315264,
+    "private_commit": 69926912
+  },
+  "two_tabs": {
+    "handles": 466,
+    "gdi": 37,
+    "user": 40,
+    "private_ws": 19591168,
+    "total_ws": 54472704,
+    "private_commit": 75132928
+  },
+  "cycles": [
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19566592,
+      "total_ws": 54484992,
+      "private_commit": 75403264
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19582976,
+      "total_ws": 54550528,
+      "private_commit": 74919936
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19599360,
+      "total_ws": 54587392,
+      "private_commit": 74448896
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19718144,
+      "total_ws": 54726656,
+      "private_commit": 75460608
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19742720,
+      "total_ws": 54767616,
+      "private_commit": 74784768
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19750912,
+      "total_ws": 54784000,
+      "private_commit": 74813440
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 41,
+      "private_ws": 19791872,
+      "total_ws": 54833152,
+      "private_commit": 74379264
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 19795968,
+      "total_ws": 54845440,
+      "private_commit": 75313152
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 40,
+      "private_ws": 20107264,
+      "total_ws": 55173120,
+      "private_commit": 75554816
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 41,
+      "private_ws": 20041728,
+      "total_ws": 55111680,
+      "private_commit": 75575296
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 41,
+      "private_ws": 20123648,
+      "total_ws": 55201792,
+      "private_commit": 75431936
+    },
+    {
+      "handles": 466,
+      "gdi": 37,
+      "user": 41,
+      "private_ws": 20054016,
+      "total_ws": 55132160,
+      "private_commit": 75579392
+    }
+  ],
+  "peak_private_ws": 21184512,
+  "owned_job_cleanup": {
+    "before": {
+      "total": 31,
+      "active": 5,
+      "terminated": 0
+    },
+    "after": {
+      "total": 31,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true,
+    "remaining_processes": [
+      {
+        "pid": 16864,
+        "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\native\\nemoterm.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 10216,
+        "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\native\\OpenConsole.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 26544,
+        "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 26456,
+        "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\native\\OpenConsole.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 17740,
+        "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+        "exit_code": 259
+      }
+    ]
+  },
+  "error": "AssertionError(21184512)"
+}

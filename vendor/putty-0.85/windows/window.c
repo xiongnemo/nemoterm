@@ -1592,13 +1592,30 @@ static uint32_t nemo_text_cluster(const unsigned short *text, int available, int
     return cp;
 }
 
+static bool nemo_missing_rtl_glyph(HDC dc, uint32_t cp)
+{
+    /* GetGlyphIndicesW addresses UTF-16 units, not supplementary scalars.
+     * Those already use the ordinary linked GDI path below. */
+    if (cp > 0xffff) return false;
+    wchar_t text = cp;
+    WORD glyph;
+    return GetGlyphIndicesW(dc, &text, 1, &glyph,
+                           GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR &&
+        (glyph == 0 || glyph == 0xffff);
+}
+
 static void general_textout(
     WinGuiSeat *wgs, HDC hdc, int x, int y, CONST RECT *lprc,
-    unsigned short *lpString, UINT cbCount, CONST INT *lpDx, bool opaque)
+    unsigned short *lpString, UINT cbCount, CONST INT *lpDx, bool opaque,
+    float horizontal_scale)
 {
     int i, j, xp, xn;
     int bkmode = 0;
     bool got_bkmode = false;
+    /* An opaque run erases its entire rectangle once. Its fallback cells
+     * can fill their own background without reading pixels back from the
+     * window surface. Combining and shadow passes must preserve earlier ink. */
+    bool preserve_pixels = !opaque;
 
     xp = xn = x;
 
@@ -1606,18 +1623,20 @@ static void general_textout(
         bool rtl = is_rtl(lpString[i]);
         int units;
         uint32_t cp = nemo_text_cluster(lpString+i, cbCount-i, &units);
+        bool linked_rtl = rtl && nemo_missing_rtl_glyph(hdc, cp);
         int advance = 0;
         for (int k = 0; k < units; k++) advance += lpDx[i+k];
         WORD glyph_index;
         HFONT fallback = nemo_font_fallback(&wgs->font_fallback, hdc, cp, advance, &glyph_index);
         xn += advance;
         j = i+units;
-        if (!fallback) {
+        if (!fallback && !linked_rtl) {
             while (j < (int)cbCount) {
                 cp = nemo_text_cluster(lpString+j, cbCount-j, &units);
                 advance = 0;
                 for (int k = 0; k < units; k++) advance += lpDx[j+k];
                 if (rtl != is_rtl(lpString[j]) ||
+                    (rtl && nemo_missing_rtl_glyph(hdc, cp)) ||
                     nemo_font_fallback(&wgs->font_fallback, hdc, cp, advance, NULL)) break;
                 xn += advance;
                 j += units;
@@ -1646,6 +1665,24 @@ static void general_textout(
                         &glyph_index, 1, wgs->font_varpitch ? NULL : &advance);
             SetBkMode(hdc, previous_mode);
             SelectObject(hdc, previous);
+        } else if (linked_rtl) {
+            /* The terminal already chose visual cell order and Arabic forms.
+             * Map only this missing cell through DirectWrite's system font
+             * fallback; shaping a whole visual run would reorder it again.
+             * Preserve existing pixels for legacy marks and shadow bold. */
+            if (opaque)
+                ExtTextOutW(hdc, xp, y, ETO_OPAQUE | ETO_CLIPPED,
+                            lprc, L"", 0, NULL);
+            RECT box = *lprc;
+            int centre = wgs->font_varpitch ? (xn-xp)/2 : 0;
+            box.left = max(box.left, xp-centre);
+            box.right = min(box.right, xn-centre);
+            if (!nemo_cluster_draw(&wgs->cluster_renderer, hdc, &box,
+                    lpString+i, j-i, y-box.top, GetTextColor(hdc),
+                    GetBkColor(hdc), false, horizontal_scale, false,
+                    preserve_pixels))
+                exact_textout(hdc, xp, y, lprc, lpString+i, j-i,
+                              wgs->font_varpitch ? NULL : lpDx+i, false);
         } else if (rtl) {
             exact_textout(hdc, xp, y, lprc, lpString+i, j-i,
                           wgs->font_varpitch ? NULL : lpDx+i, opaque);
@@ -4537,7 +4574,7 @@ static void do_text_internal(
                 &wgs->cluster_renderer,wgs->wintw_hdc,&line_box,text,len,
                 text_adjust-wgs->font_height*(lattr==LATTR_BOT),fg,bg,emoji,
                 (lattr==LATTR_WIDE?2.0f:1.0f)*((attr&ATTR_NARROW)?0.5f:1.0f),
-                wgs->bold_font_mode==BOLD_SHADOW && (attr&ATTR_BOLD)))
+                wgs->bold_font_mode==BOLD_SHADOW && (attr&ATTR_BOLD), false))
             goto decorations;
         /* Preserve this cluster's grid width even if a system API/font or
          * the bounded scratch allocation is unavailable. */
@@ -4696,7 +4733,8 @@ static void do_text_internal(
                 wgs, wgs->wintw_hdc, x + xoffset,
                 y - wgs->font_height * (lattr==LATTR_BOT) + text_adjust,
                 &line_box, wbuf, len, lpDx,
-                opaque && !(attr & TATTR_COMBINING));
+                opaque && !(attr & TATTR_COMBINING),
+                (lattr==LATTR_WIDE?2.0f:1.0f)*((attr&ATTR_NARROW)?0.5f:1.0f));
 
             /* And the shadow bold hack. */
             if (wgs->bold_font_mode == BOLD_SHADOW && (attr & ATTR_BOLD)) {
@@ -4704,7 +4742,8 @@ static void do_text_internal(
                 general_textout(
                     wgs, wgs->wintw_hdc, x + xoffset - 1,
                     y - wgs->font_height * (lattr == LATTR_BOT) + text_adjust,
-                    &line_box, wbuf, len, lpDx, false);
+                    &line_box, wbuf, len, lpDx, false,
+                    (lattr==LATTR_WIDE?2.0f:1.0f)*((attr&ATTR_NARROW)?0.5f:1.0f));
             }
         }
 

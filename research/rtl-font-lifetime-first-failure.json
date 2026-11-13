@@ -1,0 +1,15 @@
+{
+  "executable_sha256": "6a2b4366124aa5f51ad6dc0cdf422fddee266e97cdf16643904bf631730cfb96",
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "clipboard_tested": false,
+  "completed": false,
+  "icons": [
+    "0xf120",
+    "0xf07b",
+    "0xf0001",
+    "0xf0002"
+  ],
+  "resize_cycles": 32,
+  "distinct_symbol_stress": 6144,
+  "error": "AssertionError()"
+}

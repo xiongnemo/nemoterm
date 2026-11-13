@@ -261,6 +261,57 @@ static void test_bidi_cache(Mock *mk)
     IEQUAL(t->post_bidi_cache[0].forward==NULL,true);
     IEQUAL(t->post_bidi_cache[0].backward==NULL,true);
     cluster_contents(mk,1,0,text+2,3);
+
+    /* Unique dense RTL rows exceed the retained-cache budget. Repainting
+     * evicted rows must retain visual glyphs and not grow cached copies. */
+    setup_cluster(mk,"bounded bidi cache with distinct dense rows",48,160);
+    t=mk->term;t->no_bidi=t->no_arabicshaping=false;
+    for (int y=0;y<48;y++) {
+        char prefix[40];sprintf(prefix,"\033[%d;1HL%02d ",y+1,y);
+        term_data_fragmented(t,prefix);output_scalars(t,hebrew,lenof(hebrew));
+        for (int x=0;x<60;x++) output_scalars(t,text,2);
+    }
+    for (int repeat=0;repeat<3;repeat++) {
+        term_invalidate(t);term_update(t);
+        IEQUAL(t->bidi_cache_bytes>0,true);
+        IEQUAL(t->bidi_cache_bytes<=NEMO_BIDI_CACHE_BYTES,true);
+        int retained=0;
+        for (int y=0;y<48;y++) {
+            IEQUAL(t->disptext[y]->chars[4].chr,0x5d2);
+            retained+=t->post_bidi_cache[y].chars!=NULL;
+        }
+        IEQUAL(retained>0 && retained<48,true);
+        IEQUAL(t->post_bidi_cache[0].chars==NULL,true);
+        term_mouse_pixels(t,MBT_LEFT,MBT_SELECT,MA_CLICK,4,0,35,7,false,false,false);
+        IEQUAL(t->selanchor.x,6);IEQUAL(t->selanchor.y,0);
+        term_mouse_pixels(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,4,0,35,7,false,false,false);
+        term_data_fragmented(t,"\033[1;5H");term_update(t);
+        IEQUAL((t->disptext[0]->chars[6].attr&(ATTR_ACTCURS|ATTR_PASCURS))!=0,true);
+        IEQUAL((t->disptext[0]->chars[4].attr&(ATTR_ACTCURS|ATTR_PASCURS))==0,true);
+    }
+    /* One row larger than the cache budget must still render and map input.
+     * Keeping it must evict every other row, including another oversized one. */
+    term_size(t,2,2048,0);
+    term_data_fragmented(t,"\033[2J\033[HL ");
+    output_scalars(t,hebrew,lenof(hebrew));
+    term_data_fragmented(t,"\033[2;1HL ");
+    output_scalars(t,hebrew,lenof(hebrew));
+    term_update(t);
+    IEQUAL(t->bidi_cache_bytes>NEMO_BIDI_CACHE_BYTES,true);
+    IEQUAL(t->post_bidi_cache[0].chars==NULL,true);
+    IEQUAL(t->post_bidi_cache[1].chars!=NULL,true);
+    IEQUAL(t->disptext[0]->chars[2].chr,0x5d2);
+    IEQUAL(t->disptext[1]->chars[2].chr,0x5d2);
+    term_mouse_pixels(t,MBT_LEFT,MBT_SELECT,MA_CLICK,2,0,19,7,false,false,false);
+    IEQUAL(t->selanchor.x,4);IEQUAL(t->selanchor.y,0);
+    IEQUAL(t->post_bidi_cache[0].chars!=NULL,true);
+    IEQUAL(t->post_bidi_cache[1].chars==NULL,true);
+    term_mouse_pixels(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,2,0,19,7,false,false,false);
+    conf_set_bool(mk->conf,CONF_no_bidi,true);
+    term_reconfig(t,mk->conf);IEQUAL(t->bidi_cache_bytes,0);
+    conf_set_bool(mk->conf,CONF_no_bidi,false);
+    term_reconfig(t,mk->conf);term_size(t,12,80,0);term_update(t);
+    IEQUAL(t->bidi_cache_bytes<=NEMO_BIDI_CACHE_BYTES,true);
     mk->tw.vt=original;
 }
 

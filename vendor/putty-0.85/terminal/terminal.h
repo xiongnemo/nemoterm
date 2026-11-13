@@ -128,7 +128,11 @@ struct bidi_cache_entry {
     bool trusted;
     struct termchar *chars;
     int *forward, *backward;           /* the permutations of line positions */
+    size_t bytes;
+    uint64_t used;
 };
+
+#define NEMO_BIDI_CACHE_BYTES (64U*1024U)
 
 struct term_utf8_decode {
     int state;                         /* Is there a pending UTF-8 character */
@@ -421,6 +425,8 @@ struct terminal_tag {
     int wcFromTo_size;
     struct bidi_cache_entry *pre_bidi_cache, *post_bidi_cache;
     size_t bidi_cache_size;
+    size_t bidi_cache_bytes;
+    uint64_t bidi_cache_tick;
 
     /*
      * Current trust state, used to annotate every line of the

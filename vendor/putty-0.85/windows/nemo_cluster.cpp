@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  * Whole-cluster shaping into a bounded GDI tile shared by all compositors.
- * No STL containers, retained layouts, external font files or GPU dependency.
+ * No STL containers, external font files or GPU dependency.
  */
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -49,6 +49,14 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     IDWriteRenderingParams *params=nullptr;
     IDWriteBitmapRenderTarget *target=nullptr;
     IDWriteTextFormat *format=nullptr;
+    /* Repeated missing RTL cells otherwise repeat font fallback and shaping
+     * on every repaint. Retain at most 32 immutable single-character layouts
+     * for the current font. Pixels, colours and geometry are never cached. */
+    struct SingleLayout {
+        wchar_t character=0;
+        IDWriteTextLayout *layout=nullptr;
+    } single_layouts[32];
+    unsigned next_single_layout=0;
     LOGFONTW font{};
     FLOAT em=0;
     unsigned width=0,height=0;
@@ -58,6 +66,24 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     HANDLE trace=INVALID_HANDLE_VALUE;
     unsigned trace_count=0;
     bool trace_glyph=false;
+
+    void clear_single_layouts() {
+        for (auto &entry:single_layouts) release(entry.layout);
+        next_single_layout=0;
+    }
+    IDWriteTextLayout *find_single_layout(wchar_t character) {
+        for (auto &entry:single_layouts)
+            if (entry.layout && entry.character==character) {
+                entry.layout->AddRef();return entry.layout;
+            }
+        return nullptr;
+    }
+    void retain_single_layout(wchar_t character, IDWriteTextLayout *layout) {
+        auto &entry=single_layouts[next_single_layout];
+        release(entry.layout);layout->AddRef();
+        entry.character=character;entry.layout=layout;
+        next_single_layout=(next_single_layout+1)%32;
+    }
 
     void trace_line(const char *pattern, ...) {
         if (trace==INVALID_HANDLE_VALUE) return;
@@ -71,6 +97,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
 
     ~NemoClusterRenderer() {
         if (trace!=INVALID_HANDLE_VALUE) CloseHandle(trace);
+        clear_single_layouts();
         release(format);release(target);release(params);release(interop);release_factory(factory);
         if (normaliz) FreeLibrary(normaliz);
         if (library) FreeLibrary(library);
@@ -101,6 +128,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
         FLOAT size=static_cast<FLOAT>(metrics.tmHeight-metrics.tmInternalLeading);
         if (size<=0 || size>2048) return false;
         if (format && size==em && !std::memcmp(&font,&next,sizeof(font))) return true;
+        clear_single_layouts();
         release(format);
         IDWriteFont *face=nullptr;
         IDWriteFontFamily *family=nullptr;
@@ -116,7 +144,8 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
         /* Legacy bitmap font names may not exist in DirectWrite. Keep that
          * font for ordinary GDI runs; use a system mono face for this cluster. */
         if (FAILED(hr)) hr=factory->CreateTextFormat(L"Consolas",nullptr,
-            static_cast<DWRITE_FONT_WEIGHT>(next.lfWeight),
+            static_cast<DWRITE_FONT_WEIGHT>(next.lfWeight<=0?FW_NORMAL:
+                next.lfWeight>999?999:next.lfWeight),
             next.lfItalic?DWRITE_FONT_STYLE_ITALIC:DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,size,L"en-us",&format);
         if (FAILED(hr) || FAILED(format->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP))) {
@@ -201,7 +230,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
 bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
                       const wchar_t *text, unsigned units, int y_offset,
                       COLORREF fg, COLORREF bg, bool emoji,
-                      float horizontal_scale, bool shadow_bold)
+                      float horizontal_scale, bool shadow_bold, bool transparent)
 {
     if (!slot || !dc || !box || !text || !units || units>MAX_UNITS) return false;
     if (!std::isfinite(horizontal_scale) || horizontal_scale<=0 || horizontal_scale>2) return false;
@@ -223,12 +252,18 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
     }
     if (!*slot) return false;
     auto &s=**slot;
-    if (!s.init() || !s.select_font(dc) || !s.resize(dc,static_cast<unsigned>(w),static_cast<unsigned>(h))) return false;
+    if (!s.init()) return false;
+    if (!s.select_font(dc)) {s.trace_line("select-font failed first=%04x",text[0]);return false;}
+    if (!s.resize(dc,static_cast<unsigned>(w),static_cast<unsigned>(h))) {
+        s.trace_line("resize failed first=%04x size=%lld,%lld",text[0],w,h);return false;
+    }
     wchar_t normalized[MAX_UNITS*4];
     int length=s.normalize(NormalizationC,text,units,normalized,MAX_UNITS*4);
     if (length<=0 || length>static_cast<int>(MAX_UNITS*4)) return false;
-    IDWriteTextLayout *layout=nullptr;
-    HRESULT hr=s.factory->CreateTextLayout(normalized,length,s.format,4096,4096,&layout);
+    bool single=!emoji && units==1 && length==1;
+    IDWriteTextLayout *layout=single?s.find_single_layout(normalized[0]):nullptr;
+    bool cached=layout!=nullptr;
+    HRESULT hr=cached?S_OK:s.factory->CreateTextLayout(normalized,length,s.format,4096,4096,&layout);
     if (SUCCEEDED(hr) && emoji) {
         const DWRITE_TEXT_RANGE all={0,static_cast<UINT32>(length)};
         hr=layout->SetFontFamilyName(L"Segoe UI Emoji",all);
@@ -248,20 +283,26 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
         hr=s.target->SetCurrentTransform(&transform);
         HDC tile=s.target->GetMemoryDC();
         RECT rect={0,0,static_cast<LONG>(w),static_cast<LONG>(h)};
-        SetDCBrushColor(tile,bg);
-        if (!FillRect(tile,&rect,static_cast<HBRUSH>(GetStockObject(DC_BRUSH)))) hr=E_FAIL;
+        if (transparent) {
+            if (!BitBlt(tile,0,0,static_cast<int>(w),static_cast<int>(h),
+                        dc,box->left,box->top,SRCCOPY)) hr=E_FAIL;
+        } else {
+            SetDCBrushColor(tile,bg);
+            if (!FillRect(tile,&rect,static_cast<HBRUSH>(GetStockObject(DC_BRUSH)))) hr=E_FAIL;
+        }
         /* DirectWrite writes the DIB directly. Finish queued GDI background
          * drawing before crossing that boundary. */
         if (!GdiFlush()) hr=E_FAIL;
         s.colour=fg;s.shadow_bold=shadow_bold;s.draw_scale=scale;
         s.trace_glyph=s.trace!=INVALID_HANDLE_VALUE && s.trace_count<64 &&
-            units==2 && (text[0]==L'A' || text[0]==L'e') && (text[1]==0x308 || text[1]==0x301);
+            ((units==2 && (text[0]==L'A' || text[0]==L'e') && (text[1]==0x308 || text[1]==0x301)) ||
+             (units==1 && ((text[0]>=0x590 && text[0]<=0x8ff) || (text[0]>=0xfb1d && text[0]<=0xfeff))));
         if (s.trace_glyph) {
             s.trace_count++;
             s.trace_line("normalized first=%04x length=%d",static_cast<unsigned>(normalized[0]),length);
             char face[256]{};WideCharToMultiByte(CP_UTF8,0,s.font.lfFaceName,-1,face,sizeof(face),nullptr,nullptr);
             s.trace_line("cluster id=%u text=%04x,%04x box=%ld,%ld,%ld,%ld font=%s height=%ld width=%ld weight=%ld italic=%u quality=%u charset=%u em=%a natural=%a scale=%a dx=%a baseline=%a ascent=%ld internal=%ld offset=%d fg=%lx bg=%lx fp=%x",
-                s.trace_count,static_cast<unsigned>(text[0]),static_cast<unsigned>(text[1]),
+                s.trace_count,static_cast<unsigned>(text[0]),units>1?static_cast<unsigned>(text[1]):0,
                 box->left,box->top,box->right,box->bottom,face,s.font.lfHeight,s.font.lfWidth,s.font.lfWeight,
                 s.font.lfItalic,s.font.lfQuality,s.font.lfCharSet,static_cast<double>(s.em),
                 static_cast<double>(natural),static_cast<double>(scale),static_cast<double>(transform.dx),
@@ -291,6 +332,8 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
         /* Complete the copy before another cluster reuses the source tile. */
         if (!GdiFlush()) hr=E_FAIL;
     }
+    if (SUCCEEDED(hr) && single && !cached)
+        s.retain_single_layout(normalized[0],layout);
     release(layout);
     return SUCCEEDED(hr);
 }

@@ -1,0 +1,155 @@
+{
+  "executable_sha256": "f255a10e2f436cab0bfa4053ac394d6a15d082e3c8771c62eb5d7fb6a6254fdd",
+  "font": "Courier",
+  "completed": true,
+  "modes": [
+    {
+      "requested": 0,
+      "checks": [
+        "six distinct nonblank Hebrew and Arabic glyphs",
+        "Hebrew order and Arabic shaping preserve exact terminal cells",
+        "mixed RTL and Latin retain neighboring glyphs",
+        "combining mark changes the visible cluster",
+        "compositor parity and synchronized frame preservation",
+        "font resize retains distinct fallback glyphs"
+      ],
+      "active": 1,
+      "memory_before_capture": {
+        "private_ws": 3497984,
+        "total_ws": 22286336,
+        "private_commit": 4734976
+      },
+      "capture_instrumented": true,
+      "resized_report": {
+        "phase": 22,
+        "hex": "1b5b306e",
+        "columns": 40,
+        "rows": 12,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      },
+      "resized_ink": {
+        "0x5d0": 237,
+        "0x5d1": 153,
+        "0x5d2": 155,
+        "0xfe8d": 105,
+        "0xfe91": 101,
+        "0xfe96": 163
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 1,
+      "checks": [
+        "six distinct nonblank Hebrew and Arabic glyphs",
+        "Hebrew order and Arabic shaping preserve exact terminal cells",
+        "mixed RTL and Latin retain neighboring glyphs",
+        "combining mark changes the visible cluster",
+        "compositor parity and synchronized frame preservation",
+        "font resize retains distinct fallback glyphs"
+      ],
+      "active": 2,
+      "memory_before_capture": {
+        "private_ws": 28389376,
+        "total_ws": 58396672,
+        "private_commit": 75350016
+      },
+      "capture_instrumented": true,
+      "resized_report": {
+        "phase": 22,
+        "hex": "1b5b306e",
+        "columns": 40,
+        "rows": 12,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      },
+      "resized_ink": {
+        "0x5d0": 237,
+        "0x5d1": 153,
+        "0x5d2": 155,
+        "0xfe8d": 105,
+        "0xfe91": 101,
+        "0xfe96": 163
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 2,
+      "checks": [
+        "six distinct nonblank Hebrew and Arabic glyphs",
+        "Hebrew order and Arabic shaping preserve exact terminal cells",
+        "mixed RTL and Latin retain neighboring glyphs",
+        "combining mark changes the visible cluster",
+        "compositor parity and synchronized frame preservation",
+        "font resize retains distinct fallback glyphs"
+      ],
+      "active": 3,
+      "memory_before_capture": {
+        "private_ws": 12017664,
+        "total_ws": 45219840,
+        "private_commit": 60416000
+      },
+      "capture_instrumented": true,
+      "resized_report": {
+        "phase": 22,
+        "hex": "1b5b306e",
+        "columns": 40,
+        "rows": 12,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      },
+      "resized_ink": {
+        "0x5d0": 237,
+        "0x5d1": 153,
+        "0x5d2": 155,
+        "0xfe8d": 105,
+        "0xfe91": 101,
+        "0xfe96": 163
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "clipboard_tested": false
+}

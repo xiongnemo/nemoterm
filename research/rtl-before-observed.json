@@ -1,0 +1,50 @@
+{
+  "executable_sha256": "6def9f241239165bf6a0f7ca37c80594793425b820016fd23051a421d61207ad",
+  "font": "Consolas",
+  "completed": false,
+  "modes": [
+    {
+      "requested": 0,
+      "checks": [],
+      "active": 1,
+      "memory_before_capture": {
+        "private_ws": 3796992,
+        "total_ws": 24068096,
+        "private_commit": 5197824
+      },
+      "capture_instrumented": true,
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 3,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 18796,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\graphemes-worktree\\build\\cluster-fb-ci-unverified\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 22696,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\graphemes-worktree\\build\\cluster-fb-ci-unverified\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 23332,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      }
+    }
+  ],
+  "clipboard_tested": false,
+  "error": "AssertionError(('blank glyph', '0x5d0'))"
+}

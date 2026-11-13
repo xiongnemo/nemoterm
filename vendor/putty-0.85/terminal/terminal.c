@@ -14,6 +14,8 @@
 #include "terminal.h"
 #include "nemo_colour.h"
 
+static void term_bidi_cache_clear_line(Terminal *term, size_t line);
+
 #define VT52_PLUS
 
 #define CL_ANSIMIN      0x0001         /* Codes in all ANSI like terminals. */
@@ -2734,12 +2736,7 @@ void term_reconfig(Terminal *term, Conf *conf)
         conf_get_bool(term->conf, CONF_no_bidi) !=
         conf_get_bool(conf, CONF_no_bidi)) {
         for (i = 0; i < term->bidi_cache_size; i++) {
-            sfree(term->pre_bidi_cache[i].chars);
-            sfree(term->post_bidi_cache[i].chars);
-            term->pre_bidi_cache[i].width = -1;
-            term->pre_bidi_cache[i].chars = NULL;
-            term->post_bidi_cache[i].width = -1;
-            term->post_bidi_cache[i].chars = NULL;
+            term_bidi_cache_clear_line(term, i);
         }
     }
 
@@ -3153,10 +3150,7 @@ void term_free(Terminal *term)
     strbuf_free(term->answerback);
 
     for (i = 0; i < term->bidi_cache_size; i++) {
-        sfree(term->pre_bidi_cache[i].chars);
-        sfree(term->post_bidi_cache[i].chars);
-        sfree(term->post_bidi_cache[i].forward);
-        sfree(term->post_bidi_cache[i].backward);
+        term_bidi_cache_clear_line(term, i);
     }
     sfree(term->pre_bidi_cache);
     sfree(term->post_bidi_cache);
@@ -8441,6 +8435,18 @@ void term_out_cb(void *ctx)
  * too many times, we maintain a cache of the last lineful of data
  * fed to the algorithm on each line of the display.
  */
+static void term_bidi_cache_clear_line(Terminal *term, size_t line)
+{
+    struct bidi_cache_entry *pre=&term->pre_bidi_cache[line];
+    struct bidi_cache_entry *post=&term->post_bidi_cache[line];
+    assert(term->bidi_cache_bytes>=post->bytes);
+    term->bidi_cache_bytes-=post->bytes;
+    sfree(pre->chars);sfree(post->chars);
+    sfree(post->forward);sfree(post->backward);
+    *pre=(struct bidi_cache_entry){.width=-1};
+    *post=(struct bidi_cache_entry){.width=-1};
+}
+
 static bool term_bidi_cache_hit(Terminal *term, int line,
                                 termchar *lbefore, int width, bool trusted)
 {
@@ -8465,7 +8471,8 @@ static bool term_bidi_cache_hit(Terminal *term, int line,
         if (!termchars_equal(term->pre_bidi_cache[line].chars+i, lbefore+i))
             return false;              /* line doesn't match cache */
 
-    return true;                       /* it didn't match. */
+    term->post_bidi_cache[line].used=++term->bidi_cache_tick;
+    return true;
 }
 
 static void term_bidi_cache_store(Terminal *term, int line, termchar *lbefore,
@@ -8481,24 +8488,27 @@ static void term_bidi_cache_store(Terminal *term, int line, termchar *lbefore,
                                         term->bidi_cache_size,
                                         struct bidi_cache_entry);
         while (j < term->bidi_cache_size) {
-            term->pre_bidi_cache[j].chars =
-                term->post_bidi_cache[j].chars = NULL;
-            term->pre_bidi_cache[j].width =
-                term->post_bidi_cache[j].width = -1;
-            term->pre_bidi_cache[j].trusted = false;
-            term->post_bidi_cache[j].trusted = false;
-            term->pre_bidi_cache[j].forward =
-                term->post_bidi_cache[j].forward = NULL;
-            term->pre_bidi_cache[j].backward =
-                term->post_bidi_cache[j].backward = NULL;
+            term->pre_bidi_cache[j]=(struct bidi_cache_entry){.width=-1};
+            term->post_bidi_cache[j]=(struct bidi_cache_entry){.width=-1};
             j++;
         }
     }
 
-    sfree(term->pre_bidi_cache[line].chars);
-    sfree(term->post_bidi_cache[line].chars);
-    sfree(term->post_bidi_cache[line].forward);
-    sfree(term->post_bidi_cache[line].backward);
+    term_bidi_cache_clear_line(term, line);
+    size_t bytes=2*(size_t)size*TSIZE+2*(size_t)width*sizeof(int);
+    /* Keep exact row/cell comparisons, but bound retained copies and maps.
+     * An evicted row is recomputed for painting, cursor or mouse lookup.
+     * A single unusually wide row may exceed the budget while in use. */
+    while (term->bidi_cache_bytes &&
+           (bytes>NEMO_BIDI_CACHE_BYTES ||
+            term->bidi_cache_bytes>NEMO_BIDI_CACHE_BYTES-bytes)) {
+        size_t oldest=SIZE_MAX;
+        for (i=0;i<term->bidi_cache_size;i++)
+            if (term->post_bidi_cache[i].bytes &&
+                (oldest==SIZE_MAX || term->post_bidi_cache[i].used<term->post_bidi_cache[oldest].used)) oldest=i;
+        assert(oldest!=SIZE_MAX);
+        term_bidi_cache_clear_line(term, oldest);
+    }
 
     term->pre_bidi_cache[line].width = width;
     term->pre_bidi_cache[line].trusted = trusted;
@@ -8508,6 +8518,9 @@ static void term_bidi_cache_store(Terminal *term, int line, termchar *lbefore,
     term->post_bidi_cache[line].chars = snewn(size, termchar);
     term->post_bidi_cache[line].forward = snewn(width, int);
     term->post_bidi_cache[line].backward = snewn(width, int);
+    term->post_bidi_cache[line].bytes=bytes;
+    term->post_bidi_cache[line].used=++term->bidi_cache_tick;
+    term->bidi_cache_bytes+=bytes;
 
     memcpy(term->pre_bidi_cache[line].chars, lbefore, size * TSIZE);
     memcpy(term->post_bidi_cache[line].chars, lafter, size * TSIZE);
@@ -8596,12 +8609,7 @@ static termchar *term_bidi_line(Terminal *term, struct termline *ldata,
              * row so a subsequent mouse hit cannot use stale mappings. */
             if (!needs_processing) {
                 if (scr_y>=0 && scr_y<term->bidi_cache_size) {
-                    sfree(term->pre_bidi_cache[scr_y].chars);
-                    sfree(term->post_bidi_cache[scr_y].chars);
-                    sfree(term->post_bidi_cache[scr_y].forward);
-                    sfree(term->post_bidi_cache[scr_y].backward);
-                    term->pre_bidi_cache[scr_y]=(struct bidi_cache_entry){.width=-1};
-                    term->post_bidi_cache[scr_y]=(struct bidi_cache_entry){.width=-1};
+                    term_bidi_cache_clear_line(term, scr_y);
                 }
                 return NULL;
             }

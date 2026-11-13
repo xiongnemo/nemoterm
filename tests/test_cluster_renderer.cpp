@@ -40,10 +40,11 @@ static void outside_unchanged(Surface &s,RECT box)
     CHECK(ink>0);
 }
 static bool draw(NemoClusterRenderer **r,Surface &s,RECT box,const wchar_t *text,
-                 bool emoji=false,int offset=0,float scale=1,bool bold=false)
+                 bool emoji=false,int offset=0,float scale=1,bool bold=false,
+                 bool transparent=false)
 {
     return nemo_cluster_draw(r,s.dc,&box,text,static_cast<unsigned>(std::wcslen(text)),
-        offset,RGB(245,220,190),RGB(0,0,0),emoji,scale,bold);
+        offset,RGB(245,220,190),RGB(0,0,0),emoji,scale,bold,transparent);
 }
 static int ink_width(Surface &s,RECT box)
 {
@@ -59,7 +60,7 @@ int main()
     RECT box={30,40,78,80};
     a.clear();
     wchar_t long_text[68];for (auto &c:long_text) c=L'a';
-    CHECK(!nemo_cluster_draw(&renderer,a.dc,&box,long_text,68,0,0,0,false,1,false));
+    CHECK(!nemo_cluster_draw(&renderer,a.dc,&box,long_text,68,0,0,0,false,1,false,false));
     CHECK(!draw(&renderer,a,box,L"\xd800"));
     CHECK(!draw(&renderer,a,box,L"a\n"));
     CHECK(!draw(&renderer,a,box,L"\x2028"));
@@ -79,6 +80,50 @@ int main()
             a.clear();CHECK(draw(&renderer,a,box,samples[i],i>=3));
             outside_unchanged(a,box);CHECK(nemo_cluster_raster_bytes(renderer)==48*40*4);
         }
+        /* A missing glyph must not be mistaken for success merely because
+         * every compositor paints the same empty cell or replacement box. */
+        const wchar_t *rtl[]={L"\x5d0",L"\x5d1",L"\x5d2",L"\xfe8d",L"\xfe91",L"\xfe96"};
+        unsigned long long hashes[6]{};
+        for (unsigned i=0;i<6;i++) {
+            a.clear();CHECK(draw(&renderer,a,box,rtl[i]));GdiFlush();
+            outside_unchanged(a,box);
+            unsigned long long hash=14695981039346656037ULL;
+            for (int y=box.top;y<box.bottom;y++) for (int x=box.left;x<box.right;x++)
+                hash=(hash^(a.pixels[y*WIDTH+x]&0xffffff))*1099511628211ULL;
+            for (unsigned j=0;j<i;j++) CHECK(hashes[j]!=hash);
+            hashes[i]=hash;
+        }
+        /* Transparent fallback must preserve a pre-existing background and
+         * all earlier ink, including the second pass used for shadow bold. */
+        a.clear();CHECK(draw(&renderer,a,box,rtl[0],false,0,1,false,true));GdiFlush();
+        outside_unchanged(a,box);
+        unsigned changed=0,unchanged=0;
+        for (int y=box.top;y<box.bottom;y++) for (int x=box.left;x<box.right;x++) {
+            unsigned pixel=a.pixels[y*WIDTH+x]&0xffffff;
+            changed+=pixel!=SENTINEL;unchanged+=pixel==SENTINEL;
+            for (unsigned shift=0;shift<24;shift+=8)
+                CHECK(((pixel>>shift)&255)>=((SENTINEL>>shift)&255));
+        }
+        CHECK(changed && unchanged);
+        CHECK(BitBlt(b.dc,0,0,WIDTH,HEIGHT,a.dc,0,0,SRCCOPY));GdiFlush();
+        RECT shifted=box;shifted.left--;shifted.right--;
+        CHECK(draw(&renderer,a,shifted,rtl[0],false,0,1,false,true));GdiFlush();
+        for (int i=0;i<WIDTH*HEIGHT;i++) for (unsigned shift=0;shift<24;shift+=8)
+            CHECK(((a.pixels[i]>>shift)&255)>=((b.pixels[i]>>shift)&255));
+        /* Reuse a single-letter layout on a different destination/geometry.
+         * It must match a fresh renderer, also after the selected font changes.
+         * More than 32 distinct letters exercise bounded-cache replacement. */
+        for (unsigned i=0;i<80;i++) {
+            wchar_t text[]={static_cast<wchar_t>(0x5d0+i),0};
+            a.clear();CHECK(draw(&renderer,a,box,text,false,0,1,false,true));
+        }
+        a.clear();CHECK(draw(&renderer,a,box,rtl[0],false,0,1,false,true));
+        NemoClusterRenderer *fresh=nullptr;
+        RECT narrow={12,15,43,54};a.clear();b.clear();
+        CHECK(draw(&renderer,a,narrow,rtl[0],false,2,.75f,true,true));
+        CHECK(draw(&fresh,b,narrow,rtl[0],false,2,.75f,true,true));GdiFlush();
+        CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
+        nemo_cluster_free(&fresh);
         /* A normalized rendering copy must make decomposed text identical
          * to its canonical equivalent, without modifying the input. */
         for (unsigned i=0;i<2;i++) {
@@ -114,6 +159,15 @@ int main()
         GdiFlush();CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
         SelectObject(a.dc,old);SelectObject(b.dc,old_b);CHECK(DeleteObject(font));
     }
+
+    /* GDI's FW_DONTCARE (0) is valid for a legacy bitmap face, whereas
+     * DirectWrite's fallback format requires an actual nonzero weight. */
+    HFONT raster=CreateFontW(-16,0,0,0,FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET,
+        OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,FIXED_PITCH,L"Courier");
+    CHECK(raster);auto raster_old=SelectObject(a.dc,raster);
+    a.clear();CHECK(draw(&renderer,a,box,L"\x5d0"));outside_unchanged(a,box);
+    a.clear();CHECK(draw(&renderer,a,box,L"e\x301"));outside_unchanged(a,box);
+    SelectObject(a.dc,raster_old);CHECK(DeleteObject(raster));
 
     HFONT tall=CreateFontW(-48,0,0,0,FW_NORMAL,FALSE,FALSE,FALSE,DEFAULT_CHARSET,
         OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,FIXED_PITCH,L"Consolas");

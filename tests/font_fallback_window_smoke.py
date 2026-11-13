@@ -14,6 +14,8 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--rtl-only', action='store_true')
 parser.add_argument('--font', default='SarasaTermSC Nerd Font Light')
 parser.add_argument('--skip-clipboard', action='store_true',help='Local graphics-only check when clipboard access is unavailable')
+parser.add_argument('--fixture-lifetime',type=int,default=300,choices=range(1,301),metavar='SECONDS',
+    help='Bound the child lifetime while repainting thousands of system fallback glyphs')
 options = parser.parse_args()
 if options.skip_clipboard and os.environ.get('CI')=='true':parser.error('CI must verify the real clipboard')
 name = 'font-fallback-' + uuid.uuid4().hex
@@ -24,12 +26,13 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'ScrollbackLines', 0, winreg.REG_DWORD, 0)
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe'))
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), requested_font=options.font,
-                clipboard_tested=False,completed=False)
+                clipboard_tested=False,completed=False,fixture_lifetime=options.fixture_lifetime)
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-symbols-') as directory:
         directory = Path(directory); report, control = directory/'report', directory/'control'
+        started=time.monotonic()
         process = subprocess.Popen([str(exe), '-load', name, '--font', options.font, '--cols', '40', '--rows', '12',
-            '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
+            '-e', sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control),str(options.fixture_lifetime)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
         handle = k.OpenProcess(0x410, False, process.pid)
         samples, stopped = [], threading.Event()
@@ -122,22 +125,35 @@ try:
             phase(frame('')+rtl)
             for i in range(100): assert u.RedrawWindow(hwnd,None,None,0x105)
             before = memory_sample(handle)
-            for i in range(5000): assert u.RedrawWindow(hwnd,None,None,0x105)
+            repaint_started=time.monotonic()
+            for i in range(5000):
+                if not u.RedrawWindow(hwnd,None,None,0x105):
+                    evidence['failed_repaint']=dict(index=i,elapsed_seconds=time.monotonic()-started,
+                        repaint_seconds=time.monotonic()-repaint_started,
+                        window_alive=bool(u.IsWindow(hwnd)),process_exit_code=process.poll())
+                    raise AssertionError(evidence['failed_repaint'])
+                if (i+1)%1000==0:
+                    print(f'RTL repaints {i+1}/5000: {time.monotonic()-repaint_started:.2f}s',flush=True)
             after = memory_sample(handle)
             assert after['private_commit']-before['private_commit'] < 2_000_000, (before,after)
-            evidence['rtl_repaints'] = dict(count=5000,before=before,after=after)
+            evidence['rtl_repaints'] = dict(count=5000,before=before,after=after,
+                elapsed_seconds=time.monotonic()-repaint_started)
             evidence.update(peak_private_ws=max(v['private_ws'] for v in samples),
                 peak_total_ws=max(v['total_ws'] for v in samples),
                 peak_private_commit=max(v['private_commit'] for v in samples))
             assert evidence['peak_private_ws'] < 20_000_000, evidence
-            evidence['completed']=True
-            print('Native font regression passed (clipboard scope recorded):',evidence)
         finally:
             if saved: saved.restore()
             stopped.set(); worker.join(2); k.CloseHandle(handle)
             write_snapshot(control, {'stop':True})
             try: process.wait(timeout=10)
             except subprocess.TimeoutExpired: process.terminate(); process.wait(); raise
+            evidence['process_exit_code']=process.returncode
+            evidence['elapsed_seconds']=time.monotonic()-started
+            if sys.exc_info()[0] is None:
+                assert process.returncode==0,('frontend exit',process.returncode)
+                evidence['completed']=True
+                print('Native font regression passed (clipboard scope recorded):',evidence)
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
     (root/'research/font-fallback-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')

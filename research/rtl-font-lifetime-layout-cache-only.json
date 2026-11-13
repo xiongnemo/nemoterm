@@ -1,0 +1,24 @@
+{
+  "executable_sha256": "55883e692bdd0f318767c4ce4c0b7572df228148f2fc483c1757608e9b032a11",
+  "requested_font": "SarasaTermSC Nerd Font Light",
+  "clipboard_tested": false,
+  "completed": false,
+  "fixture_lifetime": 300,
+  "icons": [
+    "0xf120",
+    "0xf07b",
+    "0xf0001",
+    "0xf0002"
+  ],
+  "resize_cycles": 32,
+  "distinct_symbol_stress": 6144,
+  "failed_repaint": {
+    "index": 4738,
+    "elapsed_seconds": 300.3410398000851,
+    "window_alive": false,
+    "process_exit_code": null
+  },
+  "process_exit_code": 0,
+  "elapsed_seconds": 300.3818596000783,
+  "error": "AssertionError({'index': 4738, 'elapsed_seconds': 300.3410398000851, 'window_alive': False, 'process_exit_code': None})"
+}

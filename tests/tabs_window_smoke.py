@@ -20,8 +20,8 @@ def scene(text,colour):
     result=base_scene(text,colour)
     if not dense_memory_phase:return result
     cols,rows=evidence['actual_grid']
-    unit='e\u0301 \U0001f469\u200d\U0001f4bb \U0001f44d\U0001f3fd 1\ufe0f\u20e3 \u1100\u1161\u11a8 '
-    line=unit*max(1,(cols-1)//14)
+    unit='e\u0301 \U0001f469\u200d\U0001f4bb \U0001f44d\U0001f3fd 1\ufe0f\u20e3 \u1100\u1161\u11a8 אבג ابت '
+    line=unit*max(1,(cols-1)//22)
     return '\x1b[?2027h'+result+'\x1b[H'+'\r\n'.join(line for _ in range(max(1,rows-1)))
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='tabs-'+uuid.uuid4().hex
