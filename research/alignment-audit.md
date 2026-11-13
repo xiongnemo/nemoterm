@@ -2,8 +2,8 @@
 
 The initial `ESC # 8` (DECALN) audit below found that the inherited handler filled
 the screen with `E` characters but omitted several state changes made by XTerm.
-The [development fix and local validation](alignment-reset.md) now address the
-state and visible-image lifetime findings; full remote CI for that fix is pending.
+The [fix and validation](alignment-reset.md) now address the state and visible-image
+lifetime findings, with both complete CI workflows and downloaded-image checks.
 The control is listed in the [XTerm sequence reference](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html).
 
 A private Xvfb/XTerm capture and a newly spawned native Nemoterm/ConPTY process
@@ -12,7 +12,7 @@ its executable SHA-256 is
 `089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c`.
 The tested Windows image is the downloaded `6cbe05f` single-image artifact,
 SHA-256 `53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84`.
-Its alignment handler is unchanged in current main. The manifest verifies the
+Its alignment handler matched main at the audit checkpoint. The manifest verifies the
 current `terminal.c` identity against the audited source copy.
 
 Each case independently resets to VT520 compatibility, sets up state, sends
