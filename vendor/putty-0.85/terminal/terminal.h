@@ -530,6 +530,7 @@ struct terminal_tag {
 
     /* The composite palette that we make out of the above */
     rgb palette[OSC4_NCOLOURS];
+    struct NemoPaletteStack *palette_stack;
 
     int winpos_x, winpos_y;
     unsigned winpixsize_x, winpixsize_y;

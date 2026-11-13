@@ -2,6 +2,7 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "../../../tests/palette_stack_oracle_cases.h"
 
 static void check_colour(Mock *mk, unsigned index, unsigned r, unsigned g, unsigned b)
 {
@@ -14,6 +15,43 @@ static void reply(Mock *mk, const char *expected)
 {
     SEQUAL(mk->to_backend->s, expected);
     strbuf_clear(mk->to_backend);
+}
+
+static void stack_bounds_and_roundtrip(Mock *mk)
+{
+    test_context(mk, "empty stack reads and invalid writes allocate nothing");
+    IEQUAL(mk->term->palette_stack == NULL, true);
+    term_data_fragmented(mk->term, "\033[#Q\033[11#P\033[4294967295#P\033[#R");
+    reply(mk, "\033[?0;0#Q");
+    IEQUAL(mk->term->palette_stack == NULL, true);
+
+    test_context(mk, "all 256 entries and all default colours survive stack restoration");
+    rgb saved[OSC4_NCOLOURS];
+    memcpy(saved, mk->term->palette, sizeof(saved));
+    term_data_fragmented(mk->term, "\033[#P");
+    for (unsigned i = 0; i < 256; i++) {
+        char command[80];
+        sprintf(command, "\033]4;%u;#%02x%02x%02x\007", i, i, 255-i, i/2);
+        term_data_fragmented(mk->term, command);
+    }
+    term_data_fragmented(mk->term, "\033]10;#123456;#654321;#abcdef\007\033[#Q");
+    for (unsigned i = 0; i < OSC4_NCOLOURS; i++)
+        check_colour(mk, i, saved[i].r, saved[i].g, saved[i].b);
+    term_update(mk->term);
+    IEQUAL(mk->term->win_palette_pending, false);
+
+    test_context(mk, "push overflow stays bounded and indexed slots survive pops");
+    struct NemoPaletteStack *stack = mk->term->palette_stack;
+    for (unsigned i = 0; i < 5000; i++) {
+        term_data_fragmented(mk->term, "\033[#P");
+        IEQUAL(mk->term->palette_stack == stack, true);
+    }
+    term_data_fragmented(mk->term, "\033[#R");
+    reply(mk, "\033[?10;10#Q");
+    for (unsigned i = 0; i < 5000; i++) term_data_fragmented(mk->term, "\033[#Q");
+    term_data_fragmented(mk->term, "\033[#R\033]4;1;#123456\007\033[10#Q\033[#R");
+    reply(mk, "\033[?0;10#Q\033[?9;10#Q");
+    check_colour(mk, 1, saved[1].r, saved[1].g, saved[1].b);
 }
 
 int main(void)
@@ -82,6 +120,26 @@ int main(void)
     reply(mk, "\033]4;1;rgb:0000/0000/ffff\033\\");
 
     bool failed = mk->any_test_failed;
+    mock_free(mk);
+    for (size_t i = 0; i < lenof(palette_stack_oracle); i++) {
+        mk = mock_new();
+        conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+        mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+        reset(mk);
+        test_context(mk, "palette/title stack %s", palette_stack_oracle[i].name);
+        term_data_fragmented(mk->term, palette_stack_oracle[i].sequence);
+        reply(mk, palette_stack_oracle[i].reply);
+        failed |= mk->any_test_failed;
+        mock_free(mk);
+    }
+    mk = mock_new();
+    mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+    mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    reset(mk);
+    stack_bounds_and_roundtrip(mk);
+    failed |= mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "OSC colour suite FAILED!" : "OSC colour suite passed");
     return failed ? 1 : 0;

@@ -82,13 +82,18 @@ cases. RIS, DECSTR and alternate screens preserve the stack. Local title-update
 policy blocks both push and pop without consuming stored entries; title-query
 none/empty/real policy still applies independently.
 
-Depth saturates at ten instead of growing an unbounded counter. Once all ten
+At this historical checkpoint, depth saturated at ten instead of growing an unbounded counter. Once all ten
 retained entries are consumed, stack pops do nothing and the next push starts
 at slot zero. This deliberately defines bounded overflow behavior; it does not
 copy XTerm's unbounded count or claim identical behavior for interleaved direct
 writes after an overflow. Each string is limited to 4096 bytes; a push containing
 an oversized local title is rejected atomically. The twenty strings therefore
 use at most 81,940 bytes plus slot metadata. No stack allocation occurs on reads.
+
+The later [palette and position checkpoint](palette-stacks.md) supersedes that
+depth clamp: a bounded unsigned counter now follows XTerm's logical depth and
+indexed interleaving, while string storage still uses only ten slots. A push
+at the counter limit is refused instead of wrapping.
 
 `test_titles` compares the 22 independent replies, checks encoding and policy
 preservation, empty fields, oversized titles, cancellation, large indices and

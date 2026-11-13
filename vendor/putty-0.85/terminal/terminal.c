@@ -77,6 +77,21 @@ struct nemo_title_stack {
     struct nemo_saved_title slot[TITLE_STACK_SLOTS];
 };
 
+/* Fixed slot count, lazy snapshots: an unused terminal pays one pointer.
+ * Slots survive pops because indexed restoration can revisit them. */
+#define PALETTE_STACK_SLOTS 10
+struct NemoPaletteStack {
+    unsigned used, last;
+    rgb *slot[PALETTE_STACK_SLOTS];
+};
+
+static void nemo_palette_stack_free(struct NemoPaletteStack *stack)
+{
+    if (!stack) return;
+    for (unsigned i = 0; i < PALETTE_STACK_SLOTS; i++) sfree(stack->slot[i]);
+    sfree(stack);
+}
+
 static void nemo_saved_title_free(struct nemo_saved_title *title)
 {
     for (unsigned i = 0; i < 2; i++) {
@@ -3431,6 +3446,47 @@ static void palette_rebuild(Terminal *term)
     }
 }
 
+static void nemo_palette_stack_op(Terminal *term, bool push)
+{
+    for (unsigned p = 0; p < term->esc_nargs; p++) {
+        struct NemoPaletteStack *stack = term->palette_stack;
+        unsigned used = stack ? stack->used : 0, arg = term->esc_args[p];
+        bool omitted = !(term->esc_arg_present & (1u << p));
+        unsigned slot = arg ? arg-1 : push ? used : used-1;
+        if (slot >= PALETTE_STACK_SLOTS) continue;
+        if (push) {
+            if (!stack) {
+                term->palette_stack = stack = snew(struct NemoPaletteStack);
+                memset(stack, 0, sizeof(*stack));
+            }
+            if (!stack->slot[slot]) stack->slot[slot] = snewn(OSC4_NCOLOURS, rgb);
+            memcpy(stack->slot[slot], term->palette, sizeof(term->palette));
+            /* XTerm distinguishes an omitted value from an explicit zero:
+             * omitted increments; explicit zero saves at used and seeks to 0.
+             * Indexed writes seek to that index without raising last. */
+            stack->used = omitted ? used+1 : arg;
+            if (omitted && stack->last < stack->used) stack->last = stack->used;
+        } else if (stack && stack->slot[slot]) {
+            memcpy(term->subpalettes[SUBPAL_SESSION].values,
+                   stack->slot[slot], sizeof(term->palette));
+            for (unsigned i = 0; i < OSC4_NCOLOURS; i++)
+                term->subpalettes[SUBPAL_SESSION].present[i] = true;
+            stack->used = slot;
+            palette_rebuild(term);
+        }
+    }
+}
+
+static void nemo_report_palette_stack(Terminal *term)
+{
+    if (!term->ldisc) return;
+    struct NemoPaletteStack *stack = term->palette_stack;
+    char reply[40];
+    int n = sprintf(reply, "\033[?%u;%u#Q", stack ? stack->used : 0,
+                    stack ? stack->last : 0);
+    ldisc_send(term->ldisc, reply, n, false);
+}
+
 /*
  * Rebuild the palette from configuration and platform colours.
  * If 'keep_overrides' set, any escape-sequence-specified overrides will
@@ -3571,6 +3627,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
 void term_free(Terminal *term)
 {
+    nemo_palette_stack_free(term->palette_stack);
     nemo_presentation_cancel(term);
     nemo_osc52_free(term->osc52);
     sfree(term->sgr_stack);
@@ -6135,6 +6192,9 @@ static void nemo_title_stack_op(Terminal *term, bool push)
     unsigned which = term->esc_nargs >= 3 ? term->esc_args[2] : 0;
     struct nemo_title_stack *stack = term->title_stack;
     if (!push && (!stack || (!which && !stack->depth))) return;
+    /* Count logical pushes while retaining only the ten ring slots. Refuse
+     * a push at the counter limit instead of wrapping and losing its order. */
+    if (push && !which && stack && stack->depth == UINT_MAX) return;
 
     struct nemo_saved_title saved = {0};
     if (push) {
@@ -6163,7 +6223,7 @@ static void nemo_title_stack_op(Terminal *term, bool push)
     } else if (push) {
         slot = stack->next;
         stack->next = (slot+1) % TITLE_STACK_SLOTS;
-        if (stack->depth < TITLE_STACK_SLOTS) stack->depth++;
+        stack->depth++;
     } else {
         slot = (stack->next+TITLE_STACK_SLOTS-1) % TITLE_STACK_SLOTS;
         stack->next = slot;
@@ -7938,6 +7998,21 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         nemo_pop_sgr(term); break;
                       case ANSI('|', '#'): /* XTREPORTSGR */
                         nemo_report_rectangle_sgr(term); break;
+                      case ANSI('P', '#'): /* XTPUSHCOLORS */
+                        nemo_palette_stack_op(term, true); break;
+                      case ANSI('Q', '#'): /* XTPOPCOLORS */
+                        nemo_palette_stack_op(term, false); break;
+                      case ANSI('R', '#'): /* XTREPORTCOLORS */
+                        nemo_report_palette_stack(term); break;
+                      case ANSI('S', '#'): /* XTTITLEPOS */
+                        if (term->ldisc) {
+                            char reply[48];
+                            int n = sprintf(reply, "\033[%u;%u#S",
+                                term->title_stack ? term->title_stack->depth : 0,
+                                TITLE_STACK_SLOTS);
+                            ldisc_send(term->ldisc, reply, n, false);
+                        }
+                        break;
                       case ANSI('w', '$'): /* DECRQPSR */
                         compatibility(VT320);
                         nemo_presentation_report(term); break;

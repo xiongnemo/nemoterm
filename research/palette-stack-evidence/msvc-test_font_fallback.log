@@ -1,0 +1,9 @@
+Requested Consolas; initially selected Consolas
+Selected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0
+Requested Courier; initially selected Courier
+Selected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0
+Requested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light
+Selected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0
+Requested Nemo Test Missing Font 938471; initially selected Arial
+Selected after registration Arial; cmap bytes 10158; U+F0001 glyph 0
+Font fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache

@@ -95,8 +95,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | "v (DECRQDE) | Tested | Active rows/columns, single page, operating-level gate, origin-independent and resized native reports. |
 | $u (terminal state request) | Missing | Complete terminal-state serialization/restoration is separate from presentation-state reports. |
 | #\| (XTREPORTSGR), #{ / #} and #p / #q (SGR stack) | Tested | `queries`, native `sgr_stack`: 193 exact XTerm captures and 14 modern-underline expectations. Ten retained frames, bounded overflow, selective attributes/colors, origin-relative intersections, reset/alternate-screen retention and read-only queries. Six XTerm cases ignore modern underline styles and are documented separately; see [SGR stack record](../research/sgr-stack.md). |
-| #P/#Q/#R (palette stack) | Missing | OSC palette mutation exists; no palette stack. |
-| #S (title-stack position query) | Missing | Title push/pop exists; position query is separate. |
+| #P/#Q/#R (palette stack) | Tested | Ten lazy snapshots of the implemented indexed/default palette; indexed access, zero/omitted arguments, high-water reports, reset/alternate-screen retention, invalidation and synchronized pixels. See [palette stacks](../research/palette-stacks.md); unsupported OSC color namespaces remain separate. |
+| #S (title-stack position query) | Tested | Logical depth and ten retained slots; fixes the former depth clamp. The combined palette/title oracle has 101 exact XTerm cases through core and all three native renderers. |
 | t, operations 1–9, 11, 13–16, 18–23 and line count >=24 | Partial | `queries`, `titles`, `window_resize`; native movement, size and title policies apply. Other window operations remain missing. |
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |

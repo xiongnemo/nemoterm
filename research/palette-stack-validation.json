@@ -1,0 +1,1160 @@
+{
+  "source_base": "c369a64c58a6f31b640ea2126aa5f7428738ebf6",
+  "executable_sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332",
+  "executable_bytes": 4430848,
+  "accepted_main_replaced": false,
+  "files": {
+    "xterm.json": {
+      "bytes": 146507,
+      "sha256": "193c4172f477f5c36bee28c2bb96d94fdf3e2093e6a64aadf458a18f6fc5df2b"
+    },
+    "gdi-observed.json": {
+      "bytes": 92758,
+      "sha256": "12341bf46c7da20839de3d46b42cb3cdcf9898a398e79ae8a33265d3aefece9b"
+    },
+    "gdi-window.png": {
+      "bytes": 2391,
+      "sha256": "26e501697aac19adc0b2544f8eb1e094cb72a058395a07452ffe9b7acf7fd07a"
+    },
+    "directx-observed.json": {
+      "bytes": 92814,
+      "sha256": "51a29f47339973422efa5706961292b22d5477689b1b126fcb3a17110ca381db"
+    },
+    "directx-window.png": {
+      "bytes": 2391,
+      "sha256": "26e501697aac19adc0b2544f8eb1e094cb72a058395a07452ffe9b7acf7fd07a"
+    },
+    "opengl-observed.json": {
+      "bytes": 92842,
+      "sha256": "09f7624c373b333274326b80ea78573029274731f913ab2af110bbe235d42a6f"
+    },
+    "opengl-window.png": {
+      "bytes": 2391,
+      "sha256": "26e501697aac19adc0b2544f8eb1e094cb72a058395a07452ffe9b7acf7fd07a"
+    },
+    "gdi-workload-memory.json": {
+      "bytes": 1243824,
+      "sha256": "d2c38bdc33368e71a95036f716ec218e3e93d11f496c22c4cf6dd69599987aa2"
+    },
+    "gdi-workload-observed.json": {
+      "bytes": 14386,
+      "sha256": "a43124482e30066d05c5ce2812228265b035ab7721c45f3f7d004e1ba3c7b843"
+    },
+    "title-modes-window-observed.json": {
+      "bytes": 29152,
+      "sha256": "665a3344c9ae27cd9a3047a1af8107d43c4d93ae5d031ea981a0e03202dbfa89"
+    },
+    "titles-window-observed.json": {
+      "bytes": 8996,
+      "sha256": "f3ea1539590bb0f753a0fcd24e7fdced4bb6713aee23be8689d43442bb504e23"
+    },
+    "single-exe-observed.json": {
+      "bytes": 866,
+      "sha256": "934e66b40d7d9959d6f267ed72b840805abefa0a01c32ec3ba17123f96bad6af"
+    },
+    "msvc-test_cluster_renderer.log": {
+      "bytes": 107,
+      "sha256": "d8a99567357c6ac201922edc4f30ea0d93b3df4ce09555d6f354288a45a72a3e"
+    },
+    "msvc-test_colour.log": {
+      "bytes": 32,
+      "sha256": "0e112b31c6b9f24a8008d802fea49590e1b060c042d8c1313643b8bb9b75b000"
+    },
+    "msvc-test_conf.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "msvc-test_cwd.log": {
+      "bytes": 33,
+      "sha256": "f0dcf78126e56ea9f8839a6a41bc91a3646edafb234643ad418aadccf6c8a544"
+    },
+    "msvc-test_font_cmap.log": {
+      "bytes": 81,
+      "sha256": "ab78c75069de7ba0202f89d16a7866822ad9157b8321b0f61ba1b4901b5c789d"
+    },
+    "msvc-test_font_fallback.log": {
+      "bytes": 667,
+      "sha256": "cd979e64a84b79363810c157f66403c537a48b9b1be797f2ce754d93a8393fa2"
+    },
+    "msvc-test_grapheme_terminal.log": {
+      "bytes": 32,
+      "sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+    },
+    "msvc-test_grapheme.log": {
+      "bytes": 111,
+      "sha256": "f3a0ed43ca94c929939bd967c9ddf21f99eba542829b4ff9094435b62df81842"
+    },
+    "msvc-test_highlight.log": {
+      "bytes": 24,
+      "sha256": "120e2b243b432acd0e328eff1f6d0a642629ea6f8724e3096bd5fe677ab22f5b"
+    },
+    "msvc-test_hyperlink.log": {
+      "bytes": 29,
+      "sha256": "6462b368612e7ebe26e1bae02d79d8e1cf84e92029634dd71df918b612581461"
+    },
+    "msvc-test_keyboard.log": {
+      "bytes": 32,
+      "sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0"
+    },
+    "msvc-test_margins.log": {
+      "bytes": 21,
+      "sha256": "0b900d400e5fc1ec998a59ef390a81637026ad6ad185dfafd9955060049a73e4"
+    },
+    "msvc-test_modes.log": {
+      "bytes": 24,
+      "sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843"
+    },
+    "msvc-test_mok.log": {
+      "bytes": 28,
+      "sha256": "4c986100b63bbdc59bb633d908cb71765f68c220345e4a2ce59b0cbea35ec77b"
+    },
+    "msvc-test_mouse.log": {
+      "bytes": 25,
+      "sha256": "472f27dbb97edade3d44427aa024ca65d0e6585bd6802b41c1fb609f3fc74a56"
+    },
+    "msvc-test_osc_colour.log": {
+      "bytes": 25,
+      "sha256": "4cd154ad75c54b329bc6ca05c4900ad052cfc4356736361da62a0e9960574e8c"
+    },
+    "msvc-test_osc52.log": {
+      "bytes": 21,
+      "sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+    },
+    "msvc-test_queries.log": {
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    "msvc-test_rectangle.log": {
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    "msvc-test_reflow.log": {
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    "msvc-test_resize.log": {
+      "bytes": 21,
+      "sha256": "023398bd1fed7f20d837565b10a6c7e3a9ed39cba6a60fd6cd26525b38201114"
+    },
+    "msvc-test_selective_erase.log": {
+      "bytes": 30,
+      "sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2"
+    },
+    "msvc-test_sgr.log": {
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    "msvc-test_shell_marks.log": {
+      "bytes": 25,
+      "sha256": "3b159797825571adc538687810fef8457cb4617b2169a9c8d3e429b765a1687a"
+    },
+    "msvc-test_shell.log": {
+      "bytes": 77,
+      "sha256": "35e17b6930b82490f551fe7c3733568cdb632e518b8b9ec79c45b63a0cbc7d71"
+    },
+    "msvc-test_sixel_terminal.log": {
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    "msvc-test_sixel.log": {
+      "bytes": 75,
+      "sha256": "4afb222291fe779247a50d3aaca204ffc3bbe9c8bc6a7013270d17b7af859ae8"
+    },
+    "msvc-test_snapshot.log": {
+      "bytes": 90,
+      "sha256": "b6265320e28f100005f957723548f63d4b6b8cbd24698321ed02614e7a5dc1cd"
+    },
+    "msvc-test_state_control.log": {
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    "msvc-test_sync.log": {
+      "bytes": 39,
+      "sha256": "775314ae84994666444c822e8e751a0b8fdd8e79d62ed4ac55d4240e27e6badf"
+    },
+    "msvc-test_tabs_layout.log": {
+      "bytes": 87,
+      "sha256": "f5ecc41ba851d70ab2a6f3c2e4ac88deb9f2f4b4b1c8f6b2b9b94fadd082a039"
+    },
+    "msvc-test_tcap.log": {
+      "bytes": 34,
+      "sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+    },
+    "msvc-test_terminal.log": {
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    "msvc-test_titles.log": {
+      "bytes": 20,
+      "sha256": "ccfe9ee484c6347c85ab1614d9cfc7aa75846ba44b81e4e61d957d7d3c76d4f3"
+    },
+    "msvc-test_win32_input.log": {
+      "bytes": 26,
+      "sha256": "2e1bf51c8d29aad5e216fa45e67b3d628fce73a20c2552dc1fcbccd3d69e771a"
+    },
+    "mingw-test_osc_colour.log": {
+      "bytes": 25,
+      "sha256": "4cd154ad75c54b329bc6ca05c4900ad052cfc4356736361da62a0e9960574e8c"
+    },
+    "mingw-test_titles.log": {
+      "bytes": 20,
+      "sha256": "ccfe9ee484c6347c85ab1614d9cfc7aa75846ba44b81e4e61d957d7d3c76d4f3"
+    },
+    "mingw-test_queries.log": {
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    "mingw-test_state_control.log": {
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    "mingw-test_sixel_terminal.log": {
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    "mingw-test_terminal.log": {
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    "asan-test_osc_colour.log": {
+      "bytes": 24,
+      "sha256": "910cafca6fb0539b049f3b2ce14366a7797e932eb9863ae9e466afed8ecec43c"
+    },
+    "asan-test_titles.log": {
+      "bytes": 19,
+      "sha256": "5855200953a47b62cc6b1d4e0846196cc8f2507c9a2f4afbda0cb530fb17daf1"
+    },
+    "asan-test_queries.log": {
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    "asan-test_sixel_terminal.log": {
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    "asan-test_state_control.log": {
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 482478,
+      "sha256": "96cfcdc47503cd9b42e1f813482039f7c08fd76708edbc0d3c76e548a00c6a6e",
+      "lf_bytes": 482478,
+      "sha256_lf": "96cfcdc47503cd9b42e1f813482039f7c08fd76708edbc0d3c76e548a00c6a6e"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 28599,
+      "sha256": "1c5054b7cd68915084d09065434c21589327aee3dc323f2cbec73d13c925c5a0",
+      "lf_bytes": 27816,
+      "sha256_lf": "611b054937eadee407e7212baae96041ccb764497261676fbfc6ae2c09ee5d58"
+    },
+    "vendor/putty-0.85/test/test_osc_colour.c": {
+      "bytes": 6441,
+      "sha256": "7687e9769ac80ca15a41651e17e3dc9213dd4ff3b96fe401f8a9ab7c1d4b8645",
+      "lf_bytes": 6441,
+      "sha256_lf": "7687e9769ac80ca15a41651e17e3dc9213dd4ff3b96fe401f8a9ab7c1d4b8645"
+    },
+    "tests/palette_stack_window_smoke.py": {
+      "bytes": 4444,
+      "sha256": "3aec90c1067cbf3ab7a64779106d938dc1411cd6f4a9aecae17ee1b6c4c454e3",
+      "lf_bytes": 4444,
+      "sha256_lf": "3aec90c1067cbf3ab7a64779106d938dc1411cd6f4a9aecae17ee1b6c4c454e3"
+    },
+    "tests/protocol_oracle_window.py": {
+      "bytes": 4552,
+      "sha256": "7e6d73fd9a46cab15d958dec5621baa13a3f293dd3cc90ab9cc66a0e8d1b5d9d",
+      "lf_bytes": 4552,
+      "sha256_lf": "7e6d73fd9a46cab15d958dec5621baa13a3f293dd3cc90ab9cc66a0e8d1b5d9d"
+    },
+    "tests/palette_stack_oracle_cases.h": {
+      "bytes": 123149,
+      "sha256": "9e2e7a2969dfac6c1a4328722ae6d272b5fc0da5067695449196019dabfaeb78",
+      "lf_bytes": 123045,
+      "sha256_lf": "0489d57c63d72a6a9c3f2195211a554828c483a9c142dbfc580b0e539c2752bb"
+    },
+    "tests/palette_stack_oracle_cases.py": {
+      "bytes": 123061,
+      "sha256": "e900d8af5c91eebb39c783bafc663fd5bd99f6a2f14a80c24b4f936f61b34e17",
+      "lf_bytes": 122957,
+      "sha256_lf": "d55b49ed78d937caf56d3a533614a80d7d159cfdc1ee8b4cc9e1a9b811694a7d"
+    },
+    "tests/xterm_palette_stack_oracle.py": {
+      "bytes": 3984,
+      "sha256": "e3750eb0da8af6ebc3e09148267645d550f73c1dc624ec2570ebdd99694ec110",
+      "lf_bytes": 3984,
+      "sha256_lf": "e3750eb0da8af6ebc3e09148267645d550f73c1dc624ec2570ebdd99694ec110"
+    },
+    "tests/generate_palette_stack_oracle.py": {
+      "bytes": 1362,
+      "sha256": "6538039d53d08d2b431b90749c10360532c2a42892882fdb92268b523ef5a49d",
+      "lf_bytes": 1362,
+      "sha256_lf": "6538039d53d08d2b431b90749c10360532c2a42892882fdb92268b523ef5a49d"
+    },
+    "vendor/putty-0.85/unix/CMakeLists.txt": {
+      "bytes": 14788,
+      "sha256": "730a2ccc8663b044d9a9cb11ae9e448dca02f70737a980bdc2e0f3a293fe932c",
+      "lf_bytes": 14788,
+      "sha256_lf": "730a2ccc8663b044d9a9cb11ae9e448dca02f70737a980bdc2e0f3a293fe932c"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 33437,
+      "sha256": "97344eabad104895ea8b37f268516f085d422d0bf776514a96ac68c5fbbac782",
+      "lf_bytes": 33437,
+      "sha256_lf": "97344eabad104895ea8b37f268516f085d422d0bf776514a96ac68c5fbbac782"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9056,
+      "sha256": "07d2e33088d9effdf8bfb605313f9af620f62441a448c473f578e18cb46b32e8",
+      "lf_bytes": 9056,
+      "sha256_lf": "07d2e33088d9effdf8bfb605313f9af620f62441a448c473f578e18cb46b32e8"
+    }
+  },
+  "native": {
+    "gdi": {
+      "cases": 101,
+      "exercise": {
+        "actual_renderer": 1,
+        "pixel_checks": [
+          {
+            "name": "baseline",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "changed",
+            "sha256": "2c43be1f544fa9c3ca18ccf4b6ded10e245455add3a39b85114a46b824e35961"
+          },
+          {
+            "name": "restored",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "frozen",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "committed",
+            "sha256": "defa1311e0d9e5d929ed138a35022860781712524f6c369ff20e1fb350cb86de"
+          },
+          {
+            "name": "resized",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          },
+          {
+            "name": "resized-changed",
+            "sha256": "cf3be0c02653c01265a8fad7955f1a6bb6b86f1926a7ae1e429fd0c3141c253d"
+          },
+          {
+            "name": "resized-restored",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          }
+        ],
+        "memory_samples": [
+          {
+            "private_ws": 6209536,
+            "total_ws": 27693056,
+            "private_commit": 7884800
+          },
+          {
+            "private_ws": 6209536,
+            "total_ws": 27693056,
+            "private_commit": 7884800
+          },
+          {
+            "private_ws": 6209536,
+            "total_ws": 27693056,
+            "private_commit": 7884800
+          },
+          {
+            "private_ws": 6303744,
+            "total_ws": 27811840,
+            "private_commit": 7974912
+          },
+          {
+            "private_ws": 6217728,
+            "total_ws": 27725824,
+            "private_commit": 7888896
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          },
+          {
+            "private_ws": 6352896,
+            "total_ws": 27860992,
+            "private_commit": 8200192
+          }
+        ],
+        "memory_instrumented": false,
+        "resized_grid": [
+          93,
+          24
+        ],
+        "repeated_save_restore": 1000,
+        "peak_private_ws": 6352896,
+        "peak_total_ws": 27860992
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "directx": {
+      "cases": 101,
+      "exercise": {
+        "actual_renderer": 3,
+        "pixel_checks": [
+          {
+            "name": "baseline",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "changed",
+            "sha256": "2c43be1f544fa9c3ca18ccf4b6ded10e245455add3a39b85114a46b824e35961"
+          },
+          {
+            "name": "restored",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "frozen",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "committed",
+            "sha256": "defa1311e0d9e5d929ed138a35022860781712524f6c369ff20e1fb350cb86de"
+          },
+          {
+            "name": "resized",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          },
+          {
+            "name": "resized-changed",
+            "sha256": "cf3be0c02653c01265a8fad7955f1a6bb6b86f1926a7ae1e429fd0c3141c253d"
+          },
+          {
+            "name": "resized-restored",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          }
+        ],
+        "memory_samples": [
+          {
+            "private_ws": 16646144,
+            "total_ws": 55808000,
+            "private_commit": 67674112
+          },
+          {
+            "private_ws": 16834560,
+            "total_ws": 56000512,
+            "private_commit": 68337664
+          },
+          {
+            "private_ws": 16859136,
+            "total_ws": 56025088,
+            "private_commit": 68362240
+          },
+          {
+            "private_ws": 16859136,
+            "total_ws": 56029184,
+            "private_commit": 68362240
+          },
+          {
+            "private_ws": 16859136,
+            "total_ws": 56041472,
+            "private_commit": 68362240
+          },
+          {
+            "private_ws": 17113088,
+            "total_ws": 56324096,
+            "private_commit": 70090752
+          },
+          {
+            "private_ws": 17113088,
+            "total_ws": 56324096,
+            "private_commit": 70549504
+          },
+          {
+            "private_ws": 17121280,
+            "total_ws": 56332288,
+            "private_commit": 70557696
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56573952,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          },
+          {
+            "private_ws": 17362944,
+            "total_ws": 56578048,
+            "private_commit": 70799360
+          }
+        ],
+        "memory_instrumented": true,
+        "resized_grid": [
+          93,
+          24
+        ],
+        "repeated_save_restore": 1000,
+        "peak_private_ws": 17362944,
+        "peak_total_ws": 56578048
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "opengl": {
+      "cases": 101,
+      "exercise": {
+        "actual_renderer": 2,
+        "pixel_checks": [
+          {
+            "name": "baseline",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "changed",
+            "sha256": "2c43be1f544fa9c3ca18ccf4b6ded10e245455add3a39b85114a46b824e35961"
+          },
+          {
+            "name": "restored",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "frozen",
+            "sha256": "011582682fe951b7bdf0ae4fd794d05e7d1b7273bd937c040263e5d49763686a"
+          },
+          {
+            "name": "committed",
+            "sha256": "defa1311e0d9e5d929ed138a35022860781712524f6c369ff20e1fb350cb86de"
+          },
+          {
+            "name": "resized",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          },
+          {
+            "name": "resized-changed",
+            "sha256": "cf3be0c02653c01265a8fad7955f1a6bb6b86f1926a7ae1e429fd0c3141c253d"
+          },
+          {
+            "name": "resized-restored",
+            "sha256": "28faa53adf8a93d0ccd205c23846c09c83f4bee7d4b2c56c879a77a1af90446d"
+          }
+        ],
+        "memory_samples": [
+          {
+            "private_ws": 48730112,
+            "total_ws": 84942848,
+            "private_commit": 105807872
+          },
+          {
+            "private_ws": 48787456,
+            "total_ws": 85008384,
+            "private_commit": 105861120
+          },
+          {
+            "private_ws": 48812032,
+            "total_ws": 85032960,
+            "private_commit": 105861120
+          },
+          {
+            "private_ws": 48812032,
+            "total_ws": 85032960,
+            "private_commit": 105861120
+          },
+          {
+            "private_ws": 48812032,
+            "total_ws": 85037056,
+            "private_commit": 105861120
+          },
+          {
+            "private_ws": 48918528,
+            "total_ws": 85143552,
+            "private_commit": 109142016
+          },
+          {
+            "private_ws": 48979968,
+            "total_ws": 85204992,
+            "private_commit": 109142016
+          },
+          {
+            "private_ws": 48979968,
+            "total_ws": 85204992,
+            "private_commit": 109142016
+          },
+          {
+            "private_ws": 48979968,
+            "total_ws": 85204992,
+            "private_commit": 109142016
+          },
+          {
+            "private_ws": 48979968,
+            "total_ws": 85204992,
+            "private_commit": 109142016
+          },
+          {
+            "private_ws": 48963584,
+            "total_ws": 85188608,
+            "private_commit": 109125632
+          },
+          {
+            "private_ws": 48963584,
+            "total_ws": 85188608,
+            "private_commit": 109125632
+          },
+          {
+            "private_ws": 48963584,
+            "total_ws": 85188608,
+            "private_commit": 109125632
+          },
+          {
+            "private_ws": 48963584,
+            "total_ws": 85192704,
+            "private_commit": 109125632
+          },
+          {
+            "private_ws": 48963584,
+            "total_ws": 85192704,
+            "private_commit": 109125632
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85721088,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85725184,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85725184,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85725184,
+            "private_commit": 109649920
+          },
+          {
+            "private_ws": 49487872,
+            "total_ws": 85725184,
+            "private_commit": 109649920
+          }
+        ],
+        "memory_instrumented": true,
+        "resized_grid": [
+          93,
+          24
+        ],
+        "repeated_save_restore": 1000,
+        "peak_private_ws": 49487872,
+        "peak_total_ws": 85725184
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  },
+  "core": {
+    "msvc": [
+      {
+        "test": "test_cluster_renderer",
+        "exit": 0
+      },
+      {
+        "test": "test_colour",
+        "exit": 0
+      },
+      {
+        "test": "test_conf",
+        "exit": 0
+      },
+      {
+        "test": "test_cwd",
+        "exit": 0
+      },
+      {
+        "test": "test_font_cmap",
+        "exit": 0
+      },
+      {
+        "test": "test_font_fallback",
+        "exit": 0
+      },
+      {
+        "test": "test_grapheme_terminal",
+        "exit": 0
+      },
+      {
+        "test": "test_grapheme",
+        "exit": 0,
+        "argument": "tools/unicode/18.0.0/GraphemeBreakTest.txt"
+      },
+      {
+        "test": "test_highlight",
+        "exit": 0
+      },
+      {
+        "test": "test_hyperlink",
+        "exit": 0
+      },
+      {
+        "test": "test_keyboard",
+        "exit": 0
+      },
+      {
+        "test": "test_margins",
+        "exit": 0
+      },
+      {
+        "test": "test_modes",
+        "exit": 0
+      },
+      {
+        "test": "test_mok",
+        "exit": 0
+      },
+      {
+        "test": "test_mouse",
+        "exit": 0
+      },
+      {
+        "test": "test_osc_colour",
+        "exit": 0
+      },
+      {
+        "test": "test_osc52",
+        "exit": 0
+      },
+      {
+        "test": "test_queries",
+        "exit": 0
+      },
+      {
+        "test": "test_rectangle",
+        "exit": 0
+      },
+      {
+        "test": "test_reflow",
+        "exit": 0
+      },
+      {
+        "test": "test_resize",
+        "exit": 0
+      },
+      {
+        "test": "test_selective_erase",
+        "exit": 0
+      },
+      {
+        "test": "test_sgr",
+        "exit": 0
+      },
+      {
+        "test": "test_shell_marks",
+        "exit": 0
+      },
+      {
+        "test": "test_shell",
+        "exit": 0
+      },
+      {
+        "test": "test_sixel_terminal",
+        "exit": 0
+      },
+      {
+        "test": "test_sixel",
+        "exit": 0
+      },
+      {
+        "test": "test_snapshot",
+        "exit": 0
+      },
+      {
+        "test": "test_state_control",
+        "exit": 0
+      },
+      {
+        "test": "test_sync",
+        "exit": 0
+      },
+      {
+        "test": "test_tabs_layout",
+        "exit": 0
+      },
+      {
+        "test": "test_tcap",
+        "exit": 0
+      },
+      {
+        "test": "test_terminal",
+        "exit": 0
+      },
+      {
+        "test": "test_titles",
+        "exit": 0
+      },
+      {
+        "test": "test_win32_input",
+        "exit": 0
+      }
+    ],
+    "mingw": [
+      {
+        "test": "test_osc_colour",
+        "exit": 0
+      },
+      {
+        "test": "test_titles",
+        "exit": 0
+      },
+      {
+        "test": "test_queries",
+        "exit": 0
+      },
+      {
+        "test": "test_state_control",
+        "exit": 0
+      },
+      {
+        "test": "test_sixel_terminal",
+        "exit": 0
+      },
+      {
+        "test": "test_terminal",
+        "exit": 0
+      }
+    ],
+    "asan_ubsan": {
+      "tests": [
+        "test_osc_colour",
+        "test_titles",
+        "test_queries",
+        "test_sixel_terminal",
+        "test_state_control"
+      ],
+      "detect_leaks": true,
+      "halt_on_error": true
+    }
+  },
+  "reference": {
+    "version": "XTerm(412)",
+    "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+    "cases": 101
+  },
+  "gdi_workload": {
+    "sample_count": 455,
+    "seconds": 49.228,
+    "peaks": {
+      "frontend": {
+        "count": 1,
+        "private_ws": 14815232,
+        "total_ws": 36917248,
+        "private_commit": 16998400
+      },
+      "hosts": {
+        "count": 3,
+        "private_ws": 7041024,
+        "total_ws": 34082816,
+        "private_commit": 9580544
+      },
+      "clients": {
+        "count": 3,
+        "private_ws": 26804224,
+        "total_ws": 53686272,
+        "private_commit": 33259520
+      },
+      "all": {
+        "count": 7,
+        "private_ws": 43634688,
+        "total_ws": 120086528,
+        "private_commit": 54820864
+      }
+    },
+    "injected": false,
+    "errors": []
+  },
+  "single_executable": {
+    "host_same_image": true,
+    "only_executable_in_directory": true,
+    "launcher_exit_preserves_console": true,
+    "embedded_licenses_bytes": 81403
+  },
+  "source_hash_scope": "sha256 hashes raw workspace bytes; sha256_lf normalizes CRLF to LF for Git blob comparison. Evidence files are preserved as raw bytes by .gitattributes.",
+  "rejected_attempts": [
+    "First GPU fixture called OwnedGPUCapture with an extra argument; corrected fixture reran all three renderers.",
+    "Initial MSVC grapheme invocation omitted its required Unicode vector file; the corrected invocation passed all 853 official vectors.",
+    "Initial Linux target list named missing test targets; OSC colour was added to Unix CMake and the final list uses existing targets.",
+    "A WSL shell loop expanded its variable in an outer shell and ran no sanitizer suites. Exit status alone was rejected; final tests used an explicit script with --exec and retained per-suite logs."
+  ]
+}

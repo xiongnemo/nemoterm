@@ -1,5 +1,17 @@
 # Nemoterm requirements and evidence ledger
 
+## Palette/title-stack checkpoint (2026-11-13)
+
+[Palette stacks and title positions](../research/palette-stacks.md) add four
+xterm controls and correct title overflow/indexed interleaving without growing
+the ten-slot storage. 101 exact XTerm cases pass in core and native GDI,
+DirectX and OpenGL; all three renderers also pass palette invalidation,
+synchronized-frame and resize checks. The new candidate passes 35 MSVC,
+six MinGW and five ASan/UBSan suites, plus the existing title tests. Its longer
+uninstrumented GDI workload peaks at 14,815,232 private WS bytes and 36,917,248
+total WS bytes, with child processes separately recorded. This does not fix
+the DirectX memory failure, promote the main executable or close the full goal.
+
 ## Latest memory checkpoint (2026-11-13)
 
 The [two-tab workload record](../research/tab-workload-memory.md) adds continuous

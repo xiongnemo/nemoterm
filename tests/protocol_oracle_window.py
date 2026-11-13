@@ -24,18 +24,20 @@ def saved_profile(values):
 
 
 def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
-        profile=None):
+        profile=None, font=None):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                     completed=False, cases={}, source_reference='XTerm(412)',
                     reference_case_count=len(cases), direct_case_names=[c[0] for c in extra_cases])
     evidence['profile_values'] = profile
+    if font is not None:evidence['requested_font'] = font
     with saved_profile(profile) as profile_args, \
             tempfile.TemporaryDirectory(prefix='nemoterm-'+name+'-') as directory, OwnedJob() as job:
         folder = Path(directory)
         report, control = folder/'report.json', folder/'control.json'
-        process = job.spawn([str(exe), *profile_args, '--cols', '80', '--rows', '24', '-e',
+        font_args = ['--font', font] if font is not None else []
+        process = job.spawn([str(exe), *profile_args, '--cols', '80', '--rows', '24', *font_args, '-e',
             sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '180'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_EXACT_OUTPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
