@@ -1,222 +1,171 @@
 # Nemoterm
 
-Windows 原生 C/C++ 终端，基于 PuTTY 0.85 的 MIT 许可终端核心、Win32 和 ConPTY。
-不使用 WebView。**开发中，尚未完成全部现代终端协议与真实 agent 验收。**
+[![Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
+[![Single executable](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml/badge.svg?branch=main)](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-这是 PuTTY Windows **pterm 的 downstream fork**，不是 PuTTY 官方版本。
-私有项目：[xiongnemo/nemoterm](https://github.com/xiongnemo/nemoterm)。
-GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原生回归，
-成功后上传 `nemoterm-single-exe-x64-<commit>` artifact，解压后只有 `nemoterm.exe`。
-许可证已嵌入 About / View Licence 和 `--licenses`，测试证据另存 artifact，保留 30 天。
-另一条 CI 执行 Windows 核心回归、MinGW 对照构建和 Linux ASan/UBSan；
-`nemoterm-windows-x64-<commit>` 是供开发对照的旧多文件包。
-该对照包使用上游预编译 OpenConsole，不包含我们的 Unicode 字节读取修复；
-实际使用请选上面的单文件产物。
+面向 Windows 的轻量原生终端：C/C++、Win32 界面、可切换渲染器，最终交付一个 `nemoterm.exe`。
 
-## 构建与启动
+Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心与压缩回滚，
+并将 Microsoft Terminal 的 OpenConsole / ConPTY 源码链接进同一可执行文件。
+本项目独立维护，非 PuTTY 或 Microsoft 官方版本。
 
-单文件版本已在本机 Windows 10 19044 和 CI Windows Server 2025 验证。
-下载 CI 产物即可使用；源码构建需要 Python、Git 子模块、CMake/Ninja、NuGet 和
-Visual Studio 2026 x64 开发者 shell。MinGW 对照构建仍使用 `scripts/build.ps1 -Tests`。
-最新开发分支也已在本机用 MSVC 构建合并后的单文件；
-[构建身份、测试范围和待完成验收](research/local-msvc-single-exe.md)。
+**项目仍在开发中。** CI 产物是开发快照；协议兼容性、真实终端应用和长期资源占用仍在持续验证。
+已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md) 和 [需求与验证记录](docs/REQUIREMENTS.md)。
+
+## 功能
+
+- **单文件分发**：无需 WebView，也无需附带 `OpenConsole.exe` 或 `conpty.dll`。
+- **Shell 选择**：检测 PowerShell 7、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash 和 cmd，支持保存默认 shell 与启动目录。
+- **多标签**：标签栏可放在上、下、左、右；支持悬停终端预览、中键关闭和标签滚动。
+- **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
+- **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct2D 合成；GPU 初始化或绘制失败时回退 GDI。
+- **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
+- **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
+
+## 下载
+
+在 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)
+中选择 **`main` 分支上成功的运行**，在页面底部的 Artifacts 下载：
+
+| 产物 | 用途 |
+| --- | --- |
+| `nemoterm-single-exe-x64-<commit>` | 单文件版本，解压后只有 `nemoterm.exe`；保留 30 天 |
+| `single-exe-evidence-<commit>` | 构建日志与原生测试证据 |
+| `unverified-single-exe-x64-<commit>` | 失败运行保留的诊断版本，未通过该轮验收 |
+
+另一条 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml)
+会生成 `nemoterm-windows-x64-<commit>`。这是 MinGW 开发对照包，需要配套的
+OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码集成修复。
+
+当前发布目标为 **Windows x64**，已有 Windows 10 19044 与 CI Windows Server 2025 的验证记录。
+不同系统版本、显卡和应用的覆盖范围以对应提交的测试记录为准。
+
+## 快速开始
+
+解压单文件产物后，在所在目录运行：
 
 ```powershell
-git submodule update --init
-.\scripts\build-single-exe.ps1
-python -m pip install frida==17.24.3 # native input/DPI test instrumentation only
-.\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
-# 下载的单文件产物可放在任意目录，以下示例放在 dist 中：
-.\dist\nemoterm.exe
-.\dist\nemoterm.exe -e pwsh.exe -NoLogo
-.\dist\nemoterm.exe --cols 100 --rows 30 --font-size 14 -e cmd.exe
-.\dist\nemoterm.exe --settings
+.\nemoterm.exe
+.\nemoterm.exe --choose-shell
+.\nemoterm.exe --shell pwsh --tabs --tab-side left
+.\nemoterm.exe --directory "C:\work" --cols 100 --rows 30
+.\nemoterm.exe --font "Consolas" --font-size 12 -e pwsh.exe -NoLogo
+.\nemoterm.exe --settings
 ```
 
-支持 `--font "字体名称"`、`--font-size 12`、`--cols 80`、`--rows 24`、
-`--scrollback 2000`、`--right-click copy|copy-paste`。`-e` 后原样传递启动命令。
-参数应放在 `-e` 之前。保存的命名配置沿用 `-load "配置名"`。
-也可以 Ctrl+右键 → Change Settings，在原生设置窗口配置字体、颜色、光标和历史。
-配置写入 `HKCU\Software\Nemo\Nemoterm`，与现有 PuTTY/pterm 分开。
+新配置默认 **160×48 字符**，放不下时缩小到所在屏幕的工作区。已有配置和显式尺寸继续生效。
+默认字体配置为 `SarasaTermSC Nerd Font Light`；可以通过 `--font` 或设置窗口选择已安装的等宽字体。
+内嵌字体用于补齐缺失的 Nerd 图标，不包含完整的中文正文字体。
 
-新配置默认 **160×48 字符**。启动时按实际字体与窗口边框计算尺寸，放不下时
-缩小字符网格到所在屏幕工作区；显式尺寸和已有配置继续生效。
-Window/Rendering 可选择默认低内存 GDI、OpenGL 或 DirectX（Direct2D 合成）。
-两种 GPU 模式使用系统 DLL 和已安装显卡驱动，无新增分发依赖；初始化或绘制失败自动回退 GDI，
-之后可通过切换模式重试。OpenGL 已允许超过原内存目标，切回 GDI 后可能需要重启窗口
-才能释放驱动保留的内存。它们缓存栅格化文字并由 GPU 合成，尚未证明比 GDI 更快。
-[OpenGL 实现与验证](research/rendering.md)；[DirectX 实现与验证](research/directx.md)。
+### Shell 与启动目录
 
-应用可通过字符或像素请求调整窗口大小；省略的维度保持当前值，显式零使用所在显示器
-可容纳的尺寸。请求遵守禁止远程调整、锁定窗口及字体缩放设置；最小化期间仍可处理
-输出和恢复尺寸。极小窗口受字符格和 Windows 标题栏最小尺寸限制。
-[参数、原生测试及平台差异](research/window-resize.md)。
+`--shell` 接受 `auto`、`pwsh`、`powershell`、`busybox-ash`、`git-bash`、`wsl-bash`、`cmd`。
+`auto` 依次尝试 PowerShell 7、Windows PowerShell、cmd。
 
-多标签使用 `--tabs` 开启，`--tab-side top|bottom|left|right` 设置标签栏位置。
-Window/Tabs 可保存启动偏好、标签栏位置和悬停终端预览设置；默认 Ctrl+Shift+T
-新建标签、Ctrl+Shift+W 关闭、Ctrl+Tab / Ctrl+Shift+Tab 切换，快捷键均可配置。
-中键关闭标签，标签过多时可滚动；[开发状态与验证范围](research/tabs-host.md)。
+- `--list-shells` 输出检测结果的 JSON；检测本身不运行 shell，也不启动 WSL 虚拟机。
+- Windows PowerShell 从系统目录查找；Git Bash 需有有效的 Git 安装；WSL Bash 需有已注册的默认发行版。
+- `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
+- `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
+- 在 Session / Shell 中保存默认选择；`-load "配置名"` 可加载命名配置。
 
-启动 shell 可选 `--shell auto|pwsh|powershell|busybox-ash|git-bash|wsl-bash|cmd`。
-`--choose-shell` 打开启动选择窗口；Session 的 Shell 下拉框和“Choose shell on
-startup”可随 Default Settings 或命名配置保存。自定义命令使用
-`--shell-command '"C:\path with spaces\shell.exe" --argument'`；`-e` 优先于保存的 shell。
-`--list-shells` 向标准输出打印 JSON，检测不会运行 shell 或启动 WSL 虚拟机。
-Windows PowerShell 从系统目录查找；Git Bash 需验证 Git 安装布局；WSL 需有注册的默认
-发行版。自动选择依次优先 pwsh、Windows PowerShell、cmd。
-本机六种 shell（含 WSL Debian）的交互命令和退出测试已通过；[记录](research/shell-selection.md)。
-内置 Windows PowerShell 配置会让子进程重建正常的模块路径，避免从 pwsh 启动
-Nemoterm 时误加载 PowerShell 7 模块而缺少系统命令。自定义命令和 `-e` 保留调用方
-的模块路径；需要临时指定模块目录时可使用这两种方式。
+更多说明见 [Shell 检测](research/shell-selection.md) 与 [工作目录集成](research/working-directory.md)。
 
-启动目录使用 `--directory "C:\work"`，或在 Session/Shell 保存；留空继承启动器目录。
-内置 Git Bash 和 WSL Bash 也接受各自的 POSIX 路径（WSL 使用默认发行版）。
-当 shell 输出 OSC 7、9;9、633 P;Cwd 或 1337 CurrentDir 时，Duplicate Session
-默认继承报告的本机目录；同页可关闭此行为。菜单的 Copy Working Directory URI
-复制规范化 file URI。远端主机的目录仅作为元数据保留；[协议、配置示例和边界](research/working-directory.md)。
+### 常用操作
 
-OpenConsole 和 ConPTY 已从固定版本的 Microsoft Terminal 源码链接进 Nemoterm。
-同一 EXE 的隐藏进程承载控制台，无运行时解压，也不需要旁边的 OpenConsole.exe 或
-conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA 证据](research/single-executable.md)。
-单文件隔离测试还验证启动器退出后，控制台子进程可以继续运行。
+| 操作 | 默认绑定 |
+| --- | --- |
+| 复制 / 粘贴 | `Ctrl+Shift+C` / `Ctrl+Shift+V` |
+| 矩形选择 | `Ctrl+左键拖动` |
+| 绕过应用鼠标捕获进行选择 | `Shift+左键拖动`；矩形选择时再加 `Ctrl` |
+| 打开上下文菜单 | `Ctrl+右键` |
+| 新建 / 关闭标签 | `Ctrl+Shift+T` / `Ctrl+Shift+W` |
+| 下一个 / 上一个标签 | `Ctrl+Tab` / `Ctrl+Shift+Tab` |
+| 关闭鼠标下的标签 | 鼠标中键 |
+| 打开 OSC 8 链接 | `Ctrl+左键单击` |
+| 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 
-默认字体为机器上安装的 `SarasaTermSC Nerd Font Light`，UTF-8，ClearType。
-该字体缺少的 Nerd 图标由 EXE 内嵌的 Symbols Nerd Font Mono 按需补齐，
-支持 BMP 和补充平面图标，无需额外安装字体；已有字形继续使用所选字体。
-回退保留字符格和复制内容，字体句柄有固定上限；[字体验证](research/font-fallback.md)。
-Window/Translation 可保存“Use grapheme cluster widths at startup”，默认关闭。
-开启后，连接的 emoji 等字符簇按整体计算列宽；应用仍可切换模式，终端复位会关闭它。
-会话内更改该选项会影响后续输出；修改其他设置会保留应用协商的状态。
-[字符簇设置与验证](research/grapheme-settings.md)。
-开发分支还修复了主字体缺失希伯来文和阿拉伯文字形时的逐格系统字体回退，
-并限制双向文字缓存的内存；[本机验证与待完成的单文件验收](research/rtl-font-fallback.md)。
+右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴。
+Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
+多标签启动使用 `--tabs`，或保存对应设置。
 
-## 交互
+通过 `--settings` 或上下文菜单中的 **Change Settings** 调整字体、颜色、光标、回滚和渲染器。
+配置保存在 `HKCU\Software\Nemo\Nemoterm`，与 PuTTY / pterm 分开。
 
-* Ctrl+Shift+C：复制选择内容；Ctrl+Shift+V：粘贴系统剪贴板。
-  Window/Bindings 可改复制、粘贴、复制并粘贴的快捷键，以及矩形选择修饰键。
-* Ctrl+左键拖选：矩形选择；应用捕获鼠标时加 Shift。拖动中松开修饰键保持选区形状。
-* 右键已选择的文本：默认只复制；可在 Window/Selection 改为复制并粘贴。
-  复制并粘贴使用当前选区，系统剪贴板繁忙时也不会粘贴旧内容。
-* Ctrl+右键：始终打开上下文菜单，其中有 Copy and Paste。
-* Shell Integration 菜单可跳到上一／下一处提示符，或选择命令、输出后用正常复制键复制。
-  需要 shell 已输出 OSC 133／633 标记；不会自动修改 shell 配置。Window/Bindings/Commands
-  可为四个动作设置快捷键，默认不绑定。选择范围只包含保留的历史；[实现边界与验证状态](research/shell-marks-design.md)。
-* Shift+左键拖选：强制选择终端字符网格，绕过应用鼠标模式；备用屏同样适用。
-* OSC 8 链接悬停显示完整地址，并为同组标签加下划线；Ctrl+左键打开，
-  Ctrl+右键菜单可打开或复制地址。拖动或按住 Shift 仍选择标签文本。
-* 没有选中文字时，普通右键在应用鼠标模式下交给应用，否则显示菜单。
-* OSC 52 允许应用复制文本；读取剪贴板默认关闭，可在 Terminal/Clipboard 分别配置读写。
-  启用读取后，运行中的会话（包括远端主机）可以获取剪贴板文本。
-* 屏幕区域校验查询默认关闭，可在 Terminal/Screen queries 启用；
-  支持 DECRQCRA 和 XTCHECKSUM，具体 Unicode 差异见[校验记录](research/rectangle-checksums.md)。
-* 默认使用现代 xterm 功能键、Home/End 和修饰键编码；命名配置可继续选择旧键盘模式。
-  Ctrl+PageUp/PageDown 在默认模式下发送给应用；Shift+PageUp/PageDown 保留本地滚动。
-* 支持应用协商 xterm modifyOtherKeys 的 0–3 级和两种编码格式；
-  Terminal/Keyboard/Extended 可设置初始值，默认关闭。kitty 增强键盘启用时优先。
-* 同一页面可启用实验选项 `Preserve Windows key events`，通过 Win32 输入协议
-  保留 Windows 控制台应用的 Shift+Enter、Ctrl+Space、左右修饰键和按键释放。
-  默认关闭：当前 ConPTY 的普通 VT 转换会丢失 F21–F24，且此路径会绕过自定义
-  传统按键编码。kitty/modifyOtherKeys 协商仍优先；[验证与限制](research/win32-input.md)。
+OSC 52 剪贴板读取默认关闭，读写权限可在 Terminal / Clipboard 分别设置。
+Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标记；程序不会自动修改 shell 配置。
 
-## 验证与边界
+## 渲染与内存
+
+Window / Rendering 可选择 GDI、OpenGL 或 DirectX（Direct2D 合成）。
+GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；目前尚未证明它们在所有场景下比 GDI 更快。
+
+GDI 的优化目标是前端私有工作集 **低于 20 MB**、总工作集约 **50 MB**，按十进制字节计。
+控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
+可选 OpenGL 模式不受 20 MB 目标约束，DirectX 仍有超标场景。切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
+
+“单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
+它继续依赖 Windows 的 ConDrv 驱动和系统 DLL。详见 [单文件架构](research/single-executable.md)、
+[OpenGL](research/rendering.md) 与 [DirectX](research/directx.md)。
+
+## 从源码构建
+
+准备 Python 3、Git、CMake、Ninja、NuGet CLI，以及 Visual Studio 2022 / 2026 的 x64 C++ 工具链
+（含 MSVC、ATL 和 Windows SDK 10.0.26100.0）。在 **x64 Developer PowerShell** 中运行：
+
+```powershell
+git clone --recurse-submodules https://github.com/xiongnemo/nemoterm.git
+cd nemoterm
+.\scripts\build-single-exe.ps1
+.\build\single-exe-dist\nemoterm.exe
+```
+
+已有 checkout 可先运行 `git submodule update --init`。
+脚本将固定版本的 Microsoft Terminal 源码复制到 `build/`，应用集成修改并链接生成单 EXE；
+不修改上游子模块。首次构建需要联网获取构建依赖。
+
+### 测试与 CI
+
+- **Test and build**：Windows 核心回归、MinGW 对照构建、MSVC 原生渲染诊断，以及 Linux ASan / UBSan 检查。
+- **Single executable from source**：从源码构建单文件版本，在隔离目录运行原生集成测试，并保存产物与证据。
+
+本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
 
 ```powershell
 .\scripts\test.ps1
 ```
 
-当前核心回归包含：鼠标 9/1000/1001/1002/1003、1005/1006/1015/1016 编码协商、
-1004 焦点、1007 备用屏滚轮、四向滚轮、两个侧键、修饰键与捕获取消，及 1049 备用屏组合，
-Shift 选择中文与组合字符、普通鼠标字节上报、真彩色/256 色、备用屏恢复、
-冒号RGB、斜体/隐藏、五种下划线及独立下划线颜色、压缩历史中的样式还原，
-DECSCUSR 光标形状/闪烁、DEC 12，以及 DECRQSS 的样式/滚动边界/尺寸读回，
-DECSTR软复位、XTSAVE/XTRESTORE模式组保存、DECNKM小键盘和DECOM光标恢复，
-矩形填充/重叠复制/属性修改及流式范围，保留组合字符、保护位和链接；[矩形编辑验证](research/rectangle-editing.md)，
-左右滚动边距及跨边界 Sixel 按列滚动；[边距验证](research/horizontal-margins.md)，
-XTGETTCAP 终端名/颜色/逻辑按键查询、应用光标模式及修饰键组合，
-kitty 键盘协议的五种增强标志、主/备用屏独立模式栈、按下/重复/释放、备用键码与关联文本，
-逐字节 OSC 标题、调色板/默认颜色设置与查询、括号粘贴，以及 Sixel 解码的精确像素/内存预算/异常输入。
-OSC 8 已接入字符格、压缩历史、覆盖/擦除和按已绘制画面命中地址的核心接口；
-链接记录上限为 256 KiB / 1024 条，旧编号回收后不会指向新地址。
-Terminal/Hyperlinks 设置可禁用 OSC 8，或允许注册的自定义 URI 协议。
-默认可打开 HTTP、HTTPS、FTP、mailto 和本机 Windows 驱动器的 file 链接；
-file 主机必须为空、localhost 或匹配本机名称。远程文件地址可复制，不能直接打开。
-`python tests/hyperlink_window_smoke.py` 通过临时 URI 处理器验证实际打开的完整地址、
-悬停分组像素、最长地址、菜单/剪贴板、配置开关、Shift 拖选、四种应用鼠标模式、
-捕获取消、缩放及同步输出。另用 6,000 个长链接与 800 张 Sixel 验证淘汰和进程内存。
-`python tests/keyboard_window_smoke.py` 检查 kitty 协商后经过实际 ConPTY 的输入字节，
-包括 Unicode 提交、修饰键、失焦清理、窗口缩放和 Ctrl+Shift+C/V 括号粘贴。
-`python tests/mok_window_smoke.py` 检查 xterm modifyOtherKeys 的等级、格式、修饰位屏蔽、
-查询/复位、Unicode、kitty 优先级和相同的复制/鼠标/缩放行为；另测保存的初始配置。
-独立 xterm 对照、Windows 映射和已知差异见 [编码记录](research/modify-other-keys.md)。
-`python tests/state_control_window_smoke.py` 检查软复位保留文字/Sixel、鼠标模式组恢复、
-缩放后的像素坐标、Shift复制和同步绘制；[XTerm对照与状态语义](research/state-control.md)。
-`python tests/win32_input_window_smoke.py` 使用临时配置启用 Win32 输入，验证真实
-`ReadConsoleInputW` 记录、UTF-16、重复次数、Ctrl+C/Ctrl+Break 信号、尺寸通知和
-VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试结束删除临时配置。
-`powershell.exe -NoProfile -File tests/settings_window_smoke.ps1` 检查真实设置窗口的
-选项可见性、右键默认策略、保存/加载和从设置页启动本地会话；[设置截图](research/mok-settings.png)。
-`python tests/osc52_window_smoke.py` 检查四种应用剪贴板权限、中文/emoji、
-本地选区保留、同步输出、锁竞争和延迟读取期间窗口响应，以及复位后的迟到回复取消。
-每次 OSC 52 文本上限 256 KiB；系统剪贴板、本地选区及有界的辅助缓冲区分别处理。
-核心测试直接调用 Windows 布局转换器验证美式、俄语、德语 AltGr 和美式国际死键，
-不会激活或切换用户布局；真实 IME 候选窗口、更多物理键盘及长期 agent 使用仍需验收。
-`python tests/codex_window_smoke.py` 使用实际 Codex 0.167.0 客户端连接本地测试响应，
-验证中文/emoji、流式 Markdown、长回复、32 次缩放、Shift 选择和 Ctrl+Shift+C/V；
-`--inline` 验证非备用屏模式。配置和会话使用临时目录，无需 API 密钥或在线模型。
-`--tabs` 将同一套检查放入标签窗口；单文件 CI 固定客户端版本并运行独立窗口、
-标签窗口各自的备用屏与非备用屏模式。[复现、修复及验收范围](research/real-agent.md)。
-内置宿主已修复 UTF-16 代理项释放事件导致的 emoji 丢失；快速跨位置拖选也不会再被
-误判为双击/三击。同位置的词/行选择及应用高亮协议继续保留。
-截图见 [链接悬停](research/hyperlink-hover.png) 与 [完整地址](research/hyperlink-address.png)。
-`python tests/mouse_window_smoke.py` 另验证真实 Win32 消息经 ConPTY 到子进程的
-拖动/像素/滚轮/侧键/焦点输入、多键捕获、Shift 事件隔离，以及连续缩放和最大化/还原的窗口尺寸通知。
-`python tests/sync_window_smoke.py` 验证 2026 同步输出期间的像素保持、
-查询与输入、结束/超时/缩放释放，以及整个进程的工作集；快照使用有界压缩条带。
-`python tests/sgr_window_smoke.py` 检查样式、颜色、复位及同步快照的真实像素，
-并检查中英文斜体字形宽度，防止字体平均宽度和终端格宽混用导致字形被压窄。
-截图见 [SGR 样式](research/sgr-styles.png)。
-`python tests/font_resize_window_smoke.py` 验证“缩放字体”模式下的横向、纵向、
-同时放大和恢复，检查字形宽度、固定行列数及 GDI 句柄回收。
-`python tests/query_window_smoke.py` 检查三种光标的实际像素、闪烁开关、
-状态查询、缩放后的尺寸读回和同步输出期间的光标保持；
-另对照普通/应用光标模式的能力查询与 15 类真实窗口按键消息传给 ConPTY 子进程的字节。
-`python tests/highlight_window_smoke.py` 检查 1001 应用高亮握手、准确选区像素、
-正反向及多击回报、Shift 接管、超时与缩放清理；[高亮截图](research/highlight-selection.png)。
-`python tests/sixel_window_smoke.py` 逐像素检查图片随窗口行列变化保留、横向裁剪/恢复、
-主屏临时历史和备用屏删除行、局部滚动与移动后擦除，并记录工作集。
-`python tests/sixel_font_window_smoke.py` 验证字体尺寸变化后保留图片和擦除孔洞，
-包括新格宽/格高下擦除、分段滚动、历史与主/备用屏。图片保持原始像素尺寸，
-起点和滚动位移随字符格变化；不复制或重采样位图。真实多屏 DPI 切换仍待验收。
-这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)
-和 [逐项协议覆盖清单](docs/PROTOCOL_COVERAGE.md)。
+单文件原生集成测试：
 
-本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；单文件版本已将
-固定版本的微软 ConPTY/OpenConsole 源码编入 EXE，并通过真实窗口 Sixel 色块显示验证。
-使用 `nemoterm-single-exe-x64-<commit>` 产物时，只需其中的 `nemoterm.exe`。
-仅 MinGW 开发对照包仍需保留附带的 DLL 和 OpenConsole。
-原生 x64 已实测；`NEMOTERM_CONPTY=system` 可显式选择系统实现用于对照。
-完整协议、图片复杂生命周期与真实 agent 仍需继续验收。
+```powershell
+python -m pip install frida==17.24.3
+.\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
+```
 
-窗口缩放已通过实际 ConPTY 尺寸通知验证，并修复备用屏被清空的问题。
-主屏与回滚历史默认按新列宽重排，保留软/硬换行、宽字符、组合音标、样式和超链接。
-Window 中可关闭重排，恢复裁剪/放大还原行为。备用屏、Sixel 覆盖行及 DEC 双宽/双高行
-保持网格布局；图片不被拆分或重采样。`python tests/reflow_window_smoke.py` 检查真实
-ConPTY 下的长行、历史、Shift 选择复制与宽高变化；[实现与验证](research/reflow.md)。
+原生集成测试会打开窗口并测试输入和剪贴板，应在空闲桌面或专用测试环境运行。
+测试结果只适用于记录的提交、系统和场景；编译成功不代表运行验收通过。
 
-内存按用户确认的口径：每窗口私有工作集 <20,000,000 bytes，总工作集约
-50,000,000 bytes。量测记录同时列出 ConPTY 和子进程，禁止用主动清空工作集
-制造低数值。`scripts/measure-memory.ps1 -ProcessId <PID>` 可复查。
-文本与颜色图形基线已低于目标，图片、长历史与真实 agent 还需要继续验收。
-开发版本的[双标签负载采样](research/tab-workload-memory.md)中，GDI 私有工作集峰值
-约 14.78 MB，DirectX 约 29.53 MB；DirectX 尚未达到内存目标，CI 保留失败门槛。
+## 开发状态
 
-[pterm 研究报告](research/pterm-findings.md) 记录制品散列、REA 导入表、官方源码依据
-和实测内存。PuTTY 的压缩回滚、按变化绘制和原生数据结构是当前实现的基础。
+主分支与开发分支的验证进度可能不同。最新开发改动及待验证项见
+[开发分支需求账本](https://github.com/xiongnemo/nemoterm/blob/feature/attribute-colour-settings/docs/REQUIREMENTS.md)。
+部分新颜色设置、字符集恢复和字符保护改动仍在验证中，尚未全部合入 `main`。
 
-## 许可与来源
+长期鼠标与窗口生命周期、真实 IME / 多显示器 DPI、长时间终端应用负载仍有待完成的验收。
+kitty / iTerm 图片、彩色 emoji 和完整 ISO 2022 等能力不能视为已完整支持；
+各转义序列的状态以 [协议支持表](docs/PROTOCOLS.md) 为准。
 
-`vendor/putty-0.85/` 是官方发布源码加 Nemoterm 修改，不是全新从零实现。
-原版权及 MIT 许可保留于 [LICENCE](vendor/putty-0.85/LICENCE)。
-新 Sixel 代码使用 MIT。构建产物同时复制上游许可文件。
-下载来源和 SHA-256 见 [需求账本](docs/REQUIREMENTS.md)。
+提交问题时，请附上提交号或 CI 产物名、Windows 版本、shell、渲染模式和可复现步骤。
+
+## 许可与上游
+
+Nemoterm 自有代码采用 [MIT License](LICENSE)。第三方代码、字体与数据保留各自的许可和声明：
+
+| 来源 | 用途与许可 |
+| --- | --- |
+| [PuTTY 0.85](vendor/putty-0.85/LICENCE) | pterm 终端核心与 Win32 基础，MIT |
+| [Microsoft Terminal](https://github.com/microsoft/terminal/tree/f6de9e0618015def1c9dda5b82f9d3abf03eb799) | 固定版本的 OpenConsole / ConPTY，MIT 与第三方声明 |
+| [Nerd Fonts](vendor/nerd-fonts/README.md) | 内嵌图标字体，保留其许可与组件声明 |
+
+单文件产物将许可嵌入 EXE，可通过 **About / View Licence** 或 `--licenses` 查看。
+上游源码研究和最初的内存分析见 [pterm 研究记录](research/pterm-findings.md)。
