@@ -1,5 +1,11 @@
 # Parameterized underline discovery
 
+CI follow-up at `6cbe05f`: the single-image workflow passed all 93 groups, but
+the compiler comparison failed during hyperlink teardown. The
+[fixture correction and retained failure evidence](hyperlink-shutdown.md)
+keep that failure separate from the successful underline checks. Full CI for
+the correction is pending; this feature has not yet replaced the accepted build.
+
 Nemoterm can already render styled and coloured underlines. Programs using
 XTGETTCAP could not discover the parameterized sequences, because `Smulx` and
 `Setulc` were unknown. The current development source now returns these two

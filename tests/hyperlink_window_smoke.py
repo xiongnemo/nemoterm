@@ -4,6 +4,8 @@ import winreg
 import re
 import argparse
 from contextlib import contextmanager
+from owned_job import OwnedJob, k as job_api
+from frida_test_utils import call_frida, detach_session
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
@@ -33,21 +35,91 @@ class PointerModel:
         import frida
         owner=w.DWORD();u.GetWindowThreadProcessId(hwnd,c.byref(owner))
         assert owner.value==pid
-        self.session=frida.attach(pid);self.record=record
+        self.session=call_frida('hyperlink attach',frida.attach,pid);self.record=record
         self.script=self.session.create_script('const ownedWindow=ptr("'+hex(hwnd)+'");\n'+
             (root/'tests/hyperlink_message_probe.js').read_text())
         record['input_trace']=[];record['memory_instrumented']=True
         self.script.on('message',lambda message,data:record['input_trace'].append(message.get('payload',message)))
-        try:self.script.load()
-        except BaseException:self.session.detach();raise
+        try:call_frida('hyperlink load',self.script.load)
+        except BaseException:detach_session(self.session);raise
     def snapshot(self):
         import frida
         try:self.record['pointer_model']=self.script.exports_sync.stats()
         except frida.InvalidOperationError:self.record['observer_detached']=True
     def close(self):
-        import frida
-        try:self.session.detach()
-        except frida.InvalidOperationError:pass
+        detach_session(self.session)
+
+
+def shutdown_fixture(process, control, report, hwnd, pointer, job, record, publish):
+    """Keep the ten-second normal-exit gate, and retain failure provenance."""
+    handles = job.member_handles()
+    identities = []
+    for handle in handles:
+        path, length = c.create_unicode_buffer(32768), w.DWORD(32768)
+        value = dict(pid=job_api.GetProcessId(handle))
+        if job_api.QueryFullProcessImageNameW(handle, 0, path, c.byref(length)):
+            value['path'] = path.value
+        else:
+            value['path_error'] = c.get_last_error()
+        identities.append(value)
+    def checkpoint(stage):
+        record['shutdown_stage'] = stage
+        publish()
+    def processes():
+        values = []
+        # Cache image paths while alive: QueryFullProcessImageName can fail
+        # after exit even though a retained process handle still has its code.
+        for handle, identity in zip(handles, identities):
+            value, code = dict(identity), w.DWORD()
+            if job_api.GetExitCodeProcess(handle, c.byref(code)):
+                value['exit_code'] = code.value
+            else:
+                value.update(exit_code=None, exit_query_error=c.get_last_error())
+            values.append(value)
+        return values
+    try:
+        try:
+            try:
+                if pointer:
+                    checkpoint('detach-live-observer')
+                    pointer.snapshot()
+                    alive = process.poll() is None
+                    pointer.close()
+                    record['observer_detached_before_stop'] = alive
+            finally:
+                checkpoint('request-child-stop')
+                write_snapshot(control, {'stop': True})
+                if hwnd:
+                    # Cancel fixture UI state without typing Escape into a
+                    # child that may already be shutting down.
+                    u.PostMessageW(hwnd, 0x1f, 0, 0)  # WM_CANCELMODE
+                checkpoint('wait-natural-exit')
+                try:
+                    record['frontend_exit_code'] = process.wait(timeout=10)
+                    assert record['frontend_exit_code'] == 0, record
+                except subprocess.TimeoutExpired:
+                    record['shutdown_timeout'] = True
+                    record['processes_at_timeout'] = processes()
+                    last = read_snapshot(report)
+                    record['last_child_report'] = {key:last.get(key) for key in ('phase','error','input_mode')}
+                    checkpoint('close-after-failed-deadline')
+                    if hwnd: u.PostMessageW(hwnd, 0x10, 0, 0)
+                    try: process.wait(timeout=5)
+                    except subprocess.TimeoutExpired: pass
+                    raise
+        finally:
+            record['processes_before_job_cleanup'] = processes()
+            checkpoint('drain-owned-job')
+            record['owned_job_cleanup'] = job.finish(grace=3)
+            record['processes_after_job_cleanup'] = processes()
+            assert not record['owned_job_cleanup']['terminated_remaining'], record
+    except BaseException as error:
+        record['cleanup_error'] = repr(error)
+        raise
+    finally:
+        for handle in handles: job_api.CloseHandle(handle)
+        publish()
+    checkpoint('closed')
 
 class GuiThreadInfo(c.Structure):
     _fields_ = [('cbSize', w.DWORD), ('flags', w.DWORD)] + [(name, w.HWND) for name in
@@ -144,17 +216,20 @@ def preference_checks():
         with tempfile.TemporaryDirectory(prefix='nemoterm-link-policy-') as directory:
             directory = Path(directory)
             launches = directory/'launches'; launches.mkdir()
-            with settings(launches, custom=disabled, disabled=disabled) as (scheme, profile):
+            with settings(launches, custom=disabled, disabled=disabled) as (scheme, profile), OwnedJob() as job:
                 report, control = directory/'report.json', directory/'control.json'
-                process = subprocess.Popen([str(exe), '-load', profile,
+                process = job.spawn([str(exe), '-load', profile,
                     '--cols', '40', '--rows', '8', '--right-click', 'copy-paste', '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
                     creationflags=subprocess.CREATE_NO_WINDOW)
                 hwnd = None;pointer=None
+                record={};evidence.setdefault('pointer_observations',[]).append(record)
+                def publish():
+                    write_snapshot(root/'research/hyperlink-window-observed.json',
+                                   dict(scope='preferences',preferences=evidence,completed=False))
                 try:
                     hwnd = wait_for(lambda: find_window(process.pid))
-                    record={};evidence.setdefault('pointer_observations',[]).append(record)
                     pointer=PointerModel(process.pid,hwnd,record)
                     wait_for(lambda: read_snapshot(report))
                     rect = w.RECT()
@@ -221,18 +296,12 @@ def preference_checks():
                             saved.restore()
                     assert process.poll() is None
                 finally:
-                    if pointer:pointer.snapshot()
-                    write_snapshot(control, {'stop': True})
-                    try:
-                        process.wait(timeout=10)
-                    except subprocess.TimeoutExpired:
-                        if hwnd: u.PostMessageW(hwnd, 0x10, 0, 0)
-                        try: process.wait(timeout=5)
-                        except subprocess.TimeoutExpired:
-                            process.terminate(); process.wait(timeout=5)
-                        raise
-                    finally:
-                        if pointer:pointer.close()
+                    if sys.exc_info()[0]: record['functional_error']=repr(sys.exc_info()[1])
+                    shutdown_fixture(process, control, report, hwnd, pointer, job, record, publish)
+                assert record['observer_detached_before_stop'], record
+                assert all(p['exit_code'] == 0 for p in record['processes_after_job_cleanup']), record
+                record['completed'] = True
+                publish()
     return evidence
 
 def clipboard_contention(action, duration):
@@ -267,9 +336,9 @@ preferences = {} if args.activation_only else preference_checks()
 with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
     directory = Path(directory)
     launches = directory/'launches'; launches.mkdir()
-    with settings(launches) as (scheme, profile):
+    with settings(launches) as (scheme, profile), OwnedJob() as job:
         report, control = directory/'report.json', directory/'control.json'
-        process = subprocess.Popen([str(exe), '-load', profile,
+        process = job.spawn([str(exe), '-load', profile,
             '--cols', '40', '--rows', '12', '-e', sys.executable,
             str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
@@ -477,8 +546,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                 assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), received
                 evidence['mouse-'+str(mode)] = received.hex()
             if args.activation_only:
-                evidence['completed']=True
-                print('Local hyperlink activation and app-mouse modes passed; clipboard not tested')
+                evidence['functional_completed']=True
                 raise SystemExit(0)
             phase('menu-copy', scene)
             menu(0x1d0)
@@ -636,27 +704,29 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                             peak_private_commit=max(s['private_commit'] for s in samples),
                             executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest())
             assert evidence['peak_private_ws'] < 20_000_000, evidence
-            evidence['completed'] = True
-            (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
-            print('Native hyperlink checks passed:',len(evidence['activations']),'activations;',
-                  evidence['peak_private_ws'],'bytes sampled private WS; owned pointer instrumentation')
+            evidence['functional_completed'] = True
         finally:
-            if message_session:message_session.snapshot()
-            (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
+            error = sys.exc_info()[1]
+            activation_done = (args.activation_only and isinstance(error, SystemExit)
+                               and error.code == 0 and evidence.get('functional_completed'))
+            if error is not None and not activation_done:
+                evidence['functional_error']=repr(error)
+            def publish():
+                write_snapshot(root/'research/hyperlink-window-observed.json', evidence)
             try:
                 if clipboard: clipboard.restore()
             finally:
                 stop.set(); worker.join(2); k.CloseHandle(handle)
-                write_snapshot(control, {'stop': True})
-                if hwnd:
-                    u.PostMessageW(hwnd, 0x100, 0x1b, 1)  # close any test popup
-                try:
-                    process.wait(timeout=10)
-                except subprocess.TimeoutExpired:
-                    if hwnd: u.PostMessageW(hwnd, 0x10, 0, 0)
-                    try: process.wait(timeout=5)
-                    except subprocess.TimeoutExpired:
-                        process.terminate(); process.wait(timeout=5)
-                    raise
-                finally:
-                    if message_session:message_session.close()
+                shutdown_fixture(process, control, report, hwnd, message_session, job, evidence, publish)
+            if activation_done:
+                assert evidence['observer_detached_before_stop'], evidence
+                assert all(p['exit_code'] == 0 for p in evidence['processes_after_job_cleanup']), evidence
+                evidence['completed'] = True
+                publish()
+                print('Local hyperlink activation, app-mouse modes and natural shutdown passed; clipboard not tested')
+        assert evidence['functional_completed'] and evidence['observer_detached_before_stop'], evidence
+        assert all(p['exit_code'] == 0 for p in evidence['processes_after_job_cleanup']), evidence
+        evidence['completed'] = True
+        publish()
+        print('Native hyperlink checks and natural shutdown passed:',len(evidence['activations']),'activations;',
+              evidence['peak_private_ws'],'bytes sampled private WS; owned pointer instrumentation')
