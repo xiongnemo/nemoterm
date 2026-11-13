@@ -82,3 +82,21 @@ resource-pool change is rejected and restored to the `3f7a9fd` product source.
 The earlier 22,409,216-byte candidate is retained for fresh validation under
 the new policy; a historical 20 MB failure is not relabelled as a CI pass.
 Local runtime tests remain paused; downloaded binaries are evidence only.
+
+## Fresh acceptance under the approved 25 MB policy
+
+[Single-image run 43453719414](https://github.com/xiongnemo/nemoterm/actions/runs/43453719414)
+at `7fc3c9c` passes all **85** groups, including normal tab workloads after the
+independent protocol, pixel, settings and Codex checks. DirectX frontend private
+WS peaks at **21,970,944 bytes**, total WS at **59,580,416**, and private
+commitment at **24,432,640**. GDI peaks at **10,981,376** private bytes. Both
+workloads pass their renderer-specific gates and drain owned processes naturally.
+The approximate 50 MB total-WS target is still exceeded by this DirectX workload.
+
+The downloaded 4,437,504-byte EXE has SHA-256
+`5ac65874e49ea7b08077b44aa62ebb55524c01e0da88213702a161dc21ec25d1`.
+The [main-branch evidence manifest](https://github.com/xiongnemo/nemoterm/blob/main/research/memory-budget-validation.json)
+retains the exact artifact IDs, functional results and lossless raw memory
+samples. This is fresh validation, not relabelling the earlier 20 MB failures.
+The separate MinGW comparison still fails on a mixed-profile close timeout;
+the development image therefore does not replace the main verified download.

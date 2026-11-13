@@ -70,5 +70,27 @@
     "reference_executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
     "path": "research/protocol-reference-evidence/20261114-attribute-reset-follow-up.json",
     "sha256": "c2c6e87c7821ce8fbb8571e8ee12480d757ccddb073fbaf57577d1290f52edfa"
+  },
+  "attribute_reset_reference_verification": {
+    "run": 43457215148,
+    "artifact": 14054327020,
+    "fixture_commit": "3157a4181b69625536caf03651cd3a83caf90e5c",
+    "result": "success",
+    "product_matching_cases": 37,
+    "documented_differences": 2,
+    "additional_reference_observations": 8,
+    "full_product_parity": false,
+    "files": [
+      {
+        "path": "research/protocol-reference-evidence/20261114-attribute-reset-verified.json",
+        "bytes": 25363,
+        "sha256": "c2c6e87c7821ce8fbb8571e8ee12480d757ccddb073fbaf57577d1290f52edfa"
+      },
+      {
+        "path": "research/protocol-reference-evidence/20261114-attribute-reset-comparison.json",
+        "bytes": 2371,
+        "sha256": "05851d2bee7e0ef93446f58ae45ce736eddedec3e0f5a1ff66d614812be31d23"
+      }
+    ]
   }
 }

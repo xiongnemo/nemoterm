@@ -1,0 +1,56 @@
+{
+  "matching_product_cases": [
+    "set-query-4-256-st",
+    "set-query-4-256-bel",
+    "set-query-5-0-st",
+    "set-query-5-0-bel",
+    "set-query-4-257-st",
+    "set-query-4-257-bel",
+    "set-query-5-1-st",
+    "set-query-5-1-bel",
+    "set-query-4-258-st",
+    "set-query-4-258-bel",
+    "set-query-5-2-st",
+    "set-query-5-2-bel",
+    "set-query-4-259-st",
+    "set-query-4-259-bel",
+    "set-query-5-3-st",
+    "set-query-5-3-bel",
+    "set-query-4-260-st",
+    "set-query-4-260-bel",
+    "set-query-5-4-st",
+    "set-query-5-4-bel",
+    "aliases",
+    "reset-special-all",
+    "reset-indexed-all",
+    "reset-alias",
+    "ordinary-reset-preserves-special",
+    "invalid-special-index",
+    "private-cursor-index-is-not-special",
+    "invalid-specification",
+    "negative-index",
+    "incomplete-pair",
+    "mode-does-not-set-colour",
+    "stack-restores-colours",
+    "stack-restores-defaults",
+    "reset-ris",
+    "reset-decstr",
+    "retain-alternate",
+    "retain-sgr"
+  ],
+  "known_differences": [
+    {
+      "name": "reset-one-special",
+      "product_expected_hex": "1b5d353b303b7267623a313131312f323232322f333333331b5c1b5d353b313b7267623a343434342f353535352f363636361b5c1b5d353b323b7267623a666666662f666666662f666666661b5c1b5d353b333b7267623a616161612f626262622f636363631b5c1b5d353b343b7267623a646464642f656565652f666666661b5c",
+      "reference_reply_hex": "1b5d353b303b7267623a313131312f323232322f333333331b5c1b5d353b313b7267623a666666662f666666662f666666661b5c1b5d353b323b7267623a666666662f666666662f666666661b5c1b5d353b333b7267623a616161612f626262622f636363631b5c1b5d353b343b7267623a646464642f656565652f666666661b5c"
+    },
+    {
+      "name": "overflow-index",
+      "product_expected_hex": "1b5d353b303b7267623a313131312f323232322f333333331b5c1b5d353b313b7267623a343434342f353535352f363636361b5c1b5d353b323b7267623a373737372f383838382f393939391b5c1b5d353b333b7267623a616161612f626262622f636363631b5c1b5d353b343b7267623a646464642f656565652f666666661b5c",
+      "reference_reply_hex": "1b5d353b303b7267623a666666662f303030302f303030301b5c1b5d353b313b7267623a343434342f353535352f363636361b5c1b5d353b323b7267623a373737372f383838382f393939391b5c1b5d353b333b7267623a616161612f626262622f636363631b5c1b5d353b343b7267623a646464642f656565652f666666661b5c"
+    }
+  ],
+  "unexpected_cases": [],
+  "additional_reference_cases": 8,
+  "product_parity": false
+}

@@ -93,6 +93,23 @@ collector now checks exact upstream bytes for both known differences, reports
 them separately from matching product cases, and still fails on any unexpected
 reply. This does not claim full parity or change either product assertion.
 
+The [reference verification at 3157a41](https://github.com/xiongnemo/nemoterm/actions/runs/43457215148)
+passes: 37 product cases agree, two documented upstream differences match their
+recorded bytes, and eight extra observations remain available. The raw capture
+and separate comparison report are retained in the
+[reference manifest](protocol-reference-validation.json).
+
+Product source `1051ddf` passes the Windows OSC-colour suite, ASan/UBSan job and
+MSVC native renderer diagnostics. Its comparison workflow then exposes an old
+settings-test assumption: `attribute-unrelated-settings` expected application
+red to survive after the preceding grapheme checks had sent both DECSTR and
+RIS. The actual reply correctly contains the configured defaults. Fixture
+`ea042bc` checks unrelated-setting preservation before those resets, asserts
+the default replies after each reset, then reapplies red before the explicit
+OSC 105 reset check. This adds checks rather than accepting an arbitrary reply.
+Its complete native workflows remain pending; the earlier single-image run was
+superseded by this corrected fixture and is not claimed as passing.
+
 39 authored wire cases cover aliases, BEL/ST, selective/full resets, malformed
 inputs, stack retention and screen/reset interactions. The mock-renderer suite
 adds each mode, priority combinations, preserved stored attributes, explicit
