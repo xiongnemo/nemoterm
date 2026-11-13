@@ -112,3 +112,15 @@ trace of the sidecar mismatch. Do not call the entire comparison CI green.
 DirectX allocation ownership, historical close stalls, physical IME/multi-monitor
 behaviour, the requested local Sarasa workload and the remaining protocol ledger
 are still open. This checkpoint does not complete the terminal goal.
+
+## Mixed-profile close timeout under the new memory policy
+
+[Core run 43453719351](https://github.com/xiongnemo/nemoterm/actions/runs/43453719351)
+at `7fc3c9c` passes its MSVC renderer diagnostics and ASan/UBSan jobs, but the
+MinGW native job stops in the mixed-profile fixture. Its six functional groups,
+including 36 exact-frame renderer switches, pass before the frontend fails to
+exit within 15 seconds of the tab host's close request. The
+[raw record](ci-fixture-recovery-evidence/tabs-profiles-7fc3c9c-close-timeout.json)
+retains the forced cleanup and exact image identity. This failure predates the
+guarded-area test in that run and is not a memory assertion. No close assertion
+or timeout is relaxed; the UI-thread cause is not yet established.
