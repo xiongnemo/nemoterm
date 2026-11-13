@@ -4339,6 +4339,27 @@ static void do_text_internal(
             emoji_base=nemo_grapheme_is_emoji(cp,false);
         }
         text=cluster_text;
+        /* Private icon fonts registered with GDI need not be visible to
+         * DirectWrite's system collection. A variation selector alone has
+         * no defined emoji presentation for a private-use character: retain
+         * its existing GDI/embedded-font glyph and ignore only the selector
+         * for drawing, leaving the stored cluster unchanged. */
+        unsigned long base=text[0];int base_units=1;
+        if (len>1 && IS_SURROGATE_PAIR(text[0],text[1])) {
+            base=FROM_SURROGATES(text[0],text[1]);base_units=2;
+        }
+        if ((base>=0xe000 && base<=0xf8ff) ||
+            (base>=0xf0000 && base<=0xffffd) || (base>=0x100000 && base<=0x10fffd)) {
+            int end=base_units;
+            while (end<len) {
+                if (IS_LOW_VARSEL(text[end])) end++;
+                else if (end+1<len && IS_HIGH_VARSEL(text[end],text[end+1])) end+=2;
+                else break;
+            }
+            if (end==len && end>base_units) {
+                len=base_units;whole_cluster=false;attr&=~TATTR_COMBINING;
+            }
+        }
     }
 
     lattr &= LATTR_MODE;

@@ -1,0 +1,335 @@
+{
+  "executable_sha256": "8788037259993d0f5ae297e4006369b724d5496a2264916e24e2c119c36ac384",
+  "font": "Consolas",
+  "font_resize": false,
+  "modes": [
+    {
+      "requested": 0,
+      "active": 1,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster",
+        "Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection releases sync output before selecting"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 3309568,
+          "total_ws": 27492352,
+          "private_commit": 4300800
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28139520,
+          "private_commit": 4431872
+        },
+        {
+          "private_ws": 3362816,
+          "total_ws": 28413952,
+          "private_commit": 4546560
+        },
+        {
+          "private_ws": 3358720,
+          "total_ws": 28450816,
+          "private_commit": 4546560
+        },
+        {
+          "private_ws": 3366912,
+          "total_ws": 28487680,
+          "private_commit": 4554752
+        },
+        {
+          "private_ws": 3379200,
+          "total_ws": 28516352,
+          "private_commit": 4558848
+        },
+        {
+          "private_ws": 3379200,
+          "total_ws": 28553216,
+          "private_commit": 4558848
+        },
+        {
+          "private_ws": 3379200,
+          "total_ws": 28569600,
+          "private_commit": 4558848
+        },
+        {
+          "private_ws": 3387392,
+          "total_ws": 28622848,
+          "private_commit": 4567040
+        },
+        {
+          "private_ws": 3440640,
+          "total_ws": 28794880,
+          "private_commit": 4595712
+        },
+        {
+          "private_ws": 3444736,
+          "total_ws": 28930048,
+          "private_commit": 4603904
+        },
+        {
+          "private_ws": 3436544,
+          "total_ws": 29044736,
+          "private_commit": 4608000
+        }
+      ],
+      "peak_private_ws": 3444736,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        9,
+        19
+      ],
+      "clipboard_tested": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 1,
+      "active": 1,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster",
+        "Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection releases sync output before selecting"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 3268608,
+          "total_ws": 27283456,
+          "private_commit": 4141056
+        },
+        {
+          "private_ws": 3342336,
+          "total_ws": 27951104,
+          "private_commit": 4304896
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28213248,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28241920,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28254208,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28266496,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28286976,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28291072,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28340224,
+          "private_commit": 4329472
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28438528,
+          "private_commit": 4354048
+        },
+        {
+          "private_ws": 3346432,
+          "total_ws": 28540928,
+          "private_commit": 4366336
+        },
+        {
+          "private_ws": 3407872,
+          "total_ws": 28692480,
+          "private_commit": 4370432
+        }
+      ],
+      "peak_private_ws": 3407872,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        9,
+        19
+      ],
+      "clipboard_tested": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster",
+        "Shift-Ctrl rectangles and Ctrl-Shift-C preserve clusters; local selection releases sync output before selecting"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 6078464,
+          "total_ws": 37609472,
+          "private_commit": 7450624
+        },
+        {
+          "private_ws": 6295552,
+          "total_ws": 38428672,
+          "private_commit": 7712768
+        },
+        {
+          "private_ws": 6303744,
+          "total_ws": 38694912,
+          "private_commit": 7745536
+        },
+        {
+          "private_ws": 6307840,
+          "total_ws": 38727680,
+          "private_commit": 7749632
+        },
+        {
+          "private_ws": 6311936,
+          "total_ws": 38744064,
+          "private_commit": 7753728
+        },
+        {
+          "private_ws": 6316032,
+          "total_ws": 38760448,
+          "private_commit": 7757824
+        },
+        {
+          "private_ws": 6324224,
+          "total_ws": 38789120,
+          "private_commit": 7766016
+        },
+        {
+          "private_ws": 6328320,
+          "total_ws": 38797312,
+          "private_commit": 7770112
+        },
+        {
+          "private_ws": 6336512,
+          "total_ws": 38854656,
+          "private_commit": 7778304
+        },
+        {
+          "private_ws": 6344704,
+          "total_ws": 38961152,
+          "private_commit": 7815168
+        },
+        {
+          "private_ws": 6356992,
+          "total_ws": 39075840,
+          "private_commit": 7835648
+        },
+        {
+          "private_ws": 6987776,
+          "total_ws": 39796736,
+          "private_commit": 8466432
+        }
+      ],
+      "peak_private_ws": 6987776,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        9,
+        19
+      ],
+      "clipboard_tested": true,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "completed": true
+}

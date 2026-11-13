@@ -9,6 +9,9 @@
 #include <new>
 #include <cstring>
 #include <cmath>
+#include <cstdio>
+#include <cstdarg>
+#include <float.h>
 
 static const unsigned MAX_UNITS = 66; /* base plus 32 extensions, UTF-16 */
 static const unsigned MAX_PIXELS = 65536; /* 256 KiB raster scratch */
@@ -33,8 +36,22 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     COLORREF colour=0;
     bool shadow_bold=false;
     FLOAT draw_scale=1;
+    HANDLE trace=INVALID_HANDLE_VALUE;
+    unsigned trace_count=0;
+    bool trace_glyph=false;
+
+    void trace_line(const char *pattern, ...) {
+        if (trace==INVALID_HANDLE_VALUE) return;
+        char line[2048];va_list args;va_start(args,pattern);
+        int n=std::vsnprintf(line,sizeof(line)-2,pattern,args);va_end(args);
+        if (n<0) return;
+        if (n>static_cast<int>(sizeof(line)-2)) n=sizeof(line)-2;
+        line[n++]='\n';DWORD written;
+        WriteFile(trace,line,n,&written,nullptr);
+    }
 
     ~NemoClusterRenderer() {
+        if (trace!=INVALID_HANDLE_VALUE) CloseHandle(trace);
         release(format);release(target);release(params);release(interop);release(factory);
         if (normaliz) FreeLibrary(normaliz);
         if (library) FreeLibrary(library);
@@ -42,6 +59,13 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     bool init() {
         if (attempted) return factory && interop && params && normalize;
         attempted=true;
+        /* Opt-in diagnostics for an owned test process. No trace file exists
+         * in normal use, and only the first 64 selected clusters are logged. */
+        wchar_t path[MAX_PATH];
+        DWORD length=GetEnvironmentVariableW(L"NEMOTERM_CLUSTER_TRACE",path,MAX_PATH);
+        if (length && length<MAX_PATH)
+            trace=CreateFileW(path,FILE_APPEND_DATA,FILE_SHARE_READ|FILE_SHARE_WRITE,
+                nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
         library=LoadLibraryExW(L"dwrite.dll",nullptr,LOAD_LIBRARY_SEARCH_SYSTEM32);
         normaliz=LoadLibraryExW(L"normaliz.dll",nullptr,LOAD_LIBRARY_SEARCH_SYSTEM32);
         if (!library || !normaliz) return false;
@@ -108,6 +132,35 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     HRESULT STDMETHODCALLTYPE GetPixelsPerDip(void*,FLOAT *p) override {*p=1;return S_OK;}
     HRESULT STDMETHODCALLTYPE DrawGlyphRun(void*,FLOAT x,FLOAT y,DWRITE_MEASURING_MODE mode,
         const DWRITE_GLYPH_RUN *run,const DWRITE_GLYPH_RUN_DESCRIPTION*,IUnknown*) override {
+        if (trace_glyph) {
+            trace_line("glyph x=%a y=%a mode=%u em=%a count=%u sideways=%u bidi=%u face=%u",
+                static_cast<double>(x),static_cast<double>(y),static_cast<unsigned>(mode),
+                static_cast<double>(run->fontEmSize),run->glyphCount,run->isSideways,
+                run->bidiLevel,run->fontFace->GetIndex());
+            for (unsigned i=0;i<run->glyphCount && i<16;i++)
+                trace_line("glyph-item id=%u advance=%a offset=%a,%a",run->glyphIndices[i],
+                    run->glyphAdvances?static_cast<double>(run->glyphAdvances[i]):0,
+                    run->glyphOffsets?static_cast<double>(run->glyphOffsets[i].advanceOffset):0,
+                    run->glyphOffsets?static_cast<double>(run->glyphOffsets[i].ascenderOffset):0);
+            IDWriteFontFile *files[4]{};UINT32 count=0;
+            HRESULT file_hr=run->fontFace->GetFiles(&count,nullptr);
+            if (SUCCEEDED(file_hr) && count<=4 && SUCCEEDED(run->fontFace->GetFiles(&count,files))) {
+                for (unsigned i=0;i<count;i++) {
+                    const void *key=nullptr;UINT32 key_size=0;
+                    IDWriteFontFileLoader *loader=nullptr;IDWriteLocalFontFileLoader *local=nullptr;
+                    HRESULT hr=files[i]->GetReferenceKey(&key,&key_size);
+                    if (SUCCEEDED(hr)) hr=files[i]->GetLoader(&loader);
+                    if (SUCCEEDED(hr)) hr=loader->QueryInterface(__uuidof(IDWriteLocalFontFileLoader),reinterpret_cast<void **>(&local));
+                    wchar_t path[512];UINT32 length=0;
+                    if (SUCCEEDED(hr)) hr=local->GetFilePathLengthFromKey(key,key_size,&length);
+                    if (SUCCEEDED(hr) && length<512 && SUCCEEDED(local->GetFilePathFromKey(key,key_size,path,512))) {
+                        char utf8[1024]{};WideCharToMultiByte(CP_UTF8,0,path,-1,utf8,sizeof(utf8),nullptr,nullptr);
+                        trace_line("font-file %s",utf8);
+                    } else trace_line("font-file loader-hr=%lx key-bytes=%u",static_cast<unsigned long>(hr),key_size);
+                    release(local);release(loader);release(files[i]);
+                }
+            }
+        }
         HRESULT hr=target->DrawGlyphRun(x,y,mode,run,params,colour,nullptr);
         if (SUCCEEDED(hr) && shadow_bold)
             hr=target->DrawGlyphRun(x-1/draw_scale,y,mode,run,params,colour,nullptr);
@@ -174,8 +227,36 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
          * drawing before crossing that boundary. */
         if (!GdiFlush()) hr=E_FAIL;
         s.colour=fg;s.shadow_bold=shadow_bold;s.draw_scale=scale;
+        s.trace_glyph=s.trace!=INVALID_HANDLE_VALUE && s.trace_count<64 &&
+            units==2 && (text[0]==L'A' || text[0]==L'e') && (text[1]==0x308 || text[1]==0x301);
+        if (s.trace_glyph) {
+            s.trace_count++;
+            s.trace_line("normalized first=%04x length=%d",static_cast<unsigned>(normalized[0]),length);
+            char face[256]{};WideCharToMultiByte(CP_UTF8,0,s.font.lfFaceName,-1,face,sizeof(face),nullptr,nullptr);
+            s.trace_line("cluster id=%u text=%04x,%04x box=%ld,%ld,%ld,%ld font=%s height=%ld width=%ld weight=%ld italic=%u quality=%u charset=%u em=%a natural=%a scale=%a dx=%a baseline=%a ascent=%ld internal=%ld offset=%d fg=%lx bg=%lx fp=%x",
+                s.trace_count,static_cast<unsigned>(text[0]),static_cast<unsigned>(text[1]),
+                box->left,box->top,box->right,box->bottom,face,s.font.lfHeight,s.font.lfWidth,s.font.lfWeight,
+                s.font.lfItalic,s.font.lfQuality,s.font.lfCharSet,static_cast<double>(s.em),
+                static_cast<double>(natural),static_cast<double>(scale),static_cast<double>(transform.dx),
+                static_cast<double>(line.baseline),native.tmAscent,native.tmInternalLeading,y_offset,fg,bg,
+                static_cast<unsigned>(_controlfp(0,0)));
+            s.trace_line("params gamma=%a contrast=%a cleartype=%a geometry=%u mode=%u",
+                static_cast<double>(s.params->GetGamma()),static_cast<double>(s.params->GetEnhancedContrast()),
+                static_cast<double>(s.params->GetClearTypeLevel()),static_cast<unsigned>(s.params->GetPixelGeometry()),
+                static_cast<unsigned>(s.params->GetRenderingMode()));
+        }
         if (SUCCEEDED(hr)) hr=layout->Draw(nullptr,&s,0,
             static_cast<FLOAT>(native.tmAscent+y_offset)-line.baseline);
+        if (s.trace_glyph) {
+            DIBSECTION dib{};
+            if (GetObjectW(GetCurrentObject(tile,OBJ_BITMAP),sizeof(dib),&dib) && dib.dsBm.bmBits) {
+                const auto *pixels=static_cast<const unsigned *>(dib.dsBm.bmBits);
+                unsigned long long hash=14695981039346656037ULL;
+                for (long long i=0;i<w*h;i++) hash=(hash^(pixels[i]&0xffffff))*1099511628211ULL;
+                s.trace_line("tile hash=%llx hr=%lx",hash,static_cast<unsigned long>(hr));
+            }
+        }
+        s.trace_glyph=false;
         /* The destination's viewport/clip belongs to the caller (including
          * snapshot bands and GPU cache tiles); BitBlt respects both. */
         if (SUCCEEDED(hr) && !BitBlt(dc,box->left,box->top,static_cast<int>(w),

@@ -13,7 +13,9 @@ u.RedrawWindow.argtypes = [w.HWND, c.c_void_p, w.HANDLE, w.UINT]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--rtl-only', action='store_true')
 parser.add_argument('--font', default='SarasaTermSC Nerd Font Light')
+parser.add_argument('--skip-clipboard', action='store_true',help='Local graphics-only check when clipboard access is unavailable')
 options = parser.parse_args()
+if options.skip_clipboard and os.environ.get('CI')=='true':parser.error('CI must verify the real clipboard')
 name = 'font-fallback-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + name
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
@@ -21,7 +23,8 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
     winreg.SetValueEx(key, 'ScrollbackLines', 0, winreg.REG_DWORD, 0)
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe'))
-evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), requested_font=options.font)
+evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(), requested_font=options.font,
+                clipboard_tested=False,completed=False)
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-symbols-') as directory:
         directory = Path(directory); report, control = directory/'report', directory/'control'
@@ -79,17 +82,18 @@ try:
                 # its original Unicode scalar, including supplementary-plane pairs.
                 label = 'A'+''.join(icons)+'Z'
                 phase(frame(label)+'\x1b[?1000;1006h\x1b[=1u')
-                saved = SavedClipboard(hwnd)
-                _, _, cw, ch = geometry()
-                start = (1+ch+ch//2)<<16 | (1+cw+cw//2)
-                end = (1+ch+ch//2)<<16 | (1+6*cw+cw//2)
-                u.SendMessageW(hwnd, 0x201, 5, start); u.SendMessageW(hwnd, 0x200, 5, end)
-                u.SendMessageW(hwnd, 0x202, 4, end)
-                for vk, scan in ((17,29),(16,42),(67,46)): u.SendMessageW(hwnd,0x100,vk,1|(scan<<16))
-                for vk, scan in ((67,46),(16,42),(17,29)): u.SendMessageW(hwnd,0x101,vk,0xc0000001|(scan<<16))
-                assert wait_for(lambda: clipboard_text(hwnd)) == label
-                saved.restore(); saved = None
-                evidence['shift_copy'] = label
+                if not options.skip_clipboard:
+                    saved = SavedClipboard(hwnd)
+                    _, _, cw, ch = geometry()
+                    start = (1+ch+ch//2)<<16 | (1+cw+cw//2)
+                    end = (1+ch+ch//2)<<16 | (1+6*cw+cw//2)
+                    u.SendMessageW(hwnd, 0x201, 5, start); u.SendMessageW(hwnd, 0x200, 5, end)
+                    u.SendMessageW(hwnd, 0x202, 4, end)
+                    for vk, scan in ((17,29),(16,42),(67,46)): u.SendMessageW(hwnd,0x100,vk,1|(scan<<16))
+                    for vk, scan in ((67,46),(16,42),(17,29)): u.SendMessageW(hwnd,0x101,vk,0xc0000001|(scan<<16))
+                    assert wait_for(lambda: clipboard_text(hwnd)) == label
+                    saved.restore(); saved = None
+                    evidence['shift_copy'] = label;evidence['clipboard_tested']=True
                 phase(frame('Icons: '+''.join(icons)+'\r\nSarasa 中文 and A\u0301')+'\x1b[?1000l\x1b[=0u')
                 capture(hwnd, 'font-fallback.png')
                 outer, client = w.RECT(), w.RECT()
@@ -126,8 +130,8 @@ try:
                 peak_total_ws=max(v['total_ws'] for v in samples),
                 peak_private_commit=max(v['private_commit'] for v in samples))
             assert evidence['peak_private_ws'] < 20_000_000, evidence
-            (root/'research/font-fallback-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
-            print('Native embedded icons, cell boundaries, Shift copy, resize and RTL memory passed:',evidence)
+            evidence['completed']=True
+            print('Native font regression passed (clipboard scope recorded):',evidence)
         finally:
             if saved: saved.restore()
             stopped.set(); worker.join(2); k.CloseHandle(handle)
@@ -135,4 +139,6 @@ try:
             try: process.wait(timeout=10)
             except subprocess.TimeoutExpired: process.terminate(); process.wait(); raise
 finally:
+    if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
+    (root/'research/font-fallback-observed.json').write_text(json.dumps(evidence,indent=2),encoding='utf-8')
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)

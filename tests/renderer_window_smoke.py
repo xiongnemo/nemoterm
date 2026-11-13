@@ -24,9 +24,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             for name,value in dict(NemoRenderer=requested,WarnOnClose=0).items():
                 winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
         report,control=(Path(tmp)/(str(requested)+n) for n in ('report','control'))
+        trace=root/'research'/f'renderer-{requested}-clusters.txt'
+        child_env=dict(os.environ,NEMOTERM_CONPTY='bundled')
+        if os.environ.get('CI')=='true' or os.environ.get('NEMOTERM_TEST_CLUSTER_TRACE')=='1':
+            trace.write_text('')
+            child_env['NEMOTERM_CLUSTER_TRACE']=str(trace)
         process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24',
             '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
-            env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
+            env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
         gl_capture = focus_session = None
         try:
             hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))

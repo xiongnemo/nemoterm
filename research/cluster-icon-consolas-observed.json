@@ -1,0 +1,30 @@
+{
+  "executable_sha256": "d12a3ebac5a065c10b2dc99ada856605af64ee06a44c285fd8b8469cc764f682",
+  "requested_font": "Consolas",
+  "clipboard_tested": false,
+  "completed": true,
+  "icons": [
+    "0xf120",
+    "0xf07b",
+    "0xf0001",
+    "0xf0002"
+  ],
+  "resize_cycles": 32,
+  "distinct_symbol_stress": 6144,
+  "rtl_repaints": {
+    "count": 5000,
+    "before": {
+      "private_ws": 3436544,
+      "total_ws": 24850432,
+      "private_commit": 4648960
+    },
+    "after": {
+      "private_ws": 3457024,
+      "total_ws": 24887296,
+      "private_commit": 4640768
+    }
+  },
+  "peak_private_ws": 3485696,
+  "peak_total_ws": 25014272,
+  "peak_private_commit": 4685824
+}
