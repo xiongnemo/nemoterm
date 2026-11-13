@@ -39,6 +39,8 @@ void nemo_shell_marks_rows(NemoShellMarks *, int first, int last, int delta);
 void nemo_shell_marks_scroll(NemoShellMarks *, int left, int right,
                             int top, int bottom, int delta,
                             bool full_width, bool into_history);
+void nemo_shell_marks_shift(NemoShellMarks *, int left, int right,
+                           int top, int bottom, int delta);
 const NemoShellCommand *nemo_shell_marks_lookup(const NemoShellMarks *, uint64_t);
 /* Ranges are half-open, logical cell positions; retained history is clipped. */
 bool nemo_shell_marks_range(const NemoShellCommand *, bool output,

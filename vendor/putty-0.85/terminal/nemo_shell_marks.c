@@ -241,6 +241,19 @@ void nemo_shell_marks_scroll(NemoShellMarks *m, int left, int right,
         else p->y=(int)max((int64_t)INT_MIN,moved);
     }
 }
+void nemo_shell_marks_shift(NemoShellMarks *m, int left, int right,
+                           int top, int bottom, int delta)
+{
+    for (size_t i = 0; i < m->count; i++) for (int j = 0; j < 4; j++) {
+        NemoShellPoint *p = &m->commands[i].point[j];
+        if (!p->valid || p->truncated || p->x < left || p->x >= right ||
+            p->y < top || p->y > bottom) continue;
+        int64_t moved = (int64_t)p->x+delta;
+        if (moved < left || moved >= right) p->valid = false;
+        else p->x = (int)moved;
+    }
+}
+
 bool nemo_shell_marks_range(const NemoShellCommand *c, bool output,
                            int first, int last,
                            NemoShellPoint *start, NemoShellPoint *end)

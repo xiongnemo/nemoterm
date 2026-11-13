@@ -1974,7 +1974,10 @@ static void nemo_images_split_columns(Terminal *term, int left, int right,
         NemoTermImage *first = NULL, **tail = &first;
         for (unsigned i = 1; i < count; i++) {
             *tail = nemo_image_crop(term, image, cuts[i-1], cuts[i]);
-            tail = &(*tail)->next;
+            if (!(*tail)->live_rows)
+                nemo_image_remove(term, tail);
+            else
+                tail = &(*tail)->next;
             assert(pending + term->image_bytes <= NEMO_SIXEL_DEFAULT_BUDGET);
         }
         nemo_image_remove(term, link);
@@ -1982,6 +1985,77 @@ static void nemo_images_split_columns(Terminal *term, int left, int right,
         *link = first;
         link = tail;
     }
+}
+
+static bool nemo_image_in_columns(Terminal *term, const NemoTermImage *image,
+                                  int left, int right)
+{
+    int64_t x = (int64_t)image->x*term->cell_width + image->pixel_x;
+    return image->screen == term->alt_which &&
+        x >= (int64_t)left*term->cell_width &&
+        x+image->pixel_width <= (int64_t)right*term->cell_width;
+}
+
+/* Bit 0: live pixels inside the row interval; bit 1: outside it. */
+static unsigned nemo_image_row_regions(Terminal *term, const NemoTermImage *image,
+                                       int top, int bottom)
+{
+    unsigned regions = 0;
+    for (int y = 0; y < image->pixel_height && regions != 3; y++) {
+        if (image->lines[y].anchor == INT_MIN) continue;
+        int64_t row = (int64_t)image->lines[y].anchor+y/term->cell_height;
+        regions |= row >= top && row <= bottom ? 1 : 2;
+    }
+    return regions;
+}
+
+/* Shift a rectangle of raster pixels without copying its immutable bitmap.
+ * Column views isolate the surviving source; row views let the surrounding
+ * pixels stay fixed. Admit all temporary view/mask storage before iterating. */
+static void nemo_images_shift(Terminal *term, int left, int right,
+                              int top, int bottom, int delta)
+{
+    int source_left = left + max(0, -delta);
+    int source_right = right - max(0, delta);
+    for (int y = top; y <= bottom; y++)
+        nemo_images_erase(term, (pos){y, delta > 0 ? source_right : left},
+                          (pos){y, delta > 0 ? right : source_left});
+    if (source_left >= source_right) return;
+    nemo_images_split_columns(term, source_left, source_right, top, bottom);
+    size_t needed = 0;
+    for (NemoTermImage *im = term->images; im; im = im->next)
+        if (nemo_image_in_columns(term, im, source_left, source_right) &&
+            nemo_image_row_regions(term, im, top, bottom) == 3)
+            needed += nemo_image_crop_need(im, im->pixel_width);
+    size_t pending = nemo_sixel_stats(term->sixel_pending).allocated_bytes;
+    while (term->images && needed > NEMO_SIXEL_DEFAULT_BUDGET-pending-term->image_bytes) {
+        NemoTermImage *im = term->images;
+        if (nemo_image_in_columns(term, im, source_left, source_right) &&
+            nemo_image_row_regions(term, im, top, bottom) == 3)
+            needed -= nemo_image_crop_need(im, im->pixel_width);
+        nemo_image_remove(term, &term->images);
+    }
+    for (NemoTermImage *im = term->images; im; im = im->next) {
+        if (!nemo_image_in_columns(term, im, source_left, source_right)) continue;
+        unsigned regions = nemo_image_row_regions(term, im, top, bottom);
+        if (regions == 1) {
+            im->x += delta;
+        } else if (regions == 3) {
+            NemoTermImage *moved = nemo_image_crop(term, im, 0, im->pixel_width);
+            moved->next = im->next;
+            im->next = moved;
+            for (int y = 0; y < im->pixel_height; y++) {
+                if (im->lines[y].anchor == INT_MIN) continue;
+                int64_t row = (int64_t)im->lines[y].anchor+y/term->cell_height;
+                nemo_image_drop_row(term, row >= top && row <= bottom ? im : moved, y);
+            }
+            nemo_image_live(term, im);
+            nemo_image_live(term, moved);
+            moved->x += delta;
+            im = moved; /* Do not shift the newly inserted view twice. */
+        }
+    }
+    term_invalidate(term);
 }
 
 void term_scroll_images(Terminal *term, int left, int right, int top, int bottom,
@@ -5204,6 +5278,59 @@ static void insch(Terminal *term, int n)
     }
 }
 
+/* SL/SR and DEC column editing share one bounded rectangle operation.
+ * Unlike ICH/DCH, these controls preserve the cursor's pending wrap. */
+static void nemo_scroll_columns(Terminal *term, unsigned count, bool to_left, int left)
+{
+    if (!nemo_in_lr(term) || term->curs.y < term->marg_t ||
+        term->curs.y > term->marg_b) return;
+    int right = term->marg_r+1;
+    int n = min(count ? count : 1, (unsigned)(right-left));
+    if (!n) return;
+    if (!term->alt_which) {
+        nemo_shell_marks_shift(&term->shell_marks, left, right,
+                              term->marg_t, term->marg_b, to_left ? -n : n);
+        nemo_shell_marks_rows(&term->shell_marks, -count234(term->scrollback), term->rows-1, 0);
+    }
+    nemo_images_shift(term, left, right, term->marg_t, term->marg_b, to_left ? -n : n);
+    for (int y = term->marg_t; y <= term->marg_b; y++) {
+        termline *line = scrlineptr(y);
+        check_line_size(term, line);
+        check_trust_status(term, line);
+        int changed_left = left > 0 && line->chars[left].chr == UCSWIDE ? left-1 : left;
+        int changed_right = right < term->cols && line->chars[right].chr == UCSWIDE ? right+1 : right;
+        check_selection(term, (pos){y, changed_left}, (pos){y, changed_right});
+        check_boundary(term, left, y);
+        check_boundary(term, right, y);
+        check_boundary(term, to_left ? left+n : right-n, y);
+        if (to_left) {
+            for (int x = left; x < right-n; x++)
+                move_termchar(line, &line->chars[x], &line->chars[x+n]);
+            for (int x = right-n; x < right; x++)
+                copy_termchar(line, x, &term->erase_char);
+        } else {
+            for (int x = right; x-- > left+n;)
+                move_termchar(line, &line->chars[x], &line->chars[x-n]);
+            termchar blank = term->erase_char;
+            blank.truecolour.decoration &= ~CELL_UNDRAWN;
+            for (int x = left; x < left+n; x++)
+                copy_termchar(line, x, &blank);
+        }
+    }
+    seen_disp_event(term);
+}
+
+static void nemo_column_index(Terminal *term, bool backward)
+{
+    if (nemo_in_lr(term) && term->curs.x == (backward ? term->marg_l : term->marg_r)) {
+        nemo_scroll_columns(term, 1, !backward, term->marg_l);
+    } else {
+        int right = min(nemo_right(term), nemo_line_columns(term, scrlineptr(term->curs.y))-1);
+        move(term, backward ? term->curs.x-1 : min(term->curs.x+1, right), term->curs.y, 1);
+    }
+    seen_disp_event(term);
+}
+
 static void term_update_raw_mouse_mode(Terminal *term)
 {
     bool want_raw = (term->xterm_mouse != 0 && !term->xterm_mouse_forbidden);
@@ -7330,6 +7457,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->esc_args[0] = 0;
                     term->esc_nargs = 1;
                     break;
+                  case '6': case '9':    /* DECBI / DECFI */
+                    compatibility(VT420);
+                    nemo_column_index(term, c == '6');
+                    break;
                   case '7':             /* DECSC: save cursor */
                     compatibility(VT100);
                     save_cursor(term, true);
@@ -7826,6 +7957,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         }
                         seen_disp_event(term);
                         break;
+                      case ANSI('@', ' '): case ANSI('A', ' '): /* SL / SR */
+                        compatibility(OTHER);
+                        nemo_scroll_columns(term, term->esc_args[0], c == '@', term->marg_l);
+                        break;
+                      case ANSI('~', '\''): case ANSI('}', '\''): /* DECDC / DECIC */
+                        compatibility(VT420);
+                        nemo_scroll_columns(term, term->esc_args[0], c == '~', term->curs.x);
+                        break;
                       case '@':       /* ICH: insert chars */
                         /* XXX VTTEST says this is vt220, vt510 manual says vt102 */
                         compatibility(VT102);
@@ -8316,11 +8455,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(SCOANSI);
                         scroll(term, term->marg_t, term->marg_b,
                                def(term->esc_args[0], 1), true);
-                        term->wrapnext = false;
                         break;
+                      case '^':         /* SD alias, no mouse handshake */
                       case 'T':         /* highlight handshake or SD */
-                        if (term->esc_nargs > 1 ||
-                            (term->mouse_highlight == HIGHLIGHT_WAIT && !term->esc_args[0])) {
+                        if (c == 'T' && (term->esc_nargs > 1 ||
+                            (term->mouse_highlight == HIGHLIGHT_WAIT && !term->esc_args[0]))) {
                             nemo_highlight_request(term);
                             break;
                         }
@@ -8328,7 +8467,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(SCOANSI);
                         scroll(term, term->marg_t, term->marg_b,
                                -def(term->esc_args[0], 1), true);
-                        term->wrapnext = false;
                         break;
                       case ANSI('|', '*'): /* DECSNLS */
                         /*

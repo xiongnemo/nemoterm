@@ -3,6 +3,27 @@
 #include "test_terminal.c"
 #undef main
 #include "../../../tests/margin_oracle_cases.h"
+#include "../../../tests/horizontal_oracle_cases.h"
+
+static void test_horizontal_oracle(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(horizontal_oracle); i++) {
+        reset(mk); test_context(mk, "%s", horizontal_oracle[i].name);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        term_size(mk->term, 24, 80, 100);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, horizontal_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, horizontal_oracle[i].reply);
+        for (size_t j = 0; j < lenof(horizontal_cells); j++) {
+            int x = horizontal_cells[j][1]-1, y = horizontal_cells[j][0]-1;
+            unsigned ch = get_termchar(mk->term, x, y).chr;
+            if (ch == UCSWIDE) ch = 0;
+            else if (DIRECT_CHAR(ch)) ch &= ~CSET_MASK;
+            test_context(mk, "%s at %d,%d", horizontal_oracle[i].name, y+1, x+1);
+            IEQUAL(ch, horizontal_oracle[i].cells[j]);
+        }
+    }
+}
 
 static void test_margin_oracle(Mock *mk)
 {
@@ -126,6 +147,55 @@ static void test_cell_lifetimes(Mock *mk)
     term_data_fragmented(t,"\033[T");IEQUAL(t->selstate,NO_SELECTION);
 }
 
+static void test_horizontal_lifetimes(Mock *mk)
+{
+    margin_setup(mk, "horizontal edits retain full cell payloads");
+    Terminal *t = mk->term;
+    term_data_fragmented(t, "\033[4;4H\033[1\"q\033[3;4:3;38;2;1;2;3;58;2;4;5;6m"
+        "\033]8;id=shift;https://example.org/shift\033\\A\xcc\x81\xe4\xb8\xad"
+        "\033]8;;\033\\\033[0\"q\033[0m\033[?69h\033[3;10s\033[3;6r\033[4;4H");
+    termchar before = get_termchar(t, 3, 3);
+    term_data_fragmented(t, "\033[2 A");
+    termchar after = get_termchar(t, 5, 3);
+    IEQUAL(after.chr, before.chr); IEQUAL(after.attr, before.attr);
+    IEQUAL(after.hyperlink, before.hyperlink);
+    IEQUAL(memcmp(&after.truecolour, &before.truecolour, sizeof(after.truecolour)), 0);
+    termline *line = term_get_line(t, 3);
+    IEQUAL(line->chars[5+line->chars[5].cc_next].chr, 0x301);
+    IEQUAL(line->chars[6].chr, 0x4e2d); IEQUAL(line->chars[7].chr, UCSWIDE);
+    term_release_line(line);
+    term_data_fragmented(t, "\033[2 @");
+    after = get_termchar(t, 3, 3);
+    IEQUAL(after.chr, before.chr); IEQUAL(after.hyperlink, before.hyperlink);
+    IEQUAL(memcmp(&after.truecolour, &before.truecolour, sizeof(after.truecolour)), 0);
+    IEQUAL(count234(t->scrollback), 0);
+
+    margin_setup(mk, "horizontal shifts invalidate only intersecting selections");
+    term_data_fragmented(t, "\033[4;1HABCDEFGHIJKLMNOP\033[?69h\033[5;10s\033[3;6r\033[4;5H");
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, 3, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 2, 3, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 2, 3, true, false, false);
+    int selection = t->selstate;
+    IEQUAL(selection != NO_SELECTION, true);
+    term_data_fragmented(t, "\033[2 A"); IEQUAL(t->selstate, selection);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 5, 3, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 7, 3, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 7, 3, true, false, false);
+    term_data_fragmented(t, "\033[2 @"); IEQUAL(t->selstate, NO_SELECTION);
+
+    margin_setup(mk, "wide cells split by lost columns are repaired");
+    term_data_fragmented(t, "\033[3;7H\xe4\xb8\xad\033[?69h\033[3;8s\033[3;6r\033[3;3H\033[ A");
+    IEQUAL(get_termchar(t, 7, 2).chr & ~CSET_MASK, ' ');
+    term_data_fragmented(t, "\033[4;3H\xe4\xb8\xad\033[4;3H\033[ @");
+    IEQUAL(get_termchar(t, 2, 3).chr & ~CSET_MASK, ' ');
+    for (int i = 0; i < 200; i++)
+        term_data_fragmented(t, "\033[99999999999999 A\033[99999999999999 @\033[99999999999999'}\033[99999999999999'~");
+    IEQUAL(t->termstate, TOPLEVEL); IEQUAL(count234(t->scrollback), 0);
+    term_size(t, 1, 1, 0);
+    term_data_fragmented(t, "X\0336\0339\033[ A\033[ @\033['}\033['~\033[^");
+    IEQUAL(t->curs.x, 0); IEQUAL(t->curs.y, 0);
+}
+
 int main(void)
 {
     setvbuf(stdout,NULL,_IONBF,0);
@@ -133,6 +203,8 @@ int main(void)
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     test_margin_oracle(mk);test_wide_boundaries(mk);test_margin_state(mk);test_cell_lifetimes(mk);
+    test_horizontal_oracle(mk);
+    test_horizontal_lifetimes(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Margin suite FAILED":"Margin suite passed");
     return failed?1:0;

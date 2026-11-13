@@ -660,6 +660,93 @@ static void test_sixel_column_scroll(Mock *mk)
     term_set_cell_size(mk->term, 8, 16);
 }
 
+static void check_horizontal_pixels(Mock *mk, int left, int right, int top,
+                                    int bottom, int delta, const char *operation)
+{
+    uint32_t before[CANVAS_WIDTH*CANVAS_HEIGHT], after[CANVAS_WIDTH*CANVAS_HEIGHT];
+    image_canvas(mk->term, before);
+    term_data_fragmented(mk->term, operation);
+    image_canvas(mk->term, after);
+    int x0 = left*mk->term->cell_width, x1 = right*mk->term->cell_width;
+    int y0 = top*mk->term->cell_height, y1 = (bottom+1)*mk->term->cell_height;
+    int dx = delta*mk->term->cell_width;
+    for (int y = 0; y < CANVAS_HEIGHT; y++) for (int x = 0; x < CANVAS_WIDTH; x++) {
+        uint32_t expected = before[y*CANVAS_WIDTH+x];
+        if (x >= x0 && x < x1 && y >= y0 && y < y1)
+            expected = x-dx >= x0 && x-dx < x1 ? before[y*CANVAS_WIDTH+x-dx] : 0;
+        if (expected != after[y*CANVAS_WIDTH+x]) {
+            test_context(mk, "horizontal pixel %d,%d region %d,%d,%d,%d delta %d", x,y,left,right,top,bottom,delta);
+            IEQUAL(after[y*CANVAS_WIDTH+x], expected);
+            return;
+        }
+    }
+    check_image_accounting(mk);
+}
+
+static void test_sixel_horizontal(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "horizontal pixel motion retains masks and surrounding rows/columns");
+    term_size(mk->term, 12, 24, 40);
+    term_set_cell_size(mk->term, 3, 3);
+    term_data_fragmented(mk->term,
+        "\033[2;2H\033P0;1q\"1;1;48;24"
+        "#1;2;100;0;0!48~-#2;2;0;100;0!48~-#3;2;0;0;100!48~-#1!48~\033\\"
+        "\033[4;5H\033[X\033[?69h\033[3;13s\033[3;7r\033[4;3H");
+    check_horizontal_pixels(mk, 2, 13, 2, 6, 2, "\033[2 A");
+    term_set_cell_size(mk->term, 4, 4);
+    check_horizontal_pixels(mk, 2, 13, 2, 6, -1, "\033[ @");
+    check_horizontal_pixels(mk, 2, 13, 2, 6, 1, "\0336");
+    check_horizontal_pixels(mk, 2, 13, 2, 6, -1, "\033[4;13H\0339");
+    check_horizontal_pixels(mk, 4, 13, 2, 6, 3, "\033[4;5H\033[3'}");
+    check_horizontal_pixels(mk, 4, 13, 2, 6, -2, "\033[2'~");
+    check_horizontal_pixels(mk, 2, 13, 2, 6, 11, "\033[2147483647 A");
+    uint32_t saved[CANVAS_WIDTH*CANVAS_HEIGHT], restored[CANVAS_WIDTH*CANVAS_HEIGHT];
+    image_canvas(mk->term, saved);
+    size_t bytes = mk->term->image_bytes;
+    term_data_fragmented(mk->term, "\033[?1049h\033[4;3H\033[2 A\033[?1049l");
+    image_canvas(mk->term, restored);
+    IEQUAL(memcmp(saved, restored, sizeof(saved)), 0);
+    IEQUAL(mk->term->image_bytes, bytes);
+
+    test_context(mk, "repeated horizontal cuts with unaligned masks and aspect scaling");
+    uint32_t state = UINT32_C(0x710ac468);
+    for (int i = 0; i < 240; i++) {
+        if (i%12 == 0) {
+            term_data_fragmented(mk->term, "\033c");
+            term_set_cell_size(mk->term, 2, 2);
+            term_data_fragmented(mk->term, "\033P0;1q\"1;3;12;12#1;2;100;0;0!12~-#2;2;0;100;0!12~\033\\\033[2;4H\033[X");
+        }
+        term_set_cell_size(mk->term, i%3+2, i%2+2);
+        int left = (image_random(&state)>>16)%6+1;
+        int right = left+(image_random(&state)>>16)%8+2;
+        int top = (image_random(&state)>>16)%4, bottom = top+3;
+        int delta = (i&1) ? 1 : -2;
+        char *setup = dupprintf("\033[?69h\033[%d;%ds\033[%d;%dr\033[%d;%dH",
+            left+1,right,top+1,bottom+1,top+1,left+1);
+        term_data_fragmented(mk->term, setup); sfree(setup);
+        check_horizontal_pixels(mk,left,right,top,bottom,delta,delta>0?"\033[ A":"\033[2 @");
+    }
+
+    term_data_fragmented(mk->term, "\033c\033[?80h");
+    term_set_cell_size(mk->term, 1, 1);
+    for (int i = 0; i < 1200; i++) image_feed(mk);
+    size_t before = image_count(mk->term);
+    term_data_fragmented(mk->term, "\033[?69h\033[3;20s\033[3;9r\033[3;3H\033[ A");
+    size_t sources = 0;
+    for (NemoTermImage *im = mk->term->images; im; im = im->next) {
+        bool first = true;
+        for (NemoTermImage *prev = mk->term->images; prev != im; prev = prev->next)
+            if (prev->source == im->source) first = false;
+        sources += first;
+    }
+    IEQUAL(sources > 0 && sources < before, true);
+    check_image_accounting(mk);
+    term_data_fragmented(mk->term, "\033c");
+    IEQUAL(mk->term->image_bytes, 0);
+    term_set_cell_size(mk->term, 8, 16);
+}
+
 static void test_sixel_column_budget(Mock *mk)
 {
     reset(mk);
@@ -737,6 +824,7 @@ int main(void)
     test_sixel_mixed_lifecycle(mk);
     test_sixel_column_scroll(mk);
     test_sixel_column_budget(mk);
+    test_sixel_horizontal(mk);
     test_graphics_registers(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

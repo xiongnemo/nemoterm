@@ -48,7 +48,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Single/locking GL shifts use the four supported banks; native G2/G3 line-drawing pixels and one-shot lifetime are tested. GR bank tracking and legacy line/UK remapping exist, but default GR still follows PuTTY's byte codepage and full ISO 2022 mappings remain open. |
 | ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
-| ESC 6/9 (DECBI/DECFI) | Missing | Horizontal index scrolling is not implemented. |
+| ESC 6/9 (DECBI/DECFI) | Tested | `margins`, native `horizontal`: VT420 gate, inside/outside margins, edge scrolling and pending wrap. Text, full cell payloads, shell marks and Sixel pixels move together. |
 | ESC V/W (SPA/EPA) | Missing | DEC protection via DECSCA exists; ISO guarded areas are separate. |
 | Raw C1 bytes and UTF-8 encoded C1 | Partial | Existing codepage-sensitive parser; exhaustive byte/state conformance is still open. Do not assume UTF-8 text is reprocessed as controls. |
 | SOS/PM/APC strings | Partial | String consumption/recovery only; no application payload support. |
@@ -69,8 +69,9 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | J/K/X (ED/EL/ECH) | Tested | `terminal`, `selective_erase`, `rectangle`, Sixel cell erasure. |
 | J parameter 3 (saved-line erase) | Gated | Local remote-clear-scrollback setting; active screen is separate. |
 | ?J/?K (DECSED/DECSEL) | Tested | `selective_erase`; protected text and image erasure. |
-| S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. |
-| ^ (SD alias), SP @ / SP A (SL/SR) | Missing | No alias or horizontal shift handlers. |
+| S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. Pending wrap is preserved, independently checked by XTerm and native cell/cursor replies. |
+| ^ (SD alias), SP @ / SP A (SL/SR) | Tested | `margins`, native `horizontal`: counts, margins, outside-region behavior, wide/double-size rows, origin and pending wrap. See [horizontal editing](../research/horizontal-editing.md). |
+| ' } / ' ~ (DECIC/DECDC) | Tested | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix. |
 | b (REP) | Tested | `terminal`, `grapheme_terminal`; bounded repeats and optional whole clusters. |
 | r (DECSTBM); s with mode 69 (DECSLRM) | Tested | `margins`, independent xterm oracle. |
 | s/u without mode 69 | Tested | `state_control`; ANSI cursor save/restore aliases. |
@@ -155,7 +156,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
    extend the implemented DEC status queries when UDK/locator/macro support exists.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
-3. Add horizontal index/shift and remaining xterm report/stack operations with
+3. Add reverse-wrap modes and remaining xterm report/stack operations with
    independent reference cases and bounded storage.
 4. Extend double-size row coverage to editing and resize combinations beyond
    the now-verified text output, cursor and grapheme behavior.

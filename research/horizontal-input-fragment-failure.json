@@ -1,0 +1,16 @@
+{
+  "case": "back-index-screen-1-1",
+  "executable_sha256": "997a18c884aa3f1271febfae5cd8b96c6c18466954b91a26236097e160e1d611",
+  "expected_bytes": 1276,
+  "observed_bytes": 1273,
+  "changes": [
+    {
+      "kind": "delete",
+      "expected_offset": 477,
+      "expected_hex": "1b5034",
+      "observed_offset": 477,
+      "observed_hex": ""
+    }
+  ],
+  "reason": "Input _EnterDcsIgnore discarded cached DCS prefix from the prior pipe fragment."
+}

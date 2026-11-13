@@ -87,6 +87,19 @@ def patch_cursor_sync():
             "        // Internal cursor synchronization uses tagged ?R replies above.")
 
 
+def patch_input_dcs_fragments():
+    # Input DCS replies are deliberately buffered until ST by the input engine.
+    # Discarding a prefix cached by an earlier ProcessString call loses bytes
+    # when the pipe splits a header before its final character. Output-engine
+    # DCS handling remains streaming and must still discard that cache.
+    replace(DEST / "src/terminal/parser/stateMachine.cpp",
+            "void StateMachine::_EnterDcsIgnore() noexcept\n{\n"
+            "    _state = VTStates::DcsIgnore;\n    _cachedSequence.reset();",
+            "void StateMachine::_EnterDcsIgnore() noexcept\n{\n"
+            "    _state = VTStates::DcsIgnore;\n"
+            "    if (!_isEngineForInput)\n    {\n        _cachedSequence.reset();\n    }")
+
+
 def main():
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
@@ -222,6 +235,7 @@ def main():
                 }""")
 
     patch_cursor_sync()
+    patch_input_dcs_fragments()
 
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.

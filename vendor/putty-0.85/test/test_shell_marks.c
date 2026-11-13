@@ -248,8 +248,21 @@ static void test_scrolling_and_navigation(Mock *mk)
     IEQUAL(t->shell_marks.commands[1].point[0].y, 2);
     term_data_fragmented(t, "\033[T");
     IEQUAL(t->shell_marks.commands[0].point[0].y, 2);
+    term_data_fragmented(t, "\033[2 A");
+    IEQUAL(t->shell_marks.commands[0].point[0].x, 4);
+    IEQUAL(t->shell_marks.commands[1].point[0].x, 9);
+    term_data_fragmented(t, "\033[ @");
+    IEQUAL(t->shell_marks.commands[0].point[0].x, 3);
+    term_data_fragmented(t, "\033[?1049h\033[2 A\033[?1049l");
+    IEQUAL(t->shell_marks.commands[0].point[0].x, 3);
     term_data_fragmented(t, "\033[?69l\033[2;6r\033[2;1H\033[5M");
     IEQUAL(t->shell_marks.count, 0);
+
+    shell_setup(mk, "lost horizontal anchors cannot select unrelated cells", 8, 12, 100);
+    term_data_fragmented(t, "\033[3;3H\033]1337;SetMark\a\033[3;5H\033]1337;SetMark\a"
+        "\033[?69h\033[2;6s\033[2;6r\033[3;3H\033[3 @");
+    IEQUAL(t->shell_marks.count, 1);
+    IEQUAL(t->shell_marks.commands[0].point[0].x, 1);
 
     shell_setup(mk, "progress and erased cells keep position anchors, not secret text copies", 8, 20, 100);
     term_data_fragmented(t, "\033]133;A\a\033]133;B\acmd\033]133;C\aold\033]133;D;0\a\r\033[3Cnew");

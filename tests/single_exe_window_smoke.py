@@ -7,11 +7,11 @@ import uuid
 import winreg
 
 source = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'build/single-exe-dist/nemoterm.exe')).resolve()
+evidence = dict(executable_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
 profile = 'single-exe-test-' + uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\' + profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
     winreg.SetValueEx(key, 'WarnOnClose', 0, winreg.REG_DWORD, 0)
-evidence = dict(executable_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm single 中 ') as directory:
         directory = Path(directory)
