@@ -1,0 +1,411 @@
+{
+  "recorded_utc": "2026-11-13T20:00:36.251057+00:00",
+  "terminal_executable": {
+    "sha256": "21e217254bec0cd10158b7da791c42da238095fe277e71033af1253f5e0eb356",
+    "source_commit": "9370c1fafdc25c1d75814cd8408f47c862361ac3"
+  },
+  "environment": {
+    "os": {
+      "Caption": "Microsoft Windows 10 IoT Enterprise LTSC",
+      "Version": "10.0.19044",
+      "BuildNumber": "19044"
+    },
+    "video": [
+      {
+        "Name": "MuMu Virtual Display Adapter",
+        "DriverVersion": "20.36.41.498",
+        "DriverDate": "2026-03-12T11:00:00+11:00"
+      },
+      {
+        "Name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+        "DriverVersion": "32.0.15.8132",
+        "DriverDate": "2025-09-09T10:00:00+10:00"
+      }
+    ]
+  },
+  "heap_diagnostic": {
+    "instrumented": true,
+    "memory_acceptance": false,
+    "scope": "First application of renderer in a warm GDI single-window fixture; owned settings UI and one repeated scene; no two-tab history workload.",
+    "arms": {
+      "gdi": {
+        "counts": {
+          "active": 0,
+          "errors": 0,
+          "generation": "11422",
+          "live_count": 2373,
+          "live_requested_bytes": "137084",
+          "capacity": 262144,
+          "ignored_nested_calls": {
+            "alloc": "160",
+            "realloc": "0",
+            "free": "147",
+            "destroy": "0"
+          }
+        },
+        "caller_modules": {
+          "ucrtbase.dll": 122318,
+          "gdi32full.dll": 12830,
+          "msvcrt.dll": 1000,
+          "USER32.dll": 528,
+          "uxtheme.dll": 360,
+          "KERNELBASE.dll": 40,
+          "textinputframework.dll": 8
+        },
+        "requested_bytes_on_private_pages": 137084,
+        "instrumented_memory": {
+          "private_ws": 22233088,
+          "total_ws": 52088832,
+          "private_commit": 26288128
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer_property": 1,
+        "natural_cleanup": true,
+        "observer_detached": true
+      },
+      "directx": {
+        "counts": {
+          "active": 0,
+          "errors": 0,
+          "generation": "23199",
+          "live_count": 8346,
+          "live_requested_bytes": "4095451",
+          "capacity": 262144,
+          "ignored_nested_calls": {
+            "alloc": "15660",
+            "realloc": "12",
+            "free": "7062",
+            "destroy": "0"
+          }
+        },
+        "caller_modules": {
+          "nvwgf2umx.dll": 2865010,
+          "d3d11.dll": 337929,
+          "msvcrt.dll": 311064,
+          "KERNELBASE.dll": 234050,
+          "ucrtbase.dll": 164304,
+          "ntdll.dll": 51598,
+          "NvMemMapStoragex.dll": 30126,
+          "dxgi.dll": 17568,
+          "nvldumdx.dll": 14902,
+          "frida-agent.dll": 14248,
+          "nvgpucomp64.dll": 13152,
+          "gdi32full.dll": 12830,
+          "d2d1.dll": 10240,
+          "nvppex.dll": 9864,
+          "RPCRT4.dll": 4988,
+          "windows.storage.dll": 888,
+          "bcrypt.dll": 840,
+          "rsaenh.dll": 698,
+          "USER32.dll": 528,
+          "uxtheme.dll": 360,
+          "dwmapi.dll": 104,
+          "bcryptPrimitives.dll": 56,
+          "dxcore.dll": 56,
+          "SHLWAPI.dll": 40,
+          "textinputframework.dll": 8
+        },
+        "requested_bytes_on_private_pages": 3669467,
+        "instrumented_memory": {
+          "private_ws": 36380672,
+          "total_ws": 80375808,
+          "private_commit": 93663232
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer_property": 3,
+        "natural_cleanup": true,
+        "observer_detached": true
+      }
+    }
+  },
+  "standalone_probe": {
+    "executable_sha256": "03b188184284a8ced7daec85e96a023e012ffce39a3cf04e7fc73a2803479e05",
+    "source_sha256": "dc5ba4d188637b4b3ab4376526c3334ff5b228e13d5de2f5939d5d996cdb2276",
+    "instrumented": false,
+    "terminal_acceptance": false,
+    "client_pixels": [
+      1600,
+      960
+    ],
+    "frames_per_case": 32,
+    "limitations": "Blank window versus minimal Direct2D retained GDI-compatible frame versus Direct3D9Ex HAL retained GPU frame; no terminal text cache, upload, readback, Sixel, selection, resizing or recovery acceptance.",
+    "cases": [
+      {
+        "label": "plain-window",
+        "peaks": {
+          "private_ws": 831488,
+          "total_ws": 6758400,
+          "private_commit": 1253376
+        },
+        "samples": 116,
+        "ready": {
+          "ready": true,
+          "hwnd": 52170172,
+          "mode": 0,
+          "width": 1600,
+          "height": 960,
+          "adapter_vendor": 0,
+          "adapter_device": 0
+        },
+        "natural_cleanup": true
+      },
+      {
+        "label": "direct2d",
+        "peaks": {
+          "private_ws": 9367552,
+          "total_ws": 35135488,
+          "private_commit": 62124032
+        },
+        "samples": 108,
+        "ready": {
+          "ready": true,
+          "hwnd": 52235708,
+          "mode": 1,
+          "width": 1600,
+          "height": 960,
+          "adapter_vendor": 0,
+          "adapter_device": 0
+        },
+        "natural_cleanup": true
+      },
+      {
+        "label": "direct3d9ex",
+        "peaks": {
+          "private_ws": 8355840,
+          "total_ws": 28299264,
+          "private_commit": 49340416
+        },
+        "samples": 110,
+        "ready": {
+          "ready": true,
+          "hwnd": 52301244,
+          "mode": 2,
+          "width": 1600,
+          "height": 960,
+          "adapter_vendor": 4318,
+          "adapter_device": 9568
+        },
+        "natural_cleanup": true
+      }
+    ]
+  },
+  "product_changed": false,
+  "accepted_distribution_replaced": false,
+  "full_goal_complete": false,
+  "files": [
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-gdi-census.json.gz",
+      "sha256": "251ef3d39b51cdcc15a68ffc695a85404730ad10bb5d65a7ec9b9762265fd87d",
+      "bytes": 39128,
+      "raw_sha256": "6c6446b0b2fe7b5a84c2639f4e471ec61fd23b1a6dbe2e77e8d98df5767f1ad7",
+      "raw_bytes": 550456,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-gdi-observed.json.gz",
+      "sha256": "93e9645501a3be18f3282c33f7d1f62bb67c6a88d29e8846f826d1a1057a72f3",
+      "bytes": 664,
+      "raw_sha256": "221a40f3f82a4fe760a9412d5db962d761e92dd8f54afe9e395035ffb9a37454",
+      "raw_bytes": 1586,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-gdi-controller.json.gz",
+      "sha256": "4fb5e9a9bfb75a98417b297bdce9d73637f176658a48e81572b86002ddc1cbd9",
+      "bytes": 263,
+      "raw_sha256": "3bb8ad1f35c6978618833a4b3e5138e9013a7637845bbb1f1ca0d244b3f1d7c4",
+      "raw_bytes": 475,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-gdi.log.gz",
+      "sha256": "a3253cd27d0c6bca9255dc635cf08db2630f9fe8feb1ad2b51c2edc892fad69d",
+      "bytes": 738,
+      "raw_sha256": "a721bf9b50080ed8a5482a7f7d2db81feef7397fd53d18ad49563b7d6dcb3c90",
+      "raw_bytes": 1615,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-directx-census.json.gz",
+      "sha256": "6401dcd84009592bd1a5d7fc010dea8a5d89eb6101ad04034671f085d5b0d627",
+      "bytes": 111487,
+      "raw_sha256": "dce2d71fa80dd947e6493bbe304ac46f3ee2fcc63f0d9979e511492624c32d25",
+      "raw_bytes": 1843324,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-directx-observed.json.gz",
+      "sha256": "b765d456accabb006989b8ad50bfbc04bb65e941ff07f1b4ec6cc4efdd47a647",
+      "bytes": 678,
+      "raw_sha256": "d3daf0033835835833701d108c524c92b1bdd346aac28f1b6422a2ae6fd24bc7",
+      "raw_bytes": 1600,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-directx-controller.json.gz",
+      "sha256": "aae9e65882bd3983ab152599283d3217012aa081d5b11a00d203403bc33351d5",
+      "bytes": 263,
+      "raw_sha256": "494cd289c4bb05b95e966d11c8ea992e77c3dba6db93fc340ce76be3c8918d1b",
+      "raw_bytes": 475,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial-heap-directx.log.gz",
+      "sha256": "d723c7e94b954b27a078c1a93bc5d6883917e7f6831a6f8535090fefa5f6c8be",
+      "bytes": 752,
+      "raw_sha256": "708d45a61bea94a8ff88aa6d180849e248026cbc21da1913c111b41c3cae6ef7",
+      "raw_bytes": 1629,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/initial_heap_window_smoke.py.gz",
+      "sha256": "b69433b3c3c4a27922d6ff6780637d01410014a19e3910645b3be8ec8b91dd17",
+      "bytes": 2158,
+      "raw_sha256": "de68eb3674d3f2ca8eaf6ace57ced8a9c64141ae32bf9714e149735ffbd3b384",
+      "raw_bytes": 5084,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/allocation_census.py.gz",
+      "sha256": "be7b1956fd1d6392cf87d4199cfbe6fba3851b89cd125c58ae1c27da3b8fa39a",
+      "bytes": 1968,
+      "raw_sha256": "2bd40dc781e6b89447377b3f75c68bcf0d8bf2f0866045b8f15d76d23e24cbd0",
+      "raw_bytes": 5857,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/allocation_census_probe.js.gz",
+      "sha256": "403e224a68130312d781a938207dcb521ed26c3456b425e7c3fd567b76a925ae",
+      "bytes": 3170,
+      "raw_sha256": "309aaf43df242dd35158cdaf8442889deb53ad7c2cce58f1dc8972dfa92c7730",
+      "raw_bytes": 10299,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/allocation_census.h.gz",
+      "sha256": "58826792fbad6ad587e54c27fc68821cc301f8c4df7acd697403ef9c886d742a",
+      "bytes": 1628,
+      "raw_sha256": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e",
+      "raw_bytes": 4493,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/allocation_census_pages.py.gz",
+      "sha256": "a7cf4bfbb6360a23ba24ae512bbb3412644c511e5a0531d46f5dd9e6e7bad093",
+      "bytes": 1365,
+      "raw_sha256": "57ec190a8ea1ed17b0a1a8446dee28160064b45ec6df279da6699a78cbc20fd9",
+      "raw_bytes": 3709,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/working_set_regions.py.gz",
+      "sha256": "31d9c288536532943d705596b89dae9770e9d7159487da2a860f50d5866966e0",
+      "bytes": 1801,
+      "raw_sha256": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610",
+      "raw_bytes": 5065,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/gpu_settings_driver.ps1.gz",
+      "sha256": "7314bd78baf9f2f21baacba93d68f747230cf33d5332e58f4220e4d045a3380f",
+      "bytes": 1481,
+      "raw_sha256": "96a0e6dd3a8a1b41823f76d03d35423a48b09d8e205495fb7adc84f4ecadab93",
+      "raw_bytes": 3946,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/mouse_fixture.py.gz",
+      "sha256": "7c65dbe848492e9eb6a3826ce1b5e73c79107487d7c0b39f95810bc7577bc17b",
+      "bytes": 2033,
+      "raw_sha256": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a",
+      "raw_bytes": 5366,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/owned_job.py.gz",
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "bytes": 2519,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "raw_bytes": 8182,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/environment.json.gz",
+      "sha256": "31b531ed2efe3ff786fba7d5ef0cef19405eecc1a4647c467670c8a57adf66b7",
+      "bytes": 286,
+      "raw_sha256": "abad7d1c06cdaf326e689a1b1fc050556ae7920e280a91e5ca34f096f772ea52",
+      "raw_bytes": 467,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/run-owned-check.py.gz",
+      "sha256": "9fc37419bfffb2a4e7a5a642f2c5318db79286825339a8afa8ef0b0ac11e283f",
+      "bytes": 744,
+      "raw_sha256": "01562d334381d7b582141bbfc3f59f2002691ee8b7e6e36c4d440fd2a130081f",
+      "raw_bytes": 1482,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-probe.cpp.gz",
+      "sha256": "42830910b1b3ad91687bcf13e99d8886414048ea04f789dff31eb5521a55f7d3",
+      "bytes": 2495,
+      "raw_sha256": "dc5ba4d188637b4b3ab4376526c3334ff5b228e13d5de2f5939d5d996cdb2276",
+      "raw_bytes": 5983,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-check.py.gz",
+      "sha256": "dd524648a2e061d0944f21d44f43fe3ac46ade617c18ffec968f034847d2c2ab",
+      "bytes": 1290,
+      "raw_sha256": "5452a6720a5d55461724f63c29405b17ced308963eda24be666fe1a2ff426fd3",
+      "raw_bytes": 3314,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-build.log.gz",
+      "sha256": "560012cb000431219521fa37351cded13b7645a2a6ba536facf34ed32be7ef8a",
+      "bytes": 45,
+      "raw_sha256": "900673c837eb0194cb2a7bbcc45278942a99fd47309dfb39eea8c666c9b44273",
+      "raw_bytes": 25,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-observed.json.gz",
+      "sha256": "f6ded84f0e763f6fde1189099fa8c143b89c92a485c6472abc47ed3a681ae41d",
+      "bytes": 4852,
+      "raw_sha256": "9e5a786bec7c93365610ee015285c98b8efafdbf80201ae76388c4f8b0682465",
+      "raw_bytes": 59222,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-direct2d.stderr.log.gz",
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "bytes": 20,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-direct3d9ex.stderr.log.gz",
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "bytes": 20,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/graphics-initialization-evidence/graphics-init-plain-window.stderr.log.gz",
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "bytes": 20,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0,
+      "encoding": "gzip"
+    }
+  ]
+}

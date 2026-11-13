@@ -1,5 +1,15 @@
 # Nemoterm requirements and evidence ledger
 
+## Initial graphics allocations (2026-11-14 Sydney)
+
+A first-switch diagnostic now captures graphics initialization previously
+missed by the later heap observer. Both owned captures are valid and detach
+cleanly, but remain instrumented diagnostics with explicit non-success exit 2.
+A separate minimal Direct3D 9Ex feasibility probe uses about 1.01 MB less private
+WS than its Direct2D arm in one observation; neither probe implements the full
+terminal renderer or proves the 25 MB target. No product change is retained.
+See [sources, raw samples and limitations](../research/graphics-initialization.md).
+
 ## Overline CI and downloaded-image checkpoint (2026-11-14 Sydney)
 
 SGR 53/55, reset/query/stack and history/reflow coverage pass both complete
