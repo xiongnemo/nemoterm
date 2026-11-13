@@ -5,6 +5,53 @@
 #include "../../../tests/margin_oracle_cases.h"
 #include "../../../tests/horizontal_oracle_cases.h"
 #include "../../../tests/reverse_wrap_oracle_cases.h"
+#include "../../../tests/relative_cursor_oracle_cases.h"
+
+static void test_relative_cursor(Mock *mk)
+{
+    Terminal *t = mk->term;
+    for (size_t i = 0; i < lenof(relative_cursor_oracle); i++) {
+        reset(mk); test_context(mk, "%s", relative_cursor_oracle[i].name);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        term_size(t, 24, 80, 100);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(t, relative_cursor_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, relative_cursor_oracle[i].reply);
+        IEQUAL(t->curs.x >= 0 && t->curs.x < t->cols, true);
+        IEQUAL(t->curs.y >= 0 && t->curs.y < t->rows, true);
+    }
+
+    test_context(mk, "relative positioning crosses margins without scrolling");
+    reset(mk); term_size(t, 24, 80, 100);
+    term_data_fragmented(t, "\033[65;1\"p\033c\033[1;1Hguard"
+                         "\033[4;17r\033[?69h\033[8;67s\033[16;66H\033[2aX"
+                         "\033[16;66H\033[2eY");
+    IEQUAL(get_termchar(t, 67, 15).chr & ~CSET_MASK, 'X');
+    IEQUAL(get_termchar(t, 65, 17).chr & ~CSET_MASK, 'Y');
+    IEQUAL(get_termchar(t, 0, 0).chr & ~CSET_MASK, 'g');
+    IEQUAL(count234(t->scrollback), 0);
+
+    test_context(mk, "origin-relative positioning clips both dimensions");
+    term_data_fragmented(t, "\033[?6h\033[13;59H\033[2aA\033[13;59H\033[2eB");
+    IEQUAL(get_termchar(t, 66, 15).chr & ~CSET_MASK, 'A');
+    IEQUAL(get_termchar(t, 65, 16).chr & ~CSET_MASK, 'B');
+    IEQUAL(get_termchar(t, 67, 15).chr & ~CSET_MASK, 'X');
+    IEQUAL(get_termchar(t, 65, 17).chr & ~CSET_MASK, 'Y');
+
+    test_context(mk, "bounded relative columns and ignored double-row writes");
+    for (int rows = 1; rows <= 6; rows++) for (int cols = 1; cols <= 8; cols++) {
+        reset(mk); term_size(t, rows, cols, 0);
+        for (int i = 0; i < 40; i++) {
+            term_data_fragmented(t, "\033[65;1\"p\033c\033#6AB\033[99999999999999999a"
+                             "\033]8;;https://example.invalid/hidden\033\\"
+                             "\033[1\"q\344\270\255Q\314\201"
+                             "\033[99999999999999999e");
+            IEQUAL(t->curs.x >= 0 && t->curs.x < cols, true);
+            IEQUAL(t->curs.y >= 0 && t->curs.y < rows, true);
+            IEQUAL(count234(t->scrollback), 0);
+        }
+    }
+}
 
 static void test_reverse_wrap_oracle(Mock *mk)
 {
@@ -285,6 +332,7 @@ int main(void)
     test_horizontal_lifetimes(mk);
     test_reverse_wrap_oracle(mk);
     test_reverse_wrap_lifetimes(mk);
+    test_relative_cursor(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Margin suite FAILED":"Margin suite passed");
     return failed?1:0;

@@ -533,6 +533,828 @@
       "raw_bytes": 3263,
       "raw_sha256": "d4b16bc4016a0bc182763ed410e47f4bd8dd417a99ddbfb931817e033f5d9ab8",
       "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-gdi-research_workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 2607,
+      "sha256": "aa549580921f3f4c5e17ca0db20faba7482a89de6a50615159f30cd86293df91",
+      "raw_bytes": 16012,
+      "raw_sha256": "9ca2d869c673b164d780793dba6a120eb790947daddd1a7d58d6c11ea5788490",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-gdi-research_workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 29880,
+      "sha256": "34ce888fe4663ee8fe91edb96b628a21ba69a1920f64fe700570d0ae9777704f",
+      "raw_bytes": 1256251,
+      "raw_sha256": "995986a44d8bd1562e677388d95f78b3edc1748e03b19899beb7b1c413eac05c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-gdi-research_tabs-controller.json.gz",
+      "bytes": 263,
+      "sha256": "5089ad30977bcc8c70a716f7462a4f608520b3eadf3becd36d872b1d0f8a9818",
+      "raw_bytes": 469,
+      "raw_sha256": "0137cff5e1a454ad481ab69d361403ecf509f05f58ae8649262672ac6275a509",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-gdi-tabs.log.gz",
+      "bytes": 51,
+      "sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4",
+      "raw_bytes": 31,
+      "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-gdi-controller.log.gz",
+      "bytes": 243,
+      "sha256": "a72e0088478c59419037f69f36322bbdc26262ed724fe32a61587672eceb3fd5",
+      "raw_bytes": 366,
+      "raw_sha256": "033eb312213168daac585c5f2ed552ae85077dc33d0f8636b61a704c0f7a74a2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-directx-research_workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1570,
+      "sha256": "52777368802be97c579452d429342da5e29dbcffad6d1ac5e149ab74e56d68cc",
+      "raw_bytes": 8500,
+      "raw_sha256": "dc04d9090c15b7757464c6c471e5c6b2c051aace8709d53aa9ba9dd5fe87073c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-directx-research_workload-tabs-directx-left-memory.json.gz",
+      "bytes": 7911,
+      "sha256": "2e9b142d891cb2850f93d67f89be703645e218d4ca8dfc2a4901e81615f304b5",
+      "raw_bytes": 183418,
+      "raw_sha256": "2d9b358cc89f56c986b2a95fd63b9820b73a35a51f105504e8456a897a06928a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-directx-research_tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "0bb45351595451b684e6a067a3f759115153b8be585f586cd4176745d8c68767",
+      "raw_bytes": 469,
+      "raw_sha256": "689e604428618b734f84f4bccd18b4b2403b97ed8fa1ebfc83f311b934ba2c14",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-directx-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-directx-controller.log.gz",
+      "bytes": 243,
+      "sha256": "5ff4643fbed659d1dcbb68a441e7a3b567a2b32d53d6ea03a361a90da2e211a8",
+      "raw_bytes": 368,
+      "raw_sha256": "d93e9592cd760bc7e93ea121c944d48a26fda17fa87b2cbcb28d429363ee68bb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-tabs_window_smoke.py.gz",
+      "bytes": 7567,
+      "sha256": "be30b762b11babd7e7c698d80a8abb38325fc4f34d193f6cb9e1916eee83dcea",
+      "raw_bytes": 28136,
+      "raw_sha256": "97ba3245e48b252c617a405f350f9ec2a1c84312506271e9ded9a396faab9a09",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-owned_window_events.py.gz",
+      "bytes": 2710,
+      "sha256": "a6d6f6f185fe454fdafa2983a3972515387153010125bc9863c48bc29e20f45f",
+      "raw_bytes": 8889,
+      "raw_sha256": "1ab305470907d9da207f4303d462f4f932030645d9500ba85e194be8ffb3c9ee",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-01-results.json.gz",
+      "bytes": 153,
+      "sha256": "4649151ff69490edf5ad260a6af8b872abed7b38020fb31bd63f73748454f042",
+      "raw_bytes": 271,
+      "raw_sha256": "337b493b68a86fb72e6c16416aed7be18f78cfad1e2ef13bec15e853d715cb96",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-gdi-research_workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 2574,
+      "sha256": "41d2fcdc64bbfaf2bd25f1b78b8caf54009d99304cfa7d503255123ef10cd17a",
+      "raw_bytes": 16017,
+      "raw_sha256": "34eb70e2a82fccb169fe5c2edb5cd6fec7f07729fe8c5b31ee9cf674f4ea49dc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-gdi-research_workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 29684,
+      "sha256": "13778101fc2acd32d4e30f84b4d21f901e0c96b5cbe6d6af5d88b8b2f09a4fb9",
+      "raw_bytes": 1249274,
+      "raw_sha256": "0641eb1c91b5858548b817f10b281ce3c16fb1442b107a0371b51fad2f57bc87",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-gdi-research_tabs-controller.json.gz",
+      "bytes": 263,
+      "sha256": "078e7da940bd0ec41952cd92b04a2c786b5d3364b2383f45248f494e0f1a1a3d",
+      "raw_bytes": 469,
+      "raw_sha256": "28dc9590eba155be1d772afe41352ccd74b87236086712884a17a22f3d27c303",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-gdi-tabs.log.gz",
+      "bytes": 51,
+      "sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4",
+      "raw_bytes": 31,
+      "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-gdi-controller.log.gz",
+      "bytes": 243,
+      "sha256": "6cc9c61bc71ad49f19e5aa3708f0a5a4664e225c675fb3c9abd8f17fd405cbb3",
+      "raw_bytes": 366,
+      "raw_sha256": "3918945ffdc3bf892c3e65a6f960a8cee2b0a309b6caaacfea0585ec252f2f22",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-directx-research_workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1541,
+      "sha256": "faa2e19a4f3d3d1d85e927aacbbd3581ee696252db3d53b7e5f0e094be91c134",
+      "raw_bytes": 8500,
+      "raw_sha256": "77572af249f49383b9d7650c5da6f93c8ac90fd296204aeec4eb23453daeb6b0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-directx-research_workload-tabs-directx-left-memory.json.gz",
+      "bytes": 7855,
+      "sha256": "646dfff4ad2b77dc5dc06930ee3076a9211d1fff6966cf152acb4a328815b589",
+      "raw_bytes": 180797,
+      "raw_sha256": "5944901ae0e70121d3c8888d0018358aecb498415725b6ad00c06ce674217b1a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-directx-research_tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "0189c880a3bb1074878b15fdac09402e381efdb17176b31802c062e25de8bcc4",
+      "raw_bytes": 469,
+      "raw_sha256": "671f9f9979442966bb2ba5e85a574359a65b488d15a2395c0717b5d65bd0da55",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-directx-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-directx-controller.log.gz",
+      "bytes": 243,
+      "sha256": "8c76148f7880e6aff5b208a71a779491193031ca6185fb8b7d47d7a2003ca0a1",
+      "raw_bytes": 368,
+      "raw_sha256": "54ae0fda9a0606e0672324606d76b53ee490fb4fa13e78c3ffa0140db63517c9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-tabs_window_smoke.py.gz",
+      "bytes": 7567,
+      "sha256": "be30b762b11babd7e7c698d80a8abb38325fc4f34d193f6cb9e1916eee83dcea",
+      "raw_bytes": 28136,
+      "raw_sha256": "97ba3245e48b252c617a405f350f9ec2a1c84312506271e9ded9a396faab9a09",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-owned_window_events.py.gz",
+      "bytes": 2710,
+      "sha256": "a6d6f6f185fe454fdafa2983a3972515387153010125bc9863c48bc29e20f45f",
+      "raw_bytes": 8889,
+      "raw_sha256": "1ab305470907d9da207f4303d462f4f932030645d9500ba85e194be8ffb3c9ee",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/pair-02-results.json.gz",
+      "bytes": 176,
+      "sha256": "c86117b59dfdf381d6dcd8399d525a51335e86e0122911a7dc30b9ad598310c9",
+      "raw_bytes": 377,
+      "raw_sha256": "f2656833fc271219ea81deb2198c8633614a913e0c71df57052b5f25d931fd05",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/run-resource-pair.py.gz",
+      "bytes": 2023,
+      "sha256": "05a4ef1d5308e4fb2386e7889b56b2f51abc206f796eab631ed3e6dea99ad762",
+      "raw_bytes": 5446,
+      "raw_sha256": "dc04ee093cc1670ffa97f9bbcb82829b0dec7d1cc994963cf299231a58f52069",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/run-resource-pair-late-copy.py.gz",
+      "bytes": 756,
+      "sha256": "7a67dd4b7c2ce7404cb5c8b28f7c1c1ed1b20dba30b621b2c705bd8d3d6b1eb6",
+      "raw_bytes": 1534,
+      "raw_sha256": "a9916739c539a6639174d4474b47b6e6726fda781c40a1117acd372fdc5d7371",
+      "encoding": "gzip"
     }
-  ]
+  ],
+  "sequential_pairs": {
+    "recorded_utc": "2026-11-13T23:05:03.934010+00:00",
+    "source_commit": "f079f80ade7b5ee73469ddb350ec1acad62042eb",
+    "executable_sha256": "0db4c0d807e810a7d34c592c0920214d667bb45f8d5576d4fda9a42b38e566e5",
+    "original_failure": "research/relative-cursor-validation.json",
+    "root_cause_proven": false,
+    "resource_assertions_unchanged": true,
+    "observer_started_only_on_failure": true,
+    "baseline_snapshot": "Owned window class, PID and thread only; no WinEvent hook, class callback lookup or module enumeration",
+    "runs": {
+      "01": {
+        "preparation": "both fixtures before GDI",
+        "timing": [
+          {
+            "mode": "gdi",
+            "exit_code": 0,
+            "start_monotonic": 1065963.3507117,
+            "end_monotonic": 1066014.6141988
+          },
+          {
+            "mode": "directx",
+            "exit_code": 1,
+            "start_monotonic": 1066014.6145843,
+            "end_monotonic": 1066021.2203996
+          }
+        ],
+        "runs": {
+          "gdi": {
+            "functional_groups": 9,
+            "completed": true,
+            "diagnostic_completed": false,
+            "baseline": {
+              "handles": 404,
+              "gdi": 38,
+              "user": 50,
+              "injected": false,
+              "private_ws": 9801728,
+              "total_ws": 36356096,
+              "private_commit": 12484608
+            },
+            "post_close_samples": 12,
+            "natural_cleanup": true,
+            "controller": {
+              "executable_sha256": "0db4c0d807e810a7d34c592c0920214d667bb45f8d5576d4fda9a42b38e566e5",
+              "name": "tabs",
+              "completed": true,
+              "exit_code": 0,
+              "controller_pid": 46504,
+              "cleanup": {
+                "before": {
+                  "total": 58,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "after": {
+                  "total": 58,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "terminated_remaining": false,
+                "remaining_processes": []
+              },
+              "seconds": 51.198
+            },
+            "inner_cleanup": {
+              "before": {
+                "total": 56,
+                "active": 0,
+                "terminated": 0
+              },
+              "after": {
+                "total": 56,
+                "active": 0,
+                "terminated": 0
+              },
+              "terminated_remaining": false,
+              "remaining_processes": []
+            },
+            "baseline_windows": null,
+            "baseline_counts_before_snapshot": null,
+            "baseline_counts_after_snapshot": null,
+            "resource_failure_reproduced": false,
+            "full_workload_exercised": true,
+            "memory_gate_reached": true,
+            "memory_gate_passed": true,
+            "memory_peaks": {
+              "frontend": {
+                "count": 1,
+                "private_ws": 16207872,
+                "total_ws": 43057152,
+                "private_commit": 18944000
+              },
+              "hosts": {
+                "count": 3,
+                "private_ws": 7053312,
+                "total_ws": 33361920,
+                "private_commit": 9596928
+              },
+              "clients": {
+                "count": 3,
+                "private_ws": 26722304,
+                "total_ws": 53583872,
+                "private_commit": 33144832
+              },
+              "all": {
+                "count": 7,
+                "private_ws": 43974656,
+                "total_ws": 125206528,
+                "private_commit": 55709696
+              }
+            },
+            "memory_samples": 443,
+            "memory_seconds": 48.071
+          },
+          "directx": {
+            "functional_groups": 2,
+            "completed": false,
+            "diagnostic_completed": true,
+            "baseline": {
+              "handles": 543,
+              "gdi": 39,
+              "user": 56,
+              "injected": false,
+              "private_ws": 19709952,
+              "total_ws": 60497920,
+              "private_commit": 75120640
+            },
+            "post_close_samples": 12,
+            "natural_cleanup": true,
+            "controller": {
+              "executable_sha256": "0db4c0d807e810a7d34c592c0920214d667bb45f8d5576d4fda9a42b38e566e5",
+              "name": "tabs",
+              "completed": false,
+              "exit_code": 2,
+              "controller_pid": 25132,
+              "cleanup": {
+                "before": {
+                  "total": 33,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "after": {
+                  "total": 33,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "terminated_remaining": false,
+                "remaining_processes": []
+              },
+              "seconds": 6.538
+            },
+            "inner_cleanup": {
+              "before": {
+                "total": 31,
+                "active": 0,
+                "terminated": 0
+              },
+              "after": {
+                "total": 31,
+                "active": 0,
+                "terminated": 0
+              },
+              "terminated_remaining": false,
+              "remaining_processes": []
+            },
+            "baseline_windows": [
+              {
+                "hwnd": 16584274,
+                "kind": "NativeHWNDHost",
+                "thread": 19300
+              },
+              {
+                "hwnd": 53019196,
+                "kind": "Mode Indicator Button",
+                "thread": 19300
+              },
+              {
+                "hwnd": 24118606,
+                "kind": "NemotermHost",
+                "thread": 40124
+              },
+              {
+                "hwnd": 21763962,
+                "kind": "Nemoterm",
+                "thread": 40124
+              },
+              {
+                "hwnd": 97850808,
+                "kind": "Nemoterm",
+                "thread": 40124
+              },
+              {
+                "hwnd": 19535748,
+                "kind": "NemotermDirect2D",
+                "thread": 40124
+              },
+              {
+                "hwnd": 85723498,
+                "kind": "PuTTYTimerWindow",
+                "thread": 40124
+              },
+              {
+                "hwnd": 22548396,
+                "kind": "MSCTFIME UI",
+                "thread": 40124
+              },
+              {
+                "hwnd": 11601816,
+                "kind": "IME",
+                "thread": 40124
+              },
+              {
+                "hwnd": 71504258,
+                "kind": "UIMCW:00009cbc",
+                "thread": 40124
+              },
+              {
+                "hwnd": 16848660,
+                "kind": "ANIMATION_TIMER_HWND",
+                "thread": 19300
+              },
+              {
+                "hwnd": 11802292,
+                "kind": "OleMainThreadWndClass",
+                "thread": 19300
+              },
+              {
+                "hwnd": 8066426,
+                "kind": "UIMCOM:00009cbc",
+                "thread": 40124
+              },
+              {
+                "hwnd": 29954790,
+                "kind": "UIM:00009cbc",
+                "thread": 40124
+              },
+              {
+                "hwnd": 37031766,
+                "kind": "NemotermEvents",
+                "thread": 40124
+              },
+              {
+                "hwnd": 32772316,
+                "kind": "OleMainThreadWndClass",
+                "thread": 40124
+              },
+              {
+                "hwnd": 58331840,
+                "kind": "UserAdapterWindowClass",
+                "thread": 40124
+              },
+              {
+                "hwnd": 52761246,
+                "kind": "CicMarshalWndClass",
+                "thread": 40124
+              }
+            ],
+            "baseline_counts_before_snapshot": {
+              "handles": 543,
+              "gdi": 40,
+              "user": 55
+            },
+            "baseline_counts_after_snapshot": {
+              "handles": 543,
+              "gdi": 40,
+              "user": 55
+            },
+            "resource_failure_reproduced": false,
+            "full_workload_exercised": false,
+            "memory_gate_reached": false,
+            "memory_gate_passed": null,
+            "memory_peaks": {
+              "frontend": {
+                "count": 1,
+                "private_ws": 20709376,
+                "total_ws": 61739008,
+                "private_commit": 76238848
+              },
+              "hosts": {
+                "count": 3,
+                "private_ws": 5804032,
+                "total_ws": 34050048,
+                "private_commit": 8581120
+              },
+              "clients": {
+                "count": 3,
+                "private_ws": 26939392,
+                "total_ws": 53796864,
+                "private_commit": 33308672
+              },
+              "all": {
+                "count": 7,
+                "private_ws": 53317632,
+                "total_ws": 148922368,
+                "private_commit": 118026240
+              }
+            },
+            "memory_samples": 58,
+            "memory_seconds": 6.292
+          }
+        }
+      },
+      "02": {
+        "preparation": "DX fixture copied after GDI ends",
+        "timing": [
+          {
+            "mode": "gdi",
+            "exit_code": 0,
+            "preparation_start_monotonic": 1066188.0175667,
+            "start_monotonic": 1066188.0875057,
+            "end_monotonic": 1066239.0651859
+          },
+          {
+            "mode": "directx",
+            "exit_code": 1,
+            "preparation_start_monotonic": 1066239.0655416,
+            "start_monotonic": 1066239.1359725,
+            "end_monotonic": 1066245.7497666
+          }
+        ],
+        "runs": {
+          "gdi": {
+            "functional_groups": 9,
+            "completed": true,
+            "diagnostic_completed": false,
+            "baseline": {
+              "handles": 404,
+              "gdi": 38,
+              "user": 50,
+              "injected": false,
+              "private_ws": 10354688,
+              "total_ws": 36921344,
+              "private_commit": 13418496
+            },
+            "post_close_samples": 12,
+            "natural_cleanup": true,
+            "controller": {
+              "executable_sha256": "0db4c0d807e810a7d34c592c0920214d667bb45f8d5576d4fda9a42b38e566e5",
+              "name": "tabs",
+              "completed": true,
+              "exit_code": 0,
+              "controller_pid": 38012,
+              "cleanup": {
+                "before": {
+                  "total": 58,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "after": {
+                  "total": 58,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "terminated_remaining": false,
+                "remaining_processes": []
+              },
+              "seconds": 50.912
+            },
+            "inner_cleanup": {
+              "before": {
+                "total": 56,
+                "active": 0,
+                "terminated": 0
+              },
+              "after": {
+                "total": 56,
+                "active": 0,
+                "terminated": 0
+              },
+              "terminated_remaining": false,
+              "remaining_processes": []
+            },
+            "baseline_windows": null,
+            "baseline_counts_before_snapshot": null,
+            "baseline_counts_after_snapshot": null,
+            "resource_failure_reproduced": false,
+            "full_workload_exercised": true,
+            "memory_gate_reached": true,
+            "memory_gate_passed": true,
+            "memory_peaks": {
+              "frontend": {
+                "count": 1,
+                "private_ws": 16994304,
+                "total_ws": 43892736,
+                "private_commit": 19689472
+              },
+              "hosts": {
+                "count": 3,
+                "private_ws": 7041024,
+                "total_ws": 33878016,
+                "private_commit": 9781248
+              },
+              "clients": {
+                "count": 3,
+                "private_ws": 27045888,
+                "total_ws": 53903360,
+                "private_commit": 33554432
+              },
+              "all": {
+                "count": 7,
+                "private_ws": 44425216,
+                "total_ws": 125677568,
+                "private_commit": 56475648
+              }
+            },
+            "memory_samples": 440,
+            "memory_seconds": 47.695
+          },
+          "directx": {
+            "functional_groups": 2,
+            "completed": false,
+            "diagnostic_completed": true,
+            "baseline": {
+              "handles": 543,
+              "gdi": 39,
+              "user": 56,
+              "injected": false,
+              "private_ws": 19697664,
+              "total_ws": 60461056,
+              "private_commit": 73994240
+            },
+            "post_close_samples": 12,
+            "natural_cleanup": true,
+            "controller": {
+              "executable_sha256": "0db4c0d807e810a7d34c592c0920214d667bb45f8d5576d4fda9a42b38e566e5",
+              "name": "tabs",
+              "completed": false,
+              "exit_code": 2,
+              "controller_pid": 23468,
+              "cleanup": {
+                "before": {
+                  "total": 33,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "after": {
+                  "total": 33,
+                  "active": 0,
+                  "terminated": 0
+                },
+                "terminated_remaining": false,
+                "remaining_processes": []
+              },
+              "seconds": 6.546
+            },
+            "inner_cleanup": {
+              "before": {
+                "total": 31,
+                "active": 0,
+                "terminated": 0
+              },
+              "after": {
+                "total": 31,
+                "active": 0,
+                "terminated": 0
+              },
+              "terminated_remaining": false,
+              "remaining_processes": []
+            },
+            "baseline_windows": [
+              {
+                "hwnd": 22745004,
+                "kind": "NativeHWNDHost",
+                "thread": 22068
+              },
+              {
+                "hwnd": 13109144,
+                "kind": "Mode Indicator Button",
+                "thread": 22068
+              },
+              {
+                "hwnd": 32442708,
+                "kind": "NemotermHost",
+                "thread": 51908
+              },
+              {
+                "hwnd": 46138306,
+                "kind": "Nemoterm",
+                "thread": 51908
+              },
+              {
+                "hwnd": 19666820,
+                "kind": "Nemoterm",
+                "thread": 51908
+              },
+              {
+                "hwnd": 11998900,
+                "kind": "NemotermDirect2D",
+                "thread": 51908
+              },
+              {
+                "hwnd": 98244024,
+                "kind": "PuTTYTimerWindow",
+                "thread": 51908
+              },
+              {
+                "hwnd": 31397466,
+                "kind": "MSCTFIME UI",
+                "thread": 51908
+              },
+              {
+                "hwnd": 30151398,
+                "kind": "IME",
+                "thread": 51908
+              },
+              {
+                "hwnd": 15273120,
+                "kind": "UIMCW:0000cac4",
+                "thread": 51908
+              },
+              {
+                "hwnd": 85920106,
+                "kind": "ANIMATION_TIMER_HWND",
+                "thread": 22068
+              },
+              {
+                "hwnd": 21895034,
+                "kind": "OleMainThreadWndClass",
+                "thread": 22068
+              },
+              {
+                "hwnd": 16979732,
+                "kind": "UIMCOM:0000cac4",
+                "thread": 51908
+              },
+              {
+                "hwnd": 37162838,
+                "kind": "UIM:0000cac4",
+                "thread": 51908
+              },
+              {
+                "hwnd": 33034460,
+                "kind": "NemotermEvents",
+                "thread": 51908
+              },
+              {
+                "hwnd": 58528448,
+                "kind": "OleMainThreadWndClass",
+                "thread": 51908
+              },
+              {
+                "hwnd": 8263034,
+                "kind": "UserAdapterWindowClass",
+                "thread": 51908
+              },
+              {
+                "hwnd": 71700866,
+                "kind": "CicMarshalWndClass",
+                "thread": 51908
+              }
+            ],
+            "baseline_counts_before_snapshot": {
+              "handles": 543,
+              "gdi": 40,
+              "user": 55
+            },
+            "baseline_counts_after_snapshot": {
+              "handles": 543,
+              "gdi": 39,
+              "user": 55
+            },
+            "resource_failure_reproduced": false,
+            "full_workload_exercised": false,
+            "memory_gate_reached": false,
+            "memory_gate_passed": null,
+            "memory_peaks": {
+              "frontend": {
+                "count": 1,
+                "private_ws": 20590592,
+                "total_ws": 61587456,
+                "private_commit": 75034624
+              },
+              "hosts": {
+                "count": 3,
+                "private_ws": 6262784,
+                "total_ws": 34521088,
+                "private_commit": 8572928
+              },
+              "clients": {
+                "count": 3,
+                "private_ws": 26820608,
+                "total_ws": 53673984,
+                "private_commit": 33353728
+              },
+              "all": {
+                "count": 7,
+                "private_ws": 53596160,
+                "total_ws": 149139456,
+                "private_commit": 116748288
+              }
+            },
+            "memory_samples": 58,
+            "memory_seconds": 6.278
+          }
+        }
+      }
+    }
+  }
 }

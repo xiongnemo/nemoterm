@@ -170,6 +170,8 @@ jobs:
           python tests/generate_horizontal_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_reverse_wrap_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_relative_cursor_oracle.py --check
           exit $LASTEXITCODE
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
@@ -528,6 +530,15 @@ jobs:
           python tests/selective_erase_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/selective-erase-observed.json, research/selective-erase-*.png test-results/
+      - name: Test relative cursor movement and double-width write bounds
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/relative_cursor_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/relative-cursor-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/relative-cursor-$renderer-observed.json", "research/relative-cursor-$renderer-window.png" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test colour resets and reverse-video cursor pixels
         shell: pwsh
         run: |
