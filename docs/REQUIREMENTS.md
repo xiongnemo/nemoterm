@@ -1,5 +1,28 @@
 # Nemoterm requirements and evidence ledger
 
+## Automation and input-transfer checkpoint (2026-11-14 Sydney)
+
+Local runtime tests resumed with user authorization. Opt-in named-pipe discovery,
+explicit session targeting, text/key input and text/pixel snapshots are implemented.
+The `2cdde9c` full core workflow and all 90 single-image groups pass. File/folder
+path drops and image-only clipboard delegation are implemented at `fa35542`;
+owned local GDI/DirectX checks and four real Codex/OpenCode image cases pass.
+The first remote file-drop failure exposed a UTF-8 reverse-map bug, fixed at
+`4ab6939`; `abafbbf` also releases conversion scratch buffers. Local regression
+passes again, and both complete `abafbbf` workflows pass, including 93 single-image
+groups. The downloaded CI image also passes the nine local automation groups.
+A separate local Sarasa
+160x48 two-tab workload passes GDI (15.44 MB private WS) but fails DirectX
+(29.70 MB before the conversion fixes, 30.55 MB in the follow-up, against 25 MB),
+so local DX memory acceptance remains open. The
+[checkpoint and retained evidence](../research/automation-input.md) distinguish
+these source/image identities and failures. No physical Explorer gesture,
+custom WSL mount, long-lived agent memory or full protocol acceptance is implied.
+
+Both complete workflows also pass at integration `34e60c1`, superseding the
+older pending compiler-comparison status below. Historical pause statements
+and failures remain attached to their original checkpoints.
+
 ## Current development checkpoint (2026-11-14 Sydney)
 
 User-approved memory acceptance is now strict **20,000,000 private-working-set

@@ -115,6 +115,9 @@ surface. Its post-probe memory samples are marked instrumented. The API itself
 and its Python client require no instrumentation. Tests never attach to existing
 user terminals.
 
+See the [validation checkpoint](../research/automation-input.md) for exact image
+hashes, screenshots, failed fixture attempts and completed CI baselines.
+
 Windows implementation references: [named pipe access security](https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-security-and-access-rights),
 [CreateNamedPipeW](https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-createnamedpipew),
 and [overlapped I/O](https://learn.microsoft.com/en-us/windows/win32/ipc/synchronous-and-overlapped-input-and-output).

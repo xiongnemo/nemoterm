@@ -67,3 +67,12 @@ versions were Codex 0.167.0 and OpenCode 1.19.3. Pillow is a test-only dependenc
 
 Windows references: [WM_DROPFILES](https://learn.microsoft.com/en-us/windows/win32/shell/wm-dropfiles)
 and [DragQueryFileW](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragqueryfilew).
+
+Exact executable identities, local/CI failures and follow-up results are retained
+in the [input validation checkpoint](../research/automation-input.md).
+
+The manual **Input compatibility for an existing image** workflow can replay
+the drop and real Codex image checks without compiling a new executable. Supply
+the source run, exact artifact name and expected image SHA-256. The workflow
+verifies the downloaded bytes and retains their original run identity; it does
+not turn a failed build into a successful full-suite distribution.

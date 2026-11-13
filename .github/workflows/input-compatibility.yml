@@ -6,17 +6,12 @@ on:
       source_run:
         description: Run containing the single executable artifact
         required: true
-        default: '43478442381'
       artifact:
         description: Exact artifact name
         required: true
-        default: unverified-single-exe-x64-fa35542f84e24776d1bfffccf1cfd93582b5b5c6
       image_sha256:
         description: Expected executable SHA-256
         required: true
-        default: ebe0bbd388c6f92aa724fbc4eaff81c1bf50c68ce36ec35b0a127460c7221169
-  push:
-    branches: ['diagnose/input-*']
 
 permissions:
   contents: read
@@ -28,9 +23,9 @@ jobs:
     timeout-minutes: 10
     env:
       GH_TOKEN: ${{ github.token }}
-      SOURCE_RUN: ${{ inputs.source_run || '43478442381' }}
-      SOURCE_ARTIFACT: ${{ inputs.artifact || 'unverified-single-exe-x64-fa35542f84e24776d1bfffccf1cfd93582b5b5c6' }}
-      IMAGE_SHA256: ${{ inputs.image_sha256 || 'ebe0bbd388c6f92aa724fbc4eaff81c1bf50c68ce36ec35b0a127460c7221169' }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      SOURCE_ARTIFACT: ${{ inputs.artifact }}
+      IMAGE_SHA256: ${{ inputs.image_sha256 }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:

@@ -1,5 +1,12 @@
 # Native CI fixture recovery and development checkpoint
 
+Current follow-up: local testing resumed with user authorization on 2026-11-14.
+Both full workflows at `34e60c1`, the 90-group automation checkpoint at
+`2cdde9c`, and the 93-group input-transfer checkpoint at `abafbbf` pass.
+[The new retained checkpoint](automation-input.md) identifies
+the exact images and later input-transfer follow-up. The pause and pending
+statuses below are historical, not the current execution restriction.
+
 Recorded 2026-11-14 (Australia/Sydney). Local runtime testing remains paused.
 All runtime observations below came from GitHub-hosted Windows jobs. The local
 accepted executable was not replaced. The [manifest](ci-fixture-validation.json)

@@ -22,16 +22,19 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **Shell 选择**：检测 PowerShell 7、Windows PowerShell、BusyBox ash、Git Bash、WSL Bash 和 cmd，支持保存默认 shell 与启动目录。
 - **多标签**：标签栏可放在上、下、左、右；支持悬停终端预览、中键关闭和标签滚动。
 - **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
+- **文件与图片输入**：拖入文件/文件夹粘贴转义路径；纯图片剪贴板交给支持图片的终端应用读取。
+- **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
 - **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct2D 合成；GPU 初始化或绘制失败时回退 GDI。
 - **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
 ## 下载
 
-已验证的固定快照：[下载 `3f68d9c` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235/artifacts/14054661905)。
-该提交已合入 `main`，核心 CI 通过，单文件 CI 第二次运行通过 57 组检查；
-包含关闭诊断和 DirectX 25 MB 验收标准。首轮辅助进程超时及验证范围见下方 [CI 状态](#测试与-ci)。
-产物预计于 **2026-12-13（UTC）** 过期，SHA-256 和完整范围见 [验证记录](research/memory-budget.md)。
+已通过 CI 的开发快照：[下载 `abafbbf` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43482108697/artifacts/14066408513)。
+两条完整工作流通过，单文件 CI 共 93 组检查；包含本机自动化接口、文件路径拖放、
+图片粘贴，以及 Unicode 路径和转换缓冲区修复。EXE 为 **4,447,744 字节**。
+产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/automation-input.md)。
+本机大窗口 DirectX 内存验收仍未达标，见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
 
@@ -141,6 +144,8 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
+最近的本机 Sarasa、160×48、双标签负载仍有 DirectX **30.55 MB** 私有工作集失败记录，
+尚未满足 25 MB 目标；同场景较早的 GDI 记录为 15.44 MB。版本与范围见 [输入与内存验证](research/automation-input.md)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
@@ -176,18 +181,14 @@ cd nemoterm
 
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
-| `52d0962`，关闭诊断修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324) |
-| `52d0962`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43452081929) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43452081806) |
-| `3f68d9c`，DirectX 25 MB 标准 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43453467534) | [第二次运行通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43453467235/attempts/2) |
-| `1b09f82`，早期修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
-| `1b09f82`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
+| `abafbbf`，接口、文件/图片输入与转换修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43482108469) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43482108697) |
+| `4ab6939`，Unicode 路径修复 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43481683098) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43481683584) |
+| `2cdde9c`，本机自动化接口 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43475227225) | [通过，90 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43475227426) |
 
-早期超时的单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
-新检查点的 6 个关闭场景均正常完成，不能由此宣称所有历史卡住现象已解决。
-25 MB 标准的边界检查已通过；首轮单文件测试在 GPU 辅助程序报告就绪前超时，
-第二次运行完整通过，原始失败记录保留在 [内存标准验证记录](research/memory-budget.md) 中。
-固定快照的通过记录不代表后续运行均通过。页面顶部徽章显示 `main` 的工作流状态，
-具体提交的测试范围、日志和产物应以对应运行记录为准。
+早期超时、宿主差异、UTF-8 转换和测试夹具失败都保留原始结果，见
+[原生 CI 修复记录](research/ci-fixture-recovery.md)、[输入验证](research/automation-input.md)
+与 [内存标准验证](research/memory-budget.md)。通过记录只覆盖相应提交与场景。
+页面顶部徽章按 `main` 分支显示；具体提交的测试范围、日志和产物以对应运行为准。
 
 本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
 
@@ -201,7 +202,7 @@ cd nemoterm
 单文件原生集成测试：
 
 ```powershell
-python -m pip install frida==17.24.3
+python -m pip install frida==17.24.3 Pillow==13.0.0
 .\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
 ```
 
