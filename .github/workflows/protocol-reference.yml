@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       family:
-        description: Protocol family to compare with the pinned upstream XTerm
+        description: Pinned XTerm comparison or an isolated ConPTY wire diagnostic
         type: choice
         default: identity
         options:
@@ -14,6 +14,7 @@ on:
           - selection-colour
           - cursor-charset
           - reset-palette
+          - sidecar-wire
           - all
   push:
     paths:
@@ -26,6 +27,7 @@ permissions:
 
 jobs:
   xterm-reference:
+    if: inputs.family != 'sidecar-wire'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -73,4 +75,54 @@ jobs:
         with:
           name: protocol-reference-${{ inputs.family || 'identity' }}-${{ github.sha }}
           path: build/protocol-reference/
+          if-no-files-found: error
+
+  sidecar-wire:
+    if: github.event_name == 'workflow_dispatch' && inputs.family == 'sidecar-wire'
+    runs-on: windows-2025
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+      - name: Build the same MinGW frontend used by comparison CI
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          cmake -S vendor/putty-0.85 -B build -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel \
+            '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc' -DPUTTY_GSSAPI=OFF
+          cmake --build build --target pterm --parallel 4
+          mkdir -p dist
+          cp build/nemoterm.exe dist/
+      - name: Prepare the pinned sidecar host and observer
+        shell: pwsh
+        run: |
+          ./scripts/fetch-conpty.ps1 -Architecture x64 -Destination dist
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Trace strict guarded-area replies without changing assertions
+        timeout-minutes: 3
+        shell: pwsh
+        env:
+          NEMOTERM_PROTOCOL_WIRE_TRACE: '1'
+          NEMOTERM_TEST_TRACEBACK_SECONDS: '30'
+        run: |
+          python tests/guarded_area_window_smoke.py 2>&1 | Tee-Object guarded-area-wire.log
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: sidecar-wire-${{ github.sha }}
+          path: |
+            research/guarded-area-wire.jsonl
+            research/guarded-area-observed.json
+            guarded-area-wire.log
+            dist/CONPTY-RUNTIME.json
           if-no-files-found: error

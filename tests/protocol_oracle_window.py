@@ -42,6 +42,7 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '180'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_EXACT_OUTPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
+        wire_trace = None
         try:
             hwnd = wait_for(lambda: find_window(process.pid))
             def snapshot():
@@ -54,7 +55,13 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             def current():
                 return wait_for(snapshot)
             wait_for(lambda: current().get('columns') == 80 and current().get('rows') == 24)
+            if os.environ.get('NEMOTERM_PROTOCOL_WIRE_TRACE') == '1':
+                from protocol_wire_trace import ProtocolWireTrace
+                wire_trace = ProtocolWireTrace(process, exe, root/'research'/f'{name}-wire.jsonl')
             def phase(phase_name, sequence, expected):
+                if wire_trace:
+                    wire_trace.phase(phase_name, sequence+barrier_sequence,
+                                     expected+marker.decode() if expected is not None else None)
                 write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
                     sequence=sequence+barrier_sequence))
                 def received():
@@ -75,6 +82,9 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                 phase('visible-scene', scene, '')
                 time.sleep(.2)
                 capture(hwnd, name+'-window.png')
+            if wire_trace:
+                evidence['wire_observer'] = wire_trace.close()
+                wire_trace = None
             write_snapshot(control, dict(stop=True))
             process.wait(timeout=10)
             assert process.returncode == 0, process.returncode
@@ -83,4 +93,8 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             print(f'Native {name}: {len(cases)} XTerm and {len(extra_cases)} direct cases passed')
         finally:
             evidence['last_snapshot'] = read_snapshot(report)
-            (root/'research'/f'{name}-observed.json').write_text(json.dumps(evidence, indent=2))
+            try:
+                if wire_trace:
+                    evidence['wire_observer'] = wire_trace.close()
+            finally:
+                (root/'research'/f'{name}-observed.json').write_text(json.dumps(evidence, indent=2))
