@@ -1,4 +1,8 @@
-"""Nemoterm modern-underline extensions, separate from unchanged XTerm replies."""
+"""Modern underline/overline expectations, separate from unchanged XTerm replies.
+
+Overline SGR 53/55 is specified by ECMA-48, fifth edition, section 8.3.117.
+Its selective SGR-stack selector 53 is a Nemoterm extension.
+"""
 CSI = '\x1b['
 RESET = CSI+'64;1"p'+(CSI+'#}')*64+'\x1bc'
 SAMPLE = CSI+'HA'+CSI+'1;1;1;1#|'
@@ -32,3 +36,26 @@ for name, body, reply in (
 ):
     CASES.append((name, RESET+body,
                   CSI+reply+'m' if reply is not None else '\x1bP1$r0;4:3;21m\x1b\\'))
+
+RQ = '\x1bP$qm\x1b\\'
+for name,body,sgr in (
+    ('overline-current', CSI+'53m', '0;53'),
+    ('overline-cancel', CSI+'53m'+CSI+'55m', '0'),
+    ('overline-reset', CSI+'53m'+CSI+'0m', '0'),
+    ('overline-soft-reset', CSI+'53m'+CSI+'!p', '0'),
+    ('overline-cursor-restore', CSI+'53m\x1b7'+CSI+'55m\x1b8', '0;53'),
+    ('overline-alternate-restore', CSI+'53m'+CSI+'?1049h'+CSI+'0m'+CSI+'?1049l', '0;53'),
+    ('overline-with-underlines', CSI+'53;4:3;21;58:2::12:34:56m', '0;4:3;21;53;58:2::12:34:56'),
+    ('overline-underline-reset', CSI+'53;4:3;21;58:2::12:34:56m'+CSI+'24;59m', '0;53'),
+    ('overline-selective-stack', CSI+'53;4:3m'+CSI+'53#{'+CSI+'55;4:5m'+CSI+'#}', '0;4:5;53'),
+    ('overline-whole-stack', CSI+'53m'+CSI+'#{'+CSI+'0m'+CSI+'#}', '0;53'),
+    ('overline-unselected-stack', CSI+'53;4:3m'+CSI+'4#{'+CSI+'55;24m'+CSI+'#}', '0;4:3'),
+    ('overline-invalid-subparameter-set', CSI+'53:1m', '0'),
+    ('overline-invalid-subparameter-reset', CSI+'53m'+CSI+'55:1m', '0;53'),
+):
+    CASES.append((name,RESET+body+RQ,'\x1bP1$r'+sgr+'m\x1b\\'))
+for name,body,sgr in (
+    ('overline-common',CSI+'53mAB'+CSI+'1;1;1;2#|','0;53'),
+    ('overline-mixed',CSI+'53mA'+CSI+'55mB'+CSI+'1;1;1;2#|','0'),
+):
+    CASES.append((name,RESET+body,CSI+sgr+'m'))
