@@ -19,7 +19,7 @@ on:
         description: Native validation, frontend heap census, or scoped virtual-memory trace
         type: choice
         default: native
-        options: [native, heap, virtual, etw, etw-decode]
+        options: [native, heap, virtual, etw, etw-decode, bitmap-reuse]
 
 permissions:
   contents: read
@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   bookkeeping:
-    if: inputs.observation != 'etw-decode'
+    if: inputs.observation != 'etw-decode' && inputs.observation != 'bitmap-reuse'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -56,7 +56,7 @@ jobs:
           if-no-files-found: warn
 
   native-adapter:
-    if: inputs.observation != 'etw-decode'
+    if: inputs.observation != 'etw-decode' && inputs.observation != 'bitmap-reuse'
     runs-on: windows-2025
     timeout-minutes: 5
     steps:
@@ -83,7 +83,7 @@ jobs:
   frontend-workload:
     # Explicit diagnostics only. Normal test/build workflows retain their
     # uninstrumented 20,000,000-byte gate and do not recognize diagnostic exit 2.
-    if: github.event_name == 'workflow_dispatch' && inputs.observation != 'native' && inputs.observation != 'etw-decode'
+    if: github.event_name == 'workflow_dispatch' && inputs.observation != 'native' && inputs.observation != 'etw-decode' && inputs.observation != 'bitmap-reuse'
     needs: [bookkeeping, native-adapter]
     strategy:
       fail-fast: false
@@ -196,3 +196,72 @@ jobs:
             etw-raw-decoder.log
           if-no-files-found: warn
           retention-days: 30
+
+  bitmap-lifetime:
+    if: github.event_name == 'workflow_dispatch' && inputs.observation == 'bitmap-reuse'
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [control, reuse]
+    runs-on: windows-2025
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NEMOTERM_REQUIRE_DIRECTX: '1'
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          submodules: true
+      - name: Fetch unchanged control image
+        if: matrix.variant == 'control'
+        shell: pwsh
+        run: |
+          gh run download 43431940613 --repo "$env:GITHUB_REPOSITORY" --name unverified-single-exe-x64-587965e5dfb97ad0290f311f14fc39edb9dff7d1 --dir build/single-exe-dist
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $digest = (Get-FileHash build/single-exe-dist/nemoterm.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -ne '5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3') { throw 'Control image mismatch' }
+      - name: Build candidate frontend and embedded host
+        if: matrix.variant == 'reuse'
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 2>&1 | Tee-Object bitmap-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Set image identity and install test instrumentation
+        shell: pwsh
+        run: |
+          $image = (Resolve-Path build/single-exe-dist/nemoterm.exe).Path
+          "NEMOTERM_TEST_EXE=$image" >> $env:GITHUB_ENV
+          @{variant='${{ matrix.variant }}'; workflow_commit=$env:GITHUB_SHA; executable_sha256=(Get-FileHash $image -Algorithm SHA256).Hash.ToLowerInvariant(); complete_product_acceptance=$false} | ConvertTo-Json | Set-Content bitmap-candidate.json
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Verify unchanged renderer pixels
+        shell: pwsh
+        run: |
+          python tests/renderer_window_smoke.py 2>&1 | Tee-Object bitmap-renderer.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Run normal two-tab workloads with the original memory limits
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'directx')) {
+            python tests/tabs_window_smoke.py --renderer $renderer --side left --workload-memory 2>&1 | Tee-Object "bitmap-$renderer-workload.log"
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+      - name: Retain experimental image and all observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: bitmap-lifetime-${{ matrix.variant }}-${{ github.sha }}
+          path: |
+            bitmap-*.log
+            bitmap-candidate.json
+            build/single-exe-dist/nemoterm.exe
+            research/renderer-printclient-observed.json
+            research/workload-tabs-*
+            build/*failure.json
+          retention-days: 30
+          if-no-files-found: warn

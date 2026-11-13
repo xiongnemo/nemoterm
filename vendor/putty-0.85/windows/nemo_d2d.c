@@ -275,17 +275,36 @@ void nemo_d2d_end_run(NemoD2D *g, RECT box, ptrlen key)
     D2DRun *r=NULL;
     for (unsigned i=0;i<CACHE_COUNT;i++)
         if (!r || g->cache[i].used<r->used) r=&g->cache[i];
-    evict(g,r);
-    while (g->cache_bytes+bytes>CACHE_BYTES) {
-        D2DRun *old=NULL;
+    int width=box.right-box.left,height=box.bottom-box.top;
+    /* Fill empty cache slots first. Once full, prefer an old resource with
+     * exactly the required dimensions. Replacing its contents avoids a new
+     * driver allocation for each distinct text/colour key. CopyFromMemory
+     * flushes a batch that still references the bitmap before updating it. */
+    if (r->bitmap) {
+        D2DRun *same=NULL;
         for (unsigned i=0;i<CACHE_COUNT;i++)
-            if (g->cache[i].bitmap && (!old || g->cache[i].used<old->used)) old=&g->cache[i];
-        if (!old) break;
-        evict(g,old);
+            if (g->cache[i].bitmap && g->cache[i].width==width &&
+                g->cache[i].height==height && (!same || g->cache[i].used<same->used))
+                same=&g->cache[i];
+        if (same) r=same;
     }
-    if (!bitmap(g,box.right-box.left,box.bottom-box.top,g->pixels,g->strip_width*4,&r->bitmap)) return;
-    r->bytes=bytes;g->cache_bytes+=bytes;r->used=++g->tick;r->hash=keyhash(key);
-    r->width=box.right-box.left;r->height=box.bottom-box.top;
+    if (r->bitmap && r->width==width && r->height==height) {
+        if (!check(g,nemo_d2d_copy_memory(r->bitmap,NULL,g->pixels,g->strip_width*4))) return;
+        strbuf_free(r->key);r->key=NULL;
+    } else {
+        evict(g,r);
+        while (g->cache_bytes+bytes>CACHE_BYTES) {
+            D2DRun *old=NULL;
+            for (unsigned i=0;i<CACHE_COUNT;i++)
+                if (g->cache[i].bitmap && (!old || g->cache[i].used<old->used)) old=&g->cache[i];
+            if (!old) break;
+            evict(g,old);
+        }
+        if (!bitmap(g,width,height,g->pixels,g->strip_width*4,&r->bitmap)) return;
+        r->bytes=bytes;g->cache_bytes+=bytes;
+    }
+    r->used=++g->tick;r->hash=keyhash(key);
+    r->width=width;r->height=height;
     r->key=strbuf_new();put_datapl(r->key,key);draw(g,r->bitmap,box);
 }
 void nemo_d2d_row(NemoD2D *g, int x, int y, int width, const uint32_t *pixels)
