@@ -11,7 +11,8 @@ k.VirtualQueryEx.argtypes,k.VirtualQueryEx.restype=[w.HANDLE,c.c_void_p,c.POINTE
 ps.GetMappedFileNameW.argtypes=[w.HANDLE,c.c_void_p,w.LPWSTR,w.DWORD]
 
 
-def private_regions(handle):
+def private_page_addresses(handle):
+    """Return the resident private page addresses from one working-set query."""
     capacity=65536
     for _ in range(8):
         pages=(c.c_size_t*(capacity+1))()
@@ -22,7 +23,29 @@ def private_regions(handle):
         if capacity>4_194_304:raise RuntimeError('Working-set map exceeds observation limit')
     else:raise RuntimeError('Working set kept growing during region mapping')
     assert pages[0]<=capacity
-    addresses=sorted(int(pages[i+1])&~(mmap.PAGESIZE-1) for i in range(pages[0]) if not pages[i+1]&256)
+    return sorted(int(pages[i+1])&~(mmap.PAGESIZE-1) for i in range(pages[0]) if not pages[i+1]&256)
+
+
+def reservation_range(handle, allocation):
+    """Walk an existing MEM_PRIVATE reservation, including uncommitted regions."""
+    cursor=allocation
+    for _ in range(4096):
+        part=Region()
+        if k.VirtualQueryEx(handle,cursor,c.byref(part),c.sizeof(part))!=c.sizeof(part):
+            raise c.WinError()
+        if part.state==0x10000 or part.allocation!=allocation:
+            if cursor==allocation:raise RuntimeError('Selected reservation disappeared')
+            return dict(start=hex(allocation),end=hex(cursor))
+        if cursor==allocation and part.kind!=0x20000:
+            raise RuntimeError('Selected reservation is no longer private')
+        following=part.base+part.size
+        if following<=cursor:raise RuntimeError('Non-advancing reservation query')
+        cursor=following
+    raise RuntimeError('Reservation query exceeded region limit')
+
+
+def private_regions(handle):
+    addresses=private_page_addresses(handle)
     allocations={};regions=set();current=Region()
     for address in addresses:
         if not current.base or not current.base<=address<current.base+current.size:

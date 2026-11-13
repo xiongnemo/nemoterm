@@ -14,9 +14,14 @@ parser.add_argument('--rows',type=int,default=48)
 parser.add_argument('--dense-clusters',action='store_true')
 parser.add_argument('--workload-memory',action='store_true',
                     help='sample the full process tree during dense history and resize before instrumentation')
+parser.add_argument('--allocation-census',action='store_true',
+                    help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
 args=parser.parse_args()
+if args.allocation_census and (not args.workload_memory or os.environ.get('CI')!='true'):
+    parser.error('--allocation-census requires --workload-memory on a dedicated CI runner')
+if args.allocation_census:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
-prefix='workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
+prefix='allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -54,7 +59,8 @@ def windows(pid,kind,parent=None,visible=False):
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
-              completed=False,checks=[],memory_instrumented=False)
+              completed=False,checks=[],memory_instrumented=args.allocation_census)
+if args.allocation_census:evidence.update(diagnostic_completed=False,memory_acceptance=False)
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -62,7 +68,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     if args.workload_memory:winreg.SetValueEx(key,'ScrollbackLines',0,winreg.REG_DWORD,2000)
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
-        tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None
+        tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
         process=job.spawn([str(exe),'-load',profile,'--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
@@ -71,7 +77,7 @@ try:
         try:
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
-                memory_sampler=TabMemorySampler(process.pid,exe)
+                memory_sampler=TabMemorySampler(process.pid,exe,injected=args.allocation_census)
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
             def new_child(before):
                 def launch():
@@ -124,7 +130,8 @@ try:
                     if phase in ('history-0','history-1','frame-0','frame-23','settled'):
                         from working_set_regions import private_regions
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
-                return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),**memory_sample(handle))
+                return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
+                            injected=args.allocation_census,**memory_sample(handle))
             first=new_child([])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
@@ -173,6 +180,12 @@ try:
             if not args.workload_memory and (actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1')):
                 assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
             if args.workload_memory:
+                if args.allocation_census:
+                    from allocation_census import AllocationCensus
+                    census_observer=AllocationCensus(process.pid,handle,
+                        root/'research'/f'{prefix}-{args.renderer}-{args.side}-census.json')
+                    census_observer.result['executable_sha256']=evidence['executable_sha256']
+                    census_observer.start()
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
@@ -186,7 +199,19 @@ try:
                 evidence['process_tree_memory']={k:v for k,v in memory.items() if k!='samples'}
                 evidence['peak_private_ws']=max(evidence['peak_private_ws'],memory['peaks']['frontend']['private_ws'])
                 evidence['memory_limit_required']=actual in (1,3)
-                evidence['memory_limit_passed']=evidence['peak_private_ws']<20_000_000
+                evidence['memory_limit_passed']=None if args.allocation_census else evidence['peak_private_ws']<20_000_000
+                if args.allocation_census:
+                    evidence['allocation_census']=census_observer.freeze()
+                    census_observer.close();census_observer=None
+                    u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
+                    assert process.returncode==0,process.returncode
+                    evidence['owned_job_cleanup']=job.finish(grace=5)
+                    assert not evidence['owned_job_cleanup']['terminated_remaining']
+                    evidence['diagnostic_completed']=True
+                    print('Allocation diagnostic complete; memory acceptance was not evaluated',flush=True)
+                    # Dedicated diagnostic CI recognizes this explicit outcome.
+                    # Ordinary acceptance workflows must not turn green here.
+                    raise SystemExit(2)
             if args.dense_clusters:
                 dense_memory_phase=False
                 output(first,scene('TAB ONE','80;20;20'));output(second,scene('TAB TWO','20;70;20'))
@@ -288,15 +313,21 @@ try:
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             evidence['completed']=True
         finally:
-            if memory_sampler:
-                memory=memory_sampler.stop()
-                (root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json').write_text(json.dumps(memory,indent=2),encoding='utf-8')
-            if hover_session:hover_session.detach()
-            for capture_helper in captures:capture_helper.close()
-            if handle:k.CloseHandle(handle)
-            evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
+            try:
+                if census_observer:census_observer.close()
+            finally:
+                if memory_sampler:
+                    memory=memory_sampler.stop()
+                    (root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json').write_text(json.dumps(memory,indent=2),encoding='utf-8')
+                if hover_session:hover_session.detach()
+                for capture_helper in captures:capture_helper.close()
+                if handle:k.CloseHandle(handle)
+                evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
 finally:
-    if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
+    failure=sys.exc_info()[1]
+    if failure and not (evidence.get('diagnostic_completed') and isinstance(failure,SystemExit) and failure.code==2):
+        evidence['error']=repr(failure)
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
     (root/'research'/f'{prefix}-{args.renderer}-{args.side}-observed.json').write_text(json.dumps(evidence,indent=2))
+    if args.allocation_census:faulthandler.cancel_dump_traceback_later()
 print('Tabs passed:',args.renderer,args.side,len(evidence['checks']),'checks')

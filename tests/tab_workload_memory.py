@@ -9,10 +9,13 @@ from console_process_utils import owned_processes, workload_process_role
 
 
 class TabMemorySampler:
-    def __init__(self, pid, executable, interval=.1):
+    def __init__(self, pid, executable, interval=.1, injected=False):
         self.pid = pid
         self.executable = os.path.normcase(str(Path(executable).resolve()))
         self.interval = interval
+        # A diagnostic caller conservatively labels the entire run, including
+        # its startup samples, when it will inject into the observed frontend.
+        self.injected = injected
         self.phase = 'startup'
         self.started = time.monotonic()
         self.samples = []
@@ -42,7 +45,7 @@ class TabMemorySampler:
                         for key,value in process['memory'].items():
                             group[key] += value
                 self.samples.append(dict(seconds=round(started-self.started,4), phase=phase,
-                                         groups=groups, processes=processes))
+                                         injected=self.injected, groups=groups, processes=processes))
             except Exception as error:
                 self.errors.append(dict(seconds=round(started-self.started,4), error=repr(error)))
                 return
@@ -58,7 +61,7 @@ class TabMemorySampler:
         return dict(interval_seconds=self.interval, sample_count=len(self.samples),
                     seconds=round(time.monotonic()-self.started,3), errors=self.errors,
                     exited_during_sample=self.exited_during_sample,
-                    injected=False, peaks=peaks, samples=self.samples,
+                    injected=self.injected, peaks=peaks, samples=self.samples,
                     scope='Synthetic dense text, bounded scrollback, links, images, tab lifetime and resize; not a real agent or physical hover acceptance.',
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 

@@ -7,11 +7,15 @@ on:
       - 'tests/test_allocation_census.c'
       - 'tests/frida_test_utils.py'
       - 'tests/owned_job.py'
+      - 'tests/working_set_regions.py'
+      - 'tests/tab_workload_memory.py'
+      - 'tests/tabs_window_smoke.py'
       - '.github/workflows/allocation-census.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   bookkeeping:
@@ -27,12 +31,19 @@ jobs:
             -fsanitize=address,undefined -fno-omit-frame-pointer \
             tests/test_allocation_census.c -o allocation-census-test
           ./allocation-census-test 2>&1 | tee allocation-census-test.log
+      - name: Check private-page correlation accounting
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tests/allocation_census_pages_test.py 2>&1 | tee allocation-census-pages.log
       - name: Retain diagnostic collector validation
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: allocation-census-bookkeeping-${{ github.sha }}
-          path: allocation-census-test.log
+          path: |
+            allocation-census-test.log
+            allocation-census-pages.log
           if-no-files-found: warn
 
   native-adapter:
@@ -53,4 +64,50 @@ jobs:
         with:
           name: allocation-census-native-${{ github.sha }}
           path: allocation-census-native.json
+          if-no-files-found: warn
+
+  frontend-workload:
+    # Explicit diagnostics only. Normal test/build workflows retain their
+    # uninstrumented 20,000,000-byte gate and do not recognize diagnostic exit 2.
+    if: github.event_name == 'workflow_dispatch'
+    needs: [bookkeeping, native-adapter]
+    strategy:
+      fail-fast: false
+      matrix:
+        renderer: [gdi, directx]
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NEMOTERM_REQUIRE_DIRECTX: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Fetch the exact candidate that exceeded the DirectX limit
+        shell: pwsh
+        run: |
+          gh run download 43431940613 --repo "$env:GITHUB_REPOSITORY" --name unverified-single-exe-x64-587965e5dfb97ad0290f311f14fc39edb9dff7d1 --dir build/allocation-candidate
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $image = (Resolve-Path build/allocation-candidate/nemoterm.exe).Path
+          $digest = (Get-FileHash -LiteralPath $image -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -ne '5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3') { throw 'Candidate hash mismatch' }
+          "NEMOTERM_TEST_EXE=$image" >> $env:GITHUB_ENV
+          @{source_run=43431940613; source_commit='587965e5dfb97ad0290f311f14fc39edb9dff7d1'; executable_sha256=$digest; diagnostic_commit=$env:GITHUB_SHA; memory_acceptance=$false} | ConvertTo-Json | Set-Content research/allocation-census-candidate.json
+      - name: Install pinned native observer
+        run: python -m pip install frida==17.24.3
+      - name: Capture the bounded two-tab workload
+        shell: pwsh
+        run: |
+          python tests/tabs_window_smoke.py --renderer ${{ matrix.renderer }} --side left --workload-memory --allocation-census 2>&1 | Tee-Object allocation-census-workload.log
+          if ($LASTEXITCODE -ne 2) { throw "Expected diagnostic exit 2; got $LASTEXITCODE" }
+          python tests/allocation_census_validate.py --renderer ${{ matrix.renderer }}
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Retain allocation diagnostic metadata
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: allocation-census-frontend-${{ matrix.renderer }}-${{ github.sha }}
+          path: |
+            allocation-census-workload.log
+            research/allocation-census-candidate.json
+            research/allocation-tabs-*
           if-no-files-found: warn
