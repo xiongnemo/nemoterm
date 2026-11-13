@@ -1,7 +1,8 @@
 """Capture XTerm's actual named-colour replies, retaining any differences.
 
-Prepared only: run under Linux/WSL after runtime testing resumes. Source-derived
-expectations are compared only after the independent raw capture is saved.
+Run on the isolated Linux CI runner while local runtime testing is paused.
+Source-derived expectations are compared only after the independent raw capture
+is saved, including failures. X11 package versions are retained by the workflow.
 """
 import argparse
 import importlib.util

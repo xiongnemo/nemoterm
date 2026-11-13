@@ -14,6 +14,7 @@ on:
           - selection-colour
           - cursor-charset
           - reset-palette
+          - x11-colour
           - sidecar-wire
           - all
   push:
@@ -53,6 +54,7 @@ jobs:
           git rev-parse HEAD > build/protocol-reference/fixture-commit.txt
           sha256sum /tmp/nemoterm-xterm-reference/xterm > build/protocol-reference/executable-sha256.txt
           /tmp/nemoterm-xterm-reference/xterm -version > build/protocol-reference/version.txt
+          dpkg-query -W -f='${Package}\t${Version}\n' xvfb libx11-6 libxft2 > build/protocol-reference/x11-packages.txt
       - name: Compare identity argument and cursor semantics
         if: ${{ (success() || failure()) && (inputs.family == '' || inputs.family == 'identity' || inputs.family == 'all') }}
         run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/identity-xterm.json
@@ -71,6 +73,9 @@ jobs:
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
+      - name: Compare named-colour replies against the pinned Xorg table
+        if: ${{ (success() || failure()) && (inputs.family == 'x11-colour' || inputs.family == 'all') }}
+        run: python3 tests/xterm_x11_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/x11-colour-xterm.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
