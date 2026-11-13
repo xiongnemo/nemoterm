@@ -4,7 +4,7 @@
 [![Single executable](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml/badge.svg?branch=main)](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-面向 Windows 的轻量原生终端：C/C++、Win32 界面、可切换渲染器，最终交付一个 `nemoterm.exe`。
+面向 Windows 的轻量原生终端：C/C++、Win32 界面、可切换渲染器，提供单文件 `nemoterm.exe` 开发构建。
 
 Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心与压缩回滚，
 并将 Microsoft Terminal 的 OpenConsole / ConPTY 源码链接进同一可执行文件。
@@ -28,16 +28,20 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
+已验证的固定快照：[下载 `1b09f82` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348/artifacts/14041675507)。
+该提交已合入 `main`，在修复分支上通过两条 CI 和 57 组单文件检查；
+后续主分支复跑的单文件任务超时取消，详见下方 [CI 状态](#测试与-ci)。
+产物预计于 **2026-12-13（UTC）** 过期，SHA-256 和完整范围见 [验证记录](research/native-observer-cleanup.md)。
+
+查找后续开发构建：
+
 1. 登录 GitHub，打开 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)。
 2. 筛选 `main` 分支，选择一次 **成功完成** 的运行。
-3. 在运行页面的 **Artifacts** 中下载 `nemoterm-single-exe-x64-<commit>`，解压并运行 `nemoterm.exe`。
+3. 查看同一提交的 [Test and build](https://github.com/xiongnemo/nemoterm/actions/workflows/ci.yml) 结果；两条工作流独立执行。
+4. 在运行页面的 **Artifacts** 中下载 `nemoterm-single-exe-x64-<commit>`，解压并运行 `nemoterm.exe`。
 
 GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
 产物有保留期限；过期后请选择较新的成功运行，或按下文从源码构建。
-
-已合入 `main` 的提交 `1b09f82` 通过两条 CI 和 57 组单文件检查，
-对应的 [验证记录](research/native-observer-cleanup.md) 包含产物链接、SHA-256 和测试范围。
-该记录是固定检查点；后续版本请按上面的步骤查找成功运行。
 
 | 产物 | 用途 |
 | --- | --- |
@@ -107,7 +111,8 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 打开 OSC 8 链接 | `Ctrl+左键单击` |
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
 
-右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴。
+右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
+或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
@@ -164,9 +169,16 @@ cd nemoterm
 | [Test and build](.github/workflows/ci.yml) | Windows 核心回归、MinGW 对照构建及原生集成测试，Linux ASan / UBSan；保留对照包和测试日志 |
 | [Single executable from source](.github/workflows/single-exe.yml) | MSVC 从源码构建单 EXE，在隔离目录执行原生协议、像素和客户端测试；保留单文件产物与测试证据 |
 
-两条工作流独立报告结果；验证某个提交时，应同时查看两条工作流的日志。
-已合入主分支的检查点见 [原生测试清理修复的验证记录](research/native-observer-cleanup.md)，
-其中保留了对应提交、两条 CI 结果和单文件产物校验信息。
+截至 **2026-11-14（Australia/Sydney）**，提交 `1b09f82` 的运行结果为：
+
+| 运行位置 | Test and build | Single executable from source |
+| --- | --- | --- |
+| 修复分支，合入 `main` 前 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
+| `main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
+
+后一次单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
+固定快照的通过记录不代表后续运行均通过。页面顶部徽章显示 `main` 的工作流状态，
+具体提交的测试范围、日志和产物应以对应运行记录为准。
 
 本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
 
@@ -183,6 +195,10 @@ cd nemoterm
 python -m pip install frida==17.24.3
 .\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
 ```
+
+结果默认写入 `build/single-exe-check`。重跑时用 `-Destination` 指定新的目录，脚本不会覆盖已有证据。
+上面的本地命令不包含 Codex 客户端测试；传入 `-CodexExecutable "路径\codex.exe"` 才会运行这些检查。
+CI 使用 `tools/codex-fixture` 锁定的客户端版本，并通过本地响应测试默认、内嵌及多标签界面。
 
 原生集成测试会打开窗口并测试输入和剪贴板，应在空闲桌面或专用测试环境运行。
 测试结果只适用于记录的提交、系统和场景；编译成功不代表运行验收通过。
