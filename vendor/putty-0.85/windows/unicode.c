@@ -512,6 +512,11 @@ static reverse_mapping *make_reverse_mapping_inner(
 
 static void make_reverse_mapping(int codepage, const wchar_t *mapping)
 {
+    /* UTF-8 cannot be encoded with a 256-entry reverse table. The display
+     * table is an identity map, not an encoding: caching it drops CJK and
+     * surrogates and emits Latin-1 bytes after non-UTF-8 font initialization. */
+    if (codepage == CP_UTF8)
+        return;
     if (get_existing_reverse_mapping(codepage))
         return;                        /* we've already got this one */
     make_reverse_mapping_inner(codepage, mapping);

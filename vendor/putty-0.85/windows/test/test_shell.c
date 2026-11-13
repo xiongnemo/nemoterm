@@ -20,6 +20,25 @@ static void fake_file(const wchar_t *root, const wchar_t *suffix)
 }
 int main(void)
 {
+    /* A Windows font codepage distinct from UTF-8 must not cause init_ucs
+     * to register a single-byte reverse map for a multibyte encoding. This
+     * affects Unicode paths/titles converted after a terminal is created. */
+    Conf *conversion_conf=conf_new();
+    conf_set_str(conversion_conf,CONF_line_codepage,"UTF-8");
+    conf_set_int(conversion_conf,CONF_vtmode,VT_XWINDOWS);
+    struct unicode_data conversion_ucs={0};conversion_ucs.font_codepage=1252;
+    init_ucs(conversion_conf,&conversion_ucs);
+    const wchar_t conversion_wide[]={0x41,0xe9,0x4e2d,0xd83d,0xde00,0};
+    const char conversion_utf8[]="A\xc3\xa9\xe4\xb8\xad\xf0\x9f\x98\x80";
+    char *converted=dup_wc_to_mb(CP_UTF8,conversion_wide,NULL);
+    if (strcmp(converted,conversion_utf8)) {
+        fputs("UTF-8 conversion lost characters after non-UTF-8 font initialization\n",stderr);
+        return 1;
+    }
+    wchar_t *roundtrip=dup_mb_to_wc(CP_UTF8,converted);
+    assert(!wcscmp(roundtrip,conversion_wide));
+    sfree(roundtrip);sfree(converted);conf_free(conversion_conf);
+
     wchar_t temp[MAX_PATH], base[MAX_PATH];
     assert(GetTempPathW(lenof(temp), temp));
     assert(GetTempFileNameW(temp, L"nsh", 0, base));
