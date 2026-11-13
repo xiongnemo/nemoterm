@@ -1,0 +1,179 @@
+{
+  "source_base": "fb4e79edf51550050465f2e990941c212016d155",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-attribute-colours-unverified/dist/nemoterm.exe",
+    "bytes": 4450816,
+    "sha256": "7343eef8406f4b0907c08059d1610c53645689affa87eac302167096f1c9ee00"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_osc_colour"
+      ],
+      "log": "research/attribute-colours-build-evidence/attribute-colours-msvc-final-build.log",
+      "bytes": 363,
+      "sha256": "642a78b4306f692e56b1fa1c0d2659eec8e6b54eb9404d20bef171ae486f2fb8",
+      "executed_tests": false
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_osc_colour"
+      ],
+      "log": "research/attribute-colours-build-evidence/attribute-colours-linux-final-build.log",
+      "bytes": 349,
+      "sha256": "8a74df209863d9eee78cef0349f91dbb70ae29be1fa007c9d467d74340557510",
+      "executed_tests": false
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "research/attribute-colours-build-evidence/attribute-colours-single-build.log",
+      "bytes": 3038,
+      "sha256": "55268c058e8d11514bf2b0b2587e7a8fc9773723dd98cb8d7696c612e6d8be58",
+      "executed_tests": false
+    }
+  },
+  "initial_windows_build": {
+    "log": "research/attribute-colours-build-evidence/attribute-colours-msvc-build.log",
+    "bytes": 1507,
+    "sha256": "39b465d2fd6f505daa496412ca2e3f633daf4a354f3ba88037e0aa2a6115234b",
+    "purpose": "Initial successful compile, retaining existing C4319 warnings; superseded by final compile for terminal.c and test header"
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 493981,
+      "sha256": "43d08f882b9bcb07c529a789a4d34e9396904ab12a760ea9358f7260d185d269",
+      "lf_bytes": 493981,
+      "sha256_lf": "43d08f882b9bcb07c529a789a4d34e9396904ab12a760ea9358f7260d185d269"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 29090,
+      "sha256": "c3a25a13b9ee17de08fc56a699f495e624a721a95b9c1c62ddf83f391f741045",
+      "lf_bytes": 28299,
+      "sha256_lf": "ff9f0f1d7d93cc8cb06ed14e334472ba6ac11b4bb5df22d9db631cdd5efe9a19"
+    },
+    "vendor/putty-0.85/test/test_osc_colour.c": {
+      "bytes": 8151,
+      "sha256": "773c24f4366d5300feedd944a4d019cda7abffa468ddbde429728745946a165a",
+      "lf_bytes": 8151,
+      "sha256_lf": "773c24f4366d5300feedd944a4d019cda7abffa468ddbde429728745946a165a"
+    },
+    "vendor/putty-0.85/test/test_attribute_colour.h": {
+      "bytes": 8769,
+      "sha256": "ace95ed601bf918ae7ade6d8169392f6e744a5076baa649aa704a1cd57287772",
+      "lf_bytes": 8769,
+      "sha256_lf": "ace95ed601bf918ae7ade6d8169392f6e744a5076baa649aa704a1cd57287772"
+    },
+    "tests/attribute_colour_cases.py": {
+      "bytes": 2667,
+      "sha256": "0b4e683cb21f5526431b1f7af1951e5d74e747c46235cdcf6d8bd0d90739c824",
+      "lf_bytes": 2667,
+      "sha256_lf": "0b4e683cb21f5526431b1f7af1951e5d74e747c46235cdcf6d8bd0d90739c824"
+    },
+    "tests/attribute_colour_cases.h": {
+      "bytes": 8330,
+      "sha256": "09a7aabca4e8744d329f492ebd782accbcd92a31e413a89cd4db4f074e6fc71f",
+      "lf_bytes": 8330,
+      "sha256_lf": "09a7aabca4e8744d329f492ebd782accbcd92a31e413a89cd4db4f074e6fc71f"
+    },
+    "tests/generate_attribute_colour_cases.py": {
+      "bytes": 1147,
+      "sha256": "99490e88b4c67e185c310ef2b4b62a6fb479162289db26b41277cd61a8be5b42",
+      "lf_bytes": 1147,
+      "sha256_lf": "99490e88b4c67e185c310ef2b4b62a6fb479162289db26b41277cd61a8be5b42"
+    },
+    "tests/xterm_attribute_colour_oracle.py": {
+      "bytes": 1399,
+      "sha256": "fe316225447e1b9e25e008447ba05038ec3c8980f652524124168db7f1585750",
+      "lf_bytes": 1399,
+      "sha256_lf": "fe316225447e1b9e25e008447ba05038ec3c8980f652524124168db7f1585750"
+    },
+    "tests/attribute_colour_window_smoke.py": {
+      "bytes": 5535,
+      "sha256": "93bae5d07a265e7c7b9c1031c6fd254a4539c3fc7b94ccc73dfa66f4c66b510e",
+      "lf_bytes": 5535,
+      "sha256_lf": "93bae5d07a265e7c7b9c1031c6fd254a4539c3fc7b94ccc73dfa66f4c66b510e"
+    },
+    "tests/protocol_oracle_window.py": {
+      "bytes": 4660,
+      "sha256": "76ccdf67f8a723316355aa33449150789cd88cc2633e01381614dc0075945d17",
+      "lf_bytes": 4660,
+      "sha256_lf": "76ccdf67f8a723316355aa33449150789cd88cc2633e01381614dc0075945d17"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9527,
+      "sha256": "22926f5b5d8dda4e6d1478bf11858dfb5a936ec0a9eb5bb4762490e21454fc4e",
+      "lf_bytes": 9527,
+      "sha256_lf": "22926f5b5d8dda4e6d1478bf11858dfb5a936ec0a9eb5bb4762490e21454fc4e"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 35225,
+      "sha256": "8ea9fc27ae98dd184da242055aa7ca2166f5d37415869919043af4e332836613",
+      "lf_bytes": 35225,
+      "sha256_lf": "8ea9fc27ae98dd184da242055aa7ca2166f5d37415869919043af4e332836613"
+    }
+  },
+  "reference": {
+    "version": "XTerm(412)",
+    "upstream_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+    "local_directory": "/tmp/nemoterm-xterm-reference",
+    "files_sha256": {
+      "misc.c": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db",
+      "xterm.h": "aa127fcb623de8c687bf516e5d2954bfcec1a0683b7e72e5f226736653e3909f",
+      "ptyx.h": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38",
+      "charproc.c": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325",
+      "util.c": "50df2a5224f70077d8470622d8843ee6ffab32dcc29699af741a8f40968e82ef",
+      "ctlseqs.txt": "364c1c1987c85b1c1135e57a93e9008054f46d09a338de8dcc66ea9a7c613709",
+      "xterm.man": "6d3bdddbf3f8e26937276eaf19355372413e075851dad132f2b441e77fc40800"
+    },
+    "executed": false
+  },
+  "static_checks": [
+    "generated authored fixture freshness (39 cases)",
+    "Python syntax compilation (5 files)",
+    "PowerShell test-single-exe.ps1 AST",
+    "git diff --check"
+  ],
+  "source_member_sizes": {
+    "terminal_before_padding": 21,
+    "per_lazy_palette_snapshot": 20,
+    "screen_cell_added": 0,
+    "scrollback_cell_added": 0
+  },
+  "preserved_images": {
+    "accepted_main": {
+      "bytes": 4371456,
+      "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+    },
+    "tested_palette_candidate": {
+      "bytes": 4430848,
+      "sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332"
+    },
+    "unverified_x11_candidate": {
+      "bytes": 4448256,
+      "sha256": "47621d261253697e4ab43852f988f80ef54a8c7a88f9a2cbf5043d80baeecbe8"
+    }
+  },
+  "runtime_pending": [
+    "core authored wire and mock-paint suites",
+    "ASan/UBSan execution",
+    "independent XTerm wire/pixel comparison",
+    "GDI/OpenGL/DirectX native colour fixtures",
+    "selection and palette regression",
+    "uninstrumented GDI memory gate"
+  ],
+  "known_reference_review": [
+    "Documented mode 5 absent from inspected XTerm do_osc switch",
+    "XTerm caches extended colour indices during write; Nemoterm resolves at paint",
+    "Strict decimal parsing differs from XTerm atoi handling",
+    "No separate colourXX default settings or veryBoldColors setting yet"
+  ]
+}

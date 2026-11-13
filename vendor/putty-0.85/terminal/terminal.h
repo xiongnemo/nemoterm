@@ -534,6 +534,10 @@ struct terminal_tag {
      * Unset fields retain the existing per-cell inverse-video selection. */
     optionalrgb selection_colours[2];
     optionalrgb selection_defaults[2];
+    /* OSC 5: bold, underline, blink, reverse, italic. These are distinct
+     * from PuTTY's internal default/cursor indices 256..261. */
+    optionalrgb attribute_colours[5];
+    unsigned char attribute_colour_modes; /* bits 0..4; bit 5 overrides SGR */
     struct NemoPaletteStack *palette_stack;
 
     int winpos_x, winpos_y;

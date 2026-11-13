@@ -83,6 +83,7 @@ struct nemo_title_stack {
 struct NemoPaletteSnapshot {
     rgb entries[OSC4_NCOLOURS];
     optionalrgb selection[2];
+    optionalrgb attributes[5];
 };
 struct NemoPaletteStack {
     unsigned used, last;
@@ -3494,6 +3495,25 @@ static void nemo_selection_colour_set(Terminal *term, unsigned which,
     }
 }
 
+static rgb nemo_attribute_colour(Terminal *term, unsigned which)
+{
+    optionalrgb c = term->attribute_colours[which];
+    unsigned layer = term->subpalettes[SUBPAL_PLATFORM].present[OSC4_COLOUR_fg] ?
+        SUBPAL_PLATFORM : SUBPAL_CONF;
+    return c.enabled ? (rgb){c.r, c.g, c.b} :
+        term->subpalettes[layer].values[OSC4_COLOUR_fg];
+}
+
+static void nemo_attribute_colour_set(Terminal *term, unsigned which,
+                                      optionalrgb colour)
+{
+    assert(which < lenof(term->attribute_colours));
+    if (!optionalrgb_equal(term->attribute_colours[which], colour)) {
+        term->attribute_colours[which] = colour;
+        term_invalidate(term);
+    }
+}
+
 static void nemo_palette_stack_op(Terminal *term, bool push)
 {
     for (unsigned p = 0; p < term->esc_nargs; p++) {
@@ -3512,6 +3532,8 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
             memcpy(stack->slot[slot]->entries, term->palette, sizeof(term->palette));
             memcpy(stack->slot[slot]->selection, term->selection_colours,
                    sizeof(term->selection_colours));
+            memcpy(stack->slot[slot]->attributes, term->attribute_colours,
+                   sizeof(term->attribute_colours));
             /* XTerm distinguishes an omitted value from an explicit zero:
              * omitted increments; explicit zero saves at used and seeks to 0.
              * Indexed writes seek to that index without raising last. */
@@ -3524,6 +3546,8 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
                 term->subpalettes[SUBPAL_SESSION].present[i] = true;
             for (unsigned i = 0; i < lenof(term->selection_colours); i++)
                 nemo_selection_colour_set(term, i, stack->slot[slot]->selection[i]);
+            for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
+                nemo_attribute_colour_set(term, i, stack->slot[slot]->attributes[i]);
             stack->used = slot;
             palette_rebuild(term);
         }
@@ -3592,6 +3616,8 @@ static void palette_reset(Terminal *term, bool keep_overrides)
             term->subpalettes[SUBPAL_SESSION].present[i] = false;
         for (unsigned i = 0; i < lenof(term->selection_colours); i++)
             nemo_selection_colour_set(term, i, optionalrgb_none);
+        for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
+            nemo_attribute_colour_set(term, i, optionalrgb_none);
     }
 
     /*
@@ -5861,14 +5887,15 @@ static char *osc_token(char **next)
     return token;
 }
 
-static bool osc_palette_index(const char *s, unsigned *out)
+static bool osc_colour_number(const char *s, unsigned maximum, unsigned *out)
 {
     if (!s || !*s) return false;
     unsigned index = 0;
     for (; *s; s++) {
         if (*s < '0' || *s > '9') return false;
-        index = index * 10 + (*s - '0');
-        if (index >= 256) return false;
+        unsigned digit = *s - '0';
+        if (digit > maximum || index > (maximum - digit) / 10) return false;
+        index = index * 10 + digit;
     }
     *out = index;
     return true;
@@ -5879,7 +5906,7 @@ static void osc_colour_reply(Terminal *term, unsigned command, unsigned index,
 {
     if (!term->ldisc) return;
     char prefix[32], response[96];
-    if (command == 4) sprintf(prefix, "4;%u", index);
+    if (command == 4 || command == 5) sprintf(prefix, "%u;%u", command, index);
     else sprintf(prefix, "%u", command);
     int len = sprintf(response, "\033]%s;rgb:%04x/%04x/%04x%s", prefix,
                       colour.r * 0x0101, colour.g * 0x0101,
@@ -5927,36 +5954,80 @@ static void osc_selection_colour(Terminal *term, unsigned command,
     }
 }
 
+static void osc_attribute_colour(Terminal *term, unsigned command,
+                                  unsigned which, const char *spec, bool bel)
+{
+    if (!strcmp(spec, "?")) {
+        osc_colour_reply(term, command, command == 4 ? which+256 : which,
+                         nemo_attribute_colour(term, which), bel);
+    } else {
+        NemoColour c;
+        if (nemo_colour_parse(spec, strlen(spec), &c))
+            nemo_attribute_colour_set(term, which, (optionalrgb){true,c.r,c.g,c.b});
+    }
+}
+
 static bool osc_colours(Terminal *term, bool bel)
 {
     unsigned command = term->esc_args[0];
     static const unsigned dynamic[] = {
         OSC4_COLOUR_fg, OSC4_COLOUR_bg, OSC4_COLOUR_cursor_bg
     };
-    if (command != 4 && command != 104 &&
+    if (!(command >= 4 && command <= 6) && !(command >= 104 && command <= 106) &&
         !(command >= 10 && command <= 19) &&
         !(command >= 110 && command <= 119)) return false;
     /* A truncated or binary colour command must never alter the palette. */
     if (term->osc_overflow || memchr(term->osc_string, 0, term->osc_strlen))
         return true;
     char *next = term->osc_string, *token;
-    if (command == 4) {
+    if (command == 4 || command == 5) {
         while ((token = osc_token(&next)) != NULL) {
             unsigned index;
             char *spec = osc_token(&next);
             if (!spec) break;
-            if (osc_palette_index(token, &index))
-                osc_colour(term, 4, index, spec, bel);
+            if (osc_colour_number(token, command == 5 ? 4 : 260, &index)) {
+                if (command == 5 || index >= 256)
+                    osc_attribute_colour(term, command,
+                        command == 5 ? index : index-256, spec, bel);
+                else
+                    osc_colour(term, 4, index, spec, bel);
+            }
         }
-    } else if (command == 104) {
+    } else if (command == 6 || command == 106) {
+        unsigned char modes = term->attribute_colour_modes;
+        while ((token = osc_token(&next)) != NULL) {
+            unsigned which, value;
+            char *spec = osc_token(&next);
+            if (!spec) break;
+            /* A separator can represent zero; an absent final value cannot. */
+            if (!*spec && !next) break;
+            if (!osc_colour_number(*token ? token : "0", UINT_MAX, &which) ||
+                !osc_colour_number(*spec ? spec : "0", UINT_MAX, &value)) break;
+            if (which > 5) continue;
+            if (value) modes |= 1u << which;
+            else modes &= ~(1u << which);
+        }
+        if (modes != term->attribute_colour_modes) {
+            term->attribute_colour_modes = modes;
+            term_invalidate(term);
+        }
+    } else if (command == 104 || command == 105) {
         if (!*next) {
-            for (unsigned i = 0; i < 256; i++)
-                term->subpalettes[SUBPAL_SESSION].present[i] = false;
+            if (command == 104)
+                for (unsigned i = 0; i < 256; i++)
+                    term->subpalettes[SUBPAL_SESSION].present[i] = false;
+            for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
+                nemo_attribute_colour_set(term, i, optionalrgb_none);
         } else {
             while ((token = osc_token(&next)) != NULL) {
                 unsigned index;
-                if (osc_palette_index(token, &index))
-                    term->subpalettes[SUBPAL_SESSION].present[index] = false;
+                if (osc_colour_number(token, command == 105 ? 4 : 260, &index)) {
+                    if (command == 105 || index >= 256)
+                        nemo_attribute_colour_set(term,
+                            command == 105 ? index : index-256, optionalrgb_none);
+                    else
+                        term->subpalettes[SUBPAL_SESSION].present[index] = false;
+                }
             }
         }
         palette_rebuild(term);
@@ -9744,6 +9815,52 @@ static void do_paint_draw(Terminal *term, termline *ldata, int x, int y,
 /*
  * Update the window.
  */
+static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
+                                         bool bold_colours,
+                                         unsigned long *attr, truecolour *tc)
+{
+    static const struct { unsigned mode; unsigned long attr; } order[] = {
+        {2, ATTR_BLINK}, {0, ATTR_BOLD}, {1, ATTR_UNDER}, {4, ATTR_ITALIC}
+    };
+    unsigned modes = term->attribute_colour_modes;
+    bool override = (modes & (1u << 5)) != 0;
+    if (!term->ansi_colour || !modes) return;
+    /* Resolve before screen reverse and selection. Only display records
+     * change; stored SGR, copy, checksums and scrollback retain their values. */
+    if (override || (!tc->fg.enabled && (*attr & ATTR_FGMASK) == ATTR_DEFFG)) {
+        for (unsigned i = 0; i < lenof(order); i++) {
+            unsigned mode = order[i].mode;
+            if ((modes & (1u << mode)) && (*attr & order[i].attr)) {
+                rgb c = colours[mode];
+                tc->fg = (optionalrgb){true, c.r, c.g, c.b};
+                if (mode == 2) *attr &= ~ATTR_BLINK;
+                break;
+            }
+        }
+    }
+    /* XTerm's default veryBoldColors=0 suppresses these font attributes
+     * whenever their colour modes are enabled, even if explicit SGR wins.
+     * Preserve ANSI brightening separately from the suppressed bold font. */
+    if (modes & 1u) {
+        unsigned fg = (*attr & ATTR_FGMASK) >> ATTR_FGSHIFT;
+        if (bold_colours && (*attr & ATTR_BOLD) && !tc->fg.enabled && fg < 8)
+            *attr = (*attr & ~ATTR_FGMASK) | ((fg+8) << ATTR_FGSHIFT);
+        *attr &= ~ATTR_BOLD;
+    }
+    if (modes & (1u << 1)) {
+        *attr &= ~ATTR_UNDER;
+        tc->decoration &= ~(UNDER_STYLE_MASK | UNDER_DOUBLE_LEGACY);
+    }
+    if (modes & (1u << 4)) *attr &= ~ATTR_ITALIC;
+    if ((modes & (1u << 3)) && (*attr & ATTR_REVERSE)) {
+        if (override || (!tc->bg.enabled && (*attr & ATTR_BGMASK) == ATTR_DEFBG)) {
+            rgb c = colours[3];
+            tc->bg = (optionalrgb){true, c.r, c.g, c.b};
+        }
+        *attr &= ~ATTR_REVERSE;
+    }
+}
+
 static void do_paint(Terminal *term)
 {
     int i, j, our_curs_y, our_curs_x;
@@ -9753,6 +9870,12 @@ static void do_paint(Terminal *term)
     size_t chlen;
     termchar *newline;
     optionalrgb selection[2];
+    rgb attribute_colours[5];
+    bool attribute_bold_colours = (term->attribute_colour_modes & 1) &&
+        (conf_get_int(term->conf, CONF_bold_style) & BOLD_STYLE_COLOUR);
+    if (term->attribute_colour_modes & 31)
+        for (unsigned c = 0; c < lenof(attribute_colours); c++)
+            attribute_colours[c] = nemo_attribute_colour(term, c);
     for (unsigned c = 0; c < lenof(selection); c++)
         selection[c] = term->selection_colours[c].enabled ?
             term->selection_colours[c] : term->selection_defaults[c];
@@ -9904,6 +10027,10 @@ static void do_paint(Terminal *term)
                 (!term->xterm_256_colour && (tc.decoration & UNDER_INDEXED) &&
                  (tc.decoration & 255) >= 16))
                 tc.decoration &= ~UNDER_COLOUR_MASK;
+
+            if (term->attribute_colour_modes & 31)
+                nemo_paint_attribute_colours(term, attribute_colours,
+                                             attribute_bold_colours, &tattr, &tc);
 
             switch (tchar & CSET_MASK) {
               case CSET_ASCII:

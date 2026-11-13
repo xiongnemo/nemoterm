@@ -1,0 +1,7 @@
+[1/12] Updating sbcsdat.c
+[2/9] Checking current git commit
+[3/9] Updating cmake_commit.c
+[4/7] Building C object unix/CMakeFiles/test_osc_colour.dir/__/test/test_osc_colour.c.o
+[5/7] Building C object CMakeFiles/guiterminal.dir/terminal/terminal.c.o
+[6/7] Linking C static library libguiterminal.a
+[7/7] Linking C executable test_osc_colour

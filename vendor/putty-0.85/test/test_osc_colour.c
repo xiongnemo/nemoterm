@@ -19,6 +19,7 @@ static void reply(Mock *mk, const char *expected)
 }
 
 #include "test_selection_colour.h"
+#include "test_attribute_colour.h"
 
 static void named_colour_protocol(Mock *mk)
 {
@@ -126,8 +127,8 @@ int main(void)
 
     test_context(mk, "invalid entries do not alias private PuTTY colour slots");
     term_data_fragmented(mk->term,
-        "\033]4;256;red;42949672960;blue;-1;white;1;invalid;2;#fff\007"
-        "\033]4;256;?;99999999999999999999;?\007");
+        "\033]4;261;red;42949672960;blue;-1;white;1;invalid;2;#fff\007"
+        "\033]4;261;?;99999999999999999999;?\007");
     reply(mk, "");
     check_colour(mk, OSC4_COLOUR_fg, originalfg.r, originalfg.g, originalfg.b);
     check_colour(mk, 1, original1.r, original1.g, original1.b);
@@ -155,6 +156,8 @@ int main(void)
     mock_free(mk);
     failed |= test_selection_colour_wire();
     failed |= test_selection_colour_paint();
+    failed |= test_attribute_colour_wire();
+    failed |= test_attribute_colour_paint();
     for (size_t i = 0; i < lenof(palette_stack_oracle); i++) {
         mk = mock_new();
         conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);

@@ -1,0 +1,7 @@
+[1/10] Updating licence.h
+[2/9] Checking current git commit
+[3/9] Updating cmake_commit.c
+[4/7] Building C object windows\CMakeFiles\test_osc_colour.dir\__\test\test_osc_colour.c.obj
+[5/7] Building C object CMakeFiles\guiterminal.dir\terminal\terminal.c.obj
+[6/7] Linking CXX static library guiterminal.lib
+[7/7] Linking CXX executable test_osc_colour.exe

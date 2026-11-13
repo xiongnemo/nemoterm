@@ -1,5 +1,13 @@
 # Nemoterm requirements and evidence ledger
 
+## Attribute-colour development (2026-11-13; runtime testing paused)
+
+[OSC 5/6/105/106 and indexed aliases](../research/attribute-colours.md) now have
+source implementations for five special colours, enable/override modes, display
+overlays and palette retention. Authored wire/mock/native checks are prepared.
+Only compilation/linking and static checks have run; compatibility, renderer
+pixels and the unchanged memory gates remain unverified for this candidate.
+
 ## X11 named colours (2026-11-13; runtime testing paused)
 
 [The pinned 782-name Xorg table](../research/x11-colours.md) replaces the shared

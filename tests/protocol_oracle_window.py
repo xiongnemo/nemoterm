@@ -17,7 +17,8 @@ def saved_profile(values):
     try:
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
             for setting, value in values.items():
-                winreg.SetValueEx(key, setting, 0, winreg.REG_DWORD, value)
+                kind = winreg.REG_SZ if isinstance(value, str) else winreg.REG_DWORD
+                winreg.SetValueEx(key, setting, 0, kind, value)
         yield ['-load', name]
     finally:
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, keypath)
