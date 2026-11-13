@@ -258,3 +258,28 @@ crash dump. Neither this negative reproduction nor the newer green tab cases
 explains the previous `4c93714` access violation. The accepted main executable
 remains unchanged while the single-image acceptance and crash investigation
 continue.
+
+## CI startup blocked after the paste fixture correction
+
+Both workflows for `58eb46e` failed before running any step. The retained
+[single-image check annotation](https://github.com/xiongnemo/nemoterm/actions/runs/43344294964)
+reports recent account-payment failures or a spending limit that needs to be
+increased; it does not distinguish which. This is not a compiler or test result.
+The full revised real-clipboard/Codex fixture remains unverified until Actions
+can start again. Account billing settings have not been changed.
+
+The exact `fb1588f` single image (`6def9f24`) subsequently passed local Sarasa
+GDI/OpenGL/DirectX pixel parity, both grapheme cases, and dense GDI/top and
+DirectX/left tabs. The dense-tab sampled private peaks were 9,949,184 and
+19,390,464 bytes respectively. `cluster-single-fb-local.json` retains all five
+raw result records. The ordinary renderer measurements are instrumented; the
+dense-tab memory samples precede instrumentation. A separate owned-session
+test confirms that the new observer counts two completed synthetic clipboard
+deliveries, with normal process cleanup; it never opens the real clipboard.
+That check validates the observer, not real clipboard or Codex acceptance.
+
+The main worktree remains clean and its accepted EXE hash remains `a108894f`.
+Resume by rerunning both latest workflows after the account issue is resolved,
+then inspect the exact single-image artifact and retained crash diagnostics.
+The earlier access violation and transient DirectX resource-count failure
+remain open despite subsequent passing samples.
