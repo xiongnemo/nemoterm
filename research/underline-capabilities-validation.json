@@ -1,0 +1,306 @@
+{
+  "recorded_utc": "2026-11-13T20:35:00.019988+00:00",
+  "source_base_commit": "993b8c2e51449d34b08d9cbca23325ffec04e0d1",
+  "source_hash_format": "SHA-256 of UTF-8 checkout files with CRLF normalized to LF",
+  "source_sha256": {
+    ".github/workflows/ci.yml": "32d9ccb424c3a8ee0de8074167fbcebe3b1e4c580ef7bcf21bb1b0a02bda7a82",
+    "tests/query_window_smoke.py": "7fa4cfdc072340543f0ea5dce5e26b103665db2a8ea92422fd28dcbd14794753",
+    "tests/underline_capabilities.py": "6227b70da9d4401a03818bbf21acf0b5e1d5f985eb631e0529e599cbcdf9b607",
+    "tests/test_underline_terminfo.py": "8b66ce332f36de06e2ce935cc996518f802e4f1d57bbcf685d8914b8989af2ec",
+    "vendor/putty-0.85/terminal/nemo_tcap.c": "a8e18018e84186880149c982b7d838971f06d0ea96c0bad7032076bf40905691",
+    "vendor/putty-0.85/test/test_tcap.c": "fa10d4492fc3505b3bf73b46a84e08927b304ded994b14d411992836280857a8",
+    "vendor/putty-0.85/unix/CMakeLists.txt": "47bc8ddd815d594fe0791c8d4ca83fa082085ae3c409b942eff31cf41610c867"
+  },
+  "executable": {
+    "bytes": 4467200,
+    "sha256": "e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d"
+  },
+  "core_suites": [
+    "Windows MinGW test_tcap",
+    "Windows MinGW test_sgr",
+    "Windows MinGW test_queries",
+    "Linux ASan/UBSan test_tcap"
+  ],
+  "independent_ncurses": {
+    "core": {
+      "checks": 780,
+      "completed": true,
+      "ncurses_version": [
+        6,
+        5,
+        20250216
+      ],
+      "executable_sha256": "b7b17974aa4167b2a7bea4e65c19261054328d4c0eac90ea0ed1d71437906c1b"
+    },
+    "native": {
+      "checks": 780,
+      "completed": true,
+      "ncurses_version": [
+        6,
+        5,
+        20250216
+      ],
+      "executable_sha256": "e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d"
+    }
+  },
+  "native": {
+    "completed": true,
+    "parameter_programs": 2,
+    "numeric_replays": 15,
+    "combined_reset": 1,
+    "controller": {
+      "executable_sha256": "e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d",
+      "name": "query",
+      "completed": true,
+      "exit_code": 0,
+      "controller_pid": 23332,
+      "cleanup": {
+        "before": {
+          "total": 5,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 5,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "seconds": 15.164
+    },
+    "memory_instrumented": true,
+    "memory_acceptance": false,
+    "peak_private_ws_diagnostic": 5910528
+  },
+  "external_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/ThomasDickey/ncurses-snapshots/7404b376832583182c52722dc09d86b8675db375/misc/terminfo.src",
+      "bytes": 1180340,
+      "sha256": "efd13b671985d9765fa767a4f633091291c9a0e8f574240b277e3cac466af92a"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tmux/tmux/d56d72094d3ace7a25330bba8a8392ff66083a09/tty-features.c",
+      "bytes": 16662,
+      "sha256": "ccaabe39eeaa12708bdc52b0b4c3765b9bbb65fd370764910764faad01023ef1"
+    }
+  ],
+  "accepted_distribution_replaced": false,
+  "accepted_local_distribution": {
+    "bytes": 4371456,
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+  },
+  "full_goal_complete": false,
+  "remote_ci": "pending",
+  "files": [
+    {
+      "path": "research/underline-capabilities-evidence/core-build-final.log.gz",
+      "sha256": "d4b68330ae74c7be980733a8af85a0d36da3be11dd14964ff83332f53dffb6e5",
+      "bytes": 179,
+      "raw_sha256": "e00fe2c6243c83d0ff9015bf51314c019eb3df316d7808e811fe278eb561f68a",
+      "raw_bytes": 218,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/core-build.log.gz",
+      "sha256": "c106fbd02bbbefab522b21b6e8b330352a6de7530ef818f72039c9fec506500d",
+      "bytes": 410,
+      "raw_sha256": "f7a2f23d2e9ca9c2d5df48bede33576a69c7d910854f55258aa95eeeff661531",
+      "raw_bytes": 766,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/frontend-build.log.gz",
+      "sha256": "cf04ce81ebd915f337c5f0e9adde3cd1e32e84360806ff957c0aebe1de9228d0",
+      "bytes": 352,
+      "raw_sha256": "02953be0d57eee1677352a71b0ea17612128c12d65e723aff31bcfebc8862e2b",
+      "raw_bytes": 550,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/host-build.log.gz",
+      "sha256": "84febfce5c874aebd3eaadb957b702e33babe2869d77b17c095d12d889d256e1",
+      "bytes": 589,
+      "raw_sha256": "b87f3911a0b926ecc1c4df7e1f5ebc2a077b1c200325fb9d0bbed8c68f48f661",
+      "raw_bytes": 3052,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-build-final.log.gz",
+      "sha256": "33dda8831970f75f42f1398703d50871b24bf74a5b9545f02fc8cad43741def0",
+      "bytes": 165,
+      "raw_sha256": "7ffd49ae6c8f805e58b840dd30e196a18c842a141dabf983e6019157df6012a9",
+      "raw_bytes": 203,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-build.log.gz",
+      "sha256": "4a5cfda9876304ce08616dea72c7482baeddac89d0d79783bc92589b3fda92ff",
+      "bytes": 1504,
+      "raw_sha256": "3542e802ab731bf9419db309fe8f3e459fd7b562abac28f2644b7337f9dfbc5f",
+      "raw_bytes": 8010,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-dump-initial.log.gz",
+      "sha256": "d69fa701cff6e2bd71b50fd41f39953370b1d050ba73ce581f4a59b5e72e5def",
+      "bytes": 161,
+      "raw_sha256": "a394484be018270d99881d42f246600876fbfc5fa44689884f38fd5d2ac7cdf1",
+      "raw_bytes": 182,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-initial-missing-target.log.gz",
+      "sha256": "ddbbcff450753c5de7dba1004179856e7966f4cb911883e978ecca753afd1a47",
+      "bytes": 82,
+      "raw_sha256": "d895d412ed423a285044e4932f09dd7bd3e5181e6e74868084b203666a95afe6",
+      "raw_bytes": 67,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-tcap-final.log.gz",
+      "sha256": "62c3eae06418136bc7a840d56e000d7a23a5208deda86dd81ae82ccdad523783",
+      "bytes": 53,
+      "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4",
+      "raw_bytes": 33,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/linux-tcap.log.gz",
+      "sha256": "62c3eae06418136bc7a840d56e000d7a23a5208deda86dd81ae82ccdad523783",
+      "bytes": 53,
+      "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4",
+      "raw_bytes": 33,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ncurses-core-initial-failed.json.gz",
+      "sha256": "c17b532f2e374b71a9f88c8f718f6b5a0edcb965ba61628eafa4f3d28f9b8e70",
+      "bytes": 163,
+      "raw_sha256": "f099892b8a78b300ef214f2c1d95c9d66cf1400c32c4040243792af73ea712b8",
+      "raw_bytes": 187,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ncurses-core.json.gz",
+      "sha256": "5a4208bfe41e9841b0def9ec2e4aa5c75999c2d7b695d4f3d5d699fe60325a30",
+      "bytes": 6225,
+      "raw_sha256": "7120350f4d33cd4b7ca8d42561a1509925051bb98a33bd3a54369672c783d00d",
+      "raw_bytes": 98113,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ncurses-native.json.gz",
+      "sha256": "e8bb534f1e4c9b05ef86044c8d7b1d3341c3781013c769ebe47017a86b66124f",
+      "bytes": 6267,
+      "raw_sha256": "5a8580dbeeb6d3d18401a1eb0edc747c307e5b4c277227e71f67b77cc23db473",
+      "raw_bytes": 98183,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/test_queries.log.gz",
+      "sha256": "b33549e66031796d1d2ec81d72646fa95f3b09f5b3a3bfcdf2d6f0f0001b8e27",
+      "bytes": 40,
+      "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1",
+      "raw_bytes": 20,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/test_sgr.log.gz",
+      "sha256": "656a58fc296aefd28cfafbf9c8a1b889da90fd967859254735523e6b486bd5f3",
+      "bytes": 38,
+      "raw_sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1",
+      "raw_bytes": 18,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/test_tcap-final.log.gz",
+      "sha256": "21de01dded530315e1f59fa478d2eab54da8acef9921d415338d28fccb288abe",
+      "bytes": 54,
+      "raw_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156",
+      "raw_bytes": 34,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/test_tcap.log.gz",
+      "sha256": "21de01dded530315e1f59fa478d2eab54da8acef9921d415338d28fccb288abe",
+      "bytes": 54,
+      "raw_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156",
+      "raw_bytes": 34,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/windows-programs.txt.gz",
+      "sha256": "cafb62b8f472aa1e1ed653af1c2274aab8ab94276ca5d83d076d85e87c3a512f",
+      "bytes": 147,
+      "raw_sha256": "184eaa9f63cfe6cb4fd6e0746061bbf51d0f8bcdd3b91215014022d777390439",
+      "raw_bytes": 373,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-cursor-bar.png.gz",
+      "sha256": "a2802410d5534cfe8123ed58c21c2b1cfb3cc6e688af19ac4f0582621ea7fd87",
+      "bytes": 148,
+      "raw_sha256": "299864167b513ef88b66c733e6cb32611cb9b6f049f6bfb08cafa2d10ff70280",
+      "raw_bytes": 354,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-cursor-block.png.gz",
+      "sha256": "61de61e31608de8578e8db008c268ca35010bfc73cd3c7ea9ec18696f2503dbe",
+      "bytes": 145,
+      "raw_sha256": "b893f7a97b083ca5fbd673a58db35298b9ebe2f024b791716fe2883e3864fff2",
+      "raw_bytes": 352,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-cursor-underline.png.gz",
+      "sha256": "92043d109ac82c388e370803a477960868e3dfce160f3bd78c54e79dde7396b6",
+      "bytes": 111,
+      "raw_sha256": "2e8e2236ebfa41a7c456eff1ed76f3614a26b06538d1af594ede8c19d32028f4",
+      "raw_bytes": 312,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-query-controller.json.gz",
+      "sha256": "5ec9a4f4c36eeeb87a0d536a48186cdde16f61e1e56d21eaac3a7f91b83004f5",
+      "bytes": 264,
+      "raw_sha256": "32cb409c7618f43984ea2a78d2a7c3afb250af2fb8c54734b64a78eb5fba91fa",
+      "raw_bytes": 468,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-query-window-observed.json.gz",
+      "sha256": "fc7be76481d018b580b2bd7f81d11f64edfab29e198f2b41fca60ffba92f9349",
+      "bytes": 2614,
+      "raw_sha256": "d83be886ae187088dd24cb94010e951c4e86220bbb66dd97ee95848047f599a0",
+      "raw_bytes": 20635,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-query.log.gz",
+      "sha256": "56d8e9fda121c0f2d74f798b4861cbb6125af59863026733a4ba7674cb0536a3",
+      "bytes": 2538,
+      "raw_sha256": "f67b86d21d487a9a30d3682e95b6f0b163d14086b0ece5d8757da8fb194e61e8",
+      "raw_bytes": 17670,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/native-query-controller.log.gz",
+      "sha256": "3be5ae77515408257736133c7718dc4fd2e6d9a6cd3813d5bc62691ac155a376",
+      "bytes": 243,
+      "raw_sha256": "00504c119691ef08ef7578cbf625c1f0a32c728bf4855590a48145aff72002cf",
+      "raw_bytes": 365,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/retain-underline-capabilities.py.gz",
+      "sha256": "9bfef04b837b111f3bf2b091a06750e68f11ed90c3eb9def5b0c4cfec6dc3923",
+      "bytes": 1844,
+      "raw_sha256": "4589b1a42a460e3eef28ccb1972c4f08e335e7c6f138e5f09561c47f7c8bd9f1",
+      "raw_bytes": 4423,
+      "encoding": "gzip"
+    }
+  ]
+}

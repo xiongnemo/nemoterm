@@ -46,7 +46,7 @@ static const CapKey extended[] = {
     {NULL, "kpZRO", 'N', '0', 0},
 };
 
-/* Literal, parameter-free sequences from ncurses' ecma+ renditions. Keep
+/* Literal sequences from ncurses' ecma+ renditions. Keep
  * termcap aliases only where include/Caps defines them; extended names are
  * case sensitive (Smol/Rmol, unlike the lower-case standard names).
  * https://github.com/ThomasDickey/ncurses-snapshots/blob/master/misc/terminfo.src
@@ -56,6 +56,11 @@ static const struct { const char *name, *alias, *value; } renditions[] = {
     {"sitm", "ZH", "\033[3m"},  {"ritm", "ZR", "\033[23m"},
     {"smxx", NULL, "\033[9m"},  {"rmxx", NULL, "\033[29m"},
     {"Smol", NULL, "\033[53m"}, {"Rmol", NULL, "\033[55m"},
+    /* Terminfo programs, expanded by the client. Smulx takes style 0..5;
+     * Setulc takes one packed 0xRRGGBB value, as in tmux's usstyle feature.
+     * The empty colour-space field is accepted by our SGR 58 parser. */
+    {"Smulx", NULL, "\033[4:%p1%dm"},
+    {"Setulc", NULL, "\033[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm"},
 };
 
 static int key_value(Terminal *term, CapKey key, char value[64])
@@ -108,8 +113,12 @@ static int capability(Terminal *term, const char *name, char value[64])
     for (size_t i = 0; i < lenof(renditions); i++) {
         if (!strcmp(name, renditions[i].name) ||
             (renditions[i].alias && !strcmp(name, renditions[i].alias))) {
-            strcpy(value, renditions[i].value);
-            return strlen(value);
+            if (!strcmp(name, "Setulc") && (!term->true_colour || !term->ansi_colour))
+                return -1; /* known, but disabled by the local colour policy */
+            size_t len = strlen(renditions[i].value);
+            if (len >= 64) return -1;
+            memcpy(value, renditions[i].value, len+1);
+            return len;
         }
     }
     if (!strcmp(name, "kb") || !strcmp(name, "kbs")) {
@@ -188,9 +197,10 @@ strbuf *nemo_tcap_reply(Terminal *term, const char *query, bool invalid)
 {
     strbuf *reply = strbuf_new();
     put_dataz(reply, "\033P0+r");
-    /* Cap both parser and direct callers. Each 4-byte TN name expands to
-     * at most 34 bytes including a separator: a 2047-byte query stays below
-     * 14 KiB, with no persistent allocation beyond the parser buffer. */
+    /* Cap both parser and direct callers. Setulc is the largest expansion:
+     * 13 query bytes (including a separator) yield 134 response bytes.
+     * A 2047-byte request stays below 22 KiB. Enforce that reply limit too,
+     * so future capabilities cannot silently increase transient allocation. */
     if (!invalid && strlen(query) >= NEMO_DCS_QUERY_SIZE) invalid = true;
     if (!invalid) {
         const char *token = query;
@@ -203,6 +213,10 @@ strbuf *nemo_tcap_reply(Terminal *term, const char *query, bool invalid)
             int size = capability(term, name, value);
             if (first && size >= 0) reply->s[2] = '1';
             if (size == -2) break;
+            if (reply->len + len + (size < 0 ? 0 : 1+2*size) + 3 > 22*1024) {
+                invalid = true;
+                break;
+            }
             put_data(reply, token, len); /* preserve the request's hex case */
             if (size < 0) break;
             put_byte(reply, '=');

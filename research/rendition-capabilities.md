@@ -1,5 +1,9 @@
 # Parameter-free rendition discovery
 
+Follow-up development adds [parameterized underline discovery](underline-capabilities.md).
+The literal-only whitelist and reply-size bound below describe the older
+`4ed7e08` checkpoint, whose downloadable artifact remains identified here.
+
 XTGETTCAP now reports eight literal sequences for already implemented styles:
 
 | Names | Enter / leave |
