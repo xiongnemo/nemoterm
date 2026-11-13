@@ -228,7 +228,7 @@ jobs:
           }
           powershell.exe -NoProfile -File tests/settings_window_smoke.ps1 -TabHost
           $testExit = $LASTEXITCODE
-          Copy-Item research/tabs-settings-window-observed.json, research/tabs-settings.png test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/tabs-settings-window-observed.json, research/tabs-settings.png, research/grapheme-settings.png test-results/ -ErrorAction SilentlyContinue
           if ($testExit) { exit $testExit }
       - name: Test dense cluster tabs and bounded frontend memory
         shell: pwsh
@@ -416,7 +416,7 @@ jobs:
           Remove-Item research/settings-window-observed.json, research/mok-settings.png -ErrorAction SilentlyContinue
           powershell.exe -NoProfile -File tests/settings_window_smoke.ps1 2>&1 | Tee-Object test-results/settings-native.log
           $testExit = $LASTEXITCODE
-          Copy-Item research/settings-window-observed.json, research/mok-settings.png, research/shell-marks-settings.png test-results/ -ErrorAction SilentlyContinue
+          Copy-Item research/settings-window-observed.json, research/mok-settings.png, research/shell-marks-settings.png, research/grapheme-settings.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test detected shells and delegated console lifetime
         shell: pwsh

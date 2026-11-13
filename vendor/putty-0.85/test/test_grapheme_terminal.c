@@ -336,13 +336,54 @@ static void test_mode(Mock *mk)
     mk->tw.vt=original;
 }
 
+static void test_initial_policy(Mock *mk)
+{
+    Terminal *t=mk->term;
+    reset(mk);test_context(mk,"startup preference, live changes and protocol reset");
+    IEQUAL(conf_get_bool(mk->conf,CONF_nemo_grapheme_widths),false);
+    IEQUAL(t->grapheme_mode,false);
+    conf_set_bool(mk->conf,CONF_nemo_grapheme_widths,true);
+    Terminal *startup=term_init(mk->conf,mk->ucsdata,&mk->tw);
+    IEQUAL(startup->grapheme_mode,true);
+    term_size(startup,4,20,0);term_data_fragmented(startup,"\033%G");
+    static const uint32_t tech[]={0x1f469,0x200d,0x1f4bb};
+    output_scalars(startup,tech,lenof(tech));IEQUAL(startup->curs.x,2);
+    term_free(startup);
+
+    term_reconfig(t,mk->conf);IEQUAL(t->grapheme_mode,true);
+    mk->ucsdata->line_codepage=CP_UTF8;
+    term_data_fragmented(t,"\033[2J\033[H\033%G");
+    output_scalars(t,tech,lenof(tech));IEQUAL(t->curs.x,2);
+    term_data_fragmented(t,"\033[?2027l");IEQUAL(t->grapheme_mode,false);
+    term_reconfig(t,mk->conf);IEQUAL(t->grapheme_mode,false);
+    cluster_contents(mk,0,0,tech,lenof(tech));IEQUAL(t->curs.x,2);
+    term_data_fragmented(t,"\033[?2027h\033[!p");IEQUAL(t->grapheme_mode,false);
+    term_data_fragmented(t,"\033[?2027h\033c");IEQUAL(t->grapheme_mode,false);
+    term_data_fragmented(t,"\033[?2027h");
+    conf_set_bool(mk->conf,CONF_nemo_grapheme_widths,false);
+    term_reconfig(t,mk->conf);IEQUAL(t->grapheme_mode,false);
+    term_data_fragmented(t,"\033[?2027h");
+    term_reconfig(t,mk->conf);IEQUAL(t->grapheme_mode,true);
+    term_set_grapheme_clustering(t,false);
+
+    const TermWinVtable *original=mk->tw.vt;
+    TermWinVtable unsupported=*original;unsupported.grapheme_clusters=false;mk->tw.vt=&unsupported;
+    conf_set_bool(mk->conf,CONF_nemo_grapheme_widths,true);
+    startup=term_init(mk->conf,mk->ucsdata,&mk->tw);
+    IEQUAL(startup->grapheme_mode,false);
+    term_size(startup,4,20,0);term_free(startup);
+    term_reconfig(t,mk->conf);IEQUAL(t->grapheme_mode,false);
+    conf_set_bool(mk->conf,CONF_nemo_grapheme_widths,false);
+    term_reconfig(t,mk->conf);mk->tw.vt=original;
+}
+
 int main(void)
 {
     Mock *mk=mock_new();TermWinVtable supported=*mk->tw.vt;supported.grapheme_clusters=true;
     mk->tw.vt=&supported;mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
-    test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_bidi_cache(mk);
+    test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_initial_policy(mk);test_bidi_cache(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;

@@ -1226,6 +1226,11 @@ CONF_OPTION(cjk_ambig_wide,
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("CJKAmbigWide"),
 )
+CONF_OPTION(nemo_grapheme_widths,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoGraphemeWidths"),
+)
 CONF_OPTION(utf8_override,
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(true),

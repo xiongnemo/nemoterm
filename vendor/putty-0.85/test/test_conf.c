@@ -786,6 +786,7 @@ void test_simple(void)
     test_str_ambi_simple(CONF_nemo_shell_command, "NemoShellCommand", "", false);
     test_bool_simple(CONF_nemo_choose_shell, "NemoChooseShell", false);
     test_bool_simple(CONF_nemo_reflow, "NemoReflow", true);
+    test_bool_simple(CONF_nemo_grapheme_widths, "NemoGraphemeWidths", false);
     test_bool_simple(CONF_nemo_osc52_read, "NemoOSC52Read", false);
     test_int_simple(CONF_nemo_modify_other_keys, "NemoModifyOtherKeys", 0);
     test_int_simple(CONF_nemo_format_other_keys, "NemoFormatOtherKeys", 0);

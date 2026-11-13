@@ -1,0 +1,31 @@
+{
+  "frontend_sha256": "c6818d59accc482a70952e4e89643ce181548a257941a3dac1af3da894c6c7d7",
+  "observations": [
+    {
+      "kind": "test fixture development error",
+      "cause": "A second mock terminal was freed without completing term_size initialization; GDB and UBSan identified a null screen tree. The fixture now follows the real initialization sequence.",
+      "product_change_required": false
+    },
+    {
+      "kind": "test fixture development error",
+      "cause": "A UI control loop variable shadowed the JSON control path in PowerShell. Renamed the UI variables.",
+      "product_change_required": false
+    },
+    {
+      "kind": "unexplained UI Automation timeout",
+      "log_sha256": "04f3d545c41868819a710a15b3de5696bc89c811d4e02a3936abf629621bb1fe",
+      "operation": "Select final GDI radio button after three renderer switches",
+      "last_reply_phase": "grapheme-preserved-3",
+      "last_reply_hex": "1b5b313b35521b5b3f323032373b322479",
+      "outcome": "Same radio actions passed in the replay; cause unproven. Added selection diagnostics without relaxing the assertion."
+    },
+    {
+      "kind": "control snapshot replacement race",
+      "log_sha256": "19bcaecf81302dc65bfd28672dcd039faf2a550b2b1f193441249ffcb42fba10",
+      "operation": "Write-Control after renderer change",
+      "last_reply_phase": "grapheme-preserved-2",
+      "error": "Move-Item: Cannot create a file when that file already exists.",
+      "fix": "Use MoveFileExW with REPLACE_EXISTING and a bounded retry for sharing errors; retain a held-reader regression."
+    }
+  ]
+}

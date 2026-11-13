@@ -41,6 +41,16 @@ public static class ShellSettingsNative {
     [DllImport("user32.dll")] public static extern bool PostMessageW(IntPtr hwnd, uint msg, IntPtr wp, IntPtr lp);
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern IntPtr GetPropW(IntPtr hwnd, string name);
     [DllImport("user32.dll")] public static extern bool IsWindow(IntPtr hwnd);
+    [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+    public static extern bool MoveFileExW(string source, string destination, uint flags);
+    public static System.Threading.Thread HoldSnapshotReader(string path) {
+        var reader=new System.IO.FileStream(path,System.IO.FileMode.Open,
+            System.IO.FileAccess.Read,System.IO.FileShare.ReadWrite);
+        var thread=new System.Threading.Thread(()=> {
+            try {System.Threading.Thread.Sleep(100);} finally {reader.Dispose();}
+        });
+        thread.IsBackground=true;thread.Start();return thread;
+    }
 }
 '@
 $root = Split-Path $PSScriptRoot -Parent
@@ -85,7 +95,13 @@ function Dialog($process) {
 function Select-Node($dialog, [string]$name) {
     $node = Wait-Value { Find-Name $dialog $name }
     $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Select()
-    Wait-Value { $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected } | Out-Null
+    try {
+        Wait-Value { $node.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected } | Out-Null
+    } catch {
+        $nativeCheck=[ShellSettingsNative]::SendMessageW([IntPtr]$node.Current.NativeWindowHandle,0xF0,[IntPtr]::Zero,[IntPtr]::Zero).ToInt32()
+        Write-Output "Selection did not settle: $name; class=$($node.Current.ClassName); native-check=$nativeCheck"
+        throw
+    }
     return $node
 }
 function Invoke-Button($dialog, [string]$name) {
@@ -95,7 +111,44 @@ function Invoke-Button($dialog, [string]$name) {
 function Write-Control($value) {
     $temporary = $control + '.tmp'
     [IO.File]::WriteAllText($temporary, ($value | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
-    Move-Item -LiteralPath $temporary -Destination $control -Force
+    # Match fixture_io.py: replacement must remain atomic while the child
+    # briefly holds a read handle. Move-Item -Force is not an atomic replace.
+    $deadline=[DateTime]::UtcNow.AddSeconds(2)
+    while (![ShellSettingsNative]::MoveFileExW($temporary,$control,1)) {
+        $errorCode=[Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        if ($errorCode -notin @(5,32,33) -or [DateTime]::UtcNow -ge $deadline) {
+            throw (New-Object ComponentModel.Win32Exception($errorCode))
+        }
+        Start-Sleep -Milliseconds 10
+    }
+}
+function Check-Grapheme([string]$phase, [string]$prefix, [bool]$enabled) {
+    $esc=[string][char]27
+    $tech=[char]::ConvertFromUtf32(0x1f469)+[char]0x200d+[char]::ConvertFromUtf32(0x1f4bb)
+    Write-Control @{phase=$phase;sequence=($prefix+$esc+'[2J'+$esc+'[H'+$tech+$esc+'[6n'+$esc+'[?2027$p')}
+    $expected=if ($enabled) {'1b5b313b33521b5b3f323032373b312479'} else {'1b5b313b35521b5b3f323032373b322479'}
+    $reply=Wait-Value {
+        if (Test-Path -LiteralPath $report) {
+            $value=Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
+            if ($value.error) {throw $value.error}
+            if ($value.phase -eq $phase -and $value.hex -eq $expected) {$value}
+        }
+    }
+    return @{phase=$phase;enabled=$enabled;reply=$reply.hex}
+}
+function Set-GraphemePreference([bool]$enabled) {
+    [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
+    $dialog=Dialog $app
+    $node=Find-Name $dialog 'Window'
+    $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Translation' | Out-Null
+    $preferenceControl=Wait-Value {Find-Name $dialog $graphemeLabel}
+    $toggle=$preferenceControl.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    $current=$toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
+    if ($current -ne $enabled) {$toggle.Toggle()}
+    $handle=[IntPtr]$dialog.Current.NativeWindowHandle
+    Invoke-Button $dialog 'Apply'
+    Wait-Value {![ShellSettingsNative]::IsWindow($handle)} | Out-Null
 }
 function Binding-Controls($dialog, $expected, [string]$page = 'Bindings') {
     $bindingNode = Select-Node $dialog 'Bindings'
@@ -120,6 +173,11 @@ function Set-Combo($combo, [int]$index) {
     [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($handle),0x111,[IntPtr]($id -bor (1 -shl 16)),$handle) | Out-Null
 }
 try {
+    Write-Control @{phase='atomic-before'}
+    $heldReader=[ShellSettingsNative]::HoldSnapshotReader($control)
+    Write-Control @{phase='atomic-after'}
+    $heldReader.Join()
+    if ((Get-Content -LiteralPath $control -Raw | ConvertFrom-Json).phase -ne 'atomic-after') {throw 'Owned control snapshot replacement failed'}
     New-Item -Path $profilePath -Force | Out-Null
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
     # This is the visible GUI under test, not a background helper. Hidden
@@ -164,6 +222,17 @@ try {
     $rows=Find-Name $dialog 'Rows' 'Edit'
     if ($columns.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne '160' -or
         $rows.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne '48') { throw 'Default grid was not 160 x 48' }
+    Select-Node $dialog 'Translation' | Out-Null
+    $graphemeLabel='Use grapheme cluster widths at startup'
+    $grapheme=Wait-Value {Find-Name $dialog $graphemeLabel}
+    $graphemeToggle=$grapheme.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($graphemeToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {throw 'Grapheme startup mode enabled by default'}
+    foreach ($translationControl in @($grapheme,(Find-Name $dialog 'Enable VT100 line drawing even in UTF-8 mode'))) {
+        if (!$translationControl -or $translationControl.Current.IsOffscreen -or !$bounds.Contains($translationControl.Current.BoundingRectangle)) {throw 'Translation control clipped'}
+    }
+    $graphemeToggle.Toggle()
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle grapheme-settings.png
+    if ($LASTEXITCODE) {throw 'Grapheme settings capture failed'}
     $defaultBindings=@(3,3,3,22,0,0,1)
     $customBindings=@(6,24,5,25,3,26,5)
     $combos=Binding-Controls $dialog $defaultBindings
@@ -261,6 +330,7 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoGraphemeWidths -ne 1) {throw 'Grapheme startup preference was not saved'}
     if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
         $values.NemoNextTabBinding -ne 0x64e -or $values.NemoPreviousTabBinding -ne 0x650) { throw 'Tab settings did not save' }
     if ($values.NemoCopyBinding -ne 0x658 -or $values.NemoPasteBinding -ne 0x559 -or
@@ -313,6 +383,9 @@ try {
     if ($reloaded.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Reflow preference did not reload' }
     $windowNode=Find-Name $dialog 'Window'
     $windowNode.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $dialog 'Translation' | Out-Null
+    $reloadedGrapheme=Wait-Value {Find-Name $dialog $graphemeLabel}
+    if ($reloadedGrapheme.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) {throw 'Grapheme startup preference did not reload'}
     Binding-Controls $dialog $customBindings | Out-Null
     Binding-Controls $dialog $customShellBindings 'Commands' | Out-Null
     Binding-Controls $dialog $tabBindings 'Tabs' | Out-Null
@@ -337,6 +410,8 @@ try {
         if ($content -ne [IntPtr]::Zero) { $content }
     }
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
+    $graphemeChecks=@(Check-Grapheme 'grapheme-startup' '' $true)
+    $graphemeChecks+=Check-Grapheme 'grapheme-app-disable' ([char]27+'[?2027l') $false
     $rendererChanges=@()
     foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
@@ -354,10 +429,19 @@ try {
         $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
         if ($mode -eq 'GDI (low memory)' -and $active -ne 1) { throw 'Live GDI switch failed' }
         $rendererChanges += @{requested=$mode;active=$active}
+        $graphemeChecks+=Check-Grapheme ('grapheme-preserved-'+$rendererChanges.Count) '' $false
     }
+    $graphemeChecks+=Check-Grapheme 'grapheme-app-enable' ([char]27+'[?2027h') $true
+    Set-GraphemePreference $false
+    $graphemeChecks+=Check-Grapheme 'grapheme-live-disabled' '' $false
+    Set-GraphemePreference $true
+    $graphemeChecks+=Check-Grapheme 'grapheme-live-enabled' '' $true
+    $graphemeChecks+=Check-Grapheme 'grapheme-soft-reset' ([char]27+'[!p') $false
+    $graphemeChecks+=Check-Grapheme 'grapheme-hard-reset' ([char]27+'[?2027h'+[char]27+'c') $false
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
+        grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;

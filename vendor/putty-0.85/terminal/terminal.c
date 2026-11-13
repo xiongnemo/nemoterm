@@ -2698,6 +2698,8 @@ void term_reconfig(Terminal *term, Conf *conf)
      * Mode, BCE, blinking text, cursor style, character classes.
      */
     bool reset_wrap, reset_decom, reset_bce, reset_tblink, reset_charclass;
+    bool reset_graphemes = conf_get_bool(term->conf, CONF_nemo_grapheme_widths) !=
+                           conf_get_bool(conf, CONF_nemo_grapheme_widths);
     if (conf_get_bool(term->conf, CONF_nemo_win32_input) !=
         conf_get_bool(conf, CONF_nemo_win32_input)) term->win32_input_epoch++;
     bool reset_mok = conf_get_int(term->conf, CONF_nemo_modify_other_keys) !=
@@ -2778,6 +2780,9 @@ void term_reconfig(Terminal *term, Conf *conf)
     conf_free(term->conf);
     term->conf = conf_copy(conf);
 
+    if (reset_graphemes)
+        term_set_grapheme_clustering(term,
+            conf_get_bool(conf, CONF_nemo_grapheme_widths));
     if (reset_mok) {
         NemoModifyKeys initial;
         nemo_mok_reset(&initial, conf_get_int(conf, CONF_nemo_modify_other_keys), 0);
@@ -3072,6 +3077,10 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     deselect(term);
     term->rows = term->cols = -1;
     power_on(term, true);
+    /* This is a startup preference, not a replacement for mode 2027's
+     * specified reset state: subsequent RIS/DECSTR must still disable it. */
+    term_set_grapheme_clustering(term,
+        conf_get_bool(term->conf, CONF_nemo_grapheme_widths));
     term->attr_mask = 0xffffffff;
 
     /* FULL-TERMCHAR */
@@ -5595,7 +5604,7 @@ static void term_print_finish(Terminal *term)
 
 void term_set_grapheme_clustering(Terminal *term, bool enabled)
 {
-    term->grapheme_mode = enabled;
+    term->grapheme_mode = enabled && term->win->vt->grapheme_clusters;
     term->grapheme_pending = false;
     nemo_grapheme_reset(&term->grapheme);
     term->grapheme_width = (NemoGraphemeWidth){0};

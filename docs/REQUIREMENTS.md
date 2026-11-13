@@ -24,8 +24,10 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
 * Switchable GDI/OpenGL rendering. GDI retains the memory limits above; the
   user explicitly allows optional OpenGL mode to exceed them.
 * Investigate a DirectX renderer without extra distributed dependencies.
-* Plan native tabs with the strip on top, bottom, left or right, and a terminal
-  preview on hover. See `research/tabs-design.md`; tabs are not implemented yet.
+* Native tabs with the strip on top, bottom, left or right, and a terminal
+  preview on hover. Implemented with owned-window tests; see
+  `research/tabs-host.md` and `research/rtl-font-fallback.md` for the measured
+  workload scope and remaining lifetime/memory acceptance.
 * Default Ctrl+Shift+C/V system clipboard.
 * Selection right-click: configurable copy-only (default) or copy-and-paste.
 * Shift+left drag always selects renderer grid, even in application mouse/alternate screen modes.
@@ -53,6 +55,16 @@ DCS queries; synchronized output; Sixel rendering/lifetime/scroll/erase; other m
 image protocols; resize and app compatibility with Claude Code/Codex.
 
 ## Current evidence
+
+The development branches now include whole-cluster widths and shaping, missing
+RTL glyph fallback, bounded bidi/layout caches, and a persisted startup width
+preference. These are not yet part of a newly accepted single-image artifact.
+See `research/graphemes.md`, `research/rtl-font-fallback.md`, and
+`research/grapheme-settings.md` for exact source/artifact identities, native
+results and outstanding acceptance. New GitHub jobs are currently prevented
+from starting by account billing/spending limits. Historical checkpoints below
+describe their own commits, not a current declaration that all listed work is
+finished or still missing.
 
 * Empty workspace at start; original local pterm and user settings are separate.
 * Upstream tar SHA-256: 13fd4db2936d03b73812a7bcc2a658e4dd29cc776a56c3670a7fc6f1a0ee8af8.

@@ -79,6 +79,10 @@ conpty.dll；仍使用 Windows 的 ConDrv 驱动与系统 DLL。[源码和 REA �
 该字体缺少的 Nerd 图标由 EXE 内嵌的 Symbols Nerd Font Mono 按需补齐，
 支持 BMP 和补充平面图标，无需额外安装字体；已有字形继续使用所选字体。
 回退保留字符格和复制内容，字体句柄有固定上限；[字体验证](research/font-fallback.md)。
+Window/Translation 可保存“Use grapheme cluster widths at startup”，默认关闭。
+开启后，连接的 emoji 等字符簇按整体计算列宽；应用仍可切换模式，终端复位会关闭它。
+会话内更改该选项会影响后续输出；修改其他设置会保留应用协商的状态。
+[字符簇设置与验证](research/grapheme-settings.md)。
 开发分支还修复了主字体缺失希伯来文和阿拉伯文字形时的逐格系统字体回退，
 并限制双向文字缓存的内存；[本机验证与待完成的单文件验收](research/rtl-font-fallback.md)。
 

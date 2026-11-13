@@ -50,10 +50,12 @@ Caller clipping, viewport, colors, concealment, decorations, bold and DEC
 width/height geometry remain in effect.
 
 Input is bounded to 66 UTF-16 units and raster scratch to 65,536 pixels (256 KiB).
-Old raster storage is released before resizing, layouts are transient, and the
+Old raster storage is released before resizing, multi-character layouts are transient, and the
 renderer is freed with its window. This scratch cap excludes DirectWrite font
 caches and other process allocations. Invalid input, oversize tiles or system
 API failure uses a width-preserving replacement. No additional DLL/font ships.
+Single-character layouts have a separate 32-entry bound for repeated missing
+RTL glyphs; see [RTL fallback and its memory/performance evidence](rtl-font-fallback.md).
 The renderer uses the process heap and builds without exceptions or RTTI.
 Import-table verification rejects compiler runtime DLLs in the portable build;
 the MSVC single-image build already uses its static runtime.
@@ -70,7 +72,13 @@ saved slots, an explicit restore after RIS can restore an earlier saved state.
 Already stored clusters still draw as whole cells after width mode is disabled.
 The [terminal Unicode core draft](https://github.com/contour-terminal/terminal-unicode-core/blob/master/spec/terminal-unicode-core.tex)
 is the protocol reference; this is not a claim of universal adoption.
-A GUI choice for initial width policy is not yet implemented.
+Window/Translation now offers **Use grapheme cluster widths at startup**,
+stored as `NemoGraphemeWidths` (default off). Applying a changed preference
+switches the live mode for subsequent output. Applying unrelated settings
+preserves an application's negotiated state and existing clusters are retained.
+The startup preference does not change the draft's reset semantics: DECSTR and
+RIS still disable mode 2027. Unsupported frontends never enable the mode from
+configuration. [Settings implementation and validation](grapheme-settings.md).
 
 ## Verification and limits
 
@@ -131,7 +139,7 @@ is still failing the separate first-process raster difference described in
 the follow-up evidence; no new single-EXE artifact has been accepted.
 
 Remaining acceptance: new CI and actual single-EXE artifact, its default-size/tabs
-memory, initial-policy settings, wider missing-font/ZWJ/color behavior and real
+memory, wider missing-font/ZWJ/color behavior and real
 agent workloads. This checkpoint is not complete Unicode/protocol coverage.
 
 ## Reproduction and original probe

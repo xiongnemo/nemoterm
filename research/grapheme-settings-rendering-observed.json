@@ -1,0 +1,332 @@
+{
+  "executable_sha256": "c6818d59accc482a70952e4e89643ce181548a257941a3dac1af3da894c6c7d7",
+  "font": "SarasaTermSC Nerd Font Light",
+  "font_resize": false,
+  "modes": [
+    {
+      "requested": 0,
+      "active": 1,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 5337088,
+          "total_ws": 28282880,
+          "private_commit": 7016448
+        },
+        {
+          "private_ws": 6156288,
+          "total_ws": 29421568,
+          "private_commit": 7876608
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29614080,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29655040,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29704192,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29720576,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29761536,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6160384,
+          "total_ws": 29761536,
+          "private_commit": 7880704
+        },
+        {
+          "private_ws": 6189056,
+          "total_ws": 29806592,
+          "private_commit": 7897088
+        },
+        {
+          "private_ws": 6176768,
+          "total_ws": 29806592,
+          "private_commit": 7897088
+        },
+        {
+          "private_ws": 6180864,
+          "total_ws": 29954048,
+          "private_commit": 7901184
+        },
+        {
+          "private_ws": 6287360,
+          "total_ws": 30179328,
+          "private_commit": 8056832
+        }
+      ],
+      "peak_private_ws": 6287360,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        8,
+        20
+      ],
+      "clipboard_tested": false,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 1,
+      "active": 2,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 30121984,
+          "total_ws": 60358656,
+          "private_commit": 84180992
+        },
+        {
+          "private_ws": 31477760,
+          "total_ws": 62025728,
+          "private_commit": 85565440
+        },
+        {
+          "private_ws": 31498240,
+          "total_ws": 62210048,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31506432,
+          "total_ws": 62259200,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31518720,
+          "total_ws": 62320640,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31526912,
+          "total_ws": 62345216,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31531008,
+          "total_ws": 62390272,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31535104,
+          "total_ws": 62398464,
+          "private_commit": 85606400
+        },
+        {
+          "private_ws": 31563776,
+          "total_ws": 62439424,
+          "private_commit": 85532672
+        },
+        {
+          "private_ws": 31576064,
+          "total_ws": 62464000,
+          "private_commit": 85532672
+        },
+        {
+          "private_ws": 31588352,
+          "total_ws": 62611456,
+          "private_commit": 85532672
+        },
+        {
+          "private_ws": 31768576,
+          "total_ws": 62914560,
+          "private_commit": 85708800
+        }
+      ],
+      "peak_private_ws": 31768576,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        8,
+        20
+      ],
+      "clipboard_tested": false,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "checks": [
+        "accent",
+        "CJK",
+        "skin",
+        "profession",
+        "family",
+        "flag",
+        "keycap",
+        "emoji heart",
+        "text heart",
+        "Jamo",
+        "Indic",
+        "late-right-margin",
+        "REP",
+        "legacy",
+        "whole-cluster pixels, compositor parity and synchronized frame",
+        "resized cluster"
+      ],
+      "memory_uninstrumented": [
+        {
+          "private_ws": 13094912,
+          "total_ws": 46383104,
+          "private_commit": 62320640
+        },
+        {
+          "private_ws": 13668352,
+          "total_ws": 47276032,
+          "private_commit": 62914560
+        },
+        {
+          "private_ws": 13688832,
+          "total_ws": 47493120,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13709312,
+          "total_ws": 47558656,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13709312,
+          "total_ws": 47603712,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13713408,
+          "total_ws": 47620096,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13713408,
+          "total_ws": 47669248,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13721600,
+          "total_ws": 47677440,
+          "private_commit": 62955520
+        },
+        {
+          "private_ws": 13758464,
+          "total_ws": 47730688,
+          "private_commit": 62971904
+        },
+        {
+          "private_ws": 13778944,
+          "total_ws": 47763456,
+          "private_commit": 62971904
+        },
+        {
+          "private_ws": 13787136,
+          "total_ws": 47910912,
+          "private_commit": 63033344
+        },
+        {
+          "private_ws": 14180352,
+          "total_ws": 48414720,
+          "private_commit": 64245760
+        }
+      ],
+      "peak_private_ws": 14180352,
+      "resized_grid": [
+        90,
+        28
+      ],
+      "cell_pixels": [
+        8,
+        20
+      ],
+      "clipboard_tested": false,
+      "owned_job_cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "completed": true
+}

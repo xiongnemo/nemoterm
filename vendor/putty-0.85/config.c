@@ -2483,6 +2483,11 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_checkbox(s, "Treat CJK ambiguous characters as wide", 'w',
                   HELPCTX(translation_cjk_ambig_wide),
                   conf_checkbox_handler, I(CONF_cjk_ambig_wide));
+    ctrl_checkbox(s, "Use grapheme cluster widths at startup", NO_SHORTCUT,
+                  HELPCTX(no_help), conf_checkbox_handler,
+                  I(CONF_nemo_grapheme_widths));
+    ctrl_text(s, "Keep joined emoji together when counting columns. Applications and terminal resets can change this mode.",
+              HELPCTX(no_help));
 
     str = dupprintf("Adjust how %s handles line drawing characters", appname);
     s = ctrl_getset(b, "Window/Translation", "linedraw", str);
