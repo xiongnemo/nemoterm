@@ -682,7 +682,7 @@ jobs:
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
           cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_queries test_titles test_osc_colour --parallel 4
-          cmake --build build-asan --target test_grapheme_terminal test_sgr --parallel 4
+          cmake --build build-asan --target test_grapheme_terminal test_sgr test_tcap --parallel 4
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_grapheme_terminal 2>&1 | tee terminal-grapheme-cells-sanitizers.log
@@ -717,6 +717,11 @@ jobs:
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_sgr 2>&1 | tee terminal-sgr-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_tcap 2>&1 | tee terminal-tcap-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            python3 tests/test_underline_terminfo.py --exe ./build-asan/test_tcap \
+              --output research/underline-capabilities-ncurses.json 2>&1 | tee terminal-tcap-ncurses-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_titles 2>&1 | tee terminal-titles-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_osc_colour 2>&1 | tee terminal-palette-sanitizers.log
@@ -725,5 +730,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: test-results-sanitizers-${{ github.sha }}
-          path: terminal-*-sanitizers.log
+          path: |
+            terminal-*-sanitizers.log
+            research/underline-capabilities-ncurses.json
           if-no-files-found: warn

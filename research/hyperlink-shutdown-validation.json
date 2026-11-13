@@ -1,0 +1,627 @@
+{
+  "recorded_utc": "2026-11-13T21:13:00.713961+00:00",
+  "source_base_commit": "6cbe05f11ff5ba1bf061d74a10d4916b0d4483f6",
+  "source_hash_format": "SHA-256 of UTF-8 checkout files with CRLF normalized to LF",
+  "source_sha256": {
+    "tests/hyperlink_window_smoke.py": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f",
+    "tests/hyperlink_message_probe.js": "cdc2dbdcbe432cff25ffa4fb9105113c81606715d5a9d3904a4c8cae59985a45",
+    "tests/owned_job.py": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+    "tests/frida_test_utils.py": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4",
+    "tests/mouse_fixture.py": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a"
+  },
+  "prior_ci": {
+    "single_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43503351475",
+    "single_result": "success",
+    "single_groups": 93,
+    "core_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43503351523",
+    "core_result": "failure",
+    "reason": "Hyperlink fixture natural-exit timeout after premature completed=true",
+    "root_cause_proven": false
+  },
+  "downloaded_single_image": {
+    "bytes": 4448768,
+    "sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84"
+  },
+  "cases": {
+    "collector-first": {
+      "controller": {
+        "executable_sha256": "e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d",
+        "name": "hyperlink",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 22332,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 2.006
+      },
+      "completed": false,
+      "scope": "preferences",
+      "shutdown_stage": null,
+      "fixture_sha256": "b19c3efeb400eb5d7148df3af723e16820e161ef5ea06da5a3aa90d9614a3530",
+      "memory_acceptance": false
+    },
+    "incremental": {
+      "controller": {
+        "executable_sha256": "e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d",
+        "name": "hyperlink",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 27352,
+        "cleanup": {
+          "before": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 10.93
+      },
+      "completed": true,
+      "scope": "full",
+      "shutdown_stage": "closed",
+      "fixture_sha256": "9cc3e26206c39c440ccc0e7fcd4b68599a236e850c7839d8c2b5a1785e174320",
+      "memory_acceptance": false
+    },
+    "exit-timeout-injection": {
+      "controller": {
+        "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+        "name": "hyperlink",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 14180,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 12.097
+      },
+      "completed": false,
+      "scope": "preferences",
+      "shutdown_stage": null,
+      "fixture_sha256": "9cc3e26206c39c440ccc0e7fcd4b68599a236e850c7839d8c2b5a1785e174320",
+      "memory_acceptance": false
+    },
+    "mingw": {
+      "controller": {
+        "executable_sha256": "b4502082809e68190ef7c060da45e76d0ab94ab8deabcf1bf8a3ee2701ac73bf",
+        "name": "hyperlink",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 44680,
+        "cleanup": {
+          "before": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 10.815
+      },
+      "completed": true,
+      "scope": "full",
+      "shutdown_stage": "closed",
+      "fixture_sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "memory_acceptance": false
+    },
+    "ci-clipboard-timeout": {
+      "controller": {
+        "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+        "name": "hyperlink",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 6988,
+        "cleanup": {
+          "before": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 18.079
+      },
+      "completed": false,
+      "scope": "full",
+      "shutdown_stage": "closed",
+      "fixture_sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "memory_acceptance": false
+    },
+    "ci-menu-observer": {
+      "controller": {
+        "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+        "name": "hyperlink",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 9868,
+        "cleanup": {
+          "before": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 19,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 10.949
+      },
+      "completed": true,
+      "scope": "full",
+      "shutdown_stage": "closed",
+      "fixture_sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "memory_acceptance": false
+    },
+    "activation-only": {
+      "controller": {
+        "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+        "name": "hyperlink",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 53124,
+        "cleanup": {
+          "before": {
+            "total": 10,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 10,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 2.256
+      },
+      "completed": true,
+      "scope": "activation-only",
+      "shutdown_stage": "closed",
+      "fixture_sha256": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f",
+      "memory_acceptance": false
+    }
+  },
+  "limitations": [
+    "All hyperlink native runs use owned pointer instrumentation; no memory acceptance.",
+    "Local MinGW uses MSVCRT, whereas failed hosted comparison uses UCRT64.",
+    "One downloaded-image remote-file copy timed out; subsequent observed run passed. Cause remains unproven.",
+    "Full CI for the fixture fix is pending; original failing run is not green."
+  ],
+  "retained": [
+    {
+      "file": "hyperlink-shutdown-evidence/ci-run-43503351475-final.json.gz",
+      "bytes": 12343,
+      "sha256": "1fa4484ff526af3cc7cb380d452756c5a2acbc44f2d42e1976fe4f4382347a14",
+      "source": "build\\ci-underline-43503351475\\run-43503351475-final.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-run-43503351523-final.json.gz",
+      "bytes": 12320,
+      "sha256": "1ac1cf4f5c31ad73e732578d15559c7805f07eea226ad5fedd9e9899b1728d1a",
+      "source": "build\\ci-underline-43503351475\\run-43503351523-final.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-artifacts-43503351475-final.json.gz",
+      "bytes": 1557,
+      "sha256": "919040baa37889bae0a19a3655aeb055cc4755cf127593947f7eae3a001b11a6",
+      "source": "build\\ci-underline-43503351475\\artifacts-43503351475-final.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-artifacts-43503351523-final.json.gz",
+      "bytes": 3085,
+      "sha256": "c5d2b9b0dca13fe177389b5cbdbba7284810ad005c274763446e3d77c49e0984",
+      "source": "build\\ci-underline-43503351475\\artifacts-43503351523-final.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-core-failed.log.gz",
+      "bytes": 5136,
+      "sha256": "f0ad4e1c931de6f2e80be8056f7a89ba5201aeb338c58eb724ef70ad35edfaa0",
+      "source": "build\\ci-underline-43503351475\\core-failed.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-single-validation.json.gz",
+      "bytes": 2308,
+      "sha256": "6e241252cd889a0b38da37e95ffd3ce50e5af8493e17dd8212cb2153b629417f",
+      "source": "build\\ci-underline-43503351475\\single-evidence\\build\\single-exe-check\\research\\single-exe-validation.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-original-hyperlink-observed.json.gz",
+      "bytes": 15681,
+      "sha256": "70b6e5a0a896eda27315aaa5712fb14d2c6602d16c3768dabc61fc2beddf5da6",
+      "source": "build\\ci-underline-43503351475\\core-evidence\\test-results\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "source": "build\\ci-underline-43503351475\\core-evidence\\build\\native-crashes\\application-errors.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-ncurses.json.gz",
+      "bytes": 98113,
+      "sha256": "22b8e66a5d8758e233107b41cd77ff2306ae03ab90811bfd1fc19bb267383b57",
+      "source": "build\\ci-underline-43503351475\\sanitizers\\research\\underline-capabilities-ncurses.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-source-host.json.gz",
+      "bytes": 446,
+      "sha256": "023dabb18000653e5cb2165308a4467ea826fbc95c173bf248bdcb4562a36837",
+      "source": "build\\ci-underline-43503351475\\source-host\\SOURCE-HOST.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/collector-first-hyperlink-controller.json.gz",
+      "bytes": 472,
+      "sha256": "2ab2878a1f1ec21220c5f8fc0f0f171a09694e5a24d82451e413cbe8d289fe2e",
+      "source": "build\\hyperlink-shutdown-check\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/collector-first-hyperlink-window-observed.json.gz",
+      "bytes": 1476,
+      "sha256": "6a03a359b713e7d8263c8050b11201a6a0a3e783e218be0e8192302f8d811abe",
+      "source": "build\\hyperlink-shutdown-check\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/collector-first-hyperlink.log.gz",
+      "bytes": 1286,
+      "sha256": "b01d62a72c4de633f2898867dc8f59335546164b430819b67011d945f0eb1bd2",
+      "source": "build\\hyperlink-shutdown-check\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/collector-first-hyperlink_window_smoke.py.gz",
+      "bytes": 39071,
+      "sha256": "b19c3efeb400eb5d7148df3af723e16820e161ef5ea06da5a3aa90d9614a3530",
+      "source": "build\\hyperlink-shutdown-check\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/collector-first-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-check\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/incremental-hyperlink-controller.json.gz",
+      "bytes": 473,
+      "sha256": "a45c723ad47f60d15a9d9ebfc1f60e138c1f584663f49b5e219a13c4ed8b9e18",
+      "source": "build\\hyperlink-shutdown-check-2\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/incremental-hyperlink-window-observed.json.gz",
+      "bytes": 14111,
+      "sha256": "5a908d964d9c59f790d2531af0eaf02f16e5492863af390d7aa884c6616748ca",
+      "source": "build\\hyperlink-shutdown-check-2\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/incremental-hyperlink.log.gz",
+      "bytes": 134,
+      "sha256": "f42efb3941e300bb265b04d00ba4fa05b4df6a74d89e94213d70747f001e59e3",
+      "source": "build\\hyperlink-shutdown-check-2\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/incremental-hyperlink_window_smoke.py.gz",
+      "bytes": 39591,
+      "sha256": "9cc3e26206c39c440ccc0e7fcd4b68599a236e850c7839d8c2b5a1785e174320",
+      "source": "build\\hyperlink-shutdown-check-2\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/incremental-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-check-2\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-mouse_fixture.py.gz",
+      "bytes": 5544,
+      "sha256": "af92ae0c2c9fe88e4dcaf1a39d142190ea595e2610fb31891e12e24462956420",
+      "source": "build\\hyperlink-shutdown-timeout-check\\tests\\mouse_fixture.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-hyperlink-controller.json.gz",
+      "bytes": 473,
+      "sha256": "341acd9cb410ba518a4eedccecf89bc87de6535cb4dfe2f444ee20818f6a85f6",
+      "source": "build\\hyperlink-shutdown-timeout-check\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-hyperlink-window-observed.json.gz",
+      "bytes": 3905,
+      "sha256": "1fa297d5ff9c6808d5f0df8379f9b7db713308f38204e5fada26b2ed53c69846",
+      "source": "build\\hyperlink-shutdown-timeout-check\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-hyperlink.log.gz",
+      "bytes": 1981,
+      "sha256": "a9ec0db19d5ed1e1ebc4a73bfeb9ace681e0b08a0745314ce98b56ba28ae8e6b",
+      "source": "build\\hyperlink-shutdown-timeout-check\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-hyperlink_window_smoke.py.gz",
+      "bytes": 39591,
+      "sha256": "9cc3e26206c39c440ccc0e7fcd4b68599a236e850c7839d8c2b5a1785e174320",
+      "source": "build\\hyperlink-shutdown-timeout-check\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/exit-timeout-injection-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-timeout-check\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-hyperlink-controller.json.gz",
+      "bytes": 474,
+      "sha256": "4613114844d1ed0129657d607f740cc336509d2c92476c83be8c4a2356b2e6ad",
+      "source": "build\\hyperlink-shutdown-mingw-final\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-hyperlink-window-observed.json.gz",
+      "bytes": 14177,
+      "sha256": "fb7d50d3c65c5d247654b8f0161e3f9519061e8f6600de763b3a4324cb4e5e95",
+      "source": "build\\hyperlink-shutdown-mingw-final\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-hyperlink.log.gz",
+      "bytes": 134,
+      "sha256": "8a1e2d065af2733ffed22e06de970d055572b6c6e99813345edee049a86f7a47",
+      "source": "build\\hyperlink-shutdown-mingw-final\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-hyperlink_window_smoke.py.gz",
+      "bytes": 39589,
+      "sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "source": "build\\hyperlink-shutdown-mingw-final\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-mingw-final\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-clipboard-timeout-hyperlink-controller.json.gz",
+      "bytes": 474,
+      "sha256": "4385cd0aa8e9232eaea189b283a6c2a52d70a84bad43c30e799c077a27386345",
+      "source": "build\\hyperlink-shutdown-ci-image-check\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-clipboard-timeout-hyperlink-window-observed.json.gz",
+      "bytes": 13606,
+      "sha256": "dd2ec13c865978ea719dfbc258f56d4c2c3c74372324be97f932be38de4c1ec8",
+      "source": "build\\hyperlink-shutdown-ci-image-check\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-clipboard-timeout-hyperlink.log.gz",
+      "bytes": 593,
+      "sha256": "4de4ac88f2f57bd94fc982ac2efbeb9639af7d7b6d10e9878cb89e0cf053e4ad",
+      "source": "build\\hyperlink-shutdown-ci-image-check\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-clipboard-timeout-hyperlink_window_smoke.py.gz",
+      "bytes": 39589,
+      "sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "source": "build\\hyperlink-shutdown-ci-image-check\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-clipboard-timeout-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-ci-image-check\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-menu-observer-hyperlink-controller.json.gz",
+      "bytes": 473,
+      "sha256": "4f9b4125cecd31153f41d8b87177b541c852118196c72c1d9d3fe5976834db43",
+      "source": "build\\hyperlink-shutdown-ci-diagnostic\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-menu-observer-hyperlink-window-observed.json.gz",
+      "bytes": 19817,
+      "sha256": "7105a4c1e7082b6c7d3b174832c058c192b6836c7ae196ed7da4708daae5aa7f",
+      "source": "build\\hyperlink-shutdown-ci-diagnostic\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-menu-observer-hyperlink.log.gz",
+      "bytes": 134,
+      "sha256": "e77de594bf9b03e65f75655a65758478bb7b9fa4fdad1d9795fa547aa770a75d",
+      "source": "build\\hyperlink-shutdown-ci-diagnostic\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-menu-observer-hyperlink_window_smoke.py.gz",
+      "bytes": 39589,
+      "sha256": "e95d51ec7b40d04e1f360ec28f8f13eb32e476db1bf979d2b980373995bd390d",
+      "source": "build\\hyperlink-shutdown-ci-diagnostic\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/ci-menu-observer-hyperlink_message_probe.js.gz",
+      "bytes": 3314,
+      "sha256": "c9d9368888eb84f5f42f9f2defc11fcd7a0785312a63da203880b508c0b70b66",
+      "source": "build\\hyperlink-shutdown-ci-diagnostic\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/activation-only-hyperlink-controller.json.gz",
+      "bytes": 473,
+      "sha256": "bcaf244c68a25c643e36a991c8ae97bb42d3961fd87c35644b3542fb1ff2a5f4",
+      "source": "build\\hyperlink-shutdown-activation-final\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/activation-only-hyperlink-window-observed.json.gz",
+      "bytes": 4432,
+      "sha256": "33c1fa8812374bc3f75aad60fd308ce84039020e0ba3cd660def188b912e1275",
+      "source": "build\\hyperlink-shutdown-activation-final\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/activation-only-hyperlink.log.gz",
+      "bytes": 95,
+      "sha256": "57cf618079704bcbff54464a2ca004d3bac602913682dd2b4e8fa1a9a503e1c7",
+      "source": "build\\hyperlink-shutdown-activation-final\\hyperlink.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/activation-only-hyperlink_window_smoke.py.gz",
+      "bytes": 40148,
+      "sha256": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f",
+      "source": "build\\hyperlink-shutdown-activation-final\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/activation-only-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "build\\hyperlink-shutdown-activation-final\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-runtime.log.gz",
+      "bytes": 1102,
+      "sha256": "5776ee83cf4eb197f2362ddb4eea7e0ec624f1f4e1000e583d66f3d379ff295f",
+      "source": "build\\hyperlink-shutdown-mingw-check\\runtime.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-host-install.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "build\\hyperlink-shutdown-mingw-check\\host-install.log"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/mingw-source-host.json.gz",
+      "bytes": 446,
+      "sha256": "023dabb18000653e5cb2165308a4467ea826fbc95c173bf248bdcb4562a36837",
+      "source": "build\\hyperlink-shutdown-mingw-final\\dist\\SOURCE-HOST.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/owned-controller.py.gz",
+      "bytes": 1482,
+      "sha256": "01562d334381d7b582141bbfc3f59f2002691ee8b7e6e36c4d440fd2a130081f",
+      "source": "build\\run-owned-check.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/final-hyperlink_window_smoke.py.gz",
+      "bytes": 40148,
+      "sha256": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f",
+      "source": "tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/final-hyperlink_message_probe.js.gz",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9",
+      "source": "tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/final-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "source": "tests\\owned_job.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/final-frida_test_utils.py.gz",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4",
+      "source": "tests\\frida_test_utils.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/final-mouse_fixture.py.gz",
+      "bytes": 5366,
+      "sha256": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a",
+      "source": "tests\\mouse_fixture.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink-window-observed.json.gz",
+      "bytes": 38187,
+      "sha256": "ae087902628cbeadc705f4faefe757b209eeb0b425d36a4fa49a1631782b0447",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink-controller.json.gz",
+      "bytes": 474,
+      "sha256": "31b5f233e6ac72939ba0428bbea1f35c52dc4753a9f73fe16e2b10aea965cfa5",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink_window_smoke.py.gz",
+      "bytes": 41573,
+      "sha256": "5ec67605d6c1f1da3dd923a2496cb54896dd2cae3c86bdabec150ab990b3188a",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink_message_probe.js.gz",
+      "bytes": 3314,
+      "sha256": "c9d9368888eb84f5f42f9f2defc11fcd7a0785312a63da203880b508c0b70b66",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink.log.gz",
+      "bytes": 134,
+      "sha256": "c62b3f899c01722f17314c8cdcb38a657354bd8b6125127dadd8d155aca3090d",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\hyperlink.log"
+    }
+  ],
+  "copy_repeat_diagnostic": {
+    "recorded_utc": "2026-11-13T21:25:32.548603+00:00",
+    "attempts": 32,
+    "all_passed": true,
+    "original_failure_explained": false,
+    "memory_acceptance": false,
+    "controller": {
+      "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+      "name": "hyperlink",
+      "completed": true,
+      "exit_code": 0,
+      "controller_pid": 11072,
+      "cleanup": {
+        "before": {
+          "total": 19,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 19,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "seconds": 25.122
+    }
+  }
+}

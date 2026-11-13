@@ -1,5 +1,6 @@
 """Verify cursor pixels, status queries and keyboard capabilities through ConPTY."""
 import frida
+from underline_capabilities import PROGRAMS, cases as underline_cases, decode_reply
 
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
@@ -216,13 +217,36 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
                            f'\x1bP1+r{encoded}={value.encode().hex()}\x1b\\'.encode())
             reply = bytes.fromhex(evidence[case]['reply'])
             returned[name] = bytes.fromhex(reply.split(b'=', 1)[1].split(b'\x1b\\', 1)[0].decode()).decode()
-        for name in ('smol', 'rmol', 'Smulx', 'Setulc', 'Su'):
+        for name in ('smol', 'rmol', 'smulx', 'setulc', 'Su', 'Setulc1'):
             identity_phase('tcap-unknown-'+name, f'\x1bP+q{name.encode().hex()}\x1b\\', b'\x1bP0+r\x1b\\')
         on = ''.join(returned[name] for name in ('sitm', 'smul', 'smxx', 'Smol'))
         identity_phase('tcap-renditions-replay-on', '\x1b[0m'+on+'\x1bP$qm\x1b\\',
                        b'\x1bP1$r0;3;9;4;53m\x1b\\')
         off = ''.join(returned[name] for name in ('ritm', 'rmul', 'rmxx', 'Rmol'))
         identity_phase('tcap-renditions-replay-off', off+'\x1bP$qm\x1b\\', b'\x1bP1$r0m\x1b\\')
+        # Capture the real parameter programs for independent ncurses checks.
+        # Windows replays numeric expectations here; it does not implement a
+        # second evaluator or claim that static literals are tparm expansion.
+        for name, value in PROGRAMS.items():
+            encoded = name.encode().hex()
+            case = 'tcap-program-'+name
+            identity_phase(case, f'\x1bP+q{encoded}\x1b\\',
+                           f'\x1bP1+r{encoded}={value.hex()}\x1b\\'.encode())
+            decode_reply(name, bytes.fromhex(evidence[case]['reply']))
+        # A repeated Setulc query exceeds the previous 14 KiB reply bound and
+        # crosses many ConPTY pipe reads. Verify all bytes and recovery through
+        # the actual host, not just the core parser's in-memory reply buffer.
+        token = 'Setulc'.encode().hex()
+        many = (token+';')*157
+        reply = b'\x1bP1+r'+((token+'='+PROGRAMS['Setulc'].hex()+';')*157).encode()+b'\x1b\\'
+        assert len(reply) == 21045
+        identity_phase('tcap-program-max', '\x1bP+q'+many+'\x1b\\', reply)
+        identity_phase('tcap-program-overflow', '\x1bP+q'+many+token+'\x1b\\', b'\x1bP0+r\x1b\\')
+        for name, parameter, sequence, expected in underline_cases():
+            identity_phase(f'tcap-expanded-{name}-{parameter}',
+                           '\x1b[0m'+sequence.decode()+'\x1bP$qm\x1b\\', expected)
+        identity_phase('tcap-expanded-reset', '\x1b[4:3;58:2::18:52:86m\x1b[24;59m\x1bP$qm\x1b\\',
+                       b'\x1bP1$r0m\x1b\\')
         evidence.update(peak_private_ws=max(s['private_ws'] for s in samples),
                         peak_total_ws=max(s['total_ws'] for s in samples),
                         executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())

@@ -61,7 +61,7 @@ static void test_queries_and_bounds(Mock *mk)
     IEQUAL(mk->term->dcs_query_len, NEMO_DCS_QUERY_SIZE-1);
     term_data_fragmented(mk->term, "\033\\A"); response(mk, "\033P0+r\033\\");
     IEQUAL(get_termchar(mk->term, 0, 0).chr, CSET_ASCII|'A');
-    /* Maximum response expansion, and direct-call input bounds. */
+    /* Short-name expansion and direct-call input bounds. */
     strbuf *many = strbuf_new();
     for (int i = 0; i < 409; i++) put_dataz(many, "544e;");
     strbuf *reply = nemo_tcap_reply(mk->term, many->s, false);
@@ -71,6 +71,29 @@ static void test_queries_and_bounds(Mock *mk)
     reply = nemo_tcap_reply(mk->term, many->s, false);
     SEQUAL(reply->s, "\033P0+r\033\\");
     strbuf_free(reply); strbuf_free(many);
+
+    /* The longer Setulc program now has the largest expansion ratio. Check
+     * exact data, both direct and byte-fragmented parser paths, and overflow
+     * recovery followed by a separate DSR barrier. */
+    many = strbuf_new();
+    strbuf *expected = strbuf_new(); put_dataz(expected, "\033P1+r");
+    const char *program = "\033[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm";
+    for (int i = 0; i < 157; i++) {
+        put_dataz(many, "536574756c63;");
+        put_dataz(expected, "536574756c63="); hex(expected, program); put_byte(expected, ';');
+    }
+    put_dataz(expected, "\033\\");
+    reply = nemo_tcap_reply(mk->term, many->s, false);
+    IEQUAL(reply->len, 7+157*134); IEQUAL(reply->len < 22*1024, true);
+    SEQUAL(reply->s, expected->s); strbuf_free(reply);
+    term_data_fragmented(mk->term, "\033P+q"); term_data_fragmented(mk->term, many->s);
+    term_data_fragmented(mk->term, "\033\\"); response(mk, expected->s);
+    put_dataz(many, "536574756c63");
+    reply = nemo_tcap_reply(mk->term, many->s, false);
+    SEQUAL(reply->s, "\033P0+r\033\\"); strbuf_free(reply);
+    term_data_fragmented(mk->term, "\033P+q"); term_data_fragmented(mk->term, many->s);
+    term_data_fragmented(mk->term, "\033\\\033[5n"); response(mk, "\033P0+r\033\\\033[0n");
+    strbuf_free(many); strbuf_free(expected);
 
     term_data_fragmented(mk->term, "\033P+q436f\030B\033P+q436f\032C"
                          "\033P+q436f\033[31m\033P+q524742\033\\");
@@ -112,6 +135,8 @@ static void test_renditions(Mock *mk)
         {"ritm", "\033[23m"}, {"ZR", "\033[23m"},
         {"smxx", "\033[9m"}, {"rmxx", "\033[29m"},
         {"Smol", "\033[53m"}, {"Rmol", "\033[55m"},
+        {"Smulx", "\033[4:%p1%dm"},
+        {"Setulc", "\033[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm"},
     };
     for (size_t i = 0; i < lenof(cases); i++) {
         query(mk, cases[i].name, cases[i].value);
@@ -119,9 +144,8 @@ static void test_renditions(Mock *mk)
         IEQUAL(truecolour_equal(mk->term->curr_truecolour, colour), true);
         IEQUAL(mk->term->curs.x, 6); IEQUAL(mk->term->curs.y, 2);
     }
-    /* Extended names are case sensitive; unsupported parameter programs do
-     * not acquire a misleading positive response from the new whitelist. */
-    static const char *unknown[] = {"smol", "rmol", "SMOL", "Smulx", "Setulc", "Su"};
+    /* Extended names are case sensitive; unknown programs/flags stay unknown. */
+    static const char *unknown[] = {"smol", "rmol", "SMOL", "smulx", "setulc", "Su", "Setulc1"};
     for (size_t i = 0; i < lenof(unknown); i++) {
         strbuf *input = strbuf_new();
         put_dataz(input, "\033P+q"); hex(input, unknown[i]); put_dataz(input, "\033\\");
@@ -132,10 +156,14 @@ static void test_renditions(Mock *mk)
     response(mk, "\033P1+r536D6F6C=1b5b35336d;526D6F6C=1b5b35356d;436f=323536\033\\");
     term_data_fragmented(mk->term, "\033P+q536d6f6c;736d6f6c;526d6f6c\033\\");
     response(mk, "\033P1+r536d6f6c=1b5b35336d;\033\\");
-    conf_set_bool(mk->conf, CONF_true_colour, false);
-    conf_set_bool(mk->conf, CONF_ansi_colour, false);
-    term_reconfig(mk->term, mk->conf);
-    for (size_t i = 0; i < lenof(cases); i++) query(mk, cases[i].name, cases[i].value);
+    for (int ansi = 0; ansi < 2; ansi++) for (int rgb = 0; rgb < 2; rgb++) {
+        conf_set_bool(mk->conf, CONF_true_colour, rgb);
+        conf_set_bool(mk->conf, CONF_ansi_colour, ansi);
+        term_reconfig(mk->term, mk->conf);
+        for (size_t i = 0; i < lenof(cases); i++)
+            query(mk, cases[i].name,
+                  !strcmp(cases[i].name, "Setulc") && (!ansi || !rgb) ? NULL : cases[i].value);
+    }
 }
 
 static void test_keyboard(Mock *mk)
@@ -222,11 +250,27 @@ static void test_keyboard(Mock *mk)
     IEQUAL(format_function_key(encoded, mk->term, 64, false, false, false, &consumed), 0);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     Mock *mk = mock_new();
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    if (argc == 2 && !strcmp(argv[1], "--dump-programs")) {
+        /* Independent ncurses tparm checks consume actual parser replies. */
+        reset(mk);
+        static const char *names[] = {"Smulx", "Setulc"};
+        for (size_t i = 0; i < lenof(names); i++) {
+            strbuf *input = strbuf_new();
+            put_dataz(input, "\033P+q"); hex(input, names[i]); put_dataz(input, "\033\\");
+            term_data_fragmented(mk->term, input->s);
+            printf("%s\t", names[i]);
+            for (size_t j = 0; j < mk->to_backend->len; j++)
+                printf("%02x", (unsigned char)mk->to_backend->s[j]);
+            puts(""); strbuf_clear(mk->to_backend); strbuf_free(input);
+        }
+        mock_free(mk); return 0;
+    }
+    if (argc != 1) { mock_free(mk); return 2; }
     test_queries_and_bounds(mk);
     test_renditions(mk);
     test_keyboard(mk);
