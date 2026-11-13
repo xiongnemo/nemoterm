@@ -11,6 +11,7 @@ on:
       - 'tests/tab_workload_memory.py'
       - 'tests/tabs_window_smoke.py'
       - 'tests/virtual_memory*'
+      - 'tests/etw_memory*'
       - '.github/workflows/allocation-census.yml'
   workflow_dispatch:
     inputs:
@@ -18,7 +19,7 @@ on:
         description: Native validation, frontend heap census, or scoped virtual-memory trace
         type: choice
         default: native
-        options: [native, heap, virtual]
+        options: [native, heap, virtual, etw]
 
 permissions:
   contents: read
@@ -115,10 +116,34 @@ jobs:
           } elseif ($env:OBSERVATION -eq 'virtual') {
             $observationArgument = '--virtual-memory-trace'
             $validator = 'tests/virtual_memory_validate.py'
+          } elseif ($env:OBSERVATION -eq 'etw') {
+            $observationArgument = '--etw-memory-trace'
+            $validator = 'tests/etw_memory_validate.py'
           } else { throw 'Unknown observation mode' }
-          python tests/tabs_window_smoke.py --renderer ${{ matrix.renderer }} --side left --workload-memory $observationArgument 2>&1 | Tee-Object allocation-census-workload.log
-          if ($LASTEXITCODE -ne 2) { throw "Expected diagnostic exit 2; got $LASTEXITCODE" }
+          $recording = $false
+          try {
+            if ($env:OBSERVATION -eq 'etw') {
+              wpr.exe -start VirtualAllocation -filemode 2>&1 | Tee-Object etw-recorder.log
+              if ($LASTEXITCODE) { throw 'Failed to start dedicated CI WPR recording' }
+              $recording = $true
+              $env:NEMOTERM_ETW_RECORDING = '1'
+            }
+            python tests/tabs_window_smoke.py --renderer ${{ matrix.renderer }} --side left --workload-memory $observationArgument 2>&1 | Tee-Object allocation-census-workload.log
+            $workloadExit = $LASTEXITCODE
+          } finally {
+            if ($recording) {
+              wpr.exe -stop virtual-allocation.etl 2>&1 | Tee-Object -Append etw-recorder.log
+              if ($LASTEXITCODE) { throw 'Failed to save dedicated CI WPR recording' }
+            }
+          }
+          if ($workloadExit -ne 2) { throw "Expected diagnostic exit 2; got $workloadExit" }
           python $validator --renderer ${{ matrix.renderer }}
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Decode virtual-allocation event metadata
+        if: inputs.observation == 'etw'
+        shell: pwsh
+        run: |
+          tracerpt.exe virtual-allocation.etl -of XML -o virtual-allocation.xml -summary virtual-allocation-summary.xml -y 2>&1 | Tee-Object etw-decoder.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Retain allocation diagnostic metadata
         if: always()
@@ -130,4 +155,9 @@ jobs:
             research/allocation-census-candidate.json
             research/allocation-tabs-*
             research/virtual-tabs-*
+            research/etw-tabs-*
+            etw-*.log
+            virtual-allocation.etl
+            virtual-allocation.xml
+            virtual-allocation-summary.xml
           if-no-files-found: warn

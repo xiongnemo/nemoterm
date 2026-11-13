@@ -19,13 +19,16 @@ observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
 observation.add_argument('--virtual-memory-trace',action='store_true',
                     help='CI-only scoped virtual commit/release diagnostic; exits 2, never acceptance')
+observation.add_argument('--etw-memory-trace',action='store_true',
+                    help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
-diagnostic=args.allocation_census or args.virtual_memory_trace
+injected_observer=args.allocation_census or args.virtual_memory_trace
+diagnostic=injected_observer or args.etw_memory_trace
 if diagnostic and (not args.workload_memory or os.environ.get('CI')!='true'):
     parser.error('Memory observers require --workload-memory on a dedicated CI runner')
 if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
-prefix='virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
+prefix='etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -63,8 +66,9 @@ def windows(pid,kind,parent=None,visible=False):
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
-              completed=False,checks=[],memory_instrumented=diagnostic)
+              completed=False,checks=[],memory_instrumented=injected_observer)
 if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False)
+if args.etw_memory_trace:evidence['kernel_etw_recording']=True
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -81,7 +85,8 @@ try:
         try:
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
-                memory_sampler=TabMemorySampler(process.pid,exe,injected=diagnostic)
+                memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
+                                               kernel_etw_recording=args.etw_memory_trace)
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
             def new_child(before):
                 def launch():
@@ -135,7 +140,7 @@ try:
                         from working_set_regions import private_regions
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
                 return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
-                            injected=diagnostic,**memory_sample(handle))
+                            injected=injected_observer,**memory_sample(handle))
             first=new_child([])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
@@ -185,7 +190,9 @@ try:
                 assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
             if args.workload_memory:
                 if diagnostic:
-                    if args.virtual_memory_trace:
+                    if args.etw_memory_trace:
+                        from etw_memory_trace import EtwMemoryTrace as Observer
+                    elif args.virtual_memory_trace:
                         from virtual_memory_trace import VirtualMemoryTrace as Observer
                     else:
                         from allocation_census import AllocationCensus as Observer
