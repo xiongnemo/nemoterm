@@ -999,22 +999,23 @@ typedef struct optionalrgb {
 extern const optionalrgb optionalrgb_none;
 typedef struct truecolour {
     optionalrgb fg, bg;
-    /* Packed decoration keeps per-cell overhead at four bytes. The low
-     * 24 bits hold RGB or a palette index; style and colour type are separate. */
-    uint32_t decoration;
+    /* Low word retains underline colour/style and cell metadata. The high
+     * word holds additional visual styles; history stores it only when used. */
+    uint64_t decoration;
 } truecolour;
-#define UNDER_COLOUR_MASK UINT32_C(0x03ffffff)
-#define UNDER_INDEXED     UINT32_C(0x01000000)
-#define UNDER_RGB         UINT32_C(0x02000000)
+#define UNDER_COLOUR_MASK UINT64_C(0x03ffffff)
+#define UNDER_INDEXED     UINT64_C(0x01000000)
+#define UNDER_RGB         UINT64_C(0x02000000)
 #define UNDER_STYLE_SHIFT 26
-#define UNDER_STYLE_MASK  UINT32_C(0x1c000000)
-#define UNDER_DOUBLE_LEGACY UINT32_C(0x80000000)
-#define UNDER_STYLE_RAW(tc) (((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT)
+#define UNDER_STYLE_MASK  UINT64_C(0x1c000000)
+#define UNDER_DOUBLE_LEGACY UINT64_C(0x80000000)
+#define DECOR_OVERLINE    UINT64_C(0x100000000)
+#define UNDER_STYLE_RAW(tc) ((unsigned)(((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT))
 #define UNDER_STYLE(tc) (((tc).decoration & UNDER_DOUBLE_LEGACY) ? 2 : UNDER_STYLE_RAW(tc))
 /* Non-visual cell metadata shares an unused bit; no per-cell allocation. */
-#define CELL_PROTECTED UINT32_C(0x20000000)
+#define CELL_PROTECTED UINT64_C(0x20000000)
 /* Occupancy for DEC stream-attribute operations, without growing a cell. */
-#define CELL_UNDRAWN UINT32_C(0x40000000)
+#define CELL_UNDRAWN UINT64_C(0x40000000)
 #define optionalrgb_equal(r1,r2) (                              \
         (r1).enabled==(r2).enabled &&                           \
         (r1).r==(r2).r && (r1).g==(r2).g && (r1).b==(r2).b)

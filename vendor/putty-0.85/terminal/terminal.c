@@ -739,8 +739,9 @@ static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
      */
     put_byte(b, ((c->truecolour.fg.enabled ? 1 : 0) |
                  (c->truecolour.bg.enabled ? 2 : 0) |
-                 (c->truecolour.decoration ? 4 : 0) |
-                 (c->hyperlink ? 8 : 0)));
+                 ((c->truecolour.decoration & UINT32_MAX) ? 4 : 0) |
+                 (c->hyperlink ? 8 : 0) |
+                 ((c->truecolour.decoration >> 32) ? 16 : 0)));
     if (c->truecolour.fg.enabled) {
         put_byte(b, c->truecolour.fg.r);
         put_byte(b, c->truecolour.fg.g);
@@ -751,8 +752,9 @@ static void makeliteral_truecolour(strbuf *b, termchar *c, unsigned long *state)
         put_byte(b, c->truecolour.bg.g);
         put_byte(b, c->truecolour.bg.b);
     }
-    if (c->truecolour.decoration) put_uint32(b, c->truecolour.decoration);
+    if (c->truecolour.decoration & UINT32_MAX) put_uint32(b, c->truecolour.decoration);
     if (c->hyperlink) put_uint32(b, c->hyperlink);
+    if (c->truecolour.decoration >> 32) put_uint32(b, c->truecolour.decoration >> 32);
 }
 static void makeliteral_cc(strbuf *b, termchar *c, unsigned long *state)
 {
@@ -1007,6 +1009,7 @@ static void readliteral_truecolour(
     }
     c->truecolour.decoration = flags & 4 ? get_uint32(bs) : 0;
     c->hyperlink = flags & 8 ? get_uint32(bs) : 0;
+    if (flags & 16) c->truecolour.decoration |= (uint64_t)get_uint32(bs) << 32;
 }
 static void readliteral_cc(BinarySource *bs, termchar *c, termline *ldata,
                            unsigned long *state)
@@ -2379,6 +2382,7 @@ static void nemo_push_sgr(Terminal *term)
             unsigned selector = term->esc_args[i];
             if (selector == 10) selector = 30;
             if (selector == 11) selector = 31;
+            if (selector == 53) {mask |= UINT32_C(1) << 31;continue;}
             if (selector > 0 && selector < 32)
                 mask |= UINT32_C(1) << (selector-1);
         }
@@ -2415,9 +2419,10 @@ static void nemo_pop_sgr(Terminal *term)
         term->curr_attr = (term->curr_attr & ~attrs) | (saved & attrs);
         if (mask & (UINT32_C(1) << 29)) term->curr_truecolour.fg = tc.fg;
         if (mask & (UINT32_C(1) << 30)) term->curr_truecolour.bg = tc.bg;
-        uint32_t decorations = 0;
+        uint64_t decorations = 0;
         if (mask & (UINT32_C(1) << 3)) decorations |= UNDER_STYLE_MASK;
         if (mask & (UINT32_C(1) << 20)) decorations |= UNDER_DOUBLE_LEGACY;
+        if (mask & (UINT32_C(1) << 31)) decorations |= DECOR_OVERLINE;
         /* No-argument saves also preserve our modern underline colour. */
         if (mask == UINT32_MAX) decorations |= UNDER_COLOUR_MASK;
         term->curr_truecolour.decoration =
@@ -2484,6 +2489,7 @@ static void nemo_decrqss(Terminal *term)
             else put_fmt(reply, ";4:%u", style);
         }
         if (tc.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+        if (tc.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
         nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg, false);
         nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg, false);
         uint32_t colour = tc.decoration & UNDER_COLOUR_MASK;
@@ -5211,7 +5217,8 @@ static void nemo_report_rectangle_sgr(Terminal *term)
                 if ((common.truecolour.decoration & UNDER_COLOUR_MASK) !=
                     (cell.truecolour.decoration & UNDER_COLOUR_MASK))
                     common.truecolour.decoration &= ~UNDER_COLOUR_MASK;
-                common.truecolour.decoration &= cell.truecolour.decoration | ~UNDER_DOUBLE_LEGACY;
+                common.truecolour.decoration &= cell.truecolour.decoration |
+                    ~(UNDER_DOUBLE_LEGACY | DECOR_OVERLINE);
             }
         }
     }
@@ -5230,6 +5237,7 @@ static void nemo_report_rectangle_sgr(Terminal *term)
     for (size_t i = 0; i < lenof(flags); i++)
         if (common.attr & flags[i].bit) put_fmt(reply, ";%u", flags[i].sgr);
     if (common.truecolour.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+    if (common.truecolour.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
     nemo_report_sgr_colour(reply, 38, (common.attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
                            common.truecolour.fg, true);
     nemo_report_sgr_colour(reply, 48, (common.attr & ATTR_BGMASK) >> ATTR_BGSHIFT,
@@ -6722,7 +6730,7 @@ static void nemo_checksum_rectangle(Terminal *term)
                 const termchar *cell = col < line->cols ? &line->chars[col] :
                     &term->basic_erase_char;
                 unsigned long attr = cell->attr;
-                uint32_t decoration = cell->truecolour.decoration;
+                uint64_t decoration = cell->truecolour.decoration;
                 bool drawn = !(decoration & CELL_UNDRAWN);
                 uint32_t value;
                 if (!drawn) {
@@ -8601,6 +8609,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 29:      /* disable strikethrough */
                             term->curr_attr &= ~ATTR_STRIKE;
+                            break;
+                          case 53:      /* ECMA-48 overline */
+                            term->curr_truecolour.decoration |= DECOR_OVERLINE;
+                            break;
+                          case 55:
+                            term->curr_truecolour.decoration &= ~DECOR_OVERLINE;
                             break;
                           case 30:
                           case 31:

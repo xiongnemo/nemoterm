@@ -4798,6 +4798,8 @@ static void do_text_internal(
     if (attr & ATTR_STRIKE)
         draw_horizontal_line_on_text(wgs, wgs->font_strikethrough_y, lattr,
                                      line_box, fg);
+    if (!(attr & ATTR_CONCEAL) && (truecolour.decoration & DECOR_OVERLINE))
+        draw_horizontal_line_on_text(wgs, 0, lattr, line_box, fg);
 
   out:
     sfree(lpDx);
@@ -4977,7 +4979,7 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
     strbuf *key=NULL;
     if (!cursor) {
         key=strbuf_new();
-        put_uint32(key,attr);put_uint32(key,lattr);put_uint32(key,tc.decoration);
+        put_uint32(key,attr);put_uint32(key,lattr);put_uint64(key,tc.decoration);
         /* Rasterized text includes the active block cursor's colours.
          * DECSCUSR changes that rendering without changing ATTR_ACTCURS. */
         put_byte(key,(attr&ATTR_ACTCURS) &&

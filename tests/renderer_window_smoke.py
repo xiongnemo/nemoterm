@@ -163,6 +163,32 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                         tiles+=f'\x1b[38;2;255;255;255;48;2;{red};{green};{blue}m'+('XY' if variant==0 else 'AB')
                 name=f'cache-eviction-{cycle}'
                 render(name,tiles+'\x1b[0m');compare(name)
+            # Explicit semantic pixel check in addition to renderer parity:
+            # eight overlined blank cells, eight cancelled cells, and concealed
+            # cells below. Underline colour must not recolour the overline.
+            overline=('\x1b[?25l\x1b[0m\x1b[2J\x1b[H'
+                      '\x1b[38;2;81;177;221;48;2;10;20;30;58;2;255;0;0;53m'+
+                      ' '*8+'\x1b[55m'+' '*8+'\r\n\x1b[53;8m'+' '*8+'\x1b[0m')
+            render('overline',overline);pixels=compare('overline')
+            dimensions=w.RECT();assert u.GetClientRect(hwnd,c.byref(dimensions))
+            def pixel(px,py):
+                offset=(py*dimensions.right+px)*3
+                return pixels[offset:offset+3]
+            for column in range(16*cw):
+                assert pixel(1+column,1)==bytes((81,177,221) if column<8*cw else (10,20,30))
+            for column in range(8*cw):
+                assert pixel(1+column,1+ch)==bytes((10,20,30))
+            double=('\x1b[0m\x1b[38;2;81;177;221;48;2;10;20;30;53m'
+                    '\x1b[3;1H\x1b#6'+' '*8+'\x1b[4;1H\x1b#3'+' '*8+
+                    '\x1b[5;1H\x1b#4'+' '*8+'\x1b[6;1H\x1b[7m'+' '*8+'\x1b[0m')
+            render('overline-double-size',double);pixels=compare('overline-double-size')
+            for column in range(16*cw):
+                for row in (2,3):assert pixel(1+column,1+row*ch)==bytes((81,177,221))
+                assert pixel(1+column,1+4*ch)==bytes((10,20,30))
+            for column in range(8*cw):
+                assert pixel(1+column,1+5*ch)==bytes((10,20,30))
+                assert pixel(1+column,2+5*ch)==bytes((81,177,221))
+            mode['overline_pixels_checked']=True
             mode['focus_observations']=focus_script.exports_sync.stats()
             assert not focus_errors,focus_errors
             assert int(u.GetPropW(hwnd,'NemotermRenderer'))==active,'Renderer failed during drawing'
