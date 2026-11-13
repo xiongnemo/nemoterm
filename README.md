@@ -150,6 +150,7 @@ DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的
 CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/relative-cursor.md)。
 后续 [本机分配诊断](research/local-directx-heap.md) 保留了两次未达标的优化实验；产品渲染器未合入这些改动。
 [首次初始化与 Direct3D 9Ex 探针](research/graphics-initialization.md) 补充了驱动分配证据；独立小程序的差异尚不能证明终端达标。
+[Direct3D 11 复制呈现实验](research/d3d11-copy.md) 的完整诊断降至 26.06 MB，但仍超预算且句柄检查失败；候选代码仅保留在实验分支。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
