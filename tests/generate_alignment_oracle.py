@@ -7,7 +7,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
 raw = gzip.decompress((root/'research/alignment-audit-evidence/xterm.json.gz').read_bytes())
-manifest = json.loads((root/'research/alignment-audit-validation.json').read_text())
+manifest = json.loads((root/'research/alignment-audit-validation.json').read_text(encoding='utf-8'))
 record = next(v for v in manifest['files'] if v['path'].endswith('/xterm.json.gz'))
 assert hashlib.sha256(raw).hexdigest() == record['raw_sha256']
 source = json.loads(raw)

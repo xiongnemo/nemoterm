@@ -148,7 +148,7 @@
   },
   "reference": "research/alignment-audit-validation.json",
   "known_difference": "Retain valid RGB colour representation; XTerm(412) reports packed RGB as indexed integers after DECALN.",
-  "remote_ci": "pending",
+  "remote_ci": "initial-generation-preflight-failed; UTF-8 fix awaiting full CI",
   "accepted_distribution_replaced": false,
   "full_goal_complete": false,
   "files": [
@@ -423,6 +423,59 @@
       "raw_bytes": 11488,
       "raw_sha256": "ad302909bedddd102e53c47de0319065aba703a51abbc6bd4a7d56075ac8ae0f",
       "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-run.json.gz",
+      "bytes": 2716,
+      "sha256": "410de97fe28205ae900daafb8aa349cd409de4249e60d8d1246fb08bc706657e",
+      "raw_bytes": 26818,
+      "raw_sha256": "c62e9f44788621de58dbe4f0aa296744cac7e1e7307829478dcd7b6276154c03",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-artifacts.json.gz",
+      "bytes": 841,
+      "sha256": "e8a061b162368b0f969e4192333d9d15ca1de35fa7b44ecd324b9a4823d85659",
+      "raw_bytes": 3803,
+      "raw_sha256": "628eb79c0bfd1772653ad35718fc4f48b4182e96708fedf4b8fc97b3eba51d4e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/initial-core-failed.log.gz",
+      "bytes": 1348,
+      "sha256": "9c728c8bc8ef852dbb724f0713374e136dedc83ecdf5e69b354d0d371452d743",
+      "raw_bytes": 10842,
+      "raw_sha256": "12905cf28f35dd014e6a08b1622ea977d3153eaab800b3a836e807e545bbdd8f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/generator-encoding-check.log.gz",
+      "bytes": 117,
+      "sha256": "f9d045b2574a2cf994cef6cd6edeba7bfab72b12ebed9704a767c23fc5c86f74",
+      "raw_bytes": 108,
+      "raw_sha256": "cc953f45fad28ae264103b5e6822d0e61de2fbe978bccdbc97c4d26f3f055233",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/alignment-reset-evidence/generator-encoding-followup.py.gz",
+      "bytes": 1040,
+      "sha256": "70f1ca9dec8328e575d2bc365e5cc0615816b1f8bc9c035e6fdd6c0bca5900b9",
+      "raw_bytes": 2089,
+      "raw_sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9",
+      "encoding": "gzip"
     }
-  ]
+  ],
+  "initial_ci_failure": {
+    "source_commit": "f72272f81a5bca2198f263beaeaeced9861284fd",
+    "core_run": 43514099964,
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43514099964",
+    "failed_job": "Windows x64 tests and portable build",
+    "cause": "New generator omitted encoding on the audit manifest read; strict EncodingWarning stopped generated-data preflight before build/native tests.",
+    "product_assertion_failure": false,
+    "unchanged_rerun": false,
+    "correction": "Explicit UTF-8 for the JSON manifest read; generated expectations and product code unchanged.",
+    "local_strict_check_passed": true,
+    "updated_generator_sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9",
+    "recorded_utc": "2026-11-13T21:58:27.405979+00:00"
+  }
 }

@@ -51,7 +51,15 @@ binary identities, raw replies, pixel hashes/screenshots, natural cleanup and
 sanitizer logs. The screenshot was also visually inspected.
 
 CI adds all three native variants to the compiler comparison and single-image
-workflow, bringing the latter from 93 to 96 functional groups. Full remote CI
-for this fix is pending. The accepted local executable remains unchanged, and
+workflow, bringing the latter from 93 to 96 functional groups. The first core
+run at `f72272f` failed generated-data preflight: the new generator omitted an
+explicit encoding when reading its JSON manifest, and CI promotes
+`EncodingWarning` to an error. This stopped the Windows job before its build
+and native assertions. The sanitizer, source-host and MSVC diagnostic jobs
+passed. The original failed run and log are retained in the manifest.
+
+The follow-up specifies UTF-8 and passes the same strict Python options locally;
+it changes neither generated expectations nor product code. Full remote CI
+for this correction is pending. The accepted local executable remains unchanged, and
 the larger DirectX memory limit and intermittent resource-count issue remain
 open as recorded in the [preceding checkpoint](underline-capabilities.md).
