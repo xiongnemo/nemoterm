@@ -1,0 +1,132 @@
+{
+  "source_base": "2298f697ff51670ce2d1e55c3775c4e825cfa330",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-selection-settings-unverified/dist/nemoterm.exe",
+    "bytes": 4434432,
+    "sha256": "d416f95bb896f55f0d11017b6d59299cb021b2bed01ad525d2a8d9cea5e80424"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_conf",
+        "test_osc_colour"
+      ],
+      "log": "selection-settings-msvc-build.log",
+      "bytes": 17700,
+      "sha256": "0f1553a6701cb88ae9c74dbf907b128531cdf4537bf4544c86198a7fac5a3509",
+      "executed_tests": false
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_conf",
+        "test_osc_colour"
+      ],
+      "log": "selection-settings-linux-build.log",
+      "bytes": 15972,
+      "sha256": "db7b0c68ce769cfeabb96a25f50b8df6455efec7ac1d7dbfe4f30c537f06539c",
+      "executed_tests": false
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "selection-settings-single-build.log",
+      "bytes": 3038,
+      "sha256": "a91a53cec9f960365ec65a3a65dd3d3e93c1ea573d57b8c83f452298afc1736f",
+      "executed_tests": false
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/conf.h": {
+      "bytes": 39276,
+      "sha256": "8a1c7999dee859e02250e47e6c9516946b8675deb714be9b49d6c2e8ac41aedf",
+      "lf_bytes": 39276,
+      "sha256_lf": "8a1c7999dee859e02250e47e6c9516946b8675deb714be9b49d6c2e8ac41aedf"
+    },
+    "vendor/putty-0.85/config.c": {
+      "bytes": 158071,
+      "sha256": "3a1e7a5d1f0e9866189ddae3e006cc28a1397d0f50ddc3ba22cb05ccf6c9f760",
+      "lf_bytes": 158071,
+      "sha256_lf": "3a1e7a5d1f0e9866189ddae3e006cc28a1397d0f50ddc3ba22cb05ccf6c9f760"
+    },
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 487988,
+      "sha256": "d871f3ba24e282ab5e95ddcd207161dcd50e9ac14a651ec686d1ec3f60f0e481",
+      "lf_bytes": 487988,
+      "sha256_lf": "d871f3ba24e282ab5e95ddcd207161dcd50e9ac14a651ec686d1ec3f60f0e481"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 28830,
+      "sha256": "294a66a915ef9343c77f3a344ac3a2a6ec106a9e441d6742581975bd61698c2c",
+      "lf_bytes": 28043,
+      "sha256_lf": "5f278277e7a8cac05a627c729df6c80ab6aad3a04ac74d6a80de1db36d95c543"
+    },
+    "vendor/putty-0.85/test/test_conf.c": {
+      "bytes": 43163,
+      "sha256": "1051469d4871cf9eb321ec4e519ef69fe42bd20a68d008c695d99006f8b59493",
+      "lf_bytes": 43163,
+      "sha256_lf": "1051469d4871cf9eb321ec4e519ef69fe42bd20a68d008c695d99006f8b59493"
+    },
+    "vendor/putty-0.85/test/test_selection_colour.h": {
+      "bytes": 11495,
+      "sha256": "21626be7d427982c16b04abd48cc88dc3f4e6840121b216e41587d14a5757e31",
+      "lf_bytes": 11495,
+      "sha256_lf": "21626be7d427982c16b04abd48cc88dc3f4e6840121b216e41587d14a5757e31"
+    },
+    "tests/settings_window_smoke.ps1": {
+      "bytes": 40758,
+      "sha256": "9df9979457af966a127ce65e6c836c23988d2f6002a1e9c757d522e842a41584",
+      "lf_bytes": 40758,
+      "sha256_lf": "9df9979457af966a127ce65e6c836c23988d2f6002a1e9c757d522e842a41584"
+    },
+    "tests/selection_colour_window_smoke.py": {
+      "bytes": 6747,
+      "sha256": "c5cf77c8b8b83cb7438decb8285c2cd5f30e09b0e56f62f9b44eef2242143035",
+      "lf_bytes": 6747,
+      "sha256_lf": "c5cf77c8b8b83cb7438decb8285c2cd5f30e09b0e56f62f9b44eef2242143035"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 34488,
+      "sha256": "47dabbd165b7ed60bbcbc9abb7f95b1de67af0aaee99710276b16e80f3273f87",
+      "lf_bytes": 34488,
+      "sha256_lf": "47dabbd165b7ed60bbcbc9abb7f95b1de67af0aaee99710276b16e80f3273f87"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9487,
+      "sha256": "fc618179e052231fc11ece1e9b2660724adee64ae20b15f985d4b16e5f4ecb55",
+      "lf_bytes": 9487,
+      "sha256_lf": "fc618179e052231fc11ece1e9b2660724adee64ae20b15f985d4b16e5f4ecb55"
+    }
+  },
+  "accepted_main_replaced": false,
+  "memory_acceptance": "pending on this image",
+  "checks": [
+    "Python syntax compilation",
+    "PowerShell AST parse for settings and single-exe scripts",
+    "git diff --check",
+    "All 244 prior Conf key numbers preserved; four settings appended",
+    "Authored selection-colour generated cases remain current"
+  ],
+  "new_settings": [
+    "NemoSelectionBackgroundEnabled",
+    "NemoSelectionBackground",
+    "NemoSelectionForegroundEnabled",
+    "NemoSelectionForeground"
+  ],
+  "source_hash_scope": "Raw workspace and LF-normalized source hashes; exact raw build logs are retained by .gitattributes.",
+  "accepted_main": {
+    "bytes": 4371456,
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+  },
+  "prior_palette_candidate": {
+    "bytes": 4430848,
+    "sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332"
+  }
+}

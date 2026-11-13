@@ -1107,6 +1107,101 @@ struct colour_data {
     dlgcontrol *listbox, *redit, *gedit, *bedit, *button;
 };
 
+struct selection_colour_data {
+    dlgcontrol *enabled, *rgb[3], *button;
+    int enabled_key, colour_key;
+    bool refreshing;
+};
+
+static unsigned selection_colour_value(Conf *conf, int key)
+{
+    unsigned value = conf_get_int(conf, key);
+    return value <= 0xffffff ? value : conf_key_info[key].default_value.ival;
+}
+
+static void selection_colour_handler(dlgcontrol *ctrl, dlgparam *dlg,
+                                      void *data, int event)
+{
+    Conf *conf = data;
+    struct selection_colour_data *sc = ctrl->context.p;
+    if (sc->refreshing) return;
+    unsigned value = selection_colour_value(conf, sc->colour_key);
+    if (event == EVENT_REFRESH) {
+        sc->refreshing = true;
+        if (ctrl == sc->enabled)
+            dlg_checkbox_set(ctrl, dlg, conf_get_bool(conf, sc->enabled_key));
+        for (unsigned i = 0; i < lenof(sc->rgb); i++) {
+            if (ctrl == sc->rgb[i]) {
+                char text[4];
+                sprintf(text, "%u", (value >> (16-8*i)) & 255);
+                dlg_editbox_set(ctrl, dlg, text);
+            }
+        }
+        sc->refreshing = false;
+    } else if (event == EVENT_VALCHANGE) {
+        if (ctrl == sc->enabled) {
+            conf_set_bool(conf, sc->enabled_key, dlg_checkbox_get(ctrl, dlg));
+        } else {
+            for (unsigned i = 0; i < lenof(sc->rgb); i++) {
+                if (ctrl != sc->rgb[i]) continue;
+                char *text = dlg_editbox_get(ctrl, dlg);
+                /* Keep incomplete edits local. Decimal input saturates at 255
+                 * without atoi overflow, even for a long pasted number. */
+                unsigned channel = 0;
+                bool valid = *text != 0;
+                for (const char *p = text; *p; p++) {
+                    if (*p < '0' || *p > '9') { valid = false; break; }
+                    channel = min(255, channel*10 + (*p-'0'));
+                }
+                sfree(text);
+                if (!valid) return;
+                unsigned shift = 16-8*i;
+                value = (value & ~(255u << shift)) | (channel << shift);
+                conf_set_int(conf, sc->colour_key, value);
+                conf_set_bool(conf, sc->enabled_key, true);
+                dlg_refresh(sc->enabled, dlg);
+            }
+        }
+    } else if (event == EVENT_ACTION && ctrl == sc->button) {
+        dlg_coloursel_start(ctrl, dlg, (value >> 16) & 255,
+                           (value >> 8) & 255, value & 255);
+    } else if (event == EVENT_CALLBACK && ctrl == sc->button) {
+        int r, g, b;
+        if (dlg_coloursel_results(ctrl, dlg, &r, &g, &b)) {
+            conf_set_int(conf, sc->colour_key,
+                ((r & 255) << 16) | ((g & 255) << 8) | (b & 255));
+            conf_set_bool(conf, sc->enabled_key, true);
+            dlg_refresh(sc->enabled, dlg);
+            for (unsigned i = 0; i < lenof(sc->rgb); i++)
+                dlg_refresh(sc->rgb[i], dlg);
+        }
+    }
+}
+
+static void selection_colour_controls(struct controlbox *box,
+                                       const char *section, const char *title,
+                                       const char *checkbox, const char *button,
+                                       int enabled_key, int colour_key,
+                                       const char *const labels[3])
+{
+    struct controlset *set = ctrl_getset(box, "Window/Selection/Colours", section, title);
+    struct selection_colour_data *sc = ctrl_alloc(box, sizeof(*sc));
+    memset(sc, 0, sizeof(*sc));
+    sc->enabled_key = enabled_key;
+    sc->colour_key = colour_key;
+    sc->enabled = ctrl_checkbox(set, checkbox, NO_SHORTCUT, HELPCTX(no_help),
+                                selection_colour_handler, P(sc));
+    ctrl_columns(set, 3, 34, 33, 33);
+    for (unsigned i = 0; i < lenof(sc->rgb); i++) {
+        sc->rgb[i] = ctrl_editbox(set, labels[i], NO_SHORTCUT, 50, HELPCTX(no_help),
+                                  selection_colour_handler, P(sc), P(NULL));
+        sc->rgb[i]->column = i;
+    }
+    ctrl_columns(set, 1, 100);
+    sc->button = ctrl_pushbutton(set, button, NO_SHORTCUT, HELPCTX(no_help),
+                                 selection_colour_handler, P(sc));
+}
+
 /* Array of the user-visible colour names defined in the list macro in
  * putty.h */
 static const char *const colours[] = {
@@ -2659,6 +2754,20 @@ void setup_config_box(struct controlbox *b, bool midsession,
                                   charclass_handler, P(ccd));
     ccd->button->column = 1;
     ctrl_columns(s, 1, 100);
+
+    ctrl_settitle(b, "Window/Selection/Colours", "Selection colours");
+    s = ctrl_getset(b, "Window/Selection/Colours", "general", NULL);
+    ctrl_text(s, "Leave custom colours off to use inverted text colours.", HELPCTX(no_help));
+    {
+        const char *const background[] = {"Red", "Green", "Blue"};
+        const char *const foreground[] = {"Red", "Green", "Blue"};
+        selection_colour_controls(b, "background", "Selection background",
+            "Use custom background colour", "Choose background colour...",
+            CONF_nemo_selection_bg_enabled, CONF_nemo_selection_bg, background);
+        selection_colour_controls(b, "foreground", "Selected text",
+            "Use custom text colour", "Choose text colour...",
+            CONF_nemo_selection_fg_enabled, CONF_nemo_selection_fg, foreground);
+    }
 
     /*
      * The Window/Colours panel.

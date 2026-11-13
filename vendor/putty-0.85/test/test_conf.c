@@ -865,6 +865,10 @@ void test_simple(void)
     test_bool_simple(CONF_ansi_colour, "ANSIColour", true);
     test_bool_simple(CONF_xterm_256_colour, "Xterm256Colour", true);
     test_bool_simple(CONF_true_colour, "TrueColour", true);
+    test_bool_simple(CONF_nemo_selection_bg_enabled, "NemoSelectionBackgroundEnabled", false);
+    test_int_simple(CONF_nemo_selection_bg, "NemoSelectionBackground", 0xffffff);
+    test_bool_simple(CONF_nemo_selection_fg_enabled, "NemoSelectionForegroundEnabled", false);
+    test_int_simple(CONF_nemo_selection_fg, "NemoSelectionForeground", 0x000000);
     test_bool_simple(CONF_system_colour, "UseSystemColours", false);
     test_bool_simple(CONF_try_palette, "TryPalette", false);
     test_int_translated(CONF_mouse_is_xterm, "MouseIsXterm", 0,

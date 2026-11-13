@@ -172,6 +172,42 @@ function Set-Combo($combo, [int]$index) {
     $id=[ShellSettingsNative]::GetDlgCtrlID($handle)
     [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($handle),0x111,[IntPtr]($id -bor (1 -shl 16)),$handle) | Out-Null
 }
+function Selection-Colour-Controls($dialog) {
+    $window=Wait-Value { Find-Name $dialog 'Window' }
+    $window.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    $selection=Select-Node $dialog 'Selection'
+    $selection.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    # Scope this lookup to Selection: Window also has a separate Colours page.
+    Select-Node $selection 'Colours' | Out-Null
+    $background=Wait-Value { Find-Name $dialog 'Use custom background colour' }
+    $text=Wait-Value { Find-Name $dialog 'Use custom text colour' }
+    $condition=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty,'Edit')
+    $edits=@($dialog.FindAll($scope,$condition) | Sort-Object { $_.Current.BoundingRectangle.Top }, { $_.Current.BoundingRectangle.Left })
+    if ($edits.Count -ne 6) { throw 'Expected six selection RGB fields' }
+    foreach ($control in @($background,$text)+( $edits )+@(
+        (Find-Name $dialog 'Choose background colour...'),(Find-Name $dialog 'Choose text colour...'))) {
+        if (!$control -or $control.Current.IsOffscreen -or
+            !$dialog.Current.BoundingRectangle.Contains($control.Current.BoundingRectangle)) {
+            throw 'Selection colour control clipped or missing'
+        }
+    }
+    return @{background=$background;text=$text;edits=$edits}
+}
+function Check-SelectionColours([string]$phase,[string]$prefix,[string]$background,[string]$foreground) {
+    $esc=[string][char]27
+    $bel=[string][char]7
+    Write-Control @{phase=$phase;sequence=($prefix+$esc+']17;?;;?'+$bel)}
+    $expected=$esc+']17;rgb:'+$background+$bel+$esc+']19;rgb:'+$foreground+$bel
+    $expectedHex=-join ([Text.Encoding]::UTF8.GetBytes($expected) | ForEach-Object { $_.ToString('x2') })
+    $reply=Wait-Value {
+        if (Test-Path -LiteralPath $report) {
+            $value=Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
+            if ($value.error) { throw $value.error }
+            if ($value.phase -eq $phase -and $value.hex -eq $expectedHex) { $value }
+        }
+    }
+    return @{phase=$phase;reply=$reply.hex}
+}
 try {
     Write-Control @{phase='atomic-before'}
     $heldReader=[ShellSettingsNative]::HoldSnapshotReader($control)
@@ -296,6 +332,22 @@ try {
     Select-Node $dialog 'DirectX (Direct2D composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
     if ($LASTEXITCODE) { throw 'Rendering settings capture failed' }
+    $selectionColours=Selection-Colour-Controls $dialog
+    foreach ($control in @($selectionColours.background,$selectionColours.text)) {
+        if ($control.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne
+            [System.Windows.Automation.ToggleState]::Off) { throw 'Selection colours did not default to inverse video' }
+    }
+    $selectionRGB=@(17,34,51,221,238,255)
+    for ($i=0;$i -lt $selectionRGB.Count;$i++) {
+        $selectionColours.edits[$i].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue([string]$selectionRGB[$i])
+    }
+    foreach ($control in @($selectionColours.background,$selectionColours.text)) {
+        $toggle=$control.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+        if ($toggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Editing RGB did not enable the custom selection colour' }
+        $toggle.Toggle();$toggle.Toggle()
+    }
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle selection-colour-settings.png
+    if ($LASTEXITCODE) { throw 'Selection colour settings capture failed' }
     Select-Node $dialog 'Selection' | Out-Null
     $copyOnly = Find-Name $dialog 'Copy only'
     if (!$copyOnly.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {
@@ -339,6 +391,10 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoSelectionBackgroundEnabled -ne 1 -or $values.NemoSelectionForegroundEnabled -ne 1 -or
+        $values.NemoSelectionBackground -ne 0x112233 -or $values.NemoSelectionForeground -ne 0xddeeff) {
+        throw 'Selection colours were not saved'
+    }
     if ($values.NemoAllowChecksum -ne 1) { throw 'Screen checksum preference was not saved' }
     if ($values.NemoGraphemeWidths -ne 1) {throw 'Grapheme startup preference was not saved'}
     if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
@@ -423,6 +479,9 @@ try {
         if ($content -ne [IntPtr]::Zero) { $content }
     }
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
+    $selectionColourChecks=@(Check-SelectionColours 'selection-colour-startup' '' '1111/2222/3333' 'dddd/eeee/ffff')
+    $esc=[string][char]27;$bel=[string][char]7
+    $selectionColourChecks+=Check-SelectionColours 'selection-colour-app-override' ($esc+']17;red;;blue'+$bel) 'ffff/0000/0000' '0000/0000/ffff'
     $graphemeChecks=@(Check-Grapheme 'grapheme-startup' '' $true)
     $graphemeChecks+=Check-Grapheme 'grapheme-app-disable' ([char]27+'[?2027l') $false
     $rendererChanges=@()
@@ -456,10 +515,28 @@ try {
     $graphemeChecks+=Check-Grapheme 'grapheme-live-enabled' '' $true
     $graphemeChecks+=Check-Grapheme 'grapheme-soft-reset' ([char]27+'[!p') $false
     $graphemeChecks+=Check-Grapheme 'grapheme-hard-reset' ([char]27+'[?2027h'+[char]27+'c') $false
+    $selectionColourChecks+=Check-SelectionColours 'selection-colour-unrelated-settings' '' 'ffff/0000/0000' '0000/0000/ffff'
+    $selectionColourChecks+=Check-SelectionColours 'selection-colour-configured-reset' ($esc+']117'+$bel+$esc+']119'+$bel) '1111/2222/3333' 'dddd/eeee/ffff'
+    [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
+    $dialog=Dialog $app
+    $selectionColours=Selection-Colour-Controls $dialog
+    for ($i=0;$i -lt $selectionRGB.Count;$i++) {
+        if ([int]$selectionColours.edits[$i].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $selectionRGB[$i]) {
+            throw 'Selection RGB did not reload into the live settings dialog'
+        }
+    }
+    $selectionColours.edits[0].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('85')
+    $selectionColours.edits[1].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('102')
+    $selectionColours.edits[2].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('119')
+    $handle=[IntPtr]$dialog.Current.NativeWindowHandle
+    Invoke-Button $dialog 'Apply'
+    Wait-Value { ![ShellSettingsNative]::IsWindow($handle) } | Out-Null
+    $selectionColourChecks+=Check-SelectionColours 'selection-colour-live-apply' '' '5555/6666/7777' 'dddd/eeee/ffff'
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
         grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
+        selection_colour_default='inverse';saved_selection_rgb=$selectionRGB;selection_colour_checks=$selectionColourChecks;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         checksum_default=$false;saved_checksum=$true;

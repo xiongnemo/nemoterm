@@ -12,8 +12,11 @@ from gpu_capture import OwnedGPUCapture
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer', choices=('gdi', 'directx', 'opengl'), default='gdi')
+parser.add_argument('--configured', action='store_true',
+                    help='Use saved custom selection defaults instead of inverse video')
 args = parser.parse_args()
 requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
+test_name = 'selection-colour-'+args.renderer+('-configured' if args.configured else '')
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
 
 def exercise(hwnd, phase, current):
@@ -26,7 +29,8 @@ def exercise(hwnd, phase, current):
     handle = k.OpenProcess(0x410, False, pid.value); assert handle
     gpu = None
     evidence = dict(actual_renderer=active, pixel_checks=[], memory_samples=[],
-                    memory_instrumented=active != 1, clipboard_access=False)
+                    memory_instrumented=active != 1, clipboard_access=False,
+                    configured_defaults=args.configured)
     try:
         if active != 1: gpu = OwnedGPUCapture(pid.value, hwnd)
         def pixels():
@@ -99,7 +103,7 @@ def exercise(hwnd, phase, current):
         evidence['repeated_save_restore'] = 1000
         evidence['peak_private_ws'] = max(s['private_ws'] for s in evidence['memory_samples'])
         if active == 1: assert evidence['peak_private_ws'] < 20_000_000, evidence
-        name = f'selection-colour-{args.renderer}-window.png'
+        name = test_name+'-window.png'
         if gpu: gpu.capture(name)
         else: capture(hwnd, name)
         return evidence
@@ -107,9 +111,12 @@ def exercise(hwnd, phase, current):
         if gpu: gpu.close()
         k.CloseHandle(handle)
 
-run('selection-colour-'+args.renderer, (), extra_cases=CASES, exercise=exercise,
+run(test_name, (), extra_cases=CASES, exercise=exercise,
     source_reference='Authored specification/source expectations; XTerm capture pending',
     barrier=(CSI+'>q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'),
-    profile=dict(NemoRenderer=requested, MouseAutocopy=0, WarnOnClose=0),
+    profile=dict(NemoRenderer=requested, MouseAutocopy=0, WarnOnClose=0,
+                 NemoSelectionBackgroundEnabled=int(args.configured),
+                 NemoSelectionForegroundEnabled=int(args.configured),
+                 NemoSelectionBackground=0x224488, NemoSelectionForeground=0xddeeff),
     font=os.environ.get('NEMOTERM_TEST_FONT',
         'Consolas' if os.environ.get('CI') == 'true' else 'SarasaTermSC Nerd Font Light'))

@@ -59,6 +59,11 @@ try {
                 if ($LASTEXITCODE) { throw "Single-executable colour test failed: $name $renderer" }
                 $checks.Add("$name-$renderer")
             }
+            if ($name -eq 'selection_colour') {
+                & python "$Destination/tests/selection_colour_window_smoke.py" --renderer gdi --configured 2>&1 | Tee-Object "$Destination/logs/selection-colour-gdi-configured.log"
+                if ($LASTEXITCODE) { throw 'Single-executable configured selection colour test failed' }
+                $checks.Add('selection-colour-gdi-configured')
+            }
         }
         if ($name -eq 'titles') {
             & python "$Destination/tests/titles_window_smoke.py" --modes 2>&1 | Tee-Object "$Destination/logs/title-modes.log"

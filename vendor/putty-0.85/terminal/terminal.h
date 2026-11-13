@@ -533,6 +533,7 @@ struct terminal_tag {
     /* Display-only selection overrides: [0] background, [1] foreground.
      * Unset fields retain the existing per-cell inverse-video selection. */
     optionalrgb selection_colours[2];
+    optionalrgb selection_defaults[2];
     struct NemoPaletteStack *palette_stack;
 
     int winpos_x, winpos_y;

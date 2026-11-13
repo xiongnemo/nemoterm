@@ -1443,3 +1443,25 @@ CONF_OPTION(winclass,
     DEFAULT_STR(""),
     SAVE_KEYWORD("WindowClass"),
 )
+
+/* Appended to preserve existing serialised Conf key numbers. */
+CONF_OPTION(nemo_selection_bg_enabled,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoSelectionBackgroundEnabled"),
+)
+CONF_OPTION(nemo_selection_bg,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoSelectionBackground"),
+)
+CONF_OPTION(nemo_selection_fg_enabled,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoSelectionForegroundEnabled"),
+)
+CONF_OPTION(nemo_selection_fg,
+    VALUE_TYPE(INT),
+    DEFAULT_INT(0x000000),
+    SAVE_KEYWORD("NemoSelectionForeground"),
+)

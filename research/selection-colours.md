@@ -5,10 +5,15 @@ and OSC 117/119 (restore the corresponding default). Runtime validation is
 paused at the user's request. This checkpoint is source and build progress;
 it is **not** a tested protocol or renderer acceptance result.
 
+The subsequent [saved-colour settings checkpoint](selection-settings.md) adds
+configurable defaults, persistence and live application. Its build manifest is
+separate; neither selection-colour image has passed runtime acceptance yet.
+
 ## Implementation
 
 Two optional RGB overrides live in `Terminal`, outside screen and scrollback
-cells. Unset components keep the existing inverse-video selection. Explicit
+cells. At this initial checkpoint unset components kept inverse-video selection;
+the settings follow-up allows a configured default before that fallback. Explicit
 components override the displayed selection colour, including rectangular
 and application-highlight selections. Rendering changes the temporary display
 record; text, stored SGR and copied content are not rewritten. The frontend's

@@ -187,6 +187,60 @@ static bool test_selection_colour_paint(void)
     term_update(mk->term);
     selection_check_display(mk, 0, 0x0000ff, 0xff0000);
 
+    test_context(mk, "configured colours apply live and are returned by queries");
+    conf_set_bool(mk->conf, CONF_nemo_selection_bg_enabled, true);
+    conf_set_bool(mk->conf, CONF_nemo_selection_fg_enabled, true);
+    conf_set_int(mk->conf, CONF_nemo_selection_bg, 0x0a2030);
+    conf_set_int(mk->conf, CONF_nemo_selection_fg, 0xfefdfc);
+    term_reconfig(mk->term, mk->conf);
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0xfefdfc, 0x0a2030);
+    IEQUAL(mk->term->selection_colours[0].enabled, false);
+    IEQUAL(mk->term->selection_colours[1].enabled, false);
+    term_data_fragmented(mk->term, "\033]17;?;;?\007");
+    reply(mk, "\033]17;rgb:0a0a/2020/3030\007\033]19;rgb:fefe/fdfd/fcfc\007");
+
+    test_context(mk, "unrelated reconfiguration preserves application selection colours");
+    term_data_fragmented(mk->term, "\033]17;#123456;;#654321\007");
+    conf_set_bool(mk->conf, CONF_no_dbackspace, true);
+    term_reconfig(mk->term, mk->conf);
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0x654321, 0x123456);
+    IEQUAL(mk->term->selection_colours[0].enabled, true);
+    IEQUAL(mk->term->selection_colours[1].enabled, true);
+
+    test_context(mk, "changing one configured colour leaves the other application override");
+    conf_set_int(mk->conf, CONF_nemo_selection_bg, 0xabcdef);
+    term_reconfig(mk->term, mk->conf);
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0x654321, 0xabcdef);
+    IEQUAL(mk->term->selection_colours[0].enabled, false);
+    IEQUAL(mk->term->selection_colours[1].enabled, true);
+    term_data_fragmented(mk->term, "\033]17;red;;blue\007\033]117\007\033]119\007");
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0xfefdfc, 0xabcdef);
+
+    test_context(mk, "stack default-state restoration follows the current local preferences");
+    term_data_fragmented(mk->term, "\033[1#P\033]17;red;;blue\007");
+    conf_set_int(mk->conf, CONF_nemo_selection_bg, 0x112244);
+    conf_set_bool(mk->conf, CONF_nemo_selection_fg_enabled, false);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033[1#Q");
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0x405060, 0x112244);
+    IEQUAL(mk->term->selection_defaults[1].enabled, false);
+
+    test_context(mk, "malformed persisted RGB values fall back without overflow or aliasing");
+    conf_set_int(mk->conf, CONF_nemo_selection_bg, -1);
+    conf_set_int(mk->conf, CONF_nemo_selection_fg, 0x1000000);
+    conf_set_bool(mk->conf, CONF_nemo_selection_fg_enabled, true);
+    term_reconfig(mk->term, mk->conf);
+    term_update(mk->term);
+    selection_check_display(mk, 0, 0x000000, 0xffffff);
+    term_data_fragmented(mk->term, "\033]17;?;;?\033\\");
+    reply(mk, "\033]17;rgb:ffff/ffff/ffff\033\\\033]19;rgb:0000/0000/0000\033\\");
+    IEQUAL(mk->clipboard_writes, 0);
+
     bool failed = mk->any_test_failed;
     mock_free(mk);
     return failed;

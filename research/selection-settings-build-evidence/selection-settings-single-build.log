@@ -1,0 +1,27 @@
+MSBuild version 17.14.60+43b635718 for .NET Framework
+
+  feature/selection-colours
+  bufferout.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConBufferOut.lib
+  InteractivityBase.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConInteractivityBaseLib.lib
+  atlas.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConRenderAtlas.lib
+  win32.LIB.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConInteractivityWin32Lib.lib
+  internal.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConInt.lib
+  propslib.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConProps.lib
+  base.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConRenderBase.lib
+  gdi.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConRenderGdi.lib
+  Host.Proxy.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\OpenConsoleProxy.dll
+  server.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConServer.lib
+  types.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConTypes.lib
+  terminalinput.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\TerminalInput.lib
+  adapter.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConTermAdapt.lib
+  parser.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConTermParser.lib
+  tsf.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConTSF.lib
+  midi.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\MidiAudio.lib
+  hostlib.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\ConhostV2Lib.lib
+  winconptylib.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\conptylib.lib
+  Generating code
+  1 of 17488 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    21 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Host.EXE.vcxproj -> C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\openconsole-single\bin\x64\Release\nemoterm.exe

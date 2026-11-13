@@ -1,5 +1,14 @@
 # Nemoterm requirements and evidence ledger
 
+## Saved selection colours (2026-11-13; runtime testing paused)
+
+[Selection colour preferences](../research/selection-settings.md) add a native
+settings panel, independent foreground/background defaults, existing-session
+storage and live changes. Core/configuration, ordinary/tabbed settings and
+configured-default GDI checks are prepared. Windows and Linux test targets
+compile and the single EXE links, but none of the new runtime checks have run.
+The accepted main executable and all memory gates remain unchanged.
+
 ## Selection-colour development (2026-11-13; runtime testing paused)
 
 [OSC 17/19 and 117/119](../research/selection-colours.md) now have source

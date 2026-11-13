@@ -3072,6 +3072,21 @@ static void set_erase_char(Terminal *term)
  */
 static void term_copy_stuff_from_conf(Terminal *term)
 {
+    static const int selection_enable[] = {
+        CONF_nemo_selection_bg_enabled, CONF_nemo_selection_fg_enabled
+    };
+    static const int selection_rgb[] = {
+        CONF_nemo_selection_bg, CONF_nemo_selection_fg
+    };
+    for (unsigned i = 0; i < lenof(selection_enable); i++) {
+        unsigned value = conf_get_int(term->conf, selection_rgb[i]);
+        if (value > 0xffffff)
+            value = conf_key_info[selection_rgb[i]].default_value.ival;
+        term->selection_defaults[i] = (optionalrgb){
+            conf_get_bool(term->conf, selection_enable[i]),
+            (value >> 16) & 255, (value >> 8) & 255, value & 255
+        };
+    }
     term->ansi_colour = conf_get_bool(term->conf, CONF_ansi_colour);
     term->no_arabicshaping = conf_get_bool(term->conf, CONF_no_arabicshaping);
     term->beep = conf_get_int(term->conf, CONF_beep);
@@ -3172,6 +3187,16 @@ void term_reconfig(Terminal *term, Conf *conf)
      * Mode, BCE, blinking text, cursor style, character classes.
      */
     bool reset_wrap, reset_decom, reset_bce, reset_tblink, reset_charclass;
+    bool reset_selection[] = {
+        conf_get_bool(term->conf, CONF_nemo_selection_bg_enabled) !=
+            conf_get_bool(conf, CONF_nemo_selection_bg_enabled) ||
+        conf_get_int(term->conf, CONF_nemo_selection_bg) !=
+            conf_get_int(conf, CONF_nemo_selection_bg),
+        conf_get_bool(term->conf, CONF_nemo_selection_fg_enabled) !=
+            conf_get_bool(conf, CONF_nemo_selection_fg_enabled) ||
+        conf_get_int(term->conf, CONF_nemo_selection_fg) !=
+            conf_get_int(conf, CONF_nemo_selection_fg)
+    };
     bool reset_graphemes = conf_get_bool(term->conf, CONF_nemo_grapheme_widths) !=
                            conf_get_bool(conf, CONF_nemo_grapheme_widths);
     if (conf_get_bool(term->conf, CONF_nemo_win32_input) !=
@@ -3299,6 +3324,14 @@ void term_reconfig(Terminal *term, Conf *conf)
     if (palette_changed)
         term_notify_palette_changed(term);
     term_copy_stuff_from_conf(term);
+    for (unsigned i = 0; i < lenof(reset_selection); i++) {
+        if (reset_selection[i]) {
+            /* Explicit local changes apply immediately to that component;
+             * unrelated settings leave application overrides untouched. */
+            term->selection_colours[i] = optionalrgb_none;
+            term_invalidate(term);
+        }
+    }
     if (!reset_cursor) {
         term->cursor_type = old_cursor_type;
         term->blink_cur = old_blink_cur;
@@ -5876,7 +5909,8 @@ static void osc_selection_colour(Terminal *term, unsigned command,
      * but labels the reply with the originally requested OSC number. */
     unsigned which = (command == 17 ? 0 : 1) ^ (term->rvideo ? 1 : 0);
     if (!strcmp(spec, "?")) {
-        optionalrgb override = term->selection_colours[which];
+        optionalrgb override = term->selection_colours[which].enabled ?
+            term->selection_colours[which] : term->selection_defaults[which];
         /* The fallback is the configured inverse palette, not an OSC 10/11
          * override from a running application. Queries allocate nothing. */
         unsigned index = which ? OSC4_COLOUR_bg : OSC4_COLOUR_fg;
@@ -9718,6 +9752,10 @@ static void do_paint(Terminal *term)
     wchar_t *ch;
     size_t chlen;
     termchar *newline;
+    optionalrgb selection[2];
+    for (unsigned c = 0; c < lenof(selection); c++)
+        selection[c] = term->selection_colours[c].enabled ?
+            term->selection_colours[c] : term->selection_defaults[c];
 
     chlen = 1024;
     ch = snewn(chlen, wchar_t);
@@ -9905,13 +9943,13 @@ static void do_paint(Terminal *term)
                  * unchanged. The frontend swaps truecolour with ATTR_REVERSE,
                  * so assign each override to its final displayed component. */
                 bool reverse = (tattr & ATTR_REVERSE) != 0;
-                if (term->selection_colours[0].enabled) {
-                    if (reverse) tc.fg = term->selection_colours[0];
-                    else tc.bg = term->selection_colours[0];
+                if (selection[0].enabled) {
+                    if (reverse) tc.fg = selection[0];
+                    else tc.bg = selection[0];
                 }
-                if (term->selection_colours[1].enabled) {
-                    if (reverse) tc.bg = term->selection_colours[1];
-                    else tc.fg = term->selection_colours[1];
+                if (selection[1].enabled) {
+                    if (reverse) tc.bg = selection[1];
+                    else tc.fg = selection[1];
                 }
             }
 
