@@ -1,0 +1,38 @@
+name: Decode retained ETW evidence
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  decode:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Fetch and verify retained DirectX trace
+        shell: pwsh
+        run: |
+          gh run download 43444144664 --repo "$env:GITHUB_REPOSITORY" --name allocation-census-frontend-etw-directx-0a87c61dba1d2b86cc574a70818d33d9f023a3f3 --dir source
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $digest = (Get-FileHash source/virtual-allocation.etl -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -ne '51e628a45914930947a520d26050c9f72b9be793f2b7bb03b35a2f64cff6975c') { throw 'ETL identity mismatch' }
+      - name: Decode original event timestamps and extract owned PID metadata
+        shell: pwsh
+        run: |
+          tracerpt.exe source/virtual-allocation.etl -rts -of XML -o virtual-allocation-raw.xml -y 2>&1 | Tee-Object etw-raw-decoder.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/etw_extract.py --input virtual-allocation-raw.xml --metadata source/research/etw-tabs-directx-left-census.json --output owned-virtual-events.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Retain filtered event metadata
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: owned-etw-events-${{ github.sha }}
+          path: |
+            owned-virtual-events.json
+            etw-raw-decoder.log
+          if-no-files-found: warn
+          retention-days: 30
