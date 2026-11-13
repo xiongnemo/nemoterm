@@ -13,6 +13,7 @@ on:
           - attribute-colour
           - selection-colour
           - cursor-charset
+          - reset-palette
           - all
   push:
     paths:
@@ -64,6 +65,9 @@ jobs:
       - name: Compare cursor and character-set restore semantics
         if: ${{ (success() || failure()) && (inputs.family == 'cursor-charset' || inputs.family == 'all') }}
         run: python3 tests/xterm_cursor_charset_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/cursor-charset-xterm.json
+      - name: Capture indexed and dynamic palette reset boundaries
+        if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
+        run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
