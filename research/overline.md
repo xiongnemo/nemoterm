@@ -61,7 +61,13 @@ bottom halves. Inverse colours and underline-colour independence are checked.
 Capture instrumentation is confined to the fixture processes; its working-set
 measurements are not memory acceptance.
 
-Full remote CI and final evidence retention are pending. The accepted local
+The [local evidence manifest](overline-validation.json) retains exact source and
+image hashes, raw replies, scene PNGs, all memory samples and test logs.
+Full remote [single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131)
+and [core/compiler CI](https://github.com/xiongnemo/nemoterm/actions/runs/43491888532)
+are running on `9370c1f`. The earlier `8f47b22` runs were superseded when the
+additional wire vectors were committed; they are not acceptance results.
+The accepted local
 `dist/nemoterm.exe` has not been replaced. The preceding DirectX large-window
 memory failure remains open; this feature is not a DirectX memory optimization.
 Framed/encircled, ideogram and alternate-font SGR remain separate missing
