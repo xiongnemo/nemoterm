@@ -59,7 +59,52 @@ and native assertions. The sanitizer, source-host and MSVC diagnostic jobs
 passed. The original failed run and log are retained in the manifest.
 
 The follow-up specifies UTF-8 and passes the same strict Python options locally;
-it changes neither generated expectations nor product code. Full remote CI
-for this correction is pending. The accepted local executable remains unchanged, and
-the larger DirectX memory limit and intermittent resource-count issue remain
-open as recorded in the [preceding checkpoint](underline-capabilities.md).
+it changes neither generated expectations nor product code. The corrective
+push cancelled the first single-image run; that incomplete run is retained and
+is not counted as a pass.
+
+## Complete CI checkpoint and downloaded image
+
+Commit `18e912d` passes all four jobs in
+[Test and build](https://github.com/xiongnemo/nemoterm/actions/runs/43515344353)
+and all **96 groups** in
+[Single executable from source](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377).
+The [single-image artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377/artifacts/14082226682)
+contains only `nemoterm.exe`, **4,449,280 bytes**, SHA-256
+`4591e312142a74efedb2f14588c9d3999cd3165a5fc9a193326f3ebd2d454ca3`.
+Its reported expiry is 2026-12-13 22:22:04 UTC.
+
+Both CI compiler paths pass 13 exact XTerm replies, the direct RGB policy and
+12 pixel comparisons per requested renderer. Their OpenGL requests fall back
+to GDI. The exact downloaded image then passes all those checks locally under
+**actual GDI, OpenGL and DirectX**, with five owned processes per local run
+draining naturally. Its DirectX screenshot was visually inspected. The GPU
+observers remain excluded from memory acceptance. Both complete CI hyperlink
+records also confirm observer detachment while live and natural zero-exit cleanup.
+
+The uninstrumented local SarasaTermSC Nerd Font Light, actual 160x48, two-tab
+GDI workload passes all nine functional groups. Its startup-inclusive frontend
+peaks are **16,211,968 private-working-set bytes**, 43,122,688 total-working-set
+bytes and 18,829,312 private-commit bytes, across 443 samples over 48.046 seconds.
+All 56 inner-job members and 58 outer-job members drain naturally.
+
+The new local DirectX run **fails before the full workload/memory gate**.
+On the ninth post-close sample, handles increase from 492 to 549, GDI objects
+from 37 to 39 and USER objects from 43 to 56. The first handle assertion fails
+after one functional group; five remaining owned processes require the fixture's
+forced cleanup. The outer controller subsequently has no active members, which
+does not make the inner cleanup natural. All samples, the original failure and
+both cleanup records are retained; no passing repeat replaces this result.
+
+This recurrence is consistent with the earlier `37ef26d` resource-count failure,
+but it does not establish a leak or the cause. The 4.948-second partial memory
+trace is not a full-load budget result. The preceding checkpoint's unmodified
+complete DirectX run remains 30,474,240 private-working-set bytes, above 25 MB;
+that older measurement is not assigned to this new image. CI's smaller Consolas
+grids pass their budgets (GDI 109x34, 11,452,416 bytes; DirectX 88x35,
+21,938,176 bytes), and do not replace local 160x48 acceptance.
+
+The manifest retains the original preflight failure plus 57 new compressed
+records, including workflow/artifact metadata, replies, screenshots, core and
+sanitizer logs, all memory samples and the new local failure. The accepted local
+distribution remains unchanged. Full compatibility and DirectX acceptance remain open.
