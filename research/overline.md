@@ -61,12 +61,42 @@ bottom halves. Inverse colours and underline-colour independence are checked.
 Capture instrumentation is confined to the fixture processes; its working-set
 measurements are not memory acceptance.
 
-The [local evidence manifest](overline-validation.json) retains exact source and
+The [evidence manifest](overline-validation.json) retains exact source and
 image hashes, raw replies, scene PNGs, all memory samples and test logs.
 Full remote [single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131)
 and [core/compiler CI](https://github.com/xiongnemo/nemoterm/actions/runs/43491888532)
-are running on `9370c1f`. The earlier `8f47b22` runs were superseded when the
+both pass on `9370c1f`, including all 93 single-image groups, Windows compiler
+comparison and Linux ASan/UBSan. The earlier `8f47b22` runs were superseded when the
 additional wire vectors were committed; they are not acceptance results.
+
+The [downloaded CI executable](https://github.com/xiongnemo/nemoterm/actions/runs/43491888131/artifacts/14071326631)
+is **4,448,256 bytes**, SHA-256
+`21e217254bec0cd10158b7da791c42da238095fe277e71033af1253f5e0eb356`.
+The artifact expires on 2026-12-13 at 19:44:32 UTC. Its hash matches the CI
+success manifest. This is distinct from the incremental local build above.
+The exact downloaded image passes all local renderer scenes with actual GDI,
+OpenGL and DirectX using Sarasa; the new overline scenes have zero differing
+channels. The 193 XTerm plus 29 direct wire cases pass again, with natural
+cleanup. CI's OpenGL request used GDI fallback and does not establish hardware
+OpenGL acceptance; the separate local run does.
+
+The same downloaded image also ran the uninstrumented Sarasa **160x48**
+two-tab workload, including retained history, Sixel and resizing:
+
+| Local renderer | Private WS peak | Total WS peak | Private commit peak | Gate |
+| --- | ---: | ---: | ---: | --- |
+| GDI | 16,445,440 | 42,496,000 | 19,042,304 | Pass, strict 20,000,000 bytes |
+| DirectX | 30,433,280 | 66,715,648 | 98,295,808 | Fail, inclusive 25,000,000 bytes |
+
+Both finish all nine functional groups and drain their owned processes naturally.
+GDI records 448 memory samples; DirectX records 251. The DirectX test correctly
+exits nonzero and remains incomplete for memory acceptance. The successful CI
+workloads use Consolas and actual grids of 109x34 (GDI) and 88x35 (DirectX),
+with private peaks of 11,776,000 and 21,491,712 bytes respectively. These smaller
+runner geometries do not supersede the local DirectX failure. Raw samples,
+replies, selected scene PNGs, run/artifact metadata and sanitizer logs are kept
+alongside the earlier evidence, with compressed and decoded hashes verified.
+
 The accepted local
 `dist/nemoterm.exe` has not been replaced. The preceding DirectX large-window
 memory failure remains open; this feature is not a DirectX memory optimization.

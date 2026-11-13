@@ -1,5 +1,18 @@
 # Nemoterm requirements and evidence ledger
 
+## Overline CI and downloaded-image checkpoint (2026-11-14 Sydney)
+
+SGR 53/55, reset/query/stack and history/reflow coverage pass both complete
+workflows at `9370c1f`, including 93 single-image groups. The downloaded EXE
+also passes local Sarasa GDI/OpenGL/DirectX scenes and all 193 XTerm plus 29
+direct rendition-stack cases. Its uninstrumented actual 160x48 two-tab workload
+passes GDI at 16,445,440 private-working-set bytes and fails DirectX at
+30,433,280 against 25,000,000. All nine functional groups and natural cleanup
+complete in both modes. CI's smaller Consolas grids are recorded separately.
+The [artifact and evidence](../research/overline.md) do not establish full
+protocol coverage, physical input acceptance or a DirectX memory fix; the
+accepted local distribution is unchanged.
+
 ## Local DirectX allocation follow-up (2026-11-14 Sydney)
 
 An explicit owned-process all-heap diagnostic now complements the earlier

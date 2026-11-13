@@ -4,14 +4,15 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `abafbbf` passes both full workflows,
-including 93 single-image groups. Its [manifest](../research/automation-input-validation.json)
-identifies the exact EXE, input/clipboard results and separate local memory
-failure: GDI passes the Sarasa 160x48 workload; DirectX remains above 25 MB.
+The published product checkpoint at `9370c1f` passes both full workflows,
+including 93 single-image groups. Its [manifest](../research/overline-validation.json)
+identifies the exact EXE, overline state/pixel results and separate local memory
+failure: the downloaded image passes GDI at 16.45 MB in the Sarasa 160x48 workload;
+DirectX reaches 30.43 MB and remains above 25 MB.
 The earlier sidecar reply-order issue was resolved by building the same host
 source and overlay for compiler comparison. Local testing has resumed.
-The [overline development checkpoint](../research/overline.md) has core and
-three-renderer local checks; its full remote validation is pending.
+The [overline checkpoint](../research/overline.md) includes local checks of the
+downloaded image under all three renderers; CI's OpenGL request used GDI fallback.
 
 Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 (page identifies patch 411); independent captures use the pinned
@@ -120,7 +121,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | SGR 4:0–5; 58/59 | Tested | Underline styles/colours and reset, native pixels and query round trips. |
 | SGR 30–37/40–47/90–97/100–107/39/49 | Tested | Indexed/default foreground/background and configuration policy. |
 | SGR 38/48/58, indexed or RGB, semicolon/colon forms | Tested | `sgr`, `queries`; supported forms and malformed input recovery. |
-| SGR 53/55 (overline) | Tested locally; full CI pending | ECMA-48 state/reset/query, history/reflow and native GDI/OpenGL/DirectX pixels. Selective SGR-stack selector 53 is a Nemoterm extension. See [overline](../research/overline.md); RTF export does not encode the style. |
+| SGR 53/55 (overline) | Tested | ECMA-48 state/reset/query, history/reflow and native GDI/OpenGL/DirectX pixels; both complete CI workflows pass. Selective SGR-stack selector 53 is a Nemoterm extension. See [overline](../research/overline.md); RTF export does not encode the style. |
 | SGR font-selection, framed/encircled and ideogram attributes | Missing | Legacy SCO font controls do not satisfy these families. |
 | ANSI modes 4/12/20/34 | Tested | `modes`, `state_control`; insertion, echo, newline and legacy cursor mode. |
 | DEC modes 1/2/3/5/6/7/8/12/25/66 | Partial | `modes`, `state_control`; corresponding legacy behavior and configuration gates. Full VT52 and 80/132 transition coverage remains open. |
