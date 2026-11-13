@@ -1,0 +1,598 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "cases": {
+    "request-empty": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[$w",
+      "reply": ""
+    },
+    "request-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0$w",
+      "reply": ""
+    },
+    "request-1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "request-2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2$w",
+      "reply": "\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "request-3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3$w",
+      "reply": ""
+    },
+    "request-99": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[99$w",
+      "reply": ""
+    },
+    "request-1;2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1;2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "request-2;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2;1$w",
+      "reply": "\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "request-1:2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1:2$w",
+      "reply": ""
+    },
+    "request-;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[;1$w",
+      "reply": ""
+    },
+    "request-0;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0;1$w",
+      "reply": ""
+    },
+    "level-61": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[61;1\"p\u001b[1$w\u001b[2$w\u001b[\"v",
+      "reply": ""
+    },
+    "level-62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[62;1\"p\u001b[1$w\u001b[2$w\u001b[\"v",
+      "reply": ""
+    },
+    "level-63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;1\"p\u001b[1$w\u001b[2$w\u001b[\"v",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[24;80;1;1;1\"w"
+    },
+    "level-64": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[64;1\"p\u001b[1$w\u001b[2$w\u001b[\"v",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[24;80;1;1;1\"w"
+    },
+    "level-65": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[65;1\"p\u001b[1$w\u001b[2$w\u001b[\"v",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[24;80;1;1;1\"w"
+    },
+    "rendition-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;A;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-4": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[4m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;B;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-5": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[5m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;D;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-7": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[7m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;H;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-8": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[8m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-9": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[9m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-21": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[21m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-1;4;5;7": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1;4;5;7m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;O;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-31;44": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[31;44m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "rendition-38:2::1:2:3;48:2::4:5:6": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[38:2::1:2:3;48:2::4:5:6m\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "protect-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0\"q\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\"
+    },
+    "protect-1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"q\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\"
+    },
+    "protect-2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2\"q\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\"
+    },
+    "position-1;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1;1H\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "position-12;35": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[12;35H\u001b[1$w",
+      "reply": "\u001bP1$u12;35;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "position-24;80": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[24;80H\u001b[1$w",
+      "reply": "\u001bP1$u24;80;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "pending-wrap": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[24;80HZ\u001b[1$wX\u001b[1$w",
+      "reply": "\u001bP1$u24;80;1;@;@;H;0;2;@;BBBB\u001b\\\u001bP1$u24;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "origin-margins": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?69h\u001b[11;70s\u001b[?6h\u001b[5;7H\u001b[1$w\u001b[\"v",
+      "reply": "\u001bP1$u7;17;1;@;@;A;0;2;@;BBBB\u001b\\\u001b[24;80;1;1;1\"w"
+    },
+    "double-size": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[5;35H\u001b#6\u001b[1$w\u001b[\"v",
+      "reply": "\u001bP1$u5;35;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[24;80;1;1;1\"w"
+    },
+    "alternate": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[12;35H\u001b[1;4m\u001b[?1049h\u001b[1$w\u001b[?1049l\u001b[1$w",
+      "reply": "\u001bP1$u12;35;1;C;@;@;0;2;@;BBBB\u001b\\\u001bP1$u12;35;1;C;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "shift-0e": {
+      "sequence": "\u001b[65;1\"p\u001bc\u000e\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;1;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;1;2;@;BBBB\u001b\\"
+    },
+    "shift-0f": {
+      "sequence": "\u001b[65;1\"p\u001bc\u000f\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "shift-1b6e": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bn\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;2;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;2;2;@;BBBB\u001b\\"
+    },
+    "shift-1b6f": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bo\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;3;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;3;2;@;BBBB\u001b\\"
+    },
+    "shift-1b7e": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b~\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;1;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;1;@;BBBB\u001b\\"
+    },
+    "shift-1b7d": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b}\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "shift-1b7c": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b|\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;3;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;3;@;BBBB\u001b\\"
+    },
+    "shift-1b4e": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bN\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;B;0;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "shift-1b4f": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bO\u001b[1$wA\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;D;0;2;@;BBBB\u001b\\\u001bP1$u1;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-(B": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(B\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-(0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;0BBB\u001b\\"
+    },
+    "charset-(A": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(A\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;ABBB\u001b\\"
+    },
+    "charset-(U": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(U\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-)B": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b)B\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-)0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b)0\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;B0BB\u001b\\"
+    },
+    "charset-)A": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b)A\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BABB\u001b\\"
+    },
+    "charset-)U": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b)U\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-*B": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b*B\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-*0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b*0\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BB0B\u001b\\"
+    },
+    "charset-*A": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b*A\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBAB\u001b\\"
+    },
+    "charset-*U": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b*U\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-+B": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b+B\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "charset-+0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b+0\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBB0\u001b\\"
+    },
+    "charset-+A": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b+A\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBA\u001b\\"
+    },
+    "charset-+U": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b+U\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "tabs-default": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[1;1R"
+    },
+    "tabs-clear": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3g\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u\u001b\\\u001b[1;1R"
+    },
+    "tabs-column-one": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bH\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[1;1R"
+    },
+    "tabs-custom": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3g\u001b[1;2H\u001bH\u001b[1;37H\u001bH\u001b[1;80H\u001bH\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u2/37/80\u001b\\\u001b[1;80R"
+    },
+    "tabs-soft": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[!p\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u5\u001b\\\u001b[1;5R"
+    },
+    "tabs-alt": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?1049h\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u5\u001b\\\u001b[1;5R"
+    },
+    "tabs-margins": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?69h\u001b[11;70s\u001b[?6h\u001b[2$w\u001b[6n",
+      "reply": "\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\\u001b[1;1R"
+    },
+    "restore-plain": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$u7;20;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-bold": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;A;@;@;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;A;@;@;0;2;@;BBBB\u001b\\\u001bP1$u7;20;1;A;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-all-legacy": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;O;A;I;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;O;A;I;0;2;@;BBBB\u001b\\\u001bP1$u8;2;1;O;A;A;0;2;@;BBBB\u001b\\"
+    },
+    "restore-origin": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;A;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;A;0;2;@;BBBB\u001b\\\u001bP1$u7;20;1;@;@;A;0;2;@;BBBB\u001b\\"
+    },
+    "restore-wrap": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;H;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;H;0;2;@;BBBB\u001b\\\u001bP1$u8;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-wide-wrap": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;80;1;@;@;H;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;80;1;@;@;H;0;2;@;BBBB\u001b\\\u001bP1$u8;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-protect": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;A;@;0;2;@;BBBB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;A;@;0;2;@;BBBB\u001b\\\u001bP1$u7;20;1;@;A;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-gl1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;1;2;@;B0BB\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;1;2;@;B0BB\u001b\\\u001bP1$u7;20;1;@;@;@;1;2;@;B0BB\u001b\\"
+    },
+    "restore-gl2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;2;2;@;BB0B\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;2;2;@;BB0B\u001b\\\u001bP1$u7;20;1;@;@;@;2;2;@;BB0B\u001b\\"
+    },
+    "restore-gl3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;3;2;@;BBB0\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;3;2;@;BBB0\u001b\\\u001bP1$u7;20;1;@;@;@;3;2;@;BBB0\u001b\\"
+    },
+    "restore-ss2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;B;0;2;@;BB0B\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;B;0;2;@;BB0B\u001b\\\u001bP1$u7;20;1;@;@;@;0;2;@;BB0B\u001b\\"
+    },
+    "restore-ss3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;D;0;2;@;BBB0\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;D;0;2;@;BBB0\u001b\\\u001bP1$u7;20;1;@;@;@;0;2;@;BBB0\u001b\\"
+    },
+    "restore-extra": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBBextra\u001b\\\u001b[1$wq\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$u7;20;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-0-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t0;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-0-25": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t25;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-1-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;0;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-1-81": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;81;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-2-2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;2;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-3-P": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;P;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-4-B": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;B;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-5-P": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;P;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-6-4": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;4;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-7-4": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;4;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "invalid-field-8-?": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;?;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;1\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-5": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-7": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-10": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-13": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-16": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-19": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-22": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-25": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "truncated-28": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-invisible-63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;1\"p\u001bP1$t7;19;1;P;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001bP$qm\u001b\\",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$r0m\u001b\\"
+    },
+    "restore-invisible-64": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[64;1\"p\u001bP1$t7;19;1;P;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001bP$qm\u001b\\",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$r0m\u001b\\"
+    },
+    "restore-invisible-65": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[65;1\"p\u001bP1$t7;19;1;P;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001bP$qm\u001b\\",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$r0;8m\u001b\\"
+    },
+    "restore-prefix-0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP0$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-01": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP01$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-1;2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1;2$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u7\u001b\\"
+    },
+    "restore-prefix-02": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP02$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-2;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2;1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP3$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-prefix-9": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP9$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001b[2$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP2$u9/17/25/33/41/49/57/65/73\u001b\\"
+    },
+    "restore-tabs-empty": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u\u001b\\\u001b[1;80R"
+    },
+    "restore-tabs-custom": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t1/2/37/80\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/37/80\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-unsorted": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t40/2/7\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/7/40\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-duplicate": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t2/2/2/7\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/7\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-out-of-view": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t1/80/81/160/999\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u80\u001b\\\u001b[1;80R"
+    },
+    "restore-tabs-zero": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t0/1/0/5\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u5\u001b\\\u001b[1;5R"
+    },
+    "restore-tabs-trailing": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t2/7/\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/7\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-empty-fields": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t/2//7/\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/7\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-invalid-middle": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t2/7x/19\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2/7\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-invalid-first": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$tx2/7\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u\u001b\\\u001b[1;80R"
+    },
+    "restore-tabs-missing-slash": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t2;7\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2\u001b\\\u001b[1;2R"
+    },
+    "restore-tabs-spaces": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP2$t2 /7\u001b\\\u001b[2$w\t\u001b[6n",
+      "reply": "\u001bP2$u2\u001b\\\u001b[1;2R"
+    },
+    "retained-modern": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[2;3;8;9;21;31;44m\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1$w\u001bP$qm\u001b\\",
+      "reply": "\u001bP1$u7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$r0;8;2;3;9;21;31;44m\u001b\\"
+    },
+    "protection-family-soft-?2K": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001b[!p\u001b[?2K\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;4;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-soft-?2J": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001b[!p\u001b[?2J\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;4;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-soft-1;1;1;3${": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001b[!p\u001b[1;1;1;3${\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;4;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-restore-off-?2K": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[?2K\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-restore-off-?2J": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[?2J\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-restore-off-1;1;1;3${": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[1;1;1;3${\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP7!~0060\u001b\\"
+    },
+    "protection-family-restore-dec-?2K": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001b[?2K\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001bP7!~00C6\u001b\\"
+    },
+    "protection-family-restore-dec-?2J": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001b[?2J\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001bP7!~00C6\u001b\\"
+    },
+    "protection-family-restore-dec-1;1;1;3${": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[1\"qABC\u001bP1$t1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001b[1;1;1;3${\u001b[1$w\u001b[23#y\u001b[7;1;1;1;1;3*y",
+      "reply": "\u001bP1$u1;1;1;@;A;@;0;2;@;BBBB\u001b\\\u001bP7!~00C6\u001b\\"
+    },
+    "empty-selective-ed-clears-family": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0\"qABC\u001b[?2J\u001b[1$w",
+      "reply": "\u001bP1$u1;4;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restored-origin-outside-margins": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?69h\u001b[11;70s\u001bP1$t1;1;1;@;@;A;0;2;@;BBBB\u001b\\\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;A;0;2;@;BBBB\u001b\\"
+    },
+    "cancel-18": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u0018\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "cancel-1a": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001a\u001b[1$w",
+      "reply": "\u001bP1$u1;2;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "cancel-1b5b353b3648": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b[5;6H\u001b[1$w",
+      "reply": "\u001bP1$u5;6;1;@;@;@;0;2;@;BBBB\u001b\\"
+    },
+    "restore-low-level-61": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[61;1\"p\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[6n\u001bP2$t2/7\u001b\\\t\u001b[6n",
+      "reply": "\u001b[1;1R\u001b[1;9R"
+    },
+    "restore-low-level-62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[62;1\"p\u001bP1$t7;19;1;@;@;@;0;2;@;BBBB\u001b\\\u001b[6n\u001bP2$t2/7\u001b\\\t\u001b[6n",
+      "reply": "\u001b[1;1R\u001b[1;9R"
+    }
+  }
+}

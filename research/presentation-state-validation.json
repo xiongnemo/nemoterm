@@ -1,0 +1,360 @@
+{
+  "recorded_utc": "2026-11-13T06:59:44.168081+00:00",
+  "source_parent": "72cba22b21c1d3126780f13c15a00bb7f1d37c47",
+  "source_branch": "feature/presentation-state",
+  "source_identity_note": "Built before committing; product hashes identify this image, not cached embedded version metadata.",
+  "product_source_sha256": {
+    "vendor/putty-0.85/terminal/terminal.h": "a86960bfb6c9c357a406028d962e48d706327b5c8781c20c6245be600facfcd1",
+    "vendor/putty-0.85/terminal/terminal.c": "1e44d75368f26d8121974b007b0fd212871a243963cd99b0966029c39e0b27fc"
+  },
+  "host_source_pin": "f6de9e0618015def1c9dda5b82f9d3abf03eb799",
+  "host_preparation_script_sha256": "c3dc3498e73ded667a21d2d10c59c23e02e6138581db5c932b4f96464fb46599",
+  "tagged_host_overlay_sha256": {
+    "src/host/VtIo.cpp": "dfaec7bf7c3ce3bb955e0e21ba25c1e6fb8b818fe9c4a6900b50b94100d7a60f",
+    "src/host/VtInputThread.hpp": "33c17caac4b1b939babe0596d6491d49c0cafea5a28b5c084b8fa6f8b2d2e7fb",
+    "src/host/VtInputThread.cpp": "f92d945f7616fd920cd08167ed9137fe9687eda8ef22c8247a95c79aefdb01c8",
+    "src/terminal/parser/InputStateMachineEngine.hpp": "91cf4a6c6ff4f812318eea1529c2b24433a64b3557c1c4384fb8dc728d9fc419",
+    "src/terminal/parser/InputStateMachineEngine.cpp": "4809935424ff4b8f81aa89b3d6126cdeb69bef152cd6f9f0f2918b2d8ad5fded"
+  },
+  "executable": {
+    "path": "build\\local-presentation-protection-check\\dist\\nemoterm.exe",
+    "sha256": "f55b134db3dd6fd9852ae6a9c97358377fed8963689d389931cb708fe1bdc265",
+    "bytes": 4427264,
+    "directory_files": [
+      "nemoterm.exe"
+    ]
+  },
+  "earlier_image": {
+    "path": "build/local-presentation-check/dist/nemoterm.exe",
+    "sha256": "bd475ea7963bf9b54535da12c7ea830505a44eb5eb3106130dc26fc22b90056b",
+    "note": "Passed the initial 132-reference/10-direct native matrix. Further independent protection-family checks exposed an older behavior error; only the final image includes that correction."
+  },
+  "reference": {
+    "raw_cases": 148,
+    "exact_cases": 142,
+    "excluded_with_explicit_reasons": 6,
+    "direct_cases": 10,
+    "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c"
+  },
+  "msvc": {
+    "compiler": "MSVC 19.44.35230 x64",
+    "configuration": "MinSizeRel, static CRT",
+    "suite_count": 35,
+    "tests": {
+      "test_cluster_renderer": {
+        "exit_code": 0,
+        "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed\r\n"
+      },
+      "test_colour": {
+        "exit_code": 0,
+        "output": "OSC colour parser tests passed\r\n"
+      },
+      "test_conf": {
+        "exit_code": 0,
+        "output": ""
+      },
+      "test_cwd": {
+        "exit_code": 0,
+        "output": "Directory metadata suite passed\r\n"
+      },
+      "test_font_cmap": {
+        "exit_code": 0,
+        "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed\r\n"
+      },
+      "test_font_fallback": {
+        "exit_code": 0,
+        "output": "Requested Consolas; initially selected Consolas\r\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\r\nRequested Courier; initially selected Courier\r\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\r\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\r\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\r\nRequested Nemo Test Missing Font 938471; initially selected Arial\r\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\r\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache\r\n"
+      },
+      "test_grapheme": {
+        "exit_code": 0,
+        "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed\r\n"
+      },
+      "test_grapheme_terminal": {
+        "exit_code": 0,
+        "output": "Grapheme terminal suite passed\r\n"
+      },
+      "test_highlight": {
+        "exit_code": 0,
+        "output": "Highlight suite passed\r\n"
+      },
+      "test_hyperlink": {
+        "exit_code": 0,
+        "output": "Hyperlink test suite passed\r\n"
+      },
+      "test_keyboard": {
+        "exit_code": 0,
+        "output": "Keyboard protocol suite passed\r\n"
+      },
+      "test_margins": {
+        "exit_code": 0,
+        "output": "Margin suite passed\r\n"
+      },
+      "test_modes": {
+        "exit_code": 0,
+        "output": "Mode test suite passed\r\n"
+      },
+      "test_mok": {
+        "exit_code": 0,
+        "output": "Modified keys suite passed\r\n"
+      },
+      "test_mouse": {
+        "exit_code": 0,
+        "output": "Mouse test suite passed\r\n"
+      },
+      "test_osc52": {
+        "exit_code": 0,
+        "output": "OSC 52 suite passed\r\n"
+      },
+      "test_osc_colour": {
+        "exit_code": 0,
+        "output": "OSC colour suite passed\r\n"
+      },
+      "test_queries": {
+        "exit_code": 0,
+        "output": "Query suite passed\r\n"
+      },
+      "test_rectangle": {
+        "exit_code": 0,
+        "output": "Rectangle editing and independent XTerm oracle suite passed\r\n"
+      },
+      "test_reflow": {
+        "exit_code": 0,
+        "output": "Reflow suite passed\r\n"
+      },
+      "test_resize": {
+        "exit_code": 0,
+        "output": "Resize suite passed\r\n"
+      },
+      "test_selective_erase": {
+        "exit_code": 0,
+        "output": "Selective erase suite passed\r\n"
+      },
+      "test_sgr": {
+        "exit_code": 0,
+        "output": "SGR suite passed\r\n"
+      },
+      "test_shell": {
+        "exit_code": 0,
+        "output": "Shell detection, Unicode command quoting and child environment suite passed\r\n"
+      },
+      "test_shell_marks": {
+        "exit_code": 0,
+        "output": "Shell mark suite passed\r\n"
+      },
+      "test_sixel": {
+        "exit_code": 0,
+        "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\r\n"
+      },
+      "test_sixel_terminal": {
+        "exit_code": 0,
+        "output": "Sixel terminal suite passed\r\n"
+      },
+      "test_snapshot": {
+        "exit_code": 0,
+        "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\r\nsnapshot tests passed\r\n"
+      },
+      "test_state_control": {
+        "exit_code": 0,
+        "output": "State control suite passed\r\n"
+      },
+      "test_sync": {
+        "exit_code": 0,
+        "output": "Synchronized output test suite passed\r\n"
+      },
+      "test_tabs_layout": {
+        "exit_code": 0,
+        "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed\r\n"
+      },
+      "test_tcap": {
+        "exit_code": 0,
+        "output": "Capability/keyboard suite passed\r\n"
+      },
+      "test_terminal": {
+        "exit_code": 0,
+        "output": "Test suite passed\r\n"
+      },
+      "test_titles": {
+        "exit_code": 0,
+        "output": "Title suite passed\r\n"
+      },
+      "test_win32_input": {
+        "exit_code": 0,
+        "output": "Win32 input suite passed\r\n"
+      }
+    }
+  },
+  "mingw": {
+    "suite_count": 6,
+    "tests": {
+      "test_queries": {
+        "exit_code": 0,
+        "output": "Query suite passed\r\n"
+      },
+      "test_terminal": {
+        "exit_code": 0,
+        "output": "Test suite passed\r\n"
+      },
+      "test_state_control": {
+        "exit_code": 0,
+        "output": "State control suite passed\r\n"
+      },
+      "test_sixel_terminal": {
+        "exit_code": 0,
+        "output": "Sixel terminal suite passed\r\n"
+      },
+      "test_tcap": {
+        "exit_code": 0,
+        "output": "Capability/keyboard suite passed\r\n"
+      },
+      "test_selective_erase": {
+        "exit_code": 0,
+        "output": "Selective erase suite passed\r\n"
+      }
+    }
+  },
+  "linux_sanitizers": {
+    "options": "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1",
+    "tests": {
+      "queries": "Query suite passed\n",
+      "state": "State control suite passed\n",
+      "sixel": "Sixel terminal suite passed\n",
+      "grapheme": "Grapheme terminal suite passed\n",
+      "selective": "Selective erase suite passed\n"
+    }
+  },
+  "native_suite_count": 17,
+  "native": {
+    "presentation_state": {
+      "exit_code": 0,
+      "log": "presentation_state.log",
+      "log_sha256": "7721d3c980b4e7d533b0110dd85a16c85d7d1ea0c5975ec3a5e546443f7e6567",
+      "output": "Native presentation-state: 142 XTerm and 10 direct cases passed\n"
+    },
+    "sgr_stack": {
+      "exit_code": 0,
+      "log": "sgr_stack.log",
+      "log_sha256": "cf16780efcf4e4c8ffa91e5ed4e5f49dcc722fe21b0efacd33c93db5e3fb7423",
+      "output": "Native sgr-stack: 193 XTerm and 14 direct cases passed\n"
+    },
+    "tabulation": {
+      "exit_code": 0,
+      "log": "tabulation.log",
+      "log_sha256": "c9d131c75c494d59f56f687c43f100d71cc88898fd221729045291508e23726c",
+      "output": "Native tabulation: 108 XTerm and 0 direct cases passed\n"
+    },
+    "double_size": {
+      "exit_code": 0,
+      "log": "double_size.log",
+      "log_sha256": "35d291e58b1d6a63b32028a209ff48a3a738e5c23f54ccb9c3b895f7190e5dea",
+      "output": "Native double-size: 45 XTerm and 1 direct cases passed\n"
+    },
+    "graphics_query": {
+      "exit_code": 0,
+      "log": "graphics_query.log",
+      "log_sha256": "3672d0f5028f27cdddc607e00d657211d1978b5aa9423695bcd560bd5d3eac0f",
+      "output": "Native graphics-query: 34 XTerm and 3 direct cases passed\n"
+    },
+    "dec_status": {
+      "exit_code": 0,
+      "log": "dec_status.log",
+      "log_sha256": "6f01b100febbafb9e6c58d471af833f7c9df865d61c58716ea840cfbe784b2ec",
+      "output": "Native dec-status: 77 XTerm and 3 direct cases passed\n"
+    },
+    "checksum": {
+      "exit_code": 0,
+      "log": "checksum.log",
+      "log_sha256": "7e22cdd898c318572d673bd4d89b9abfe32038e1fdd234c4be9ba21ab150ce18",
+      "output": "Native checksum-disabled: 0 XTerm and 1 direct cases passed\nNative checksum: 364 XTerm and 8 direct cases passed\n"
+    },
+    "query": {
+      "exit_code": 0,
+      "log": "query.log",
+      "log_sha256": "ba6a3fbc83b8b5efa2a09c5f295c9eb27c2c00ebf79d6b8b15b4fbae97020099",
+      "output": "Native cursor pixels, queries and keyboard capabilities passed: {'focus_model': 'owned-process instrumented active and inactive states', 'executable_sha256': 'f55b134db3dd6fd9852ae6a9c97358377fed8963689d389931cb708fe1bdc265', 'identity-c-': {'sequence': '\\x1b[c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0': {'sequence': '\\x1b[0c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0;9': {'sequence': '\\x1b[0;9c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-;9': {'sequence': '\\x1b[;9c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0:0': {'sequence': '\\x1b[0:0c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0:1': {'sequence': '\\x1b[0:1c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-:1': {'sequence': '\\x1b[:1c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0;1:2': {'sequence': '\\x1b[0;1:2c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-0:0:0': {'sequence': '\\x1b[0:0:0c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-1:0': {'sequence': '\\x1b[1:0c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-1;0:0': {'sequence': '\\x1b[1;0:0c', 'reply': '1b5b3f36323b343b3232631b5b306e'}, 'identity-c-1': {'sequence': '\\x1b[1c', 'reply': '1b5b306e'}, 'identity-c-2': {'sequence': '\\x1b[2c', 'reply': '1b5b306e'}, 'identity-c-1;0': {'sequence': '\\x1b[1;0c', 'reply': '1b5b306e'}, 'identity-c-999999999999999999999': {'sequence': '\\x1b[999999999999999999999c', 'reply': '1b5b306e'}, 'identity->c-': {'sequence': '\\x1b[>c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0': {'sequence': '\\x1b[>0c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0;9': {'sequence': '\\x1b[>0;9c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-;9': {'sequence': '\\x1b[>;9c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0:0': {'sequence': '\\x1b[>0:0c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0:1': {'sequence': '\\x1b[>0:1c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-:1': {'sequence': '\\x1b[>:1c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0;1:2': {'sequence': '\\x1b[>0;1:2c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-0:0:0': {'sequence': '\\x1b[>0:0:0c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-1:0': {'sequence': '\\x1b[>1:0c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-1;0:0': {'sequence': '\\x1b[>1;0:0c', 'reply': '1b5b3e303b3133363b30631b5b306e'}, 'identity->c-1': {'sequence': '\\x1b[>1c', 'reply': '1b5b306e'}, 'identity->c-2': {'sequence': '\\x1b[>2c', 'reply': '1b5b306e'}, 'identity->c-1;0': {'sequence': '\\x1b[>1;0c', 'reply': '1b5b306e'}, 'identity->c-999999999999999999999': {'sequence': '\\x1b[>999999999999999999999c', 'reply': '1b5b306e'}, 'identity-=c-': {'sequence': '\\x1b[=c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0': {'sequence': '\\x1b[=0c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0;9': {'sequence': '\\x1b[=0;9c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-;9': {'sequence': '\\x1b[=;9c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0:0': {'sequence': '\\x1b[=0:0c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0:1': {'sequence': '\\x1b[=0:1c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-:1': {'sequence': '\\x1b[=:1c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0;1:2': {'sequence': '\\x1b[=0;1:2c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-0:0:0': {'sequence': '\\x1b[=0:0:0c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-1:0': {'sequence': '\\x1b[=1:0c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-1;0:0': {'sequence': '\\x1b[=1;0:0c', 'reply': '1b50217c30303030303030301b5c1b5b306e'}, 'identity-=c-1': {'sequence': '\\x1b[=1c', 'reply': '1b5b306e'}, 'identity-=c-2': {'sequence': '\\x1b[=2c', 'reply': '1b5b306e'}, 'identity-=c-1;0': {'sequence': '\\x1b[=1;0c', 'reply': '1b5b306e'}, 'identity-=c-999999999999999999999': {'sequence': '\\x1b[=999999999999999999999c', 'reply': '1b5b306e'}, 'identity->q-': {'sequence': '\\x1b[>q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0': {'sequence': '\\x1b[>0q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0;9': {'sequence': '\\x1b[>0;9q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-;9': {'sequence': '\\x1b[>;9q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0:0': {'sequence': '\\x1b[>0:0q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0:1': {'sequence': '\\x1b[>0:1q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-:1': {'sequence': '\\x1b[>:1q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0;1:2': {'sequence': '\\x1b[>0;1:2q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-0:0:0': {'sequence': '\\x1b[>0:0:0q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-1:0': {'sequence': '\\x1b[>1:0q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-1;0:0': {'sequence': '\\x1b[>1;0:0q', 'reply': '1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'identity->q-1': {'sequence': '\\x1b[>1q', 'reply': '1b5b306e'}, 'identity->q-2': {'sequence': '\\x1b[>2q', 'reply': '1b5b306e'}, 'identity->q-1;0': {'sequence': '\\x1b[>1;0q', 'reply': '1b5b306e'}, 'identity->q-999999999999999999999': {'sequence': '\\x1b[>999999999999999999999q', 'reply': '1b5b306e'}, 'identity-cursor-visible': {'sequence': '\\x1b[?25h\\x1b[=c\\x1b[?25$p', 'reply': '1b50217c30303030303030301b5c1b5b3f32353b3124791b5b306e'}, 'identity-cursor-hidden': {'sequence': '\\x1b[?25l\\x1b[=c\\x1b[=1c\\x1b[=2c\\x1b[?25$p', 'reply': '1b50217c30303030303030301b5c1b5b3f32353b3224791b5b306e'}, 'identity-sco-cursor': {'sequence': '\\x1b[?25h\\x1b[42\"p\\x1b[=c\\x1b[41\"p\\x1b[?25$p', 'reply': '1b5b3f32353b3224791b5b306e'}, 'identity-alt': {'sequence': '\\x1b[?1049h\\x1b[=c\\x1b[>q\\x1b[?1049l', 'reply': '1b50217c30303030303030301b5c1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e'}, 'hidden': {'reply': '1b503124723220711b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'block': {'reply': '1b503124723220711b5c', 'sha256': 'c77743c4b148054bcaa33d3bc165458ec7c2f44579891d851fdc8537095decfa', 'desktop_foreground': 11078936, 'shape': [8, 20, 160]}, 'underline': {'reply': '1b503124723420711b5c', 'sha256': 'c33eecae6de7ecb8693297eff6047dea1c8b4beac2eb98f0efaa5443f8f75cb3', 'desktop_foreground': 11078936, 'shape': [8, 1, 8]}, 'bar': {'reply': '1b503124723620711b5c', 'sha256': '1bd41ed1d0526f1d4c0f2ef0ebd0b8302853000d43ae989db3c714bc8df0a7bc', 'desktop_foreground': 11078936, 'shape': [1, 20, 20]}, 'identity-visible-pixels': {'sequence': '\\x1b[=c\\x1b[>q', 'reply': '1b50217c30303030303030301b5c1b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b306e', 'sha256': '1bd41ed1d0526f1d4c0f2ef0ebd0b8302853000d43ae989db3c714bc8df0a7bc'}, 'hidden-again': {'reply': '1b503124723620711b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'sgr': {'reply': '1b50312472303b33313b34346d1b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'margins': {'reply': '1b50312472333b3130721b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'unsupported': {'reply': '1b503024721b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'geometry': {'reply': '1b503124723430247c1b5c1b5031247231322a7c1b5c', 'sha256': 'f5a40bf35217b91c46f18a9762689c0464f3de2be71a51d9aefe7456fa490fe9', 'desktop_foreground': 11078936}, 'geometry-after-resize': {'reply': '1b503124723736247c1b5c1b5031247232312a7c1b5c', 'sha256': '881e308d1e772dd57d0f50a139fb42aa541d13667c7b7c1ded55e04dea65a28a', 'desktop_foreground': 11078936}, 'blink': {'reply': '1b503124723120711b5c', 'sha256': '62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6', 'desktop_foreground': 11078936}, 'blink_states': [False, True], 'blink-off': {'reply': '1b5b3f31323b3224791b503124723220711b5c', 'sha256': '62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6', 'desktop_foreground': 11078936}, 'steady_states': [True], 'frozen-query': {'reply': '1b503124723620711b5c', 'sha256': '62a1e1e797b4f4dc922ae08b3a45b22326a43864a4a3663584c9dabeb518c6b6', 'desktop_foreground': 11078936}, 'released-query': {'reply': '1b503124723620711b5c', 'sha256': 'ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00', 'desktop_foreground': 11078936}, 'inactive-cursor': {'shape': [1, 19, 10], 'sha256': '43b5853642562dea7356053cc20f568a6150382026e226881acce8849d639d96'}, 'keys-normal': {'reply': '1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162356234383b36623635366536343d3162356234363b366236333735373533313d3162356234313b366236333735363433313d3162356234323b366236333735363633313d3162356234333b366236333735363233313d3162356234343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c', 'sha256': 'ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00', 'desktop_foreground': 11078936, 'key_input': '1b4f501b5b32347e1b5b32357e1b5b34357e1b5b481b5b461b5b411b5b421b5b431b5b441b5b327e1b5b337e1b5b357e1b5b367e7f', 'child_input': '1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162356234383b36623635366536343d3162356234363b366236333735373533313d3162356234313b366236333735363433313d3162356234323b366236333735363633313d3162356234333b366236333735363233313d3162356234343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c1b4f501b5b32347e1b5b32357e1b5b34357e1b5b481b5b461b5b411b5b421b5b431b5b441b5b327e1b5b337e1b5b357e1b5b367e7f'}, 'keys-application': {'reply': '1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162346634383b36623635366536343d3162346634363b366236333735373533313d3162346634313b366236333735363433313d3162346634323b366236333735363633313d3162346634333b366236333735363233313d3162346634343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c', 'sha256': 'ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00', 'desktop_foreground': 11078936, 'key_input': '1b4f501b5b32347e1b5b32357e1b5b34357e1b4f481b4f461b4f411b4f421b4f431b4f441b5b327e1b5b337e1b5b357e1b5b367e7f', 'child_input': '1b50312b723662363633313d3162346635303b36623636333133323d316235623332333437653b36623636333133333d316235623332333537653b36623636333233343d316235623334333537653b366236383666366436353d3162346634383b36623635366536343d3162346634363b366236333735373533313d3162346634313b366236333735363433313d3162346634323b366236333735363633313d3162346634333b366236333735363233313d3162346634343b366236393633363833313d31623562333237653b366236343633363833313d31623562333337653b3662373037303d31623562333537653b3662366537303d31623562333637653b3662363237333d37661b5c1b4f501b5b32347e1b5b32357e1b5b34357e1b4f481b4f461b4f411b4f421b4f431b4f441b5b327e1b5b337e1b5b357e1b5b367e7f'}, 'tcap-colours': {'reply': '1b50312b72343336663d3332333533363b353434653d373837343635373236643264333233353336363336663663366637323b3532343734323d33381b5c', 'sha256': 'ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00', 'desktop_foreground': 11078936}, 'tcap-unsupported': {'reply': '1b50302b721b5c', 'sha256': 'ab0e1db3ff6db907648d4b552bbd12c39ce01b9a062cb906b70ddb339734da00', 'desktop_foreground': 11078936}, 'peak_private_ws': 4587520, 'peak_total_ws': 21090304}\n"
+    },
+    "renderer": {
+      "exit_code": 0,
+      "log": "renderer.log",
+      "required_opengl": true,
+      "required_directx": true,
+      "log_sha256": "65bc96c933cd97c0a7d938cef0c1a0331ae156410452d3ed27cbdf98cf5becf3",
+      "output": "GDI/OpenGL/DirectX pixel parity, text, Sixel, resize, expose and synchronized update passed: [('GDI', {'private_ws': 7921664, 'total_ws': 33411072, 'private_commit': 11423744}), ('OpenGL', {'private_ws': 40484864, 'total_ws': 77225984, 'private_commit': 100212736}), ('DirectX', {'private_ws': 19181568, 'total_ws': 58855424, 'private_commit': 77402112})]\n"
+    },
+    "sgr": {
+      "exit_code": 0,
+      "log": "sgr.log",
+      "log_sha256": "2d92a7d903e9ab54eff74edd12134cd22a665ba77ef2b418cddd8dce04851781",
+      "output": "Native SGR pixels, colour, conceal, italic and palette tests passed: {'blank': '2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e', 'underline-1': '272c842da28c632f737808ba8fafcbd0d2aca94997e3c7b6cf2a411ba9e7a3e5', 'underline-2': 'eaf37b6cdb896bd49dd940ed713c1ff423c55ed37d92b0c7e21a296b1d4c287d', 'underline-3': 'f15279d7aaa293d3e50a878682086279b4a40a0b596e3538abe21a1f3d63aa4f', 'underline-4': '67af8f7c3e5ffafa6f039050b26d70900b705ca53f058e34cabd6773ee082bba', 'underline-5': '4c913d6e163dd1df9e82a3cc4f0e0f609d14bc02488c9042f760a110d963730d', 'reverse-underline': '5ab2090b96f1a20f8d1d19d1905b58dfb1adf12709a0f5516f3bcb18c289aa5c', 'legacy-double': 'eaf37b6cdb896bd49dd940ed713c1ff423c55ed37d92b0c7e21a296b1d4c287d', 'underline-reset': '2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e', 'conceal': '2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e', 'regular': 'd4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d', 'italic': '03e6ce74e5f2fa502b31d904774eddc1e115f5a3147002446d47b1ad8ec86517', 'italic-reset': 'd4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d', 'normal-m-width': '274d9e0aa842c2b45cd40d944e00831e51dae646675650291e4771a628994a66', 'italic-m-width': '6cbabdbfcd461763bb26449cf49172b6e3b5ebd661bada63511df37e972eac44', 'normal_and_italic_M_width': [8, 8], 'normal-cjk-width': 'a6f2ba9c69d2ced7fa6b045915d866d36199deb1bb7176364c908d337c4fb739', 'italic-cjk-width': '2ccd070703a29ccc9d93459291e390499009be8991310c1b203073c603d01cb5', 'normal_and_italic_CJK_width': [14, 14], 'colon-rgb': '5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd', 'semicolon-rgb': '5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd', 'indexed-underline': '272c842da28c632f737808ba8fafcbd0d2aca94997e3c7b6cf2a411ba9e7a3e5', 'palette-change': '47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063', 'styled-sync-freeze': '47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063', 'styled-sync-release': 'ad497301196407f3dd29ee2437db5e75f47144ad0d600f4886e69c5c43b3d3fd', 'gallery': '64434a44b2bc51a6ff4be68a844baa85f5656dbc762c7c420203349198297d29', 'peak_private_ws': 5218304, 'peak_total_ws': 19505152, 'executable_sha256': 'f55b134db3dd6fd9852ae6a9c97358377fed8963689d389931cb708fe1bdc265'}\n"
+    },
+    "mouse": {
+      "exit_code": 0,
+      "log": "mouse.log",
+      "log_sha256": "f78e2189e1ee96c26977abaec3e4501f2a08ad2b662ce8ceb81ff4f000e655b0",
+      "output": "Native mouse/ConPTY/resize smoke passed: C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-presentation-protection-check\\research\\mouse-window-observed.json\n"
+    },
+    "window_resize": {
+      "exit_code": 0,
+      "log": "window_resize.log",
+      "log_sha256": "7e68949ac08d5c9c0bce855de45d53ec0fbb7e4342e2a4fff4bad3b7196ff41a",
+      "output": "Native window resize passed: [('normal', 1, 42), ('normal', 2, 42), ('normal', 3, 42), ('remote-denied', 1, 5), ('locked-window', 1, 5), ('font-resize', 1, 6)]\n"
+    },
+    "grapheme": {
+      "exit_code": 0,
+      "log": "grapheme.log",
+      "log_sha256": "7a8950b5c0da9cb958458ec39f5289caf2f385b9ce17be4f71323bdd0fc5cfe8",
+      "output": "Native grapheme columns, REP, legacy mode, pixels and synchronization passed\n"
+    },
+    "input_method": {
+      "exit_code": 0,
+      "log": "input_method.log",
+      "log_sha256": "493599c2bf2a9b8c07b5df96b57c06ea44887a3bcfafdbbabb7f70404a868579",
+      "output": "Input method and synthetic DPI checks passed: {\"tab_host\": false, \"input_api\": \"ReadFile\", \"executable_sha256\": \"f55b134db3dd6fd9852ae6a9c97358377fed8963689d389931cb708fe1bdc265\", \"frida_version\": \"17.24.3\", \"requested_font\": \"SarasaTermSC Nerd Font Light\", \"input_cp\": 65001, \"checks\": [\"short-read\", \"cancelled\", \"read-error\", \"odd-result\", \"oversize-result\", \"odd-query\", \"empty-query\", \"failed-query\", \"over-budget\", \"complete-unicode\", \"max-size-commit\", \"kitty-ime-text\", \"wm-unichar-scalars-and-probe\", \"composition-surrogate-boundary\", \"kitty-unichar\", \"installed-imm-api-unicode-submission\", \"synthetic-dpi-pixels-preserve-sixel\"], \"dpi\": [{\"dpi\": 144, \"geometry\": [2, 9, 12, 30], \"imm\": {\"event\": \"operation\", \"id\": 38, \"kind\": \"focused-capabilities\", \"controlledFocus\": true, \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"compositionWindow\": {\"style\": 2, \"x\": 2, \"y\": 9}, \"compositionFontHeight\": -24}}, {\"dpi\": 192, \"geometry\": [6, 17, 16, 40], \"imm\": {\"event\": \"operation\", \"id\": 40, \"kind\": \"focused-capabilities\", \"controlledFocus\": true, \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"compositionWindow\": {\"style\": 2, \"x\": 6, \"y\": 17}, \"compositionFontHeight\": -32}}, {\"dpi\": 120, \"geometry\": [4, 5, 10, 25], \"imm\": {\"event\": \"operation\", \"id\": 42, \"kind\": \"focused-capabilities\", \"controlledFocus\": true, \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"compositionWindow\": {\"style\": 2, \"x\": 4, \"y\": 5}, \"compositionFontHeight\": -20}}, {\"dpi\": 96, \"geometry\": [1, 1, 8, 20], \"imm\": {\"event\": \"operation\", \"id\": 44, \"kind\": \"focused-capabilities\", \"controlledFocus\": true, \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"compositionWindow\": {\"style\": 2, \"x\": 1, \"y\": 1}, \"compositionFontHeight\": -16}}], \"runtime_files\": {}, \"imm_capabilities\": {\"event\": \"operation\", \"id\": 32, \"kind\": \"capabilities\", \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"compositionWindow\": {\"style\": 2, \"x\": 1, \"y\": 1}, \"compositionFontHeight\": -16}, \"real_imm_submission\": {\"event\": \"operation\", \"id\": 33, \"kind\": \"ime\", \"context\": true, \"layout\": \"0x8040804\", \"caps\": 7, \"setOpen\": 1, \"setComposition\": 1, \"complete\": 1, \"compositionWindow\": {\"style\": 2, \"x\": 1, \"y\": 1}, \"compositionFontHeight\": -16}, \"imm_reads\": [{\"event\": \"read\", \"name\": \"short-read\", \"capacity\": 0, \"returned\": 10}, {\"event\": \"read\", \"name\": \"short-read\", \"capacity\": 10, \"returned\": 2}, {\"event\": \"read\", \"name\": \"cancelled\", \"capacity\": 0, \"returned\": 10}, {\"event\": \"read\", \"name\": \"cancelled\", \"capacity\": 10, \"returned\": 0}, {\"event\": \"read\", \"name\": \"read-error\", \"capacity\": 0, \"returned\": 10}, {\"event\": \"read\", \"name\": \"read-error\", \"capacity\": 10, \"returned\": -1}, {\"event\": \"read\", \"name\": \"odd-result\", \"capacity\": 0, \"returned\": 10}, {\"event\": \"read\", \"name\": \"odd-result\", \"capacity\": 10, \"returned\": 3}, {\"event\": \"read\", \"name\": \"oversize-result\", \"capacity\": 0, \"returned\": 10}, {\"event\": \"read\", \"name\": \"oversize-result\", \"capacity\": 10, \"returned\": 12}, {\"event\": \"read\", \"name\": \"odd-query\", \"capacity\": 0, \"returned\": 9}, {\"event\": \"read\", \"name\": \"empty-query\", \"capacity\": 0, \"returned\": 0}, {\"event\": \"read\", \"name\": \"failed-query\", \"capacity\": 0, \"returned\": -1}, {\"event\": \"read\", \"name\": \"over-budget\", \"capacity\": 0, \"returned\": 65538}, {\"event\": \"read\", \"name\": \"complete-unicode\", \"capacity\": 0, \"returned\": 12}, {\"event\": \"read\", \"name\": \"complete-unicode\", \"capacity\": 12, \"returned\": 12}, {\"event\": \"read\", \"name\": \"max-size-commit\", \"capacity\": 0, \"returned\": 65536}, {\"event\": \"read\", \"name\": \"max-size-commit\", \"capacity\": 65536, \"returned\": 65536}, {\"event\": \"read\", \"name\": \"kitty-ime-text\", \"capacity\": 0, \"returned\": 8}, {\"event\": \"read\", \"name\": \"kitty-ime-text\", \"capacity\": 8, \"returned\": 8}]}\n"
+    },
+    "console_unicode": {
+      "exit_code": 0,
+      "log": "console_unicode.log",
+      "log_sha256": "5fc4802e8b30fa7101c690767df4ac7220ae97fafde29a3bb205904ca01a19be",
+      "output": "Native console Unicode events passed: 3 read sizes, bulk and separated input\n"
+    },
+    "single_exe": {
+      "exit_code": 0,
+      "log": "single_exe.log",
+      "log_sha256": "5a2dd2e4564e5a7f0ee830ecbb25f128034d63e4060af36eea6ef47c4917f220",
+      "output": "Single executable isolation, same-image host and delegated console lifetime passed\n"
+    },
+    "sixel": {
+      "exit_code": 0,
+      "log": "sixel.log",
+      "log_sha256": "e4aa1da3841943ffc3197482cc0753500e5be7ab77049deee0906f80fee0d208",
+      "output": "Native Sixel resize, scrolling, erasure and history passed: {'initial': {'red_pixels': 5760, 'grid': [40, 12]}, 'width-clipped': {'red_pixels': 3840, 'grid': [24, 12]}, 'width-restored': {'red_pixels': 5760, 'grid': [40, 12]}, 'height-to-history': {'red_pixels': 4800, 'grid': [40, 10]}, 'height-restored': {'red_pixels': 5760, 'grid': [40, 12]}, 'partial-up': {'red_pixels': 4800, 'grid': [40, 12]}, 'partial-down': {'red_pixels': 4800, 'grid': [40, 12]}, 'overwrite-moved-strip': {'red_pixels': 4640, 'grid': [40, 12]}, 'whole-region-delete': {'red_pixels': 2880, 'grid': [40, 12]}, 'history-setup': {'red_pixels': 5760, 'grid': [40, 12]}, 'into-history': {'red_pixels': 4800, 'grid': [40, 12]}, 'clear-history-keeps-visible': {'red_pixels': 4800, 'grid': [40, 12]}, 'erase-all': {'red_pixels': 0, 'grid': [40, 12]}, 'alt-main': {'red_pixels': 5760, 'grid': [40, 12]}, 'alt-empty': {'red_pixels': 0, 'grid': [40, 12]}, 'alt-image': {'red_pixels': 5760, 'grid': [40, 12]}, 'alt-height-clipped': {'red_pixels': 3840, 'grid': [30, 5]}, 'alt-height-no-resurrection': {'red_pixels': 3840, 'grid': [40, 12]}, 'main-height-no-resurrection': {'red_pixels': 3840, 'grid': [40, 12]}, 'repeated-resize': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-0': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-0': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-1': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-1': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-2': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-2': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-3': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-3': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-4': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-4': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-5': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-5': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-6': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-6': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-7': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-7': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-8': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-8': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-9': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-9': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-10': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-10': {'red_pixels': 5760, 'grid': [40, 12]}, 'resize-small-11': {'red_pixels': 3840, 'grid': [24, 10]}, 'resize-large-11': {'red_pixels': 5760, 'grid': [40, 12]}, 'cell_pixels': [8, 20], 'peak_private_ws': 2768896, 'peak_total_ws': 15028224, 'peak_private_commit': 3604480, 'executable_sha256': 'f55b134db3dd6fd9852ae6a9c97358377fed8963689d389931cb708fe1bdc265'}\n"
+    }
+  },
+  "evidence_files": {
+    "presentation-state-observed.json": "d7a8ec305443437dc3ef8badbc31441438c0f6f4941da3b089c6686e7ff3c2bc",
+    "presentation-state-window.png": "ee6265734677ac82152fcb216fe4d4075be2b2f87b49f0eded434f26a8ed8f8f",
+    "presentation-state-renderer-observed.json": "835fad37a9c48b48447dbb5d18fb05f00242e7dce2187cdfb950567bac880fc8",
+    "presentation-state-single-exe-observed.json": "1ea0153360451eb0e708e3dd7e89fcde12baf75b0e1431310f6b65352c189532",
+    "presentation-state-sgr-stack-observed.json": "fc02cede162e7336b56c9e337489585ea46e7ccec5ab3a1f183a968a6c79b6f9"
+  },
+  "memory": {
+    "startup_frontend": {
+      "private_ws": 4407296,
+      "total_ws": 22978560,
+      "private_commit": 5595136
+    },
+    "startup_same_image_host": {
+      "private_ws": 1593344,
+      "total_ws": 10604544,
+      "private_commit": 2289664
+    },
+    "sgr_sampled_root_peak_private_ws": 6414336,
+    "sgr_sampled_root_peak_total_ws": 27086848,
+    "scope": "Bounded startup and SGR scenarios, not a whole-tree real-agent or 160x48 dense-workload acceptance. GPU parity instrumentation is separate."
+  },
+  "local_clipboard_tests": "Not run. The CI-only selective-erase clipboard expectation was updated from ALT surviving to POST-RESET replacing it, based on new independent checksum/pixel evidence. Existing clipboard/real-Codex CI gates remain required.",
+  "main_distribution": {
+    "unchanged": true,
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+  },
+  "hosted_ci": "Local evidence only; inspect the resulting commit runs and startup annotations separately."
+}

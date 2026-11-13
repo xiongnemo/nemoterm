@@ -85,10 +85,13 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selective-') as directory:
         assert red_count(after)==6*cell_w*cell_h,red_count(after)
         assert copy_all().strip()=='KEEP中',repr(copy_all())
         evidence['protected-after-resize'].update(red_pixels=red_count(after),dimensions=current())
-        phase('alternate-soft-reset','\x1b[?1049h\x1b[H\x1b[1"qALT\x1b[!p\x1b[?25l\x1b[?2J')
+        phase('alternate-soft-reset','\x1b[?1049h\x1b[H\x1b[1"qALT\x1b[!p\x1b[?25l\x1b[?2J'
+              '\x1b[HPOST-RESET')
         alternate_text=copy_all().rstrip('\r\n')
         # Copy All includes the main buffer above the alternate screen.
-        assert alternate_text=='ALT' or alternate_text.endswith('\r\nALT'),repr(alternate_text)
+        # DECSTR ends the protection family; the following DECSED erases ALT.
+        assert alternate_text=='POST-RESET' or alternate_text.endswith('\r\nPOST-RESET'),repr(alternate_text)
+        assert 'ALT' not in alternate_text,repr(alternate_text)
         evidence['alternate-soft-reset']['copied']=alternate_text
         phase('return-main','\x1b[?1049l')
         assert copy_all().strip()=='KEEP中',repr(copy_all())

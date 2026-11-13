@@ -164,6 +164,10 @@ struct terminal_tag {
     char dcs_query_type;
     unsigned dcs_query_len;
     char dcs_query[NEMO_DCS_QUERY_SIZE];
+    unsigned char *dcs_tabs_pending;
+    size_t dcs_tabs_bytes;
+    unsigned dcs_tab_value;
+    bool dcs_tab_stopped;
     int sixel_x, sixel_y, sixel_screen;
     bool sixel_display_mode, sixel_scrolls_right, sixel_private_palette;
     unsigned sixel_register_count;
@@ -219,7 +223,9 @@ struct terminal_tag {
     pos grapheme_anchor, grapheme_cursor;
     unsigned grapheme_cells;
     bool insert;                       /* insert-mode flag */
-    int cset;                          /* 0 or 1: which char set */
+    int cset;                          /* GL character-set bank, 0..3 */
+    int cset_gr, cset_ss;               /* GR bank; one-shot GL bank or zero */
+    bool dec_protection;               /* protection family selected by DECSCA */
     int save_cset, save_csattr;        /* saved with cursor position */
     bool save_utf, save_wnext;         /* saved with cursor position */
     bool save_om;
@@ -281,7 +287,7 @@ struct terminal_tag {
     bool bracketed_paste, bracketed_paste_active;
     bool no_bracketed_paste;           /* disabled in configuration */
 
-    int cset_attr[2];
+    int cset_attr[4];
 
 /*
  * Saved settings on the alternate screen.
@@ -325,6 +331,7 @@ struct terminal_tag {
     char id_string[1024];
 
     unsigned char *tabs;
+    int tabs_size;                     /* retain offscreen stops across resize */
 
     enum {
         TOPLEVEL,

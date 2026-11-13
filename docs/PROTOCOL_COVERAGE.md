@@ -34,7 +34,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; linefeed and boundary behavior. |
 | C0 HT; ESC H (HTS) | Tested | `state_control`, 108 tabulation oracle comparisons and native ConPTY replies. |
 | C0 ENQ | Source only | Configured answerback path. |
-| C0 SI/SO | Source only | G0/G1 selection exists; full ISO 2022 combinations remain unverified. |
+| C0 SI/SO | Partial | G0/G1 bank selection is covered by presentation-state reports; full ISO 2022 combinations remain unverified. |
 | C0 CAN/SUB/ESC cancellation | Partial | Numerous query/OSC/DCS recovery cases; complete state-machine matrix remains open. |
 | ESC D/E/M (IND/NEL/RI) | Tested | `margins`, including partial horizontal scroll regions. |
 | ESC 7/8 (DECSC/DECRC) | Tested | `state_control`, cursor/rendition/alternate-screen state. |
@@ -43,9 +43,9 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
 | ESC #3/#4/#5/#6 | Partial | Output, cursor movement, pending wraps, wide/combining text and cluster growth checked; see `double-size-lines.md`. The three tabulation failures are fixed. Row-size-specific editing/resize combinations remain open. |
 | ESC #8 (DECALN) | Source only | Screen fill exists; graphics/attributes/selection interactions need a focused audit. |
-| ESC ( A/B/0/U; ESC ) A/B/0/U | Partial | British/ASCII/DEC graphics/SCO sets in G0/G1 only. Other national sets and G2/G3 designations are missing. |
+| ESC ( / ) / * / + with A/B/0/U | Partial | British/ASCII/DEC graphics/SCO designation in G0–G3; reported and restored by presentation-state controls. Other national and 96-character sets remain missing; PuTTY's UTF-8 British/codepage behavior is retained. |
 | ESC % G / ESC % @ | Partial | UTF-8 switching exists; not full ISO 2022 conformance. |
-| ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Missing | G2/G3 invocation is not implemented. |
+| ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Single/locking GL shifts use the four supported banks; native G2/G3 line-drawing pixels and one-shot lifetime are tested. GR bank tracking and legacy line/UK remapping exist, but default GR still follows PuTTY's byte codepage and full ISO 2022 mappings remain open. |
 | ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
 | ESC 6/9 (DECBI/DECFI) | Missing | Horizontal index scrolling is not implemented. |
@@ -90,7 +90,9 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
 | $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
 | *y (DECRQCRA); #y (XTCHECKSUM) | Gated / Partial | Off by default; `queries` and native `checksum`: 364 exact XTerm cases, 8 retained-cell expectations, attributes/blank modes/origin/resize/reset. Unicode normalization and legacy charSeen differences are explicit; see [checksum record](../research/rectangle-checksums.md). |
-| $w (DECRQPSR); $u (terminal state request) | Missing | Presentation/terminal state reports are not implemented. |
+| $w (DECRQPSR); DCS 1/2 $t (DECRSPS) | Partial | Cursor/tab reports and replay: 142 exact XTerm cases and 10 direct cases in `queries` and native `presentation_state`. Bounded streaming tab restoration, offscreen stops, valid-prefix cursor restoration and protection-family semantics. Charset restoration is limited to the supported banks/sets; see [presentation-state record](../research/presentation-state.md). |
+| "v (DECRQDE) | Tested | Active rows/columns, single page, operating-level gate, origin-independent and resized native reports. |
+| $u (terminal state request) | Missing | Complete terminal-state serialization/restoration is separate from presentation-state reports. |
 | #\| (XTREPORTSGR), #{ / #} and #p / #q (SGR stack) | Tested | `queries`, native `sgr_stack`: 193 exact XTerm captures and 14 modern-underline expectations. Ten retained frames, bounded overflow, selective attributes/colors, origin-relative intersections, reset/alternate-screen retention and read-only queries. Six XTerm cases ignore modern underline styles and are documented separately; see [SGR stack record](../research/sgr-stack.md). |
 | #P/#Q/#R (palette stack) | Missing | OSC palette mutation exists; no palette stack. |
 | #S (title-stack position query) | Missing | Title push/pop exists; position query is separate. |
@@ -125,7 +127,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |
 | DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
 | DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key capability whitelist, not arbitrary terminfo access. |
-| DCS +p ... ST (XTSETTCAP), user-defined keys and state restoration | Missing | Query-only termcap support. |
+| DCS +p ... ST (XTSETTCAP), user-defined keys and full terminal-state restoration | Missing | Query-only termcap support; presentation-state restoration is listed separately. |
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
 | CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
 | ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |

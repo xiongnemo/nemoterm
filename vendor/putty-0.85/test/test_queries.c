@@ -8,6 +8,7 @@
 #include "../../../tests/dec_status_oracle_cases.h"
 #include "../../../tests/checksum_oracle_cases.h"
 #include "../../../tests/sgr_stack_oracle_cases.h"
+#include "../../../tests/presentation_state_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -21,6 +22,105 @@ static void response(Mock *mk, const char *expected)
         putchar('\n');
     }
     strbuf_clear(mk->to_backend);
+}
+
+static void test_presentation_state(Mock *mk)
+{
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
+    conf_set_bool(mk->conf, CONF_crhaslf, false);
+    conf_set_bool(mk->conf, CONF_lfhascr, false);
+    conf_set_bool(mk->conf, CONF_utf8linedraw, true);
+    term_reconfig(mk->term, mk->conf);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(presentation_state_oracle); i++) {
+        reset(mk);
+        test_context(mk, "presentation state %s", presentation_state_oracle[i].name);
+        term_data_fragmented(mk->term, presentation_state_oracle[i].sequence);
+        response(mk, presentation_state_oracle[i].reply);
+    }
+    for (size_t i = 0; i < lenof(presentation_state_direct); i++) {
+        reset(mk);
+        test_context(mk, "presentation extension %s", presentation_state_direct[i].name);
+        term_data_fragmented(mk->term, presentation_state_direct[i].sequence);
+        response(mk, presentation_state_direct[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "tab restoration waits for ST and frees cancelled pending storage");
+    IEQUAL(mk->term->dcs_tabs_pending == NULL, true);
+    term_data_fragmented(mk->term, "\033P2$t2/7");
+    IEQUAL(mk->term->tabs[8], true); IEQUAL(mk->term->tabs[1], false);
+    IEQUAL(mk->term->dcs_tabs_pending != NULL, true);
+    term_data_fragmented(mk->term, "\030\033[2$w");
+    response(mk, "\033P2$u9/17/25/33/41/49/57/65/73\033\\");
+    IEQUAL(mk->term->dcs_tabs_pending == NULL, true);
+    term_data_fragmented(mk->term, "\033P2$t2/7\033\\\033[2$w");
+    response(mk, "\033P2$u2/7\033\\");
+    IEQUAL(mk->term->dcs_tabs_pending == NULL, true);
+    test_context(mk, "streamed tab integers saturate without growing temporary storage");
+    term_data_fragmented(mk->term, "\033P2$t2/");
+    unsigned char *pending = mk->term->dcs_tabs_pending;
+    size_t pending_size = mk->term->dcs_tabs_bytes;
+    for (int i = 0; i < 5000; i++) term_data_fragmented(mk->term, "9");
+    IEQUAL(mk->term->dcs_tabs_pending == pending, true);
+    IEQUAL(mk->term->dcs_tabs_bytes, pending_size);
+    term_data_fragmented(mk->term, "/37\033\\\033[2$w");
+    response(mk, "\033P2$u2/37\033\\");
+    test_context(mk, "offscreen tab stops survive shrink and grow");
+    term_data_fragmented(mk->term, "\033P2$t160\033\\");
+    term_size(mk->term, 24, 160, 0);
+    term_data_fragmented(mk->term, "\033[2$w"); response(mk, "\033P2$u160\033\\");
+    term_size(mk->term, 24, 40, 0);
+    term_size(mk->term, 24, 160, 0);
+    term_data_fragmented(mk->term, "\033[2$w"); response(mk, "\033P2$u160\033\\");
+    test_context(mk, "tab restoration supports grids wider than the reference table");
+    term_size(mk->term, 3, 4096, 0);
+    term_data_fragmented(mk->term, "\033P2$t3001\033\\\033[2$w");
+    response(mk, "\033P2$u3001\033\\");
+
+    reset(mk);
+    test_context(mk, "reports preserve selected cells, pending wrap, and grapheme attachment");
+    term_data_fragmented(mk->term, "\033[1;80He");
+    mk->term->selstate = SELECTED;
+    mk->term->selstart = (pos){0,79}; mk->term->selend = (pos){1,0};
+    mk->term->disptop = -1;
+    term_data_fragmented(mk->term, "\033[1$w\033[\"v");
+    response(mk, "\033P1$u1;80;1;@;@;H;0;2;@;BBBB\033\\\033[24;80;1;1;1\"w");
+    IEQUAL(mk->term->selstate, SELECTED); IEQUAL(mk->term->disptop, -1);
+    IEQUAL(mk->term->wrapnext, true); IEQUAL(mk->term->curs.x, 79);
+    mk->term->disptop = 0;
+    term_data_fragmented(mk->term, "\xcc\x81");
+    termline *line = term_get_line(mk->term, 0);
+    IEQUAL(line->chars[79].cc_next != 0, true);
+    term_release_line(line);
+
+    reset(mk);
+    test_context(mk, "single shifts apply once and survive intervening queries");
+    term_data_fragmented(mk->term, "\033*0\033N\033[1$wqq\033+0\033oqq\017q");
+    response(mk, "\033P1$u1;1;1;@;@;B;0;2;@;BB0B\033\\");
+    IEQUAL(get_termchar(mk->term,0,0).chr, CSET_LINEDRW|'q');
+    IEQUAL(get_termchar(mk->term,1,0).chr, CSET_ASCII|'q');
+    IEQUAL(get_termchar(mk->term,2,0).chr, CSET_LINEDRW|'q');
+    IEQUAL(get_termchar(mk->term,3,0).chr, CSET_LINEDRW|'q');
+    IEQUAL(get_termchar(mk->term,4,0).chr, CSET_ASCII|'q');
+    reset(mk);
+    test_context(mk, "overlong cursor reports are rejected without applying a truncated prefix");
+    term_data_fragmented(mk->term, "\033P1$t");
+    for (int i = 0; i < 3000; i++) term_data_fragmented(mk->term, "9");
+    term_data_fragmented(mk->term, ";2;1;@;@;@;0;2;@;BBBB\033\\\033[1$w");
+    response(mk, "\033P1$u1;1;1;@;@;@;0;2;@;BBBB\033\\");
+    test_context(mk, "RIS releases an unfinished tab report");
+    term_data_fragmented(mk->term, "\033P2$t2/7\033c");
+    IEQUAL(mk->term->dcs_tabs_pending == NULL, true);
+    /* Sanitizers also cover destruction without receiving ST or CAN. */
+    Mock *pending_mk = mock_new();
+    pending_mk->term = term_init(pending_mk->conf, pending_mk->ucsdata, &pending_mk->tw);
+    pending_mk->ldisc = ldisc_create(pending_mk->conf, pending_mk->term,
+                                    &pending_mk->backend, &pending_mk->seat);
+    term_size(pending_mk->term, 24, 80, 0);
+    term_data_fragmented(pending_mk->term, "\033P2$t2/7");
+    mock_free(pending_mk);
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, false);
+    term_reconfig(mk->term, mk->conf);
 }
 
 static void test_graphics_queries(Mock *mk)
@@ -622,6 +722,7 @@ int main(void)
     test_dec_status(mk);
     test_checksums(mk);
     test_sgr_stack(mk);
+    test_presentation_state(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

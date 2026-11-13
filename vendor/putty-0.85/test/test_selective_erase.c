@@ -40,9 +40,12 @@ static void test_protection_lifecycle(Mock *mk)
     erase_reply(mk,"\0337\033[0\"q\0338\033P$q\"q\033\\", "\033P1$r1\"q\033\\");
     term_data_fragmented(t,"\033[?1049h\033[0\"q\033[?1049l");
     IEQUAL(!!(t->curr_truecolour.decoration & CELL_PROTECTED), true);
-    term_data_fragmented(t,"\033[!p\033[?2K");
+    term_data_fragmented(t,"\033[!p");
     erase_row_text(mk,0,"ABCD"); /* soft reset changes current state, not old cells */
     IEQUAL(t->curr_truecolour.decoration & CELL_PROTECTED, 0);
+    IEQUAL(t->dec_protection, false);
+    term_data_fragmented(t,"\033[?2K");
+    erase_row_text(mk,0,"    "); /* the reset also ends the DEC protection family */
     term_data_fragmented(t,"\033c");
     erase_row_text(mk,0,"    ");
     IEQUAL(get_termchar(t,0,0).truecolour.decoration & CELL_PROTECTED, 0);
