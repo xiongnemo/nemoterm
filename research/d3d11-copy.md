@@ -6,6 +6,11 @@ failed resource-count assertion. Main's production renderer and accepted
 `dist/nemoterm.exe` are unchanged. These are local experimental builds, not new
 CI artifacts or a replacement for the [99-group checkpoint](relative-cursor.md).
 
+The follow-up [handle lifetime investigation](handle-lifetime.md) attributes six
+short-lived tab handles to frontend workers and NVIDIA driver paths, with
+observed closes. A persistent Event/IoCompletion pair remains unattributed;
+the original resource failures and memory rejection remain in force.
+
 The final prototype is preserved on
 [`experiment/d3d11-copy-20261114`](https://github.com/xiongnemo/nemoterm/tree/0382062763ffa8198c72fae155c7bd9c6f4796f6).
 Its four exact source variants, build/link records, modified diagnostic fixtures,

@@ -6,11 +6,13 @@ on:
     paths:
       - 'tests/handle_snapshot.py'
       - 'tests/handle_snapshot_native_test.py'
+      - 'tests/handle_trace*'
       - '.github/workflows/handle-snapshot.yml'
   pull_request:
     paths:
       - 'tests/handle_snapshot.py'
       - 'tests/handle_snapshot_native_test.py'
+      - 'tests/handle_trace*'
       - '.github/workflows/handle-snapshot.yml'
 
 permissions:
@@ -35,6 +37,16 @@ jobs:
           python --version
           python tests/handle_snapshot_native_test.py --output research/handle-snapshot-native.json
           exit $LASTEXITCODE
+      - name: Validate bounded handle creation, duplicate and close traces
+        shell: pwsh
+        env:
+          PYTHONWARNDEFAULTENCODING: '1'
+          PYTHONWARNINGS: error::EncodingWarning
+        run: |
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tests/handle_trace_native_test.py --output research/handle-trace-native.json
+          exit $LASTEXITCODE
       - name: Retain exact observer result
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -44,5 +56,10 @@ jobs:
             research/handle-snapshot-native.json
             tests/handle_snapshot.py
             tests/handle_snapshot_native_test.py
+            research/handle-trace-native.json
+            research/trace.json
+            tests/handle_trace.js
+            tests/handle_trace.py
+            tests/handle_trace_native_test.py
           if-no-files-found: error
           retention-days: 30
