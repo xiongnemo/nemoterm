@@ -251,6 +251,13 @@ jobs:
             python tests/tabs_window_smoke.py --renderer $renderer --side left --workload-memory 2>&1 | Tee-Object "bitmap-$renderer-workload.log"
             if ($LASTEXITCODE) { exit $LASTEXITCODE }
           }
+      - name: Verify device failure and shared resource cleanup
+        if: success() || failure()
+        shell: pwsh
+        run: |
+          if (!(Test-Path -LiteralPath build/single-exe-dist/nemoterm.exe)) { throw 'Missing candidate executable' }
+          python tests/gpu_lifecycle_window_smoke.py 2>&1 | Tee-Object bitmap-gpu-lifecycle.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Retain experimental image and all observations
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -262,6 +269,7 @@ jobs:
             build/single-exe-dist/nemoterm.exe
             research/renderer-observed.json
             research/renderer-*.png
+            research/gpu-lifecycle-observed.json
             research/workload-tabs-*
             build/*failure.json
           retention-days: 30

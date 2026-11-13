@@ -72,7 +72,7 @@ static void evict(NemoD2D *g, D2DRun *r)
 void nemo_d2d_clear_cache(NemoD2D *g)
 {
     /* Invalidate content across tab/font changes, retaining bounded resources
-     * for subsequent runs. Frame destruction still releases the whole pool. */
+     * for subsequent runs. Device destruction releases the whole pool. */
     if (g) for (unsigned i=0;i<CACHE_COUNT;i++) {
         D2DRun *r=&g->cache[i];
         if (r->key) strbuf_free(r->key);
@@ -87,10 +87,16 @@ static bool end_frame(NemoD2D *g)
     }
     return !g->failed;
 }
-static void free_frame(NemoD2D *g)
+static void free_frame(NemoD2D *g, bool discard_cache)
 {
     end_frame(g);
-    for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
+    if (discard_cache) {
+        for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
+    } else {
+        /* Old and new compatible targets share their parent's resource domain.
+         * Pixel storage remains valid; only the rendered-content keys expire. */
+        nemo_d2d_clear_cache(g);
+    }
     if (g->interop) nemo_d2d_release(g->interop);
     if (g->brush) nemo_d2d_release(g->brush);
     if (g->upload) nemo_d2d_release(g->upload);
@@ -102,7 +108,7 @@ static void free_frame(NemoD2D *g)
 void nemo_d2d_free(NemoD2D *g)
 {
     if (!g) return;
-    free_frame(g);
+    free_frame(g,true);
     if (g->target) nemo_d2d_release(g->target);
     if (g->factory) nemo_d2d_release(g->factory);
     if (g->bitmap) {SelectObject(g->scratch,g->oldbitmap);DeleteObject(g->bitmap);}
@@ -150,7 +156,7 @@ int nemo_d2d_frame(NemoD2D *g, COLORREF background)
         (uint64_t)r.right*r.bottom*4>FRAME_BYTES) {g->failed=true;return 0;}
     bool changed=r.right!=g->width || r.bottom!=g->height;
     if (changed) {
-        free_frame(g);
+        free_frame(g,false);
         D2D1_SIZE_U size={(UINT32)r.right,(UINT32)r.bottom};
         if (!check(g,nemo_d2d_resize(g->target,&size))) return 0;
         if (!check(g,nemo_d2d_compatible(
