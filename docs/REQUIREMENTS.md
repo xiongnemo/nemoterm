@@ -1,5 +1,19 @@
 # Nemoterm requirements and evidence ledger
 
+## Public CI recovery (2026-11-13; local runtime testing still paused)
+
+[Recovery evidence](../research/ci-public-recovery.md) supersedes the earlier
+compile-only status for the recorded Linux core suites: the complete ASan/UBSan
+job at `ed78f2b` passes, including selection/attribute colours, cursor charsets
+and ISO guarded areas. Generated-data portability and colour-painting fixture
+errors were corrected without relaxing assertions. The mocked OpenGL cleanup
+test also passes in MSVC CI at `ed78f2b`; eight tab-close repetitions use actual
+GDI. Windows MinGW core checks pass at the same commit; its native shutdown
+step and the single-image workflow have not completed at this checkpoint.
+Main `992faa3` has a successful 57-group single-image artifact, while its
+separate MinGW profile-close timeout remains unresolved. Development native
+verification, hardware memory gates and full-goal acceptance remain open.
+
 ## OpenGL context cleanup (2026-11-13; local runtime testing paused)
 
 [Context-failure cleanup](../research/opengl-context-lifetime.md) releases CPU

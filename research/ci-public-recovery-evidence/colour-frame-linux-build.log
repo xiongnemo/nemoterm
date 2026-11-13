@@ -1,0 +1,45 @@
+[0/1] Re-running CMake...
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page plink.1
+Call Stack (most recent call first):
+  CMakeLists.txt:159 (installed_program)
+
+
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page pscp.1
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (installed_program)
+
+
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page psftp.1
+Call Stack (most recent call first):
+  CMakeLists.txt:175 (installed_program)
+
+
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page psusan.1
+Call Stack (most recent call first):
+  unix/CMakeLists.txt:88 (installed_program)
+
+
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page puttygen.1
+Call Stack (most recent call first):
+  unix/CMakeLists.txt:103 (installed_program)
+
+
+CMake Warning at cmake/platforms/unix.cmake:232 (message):
+  Could not build man page pageant.1
+Call Stack (most recent call first):
+  unix/CMakeLists.txt:445 (installed_program)
+
+
+-- Configuring done (0.1s)
+-- Generating done (0.3s)
+-- Build files have been written to: /mnt/c/Users/nemo/Documents/Projects/nemoterm/build/rtl-worktree/build/asan-linux
+[1/11] Updating sbcsdat.c
+[2/8] Checking current git commit
+[3/8] Updating cmake_commit.c
+[4/6] Building C object unix/CMakeFiles/test_osc_colour.dir/__/test/test_osc_colour.c.o
+[5/6] Linking C executable test_osc_colour

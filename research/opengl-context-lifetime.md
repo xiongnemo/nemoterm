@@ -58,3 +58,9 @@ Exact hashes and commands are recorded in
 [the build manifest](opengl-context-build-validation.json).
 Compilation is not runtime acceptance; existing memory and lifecycle gates
 remain open.
+
+The later [public-CI recovery checkpoint](ci-public-recovery.md) records the
+mocked lifecycle target passing on GitHub-hosted MSVC runners at `356af21`
+and `ed78f2b`.
+Its tab-close repetitions used GDI fallback, so they do not establish actual
+OpenGL-driver failure recovery. Local runtime testing remains paused.

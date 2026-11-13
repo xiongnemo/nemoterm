@@ -1,0 +1,329 @@
+{
+  "recorded_utc": "2026-11-13T12:02:50.670872+00:00",
+  "local_runtime_testing_paused": true,
+  "local_runtime_tests_executed": [],
+  "main": {
+    "commit": "992faa37f53ba5583e343eff66ca82150db0a1e8",
+    "single_exe_run": 43418162604,
+    "result": "success",
+    "checks": 57,
+    "artifact_id": 14032799615,
+    "sha256": "252598a446ca5bb1555765bc7c959061889ebb05af70ea7286e67d3be00901e5",
+    "bytes": 4371456,
+    "comparison_run": 43418162840,
+    "comparison_result": "failure in tab profile close timeout; not resolved"
+  },
+  "development_msvc": {
+    "commit": "356af21e20a763e30944ff65fe28f28660f3a26a",
+    "run": 43418418330,
+    "job": 131862017842,
+    "job_result": "success",
+    "whole_workflow_result": "failure before portable build and sanitizer execution",
+    "opengl_mock_test": "passed",
+    "tab_close_repeats": 8,
+    "tab_actual_renderer": "GDI; requested OpenGL fell back",
+    "historical_gdi_crash_resolved": false
+  },
+  "development_sanitizers": {
+    "commit": "ed78f2b782ffd8d55c184f4957e1e88a9ba2f2af",
+    "run": 43420357001,
+    "job": 131868507166,
+    "job_result": "success",
+    "whole_workflow_result": "pending at this checkpoint",
+    "native_single_exe_result": "pending"
+  },
+  "x11_packed_names": {
+    "bytes": 7615,
+    "sha256": "92e4964b1f632e255f01802a24540bfe6fd44def2430c701ef9521d9500fce9e",
+    "identical_before_after": true
+  },
+  "evidence": [
+    {
+      "path": "research/ci-public-recovery-evidence/gl-lifetime-msvc-356af21.log",
+      "bytes": 58,
+      "sha256": "63e7faacaea6446cf974f7c3816d687bda4333e3d254475e8ae27990155550e4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/renderer-356af21.json",
+      "bytes": 10328,
+      "sha256": "2e4f0baee78248cc950fd02819d6a3dfb766652be3e90fd6b786085da1f87dc8"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-1.json",
+      "bytes": 4855,
+      "sha256": "76f90a3832cafc48ba110d818df6cd937e058cbfa350ada43116c631b88589a1"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-2.json",
+      "bytes": 4855,
+      "sha256": "8596824d7023653f45c3ef075515a4e19807bc257dd15e491042834ac7de6052"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-3.json",
+      "bytes": 4855,
+      "sha256": "7c39a8fc9350005129638df94c4ce32b3c7363549eacd73014058bd530eaaa43"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-4.json",
+      "bytes": 4855,
+      "sha256": "219fd926ad077bd0d35ce4f1a4f4b69344ea70a46ae65df9feefbdae3f828fe2"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-5.json",
+      "bytes": 4855,
+      "sha256": "6f65fd5a806e4188fbd011ca695411bce3f082ec2cb05a11d7437e2df1c361dd"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-6.json",
+      "bytes": 4855,
+      "sha256": "9e306ce890362e4862d0e35cfa28f68b0ec91e5348ecf971b206e48a0e1d961a"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-7.json",
+      "bytes": 4855,
+      "sha256": "803c556d76a0bc5e6a93c09ec1a6903c940d25b73512f9f8d923ffdab368b2a3"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-8.json",
+      "bytes": 4855,
+      "sha256": "98b27cacdc5c00b2540b2dba3e0b86dcabc39829c911454499b9acc4b1d3e996"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/application-errors-356af21.json",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/main-992faa3-single-exe-validation.json",
+      "bytes": 1401,
+      "sha256": "10467f5acc8978eea966e07e3b2efdc451ea926e22ff24f31b160e65ad0f486d"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/main-992faa3-single-exe-tab-profiles.json",
+      "bytes": 2806,
+      "sha256": "f5517f373474fc08c2982ebc0e269abbc14c561449b256820fd034f1e58b21eb"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/main-992faa3-single-exe-tab-regressions.json",
+      "bytes": 309,
+      "sha256": "ec6eccab3da68d07067a03b7390e5d888858feaf93e93a4ed2ab7f7aa091359a"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-cwd-sanitizers.log",
+      "bytes": 32,
+      "sha256": "fc9ea46fc4d4839fc0f5f81236a59d480bf20c8577037f644bcbb69b2c0629b0"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-grapheme-cells-sanitizers.log",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-grapheme-sanitizers.log",
+      "bytes": 110,
+      "sha256": "9cd3a0a3329bd7b24db00adb835682690a0298a9a74d741b5654242c3a5b25ac"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-hyperlink-sanitizers.log",
+      "bytes": 28,
+      "sha256": "a58b0dbedc1464792e429e360a7dd67a6b4c8a94d2198d3a9478565e058fa740"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-image-sanitizers.log",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-keyboard-sanitizers.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-margins-sanitizers.log",
+      "bytes": 20,
+      "sha256": "af51874d376db1a9ed01e41bd9834a7b59aeb949569acd7ec1a704f59528b6c4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-mok-sanitizers.log",
+      "bytes": 27,
+      "sha256": "dcbb73e02ce6d7ab0c3ec2ed7e7158a04049de38a14b50d7d13e742308177d62"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-osc52-sanitizers.log",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-palette-sanitizers.log",
+      "bytes": 24,
+      "sha256": "910cafca6fb0539b049f3b2ce14366a7797e932eb9863ae9e466afed8ecec43c"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-queries-sanitizers.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-rectangle-sanitizers.log",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-reflow-sanitizers.log",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-selective-erase-sanitizers.log",
+      "bytes": 29,
+      "sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-sgr-sanitizers.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-shell-marks-sanitizers.log",
+      "bytes": 24,
+      "sha256": "6127b1adf352035535d287aa96231b7745161521df12602f4ba423993b694a06"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-state-control-sanitizers.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-titles-sanitizers.log",
+      "bytes": 19,
+      "sha256": "5855200953a47b62cc6b1d4e0846196cc8f2507c9a2f4afbda0cb530fb17daf1"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/terminal-win32-input-sanitizers.log",
+      "bytes": 25,
+      "sha256": "1c49f9bf08624d22cd82ae4b09b4dee3a972e26ce538e62a18a674933387e456"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/ci-portability-msvc-build.log",
+      "bytes": 636,
+      "sha256": "b99057431dc6c92b883c9754e69798993519bfe87ce43923ce8068460970ae61"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/ci-portability-linux-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/colour-mock-msvc-build.log",
+      "bytes": 236,
+      "sha256": "5f60a0cd7a390c6baa73d6af6f84e60a606619c6355f9a8eb9b64a40f5088ee1"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/colour-mock-linux-build.log",
+      "bytes": 427,
+      "sha256": "07577e6c171b50bc96a88fd6e1767f31e39240baaa6d74824a7d7e51a25910f4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/colour-frame-msvc-build.log",
+      "bytes": 492,
+      "sha256": "f1134037a41121a7846cc235f03bdfaebac807b389d937bba794510361acfc75"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/colour-frame-linux-build.log",
+      "bytes": 1527,
+      "sha256": "8a22bb73f8027750af66218d327a180bd550a7156e5fd15ee92818e940462d24"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/application-errors-ed78f2b.json",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/gl-lifetime-msvc-ed78f2b.log",
+      "bytes": 58,
+      "sha256": "63e7faacaea6446cf974f7c3816d687bda4333e3d254475e8ae27990155550e4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/hyperlink-ed78f2b.json",
+      "bytes": 15681,
+      "sha256": "b0889f4288bd882dcb95f830755e9b15cb197e1e348d63b6a1d5c02ccd8e0a39"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/renderer-ed78f2b.json",
+      "bytes": 10328,
+      "sha256": "8df8b9aed35b3043dd2231326743721fe03af2f5760682c37fcded60dacf497f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-1-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "67c789558ec6958790089fbf82f81a544e3d9a54a041e4bf8fe6d554b8eb8b9b"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-2-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "fc6ff09db5ffdb5da3b18e79bc2aa4e814e84d6384071a6432c5db0692174476"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-3-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "2ef89e4e889dc68bee58af384862b074267e05ae0f799a8fbe7a941cc31efdc9"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-4-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "4dcbe22a0b6bc5819b72db40540144336d38bb57d62ff68e8b43c93605a4b3a4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-5-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "f6c3f76381339232f4882cb44abebad31fffa61fdbab57c2648a517dc7660806"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-6-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "e625ee424d09f1b10cb683f07cefea746b93350293e18ed8988076d8249baa99"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-7-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "27220bc23fb27e3237d3c9b371f055fd7f28b4bb4b3597c2e6d011ac9ad4cdec"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/tabs-close-repeat-8-ed78f2b.json",
+      "bytes": 4855,
+      "sha256": "7de6166bd4055b971bcaeea3346b008fdef17baddc61c7c2af0107b6e5cc5044"
+    }
+  ],
+  "development_msvc_current": {
+    "commit": "ed78f2b782ffd8d55c184f4957e1e88a9ba2f2af",
+    "run": 43420357001,
+    "job": 131868507503,
+    "job_result": "success",
+    "artifact_id": 14032504825,
+    "executable_sha256": "5c8e3961334dc7626aa51a10d844d2ed28f5179be2b812085b577fee7c72705a",
+    "opengl_mock_test": "passed",
+    "tab_close_repeats": 8,
+    "tab_actual_renderer": "GDI; requested OpenGL fell back",
+    "renderer_comparison_active_modes": [
+      "GDI",
+      "GDI",
+      "GDI",
+      "GDI",
+      "DirectX"
+    ],
+    "hardware_opengl_verified": false,
+    "historical_gdi_crash_resolved": false,
+    "long_load_memory_acceptance": false
+  },
+  "development_windows_checkpoint": {
+    "commit": "ed78f2b782ffd8d55c184f4957e1e88a9ba2f2af",
+    "run": 43420357001,
+    "job": 131868507653,
+    "core_suite_result": "success",
+    "grapheme_cluster_and_gl_mock_step": "success",
+    "job_result": "in_progress at this checkpoint",
+    "active_step": "Test window callback lifetime during native shutdown",
+    "single_exe_run": 43420356998,
+    "single_exe_result": "in_progress at this checkpoint"
+  }
+}

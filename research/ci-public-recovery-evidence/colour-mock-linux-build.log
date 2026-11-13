@@ -1,0 +1,8 @@
+[1/13] Updating sbcsdat.c
+[2/10] Checking current git commit
+[3/10] Updating cmake_commit.c
+[4/8] Building C object CMakeFiles/guiterminal.dir/terminal/nemo_colour.c.o
+[5/8] Linking C static library libguiterminal.a
+[6/8] Building C object unix/CMakeFiles/test_osc_colour.dir/unicode.c.o
+[7/8] Building C object unix/CMakeFiles/test_osc_colour.dir/__/test/test_osc_colour.c.o
+[8/8] Linking C executable test_osc_colour

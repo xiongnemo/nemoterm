@@ -1,0 +1,227 @@
+{
+  "executable_sha256": "5c8e3961334dc7626aa51a10d844d2ed28f5179be2b812085b577fee7c72705a",
+  "renderer": "opengl",
+  "side": "right",
+  "font": "Consolas",
+  "requested_grid": [
+    88,
+    35
+  ],
+  "dense_clusters": false,
+  "completed": true,
+  "checks": [
+    "one host with independent child terminals and native tab hit testing",
+    "12 create/close cycles retain one shared renderer without handle growth",
+    "new, close, next and previous shortcuts act through the terminal input thread",
+    "failed child process or content window creation preserves active tab and renderer",
+    "bounded hover preview refreshes background output without selecting it",
+    "synchronized pixels survive device transfer between tabs",
+    "fullscreen returns the host to its original rectangle",
+    "host resize updates both terminal grids",
+    "closing original tab preserves sibling; host close drains all processes"
+  ],
+  "memory_instrumented": false,
+  "actual_grid": [
+    88,
+    35
+  ],
+  "actual_renderer": 1,
+  "live_temporary_tabs": [],
+  "initial": {
+    "handles": 331,
+    "gdi": 29,
+    "user": 26,
+    "private_ws": 3760128,
+    "total_ws": 30355456,
+    "private_commit": 4845568
+  },
+  "two_tabs": {
+    "handles": 338,
+    "gdi": 36,
+    "user": 32,
+    "private_ws": 4333568,
+    "total_ws": 30945280,
+    "private_commit": 5398528
+  },
+  "cycles": [
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4644864,
+      "total_ws": 31281152,
+      "private_commit": 6021120
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4673536,
+      "total_ws": 31309824,
+      "private_commit": 6021120
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4751360,
+      "total_ws": 31387648,
+      "private_commit": 6090752
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4755456,
+      "total_ws": 31391744,
+      "private_commit": 5820416
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4812800,
+      "total_ws": 31449088,
+      "private_commit": 6115328
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4825088,
+      "total_ws": 31461376,
+      "private_commit": 6254592
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4812800,
+      "total_ws": 31449088,
+      "private_commit": 6000640
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4804608,
+      "total_ws": 31440896,
+      "private_commit": 5996544
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4796416,
+      "total_ws": 31432704,
+      "private_commit": 5980160
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4866048,
+      "total_ws": 31502336,
+      "private_commit": 6254592
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4857856,
+      "total_ws": 31494144,
+      "private_commit": 6057984
+    },
+    {
+      "handles": 338,
+      "gdi": 36,
+      "user": 33,
+      "private_ws": 4714496,
+      "total_ws": 31350784,
+      "private_commit": 5902336
+    }
+  ],
+  "peak_private_ws": 4866048,
+  "pixel_capture_instrumented": true,
+  "rapid_shell_closes": [
+    {
+      "total": 31,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 33,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 35,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 37,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 39,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 41,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 43,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 45,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 47,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 49,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 51,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 53,
+      "active": 5,
+      "terminated": 0
+    }
+  ],
+  "closing_shell_attempt": 11,
+  "first_tab_close": {
+    "frontend_exit": null,
+    "sibling_alive": true
+  },
+  "owned_job_cleanup": {
+    "before": {
+      "total": 54,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 54,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  }
+}

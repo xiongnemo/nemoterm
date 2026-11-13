@@ -1,0 +1,678 @@
+{
+  "preferences": {
+    "pointer_observations": [
+      {
+        "input_trace": [
+          {
+            "sequence": 1,
+            "message": 512,
+            "keys": "0x0",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 2,
+            "message": 512,
+            "keys": "0x0",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 3,
+            "message": 513,
+            "keys": "0x9",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 4,
+            "message": 514,
+            "keys": "0x8",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 5,
+            "message": 533,
+            "keys": "0x0",
+            "parameter": "0x0",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 6,
+            "message": 512,
+            "keys": "0x0",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 7,
+            "message": 513,
+            "keys": "0x5",
+            "parameter": "0x19000e",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 8,
+            "message": 512,
+            "keys": "0x5",
+            "parameter": "0x190029",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 9,
+            "message": 514,
+            "keys": "0x4",
+            "parameter": "0x190029",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 10,
+            "message": 533,
+            "keys": "0x0",
+            "parameter": "0x0",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 11,
+            "message": 8,
+            "keys": "0x0",
+            "parameter": "0x0",
+            "inside_dispatch": false
+          }
+        ],
+        "memory_instrumented": true,
+        "pointer_model": {
+          "suppressed_queued_pointer": 0,
+          "owned_leave_requests": 3
+        }
+      },
+      {
+        "input_trace": [
+          {
+            "sequence": 1,
+            "message": 512,
+            "keys": "0x0",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 2,
+            "message": 513,
+            "keys": "0x9",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 3,
+            "message": 514,
+            "keys": "0x8",
+            "parameter": "0x190017",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 4,
+            "message": 533,
+            "keys": "0x0",
+            "parameter": "0x0",
+            "inside_dispatch": false
+          },
+          {
+            "sequence": 5,
+            "message": 8,
+            "keys": "0x0",
+            "parameter": "0x0",
+            "inside_dispatch": false
+          }
+        ],
+        "memory_instrumented": true,
+        "pointer_model": {
+          "suppressed_queued_pointer": 0,
+          "owned_leave_requests": 1
+        }
+      }
+    ],
+    "long_address_bytes": 2083,
+    "custom_scheme_default_disabled": true,
+    "live_hover_refresh": true,
+    "right_copy_paste_with_busy_clipboard": true,
+    "disabled": true
+  },
+  "completed": true,
+  "activations": [
+    {
+      "phase": "labels",
+      "before": 0,
+      "capture_after_down": 7798908,
+      "after": 1,
+      "handler_exited": true
+    },
+    {
+      "phase": "mouse-1000",
+      "before": 1,
+      "capture_after_down": 7798908,
+      "after": 2,
+      "handler_exited": true
+    },
+    {
+      "phase": "mouse-1001",
+      "before": 2,
+      "capture_after_down": 7798908,
+      "after": 3,
+      "handler_exited": true
+    },
+    {
+      "phase": "mouse-1002",
+      "before": 3,
+      "capture_after_down": 7798908,
+      "after": 4,
+      "handler_exited": true
+    },
+    {
+      "phase": "mouse-1003",
+      "before": 4,
+      "capture_after_down": 7798908,
+      "after": 5,
+      "handler_exited": true
+    }
+  ],
+  "scope": "full",
+  "executable_sha256": "5c8e3961334dc7626aa51a10d844d2ed28f5179be2b812085b577fee7c72705a",
+  "memory_before_instrumentation": {
+    "private_ws": 3026944,
+    "total_ws": 24662016,
+    "private_commit": 3846144
+  },
+  "input_trace": [
+    {
+      "sequence": 1,
+      "message": 675,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 2,
+      "message": 512,
+      "keys": "0x0",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 3,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 4,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 5,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 6,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 7,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 8,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 9,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 10,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 11,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 12,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 13,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 14,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 15,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 16,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 17,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 18,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 19,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 20,
+      "message": 31,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 21,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 22,
+      "message": 513,
+      "keys": "0x5",
+      "parameter": "0x19000e",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 23,
+      "message": 512,
+      "keys": "0x5",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 24,
+      "message": 514,
+      "keys": "0x4",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 25,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 26,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 27,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 28,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 29,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 30,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x19000e",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 31,
+      "message": 512,
+      "keys": "0x9",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 32,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 33,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 34,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x19000e",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 35,
+      "message": 512,
+      "keys": "0x5",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 36,
+      "message": 514,
+      "keys": "0x4",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 37,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 38,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 39,
+      "message": 512,
+      "keys": "0x29",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 40,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190029",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 41,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 42,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 43,
+      "message": 31,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 44,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 45,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 46,
+      "message": 512,
+      "keys": "0x0",
+      "parameter": "0x190020",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 47,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 48,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 49,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 50,
+      "message": 675,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 51,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 52,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 53,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 54,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 55,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 56,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 57,
+      "message": 512,
+      "keys": "0x0",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 58,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": true
+    },
+    {
+      "sequence": 59,
+      "message": 512,
+      "keys": "0x0",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 60,
+      "message": 513,
+      "keys": "0x9",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 61,
+      "message": 514,
+      "keys": "0x8",
+      "parameter": "0x190017",
+      "inside_dispatch": false
+    },
+    {
+      "sequence": 62,
+      "message": 533,
+      "keys": "0x0",
+      "parameter": "0x0",
+      "inside_dispatch": false
+    }
+  ],
+  "memory_instrumented": true,
+  "hover_text": "Ctrl+click to open; Ctrl+right-click for link actions.\nnemoterm-test-fcdaef775a2c4f46914ef437cb6213c4://host/path?x=one%20two&y=%22quoted%22#part",
+  "hover_bounds": [
+    10,
+    31,
+    127,
+    32
+  ],
+  "hover_paint_samples": [
+    {
+      "bounds": [
+        10,
+        31,
+        127,
+        32
+      ],
+      "pixels": 72
+    }
+  ],
+  "opened": [
+    "nemoterm-test-fcdaef775a2c4f46914ef437cb6213c4://host/path?x=one%20two&y=%22quoted%22#part"
+  ],
+  "mouse-1000": "1b5b3f313030303b3124791b5b306e",
+  "mouse-1001": "1b5b3f313030303b3224791b5b306e",
+  "mouse-1002": "1b5b3f313030303b3224791b5b306e",
+  "mouse-1003": "1b5b3f313030303b3224791b5b306e",
+  "copied_address": "nemoterm-test-fcdaef775a2c4f46914ef437cb6213c4://host/path?x=one%20two&y=%22quoted%22#part",
+  "menu_open": true,
+  "menu_cancel": true,
+  "shift_copy": "LINK",
+  "clipboard_transient_lock_seconds": 0.04699999999996862,
+  "copy_address_preserves_selection": true,
+  "clipboard_lock_timeout_seconds": 0.10899999999998045,
+  "copy_paste_uses_selection_when_clipboard_busy": true,
+  "ctrl_drag_copy": "LINK",
+  "shift_takeover": true,
+  "mixed_buttons": "1b5b3f313030303b3224791b5b3c3134343b333b324d1b5b3c3137363b353b324d1b5b3c3134343b353b326d1b5b306e",
+  "capture_cancel": "1b5b3f313030303b3224791b5b3c33353b343b324d1b5b306e",
+  "resize_cancel": true,
+  "synchronized_clicks": [
+    "nemoterm-test-fcdaef775a2c4f46914ef437cb6213c4://host/path?x=one%20two&y=%22quoted%22#part",
+    "nemoterm-test-fcdaef775a2c4f46914ef437cb6213c4://host/other"
+  ],
+  "remote_file_copy_only": "file://nemoterm-remote.invalid/C:/sample.txt",
+  "budget_eviction": {
+    "uris": 6000,
+    "images": 800,
+    "old_link_inactive": true
+  },
+  "peak_private_ws": 11059200,
+  "peak_total_ws": 44613632,
+  "peak_private_commit": 15470592,
+  "pointer_model": {
+    "suppressed_queued_pointer": 0,
+    "owned_leave_requests": 8
+  }
+}

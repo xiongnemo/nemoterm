@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "input_api": "byte",
+  "checks": [
+    "overflow-top",
+    "overflow-bottom",
+    "overflow-left",
+    "overflow-right",
+    "profiles",
+    "geometry",
+    "window-resize",
+    "input-method",
+    "selection-gdi",
+    "selection-opengl",
+    "selection-directx"
+  ]
+}

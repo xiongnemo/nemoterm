@@ -1,0 +1,5 @@
+[1/9] Updating licence.h
+[2/7] Checking current git commit
+[3/7] Updating cmake_commit.c
+[4/5] Building C object windows\CMakeFiles\test_osc_colour.dir\__\test\test_osc_colour.c.obj
+[5/5] Linking CXX executable test_osc_colour.exe

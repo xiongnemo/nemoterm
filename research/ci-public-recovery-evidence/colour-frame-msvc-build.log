@@ -1,0 +1,10 @@
+[0/1] Re-running CMake...
+-- Could NOT find Perl (missing: PERL_EXECUTABLE) 
+-- Configuring done (0.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/nemo/Documents/Projects/nemoterm/build/rtl-worktree/build/frontend-single
+[1/10] Updating licence.h
+[2/8] Checking current git commit
+[3/8] Updating cmake_commit.c
+[4/6] Building C object windows\CMakeFiles\test_osc_colour.dir\__\test\test_osc_colour.c.obj
+[5/6] Linking CXX executable test_osc_colour.exe
