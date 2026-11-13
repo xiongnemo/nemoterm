@@ -24,11 +24,11 @@ def saved_profile(values):
 
 
 def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
-        profile=None, font=None):
+        profile=None, font=None, source_reference='XTerm(412)'):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-                    completed=False, cases={}, source_reference='XTerm(412)',
+                    completed=False, cases={}, source_reference=source_reference,
                     reference_case_count=len(cases), direct_case_names=[c[0] for c in extra_cases])
     evidence['profile_values'] = profile
     if font is not None:evidence['requested_font'] = font

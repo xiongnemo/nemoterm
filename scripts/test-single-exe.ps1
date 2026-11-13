@@ -20,7 +20,7 @@ $checks = [Collections.Generic.List[string]]::new()
 try {
     $tests = @('single_exe', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
-        'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'presentation_state', 'horizontal', 'reverse_wrap', 'selective_erase', 'rectangle', 'margins', 'cwd',
+        'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'selection_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'selective_erase', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'shutdown', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     foreach ($name in $tests) {
         $nativeArgs = @()
@@ -53,11 +53,11 @@ try {
             Copy-Item "$Destination/research/selection-observed.json" "$Destination/research/selection-directx-observed.json"
             $checks.Add('selection-directx')
         }
-        if ($name -eq 'palette_stack') {
+        if ($name -in @('palette_stack', 'selection_colour')) {
             foreach ($renderer in @('opengl', 'directx')) {
-                & python "$Destination/tests/palette_stack_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/palette-stack-$renderer.log"
-                if ($LASTEXITCODE) { throw "Single-executable palette stack test failed: $renderer" }
-                $checks.Add("palette-stack-$renderer")
+                & python "$Destination/tests/${name}_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/$name-$renderer.log"
+                if ($LASTEXITCODE) { throw "Single-executable colour test failed: $name $renderer" }
+                $checks.Add("$name-$renderer")
             }
         }
         if ($name -eq 'titles') {

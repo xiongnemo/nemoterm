@@ -1,5 +1,15 @@
 # Nemoterm requirements and evidence ledger
 
+## Selection-colour development (2026-11-13; runtime testing paused)
+
+[OSC 17/19 and 117/119](../research/selection-colours.md) now have source
+implementations, authored protocol cases and mock/native rendering fixtures.
+MSVC frontend/core-test builds, single-image linking and a Linux sanitizer
+test build pass; the new executables and fixtures have not run. Independent
+XTerm capture, pixel behaviour, full regression and memory acceptance remain
+pending. The prior palette-stack results below apply only to their recorded
+image, not to this newer unverified build.
+
 ## Palette/title-stack checkpoint (2026-11-13)
 
 [Palette stacks and title positions](../research/palette-stacks.md) add four

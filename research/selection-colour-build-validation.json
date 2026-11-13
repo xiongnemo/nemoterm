@@ -1,0 +1,137 @@
+{
+  "source_base": "1c53051",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build\\local-selection-colour-unverified\\dist\\nemoterm.exe",
+    "bytes": 4431872,
+    "sha256": "2e33fbe4a12c323173825854fdef5a5bde0f85f4a004f72bc6f942909c3f0e83"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_osc_colour"
+      ],
+      "log": "selection-colours-msvc-build.log",
+      "bytes": 1507,
+      "sha256": "39b465d2fd6f505daa496412ca2e3f633daf4a354f3ba88037e0aa2a6115234b",
+      "executed_tests": false
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_osc_colour"
+      ],
+      "log": "selection-colours-linux-build.log",
+      "bytes": 758,
+      "sha256": "9e5a43e9391a38ff5a25cb3dfaaf7440e449a1463b3d94059f0e3615d0dd6376",
+      "executed_tests": false
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "selection-colours-single-build.log",
+      "bytes": 3038,
+      "sha256": "a91a53cec9f960365ec65a3a65dd3d3e93c1ea573d57b8c83f452298afc1736f",
+      "executed_tests": false
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 486225,
+      "sha256": "220aa9b365fc80034a2425fb65fa9c2d8d7df7029006641cbce9b1f1b4aa3e51",
+      "lf_bytes": 486225,
+      "sha256_lf": "220aa9b365fc80034a2425fb65fa9c2d8d7df7029006641cbce9b1f1b4aa3e51"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 28790,
+      "sha256": "c9cb464acaa2fc975c20f9835793a9a33b4f3ffd315b14b99d431a4b94b98a45",
+      "lf_bytes": 28004,
+      "sha256_lf": "baf574de11679c4acaeca78c14a68d8d74fb967f3d903ea04e472013422e7984"
+    },
+    "vendor/putty-0.85/test/test_osc_colour.c": {
+      "bytes": 6566,
+      "sha256": "1845ecb215ea78efdae9d2350346db2dba75f1e41f4c55721366a2aefaf3fa40",
+      "lf_bytes": 6566,
+      "sha256_lf": "1845ecb215ea78efdae9d2350346db2dba75f1e41f4c55721366a2aefaf3fa40"
+    },
+    "vendor/putty-0.85/test/test_selection_colour.h": {
+      "bytes": 8654,
+      "sha256": "bb56b2082cf7abacc06c83425478fd523b6ac90c02bf1627f7e87620211022e0",
+      "lf_bytes": 8654,
+      "sha256_lf": "bb56b2082cf7abacc06c83425478fd523b6ac90c02bf1627f7e87620211022e0"
+    },
+    "tests/selection_colour_cases.py": {
+      "bytes": 3114,
+      "sha256": "089529387b5a54860e462ac7cf36708156255b20738332febe88f665a540e041",
+      "lf_bytes": 3114,
+      "sha256_lf": "089529387b5a54860e462ac7cf36708156255b20738332febe88f665a540e041"
+    },
+    "tests/selection_colour_cases.h": {
+      "bytes": 6524,
+      "sha256": "5d42b3bab3079f934b664a304eccc5bfa26d67f7e058ee86ceb05557e498c8c8",
+      "lf_bytes": 6489,
+      "sha256_lf": "e8e42fa9ad0316618054ae0202d818ced6fa68c4111601c40c3cd5b2634ee36e"
+    },
+    "tests/generate_selection_colour_cases.py": {
+      "bytes": 1139,
+      "sha256": "35fd66ad7585a84c4093dff43ffa981c9b5246d19ecb9c6e17bdde164bcaedf4",
+      "lf_bytes": 1139,
+      "sha256_lf": "35fd66ad7585a84c4093dff43ffa981c9b5246d19ecb9c6e17bdde164bcaedf4"
+    },
+    "tests/xterm_selection_colour_oracle.py": {
+      "bytes": 1917,
+      "sha256": "eb7890cdafec3e2ee85ebcd78ca645d06a4f273efa415ab07404cff15a29037a",
+      "lf_bytes": 1917,
+      "sha256_lf": "eb7890cdafec3e2ee85ebcd78ca645d06a4f273efa415ab07404cff15a29037a"
+    },
+    "tests/selection_colour_window_smoke.py": {
+      "bytes": 6277,
+      "sha256": "5f5c38aa7f31703c02f4f33a23be80291b2a250fd3f47422dc5b2f884fd0e40d",
+      "lf_bytes": 6277,
+      "sha256_lf": "5f5c38aa7f31703c02f4f33a23be80291b2a250fd3f47422dc5b2f884fd0e40d"
+    },
+    "tests/protocol_oracle_window.py": {
+      "bytes": 4587,
+      "sha256": "69be2c240f0a28f7322d712aa5847777df1bd87086decd0b735f0bbabe52f762",
+      "lf_bytes": 4587,
+      "sha256_lf": "69be2c240f0a28f7322d712aa5847777df1bd87086decd0b735f0bbabe52f762"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 34066,
+      "sha256": "54f477510d03e74c16815b88261804a910c0af23766b1a340a37ba8475d4ea55",
+      "lf_bytes": 34066,
+      "sha256_lf": "54f477510d03e74c16815b88261804a910c0af23766b1a340a37ba8475d4ea55"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9076,
+      "sha256": "6c4c9faf2142554ad79b73774ea03c6f7006cd697d1f85b3303916cc31710994",
+      "lf_bytes": 9076,
+      "sha256_lf": "6c4c9faf2142554ad79b73774ea03c6f7006cd697d1f85b3303916cc31710994"
+    }
+  },
+  "checks": [
+    "Python syntax compilation",
+    "generated C cases current",
+    "PowerShell AST parse",
+    "git diff --check"
+  ],
+  "authored_protocol_cases": 30,
+  "independent_xterm_capture": "pending",
+  "accepted_main_replaced": false,
+  "memory_acceptance": "pending on this image",
+  "source_hash_scope": "Raw workspace bytes and LF-normalized Git source bytes; build logs retain exact raw bytes.",
+  "accepted_main": {
+    "bytes": 4371456,
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+  },
+  "prior_palette_candidate": {
+    "bytes": 4430848,
+    "sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332"
+  }
+}

@@ -1,0 +1,13 @@
+[1/17] Updating sbcsdat.c
+[2/14] Checking current git commit
+[3/14] Updating cmake_commit.c
+[4/13] Building C object CMakeFiles/utils.dir/utils/stripctrl.c.o
+[5/13] Building C object CMakeFiles/guiterminal.dir/terminal/nemo_tcap.c.o
+[6/13] Building C object CMakeFiles/guiterminal.dir/ldisc.c.o
+[7/13] Building C object CMakeFiles/guiterminal.dir/terminal/lineedit.c.o
+[8/13] Linking C static library libutils.a
+[9/13] Building C object unix/CMakeFiles/test_osc_colour.dir/__/test/test_osc_colour.c.o
+[10/13] Building C object unix/CMakeFiles/test_osc_colour.dir/unicode.c.o
+[11/13] Building C object CMakeFiles/guiterminal.dir/terminal/terminal.c.o
+[12/13] Linking C static library libguiterminal.a
+[13/13] Linking C executable test_osc_colour

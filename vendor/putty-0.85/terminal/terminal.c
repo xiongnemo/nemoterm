@@ -80,9 +80,13 @@ struct nemo_title_stack {
 /* Fixed slot count, lazy snapshots: an unused terminal pays one pointer.
  * Slots survive pops because indexed restoration can revisit them. */
 #define PALETTE_STACK_SLOTS 10
+struct NemoPaletteSnapshot {
+    rgb entries[OSC4_NCOLOURS];
+    optionalrgb selection[2];
+};
 struct NemoPaletteStack {
     unsigned used, last;
-    rgb *slot[PALETTE_STACK_SLOTS];
+    struct NemoPaletteSnapshot *slot[PALETTE_STACK_SLOTS];
 };
 
 static void nemo_palette_stack_free(struct NemoPaletteStack *stack)
@@ -3446,6 +3450,17 @@ static void palette_rebuild(Terminal *term)
     }
 }
 
+static void nemo_selection_colour_set(Terminal *term, unsigned which,
+                                      optionalrgb colour)
+{
+    assert(which < lenof(term->selection_colours));
+    if (!optionalrgb_equal(term->selection_colours[which], colour)) {
+        term->selection_colours[which] = colour;
+        /* No screen or scrollback cell changes. Defer repaint during 2026. */
+        term_invalidate(term);
+    }
+}
+
 static void nemo_palette_stack_op(Terminal *term, bool push)
 {
     for (unsigned p = 0; p < term->esc_nargs; p++) {
@@ -3459,8 +3474,11 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
                 term->palette_stack = stack = snew(struct NemoPaletteStack);
                 memset(stack, 0, sizeof(*stack));
             }
-            if (!stack->slot[slot]) stack->slot[slot] = snewn(OSC4_NCOLOURS, rgb);
-            memcpy(stack->slot[slot], term->palette, sizeof(term->palette));
+            if (!stack->slot[slot])
+                stack->slot[slot] = snew(struct NemoPaletteSnapshot);
+            memcpy(stack->slot[slot]->entries, term->palette, sizeof(term->palette));
+            memcpy(stack->slot[slot]->selection, term->selection_colours,
+                   sizeof(term->selection_colours));
             /* XTerm distinguishes an omitted value from an explicit zero:
              * omitted increments; explicit zero saves at used and seeks to 0.
              * Indexed writes seek to that index without raising last. */
@@ -3468,9 +3486,11 @@ static void nemo_palette_stack_op(Terminal *term, bool push)
             if (omitted && stack->last < stack->used) stack->last = stack->used;
         } else if (stack && stack->slot[slot]) {
             memcpy(term->subpalettes[SUBPAL_SESSION].values,
-                   stack->slot[slot], sizeof(term->palette));
+                   stack->slot[slot]->entries, sizeof(term->palette));
             for (unsigned i = 0; i < OSC4_NCOLOURS; i++)
                 term->subpalettes[SUBPAL_SESSION].present[i] = true;
+            for (unsigned i = 0; i < lenof(term->selection_colours); i++)
+                nemo_selection_colour_set(term, i, stack->slot[slot]->selection[i]);
             stack->used = slot;
             palette_rebuild(term);
         }
@@ -3537,6 +3557,8 @@ static void palette_reset(Terminal *term, bool keep_overrides)
          */
         for (unsigned i = 0; i < OSC4_NCOLOURS; i++)
             term->subpalettes[SUBPAL_SESSION].present[i] = false;
+        for (unsigned i = 0; i < lenof(term->selection_colours); i++)
+            nemo_selection_colour_set(term, i, optionalrgb_none);
     }
 
     /*
@@ -5819,19 +5841,24 @@ static bool osc_palette_index(const char *s, unsigned *out)
     return true;
 }
 
+static void osc_colour_reply(Terminal *term, unsigned command, unsigned index,
+                             rgb colour, bool bel)
+{
+    if (!term->ldisc) return;
+    char prefix[32], response[96];
+    if (command == 4) sprintf(prefix, "4;%u", index);
+    else sprintf(prefix, "%u", command);
+    int len = sprintf(response, "\033]%s;rgb:%04x/%04x/%04x%s", prefix,
+                      colour.r * 0x0101, colour.g * 0x0101,
+                      colour.b * 0x0101, bel ? "\007" : "\033\\");
+    ldisc_send(term->ldisc, response, len, false);
+}
+
 static void osc_colour(Terminal *term, unsigned command, unsigned index,
                        const char *spec, bool bel)
 {
     if (!strcmp(spec, "?")) {
-        if (!term->ldisc) return;
-        rgb colour = term->palette[index];
-        char prefix[32], response[96];
-        if (command == 4) sprintf(prefix, "4;%u", index);
-        else sprintf(prefix, "%u", command);
-        int len = sprintf(response, "\033]%s;rgb:%04x/%04x/%04x%s", prefix,
-                          colour.r * 0x0101, colour.g * 0x0101,
-                          colour.b * 0x0101, bel ? "\007" : "\033\\");
-        ldisc_send(term->ldisc, response, len, false);
+        osc_colour_reply(term, command, index, term->palette[index], bel);
     } else {
         NemoColour colour;
         if (!nemo_colour_parse(spec, strlen(spec), &colour)) return;
@@ -5842,6 +5869,30 @@ static void osc_colour(Terminal *term, unsigned command, unsigned index,
     }
 }
 
+static void osc_selection_colour(Terminal *term, unsigned command,
+                                 const char *spec, bool bel)
+{
+    /* XTerm addresses the opposite highlight component while DECSCNM is set,
+     * but labels the reply with the originally requested OSC number. */
+    unsigned which = (command == 17 ? 0 : 1) ^ (term->rvideo ? 1 : 0);
+    if (!strcmp(spec, "?")) {
+        optionalrgb override = term->selection_colours[which];
+        /* The fallback is the configured inverse palette, not an OSC 10/11
+         * override from a running application. Queries allocate nothing. */
+        unsigned index = which ? OSC4_COLOUR_bg : OSC4_COLOUR_fg;
+        unsigned layer = term->subpalettes[SUBPAL_PLATFORM].present[index] ?
+            SUBPAL_PLATFORM : SUBPAL_CONF;
+        rgb colour = override.enabled ? (rgb){override.r, override.g, override.b} :
+            term->subpalettes[layer].values[index];
+        osc_colour_reply(term, command, 0, colour, bel);
+    } else {
+        NemoColour colour;
+        if (!nemo_colour_parse(spec, strlen(spec), &colour)) return;
+        nemo_selection_colour_set(term, which,
+            (optionalrgb){true, colour.r, colour.g, colour.b});
+    }
+}
+
 static bool osc_colours(Terminal *term, bool bel)
 {
     unsigned command = term->esc_args[0];
@@ -5849,8 +5900,8 @@ static bool osc_colours(Terminal *term, bool bel)
         OSC4_COLOUR_fg, OSC4_COLOUR_bg, OSC4_COLOUR_cursor_bg
     };
     if (command != 4 && command != 104 &&
-        !(command >= 10 && command <= 12) &&
-        !(command >= 110 && command <= 112)) return false;
+        !(command >= 10 && command <= 19) &&
+        !(command >= 110 && command <= 119)) return false;
     /* A truncated or binary colour command must never alter the palette. */
     if (term->osc_overflow || memchr(term->osc_string, 0, term->osc_strlen))
         return true;
@@ -5876,13 +5927,25 @@ static bool osc_colours(Terminal *term, bool bel)
         }
         palette_rebuild(term);
     } else if (command >= 110) {
-        if (!*next) {
-            term->subpalettes[SUBPAL_SESSION].present[dynamic[command-110]] = false;
-            palette_rebuild(term);
+        if (command == 117 || command == 119) {
+            unsigned which = (command == 117 ? 0 : 1) ^ (term->rvideo ? 1 : 0);
+            /* Like XTerm ResetColorsRequest, selection resets ignore payload. */
+            nemo_selection_colour_set(term, which, optionalrgb_none);
+        } else if (!*next) {
+            if (command <= 112) {
+                term->subpalettes[SUBPAL_SESSION].present[dynamic[command-110]] = false;
+                palette_rebuild(term);
+            }
         }
     } else {
-        for (; command <= 12 && (token = osc_token(&next)) != NULL; command++)
-            osc_colour(term, command, dynamic[command-10], token, bel);
+        for (; command <= 19 && (token = osc_token(&next)) != NULL; command++) {
+            if (command <= 12)
+                osc_colour(term, command, dynamic[command-10], token, bel);
+            else if (command == 17 || command == 19)
+                osc_selection_colour(term, command, token, bel);
+            /* Preserve parameter positions across unsupported pointer/Tek
+             * colours. They must never alias a supported colour slot. */
+        }
     }
     return true;
 }
@@ -9837,6 +9900,20 @@ static void do_paint(Terminal *term)
             }
             tattr = (tattr ^ rv
                      ^ (selected ? ATTR_REVERSE : 0));
+            if (selected) {
+                /* Render overrides only: saved cells and copied SGR remain
+                 * unchanged. The frontend swaps truecolour with ATTR_REVERSE,
+                 * so assign each override to its final displayed component. */
+                bool reverse = (tattr & ATTR_REVERSE) != 0;
+                if (term->selection_colours[0].enabled) {
+                    if (reverse) tc.fg = term->selection_colours[0];
+                    else tc.bg = term->selection_colours[0];
+                }
+                if (term->selection_colours[1].enabled) {
+                    if (reverse) tc.bg = term->selection_colours[1];
+                    else tc.fg = term->selection_colours[1];
+                }
+            }
 
             /* 'Real' blinking ? */
             if (term->blink_is_real && (tattr & ATTR_BLINK)) {

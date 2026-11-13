@@ -106,6 +106,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_palette_stack_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_selection_colour_cases.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_presentation_state_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_horizontal_oracle.py --check
@@ -448,6 +450,15 @@ jobs:
             python tests/palette_stack_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/palette-stack-$renderer.log"
             $testExit = $LASTEXITCODE
             Copy-Item "research/palette-stack-$renderer-*" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+      - name: Test selection colours and retained renderer pixels
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/selection_colour_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/selection-colour-$renderer.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/selection-colour-$renderer-*" test-results/ -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
       - name: Test native DEC rectangle editing, Unicode copy, Sixel and memory

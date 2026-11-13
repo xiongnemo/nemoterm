@@ -142,7 +142,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | OSC 0/1/2/21 | Gated | `titles`, bounded title/icon strings, encoding modes and local title policies. |
 | OSC 4 / 104 | Tested | `osc_colour`, indexed palette set/query/reset; multiple pairs and malformed data. |
 | OSC 10/11/12 and 110/111/112 | Tested | Default foreground/background/cursor colours and resets. |
-| OSC 5/6, 13–19, 105/106, 113–119 | Missing | Special/attribute/highlight/other dynamic colour operations are not implemented. |
+| OSC 17/19, 117/119 | Partial / unverified | Selection foreground/background set, query, reset, palette-stack retention and display-only overlays are implemented on the development branch. Authored core and native tests exist but have not run while local runtime testing is paused; no independent XTerm capture yet. See [selection colours](../research/selection-colours.md). |
+| OSC 5/6, 13–16/18, 105/106, 113–116/118 | Missing | Special/attribute/pointer/Tektronix colour operations are not implemented. Chained dynamic commands preserve their parameter positions. |
 | OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
 | OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy; mandatory native clipboard-related cases still await CI. |
 | OSC 9;9 / OSC 633 P;Cwd= / OSC 1337 CurrentDir= | Partial | `cwd`; metadata subset only, not every operation in these namespaces. |

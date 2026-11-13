@@ -40,8 +40,10 @@ the implemented terminal palette, including 256 indexed colors and PuTTY's
 six default/bold/cursor slots. Ten snapshots contain 7,860 color bytes, plus
 88 bytes of x64 stack metadata and allocator overhead. Empty reads and invalid
 writes allocate nothing. Terminal destruction frees every snapshot. These
-controls do not add the still-missing OSC 5/6 or 13–19 operations, or modify
-the independent Sixel palette.
+controls did not add OSC 5/6 or 13–19 operations, or modify the independent
+Sixel palette. The subsequent [selection-colour development](selection-colours.md)
+adds OSC 17/19 and eight bytes to each allocated snapshot; that later change
+has build evidence only and has not passed this checkpoint's runtime gates.
 
 ## Title overflow correction
 

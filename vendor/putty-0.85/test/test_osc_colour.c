@@ -17,6 +17,8 @@ static void reply(Mock *mk, const char *expected)
     strbuf_clear(mk->to_backend);
 }
 
+#include "test_selection_colour.h"
+
 static void stack_bounds_and_roundtrip(Mock *mk)
 {
     test_context(mk, "empty stack reads and invalid writes allocate nothing");
@@ -121,6 +123,8 @@ int main(void)
 
     bool failed = mk->any_test_failed;
     mock_free(mk);
+    failed |= test_selection_colour_wire();
+    failed |= test_selection_colour_paint();
     for (size_t i = 0; i < lenof(palette_stack_oracle); i++) {
         mk = mock_new();
         conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);
