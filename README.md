@@ -30,10 +30,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `18e912d` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377/artifacts/14082226682)。
-两条完整工作流通过，单文件 CI 共 96 组检查；包含本机自动化接口、文件路径拖放、
-图片粘贴、Unicode 路径修复、样式能力查询，以及屏幕校准命令的状态和图片清理修复。EXE 为 **4,449,280 字节**。
-产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/alignment-reset.md)。
+已通过 CI 的开发快照：[下载 `f079f80` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43517911793/artifacts/14082763320)。
+两条完整工作流通过，单文件 CI 共 99 组检查；包含本机自动化接口、文件路径拖放、
+图片粘贴、Unicode 路径修复、样式能力查询，以及屏幕校准和相对光标定位修复。EXE 为 **4,449,280 字节**。
+产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/relative-cursor.md)。
 本机大窗口 DirectX 内存验收仍未达标，见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
@@ -144,10 +144,10 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `18e912d` 在本机 Sarasa、160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.21 MB**，总工作集为 43.12 MB。
-同一产物的 DX 临时标签句柄检查再次失败，尚未进入完整内存负载；原因未确认，原始失败和清理记录均保留。
-此前 `37ef26d` 的完整 DX 复测为 **30.47 MB**，总工作集为 71.58 MB，仍高于 25 MB 目标；这不是新产物的完整量测结果。
-CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/alignment-reset.md)。
+下载的 `f079f80` 在本机 Sarasa、160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.13 MB**，总工作集为 43.02 MB。
+同一产物的首次 DX 测试在临时标签句柄检查失败，原因未确认；原始失败、窗口与模块信息及清理记录均保留。
+随后使用未修改测试的完整 DX 复测通过 9 组功能检查，私有工作集峰值为 **30.63 MB**，总工作集为 71.81 MB，仍高于 25 MB 目标。
+CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/relative-cursor.md)。
 后续 [本机分配诊断](research/local-directx-heap.md) 保留了两次未达标的优化实验；产品渲染器未合入这些改动。
 [首次初始化与 Direct3D 9Ex 探针](research/graphics-initialization.md) 补充了驱动分配证据；独立小程序的差异尚不能证明终端达标。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
@@ -185,6 +185,7 @@ cd nemoterm
 
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
+| `f079f80`，相对光标定位与双宽行边界 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43517911825) | [通过，99 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43517911793) |
 | `18e912d`，屏幕校准状态与 Sixel 清理 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43515344353) | [通过，96 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377) |
 | `37ef26d`，参数化样式查询与关闭流程验证 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43508891431) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43508892024) |
 | `4ed7e08`，样式能力查询及真实回放 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43494224555) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43494224840) |

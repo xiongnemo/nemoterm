@@ -4,13 +4,14 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `18e912d` passes both full workflows,
-including 96 single-image groups. Its [manifest](../research/alignment-reset-validation.json)
-identifies the exact EXE, DECALN replies/pixels and local acceptance limits:
-GDI passes at 16.21 MB in the Sarasa 160x48 workload. DirectX again fails the
-temporary-tab resource-count gate before its full memory workload; the cause
-remains unproven. The preceding `37ef26d` image's complete unmodified DX run
-reached 30.47 MB, above 25 MB; that older result is not a measurement of this image.
+The published product checkpoint at `f079f80` passes both full workflows,
+including 99 single-image groups. Its [manifest](../research/relative-cursor-validation.json)
+identifies the exact EXE, relative-cursor/DECALN replies and pixels, and local
+acceptance limits. GDI passes at 16.13 MB in the Sarasa 160x48 workload. DirectX's
+first run fails the temporary-tab resource-count gate; the cause remains unproven.
+A separate unmodified full-workload run passes nine functional groups and drains
+naturally, but reaches 30.63 MB private working set, above the 25 MB limit. Both
+failures are retained separately.
 The earlier sidecar reply-order issue was resolved by building the same host
 source and overlay for compiler comparison. Local testing has resumed.
 The preceding [overline checkpoint](../research/overline.md) includes local checks
@@ -72,7 +73,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | A/B/C/D (CUU/CUD/CUF/CUB) | Tested | `margins`, `terminal`; origin and scroll-region boundaries. CUB shares reverse-wrap handling with BS, including bounded large counts and extended cycles. |
 | E/F (CNL/CPL) | Partial | Cursor-report streams match the 848-sequence [movement audit](../research/cursor-movement-audit.md), including origin/margins/defaults and pending wrap. Full pixel/scrolling/resize behavior remains unverified. |
 | G and backtick (CHA/HPA); d (VPA); H/f (CUP/HVP) | Tested | `margins`, `queries`, origin-relative positioning. |
-| a/e (HPR/VPR) | Partial | The [development correction](../research/relative-cursor.md) matches all 848 independent XTerm streams, fixing the audit's 47 differences. Separate origin clipping, bounded logical double-row columns, tiny-grid sanitizer assertions and native pixel comparisons are covered. Full remote CI remains pending. |
+| a/e (HPR/VPR) | Partial | The [correction](../research/relative-cursor.md) matches all 848 independent XTerm streams, fixing the audit's 47 differences. Separate origin clipping, bounded logical double-row columns, tiny-grid sanitizer assertions and native pixels pass both complete CI workflows and downloaded-image actual GDI/OpenGL/DirectX checks. |
 | I/Z (CHT/CBT) | Tested | `state_control`, defaults/counts, custom stops, margins and pending wrap; native oracle replay. |
 | g, parameters 0/3 (TBC) | Tested | Tabulation oracle, including extra parameters using the first value. |
 | ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |

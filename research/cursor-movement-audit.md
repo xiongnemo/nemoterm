@@ -1,7 +1,8 @@
 # Relative cursor movement audit
 
-This is the preserved pre-fix result. The [development correction](relative-cursor.md)
-now matches all 848 streams locally; full remote CI for that correction is pending.
+This is the preserved pre-fix result. The [correction](relative-cursor.md) now
+matches all 848 streams in both complete CI workflows and downloaded-image
+checks under actual GDI, OpenGL and DirectX.
 
 An independent 80x24 XTerm(412) comparison against the published `37ef26d`
 single-image artifact found 47 different reply streams in 848 sequences.
