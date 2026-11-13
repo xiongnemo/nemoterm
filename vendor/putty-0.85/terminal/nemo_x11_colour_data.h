@@ -4,790 +4,791 @@
  * Copyright 1987 Digital Equipment Corporation.
  * See tools/x11/xorg-server-21.1.16/LICENSE.txt and manifest.json. */
 #define NEMO_X11_COLOUR_MAX_NAME 22
-static const char nemo_x11_colour_names[] =
-    "alice blue\0"
-    "aliceblue\0"
-    "antique white\0"
-    "antiquewhite\0"
-    "antiquewhite1\0"
-    "antiquewhite2\0"
-    "antiquewhite3\0"
-    "antiquewhite4\0"
-    "aqua\0"
-    "aquamarine\0"
-    "aquamarine1\0"
-    "aquamarine2\0"
-    "aquamarine3\0"
-    "aquamarine4\0"
-    "azure\0"
-    "azure1\0"
-    "azure2\0"
-    "azure3\0"
-    "azure4\0"
-    "beige\0"
-    "bisque\0"
-    "bisque1\0"
-    "bisque2\0"
-    "bisque3\0"
-    "bisque4\0"
-    "black\0"
-    "blanched almond\0"
-    "blanchedalmond\0"
-    "blue\0"
-    "blue violet\0"
-    "blue1\0"
-    "blue2\0"
-    "blue3\0"
-    "blue4\0"
-    "blueviolet\0"
-    "brown\0"
-    "brown1\0"
-    "brown2\0"
-    "brown3\0"
-    "brown4\0"
-    "burlywood\0"
-    "burlywood1\0"
-    "burlywood2\0"
-    "burlywood3\0"
-    "burlywood4\0"
-    "cadet blue\0"
-    "cadetblue\0"
-    "cadetblue1\0"
-    "cadetblue2\0"
-    "cadetblue3\0"
-    "cadetblue4\0"
-    "chartreuse\0"
-    "chartreuse1\0"
-    "chartreuse2\0"
-    "chartreuse3\0"
-    "chartreuse4\0"
-    "chocolate\0"
-    "chocolate1\0"
-    "chocolate2\0"
-    "chocolate3\0"
-    "chocolate4\0"
-    "coral\0"
-    "coral1\0"
-    "coral2\0"
-    "coral3\0"
-    "coral4\0"
-    "cornflower blue\0"
-    "cornflowerblue\0"
-    "cornsilk\0"
-    "cornsilk1\0"
-    "cornsilk2\0"
-    "cornsilk3\0"
-    "cornsilk4\0"
-    "crimson\0"
-    "cyan\0"
-    "cyan1\0"
-    "cyan2\0"
-    "cyan3\0"
-    "cyan4\0"
-    "dark blue\0"
-    "dark cyan\0"
-    "dark goldenrod\0"
-    "dark gray\0"
-    "dark green\0"
-    "dark grey\0"
-    "dark khaki\0"
-    "dark magenta\0"
-    "dark olive green\0"
-    "dark orange\0"
-    "dark orchid\0"
-    "dark red\0"
-    "dark salmon\0"
-    "dark sea green\0"
-    "dark slate blue\0"
-    "dark slate gray\0"
-    "dark slate grey\0"
-    "dark turquoise\0"
-    "dark violet\0"
-    "darkblue\0"
-    "darkcyan\0"
-    "darkgoldenrod\0"
-    "darkgoldenrod1\0"
-    "darkgoldenrod2\0"
-    "darkgoldenrod3\0"
-    "darkgoldenrod4\0"
-    "darkgray\0"
-    "darkgreen\0"
-    "darkgrey\0"
-    "darkkhaki\0"
-    "darkmagenta\0"
-    "darkolivegreen\0"
-    "darkolivegreen1\0"
-    "darkolivegreen2\0"
-    "darkolivegreen3\0"
-    "darkolivegreen4\0"
-    "darkorange\0"
-    "darkorange1\0"
-    "darkorange2\0"
-    "darkorange3\0"
-    "darkorange4\0"
-    "darkorchid\0"
-    "darkorchid1\0"
-    "darkorchid2\0"
-    "darkorchid3\0"
-    "darkorchid4\0"
-    "darkred\0"
-    "darksalmon\0"
-    "darkseagreen\0"
-    "darkseagreen1\0"
-    "darkseagreen2\0"
-    "darkseagreen3\0"
-    "darkseagreen4\0"
-    "darkslateblue\0"
-    "darkslategray\0"
-    "darkslategray1\0"
-    "darkslategray2\0"
-    "darkslategray3\0"
-    "darkslategray4\0"
-    "darkslategrey\0"
-    "darkturquoise\0"
-    "darkviolet\0"
-    "deep pink\0"
-    "deep sky blue\0"
-    "deeppink\0"
-    "deeppink1\0"
-    "deeppink2\0"
-    "deeppink3\0"
-    "deeppink4\0"
-    "deepskyblue\0"
-    "deepskyblue1\0"
-    "deepskyblue2\0"
-    "deepskyblue3\0"
-    "deepskyblue4\0"
-    "dim gray\0"
-    "dim grey\0"
-    "dimgray\0"
-    "dimgrey\0"
-    "dodger blue\0"
-    "dodgerblue\0"
-    "dodgerblue1\0"
-    "dodgerblue2\0"
-    "dodgerblue3\0"
-    "dodgerblue4\0"
-    "firebrick\0"
-    "firebrick1\0"
-    "firebrick2\0"
-    "firebrick3\0"
-    "firebrick4\0"
-    "floral white\0"
-    "floralwhite\0"
-    "forest green\0"
-    "forestgreen\0"
-    "fuchsia\0"
-    "gainsboro\0"
-    "ghost white\0"
-    "ghostwhite\0"
-    "gold\0"
-    "gold1\0"
-    "gold2\0"
-    "gold3\0"
-    "gold4\0"
-    "goldenrod\0"
-    "goldenrod1\0"
-    "goldenrod2\0"
-    "goldenrod3\0"
-    "goldenrod4\0"
-    "gray\0"
-    "gray0\0"
-    "gray1\0"
-    "gray10\0"
-    "gray100\0"
-    "gray11\0"
-    "gray12\0"
-    "gray13\0"
-    "gray14\0"
-    "gray15\0"
-    "gray16\0"
-    "gray17\0"
-    "gray18\0"
-    "gray19\0"
-    "gray2\0"
-    "gray20\0"
-    "gray21\0"
-    "gray22\0"
-    "gray23\0"
-    "gray24\0"
-    "gray25\0"
-    "gray26\0"
-    "gray27\0"
-    "gray28\0"
-    "gray29\0"
-    "gray3\0"
-    "gray30\0"
-    "gray31\0"
-    "gray32\0"
-    "gray33\0"
-    "gray34\0"
-    "gray35\0"
-    "gray36\0"
-    "gray37\0"
-    "gray38\0"
-    "gray39\0"
-    "gray4\0"
-    "gray40\0"
-    "gray41\0"
-    "gray42\0"
-    "gray43\0"
-    "gray44\0"
-    "gray45\0"
-    "gray46\0"
-    "gray47\0"
-    "gray48\0"
-    "gray49\0"
-    "gray5\0"
-    "gray50\0"
-    "gray51\0"
-    "gray52\0"
-    "gray53\0"
-    "gray54\0"
-    "gray55\0"
-    "gray56\0"
-    "gray57\0"
-    "gray58\0"
-    "gray59\0"
-    "gray6\0"
-    "gray60\0"
-    "gray61\0"
-    "gray62\0"
-    "gray63\0"
-    "gray64\0"
-    "gray65\0"
-    "gray66\0"
-    "gray67\0"
-    "gray68\0"
-    "gray69\0"
-    "gray7\0"
-    "gray70\0"
-    "gray71\0"
-    "gray72\0"
-    "gray73\0"
-    "gray74\0"
-    "gray75\0"
-    "gray76\0"
-    "gray77\0"
-    "gray78\0"
-    "gray79\0"
-    "gray8\0"
-    "gray80\0"
-    "gray81\0"
-    "gray82\0"
-    "gray83\0"
-    "gray84\0"
-    "gray85\0"
-    "gray86\0"
-    "gray87\0"
-    "gray88\0"
-    "gray89\0"
-    "gray9\0"
-    "gray90\0"
-    "gray91\0"
-    "gray92\0"
-    "gray93\0"
-    "gray94\0"
-    "gray95\0"
-    "gray96\0"
-    "gray97\0"
-    "gray98\0"
-    "gray99\0"
-    "green\0"
-    "green yellow\0"
-    "green1\0"
-    "green2\0"
-    "green3\0"
-    "green4\0"
-    "greenyellow\0"
-    "grey\0"
-    "grey0\0"
-    "grey1\0"
-    "grey10\0"
-    "grey100\0"
-    "grey11\0"
-    "grey12\0"
-    "grey13\0"
-    "grey14\0"
-    "grey15\0"
-    "grey16\0"
-    "grey17\0"
-    "grey18\0"
-    "grey19\0"
-    "grey2\0"
-    "grey20\0"
-    "grey21\0"
-    "grey22\0"
-    "grey23\0"
-    "grey24\0"
-    "grey25\0"
-    "grey26\0"
-    "grey27\0"
-    "grey28\0"
-    "grey29\0"
-    "grey3\0"
-    "grey30\0"
-    "grey31\0"
-    "grey32\0"
-    "grey33\0"
-    "grey34\0"
-    "grey35\0"
-    "grey36\0"
-    "grey37\0"
-    "grey38\0"
-    "grey39\0"
-    "grey4\0"
-    "grey40\0"
-    "grey41\0"
-    "grey42\0"
-    "grey43\0"
-    "grey44\0"
-    "grey45\0"
-    "grey46\0"
-    "grey47\0"
-    "grey48\0"
-    "grey49\0"
-    "grey5\0"
-    "grey50\0"
-    "grey51\0"
-    "grey52\0"
-    "grey53\0"
-    "grey54\0"
-    "grey55\0"
-    "grey56\0"
-    "grey57\0"
-    "grey58\0"
-    "grey59\0"
-    "grey6\0"
-    "grey60\0"
-    "grey61\0"
-    "grey62\0"
-    "grey63\0"
-    "grey64\0"
-    "grey65\0"
-    "grey66\0"
-    "grey67\0"
-    "grey68\0"
-    "grey69\0"
-    "grey7\0"
-    "grey70\0"
-    "grey71\0"
-    "grey72\0"
-    "grey73\0"
-    "grey74\0"
-    "grey75\0"
-    "grey76\0"
-    "grey77\0"
-    "grey78\0"
-    "grey79\0"
-    "grey8\0"
-    "grey80\0"
-    "grey81\0"
-    "grey82\0"
-    "grey83\0"
-    "grey84\0"
-    "grey85\0"
-    "grey86\0"
-    "grey87\0"
-    "grey88\0"
-    "grey89\0"
-    "grey9\0"
-    "grey90\0"
-    "grey91\0"
-    "grey92\0"
-    "grey93\0"
-    "grey94\0"
-    "grey95\0"
-    "grey96\0"
-    "grey97\0"
-    "grey98\0"
-    "grey99\0"
-    "honeydew\0"
-    "honeydew1\0"
-    "honeydew2\0"
-    "honeydew3\0"
-    "honeydew4\0"
-    "hot pink\0"
-    "hotpink\0"
-    "hotpink1\0"
-    "hotpink2\0"
-    "hotpink3\0"
-    "hotpink4\0"
-    "indian red\0"
-    "indianred\0"
-    "indianred1\0"
-    "indianred2\0"
-    "indianred3\0"
-    "indianred4\0"
-    "indigo\0"
-    "ivory\0"
-    "ivory1\0"
-    "ivory2\0"
-    "ivory3\0"
-    "ivory4\0"
-    "khaki\0"
-    "khaki1\0"
-    "khaki2\0"
-    "khaki3\0"
-    "khaki4\0"
-    "lavender\0"
-    "lavender blush\0"
-    "lavenderblush\0"
-    "lavenderblush1\0"
-    "lavenderblush2\0"
-    "lavenderblush3\0"
-    "lavenderblush4\0"
-    "lawn green\0"
-    "lawngreen\0"
-    "lemon chiffon\0"
-    "lemonchiffon\0"
-    "lemonchiffon1\0"
-    "lemonchiffon2\0"
-    "lemonchiffon3\0"
-    "lemonchiffon4\0"
-    "light blue\0"
-    "light coral\0"
-    "light cyan\0"
-    "light goldenrod\0"
-    "light goldenrod yellow\0"
-    "light gray\0"
-    "light green\0"
-    "light grey\0"
-    "light pink\0"
-    "light salmon\0"
-    "light sea green\0"
-    "light sky blue\0"
-    "light slate blue\0"
-    "light slate gray\0"
-    "light slate grey\0"
-    "light steel blue\0"
-    "light yellow\0"
-    "lightblue\0"
-    "lightblue1\0"
-    "lightblue2\0"
-    "lightblue3\0"
-    "lightblue4\0"
-    "lightcoral\0"
-    "lightcyan\0"
-    "lightcyan1\0"
-    "lightcyan2\0"
-    "lightcyan3\0"
-    "lightcyan4\0"
-    "lightgoldenrod\0"
-    "lightgoldenrod1\0"
-    "lightgoldenrod2\0"
-    "lightgoldenrod3\0"
-    "lightgoldenrod4\0"
-    "lightgoldenrodyellow\0"
-    "lightgray\0"
-    "lightgreen\0"
-    "lightgrey\0"
-    "lightpink\0"
-    "lightpink1\0"
-    "lightpink2\0"
-    "lightpink3\0"
-    "lightpink4\0"
-    "lightsalmon\0"
-    "lightsalmon1\0"
-    "lightsalmon2\0"
-    "lightsalmon3\0"
-    "lightsalmon4\0"
-    "lightseagreen\0"
-    "lightskyblue\0"
-    "lightskyblue1\0"
-    "lightskyblue2\0"
-    "lightskyblue3\0"
-    "lightskyblue4\0"
-    "lightslateblue\0"
-    "lightslategray\0"
-    "lightslategrey\0"
-    "lightsteelblue\0"
-    "lightsteelblue1\0"
-    "lightsteelblue2\0"
-    "lightsteelblue3\0"
-    "lightsteelblue4\0"
-    "lightyellow\0"
-    "lightyellow1\0"
-    "lightyellow2\0"
-    "lightyellow3\0"
-    "lightyellow4\0"
-    "lime\0"
-    "lime green\0"
-    "limegreen\0"
-    "linen\0"
-    "magenta\0"
-    "magenta1\0"
-    "magenta2\0"
-    "magenta3\0"
-    "magenta4\0"
-    "maroon\0"
-    "maroon1\0"
-    "maroon2\0"
-    "maroon3\0"
-    "maroon4\0"
-    "medium aquamarine\0"
-    "medium blue\0"
-    "medium orchid\0"
-    "medium purple\0"
-    "medium sea green\0"
-    "medium slate blue\0"
-    "medium spring green\0"
-    "medium turquoise\0"
-    "medium violet red\0"
-    "mediumaquamarine\0"
-    "mediumblue\0"
-    "mediumorchid\0"
-    "mediumorchid1\0"
-    "mediumorchid2\0"
-    "mediumorchid3\0"
-    "mediumorchid4\0"
-    "mediumpurple\0"
-    "mediumpurple1\0"
-    "mediumpurple2\0"
-    "mediumpurple3\0"
-    "mediumpurple4\0"
-    "mediumseagreen\0"
-    "mediumslateblue\0"
-    "mediumspringgreen\0"
-    "mediumturquoise\0"
-    "mediumvioletred\0"
-    "midnight blue\0"
-    "midnightblue\0"
-    "mint cream\0"
-    "mintcream\0"
-    "misty rose\0"
-    "mistyrose\0"
-    "mistyrose1\0"
-    "mistyrose2\0"
-    "mistyrose3\0"
-    "mistyrose4\0"
-    "moccasin\0"
-    "navajo white\0"
-    "navajowhite\0"
-    "navajowhite1\0"
-    "navajowhite2\0"
-    "navajowhite3\0"
-    "navajowhite4\0"
-    "navy\0"
-    "navy blue\0"
-    "navyblue\0"
-    "old lace\0"
-    "oldlace\0"
-    "olive\0"
-    "olive drab\0"
-    "olivedrab\0"
-    "olivedrab1\0"
-    "olivedrab2\0"
-    "olivedrab3\0"
-    "olivedrab4\0"
-    "orange\0"
-    "orange red\0"
-    "orange1\0"
-    "orange2\0"
-    "orange3\0"
-    "orange4\0"
-    "orangered\0"
-    "orangered1\0"
-    "orangered2\0"
-    "orangered3\0"
-    "orangered4\0"
-    "orchid\0"
-    "orchid1\0"
-    "orchid2\0"
-    "orchid3\0"
-    "orchid4\0"
-    "pale goldenrod\0"
-    "pale green\0"
-    "pale turquoise\0"
-    "pale violet red\0"
-    "palegoldenrod\0"
-    "palegreen\0"
-    "palegreen1\0"
-    "palegreen2\0"
-    "palegreen3\0"
-    "palegreen4\0"
-    "paleturquoise\0"
-    "paleturquoise1\0"
-    "paleturquoise2\0"
-    "paleturquoise3\0"
-    "paleturquoise4\0"
-    "palevioletred\0"
-    "palevioletred1\0"
-    "palevioletred2\0"
-    "palevioletred3\0"
-    "palevioletred4\0"
-    "papaya whip\0"
-    "papayawhip\0"
-    "peach puff\0"
-    "peachpuff\0"
-    "peachpuff1\0"
-    "peachpuff2\0"
-    "peachpuff3\0"
-    "peachpuff4\0"
-    "peru\0"
-    "pink\0"
-    "pink1\0"
-    "pink2\0"
-    "pink3\0"
-    "pink4\0"
-    "plum\0"
-    "plum1\0"
-    "plum2\0"
-    "plum3\0"
-    "plum4\0"
-    "powder blue\0"
-    "powderblue\0"
-    "purple\0"
-    "purple1\0"
-    "purple2\0"
-    "purple3\0"
-    "purple4\0"
-    "rebecca purple\0"
-    "rebeccapurple\0"
-    "red\0"
-    "red1\0"
-    "red2\0"
-    "red3\0"
-    "red4\0"
-    "rosy brown\0"
-    "rosybrown\0"
-    "rosybrown1\0"
-    "rosybrown2\0"
-    "rosybrown3\0"
-    "rosybrown4\0"
-    "royal blue\0"
-    "royalblue\0"
-    "royalblue1\0"
-    "royalblue2\0"
-    "royalblue3\0"
-    "royalblue4\0"
-    "saddle brown\0"
-    "saddlebrown\0"
-    "salmon\0"
-    "salmon1\0"
-    "salmon2\0"
-    "salmon3\0"
-    "salmon4\0"
-    "sandy brown\0"
-    "sandybrown\0"
-    "sea green\0"
-    "seagreen\0"
-    "seagreen1\0"
-    "seagreen2\0"
-    "seagreen3\0"
-    "seagreen4\0"
-    "seashell\0"
-    "seashell1\0"
-    "seashell2\0"
-    "seashell3\0"
-    "seashell4\0"
-    "sienna\0"
-    "sienna1\0"
-    "sienna2\0"
-    "sienna3\0"
-    "sienna4\0"
-    "silver\0"
-    "sky blue\0"
-    "skyblue\0"
-    "skyblue1\0"
-    "skyblue2\0"
-    "skyblue3\0"
-    "skyblue4\0"
-    "slate blue\0"
-    "slate gray\0"
-    "slate grey\0"
-    "slateblue\0"
-    "slateblue1\0"
-    "slateblue2\0"
-    "slateblue3\0"
-    "slateblue4\0"
-    "slategray\0"
-    "slategray1\0"
-    "slategray2\0"
-    "slategray3\0"
-    "slategray4\0"
-    "slategrey\0"
-    "snow\0"
-    "snow1\0"
-    "snow2\0"
-    "snow3\0"
-    "snow4\0"
-    "spring green\0"
-    "springgreen\0"
-    "springgreen1\0"
-    "springgreen2\0"
-    "springgreen3\0"
-    "springgreen4\0"
-    "steel blue\0"
-    "steelblue\0"
-    "steelblue1\0"
-    "steelblue2\0"
-    "steelblue3\0"
-    "steelblue4\0"
-    "tan\0"
-    "tan1\0"
-    "tan2\0"
-    "tan3\0"
-    "tan4\0"
-    "teal\0"
-    "thistle\0"
-    "thistle1\0"
-    "thistle2\0"
-    "thistle3\0"
-    "thistle4\0"
-    "tomato\0"
-    "tomato1\0"
-    "tomato2\0"
-    "tomato3\0"
-    "tomato4\0"
-    "turquoise\0"
-    "turquoise1\0"
-    "turquoise2\0"
-    "turquoise3\0"
-    "turquoise4\0"
-    "violet\0"
-    "violet red\0"
-    "violetred\0"
-    "violetred1\0"
-    "violetred2\0"
-    "violetred3\0"
-    "violetred4\0"
-    "web gray\0"
-    "web green\0"
-    "web grey\0"
-    "web maroon\0"
-    "web purple\0"
-    "webgray\0"
-    "webgreen\0"
-    "webgrey\0"
-    "webmaroon\0"
-    "webpurple\0"
-    "wheat\0"
-    "wheat1\0"
-    "wheat2\0"
-    "wheat3\0"
-    "wheat4\0"
-    "white\0"
-    "white smoke\0"
-    "whitesmoke\0"
-    "x11 gray\0"
-    "x11 green\0"
-    "x11 grey\0"
-    "x11 maroon\0"
-    "x11 purple\0"
-    "x11gray\0"
-    "x11green\0"
-    "x11grey\0"
-    "x11maroon\0"
-    "x11purple\0"
-    "yellow\0"
-    "yellow green\0"
-    "yellow1\0"
-    "yellow2\0"
-    "yellow3\0"
-    "yellow4\0"
-    "yellowgreen\0"
-    ;
+static const char nemo_x11_colour_names[] = {
+    'a', 'l', 'i', 'c', 'e', ' ', 'b', 'l', 'u', 'e', 0,
+    'a', 'l', 'i', 'c', 'e', 'b', 'l', 'u', 'e', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', ' ', 'w', 'h', 'i', 't', 'e', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', 'w', 'h', 'i', 't', 'e', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', 'w', 'h', 'i', 't', 'e', '1', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', 'w', 'h', 'i', 't', 'e', '2', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', 'w', 'h', 'i', 't', 'e', '3', 0,
+    'a', 'n', 't', 'i', 'q', 'u', 'e', 'w', 'h', 'i', 't', 'e', '4', 0,
+    'a', 'q', 'u', 'a', 0,
+    'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', 0,
+    'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', '1', 0,
+    'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', '2', 0,
+    'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', '3', 0,
+    'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', '4', 0,
+    'a', 'z', 'u', 'r', 'e', 0,
+    'a', 'z', 'u', 'r', 'e', '1', 0,
+    'a', 'z', 'u', 'r', 'e', '2', 0,
+    'a', 'z', 'u', 'r', 'e', '3', 0,
+    'a', 'z', 'u', 'r', 'e', '4', 0,
+    'b', 'e', 'i', 'g', 'e', 0,
+    'b', 'i', 's', 'q', 'u', 'e', 0,
+    'b', 'i', 's', 'q', 'u', 'e', '1', 0,
+    'b', 'i', 's', 'q', 'u', 'e', '2', 0,
+    'b', 'i', 's', 'q', 'u', 'e', '3', 0,
+    'b', 'i', 's', 'q', 'u', 'e', '4', 0,
+    'b', 'l', 'a', 'c', 'k', 0,
+    'b', 'l', 'a', 'n', 'c', 'h', 'e', 'd', ' ', 'a', 'l', 'm', 'o', 'n', 'd', 0,
+    'b', 'l', 'a', 'n', 'c', 'h', 'e', 'd', 'a', 'l', 'm', 'o', 'n', 'd', 0,
+    'b', 'l', 'u', 'e', 0,
+    'b', 'l', 'u', 'e', ' ', 'v', 'i', 'o', 'l', 'e', 't', 0,
+    'b', 'l', 'u', 'e', '1', 0,
+    'b', 'l', 'u', 'e', '2', 0,
+    'b', 'l', 'u', 'e', '3', 0,
+    'b', 'l', 'u', 'e', '4', 0,
+    'b', 'l', 'u', 'e', 'v', 'i', 'o', 'l', 'e', 't', 0,
+    'b', 'r', 'o', 'w', 'n', 0,
+    'b', 'r', 'o', 'w', 'n', '1', 0,
+    'b', 'r', 'o', 'w', 'n', '2', 0,
+    'b', 'r', 'o', 'w', 'n', '3', 0,
+    'b', 'r', 'o', 'w', 'n', '4', 0,
+    'b', 'u', 'r', 'l', 'y', 'w', 'o', 'o', 'd', 0,
+    'b', 'u', 'r', 'l', 'y', 'w', 'o', 'o', 'd', '1', 0,
+    'b', 'u', 'r', 'l', 'y', 'w', 'o', 'o', 'd', '2', 0,
+    'b', 'u', 'r', 'l', 'y', 'w', 'o', 'o', 'd', '3', 0,
+    'b', 'u', 'r', 'l', 'y', 'w', 'o', 'o', 'd', '4', 0,
+    'c', 'a', 'd', 'e', 't', ' ', 'b', 'l', 'u', 'e', 0,
+    'c', 'a', 'd', 'e', 't', 'b', 'l', 'u', 'e', 0,
+    'c', 'a', 'd', 'e', 't', 'b', 'l', 'u', 'e', '1', 0,
+    'c', 'a', 'd', 'e', 't', 'b', 'l', 'u', 'e', '2', 0,
+    'c', 'a', 'd', 'e', 't', 'b', 'l', 'u', 'e', '3', 0,
+    'c', 'a', 'd', 'e', 't', 'b', 'l', 'u', 'e', '4', 0,
+    'c', 'h', 'a', 'r', 't', 'r', 'e', 'u', 's', 'e', 0,
+    'c', 'h', 'a', 'r', 't', 'r', 'e', 'u', 's', 'e', '1', 0,
+    'c', 'h', 'a', 'r', 't', 'r', 'e', 'u', 's', 'e', '2', 0,
+    'c', 'h', 'a', 'r', 't', 'r', 'e', 'u', 's', 'e', '3', 0,
+    'c', 'h', 'a', 'r', 't', 'r', 'e', 'u', 's', 'e', '4', 0,
+    'c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e', 0,
+    'c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e', '1', 0,
+    'c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e', '2', 0,
+    'c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e', '3', 0,
+    'c', 'h', 'o', 'c', 'o', 'l', 'a', 't', 'e', '4', 0,
+    'c', 'o', 'r', 'a', 'l', 0,
+    'c', 'o', 'r', 'a', 'l', '1', 0,
+    'c', 'o', 'r', 'a', 'l', '2', 0,
+    'c', 'o', 'r', 'a', 'l', '3', 0,
+    'c', 'o', 'r', 'a', 'l', '4', 0,
+    'c', 'o', 'r', 'n', 'f', 'l', 'o', 'w', 'e', 'r', ' ', 'b', 'l', 'u', 'e', 0,
+    'c', 'o', 'r', 'n', 'f', 'l', 'o', 'w', 'e', 'r', 'b', 'l', 'u', 'e', 0,
+    'c', 'o', 'r', 'n', 's', 'i', 'l', 'k', 0,
+    'c', 'o', 'r', 'n', 's', 'i', 'l', 'k', '1', 0,
+    'c', 'o', 'r', 'n', 's', 'i', 'l', 'k', '2', 0,
+    'c', 'o', 'r', 'n', 's', 'i', 'l', 'k', '3', 0,
+    'c', 'o', 'r', 'n', 's', 'i', 'l', 'k', '4', 0,
+    'c', 'r', 'i', 'm', 's', 'o', 'n', 0,
+    'c', 'y', 'a', 'n', 0,
+    'c', 'y', 'a', 'n', '1', 0,
+    'c', 'y', 'a', 'n', '2', 0,
+    'c', 'y', 'a', 'n', '3', 0,
+    'c', 'y', 'a', 'n', '4', 0,
+    'd', 'a', 'r', 'k', ' ', 'b', 'l', 'u', 'e', 0,
+    'd', 'a', 'r', 'k', ' ', 'c', 'y', 'a', 'n', 0,
+    'd', 'a', 'r', 'k', ' ', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'd', 'a', 'r', 'k', ' ', 'g', 'r', 'a', 'y', 0,
+    'd', 'a', 'r', 'k', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', ' ', 'g', 'r', 'e', 'y', 0,
+    'd', 'a', 'r', 'k', ' ', 'k', 'h', 'a', 'k', 'i', 0,
+    'd', 'a', 'r', 'k', ' ', 'm', 'a', 'g', 'e', 'n', 't', 'a', 0,
+    'd', 'a', 'r', 'k', ' ', 'o', 'l', 'i', 'v', 'e', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', ' ', 'o', 'r', 'a', 'n', 'g', 'e', 0,
+    'd', 'a', 'r', 'k', ' ', 'o', 'r', 'c', 'h', 'i', 'd', 0,
+    'd', 'a', 'r', 'k', ' ', 'r', 'e', 'd', 0,
+    'd', 'a', 'r', 'k', ' ', 's', 'a', 'l', 'm', 'o', 'n', 0,
+    'd', 'a', 'r', 'k', ' ', 's', 'e', 'a', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', ' ', 's', 'l', 'a', 't', 'e', ' ', 'b', 'l', 'u', 'e', 0,
+    'd', 'a', 'r', 'k', ' ', 's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'a', 'y', 0,
+    'd', 'a', 'r', 'k', ' ', 's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'e', 'y', 0,
+    'd', 'a', 'r', 'k', ' ', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'd', 'a', 'r', 'k', ' ', 'v', 'i', 'o', 'l', 'e', 't', 0,
+    'd', 'a', 'r', 'k', 'b', 'l', 'u', 'e', 0,
+    'd', 'a', 'r', 'k', 'c', 'y', 'a', 'n', 0,
+    'd', 'a', 'r', 'k', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'd', 'a', 'r', 'k', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '1', 0,
+    'd', 'a', 'r', 'k', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '2', 0,
+    'd', 'a', 'r', 'k', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '3', 0,
+    'd', 'a', 'r', 'k', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '4', 0,
+    'd', 'a', 'r', 'k', 'g', 'r', 'a', 'y', 0,
+    'd', 'a', 'r', 'k', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', 'g', 'r', 'e', 'y', 0,
+    'd', 'a', 'r', 'k', 'k', 'h', 'a', 'k', 'i', 0,
+    'd', 'a', 'r', 'k', 'm', 'a', 'g', 'e', 'n', 't', 'a', 0,
+    'd', 'a', 'r', 'k', 'o', 'l', 'i', 'v', 'e', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', 'o', 'l', 'i', 'v', 'e', 'g', 'r', 'e', 'e', 'n', '1', 0,
+    'd', 'a', 'r', 'k', 'o', 'l', 'i', 'v', 'e', 'g', 'r', 'e', 'e', 'n', '2', 0,
+    'd', 'a', 'r', 'k', 'o', 'l', 'i', 'v', 'e', 'g', 'r', 'e', 'e', 'n', '3', 0,
+    'd', 'a', 'r', 'k', 'o', 'l', 'i', 'v', 'e', 'g', 'r', 'e', 'e', 'n', '4', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'a', 'n', 'g', 'e', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'a', 'n', 'g', 'e', '1', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'a', 'n', 'g', 'e', '2', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'a', 'n', 'g', 'e', '3', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'a', 'n', 'g', 'e', '4', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'c', 'h', 'i', 'd', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'c', 'h', 'i', 'd', '1', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'c', 'h', 'i', 'd', '2', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'c', 'h', 'i', 'd', '3', 0,
+    'd', 'a', 'r', 'k', 'o', 'r', 'c', 'h', 'i', 'd', '4', 0,
+    'd', 'a', 'r', 'k', 'r', 'e', 'd', 0,
+    'd', 'a', 'r', 'k', 's', 'a', 'l', 'm', 'o', 'n', 0,
+    'd', 'a', 'r', 'k', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', 0,
+    'd', 'a', 'r', 'k', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '1', 0,
+    'd', 'a', 'r', 'k', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '2', 0,
+    'd', 'a', 'r', 'k', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '3', 0,
+    'd', 'a', 'r', 'k', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '4', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '1', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '2', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '3', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '4', 0,
+    'd', 'a', 'r', 'k', 's', 'l', 'a', 't', 'e', 'g', 'r', 'e', 'y', 0,
+    'd', 'a', 'r', 'k', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'd', 'a', 'r', 'k', 'v', 'i', 'o', 'l', 'e', 't', 0,
+    'd', 'e', 'e', 'p', ' ', 'p', 'i', 'n', 'k', 0,
+    'd', 'e', 'e', 'p', ' ', 's', 'k', 'y', ' ', 'b', 'l', 'u', 'e', 0,
+    'd', 'e', 'e', 'p', 'p', 'i', 'n', 'k', 0,
+    'd', 'e', 'e', 'p', 'p', 'i', 'n', 'k', '1', 0,
+    'd', 'e', 'e', 'p', 'p', 'i', 'n', 'k', '2', 0,
+    'd', 'e', 'e', 'p', 'p', 'i', 'n', 'k', '3', 0,
+    'd', 'e', 'e', 'p', 'p', 'i', 'n', 'k', '4', 0,
+    'd', 'e', 'e', 'p', 's', 'k', 'y', 'b', 'l', 'u', 'e', 0,
+    'd', 'e', 'e', 'p', 's', 'k', 'y', 'b', 'l', 'u', 'e', '1', 0,
+    'd', 'e', 'e', 'p', 's', 'k', 'y', 'b', 'l', 'u', 'e', '2', 0,
+    'd', 'e', 'e', 'p', 's', 'k', 'y', 'b', 'l', 'u', 'e', '3', 0,
+    'd', 'e', 'e', 'p', 's', 'k', 'y', 'b', 'l', 'u', 'e', '4', 0,
+    'd', 'i', 'm', ' ', 'g', 'r', 'a', 'y', 0,
+    'd', 'i', 'm', ' ', 'g', 'r', 'e', 'y', 0,
+    'd', 'i', 'm', 'g', 'r', 'a', 'y', 0,
+    'd', 'i', 'm', 'g', 'r', 'e', 'y', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', ' ', 'b', 'l', 'u', 'e', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', 'b', 'l', 'u', 'e', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', 'b', 'l', 'u', 'e', '1', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', 'b', 'l', 'u', 'e', '2', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', 'b', 'l', 'u', 'e', '3', 0,
+    'd', 'o', 'd', 'g', 'e', 'r', 'b', 'l', 'u', 'e', '4', 0,
+    'f', 'i', 'r', 'e', 'b', 'r', 'i', 'c', 'k', 0,
+    'f', 'i', 'r', 'e', 'b', 'r', 'i', 'c', 'k', '1', 0,
+    'f', 'i', 'r', 'e', 'b', 'r', 'i', 'c', 'k', '2', 0,
+    'f', 'i', 'r', 'e', 'b', 'r', 'i', 'c', 'k', '3', 0,
+    'f', 'i', 'r', 'e', 'b', 'r', 'i', 'c', 'k', '4', 0,
+    'f', 'l', 'o', 'r', 'a', 'l', ' ', 'w', 'h', 'i', 't', 'e', 0,
+    'f', 'l', 'o', 'r', 'a', 'l', 'w', 'h', 'i', 't', 'e', 0,
+    'f', 'o', 'r', 'e', 's', 't', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'f', 'o', 'r', 'e', 's', 't', 'g', 'r', 'e', 'e', 'n', 0,
+    'f', 'u', 'c', 'h', 's', 'i', 'a', 0,
+    'g', 'a', 'i', 'n', 's', 'b', 'o', 'r', 'o', 0,
+    'g', 'h', 'o', 's', 't', ' ', 'w', 'h', 'i', 't', 'e', 0,
+    'g', 'h', 'o', 's', 't', 'w', 'h', 'i', 't', 'e', 0,
+    'g', 'o', 'l', 'd', 0,
+    'g', 'o', 'l', 'd', '1', 0,
+    'g', 'o', 'l', 'd', '2', 0,
+    'g', 'o', 'l', 'd', '3', 0,
+    'g', 'o', 'l', 'd', '4', 0,
+    'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '1', 0,
+    'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '2', 0,
+    'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '3', 0,
+    'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '4', 0,
+    'g', 'r', 'a', 'y', 0,
+    'g', 'r', 'a', 'y', '0', 0,
+    'g', 'r', 'a', 'y', '1', 0,
+    'g', 'r', 'a', 'y', '1', '0', 0,
+    'g', 'r', 'a', 'y', '1', '0', '0', 0,
+    'g', 'r', 'a', 'y', '1', '1', 0,
+    'g', 'r', 'a', 'y', '1', '2', 0,
+    'g', 'r', 'a', 'y', '1', '3', 0,
+    'g', 'r', 'a', 'y', '1', '4', 0,
+    'g', 'r', 'a', 'y', '1', '5', 0,
+    'g', 'r', 'a', 'y', '1', '6', 0,
+    'g', 'r', 'a', 'y', '1', '7', 0,
+    'g', 'r', 'a', 'y', '1', '8', 0,
+    'g', 'r', 'a', 'y', '1', '9', 0,
+    'g', 'r', 'a', 'y', '2', 0,
+    'g', 'r', 'a', 'y', '2', '0', 0,
+    'g', 'r', 'a', 'y', '2', '1', 0,
+    'g', 'r', 'a', 'y', '2', '2', 0,
+    'g', 'r', 'a', 'y', '2', '3', 0,
+    'g', 'r', 'a', 'y', '2', '4', 0,
+    'g', 'r', 'a', 'y', '2', '5', 0,
+    'g', 'r', 'a', 'y', '2', '6', 0,
+    'g', 'r', 'a', 'y', '2', '7', 0,
+    'g', 'r', 'a', 'y', '2', '8', 0,
+    'g', 'r', 'a', 'y', '2', '9', 0,
+    'g', 'r', 'a', 'y', '3', 0,
+    'g', 'r', 'a', 'y', '3', '0', 0,
+    'g', 'r', 'a', 'y', '3', '1', 0,
+    'g', 'r', 'a', 'y', '3', '2', 0,
+    'g', 'r', 'a', 'y', '3', '3', 0,
+    'g', 'r', 'a', 'y', '3', '4', 0,
+    'g', 'r', 'a', 'y', '3', '5', 0,
+    'g', 'r', 'a', 'y', '3', '6', 0,
+    'g', 'r', 'a', 'y', '3', '7', 0,
+    'g', 'r', 'a', 'y', '3', '8', 0,
+    'g', 'r', 'a', 'y', '3', '9', 0,
+    'g', 'r', 'a', 'y', '4', 0,
+    'g', 'r', 'a', 'y', '4', '0', 0,
+    'g', 'r', 'a', 'y', '4', '1', 0,
+    'g', 'r', 'a', 'y', '4', '2', 0,
+    'g', 'r', 'a', 'y', '4', '3', 0,
+    'g', 'r', 'a', 'y', '4', '4', 0,
+    'g', 'r', 'a', 'y', '4', '5', 0,
+    'g', 'r', 'a', 'y', '4', '6', 0,
+    'g', 'r', 'a', 'y', '4', '7', 0,
+    'g', 'r', 'a', 'y', '4', '8', 0,
+    'g', 'r', 'a', 'y', '4', '9', 0,
+    'g', 'r', 'a', 'y', '5', 0,
+    'g', 'r', 'a', 'y', '5', '0', 0,
+    'g', 'r', 'a', 'y', '5', '1', 0,
+    'g', 'r', 'a', 'y', '5', '2', 0,
+    'g', 'r', 'a', 'y', '5', '3', 0,
+    'g', 'r', 'a', 'y', '5', '4', 0,
+    'g', 'r', 'a', 'y', '5', '5', 0,
+    'g', 'r', 'a', 'y', '5', '6', 0,
+    'g', 'r', 'a', 'y', '5', '7', 0,
+    'g', 'r', 'a', 'y', '5', '8', 0,
+    'g', 'r', 'a', 'y', '5', '9', 0,
+    'g', 'r', 'a', 'y', '6', 0,
+    'g', 'r', 'a', 'y', '6', '0', 0,
+    'g', 'r', 'a', 'y', '6', '1', 0,
+    'g', 'r', 'a', 'y', '6', '2', 0,
+    'g', 'r', 'a', 'y', '6', '3', 0,
+    'g', 'r', 'a', 'y', '6', '4', 0,
+    'g', 'r', 'a', 'y', '6', '5', 0,
+    'g', 'r', 'a', 'y', '6', '6', 0,
+    'g', 'r', 'a', 'y', '6', '7', 0,
+    'g', 'r', 'a', 'y', '6', '8', 0,
+    'g', 'r', 'a', 'y', '6', '9', 0,
+    'g', 'r', 'a', 'y', '7', 0,
+    'g', 'r', 'a', 'y', '7', '0', 0,
+    'g', 'r', 'a', 'y', '7', '1', 0,
+    'g', 'r', 'a', 'y', '7', '2', 0,
+    'g', 'r', 'a', 'y', '7', '3', 0,
+    'g', 'r', 'a', 'y', '7', '4', 0,
+    'g', 'r', 'a', 'y', '7', '5', 0,
+    'g', 'r', 'a', 'y', '7', '6', 0,
+    'g', 'r', 'a', 'y', '7', '7', 0,
+    'g', 'r', 'a', 'y', '7', '8', 0,
+    'g', 'r', 'a', 'y', '7', '9', 0,
+    'g', 'r', 'a', 'y', '8', 0,
+    'g', 'r', 'a', 'y', '8', '0', 0,
+    'g', 'r', 'a', 'y', '8', '1', 0,
+    'g', 'r', 'a', 'y', '8', '2', 0,
+    'g', 'r', 'a', 'y', '8', '3', 0,
+    'g', 'r', 'a', 'y', '8', '4', 0,
+    'g', 'r', 'a', 'y', '8', '5', 0,
+    'g', 'r', 'a', 'y', '8', '6', 0,
+    'g', 'r', 'a', 'y', '8', '7', 0,
+    'g', 'r', 'a', 'y', '8', '8', 0,
+    'g', 'r', 'a', 'y', '8', '9', 0,
+    'g', 'r', 'a', 'y', '9', 0,
+    'g', 'r', 'a', 'y', '9', '0', 0,
+    'g', 'r', 'a', 'y', '9', '1', 0,
+    'g', 'r', 'a', 'y', '9', '2', 0,
+    'g', 'r', 'a', 'y', '9', '3', 0,
+    'g', 'r', 'a', 'y', '9', '4', 0,
+    'g', 'r', 'a', 'y', '9', '5', 0,
+    'g', 'r', 'a', 'y', '9', '6', 0,
+    'g', 'r', 'a', 'y', '9', '7', 0,
+    'g', 'r', 'a', 'y', '9', '8', 0,
+    'g', 'r', 'a', 'y', '9', '9', 0,
+    'g', 'r', 'e', 'e', 'n', 0,
+    'g', 'r', 'e', 'e', 'n', ' ', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'g', 'r', 'e', 'e', 'n', '1', 0,
+    'g', 'r', 'e', 'e', 'n', '2', 0,
+    'g', 'r', 'e', 'e', 'n', '3', 0,
+    'g', 'r', 'e', 'e', 'n', '4', 0,
+    'g', 'r', 'e', 'e', 'n', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'g', 'r', 'e', 'y', 0,
+    'g', 'r', 'e', 'y', '0', 0,
+    'g', 'r', 'e', 'y', '1', 0,
+    'g', 'r', 'e', 'y', '1', '0', 0,
+    'g', 'r', 'e', 'y', '1', '0', '0', 0,
+    'g', 'r', 'e', 'y', '1', '1', 0,
+    'g', 'r', 'e', 'y', '1', '2', 0,
+    'g', 'r', 'e', 'y', '1', '3', 0,
+    'g', 'r', 'e', 'y', '1', '4', 0,
+    'g', 'r', 'e', 'y', '1', '5', 0,
+    'g', 'r', 'e', 'y', '1', '6', 0,
+    'g', 'r', 'e', 'y', '1', '7', 0,
+    'g', 'r', 'e', 'y', '1', '8', 0,
+    'g', 'r', 'e', 'y', '1', '9', 0,
+    'g', 'r', 'e', 'y', '2', 0,
+    'g', 'r', 'e', 'y', '2', '0', 0,
+    'g', 'r', 'e', 'y', '2', '1', 0,
+    'g', 'r', 'e', 'y', '2', '2', 0,
+    'g', 'r', 'e', 'y', '2', '3', 0,
+    'g', 'r', 'e', 'y', '2', '4', 0,
+    'g', 'r', 'e', 'y', '2', '5', 0,
+    'g', 'r', 'e', 'y', '2', '6', 0,
+    'g', 'r', 'e', 'y', '2', '7', 0,
+    'g', 'r', 'e', 'y', '2', '8', 0,
+    'g', 'r', 'e', 'y', '2', '9', 0,
+    'g', 'r', 'e', 'y', '3', 0,
+    'g', 'r', 'e', 'y', '3', '0', 0,
+    'g', 'r', 'e', 'y', '3', '1', 0,
+    'g', 'r', 'e', 'y', '3', '2', 0,
+    'g', 'r', 'e', 'y', '3', '3', 0,
+    'g', 'r', 'e', 'y', '3', '4', 0,
+    'g', 'r', 'e', 'y', '3', '5', 0,
+    'g', 'r', 'e', 'y', '3', '6', 0,
+    'g', 'r', 'e', 'y', '3', '7', 0,
+    'g', 'r', 'e', 'y', '3', '8', 0,
+    'g', 'r', 'e', 'y', '3', '9', 0,
+    'g', 'r', 'e', 'y', '4', 0,
+    'g', 'r', 'e', 'y', '4', '0', 0,
+    'g', 'r', 'e', 'y', '4', '1', 0,
+    'g', 'r', 'e', 'y', '4', '2', 0,
+    'g', 'r', 'e', 'y', '4', '3', 0,
+    'g', 'r', 'e', 'y', '4', '4', 0,
+    'g', 'r', 'e', 'y', '4', '5', 0,
+    'g', 'r', 'e', 'y', '4', '6', 0,
+    'g', 'r', 'e', 'y', '4', '7', 0,
+    'g', 'r', 'e', 'y', '4', '8', 0,
+    'g', 'r', 'e', 'y', '4', '9', 0,
+    'g', 'r', 'e', 'y', '5', 0,
+    'g', 'r', 'e', 'y', '5', '0', 0,
+    'g', 'r', 'e', 'y', '5', '1', 0,
+    'g', 'r', 'e', 'y', '5', '2', 0,
+    'g', 'r', 'e', 'y', '5', '3', 0,
+    'g', 'r', 'e', 'y', '5', '4', 0,
+    'g', 'r', 'e', 'y', '5', '5', 0,
+    'g', 'r', 'e', 'y', '5', '6', 0,
+    'g', 'r', 'e', 'y', '5', '7', 0,
+    'g', 'r', 'e', 'y', '5', '8', 0,
+    'g', 'r', 'e', 'y', '5', '9', 0,
+    'g', 'r', 'e', 'y', '6', 0,
+    'g', 'r', 'e', 'y', '6', '0', 0,
+    'g', 'r', 'e', 'y', '6', '1', 0,
+    'g', 'r', 'e', 'y', '6', '2', 0,
+    'g', 'r', 'e', 'y', '6', '3', 0,
+    'g', 'r', 'e', 'y', '6', '4', 0,
+    'g', 'r', 'e', 'y', '6', '5', 0,
+    'g', 'r', 'e', 'y', '6', '6', 0,
+    'g', 'r', 'e', 'y', '6', '7', 0,
+    'g', 'r', 'e', 'y', '6', '8', 0,
+    'g', 'r', 'e', 'y', '6', '9', 0,
+    'g', 'r', 'e', 'y', '7', 0,
+    'g', 'r', 'e', 'y', '7', '0', 0,
+    'g', 'r', 'e', 'y', '7', '1', 0,
+    'g', 'r', 'e', 'y', '7', '2', 0,
+    'g', 'r', 'e', 'y', '7', '3', 0,
+    'g', 'r', 'e', 'y', '7', '4', 0,
+    'g', 'r', 'e', 'y', '7', '5', 0,
+    'g', 'r', 'e', 'y', '7', '6', 0,
+    'g', 'r', 'e', 'y', '7', '7', 0,
+    'g', 'r', 'e', 'y', '7', '8', 0,
+    'g', 'r', 'e', 'y', '7', '9', 0,
+    'g', 'r', 'e', 'y', '8', 0,
+    'g', 'r', 'e', 'y', '8', '0', 0,
+    'g', 'r', 'e', 'y', '8', '1', 0,
+    'g', 'r', 'e', 'y', '8', '2', 0,
+    'g', 'r', 'e', 'y', '8', '3', 0,
+    'g', 'r', 'e', 'y', '8', '4', 0,
+    'g', 'r', 'e', 'y', '8', '5', 0,
+    'g', 'r', 'e', 'y', '8', '6', 0,
+    'g', 'r', 'e', 'y', '8', '7', 0,
+    'g', 'r', 'e', 'y', '8', '8', 0,
+    'g', 'r', 'e', 'y', '8', '9', 0,
+    'g', 'r', 'e', 'y', '9', 0,
+    'g', 'r', 'e', 'y', '9', '0', 0,
+    'g', 'r', 'e', 'y', '9', '1', 0,
+    'g', 'r', 'e', 'y', '9', '2', 0,
+    'g', 'r', 'e', 'y', '9', '3', 0,
+    'g', 'r', 'e', 'y', '9', '4', 0,
+    'g', 'r', 'e', 'y', '9', '5', 0,
+    'g', 'r', 'e', 'y', '9', '6', 0,
+    'g', 'r', 'e', 'y', '9', '7', 0,
+    'g', 'r', 'e', 'y', '9', '8', 0,
+    'g', 'r', 'e', 'y', '9', '9', 0,
+    'h', 'o', 'n', 'e', 'y', 'd', 'e', 'w', 0,
+    'h', 'o', 'n', 'e', 'y', 'd', 'e', 'w', '1', 0,
+    'h', 'o', 'n', 'e', 'y', 'd', 'e', 'w', '2', 0,
+    'h', 'o', 'n', 'e', 'y', 'd', 'e', 'w', '3', 0,
+    'h', 'o', 'n', 'e', 'y', 'd', 'e', 'w', '4', 0,
+    'h', 'o', 't', ' ', 'p', 'i', 'n', 'k', 0,
+    'h', 'o', 't', 'p', 'i', 'n', 'k', 0,
+    'h', 'o', 't', 'p', 'i', 'n', 'k', '1', 0,
+    'h', 'o', 't', 'p', 'i', 'n', 'k', '2', 0,
+    'h', 'o', 't', 'p', 'i', 'n', 'k', '3', 0,
+    'h', 'o', 't', 'p', 'i', 'n', 'k', '4', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', ' ', 'r', 'e', 'd', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', 'r', 'e', 'd', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', 'r', 'e', 'd', '1', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', 'r', 'e', 'd', '2', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', 'r', 'e', 'd', '3', 0,
+    'i', 'n', 'd', 'i', 'a', 'n', 'r', 'e', 'd', '4', 0,
+    'i', 'n', 'd', 'i', 'g', 'o', 0,
+    'i', 'v', 'o', 'r', 'y', 0,
+    'i', 'v', 'o', 'r', 'y', '1', 0,
+    'i', 'v', 'o', 'r', 'y', '2', 0,
+    'i', 'v', 'o', 'r', 'y', '3', 0,
+    'i', 'v', 'o', 'r', 'y', '4', 0,
+    'k', 'h', 'a', 'k', 'i', 0,
+    'k', 'h', 'a', 'k', 'i', '1', 0,
+    'k', 'h', 'a', 'k', 'i', '2', 0,
+    'k', 'h', 'a', 'k', 'i', '3', 0,
+    'k', 'h', 'a', 'k', 'i', '4', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', ' ', 'b', 'l', 'u', 's', 'h', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 'b', 'l', 'u', 's', 'h', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 'b', 'l', 'u', 's', 'h', '1', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 'b', 'l', 'u', 's', 'h', '2', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 'b', 'l', 'u', 's', 'h', '3', 0,
+    'l', 'a', 'v', 'e', 'n', 'd', 'e', 'r', 'b', 'l', 'u', 's', 'h', '4', 0,
+    'l', 'a', 'w', 'n', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'a', 'w', 'n', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'e', 'm', 'o', 'n', ' ', 'c', 'h', 'i', 'f', 'f', 'o', 'n', 0,
+    'l', 'e', 'm', 'o', 'n', 'c', 'h', 'i', 'f', 'f', 'o', 'n', 0,
+    'l', 'e', 'm', 'o', 'n', 'c', 'h', 'i', 'f', 'f', 'o', 'n', '1', 0,
+    'l', 'e', 'm', 'o', 'n', 'c', 'h', 'i', 'f', 'f', 'o', 'n', '2', 0,
+    'l', 'e', 'm', 'o', 'n', 'c', 'h', 'i', 'f', 'f', 'o', 'n', '3', 0,
+    'l', 'e', 'm', 'o', 'n', 'c', 'h', 'i', 'f', 'f', 'o', 'n', '4', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'c', 'o', 'r', 'a', 'l', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'c', 'y', 'a', 'n', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', ' ', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'g', 'r', 'a', 'y', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'g', 'r', 'e', 'y', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'p', 'i', 'n', 'k', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'a', 'l', 'm', 'o', 'n', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'e', 'a', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'k', 'y', ' ', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'l', 'a', 't', 'e', ' ', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'a', 'y', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'e', 'y', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 's', 't', 'e', 'e', 'l', ' ', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', ' ', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'l', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', '1', 0,
+    'l', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', '2', 0,
+    'l', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', '3', 0,
+    'l', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', '4', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'o', 'r', 'a', 'l', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'y', 'a', 'n', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'y', 'a', 'n', '1', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'y', 'a', 'n', '2', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'y', 'a', 'n', '3', 0,
+    'l', 'i', 'g', 'h', 't', 'c', 'y', 'a', 'n', '4', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '1', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '2', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '3', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', '4', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'r', 'a', 'y', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'g', 'h', 't', 'g', 'r', 'e', 'y', 0,
+    'l', 'i', 'g', 'h', 't', 'p', 'i', 'n', 'k', 0,
+    'l', 'i', 'g', 'h', 't', 'p', 'i', 'n', 'k', '1', 0,
+    'l', 'i', 'g', 'h', 't', 'p', 'i', 'n', 'k', '2', 0,
+    'l', 'i', 'g', 'h', 't', 'p', 'i', 'n', 'k', '3', 0,
+    'l', 'i', 'g', 'h', 't', 'p', 'i', 'n', 'k', '4', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'a', 'l', 'm', 'o', 'n', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'a', 'l', 'm', 'o', 'n', '1', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'a', 'l', 'm', 'o', 'n', '2', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'a', 'l', 'm', 'o', 'n', '3', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'a', 'l', 'm', 'o', 'n', '4', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'k', 'y', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'k', 'y', 'b', 'l', 'u', 'e', '1', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'k', 'y', 'b', 'l', 'u', 'e', '2', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'k', 'y', 'b', 'l', 'u', 'e', '3', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'k', 'y', 'b', 'l', 'u', 'e', '4', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', 0,
+    'l', 'i', 'g', 'h', 't', 's', 'l', 'a', 't', 'e', 'g', 'r', 'e', 'y', 0,
+    'l', 'i', 'g', 'h', 't', 's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', 0,
+    'l', 'i', 'g', 'h', 't', 's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '1', 0,
+    'l', 'i', 'g', 'h', 't', 's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '2', 0,
+    'l', 'i', 'g', 'h', 't', 's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '3', 0,
+    'l', 'i', 'g', 'h', 't', 's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '4', 0,
+    'l', 'i', 'g', 'h', 't', 'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'l', 'i', 'g', 'h', 't', 'y', 'e', 'l', 'l', 'o', 'w', '1', 0,
+    'l', 'i', 'g', 'h', 't', 'y', 'e', 'l', 'l', 'o', 'w', '2', 0,
+    'l', 'i', 'g', 'h', 't', 'y', 'e', 'l', 'l', 'o', 'w', '3', 0,
+    'l', 'i', 'g', 'h', 't', 'y', 'e', 'l', 'l', 'o', 'w', '4', 0,
+    'l', 'i', 'm', 'e', 0,
+    'l', 'i', 'm', 'e', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'm', 'e', 'g', 'r', 'e', 'e', 'n', 0,
+    'l', 'i', 'n', 'e', 'n', 0,
+    'm', 'a', 'g', 'e', 'n', 't', 'a', 0,
+    'm', 'a', 'g', 'e', 'n', 't', 'a', '1', 0,
+    'm', 'a', 'g', 'e', 'n', 't', 'a', '2', 0,
+    'm', 'a', 'g', 'e', 'n', 't', 'a', '3', 0,
+    'm', 'a', 'g', 'e', 'n', 't', 'a', '4', 0,
+    'm', 'a', 'r', 'o', 'o', 'n', 0,
+    'm', 'a', 'r', 'o', 'o', 'n', '1', 0,
+    'm', 'a', 'r', 'o', 'o', 'n', '2', 0,
+    'm', 'a', 'r', 'o', 'o', 'n', '3', 0,
+    'm', 'a', 'r', 'o', 'o', 'n', '4', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 'b', 'l', 'u', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 'o', 'r', 'c', 'h', 'i', 'd', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 's', 'e', 'a', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 's', 'l', 'a', 't', 'e', ' ', 'b', 'l', 'u', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 's', 'p', 'r', 'i', 'n', 'g', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', ' ', 'v', 'i', 'o', 'l', 'e', 't', ' ', 'r', 'e', 'd', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'a', 'q', 'u', 'a', 'm', 'a', 'r', 'i', 'n', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'b', 'l', 'u', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'o', 'r', 'c', 'h', 'i', 'd', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'o', 'r', 'c', 'h', 'i', 'd', '1', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'o', 'r', 'c', 'h', 'i', 'd', '2', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'o', 'r', 'c', 'h', 'i', 'd', '3', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'o', 'r', 'c', 'h', 'i', 'd', '4', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'p', 'u', 'r', 'p', 'l', 'e', '1', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'p', 'u', 'r', 'p', 'l', 'e', '2', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'p', 'u', 'r', 'p', 'l', 'e', '3', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'p', 'u', 'r', 'p', 'l', 'e', '4', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'm', 'e', 'd', 'i', 'u', 'm', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', 0,
+    'm', 'i', 'd', 'n', 'i', 'g', 'h', 't', ' ', 'b', 'l', 'u', 'e', 0,
+    'm', 'i', 'd', 'n', 'i', 'g', 'h', 't', 'b', 'l', 'u', 'e', 0,
+    'm', 'i', 'n', 't', ' ', 'c', 'r', 'e', 'a', 'm', 0,
+    'm', 'i', 'n', 't', 'c', 'r', 'e', 'a', 'm', 0,
+    'm', 'i', 's', 't', 'y', ' ', 'r', 'o', 's', 'e', 0,
+    'm', 'i', 's', 't', 'y', 'r', 'o', 's', 'e', 0,
+    'm', 'i', 's', 't', 'y', 'r', 'o', 's', 'e', '1', 0,
+    'm', 'i', 's', 't', 'y', 'r', 'o', 's', 'e', '2', 0,
+    'm', 'i', 's', 't', 'y', 'r', 'o', 's', 'e', '3', 0,
+    'm', 'i', 's', 't', 'y', 'r', 'o', 's', 'e', '4', 0,
+    'm', 'o', 'c', 'c', 'a', 's', 'i', 'n', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', ' ', 'w', 'h', 'i', 't', 'e', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', 'w', 'h', 'i', 't', 'e', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', 'w', 'h', 'i', 't', 'e', '1', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', 'w', 'h', 'i', 't', 'e', '2', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', 'w', 'h', 'i', 't', 'e', '3', 0,
+    'n', 'a', 'v', 'a', 'j', 'o', 'w', 'h', 'i', 't', 'e', '4', 0,
+    'n', 'a', 'v', 'y', 0,
+    'n', 'a', 'v', 'y', ' ', 'b', 'l', 'u', 'e', 0,
+    'n', 'a', 'v', 'y', 'b', 'l', 'u', 'e', 0,
+    'o', 'l', 'd', ' ', 'l', 'a', 'c', 'e', 0,
+    'o', 'l', 'd', 'l', 'a', 'c', 'e', 0,
+    'o', 'l', 'i', 'v', 'e', 0,
+    'o', 'l', 'i', 'v', 'e', ' ', 'd', 'r', 'a', 'b', 0,
+    'o', 'l', 'i', 'v', 'e', 'd', 'r', 'a', 'b', 0,
+    'o', 'l', 'i', 'v', 'e', 'd', 'r', 'a', 'b', '1', 0,
+    'o', 'l', 'i', 'v', 'e', 'd', 'r', 'a', 'b', '2', 0,
+    'o', 'l', 'i', 'v', 'e', 'd', 'r', 'a', 'b', '3', 0,
+    'o', 'l', 'i', 'v', 'e', 'd', 'r', 'a', 'b', '4', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', ' ', 'r', 'e', 'd', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', '1', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', '2', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', '3', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', '4', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 'r', 'e', 'd', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 'r', 'e', 'd', '1', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 'r', 'e', 'd', '2', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 'r', 'e', 'd', '3', 0,
+    'o', 'r', 'a', 'n', 'g', 'e', 'r', 'e', 'd', '4', 0,
+    'o', 'r', 'c', 'h', 'i', 'd', 0,
+    'o', 'r', 'c', 'h', 'i', 'd', '1', 0,
+    'o', 'r', 'c', 'h', 'i', 'd', '2', 0,
+    'o', 'r', 'c', 'h', 'i', 'd', '3', 0,
+    'o', 'r', 'c', 'h', 'i', 'd', '4', 0,
+    'p', 'a', 'l', 'e', ' ', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'p', 'a', 'l', 'e', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'p', 'a', 'l', 'e', ' ', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'p', 'a', 'l', 'e', ' ', 'v', 'i', 'o', 'l', 'e', 't', ' ', 'r', 'e', 'd', 0,
+    'p', 'a', 'l', 'e', 'g', 'o', 'l', 'd', 'e', 'n', 'r', 'o', 'd', 0,
+    'p', 'a', 'l', 'e', 'g', 'r', 'e', 'e', 'n', 0,
+    'p', 'a', 'l', 'e', 'g', 'r', 'e', 'e', 'n', '1', 0,
+    'p', 'a', 'l', 'e', 'g', 'r', 'e', 'e', 'n', '2', 0,
+    'p', 'a', 'l', 'e', 'g', 'r', 'e', 'e', 'n', '3', 0,
+    'p', 'a', 'l', 'e', 'g', 'r', 'e', 'e', 'n', '4', 0,
+    'p', 'a', 'l', 'e', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    'p', 'a', 'l', 'e', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '1', 0,
+    'p', 'a', 'l', 'e', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '2', 0,
+    'p', 'a', 'l', 'e', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '3', 0,
+    'p', 'a', 'l', 'e', 't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '4', 0,
+    'p', 'a', 'l', 'e', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', 0,
+    'p', 'a', 'l', 'e', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '1', 0,
+    'p', 'a', 'l', 'e', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '2', 0,
+    'p', 'a', 'l', 'e', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '3', 0,
+    'p', 'a', 'l', 'e', 'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '4', 0,
+    'p', 'a', 'p', 'a', 'y', 'a', ' ', 'w', 'h', 'i', 'p', 0,
+    'p', 'a', 'p', 'a', 'y', 'a', 'w', 'h', 'i', 'p', 0,
+    'p', 'e', 'a', 'c', 'h', ' ', 'p', 'u', 'f', 'f', 0,
+    'p', 'e', 'a', 'c', 'h', 'p', 'u', 'f', 'f', 0,
+    'p', 'e', 'a', 'c', 'h', 'p', 'u', 'f', 'f', '1', 0,
+    'p', 'e', 'a', 'c', 'h', 'p', 'u', 'f', 'f', '2', 0,
+    'p', 'e', 'a', 'c', 'h', 'p', 'u', 'f', 'f', '3', 0,
+    'p', 'e', 'a', 'c', 'h', 'p', 'u', 'f', 'f', '4', 0,
+    'p', 'e', 'r', 'u', 0,
+    'p', 'i', 'n', 'k', 0,
+    'p', 'i', 'n', 'k', '1', 0,
+    'p', 'i', 'n', 'k', '2', 0,
+    'p', 'i', 'n', 'k', '3', 0,
+    'p', 'i', 'n', 'k', '4', 0,
+    'p', 'l', 'u', 'm', 0,
+    'p', 'l', 'u', 'm', '1', 0,
+    'p', 'l', 'u', 'm', '2', 0,
+    'p', 'l', 'u', 'm', '3', 0,
+    'p', 'l', 'u', 'm', '4', 0,
+    'p', 'o', 'w', 'd', 'e', 'r', ' ', 'b', 'l', 'u', 'e', 0,
+    'p', 'o', 'w', 'd', 'e', 'r', 'b', 'l', 'u', 'e', 0,
+    'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'p', 'u', 'r', 'p', 'l', 'e', '1', 0,
+    'p', 'u', 'r', 'p', 'l', 'e', '2', 0,
+    'p', 'u', 'r', 'p', 'l', 'e', '3', 0,
+    'p', 'u', 'r', 'p', 'l', 'e', '4', 0,
+    'r', 'e', 'b', 'e', 'c', 'c', 'a', ' ', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'r', 'e', 'b', 'e', 'c', 'c', 'a', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'r', 'e', 'd', 0,
+    'r', 'e', 'd', '1', 0,
+    'r', 'e', 'd', '2', 0,
+    'r', 'e', 'd', '3', 0,
+    'r', 'e', 'd', '4', 0,
+    'r', 'o', 's', 'y', ' ', 'b', 'r', 'o', 'w', 'n', 0,
+    'r', 'o', 's', 'y', 'b', 'r', 'o', 'w', 'n', 0,
+    'r', 'o', 's', 'y', 'b', 'r', 'o', 'w', 'n', '1', 0,
+    'r', 'o', 's', 'y', 'b', 'r', 'o', 'w', 'n', '2', 0,
+    'r', 'o', 's', 'y', 'b', 'r', 'o', 'w', 'n', '3', 0,
+    'r', 'o', 's', 'y', 'b', 'r', 'o', 'w', 'n', '4', 0,
+    'r', 'o', 'y', 'a', 'l', ' ', 'b', 'l', 'u', 'e', 0,
+    'r', 'o', 'y', 'a', 'l', 'b', 'l', 'u', 'e', 0,
+    'r', 'o', 'y', 'a', 'l', 'b', 'l', 'u', 'e', '1', 0,
+    'r', 'o', 'y', 'a', 'l', 'b', 'l', 'u', 'e', '2', 0,
+    'r', 'o', 'y', 'a', 'l', 'b', 'l', 'u', 'e', '3', 0,
+    'r', 'o', 'y', 'a', 'l', 'b', 'l', 'u', 'e', '4', 0,
+    's', 'a', 'd', 'd', 'l', 'e', ' ', 'b', 'r', 'o', 'w', 'n', 0,
+    's', 'a', 'd', 'd', 'l', 'e', 'b', 'r', 'o', 'w', 'n', 0,
+    's', 'a', 'l', 'm', 'o', 'n', 0,
+    's', 'a', 'l', 'm', 'o', 'n', '1', 0,
+    's', 'a', 'l', 'm', 'o', 'n', '2', 0,
+    's', 'a', 'l', 'm', 'o', 'n', '3', 0,
+    's', 'a', 'l', 'm', 'o', 'n', '4', 0,
+    's', 'a', 'n', 'd', 'y', ' ', 'b', 'r', 'o', 'w', 'n', 0,
+    's', 'a', 'n', 'd', 'y', 'b', 'r', 'o', 'w', 'n', 0,
+    's', 'e', 'a', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', 0,
+    's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '1', 0,
+    's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '2', 0,
+    's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '3', 0,
+    's', 'e', 'a', 'g', 'r', 'e', 'e', 'n', '4', 0,
+    's', 'e', 'a', 's', 'h', 'e', 'l', 'l', 0,
+    's', 'e', 'a', 's', 'h', 'e', 'l', 'l', '1', 0,
+    's', 'e', 'a', 's', 'h', 'e', 'l', 'l', '2', 0,
+    's', 'e', 'a', 's', 'h', 'e', 'l', 'l', '3', 0,
+    's', 'e', 'a', 's', 'h', 'e', 'l', 'l', '4', 0,
+    's', 'i', 'e', 'n', 'n', 'a', 0,
+    's', 'i', 'e', 'n', 'n', 'a', '1', 0,
+    's', 'i', 'e', 'n', 'n', 'a', '2', 0,
+    's', 'i', 'e', 'n', 'n', 'a', '3', 0,
+    's', 'i', 'e', 'n', 'n', 'a', '4', 0,
+    's', 'i', 'l', 'v', 'e', 'r', 0,
+    's', 'k', 'y', ' ', 'b', 'l', 'u', 'e', 0,
+    's', 'k', 'y', 'b', 'l', 'u', 'e', 0,
+    's', 'k', 'y', 'b', 'l', 'u', 'e', '1', 0,
+    's', 'k', 'y', 'b', 'l', 'u', 'e', '2', 0,
+    's', 'k', 'y', 'b', 'l', 'u', 'e', '3', 0,
+    's', 'k', 'y', 'b', 'l', 'u', 'e', '4', 0,
+    's', 'l', 'a', 't', 'e', ' ', 'b', 'l', 'u', 'e', 0,
+    's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'a', 'y', 0,
+    's', 'l', 'a', 't', 'e', ' ', 'g', 'r', 'e', 'y', 0,
+    's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', 0,
+    's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', '1', 0,
+    's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', '2', 0,
+    's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', '3', 0,
+    's', 'l', 'a', 't', 'e', 'b', 'l', 'u', 'e', '4', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '1', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '2', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '3', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'a', 'y', '4', 0,
+    's', 'l', 'a', 't', 'e', 'g', 'r', 'e', 'y', 0,
+    's', 'n', 'o', 'w', 0,
+    's', 'n', 'o', 'w', '1', 0,
+    's', 'n', 'o', 'w', '2', 0,
+    's', 'n', 'o', 'w', '3', 0,
+    's', 'n', 'o', 'w', '4', 0,
+    's', 'p', 'r', 'i', 'n', 'g', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', 0,
+    's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', '1', 0,
+    's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', '2', 0,
+    's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', '3', 0,
+    's', 'p', 'r', 'i', 'n', 'g', 'g', 'r', 'e', 'e', 'n', '4', 0,
+    's', 't', 'e', 'e', 'l', ' ', 'b', 'l', 'u', 'e', 0,
+    's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', 0,
+    's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '1', 0,
+    's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '2', 0,
+    's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '3', 0,
+    's', 't', 'e', 'e', 'l', 'b', 'l', 'u', 'e', '4', 0,
+    't', 'a', 'n', 0,
+    't', 'a', 'n', '1', 0,
+    't', 'a', 'n', '2', 0,
+    't', 'a', 'n', '3', 0,
+    't', 'a', 'n', '4', 0,
+    't', 'e', 'a', 'l', 0,
+    't', 'h', 'i', 's', 't', 'l', 'e', 0,
+    't', 'h', 'i', 's', 't', 'l', 'e', '1', 0,
+    't', 'h', 'i', 's', 't', 'l', 'e', '2', 0,
+    't', 'h', 'i', 's', 't', 'l', 'e', '3', 0,
+    't', 'h', 'i', 's', 't', 'l', 'e', '4', 0,
+    't', 'o', 'm', 'a', 't', 'o', 0,
+    't', 'o', 'm', 'a', 't', 'o', '1', 0,
+    't', 'o', 'm', 'a', 't', 'o', '2', 0,
+    't', 'o', 'm', 'a', 't', 'o', '3', 0,
+    't', 'o', 'm', 'a', 't', 'o', '4', 0,
+    't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', 0,
+    't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '1', 0,
+    't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '2', 0,
+    't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '3', 0,
+    't', 'u', 'r', 'q', 'u', 'o', 'i', 's', 'e', '4', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 0,
+    'v', 'i', 'o', 'l', 'e', 't', ' ', 'r', 'e', 'd', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '1', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '2', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '3', 0,
+    'v', 'i', 'o', 'l', 'e', 't', 'r', 'e', 'd', '4', 0,
+    'w', 'e', 'b', ' ', 'g', 'r', 'a', 'y', 0,
+    'w', 'e', 'b', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'w', 'e', 'b', ' ', 'g', 'r', 'e', 'y', 0,
+    'w', 'e', 'b', ' ', 'm', 'a', 'r', 'o', 'o', 'n', 0,
+    'w', 'e', 'b', ' ', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'w', 'e', 'b', 'g', 'r', 'a', 'y', 0,
+    'w', 'e', 'b', 'g', 'r', 'e', 'e', 'n', 0,
+    'w', 'e', 'b', 'g', 'r', 'e', 'y', 0,
+    'w', 'e', 'b', 'm', 'a', 'r', 'o', 'o', 'n', 0,
+    'w', 'e', 'b', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'w', 'h', 'e', 'a', 't', 0,
+    'w', 'h', 'e', 'a', 't', '1', 0,
+    'w', 'h', 'e', 'a', 't', '2', 0,
+    'w', 'h', 'e', 'a', 't', '3', 0,
+    'w', 'h', 'e', 'a', 't', '4', 0,
+    'w', 'h', 'i', 't', 'e', 0,
+    'w', 'h', 'i', 't', 'e', ' ', 's', 'm', 'o', 'k', 'e', 0,
+    'w', 'h', 'i', 't', 'e', 's', 'm', 'o', 'k', 'e', 0,
+    'x', '1', '1', ' ', 'g', 'r', 'a', 'y', 0,
+    'x', '1', '1', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'x', '1', '1', ' ', 'g', 'r', 'e', 'y', 0,
+    'x', '1', '1', ' ', 'm', 'a', 'r', 'o', 'o', 'n', 0,
+    'x', '1', '1', ' ', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'x', '1', '1', 'g', 'r', 'a', 'y', 0,
+    'x', '1', '1', 'g', 'r', 'e', 'e', 'n', 0,
+    'x', '1', '1', 'g', 'r', 'e', 'y', 0,
+    'x', '1', '1', 'm', 'a', 'r', 'o', 'o', 'n', 0,
+    'x', '1', '1', 'p', 'u', 'r', 'p', 'l', 'e', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', ' ', 'g', 'r', 'e', 'e', 'n', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', '1', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', '2', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', '3', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', '4', 0,
+    'y', 'e', 'l', 'l', 'o', 'w', 'g', 'r', 'e', 'e', 'n', 0,
+    0
+};
 static const struct { uint16_t offset; uint8_t r, g, b; }
 nemo_x11_colours[] = {
     {0, 240, 248, 255},

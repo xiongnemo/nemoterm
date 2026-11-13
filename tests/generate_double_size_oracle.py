@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/double-size-xterm.json').read_text())
+source = json.loads((root/'research/double-size-xterm.json').read_text(encoding='utf-8'))
 
 
 def literal(text):
@@ -36,6 +36,6 @@ args = parser.parse_args()
 for name, content in outputs.items():
     path = root/'tests'/name
     if args.check:
-        assert path.read_text() == content, 'Regenerate '+name
+        assert path.read_text(encoding='utf-8') == content, 'Regenerate '+name
     else:
-        path.write_text(content)
+        path.write_text(content, encoding='utf-8', newline='\n')

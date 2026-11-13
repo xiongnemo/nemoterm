@@ -92,6 +92,9 @@ jobs:
         run: ./scripts/native-crash-evidence.ps1
       - name: Verify pinned Unicode data and generated grapheme tables
         shell: pwsh
+        env:
+          PYTHONWARNDEFAULTENCODING: '1'
+          PYTHONWARNINGS: error::EncodingWarning
         run: |
           python scripts/generate-grapheme-tables.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

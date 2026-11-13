@@ -14,12 +14,12 @@ DATA = ROOT / 'tools/x11/xorg-server-21.1.16'
 
 
 def records():
-    manifest = json.loads((DATA / 'manifest.json').read_text())
+    manifest = json.loads((DATA / 'manifest.json').read_text(encoding='utf-8'))
     for item in manifest['files']:
         data = (DATA / item['file']).read_bytes()
         if len(data) != item['bytes'] or hashlib.sha256(data).hexdigest() != item['sha256']:
             raise ValueError('Pinned Xorg input changed: ' + item['file'])
-    source = (DATA / 'oscolor.c').read_text()
+    source = (DATA / 'oscolor.c').read_text(encoding='utf-8')
     names_body = source.split('static const char BuiltinColorNames[] = {', 1)[1].split('};', 1)[0]
     literals = re.findall(r'"([A-Za-z0-9 ]+)\\0"', names_body)
     if re.sub(r'"[A-Za-z0-9 ]+\\0"|\s', '', names_body):
@@ -57,9 +57,13 @@ def generate(rows):
     ]
     maximum = max(len(name) for name, _ in rows)
     data = notice + [f'#define NEMO_X11_COLOUR_MAX_NAME {maximum}',
-                     'static const char nemo_x11_colour_names[] =']
-    data += [f'    "{name.lower()}\\0"' for name, _ in rows]
-    data += ['    ;', 'static const struct { uint16_t offset; uint8_t r, g, b; }',
+                     'static const char nemo_x11_colour_names[] = {']
+    # Adjacent string literals become one literal; 7614 bytes exceeds the
+    # ISO C99 minimum supported length (4095). Keep identical packed bytes
+    # using individual character initializers, including the final sentinel.
+    data += ['    ' + ', '.join(repr(c) for c in name.lower()) + ', 0,'
+             for name, _ in rows]
+    data += ['    0', '};', 'static const struct { uint16_t offset; uint8_t r, g, b; }',
              'nemo_x11_colours[] = {']
     offset = 0
     for name, (r, g, b) in rows:

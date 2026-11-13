@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/dec-status-xterm.json').read_text())
+source=json.loads((root/'research/dec-status-xterm.json').read_text(encoding='utf-8'))
 # Nemoterm does not accept downloadable UDK bindings: report unavailable, not
 # xterm's unlocked state. An explicitly empty checksum id is consistently zero
 # here, not xterm's unsigned representation of its missing-parameter sentinel.
@@ -30,5 +30,5 @@ parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
 for name,content in outputs.items():
     path=root/'tests'/name
-    if args.check: assert path.read_text()==content, 'Regenerate '+name
-    else: path.write_text(content)
+    if args.check: assert path.read_text(encoding='utf-8')==content, 'Regenerate '+name
+    else: path.write_text(content, encoding='utf-8', newline='\n')

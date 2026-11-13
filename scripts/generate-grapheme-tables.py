@@ -27,7 +27,7 @@ def records(name):
 
 
 def generate():
-    for item in json.loads((DATA / 'manifest.json').read_text()):
+    for item in json.loads((DATA / 'manifest.json').read_text(encoding='utf-8')):
         data = (DATA / item['file']).read_bytes()
         if len(data) != item['bytes'] or hashlib.sha256(data).hexdigest() != item['sha256']:
             raise ValueError(f"Unicode input changed: {item['file']}")

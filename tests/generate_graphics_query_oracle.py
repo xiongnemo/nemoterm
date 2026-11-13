@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-source = json.loads((root/'research/graphics-query-xterm.json').read_text())
+source = json.loads((root/'research/graphics-query-xterm.json').read_text(encoding='utf-8'))
 # These values depend on implementation limits, resource defaults or geometry.
 # Missing Pi is also represented differently (xterm emits its -1 sentinel as
 # 65535; Nemoterm consistently treats an omitted numeric parameter as zero).
@@ -30,6 +30,6 @@ args = parser.parse_args()
 for name, content in outputs.items():
     path = root/'tests'/name
     if args.check:
-        assert path.read_text() == content, 'Regenerate '+name
+        assert path.read_text(encoding='utf-8') == content, 'Regenerate '+name
     else:
-        path.write_text(content)
+        path.write_text(content, encoding='utf-8', newline='\n')

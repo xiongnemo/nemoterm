@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-source=json.loads((root/'research/margins-xterm.json').read_text())
+source=json.loads((root/'research/margins-xterm.json').read_text(encoding='utf-8'))
 flags={1:'ATTR_BOLD',2:'ATTR_DIM',3:'ATTR_ITALIC',4:'ATTR_UNDER',5:'ATTR_BLINK',7:'ATTR_REVERSE',8:'ATTR_CONCEAL',9:'ATTR_STRIKE'}
 def literal(s):
     return '"'+''.join('\\%03o'%b if b<32 or b>=127 else '\\'+chr(b) if chr(b) in '\\"' else chr(b) for b in s.encode())+'"'
@@ -19,4 +19,4 @@ for name,case in source['cases'].items():
     attrs=','.join('|'.join(flags[n] for n in map(int,s.split(';')) if n in flags) or '0' for s in case.get('attrs',[])) or '0'
     lines.append('  {'+literal(name)+','+literal(sequence)+','+literal(case['state_reply'])+',{'+chars+'},{'+attrs+'},'+('true' if 'attrs' in case else 'false')+'},')
 lines.append('};')
-(root/'tests/margin_oracle_cases.h').write_text('\n'.join(lines)+'\n')
+(root/'tests/margin_oracle_cases.h').write_text('\n'.join(lines)+'\n', encoding='utf-8', newline='\n')
