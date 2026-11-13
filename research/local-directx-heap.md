@@ -56,6 +56,14 @@ in addition to the existing allocation/reallocation/destruction, reservation
 filter and low-fragmentation-heap cases. All 27 checks pass locally. The five
 offline page-correlation tests also pass.
 
+[Diagnostic CI 43488913656](https://github.com/xiongnemo/nemoterm/actions/runs/43488913656)
+passes on source `2bebf40`: Windows independently repeats all 27 adapter checks
+and the virtual-memory adapter; Linux passes allocation bookkeeping under
+ASan/UBSan and all five page-accounting tests. Three CLI rejection checks also
+pass locally (missing workload, CI-only mode outside CI and conflicting modes).
+This focused validation builds no new product image and does not repeat or
+replace the earlier 93-group product acceptance run.
+
 ## Rejected renderer experiments
 
 Two separately built experiments ran the unchanged uninstrumented workload.

@@ -472,6 +472,38 @@
       "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
       "raw_bytes": 1051,
       "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/ci-allocation-census-pages.log.gz",
+      "sha256": "91433cbfc93cc16f7c76cf5151e77a08d0f98fb9e2c6b1b2723d516dde6f958f",
+      "bytes": 56,
+      "raw_sha256": "888a0c0ed615e57d32cf72be501b0c355f33b8613c81dfdaa99db33d7959487e",
+      "raw_bytes": 103,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/ci-allocation-census-test.log.gz",
+      "sha256": "d7d1ca286ac0c3b6f069f827a0cfcc8412bff126bee989f60e9bb8e33f8f45b4",
+      "bytes": 87,
+      "raw_sha256": "9447c1b4050afe7c7e2ada42a90c35af9dcafb097a15e9db8d35570460c929fe",
+      "raw_bytes": 80,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/ci-allocation-census-native.json.gz",
+      "sha256": "b5c3843f112cb2bbbfac1ab4a3395cf97bc642a142ee68c2449fe53e6e148839",
+      "bytes": 15018,
+      "raw_sha256": "8046647873cdf468587dad1acbc8c2445b57988c96825877d38295be49c73553",
+      "raw_bytes": 408382,
+      "encoding": "gzip, original bytes preserved"
+    },
+    {
+      "path": "research/local-directx-heap-evidence/ci-virtual-memory-native.json.gz",
+      "sha256": "f16679b366554781abff46d695445643999fc08f63b0186a6bcc8fba7167d50e",
+      "bytes": 1772,
+      "raw_sha256": "40b039bbffcfc878ac0d9f8bf976962ce1ad60cca580400d53ceb03c1969062d",
+      "raw_bytes": 20088,
+      "encoding": "gzip, original bytes preserved"
     }
   ],
   "diagnostic_executable": {
@@ -502,5 +534,25 @@
   "accepted_local_distribution": {
     "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
     "bytes": 4371456
+  },
+  "ci": {
+    "run": 43488913656,
+    "source_commit": "2bebf4069a961e0d7328fefe1c240f6abee2bfd9",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43488913656",
+    "conclusion": "success",
+    "scope": "Native diagnostic adapter, allocation bookkeeping under ASan/UBSan, private-page accounting; no new product build or memory acceptance.",
+    "artifacts": [
+      {
+        "id": 14068557376,
+        "kind": "native-adapter",
+        "bytes": 17953
+      },
+      {
+        "id": 14068147900,
+        "kind": "bookkeeping",
+        "bytes": 419
+      }
+    ],
+    "native_adapter_checks": 27
   }
 }
