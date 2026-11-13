@@ -71,7 +71,13 @@ static void evict(NemoD2D *g, D2DRun *r)
 }
 void nemo_d2d_clear_cache(NemoD2D *g)
 {
-    if (g) for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
+    /* Invalidate content across tab/font changes, retaining bounded resources
+     * for subsequent runs. Frame destruction still releases the whole pool. */
+    if (g) for (unsigned i=0;i<CACHE_COUNT;i++) {
+        D2DRun *r=&g->cache[i];
+        if (r->key) strbuf_free(r->key);
+        r->key=NULL;r->hash=r->used=0;
+    }
 }
 static bool end_frame(NemoD2D *g)
 {
@@ -83,7 +89,8 @@ static bool end_frame(NemoD2D *g)
 }
 static void free_frame(NemoD2D *g)
 {
-    end_frame(g);nemo_d2d_clear_cache(g);
+    end_frame(g);
+    for (unsigned i=0;i<CACHE_COUNT;i++) evict(g,&g->cache[i]);
     if (g->interop) nemo_d2d_release(g->interop);
     if (g->brush) nemo_d2d_release(g->brush);
     if (g->upload) nemo_d2d_release(g->upload);
@@ -290,7 +297,8 @@ void nemo_d2d_end_run(NemoD2D *g, RECT box, ptrlen key)
     }
     if (r->bitmap && r->width==width && r->height==height) {
         if (!check(g,nemo_d2d_copy_memory(r->bitmap,NULL,g->pixels,g->strip_width*4))) return;
-        strbuf_free(r->key);r->key=NULL;
+        if (r->key) strbuf_free(r->key);
+        r->key=NULL;
     } else {
         evict(g,r);
         while (g->cache_bytes+bytes>CACHE_BYTES) {
