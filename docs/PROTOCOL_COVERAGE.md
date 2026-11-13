@@ -4,6 +4,16 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
+The remote single-image checkpoint at `d2aa14a` passes 88 groups; its
+[manifest](../research/reset-palette-validation.json) identifies the exact EXE,
+raw observations and uninstrumented memory samples. Actual GDI and DirectX
+passed the new colour fixtures; requested OpenGL fell back to GDI and does not
+establish OpenGL pixel acceptance. The matching core run failed the upstream
+sidecar's guarded-area reply ordering. The [controlled host comparison](../research/ci-fixture-recovery.md)
+isolates that failure and records the separate source-host follow-up. Local
+runtime tests remain paused; historical build-only notes are not current
+acceptance summaries.
+
 Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 (page identifies patch 411); independent captures use the pinned
 [XTerm 412 source](https://github.com/ThomasDickey/xterm-snapshots/tree/5c75ead9a75d4b2e666ca06fa94503b5766ed93f).
@@ -37,7 +47,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | C0 SI/SO | Partial | G0/G1 bank selection is covered by presentation-state reports; full ISO 2022 combinations remain unverified. |
 | C0 CAN/SUB/ESC cancellation | Partial | Numerous query/OSC/DCS recovery cases; complete state-machine matrix remains open. |
 | ESC D/E/M (IND/NEL/RI) | Tested | `margins`, including partial horizontal scroll regions. |
-| ESC 7/8 (DECSC/DECRC) | Partial | `state_control` covers the earlier cursor/rendition/alternate-screen state. Saving all supported G0–G3 designations and both GL/GR selectors is now implemented with 44 authored cases, but only compiled, not executed; see [cursor charset checkpoint](../research/cursor-charset-save.md). |
+| ESC 7/8 (DECSC/DECRC) | Partial | `state_control` covers cursor/rendition/alternate-screen state. All supported G0–G3 designations and both GL/GR selectors have 44 independently matched XTerm cases plus native four-bank pixel restoration; see [cursor charset checkpoint](../research/cursor-charset-save.md). The supported charset repertoire remains limited. |
 | ESC = / ESC > | Tested | `modes`, `keyboard`, application/numeric keypad state. |
 | ESC Z (DECID) | Source only | Shares configured primary DA response; not separately covered by identity oracle. |
 | ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
@@ -49,7 +59,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
 | ESC 6/9 (DECBI/DECFI) | Tested | `margins`, native `horizontal`: VT420 gate, inside/outside margins, edge scrolling and pending wrap. Text, full cell payloads, shell marks and Sixel pixels move together. |
-| ESC V/W (SPA/EPA) | Source only | ISO guarded writes, ordinary/DEC erasure, queries, reset and family transitions implemented; 63 authored wire cases plus core/native fixtures are compiled/prepared but unrun. See [guarded areas](../research/guarded-areas.md). Legacy raw C1 dispatch retains the configured codepage policy. |
+| ESC V/W (SPA/EPA) | Tested | ISO guarded writes, ordinary/DEC erasure, queries, reset and family transitions: 63 independent XTerm matches, core assertions and single-image native text/Sixel pixels. See [guarded areas](../research/guarded-areas.md) for the upstream sidecar limitation. Legacy raw C1 dispatch retains the configured codepage policy. |
 | Raw C1 bytes and UTF-8 encoded C1 | Partial | Existing codepage-sensitive parser; exhaustive byte/state conformance is still open. Do not assume UTF-8 text is reprocessed as controls. |
 | SOS/PM/APC strings | Partial | String consumption/recovery only; no application payload support. |
 
@@ -66,15 +76,15 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |
 | @/P (ICH/DCH) | Tested | `margins`, `rectangle`, `reflow`, wide/combining boundaries. |
 | L/M (IL/DL) | Tested | `margins`, `sixel_terminal`, partial-region lifetimes. |
-| J/K/X (ED/EL/ECH) | Partial | Earlier `terminal`, `selective_erase`, `rectangle` and Sixel checks exist; the new ISO protection path has build-only evidence. |
+| J/K/X (ED/EL/ECH) | Tested | `terminal`, `selective_erase`, `rectangle` and Sixel checks; ISO protection is covered by the 63-case guarded-area reference matrix and single-image native erasure/pixel checks. |
 | J parameter 3 (saved-line erase) | Gated | Local remote-clear-scrollback setting; active screen is separate. |
-| ?J/?K (DECSED/DECSEL) | Partial | Earlier protected text/image checks exist. Shared ISO family, empty whole-display retirement and refined wrap/drawn-span handling await new runtime acceptance. |
+| ?J/?K (DECSED/DECSEL) | Tested | Protected text/image checks include shared ISO family, empty whole-display retirement and wrap/drawn-span handling in the guarded-area core and single-image native fixtures. |
 | S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. Pending wrap is preserved, independently checked by XTerm and native cell/cursor replies. |
 | ^ (SD alias), SP @ / SP A (SL/SR) | Tested | `margins`, native `horizontal`: counts, margins, outside-region behavior, wide/double-size rows, origin and pending wrap. See [horizontal editing](../research/horizontal-editing.md). |
 | ' } / ' ~ (DECIC/DECDC) | Tested | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix. |
 | b (REP) | Tested | `terminal`, `grapheme_terminal`; bounded repeats and optional whole clusters. |
 | r (DECSTBM); s with mode 69 (DECSLRM) | Tested | `margins`, independent xterm oracle. |
-| s/u without mode 69 | Partial | `state_control`; ANSI cursor save/restore aliases. The new full supported-bank cache shares DECSC/DECRC's pending runtime acceptance. |
+| s/u without mode 69 | Tested | `state_control`; ANSI cursor save/restore aliases, including the supported-bank cache in the 44-case independent charset matrix and native restoration checks. |
 | !p (DECSTR) | Tested | `state_control`, soft reset retention and mode reset semantics. |
 | $p / ?$p (DECRQM) | Tested | `modes`; reports implemented state, local restrictions and unknown modes. |
 | ?s / ?r (XTSAVE/XTRESTORE) | Partial | `state_control`, `margins`; bounded explicit list of supported private modes, not arbitrary modes. |
@@ -86,8 +96,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?9001;id n (Nemoterm internal cursor synchronization) | Tested | Same-image host transaction IDs and viewport-absolute coordinates; separate from application CPR and Win32 input mode 9001. Native ordering, stale replies and console-API positions are checked. |
 | x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
 | "p (DECSCL) | Partial | Level 61–65 masks now distinguish VT300/VT400 reports, including RIS retention. PuTTY extensions remain; full reset semantics and the second parameter's 7/8-bit control selection are not implemented. |
-| "q (DECSCA) | Partial | Earlier `selective_erase` checks establish independence from SGR resets. New ISO/DEC transitions and the family-sensitive DECRQSS response are compiled but unrun. |
-| $z / ${ (DECERA/DECSERA) | Partial | Earlier `selective_erase` rectangle checks exist; the new ISO/combined-family distinction is source-only pending runtime acceptance. |
+| "q (DECSCA) | Tested | `selective_erase` checks independence from SGR resets. ISO/DEC transitions and the family-sensitive DECRQSS response pass the guarded-area reference/core/native matrix. |
+| $z / ${ (DECERA/DECSERA) | Tested | `selective_erase` rectangles, with ISO/combined-family distinctions covered by the guarded-area reference/core/native matrix. |
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
 | $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
 | *y (DECRQCRA); #y (XTCHECKSUM) | Gated / Partial | Off by default; `queries` and native `checksum`: 364 exact XTerm cases, 8 retained-cell expectations, attributes/blank modes/origin/resize/reset. Unicode normalization and legacy charSeen differences are explicit; see [checksum record](../research/rectangle-checksums.md). |
@@ -140,11 +150,11 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | Wire function | Status | Evidence or limitation |
 | --- | --- | --- |
 | OSC 0/1/2/21 | Gated | `titles`, bounded title/icon strings, encoding modes and local title policies. |
-| OSC 4 / 104 | Tested | `osc_colour`, indexed palette set/query/reset; multiple pairs and malformed data. |
-| OSC 10/11/12 and 110/111/112 | Tested | Default foreground/background/cursor colours and resets. |
-| OSC colour names: pinned Xorg table | Source / build only | [782 X11 names](../research/x11-colours.md), including exact space aliases and numbered shades, replace the eight-name subset on the development branch. Parser/protocol suites compile; runtime and independent XTerm comparison remain pending. Numeric `rgb:`/`#` semantics are unchanged; Xcms device-profile forms remain unsupported. |
-| OSC 17/19, 117/119 | Partial / unverified | Selection foreground/background set, query, reset, palette-stack retention and display-only overlays are implemented on the development branch, including [saved defaults](../research/selection-settings.md). Authored core and native tests exist but have not run while local runtime testing is paused; no independent XTerm capture yet. See [selection colours](../research/selection-colours.md). |
-| OSC 5/6, 105/106 and OSC 4/104 aliases 256–260 | Source / build only | [Attribute colours](../research/attribute-colours.md): five special colours, modes, display overlays, palette retention and [saved defaults/style settings](../research/attribute-colour-settings.md). 39 authored wire cases, mock paint checks and three-renderer fixtures are prepared but unrun. Documented mode 5, permissive-parser differences and dynamic repaint timing require reference review. |
+| OSC 4 / 104 | Tested | `osc_colour`, indexed palette set/query/reset; multiple pairs and malformed data. The [25-case reset/reverse capture](../research/reset-palette.md) and native pixels cover RIS/DECSTR restoration and saved-palette retention. |
+| OSC 10/11/12 and 110/111/112 | Tested | Default foreground/background/cursor colours and resets, including reversed foreground/background roles and stateful cursor following in the reset/reverse capture. |
+| OSC colour names: pinned Xorg table | Tested | [782 X11 names](../research/x11-colours.md), including exact space aliases and numbered shades. Extended parser/protocol tests pass in remote core/sanitizer jobs; the prepared independent full-table XTerm comparison remains pending. Numeric `rgb:`/`#` semantics are unchanged; Xcms device-profile forms remain unsupported. |
+| OSC 17/19, 117/119 | Partial | Selection foreground/background set/query/reset, palette stacks, display overlays and [saved defaults](../research/selection-settings.md). Independent capture matches 30 cases and retains 11 resource observations; core, native GDI/DirectX and settings checks pass remotely. Full XTerm highlight-resource pixel parity and actual OpenGL pixels remain open. See [selection colours](../research/selection-colours.md). |
+| OSC 5/6, 105/106 and OSC 4/104 aliases 256–260 | Partial | [Attribute colours](../research/attribute-colours.md): special colours, modes, overlays, palette retention and [saved defaults/style settings](../research/attribute-colour-settings.md) pass remote core/native/settings checks. Independent replies match 37 cases, with two explicitly retained differences for overflow and selective reset; eight reference variants are recorded. Full reference pixel parity, documented mode 5 and actual OpenGL remain separate. |
 | OSC 13–16/18, 113–116/118 | Missing | Pointer/Tektronix colour operations are not implemented. Chained dynamic commands preserve their parameter positions. |
 | OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
 | OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy; mandatory native clipboard-related cases still await CI. |

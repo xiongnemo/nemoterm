@@ -1,5 +1,12 @@
 # Saved selection colours: source and build checkpoint
 
+The subsequent remote [ea042bc single-image validation](attribute-reset-validation.json)
+passes configured selection colours and startup/live-settings fixtures. The
+[d2aa14a run](reset-palette-validation.json) repeats them among 88 passing
+groups. These records supersede the build-only status below, while preserving
+the initial checkpoint. Local runtime testing remains paused; the independent
+reference and renderer limitations are in [selection colours](selection-colours.md).
+
 `Window > Selection > Colours` now provides separate background and text
 colour preferences. Each component has an enable checkbox, three decimal RGB
 fields and the existing native colour picker. Both preferences default off,

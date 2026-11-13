@@ -1,5 +1,19 @@
 # Selection-colour development checkpoint
 
+## Current remote verification (2026-11-14 Sydney)
+
+The [independent reference run](protocol-reference-20261114.md) matches all
+30 authored replies and retains 11 additional resource-dependent observations.
+The [ea042bc single-image run](attribute-reset-validation.json) passes selection
+colour, configured-default and startup/live-settings checks; the later
+[d2aa14a run](reset-palette-validation.json) repeats them in its 88 passing
+groups. Actual GDI and DirectX pixels are covered. Requested OpenGL falls back
+to GDI on these runners, and full XTerm highlight-resource pixel equivalence
+remains open. Local runtime testing remains paused. The following sections
+preserve the initial source/build checkpoint and its then-unrun fixtures.
+
+## Initial source/build checkpoint
+
 The development branch implements OSC 17/19 (selection background/foreground)
 and OSC 117/119 (restore the corresponding default). Runtime validation is
 paused at the user's request. This checkpoint is source and build progress;

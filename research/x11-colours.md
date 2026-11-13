@@ -1,5 +1,18 @@
 # X11 named colours: source and build checkpoint
 
+## Current remote verification (2026-11-14 Sydney)
+
+The extended `test_colour` and `test_osc_colour` suites pass in the remote
+Windows core and Linux sanitizer jobs at `d2aa14a`; their workflow later fails
+the separate upstream-host guarded-area check. The
+[retained validation](reset-palette-validation.json) records that failure and
+the successful 88-group single-image run. This establishes product parser
+coverage, not an independent full-table XTerm comparison: the 66-batch XTerm
+collector described below remains unrun. Local runtime testing remains paused.
+The remaining sections preserve the initial source/build checkpoint.
+
+## Implementation
+
 The shared OSC colour parser now contains all 782 names from the pinned Xorg
 server 21.1.16 `os/oscolor.c` table, replacing the eight-name whitelist. This
 includes grey ramps, numbered shades, case-insensitive matching and the exact
