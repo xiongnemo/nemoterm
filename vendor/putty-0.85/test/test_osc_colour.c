@@ -4,6 +4,7 @@
 #undef main
 #include "test_clock.h"
 #include "../../../tests/palette_stack_oracle_cases.h"
+#include "../../../tests/reset_palette_oracle_cases.h"
 #include "../../../tests/x11_colour_cases.h"
 
 static void check_colour(Mock *mk, unsigned index, unsigned r, unsigned g, unsigned b)
@@ -160,6 +161,22 @@ int main(void)
     failed |= test_attribute_colour_wire();
     failed |= test_attribute_colour_paint();
     failed |= test_attribute_colour_settings();
+    for (size_t i = 0; i < lenof(reset_palette_oracle); i++) {
+        mk = mock_new();
+        /* The independent XTerm resource uses foreground for its default
+         * cursor, unlike PuTTY's green default. All other defaults agree. */
+        for (int component = 0; component < 3; component++)
+            conf_set_int_int(mk->conf, CONF_colours,
+                             CONF_COLOUR_cursor_bg*3+component, 187);
+        mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+        mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+        reset(mk);
+        test_context(mk, "captured reset/reverse colour %s", reset_palette_oracle[i].name);
+        term_data_fragmented(mk->term, reset_palette_oracle[i].sequence);
+        reply(mk, reset_palette_oracle[i].reply);
+        failed |= mk->any_test_failed;
+        mock_free(mk);
+    }
     for (size_t i = 0; i < lenof(palette_stack_oracle); i++) {
         mk = mock_new();
         conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);

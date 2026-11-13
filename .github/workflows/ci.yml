@@ -118,6 +118,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_palette_stack_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_reset_palette_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_selection_colour_cases.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_attribute_colour_cases.py --check
@@ -456,6 +458,15 @@ jobs:
           python tests/selective_erase_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/selective-erase-observed.json, research/selective-erase-*.png test-results/
+      - name: Test colour resets and reverse-video cursor pixels
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/reset_palette_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/reset-palette-$renderer.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/reset-palette-$renderer-*" test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test ISO guarded areas through an owned native terminal
         shell: pwsh
         run: |

@@ -15,7 +15,8 @@
 #include "nemo_colour.h"
 
 static void term_bidi_cache_clear_line(Terminal *term, size_t line);
-static void nemo_attribute_colours_reset(Terminal *term);
+static void nemo_reset_ansi_colours(Terminal *term);
+static void nemo_set_reverse_video(Terminal *term, bool state);
 
 #define VT52_PLUS
 
@@ -2799,7 +2800,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
-    nemo_attribute_colours_reset(term);
+    nemo_reset_ansi_colours(term);
     nemo_presentation_cancel(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
@@ -2854,7 +2855,7 @@ static void power_on(Terminal *term, bool clear)
     for (size_t i = 0; i < lenof(term->cset_attr); i++)
         term->cset_attr[i] = term->save_csattr[i] =
             term->alt_save_csattr[i] = CSET_ASCII;
-    term->rvideo = false;
+    nemo_set_reverse_video(term, false);
     term->in_vbell = false;
     term->cursor_on = true;
     term->big_cursor = false;
@@ -3535,6 +3536,24 @@ static void palette_rebuild(Terminal *term)
     }
 }
 
+/* XTerm's ReverseOldColors keeps a cursor matching the displayed foreground
+ * visible by moving it to the new foreground. Other cursor colours stay fixed.
+ * Our foreground/background palette slots themselves remain in normal order. */
+static void nemo_set_reverse_video(Terminal *term, bool state)
+{
+    if (term->rvideo != state && term->subpalettes[SUBPAL_CONF].present[0]) {
+        rgb cursor = term->palette[OSC4_COLOUR_cursor_bg];
+        rgb old_fg = term->palette[term->rvideo ? OSC4_COLOUR_bg : OSC4_COLOUR_fg];
+        if (cursor.r == old_fg.r && cursor.g == old_fg.g && cursor.b == old_fg.b) {
+            term->subpalettes[SUBPAL_SESSION].values[OSC4_COLOUR_cursor_bg] =
+                term->palette[state ? OSC4_COLOUR_bg : OSC4_COLOUR_fg];
+            term->subpalettes[SUBPAL_SESSION].present[OSC4_COLOUR_cursor_bg] = true;
+            palette_rebuild(term);
+        }
+    }
+    term->rvideo = state;
+}
+
 static void nemo_selection_colour_set(Terminal *term, unsigned which,
                                       optionalrgb colour)
 {
@@ -3566,12 +3585,18 @@ static void nemo_attribute_colour_set(Terminal *term, unsigned which,
     }
 }
 
-/* XTerm ReallyReset restores special colours for both RIS and DECSTR.
- * Application mode switches and configured defaults remain independent. */
-static void nemo_attribute_colours_reset(Terminal *term)
+/* XTerm ReallyReset restores indexed and special colours for RIS and DECSTR.
+ * Dynamic foreground/background/cursor and selection colours remain separate. */
+static void nemo_reset_ansi_colours(Terminal *term)
 {
+    for (unsigned i = 0; i < 256; i++)
+        term->subpalettes[SUBPAL_SESSION].present[i] = false;
     for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
         nemo_attribute_colour_set(term, i, optionalrgb_none);
+    /* Initial power_on precedes palette_reset, so there is no configured
+     * palette to rebuild yet. Later resets always have this base layer. */
+    if (term->subpalettes[SUBPAL_CONF].present[0])
+        palette_rebuild(term);
 }
 
 static void nemo_palette_stack_op(Terminal *term, bool push)
@@ -4934,7 +4959,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
-    nemo_attribute_colours_reset(term);
+    nemo_reset_ansi_colours(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
     term->cset_ss = 0;
@@ -4961,10 +4986,6 @@ static void nemo_soft_reset(Terminal *term)
     save_cursor(term, true);
     term->savecurs = (pos){0, 0};
     term->save_wnext = false;
-    /* xterm restores OSC 4 entries, while keeping OSC 10/11/12 overrides. */
-    for (unsigned i = 0; i < 256; i++)
-        term->subpalettes[SUBPAL_SESSION].present[i] = false;
-    palette_rebuild(term);
     term->cursor_on = true;
     nemo_cursor_style(term, 7);
     term_schedule_update(term);
@@ -5710,7 +5731,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
                 /* This is an ON, so we notice the time and save it. */
                 term->rvbell_startpoint = GETTICKCOUNT();
             }
-            term->rvideo = state;
+            nemo_set_reverse_video(term, state);
             seen_disp_event(term);
             break;
           case 6:                      /* DECOM: DEC origin mode */
@@ -6060,12 +6081,19 @@ static void osc_attribute_colour(Terminal *term, unsigned command,
     }
 }
 
-static bool osc_colours(Terminal *term, bool bel)
+static unsigned osc_dynamic_colour_index(Terminal *term, unsigned which)
 {
-    unsigned command = term->esc_args[0];
     static const unsigned dynamic[] = {
         OSC4_COLOUR_fg, OSC4_COLOUR_bg, OSC4_COLOUR_cursor_bg
     };
+    assert(which < lenof(dynamic));
+    if (which < 2 && term->rvideo) which ^= 1;
+    return dynamic[which];
+}
+
+static bool osc_colours(Terminal *term, bool bel)
+{
+    unsigned command = term->esc_args[0];
     if (!(command >= 4 && command <= 6) && !(command >= 104 && command <= 106) &&
         !(command >= 10 && command <= 19) &&
         !(command >= 110 && command <= 119)) return false;
@@ -6131,14 +6159,15 @@ static bool osc_colours(Terminal *term, bool bel)
             nemo_selection_colour_set(term, which, optionalrgb_none);
         } else if (!*next) {
             if (command <= 112) {
-                term->subpalettes[SUBPAL_SESSION].present[dynamic[command-110]] = false;
+                term->subpalettes[SUBPAL_SESSION].present[
+                    osc_dynamic_colour_index(term, command-110)] = false;
                 palette_rebuild(term);
             }
         }
     } else {
         for (; command <= 19 && (token = osc_token(&next)) != NULL; command++) {
             if (command <= 12)
-                osc_colour(term, command, dynamic[command-10], token, bel);
+                osc_colour(term, command, osc_dynamic_colour_index(term, command-10), token, bel);
             else if (command == 17 || command == 19)
                 osc_selection_colour(term, command, token, bel);
             /* Preserve parameter positions across unsupported pointer/Tek

@@ -92,5 +92,17 @@
         "sha256": "05851d2bee7e0ef93446f58ae45ce736eddedec3e0f5a1ff66d614812be31d23"
       }
     ]
+  },
+  "reset_palette_capture": {
+    "run": 43459732585,
+    "artifact": 14054743769,
+    "fixture_commit": "3f34922b1b49121c3c444792152326c4a96d5b89",
+    "result": "success",
+    "case_count": 25,
+    "capture_only": true,
+    "product_runtime_acceptance": false,
+    "path": "research/protocol-reference-evidence/20261114-reset-palette-xterm.json",
+    "bytes": 57630,
+    "sha256": "380e46e9e48dd2262fb0227efb87c0fde2b113cccfc503fce938308182ce5795"
   }
 }
