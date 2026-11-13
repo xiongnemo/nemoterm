@@ -7922,6 +7922,26 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     int i, j;
                     pos scrtop, scrbot;
 
+                    /* DECALN resets layout and rendition, while preserving
+                     * the current colours, protection and other mode state.
+                     * The E cells themselves use the default rendition. */
+                    term->dec_om = false;
+                    term->wrapnext = false;
+                    term->marg_t = term->marg_l = 0;
+                    term->marg_b = term->rows - 1;
+                    term->marg_r = term->cols - 1;
+                    term->curs.x = term->curs.y = 0;
+                    unsigned fg = (term->curr_attr & ATTR_FGMASK) >> ATTR_FGSHIFT;
+                    if ((term->curr_attr & ATTR_BOLD) &&
+                        (conf_get_int(term->conf, CONF_bold_style) & BOLD_STYLE_COLOUR) &&
+                        !term->curr_truecolour.fg.enabled && fg < 8)
+                        term->curr_attr = (term->curr_attr & ~ATTR_FGMASK) |
+                            ((fg + 8) << ATTR_FGSHIFT);
+                    term->curr_attr &= ATTR_COLOURS;
+                    term->curr_truecolour.decoration &= CELL_PROTECTED;
+                    set_erase_char(term);
+                    nemo_images_erase(term, (pos){0, 0}, (pos){term->rows, 0});
+
                     for (i = 0; i < term->rows; i++) {
                         ldata = scrlineptr(i);
                         check_line_size(term, ldata);
