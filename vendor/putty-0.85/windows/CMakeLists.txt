@@ -74,6 +74,8 @@ target_link_libraries(guiterminal cabinet)
 add_executable(test_cluster_renderer
   ${CMAKE_SOURCE_DIR}/../../tests/test_cluster_renderer.cpp nemo_cluster.cpp)
 target_link_libraries(test_cluster_renderer ${platform_libraries})
+add_executable(test_gl_lifetime ${CMAKE_SOURCE_DIR}/../../tests/test_gl_lifetime.c)
+target_link_libraries(test_gl_lifetime utils ${platform_libraries})
 # The COM bridges do not throw or use RTTI. Keep the portable frontend free
 # of a compiler-specific C++ runtime DLL as well as the static MSVC build.
 foreach(cluster_target guiterminal test_cluster_renderer)

@@ -14,3 +14,5 @@ if ($LASTEXITCODE) { throw 'Unicode grapheme conformance tests failed' }
 if ($LASTEXITCODE) { throw 'Terminal grapheme cell tests failed' }
 & "$root/build/test_cluster_renderer.exe"
 if ($LASTEXITCODE) { throw 'Native cluster renderer tests failed' }
+& "$root/build/test_gl_lifetime.exe"
+if ($LASTEXITCODE) { throw 'OpenGL context lifetime tests failed' }

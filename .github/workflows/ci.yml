@@ -31,7 +31,9 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cmake -S vendor/putty-0.85 -B build-cluster -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build build-cluster --target pterm test_cluster_renderer --parallel 4
+          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime --parallel 4
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-cluster/test_gl_lifetime.exe 2>&1 | Tee-Object gl-lifetime-msvc.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_cluster_renderer.exe
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -74,6 +76,7 @@ jobs:
             research/tabs-close-repeat-*.json
             research/hyperlink-window-observed.json
             build/native-crashes/
+            gl-lifetime-msvc.log
           retention-days: 14
   windows:
     name: Windows x64 tests and portable build
@@ -150,7 +153,8 @@ jobs:
       - name: Test Unicode extended grapheme boundaries
         run: |
           set -euo pipefail
-          cmake --build build --target test_grapheme test_grapheme_terminal test_cluster_renderer
+          cmake --build build --target test_grapheme test_grapheme_terminal test_cluster_renderer test_gl_lifetime
+          ./build/test_gl_lifetime.exe 2>&1 | tee test-results/test_gl_lifetime.log
           ./build/test_grapheme.exe tools/unicode/18.0.0/GraphemeBreakTest.txt 2>&1 | tee test-results/test_grapheme.log
           ./build/test_grapheme_terminal.exe 2>&1 | tee test-results/test_grapheme_terminal.log
           ./build/test_cluster_renderer.exe 2>&1 | tee test-results/test_cluster_renderer.log

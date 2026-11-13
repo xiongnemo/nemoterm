@@ -1,0 +1,20 @@
+[0/1] Re-running CMake...
+-- Could NOT find Perl (missing: PERL_EXECUTABLE) 
+-- Configuring done (0.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Users/nemo/Documents/Projects/nemoterm/build/rtl-worktree/build/frontend-single
+[1/11] Updating licence.h
+[2/10] Checking current git commit
+[3/10] Updating cmake_commit.c
+[4/8] Building C object CMakeFiles\guiterminal.dir\windows\nemo_gl.c.obj
+[5/8] Linking CXX static library guiterminal.lib
+[6/8] Building C object windows\CMakeFiles\test_gl_lifetime.dir\C_\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\tests\test_gl_lifetime.c.obj
+[7/8] Linking C executable test_gl_lifetime.exe
+FAILED: [code=4294967295] test_gl_lifetime.exe 
+C:\Windows\system32\cmd.exe /C "cd . && C:\Users\nemo\Documents\Projects\nemoterm\tools\python\cmake\data\bin\cmake.exe -E vs_link_exe --msvc-ver=1944 --intdir=windows\CMakeFiles\test_gl_lifetime.dir --rc=C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\local-msvc\packages\Microsoft.Windows.SDK.CPP.10.0.26100.6584\c\bin\10.0.26100.0\x64\rc.exe --mt=C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\local-msvc\packages\Microsoft.Windows.SDK.CPP.10.0.26100.6584\c\bin\10.0.26100.0\x64\mt.exe --manifests  -- C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\local-msvc\vs\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\link.exe /nologo windows\CMakeFiles\test_gl_lifetime.dir\C_\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\tests\test_gl_lifetime.c.obj  /out:test_gl_lifetime.exe /implib:test_gl_lifetime.lib /pdb:test_gl_lifetime.pdb /version:0.0 /dynamicbase /nxcompat /machine:x64 /manifest:no /INCREMENTAL:NO /subsystem:console  utils.lib  advapi32.lib  comdlg32.lib  gdi32.lib  imm32.lib  ole32.lib  shell32.lib  user32.lib  ws2_32.lib  kernel32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK: command "C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\build\local-msvc\vs\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\link.exe /nologo windows\CMakeFiles\test_gl_lifetime.dir\C_\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\tests\test_gl_lifetime.c.obj /out:test_gl_lifetime.exe /implib:test_gl_lifetime.lib /pdb:test_gl_lifetime.pdb /version:0.0 /dynamicbase /nxcompat /machine:x64 /manifest:no /INCREMENTAL:NO /subsystem:console utils.lib advapi32.lib comdlg32.lib gdi32.lib imm32.lib ole32.lib shell32.lib user32.lib ws2_32.lib kernel32.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib" failed (exit code 1120) with the following output:
+utils.lib(out_of_memory.c.obj) : error LNK2019: unresolved external symbol modalfatalbox referenced in function out_of_memory
+
+test_gl_lifetime.exe : fatal error LNK1120: 1 unresolved externals
+
+ninja: build stopped: subcommand failed.

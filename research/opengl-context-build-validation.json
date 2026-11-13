@@ -1,0 +1,108 @@
+{
+  "source_base": "df1138f868c9db31a8ed1cc894f922f7819df7a1",
+  "status": "compiled and linked; local runtime unverified",
+  "local_runtime_testing_paused_by_user": true,
+  "local_runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-gl-lifetime-unverified/dist/nemoterm.exe",
+    "bytes": 4455424,
+    "sha256": "3bfd80336bdd3767c531b18f785d1efd49dacae37876893d40796fd85aed4fc6"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_gl_lifetime"
+      ],
+      "command": "cmake --build build/frontend-single --target pterm test_gl_lifetime --parallel 2",
+      "log": {
+        "path": "research/opengl-context-build-evidence/gl-lifetime-msvc-build.log",
+        "bytes": 296,
+        "sha256": "6f2e8e2c757d42d9c1dc5fcd54096a241a745df9d9d048a26f57df2bdbc4cf6f"
+      }
+    },
+    "mingw": {
+      "exit_code": 0,
+      "targets": [
+        "test_gl_lifetime"
+      ],
+      "command": "cmake --build build/core --target test_gl_lifetime --parallel 2",
+      "log": {
+        "path": "research/opengl-context-build-evidence/gl-lifetime-mingw-build.log",
+        "bytes": 7466,
+        "sha256": "a62dd3ec17ebaa0b57244030461633ca19933dfdc6e39e13679f52d7b58efb62"
+      }
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": {
+        "path": "research/opengl-context-build-evidence/gl-lifetime-single-build.log",
+        "bytes": 3045,
+        "sha256": "a206704422c31a6abaae47a4e2b959aa8bb7503be87285882486d172deefdffb"
+      },
+      "command": "msbuild build/openconsole-single/src/host/exe/Host.EXE.vcxproj /m:2 /v:minimal /p:Configuration=Release /p:Platform=x64 /p:SolutionDir=<existing-overlay>/ /p:WindowsTerminalBranding=Release /p:BuildInParallel=false /p:UseEnv=true /p:PreferredToolArchitecture=x64 /p:VcpkgManifestInstall=false /bl:build/local-msvc/gl-lifetime-single.binlog"
+    }
+  },
+  "initial_link_failure": {
+    "path": "research/opengl-context-build-evidence/gl-lifetime-msvc-initial-link-failure.log",
+    "bytes": 2958,
+    "sha256": "65375622d1e9e7f97a3cd8e6a1700d0fc27d79e3bd2e1987cac4aaf2e3a199d6"
+  },
+  "static_checks": [
+    "git diff --check",
+    "PowerShell AST parsing: scripts/build.ps1, scripts/test.ps1"
+  ],
+  "source_files": [
+    {
+      "path": "vendor/putty-0.85/windows/nemo_gl.c",
+      "bytes": 16706,
+      "sha256": "f7fc0d05b8961ec05b915631890474cbfe714fc0bb5e143780f8fa6846a65fa5",
+      "lf_bytes": 16706,
+      "sha256_lf": "f7fc0d05b8961ec05b915631890474cbfe714fc0bb5e143780f8fa6846a65fa5"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/CMakeLists.txt",
+      "bytes": 16089,
+      "sha256": "ed37ebec500c4d421ff94a5645bd86d1bcfe8cc44a8e0180a2b04783b32ad803",
+      "lf_bytes": 16089,
+      "sha256_lf": "ed37ebec500c4d421ff94a5645bd86d1bcfe8cc44a8e0180a2b04783b32ad803"
+    },
+    {
+      "path": "tests/test_gl_lifetime.c",
+      "bytes": 8541,
+      "sha256": "6ef0f56db1e88e708218b803116253bd68ac75f5edbbd32fa454fc7ccb91eac0",
+      "lf_bytes": 8541,
+      "sha256_lf": "6ef0f56db1e88e708218b803116253bd68ac75f5edbbd32fa454fc7ccb91eac0"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 36573,
+      "sha256": "b1c66c12355a216675f2881568d608b14eb939c1c2409ca41396a9f045d294ca",
+      "lf_bytes": 36573,
+      "sha256_lf": "b1c66c12355a216675f2881568d608b14eb939c1c2409ca41396a9f045d294ca"
+    },
+    {
+      "path": "scripts/build.ps1",
+      "bytes": 2723,
+      "sha256": "7f18ab9992b543ce1288ae12598a70589104d69e6cad2662c2ca04ba37f204ab",
+      "lf_bytes": 2723,
+      "sha256_lf": "7f18ab9992b543ce1288ae12598a70589104d69e6cad2662c2ca04ba37f204ab"
+    },
+    {
+      "path": "scripts/test.ps1",
+      "bytes": 1425,
+      "sha256": "863c8276582dff071fa32cf2f265a1e8cab32d0cf712a5680fc3909bf1dd797e",
+      "lf_bytes": 1425,
+      "sha256_lf": "863c8276582dff071fa32cf2f265a1e8cab32d0cf712a5680fc3909bf1dd797e"
+    }
+  ],
+  "accepted_main_unchanged": {
+    "path": "C:/Users/nemo/Documents/Projects/nemoterm/dist/nemoterm.exe",
+    "bytes": 4371456,
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+  }
+}

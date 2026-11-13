@@ -1,5 +1,14 @@
 # Nemoterm requirements and evidence ledger
 
+## OpenGL context cleanup (2026-11-13; local runtime testing paused)
+
+[Context-failure cleanup](../research/opengl-context-lifetime.md) releases CPU
+cache keys even when WGL cannot bind, avoids GL deletion/readback without a
+current context, and reports failed tab attachment. A mocked lifecycle target
+is prepared for MSVC/MinGW CI. Local compilation and single-image linking pass;
+the new checks have not been run locally. This is not an explanation or closure
+of the historical GDI tab-close crash, nor a new memory acceptance result.
+
 ## ISO guarded areas (2026-11-13; runtime testing paused)
 
 [SPA/EPA and protection-family handling](../research/guarded-areas.md) now

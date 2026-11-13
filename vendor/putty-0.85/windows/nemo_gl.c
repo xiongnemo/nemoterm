@@ -85,29 +85,40 @@ static LRESULT CALLBACK surface_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
     }
     return DefWindowProcW(hwnd, msg, wp, lp);
 }
-static void evict(NemoGL *g, Run *r)
+static void evict(NemoGL *g, Run *r, bool current)
 {
-    if (r->texture) g->api.glDeleteTextures(1, &r->texture);
+    if (current && r->texture) g->api.glDeleteTextures(1, &r->texture);
     if (r->key) strbuf_free(r->key);
     g->cache_bytes -= r->bytes;
     memset(r, 0, sizeof(*r));
 }
+static void clear_cache(NemoGL *g, bool current)
+{
+    /* CPU keys belong to us even if the driver cannot bind the context.
+     * In that case the failed renderer is retired, and deleting its context
+     * releases the remaining GL objects without issuing contextless GL calls. */
+    for (unsigned i=0; i<CACHE_COUNT; i++) evict(g,&g->cache[i],current);
+}
 void nemo_gl_clear_cache(NemoGL *g)
 {
-    if (!g || !g->context) return;
-    if (!g->api.wglMakeCurrent(g->dc,g->context)) { g->failed=true; return; }
-    for (unsigned i=0; i<CACHE_COUNT; i++) evict(g,&g->cache[i]);
+    if (!g) return;
+    bool current=g->context && g->api.wglMakeCurrent(g->dc,g->context);
+    if (g->context && !current) g->failed=true;
+    clear_cache(g,current);
 }
 void nemo_gl_free(NemoGL *g)
 {
     if (!g) return;
+    bool current=g->context && g->api.wglMakeCurrent(g->dc,g->context);
+    clear_cache(g,current);
     if (g->context) {
-        nemo_gl_clear_cache(g);
-        if (g->api.glDeleteFramebuffers && g->framebuffer)
-            g->api.glDeleteFramebuffers(1,&g->framebuffer);
-        g->api.glDeleteTextures(1,&g->frame);
-        g->api.glDeleteTextures(1,&g->upload);
-        g->api.wglMakeCurrent(NULL,NULL);
+        if (current) {
+            if (g->api.glDeleteFramebuffers && g->framebuffer)
+                g->api.glDeleteFramebuffers(1,&g->framebuffer);
+            if (g->frame) g->api.glDeleteTextures(1,&g->frame);
+            if (g->upload) g->api.glDeleteTextures(1,&g->upload);
+            g->api.wglMakeCurrent(NULL,NULL);
+        }
         g->api.wglDeleteContext(g->context);
     }
     if (g->bitmap) {
@@ -234,6 +245,7 @@ int nemo_gl_frame(NemoGL *g, COLORREF background)
 }
 bool nemo_gl_ok(NemoGL *g)
 {
+    if (g->failed) return false;
     if (g->api.glGetError()!=GL_NO_ERROR) g->failed=true;
     return !g->failed;
 }
@@ -311,13 +323,13 @@ void nemo_gl_end_run(NemoGL *g, RECT box, ptrlen key)
         Run *r=NULL;
         for (unsigned i=0;i<CACHE_COUNT;i++)
             if (!r || g->cache[i].used<r->used) r=&g->cache[i];
-        evict(g,r);
+        evict(g,r,true);
         while (g->cache_bytes+bytes>CACHE_BYTES) {
             Run *old=NULL;
             for (unsigned i=0;i<CACHE_COUNT;i++)
                 if (g->cache[i].texture && (!old || g->cache[i].used<old->used)) old=&g->cache[i];
             if (!old) break;
-            evict(g,old);
+            evict(g,old,true);
         }
         g->api.glGenTextures(1,&r->texture);id=r->texture;
         r->bytes=bytes;g->cache_bytes+=bytes;r->used=++g->tick;r->hash=keyhash(key);
@@ -364,7 +376,7 @@ bool nemo_gl_attach(NemoGL *g, HWND parent)
     ShowWindow(g->surface,SW_HIDE);
     SetLastError(0);
     if (!SetParent(g->surface,parent) && GetLastError()) return false;
-    g->parent=parent;nemo_gl_clear_cache(g);return true;
+    g->parent=parent;nemo_gl_clear_cache(g);return !g->failed;
 }
 void nemo_gl_show(NemoGL *g, bool visible)
 {
@@ -372,8 +384,11 @@ void nemo_gl_show(NemoGL *g, bool visible)
 }
 bool nemo_gl_print_band(NemoGL *g, HDC dc, int top, int height)
 {
-    if (!g->width || !g->height || !strip(g,g->width,1)) return false;
-    g->api.wglMakeCurrent(g->dc,g->context);
+    if (g->failed || !g->width || !g->height) return false;
+    if (!g->api.wglMakeCurrent(g->dc,g->context)) {
+        g->failed=true;return false;
+    }
+    if (!strip(g,g->width,1)) return false;
     g->api.glBindFramebuffer(GL_FRAMEBUFFER,g->framebuffer);
     BITMAPINFO bi={0};bi.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
     bi.bmiHeader.biWidth=g->width;bi.bmiHeader.biHeight=-1;
