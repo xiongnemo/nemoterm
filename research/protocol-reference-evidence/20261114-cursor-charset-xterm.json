@@ -1,0 +1,226 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
+  "cases": {
+    "dec-gl0-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b~\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b}\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b313b403b304142301b5c"
+    },
+    "dec-gl0-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b}\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b323b403b304142301b5c"
+    },
+    "dec-gl0-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b|\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b~\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b333b403b304142301b5c"
+    },
+    "dec-gl1-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b~\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b}\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b313b403b304142301b5c"
+    },
+    "dec-gl1-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b}\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b323b403b304142301b5c"
+    },
+    "dec-gl1-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b|\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b~\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b333b403b304142301b5c"
+    },
+    "dec-gl2-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b313b403b304142301b5c"
+    },
+    "dec-gl2-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b}\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b323b403b304142301b5c"
+    },
+    "dec-gl2-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b|\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b~\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b333b403b304142301b5c"
+    },
+    "dec-gl3-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b~\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b}\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b313b403b304142301b5c"
+    },
+    "dec-gl3-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b}\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b323b403b304142301b5c"
+    },
+    "dec-gl3-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b|\u001b[5;9H\u001b7\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b~\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b333b403b304142301b5c"
+    },
+    "ansi-gl0-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b~\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b}\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b313b403b304142301b5c"
+    },
+    "ansi-gl0-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b}\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b|\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b323b403b304142301b5c"
+    },
+    "ansi-gl0-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b|\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b~\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b333b403b304142301b5c"
+    },
+    "ansi-gl1-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b~\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b}\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b313b403b304142301b5c"
+    },
+    "ansi-gl1-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b}\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b|\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b323b403b304142301b5c"
+    },
+    "ansi-gl1-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b|\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b~\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b333b403b304142301b5c"
+    },
+    "ansi-gl2-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b313b403b304142301b5c"
+    },
+    "ansi-gl2-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b}\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b|\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b323b403b304142301b5c"
+    },
+    "ansi-gl2-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b|\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b~\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b333b403b304142301b5c"
+    },
+    "ansi-gl3-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b~\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b}\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b313b403b304142301b5c"
+    },
+    "ansi-gl3-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b}\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b|\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b323b403b304142301b5c"
+    },
+    "ansi-gl3-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b|\u001b[5;9H\u001b[s\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b~\u001b[9;17H\u001b[u\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b333b403b304142301b5c"
+    },
+    "1048-gl0-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b~\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b}\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b313b403b304142301b5c"
+    },
+    "1048-gl0-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b}\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b|\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b323b403b304142301b5c"
+    },
+    "1048-gl0-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000f\u001b|\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000e\u001b~\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;0;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b303b333b403b304142301b5c"
+    },
+    "1048-gl1-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b~\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b}\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b313b403b304142301b5c"
+    },
+    "1048-gl1-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b}\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b|\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b323b403b304142301b5c"
+    },
+    "1048-gl1-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u000e\u001b|\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bn\u001b~\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;1;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b313b333b403b304142301b5c"
+    },
+    "1048-gl2-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b313b403b304142301b5c"
+    },
+    "1048-gl2-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b}\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b|\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b323b403b304142301b5c"
+    },
+    "1048-gl2-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b|\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b~\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b333b403b304142301b5c"
+    },
+    "1048-gl3-gr1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b~\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b}\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b313b403b304142301b5c"
+    },
+    "1048-gl3-gr2": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b}\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b|\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;2;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b323b403b304142301b5c"
+    },
+    "1048-gl3-gr3": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bo\u001b|\u001b[5;9H\u001b[?1048h\u001b(B\u001b)0\u001b*A\u001b+B\u000f\u001b~\u001b[9;17H\u001b[?1048l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;3;3;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b333b333b403b304142301b5c"
+    },
+    "restore-before-save": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\",
+      "reply_hex": "1b50312475313b313b313b403b403b403b303b323b403b424242421b5c"
+    },
+    "ris-clears-cache": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001bc\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\",
+      "reply_hex": "1b50312475313b313b313b403b403b403b303b323b403b424242421b5c"
+    },
+    "soft-reset-clears-active-cache": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001b[!p\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\",
+      "reply_hex": "1b50312475313b313b313b403b403b403b303b323b403b424242421b5c"
+    },
+    "single-shift-is-not-resurrected": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(B\u001b)B\u001b*0\u001b+B\u000f\u001b}\u001b[1;1H\u001bN\u001b7q\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BB0B\u001b\\",
+      "reply_hex": "1b50312475313b313b313b403b403b403b303b323b403b424230421b5c"
+    },
+    "live-single-shift-survives-restore": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001bO\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;D;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b443b323b313b403b304142301b5c"
+    },
+    "independent-screen-caches": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001b[?47h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[7;11H\u001b7\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w\u001b[?47l\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w\u001b[?47h\u001b8\u001b[1$w\u001b[?47l",
+      "reply": "\u001bP1$u7;11;1;@;@;@;3;2;@;B0AB\u001b\\\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\\u001bP1$u7;11;1;@;@;@;3;2;@;B0AB\u001b\\",
+      "reply_hex": "1b50312475373b31313b313b403b403b403b333b323b403b423041421b5c1b50312475353b393b313b403b403b403b323b313b403b304142301b5c1b50312475373b31313b313b403b403b403b333b323b403b423041421b5c"
+    },
+    "1049-restores-main-charsets": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b[?1049h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[7;11H\u001b7\u001b[?1049l\u001b[1$w",
+      "reply": "\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475353b393b313b403b403b403b323b313b403b304142301b5c"
+    },
+    "soft-reset-retains-inactive-cache": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b(0\u001b)A\u001b*B\u001b+0\u001bn\u001b~\u001b[5;9H\u001b7\u001b[?47h\u001b(B\u001b)0\u001b*A\u001b+B\u001bo\u001b}\u001b[7;11H\u001b7\u001b[!p\u001b(B\u001b)B\u001b*B\u001b+B\u000e\u001b|\u001b[9;17H\u001b8\u001b[1$w\u001b[?47l\u001b8\u001b[1$w",
+      "reply": "\u001bP1$u1;1;1;@;@;@;0;2;@;BBBB\u001b\\\u001bP1$u5;9;1;@;@;@;2;1;@;0AB0\u001b\\",
+      "reply_hex": "1b50312475313b313b313b403b403b403b303b323b403b424242421b5c1b50312475353b393b313b403b403b403b323b313b403b304142301b5c"
+    }
+  }
+}

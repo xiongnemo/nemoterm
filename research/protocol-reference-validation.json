@@ -1,0 +1,56 @@
+{
+  "recorded_utc": "2026-11-13T15:43:16.055645+00:00",
+  "run": 43454910323,
+  "artifact": 14053397987,
+  "fixture_commit": "8e726066958d11db4cea79e07ec86a471b349af7",
+  "upstream_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+  "upstream_version": "XTerm(412)",
+  "reference_executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
+  "workflow_result": "failure",
+  "passing_steps": [
+    "identity",
+    "guarded-area",
+    "selection-colour",
+    "cursor-charset"
+  ],
+  "attribute_colour_differences": [
+    "reset-one-special",
+    "overflow-index",
+    "retain-ris",
+    "retain-decstr"
+  ],
+  "local_runtime_tests_executed": false,
+  "product_runtime_acceptance": false,
+  "files": [
+    {
+      "family": "identity",
+      "cases": 62,
+      "path": "research/protocol-reference-evidence/20261114-identity-xterm.json",
+      "sha256": "2e68e3429a0ea03e7c405b20bcde45f1d5dab375325343718566b95e87000b79"
+    },
+    {
+      "family": "guarded-area",
+      "cases": 63,
+      "path": "research/protocol-reference-evidence/20261114-guarded-area-xterm.json",
+      "sha256": "a75247c60775bfa88880df76354c9e861f5e718e76db3e53ead84b7115ab905e"
+    },
+    {
+      "family": "attribute-colour",
+      "cases": 39,
+      "path": "research/protocol-reference-evidence/20261114-attribute-colour-xterm.json",
+      "sha256": "e87a645de2c31aa915524c97ddfbeb20c69c07c3591fedab15ff278257d5ca1f"
+    },
+    {
+      "family": "selection-colour",
+      "cases": 41,
+      "path": "research/protocol-reference-evidence/20261114-selection-colour-xterm.json",
+      "sha256": "50941eced87a9d3210ff69258fb8465feacc3519842ed3fd0a579deb28b5a5f4"
+    },
+    {
+      "family": "cursor-charset",
+      "cases": 44,
+      "path": "research/protocol-reference-evidence/20261114-cursor-charset-xterm.json",
+      "sha256": "b7d8859778185ec70ceba2dd18d52dd87e6df14cafb4dfd1431e4a8f3ffc9bbd"
+    }
+  ]
+}
