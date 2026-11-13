@@ -31,7 +31,8 @@ class ProtocolWireTrace:
             frida_version=frida.__version__, diagnostic_only=True, instrumented=True))
         try:
             self.session = call_frida('protocol-wire-attach', frida.attach, process.pid)
-            source = Path(__file__).with_suffix('.js').read_text(encoding='utf-8')
+            source = 'const expectedImagePath = '+json.dumps(str(executable))+';\n'
+            source += Path(__file__).with_suffix('.js').read_text(encoding='utf-8')
             self.script = call_frida('protocol-wire-create', self.session.create_script, source)
             self.script.on('message', self.message)
             call_frida('protocol-wire-load', self.script.load)
@@ -74,6 +75,9 @@ class ProtocolWireTrace:
                 if self.session is not None:
                     detach_session(self.session)
                     self.session = None
+                if not all(self.io_counts.values()):
+                    self.errors.append(dict(kind='coverage-error',
+                        message='Both frontend pipe directions must contain actual I/O completions'))
                 self.record(dict(kind='closed', truncated=self.truncated, errors=self.errors,
                                  io_counts=self.io_counts))
             finally:

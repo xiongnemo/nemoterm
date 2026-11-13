@@ -88,6 +88,8 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             if wire_trace:
                 evidence['wire_observer'] = wire_trace.close()
                 wire_trace = None
+                assert not evidence['wire_observer']['errors'], evidence['wire_observer']
+                assert not evidence['wire_observer']['truncated'], evidence['wire_observer']
             evidence['cleanup'] = job.finish()
             evidence['completed'] = True
             print(f'Native {name}: {len(cases)} XTerm and {len(extra_cases)} direct cases passed')

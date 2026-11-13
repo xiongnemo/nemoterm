@@ -2,7 +2,13 @@
  * No argument, result or byte modifications. Frida's own callers are excluded.
  * https://frida.re/docs/javascript-api/#interceptor */
 'use strict';
-const main = Process.mainModule;
+// Some Windows runs reported a dynamically loaded DLL as Process.mainModule.
+// Bind the exact executable supplied by the owning controller instead.
+const imagePath = expectedImagePath.replace(/\\/g, '/').toLowerCase();
+const matches = Process.enumerateModules().filter(
+    module => module.path.replace(/\\/g, '/').toLowerCase() === imagePath);
+if (matches.length !== 1) throw new Error('Owned frontend module not uniquely found');
+const main = matches[0];
 const end = main.base.add(main.size);
 const kernel = Process.getModuleByName('kernelbase.dll');
 const fileType = new NativeFunction(kernel.getExportByName('GetFileType'), 'uint', ['pointer']);
