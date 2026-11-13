@@ -1,0 +1,538 @@
+{
+  "recorded_utc": "2026-11-13T22:42:40.702678+00:00",
+  "source_commit": "18e912de62465c20124b90e2e687e2ec1ca74492",
+  "executable_sha256": "4591e312142a74efedb2f14588c9d3999cd3165a5fc9a193326f3ebd2d454ca3",
+  "executable_bytes": 4449280,
+  "original_failure": "research/alignment-reset-validation.json",
+  "fixture_hash_format": "UTF-8 with CRLF normalized to LF",
+  "runs": {
+    "02": {
+      "mode": "win_event",
+      "events": 72,
+      "snapshots": 2,
+      "baseline_seconds": 1.393094,
+      "baseline": {
+        "handles": 543,
+        "gdi": 39,
+        "user": 56,
+        "injected": false,
+        "private_ws": 19611648,
+        "total_ws": 60383232,
+        "private_commit": 73945088
+      },
+      "post_close_samples": 12,
+      "input_manager_windows_before_baseline": [
+        {
+          "event": "create",
+          "seconds": 0.267531,
+          "source_milliseconds": 250,
+          "hwnd": 38604322,
+          "kind": "UIM:0000561c",
+          "thread": 22044,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697743982592
+        },
+        {
+          "event": "create",
+          "seconds": 0.267627,
+          "source_milliseconds": 250,
+          "hwnd": 381029710,
+          "kind": "UIMCOM:0000561c",
+          "thread": 22044,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697743982592
+        },
+        {
+          "event": "create",
+          "seconds": 0.268709,
+          "source_milliseconds": 266,
+          "hwnd": 56496832,
+          "kind": "UIMCW:0000561c",
+          "thread": 22044,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697743982592
+        }
+      ],
+      "class_callback_owners": [],
+      "resource_failure_reproduced": false,
+      "diagnostic_completed": true,
+      "functional_groups": 2,
+      "memory_acceptance": false,
+      "full_workload_exercised": false,
+      "natural_cleanup": true,
+      "inner_cleanup": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "controller": {
+        "executable_sha256": "4591e312142a74efedb2f14588c9d3999cd3165a5fc9a193326f3ebd2d454ca3",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 23640,
+        "cleanup": {
+          "before": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 6.458
+      }
+    },
+    "03": {
+      "mode": "win_event",
+      "events": 74,
+      "snapshots": 2,
+      "baseline_seconds": 1.378271,
+      "baseline": {
+        "handles": 543,
+        "gdi": 39,
+        "user": 56,
+        "injected": false,
+        "private_ws": 19701760,
+        "total_ws": 60465152,
+        "private_commit": 73699328
+      },
+      "post_close_samples": 12,
+      "input_manager_windows_before_baseline": [
+        {
+          "event": "create",
+          "seconds": 0.264158,
+          "source_milliseconds": 250,
+          "hwnd": 12652460,
+          "kind": "UIM:0000cf84",
+          "thread": 53124,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697551962112,
+          "class_wndproc": 140728429029168
+        },
+        {
+          "event": "create",
+          "seconds": 0.264324,
+          "source_milliseconds": 250,
+          "hwnd": 24383474,
+          "kind": "UIMCOM:0000cf84",
+          "thread": 53124,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697551962112,
+          "class_wndproc": 140728429029168
+        },
+        {
+          "event": "create",
+          "seconds": 0.264955,
+          "source_milliseconds": 265,
+          "hwnd": 12586144,
+          "kind": "UIMCW:0000cf84",
+          "thread": 53124,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140697551962112,
+          "class_wndproc": 140728429029168
+        }
+      ],
+      "class_callback_owners": [
+        {
+          "kind": "UIM:0000cf84",
+          "class_callback_module": "msctfuimanager.dll"
+        },
+        {
+          "kind": "UIMCOM:0000cf84",
+          "class_callback_module": "msctfuimanager.dll"
+        },
+        {
+          "kind": "UIMCW:0000cf84",
+          "class_callback_module": "msctfuimanager.dll"
+        }
+      ],
+      "resource_failure_reproduced": false,
+      "diagnostic_completed": true,
+      "functional_groups": 2,
+      "memory_acceptance": false,
+      "full_workload_exercised": false,
+      "natural_cleanup": true,
+      "inner_cleanup": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "controller": {
+        "executable_sha256": "4591e312142a74efedb2f14588c9d3999cd3165a5fc9a193326f3ebd2d454ca3",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 22988,
+        "cleanup": {
+          "before": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 6.536
+      }
+    },
+    "04": {
+      "mode": "window_snapshots",
+      "events": 62,
+      "snapshots": 103,
+      "baseline_seconds": 1.444956,
+      "baseline": {
+        "handles": 543,
+        "gdi": 39,
+        "user": 56,
+        "injected": false,
+        "private_ws": 19886080,
+        "total_ws": 60641280,
+        "private_commit": 74141696
+      },
+      "post_close_samples": 12,
+      "input_manager_windows_before_baseline": [
+        {
+          "event": "observed_create",
+          "seconds": 0.330399,
+          "hwnd": 7279994,
+          "kind": "UIMCOM:0000bcec",
+          "thread": 48364,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140695113170944,
+          "class_wndproc": 140728429029168
+        },
+        {
+          "event": "observed_create",
+          "seconds": 0.330399,
+          "hwnd": 52040350,
+          "kind": "UIM:0000bcec",
+          "thread": 48364,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140695113170944,
+          "class_wndproc": 140728429029168
+        },
+        {
+          "event": "observed_create",
+          "seconds": 0.330399,
+          "hwnd": 10950324,
+          "kind": "UIMCW:0000bcec",
+          "thread": 48364,
+          "parent": 0,
+          "visible": false,
+          "class_module": 140695113170944,
+          "class_wndproc": 140728429029168
+        }
+      ],
+      "class_callback_owners": [],
+      "resource_failure_reproduced": false,
+      "diagnostic_completed": true,
+      "functional_groups": 2,
+      "memory_acceptance": false,
+      "full_workload_exercised": false,
+      "natural_cleanup": true,
+      "inner_cleanup": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "controller": {
+        "executable_sha256": "4591e312142a74efedb2f14588c9d3999cd3165a5fc9a193326f3ebd2d454ca3",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 14880,
+        "cleanup": {
+          "before": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 33,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 6.665
+      }
+    }
+  },
+  "original_failure_resolved": false,
+  "root_cause_proven": false,
+  "memory_acceptance": false,
+  "accepted_distribution_replaced": false,
+  "files": [
+    {
+      "path": "research/dx-window-resources-evidence/02-research_resource-window-events.json.gz",
+      "bytes": 3787,
+      "sha256": "94e95571ff3d2e99573fcca4d9954f1f29a040c00b35e5e1c053724ddf55837c",
+      "raw_bytes": 36923,
+      "raw_sha256": "8364cdeeb2cb562daf1216ef7730ac55cf75f1c0a7feab146f8e3bf4d3e4abee",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-research_diagnostic-fixture.json.gz",
+      "bytes": 264,
+      "sha256": "bd65ab67f73ccccd3e1e2ea3f2d4fdfb5d097f882c6779d6dd1ae0895fa3a780",
+      "raw_bytes": 347,
+      "raw_sha256": "8732a144ba912f1787831164a70b4895c4bceff7a623772470d639970769d270",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-research_workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1177,
+      "sha256": "8e45dadbf765741aa957dd79447c6ffade7e96f58eff5f2a3839c274ac1310f9",
+      "raw_bytes": 6532,
+      "raw_sha256": "eef9d2dfbb9bc564a20fe75557412f13f84cf52a597711b0c34464593c996438",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-research_workload-tabs-directx-left-memory.json.gz",
+      "bytes": 7845,
+      "sha256": "b909087fdec2b909b564df653f95b1d11e2ce92f2ce7d04ec2310374e0314a3f",
+      "raw_bytes": 179600,
+      "raw_sha256": "f9e7689cbc271ee9402cb23e6d2d093c3741ddc9a4393abb4c01c2f584e7622d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-research_tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "caba7a667c376f1dfc900a843a5adc478273857a3e751602a032d44905e44306",
+      "raw_bytes": 469,
+      "raw_sha256": "760b8682daf8b441f99e2c60b491ac9539cd7e6975a7702225a4ba862d824a4d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-controller.log.gz",
+      "bytes": 240,
+      "sha256": "672f897aca4f3385e514fee06c64d9ab345cb4fc8cafe85aa2238564c46ae0a7",
+      "raw_bytes": 368,
+      "raw_sha256": "398becfdbad4508d18a83eea3e92205d36abd4a5bfb103dee3c67007a4aa72d4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-tests_owned_window_events.py.gz",
+      "bytes": 2157,
+      "sha256": "58f5741d5402889ecf36e8043665cdaafa069ba9ecb20d6f383436e7692d926b",
+      "raw_bytes": 6611,
+      "raw_sha256": "edf7f9dadd891459b0ada271c63e69790b91aa00296530269508ae1d17fcb990",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/02-tests_tabs_window_smoke.py.gz",
+      "bytes": 7023,
+      "sha256": "b20bbda954fe16ea1d89e3e8bd29b524fa4663fa1b4b1c34ea8bce827fee9251",
+      "raw_bytes": 25252,
+      "raw_sha256": "6f32a0e90f9320b45e6f88af4313cb456dc9570174450aadc15e8a4f4216e953",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-research_resource-window-events.json.gz",
+      "bytes": 5704,
+      "sha256": "18a48b69c24275a2215be32ffb5676214d325c8ee7352bdf652d27c55e4903be",
+      "raw_bytes": 66108,
+      "raw_sha256": "e13f68b34c9389b7b8859b99b4608103de0173588f6a72691c498b156588a265",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-research_diagnostic-fixture.json.gz",
+      "bytes": 264,
+      "sha256": "bd65ab67f73ccccd3e1e2ea3f2d4fdfb5d097f882c6779d6dd1ae0895fa3a780",
+      "raw_bytes": 347,
+      "raw_sha256": "8732a144ba912f1787831164a70b4895c4bceff7a623772470d639970769d270",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-research_workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1137,
+      "sha256": "db69ae513fd68d2189b29f3f7a73fdccb4b9bc271a181c8cccf7ca2c444bad1e",
+      "raw_bytes": 6532,
+      "raw_sha256": "bcd82724cc0955703d811bfb1f670375ed68b1f08d5dcf409ea93088f352df45",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-research_workload-tabs-directx-left-memory.json.gz",
+      "bytes": 8002,
+      "sha256": "693e2a27d76062d3681e1ee7cfd72f8d178e60a61e2fe12698ada58b32321911",
+      "raw_bytes": 183889,
+      "raw_sha256": "bf96245bb52b094623494952e7e9b9dfaf79e7f618c92103e1c04c4973d73673",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-research_tabs-controller.json.gz",
+      "bytes": 258,
+      "sha256": "18f4bf2066673b970b9664708c1957ed766844448cf7ae815bd814fd89385fd1",
+      "raw_bytes": 469,
+      "raw_sha256": "0df8de7b4a285c3938b0dcb6ca5dee684c93016534217bc3fc04a3e4081ea457",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-controller.log.gz",
+      "bytes": 242,
+      "sha256": "382fd27cc8bda41e8d9053b4d0d0cd8af49423b87ea5a7ec72c1b5a79d3c46f2",
+      "raw_bytes": 368,
+      "raw_sha256": "9aeb72c91474a27a3ddfad94a28d5a6001ae8ffcdfe1b365b82b066610de6659",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-tests_owned_window_events.py.gz",
+      "bytes": 2313,
+      "sha256": "2eb1a4a69ccaa4786eef47d656daba0fdd69267990a14a6c24e50b6128a0ce2b",
+      "raw_bytes": 7191,
+      "raw_sha256": "7efafa29d26af2e4fd56de6dd865a32e4bee7f2e1e7b1de67b1fb9454fbcff48",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/03-tests_tabs_window_smoke.py.gz",
+      "bytes": 7023,
+      "sha256": "b20bbda954fe16ea1d89e3e8bd29b524fa4663fa1b4b1c34ea8bce827fee9251",
+      "raw_bytes": 25252,
+      "raw_sha256": "6f32a0e90f9320b45e6f88af4313cb456dc9570174450aadc15e8a4f4216e953",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-research_resource-window-events.json.gz",
+      "bytes": 13655,
+      "sha256": "aa64fabda43d7b2582c5af6a53cfd30758cc25230ba51c208a7a2e0122de2cf4",
+      "raw_bytes": 552455,
+      "raw_sha256": "557b652837ae00173a7060ce342b68765ec85e112ee4e876756e8ea00cfac505",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-research_diagnostic-fixture.json.gz",
+      "bytes": 263,
+      "sha256": "0b3d23d5b0839679d3a6a653c29d9cd340de85f3bd08a94d7513b86da42f9e21",
+      "raw_bytes": 347,
+      "raw_sha256": "fcb75b1b8d4b1d9254a7bb9da9ca52e69d645b29792c22cd27697345b2193b4a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-research_workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1157,
+      "sha256": "9aef3941def623b3e7c0ab782585bb1b07a9d97b03ab38d5aeb68553a72ccab3",
+      "raw_bytes": 6532,
+      "raw_sha256": "a57cab967e8547957e0b86e6ad96d4b194e36055e8130dd82a49ab39082e229e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-research_workload-tabs-directx-left-memory.json.gz",
+      "bytes": 7968,
+      "sha256": "246bb71f99a5b6a14ab83cad59085fbc2980f91939d46c242c0b6453ab68e6c9",
+      "raw_bytes": 185789,
+      "raw_sha256": "85bcd6a7c6b4ae7f0801a0c4ae031c35a8d78e10cca4efae6d77c1f3a3423ca3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-research_tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "1493f29f12b8698045eb70c295c4d94631c0b76a889e10eb2b62a01f29953a3e",
+      "raw_bytes": 469,
+      "raw_sha256": "14474ab2a8451a1af692cb9f5450c61440be2a9e4dc8c56b71bc169d858276f3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-controller.log.gz",
+      "bytes": 240,
+      "sha256": "ede58332e50cba2255ddc5e7c0e53810ab2742772ab7690a2389122198bcdccc",
+      "raw_bytes": 368,
+      "raw_sha256": "f7725ce4dfcc80688e034df5e0c7c8da7d3c975bb1012ab4a2b36d388b3918e2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-tests_owned_window_events.py.gz",
+      "bytes": 2710,
+      "sha256": "a6d6f6f185fe454fdafa2983a3972515387153010125bc9863c48bc29e20f45f",
+      "raw_bytes": 8889,
+      "raw_sha256": "1ab305470907d9da207f4303d462f4f932030645d9500ba85e194be8ffb3c9ee",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/04-tests_tabs_window_smoke.py.gz",
+      "bytes": 7032,
+      "sha256": "597febbf9f7e1f983655a377250a0000e38487dd0d5654f65f0728407d4cb6fa",
+      "raw_bytes": 25269,
+      "raw_sha256": "e637c7bef3ea64b1a0f8acf0342e44aee734b46e5d467b5886c44a515c959ab1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/dx-window-resources-evidence/prepare-resource-events.py.gz",
+      "bytes": 1267,
+      "sha256": "5da63ed51e813c70689b1caa6d59aed9fc804ccce77a0b34aa54ab6e85e85298",
+      "raw_bytes": 3263,
+      "raw_sha256": "d4b16bc4016a0bc182763ed410e47f4bd8dd417a99ddbfb931817e033f5d9ab8",
+      "encoding": "gzip"
+    }
+  ]
+}
