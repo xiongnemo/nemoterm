@@ -1,0 +1,47 @@
+{
+  "recorded_utc": "2026-11-13T17:01:36.231478+00:00",
+  "local_runtime_tests_executed": false,
+  "initial_capture": {
+    "run": 43468101665,
+    "artifact": 14059437503,
+    "fixture_commit": "3314693ade7df3f297a8b8cf542c80aa10c01300",
+    "result": "failure: final batch omitted queries chained after invalid colour values",
+    "captured_batches": 66,
+    "matching_complete_batches": 65,
+    "last_batch_replies": 4,
+    "last_batch_names": 14,
+    "files": [
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-x11-colour-xterm.json.gz",
+        "original_sha256": "4b50a31a0d6effbcacb96f8b2d0b69a07eed8d485d7d16f64cf69359a7be6f14",
+        "gzip_sha256": "bf9c1176836b920f07fcb2ae0c92da76f495fbb39abb5fc82cc4fb02ff83e63b"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-fixture-commit.txt.gz",
+        "original_sha256": "c23ea9346a830efb0700b987e41afe46e3a5fa1242b7ba987b5fd63eff6a5602",
+        "gzip_sha256": "78197ee64229075393e0833de71cc6ad00d63b46b29e825656e00398196332eb"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-upstream-commit.txt.gz",
+        "original_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27",
+        "gzip_sha256": "489843670b24868c6c4fe67946274e9f0f83f91ff3ee07f94a02c2818beffa36"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-executable-sha256.txt.gz",
+        "original_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd",
+        "gzip_sha256": "5f2c3d9b90e7f55655e939f0a2144ab4d78e95ec65c1a24122e76665c3c56208"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-version.txt.gz",
+        "original_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a",
+        "gzip_sha256": "8783835ebbbbd1538615aac45306014aaf663c9b5d35a2ba08fb129a8ded8c22"
+      },
+      {
+        "path": "research/x11-colours-reference-evidence/combined-command-x11-packages.txt.gz",
+        "original_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3",
+        "gzip_sha256": "b3949f1b394f70dbd0a69e37a4d6aea69a43718091364ca1f52fb3419bdb0717"
+      }
+    ]
+  },
+  "follow_up": "Separate set and query OSC commands so invalid-name rejection has an observable sentinel reply; remote verification pending"
+}

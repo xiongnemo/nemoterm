@@ -30,7 +30,11 @@ def cases():
         sequence, reply = '', ''
         for offset, (name, rgb) in enumerate(rows[start:start+24]):
             end = '\x07' if (start + offset) % 2 else '\x1b\\'
-            sequence += f'\x1b]4;1;#010203{end}\x1b]4;1;{name};1;?{end}'
+            # XTerm aborts the rest of an OSC 4 payload after an invalid name.
+            # Query in a separate command so rejection still has an observable
+            # sentinel reply. The initial combined-command capture is retained.
+            sequence += (f'\x1b]4;1;#010203{end}\x1b]4;1;{name}{end}'
+                         f'\x1b]4;1;?{end}')
             reply += '\x1b]4;1;rgb:' + '/'.join(f'{c*257:04x}' for c in rgb) + end
         result[key], expected[key] = sequence, reply
     return result, expected
