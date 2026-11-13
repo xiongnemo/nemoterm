@@ -1,0 +1,31 @@
+2026-11-13T12:15:25.3286416Z at Attribute-Colour-Controls, D:\a\nemoterm\nemoterm\tests\settings_window_smoke.ps1: line 205
+2026-11-13T12:15:25.3288884Z at <ScriptBlock>, D:\a\nemoterm\nemoterm\tests\settings_window_smoke.ps1: line 385
+2026-11-13T12:15:25.3394484Z {"Name":"Microsoft Visual C++ Runtime Library","ClassName":"#32770"}
+2026-11-13T12:15:25.3455908Z Abort
+2026-11-13T12:15:25.3458682Z Retry
+2026-11-13T12:15:25.3461450Z Ignore
+2026-11-13T12:15:25.3465402Z 
+2026-11-13T12:15:25.3468286Z Assertion failed!
+2026-11-13T12:15:25.3468556Z 
+2026-11-13T12:15:25.3468720Z Program: D:\a\nemoterm\nemoterm\dist\nemoterm.exe
+2026-11-13T12:15:25.3469120Z File: /putty/windows/controls.c
+2026-11-13T12:15:25.3469316Z Line: 1207
+2026-11-13T12:15:25.3469402Z 
+2026-11-13T12:15:25.3469475Z Expression: !dp->shortcuts[s]
+2026-11-13T12:15:25.3469627Z 
+2026-11-13T12:15:25.3469751Z For information on how your program can cause an assertion
+2026-11-13T12:15:25.3470032Z failure, see the Visual C++ documentation on asserts
+2026-11-13T12:15:25.3470212Z 
+2026-11-13T12:15:25.3470343Z (Press Retry to debug the application - JIT must be enabled)
+2026-11-13T12:15:25.3470961Z Microsoft Visual C++ Runtime Library
+2026-11-13T12:15:25.3473605Z System Menu Bar
+2026-11-13T12:15:25.3475209Z System
+2026-11-13T12:15:25.3477073Z Close
+2026-11-13T12:15:25.4433603Z Expected one attribute selector
+2026-11-13T12:15:25.4434374Z At D:\a\nemoterm\nemoterm\tests\settings_window_smoke.ps1:205 char:32
+2026-11-13T12:15:25.4434992Z + ...  if ($combos.Count -ne 1) { throw 'Expected one attribute selector' }
+2026-11-13T12:15:25.4435377Z +                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-11-13T12:15:25.4435785Z     + CategoryInfo          : OperationStopped: (Expected one attribute selector:String) [], RuntimeException
+2026-11-13T12:15:25.4437198Z     + FullyQualifiedErrorId : Expected one attribute selector
+2026-11-13T12:15:25.4437439Z  
+2026-11-13T12:15:25.5407034Z ##[error]Process completed with exit code 1.

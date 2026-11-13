@@ -1,5 +1,5 @@
 {
-  "recorded_utc": "2026-11-13T12:02:50.670872+00:00",
+  "recorded_utc": "2026-11-13T12:22:41.947228+00:00",
   "local_runtime_testing_paused": true,
   "local_runtime_tests_executed": [],
   "main": {
@@ -29,8 +29,8 @@
     "run": 43420357001,
     "job": 131868507166,
     "job_result": "success",
-    "whole_workflow_result": "pending at this checkpoint",
-    "native_single_exe_result": "pending"
+    "whole_workflow_result": "cancelled: Windows job exceeded 20-minute limit in native shutdown",
+    "native_single_exe_result": "failure: DirectX workload memory gate"
   },
   "x11_packed_names": {
     "bytes": 7615,
@@ -292,6 +292,106 @@
       "path": "research/ci-public-recovery-evidence/tabs-close-repeat-8-ed78f2b.json",
       "bytes": 4855,
       "sha256": "7de6166bd4055b971bcaeea3346b008fdef17baddc61c7c2af0107b6e5cc5044"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/settings-shortcut-assertion-41a6cc5.log",
+      "bytes": 2052,
+      "sha256": "cdee81f0aa5ab0f5153fae8feedd7536470344e22714c6174d4608e4189b9025"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/settings-shortcuts-build.log",
+      "bytes": 207,
+      "sha256": "a496f17ade128dbb21d9cc173b12b10d28af5d3d8b2d9caa5ea28cfd655a4f94"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/settings-shortcuts-single.log",
+      "bytes": 3045,
+      "sha256": "a206704422c31a6abaae47a4e2b959aa8bb7503be87285882486d172deefdffb"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/shutdown-41a6cc5.json",
+      "bytes": 7846,
+      "sha256": "5f0cc84f34b4b540cfbc0b8a5ab3a48558e17aab07f060eb4b88f4d05d86184f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/attribute-colour-directx-observed.json",
+      "bytes": 18662,
+      "sha256": "0c3b350452d5f234feddbab3b0b6cac3e0111fecdcf3eab27e1abbea79ac9f77"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/attribute-colour-gdi-configured-observed.json",
+      "bytes": 8746,
+      "sha256": "b53b4a4472fd4821f24915fd26f686034309ebb9e68760c13cf6b1e1da633443"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/attribute-colour-gdi-observed.json",
+      "bytes": 18607,
+      "sha256": "a527acf2801f1370f78244a7ce9ffc6bf2587c7017c706dcfd563598b63e5851"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/attribute-colour-opengl-observed.json",
+      "bytes": 18607,
+      "sha256": "6c018f4f02001bab240ff86eaf88df89dcbfa4701a526fdb581776cfdcfe8b79"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/guarded-area-observed.json",
+      "bytes": 22533,
+      "sha256": "620bfa342b0c003a84eefbd12edc3185a3ed6cde3ed760efcd31c10d36d6e6f7"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/presentation-state-observed.json",
+      "bytes": 43028,
+      "sha256": "552ce57ec1c6be6c9a0c33412a08b965ec400e4c33de73248314acd994ee2b1f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/selection-colour-directx-observed.json",
+      "bytes": 15749,
+      "sha256": "bf93acf6e8c8df6d64475effd0f3800e64facb0e8cf12435b185871adc021419"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/selection-colour-gdi-configured-observed.json",
+      "bytes": 15695,
+      "sha256": "23f200fba203500510e8b667747f44fb04181f734488424f4a5d5f9df23b5a40"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/selection-colour-gdi-observed.json",
+      "bytes": 15696,
+      "sha256": "8d1b1b384efe258804931733f5c34017678a7dc95b52e80ca6419f9546971b7e"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/selection-colour-opengl-observed.json",
+      "bytes": 15696,
+      "sha256": "d8e656e31147842cee77f8497f8a04d1f264e759aa5fd163444a0ccd5097175e"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/shutdown-window-observed.json",
+      "bytes": 2330,
+      "sha256": "684a5e1e331eaa2a5b88b91dc4b2a67dfb5c6452bc30b90d63ae649446d60cab"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/workload-tabs-directx-left-memory.json",
+      "bytes": 626572,
+      "sha256": "9c9543b5a2c82b97cd630a6e9d5670f11ce1d4df882e39b251ec3184ddefab6f"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/workload-tabs-directx-left-observed.json",
+      "bytes": 14428,
+      "sha256": "f2ade482a7d680c75096fda7edf27689128fb88bee68d63787506c50970367f4"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/workload-tabs-gdi-top-memory.json",
+      "bytes": 921629,
+      "sha256": "9bb21bba6f2f994c33bd0dc728058e93b8e9b095059361f419c06b1af3ded2fa"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/single-ed78f2b/workload-tabs-gdi-top-observed.json",
+      "bytes": 14322,
+      "sha256": "079a0782c5f56bac4ce1d7529e0e704457fb37c74f252b3d001e81e9fd2607ed"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/windows-ed78f2b-status.json",
+      "bytes": 6045,
+      "sha256": "7139914a183cc3b4c778988a85818f123c438eeb3775a8954fa351567a504619"
     }
   ],
   "development_msvc_current": {
@@ -321,9 +421,43 @@
     "job": 131868507653,
     "core_suite_result": "success",
     "grapheme_cluster_and_gl_mock_step": "success",
-    "job_result": "in_progress at this checkpoint",
-    "active_step": "Test window callback lifetime during native shutdown",
+    "job_result": "cancelled: 20-minute job timeout",
     "single_exe_run": 43420356998,
-    "single_exe_result": "in_progress at this checkpoint"
+    "single_exe_result": "failure: DirectX workload memory gate",
+    "failed_step": "Test window callback lifetime during native shutdown"
+  },
+  "development_single_exe": {
+    "commit": "ed78f2b782ffd8d55c184f4957e1e88a9ba2f2af",
+    "run": 43420356998,
+    "job": 131868558655,
+    "result": "failure",
+    "evidence_artifact": 14035500181,
+    "executable_sha256": "225af471ec20deadc72373bbc2c2385245cf7580d1fa681d6f32276ebf291231",
+    "native_colour_charset_guarded_area_checks": "passed for retained cases",
+    "settings_ui_acceptance": false,
+    "full_matrix_passed": false,
+    "gdi_workload_private_ws_peak": 11227136,
+    "directx_workload_private_ws_peak": 23994368,
+    "directx_memory_limit_passed": false
+  },
+  "shutdown_and_settings_diagnostics": {
+    "commit": "41a6cc5635e7fc1f80667d73f2dfdad44f6105dc",
+    "run": 43422849774,
+    "job": 131876855657,
+    "result": "failure",
+    "evidence_artifact": 14034738898,
+    "shutdown_cases_passed": 6,
+    "previous_shutdown_stall_explained": false,
+    "settings_failure": "controls.c:1207 !dp->shortcuts[s]; Alt+A collides with About/Apply",
+    "local_runtime_tests_executed": [],
+    "fixed_settings_runtime_acceptance": "pending"
+  },
+  "settings_fix_local_build": {
+    "base_commit": "41a6cc5635e7fc1f80667d73f2dfdad44f6105dc",
+    "product_change": "config.c attribute selector Alt+T; custom URI option Alt+R",
+    "compile_and_link": "passed",
+    "runtime_executed": false,
+    "executable_bytes": 4455424,
+    "executable_sha256": "3043a4061faaffcf034bdf9eef2daf0c3dc3410ef1f6aed0128c1acf92774750"
   }
 }

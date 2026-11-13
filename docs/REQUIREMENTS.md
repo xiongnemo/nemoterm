@@ -8,11 +8,17 @@ job at `ed78f2b` passes, including selection/attribute colours, cursor charsets
 and ISO guarded areas. Generated-data portability and colour-painting fixture
 errors were corrected without relaxing assertions. The mocked OpenGL cleanup
 test also passes in MSVC CI at `ed78f2b`; eight tab-close repetitions use actual
-GDI. Windows MinGW core checks pass at the same commit; its native shutdown
-step and the single-image workflow have not completed at this checkpoint.
+GDI. Windows MinGW core checks pass at the same commit; that job later times out
+in native shutdown. The diagnostic repeat at `41a6cc5` passes all six shutdown
+cases but exposes a real duplicate Alt+A in the attribute settings page. The
+selector and custom-URI option now avoid the global About/Apply accelerator;
+remote settings acceptance is pending.
 Main `992faa3` has a successful 57-group single-image artifact, while its
-separate MinGW profile-close timeout remains unresolved. Development native
-verification, hardware memory gates and full-goal acceptance remain open.
+separate MinGW profile-close timeout remains unresolved. Development single-image
+colour/charset/guarded-area checks pass at `ed78f2b`; its two-tab workload passes
+with GDI (11,227,136 private bytes) but fails with actual DirectX (23,994,368).
+The development single-image workflow therefore fails before its later settings
+and Codex tests. Hardware memory gates and full-goal acceptance remain open.
 
 ## OpenGL context cleanup (2026-11-13; local runtime testing paused)
 

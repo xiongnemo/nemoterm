@@ -73,11 +73,25 @@ or resolve the older GDI access violation. No application-error events were
 recorded by that job.
 
 The Windows MinGW core suite and grapheme/cluster checks at `ed78f2b` also
-passed. Its native shutdown step and the single-image workflows are still
-running at this checkpoint; the overall Windows job is not a pass. Native
-verification of the newer colour,
-charset and guarded-area changes, the DirectX memory gate, longer lifetime
-checks and local Sarasa/IME/multiple-monitor acceptance remain open.
+passed. That job then exceeded its 20-minute limit inside the native shutdown
+step. GitHub records the job as cancelled and explicitly annotates the timeout;
+no finer failure location was retained. It is not a pass.
+
+The [single-image job at ed78f2b](https://github.com/xiongnemo/nemoterm/actions/runs/43420356998)
+completed the new selection/attribute colour wire and pixel checks, configured
+colour defaults, presentation-state restoration and guarded areas. Its image
+SHA-256 is `225af471ec20deadc72373bbc2c2385245cf7580d1fa681d6f32276ebf291231`.
+Colour comparisons exercised actual GDI and DirectX; requested OpenGL fell back
+to GDI. These are the recorded authored/source-derived cases, not new independent
+XTerm captures. Configured-default fixtures are not substitutes for settings UI
+save/load acceptance.
+
+The same image passed the two-tab GDI workload at 11,227,136 peak private WS
+bytes, but actual DirectX failed at 23,994,368 bytes. Its workflow therefore
+failed before the later settings, tab-regression and Codex groups. The candidate
+is diagnostic only; no new accepted EXE was published. The DirectX memory gate,
+longer lifetime checks and local Sarasa/IME/multiple-monitor acceptance remain
+open.
 
 The [manifest](ci-public-recovery-validation.json) binds retained logs and JSON
 records to their source commits and individual jobs. Local checks consisted
@@ -102,3 +116,25 @@ the same shutdown assertions earlier without dropping any fixture.
 Python/JavaScript/PowerShell syntax and preservation of the assertion/fixture
 sets were checked statically. The new diagnostics have not been executed
 locally and are not yet evidence of a product fix.
+
+## Settings accelerator defect
+
+The [Windows MinGW job at 41a6cc5](https://github.com/xiongnemo/nemoterm/actions/runs/43422849774/job/131876855657)
+passed all six instrumented shutdown cases, native renderer/grapheme checks,
+session checks and the four tab-bar orientations. This repeat has diagnostic
+changes but the same product source as `ed78f2b`; one successful repeat does not
+explain the previous shutdown stall.
+
+It then failed while opening the attribute-colour settings page. The test's
+missing-selector error was secondary: the retained native dialog text reports
+`controls.c:1207`, `!dp->shortcuts[s]`. The new attribute selector used Alt+A,
+which belongs to the global About button at startup and Apply during live
+reconfiguration. Source inspection found the same conflict on the custom-URI
+checkbox. The selector now uses Alt+T and the URI checkbox Alt+R. The shortcut
+uniqueness assertion is retained.
+
+The existing settings fixture still verifies attribute control geometry,
+save/load, configured queries and live application; it additionally opens the
+hyperlink page at startup and during live reconfiguration. MSVC frontend
+compilation and source-linked single-image linking pass. The corrected settings
+have not been run locally; their remote native acceptance is pending.

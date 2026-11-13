@@ -1,0 +1,107 @@
+{
+  "executable_sha256": "225af471ec20deadc72373bbc2c2385245cf7580d1fa681d6f32276ebf291231",
+  "cases": [
+    {
+      "renderer": "gdi",
+      "close": "child-exit",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "gdi",
+      "close": "window-close",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "opengl",
+      "close": "child-exit",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "opengl",
+      "close": "window-close",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 1,
+      "exit_code": 0
+    },
+    {
+      "renderer": "directx",
+      "close": "child-exit",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 3,
+      "exit_code": 0
+    },
+    {
+      "renderer": "directx",
+      "close": "window-close",
+      "events": [
+        {
+          "event": "seat-free",
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        }
+      ],
+      "active_renderer": 3,
+      "exit_code": 0
+    }
+  ]
+}
