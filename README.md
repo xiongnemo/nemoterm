@@ -63,6 +63,9 @@ startup”可随 Default Settings 或命名配置保存。自定义命令使用
 Windows PowerShell 从系统目录查找；Git Bash 需验证 Git 安装布局；WSL 需有注册的默认
 发行版。自动选择依次优先 pwsh、Windows PowerShell、cmd。
 本机六种 shell（含 WSL Debian）的交互命令和退出测试已通过；[记录](research/shell-selection.md)。
+内置 Windows PowerShell 配置会让子进程重建正常的模块路径，避免从 pwsh 启动
+Nemoterm 时误加载 PowerShell 7 模块而缺少系统命令。自定义命令和 `-e` 保留调用方
+的模块路径；需要临时指定模块目录时可使用这两种方式。
 
 启动目录使用 `--directory "C:\work"`，或在 Session/Shell 保存；留空继承启动器目录。
 内置 Git Bash 和 WSL Bash 也接受各自的 POSIX 路径（WSL 使用默认发行版）。

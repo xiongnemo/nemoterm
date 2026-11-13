@@ -89,6 +89,27 @@ int main(void)
     wchar_t actual[32]; GetEnvironmentVariableW(L"MSYSTEM", actual, lenof(actual));
     assert(!wcscmp(actual, L"UCRT64"));
     sfree(env); nemo_shell_free(&list);
+
+    /* Filtering is child-local and exact: mixed casing, a similar variable,
+     * Unicode values and every unrelated/hidden environment entry survive. */
+    for (int present = 0; present < 2; present++) {
+        assert(SetEnvironmentVariableW(L"pSmOdUlEpAtH", present ? L"Core;custom \x4e2d" : NULL));
+        assert(SetEnvironmentVariableW(L"PSModulePathExtra", L"keep \x4e2d"));
+        wchar_t *before = GetEnvironmentStringsW();
+        env = nemo_shell_powershell_environment();
+        assert(before && env);
+        const wchar_t *next = env;
+        size_t original_chars = 1;
+        for (const wchar_t *p = before; *p; p += wcslen(p) + 1) {
+            original_chars += wcslen(p) + 1;
+            if (!_wcsnicmp(p, L"PSModulePath=", 13)) continue;
+            assert(!wcscmp(p, next)); next += wcslen(next) + 1;
+        }
+        assert(!*next);
+        wchar_t *after = GetEnvironmentStringsW();
+        assert(after && !memcmp(before, after, original_chars * sizeof(wchar_t)));
+        FreeEnvironmentStringsW(before); FreeEnvironmentStringsW(after); sfree(env);
+    }
     while (ncreated) {
         wchar_t *p = created[--ncreated];
         if (GetFileAttributesW(p) & FILE_ATTRIBUTE_DIRECTORY) assert(RemoveDirectoryW(p));

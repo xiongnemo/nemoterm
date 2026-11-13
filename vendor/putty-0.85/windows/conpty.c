@@ -424,6 +424,8 @@ static char *conpty_init(const BackendVtable *vt, Seat *seat,
                     (index == NEMO_GIT_BASH && directory && directory[0] == L'/');
                 if (command && index == NEMO_GIT_BASH)
                     environment = nemo_shell_git_environment(shells.paths[index]);
+                else if (command && index == NEMO_POWERSHELL)
+                    environment = nemo_shell_powershell_environment();
                 nemo_shell_free(&shells);
                 if (!command) {
                     err = dupprintf("Shell '%s' was not found. Choose another shell in --settings.", id);

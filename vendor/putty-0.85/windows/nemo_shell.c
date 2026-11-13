@@ -190,6 +190,32 @@ wchar_t *nemo_shell_command_at(const NemoShellList *list, int which, const wchar
 
 static int compare_env(const void *a, const void *b)
 { return _wcsicmp(*(const wchar_t *const *)a, *(const wchar_t *const *)b); }
+
+wchar_t *nemo_shell_powershell_environment(void)
+{
+    /* A pwsh -> terminal -> powershell.exe launch inherits PowerShell 7's
+     * module roots. Windows PowerShell can then resolve its built-in modules
+     * to incompatible Core editions. Let the selected Windows PowerShell
+     * reconstruct its normal module path, as recommended for intermediate
+     * launchers. Only this child block changes; explicit/custom commands keep
+     * the caller's environment. Preserve every other entry, including =C:.
+     */
+    wchar_t *original = GetEnvironmentStringsW();
+    if (!original) return NULL;
+    size_t chars = 2;
+    for (const wchar_t *p = original; *p; p += wcslen(p) + 1)
+        if (_wcsnicmp(p, L"PSModulePath=", 13)) chars += wcslen(p) + 1;
+    wchar_t *block = snewn(chars, wchar_t), *out = block;
+    for (const wchar_t *p = original; *p; p += wcslen(p) + 1) {
+        if (!_wcsnicmp(p, L"PSModulePath=", 13)) continue;
+        size_t n = wcslen(p) + 1;
+        memcpy(out, p, n * sizeof(*out)); out += n;
+    }
+    *out++ = 0; *out = 0;
+    FreeEnvironmentStringsW(original);
+    return block;
+}
+
 wchar_t *nemo_shell_git_environment(const wchar_t *bash)
 {
     wchar_t *root = dupwcs(bash), *slash = wcsrchr(root, L'\\');

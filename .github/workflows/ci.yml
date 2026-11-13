@@ -423,9 +423,11 @@ jobs:
         run: |
           python tests/shell_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/powershell_environment_window_smoke.py 2>&1 | Tee-Object test-results/powershell-environment.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/delegated_console_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          Copy-Item research/shell-window-observed.json, research/delegated-console-observed.json, research/shell-settings.png test-results/
+          Copy-Item research/shell-window-observed.json, research/powershell-environment-observed.json, research/delegated-console-observed.json, research/shell-settings.png test-results/
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
