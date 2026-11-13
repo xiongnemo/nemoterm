@@ -1,0 +1,9 @@
+2026-11-13T13:07:46.6940474Z [31;1mTimeout (0:01:00)![0m
+2026-11-13T13:07:46.6940969Z [31;1mThread 0x000021dc (most recent call first):[0m
+2026-11-13T13:07:46.6942226Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\threading.py", line 355 in wait[0m
+2026-11-13T13:07:46.6943660Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\threading.py", line 655 in wait[0m
+2026-11-13T13:07:46.6945833Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\frida\__init__.py", line 224 in _invoke[0m
+2026-11-13T13:07:46.6946978Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\frida\__init__.py", line 1603 in detach[0m
+2026-11-13T13:07:46.6947779Z [31;1m  File "D:\a\nemoterm\nemoterm\build\single-exe-check\tests\gpu_capture.py", line 34 in close[0m
+2026-11-13T13:07:46.6948975Z [31;1m  File "D:\a\nemoterm\nemoterm\build\single-exe-check/tests/window_resize_window_smoke.py", line 194 in <module>[0m
+2026-11-13T13:08:24.5847218Z ##[error]The operation was canceled.

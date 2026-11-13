@@ -58,7 +58,10 @@ reader can return `{}` during replacement/read contention.
 Commit `34ca37b` retains the acknowledged snapshot, requires positive dimensions,
 and uses that same object for the resize record. All existing pixel, clipboard,
 geometry and memory assertions remain intact. Static syntax and assertion
-preservation checks passed; remote validation is tracked separately in the manifest.
+preservation checks passed. The [complete comparison workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43429723319)
+also passed: the native rectangle record retains the exact Unicode copy,
+3,000 overlapping copies and resized grids of 60x18, 30x9 and 40x12.
+The single-image workflow remains in progress.
 
 ## Startup caret observer lifetime
 
@@ -69,12 +72,30 @@ fixture wrote evidence only after that block, so this does **not** establish
 whether an earlier assertion had failed or whether the terminal itself stalled.
 
 Commit `7f7166e` detaches the startup/focus observer while the frontend is still
-alive, then requests normal shutdown. Frida attach/load/RPC/detach operations
-use a 15-second cancellable scope. Atomic stage records and a 120-second CI
+alive, then requests normal shutdown. Native Frida attach/load/detach operations
+use a 15-second cancellable scope. Inspection of the installed pinned Python
+binding found that synchronous script RPC ignores Cancellable; commit `1b09f82`
+therefore explicitly leaves RPC under the fixture's 120-second CI watchdog
+instead of describing those requests as cancellable. Atomic stage records and that CI
 watchdog preserve failure evidence; expiration remains a failure. Cleanup still
 drains only the fixture's private job. Existing assertions remain, with added
 checks that the frontend exits successfully. The separate shutdown observer
 continues to cover destruction ordering.
+
+The [complete comparison workflow at 7f7166e](https://github.com/xiongnemo/nemoterm/actions/runs/43430390249)
+passed. Its caret record confirms live observer detachment, frontend exit code
+zero and natural owned-job cleanup. This is one successful native repeat, not
+proof that every historical instrumentation stall has the same cause.
+
+The [single-image run at 82f4d59](https://github.com/xiongnemo/nemoterm/actions/runs/43424726594)
+also exceeded its 45-minute limit. Its final repeated stack is in
+`OwnedGPUCapture.close`, called after `window_resize_window_smoke.py` had waited
+for the frontend to exit. Commit `1b09f82` shares a bounded detach helper between
+the caret and GPU observers, checks whether automatic detachment has already
+completed, and detaches the resize capture before requesting normal exit.
+Nested cleanup still drains the owned job if detachment raises. This follow-up
+has passed syntax/assertion-preservation checks; its remote runtime checks
+are pending.
 
 ## Sidecar protocol mismatch remains open
 

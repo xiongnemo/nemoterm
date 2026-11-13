@@ -1,5 +1,5 @@
 {
-  "recorded_utc": "2026-11-13T13:07:34.912548+00:00",
+  "recorded_utc": "2026-11-13T13:15:38.167227+00:00",
   "local_runtime_testing_paused": true,
   "local_runtime_tests_executed": [],
   "local_distribution_replaced": false,
@@ -54,19 +54,39 @@
     "observed_controller_call": "frida.Session.detach",
     "original_failure_before_finally_known": false,
     "fix_commit": "7f7166e4b7dc6fb0f2e7b4cc30cf4ca321b1971f",
-    "fix_runtime_validation": "pending"
+    "fix_runtime_validation": "MinGW passed live detach, natural zero exit and owned job drain; single-image workflow still in progress",
+    "core_fix_run": 43430390249,
+    "core_fix_result": "success"
   },
   "rectangle_snapshot_fix": {
     "failed_run": 43427249103,
     "failed_job": 131891598018,
     "fix_commit": "34ca37b587a08dd93cb2835226aaf71fe6859f78",
-    "runtime_validation": "pending"
+    "runtime_validation": "MinGW passed all rectangle checks including 60x18 -> 30x9 -> 40x12 resize; single-image workflow still in progress",
+    "core_run": 43429723319,
+    "core_result": "success",
+    "single_exe_run": 43429723328
   },
   "evidence": [
     {
       "path": "research/ci-fixture-evidence/caret-detach-41a6cc5-excerpt.log",
       "bytes": 992,
       "sha256": "202546a9844c4c8c5a14eebea288927e1cca1fe3cd051de95de36a2a9d2e91e1"
+    },
+    {
+      "path": "research/ci-fixture-evidence/caret-fixed-mingw-7f7166e.json",
+      "bytes": 1539,
+      "sha256": "73976811b6147929d0afb541675546006d03f73043ea7b8deaabfda95b9a889e"
+    },
+    {
+      "path": "research/ci-fixture-evidence/gpu-detach-82f4d59-excerpt.log",
+      "bytes": 1060,
+      "sha256": "5d571dfcaa905c4892cab7e3fd15d5c738d49fca2f4c7a3e2e042af07018e9ac"
+    },
+    {
+      "path": "research/ci-fixture-evidence/rectangle-fixed-mingw-34ca37b.json",
+      "bytes": 766,
+      "sha256": "34ef553a5af2be5d79ad38ac4d4fe9e69ddaaed8593a8143401329a34983e780"
     },
     {
       "path": "research/ci-fixture-evidence/sidecar-guarded-area-d4dfb30.json",
@@ -208,5 +228,14 @@
       "bytes": 14322,
       "sha256": "9d8ae38a5f08a936553572e21bd82e725f5419e55c91c0473235486f1b3a161f"
     }
-  ]
+  ],
+  "gpu_capture_stall": {
+    "run": 43424726594,
+    "job": 131883236577,
+    "result": "cancelled: 45-minute job deadline",
+    "observed_controller_call": "frida.Session.detach from OwnedGPUCapture.close after frontend wait",
+    "fix_commit": "1b09f82ea0f813d98c82e9dae174c160bf64f545",
+    "fix_runtime_validation": "pending",
+    "rpc_limitation": "Frida 17.24.3 synchronous script RPC ignores Cancellable; the caret CI fixture uses its 120-second watchdog for those requests"
+  }
 }
