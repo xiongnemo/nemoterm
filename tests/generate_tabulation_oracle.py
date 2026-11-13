@@ -21,11 +21,6 @@ for name, case in source['cases'].items():
     # discards those parameters and still executes the command's default.
     if ':' in name:
         continue
-    # Existing double-width text output wraps at the physical rather than
-    # logical row edge. Track these three failures separately; cursor-only
-    # double-width tabulation is still compared above.
-    if name.endswith('-double-wrap'):
-        continue
     cases.append((name, case['sequence'], case['reply']))
     lines.append('    {' + ', '.join(map(literal, [name, case['sequence'], case['reply']])) + '},')
 lines.append('};')

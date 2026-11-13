@@ -1,5 +1,10 @@
 # Xterm horizontal tabulation
 
+Follow-up: [double-size line output](double-size-lines.md) fixes the three
+double-size wrapping discrepancies below. The current fixtures compare 108
+tabulation cases. The original 105-case artifact and evidence below remain a
+historical checkpoint for commit `3aec08c`.
+
 The parser previously ignored CHT (`CSI n I`), did not restore default stops
 with DECST8C, and allowed Tab beyond the horizontal right margin. CBT also
 crossed the left margin in origin mode. A one-column double-size line could
@@ -18,7 +23,7 @@ C and Python fixtures; `test_state_control` and `tabulation_window_smoke.py`
 both compare 105 cases. The native test uses an owned process job and the real
 single-image ConPTY path without desktop input or clipboard operations.
 
-Six reference cases are explicitly excluded from equality assertions:
+At that checkpoint six reference cases were excluded from equality assertions:
 
 * Three malformed colon cases: Nemoterm rejects the unsupported parameter form
   without changing state. Xterm instead discards the parameters and executes
@@ -27,7 +32,7 @@ Six reference cases are explicitly excluded from equality assertions:
   not an intentional compatibility policy. Existing text output wraps at the
   physical width instead of the double-size row's logical width. Cursor-only
   tabulation on all three double-size line types does match the reference.
-  The raw failing cases remain checked in for the next fix.
+  The raw cases remain checked in and are now passing equality assertions.
 
 Additional assertions cover the actual origin-relative cursor (CPR clamping
 alone can hide the error), text/attribute preservation, and a one-column line.

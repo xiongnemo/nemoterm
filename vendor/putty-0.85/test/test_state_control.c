@@ -3,6 +3,49 @@
 #include "test_terminal.c"
 #undef main
 #include "../../../tests/tabulation_oracle_cases.h"
+#include "../../../tests/double_size_oracle_cases.h"
+
+static void test_double_size(Mock *mk)
+{
+    static const int columns[] = {0, 1, 2, 37, 38, 39, 40, 78, 79};
+    for (size_t i = 0; i < lenof(double_size_oracle); i++) {
+        reset(mk);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        term_size(mk->term, 24, 80, 0);
+        test_context(mk, "double-size: %s", double_size_oracle[i].name);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, double_size_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, double_size_oracle[i].reply);
+        for (int y = 0; y < 3; y++) {
+            termline *line = term_get_line(mk->term, y);
+            for (size_t j = 0; j < lenof(columns); j++) {
+                termchar *ch = &line->chars[columns[j]];
+                unsigned scalar = ch->chr;
+                if (scalar == UCSWIDE) scalar = 0;
+                else if (DIRECT_CHAR(scalar)) scalar &= ~CSET_MASK;
+                /* XTerm composes this fixture's e + acute to U+00E9;
+                 * retaining its exact decomposed sequence is equivalent. */
+                if (scalar == 'e' && ch->cc_next &&
+                    (ch + ch->cc_next)->chr == 0x301) scalar = 0xe9;
+                test_context(mk, "%s cell %d,%d", double_size_oracle[i].name, y+1, columns[j]+1);
+                IEQUAL(scalar, double_size_oracle[i].cells[y*lenof(columns)+j]);
+            }
+            term_release_line(line);
+        }
+    }
+
+    reset(mk);
+    test_context(mk, "wrapped output uses the destination row's own width");
+    term_size(mk->term, 3, 80, 0);
+    term_data_fragmented(mk->term, "\033#6");
+    for (int i = 0; i < 40; i++) term_data_fragmented(mk->term, "A");
+    for (int i = 0; i < 80; i++) term_data_fragmented(mk->term, "B");
+    IEQUAL(mk->term->curs.y, 1); IEQUAL(mk->term->curs.x, 79);
+    IEQUAL(mk->term->wrapnext, true);
+    for (int x = 0; x < 80; x++) IEQUAL(get_termchar(mk->term, x, 1).chr, CSET_ASCII|'B');
+    term_data_fragmented(mk->term, "C");
+    IEQUAL(mk->term->curs.y, 2); IEQUAL(mk->term->curs.x, 1);
+}
 
 static void test_tabulation(Mock *mk)
 {
@@ -273,6 +316,7 @@ int main(void)
     test_cursor_aliases_and_origin(mk);
     test_saved_extensions_and_recovery(mk);
     test_tabulation(mk);
+    test_double_size(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "State control suite FAILED" : "State control suite passed");

@@ -126,6 +126,52 @@ static unsigned retained_clusters(Mock *mk, const uint32_t *cp, size_t n)
     return count;
 }
 
+static void test_double_size_clusters(Mock *mk)
+{
+    Terminal *t = mk->term;
+    const uint32_t heart[] = {0x2764, 0xfe0f};
+    const uint32_t accent[] = {'e', 0x301};
+    for (int mode = 3; mode <= 6; mode++) {
+        if (mode == 5) continue;
+        char sequence[100];
+        setup_cluster(mk, "late cluster widening leaves a double-size row", 4, 6);
+        snprintf(sequence, sizeof(sequence), "\033#%d\033[1;3H", mode);
+        term_data_fragmented(t, sequence);
+        output_scalars(t, heart, 2);
+        cluster_contents(mk, 0, 1, heart, 2);
+        IEQUAL(get_termchar(t, 1, 1).chr, UCSWIDE);
+        IEQUAL(t->curs.y, 1); IEQUAL(t->curs.x, 2); IEQUAL(t->wrapnext, false);
+        IEQUAL(get_termchar(t, 2, 0).chr, CSET_ASCII|' ');
+
+        setup_cluster(mk, "late growth into one logical cell substitutes safely", 4, 3);
+        snprintf(sequence, sizeof(sequence), "\033[2;1HABC\033#%d\033[1;3H", mode);
+        term_data_fragmented(t, sequence);
+        output_scalars(t, heart, 2);
+        IEQUAL(get_termchar(t, 0, 1).chr, 0xfffd);
+        IEQUAL(get_termchar(t, 1, 1).chr, CSET_ASCII|'B');
+        IEQUAL(t->curs.y, 1); IEQUAL(t->curs.x, 0); IEQUAL(t->wrapnext, true);
+
+        setup_cluster(mk, "wide scalar into one logical cell substitutes safely", 4, 3);
+        term_data_fragmented(t, sequence);
+        const uint32_t wide[] = {0x4e2d};
+        output_scalars(t, wide, 1);
+        IEQUAL(get_termchar(t, 0, 1).chr, 0xfffd);
+        IEQUAL(get_termchar(t, 1, 1).chr, CSET_ASCII|'B');
+        IEQUAL(t->curs.y, 1); IEQUAL(t->curs.x, 0);
+
+        setup_cluster(mk, "a combining mark stays on the last visible cell", 4, 2);
+        snprintf(sequence, sizeof(sequence), "\033#%d", mode);
+        term_data_fragmented(t, sequence);
+        output_scalars(t, accent, 2);
+        cluster_contents(mk, 0, 0, accent, 2);
+        IEQUAL(t->curs.x, 0); IEQUAL(t->wrapnext, true);
+        term_set_grapheme_clustering(t, false);
+        term_data_fragmented(t, "\033[H");
+        output_scalars(t, accent, 2);
+        cluster_contents(mk, 0, 0, accent, 2);
+    }
+}
+
 static void test_reflow_and_rectangle(Mock *mk)
 {
     Terminal *t=mk->term;uint32_t tech[]={0x1f469,0x200d,0x1f4bb};
@@ -384,6 +430,7 @@ int main(void)
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
     test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_initial_policy(mk);test_bidi_cache(mk);
+    test_double_size_clusters(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;

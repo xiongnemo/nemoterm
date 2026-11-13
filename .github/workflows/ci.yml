@@ -93,6 +93,8 @@ jobs:
           python scripts/generate-grapheme-tables.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_tabulation_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_double_size_oracle.py --check
           exit $LASTEXITCODE
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
@@ -402,6 +404,13 @@ jobs:
           python tests/tabulation_window_smoke.py 2>&1 | Tee-Object test-results/tabulation-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/tabulation-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Compare native double-size rows with independent XTerm replies
+        shell: pwsh
+        run: |
+          python tests/double_size_window_smoke.py 2>&1 | Tee-Object test-results/double-size-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/double-size-observed.json, research/double-size-window.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native selective erasure and protected Sixel pixels
         shell: pwsh

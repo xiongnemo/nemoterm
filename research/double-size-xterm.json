@@ -1,0 +1,6870 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "cases": {
+    "3-ascii-edge": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-ascii-next-normal": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[3;41R\u001b[3;42R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0042\u001b\\\u001bP12!~0042\u001b\\\u001bP13!~0042\u001b\\\u001bP14!~0042\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0042\u001b\\\u001bP20!~0042\u001b\\\u001bP21!~0042\u001b\\\u001bP22!~0042\u001b\\\u001bP23!~0042\u001b\\\u001bP24!~0042\u001b\\\u001bP25!~0043\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n",
+      "cursor_reply": "\u001b[3;41R\u001b[3;42R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-wide-edge": {
+      "sequence": "\u001bc\u001b#3\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;3R\u001bP1!~4E2D\u001b\\\u001bP2!~0000\u001b\\\u001bP3!~4E2D\u001b\\\u001bP4!~0000\u001b\\\u001bP5!~4E2D\u001b\\\u001bP6!~0000\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~6587\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;3R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 25991
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-wide-cross-edge": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;3R\u001b[2;4R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~005A\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;3R\u001b[2;4R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-combining-edge": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~00E9\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 233
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-nowrap": {
+      "sequence": "\u001bc\u001b#3\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0043\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n",
+      "cursor_reply": "\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 67
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-position": {
+      "sequence": "\u001bc\u001b#3\u001b[1;79H\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;79R\u001b[1;79R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[1;79H\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;79R\u001b[1;79R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-relative-right": {
+      "sequence": "\u001bc\u001b#3\u001b[99C\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[1;40R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0058\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[99C\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 88
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-save-restore-wrap": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-next-double": {
+      "sequence": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001b[3;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0041\u001b\\\u001bP11!~0041\u001b\\\u001bP12!~0041\u001b\\\u001bP13!~0041\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0041\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~005A\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;40R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-next-double-wide": {
+      "sequence": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~4E2D\u001b\\\u001bP13!~0000\u001b\\\u001bP14!~4E2D\u001b\\\u001bP15!~0000\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n",
+      "cursor_reply": "\u001b[2;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-lf-to-double": {
+      "sequence": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;39H\n\u001b[6nABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;39R\u001b[3;2R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0043\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[2;1H\u001b#3\u001b[1;39H\n\u001b[6nABC\u001b[6n",
+      "cursor_reply": "\u001b[2;39R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-ri-to-double": {
+      "sequence": "\u001bc\u001b#3\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;60R\u001b[1;60R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;60R\u001b[1;60R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-normal-to-double": {
+      "sequence": "\u001bc\u001b#3\u001b#5\u001b[1;60H\u001b#3\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b#5\u001b[1;60H\u001b#3\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-shrink-existing": {
+      "sequence": "\u001bc\u001b#3\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#3\u001b[6n\u001b#5\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~4E2D\u001b\\\u001bP7!~0000\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#3\u001b[6n\u001b#5\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "3-grow-pending": {
+      "sequence": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-ascii-edge": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-ascii-next-normal": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[3;41R\u001b[3;42R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0042\u001b\\\u001bP12!~0042\u001b\\\u001bP13!~0042\u001b\\\u001bP14!~0042\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0042\u001b\\\u001bP20!~0042\u001b\\\u001bP21!~0042\u001b\\\u001bP22!~0042\u001b\\\u001bP23!~0042\u001b\\\u001bP24!~0042\u001b\\\u001bP25!~0043\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n",
+      "cursor_reply": "\u001b[3;41R\u001b[3;42R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-wide-edge": {
+      "sequence": "\u001bc\u001b#4\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;3R\u001bP1!~4E2D\u001b\\\u001bP2!~0000\u001b\\\u001bP3!~4E2D\u001b\\\u001bP4!~0000\u001b\\\u001bP5!~4E2D\u001b\\\u001bP6!~0000\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~6587\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;3R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 25991
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-wide-cross-edge": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;3R\u001b[2;4R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~005A\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;3R\u001b[2;4R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-combining-edge": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~00E9\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 233
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-nowrap": {
+      "sequence": "\u001bc\u001b#4\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0043\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n",
+      "cursor_reply": "\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 67
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-position": {
+      "sequence": "\u001bc\u001b#4\u001b[1;79H\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;79R\u001b[1;79R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[1;79H\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;79R\u001b[1;79R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-relative-right": {
+      "sequence": "\u001bc\u001b#4\u001b[99C\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[1;40R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0058\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[99C\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 88
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-save-restore-wrap": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-next-double": {
+      "sequence": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001b[3;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0041\u001b\\\u001bP11!~0041\u001b\\\u001bP12!~0041\u001b\\\u001bP13!~0041\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0041\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~005A\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;40R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-next-double-wide": {
+      "sequence": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~4E2D\u001b\\\u001bP13!~0000\u001b\\\u001bP14!~4E2D\u001b\\\u001bP15!~0000\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n",
+      "cursor_reply": "\u001b[2;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-lf-to-double": {
+      "sequence": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;39H\n\u001b[6nABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;39R\u001b[3;2R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0043\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[2;1H\u001b#4\u001b[1;39H\n\u001b[6nABC\u001b[6n",
+      "cursor_reply": "\u001b[2;39R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-ri-to-double": {
+      "sequence": "\u001bc\u001b#4\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;60R\u001b[1;60R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;60R\u001b[1;60R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-normal-to-double": {
+      "sequence": "\u001bc\u001b#4\u001b#5\u001b[1;60H\u001b#4\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b#5\u001b[1;60H\u001b#4\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-shrink-existing": {
+      "sequence": "\u001bc\u001b#4\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#4\u001b[6n\u001b#5\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~4E2D\u001b\\\u001bP7!~0000\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#4\u001b[6n\u001b#5\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "4-grow-pending": {
+      "sequence": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-ascii-edge": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nB\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-ascii-next-normal": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[3;41R\u001b[3;42R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0042\u001b\\\u001bP11!~0042\u001b\\\u001bP12!~0042\u001b\\\u001bP13!~0042\u001b\\\u001bP14!~0042\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0042\u001b\\\u001bP20!~0042\u001b\\\u001bP21!~0042\u001b\\\u001bP22!~0042\u001b\\\u001bP23!~0042\u001b\\\u001bP24!~0042\u001b\\\u001bP25!~0043\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\u001b[6nC\u001b[6n",
+      "cursor_reply": "\u001b[3;41R\u001b[3;42R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-wide-edge": {
+      "sequence": "\u001bc\u001b#6\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;3R\u001bP1!~4E2D\u001b\\\u001bP2!~0000\u001b\\\u001bP3!~4E2D\u001b\\\u001bP4!~0000\u001b\\\u001bP5!~4E2D\u001b\\\u001bP6!~0000\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~6587\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u6587\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;3R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 25991
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-wide-cross-edge": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;3R\u001b[2;4R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~005A\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;3R\u001b[2;4R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-combining-edge": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~00E9\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe\u0301\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 233
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-nowrap": {
+      "sequence": "\u001bc\u001b#6\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0043\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[?7lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC\u001b[6n",
+      "cursor_reply": "\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 67
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-position": {
+      "sequence": "\u001bc\u001b#6\u001b[1;79H\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;79R\u001b[1;79R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[1;79H\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;79R\u001b[1;79R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-relative-right": {
+      "sequence": "\u001bc\u001b#6\u001b[99C\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[1;40R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0058\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[99C\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[1;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 88
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-save-restore-wrap": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b7\u001b[3;1H\u001b8\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-next-double": {
+      "sequence": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001b[3;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0041\u001b\\\u001bP11!~0041\u001b\\\u001bP12!~0041\u001b\\\u001bP13!~0041\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0041\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~005A\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[2;40R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-next-double-wide": {
+      "sequence": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;40R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~4E2D\u001b\\\u001bP11!~0000\u001b\\\u001bP12!~4E2D\u001b\\\u001bP13!~0000\u001b\\\u001bP14!~4E2D\u001b\\\u001bP15!~0000\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;1HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u4e2d\u001b[6n",
+      "cursor_reply": "\u001b[2;40R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 20013
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 0
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-lf-to-double": {
+      "sequence": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;39H\n\u001b[6nABC\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[2;39R\u001b[3;2R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0041\u001b\\\u001bP15!~0042\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0043\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[2;1H\u001b#6\u001b[1;39H\n\u001b[6nABC\u001b[6n",
+      "cursor_reply": "\u001b[2;39R\u001b[3;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 66
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 67
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-ri-to-double": {
+      "sequence": "\u001bc\u001b#6\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;60R\u001b[1;60R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b[2;1H\u001b[60G\u001bM\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;60R\u001b[1;60R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-normal-to-double": {
+      "sequence": "\u001bc\u001b#6\u001b#5\u001b[1;60H\u001b#6\u001b[6nX\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0020\u001b\\\u001bP2!~0020\u001b\\\u001bP3!~0020\u001b\\\u001bP4!~0020\u001b\\\u001bP5!~0020\u001b\\\u001bP6!~0020\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b#5\u001b[1;60H\u001b#6\u001b[6nX\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-shrink-existing": {
+      "sequence": "\u001bc\u001b#6\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#6\u001b[6n\u001b#5\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;41R\u001b[1;41R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~4E2D\u001b\\\u001bP7!~0000\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~0020\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6\u001b#5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u4e2d\u6587\u001b#6\u001b[6n\u001b#5\u001b[6n",
+      "cursor_reply": "\u001b[1;41R\u001b[1;41R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 20013
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 0
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    },
+    "6-grow-pending": {
+      "sequence": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n\u001b[23#y\u001b[1;1;1;1;1;1*y\u001b[2;1;1;2;1;2*y\u001b[3;1;1;3;1;3*y\u001b[4;1;1;38;1;38*y\u001b[5;1;1;39;1;39*y\u001b[6;1;1;40;1;40*y\u001b[7;1;1;41;1;41*y\u001b[8;1;1;79;1;79*y\u001b[9;1;1;80;1;80*y\u001b[10;1;2;1;2;1*y\u001b[11;1;2;2;2;2*y\u001b[12;1;2;3;2;3*y\u001b[13;1;2;38;2;38*y\u001b[14;1;2;39;2;39*y\u001b[15;1;2;40;2;40*y\u001b[16;1;2;41;2;41*y\u001b[17;1;2;79;2;79*y\u001b[18;1;2;80;2;80*y\u001b[19;1;3;1;3;1*y\u001b[20;1;3;2;3;2*y\u001b[21;1;3;3;3;3*y\u001b[22;1;3;38;3;38*y\u001b[23;1;3;39;3;39*y\u001b[24;1;3;40;3;40*y\u001b[25;1;3;41;3;41*y\u001b[26;1;3;79;3;79*y\u001b[27;1;3;80;3;80*y",
+      "reply": "\u001b[1;40R\u001b[2;2R\u001bP1!~0041\u001b\\\u001bP2!~0041\u001b\\\u001bP3!~0041\u001b\\\u001bP4!~0041\u001b\\\u001bP5!~0041\u001b\\\u001bP6!~0041\u001b\\\u001bP7!~0020\u001b\\\u001bP8!~0020\u001b\\\u001bP9!~0020\u001b\\\u001bP10!~005A\u001b\\\u001bP11!~0020\u001b\\\u001bP12!~0020\u001b\\\u001bP13!~0020\u001b\\\u001bP14!~0020\u001b\\\u001bP15!~0020\u001b\\\u001bP16!~0020\u001b\\\u001bP17!~0020\u001b\\\u001bP18!~0020\u001b\\\u001bP19!~0020\u001b\\\u001bP20!~0020\u001b\\\u001bP21!~0020\u001b\\\u001bP22!~0020\u001b\\\u001bP23!~0020\u001b\\\u001bP24!~0020\u001b\\\u001bP25!~0020\u001b\\\u001bP26!~0020\u001b\\\u001bP27!~0020\u001b\\",
+      "input": "\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b#5\u001b[6nZ\u001b[6n",
+      "cursor_reply": "\u001b[1;40R\u001b[2;2R",
+      "cells": [
+        {
+          "row": 1,
+          "column": 1,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 38,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 39,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 40,
+          "checksum": 65
+        },
+        {
+          "row": 1,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 1,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "checksum": 90
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 2,
+          "column": 80,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 38,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 39,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 40,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 41,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 79,
+          "checksum": 32
+        },
+        {
+          "row": 3,
+          "column": 80,
+          "checksum": 32
+        }
+      ]
+    }
+  }
+}

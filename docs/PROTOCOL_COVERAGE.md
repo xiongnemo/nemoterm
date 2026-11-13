@@ -32,7 +32,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | --- | --- | --- |
 | C0 BEL | Source only | Bell callback and local policies; audible/visual behavior needs dedicated acceptance. |
 | C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; linefeed and boundary behavior. |
-| C0 HT; ESC H (HTS) | Tested | `state_control`, 105 tabulation oracle comparisons and native ConPTY replies. |
+| C0 HT; ESC H (HTS) | Tested | `state_control`, 108 tabulation oracle comparisons and native ConPTY replies. |
 | C0 ENQ | Source only | Configured answerback path. |
 | C0 SI/SO | Source only | G0/G1 selection exists; full ISO 2022 combinations remain unverified. |
 | C0 CAN/SUB/ESC cancellation | Partial | Numerous query/OSC/DCS recovery cases; complete state-machine matrix remains open. |
@@ -41,7 +41,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC = / ESC > | Tested | `modes`, `keyboard`, application/numeric keypad state. |
 | ESC Z (DECID) | Source only | Shares configured primary DA response; not separately covered by identity oracle. |
 | ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
-| ESC #3/#4/#5/#6 | Partial | Line rendering and cursor-only tabulation checked. Text autowrap still uses physical width on double-size lines; three captured failures in `tabulation-xterm.json`. |
+| ESC #3/#4/#5/#6 | Partial | Output, cursor movement, pending wraps, wide/combining text and cluster growth checked; see `double-size-lines.md`. The three tabulation failures are fixed. Row-size-specific editing/resize combinations remain open. |
 | ESC #8 (DECALN) | Source only | Screen fill exists; graphics/attributes/selection interactions need a focused audit. |
 | ESC ( A/B/0/U; ESC ) A/B/0/U | Partial | British/ASCII/DEC graphics/SCO sets in G0/G1 only. Other national sets and G2/G3 designations are missing. |
 | ESC % G / ESC % @ | Partial | UTF-8 switching exists; not full ISO 2022 conformance. |
@@ -148,13 +148,13 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 ## Work queue from this audit
 
-1. Correct double-size line text wrapping and audit wide/cluster writes across
-   a transition to the next line; retain the three independent failing captures.
-2. Add XTSMGRAPHICS and DEC-specific status queries, with truthful capabilities.
-3. Audit C0/C1 and character-set state transitions; expand individual mode and
+1. Add XTSMGRAPHICS and DEC-specific status queries, with truthful capabilities.
+2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
-4. Add horizontal index/shift and remaining xterm report/stack operations with
+3. Add horizontal index/shift and remaining xterm report/stack operations with
    independent reference cases and bounded storage.
+4. Extend double-size row coverage to editing and resize combinations beyond
+   the now-verified text output, cursor and grapheme behavior.
 5. Preserve native clipboard, real-agent, physical IME, graphics lifetime and
    full process-tree memory acceptance as separate gates. Passing protocol unit
    tests does not close these requirements.

@@ -1,0 +1,81 @@
+{
+  "executable_sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204",
+  "completed": true,
+  "cases": {
+    "3-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "3-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+    "3-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+    "3-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "3-nowrap": "1b5b313b3430521b503024721b5c",
+    "3-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+    "3-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+    "3-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "3-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+    "3-next-double-wide": "1b5b323b3430521b503024721b5c",
+    "3-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+    "3-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+    "3-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "3-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "3-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "4-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "4-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+    "4-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+    "4-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "4-nowrap": "1b5b313b3430521b503024721b5c",
+    "4-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+    "4-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+    "4-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "4-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+    "4-next-double-wide": "1b5b323b3430521b503024721b5c",
+    "4-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+    "4-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+    "4-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "4-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "4-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "6-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "6-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+    "6-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+    "6-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "6-nowrap": "1b5b313b3430521b503024721b5c",
+    "6-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+    "6-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+    "6-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "6-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+    "6-next-double-wide": "1b5b323b3430521b503024721b5c",
+    "6-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+    "6-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+    "6-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "6-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+    "6-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+    "destination-row-width": "1b5b323b3830521b5b333b32521b503024721b5c",
+    "visible-scene": "1b503024721b5c"
+  },
+  "source_reference": "XTerm(412)",
+  "reference_case_count": 45,
+  "direct_case_names": [
+    "destination-row-width"
+  ],
+  "cleanup": {
+    "before": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  },
+  "last_snapshot": {
+    "phase": "visible-scene",
+    "hex": "1b503024721b5c",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640,
+    "input_cp": 65001,
+    "input_api": "ReadFile"
+  }
+}

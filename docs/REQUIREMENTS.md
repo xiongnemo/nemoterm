@@ -50,9 +50,11 @@ Do not drop requirements merely because upstream lacks them.
 
 The first source-and-test audit is in [PROTOCOL_COVERAGE.md](PROTOCOL_COVERAGE.md).
 It distinguishes tested subsets, configuration gates, missing handlers and
-unverified behavior. [Tabulation](../research/tabulation.md) now has 105 exact
-independent xterm comparisons through both the core and native ConPTY path;
-three captured double-size text-wrapping discrepancies remain open.
+unverified behavior. [Tabulation](../research/tabulation.md) now has 108 exact
+independent xterm comparisons through both the core and native ConPTY path.
+The three double-size text-wrapping failures are fixed; see
+[double-size lines](../research/double-size-lines.md) for 45 further reference
+comparisons, cell checks, grapheme boundaries and remaining scope.
 
 Pending: CSI/ESC/C0/C1 conformance; SGR styles/true colour; scrolling/margins/alternate
 screens; Unicode/graphemes/emoji/IME; keyboard modifier, kitty/CSI-u and Windows input;

@@ -3886,13 +3886,25 @@ static void check_selection(Terminal *term, pos from, pos to)
         deselect(term);
 }
 
+static int nemo_line_columns(Terminal *term, termline *line)
+{
+    return (line->lattr & LATTR_MODE) == LATTR_NORM ?
+        term->cols : max(1, term->cols / 2);
+}
+
+static int nemo_write_right(Terminal *term, termline *line)
+{
+    int right = min(nemo_right(term), nemo_line_columns(term, line)-1);
+    if (line->trusted) right = min(right, max(0, term->cols-TRUST_SIGIL_WIDTH-1));
+    return right;
+}
+
 static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
 {
     pos old_curs = term->curs;
     termline *line = scrlineptr(term->curs.y);
     int limit = forward ? term->marg_r : term->dec_om ? term->marg_l : 0;
-    if (forward && (line->lattr & LATTR_MODE) != LATTR_NORM)
-        limit = min(limit, max(0, term->cols / 2 - 1));
+    if (forward) limit = min(limit, nemo_line_columns(term, line)-1);
     count = min(count ? count : 1, (unsigned)term->cols);
     while (count--) {
         if (forward) {
@@ -4188,7 +4200,7 @@ static void save_cursor(Terminal *term, bool save)
          * wrapnext might reset to False if the x position is no
          * longer at the rightmost edge.
          */
-        if (term->wrapnext && term->curs.x < nemo_right(term))
+        if (term->wrapnext && term->curs.x < nemo_write_right(term, scrlineptr(term->curs.y)))
             term->wrapnext = false;
         term->cset_attr[term->cset] = term->save_csattr;
         term->sco_acs = term->save_sco_acs;
@@ -5677,8 +5689,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
     pos anchor = term->grapheme_anchor;
     unsigned cells = term->grapheme_cells;
     termline *line = scrlineptr(anchor.y);
-    int right = nemo_right(term);
-    if (line->trusted) right = min(right, term->cols-TRUST_SIGIL_WIDTH-1);
+    int right = nemo_write_right(term, line);
     check_selection(term, anchor, (pos){anchor.y, anchor.x+(int)cells});
     if (width.cells > cells) {
         if (anchor.x == right) {
@@ -5701,13 +5712,21 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
             anchor = term->curs;
             line = scrlineptr(anchor.y);
             check_trust_status(term, line);
-            right = nemo_right(term);
-            if (line->trusted) right = min(right, term->cols-TRUST_SIGIL_WIDTH-1);
+            right = nemo_write_right(term, line);
+            unsigned available = min(2, right-anchor.x+1);
             check_boundary(term, anchor.x, anchor.y);
-            check_boundary(term, anchor.x+2, anchor.y);
-            if (term->insert) insch(term, 2);
+            check_boundary(term, anchor.x+available, anchor.y);
+            if (term->insert) insch(term, available);
             copy_termchar(line, anchor.x, &saved->chars[0]);
             freetermline(saved);
+            if (available < 2) {
+                clear_cc(line, anchor.x);
+                line->chars[anchor.x].chr = 0xfffd;
+                cells = 1;
+                term->curs.x = anchor.x;
+                term->wrapnext = term->wrap;
+                goto finished;
+            }
         } else {
             if (term->insert) insch(term, 1);
             check_boundary(term, anchor.x+2, anchor.y);
@@ -5770,6 +5789,10 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         term->wrapnext = false;
         cline = scrlineptr(term->curs.y);
     }
+    /* Absolute positioning may address the hidden half of a double-size
+     * row. Like xterm, ignore graphic output there until the cursor returns
+     * to its visible cells; never write and then clamp it backwards. */
+    if (width > 0 && term->curs.x >= nemo_line_columns(term, cline)) return;
     if (term->insert && width > 0)
         insch(term, width);
     if (term->selstate != NO_SELECTION) {
@@ -5779,9 +5802,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
     }
     check_trust_status(term, cline);
 
-    int linecols = nemo_right(term)+1;
-    if (cline->trusted)
-        linecols = min(linecols, term->cols-TRUST_SIGIL_WIDTH);
+    int linecols = nemo_write_right(term, cline)+1;
 
     /*
      * Before we switch on the character width, do a preliminary check for
@@ -5829,6 +5850,14 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
             nemo_linefeed(term);
             term->curs.x = term->marg_l;
             cline = scrlineptr(term->curs.y);
+            check_trust_status(term, cline);
+            linecols = nemo_write_right(term, cline)+1;
+            /* The destination can be a narrower double-size row. */
+            if (linecols-term->curs.x < 2) {
+                width = 1;
+                c = 0xfffd;
+                goto write_single_cell;
+            }
             /* Now we must check_boundary again, of course. */
             check_boundary(term, term->curs.x, term->curs.y);
         }
@@ -5858,6 +5887,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
 
         break;
       case 1:
+      write_single_cell:
         cluster_anchor = term->curs;
         check_boundary(term, term->curs.x, term->curs.y);
         check_boundary(term, term->curs.x+1, term->curs.y);
@@ -5874,7 +5904,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
 
         break;
       case 0:
-        if (term->curs.x > 0) {
+        if (term->curs.x > 0 || term->wrapnext) {
             int x = term->curs.x - 1;
 
             /* If we're in wrapnext state, the character to combine
@@ -6825,7 +6855,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     ldata = scrlineptr(term->curs.y);
                     check_line_size(term, ldata);
                     check_trust_status(term, ldata);
-                    ldata->lattr = nlattr;
+                    if ((ldata->lattr & LATTR_MODE) != nlattr && nlattr != LATTR_NORM)
+                        term->curs.x = min(term->curs.x, min(term->cols-1, term->cols/2));
+                    ldata->lattr = (ldata->lattr & ~LATTR_MODE) | nlattr;
                     seen_disp_event(term);
                     break;
                   }
@@ -7025,7 +7057,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         /* FALLTHROUGH */
                       case 'C':         /* CUF: Cursor right */
                         CLAMP(term->esc_args[0], term->cols);
-                        move(term, term->curs.x + def(term->esc_args[0], 1),
+                        move(term, min(term->curs.x + def(term->esc_args[0], 1),
+                             nemo_line_columns(term, scrlineptr(term->curs.y))-1),
                              term->curs.y, 1);
                         seen_disp_event(term);
                         break;

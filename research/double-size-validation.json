@@ -1,0 +1,494 @@
+{
+  "parent_commit": "3aec08ceb90061975e799ab89d8f46ffc48b33cf",
+  "captured_utc": "2026-11-13T04:23:21.874782+00:00",
+  "source_lf_sha256": {
+    "vendor/putty-0.85/terminal/terminal.c": "726c2a84d73ab4fdd7def484cd83b30753d4aefb8ff187f55f54eb62f994fc20",
+    "vendor/putty-0.85/test/test_state_control.c": "50a4d522dadfa1ea5c68ad2e536a042585c62969f55d44be445d4144df127ae7",
+    "vendor/putty-0.85/test/test_grapheme_terminal.c": "149a67d4adbc9eb024efd318f4472099860d122120198fd1ea456f7cdab27bfe",
+    "tests/xterm_double_size_oracle.py": "94fcd723ee8f4fada48dd626f6305655ed6fdb47eea6e5202976efc479ee5a81",
+    "tests/generate_double_size_oracle.py": "e8cc972f4d61c4bdd1d58245cf22a125d329ee1c2f5d3deb4339661902a11c51",
+    "tests/double_size_oracle_cases.h": "ac3179addcb4cf50414019248c1cf4a7d8155492fd1542866386d2ebe67e6a28",
+    "tests/double_size_oracle_cases.py": "47d5eb520840bc16314347a5a722cdbe60299885fc8d0bcb65f59ba1da95f63f",
+    "tests/protocol_oracle_window.py": "c2dd115223424e4465f0d7c41096a365a7635cf4bb35cc6686aefdf9717e5a53",
+    "tests/double_size_window_smoke.py": "96c4dd4d8fb0cb9a4047b055c30fde245346fb1c57ccd91a568498079029d851",
+    "tests/tabulation_window_smoke.py": "05d70a319b367ed00ac4233e854f671e658f6b7ff7da144ad7235e40eb6d9eb4",
+    "tests/tabulation_oracle_cases.h": "b3d339897d8371e42ad44f68029eb5696f4d3cf8294b55956dd5836907f1e535",
+    "tests/tabulation_oracle_cases.py": "920916df2a312ced4bd2fc8239e093adfac27bb8ac57be5b07557f1ea5444334"
+  },
+  "artifact": {
+    "path": "build\\local-double-size-check\\dist\\nemoterm.exe",
+    "size": 4417536,
+    "sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204"
+  },
+  "before": {
+    "exit_code": 1,
+    "failed_assertions": 215,
+    "output": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-ascii-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-ascii-edge cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-ascii-edge cell 2,1): 32 != 66 / 0x20 != 0x42\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-wide-edge): '\u001b[1;41R\u001b[1;43R' != '\u001b[1;40R\u001b[2;3R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-edge cell 1,41): 25991 != 32 / 0x6587 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-edge cell 2,1): 32 != 25991 / 0x20 != 0x6587\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-wide-cross-edge): '\u001b[1;42R\u001b[1;43R' != '\u001b[2;3R\u001b[2;4R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-cross-edge cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-cross-edge cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-cross-edge cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-cross-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-wide-cross-edge cell 2,3): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-combining-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-combining-edge cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-combining-edge cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-nowrap): '\u001b[1;43R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-nowrap cell 1,40): 65 != 67 / 0x41 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-nowrap cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-position): '\u001b[1;79R\u001b[1;80R' != '\u001b[1;79R\u001b[1;79R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-position cell 1,79): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-relative-right): '\u001b[1;80R\u001b[1;80R' != '\u001b[1;40R\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-relative-right cell 1,40): 32 != 88 / 0x20 != 0x58\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-relative-right cell 1,80): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-save-restore-wrap): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-save-restore-wrap cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-save-restore-wrap cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-next-double): '\u001b[1;80R\u001b[2;2R' != '\u001b[2;40R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 1,41): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 1,79): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 1,80): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,1): 90 != 65 / 0x5a != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,2): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,3): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,38): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,39): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 2,40): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double cell 3,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-next-double-wide): '\u001b[1;80R' != '\u001b[2;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 1,79): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,3): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,38): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,39): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-next-double-wide cell 2,40): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-lf-to-double): '\u001b[2;39R\u001b[2;42R' != '\u001b[2;39R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-lf-to-double cell 2,41): 67 != 32 / 0x43 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-lf-to-double cell 3,1): 32 != 67 / 0x20 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-ri-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;60R\u001b[1;60R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-normal-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-shrink-existing): '\u001b[1;44R\u001b[1;44R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 3-grow-pending): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-grow-pending cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (3-grow-pending cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-ascii-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-ascii-edge cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-ascii-edge cell 2,1): 32 != 66 / 0x20 != 0x42\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-wide-edge): '\u001b[1;41R\u001b[1;43R' != '\u001b[1;40R\u001b[2;3R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-edge cell 1,41): 25991 != 32 / 0x6587 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-edge cell 2,1): 32 != 25991 / 0x20 != 0x6587\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-wide-cross-edge): '\u001b[1;42R\u001b[1;43R' != '\u001b[2;3R\u001b[2;4R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-cross-edge cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-cross-edge cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-cross-edge cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-cross-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-wide-cross-edge cell 2,3): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-combining-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-combining-edge cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-combining-edge cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-nowrap): '\u001b[1;43R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-nowrap cell 1,40): 65 != 67 / 0x41 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-nowrap cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-position): '\u001b[1;79R\u001b[1;80R' != '\u001b[1;79R\u001b[1;79R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-position cell 1,79): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-relative-right): '\u001b[1;80R\u001b[1;80R' != '\u001b[1;40R\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-relative-right cell 1,40): 32 != 88 / 0x20 != 0x58\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-relative-right cell 1,80): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-save-restore-wrap): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-save-restore-wrap cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-save-restore-wrap cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-next-double): '\u001b[1;80R\u001b[2;2R' != '\u001b[2;40R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 1,41): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 1,79): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 1,80): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,1): 90 != 65 / 0x5a != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,2): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,3): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,38): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,39): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 2,40): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double cell 3,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-next-double-wide): '\u001b[1;80R' != '\u001b[2;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 1,79): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,3): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,38): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,39): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-next-double-wide cell 2,40): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-lf-to-double): '\u001b[2;39R\u001b[2;42R' != '\u001b[2;39R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-lf-to-double cell 2,41): 67 != 32 / 0x43 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-lf-to-double cell 3,1): 32 != 67 / 0x20 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-ri-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;60R\u001b[1;60R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-normal-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-shrink-existing): '\u001b[1;44R\u001b[1;44R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 4-grow-pending): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-grow-pending cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (4-grow-pending cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-ascii-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-ascii-edge cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-ascii-edge cell 2,1): 32 != 66 / 0x20 != 0x42\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-wide-edge): '\u001b[1;41R\u001b[1;43R' != '\u001b[1;40R\u001b[2;3R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-edge cell 1,41): 25991 != 32 / 0x6587 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-edge cell 2,1): 32 != 25991 / 0x20 != 0x6587\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-wide-cross-edge): '\u001b[1;42R\u001b[1;43R' != '\u001b[2;3R\u001b[2;4R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-cross-edge cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-cross-edge cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-cross-edge cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-cross-edge cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-wide-cross-edge cell 2,3): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-combining-edge): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-combining-edge cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-combining-edge cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-nowrap): '\u001b[1;43R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-nowrap cell 1,40): 65 != 67 / 0x41 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-nowrap cell 1,41): 66 != 32 / 0x42 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-position): '\u001b[1;79R\u001b[1;80R' != '\u001b[1;79R\u001b[1;79R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-position cell 1,79): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-relative-right): '\u001b[1;80R\u001b[1;80R' != '\u001b[1;40R\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-relative-right cell 1,40): 32 != 88 / 0x20 != 0x58\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-relative-right cell 1,80): 88 != 32 / 0x58 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-save-restore-wrap): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-save-restore-wrap cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-save-restore-wrap cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-next-double): '\u001b[1;80R\u001b[2;2R' != '\u001b[2;40R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 1,41): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 1,79): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 1,80): 65 != 32 / 0x41 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,1): 90 != 65 / 0x5a != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,2): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,3): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,38): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,39): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 2,40): 32 != 65 / 0x20 != 0x41\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double cell 3,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-next-double-wide): '\u001b[1;80R' != '\u001b[2;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 1,40): 20013 != 32 / 0x4e2d != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 1,41): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 1,79): 0 != 32 / 0 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,1): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,2): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,3): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,38): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,39): 32 != 20013 / 0x20 != 0x4e2d\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-next-double-wide cell 2,40): 32 != 0 / 0x20 != 0\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-lf-to-double): '\u001b[2;39R\u001b[2;42R' != '\u001b[2;39R\u001b[3;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-lf-to-double cell 2,41): 67 != 32 / 0x43 != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-lf-to-double cell 3,1): 32 != 67 / 0x20 != 0x43\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-ri-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;60R\u001b[1;60R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-normal-to-double): '\u001b[1;60R\u001b[1;61R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-shrink-existing): '\u001b[1;44R\u001b[1;44R' != '\u001b[1;41R\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:18 (double-size: 6-grow-pending): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-grow-pending cell 1,41): 90 != 32 / 0x5a != 0x20\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:31 (6-grow-pending cell 2,1): 32 != 90 / 0x20 != 0x5a\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:43 (wrapped output uses the destination row's own width): 40 != 79 / 0x28 != 0x4f\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:44 (wrapped output uses the destination row's own width): 0 != 1 / 0 != 0x1\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:45 (wrapped output uses the destination row's own width): 55328 != 55362 / 0xd820 != 0xd842\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:47 (wrapped output uses the destination row's own width): 1 != 2 / 0x1 != 0x2\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:47 (wrapped output uses the destination row's own width): 41 != 1 / 0x29 != 0x1\nState control suite FAILED\n"
+  },
+  "core": {
+    "test_sgr": {
+      "output": "SGR suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sync": {
+      "output": "Synchronized output test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_modes": {
+      "output": "Mode test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_cluster_renderer": {
+      "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed\r\n",
+      "exit_code": 0
+    },
+    "test_selective_erase": {
+      "output": "Selective erase suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_rectangle": {
+      "output": "Rectangle editing and independent XTerm oracle suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_font_cmap": {
+      "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed\r\n",
+      "exit_code": 0
+    },
+    "test_grapheme": {
+      "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed\r\n",
+      "exit_code": 0
+    },
+    "test_tcap": {
+      "output": "Capability/keyboard suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_resize": {
+      "output": "Resize suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sixel": {
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\r\n",
+      "exit_code": 0
+    },
+    "test_colour": {
+      "output": "OSC colour parser tests passed\r\n",
+      "exit_code": 0
+    },
+    "test_shell_marks": {
+      "output": "Shell mark suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_cwd": {
+      "output": "Directory metadata suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_margins": {
+      "output": "Margin suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_conf": {
+      "output": "",
+      "exit_code": 0
+    },
+    "test_queries": {
+      "output": "Query suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_keyboard": {
+      "output": "Keyboard protocol suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_osc52": {
+      "output": "OSC 52 suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sixel_terminal": {
+      "output": "Sixel terminal suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_tabs_layout": {
+      "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed\r\n",
+      "exit_code": 0
+    },
+    "test_reflow": {
+      "output": "Reflow suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_osc_colour": {
+      "output": "OSC colour suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_mouse": {
+      "output": "Mouse test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_highlight": {
+      "output": "Highlight suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_mok": {
+      "output": "Modified keys suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_hyperlink": {
+      "output": "Hyperlink test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_grapheme_terminal": {
+      "output": "Grapheme terminal suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_win32_input": {
+      "output": "Win32 input suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_snapshot": {
+      "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\r\nsnapshot tests passed\r\n",
+      "exit_code": 0
+    },
+    "test_font_fallback": {
+      "output": "Requested Consolas; initially selected Consolas\r\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\r\nRequested Courier; initially selected Courier\r\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\r\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\r\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\r\nRequested Nemo Test Missing Font 938471; initially selected Arial\r\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\r\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache\r\n",
+      "exit_code": 0
+    },
+    "test_terminal": {
+      "output": "Test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_state_control": {
+      "output": "State control suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_shell": {
+      "output": "Shell detection, Unicode command quoting and child environment suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_titles": {
+      "output": "Title suite passed\r\n",
+      "exit_code": 0
+    }
+  },
+  "mingw": {
+    "test_state_control": {
+      "exit_code": 0,
+      "output": "State control suite passed\n"
+    },
+    "test_grapheme_terminal": {
+      "exit_code": 0,
+      "output": "Grapheme terminal suite passed\n"
+    },
+    "test_terminal": {
+      "exit_code": 0,
+      "output": "Test suite passed\n"
+    }
+  },
+  "sanitizers": {
+    "asan": "detect_leaks=1:halt_on_error=1",
+    "ubsan": "halt_on_error=1",
+    "flags": "-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer",
+    "tests": {
+      "state": {
+        "exit_code": 0,
+        "output": "State control suite passed\n"
+      },
+      "grapheme": {
+        "exit_code": 0,
+        "output": "Grapheme terminal suite passed\n"
+      },
+      "margins": {
+        "exit_code": 0,
+        "output": "Margin suite passed\n"
+      },
+      "sixel": {
+        "exit_code": 0,
+        "output": "Sixel terminal suite passed\n"
+      }
+    }
+  },
+  "native": {
+    "tabulation": {
+      "executable_sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204",
+      "completed": true,
+      "cases": {
+        "ht-column-1": "1b5b313b39521b503024721b5c",
+        "ht-column-8": "1b5b313b39521b503024721b5c",
+        "ht-column-9": "1b5b313b3137521b503024721b5c",
+        "ht-column-10": "1b5b313b3137521b503024721b5c",
+        "ht-column-40": "1b5b313b3431521b503024721b5c",
+        "ht-column-72": "1b5b313b3733521b503024721b5c",
+        "ht-column-73": "1b5b313b3830521b503024721b5c",
+        "ht-column-79": "1b5b313b3830521b503024721b5c",
+        "ht-column-80": "1b5b313b3830521b503024721b5c",
+        "ht-no-stops": "1b5b313b3830521b503024721b5c",
+        "ht-custom-stops": "1b5b313b3138521b5b313b3830521b503024721b5c",
+        "ht-double-#3": "1b5b313b3430521b503024721b5c",
+        "ht-double-#4": "1b5b313b3430521b503024721b5c",
+        "ht-double-#6": "1b5b313b3430521b503024721b5c",
+        "ht-pending-wrap": "1b5b313b3830521b5b323b32521b503024721b5c",
+        "ht-double-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "ht-margins-1": "1b5b313b39521b503024721b5c",
+        "ht-margins-5": "1b5b313b39521b503024721b5c",
+        "ht-margins-9": "1b5b313b3137521b503024721b5c",
+        "ht-margins-17": "1b5b313b3230521b503024721b5c",
+        "ht-margins-20": "1b5b313b3230521b503024721b5c",
+        "ht-margins-24": "1b5b313b3230521b503024721b5c",
+        "ht-margins-25": "1b5b313b3230521b503024721b5c",
+        "ht-margins-40": "1b5b313b3230521b503024721b5c",
+        "ht-margins-80": "1b5b313b3230521b503024721b5c",
+        "ht-origin": "1b5b313b35521b503024721b5c",
+        "cht-column-1": "1b5b313b39521b503024721b5c",
+        "cht-column-8": "1b5b313b39521b503024721b5c",
+        "cht-column-9": "1b5b313b3137521b503024721b5c",
+        "cht-column-10": "1b5b313b3137521b503024721b5c",
+        "cht-column-40": "1b5b313b3431521b503024721b5c",
+        "cht-column-72": "1b5b313b3733521b503024721b5c",
+        "cht-column-73": "1b5b313b3830521b503024721b5c",
+        "cht-column-79": "1b5b313b3830521b503024721b5c",
+        "cht-column-80": "1b5b313b3830521b503024721b5c",
+        "cht-no-stops": "1b5b313b3830521b503024721b5c",
+        "cht-custom-stops": "1b5b313b3138521b5b313b3830521b503024721b5c",
+        "cht-double-#3": "1b5b313b3430521b503024721b5c",
+        "cht-double-#4": "1b5b313b3430521b503024721b5c",
+        "cht-double-#6": "1b5b313b3430521b503024721b5c",
+        "cht-pending-wrap": "1b5b313b3830521b5b323b32521b503024721b5c",
+        "cht-double-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "cht-margins-1": "1b5b313b39521b503024721b5c",
+        "cht-margins-5": "1b5b313b39521b503024721b5c",
+        "cht-margins-9": "1b5b313b3137521b503024721b5c",
+        "cht-margins-17": "1b5b313b3230521b503024721b5c",
+        "cht-margins-20": "1b5b313b3230521b503024721b5c",
+        "cht-margins-24": "1b5b313b3230521b503024721b5c",
+        "cht-margins-25": "1b5b313b3230521b503024721b5c",
+        "cht-margins-40": "1b5b313b3230521b503024721b5c",
+        "cht-margins-80": "1b5b313b3230521b503024721b5c",
+        "cht-origin": "1b5b313b35521b503024721b5c",
+        "cbt-column-1": "1b5b313b31521b503024721b5c",
+        "cbt-column-8": "1b5b313b31521b503024721b5c",
+        "cbt-column-9": "1b5b313b31521b503024721b5c",
+        "cbt-column-10": "1b5b313b39521b503024721b5c",
+        "cbt-column-40": "1b5b313b3333521b503024721b5c",
+        "cbt-column-72": "1b5b313b3635521b503024721b5c",
+        "cbt-column-73": "1b5b313b3635521b503024721b5c",
+        "cbt-column-79": "1b5b313b3733521b503024721b5c",
+        "cbt-column-80": "1b5b313b3733521b503024721b5c",
+        "cbt-no-stops": "1b5b313b31521b503024721b5c",
+        "cbt-custom-stops": "1b5b313b35521b5b313b31521b503024721b5c",
+        "cbt-double-#3": "1b5b313b3333521b503024721b5c",
+        "cbt-double-#4": "1b5b313b3333521b503024721b5c",
+        "cbt-double-#6": "1b5b313b3333521b503024721b5c",
+        "cbt-pending-wrap": "1b5b313b3733521b5b323b32521b503024721b5c",
+        "cbt-double-wrap": "1b5b313b3333521b5b323b32521b503024721b5c",
+        "cbt-margins-1": "1b5b313b31521b503024721b5c",
+        "cbt-margins-5": "1b5b313b31521b503024721b5c",
+        "cbt-margins-9": "1b5b313b31521b503024721b5c",
+        "cbt-margins-17": "1b5b313b39521b503024721b5c",
+        "cbt-margins-20": "1b5b313b3137521b503024721b5c",
+        "cbt-margins-24": "1b5b313b3137521b503024721b5c",
+        "cbt-margins-25": "1b5b313b3137521b503024721b5c",
+        "cbt-margins-40": "1b5b313b3333521b503024721b5c",
+        "cbt-margins-80": "1b5b313b3733521b503024721b5c",
+        "cbt-origin": "1b5b313b31521b503024721b5c",
+        "I-argument-": "1b5b313b3431521b503024721b5c",
+        "I-argument-0": "1b5b313b3431521b503024721b5c",
+        "I-argument-1": "1b5b313b3431521b503024721b5c",
+        "I-argument-2": "1b5b313b3439521b503024721b5c",
+        "I-argument-100": "1b5b313b3830521b503024721b5c",
+        "I-argument-4294967295": "1b5b313b3830521b503024721b5c",
+        "I-argument-999999999999999999999": "1b5b313b3830521b503024721b5c",
+        "I-argument-2;3": "1b5b313b3439521b503024721b5c",
+        "I-cancelled": "1b5b313b3431521b503024721b5c",
+        "Z-argument-": "1b5b313b3333521b503024721b5c",
+        "Z-argument-0": "1b5b313b3333521b503024721b5c",
+        "Z-argument-1": "1b5b313b3333521b503024721b5c",
+        "Z-argument-2": "1b5b313b3235521b503024721b5c",
+        "Z-argument-100": "1b5b313b31521b503024721b5c",
+        "Z-argument-4294967295": "1b5b313b31521b503024721b5c",
+        "Z-argument-999999999999999999999": "1b5b313b31521b503024721b5c",
+        "Z-argument-2;3": "1b5b313b3235521b503024721b5c",
+        "Z-cancelled": "1b5b313b3431521b503024721b5c",
+        "clear-current": "1b5b313b3137521b503024721b5c",
+        "clear-multiple": "1b5b313b3137521b503024721b5c",
+        "restore-": "1b5b313b39521b5b313b3137521b503024721b5c",
+        "restore-0": "1b5b313b39521b5b313b3137521b503024721b5c",
+        "restore-3": "1b5b313b35521b5b313b3830521b503024721b5c",
+        "restore-5": "1b5b313b39521b5b313b3137521b503024721b5c",
+        "restore-5;0": "1b5b313b39521b5b313b3137521b503024721b5c",
+        "restore-0;5": "1b5b313b39521b5b313b3137521b503024721b5c",
+        "restore-pending-wrap": "1b5b323b32521b503024721b5c",
+        "soft-reset-stops": "1b5b313b35521b503024721b5c",
+        "hard-reset-stops": "1b5b313b39521b503024721b5c",
+        "alternate-shared-stops": "1b5b313b3830521b5b313b3138521b503024721b5c"
+      },
+      "source_reference": "XTerm(412)",
+      "reference_case_count": 108,
+      "direct_case_names": [],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "last_snapshot": {
+        "phase": "alternate-shared-stops",
+        "hex": "1b5b313b3830521b5b313b3138521b503024721b5c",
+        "columns": 80,
+        "rows": 24,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      }
+    },
+    "double-size": {
+      "executable_sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204",
+      "completed": true,
+      "cases": {
+        "3-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+        "3-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+        "3-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-nowrap": "1b5b313b3430521b503024721b5c",
+        "3-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+        "3-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+        "3-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+        "3-next-double-wide": "1b5b323b3430521b503024721b5c",
+        "3-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+        "3-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+        "3-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "3-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "3-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "4-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "4-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+        "4-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+        "4-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "4-nowrap": "1b5b313b3430521b503024721b5c",
+        "4-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+        "4-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+        "4-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "4-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+        "4-next-double-wide": "1b5b323b3430521b503024721b5c",
+        "4-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+        "4-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+        "4-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "4-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "4-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "6-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "6-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+        "6-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+        "6-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "6-nowrap": "1b5b313b3430521b503024721b5c",
+        "6-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+        "6-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+        "6-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "6-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+        "6-next-double-wide": "1b5b323b3430521b503024721b5c",
+        "6-lf-to-double": "1b5b323b3339521b5b333b32521b503024721b5c",
+        "6-ri-to-double": "1b5b313b3630521b5b313b3630521b503024721b5c",
+        "6-normal-to-double": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "6-shrink-existing": "1b5b313b3431521b5b313b3431521b503024721b5c",
+        "6-grow-pending": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "destination-row-width": "1b5b323b3830521b5b333b32521b503024721b5c",
+        "visible-scene": "1b503024721b5c"
+      },
+      "source_reference": "XTerm(412)",
+      "reference_case_count": 45,
+      "direct_case_names": [
+        "destination-row-width"
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "last_snapshot": {
+        "phase": "visible-scene",
+        "hex": "1b503024721b5c",
+        "columns": 80,
+        "rows": 24,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      }
+    },
+    "single-exe": {
+      "executable_sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204",
+      "embedded_licenses_bytes": 81403,
+      "processes": [
+        {
+          "pid": 42048,
+          "parent": 37832,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d apqkhkin\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 4386816,
+            "total_ws": 22962176,
+            "private_commit": 5554176
+          }
+        },
+        {
+          "pid": 34764,
+          "parent": 42048,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d apqkhkin\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1593344,
+            "total_ws": 10608640,
+            "private_commit": 2289664
+          }
+        }
+      ],
+      "host_same_image": true,
+      "launcher_exit_preserves_console": true,
+      "only_executable_in_directory": true
+    }
+  },
+  "native_initial_attempt": {
+    "reason": "Fixture newline translation; corrected by existing exact-output option, unchanged product image.",
+    "report": {
+      "executable_sha256": "287ad39080163017e4afca8c433f709551b3b45fa2a4b80ace7ffd103cbf7204",
+      "completed": false,
+      "cases": {
+        "3-ascii-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-wide-edge": "1b5b313b3430521b5b323b33521b503024721b5c",
+        "3-wide-cross-edge": "1b5b323b33521b5b323b34521b503024721b5c",
+        "3-combining-edge": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-nowrap": "1b5b313b3430521b503024721b5c",
+        "3-position": "1b5b313b3739521b5b313b3739521b503024721b5c",
+        "3-relative-right": "1b5b313b3430521b5b313b3430521b503024721b5c",
+        "3-save-restore-wrap": "1b5b313b3430521b5b323b32521b503024721b5c",
+        "3-next-double": "1b5b323b3430521b5b333b32521b503024721b5c",
+        "3-next-double-wide": "1b5b323b3430521b503024721b5c",
+        "3-lf-to-double": "1b5b323b31521b5b323b34521b503024721b5c"
+      },
+      "source_reference": "XTerm(412)",
+      "last_snapshot": {
+        "phase": "3-lf-to-double",
+        "hex": "1b5b323b31521b5b323b34521b503024721b5c",
+        "columns": 80,
+        "rows": 24,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      }
+    }
+  },
+  "notes": [
+    "Exact artifact identity is its hash; cached embedded version text predates this source checkpoint.",
+    "45 xterm cases compare cursor replies and 1215 core cell values. Three captured batching-width differences use direct grid/native assertions instead.",
+    "Row-size-specific editing/resize, required clipboard CI, real-agent acceptance, and full memory/lifetime scope remain open."
+  ]
+}
