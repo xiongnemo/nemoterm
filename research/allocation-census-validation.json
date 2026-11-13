@@ -1,33 +1,367 @@
 {
-  "recorded_utc": "2026-11-13T13:36:32.784432+00:00",
-  "source_commit": "f6d1ce2111edc14ac81396cf83c5dba00d9a13c0",
-  "run": 43434405328,
+  "recorded_utc": "2026-11-13T14:07:59.580597+00:00",
+  "source_commit": "033157eaa91f203c8a9ec62647f7eecf4e0e8205",
+  "run": 43438776689,
   "result": "success",
-  "core_checks": "C11 with ASan and UBSan",
+  "core_checks": [
+    "C11 with ASan and UBSan",
+    "five offline page-correlation cases"
+  ],
   "native_cases": [
     "destroyed-heap",
-    "live-snapshot"
+    "live-snapshot",
+    "reservation-range-snapshot",
+    "lfh-external-requests"
   ],
-  "native_scope": "A controlled private heap in a disposable Python process; no terminal or frontend measurement",
-  "native_range_scope_validated": false,
-  "frontend_attribution_performed": false,
+  "native_range_scope_validated": true,
+  "lfh_external_block_metadata_verified": true,
+  "frontend_live_block_correlation_performed": true,
+  "full_frontend_memory_attribution_proven": false,
   "working_set_acceptance": false,
   "local_runtime_testing_paused": true,
   "local_checks": [
-    "MinGW C compilation only",
+    "Python AST",
     "JavaScript syntax",
-    "Python AST"
+    "PowerShell workflow syntax",
+    "All 30 existing fixture assertions retained"
   ],
+  "candidate": {
+    "run": 43431940613,
+    "source_commit": "587965e5dfb97ad0290f311f14fc39edb9dff7d1",
+    "image_artifact": 14042122607,
+    "sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+    "bytes": 4436992
+  },
+  "rejected_capture": {
+    "run": 43437675368,
+    "source_commit": "b735173484ba58c70756150e4dd3d891f3bb0794",
+    "overlapping_directx_records": 1648,
+    "reason": "Nested allocator backing requests overlapped leaf requests; capture was rejected, not attributed"
+  },
+  "artifact_ids": {
+    "native": 14045271043,
+    "bookkeeping": 14044451559,
+    "gdi": 14044297119,
+    "directx": 14044731584
+  },
+  "source_byte_formats": {
+    "allocation_census_probe.js": "crlf",
+    "allocation_census.h": "git_blob",
+    "allocation_census_pages.py": "git_blob",
+    "working_set_regions.py": "git_blob",
+    "allocation_census.py": "git_blob",
+    "tabs_window_smoke.py": "git_blob",
+    "tab_workload_memory.py": "git_blob"
+  },
+  "source_hash_note": "Windows checkout expanded the JS probe to CRLF. All recorded source hashes match the committed blob or that exact line-ending conversion.",
+  "frontend_diagnostics": {
+    "gdi": {
+      "actual_renderer": 1,
+      "counts": {
+        "active": 0,
+        "errors": 0,
+        "generation": "3404651",
+        "live_count": 5184,
+        "live_requested_bytes": "2220518",
+        "capacity": 65536,
+        "ignored_nested_calls": {
+          "alloc": "157614",
+          "realloc": "45",
+          "free": "157584",
+          "destroy": "0"
+        }
+      },
+      "instrumented": true,
+      "memory_acceptance": false,
+      "private_page_snapshot_bytes": 14721024,
+      "observed_requested_bytes_on_private_pages": 2220518,
+      "observed_fraction_of_private_pages_bytes": 0.15083991439725933,
+      "page_categories": {
+        "single_caller_module": 628,
+        "mixed_caller_modules": 18,
+        "unknown_caller_module": 0,
+        "unobserved": 2948
+      },
+      "selected_reservations": [
+        {
+          "start": "0x194146b0000",
+          "reserved_bytes": 2097152,
+          "before_private_ws": 1617920,
+          "after_private_ws": 1445888,
+          "observed_requested_bytes": 537684
+        },
+        {
+          "start": "0x1940dbe0000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 1044480,
+          "after_private_ws": 1032192,
+          "observed_requested_bytes": 912
+        },
+        {
+          "start": "0x19410480000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 1040384,
+          "after_private_ws": 1003520,
+          "observed_requested_bytes": 230086
+        },
+        {
+          "start": "0x19412ed0000",
+          "reserved_bytes": 4194304,
+          "before_private_ws": 724992,
+          "after_private_ws": 724992,
+          "observed_requested_bytes": 0
+        },
+        {
+          "start": "0x665b000000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 208896,
+          "after_private_ws": 217088,
+          "observed_requested_bytes": 0
+        },
+        {
+          "start": "0x19415780000",
+          "reserved_bytes": 4194304,
+          "before_private_ws": 110592,
+          "after_private_ws": 1867776,
+          "observed_requested_bytes": 1451836
+        },
+        {
+          "start": "0x665ae00000",
+          "reserved_bytes": 2097152,
+          "before_private_ws": 86016,
+          "after_private_ws": 151552,
+          "observed_requested_bytes": 0
+        }
+      ],
+      "natural_job_drain": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "directx": {
+      "actual_renderer": 3,
+      "counts": {
+        "active": 0,
+        "errors": 0,
+        "generation": "941614",
+        "live_count": 1942,
+        "live_requested_bytes": "1127992",
+        "capacity": 65536,
+        "ignored_nested_calls": {
+          "alloc": "160298",
+          "realloc": "49",
+          "free": "160239",
+          "destroy": "0"
+        }
+      },
+      "instrumented": true,
+      "memory_acceptance": false,
+      "private_page_snapshot_bytes": 31776768,
+      "observed_requested_bytes_on_private_pages": 1046072,
+      "observed_fraction_of_private_pages_bytes": 0.03291939570443413,
+      "page_categories": {
+        "single_caller_module": 339,
+        "mixed_caller_modules": 9,
+        "unknown_caller_module": 0,
+        "unobserved": 7410
+      },
+      "selected_reservations": [
+        {
+          "start": "0x21cb7c50000",
+          "reserved_bytes": 4194304,
+          "before_private_ws": 3403776,
+          "after_private_ws": 3457024,
+          "observed_requested_bytes": 743232
+        },
+        {
+          "start": "0x21cb04f0000",
+          "reserved_bytes": 33554432,
+          "before_private_ws": 2486272,
+          "after_private_ws": 8642560,
+          "observed_requested_bytes": 0
+        },
+        {
+          "start": "0x21cb25f0000",
+          "reserved_bytes": 2097152,
+          "before_private_ws": 1986560,
+          "after_private_ws": 1740800,
+          "observed_requested_bytes": 137040
+        },
+        {
+          "start": "0x21cad9e0000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 1044480,
+          "after_private_ws": 1044480,
+          "observed_requested_bytes": 1152
+        },
+        {
+          "start": "0x21cb0350000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 1040384,
+          "after_private_ws": 1040384,
+          "observed_requested_bytes": 194992
+        },
+        {
+          "start": "0x21cb56a0000",
+          "reserved_bytes": 4194304,
+          "before_private_ws": 724992,
+          "after_private_ws": 724992,
+          "observed_requested_bytes": 0
+        },
+        {
+          "start": "0x21cb24f0000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 344064,
+          "after_private_ws": 430080,
+          "observed_requested_bytes": 51576
+        },
+        {
+          "start": "0xa28d600000",
+          "reserved_bytes": 1048576,
+          "before_private_ws": 208896,
+          "after_private_ws": 208896,
+          "observed_requested_bytes": 0
+        },
+        {
+          "start": "0xa28d400000",
+          "reserved_bytes": 2097152,
+          "before_private_ws": 126976,
+          "after_private_ws": 184320,
+          "observed_requested_bytes": 0
+        }
+      ],
+      "natural_job_drain": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  },
+  "uninstrumented_baseline": {
+    "gdi": {
+      "side": "top",
+      "peak_frontend": {
+        "count": 1,
+        "private_ws": 11214848,
+        "total_ws": 42631168,
+        "private_commit": 13000704
+      },
+      "injected": false,
+      "memory_limit_passed": true,
+      "checks": 9
+    },
+    "directx": {
+      "side": "left",
+      "peak_frontend": {
+        "count": 1,
+        "private_ws": 25055232,
+        "total_ws": 65208320,
+        "private_commit": 27508736
+      },
+      "injected": false,
+      "memory_limit_passed": false,
+      "checks": 9
+    }
+  },
   "evidence": [
     {
       "path": "research/allocation-census-evidence/allocation-census-native.json",
-      "bytes": 5824,
-      "sha256": "17e3b04d77a8fb998c374c6448fcd94e4a5ee0c532d411d78ebe741520102916"
+      "bytes": 406034,
+      "sha256": "ebdb1fbe6e1a3384827d5f23b27f1254e689a3c7e0d950e93e5e710986c46120"
     },
     {
       "path": "research/allocation-census-evidence/allocation-census-test.log",
       "bytes": 80,
       "sha256": "9447c1b4050afe7c7e2ada42a90c35af9dcafb097a15e9db8d35570460c929fe"
+    },
+    {
+      "path": "research/allocation-census-evidence/allocation-census-pages.log",
+      "bytes": 103,
+      "sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-gdi-census.json",
+      "bytes": 1112329,
+      "sha256": "a90e7c74ac6bfb4124a7615249d21af102ee4fb0dc80bf58c096b2ca3b25658a"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-gdi-observed.json",
+      "bytes": 14720,
+      "sha256": "8d1210d05a46f5216e21916efcfa8699e554be98b7e292e2e1d4d4d3c186faa0"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-gdi-memory.json",
+      "bytes": 1001267,
+      "sha256": "0d2d0f769b61beb58bdd476ad63ab34e7f5964312e50df7bf0347e2316fd025d"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-gdi-validation.json",
+      "bytes": 449,
+      "sha256": "ef14a2ac4532c12d281ea2a3f9fe195e4f0139ce962ca8d5bc2b45b4e1862cde"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-directx-census.json",
+      "bytes": 558786,
+      "sha256": "54126de5015865e729339fbe0488b2823abb323fbc248f11ff044654f183f847"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-directx-observed.json",
+      "bytes": 14783,
+      "sha256": "ebb04c7e1fd43b543df15ff696b1307f4d0108384ede300037d078837c117ff7"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-directx-memory.json",
+      "bytes": 682820,
+      "sha256": "8a7aea9ad60cf8a34ecd48068b52889d1a43f3fc83d571168183df5efcd45a38"
+    },
+    {
+      "path": "research/allocation-census-evidence/frontend-directx-validation.json",
+      "bytes": 452,
+      "sha256": "951aa9dcbc4debec3637e02413f459fee1ab799a6d3f883bb8c2f8491de51dfa"
+    },
+    {
+      "path": "research/allocation-census-evidence/rejected-nested-directx-census.json",
+      "bytes": 737874,
+      "sha256": "fb20ab57747740573ea371a92b3e2136ff3ed9000d7eac8be714cb15e6fb363e"
+    },
+    {
+      "path": "research/allocation-census-evidence/baseline-gdi-memory.json",
+      "bytes": 796639,
+      "sha256": "2648fd060f5338199fcd6a5f0db63fe560d232c602d43f465cf1260774e3ed29"
+    },
+    {
+      "path": "research/allocation-census-evidence/baseline-gdi-observed.json",
+      "bytes": 14322,
+      "sha256": "30f6bb09e48d20c17650a06bfa2d274ae830384beddd6d21eb20729a92f9801f"
+    },
+    {
+      "path": "research/allocation-census-evidence/baseline-directx-memory.json",
+      "bytes": 584837,
+      "sha256": "1f3e595647d2de1f00fa27cc4dfad7bd674325749fc0cf24406b4d420125ffc8"
+    },
+    {
+      "path": "research/allocation-census-evidence/baseline-directx-observed.json",
+      "bytes": 14428,
+      "sha256": "b373f7d0fd50921665e6009b148f4de68a931ccbdecbd947d5b3ded3663648f7"
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "diagnostic_valid": true,
+  "memory_acceptance": false,
+  "renderer": "gdi",
+  "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+  "live_count": 5184,
+  "live_requested_bytes": "2220518",
+  "observed_requested_bytes_on_private_pages": 2220518,
+  "page_categories": {
+    "single_caller_module": 628,
+    "mixed_caller_modules": 18,
+    "unknown_caller_module": 0,
+    "unobserved": 2948
+  }
+}
