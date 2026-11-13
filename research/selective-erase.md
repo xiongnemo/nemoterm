@@ -1,5 +1,10 @@
 # DEC protected text and selective erasure
 
+This is the original checkpoint record, not the current protection-family
+specification. The later [presentation-state checkpoint](presentation-state.md)
+superseded its DECSTR choice below; [ISO guarded-area development](guarded-areas.md)
+adds SPA/EPA and further shared-erase changes with build-only evidence.
+
 Implemented DECSCA (`CSI Ps " q`), its DECRQSS query, DECSEL/DECSED
 (`CSI ? Ps K/J`), DECERA (`CSI top;left;bottom;right $ z`) and DECSERA
 (`CSI top;left;bottom;right $ {`). Protection uses bit 29 of the existing
@@ -30,10 +35,10 @@ Explicit semantic choices:
 * DECERA follows XTerm's current-SGR behavior and preserves an old foreground or
   background when the corresponding current color is default. This differs from
   the DEC manual/Windows Terminal erase-attribute behavior.
-* Existing protected cells remain protected after DECSTR resets the current
-  write attribute. XTerm(412)'s global protection mode instead makes previously
-  protected cells erasable; this implementation deliberately retains per-cell
-  protection, consistent with the inspected Microsoft implementation.
+* At this original checkpoint, DECSTR retained effective per-cell protection.
+  The later presentation-state checkpoint replaced that choice with XTerm's
+  family semantics: DECSTR ends the family without clearing the stored cell
+  bits, allowing subsequent selective erasure until DEC protection is selected.
 * Omitted rectangle coordinates in origin mode mean the full origin region.
   The oracle exposed XTerm(412)'s extra top-margin offset for omitted coordinates;
   this implementation uses the DEC coordinate definition.
@@ -42,4 +47,5 @@ References: [xterm control sequences](https://invisible-island.net/xterm/ctlseqs
 [DEC DECSERA](https://vt100.net/docs/vt510-rm/DECSERA.html),
 [Microsoft adapter](https://github.com/microsoft/terminal/blob/f6de9e0618015def1c9dda5b82f9d3abf03eb799/src/terminal/adapter/adaptDispatch.cpp).
 ISO SPA/EPA, left/right margins and rectangle copy/fill/attribute operations
-remain open; these tests do not imply those protocols are implemented.
+were open at this checkpoint; later work is tracked in the protocol inventory.
+These original tests do not validate those subsequent implementations.

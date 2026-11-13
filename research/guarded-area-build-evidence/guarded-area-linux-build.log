@@ -1,0 +1,32 @@
+[1/36] Updating sbcsdat.c
+[2/33] Checking current git commit
+[3/33] Updating cmake_commit.c
+[4/32] Building C object CMakeFiles/utils.dir/utils/stripctrl.c.o
+[5/32] Building C object CMakeFiles/guiterminal.dir/terminal/nemo_tcap.c.o
+[6/32] Building C object CMakeFiles/guiterminal.dir/ldisc.c.o
+[7/32] Building C object CMakeFiles/guiterminal.dir/terminal/lineedit.c.o
+[8/32] Linking C static library libutils.a
+[9/32] Building C object unix/CMakeFiles/test_state_control.dir/__/test/test_state_control.c.o
+[10/32] Building C object unix/CMakeFiles/test_state_control.dir/unicode.c.o
+[11/32] Building C object unix/CMakeFiles/test_selective_erase.dir/__/test/test_selective_erase.c.o
+[12/32] Building C object unix/CMakeFiles/test_selective_erase.dir/__/stubs/no-gss.c.o
+[13/32] Building C object unix/CMakeFiles/test_selective_erase.dir/__/stubs/no-storage.c.o
+[14/32] Building C object unix/CMakeFiles/test_selective_erase.dir/__/stubs/no-timing.c.o
+[15/32] Building C object unix/CMakeFiles/test_selective_erase.dir/__/stubs/no-printing.c.o
+[16/32] Building C object unix/CMakeFiles/test_selective_erase.dir/unicode.c.o
+[17/32] Building C object unix/CMakeFiles/test_selective_erase.dir/no-gtk.c.o
+[18/32] Building C object unix/CMakeFiles/test_rectangle.dir/__/test/test_rectangle.c.o
+[19/32] Building C object unix/CMakeFiles/test_rectangle.dir/__/stubs/no-gss.c.o
+[20/32] Building C object unix/CMakeFiles/test_rectangle.dir/__/stubs/no-storage.c.o
+[21/32] Building C object unix/CMakeFiles/test_rectangle.dir/__/stubs/no-timing.c.o
+[22/32] Building C object unix/CMakeFiles/test_rectangle.dir/__/stubs/no-printing.c.o
+[23/32] Building C object unix/CMakeFiles/test_rectangle.dir/unicode.c.o
+[24/32] Building C object unix/CMakeFiles/test_rectangle.dir/no-gtk.c.o
+[25/32] Building C object unix/CMakeFiles/test_queries.dir/__/test/test_queries.c.o
+[26/32] Building C object unix/CMakeFiles/test_queries.dir/unicode.c.o
+[27/32] Building C object CMakeFiles/guiterminal.dir/terminal/terminal.c.o
+[28/32] Linking C static library libguiterminal.a
+[29/32] Linking C executable test_state_control
+[30/32] Linking C executable test_selective_erase
+[31/32] Linking C executable test_rectangle
+[32/32] Linking C executable test_queries

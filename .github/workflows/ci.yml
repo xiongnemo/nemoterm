@@ -116,6 +116,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_cursor_charset_cases.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_guarded_area_cases.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_horizontal_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_reverse_wrap_oracle.py --check
@@ -449,6 +451,13 @@ jobs:
           python tests/selective_erase_window_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/selective-erase-observed.json, research/selective-erase-*.png test-results/
+      - name: Test ISO guarded areas through an owned native terminal
+        shell: pwsh
+        run: |
+          python tests/guarded_area_window_smoke.py 2>&1 | Tee-Object test-results/guarded-area-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/guarded-area-observed.json, research/guarded-area-window.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Compare palette stacks, title positions and retained renderer pixels
         shell: pwsh
         run: |

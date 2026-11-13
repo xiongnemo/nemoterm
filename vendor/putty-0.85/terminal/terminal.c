@@ -2498,7 +2498,8 @@ static void nemo_decrqss(Terminal *term)
     } else if (valid && !strcmp(query, "*x")) {
         put_fmt(reply, "%u*x", term->rectangle_extent);
     } else if (valid && !strcmp(query, "\"q")) {
-        put_fmt(reply, "%u\"q", !!(term->curr_truecolour.decoration & CELL_PROTECTED));
+        put_fmt(reply, "%u\"q", term->protection_mode == NEMO_PROTECT_DEC &&
+                !!(term->curr_truecolour.decoration & CELL_PROTECTED));
     } else if (valid && !strcmp(query, " q")) {
         int type = term->big_cursor ? CURSOR_BLOCK : term->cursor_type;
         put_fmt(reply, "%d q", 2*type + (term->blink_cur ? 1 : 2));
@@ -2567,7 +2568,7 @@ static void nemo_presentation_report(Terminal *term)
             (term->cset_ss == 2 ? 2 : term->cset_ss == 3 ? 4 : 0) |
             (term->wrapnext ? 8 : 0);
         put_fmt(reply, "%d;%d;1;%c;%c;%c;%d;%d;@;", term->curs.y+1, term->curs.x+1,
-                rendition, term->dec_protection ? 'A' : '@', flags,
+                rendition, (term->protection_mode & NEMO_PROTECT_DEC) ? 'A' : '@', flags,
                 term->cset, term->cset_gr);
         for (size_t i = 0; i < lenof(term->cset_attr); i++)
             put_byte(reply, term->cset_attr[i] == CSET_GBCHR ? 'A' :
@@ -2643,7 +2644,8 @@ static void nemo_restore_cursor_information(Terminal *term)
     set_erase_char(term);
     value = nemo_presentation_char(&p);
     if ((value & 0xfe) != 0x40) return;
-    term->dec_protection = value & 1;
+    term->protection_mode = (term->protection_mode & NEMO_PROTECT_ISO) |
+        ((value & 1) ? NEMO_PROTECT_DEC : NEMO_PROTECT_NONE);
     value = nemo_presentation_char(&p);
     if ((value & 0xf0) != 0x40) return;
     term->wrapnext = value & 8;
@@ -2797,7 +2799,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 static void power_on(Terminal *term, bool clear)
 {
     nemo_presentation_cancel(term);
-    term->dec_protection = false;
+    term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
     term->cset_ss = 0;
     term_set_grapheme_clustering(term, false);
@@ -4922,7 +4924,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
-    term->dec_protection = false;
+    term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
     term->cset_ss = 0;
     term->checksum_flags = 0;
@@ -5009,18 +5011,19 @@ enum NemoEraseStyle { NEMO_ERASE_BCE, NEMO_ERASE_PRESERVE, NEMO_ERASE_CURRENT };
 /* Erase complete, unprotected glyph runs. Expanding wide-cell boundaries
  * before testing protection avoids destroying a protected glyph's other half.
  * Images and selections are affected only in the runs actually erased. */
-static void nemo_erase_row(Terminal *term, int row, int left, int right,
-                           bool selective, enum NemoEraseStyle style)
+static bool nemo_erase_row(Terminal *term, int row, int left, int right,
+                           bool respect_protection, enum NemoEraseStyle style)
 {
     termline *line = scrlineptr(row);
     check_line_size(term, line);
     check_trust_status(term, line);
     left = max(0, min(left, term->cols));
     right = max(left, min(right, term->cols));
-    if (left == right) return;
+    if (left == right) return false;
     if (left > 0 && line->chars[left].chr == UCSWIDE) left--;
     if (right < term->cols && line->chars[right].chr == UCSWIDE) right++;
     int run = -1;
+    bool erased = false;
     for (int x = left; x <= right;) {
         int next = x;
         bool protected = false;
@@ -5028,15 +5031,20 @@ static void nemo_erase_row(Terminal *term, int row, int left, int right,
             next = x+1;
             if (next < right && line->chars[next].chr == UCSWIDE) next++;
             for (int col = x; col < next; col++)
-                protected |= selective && term->dec_protection &&
+                protected |= respect_protection &&
                     (line->chars[col].truecolour.decoration & CELL_PROTECTED);
         }
         if ((protected || x == right) && run >= 0) {
+            erased = true;
             pos start = {row, run}, end = {row, x};
             check_selection(term, start, end);
             nemo_images_erase(term, start, end);
             for (int col = run; col < x; col++) {
                 termchar fill = term->erase_char;
+                /* As in xterm ClearInLine, interior erased spans count as
+                 * drawn spaces; trailing spans remain undrawn. */
+                if (style == NEMO_ERASE_BCE && x < term->cols)
+                    fill.truecolour.decoration &= ~CELL_UNDRAWN;
                 if (style == NEMO_ERASE_PRESERVE) {
                     fill.attr = line->chars[col].attr;
                     fill.truecolour = line->chars[col].truecolour;
@@ -5068,21 +5076,31 @@ static void nemo_erase_row(Terminal *term, int row, int left, int right,
         if (!protected && run < 0) run = x;
         x = next;
     }
+    return erased;
 }
 
 static void nemo_selective_erase(Terminal *term, bool line_only, unsigned mode)
 {
     if (mode > 2) return;
+    /* ED at either extreme is a whole-display erase in xterm, including
+     * retiring a protection family when no protected cells remain. */
+    if (!line_only && ((mode == 0 && term->curs.x == 0 && term->curs.y == 0) ||
+                      (mode == 1 && term->curs.x == term->cols-1 &&
+                       term->curs.y == term->rows-1)))
+        mode = 2;
+    bool erased = false;
     int top = line_only || mode == 0 ? term->curs.y : 0;
     int bottom = line_only || mode == 1 ? term->curs.y : term->rows-1;
     for (int row = top; row <= bottom; row++) {
         int left = row == term->curs.y && mode == 0 ? term->curs.x : 0;
         int right = row == term->curs.y && mode == 1 ? term->curs.x+1 : term->cols;
-        nemo_erase_row(term, row, left, right, true, NEMO_ERASE_BCE);
-        if (right == term->cols)
+        erased |= nemo_erase_row(term, row, left, right,
+                                term->protection_mode != NEMO_PROTECT_NONE,
+                                NEMO_ERASE_BCE);
+        if (mode == 0 && row == term->curs.y)
             scrlineptr(row)->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2 | LATTR_CURSOR_WRAPPED);
     }
-    if (!line_only && mode == 2 && term->dec_protection) {
+    if (!line_only && mode == 2 && term->protection_mode != NEMO_PROTECT_NONE) {
         bool remains = false;
         for (int row = 0; row < term->rows && !remains; row++) {
             const termline *line = index234(term->screen, row);
@@ -5092,11 +5110,11 @@ static void nemo_selective_erase(Terminal *term, bool line_only, unsigned mode)
                     break;
                 }
         }
-        term->dec_protection = remains;
+        if (!remains) term->protection_mode = NEMO_PROTECT_NONE;
     }
-    /* Unlike the legacy ED/EL path, DECSED/DECSEL include the physical cell
-     * under a pending-wrap cursor and cancel that pending wrap. */
-    term->wrapnext = false;
+    /* Include the physical cell under a pending-wrap cursor. ClearRight
+     * always ends pending wrap; other ranges do so only when cells erase. */
+    if (mode == 0 || erased) term->wrapnext = false;
     if (term->scroll_on_disp) term->disptop = 0;
     seen_disp_event(term);
 }
@@ -5198,7 +5216,8 @@ static void nemo_erase_rectangle(Terminal *term, bool selective)
     struct NemoRect r;
     if (!nemo_rectangle(term, 0, 4, &r)) return;
     for (int row = r.top; row < r.bottom; row++)
-        nemo_erase_row(term, row, r.left, r.right, selective,
+        nemo_erase_row(term, row, r.left, r.right,
+                       selective && term->protection_mode == NEMO_PROTECT_DEC,
                        selective ? NEMO_ERASE_PRESERVE : NEMO_ERASE_CURRENT);
     /* Rectangle operations leave cursor, pending wrap and line attributes. */
     seen_disp_event(term);
@@ -7784,6 +7803,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     compatibility(VT100);
                     save_cursor(term, false);
                     break;
+                  case 'V':             /* SPA: start ISO guarded area */
+                    compatibility(ANSIMIN);
+                    term->protection_mode = NEMO_PROTECT_ISO;
+                    term->curr_truecolour.decoration |= CELL_PROTECTED;
+                    break;
+                  case 'W':             /* EPA: end future guarded writes */
+                    compatibility(ANSIMIN);
+                    term->curr_truecolour.decoration &= ~CELL_PROTECTED;
+                    break;
                   case '=':             /* DECKPAM: Keypad application mode */
                     compatibility(VT100);
                     term->app_keypad_keys = true;
@@ -8178,8 +8206,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             if (!term->no_remote_clearscroll)
                                 term_clrsb(term);
                         } else if (i <= 2) {
-                            i++;
-                            erase_lots(term, false, !!(i & 2), !!(i & 1));
+                            if (term->protection_mode & NEMO_PROTECT_ISO)
+                                nemo_selective_erase(term, false, i);
+                            else {
+                                i++;
+                                erase_lots(term, false, !!(i & 2), !!(i & 1));
+                            }
                         }
                         if (term->scroll_on_disp)
                             term->disptop = 0;
@@ -8189,6 +8221,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'K': {       /* EL: erase line or parts of it */
                         unsigned int i = term->esc_args[0];
                         if (i > 2) break;
+                        if (term->protection_mode & NEMO_PROTECT_ISO) {
+                            nemo_selective_erase(term, true, i);
+                            break;
+                        }
                         i++;
                         erase_lots(term, true, !!(i & 2), !!(i & 1));
                         seen_disp_event(term);
@@ -8256,7 +8292,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         }
                         break;
                       case ANSI('q', '"'): /* DECSCA, independent of SGR */
-                        term->dec_protection = true;
+                        term->protection_mode = NEMO_PROTECT_DEC;
                         if (term->esc_args[0] <= 2) {
                             term->curr_truecolour.decoration &= ~CELL_PROTECTED;
                             if (term->esc_args[0] == 1)
@@ -8834,6 +8870,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(ANSIMIN);
                         CLAMP(term->esc_args[0], term->cols);
                         int n = def(term->esc_args[0], 1);
+                        if (term->protection_mode & NEMO_PROTECT_ISO) {
+                            nemo_erase_row(term, term->curs.y, term->curs.x,
+                                           term->curs.x + min(n, term->cols-term->curs.x),
+                                           true, NEMO_ERASE_BCE);
+                            scrlineptr(term->curs.y)->lattr &=
+                                ~(LATTR_WRAPPED | LATTR_WRAPPED2 | LATTR_CURSOR_WRAPPED);
+                            term->wrapnext = false;
+                            seen_disp_event(term);
+                            break;
+                        }
                         pos cursplus;
                         int p = term->curs.x;
                         termline *cline = scrlineptr(term->curs.y);

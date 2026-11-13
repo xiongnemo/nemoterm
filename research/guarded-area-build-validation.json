@@ -1,0 +1,155 @@
+{
+  "source_base": "1570224d9d6805175feb56a00e4cb0829d50b938",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "prepared_authored_wire_cases": 63,
+  "candidate": {
+    "path": "build/local-guarded-area-unverified/dist/nemoterm.exe",
+    "bytes": 4455424,
+    "sha256": "60b1b935125d9f7d2e9f9dfbc42f321b26ca6fa58321da53054bc40603240dfa"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_selective_erase",
+        "test_queries",
+        "test_state_control",
+        "test_rectangle",
+        "test_terminal"
+      ],
+      "log": "research/guarded-area-build-evidence/guarded-area-msvc-build.log",
+      "executed_tests": false,
+      "bytes": 3181,
+      "sha256": "0cb33bbde9124c26a1b952ff8de6ffe05148776ecf453b4d2e8c3e68d80ae64f"
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_selective_erase",
+        "test_queries",
+        "test_state_control",
+        "test_rectangle"
+      ],
+      "log": "research/guarded-area-build-evidence/guarded-area-linux-build.log",
+      "executed_tests": false,
+      "bytes": 2266,
+      "sha256": "0d8a4bfae5a49f8729135652595c84b14992b58c72d5d69a0cfad9f414c7c9b0"
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "research/guarded-area-build-evidence/guarded-area-single-build.log",
+      "executed_tests": false,
+      "bytes": 3045,
+      "sha256": "a206704422c31a6abaae47a4e2b959aa8bb7503be87285882486d172deefdffb"
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 500108,
+      "sha256": "337fa2a76a3cf85303b75dee53b71493e781579062a99eba18aec0f9a60eca17",
+      "lf_bytes": 500108,
+      "sha256_lf": "337fa2a76a3cf85303b75dee53b71493e781579062a99eba18aec0f9a60eca17"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 29430,
+      "sha256": "ead0a0cb09d6b890324893967d287a4b51ad700238910c90b0c3aac694d090e4",
+      "lf_bytes": 28632,
+      "sha256_lf": "c4b6fb8d2353e4c4fe41a14056094514afb75580b982d62f51d75fc5006876df"
+    },
+    "vendor/putty-0.85/test/test_selective_erase.c": {
+      "bytes": 11268,
+      "sha256": "6252f0bf4d148fdf640f4061294f5566d57e08b95fb1d8f4f7cbfe794ea6f1a1",
+      "lf_bytes": 11268,
+      "sha256_lf": "6252f0bf4d148fdf640f4061294f5566d57e08b95fb1d8f4f7cbfe794ea6f1a1"
+    },
+    "vendor/putty-0.85/test/test_guarded_area.h": {
+      "bytes": 4473,
+      "sha256": "d645e29318dcb9da3e38759b314ef7292519ab4fc29c295e59692de966c6f1cd",
+      "lf_bytes": 4473,
+      "sha256_lf": "d645e29318dcb9da3e38759b314ef7292519ab4fc29c295e59692de966c6f1cd"
+    },
+    "tests/guarded_area_cases.py": {
+      "bytes": 3991,
+      "sha256": "67f09a4413dd26a10494e225e117286c9728246e40664e2475c3d7cc6c6f04f6",
+      "lf_bytes": 3991,
+      "sha256_lf": "67f09a4413dd26a10494e225e117286c9728246e40664e2475c3d7cc6c6f04f6"
+    },
+    "tests/guarded_area_cases.h": {
+      "bytes": 25775,
+      "sha256": "6caf5a476366ad6e69c087e8046ebfe0a81b39f087ba45fbfbd937cc85415c28",
+      "lf_bytes": 25775,
+      "sha256_lf": "6caf5a476366ad6e69c087e8046ebfe0a81b39f087ba45fbfbd937cc85415c28"
+    },
+    "tests/generate_guarded_area_cases.py": {
+      "bytes": 1113,
+      "sha256": "bbd289fa6da0c8555436884666ea0e83a9408136dcb4fdc40fd2d6d1dba44860",
+      "lf_bytes": 1113,
+      "sha256_lf": "bbd289fa6da0c8555436884666ea0e83a9408136dcb4fdc40fd2d6d1dba44860"
+    },
+    "tests/xterm_guarded_area_oracle.py": {
+      "bytes": 1125,
+      "sha256": "008925e4d0e9a2a667d2fd5a6538a10d1982320e998de2fa4fa7937cb132be5f",
+      "lf_bytes": 1125,
+      "sha256_lf": "008925e4d0e9a2a667d2fd5a6538a10d1982320e998de2fa4fa7937cb132be5f"
+    },
+    "tests/guarded_area_window_smoke.py": {
+      "bytes": 2756,
+      "sha256": "aa82d495d2d6fd533410a3744ad9ef2d87fc60f1609261145a6c2d6ee946c99f",
+      "lf_bytes": 2756,
+      "sha256_lf": "aa82d495d2d6fd533410a3744ad9ef2d87fc60f1609261145a6c2d6ee946c99f"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9954,
+      "sha256": "03b4b94f7a4c30402377ea7f09c409bb3bb4a449f4ba61ef1537eb3cee4f5ade",
+      "lf_bytes": 9954,
+      "sha256_lf": "03b4b94f7a4c30402377ea7f09c409bb3bb4a449f4ba61ef1537eb3cee4f5ade"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 36284,
+      "sha256": "71edb707990000ecf6a99bfe18ad7f30289b992a7c30582d0950910321fb5fff",
+      "lf_bytes": 36284,
+      "sha256_lf": "71edb707990000ecf6a99bfe18ad7f30289b992a7c30582d0950910321fb5fff"
+    }
+  },
+  "rejected_build_attempts": [
+    {
+      "exit_code": 1,
+      "reason": "test_terminal is not a target in the existing Linux sanitizer configuration",
+      "log": "research/guarded-area-build-evidence/guarded-area-linux-unavailable-target.log",
+      "bytes": 46,
+      "sha256": "a88e0dc66243d3b588e125e49e16736da24caaf7721f2bf18ca693627f07426d"
+    }
+  ],
+  "unchanged_images": {
+    "main": {
+      "bytes": 4371456,
+      "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+    },
+    "previous_cursor_charset": {
+      "bytes": 4454912,
+      "sha256": "9bfac38feb28efb7cf78e61447b99ca9fd0f5720c87d6d7e309b010300742193"
+    }
+  },
+  "static_checks": [
+    "Python syntax",
+    "case generator freshness",
+    "PowerShell AST",
+    "git diff --check"
+  ],
+  "reference": {
+    "commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+    "source_sha256": {
+      "charproc.c": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325",
+      "util.c": "50df2a5224f70077d8470622d8843ee6ffab32dcc29699af741a8f40968e82ef",
+      "screen.c": "dbfcd066b2af55eff9b23ce1557c9cdc0a2cced414c4f2d80a146d12dc702929",
+      "misc.c": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db",
+      "ptyx.h": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+    }
+  }
+}

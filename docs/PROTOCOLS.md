@@ -114,7 +114,11 @@
 本机真实窗口被显示器限制到1907x1061，不能把该进程内存记录冒称4K窗口实测。
 
 
-DECSCA、DECSEL/DECSED、DECERA/DECSERA 已实现并通过核心、原生像素和剪贴板测试；独立 XTerm 对照及有意差异见 [选择性擦除记录](../research/selective-erase.md)。ISO SPA/EPA 仍待实现；左右边距和矩形填充/复制/属性操作已完成有限验收，见对应表格行。
+DECSCA、DECSEL/DECSED、DECERA/DECSERA 的既有实现有核心与原生验收记录，见
+[选择性擦除记录](../research/selective-erase.md)。开发分支新增 ISO SPA/EPA，
+并区分普通擦除、DEC 选择性擦除及矩形擦除的保护规则；新增与受影响路径
+目前只编译，63 组用例和原生像素检查均未运行，见[保护区域记录](../research/guarded-areas.md)。
+左右边距和矩形填充/复制/属性操作的既有有限验收见对应表格行。
 
 
 ### Windows 输入法、Unicode 字节流与 DPI

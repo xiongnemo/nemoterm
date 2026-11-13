@@ -151,6 +151,10 @@ typedef enum {
     OSCLIKE_SOS,
 } OscType;
 
+enum NemoProtectionMode {
+    NEMO_PROTECT_NONE = 0, NEMO_PROTECT_DEC = 1, NEMO_PROTECT_ISO = 2
+};
+
 struct terminal_tag {
 
     /* Oldest first, owned by the terminal. Coordinates are screen cell
@@ -226,7 +230,7 @@ struct terminal_tag {
     bool insert;                       /* insert-mode flag */
     int cset;                          /* GL character-set bank, 0..3 */
     int cset_gr, cset_ss;               /* GR bank; one-shot GL bank or zero */
-    bool dec_protection;               /* protection family selected by DECSCA */
+    unsigned char protection_mode;     /* DEC/ISO bits; DECRSPS can combine them */
     int save_cset, save_cset_gr;       /* saved GL and GR bank selectors */
     int save_csattr[4];               /* all designations, including inactive banks */
     bool save_utf, save_wnext;         /* saved with cursor position */

@@ -1,5 +1,14 @@
 # Nemoterm requirements and evidence ledger
 
+## ISO guarded areas (2026-11-13; runtime testing paused)
+
+[SPA/EPA and protection-family handling](../research/guarded-areas.md) now
+cover ordinary/DEC erasure, queries, reset and presentation restoration in
+source, using the existing per-cell protection bit. Sixty-three authored wire
+cases and core/native fixtures are prepared. Windows/Linux compilation and
+single-image linking pass; runtime behaviour and memory acceptance remain
+unverified. The accepted main executable is unchanged.
+
 ## Saved cursor character sets (2026-11-13; runtime testing paused)
 
 [Cursor charset restoration](../research/cursor-charset-save.md) now retains

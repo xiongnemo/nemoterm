@@ -43,13 +43,15 @@ static void test_protection_lifecycle(Mock *mk)
     term_data_fragmented(t,"\033[!p");
     erase_row_text(mk,0,"ABCD"); /* soft reset changes current state, not old cells */
     IEQUAL(t->curr_truecolour.decoration & CELL_PROTECTED, 0);
-    IEQUAL(t->dec_protection, false);
+    IEQUAL(t->protection_mode, NEMO_PROTECT_NONE);
     term_data_fragmented(t,"\033[?2K");
     erase_row_text(mk,0,"    "); /* the reset also ends the DEC protection family */
     term_data_fragmented(t,"\033c");
     erase_row_text(mk,0,"    ");
     IEQUAL(get_termchar(t,0,0).truecolour.decoration & CELL_PROTECTED, 0);
 }
+
+#include "test_guarded_area.h"
 
 static void test_line_and_display(Mock *mk)
 {
@@ -231,6 +233,7 @@ int main(void)
     test_protection_lifecycle(mk);test_line_and_display(mk);
     test_styles_and_rectangles(mk);test_wide_combining_and_wrap(mk);
     test_history_reflow_selection(mk);test_images_and_recovery(mk);
+    test_guarded_area(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed?"Selective erase suite FAILED":"Selective erase suite passed");

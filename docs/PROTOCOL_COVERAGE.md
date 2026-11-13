@@ -49,7 +49,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
 | ESC 6/9 (DECBI/DECFI) | Tested | `margins`, native `horizontal`: VT420 gate, inside/outside margins, edge scrolling and pending wrap. Text, full cell payloads, shell marks and Sixel pixels move together. |
-| ESC V/W (SPA/EPA) | Missing | DEC protection via DECSCA exists; ISO guarded areas are separate. |
+| ESC V/W (SPA/EPA) | Source only | ISO guarded writes, ordinary/DEC erasure, queries, reset and family transitions implemented; 63 authored wire cases plus core/native fixtures are compiled/prepared but unrun. See [guarded areas](../research/guarded-areas.md). Legacy raw C1 dispatch retains the configured codepage policy. |
 | Raw C1 bytes and UTF-8 encoded C1 | Partial | Existing codepage-sensitive parser; exhaustive byte/state conformance is still open. Do not assume UTF-8 text is reprocessed as controls. |
 | SOS/PM/APC strings | Partial | String consumption/recovery only; no application payload support. |
 
@@ -66,9 +66,9 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |
 | @/P (ICH/DCH) | Tested | `margins`, `rectangle`, `reflow`, wide/combining boundaries. |
 | L/M (IL/DL) | Tested | `margins`, `sixel_terminal`, partial-region lifetimes. |
-| J/K/X (ED/EL/ECH) | Tested | `terminal`, `selective_erase`, `rectangle`, Sixel cell erasure. |
+| J/K/X (ED/EL/ECH) | Partial | Earlier `terminal`, `selective_erase`, `rectangle` and Sixel checks exist; the new ISO protection path has build-only evidence. |
 | J parameter 3 (saved-line erase) | Gated | Local remote-clear-scrollback setting; active screen is separate. |
-| ?J/?K (DECSED/DECSEL) | Tested | `selective_erase`; protected text and image erasure. |
+| ?J/?K (DECSED/DECSEL) | Partial | Earlier protected text/image checks exist. Shared ISO family, empty whole-display retirement and refined wrap/drawn-span handling await new runtime acceptance. |
 | S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. Pending wrap is preserved, independently checked by XTerm and native cell/cursor replies. |
 | ^ (SD alias), SP @ / SP A (SL/SR) | Tested | `margins`, native `horizontal`: counts, margins, outside-region behavior, wide/double-size rows, origin and pending wrap. See [horizontal editing](../research/horizontal-editing.md). |
 | ' } / ' ~ (DECIC/DECDC) | Tested | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix. |
@@ -86,8 +86,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?9001;id n (Nemoterm internal cursor synchronization) | Tested | Same-image host transaction IDs and viewport-absolute coordinates; separate from application CPR and Win32 input mode 9001. Native ordering, stale replies and console-API positions are checked. |
 | x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
 | "p (DECSCL) | Partial | Level 61–65 masks now distinguish VT300/VT400 reports, including RIS retention. PuTTY extensions remain; full reset semantics and the second parameter's 7/8-bit control selection are not implemented. |
-| "q (DECSCA) | Tested | `selective_erase`, independent of SGR resets. |
-| $z / ${ (DECERA/DECSERA) | Tested | `selective_erase`, rectangular protected/unprotected erasure. |
+| "q (DECSCA) | Partial | Earlier `selective_erase` checks establish independence from SGR resets. New ISO/DEC transitions and the family-sensitive DECRQSS response are compiled but unrun. |
+| $z / ${ (DECERA/DECSERA) | Partial | Earlier `selective_erase` rectangle checks exist; the new ISO/combined-family distinction is source-only pending runtime acceptance. |
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
 | $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
 | *y (DECRQCRA); #y (XTCHECKSUM) | Gated / Partial | Off by default; `queries` and native `checksum`: 364 exact XTerm cases, 8 retained-cell expectations, attributes/blank modes/origin/resize/reset. Unicode normalization and legacy charSeen differences are explicit; see [checksum record](../research/rectangle-checksums.md). |
