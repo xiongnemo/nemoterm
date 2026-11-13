@@ -95,6 +95,7 @@ function freezeVirtualTrace() {
     const trace=virtualTrace;
     trace.active=false;trace.hooks.forEach(h=>h.detach());trace.hooks=[];Interceptor.flush();
     return {pid:Process.id,scope:trace.scope,active:false,valid:!trace.overflow && !trace.errors.length,
+        started_unix_ms:trace.started,stopped_unix_ms:Date.now(),
         instrumented:true,memory_acceptance:false,event_capacity:trace.capacity,
         events:trace.events,overflow:trace.overflow,errors:trace.errors,calls:trace.calls,
         ignored_out_of_scope:trace.ignored_out_of_scope,ignored_process_handle:trace.ignored_process_handle,

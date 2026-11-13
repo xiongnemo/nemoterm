@@ -15,10 +15,10 @@ on:
   workflow_dispatch:
     inputs:
       observation:
-        description: Native observer validation, or frontend heap diagnostics
+        description: Native validation, frontend heap census, or scoped virtual-memory trace
         type: choice
         default: native
-        options: [native, heap]
+        options: [native, heap, virtual]
 
 permissions:
   contents: read
@@ -80,7 +80,7 @@ jobs:
   frontend-workload:
     # Explicit diagnostics only. Normal test/build workflows retain their
     # uninstrumented 20,000,000-byte gate and do not recognize diagnostic exit 2.
-    if: github.event_name == 'workflow_dispatch' && inputs.observation == 'heap'
+    if: github.event_name == 'workflow_dispatch' && inputs.observation != 'native'
     needs: [bookkeeping, native-adapter]
     strategy:
       fail-fast: false
@@ -91,6 +91,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       NEMOTERM_REQUIRE_DIRECTX: '1'
+      OBSERVATION: ${{ inputs.observation }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Fetch the exact candidate that exceeded the DirectX limit
@@ -108,17 +109,25 @@ jobs:
       - name: Capture the bounded two-tab workload
         shell: pwsh
         run: |
-          python tests/tabs_window_smoke.py --renderer ${{ matrix.renderer }} --side left --workload-memory --allocation-census 2>&1 | Tee-Object allocation-census-workload.log
+          if ($env:OBSERVATION -eq 'heap') {
+            $observationArgument = '--allocation-census'
+            $validator = 'tests/allocation_census_validate.py'
+          } elseif ($env:OBSERVATION -eq 'virtual') {
+            $observationArgument = '--virtual-memory-trace'
+            $validator = 'tests/virtual_memory_validate.py'
+          } else { throw 'Unknown observation mode' }
+          python tests/tabs_window_smoke.py --renderer ${{ matrix.renderer }} --side left --workload-memory $observationArgument 2>&1 | Tee-Object allocation-census-workload.log
           if ($LASTEXITCODE -ne 2) { throw "Expected diagnostic exit 2; got $LASTEXITCODE" }
-          python tests/allocation_census_validate.py --renderer ${{ matrix.renderer }}
+          python $validator --renderer ${{ matrix.renderer }}
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Retain allocation diagnostic metadata
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: allocation-census-frontend-${{ matrix.renderer }}-${{ github.sha }}
+          name: allocation-census-frontend-${{ inputs.observation }}-${{ matrix.renderer }}-${{ github.sha }}
           path: |
             allocation-census-workload.log
             research/allocation-census-candidate.json
             research/allocation-tabs-*
+            research/virtual-tabs-*
           if-no-files-found: warn

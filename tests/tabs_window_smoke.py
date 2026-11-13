@@ -14,14 +14,18 @@ parser.add_argument('--rows',type=int,default=48)
 parser.add_argument('--dense-clusters',action='store_true')
 parser.add_argument('--workload-memory',action='store_true',
                     help='sample the full process tree during dense history and resize before instrumentation')
-parser.add_argument('--allocation-census',action='store_true',
+observation=parser.add_mutually_exclusive_group()
+observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
+observation.add_argument('--virtual-memory-trace',action='store_true',
+                    help='CI-only scoped virtual commit/release diagnostic; exits 2, never acceptance')
 args=parser.parse_args()
-if args.allocation_census and (not args.workload_memory or os.environ.get('CI')!='true'):
-    parser.error('--allocation-census requires --workload-memory on a dedicated CI runner')
-if args.allocation_census:faulthandler.dump_traceback_later(180,exit=True)
+diagnostic=args.allocation_census or args.virtual_memory_trace
+if diagnostic and (not args.workload_memory or os.environ.get('CI')!='true'):
+    parser.error('Memory observers require --workload-memory on a dedicated CI runner')
+if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
-prefix='allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
+prefix='virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -59,8 +63,8 @@ def windows(pid,kind,parent=None,visible=False):
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
-              completed=False,checks=[],memory_instrumented=args.allocation_census)
-if args.allocation_census:evidence.update(diagnostic_completed=False,memory_acceptance=False)
+              completed=False,checks=[],memory_instrumented=diagnostic)
+if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False)
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -77,7 +81,7 @@ try:
         try:
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
-                memory_sampler=TabMemorySampler(process.pid,exe,injected=args.allocation_census)
+                memory_sampler=TabMemorySampler(process.pid,exe,injected=diagnostic)
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
             def new_child(before):
                 def launch():
@@ -131,7 +135,7 @@ try:
                         from working_set_regions import private_regions
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
                 return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
-                            injected=args.allocation_census,**memory_sample(handle))
+                            injected=diagnostic,**memory_sample(handle))
             first=new_child([])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
@@ -180,9 +184,12 @@ try:
             if not args.workload_memory and (actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1')):
                 assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
             if args.workload_memory:
-                if args.allocation_census:
-                    from allocation_census import AllocationCensus
-                    census_observer=AllocationCensus(process.pid,handle,
+                if diagnostic:
+                    if args.virtual_memory_trace:
+                        from virtual_memory_trace import VirtualMemoryTrace as Observer
+                    else:
+                        from allocation_census import AllocationCensus as Observer
+                    census_observer=Observer(process.pid,handle,
                         root/'research'/f'{prefix}-{args.renderer}-{args.side}-census.json')
                     census_observer.result['executable_sha256']=evidence['executable_sha256']
                     census_observer.start()
@@ -199,16 +206,16 @@ try:
                 evidence['process_tree_memory']={k:v for k,v in memory.items() if k!='samples'}
                 evidence['peak_private_ws']=max(evidence['peak_private_ws'],memory['peaks']['frontend']['private_ws'])
                 evidence['memory_limit_required']=actual in (1,3)
-                evidence['memory_limit_passed']=None if args.allocation_census else evidence['peak_private_ws']<20_000_000
-                if args.allocation_census:
-                    evidence['allocation_census']=census_observer.freeze()
+                evidence['memory_limit_passed']=None if diagnostic else evidence['peak_private_ws']<20_000_000
+                if diagnostic:
+                    evidence['memory_observation']=census_observer.freeze()
                     census_observer.close();census_observer=None
                     u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
                     assert process.returncode==0,process.returncode
                     evidence['owned_job_cleanup']=job.finish(grace=5)
                     assert not evidence['owned_job_cleanup']['terminated_remaining']
                     evidence['diagnostic_completed']=True
-                    print('Allocation diagnostic complete; memory acceptance was not evaluated',flush=True)
+                    print('Memory diagnostic complete; memory acceptance was not evaluated',flush=True)
                     # Dedicated diagnostic CI recognizes this explicit outcome.
                     # Ordinary acceptance workflows must not turn green here.
                     raise SystemExit(2)
@@ -329,5 +336,5 @@ finally:
         evidence['error']=repr(failure)
     winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
     (root/'research'/f'{prefix}-{args.renderer}-{args.side}-observed.json').write_text(json.dumps(evidence,indent=2))
-    if args.allocation_census:faulthandler.cancel_dump_traceback_later()
+    if diagnostic:faulthandler.cancel_dump_traceback_later()
 print('Tabs passed:',args.renderer,args.side,len(evidence['checks']),'checks')
