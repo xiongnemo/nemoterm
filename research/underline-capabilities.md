@@ -1,10 +1,10 @@
 # Parameterized underline discovery
 
-CI follow-up at `6cbe05f`: the single-image workflow passed all 93 groups, but
-the compiler comparison failed during hyperlink teardown. The
-[fixture correction and retained failure evidence](hyperlink-shutdown.md)
-keep that failure separate from the successful underline checks. Full CI for
-the correction is pending; this feature has not yet replaced the accepted build.
+Both full workflows pass at `37ef26d`, including all 93 single-image groups.
+The earlier `6cbe05f` compiler comparison failed during hyperlink teardown;
+the [fixture correction and retained failure evidence](hyperlink-shutdown.md)
+remain separate from the later successful run. The accepted root executable
+has not been replaced, and local DirectX acceptance still fails below.
 
 Nemoterm can already render styled and coloured underlines. Programs using
 XTGETTCAP could not discover the parameterized sequences, because `Smulx` and
@@ -97,6 +97,53 @@ The [manifest](underline-capabilities-validation.json) retains exact source and
 executable hashes, every numeric expansion, native wire replies, successful
 logs, failed attempts and cleanup. CI now includes the Linux capability suite
 and independent ncurses check, and the existing Windows/MinGW native query
-fixture includes the new discovery and state checks. Full remote CI and its
-downloadable artifact remain pending at this local checkpoint. The accepted
-root distribution has not been replaced, and the full terminal goal remains open.
+fixture includes the new discovery and state checks. The full terminal goal
+remains open.
+
+## Downloaded CI image and local follow-up
+
+At `37ef26dae839319f7bf703bb648038c343c357f1`, the
+[single-image workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43508892024)
+passes 93 distinct groups and the
+[compiler/sanitizer workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43508891431)
+passes all four jobs. Both complete hyperlink records now include successful
+natural shutdown, frontend/retained child exit codes zero, and live observer
+detachment. The prior timeout remains a failed historical run.
+
+The [single-image artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43508892024/artifacts/14079650407)
+contains a 4,448,768-byte EXE, independently hashed as
+`79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2`.
+It expires on 2026-12-13 at 21:34:39 UTC. Its isolated distribution directory
+contains only `nemoterm.exe`. Local query replay uses that exact downloaded
+image and completes with natural five-process cleanup. Actual programs from
+the local image and both Windows CI variants each pass 780 ncurses expansions;
+the Linux sanitizer job independently passes 780 expansions too.
+
+The unchanged uninstrumented SarasaTermSC Nerd Font Light, actual 160x48,
+two-tab workload produces:
+
+| Renderer / run | Private WS peak | Total WS peak | Private commit peak | Outcome |
+| --- | ---: | ---: | ---: | --- |
+| GDI | 16,642,048 | 42,680,320 | 19,279,872 | 9 functional groups; memory pass |
+| DirectX, unmodified follow-up | 30,474,240 | 71,577,600 | 100,126,720 | 9 functional groups; memory fail |
+
+Both rows finish with 56 owned processes drained naturally. The DX 25,000,000
+byte gate is unchanged. The smaller CI Consolas grids (GDI 109x34 and DX 88x35)
+pass their gates but do not replace this larger local acceptance.
+
+The first local DX attempt failed earlier at temporary-tab cycle 9: handles
+rose from baseline 486 to 537, GDI objects from 37 to 39, and USER objects from
+42 to 56. The full workload/memory gate was never reached. Its raw samples and
+failed record remain retained, including the scoped forced cleanup of five
+remaining job members. It must not be described as a successful functional run.
+
+A bounded follow-up added external, owned-process window-class/module snapshots
+without injection. It retained every original assertion and would have kept a
+failed sample failed even if resources later settled. That run did not reproduce
+the burst: its baseline and final counts were already 543 handles, 39 GDI and
+56 USER objects, with no later module additions. It completed nine functional
+groups and natural cleanup but failed memory at 30,466,048 bytes. It is retained
+as diagnostic evidence, not acceptance. A fresh run of the unmodified fixture
+then produced the DX table row above. These observations do not establish the
+cause of the initial resource change or prove it fixed. Both that intermittent
+failure and the reproducible DX memory excess remain open.

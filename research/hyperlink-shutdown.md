@@ -83,5 +83,15 @@ Two additional failures remain visible:
 
 Every hyperlink run uses the existing owned pointer instrumentation. Reported
 memory is diagnostic, not the uninstrumented Sarasa 160x48 memory acceptance.
-The accepted root executable remains unchanged. Full CI for the fixture fix is
-pending.
+The accepted root executable remains unchanged. Both full workflows for the
+fixture fix at `37ef26d` now pass; the
+[downloaded-image record](underline-capabilities.md#downloaded-ci-image-and-local-follow-up)
+retains complete single-image and MinGW hyperlink shutdown evidence. This does
+not establish a cause for every earlier intermittent failure.
+
+A follow-up diagnostic on the same downloaded image repeats the remote-file
+copy case 32 times with a distinct URI each time, retaining the menu/clipboard
+API observer and per-attempt clipboard sequence, ownership and equality flags.
+All 32 attempts pass, followed by the unchanged 6,000-URI/800-image workload
+and natural 19-process cleanup. This bounded repeat did not reproduce the
+earlier clipboard timeout and does not establish its cause or a product fix.
