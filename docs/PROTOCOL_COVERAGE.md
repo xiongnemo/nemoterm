@@ -4,11 +4,13 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `4ed7e08` passes both full workflows,
-including 93 single-image groups. Its [manifest](../research/rendition-capabilities-validation.json)
-identifies the exact EXE, rendition discovery/replay results and separate local
-memory failure: the downloaded image passes GDI at 15.63 MB in the Sarasa 160x48
-workload; DirectX reaches 29.57 MB and remains above 25 MB.
+The published product checkpoint at `37ef26d` passes both full workflows,
+including 93 single-image groups. Its [manifest](../research/underline-capabilities-validation.json)
+identifies the exact EXE, parameterized rendition discovery/replay results and
+local acceptance limits: GDI passes at 16.64 MB in the Sarasa 160x48 workload;
+DirectX reaches 30.47 MB on an unmodified follow-up and remains above 25 MB.
+An initial DX temporary-tab resource-count failure is retained and unresolved;
+the later diagnostic and unmodified repeat did not reproduce it.
 The earlier sidecar reply-order issue was resolved by building the same host
 source and overlay for compiler comparison. Local testing has resumed.
 The preceding [overline checkpoint](../research/overline.md) includes local checks

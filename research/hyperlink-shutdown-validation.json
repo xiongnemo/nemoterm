@@ -563,6 +563,65 @@
       "bytes": 5366,
       "sha256": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a",
       "source": "tests\\mouse_fixture.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink-window-observed.json.gz",
+      "bytes": 38187,
+      "sha256": "ae087902628cbeadc705f4faefe757b209eeb0b425d36a4fa49a1631782b0447",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\research\\hyperlink-window-observed.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink-controller.json.gz",
+      "bytes": 474,
+      "sha256": "31b5f233e6ac72939ba0428bbea1f35c52dc4753a9f73fe16e2b10aea965cfa5",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\research\\hyperlink-controller.json"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink_window_smoke.py.gz",
+      "bytes": 41573,
+      "sha256": "5ec67605d6c1f1da3dd923a2496cb54896dd2cae3c86bdabec150ab990b3188a",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\tests\\hyperlink_window_smoke.py"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink_message_probe.js.gz",
+      "bytes": 3314,
+      "sha256": "c9d9368888eb84f5f42f9f2defc11fcd7a0785312a63da203880b508c0b70b66",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\tests\\hyperlink_message_probe.js"
+    },
+    {
+      "file": "hyperlink-shutdown-evidence/copy-repeat-hyperlink.log.gz",
+      "bytes": 134,
+      "sha256": "c62b3f899c01722f17314c8cdcb38a657354bd8b6125127dadd8d155aca3090d",
+      "source": "build\\hyperlink-copy-repeated-diagnostic\\hyperlink.log"
     }
-  ]
+  ],
+  "copy_repeat_diagnostic": {
+    "recorded_utc": "2026-11-13T21:25:32.548603+00:00",
+    "attempts": 32,
+    "all_passed": true,
+    "original_failure_explained": false,
+    "memory_acceptance": false,
+    "controller": {
+      "executable_sha256": "53658a13e96e1d55f3f871f318912a8c7cd5c89ac63a05c6012d76c25f485f84",
+      "name": "hyperlink",
+      "completed": true,
+      "exit_code": 0,
+      "controller_pid": 11072,
+      "cleanup": {
+        "before": {
+          "total": 19,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 19,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "seconds": 25.122
+    }
+  }
 }

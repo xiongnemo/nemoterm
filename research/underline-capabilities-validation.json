@@ -102,7 +102,7 @@
     "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
   },
   "full_goal_complete": false,
-  "remote_ci": "pending",
+  "remote_ci": "success",
   "files": [
     {
       "path": "research/underline-capabilities-evidence/core-build-final.log.gz",
@@ -375,6 +375,366 @@
       "raw_sha256": "2738bc293458850160d0c725496e621ad032779cce0c25900c7766a2a92c94c6",
       "raw_bytes": 98183,
       "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-ncurses-ci_linux.json.gz",
+      "sha256": "41a1f65e8fd82aaaa325205eb71100a51eaf1d73baed4e1a8830283df73757e8",
+      "bytes": 6227,
+      "raw_sha256": "22b8e66a5d8758e233107b41cd77ff2306ae03ab90811bfd1fc19bb267383b57",
+      "raw_bytes": 98113,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-ncurses-downloaded_windows_image.json.gz",
+      "sha256": "ea367584bd93cd297fbe237086193fb9d253baad219e1a7e460a7ea7805335d9",
+      "bytes": 6268,
+      "raw_sha256": "c84c592e26932e74cb2ff83b0ccc2eff1e7a1b313fdbc3a69048026bd5aaf708",
+      "raw_bytes": 98183,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-ncurses-ci_single_wire.json.gz",
+      "sha256": "ffc5a7e8b6c73d9042675291cb9b91c0235e753b28035bba39c6e56c16a7c42c",
+      "bytes": 6271,
+      "raw_sha256": "455a7fe1904c9424ff17d89702a29ddc96d37da221142447d06242f1d7c8afc6",
+      "raw_bytes": 98183,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-ncurses-ci_mingw_wire.json.gz",
+      "sha256": "72a2449c8d20f6430cda0a7e408f56b3122200abc9b628ab96688085394874c8",
+      "bytes": 6271,
+      "raw_sha256": "9d5adb995e40bed05135d213eb7cbda0fe99f96a324fb6403137e91624184e5d",
+      "raw_bytes": 98183,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-run.json.gz",
+      "sha256": "ddfd1a8230dce9e2331e69b1b66a849dc712c0c378a86922cdbb3e9098b9b7df",
+      "bytes": 755,
+      "raw_sha256": "f9986ee826fe28ec7d73565ea56c54c5b377ed8b2d10d44891d622abb01cfa86",
+      "raw_bytes": 3010,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-core-run.json.gz",
+      "sha256": "ac75c17c9ccc8b86d53200d16fff65981539590b28f31077f9df94d74d487a95",
+      "bytes": 2889,
+      "raw_sha256": "555e709af390eb5ee79ea2d84804efaf2a2e66c7a7d3ee8ea31f9d2860cb96ac",
+      "raw_bytes": 17579,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-artifacts.json.gz",
+      "sha256": "591e3d0411ad75aa8473134c66722f6bac4335b1fdf69e1f6a6b3b5d66b50bed",
+      "bytes": 569,
+      "raw_sha256": "3fcb13ddc53abda5d4f5c3c2cbad70dea646986a2dcb1671c4f14e5b9e90c778",
+      "raw_bytes": 1557,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-core-artifacts.json.gz",
+      "sha256": "14a09d0159f6909dc9061d1c2e98b91dae3e73e4a49ee89d15d0fab36f16b233",
+      "bytes": 885,
+      "raw_sha256": "2f44c45cd65fb0046a00875bfbcbd17ea41ec4939c6ce5c89dd09b8bf389bdcf",
+      "raw_bytes": 3847,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-query-window-observed.json.gz",
+      "sha256": "c379f033d2a3c4f3ec32a109cd71b7720c28d0e62260a039ef1e9e7dbbde507c",
+      "bytes": 3077,
+      "raw_sha256": "0d2e845c6efd9652c2ff6aa2f1b60e1f3c554dcfb3fe7acbdddb18a7f2fd4f67",
+      "raw_bytes": 66989,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-single-exe-validation.json.gz",
+      "sha256": "d5526418c9cf7b55a1aeb049511d1525cd16681786d7c8caf2c3c261c9b0123b",
+      "bytes": 794,
+      "raw_sha256": "8848634fb2993a2112ed3fe9f7ce885e61096fb98a532cdfedcd8d6ec04b7946",
+      "raw_bytes": 2308,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-gdi-top-observed.json.gz",
+      "sha256": "b004b2ef0cf60e02e9efaafa5f80d36b622a806e681e1ad061ecb738cdd5c4de",
+      "bytes": 2590,
+      "raw_sha256": "5623f659c278fe8ac71110ac2b370d2c25ea5aed493ce2d1a5bf4a24c046f362",
+      "raw_bytes": 15938,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-gdi-top-memory.json.gz",
+      "sha256": "ec119d66972136330cb8c0ad0b1066e7e79ec926d4776e366a412c1e69d4cd60",
+      "bytes": 19360,
+      "raw_sha256": "523c3bd21b57a07413b18338230c832a2118df31df22b711f0a4d377c81eea65",
+      "raw_bytes": 724620,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-directx-left-observed.json.gz",
+      "sha256": "81313a6881d2cb3ff3aaad8575c56101a9f4df39dc2544768a16732ff9c54383",
+      "bytes": 2526,
+      "raw_sha256": "186fd2fa09e160ecec7b2d6432cfd67e808bca1d8de2ce0c2b8ac54116d38016",
+      "raw_bytes": 16001,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-directx-left-memory.json.gz",
+      "sha256": "61da175111c6a2694b5690f321b01b107885bd9d6c720936030c2c7c0b02771f",
+      "bytes": 14908,
+      "raw_sha256": "2ade5a742de46e2aa277beb9cb776a7d06184fe7ce818443ffc1fecbb0b46322",
+      "raw_bytes": 554659,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-query.log.gz",
+      "sha256": "b219c1e46bcd46e21a0178044a9261b1fc92215fab9e3cc04b2f7a1fe4405ddf",
+      "bytes": 2977,
+      "raw_sha256": "4f01cab19b4ba701ad649e5bd44c8fd035ac05bcd008247e0519d745c4be76ad",
+      "raw_bytes": 63980,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-gdi-top.log.gz",
+      "sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4",
+      "bytes": 51,
+      "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+      "raw_bytes": 31,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-workload-tabs-directx-left.log.gz",
+      "sha256": "4e4c1e3947c700cc593361c74bc547534d17bf492be771e43d549680814d0fc1",
+      "bytes": 56,
+      "raw_sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a",
+      "raw_bytes": 36,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-query-window-observed.json.gz",
+      "sha256": "82b4d619bee5f455ae1cfa980a47fe21c8bd9eef22c5936b66ec7e4e6a72a1f7",
+      "bytes": 3077,
+      "raw_sha256": "883521ae83c28b96f439f45acbdc4350c3a4ef9522c51597f35b67332a211013",
+      "raw_bytes": 67026,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-query-controller.json.gz",
+      "sha256": "5067809e466c430d9fefa635886fc87b7fee77cc9a9f28421a2fdaa289175ac7",
+      "bytes": 263,
+      "raw_sha256": "5fa1c990625df699198e08710d840978a81b6722759de93d4fcd020acd3d829e",
+      "raw_bytes": 468,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-gdi-controller.json.gz",
+      "sha256": "749c72442ffddecbcfbd68e60ccffaf4022026f80cd542516921034d90a0c27a",
+      "bytes": 262,
+      "raw_sha256": "ee7c6c27360a055a8a8e4e0f535a68a1387e3b8b493c2d0dc1df79586398035d",
+      "raw_bytes": 469,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-directx-controller.json.gz",
+      "sha256": "259da0677c2396a19a8f36ed07bc195e1f7f965c9337376c8f3a861529e0e114",
+      "bytes": 258,
+      "raw_sha256": "5fd97e7500e7b252456f5602cf9c8060cb45e596cddf7c8ce33c98dac8e53941",
+      "raw_bytes": 469,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-tabs-gdi-top-observed.json.gz",
+      "sha256": "441b79fe1bb163dd611cedb73b888e40afe0b39fe8fd711dfdedeb023a42013d",
+      "bytes": 2631,
+      "raw_sha256": "dfeedf2895f614de8027fd30e7a3e475f12d69bff449845262d9a6cd62572ae0",
+      "raw_bytes": 16016,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-tabs-gdi-top-memory.json.gz",
+      "sha256": "71b0aae3d8f1dbdb7848b27b5fc6a33941d01a494cc00cd46ff92fd50fd0defc",
+      "bytes": 30342,
+      "raw_sha256": "40427789ebc87725983c507d0d9fcbd9caa367c40a2466f509b77879e4a7f642",
+      "raw_bytes": 1223087,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-tabs-directx-left-observed.json.gz",
+      "sha256": "8cc7fc9be4358c296e31f46264299d8fbccfb694f539bc9660bd17fd34dbd7ac",
+      "bytes": 1296,
+      "raw_sha256": "d8cdc92e7d36f342b8b815fb3d46eda5b86ac5b4beda8661733220b7fe7545d9",
+      "raw_bytes": 6443,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-tabs-directx-left-memory.json.gz",
+      "sha256": "4aa05fc0df249700af9961e63baa36aad4b2bf7536e7eedc2dd314a9afeb1d22",
+      "bytes": 6479,
+      "raw_sha256": "63250bb04ae2ada2c5191bd9b9247e7d0cadb5c5c08a88551fd8f93dfd9c7e5a",
+      "raw_bytes": 141504,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-query.log.gz",
+      "sha256": "740f6e815ec5590c9681e3121c70e3e98a0687a3db20f3cf31d8fe24f1dc1b63",
+      "bytes": 2980,
+      "raw_sha256": "f5a22568453b043e33a8fae37777406b9ea12f6be9fb51f09cfa9588b42e0582",
+      "raw_bytes": 64017,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-gdi.log.gz",
+      "sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4",
+      "bytes": 51,
+      "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+      "raw_bytes": 31,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-local-workload-directx.log.gz",
+      "sha256": "f695873c788a48beb484db8e767e38328fbf54816356f1e055e093ff034c83f8",
+      "bytes": 366,
+      "raw_sha256": "a502d7a7829c90e402b33867363b6b47afc9cf1fb62b8dbd4dce73a890a882ef",
+      "raw_bytes": 610,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-mingw-query-window-observed.json.gz",
+      "sha256": "dc57e146329fc55c71dfa9610e5f5fcd1bb8fc83b6586d8a7c527bb6b4d871bd",
+      "bytes": 3074,
+      "raw_sha256": "f7c71ad62e8649872ac8b6a7d1e979ff32d78b7db3754e8b95578ffa1856baab",
+      "raw_bytes": 67007,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-mingw-test_tcap.log.gz",
+      "sha256": "21de01dded530315e1f59fa478d2eab54da8acef9921d415338d28fccb288abe",
+      "bytes": 54,
+      "raw_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156",
+      "raw_bytes": 34,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-mingw-test_queries.log.gz",
+      "sha256": "b33549e66031796d1d2ec81d72646fa95f3b09f5b3a3bfcdf2d6f0f0001b8e27",
+      "bytes": 40,
+      "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1",
+      "raw_bytes": 20,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-terminal-tcap-sanitizers.log.gz",
+      "sha256": "62c3eae06418136bc7a840d56e000d7a23a5208deda86dd81ae82ccdad523783",
+      "bytes": 53,
+      "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4",
+      "raw_bytes": 33,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-terminal-tcap-ncurses-sanitizers.log.gz",
+      "sha256": "06955c3928b775c9702fa46fb942c1c2b0bd05a808ff4fe58373154a06f0ac72",
+      "bytes": 76,
+      "raw_sha256": "d0f3d79f1f8ad12cb10ffa46ec5a114a562579470d81b97830d8b7181205dd71",
+      "raw_bytes": 56,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-repeat-workload-tabs-directx-left-observed.json.gz",
+      "sha256": "e7edac0fc58a16c6ac44dacaf6ba972af1e03e30166bccaa98b6396e77d0fea6",
+      "bytes": 2645,
+      "raw_sha256": "c76d844914b66391e1e6b54fcd05edb7788b434086e684d7806c9d7be0c22614",
+      "raw_bytes": 16067,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-repeat-workload-tabs-directx-left-memory.json.gz",
+      "sha256": "11af5375221e8183a03f64737c1593791da1296e2a4c112901e7ff5d55eb8e16",
+      "bytes": 20453,
+      "raw_sha256": "bd747a17237925d4ec9df514fcbaf3d04d99ef42d95ff8914fa74d77d05c070a",
+      "raw_bytes": 698189,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-repeat-tabs-controller.json.gz",
+      "sha256": "66b40d191d525f579919973b4a95ec149c17d1b057db68e7e859504d45e155c9",
+      "bytes": 259,
+      "raw_sha256": "84b4d24a9a7bcc497b4e8bc91a45e50178deefeeb8a0b697c66fbe712bbee073",
+      "raw_bytes": 470,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-repeat-tabs.log.gz",
+      "sha256": "843ae574fb680be9b231dd5702aca4051da1b3c0f51902c1a98e3a937a7f05f8",
+      "bytes": 260,
+      "raw_sha256": "01f22967bee443b2638f248387826dcdeb6621fd19cdcda2dcd5a43400f9ccf1",
+      "raw_bytes": 346,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-repeat-tabs_window_smoke.py.gz",
+      "sha256": "5049a50fce6ca6afeb6c16fb8c37fa861a9a15688e2d6048e6c828948facf550",
+      "bytes": 6805,
+      "raw_sha256": "0d30b8f47a12ba5a0e9b716fa596d6f0fcaefd1bbf0daf64fb391005e84fbe4c",
+      "raw_bytes": 23791,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-lifetime-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "sha256": "dba738150e413715ee814aef9328d71d552a4a4eb1ff9f6c332757dff2aa36d8",
+      "bytes": 4553,
+      "raw_sha256": "a19ed2ba4383e2b6fae9ce9f28c73abf54689ae885228f3a85ac287179e85ffd",
+      "raw_bytes": 67643,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-lifetime-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "sha256": "7caab30c7268dd6ee59aa7871e6b21e3862c05d675fc4875e9ee0bcb99ebe3ec",
+      "bytes": 18562,
+      "raw_sha256": "1f82ff111231f4803e093d614b53fe53642d29ce45a28a5dc4c9acc97d396691",
+      "raw_bytes": 707142,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-lifetime-diagnostic-tabs-controller.json.gz",
+      "sha256": "4a3efcd7ddd22224ef309c98c64ceebbae59858f0cc6729b8bbbaa8993ac9d25",
+      "bytes": 259,
+      "raw_sha256": "753bc199cfa42e3b7e752b59678f59079004bd0db73a34e9c15c77bc7c5b64c1",
+      "raw_bytes": 470,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-lifetime-diagnostic-tabs.log.gz",
+      "sha256": "63e653f527d7e2cba20a47a5e79dd09dc9e24840cdf651ff7cf0754c5264c67d",
+      "bytes": 267,
+      "raw_sha256": "e1f51725c3b70c52ca0303f4b72654465af25b71a4b8f0bfcae34e53d48d6121",
+      "raw_bytes": 353,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-image-dx-lifetime-diagnostic-tabs_window_smoke.py.gz",
+      "sha256": "f8e4aac0d8abb4f4621eed04d4293d1a2411ca3ed2238d538c316bf393ba3c08",
+      "bytes": 7389,
+      "raw_sha256": "e19de6d220183aa9fe036671a7f754527292e139be6dab262aa63cc99a3271a5",
+      "raw_bytes": 26684,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-single-hyperlink-window-observed.json.gz",
+      "sha256": "d8b88ae79fbe66e13613351dffc4c79492f34352467fbae4aef88e208a9163ef",
+      "bytes": 1780,
+      "raw_sha256": "0bfefcdfafa245becc42032974148c2b97a6401d7a8f949ea31116e6697d2682",
+      "raw_bytes": 13507,
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/underline-capabilities-evidence/ci-mingw-hyperlink-window-observed.json.gz",
+      "sha256": "d217aebeab65f5a0fecb4d73244260f76e9a3fc1f5662b781c27534bc76d6549",
+      "bytes": 1772,
+      "raw_sha256": "993d8a8fd015bc637793259b3c01fda815b907e977c42f8aa65bbe6a89dc438e",
+      "raw_bytes": 13218,
+      "encoding": "gzip"
     }
   ],
   "native_transport": {
@@ -407,5 +767,427 @@
     "source_sha256": "55a972bab965fe8c4d1036cec1d0ceb25d67b4527506c0b4b6faff0d64c51528"
   },
   "initial_source_commit": "cc6e4109b390108f58564384191b25da65c2d75e",
-  "initial_native_test_sha256": "7fa4cfdc072340543f0ea5dce5e26b103665db2a8ea92422fd28dcbd14794753"
+  "initial_native_test_sha256": "7fa4cfdc072340543f0ea5dce5e26b103665db2a8ea92422fd28dcbd14794753",
+  "source_commit": "37ef26dae839319f7bf703bb648038c343c357f1",
+  "ci": {
+    "source": "37ef26dae839319f7bf703bb648038c343c357f1",
+    "single_run": 43508892024,
+    "core_run": 43508891431,
+    "status": "success",
+    "recorded_utc": "2026-11-13T21:43:55.713640+00:00",
+    "executable": {
+      "sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+      "bytes": 4448768,
+      "artifact_id": 14079650407,
+      "expires_at": "2026-12-13T21:34:39Z",
+      "archive_digest": "sha256:7a3b9bd3717459def06e47b051726fe2e0735da834c1b66d9dfd6eae2a645d39",
+      "archive_digest_authority": "GitHub metadata; extracted EXE independently hashed"
+    },
+    "evidence_artifact_id": 14078757582,
+    "passed_checks": [
+      "automation-gdi",
+      "drop-gdi",
+      "automation-directx",
+      "drop-directx",
+      "single_exe",
+      "shutdown",
+      "startup_size",
+      "renderer",
+      "grapheme",
+      "grapheme-font",
+      "rtl",
+      "rtl-courier",
+      "bindings",
+      "input_method",
+      "unicode_input",
+      "console_unicode",
+      "mouse",
+      "selection",
+      "selection-directx",
+      "sync",
+      "sgr",
+      "font_resize",
+      "font_fallback",
+      "font-fallback-courier",
+      "query",
+      "highlight",
+      "sixel",
+      "sixel_font",
+      "hyperlink",
+      "reflow",
+      "keyboard",
+      "keyboard-courier",
+      "osc52",
+      "mok",
+      "mok-courier",
+      "win32_input",
+      "state_control",
+      "tabulation",
+      "double_size",
+      "graphics_query",
+      "dec_status",
+      "checksum",
+      "sgr_stack",
+      "palette_stack",
+      "palette_stack-opengl",
+      "palette_stack-directx",
+      "reset_palette",
+      "reset_palette-opengl",
+      "reset_palette-directx",
+      "selection_colour",
+      "selection_colour-opengl",
+      "selection_colour-directx",
+      "selection-colour-gdi-configured",
+      "attribute_colour",
+      "attribute_colour-opengl",
+      "attribute_colour-directx",
+      "attribute-colour-gdi-configured",
+      "presentation_state",
+      "horizontal",
+      "reverse_wrap",
+      "selective_erase",
+      "guarded_area",
+      "rectangle",
+      "margins",
+      "cwd",
+      "shell_marks",
+      "shell",
+      "powershell_environment",
+      "delegated_console",
+      "caret_startup",
+      "session",
+      "session-opengl",
+      "session-directx",
+      "session_restart",
+      "titles",
+      "title-modes",
+      "geometry",
+      "window_resize",
+      "gpu_lifecycle",
+      "tabs-gdi-top",
+      "tabs-gdi-bottom",
+      "tabs-directx-left",
+      "tabs-opengl-right",
+      "tabs-regressions",
+      "settings",
+      "tabs-settings",
+      "codex-image-paste",
+      "codex-default",
+      "codex-inline",
+      "codex-tabs-default",
+      "codex-tabs-inline",
+      "workload-tabs-gdi-top",
+      "workload-tabs-directx-left"
+    ],
+    "query_checks": {
+      "single_image": {
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+        "literal_names": 12,
+        "unknown_names": 6,
+        "parameter_programs": 2,
+        "numeric_replays": 15,
+        "combined_reset": true,
+        "maximum_reply_bytes": 21045,
+        "overflow_recovery": true,
+        "memory_instrumented": true,
+        "memory_acceptance": false
+      },
+      "local_downloaded_image": {
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+        "literal_names": 12,
+        "unknown_names": 6,
+        "parameter_programs": 2,
+        "numeric_replays": 15,
+        "combined_reset": true,
+        "maximum_reply_bytes": 21045,
+        "overflow_recovery": true,
+        "memory_instrumented": true,
+        "memory_acceptance": false
+      },
+      "mingw_comparison": {
+        "executable_sha256": "1bea9fd891d89986457b29fa0d51149617369d540cb15c7e50c5fdf9d2cc3791",
+        "literal_names": 12,
+        "unknown_names": 6,
+        "parameter_programs": 2,
+        "numeric_replays": 15,
+        "combined_reset": true,
+        "maximum_reply_bytes": 21045,
+        "overflow_recovery": true,
+        "memory_instrumented": true,
+        "memory_acceptance": false
+      }
+    },
+    "workloads": {
+      "gdi": {
+        "font": "Consolas",
+        "actual_grid": [
+          109,
+          34
+        ],
+        "functional_groups": 9,
+        "memory_gate_passed": true,
+        "instrumented": false,
+        "samples": 282,
+        "seconds": 28.734,
+        "peaks": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 11882496,
+            "total_ws": 43626496,
+            "private_commit": 13721600
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 6582272,
+            "total_ws": 39428096,
+            "private_commit": 9216000
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26128384,
+            "total_ws": 51724288,
+            "private_commit": 31563776
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 40132608,
+            "total_ws": 130367488,
+            "private_commit": 49922048
+          }
+        },
+        "natural_cleanup": true
+      },
+      "directx": {
+        "font": "Consolas",
+        "actual_grid": [
+          88,
+          35
+        ],
+        "functional_groups": 9,
+        "memory_gate_passed": true,
+        "instrumented": false,
+        "samples": 217,
+        "seconds": 22.312,
+        "peaks": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 22208512,
+            "total_ws": 62238720,
+            "private_commit": 24911872
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 6266880,
+            "total_ws": 39198720,
+            "private_commit": 8949760
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26300416,
+            "total_ws": 51896320,
+            "private_commit": 31784960
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 46223360,
+            "total_ws": 145387520,
+            "private_commit": 56279040
+          }
+        },
+        "natural_cleanup": true
+      }
+    },
+    "independent_ncurses": {
+      "ci_linux": {
+        "checks": 780,
+        "ncurses_version": [
+          6,
+          6,
+          20251231
+        ],
+        "executable_sha256": "149d000e761f54d14730b7735deebac93eebf42c552f3feb1a763e8e6d0c4954"
+      },
+      "downloaded_windows_image": {
+        "checks": 780,
+        "ncurses_version": [
+          6,
+          5,
+          20250216
+        ],
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2"
+      },
+      "ci_single_wire": {
+        "checks": 780,
+        "ncurses_version": [
+          6,
+          5,
+          20250216
+        ],
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2"
+      },
+      "ci_mingw_wire": {
+        "checks": 780,
+        "ncurses_version": [
+          6,
+          5,
+          20250216
+        ],
+        "executable_sha256": "1bea9fd891d89986457b29fa0d51149617369d540cb15c7e50c5fdf9d2cc3791"
+      }
+    }
+  },
+  "ci_image_local": {
+    "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+    "fixture_source_commit": "37ef26dae839319f7bf703bb648038c343c357f1",
+    "query": {
+      "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+      "literal_names": 12,
+      "unknown_names": 6,
+      "parameter_programs": 2,
+      "numeric_replays": 15,
+      "combined_reset": true,
+      "maximum_reply_bytes": 21045,
+      "overflow_recovery": true,
+      "memory_instrumented": true,
+      "memory_acceptance": false
+    },
+    "query_natural_cleanup": true,
+    "workloads": {
+      "gdi": {
+        "font": "SarasaTermSC Nerd Font Light",
+        "actual_grid": [
+          160,
+          48
+        ],
+        "functional_groups": 9,
+        "memory_gate_passed": true,
+        "instrumented": false,
+        "samples": 437,
+        "seconds": 47.396,
+        "peaks": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 16642048,
+            "total_ws": 42680320,
+            "private_commit": 19279872
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 7081984,
+            "total_ws": 34119680,
+            "private_commit": 9674752
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26689536,
+            "total_ws": 53567488,
+            "private_commit": 33157120
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 44146688,
+            "total_ws": 124489728,
+            "private_commit": 56164352
+          }
+        },
+        "natural_cleanup": true
+      },
+      "directx": {
+        "font": "SarasaTermSC Nerd Font Light",
+        "actual_grid": [
+          160,
+          48
+        ],
+        "functional_groups": 9,
+        "memory_gate_passed": false,
+        "instrumented": false,
+        "samples": 250,
+        "seconds": 27.007,
+        "peaks": {
+          "frontend": {
+            "count": 1,
+            "private_ws": 30474240,
+            "total_ws": 71577600,
+            "private_commit": 100126720
+          },
+          "hosts": {
+            "count": 3,
+            "private_ws": 6815744,
+            "total_ws": 34017280,
+            "private_commit": 9854976
+          },
+          "clients": {
+            "count": 3,
+            "private_ws": 26705920,
+            "total_ws": 53583872,
+            "private_commit": 33087488
+          },
+          "all": {
+            "count": 7,
+            "private_ws": 54288384,
+            "total_ws": 148508672,
+            "private_commit": 131342336
+          }
+        },
+        "natural_cleanup": true
+      }
+    },
+    "initial_directx_failure": {
+      "functional_groups": 1,
+      "error": "AssertionError(({'handles': 486, 'gdi': 37, 'user': 42, 'injected': False, 'private_ws': 19144704, 'total_ws': 56762368, 'private_commit': 74457088}, {'handles': 537, 'gdi': 39, 'user': 56, 'injected': False, 'private_ws': 19918848, 'total_ws': 60047360, 'private_commit': 75243520}))",
+      "memory_gate_reached": false,
+      "cleanup": {
+        "before": {
+          "total": 25,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 25,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 45800,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\ci-underline-43508892024\\local-check\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 47084,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\ci-underline-43508892024\\local-check\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 15252,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 38640,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\ci-underline-43508892024\\local-check\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 7076,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      },
+      "cause_proven": false
+    },
+    "directx_resource_diagnostic": {
+      "functional_groups": 9,
+      "initial_failure_reproduced": false,
+      "memory_acceptance": false,
+      "private_ws_peak": 30466048,
+      "natural_cleanup": true,
+      "cause_proven": false
+    },
+    "directx_workload_evidence": "ci-image-dx-repeat-workload-tabs-directx-left-observed.json.gz",
+    "full_goal_complete": false,
+    "accepted_distribution_replaced": false
+  }
 }
