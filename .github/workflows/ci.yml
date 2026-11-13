@@ -14,11 +14,31 @@ concurrency:
 
 jobs:
   cluster-msvc-diagnostics:
-    name: MSVC native renderer diagnostics
+    name: MSVC native renderer diagnostics (${{ matrix.variant }})
     runs-on: windows-2025
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [shared, isolated, pixel-aligned]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Prepare explicitly labelled raster experiment
+        shell: pwsh
+        env:
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          # These experimental source edits affect only this diagnostic job.
+          # The portable and single-image acceptance builds use committed source.
+          $path = 'vendor/putty-0.85/windows/nemo_cluster.cpp'
+          $source = [IO.File]::ReadAllText($path)
+          if ($env:VARIANT -eq 'isolated') {
+            $source = $source.Replace('create(DWRITE_FACTORY_TYPE_SHARED,', 'create(DWRITE_FACTORY_TYPE_ISOLATED,')
+          } elseif ($env:VARIANT -eq 'pixel-aligned') {
+            $source = $source.Replace('(static_cast<FLOAT>(w)-advance)/2,0};', 'std::floor((static_cast<FLOAT>(w)-advance)/2+0.5f),0};')
+          }
+          [IO.File]::WriteAllText($path, $source)
+          Copy-Item $path research/diagnostic-source.cpp
       - name: Build frontend and offscreen renderer checks
         shell: pwsh
         run: |
@@ -39,6 +59,7 @@ jobs:
         shell: pwsh
         env:
           NEMOTERM_TEST_RENDERER_ORDER: '0,0,1,0,2'
+          NEMOTERM_TEST_DIAGNOSTIC_VARIANT: ${{ matrix.variant }}
         run: |
           python -m pip install frida==17.24.3
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -48,8 +69,9 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: cluster-msvc-diagnostics-${{ github.sha }}
+          name: cluster-msvc-diagnostics-${{ matrix.variant }}-${{ github.sha }}
           path: |
+            research/diagnostic-source.cpp
             research/renderer-observed.json
             research/renderer-*-text.png
             research/renderer-*-clusters.txt

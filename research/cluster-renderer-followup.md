@@ -115,3 +115,28 @@ clusters per window. Native parity is now also checked in the portable job,
 and a separate MSVC frontend job obtains these observations without waiting
 for the embedded OpenConsole build. The trace-enabled local three-renderer
 check passed; the CI-only pixel difference remains unresolved.
+
+## First-process raster difference
+
+At `a9a000c`, all three CI builds (MinGW portable, standalone MSVC and the
+single-image MSVC build) reproduced the same 96-channel, maximum-70 difference.
+Tile traces show that it exists before the compositor or capture: Consolas
+U+00C4 has hash `c665072c90a9e969` in the first GDI process and
+`673635bb9d23f602` in the next process. U+00E9 is identical. Font file, glyph ID,
+advance, baseline, transform, color and rendering parameters agree.
+
+The `ed148a8` diagnostic deliberately requests GDI, GDI, OpenGL, GDI, DirectX.
+Its first and second pure-GDI processes already differ. All subsequent initial
+frames agree with each other, including actual DirectX. Only the initial text
+and Sixel scenes differ from the first process; the later resized scenes agree.
+Recommended rendering mode, actual target transform and font simulation flags
+also agree. This rules out OpenGL fallback as the trigger, but does not yet
+identify the internal cause. The same five-process sequence passes locally.
+
+The next diagnostic matrix retains the unchanged shared-factory control and
+tests an isolated factory and pixel-aligned centering on separate clean runners.
+Each experimental job records its label, exact modified source, executable
+hash, frames and traces. These are diagnostic builds only; the portable and
+single-image acceptance jobs still build committed product source. This tests
+cache isolation and fractional placement without silently promoting either
+experiment or changing pixel tolerances.

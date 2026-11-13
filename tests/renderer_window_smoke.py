@@ -14,6 +14,8 @@ exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
 font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=font,modes=[],completed=False)
+if 'NEMOTERM_TEST_DIAGNOSTIC_VARIANT' in os.environ:
+    evidence['diagnostic_variant']=os.environ['NEMOTERM_TEST_DIAGNOSTIC_VARIANT']
 atexit.register(lambda:(root/'research/renderer-observed.json').write_text(json.dumps(evidence,indent=2)))
 references={}
 order=tuple(map(int,os.environ.get('NEMOTERM_TEST_RENDERER_ORDER','0,1,2').split(',')))
