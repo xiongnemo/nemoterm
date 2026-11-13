@@ -1,0 +1,299 @@
+{
+  "recorded_utc": "2026-11-13T22:01:48.054928+00:00",
+  "product_source_commit": "37ef26dae839319f7bf703bb648038c343c357f1",
+  "product_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+  "product_bytes": 4448768,
+  "artifact_id": 14079650407,
+  "product_run": 43508892024,
+  "reference_version": "XTerm(412)",
+  "reference_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "reference_source_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+  "grid": [
+    80,
+    24
+  ],
+  "runs": {
+    "cursor-audit": {
+      "cases": 568,
+      "differences": 20,
+      "by_operation": {
+        "e": 6,
+        "a": 14
+      },
+      "transport_completed": true,
+      "compatibility_passed": false,
+      "natural_cleanup": true,
+      "controller": {
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+        "name": "cursor_audit",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 50156,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 48.584
+      }
+    },
+    "cursor-boundary-audit": {
+      "cases": 280,
+      "differences": 27,
+      "by_operation": {
+        "a": 20,
+        "e": 7
+      },
+      "transport_completed": true,
+      "compatibility_passed": false,
+      "natural_cleanup": true,
+      "controller": {
+        "executable_sha256": "79845d77c08f2c32d2cffa4d85a5a7c6c7954efd948e8874956d20d281f8c5e2",
+        "name": "cursor_audit",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 21040,
+        "cleanup": {
+          "before": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 5,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 24.156
+      }
+    }
+  },
+  "total_cases": 848,
+  "total_different_streams": 47,
+  "comparisons_are_independent_bugs": false,
+  "memory_acceptance": false,
+  "resolved": false,
+  "accepted_distribution_replaced": false,
+  "files": [
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-cases.py.gz",
+      "bytes": 536,
+      "sha256": "1ffd25eaa6642e3222b537a603eb06c360fa46cae19641331c7022a9180dbc80",
+      "raw_bytes": 1021,
+      "raw_sha256": "0fb4602582d5d71f63cc676d37a8342c24687f6685c4ef1fa7f89635bc188192",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-capture.py.gz",
+      "bytes": 260,
+      "sha256": "07f2e1b51d133ac90a516753207d436fc22d4282e7de3fbfb1932977fea1b686",
+      "raw_bytes": 361,
+      "raw_sha256": "bd32dcc2645de522adc74c1d6635d68c608e7afa1a34da8f99ca6f52a0b48557",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-xterm.json.gz",
+      "bytes": 5112,
+      "sha256": "06331e0856f01f8c8dc7963a36b60ad953b457d8aeea348f7b48c4545f792503",
+      "raw_bytes": 149719,
+      "raw_sha256": "90fed31641fde5ee6c8df99588100d87d452ccbbcaad84dd1339531eff3b73af",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-xterm.log.gz",
+      "bytes": 2241,
+      "sha256": "f0b8d4efb7e79b4b123fa8a8c605e1b924efc127c2a4cec018e250eb62f10d97",
+      "raw_bytes": 30534,
+      "raw_sha256": "0121669c86e75d16f86adf1189b1d55b987f936403ec57a26cb6cd985e495e80",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native-controller.log.gz",
+      "bytes": 309,
+      "sha256": "b7ef64cabfb9013b395359d76158968188a9e1f27f9dee99283557c3c7fa651a",
+      "raw_bytes": 477,
+      "raw_sha256": "4539aa87b9428062c766cc6f0857b0d1b7e9b7a181efa080df541bdbacfc9b89",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native_tests_cursor_audit_cases.py.gz",
+      "bytes": 536,
+      "sha256": "1ffd25eaa6642e3222b537a603eb06c360fa46cae19641331c7022a9180dbc80",
+      "raw_bytes": 1021,
+      "raw_sha256": "0fb4602582d5d71f63cc676d37a8342c24687f6685c4ef1fa7f89635bc188192",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native_tests_cursor_audit_window_smoke.py.gz",
+      "bytes": 549,
+      "sha256": "aeba07d50cb966f148c07c0068a35771dd213b5ef9fb2e5c2f4060ea97dd1cf7",
+      "raw_bytes": 1118,
+      "raw_sha256": "5dcf3257548c507f12608cddefa7c7d98cbea0987608981ee4f495620f9745b3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native_research_cursor-audit-observed.json.gz",
+      "bytes": 3186,
+      "sha256": "8ca012be87c1cd74e85cd7263909885de52f88637cd60312e8f73693bcf7aeeb",
+      "raw_bytes": 53484,
+      "raw_sha256": "de9cf1ae0d99209ce299c91ac0cfd52c8ef449845a06887a3054ba58004982bf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native_research_cursor_audit-controller.json.gz",
+      "bytes": 262,
+      "sha256": "d7054013a38d2e79b2f2addabe905c7853aedf29c95f2ddd555a00409c9fb79c",
+      "raw_bytes": 476,
+      "raw_sha256": "94b3acf363b0fa797e5188c8f5f4f229bd7c12fd063a54d3bfab999e6f10e924",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-audit-native_cursor_audit.log.gz",
+      "bytes": 108,
+      "sha256": "ea35e21834b18209f7700978cff5f26e2eb5617cba2a58bba5fe14a2cd2a6955",
+      "raw_bytes": 102,
+      "raw_sha256": "2da0c4f3148bd30a479047f7cec4a7f6992b55f5afd349fdb2f266136e4f2ad5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-cases.py.gz",
+      "bytes": 378,
+      "sha256": "c774c733319a6f2956aa65c382623e1968653ebcc8c64aa7990a356101043774",
+      "raw_bytes": 713,
+      "raw_sha256": "97175b0a36fb04925e5d176db3206b1920452480183a3f171bc5d8b81a75036c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-capture.py.gz",
+      "bytes": 260,
+      "sha256": "07f2e1b51d133ac90a516753207d436fc22d4282e7de3fbfb1932977fea1b686",
+      "raw_bytes": 361,
+      "raw_sha256": "bd32dcc2645de522adc74c1d6635d68c608e7afa1a34da8f99ca6f52a0b48557",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-xterm.json.gz",
+      "bytes": 2838,
+      "sha256": "f45cb3689970881086da9707cbcecf5bcaf12a1e5625e6d7094e28d6cbd5f300",
+      "raw_bytes": 82133,
+      "raw_sha256": "8b2d9ad1d6cd8db254e15584e5dad686e57d6ccea77ff4dc7b083dfde052a4a2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-xterm.log.gz",
+      "bytes": 1273,
+      "sha256": "e25e8892ed2f172ccd49a75da59ef7eb467af9e27d3544ed734da700b009ab80",
+      "raw_bytes": 17308,
+      "raw_sha256": "8f4306a00a8ca1c474d6d5cd73afcc36b24b8424b40652d68286797366b031e8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native-controller.log.gz",
+      "bytes": 310,
+      "sha256": "77546b66b0b5673a36188688f3e8c210c0160c65ba59ceb9da87090a5571269a",
+      "raw_bytes": 477,
+      "raw_sha256": "b76189576d4d51e8cad8f826407f2304627cd377c2cc92009d5dd9540e7de407",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native_tests_cursor_audit_cases.py.gz",
+      "bytes": 378,
+      "sha256": "c774c733319a6f2956aa65c382623e1968653ebcc8c64aa7990a356101043774",
+      "raw_bytes": 713,
+      "raw_sha256": "97175b0a36fb04925e5d176db3206b1920452480183a3f171bc5d8b81a75036c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native_tests_cursor_audit_window_smoke.py.gz",
+      "bytes": 549,
+      "sha256": "aeba07d50cb966f148c07c0068a35771dd213b5ef9fb2e5c2f4060ea97dd1cf7",
+      "raw_bytes": 1118,
+      "raw_sha256": "5dcf3257548c507f12608cddefa7c7d98cbea0987608981ee4f495620f9745b3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native_research_cursor-audit-observed.json.gz",
+      "bytes": 2058,
+      "sha256": "29b90efd36ca536923c5e8019650368d31dcf0effd40c5aacc1f4438f52359cd",
+      "raw_bytes": 33073,
+      "raw_sha256": "dcd9eb20ed1f6b5edc79bde7e274c9f6727dfab59d6465da0fc4b3ed933dc1c2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native_research_cursor_audit-controller.json.gz",
+      "bytes": 264,
+      "sha256": "9a2e2509f48a86c7be8df7b179f7494fb80d13314a603b7ca6d9fd3a7779c6cb",
+      "raw_bytes": 476,
+      "raw_sha256": "2005790b6af0c6feb65a926a8624fbd139b90fe9ba4809be49bff79a5236a17e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/cursor-boundary-audit-native_cursor_audit.log.gz",
+      "bytes": 107,
+      "sha256": "c64165d753b93449ede8d72f44e70201f71d9748a6682e211005561284a2d040",
+      "raw_bytes": 102,
+      "raw_sha256": "48defc6325713888f20cd219d538a7d00bb953f68a22751b80a83c85c7273d4f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/fixture-protocol_oracle_window.py.gz",
+      "bytes": 2218,
+      "sha256": "1f4ce6b1169457fba7b0216a93086f4a1c845070d8a31a062ef09075126c86d5",
+      "raw_bytes": 6023,
+      "raw_sha256": "0d1b1d6c7d58f24c8ae3c1ba5366c3298bd71d94b4c5a4aa72868f6933fc90ae",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/fixture-native_test_utils.py.gz",
+      "bytes": 3008,
+      "sha256": "8409a95738e50b57c28f2ce2e29772fb52edf477bf35b98b2473a902b4c82676",
+      "raw_bytes": 7056,
+      "raw_sha256": "a674222aba14da360018c21cd8429edbc0b1d981c2b6422e00663ffb8fbf761f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/fixture-owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/fixture-mouse_fixture.py.gz",
+      "bytes": 2033,
+      "sha256": "7c65dbe848492e9eb6a3826ce1b5e73c79107487d7c0b39f95810bc7577bc17b",
+      "raw_bytes": 5366,
+      "raw_sha256": "3483985e8fc010696b051d7b469e625c53d1478e94408e9a3ac9179108c5637a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/prepare-cursor-audit.py.gz",
+      "bytes": 1430,
+      "sha256": "c07c41a852dc75475a27106e28864eecda29553655413d675767c84f8a457ded",
+      "raw_bytes": 3159,
+      "raw_sha256": "2852b11a88a59c04f9fcd6a305a3c388b8c590371253571ab05c71756934689f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/cursor-movement-audit-evidence/prepare-cursor-boundary.py.gz",
+      "bytes": 703,
+      "sha256": "16d9f8d89de77fddbe2921f9264ed90ff34ae37d707873187fd5708d50f2871e",
+      "raw_bytes": 1460,
+      "raw_sha256": "245d92ab98fce59bb83491766f4c8e7ca19426ec7bc38f062cb470ac57d242db",
+      "encoding": "gzip"
+    }
+  ]
+}
