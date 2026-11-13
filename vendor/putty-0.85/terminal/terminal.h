@@ -166,6 +166,7 @@ struct terminal_tag {
     char dcs_query[NEMO_DCS_QUERY_SIZE];
     int sixel_x, sixel_y, sixel_screen;
     bool sixel_display_mode, sixel_scrolls_right, sixel_private_palette;
+    unsigned sixel_register_count;
     uint32_t sixel_palette[256];
     bool sixel_palette_valid;
 

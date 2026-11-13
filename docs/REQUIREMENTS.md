@@ -55,6 +55,10 @@ independent xterm comparisons through both the core and native ConPTY path.
 The three double-size text-wrapping failures are fixed; see
 [double-size lines](../research/double-size-lines.md) for 45 further reference
 comparisons, cell checks, grapheme boundaries and remaining scope.
+Sixel capability queries now report the actual register and dimension limits,
+with configurable 2–256 color registers and native resize/pixel verification;
+see [graphics queries](../research/graphics-query.md). This does not imply
+ReGIS support or remove the shared image memory budget.
 
 Pending: CSI/ESC/C0/C1 conformance; SGR styles/true colour; scrolling/margins/alternate
 screens; Unicode/graphemes/emoji/IME; keyboard modifier, kitty/CSI-u and Windows input;

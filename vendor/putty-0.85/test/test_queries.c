@@ -4,6 +4,7 @@
 #undef main
 #include "terminal/nemo_window_size.h"
 #include "window_resize_cases.h"
+#include "../../../tests/graphics_query_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -12,6 +13,36 @@ static void response(Mock *mk, const char *expected)
         report_fail(mk, __FILE__, __LINE__, "query reply differs: %zu expected, %zu actual bytes",
                     len, mk->to_backend->len);
     strbuf_clear(mk->to_backend);
+}
+
+static void test_graphics_queries(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(graphics_query_oracle); i++) {
+        reset(mk);
+        test_context(mk, "XTSMGRAPHICS %s", graphics_query_oracle[i].name);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, graphics_query_oracle[i].sequence);
+        response(mk, graphics_query_oracle[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "graphics queries report the implemented limits and defaults");
+    term_data_fragmented(mk->term, "\033[?1;2;0S\033[?1;4;0S\033[?2;4;0S"
+        "\033[?1;3;257S\033[?1;3;1024S\033[?1;1;0S\033[?;1;0S");
+    response(mk, "\033[?1;0;256S\033[?1;0;256S\033[?2;0;8192;8192S"
+        "\033[?1;3S\033[?1;3S\033[?1;0;256S\033[?0;1S");
+    test_context(mk, "graphics viewport follows cell metrics and grid size");
+    term_size(mk->term, 24, 80, 0);
+    term_set_cell_size(mk->term, 8, 16);
+    term_data_fragmented(mk->term, "\033[?2;1;0S");
+    response(mk, "\033[?2;0;640;384S");
+    term_size(mk->term, 31, 100, 0);
+    term_set_cell_size(mk->term, 11, 20);
+    term_data_fragmented(mk->term, "\033[?2;1;0S");
+    response(mk, "\033[?2;0;1100;620S");
+    term_set_cell_size(mk->term, INT_MAX, INT_MAX);
+    term_data_fragmented(mk->term, "\033[?2;1;0S");
+    response(mk, "\033[?2;0;8192;8192S");
+    term_set_cell_size(mk->term, 8, 16);
 }
 
 static void test_cursor(Mock *mk)
@@ -380,6 +411,7 @@ int main(void)
     test_dcs_recovery(mk);
     test_geometry(mk);
     test_window_resize(mk);
+    test_graphics_queries(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

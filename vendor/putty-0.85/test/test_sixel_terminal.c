@@ -694,6 +694,31 @@ static void test_sixel_column_budget(Mock *mk)
     term_set_cell_size(mk->term, 8, 16);
 }
 
+static void test_graphics_registers(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "XTSMGRAPHICS changes later decoders and retains existing pixels");
+    Terminal *t = mk->term;
+    term_data_fragmented(t, "\033[?80h\033[?1;3;2S\033P0;1q#2;2;100;0;0#0~\033\\");
+    IEQUAL(t->sixel_register_count, 2);
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    NemoSixel *original = t->images->source->bitmap;
+    uint32_t pixel;
+    IEQUAL(nemo_sixel_read_row(original, 0, 0, &pixel, 1), 1);
+    IEQUAL(pixel, UINT32_C(0xffff0000));
+    term_data_fragmented(t, "\033[?1;3;256S");
+    IEQUAL(t->images->source->bitmap == original, true);
+    IEQUAL(nemo_sixel_read_row(original, 0, 0, &pixel, 1), 1);
+    IEQUAL(pixel, UINT32_C(0xffff0000));
+    term_data_fragmented(t, "\033[2J\033P0;1q#2;2;100;0;0#0~\033\\");
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    IEQUAL(nemo_sixel_read_row(t->images->source->bitmap, 0, 0, &pixel, 1), 1);
+    IEQUAL(pixel, UINT32_C(0xff000000));
+    check_image_accounting(mk);
+}
+
 int main(void)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -712,6 +737,7 @@ int main(void)
     test_sixel_mixed_lifecycle(mk);
     test_sixel_column_scroll(mk);
     test_sixel_column_budget(mk);
+    test_graphics_registers(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Sixel terminal suite FAILED" : "Sixel terminal suite passed");

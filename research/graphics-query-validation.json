@@ -1,0 +1,685 @@
+{
+  "parent_commit": "7be3c6555487fcb1fec0e204272f20761daef8df",
+  "captured_utc": "2026-11-13T04:40:17.998233+00:00",
+  "source_lf_sha256": {
+    ".github/workflows/ci.yml": "2884d8a039fc63172e2bbc6b35bc3b503256b15f8eab08083ca1783316b8692f",
+    "docs/PROTOCOL_COVERAGE.md": "9958b3cc89324c309178761dbf2d4aff7b094a59d729dbd3e07ab54287ca39a5",
+    "docs/REQUIREMENTS.md": "73c63059e8496ff71e6b14467b5872f990dc43582b7f0e16260cc724df795f4e",
+    "scripts/test-single-exe.ps1": "918f8d19ed0c3519c422e4f7298b6551e57dff114eb96709a006b6eecb2fdd97",
+    "tests/protocol_oracle_window.py": "ed31f56fde3c23e113ba7a7f30e3dcc1ed4cda3318aca8fecab2c665ed8e06d6",
+    "tests/test_sixel.c": "0d94f4b90a16509528a74717a1e42026992bbb53b2654bba2313cc8158a646be",
+    "vendor/putty-0.85/terminal/nemo_sixel.c": "418bbf24f04020d1e3347922c749b6c07b80c2a283bfc5bf44025a5d6d014f18",
+    "vendor/putty-0.85/terminal/nemo_sixel.h": "cdd9c8f54f7812c64be3fab2c3c7f5596f513a68f5890266ce1908a737bc8d66",
+    "vendor/putty-0.85/terminal/terminal.c": "f2b8e424c9b4572919e633eafb9a8fb90fd2b48bdcc05ff2bf38892bdc76278d",
+    "vendor/putty-0.85/terminal/terminal.h": "1c2ebb07fc49018532cb7ca346b89e7d9a993ee71aab2bc998e715bcea7de65d",
+    "vendor/putty-0.85/test/test_queries.c": "41b58762462416c06f526e0ae30828206fa3a1ca08d06b98f91008a664c37c92",
+    "vendor/putty-0.85/test/test_sixel_terminal.c": "81e6656840782fc67d0f4ebcdc7ce91300b98d39ca9d525aa8a7c1d49e2ceefe",
+    "tests/generate_graphics_query_oracle.py": "a152a7d0ae266c3db691778d96cbbd23e44372be97b2dd93c62a2165801ddb4a",
+    "tests/graphics_query_oracle_cases.h": "c55e512b7e56a9bfeb219ba042d6915ba9b0e8d2d0ccb1cabf24cca7d4dd5b5c",
+    "tests/graphics_query_oracle_cases.py": "367d9d75ea4bce2dd42498b7acd9a8a88563c307715fa019d88f3c6255e3ec52",
+    "tests/graphics_query_window_smoke.py": "b043d8e229ddb2622bfbcf82b4bf4f93ec3eb30044bec1592bb8475e1d8ef213",
+    "tests/xterm_graphics_query_oracle.py": "39d65081d46fc69a3f9eb9e5ef5797b69b31fa56416241f32ad753f0a0288f3e"
+  },
+  "executable": {
+    "path": "build\\local-graphics-query-check\\dist\\nemoterm.exe",
+    "bytes": 4418048,
+    "sha256": "502d09b073d58cf49abe1801a2c5bbeab26f072f6ec09de56898241f92c9d9b7"
+  },
+  "reference": {
+    "path": "research/graphics-query-xterm.json",
+    "sha256": "d11b47227be7297550e35bac616ed00c8a724feffd5e33555878c73542a0c088",
+    "cases": 41,
+    "exact_cases": 34,
+    "implementation_specific_cases": 7
+  },
+  "initial_failure": {
+    "log": "build/local-msvc/graphics-query-before.log",
+    "output": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;1;0): query reply differs: 33 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;0;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;5;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;99;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;1): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;2): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;16): query reply differs: 31 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;255): query reply differs: 33 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;256): query reply differs: 33 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;1025): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;999999999999999999999): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 2;2;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 2;3;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 2;0;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 2;5;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 3;1;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 3;2;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 3;4;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 4;1;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 0;1;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 99;1;0): query reply differs: 30 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;1): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS empty): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;1;0;0): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 2;3;80;24): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;3;2:3): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;;0): query reply differs: 29 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS 1;1;): query reply differs: 33 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS soft-reset): query reply differs: 31 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS hard-reset): query reply differs: 31 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS alternate): query reply differs: 41 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (XTSMGRAPHICS cancel): query reply differs: 22 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (graphics queries report the implemented limits and defaults): query reply differs: 71 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (graphics viewport follows cell metrics and grid size): query reply differs: 15 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (graphics viewport follows cell metrics and grid size): query reply differs: 16 expected, 0 actual bytes\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_queries.c:13 (graphics viewport follows cell metrics and grid size): query reply differs: 17 expected, 0 actual bytes\nQuery suite FAILED\n"
+  },
+  "core": {
+    "test_cluster_renderer": {
+      "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed\r\n",
+      "exit_code": 0
+    },
+    "test_colour": {
+      "output": "OSC colour parser tests passed\r\n",
+      "exit_code": 0
+    },
+    "test_conf": {
+      "output": null,
+      "exit_code": 0
+    },
+    "test_cwd": {
+      "output": "Directory metadata suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_font_cmap": {
+      "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed\r\n",
+      "exit_code": 0
+    },
+    "test_font_fallback": {
+      "output": "Requested Consolas; initially selected Consolas\r\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\r\nRequested Courier; initially selected Courier\r\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\r\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\r\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\r\nRequested Nemo Test Missing Font 938471; initially selected Arial\r\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\r\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache\r\n",
+      "exit_code": 0
+    },
+    "test_grapheme": {
+      "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed\r\n",
+      "exit_code": 0
+    },
+    "test_grapheme_terminal": {
+      "output": "Grapheme terminal suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_highlight": {
+      "output": "Highlight suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_hyperlink": {
+      "output": "Hyperlink test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_keyboard": {
+      "output": "Keyboard protocol suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_margins": {
+      "output": "Margin suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_modes": {
+      "output": "Mode test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_mok": {
+      "output": "Modified keys suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_mouse": {
+      "output": "Mouse test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_osc52": {
+      "output": "OSC 52 suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_osc_colour": {
+      "output": "OSC colour suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_queries": {
+      "output": "Query suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_rectangle": {
+      "output": "Rectangle editing and independent XTerm oracle suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_reflow": {
+      "output": "Reflow suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_resize": {
+      "output": "Resize suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_selective_erase": {
+      "output": "Selective erase suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sgr": {
+      "output": "SGR suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_shell": {
+      "output": "Shell detection, Unicode command quoting and child environment suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_shell_marks": {
+      "output": "Shell mark suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sixel": {
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\r\n",
+      "exit_code": 0
+    },
+    "test_sixel_terminal": {
+      "output": "Sixel terminal suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_snapshot": {
+      "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\r\nsnapshot tests passed\r\n",
+      "exit_code": 0
+    },
+    "test_state_control": {
+      "output": "State control suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_sync": {
+      "output": "Synchronized output test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_tabs_layout": {
+      "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed\r\n",
+      "exit_code": 0
+    },
+    "test_tcap": {
+      "output": "Capability/keyboard suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_terminal": {
+      "output": "Test suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_titles": {
+      "output": "Title suite passed\r\n",
+      "exit_code": 0
+    },
+    "test_win32_input": {
+      "output": "Win32 input suite passed\r\n",
+      "exit_code": 0
+    }
+  },
+  "mingw": {
+    "test_queries": {
+      "exit_code": 0,
+      "output": "Query suite passed\n"
+    },
+    "test_sixel": {
+      "exit_code": 0,
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\n"
+    },
+    "test_sixel_terminal": {
+      "exit_code": 0,
+      "output": "Sixel terminal suite passed\n"
+    }
+  },
+  "sanitizers": {
+    "queries": {
+      "exit_code": 0,
+      "output": "Query suite passed\n"
+    },
+    "sixel-terminal": {
+      "exit_code": 0,
+      "output": "Sixel terminal suite passed\n"
+    },
+    "sixel": {
+      "exit_code": 0,
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\n"
+    }
+  },
+  "native": {
+    "graphics_query": {
+      "executable_sha256": "502d09b073d58cf49abe1801a2c5bbeab26f072f6ec09de56898241f92c9d9b7",
+      "completed": true,
+      "cases": {
+        "1;1;0": "1b5b3f313b303b323536531b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1;0;0": "1b5b3f313b303b323536531b5b3f313b32531b5b3f313b303b323536531b503024721b5c",
+        "1;5;0": "1b5b3f313b303b323536531b5b3f313b32531b5b3f313b303b323536531b503024721b5c",
+        "1;99;0": "1b5b3f313b303b323536531b5b3f313b32531b5b3f313b303b323536531b503024721b5c",
+        "1;3;0": "1b5b3f313b303b323536531b5b3f313b33531b5b3f313b303b323536531b503024721b5c",
+        "1;3;1": "1b5b3f313b303b323536531b5b3f313b33531b5b3f313b303b323536531b503024721b5c",
+        "1;3;2": "1b5b3f313b303b323536531b5b3f313b303b32531b5b3f313b303b32531b503024721b5c",
+        "1;3;16": "1b5b3f313b303b323536531b5b3f313b303b3136531b5b3f313b303b3136531b503024721b5c",
+        "1;3;255": "1b5b3f313b303b323536531b5b3f313b303b323535531b5b3f313b303b323535531b503024721b5c",
+        "1;3;256": "1b5b3f313b303b323536531b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1;3;1025": "1b5b3f313b303b323536531b5b3f313b33531b5b3f313b303b323536531b503024721b5c",
+        "1;3;999999999999999999999": "1b5b3f313b303b323536531b5b3f313b33531b5b3f313b303b323536531b503024721b5c",
+        "2;2;0": "1b5b3f313b303b323536531b5b3f323b33531b5b3f313b303b323536531b503024721b5c",
+        "2;3;0": "1b5b3f313b303b323536531b5b3f323b33531b5b3f313b303b323536531b503024721b5c",
+        "2;0;0": "1b5b3f313b303b323536531b5b3f323b32531b5b3f313b303b323536531b503024721b5c",
+        "2;5;0": "1b5b3f313b303b323536531b5b3f323b32531b5b3f313b303b323536531b503024721b5c",
+        "3;1;0": "1b5b3f313b303b323536531b5b3f333b31531b5b3f313b303b323536531b503024721b5c",
+        "3;2;0": "1b5b3f313b303b323536531b5b3f333b31531b5b3f313b303b323536531b503024721b5c",
+        "3;4;0": "1b5b3f313b303b323536531b5b3f333b31531b5b3f313b303b323536531b503024721b5c",
+        "4;1;0": "1b5b3f313b303b323536531b5b3f343b31531b5b3f313b303b323536531b503024721b5c",
+        "0;1;0": "1b5b3f313b303b323536531b5b3f303b31531b5b3f313b303b323536531b503024721b5c",
+        "99;1;0": "1b5b3f313b303b323536531b5b3f39393b31531b5b3f313b303b323536531b503024721b5c",
+        "1;1": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "empty": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1;1;0;0": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "2;3;80;24": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1;3;2:3": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "1;;0": "1b5b3f313b303b323536531b5b3f313b32531b5b3f313b303b323536531b503024721b5c",
+        "1;1;": "1b5b3f313b303b323536531b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "soft-reset": "1b5b3f313b303b323536531b5b3f313b303b3136531b5b3f313b303b3136531b503024721b5c",
+        "hard-reset": "1b5b3f313b303b323536531b5b3f313b303b3136531b5b3f313b303b3136531b503024721b5c",
+        "alternate": "1b5b3f313b303b323536531b5b3f313b303b3136531b5b3f313b303b3136531b5b3f313b303b3136531b503024721b5c",
+        "cancel": "1b5b3f313b303b323536531b5b3f313b303b323536531b503024721b5c",
+        "implemented-defaults": "1b5b3f313b303b323536531b5b3f313b303b323536531b5b3f323b303b383139323b38313932531b503024721b5c",
+        "implemented-register-limit": "1b5b3f313b33531b5b3f313b33531b5b3f313b303b323536531b503024721b5c",
+        "omitted-item": "1b5b3f303b31531b503024721b5c",
+        "initial-geometry": "1b5b363b32303b38741b5b383b32343b3830741b5b3f323b303b3634303b343830531b5b3f323b303b383139323b38313932531b503024721b5c",
+        "resized-geometry": "1b5b363b32303b38741b5b383b32323b3833741b5b3f323b303b3636343b343430531b5b3f323b303b383139323b38313932531b503024721b5c",
+        "two-register-raster": "1b5b3f313b303b32531b503024721b5c",
+        "retain-existing-raster": "1b5b3f313b303b323536531b503024721b5c",
+        "new-256-register-raster": "1b503024721b5c"
+      },
+      "source_reference": "XTerm(412)",
+      "reference_case_count": 34,
+      "direct_case_names": [
+        "implemented-defaults",
+        "implemented-register-limit",
+        "omitted-item"
+      ],
+      "exercise": {
+        "initial-geometry": {
+          "cell": [
+            8,
+            20
+          ],
+          "grid": [
+            80,
+            24
+          ],
+          "graphics": [
+            640,
+            480
+          ]
+        },
+        "resized-geometry": {
+          "cell": [
+            8,
+            20
+          ],
+          "grid": [
+            83,
+            22
+          ],
+          "graphics": [
+            664,
+            440
+          ]
+        },
+        "two-register-pixels": {
+          "red_pixels": 384,
+          "rgb_sha256": "8554a3b0c989e2c6933c34d31f6723d88b464c2a420a4415c8058b85863cee8e"
+        },
+        "retained-pixels": {
+          "red_pixels": 384,
+          "rgb_sha256": "8554a3b0c989e2c6933c34d31f6723d88b464c2a420a4415c8058b85863cee8e"
+        },
+        "new-256-register-pixels": {
+          "red_pixels": 192,
+          "rgb_sha256": "433f3290974edb5d89f28b113427566e8f7a7c5e3735a6b48ea801642df18bbb"
+        }
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "last_snapshot": {
+        "phase": "new-256-register-raster",
+        "hex": "1b503024721b5c",
+        "columns": 83,
+        "rows": 22,
+        "input_mode": 640,
+        "input_cp": 65001,
+        "input_api": "ReadFile"
+      }
+    },
+    "sixel": {
+      "initial": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "width-clipped": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          12
+        ]
+      },
+      "width-restored": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "height-to-history": {
+        "red_pixels": 4800,
+        "grid": [
+          40,
+          10
+        ]
+      },
+      "height-restored": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "partial-up": {
+        "red_pixels": 4800,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "partial-down": {
+        "red_pixels": 4800,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "overwrite-moved-strip": {
+        "red_pixels": 4640,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "whole-region-delete": {
+        "red_pixels": 2880,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "history-setup": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "into-history": {
+        "red_pixels": 4800,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "clear-history-keeps-visible": {
+        "red_pixels": 4800,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "erase-all": {
+        "red_pixels": 0,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "alt-main": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "alt-empty": {
+        "red_pixels": 0,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "alt-image": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "alt-height-clipped": {
+        "red_pixels": 3840,
+        "grid": [
+          30,
+          5
+        ]
+      },
+      "alt-height-no-resurrection": {
+        "red_pixels": 3840,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "main-height-no-resurrection": {
+        "red_pixels": 3840,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "repeated-resize": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-0": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-0": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-1": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-1": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-2": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-2": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-3": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-3": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-4": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-4": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-5": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-5": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-6": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-6": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-7": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-7": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-8": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-8": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-9": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-9": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-10": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-10": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "resize-small-11": {
+        "red_pixels": 3840,
+        "grid": [
+          24,
+          10
+        ]
+      },
+      "resize-large-11": {
+        "red_pixels": 5760,
+        "grid": [
+          40,
+          12
+        ]
+      },
+      "cell_pixels": [
+        8,
+        20
+      ],
+      "peak_private_ws": 2785280,
+      "peak_total_ws": 15040512,
+      "peak_private_commit": 3596288,
+      "executable_sha256": "502d09b073d58cf49abe1801a2c5bbeab26f072f6ec09de56898241f92c9d9b7"
+    },
+    "single_exe": {
+      "executable_sha256": "502d09b073d58cf49abe1801a2c5bbeab26f072f6ec09de56898241f92c9d9b7",
+      "embedded_licenses_bytes": 81403,
+      "processes": [
+        {
+          "pid": 15148,
+          "parent": 21604,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d e3oq3ayb\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 4374528,
+            "total_ws": 22953984,
+            "private_commit": 5525504
+          }
+        },
+        {
+          "pid": 32484,
+          "parent": 15148,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d e3oq3ayb\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1597440,
+            "total_ws": 10608640,
+            "private_commit": 2301952
+          }
+        }
+      ],
+      "host_same_image": true,
+      "launcher_exit_preserves_console": true,
+      "only_executable_in_directory": true
+    }
+  },
+  "screenshot_sha256": "76167a3136a30e25e7c43a550795b8f16d28f0e18cf1acee16eb5494d0f56535",
+  "notes": [
+    "ASan and UBSan use halt_on_error with leak detection enabled.",
+    "MSVC static-CRT local build; native tests use the exact EXE hash above.",
+    "Main accepted dist image is unchanged. Local clipboard acceptance was not attempted.",
+    "Required clipboard and real-agent CI gates remain; recent CI jobs did not start because of billing."
+  ]
+}

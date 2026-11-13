@@ -67,6 +67,10 @@ void nemo_sixel_set_aspect(NemoSixel *s, unsigned vertical, unsigned horizontal)
 void nemo_sixel_get_palette(const NemoSixel *s, uint32_t palette[256]);
 void nemo_sixel_set_palette(NemoSixel *s, const uint32_t palette[256]);
 
+/* Select 2..PALETTE_SIZE registers before drawing. Sixel register numbers
+ * wrap modulo this count, as on DEC terminals. Reset restores PALETTE_SIZE. */
+bool nemo_sixel_set_register_count(NemoSixel *s, unsigned count);
+
 /* Optional shared-budget admission guard, called before each tile allocation.
  * current_bytes includes this decoder; allocation_bytes is the new request.
  * Return false to reject this image. The callback may evict other images.

@@ -95,6 +95,8 @@ jobs:
           python tests/generate_tabulation_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_double_size_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_graphics_query_oracle.py --check
           exit $LASTEXITCODE
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
@@ -411,6 +413,13 @@ jobs:
           python tests/double_size_window_smoke.py 2>&1 | Tee-Object test-results/double-size-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/double-size-observed.json, research/double-size-window.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Test graphics capability replies, resized geometry and palette pixels
+        shell: pwsh
+        run: |
+          python tests/graphics_query_window_smoke.py 2>&1 | Tee-Object test-results/graphics-query-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/graphics-query-observed.json, research/graphics-query-*.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native selective erasure and protected Sixel pixels
         shell: pwsh

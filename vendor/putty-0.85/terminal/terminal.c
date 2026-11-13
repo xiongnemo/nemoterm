@@ -2047,6 +2047,51 @@ static uint32_t nemo_sixel_colour(Terminal *term, bool foreground)
         ((uint32_t)c.g << 8) | c.b;
 }
 
+static void nemo_graphics_query(Terminal *term)
+{
+    /* Xterm dispatches only an exact item/action/value triple. Geometry
+     * bounds are per axis, not a reservation of the shared raster budget. */
+    if (term->esc_nargs != 3) return;
+    unsigned item = term->esc_args[0], action = term->esc_args[1];
+    unsigned status = 0, value = 0, height = 0;
+    if (item == 1) {
+        switch (action) {
+          case 1: value = term->sixel_register_count; break;
+          case 2:
+            value = term->sixel_register_count = NEMO_SIXEL_PALETTE_SIZE;
+            break;
+          case 3:
+            value = term->esc_args[2];
+            if (value < 2 || value > NEMO_SIXEL_PALETTE_SIZE) status = 3;
+            else term->sixel_register_count = value;
+            break;
+          case 4: value = NEMO_SIXEL_PALETTE_SIZE; break;
+          default: status = 2; break;
+        }
+    } else if (item == 2) {
+        switch (action) {
+          case 1:
+            value = min((uint64_t)max(0, term->cols) * max(0, term->cell_width),
+                        NEMO_SIXEL_MAX_DIMENSION);
+            height = min((uint64_t)max(0, term->rows) * max(0, term->cell_height),
+                         NEMO_SIXEL_MAX_DIMENSION);
+            break;
+          case 2: case 3: status = 3; break; /* fixed decoder geometry limit */
+          case 4: value = height = NEMO_SIXEL_MAX_DIMENSION; break;
+          default: status = 2; break;
+        }
+    } else {
+        status = 1; /* no ReGIS decoder or other graphics attribute items */
+    }
+    if (term->ldisc) {
+        char reply[96];
+        int n = status ? sprintf(reply, "\033[?%u;%uS", item, status) :
+            item == 1 ? sprintf(reply, "\033[?1;0;%uS", value) :
+            sprintf(reply, "\033[?2;0;%u;%uS", value, height);
+        ldisc_send(term->ldisc, reply, n, false);
+    }
+}
+
 static void nemo_sixel_begin(Terminal *term)
 {
     /* 8 KiB is larger than the fixed decoder object. Reserve before init,
@@ -2057,6 +2102,7 @@ static void nemo_sixel_begin(Terminal *term)
         nemo_sixel_colour(term, true), nemo_sixel_colour(term, false),
         term->sixel_header[1] == 1);
     if (!term->sixel_pending) return;
+    nemo_sixel_set_register_count(term->sixel_pending, term->sixel_register_count);
     nemo_sixel_set_allocation_guard(term->sixel_pending, nemo_image_admit, term);
     if (!term->sixel_private_palette && term->sixel_palette_valid)
         nemo_sixel_set_palette(term->sixel_pending, term->sixel_palette);
@@ -3060,6 +3106,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     memset(term, 0, sizeof(Terminal));
     term->cell_width = 8;
     term->cell_height = 16;
+    term->sixel_register_count = NEMO_SIXEL_PALETTE_SIZE;
     term->win = win;
     term->ucsdata = ucsdata;
     term->conf = conf_copy(myconf);
@@ -7671,6 +7718,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                 break;
                             }
                         }
+                        break;
+                      case ANSI_QUE('S'): /* XTSMGRAPHICS */
+                        nemo_graphics_query(term);
                         break;
                       case 'S':         /* SU: Scroll up */
                         CLAMP(term->esc_args[0], term->rows);

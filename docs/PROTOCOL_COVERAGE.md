@@ -126,7 +126,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key capability whitelist, not arbitrary terminfo access. |
 | DCS +p ... ST (XTSETTCAP), user-defined keys and state restoration | Missing | Query-only termcap support. |
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
-| CSI ? ... S (XTSMGRAPHICS) | Missing | Sixel rendering does not imply graphics-capability query support. |
+| CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
 | ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |
 | APC G (kitty graphics); OSC 1337 inline file/image transfer | Missing | APC is consumed; OSC 1337 working-directory metadata does not implement image transfer. |
 
@@ -148,7 +148,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 ## Work queue from this audit
 
-1. Add XTSMGRAPHICS and DEC-specific status queries, with truthful capabilities.
+1. Add remaining DEC-specific status queries, with truthful capabilities.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
 3. Add horizontal index/shift and remaining xterm report/stack operations with

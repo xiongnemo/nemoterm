@@ -32,7 +32,7 @@ struct NemoSixel {
     uint32_t palette[NEMO_SIXEL_PALETTE_SIZE];
     uint32_t foreground, background, params[PARAM_COUNT];
     unsigned x, y, width, height, aspect_vertical, aspect_horizontal;
-    unsigned param_index;
+    unsigned param_index, register_count;
     unsigned char command;
     bool parameter_overflow, seen_pixels, finished;
     size_t allocated_bytes, budget_bytes;
@@ -114,6 +114,7 @@ void nemo_sixel_reset(NemoSixel *s, uint32_t foreground,
     s->foreground = foreground | UINT32_C(0xff000000);
     s->background = transparent ? 0 : background | UINT32_C(0xff000000);
     s->aspect_vertical = s->aspect_horizontal = 1;
+    s->register_count = NEMO_SIXEL_PALETTE_SIZE;
     default_palette(s);
 }
 
@@ -255,18 +256,17 @@ static bool commit_parameters(NemoSixel *s)
     const uint32_t *p = s->params;
     if (s->parameter_overflow) return fail(s, NEMO_SIXEL_MALFORMED);
     if (s->command == '#') {
-        if (p[0] >= NEMO_SIXEL_PALETTE_SIZE)
-            return fail(s, NEMO_SIXEL_LIMIT);
+        unsigned reg = p[0] % s->register_count;
         if (s->param_index == 4) {
             if (p[1] == 2)
-                s->palette[p[0]] = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
+                s->palette[reg] = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
             else if (p[1] == 1)
-                s->palette[p[0]] = hls(p[2], p[3], p[4]);
+                s->palette[reg] = hls(p[2], p[3], p[4]);
             else return fail(s, NEMO_SIXEL_MALFORMED);
         } else if (s->param_index != 0) {
             return fail(s, NEMO_SIXEL_MALFORMED);
         }
-        s->foreground = s->palette[p[0]];
+        s->foreground = s->palette[reg];
     } else if (s->command == '"' && !s->seen_pixels) {
         if (s->param_index < 1) return fail(s, NEMO_SIXEL_MALFORMED);
         nemo_sixel_set_aspect(s, p[0] ? p[0] : 1, p[1] ? p[1] : 1);
@@ -389,6 +389,14 @@ size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
         written += n;
     }
     return written;
+}
+
+bool nemo_sixel_set_register_count(NemoSixel *s, unsigned count)
+{
+    if (!s || s->finished || s->seen_pixels || count < 2 ||
+        count > NEMO_SIXEL_PALETTE_SIZE) return false;
+    s->register_count = count;
+    return true;
 }
 
 void nemo_sixel_get_palette(const NemoSixel *s, uint32_t palette[256])

@@ -140,7 +140,7 @@ static void rejected_inputs(void)
 {
     static const char *invalid[] = {
         "!4294967296~", "!99999999999999999999999999999999999999999999~",
-        "!8193~", "!3#", "#256~", "#2;3;0;0;0~", "#2;2;100~",
+        "!8193~", "!3#", "#2;3;0;0;0~", "#2;2;100~",
         "#1;2;1;2;3;4~", "\"1;1;8193;1~", "\"1;1;8192;8192~",
         "\x18", "\x1a", "\x1b", "\x9c"
     };
@@ -233,6 +233,34 @@ static void deterministic_fuzz(void)
     nemo_sixel_free(s);
 }
 
+static void register_counts(void)
+{
+    NemoSixel *s = fresh(true);
+    assert(!nemo_sixel_set_register_count(s, 0));
+    assert(!nemo_sixel_set_register_count(s, 1));
+    assert(!nemo_sixel_set_register_count(s, 257));
+    assert(nemo_sixel_set_register_count(s, 2));
+    /* Register 2 aliases 0 at this limit, for both definition and selection. */
+    const char *payload = "#2;2;100;0;0#0~#3;2;0;100;0#1~";
+    assert(nemo_sixel_feed(s, payload, strlen(payload)));
+    assert(nemo_sixel_finish(s));
+    uint32_t pixels[2];
+    assert(nemo_sixel_read_row(s, 0, 0, pixels, 2) == 2);
+    assert(pixels[0] == UINT32_C(0xffff0000));
+    assert(pixels[1] == UINT32_C(0xff00ff00));
+    assert(!nemo_sixel_set_register_count(s, 16));
+    nemo_sixel_reset(s, WHITE, BLACK, true);
+    /* Reset restores 256 registers; out-of-range selectors wrap, not abort. */
+    payload = "#256;2;100;0;0#0~#4294967295;2;0;100;0#255~";
+    assert(nemo_sixel_feed(s, payload, strlen(payload)));
+    assert(!nemo_sixel_set_register_count(s, 2));
+    assert(nemo_sixel_finish(s));
+    assert(nemo_sixel_read_row(s, 0, 0, pixels, 2) == 2);
+    assert(pixels[0] == UINT32_C(0xffff0000));
+    assert(pixels[1] == UINT32_C(0xff00ff00));
+    nemo_sixel_free(s);
+}
+
 int main(void)
 {
     basic_pixels();
@@ -243,6 +271,7 @@ int main(void)
     bounded_memory();
     dense_image_and_partial_rows();
     deterministic_fuzz();
+    register_counts();
     puts("Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed");
     return 0;
 }

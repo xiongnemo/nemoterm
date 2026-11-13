@@ -4,7 +4,7 @@ from native_test_utils import (root, hashlib, json, os, subprocess, sys,
 from owned_job import OwnedJob
 
 
-def run(name, cases, scene=None, extra_cases=()):
+def run(name, cases, scene=None, extra_cases=(), exercise=None):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     marker = b'\x1bP0$r\x1b\\'
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -34,9 +34,13 @@ def run(name, cases, scene=None, extra_cases=()):
                 value = wait_for(received)
                 wire = bytes.fromhex(value['hex'])
                 evidence['cases'][phase_name] = wire.hex()
-                assert wire == expected.encode()+marker, (phase_name, wire, expected)
+                if expected is not None:
+                    assert wire == expected.encode()+marker, (phase_name, wire, expected)
+                return wire[:-len(marker)]
             for phase_name, sequence, expected in tuple(cases)+tuple(extra_cases):
                 phase(phase_name, sequence, expected)
+            if exercise is not None:
+                evidence['exercise'] = exercise(hwnd, phase, current)
             if scene is not None:
                 phase('visible-scene', scene, '')
                 time.sleep(.2)
