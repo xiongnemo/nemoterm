@@ -1,0 +1,733 @@
+{
+  "completed": true,
+  "memory_acceptance": false,
+  "transitions": [
+    {
+      "result": {
+        "name": "commit",
+        "status": 0,
+        "address": "0x1b146e11000",
+        "bytes": "8192"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 8192,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e11000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e11000",
+            "end": "0x1b146e13000",
+            "state": 4096,
+            "protection": 4,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e13000",
+            "end": "0x1b146e20000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          }
+        ]
+      }
+    },
+    {
+      "result": {
+        "name": "excluded",
+        "status": 0,
+        "address": "0x1b146e20000",
+        "bytes": "4096"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 8192,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e11000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e11000",
+            "end": "0x1b146e13000",
+            "state": 4096,
+            "protection": 4,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e13000",
+            "end": "0x1b146e20000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          }
+        ]
+      }
+    },
+    {
+      "result": {
+        "name": "failed",
+        "status": -1073741637,
+        "address": "0x1b146e11000",
+        "bytes": "4096"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 8192,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e11000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e11000",
+            "end": "0x1b146e13000",
+            "state": 4096,
+            "protection": 4,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e13000",
+            "end": "0x1b146e20000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          }
+        ]
+      }
+    },
+    {
+      "result": {
+        "name": "decommit",
+        "status": 0,
+        "address": "0x1b146e11000",
+        "bytes": "4096"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 4096,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e12000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e12000",
+            "end": "0x1b146e13000",
+            "state": 4096,
+            "protection": 4,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e13000",
+            "end": "0x1b146e20000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          }
+        ]
+      }
+    },
+    {
+      "result": {
+        "name": "extended",
+        "status": 0,
+        "address": "0x1b146e13000",
+        "bytes": "4096"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 8192,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e12000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e12000",
+            "end": "0x1b146e14000",
+            "state": 4096,
+            "protection": 4,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          },
+          {
+            "start": "0x1b146e14000",
+            "end": "0x1b146e20000",
+            "state": 8192,
+            "protection": 0,
+            "kind": 131072,
+            "allocation": "0x1b146e10000"
+          }
+        ]
+      }
+    },
+    {
+      "result": {
+        "name": "release",
+        "status": 0,
+        "address": "0x1b146e10000",
+        "bytes": "65536"
+      },
+      "layout": {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "committed_bytes": 0,
+        "regions": [
+          {
+            "start": "0x1b146e10000",
+            "end": "0x1b146e20000",
+            "state": 65536,
+            "protection": 1,
+            "kind": 0,
+            "allocation": null
+          }
+        ]
+      }
+    }
+  ],
+  "source_sha256": {
+    "virtual_memory_probe.js": "579752f6690726a410343e712d683260236aa80a805892cea0a7404e7c91bddb",
+    "virtual_memory_selftest.js": "09fd48259d0cfac61cb5d2be0cd67f6cde03408b0c280e0a77c591bc24556529",
+    "working_set_regions.py": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610"
+  },
+  "phase": "complete",
+  "scope": {
+    "pid": 8980,
+    "ranges": [
+      {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000"
+      }
+    ],
+    "event_capacity": 64
+  },
+  "initial_layout": {
+    "start": "0x1b146e10000",
+    "end": "0x1b146e20000",
+    "committed_bytes": 0,
+    "regions": [
+      {
+        "start": "0x1b146e10000",
+        "end": "0x1b146e20000",
+        "state": 8192,
+        "protection": 0,
+        "kind": 131072,
+        "allocation": "0x1b146e10000"
+      }
+    ]
+  },
+  "initialized": {
+    "apis": [
+      "NtAllocateVirtualMemory",
+      "NtAllocateVirtualMemoryEx",
+      "NtFreeVirtualMemory"
+    ],
+    "event_capacity": 64,
+    "entrypoints": {
+      "NtAllocateVirtualMemory": "0x7ffdd83425b0",
+      "ZwAllocateVirtualMemory": "0x7ffdd83425b0",
+      "NtAllocateVirtualMemoryEx": "0x7ffdd83431a0",
+      "ZwAllocateVirtualMemoryEx": "0x7ffdd83431a0",
+      "NtFreeVirtualMemory": "0x7ffdd8342670",
+      "ZwFreeVirtualMemory": "0x7ffdd8342670"
+    }
+  },
+  "snapshot": {
+    "pid": 8980,
+    "scope": {
+      "pid": 8980,
+      "ranges": [
+        {
+          "start": "0x1b146e10000",
+          "end": "0x1b146e20000"
+        }
+      ],
+      "event_capacity": 64
+    },
+    "active": false,
+    "valid": true,
+    "started_unix_ms": 1794580264572,
+    "stopped_unix_ms": 1794580264626,
+    "instrumented": true,
+    "memory_acceptance": false,
+    "event_capacity": 64,
+    "events": [
+      {
+        "sequence": 1,
+        "seconds": 0.046,
+        "api": "NtAllocateVirtualMemory",
+        "status": 0,
+        "success": true,
+        "thread_id": 1332,
+        "flags": 4096,
+        "protection": 4,
+        "requested_address": "0x1b146e11000",
+        "requested_bytes": "8192",
+        "address": "0x1b146e11000",
+        "bytes": "8192",
+        "caller": {
+          "address": "0x7ffd9728e271",
+          "module": "frida-agent.dll",
+          "offset": "0x28e271"
+        },
+        "stack": [
+          {
+            "address": "0x7ffd9728e271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271"
+          },
+          {
+            "address": "0x7ffd9728dc90",
+            "module": "frida-agent.dll",
+            "offset": "0x28dc90"
+          },
+          {
+            "address": "0x7ffd9728da8a",
+            "module": "frida-agent.dll",
+            "offset": "0x28da8a"
+          },
+          {
+            "address": "0x7ffd9715fee1",
+            "module": "frida-agent.dll",
+            "offset": "0x15fee1"
+          },
+          {
+            "address": "0x7ffd97161c7d",
+            "module": "frida-agent.dll",
+            "offset": "0x161c7d"
+          },
+          {
+            "address": "0x7ffd97159c4f",
+            "module": "frida-agent.dll",
+            "offset": "0x159c4f"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          },
+          {
+            "address": "0x7ffd973551ae",
+            "module": "frida-agent.dll",
+            "offset": "0x3551ae"
+          },
+          {
+            "address": "0x7ffd97353eba",
+            "module": "frida-agent.dll",
+            "offset": "0x353eba"
+          },
+          {
+            "address": "0x7ffd973412b8",
+            "module": "frida-agent.dll",
+            "offset": "0x3412b8"
+          },
+          {
+            "address": "0x7ffd9737f7f6",
+            "module": "frida-agent.dll",
+            "offset": "0x37f7f6"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          }
+        ]
+      },
+      {
+        "sequence": 2,
+        "seconds": 0.048,
+        "api": "NtAllocateVirtualMemory",
+        "status": -1073741637,
+        "success": false,
+        "thread_id": 1332,
+        "flags": 4096,
+        "protection": 4294967295,
+        "requested_address": "0x1b146e11000",
+        "requested_bytes": "4096",
+        "address": "0x1b146e11000",
+        "bytes": "4096",
+        "caller": {
+          "address": "0x7ffd9728e271",
+          "module": "frida-agent.dll",
+          "offset": "0x28e271"
+        },
+        "stack": [
+          {
+            "address": "0x7ffd9728e271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271"
+          },
+          {
+            "address": "0x7ffd9728dc90",
+            "module": "frida-agent.dll",
+            "offset": "0x28dc90"
+          },
+          {
+            "address": "0x7ffd9728da8a",
+            "module": "frida-agent.dll",
+            "offset": "0x28da8a"
+          },
+          {
+            "address": "0x7ffd9715fee1",
+            "module": "frida-agent.dll",
+            "offset": "0x15fee1"
+          },
+          {
+            "address": "0x7ffd97161c7d",
+            "module": "frida-agent.dll",
+            "offset": "0x161c7d"
+          },
+          {
+            "address": "0x7ffd97159c4f",
+            "module": "frida-agent.dll",
+            "offset": "0x159c4f"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          },
+          {
+            "address": "0x7ffd973551ae",
+            "module": "frida-agent.dll",
+            "offset": "0x3551ae"
+          },
+          {
+            "address": "0x7ffd97353eba",
+            "module": "frida-agent.dll",
+            "offset": "0x353eba"
+          },
+          {
+            "address": "0x7ffd973412b8",
+            "module": "frida-agent.dll",
+            "offset": "0x3412b8"
+          },
+          {
+            "address": "0x7ffd9737f7f6",
+            "module": "frida-agent.dll",
+            "offset": "0x37f7f6"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          }
+        ]
+      },
+      {
+        "sequence": 3,
+        "seconds": 0.05,
+        "api": "NtFreeVirtualMemory",
+        "status": 0,
+        "success": true,
+        "thread_id": 1332,
+        "flags": 16384,
+        "protection": null,
+        "requested_address": "0x1b146e11000",
+        "requested_bytes": "4096",
+        "address": "0x1b146e11000",
+        "bytes": "4096",
+        "caller": {
+          "address": "0x7ffd9728e271",
+          "module": "frida-agent.dll",
+          "offset": "0x28e271"
+        },
+        "stack": [
+          {
+            "address": "0x7ffd9728e271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271"
+          },
+          {
+            "address": "0x7ffd9728dc90",
+            "module": "frida-agent.dll",
+            "offset": "0x28dc90"
+          },
+          {
+            "address": "0x7ffd9728da8a",
+            "module": "frida-agent.dll",
+            "offset": "0x28da8a"
+          },
+          {
+            "address": "0x7ffd9715fee1",
+            "module": "frida-agent.dll",
+            "offset": "0x15fee1"
+          },
+          {
+            "address": "0x7ffd97161c7d",
+            "module": "frida-agent.dll",
+            "offset": "0x161c7d"
+          },
+          {
+            "address": "0x7ffd97159c4f",
+            "module": "frida-agent.dll",
+            "offset": "0x159c4f"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          },
+          {
+            "address": "0x7ffd973551ae",
+            "module": "frida-agent.dll",
+            "offset": "0x3551ae"
+          },
+          {
+            "address": "0x7ffd97353eba",
+            "module": "frida-agent.dll",
+            "offset": "0x353eba"
+          },
+          {
+            "address": "0x7ffd973412b8",
+            "module": "frida-agent.dll",
+            "offset": "0x3412b8"
+          },
+          {
+            "address": "0x7ffd9737f7f6",
+            "module": "frida-agent.dll",
+            "offset": "0x37f7f6"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          }
+        ]
+      },
+      {
+        "sequence": 4,
+        "seconds": 0.05,
+        "api": "NtAllocateVirtualMemoryEx",
+        "status": 0,
+        "success": true,
+        "thread_id": 1332,
+        "flags": 4096,
+        "protection": 4,
+        "requested_address": "0x1b146e13000",
+        "requested_bytes": "4096",
+        "address": "0x1b146e13000",
+        "bytes": "4096",
+        "caller": {
+          "address": "0x7ffd9728e271",
+          "module": "frida-agent.dll",
+          "offset": "0x28e271"
+        },
+        "stack": [
+          {
+            "address": "0x7ffd9728e271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271"
+          },
+          {
+            "address": "0x7ffd9728dc90",
+            "module": "frida-agent.dll",
+            "offset": "0x28dc90"
+          },
+          {
+            "address": "0x7ffd9728da8a",
+            "module": "frida-agent.dll",
+            "offset": "0x28da8a"
+          },
+          {
+            "address": "0x7ffd9715fee1",
+            "module": "frida-agent.dll",
+            "offset": "0x15fee1"
+          },
+          {
+            "address": "0x7ffd97161c7d",
+            "module": "frida-agent.dll",
+            "offset": "0x161c7d"
+          },
+          {
+            "address": "0x7ffd97159c4f",
+            "module": "frida-agent.dll",
+            "offset": "0x159c4f"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          },
+          {
+            "address": "0x7ffd973551ae",
+            "module": "frida-agent.dll",
+            "offset": "0x3551ae"
+          },
+          {
+            "address": "0x7ffd97353eba",
+            "module": "frida-agent.dll",
+            "offset": "0x353eba"
+          },
+          {
+            "address": "0x7ffd973412b8",
+            "module": "frida-agent.dll",
+            "offset": "0x3412b8"
+          },
+          {
+            "address": "0x7ffd9737f7f6",
+            "module": "frida-agent.dll",
+            "offset": "0x37f7f6"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          }
+        ]
+      },
+      {
+        "sequence": 5,
+        "seconds": 0.052,
+        "api": "NtFreeVirtualMemory",
+        "status": 0,
+        "success": true,
+        "thread_id": 1332,
+        "flags": 32768,
+        "protection": null,
+        "requested_address": "0x1b146e10000",
+        "requested_bytes": "0",
+        "address": "0x1b146e10000",
+        "bytes": "65536",
+        "caller": {
+          "address": "0x7ffd9728e271",
+          "module": "frida-agent.dll",
+          "offset": "0x28e271"
+        },
+        "stack": [
+          {
+            "address": "0x7ffd9728e271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271"
+          },
+          {
+            "address": "0x7ffd9728dc90",
+            "module": "frida-agent.dll",
+            "offset": "0x28dc90"
+          },
+          {
+            "address": "0x7ffd9728da8a",
+            "module": "frida-agent.dll",
+            "offset": "0x28da8a"
+          },
+          {
+            "address": "0x7ffd9715fee1",
+            "module": "frida-agent.dll",
+            "offset": "0x15fee1"
+          },
+          {
+            "address": "0x7ffd97161c7d",
+            "module": "frida-agent.dll",
+            "offset": "0x161c7d"
+          },
+          {
+            "address": "0x7ffd97159c4f",
+            "module": "frida-agent.dll",
+            "offset": "0x159c4f"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          },
+          {
+            "address": "0x7ffd973551ae",
+            "module": "frida-agent.dll",
+            "offset": "0x3551ae"
+          },
+          {
+            "address": "0x7ffd97353eba",
+            "module": "frida-agent.dll",
+            "offset": "0x353eba"
+          },
+          {
+            "address": "0x7ffd973412b8",
+            "module": "frida-agent.dll",
+            "offset": "0x3412b8"
+          },
+          {
+            "address": "0x7ffd9737f7f6",
+            "module": "frida-agent.dll",
+            "offset": "0x37f7f6"
+          },
+          {
+            "address": "0x7ffd973544ad",
+            "module": "frida-agent.dll",
+            "offset": "0x3544ad"
+          }
+        ]
+      }
+    ],
+    "overflow": 0,
+    "errors": [],
+    "calls": {
+      "NtAllocateVirtualMemory": 3,
+      "NtAllocateVirtualMemoryEx": 1,
+      "NtFreeVirtualMemory": 2
+    },
+    "ignored_out_of_scope": 1,
+    "ignored_process_handle": 0,
+    "limits": "Selected address ranges and NtCurrentProcess calls only. API sizes are not resident pages or net new commitment. Other allocation paths and incomplete stacks remain unresolved. Memory and event snapshots are not atomic."
+  },
+  "cleanup": {
+    "before": {
+      "total": 2,
+      "active": 2,
+      "terminated": 0
+    },
+    "after": {
+      "total": 2,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true,
+    "remaining_processes": [
+      {
+        "pid": 8980,
+        "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 4356,
+        "image": "C:\\Windows\\System32\\conhost.exe",
+        "exit_code": 259
+      }
+    ]
+  }
+}

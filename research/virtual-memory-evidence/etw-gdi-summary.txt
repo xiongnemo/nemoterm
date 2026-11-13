@@ -1,0 +1,192 @@
+Files Processed:
+	virtual-allocation.etl
+Total Buffers Processed 86
+Total Events  Processed 446700
+Total Events  Lost      0
+Start Time              Friday, November 13, 2026
+End Time                Friday, November 13, 2026
+Elapsed Time            40 sec
++-------------------------------------------------------------------------------------------------------------------------+
+|Event Count   Event Name           Task            Opcode          Version         Guid                                  |
++-------------------------------------------------------------------------------------------------------------------------+
+|          1   EventTrace           0               ProviderBinaryPath 2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          3   EventTrace           0               RDComplete      2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          3   EventTrace           0               EndExtension    2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          4   EventTrace           0               Extension       2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          4   EventTrace           0               PartitionInfoExtension 2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          1   EventTrace           0               Header          2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|          1                        0               37              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|          1                        0               32              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|         18                        0               36              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|         12                        0               35              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|          1                        0               34              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|          1                        0               33              0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|          5   Process              0               Defunct         5               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|        145   Process              0               DCEnd           4               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|         51   Process              0               Start           4               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|         52   Process              0               End             4               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|         52   Process              0               Terminate       2               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|        146   Process              0               DCStart         4               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|       1647   Thread               0               DCEnd           3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        122   Thread               0               SetIoPriority   3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        928   Thread               0               SetPagePriority 3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        807   Thread               0               End             3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|         82   Thread               0               SetName         2               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        113   Thread               0               SetBasePriority 3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        551   Thread               0               Start           3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        551   Thread               0               71              3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|        638   Thread               0               70              3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|       1396   Thread               0               SetPriority     3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|       1898   Thread               0               DCStart         3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|          1   PageFault            0               124             2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|       6223   PageFault            0               VirtualAllocDCEnd 2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|          3   PageFault            0               MemResetInfo    2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|         80   PageFault            0               125             4               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|         80   PageFault            0               112             3               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|      62498   PageFault            0               VirtualFree     2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|      75785   PageFault            0               VirtualAlloc    2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|       6572   PageFault            0               VirtualAllocDCStart 2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|        542                        0               37              2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|         80                        0               32              2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|          4                        0               41              1               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      17458                        0               40              1               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      17770                        0               38              2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      18018                        0               36              2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      18250                        0               0               2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|       1401                        0               64              0               {b3e675d7-2554-4f18-830b-2762732560de}|
+|       7041   Image                0               DCEnd           3               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|          1   Image                0               HypercallPage   2               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|          1   Image                0               KernelBase      2               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|       1974   Image                0               Load            3               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|       2088   Image                0               UnLoad          3               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|       7155   Image                0               DCStart         3               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|      78206   StackWalk            0               Stack           2               {def2fe46-7bd6-4b80-bd94-f57fe20d0ce3}|
+|         12                        0               33              0               {bbccf6c1-6cd1-48c4-80ff-839482e37671}|
+|         36                        0               32              0               {bbccf6c1-6cd1-48c4-80ff-839482e37671}|
+|         26   Microsoft-Windows-DotNETRuntime 10              AppDomainUnload  1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        654   Microsoft-Windows-DotNETRuntime 10              AssemblyUnload  1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        654   Microsoft-Windows-DotNETRuntime 10              ModuleUnload    2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|      12591   Microsoft-Windows-DotNETRuntime 9               UnloadVerbose   2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|      24158   Microsoft-Windows-DotNETRuntime 9               UnloadVerbose   1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          4   Microsoft-Windows-DotNETRuntime 9               MethodILToNativeMap  0               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 10              DomainModuleLoad  1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 10              ModuleLoad      2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 10              AssemblyLoad    1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|         57   Microsoft-Windows-DotNETRuntime 9               LoadVerbose     1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1018   Microsoft-Windows-DotNETRuntime 9               87              1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        981   Microsoft-Windows-DotNETRuntime 9               LoadVerbose     2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1035   Microsoft-Windows-DotNETRuntime 9               103             0               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1038   Microsoft-Windows-DotNETRuntime 9               JittingStarted  1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          7   Microsoft-Windows-ProcessStateManager  100             Info            0               {d49918cf-9489-4bf1-9d7b-014d864cf71f}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  119             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  119             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  114             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          3   Microsoft-Windows-Performance-Recorder-Control  115             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  103             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  103             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  108             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  108             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  102             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  102             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          3   Microsoft-Windows-Performance-Recorder-Control  115             Start           0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  110             Stop            0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|         74   Microsoft-Windows-Kernel-EventTracing  7               Info            0               {b675ec37-bdb6-4648-bc92-f3fdc74d3ca2}|
+|          4   PerfInfo             0               Mark            0               {ce1dbfb4-137e-4da6-87b0-3f59aa102cbc}|
+|       3870   Microsoft-Windows-DotNETRuntimeRundown 1               MethodDCEndILToNativeMap  0               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 1               DCStopComplete  1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         26   Microsoft-Windows-DotNETRuntimeRundown 2               AppDomainDCStop  1               {a669021c-c450-4609-a035-5af59af4df18}|
+|        654   Microsoft-Windows-DotNETRuntimeRundown 2               AssemblyDCStop  1               {a669021c-c450-4609-a035-5af59af4df18}|
+|        644   Microsoft-Windows-DotNETRuntimeRundown 2               DomainModuleDCStop  1               {a669021c-c450-4609-a035-5af59af4df18}|
+|        654   Microsoft-Windows-DotNETRuntimeRundown 2               ModuleDCStop    2               {a669021c-c450-4609-a035-5af59af4df18}|
+|      12581   Microsoft-Windows-DotNETRuntimeRundown 1               DCStopVerbose   2               {a669021c-c450-4609-a035-5af59af4df18}|
+|      24158   Microsoft-Windows-DotNETRuntimeRundown 1               DCStopVerbose   1               {a669021c-c450-4609-a035-5af59af4df18}|
+|      30859   Microsoft-Windows-DotNETRuntimeRundown 1               42              1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 1               DCStopInit      1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 19              Start           0               {a669021c-c450-4609-a035-5af59af4df18}|
+|          1   SystemConfig         0               NumaNode        2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               ProcessorGroup  2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               ProcessorNumber 2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               Boot Config Info 2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               Virtualization Config Info 2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               TelemetryConfiguration 2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               CodeIntegrity   2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               FlightIds       2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               DeviceFamily    2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               Platform        2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               Power           2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          4   SystemConfig         0               Processors      2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               CPU             3               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|        259   SystemConfig         0               Services        3               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          5   SystemConfig         0               IRQ             3               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|         61   SystemConfig         0               PnP             5               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          4   SystemConfig         0               Defragmentation 2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          2   SystemConfig         0               LogDisk         2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          2   SystemConfig         0               19              2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          2   SystemConfig         0               PhyDisk         2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          3   SystemConfig         0               NIC             2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|          1   SystemConfig         0               DPI             2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
++-------------------------------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------+
+|Event Count   Event Name           Event ID        Version         Guid                                  |
++---------------------------------------------------------------------------------------------------------+
+|         16   EventTrace           0               2               {68fdd900-4a3e-11d1-84f4-0000f80464e3}|
+|         34                        0               0               {9b79ee91-b5fd-41c0-a243-4248e266e9d0}|
+|         52   Process              0               2               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|        394   Process              0               4               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|          5   Process              0               5               {3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c}|
+|         82   Thread               0               2               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|       8651   Thread               0               3               {3d6fa8d1-fe05-11d0-9dda-00c04fd7ba7c}|
+|     151082   PageFault            0               2               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|         80   PageFault            0               3               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|         80   PageFault            0               4               {3d6fa8d3-fe05-11d0-9dda-00c04fd7ba7c}|
+|       1401                        0               0               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      17462                        0               1               {b3e675d7-2554-4f18-830b-2762732560de}|
+|      54660                        0               2               {b3e675d7-2554-4f18-830b-2762732560de}|
+|          2   Image                0               2               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|      18258   Image                0               3               {2cb15d1d-5fc1-11d2-abe1-00a0c911f518}|
+|      78206   StackWalk            0               2               {def2fe46-7bd6-4b80-bd94-f57fe20d0ce3}|
+|         48                        0               0               {bbccf6c1-6cd1-48c4-80ff-839482e37671}|
+|         57   Microsoft-Windows-DotNETRuntime 143             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        981   Microsoft-Windows-DotNETRuntime 143             2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|      24158   Microsoft-Windows-DotNETRuntime 144             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|      12591   Microsoft-Windows-DotNETRuntime 144             2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1038   Microsoft-Windows-DotNETRuntime 145             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1035   Microsoft-Windows-DotNETRuntime 146             0               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 151             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 152             2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        654   Microsoft-Windows-DotNETRuntime 153             2               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          1   Microsoft-Windows-DotNETRuntime 154             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|        654   Microsoft-Windows-DotNETRuntime 155             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|         26   Microsoft-Windows-DotNETRuntime 157             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          4   Microsoft-Windows-DotNETRuntime 190             0               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|       1018   Microsoft-Windows-DotNETRuntime 190             1               {e13c0d23-ccbc-4e12-931b-d9cc2eee27e4}|
+|          7   Microsoft-Windows-ProcessStateManager  1               0               {d49918cf-9489-4bf1-9d7b-014d864cf71f}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  104             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  105             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  106             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  109             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  114             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          4   Microsoft-Windows-Performance-Recorder-Control  115             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  121             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  128             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          3   Microsoft-Windows-Performance-Recorder-Control  130             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          3   Microsoft-Windows-Performance-Recorder-Control  131             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  138             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|          1   Microsoft-Windows-Performance-Recorder-Control  139             0               {36b6f488-aad7-48c2-afe3-d4ec2c8b46fa}|
+|         74   Microsoft-Windows-Kernel-EventTracing  19              0               {b675ec37-bdb6-4648-bc92-f3fdc74d3ca2}|
+|          4   PerfInfo             0               0               {ce1dbfb4-137e-4da6-87b0-3f59aa102cbc}|
+|      24158   Microsoft-Windows-DotNETRuntimeRundown 144             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|      12581   Microsoft-Windows-DotNETRuntimeRundown 144             2               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 146             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 148             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|       3870   Microsoft-Windows-DotNETRuntimeRundown 150             0               {a669021c-c450-4609-a035-5af59af4df18}|
+|      30859   Microsoft-Windows-DotNETRuntimeRundown 150             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|        644   Microsoft-Windows-DotNETRuntimeRundown 152             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|        654   Microsoft-Windows-DotNETRuntimeRundown 154             2               {a669021c-c450-4609-a035-5af59af4df18}|
+|        654   Microsoft-Windows-DotNETRuntimeRundown 156             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         26   Microsoft-Windows-DotNETRuntimeRundown 158             1               {a669021c-c450-4609-a035-5af59af4df18}|
+|         16   Microsoft-Windows-DotNETRuntimeRundown 187             0               {a669021c-c450-4609-a035-5af59af4df18}|
+|         29   SystemConfig         0               2               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|        265   SystemConfig         0               3               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
+|         61   SystemConfig         0               5               {01853a65-418f-4f36-aefc-dc0f1d2fd235}|
++---------------------------------------------------------------------------------------------------------+

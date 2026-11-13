@@ -1,0 +1,601 @@
+{
+  "recorded_utc": "2026-11-13T15:01:14.984043+00:00",
+  "source_commit": "5ba4df31d5012772e7975df6a885a9c16c46b03d",
+  "run": 43443390680,
+  "result": "success",
+  "native_run": 43442030276,
+  "artifact_ids": {
+    "native": 14047356278,
+    "gdi": 14048070171,
+    "directx": 14047710924
+  },
+  "image_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+  "native_transitions": [
+    {
+      "name": "commit",
+      "status": 0,
+      "committed_bytes": 8192
+    },
+    {
+      "name": "excluded",
+      "status": 0,
+      "committed_bytes": 8192
+    },
+    {
+      "name": "failed",
+      "status": -1073741637,
+      "committed_bytes": 8192
+    },
+    {
+      "name": "decommit",
+      "status": 0,
+      "committed_bytes": 4096
+    },
+    {
+      "name": "extended",
+      "status": 0,
+      "committed_bytes": 8192
+    },
+    {
+      "name": "release",
+      "status": 0,
+      "committed_bytes": 0
+    }
+  ],
+  "frontend": {
+    "gdi": {
+      "pid": 8240,
+      "actual_renderer": 1,
+      "event_count": 1,
+      "calls": {
+        "NtAllocateVirtualMemory": 40,
+        "NtAllocateVirtualMemoryEx": 0,
+        "NtFreeVirtualMemory": 0
+      },
+      "overflow": 0,
+      "errors": [],
+      "largest_workload_commit_growth": {
+        "start": "0x1abc0d60000",
+        "end": "0x1abc1160000",
+        "reserved_bytes": 4194304,
+        "before_committed_bytes": 73728,
+        "after_committed_bytes": 4190208,
+        "observation_start_committed_bytes": 81920,
+        "before_private_ws": 73728,
+        "observation_start_private_ws": 81920,
+        "after_private_ws": 4190208
+      },
+      "events_in_largest_growth_range": 0,
+      "entrypoints": {
+        "NtAllocateVirtualMemory": "0x7ffc6df425b0",
+        "ZwAllocateVirtualMemory": "0x7ffc6df425b0",
+        "NtAllocateVirtualMemoryEx": "0x7ffc6df431a0",
+        "ZwAllocateVirtualMemoryEx": "0x7ffc6df431a0",
+        "NtFreeVirtualMemory": "0x7ffc6df42670",
+        "ZwFreeVirtualMemory": "0x7ffc6df42670"
+      },
+      "memory_after_attach": {
+        "private_ws": 8257536,
+        "total_ws": 43229184,
+        "private_commit": 11563008
+      },
+      "memory_after_workload": {
+        "private_ws": 47284224,
+        "total_ws": 83173376,
+        "private_commit": 51142656
+      },
+      "injected": true,
+      "memory_acceptance": false,
+      "natural_job_drain": true
+    },
+    "directx": {
+      "pid": 3216,
+      "actual_renderer": 3,
+      "event_count": 200,
+      "calls": {
+        "NtAllocateVirtualMemory": 199,
+        "NtAllocateVirtualMemoryEx": 0,
+        "NtFreeVirtualMemory": 91
+      },
+      "overflow": 0,
+      "errors": [],
+      "largest_workload_commit_growth": {
+        "start": "0x2160b900000",
+        "end": "0x2160d900000",
+        "reserved_bytes": 33554432,
+        "before_committed_bytes": 2519040,
+        "after_committed_bytes": 8949760,
+        "observation_start_committed_bytes": 2519040,
+        "before_private_ws": 2486272,
+        "observation_start_private_ws": 2486272,
+        "after_private_ws": 8916992
+      },
+      "events_in_largest_growth_range": 0,
+      "entrypoints": {
+        "NtAllocateVirtualMemory": "0x7ffaa5f425b0",
+        "ZwAllocateVirtualMemory": "0x7ffaa5f425b0",
+        "NtAllocateVirtualMemoryEx": "0x7ffaa5f431a0",
+        "ZwAllocateVirtualMemoryEx": "0x7ffaa5f431a0",
+        "NtFreeVirtualMemory": "0x7ffaa5f42670",
+        "ZwFreeVirtualMemory": "0x7ffaa5f42670"
+      },
+      "memory_after_attach": {
+        "private_ws": 15073280,
+        "total_ws": 59240448,
+        "private_commit": 19243008
+      },
+      "memory_after_workload": {
+        "private_ws": 67633152,
+        "total_ws": 113012736,
+        "private_commit": 71786496
+      },
+      "injected": true,
+      "memory_acceptance": false,
+      "natural_job_drain": true
+    }
+  },
+  "source_byte_formats": {
+    "virtual_memory_probe.js": "crlf",
+    "virtual_memory_trace.py": "git_blob",
+    "working_set_regions.py": "git_blob",
+    "allocation_census.py": "git_blob",
+    "tabs_window_smoke.py": "git_blob",
+    "tab_workload_memory.py": "git_blob"
+  },
+  "working_set_acceptance": false,
+  "full_attribution_proven": false,
+  "local_runtime_tests_executed": [],
+  "main_repeat": {
+    "run": 43434238339,
+    "source_commit": "1b09f82ea0f813d98c82e9dae174c160bf64f545",
+    "result": "cancelled: 45 minute deadline",
+    "last_completed_fixture": "delegated_console",
+    "next_fixture": "shutdown",
+    "shutdown_log_retained": false,
+    "root_cause_proven": false,
+    "earlier_success_run": 43431838348
+  },
+  "evidence": [
+    {
+      "path": "research/virtual-memory-evidence/native-transitions.json",
+      "bytes": 20088,
+      "sha256": "b1b3422d5a581aecccfdd6adcd62f75ad8767da3080526c249c7fe89f219bfd5"
+    },
+    {
+      "path": "research/virtual-memory-evidence/gdi-census.json",
+      "bytes": 303820,
+      "sha256": "83ba51fdca9ef8fe3b6834e639774267d952c35265ba2fe6647108aba685f2fc"
+    },
+    {
+      "path": "research/virtual-memory-evidence/gdi-observed.json",
+      "bytes": 14338,
+      "sha256": "cfc7b5605b57298aed38386ce6fa0549550763125b06e89ae89dc6029612e356"
+    },
+    {
+      "path": "research/virtual-memory-evidence/gdi-memory.json",
+      "bytes": 933202,
+      "sha256": "911e39f666809b407c82e3f98f56e0a74c8702624f86e52925444bc3fa2295ba"
+    },
+    {
+      "path": "research/virtual-memory-evidence/gdi-validation.json",
+      "bytes": 3036,
+      "sha256": "ab8f418bf540f6c245e4ffb3da76b6c945ac7153d37491b325e7f55a12084c09"
+    },
+    {
+      "path": "research/virtual-memory-evidence/directx-census.json",
+      "bytes": 700289,
+      "sha256": "5ccca03016d97f39c875d2f60d103cb6fb81b8a544f6a68c116384cfcd817130"
+    },
+    {
+      "path": "research/virtual-memory-evidence/directx-observed.json",
+      "bytes": 14432,
+      "sha256": "19fd47d73757ef038cd073864903f2bfedfd3c2fa4e939dbec2ee5177c905c59"
+    },
+    {
+      "path": "research/virtual-memory-evidence/directx-memory.json",
+      "bytes": 662336,
+      "sha256": "db6b99182b01d11a4ba926df8645de6ac987e259d4bf0761e951238391b0972f"
+    },
+    {
+      "path": "research/virtual-memory-evidence/directx-validation.json",
+      "bytes": 6530,
+      "sha256": "4ce6b4aef2fb69b6456cac8fca95df648852a24e3d902b36d4275bc40a50c8b7"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-census.json",
+      "bytes": 95549,
+      "sha256": "565c1208b5d2e91b6aaa86307913f65d85b12e0644864d2d0d1c94c42bc64784"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-observed.json",
+      "bytes": 14512,
+      "sha256": "d0196f95b57492d6bb979b4c2009c5cc6ed6c7b92b099f61dc1ee825f18614c1"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-memory.json",
+      "bytes": 972183,
+      "sha256": "3cc225ad4ba07a201494a23758133b7c53c0236261db13e98e7f1050690d9b78"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-validation.json",
+      "bytes": 2096,
+      "sha256": "0c04b3d133e2f98b7d78caf238ef9488b64d6df0ddce829c9192750cd41ebc88"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-summary.txt",
+      "bytes": 23722,
+      "sha256": "c35ad3c660ae9e3a324302979332edee131a3e671fa75bed404ae80d98c0a1f9"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-gdi-recorder.log",
+      "bytes": 79,
+      "sha256": "56f7594e4d60953c950db6c9a06253129b7d11f145d55c129ff61fe31f466486"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-census.json",
+      "bytes": 163138,
+      "sha256": "e369d3b5ab937326c898dce838a9259fc6941a800195219e41ae2ad73d4ec055"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-observed.json",
+      "bytes": 14585,
+      "sha256": "693dba1323a7263ce4cf6748acdb05aa266826285d6bfb97b90065e96ec1afb7"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-memory.json",
+      "bytes": 619277,
+      "sha256": "80be16a06b59822cb2b99b188979b41a732998d903eb6604e91341a4c090abc1"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-validation.json",
+      "bytes": 2905,
+      "sha256": "32e216f8af64e0b8e4b44101b8d63da6f7a2416f8a05e21ebcbb9e3b30bf4aa9"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-summary.txt",
+      "bytes": 23066,
+      "sha256": "60bd233dcb0b114a519dbb3a7cad8c0901f6869851e5a09dac8be5d9dee2e1b0"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-recorder.log",
+      "bytes": 79,
+      "sha256": "56f7594e4d60953c950db6c9a06253129b7d11f145d55c129ff61fe31f466486"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-selected-region-replay.json",
+      "bytes": 341562,
+      "sha256": "5aeab85ddbb6f9c2d125b8ee65583e3b9525384da189875654fd2851e7104e7d"
+    }
+  ],
+  "kernel_etw": {
+    "run": 43444144664,
+    "source_commit": "0a87c61dba1d2b86cc574a70818d33d9f023a3f3",
+    "result": "success",
+    "injected": false,
+    "memory_acceptance": false,
+    "frontend": {
+      "gdi": {
+        "diagnostic_valid": true,
+        "memory_acceptance": false,
+        "pid": 6592,
+        "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+        "renderer": "gdi",
+        "etl_bytes": 90177536,
+        "etl_sha256": "5926aa665e472a9cc56212bdeb99834df693135a3021d21335b9b037313fdd86",
+        "peak_frontend": {
+          "count": 1,
+          "private_ws": 10858496,
+          "total_ws": 42954752,
+          "private_commit": 12972032
+        },
+        "reservation_changes": [
+          {
+            "start": "0x20f00be0000",
+            "end": "0x20f00de0000",
+            "reserved_bytes": 2097152,
+            "before_committed_bytes": 1703936,
+            "after_committed_bytes": 1953792,
+            "before_private_ws": 1409024,
+            "after_private_ws": 1597440
+          },
+          {
+            "start": "0x20f79fa0000",
+            "end": "0x20f7a0a0000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 1044480,
+            "after_committed_bytes": 1032192,
+            "before_private_ws": 1044480,
+            "after_private_ws": 1032192
+          },
+          {
+            "start": "0x20f7c8e0000",
+            "end": "0x20f7c9e0000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 1044480,
+            "after_committed_bytes": 999424,
+            "before_private_ws": 1024000,
+            "after_private_ws": 978944
+          },
+          {
+            "start": "0x20f7f350000",
+            "end": "0x20f7f750000",
+            "reserved_bytes": 4194304,
+            "before_committed_bytes": 843776,
+            "after_committed_bytes": 843776,
+            "before_private_ws": 724992,
+            "after_private_ws": 724992
+          },
+          {
+            "start": "0x53c3290000",
+            "end": "0x53c3390000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 225280,
+            "after_committed_bytes": 229376,
+            "before_private_ws": 212992,
+            "after_private_ws": 217088
+          },
+          {
+            "start": "0x53c3400000",
+            "end": "0x53c3600000",
+            "reserved_bytes": 2097152,
+            "before_committed_bytes": 86016,
+            "after_committed_bytes": 86016,
+            "before_private_ws": 86016,
+            "after_private_ws": 86016
+          }
+        ],
+        "event_attribution_complete": false,
+        "events_lost": 0,
+        "etl_download_verified": true,
+        "source_xml_sha256": "2f6d8f355104334d376a672a8c066c1af6903cc4b72ccb889304d48fcc819e5d",
+        "source_xml_bytes": 602683940,
+        "artifact_id": 14047557169
+      },
+      "directx": {
+        "diagnostic_valid": true,
+        "memory_acceptance": false,
+        "pid": 4324,
+        "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+        "renderer": "directx",
+        "etl_bytes": 58720256,
+        "etl_sha256": "51e628a45914930947a520d26050c9f72b9be793f2b7bb03b35a2f64cff6975c",
+        "peak_frontend": {
+          "count": 1,
+          "private_ws": 25096192,
+          "total_ws": 68591616,
+          "private_commit": 28262400
+        },
+        "reservation_changes": [
+          {
+            "start": "0x17655270000",
+            "end": "0x17655670000",
+            "reserved_bytes": 4194304,
+            "before_committed_bytes": 3510272,
+            "after_committed_bytes": 3772416,
+            "before_private_ws": 3211264,
+            "after_private_ws": 3555328
+          },
+          {
+            "start": "0x1764db10000",
+            "end": "0x1764fb10000",
+            "reserved_bytes": 33554432,
+            "before_committed_bytes": 2519040,
+            "after_committed_bytes": 8966144,
+            "before_private_ws": 2486272,
+            "after_private_ws": 8933376
+          },
+          {
+            "start": "0x1764fb10000",
+            "end": "0x1764fd10000",
+            "reserved_bytes": 2097152,
+            "before_committed_bytes": 2093056,
+            "after_committed_bytes": 2027520,
+            "before_private_ws": 1990656,
+            "after_private_ws": 2007040
+          },
+          {
+            "start": "0x1764af40000",
+            "end": "0x1764b040000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 1044480,
+            "after_committed_bytes": 1044480,
+            "before_private_ws": 1044480,
+            "after_private_ws": 1044480
+          },
+          {
+            "start": "0x1764d970000",
+            "end": "0x1764da70000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 1044480,
+            "after_committed_bytes": 987136,
+            "before_private_ws": 1040384,
+            "after_private_ws": 983040
+          },
+          {
+            "start": "0x17652cc0000",
+            "end": "0x176530c0000",
+            "reserved_bytes": 4194304,
+            "before_committed_bytes": 843776,
+            "after_committed_bytes": 843776,
+            "before_private_ws": 724992,
+            "after_private_ws": 724992
+          },
+          {
+            "start": "0x1764fd10000",
+            "end": "0x1764fe10000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 348160,
+            "after_committed_bytes": 397312,
+            "before_private_ws": 344064,
+            "after_private_ws": 393216
+          },
+          {
+            "start": "0x5ea4870000",
+            "end": "0x5ea4970000",
+            "reserved_bytes": 1048576,
+            "before_committed_bytes": 221184,
+            "after_committed_bytes": 221184,
+            "before_private_ws": 208896,
+            "after_private_ws": 208896
+          },
+          {
+            "start": "0x5ea4a00000",
+            "end": "0x5ea4c00000",
+            "reserved_bytes": 2097152,
+            "before_committed_bytes": 126976,
+            "after_committed_bytes": 126976,
+            "before_private_ws": 126976,
+            "after_private_ws": 126976
+          }
+        ],
+        "event_attribution_complete": false,
+        "events_lost": 0,
+        "etl_download_verified": true,
+        "source_xml_sha256": "3653b3e310e31c02a507212785bd8e6886618fa25b1aa6a3d6f028c0665cc9e9",
+        "source_xml_bytes": 345578813,
+        "artifact_id": 14047946010
+      }
+    },
+    "selected_directx_region": {
+      "region": {
+        "start": "0x1764db10000",
+        "end": "0x1764fb10000",
+        "reserved_bytes": 33554432,
+        "before_committed_bytes": 2519040,
+        "after_committed_bytes": 8966144,
+        "before_private_ws": 2486272,
+        "after_private_ws": 8933376
+      },
+      "event_count": 492,
+      "replay": {
+        "observe-workload": {
+          "committed_bytes": 2519040,
+          "event_count": 24
+        },
+        "after-workload": {
+          "committed_bytes": 8966144,
+          "event_count": 490
+        },
+        "metadata-closed": {
+          "committed_bytes": 8966144,
+          "event_count": 490
+        },
+        "process-end": {
+          "committed_bytes": 0,
+          "event_count": 492
+        }
+      },
+      "workload_commit_increase": 6447104,
+      "api_hook_coverage_gap_confirmed": true,
+      "calling_component_proven": false
+    },
+    "stack_decode": {
+      "run": 43446229913,
+      "commit": "db347e31754652bcf6fd5144b5d90546c2014344",
+      "artifact_id": 14046854976,
+      "result": "success",
+      "decode_errors": 0,
+      "source_sha256": "7157e3b9c220128e47b6b6c407d84fb9f268128490b6ff16ce5ccc9ea897a5b7",
+      "exact_matching": "exact original QPC, owned PID and thread",
+      "coverage": [
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x2000",
+          "matching_stacks": 1,
+          "events": 1
+        },
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x1000",
+          "matching_stacks": 1,
+          "events": 489
+        },
+        {
+          "opcode": "VirtualFree",
+          "flags": "0x4000",
+          "matching_stacks": 0,
+          "events": 1
+        },
+        {
+          "opcode": "VirtualFree",
+          "flags": "0x8000",
+          "matching_stacks": 0,
+          "events": 1
+        }
+      ],
+      "application_paths": [
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x1000",
+          "return_rvas": [
+            "0x110c94",
+            "0x1116cd"
+          ],
+          "events": 480
+        },
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x1000",
+          "return_rvas": [
+            "0x111520",
+            "0xff25b"
+          ],
+          "events": 7
+        },
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x1000",
+          "return_rvas": [
+            "0x1118dd",
+            "0xceab8"
+          ],
+          "events": 2
+        },
+        {
+          "opcode": "VirtualAlloc",
+          "flags": "0x2000",
+          "return_rvas": [
+            "0x111520",
+            "0xff25b"
+          ],
+          "events": 1
+        }
+      ],
+      "workload_new_committed_pages": [
+        {
+          "return_rvas": [
+            "0x110c94",
+            "0x1116cd"
+          ],
+          "bytes": 5009408
+        },
+        {
+          "return_rvas": [
+            "0x1118dd",
+            "0xceab8"
+          ],
+          "bytes": 1437696
+        }
+      ],
+      "local_runtime_execution": false
+    },
+    "attribution_scope": "Selected reservation commits matched to exact module stacks; frees lack stacks; no local-driver or all-process attribution."
+  },
+  "stack_analysis_evidence": [
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-selected-region-stacks.json",
+      "bytes": 1190301,
+      "sha256": "8a1dcbb098aa9cca0a995a17901aadd85f3a6d7c6323b6c650bb8acbe2769da5"
+    },
+    {
+      "path": "research/virtual-memory-evidence/etw-directx-create-bitmap-disassembly.txt",
+      "bytes": 4489,
+      "sha256": "dc3af716864b556f61d40c60e7ecce1eb4f47cf082524e49b1111b83e52d9dea"
+    },
+    {
+      "path": "tests/etw_region_report.py",
+      "bytes": 7260,
+      "sha256": "3e53b59f06a27d1cc5ceb36c6fefeee41a425ca109768d8d0fb0f695537526d1"
+    }
+  ]
+}

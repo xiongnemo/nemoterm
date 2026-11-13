@@ -1,0 +1,96 @@
+{
+  "diagnostic_valid": true,
+  "memory_acceptance": false,
+  "renderer": "gdi",
+  "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+  "events": 1,
+  "events_without_stack": 0,
+  "reservation_changes": [
+    {
+      "start": "0x1abbfd70000",
+      "end": "0x1abbff70000",
+      "reserved_bytes": 2097152,
+      "before_committed_bytes": 1658880,
+      "after_committed_bytes": 2093056,
+      "observation_start_committed_bytes": 1671168,
+      "before_private_ws": 1302528,
+      "observation_start_private_ws": 1318912,
+      "after_private_ws": 1990656,
+      "event_sequences": [
+        1
+      ]
+    },
+    {
+      "start": "0x1abb9350000",
+      "end": "0x1abb9450000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 1044480,
+      "after_committed_bytes": 1044480,
+      "observation_start_committed_bytes": 1044480,
+      "before_private_ws": 1044480,
+      "observation_start_private_ws": 1044480,
+      "after_private_ws": 1044480,
+      "event_sequences": []
+    },
+    {
+      "start": "0x1abbbaa0000",
+      "end": "0x1abbbba0000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 1044480,
+      "after_committed_bytes": 1044480,
+      "observation_start_committed_bytes": 1044480,
+      "before_private_ws": 1040384,
+      "observation_start_private_ws": 1040384,
+      "after_private_ws": 1040384,
+      "event_sequences": []
+    },
+    {
+      "start": "0x1abbe590000",
+      "end": "0x1abbe990000",
+      "reserved_bytes": 4194304,
+      "before_committed_bytes": 843776,
+      "after_committed_bytes": 843776,
+      "observation_start_committed_bytes": 843776,
+      "before_private_ws": 724992,
+      "observation_start_private_ws": 724992,
+      "after_private_ws": 724992,
+      "event_sequences": []
+    },
+    {
+      "start": "0x6864000000",
+      "end": "0x6864100000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 225280,
+      "after_committed_bytes": 229376,
+      "observation_start_committed_bytes": 225280,
+      "before_private_ws": 212992,
+      "observation_start_private_ws": 212992,
+      "after_private_ws": 217088,
+      "event_sequences": []
+    },
+    {
+      "start": "0x6863e00000",
+      "end": "0x6864000000",
+      "reserved_bytes": 2097152,
+      "before_committed_bytes": 86016,
+      "after_committed_bytes": 143360,
+      "observation_start_committed_bytes": 143360,
+      "before_private_ws": 86016,
+      "observation_start_private_ws": 143360,
+      "after_private_ws": 143360,
+      "event_sequences": []
+    },
+    {
+      "start": "0x1abc0d60000",
+      "end": "0x1abc1160000",
+      "reserved_bytes": 4194304,
+      "before_committed_bytes": 73728,
+      "after_committed_bytes": 4190208,
+      "observation_start_committed_bytes": 81920,
+      "before_private_ws": 73728,
+      "observation_start_private_ws": 81920,
+      "after_private_ws": 4190208,
+      "event_sequences": []
+    }
+  ]
+}

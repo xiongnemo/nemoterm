@@ -1,0 +1,72 @@
+{
+  "diagnostic_valid": true,
+  "memory_acceptance": false,
+  "pid": 6592,
+  "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+  "renderer": "gdi",
+  "etl_bytes": 90177536,
+  "etl_sha256": "5926aa665e472a9cc56212bdeb99834df693135a3021d21335b9b037313fdd86",
+  "peak_frontend": {
+    "count": 1,
+    "private_ws": 10858496,
+    "total_ws": 42954752,
+    "private_commit": 12972032
+  },
+  "reservation_changes": [
+    {
+      "start": "0x20f00be0000",
+      "end": "0x20f00de0000",
+      "reserved_bytes": 2097152,
+      "before_committed_bytes": 1703936,
+      "after_committed_bytes": 1953792,
+      "before_private_ws": 1409024,
+      "after_private_ws": 1597440
+    },
+    {
+      "start": "0x20f79fa0000",
+      "end": "0x20f7a0a0000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 1044480,
+      "after_committed_bytes": 1032192,
+      "before_private_ws": 1044480,
+      "after_private_ws": 1032192
+    },
+    {
+      "start": "0x20f7c8e0000",
+      "end": "0x20f7c9e0000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 1044480,
+      "after_committed_bytes": 999424,
+      "before_private_ws": 1024000,
+      "after_private_ws": 978944
+    },
+    {
+      "start": "0x20f7f350000",
+      "end": "0x20f7f750000",
+      "reserved_bytes": 4194304,
+      "before_committed_bytes": 843776,
+      "after_committed_bytes": 843776,
+      "before_private_ws": 724992,
+      "after_private_ws": 724992
+    },
+    {
+      "start": "0x53c3290000",
+      "end": "0x53c3390000",
+      "reserved_bytes": 1048576,
+      "before_committed_bytes": 225280,
+      "after_committed_bytes": 229376,
+      "before_private_ws": 212992,
+      "after_private_ws": 217088
+    },
+    {
+      "start": "0x53c3400000",
+      "end": "0x53c3600000",
+      "reserved_bytes": 2097152,
+      "before_committed_bytes": 86016,
+      "after_committed_bytes": 86016,
+      "before_private_ws": 86016,
+      "after_private_ws": 86016
+    }
+  ],
+  "event_attribution_complete": false
+}
