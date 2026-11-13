@@ -36,7 +36,10 @@
   "accepted_distribution_replaced": false,
   "full_goal_complete": false,
   "ci": {
-    "status": "pending"
+    "status": "pending",
+    "source": "4ed7e08de458a042de31b3ed58ec46cabf392aab",
+    "single_run": 43494224840,
+    "core_run": 43494224555
   },
   "files": [
     {

@@ -54,5 +54,7 @@ The existing cursor fixture instruments focus inside the owned process; its
 memory readings are diagnostic, not memory acceptance or physical-display
 acceptance.
 
-Remote CI is pending. This change is not a renderer memory optimization and
+Remote [single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43494224840)
+and [core/compiler CI](https://github.com/xiongnemo/nemoterm/actions/runs/43494224555)
+are pending on `4ed7e08`. This change is not a renderer memory optimization and
 does not replace the accepted local distribution.
