@@ -20,6 +20,25 @@ typedef int (WINAPI *Normalize)(NORM_FORM, LPCWSTR, int, LPWSTR, int);
 
 template<class T> static void release(T *&p) { if (p) p->Release(); p=nullptr; }
 
+/* UI-thread-only ownership. An isolated factory avoids cross-process raster
+ * cache state changing the first frame. Share that isolated cache among this
+ * terminal's tabs, and release it when the last cluster renderer goes away. */
+static IDWriteFactory *process_factory=nullptr;
+static unsigned factory_users=0;
+static HRESULT acquire_factory(CreateFactory create, IDWriteFactory **out)
+{
+    HRESULT hr=S_OK;
+    if (!process_factory)
+        hr=create(DWRITE_FACTORY_TYPE_ISOLATED,__uuidof(IDWriteFactory),
+            reinterpret_cast<IUnknown **>(&process_factory));
+    if (SUCCEEDED(hr)) { ++factory_users;*out=process_factory; }
+    return hr;
+}
+static void release_factory(IDWriteFactory *&p)
+{
+    if (p) { p=nullptr;if (!--factory_users) release(process_factory); }
+}
+
 struct NemoClusterRenderer final : IDWriteTextRenderer {
     ULONG refs=1;
     bool attempted=false;
@@ -52,7 +71,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
 
     ~NemoClusterRenderer() {
         if (trace!=INVALID_HANDLE_VALUE) CloseHandle(trace);
-        release(format);release(target);release(params);release(interop);release(factory);
+        release(format);release(target);release(params);release(interop);release_factory(factory);
         if (normaliz) FreeLibrary(normaliz);
         if (library) FreeLibrary(library);
     }
@@ -71,8 +90,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
         if (!library || !normaliz) return false;
         auto create=reinterpret_cast<CreateFactory>(GetProcAddress(library,"DWriteCreateFactory"));
         normalize=reinterpret_cast<Normalize>(GetProcAddress(normaliz,"NormalizeString"));
-        return create && normalize && SUCCEEDED(create(DWRITE_FACTORY_TYPE_SHARED,
-            __uuidof(IDWriteFactory),reinterpret_cast<IUnknown **>(&factory))) &&
+        return create && normalize && SUCCEEDED(acquire_factory(create,&factory)) &&
             SUCCEEDED(factory->GetGdiInterop(&interop)) &&
             SUCCEEDED(factory->CreateRenderingParams(&params));
     }

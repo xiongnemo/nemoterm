@@ -140,3 +140,36 @@ hash, frames and traces. These are diagnostic builds only; the portable and
 single-image acceptance jobs still build committed product source. This tests
 cache isolation and fractional placement without silently promoting either
 experiment or changing pixel tolerances.
+
+At `69b3feb`, the isolated-factory diagnostic passed all five processes and
+all scenes. Each initial U+00C4 tile was `c665072c90a9e969`; the shared-factory
+control still failed. Pixel-aligned centering also failed (96 changed channels,
+maximum 33), so it was discarded. `cluster-ci-isolated-diagnostic.json` and
+`cluster-ci-aligned-diagnostic.json` retain the labelled results. Full traces
+and exact experimental source are in [the CI artifacts](https://github.com/xiongnemo/nemoterm/actions/runs/43336395825).
+
+The integrated fix uses one isolated DirectWrite factory shared only among
+Nemoterm's live cluster renderers in the current UI thread. This preserves
+cache reuse across tabs without using the cross-process shared-factory state
+implicated by the controlled experiment. Per-window layouts, formats and
+scratch targets remain independent; the final renderer releases the factory.
+The native offscreen test now closes the original cache owner while a sibling
+continues drawing, then recreates the factory after its last owner closes.
+Microsoft documents [isolated versus shared factory state](https://learn.microsoft.com/en-us/windows/win32/api/dwrite/ne-dwrite-dwrite_factory_type);
+the observed raster discrepancy's internal Windows implementation is not
+otherwise established. Centering geometry and pixel tolerances are unchanged.
+
+Local development frontend
+`f9241a8737c9756514725de921882fd640e16090d4c2aa19c6476ac31d636a90`
+passed the extended offscreen lifetime check, the five-process Consolas check,
+and actual GDI/OpenGL/DirectX Sarasa pixel checks. Dense 160x48 GDI/top tabs
+passed with a sampled private peak of 9,416,704 bytes (total 33,669,120).
+The first DirectX/left attempt failed at cycle 9 on handle counts: 480 to 493
+kernel handles and 43 to 46 USER objects, with GDI objects unchanged at 37.
+Its failure JSON is retained. An unchanged fresh repeat passed all nine groups,
+including all 12 create/close cycles and clean owned-process shutdown, at
+19,640,320 private bytes (total 58,224,640). This single transient handle-count
+failure is not explained by the repeat and must remain visible in acceptance
+notes. Resource thresholds were not relaxed. All memory samples precede
+instrumentation and exclude child processes and hover-preview peaks; this
+development frontend is not the final embedded single-EXE artifact.

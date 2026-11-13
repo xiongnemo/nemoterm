@@ -132,7 +132,20 @@ int main()
         CHECK(nemo_cluster_raster_bytes(renderer)<=65536*4);
     }
     CHECK(GetGuiResources(GetCurrentProcess(),GR_GDIOBJECTS)<=handles);
+    /* Independent tabs share the isolated font cache. Destroying its first
+     * user must leave the remaining renderer and its layouts usable. */
+    NemoClusterRenderer *sibling=nullptr;
+    a.clear();b.clear();CHECK(draw(&renderer,a,full,samples[4],true));
+    CHECK(draw(&sibling,b,full,samples[4],true));GdiFlush();
+    CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
     nemo_cluster_free(&renderer);CHECK(!renderer);nemo_cluster_free(&renderer);
+    b.clear();CHECK(draw(&sibling,b,full,samples[4],true));GdiFlush();
+    CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
+    nemo_cluster_free(&sibling);
+    /* A new owner after the last close recreates the cache cleanly. */
+    b.clear();CHECK(draw(&renderer,b,full,samples[4],true));GdiFlush();
+    CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
+    nemo_cluster_free(&renderer);
     SelectObject(a.dc,old_a);SelectObject(b.dc,old_b);CHECK(DeleteObject(tall));
     std::puts("Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed");
     return 0;

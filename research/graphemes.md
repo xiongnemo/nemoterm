@@ -123,9 +123,12 @@ the test checks the clusters in that newly visible frame, plus a reset-mode
 query. It does not promise to select the earlier frozen pixels. An input barrier
 checks that no mouse/copy key was forwarded. Ordinary and font-resize fixtures
 are wired into both CI workflows. The first native CI attempt failed on this
-test's earlier frozen-frame assumption and a two-pixel rendering mismatch;
-the revised tests and rendering changes still need a green CI run. Core copy
-tests do not substitute for that native clipboard verification.
+test's earlier frozen-frame assumption and a two-pixel rendering mismatch.
+The corrected native clipboard fixtures passed in core CI at `18ddd24`, for
+both ordinary and font-resize cases with active GDI/GDI/DirectX. The retained
+`cluster-ci-18d-grapheme*.json` files identify that exact frontend. Overall CI
+is still failing the separate first-process raster difference described in
+the follow-up evidence; no new single-EXE artifact has been accepted.
 
 Remaining acceptance: new CI and actual single-EXE artifact, its default-size/tabs
 memory, initial-policy settings, wider missing-font/ZWJ/color behavior and real
