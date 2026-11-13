@@ -22,6 +22,18 @@ k.GetConsoleMode.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.SetConsoleMode.argtypes = [w.HANDLE, w.DWORD]
 k.ReadFile.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
 k.ReadConsoleW.argtypes = [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]
+
+class Coord(c.Structure):
+    _fields_ = [('x', w.SHORT), ('y', w.SHORT)]
+
+class SmallRect(c.Structure):
+    _fields_ = [(name, w.SHORT) for name in ('left', 'top', 'right', 'bottom')]
+
+class ScreenInfo(c.Structure):
+    _fields_ = [('size', Coord), ('cursor', Coord), ('attributes', w.WORD),
+               ('window', SmallRect), ('maximum', Coord)]
+
+k.GetConsoleScreenBufferInfo.argtypes = [w.HANDLE, c.POINTER(ScreenInfo)]
 stdin = k.GetStdHandle(-10)
 stdout = k.GetStdHandle(-11)
 old_output = w.DWORD()
@@ -91,6 +103,12 @@ try:
         snapshot = {'phase': phase, 'hex': data.hex(), 'columns': size.columns,
                     'rows': size.lines, 'input_mode': 0x280, 'input_cp': k.GetConsoleCP(),
                     'input_api': 'ReadConsoleW' if wide_input else 'ReadFile'}
+        if request.get('report_cursor'):
+            info=ScreenInfo()
+            if not k.GetConsoleScreenBufferInfo(stdout, c.byref(info)):
+                raise c.WinError()
+            snapshot['screen_cursor']=[info.cursor.x-info.window.left,
+                                       info.cursor.y-info.window.top]
         if barrier is not None:
             snapshot['input_barrier'] = barrier_ack
         write_snapshot(report, snapshot)

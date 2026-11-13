@@ -35,7 +35,9 @@ static void term_bidi_cache_clear_line(Terminal *term, size_t line);
 #define TM_VT100AVO     (TM_VT100|CL_VT100AVO)
 #define TM_VT102        (TM_VT100AVO|CL_VT102)
 #define TM_VT220        (TM_VT102|CL_VT220)
-#define TM_VTXXX        (TM_VT220|CL_VT340TEXT|CL_VT510|CL_VT420|CL_VT320)
+#define TM_VT340        (TM_VT220|CL_VT320|CL_VT340TEXT)
+#define TM_VT420        (TM_VT340|CL_VT420)
+#define TM_VTXXX        (TM_VT420|CL_VT510)
 #define TM_SCOANSI      (CL_ANSIMIN|CL_SCOANSI)
 
 #define TM_PUTTY        (0xFFFF)
@@ -2045,6 +2047,68 @@ static uint32_t nemo_sixel_colour(Terminal *term, bool foreground)
     if (tc.enabled) { c.r = tc.r; c.g = tc.g; c.b = tc.b; }
     return UINT32_C(0xff000000) | ((uint32_t)c.r << 16) |
         ((uint32_t)c.g << 8) | c.b;
+}
+
+static void nemo_status_query(Terminal *term, bool private)
+{
+    if (!term->ldisc) return;
+    unsigned request = term->esc_args[0];
+    if (!private && request != 5 && request != 6) return;
+    char reply[64];
+    int n = 0;
+    switch (request) {
+      case 5:
+        n = sprintf(reply, "\033[%s0n", private ? "?" : "");
+        break;
+      case 6:
+        n = sprintf(reply, "\033[%s%d;%d%sR", private ? "?" : "",
+            term->curs.y + 1 - (term->dec_om ? term->marg_t : 0),
+            term->curs.x + 1 - (term->dec_om ? term->marg_l : 0),
+            private && (has_compat(VT340TEXT) || has_compat(VT420)) ? ";1" : "");
+        break;
+      case 15:
+        if (has_compat(VT220)) {
+            /* A query must not open a printer or initiate a print job. */
+            unsigned status = !conf_get_str(term->conf, CONF_printer)[0] ? 13 :
+                term->print_job ? 10 : 11;
+            n = sprintf(reply, "\033[?%un", status);
+        }
+        break;
+      case 25:
+        /* UDKs are unavailable, not merely locked against reprogramming. */
+        if (has_compat(VT220)) n = sprintf(reply, "\033[?23n");
+        break;
+      case 26:
+        if (has_compat(VT220))
+            n = sprintf(reply, "\033[?27;1%sn", has_compat(VT420) ? ";0;0" :
+                        has_compat(VT320) ? ";0" : "");
+        break;
+      case 55: case 56:
+        if (has_compat(VT320))
+            n = sprintf(reply, "%s", request == 55 ? "\033[?53n" : "\033[?57;0n");
+        break;
+      case 62:
+        if (has_compat(VT420)) n = sprintf(reply, "\033[0000*{");
+        break;
+      case 63:
+        /* No macro storage: its checksum is zero, never process memory. */
+        if (has_compat(VT420))
+            n = sprintf(reply, "\033P%u!~0000\033\\",
+                        term->esc_nargs > 1 ? min(term->esc_args[1], 65535u) : 0);
+        break;
+      case 75: case 85:
+        if (has_compat(VT420))
+            n = sprintf(reply, "\033[?%un", request == 75 ? 70 : 83);
+        break;
+      case 9001:
+        /* Same-image ConPTY synchronization, separate from application CPR.
+         * Absolute viewport coordinates are required even under DECOM. */
+        if (term->esc_nargs == 2 && term->esc_args[1] > 0 && term->esc_args[1] <= 65535)
+            n = sprintf(reply, "\033[?9001;%u;%d;%dR", term->esc_args[1],
+                        term->curs.y + 1, term->curs.x + 1);
+        break;
+    }
+    if (n) ldisc_send(term->ldisc, reply, n, false);
 }
 
 static void nemo_graphics_query(Terminal *term)
@@ -7252,19 +7316,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             ldisc_send(term->ldisc, term->id_string,
                                        strlen(term->id_string), false);
                         break;
-                      case 'n':       /* DSR: cursor position query */
-                        if (term->ldisc) {
-                            if (term->esc_args[0] == 6) {
-                                char buf[32];
-                                sprintf(buf, "\033[%d;%dR", term->curs.y + 1 -
-                                        (term->dec_om ? term->marg_t : 0),
-                                        term->curs.x + 1 - (term->dec_om ? term->marg_l : 0));
-                                ldisc_send(term->ldisc, buf, strlen(buf),
-                                           false);
-                            } else if (term->esc_args[0] == 5) {
-                                ldisc_send(term->ldisc, "\033[0n", 4, false);
-                            }
-                        }
+                      case 'n':       /* DSR / CPR */
+                      case ANSI_QUE('n'): /* DEC-specific DSR / DECXCPR */
+                        nemo_status_query(term, term->esc_query == 1);
                         break;
                       case 'h':       /* SM: toggle modes to high */
                       case ANSI_QUE('h'):
@@ -7936,6 +7990,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                           case 62:
                             term->compatibility_level &= ~TM_VTXXX;
                             term->compatibility_level |= TM_VT220;
+                            break;
+                          case 63:
+                            term->compatibility_level &= ~TM_VTXXX;
+                            term->compatibility_level |= TM_VT340;
+                            break;
+                          case 64:
+                            term->compatibility_level &= ~TM_VTXXX;
+                            term->compatibility_level |= TM_VT420;
                             break;
 
                           default:

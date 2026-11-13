@@ -5,6 +5,7 @@
 #include "terminal/nemo_window_size.h"
 #include "window_resize_cases.h"
 #include "../../../tests/graphics_query_oracle_cases.h"
+#include "../../../tests/dec_status_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -43,6 +44,42 @@ static void test_graphics_queries(Mock *mk)
     term_data_fragmented(mk->term, "\033[?2;1;0S");
     response(mk, "\033[?2;0;8192;8192S");
     term_set_cell_size(mk->term, 8, 16);
+}
+
+static void test_dec_status(Mock *mk)
+{
+    /* The independent reference and native fixture both use UTF-8. */
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(dec_status_oracle); i++) {
+        reset(mk);
+        test_context(mk, "DEC status %s", dec_status_oracle[i].name);
+        term_data_fragmented(mk->term, dec_status_oracle[i].sequence);
+        response(mk, dec_status_oracle[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "DEC status truthful unsupported devices and empty checksum id");
+    term_data_fragmented(mk->term, "\033[65;1\"p\033[?25n\033[?55n\033[?56n\033[?63;;9n");
+    response(mk, "\033[?23n\033[?53n\033[?57;0n\033P0!~0000\033\\");
+    test_context(mk, "printer configuration does not probe or start a print job");
+    conf_set_str(mk->conf, CONF_printer, "Nemoterm test printer - do not open");
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033[?15n");
+    response(mk, "\033[?11n");
+    IEQUAL(mk->term->printing, false);
+    IEQUAL(mk->term->print_job == NULL, true);
+    conf_set_str(mk->conf, CONF_printer, "");
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033[?15n");
+    response(mk, "\033[?13n");
+    test_context(mk, "internal cursor synchronization remains absolute under DECOM");
+    term_data_fragmented(mk->term, "\033[3;20r\033[?69h\033[11;70s\033[?6h"
+        "\033[5;7H\033[?9001;42n\033[6n\033[?6n");
+    response(mk, "\033[?9001;42;7;17R\033[5;7R\033[?5;7;1R");
+    term_data_fragmented(mk->term, "\033[?9001n\033[?9001;0n\033[?9001;65536n"
+        "\033[9001;42n\033[?9001;42;1n\033[?9001;42:1n");
+    response(mk, "");
+    term_data_fragmented(mk->term, "\033[61;1\"p\033[?9001;65535n");
+    response(mk, "\033[?9001;65535;7;17R");
 }
 
 static void test_cursor(Mock *mk)
@@ -412,6 +449,7 @@ int main(void)
     test_geometry(mk);
     test_window_resize(mk);
     test_graphics_queries(mk);
+    test_dec_status(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

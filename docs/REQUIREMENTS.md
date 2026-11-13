@@ -59,6 +59,10 @@ Sixel capability queries now report the actual register and dimension limits,
 with configurable 2–256 color registers and native resize/pixel verification;
 see [graphics queries](../research/graphics-query.md). This does not imply
 ReGIS support or remove the shared image memory budget.
+[DEC status reports](../research/dec-status.md) add extended cursor/device
+queries and fix a native ConPTY race that consumed an application's cursor
+reply. The source-built same-image host now tags its own synchronization
+requests separately; full clipboard/real-agent CI acceptance remains pending.
 
 Pending: CSI/ESC/C0/C1 conformance; SGR styles/true colour; scrolling/margins/alternate
 screens; Unicode/graphemes/emoji/IME; keyboard modifier, kitty/CSI-u and Windows input;

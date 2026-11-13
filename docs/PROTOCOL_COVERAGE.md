@@ -81,9 +81,10 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | c / >c / =c (DA/DA2/DA3) | Tested | `queries`, `identity-queries.md`; compatibility identity is not a feature-completeness claim. |
 | >q (XTVERSION) | Tested | `queries`; reports Nemoterm/PuTTY lineage. |
 | n parameters 5/6 (DSR/CPR) | Tested | `queries`, `margins`, tabulation oracle. |
-| ?n (DEC-specific DSR, including extended CPR) | Missing | No dispatch handler. |
+| ?n (DEC-specific DSR, including extended CPR) | Tested | `queries`, native `dec_status`: 5/6/15/25/26/55/56/62/63/75/85, level-dependent report formats, origin/margins/resize and explicit unavailable devices. UDK download, DEC locator and macros themselves remain missing. See `dec-status.md`. |
+| ?9001;id n (Nemoterm internal cursor synchronization) | Tested | Same-image host transaction IDs and viewport-absolute coordinates; separate from application CPR and Win32 input mode 9001. Native ordering, stale replies and console-API positions are checked. |
 | x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
-| "p (DECSCL) | Partial | PuTTY compatibility masks; second parameter's 7/8-bit control selection is not implemented. |
+| "p (DECSCL) | Partial | Level 61–65 masks now distinguish VT300/VT400 reports, including RIS retention. PuTTY extensions remain; full reset semantics and the second parameter's 7/8-bit control selection are not implemented. |
 | "q (DECSCA) | Tested | `selective_erase`, independent of SGR resets. |
 | $z / ${ (DECERA/DECSERA) | Tested | `selective_erase`, rectangular protected/unprotected erasure. |
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
@@ -148,7 +149,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 ## Work queue from this audit
 
-1. Add remaining DEC-specific status queries, with truthful capabilities.
+1. Add remaining presentation/terminal-state reports and checksum operations;
+   extend the implemented DEC status queries when UDK/locator/macro support exists.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
 3. Add horizontal index/shift and remaining xterm report/stack operations with

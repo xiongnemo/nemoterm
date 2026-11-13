@@ -4,9 +4,9 @@ from native_test_utils import (root, hashlib, json, os, subprocess, sys,
 from owned_job import OwnedJob
 
 
-def run(name, cases, scene=None, extra_cases=(), exercise=None):
+def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
-    marker = b'\x1bP0$r\x1b\\'
+    barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                     completed=False, cases={}, source_reference='XTerm(412)',
                     reference_case_count=len(cases), direct_case_names=[c[0] for c in extra_cases])
@@ -25,8 +25,8 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None):
                 return value
             wait_for(lambda: current().get('columns') == 80 and current().get('rows') == 24)
             def phase(phase_name, sequence, expected):
-                write_snapshot(control, dict(phase=phase_name, preserve_mouse=True,
-                    sequence=sequence+'\x1bP$qprotocol-marker\x1b\\'))
+                write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
+                    sequence=sequence+barrier_sequence))
                 def received():
                     value = current()
                     return value if value.get('phase') == phase_name and \

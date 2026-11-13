@@ -23,6 +23,70 @@ def replace(path, before, after):
     path.write_text(value.replace(before, after), encoding="utf-8")
 
 
+def patch_cursor_sync():
+    # ConPTY's internal CPR must not consume an application's outstanding CPR.
+    # This same-image host uses a tagged Nemoterm query with viewport-absolute
+    # coordinates; ordinary and DEC cursor reports remain application input.
+    replace(DEST / "src/host/VtIo.cpp",
+            '    _io->_back.append("\\x1b[6n");\n    _io->_pVtInputThread->CaptureNextCursorPositionReport();',
+            '''    const auto request = _io->_pVtInputThread->CaptureNextCursorPositionReport();
+    fmt::format_to(std::back_inserter(_io->_back), FMT_COMPILE("\\x1b[?9001;{}n"), request);''')
+    replace(DEST / "src/host/VtInputThread.hpp",
+            "void CaptureNextCursorPositionReport() const noexcept;",
+            "unsigned CaptureNextCursorPositionReport() const noexcept;")
+    replace(DEST / "src/host/VtInputThread.cpp",
+            "void VtInputThread::CaptureNextCursorPositionReport() const noexcept",
+            "unsigned VtInputThread::CaptureNextCursorPositionReport() const noexcept")
+    replace(DEST / "src/host/VtInputThread.cpp",
+            "    engine.CaptureNextCursorPositionReport();",
+            "    return engine.CaptureNextCursorPositionReport();")
+    replace(DEST / "src/terminal/parser/InputStateMachineEngine.hpp",
+            "void CaptureNextCursorPositionReport() noexcept;",
+            "unsigned CaptureNextCursorPositionReport() noexcept;")
+    replace(DEST / "src/terminal/parser/InputStateMachineEngine.hpp",
+            "        std::atomic<bool> _captureNextCursorPositionReport{ false };",
+            "        std::atomic<unsigned> _nemoCursorSequence{ 0 };\n"
+            "        std::atomic<unsigned> _nemoCursorRequest{ 0 };")
+    path = DEST / "src/terminal/parser/InputStateMachineEngine.cpp"
+    replace(path,
+            "void InputStateMachineEngine::CaptureNextCursorPositionReport() noexcept\n{\n"
+            "    _captureNextCursorPositionReport.store(true, std::memory_order_relaxed);\n}",
+            '''unsigned InputStateMachineEngine::CaptureNextCursorPositionReport() noexcept
+{
+    const auto request = _nemoCursorSequence.fetch_add(1, std::memory_order_relaxed) % 65535 + 1;
+    _nemoCursorRequest.store(request, std::memory_order_relaxed);
+    return request;
+}''')
+    replace(path,
+            "    _captureNextCursorPositionReport.store(false, std::memory_order_relaxed);",
+            "    _nemoCursorRequest.store(0, std::memory_order_relaxed);")
+    replace(path, "    // case CsiActionCodes::DSR_DeviceStatusReportResponse:",
+            '''    case VTID("?R"):
+        if (parameters.size() == 4 && parameters.at(0).value_or(0) == 9001)
+        {
+            auto request = static_cast<unsigned>(parameters.at(1).value_or(0));
+            if (request && parameters.at(2).value_or(0) && parameters.at(3).value_or(0) &&
+                _nemoCursorRequest.compare_exchange_strong(request, 0, std::memory_order_relaxed))
+            {
+                _pDispatch->MoveCursor(parameters.at(2), parameters.at(3));
+            }
+            // Late internal replies also stay out of the application's input.
+            return true;
+        }
+        return false;
+    // case CsiActionCodes::DSR_DeviceStatusReportResponse:''')
+    replace(path,
+            '''        // The F3 case is special - it shares a code with the DeviceStatusResponse.
+        // If we're looking for that response, then do that, and break out.
+        // Else, fall though to the _GetCursorKeysModifierState handler.
+        if (_captureNextCursorPositionReport.exchange(false, std::memory_order_relaxed))
+        {
+            _pDispatch->MoveCursor(parameters.at(0), parameters.at(1));
+            return true;
+        }''',
+            "        // Internal cursor synchronization uses tagged ?R replies above.")
+
+
 def main():
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
@@ -156,6 +220,8 @@ def main():
                 {
                     CharToKeyEvents(wch, codepage, keyEvents);
                 }""")
+
+    patch_cursor_sync()
 
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.

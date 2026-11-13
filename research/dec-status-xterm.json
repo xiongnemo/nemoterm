@@ -1,0 +1,322 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "cases": {
+    "empty": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[n",
+      "reply": ""
+    },
+    "0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[0n",
+      "reply": ""
+    },
+    "5": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[5n",
+      "reply": "\u001b[0n"
+    },
+    "6": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "15": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[15n",
+      "reply": ""
+    },
+    "25": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[25n",
+      "reply": ""
+    },
+    "26": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[26n",
+      "reply": ""
+    },
+    "53": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[53n",
+      "reply": ""
+    },
+    "55": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[55n",
+      "reply": ""
+    },
+    "56": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[56n",
+      "reply": ""
+    },
+    "62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[62n",
+      "reply": ""
+    },
+    "63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63n",
+      "reply": ""
+    },
+    "63;0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;0n",
+      "reply": ""
+    },
+    "63;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;1n",
+      "reply": ""
+    },
+    "63;42": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;42n",
+      "reply": ""
+    },
+    "63;65535": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;65535n",
+      "reply": ""
+    },
+    "63;65536": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;65536n",
+      "reply": ""
+    },
+    "63;999999999999999999999": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;999999999999999999999n",
+      "reply": ""
+    },
+    "75": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[75n",
+      "reply": ""
+    },
+    "85": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[85n",
+      "reply": ""
+    },
+    "99": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[99n",
+      "reply": ""
+    },
+    "999999999999999999999": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[999999999999999999999n",
+      "reply": ""
+    },
+    "?empty": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?n",
+      "reply": ""
+    },
+    "?0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?0n",
+      "reply": ""
+    },
+    "?5": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?5n",
+      "reply": "\u001b[?0n"
+    },
+    "?6": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6n",
+      "reply": "\u001b[?1;1;1R"
+    },
+    "?15": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?15n",
+      "reply": "\u001b[?13n"
+    },
+    "?25": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?25n",
+      "reply": "\u001b[?20n"
+    },
+    "?26": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?26n",
+      "reply": "\u001b[?27;1;0;0n"
+    },
+    "?53": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?53n",
+      "reply": ""
+    },
+    "?55": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?55n",
+      "reply": "\u001b[?53n"
+    },
+    "?56": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?56n",
+      "reply": "\u001b[?57;0n"
+    },
+    "?62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?62n",
+      "reply": "\u001b[0000*{"
+    },
+    "?63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63n",
+      "reply": "\u001bP0!~0000\u001b\\"
+    },
+    "?63;0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;0n",
+      "reply": "\u001bP0!~0000\u001b\\"
+    },
+    "?63;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;1n",
+      "reply": "\u001bP1!~0000\u001b\\"
+    },
+    "?63;42": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;42n",
+      "reply": "\u001bP42!~0000\u001b\\"
+    },
+    "?63;65535": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;65535n",
+      "reply": "\u001bP65535!~0000\u001b\\"
+    },
+    "?63;65536": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;65536n",
+      "reply": "\u001bP65535!~0000\u001b\\"
+    },
+    "?63;999999999999999999999": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;999999999999999999999n",
+      "reply": "\u001bP65535!~0000\u001b\\"
+    },
+    "?75": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?75n",
+      "reply": "\u001b[?70n"
+    },
+    "?85": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?85n",
+      "reply": "\u001b[?83n"
+    },
+    "?99": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?99n",
+      "reply": ""
+    },
+    "?999999999999999999999": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?999999999999999999999n",
+      "reply": ""
+    },
+    "arguments-5;6": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?5;6n",
+      "reply": "\u001b[?0n"
+    },
+    "arguments-6;5": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6;5n",
+      "reply": "\u001b[?1;1;1R"
+    },
+    "arguments-15;26": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?15;26n",
+      "reply": "\u001b[?13n"
+    },
+    "arguments-26;0;1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?26;0;1n",
+      "reply": "\u001b[?27;1;0;0n"
+    },
+    "arguments-63;;9": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;;9n",
+      "reply": "\u001bP65535!~0000\u001b\\"
+    },
+    "arguments-63;7;8": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;7;8n",
+      "reply": "\u001bP7!~0000\u001b\\"
+    },
+    "arguments-6:1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6:1n",
+      "reply": ""
+    },
+    "arguments-6;0:1": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6;0:1n",
+      "reply": ""
+    },
+    "arguments-5:0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?5:0n",
+      "reply": ""
+    },
+    "arguments-63;7:0": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?63;7:0n",
+      "reply": ""
+    },
+    "arguments-6;;": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6;;n",
+      "reply": "\u001b[?1;1;1R"
+    },
+    "arguments-;6": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?;6n",
+      "reply": ""
+    },
+    "position": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[9;17H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[9;17R\u001b[?9;17;1R"
+    },
+    "pending-wrap": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[24;80HX\u001b[6n\u001b[?6nY\u001b[6n\u001b[?6n",
+      "reply": "\u001b[24;80R\u001b[?24;80;1R\u001b[24;2R\u001b[?24;2;1R"
+    },
+    "double-size": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b#6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\u001b[6n\u001b[?6nB\u001b[6n\u001b[?6n",
+      "reply": "\u001b[1;40R\u001b[?1;40;1R\u001b[2;2R\u001b[?2;2;1R"
+    },
+    "double-size-hidden": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b#6\u001b[1;70H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[1;70R\u001b[?1;70;1R"
+    },
+    "unicode": {
+      "sequence": "\u001b[65;1\"p\u001bc\u4e2de\u0301\u001b[6n\u001b[?6n",
+      "reply": "\u001b[1;4R\u001b[?1;4;1R"
+    },
+    "vertical-origin": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?6h\u001b[5;7H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[5;7R\u001b[?5;7;1R"
+    },
+    "both-margins-origin": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?69h\u001b[11;70s\u001b[?6h\u001b[5;7H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[5;7R\u001b[?5;7;1R"
+    },
+    "both-margins-absolute": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?69h\u001b[11;70s\u001b[8;17H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[8;17R\u001b[?8;17;1R"
+    },
+    "origin-edges": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?69h\u001b[11;70s\u001b[?6h\u001b[999;999H\u001b[6n\u001b[?6n",
+      "reply": "\u001b[18;60R\u001b[?18;60;1R"
+    },
+    "alternate": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[5;9H\u001b[?1049h\u001b[8;17H\u001b[6n\u001b[?6n\u001b[?1049l\u001b[6n\u001b[?6n",
+      "reply": "\u001b[8;17R\u001b[?8;17;1R\u001b[5;9R\u001b[?5;9;1R"
+    },
+    "soft-reset": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[3;20r\u001b[?6h\u001b[5;7H\u001b[!p\u001b[6n\u001b[?6n",
+      "reply": "\u001b[7;7R\u001b[?7;7;1R"
+    },
+    "cancel": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6\u0018n\u001b[6n\u001b[?6n",
+      "reply": "\u001b[1;2R\u001b[?1;2;1R"
+    },
+    "recovery": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[?6\u001b[?5n\u001b[6n\u001b[?6n",
+      "reply": "\u001b[?0n\u001b[1;1R\u001b[?1;1;1R"
+    },
+    "level-61": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[61;1\"p\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1R"
+    },
+    "ris-level-61": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[61;1\"p\u001bc\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1R"
+    },
+    "level-62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[62;1\"p\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1R\u001b[?13n\u001b[?27;1n"
+    },
+    "ris-level-62": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[62;1\"p\u001bc\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1R\u001b[?13n\u001b[?27;1n"
+    },
+    "level-63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;1\"p\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0n\u001b[?53n\u001b[?57;0n"
+    },
+    "ris-level-63": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[63;1\"p\u001bc\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0n\u001b[?53n\u001b[?57;0n"
+    },
+    "level-64": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[64;1\"p\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0;0n\u001b[?53n\u001b[?57;0n\u001b[0000*{\u001bP0!~0000\u001b\\\u001b[?70n\u001b[?83n"
+    },
+    "ris-level-64": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[64;1\"p\u001bc\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0;0n\u001b[?53n\u001b[?57;0n\u001b[0000*{\u001bP0!~0000\u001b\\\u001b[?70n\u001b[?83n"
+    },
+    "level-65": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[65;1\"p\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0;0n\u001b[?53n\u001b[?57;0n\u001b[0000*{\u001bP0!~0000\u001b\\\u001b[?70n\u001b[?83n"
+    },
+    "ris-level-65": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[65;1\"p\u001bc\u001b[?5n\u001b[?6n\u001b[?15n\u001b[?26n\u001b[?55n\u001b[?56n\u001b[?62n\u001b[?63n\u001b[?75n\u001b[?85n",
+      "reply": "\u001b[?0n\u001b[?1;1;1R\u001b[?13n\u001b[?27;1;0;0n\u001b[?53n\u001b[?57;0n\u001b[0000*{\u001bP0!~0000\u001b\\\u001b[?70n\u001b[?83n"
+    }
+  }
+}
