@@ -72,7 +72,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | A/B/C/D (CUU/CUD/CUF/CUB) | Tested | `margins`, `terminal`; origin and scroll-region boundaries. CUB shares reverse-wrap handling with BS, including bounded large counts and extended cycles. |
 | E/F (CNL/CPL) | Partial | Cursor-report streams match the 848-sequence [movement audit](../research/cursor-movement-audit.md), including origin/margins/defaults and pending wrap. Full pixel/scrolling/resize behavior remains unverified. |
 | G and backtick (CHA/HPA); d (VPA); H/f (CUP/HVP) | Tested | `margins`, `queries`, origin-relative positioning. |
-| a/e (HPR/VPR) | Partial | [Independent audit](../research/cursor-movement-audit.md) found 47 differing streams in 848 cases: current CUF/CUD sharing incorrectly clips position-relative movement at margins when origin is disabled; HPR also differs on double-width rows. Unfixed. |
+| a/e (HPR/VPR) | Partial | The [development correction](../research/relative-cursor.md) matches all 848 independent XTerm streams, fixing the audit's 47 differences. Separate origin clipping, bounded logical double-row columns, tiny-grid sanitizer assertions and native pixel comparisons are covered. Full remote CI remains pending. |
 | I/Z (CHT/CBT) | Tested | `state_control`, defaults/counts, custom stops, margins and pending wrap; native oracle replay. |
 | g, parameters 0/3 (TBC) | Tested | Tabulation oracle, including extra parameters using the first value. |
 | ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |

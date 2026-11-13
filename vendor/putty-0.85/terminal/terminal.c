@@ -8141,7 +8141,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 'e':         /* VPR: move down N lines */
                         compatibility(ANSI);
-                        /* FALLTHROUGH */
+                        CLAMP(term->esc_args[0], term->rows);
+                        /* Position-relative controls follow CUP's origin
+                         * clipping, unlike CUD/CUF's scrolling boundaries. */
+                        move(term, term->curs.x,
+                             term->curs.y + def(term->esc_args[0], 1),
+                             term->dec_om ? 2 : 0);
+                        break;
                       case 'B':         /* CUD: Cursor down */
                         CLAMP(term->esc_args[0], term->rows);
                         move(term, term->curs.x,
@@ -8192,7 +8198,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       }
                       case 'a':         /* HPR: move right N cols */
                         compatibility(ANSI);
-                        /* FALLTHROUGH */
+                        CLAMP(term->esc_args[0], term->cols);
+                        /* Keep the logical column bounded by the physical
+                         * grid, including double-width rows. The writer
+                         * already ignores text beyond a row's visible cells. */
+                        move(term, term->curs.x + def(term->esc_args[0], 1),
+                             term->curs.y, term->dec_om ? 2 : 0);
+                        break;
                       case 'C':         /* CUF: Cursor right */
                         CLAMP(term->esc_args[0], term->cols);
                         move(term, min(term->curs.x + def(term->esc_args[0], 1),
