@@ -14,6 +14,8 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 本文说明以 `main` 分支为准。已实现功能与测试边界见 [协议支持表](docs/PROTOCOLS.md)
 和 [需求与验证记录](docs/REQUIREMENTS.md)。
 
+[下载](#下载) · [快速开始](#快速开始) · [渲染与内存](#渲染与内存) · [从源码构建](#从源码构建)
+
 ## 功能
 
 - **单文件分发**：无需 WebView，也无需附带 `OpenConsole.exe` 或 `conpty.dll`。
@@ -32,6 +34,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 GitHub 网页下载 Actions 产物需要登录，见 [GitHub 下载说明](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
 产物有保留期限；过期后请选择较新的成功运行，或按下文从源码构建。
+
+已合入 `main` 的提交 `1b09f82` 通过两条 CI 和 57 组单文件检查，
+对应的 [验证记录](research/native-observer-cleanup.md) 包含产物链接、SHA-256 和测试范围。
+该记录是固定检查点；后续版本请按上面的步骤查找成功运行。
 
 | 产物 | 用途 |
 | --- | --- |
@@ -53,7 +59,7 @@ OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码�
 ```powershell
 .\nemoterm.exe
 .\nemoterm.exe --choose-shell
-.\nemoterm.exe --shell pwsh --tabs --tab-side left
+.\nemoterm.exe --shell powershell --tabs --tab-side left
 .\nemoterm.exe --directory "C:\work" --cols 100 --rows 30
 .\nemoterm.exe --font "Consolas" --font-size 12 -e pwsh.exe -NoLogo
 .\nemoterm.exe --settings
@@ -67,6 +73,15 @@ OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码�
 
 `--shell` 接受 `auto`、`pwsh`、`powershell`、`busybox-ash`、`git-bash`、`wsl-bash`、`cmd`、`custom`。
 `auto` 依次尝试 PowerShell 7、Windows PowerShell、cmd，再尝试其余已检测到的 shell。
+Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7、BusyBox、Git 或 WSL 发行版。
+
+| 要启动的 shell | 参数 |
+| --- | --- |
+| Windows PowerShell | `--shell powershell` |
+| PowerShell 7 | `--shell pwsh` |
+| BusyBox ash | `--shell busybox-ash` |
+| Git Bash | `--shell git-bash` |
+| WSL 默认发行版中的 Bash | `--shell wsl-bash` |
 
 - `--list-shells` 输出检测结果的 JSON；检测本身不运行 shell，也不启动 WSL 虚拟机。
 - Windows PowerShell 从系统目录查找；Git Bash 需有有效的 Git 安装；WSL Bash 需有已注册的默认发行版。
@@ -94,7 +109,8 @@ OpenConsole / ConPTY 文件，不是单文件版本，也不包含全部源码�
 
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴。
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
-多标签启动使用 `--tabs`，或保存对应设置。
+多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
+例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 
 `--choose-shell` 和 `--settings` 都会先打开启动设置窗口；也可从运行中的上下文菜单选择
 **Change Settings**，调整字体、颜色、光标、回滚和渲染器。
@@ -105,12 +121,19 @@ Shell Integration 的命令与输出导航需要 shell 输出 OSC 133 / 633 标�
 
 ## 渲染与内存
 
-Window / Rendering 可选择 GDI、OpenGL 或 DirectX（Direct2D 合成）。
+运行 `nemoterm.exe --settings`，在 **Window / Rendering** 选择渲染器，再保存配置并启动。
+运行中也可通过 **Change Settings** 切换。
 GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；目前尚未证明它们在所有场景下比 GDI 更快。
 
-GDI 的优化目标是前端私有工作集 **低于 20 MB**、总工作集约 **50 MB**，按十进制字节计。
+| 模式 | 实现与内存目标 |
+| --- | --- |
+| GDI（默认） | GDI 绘制；前端私有工作集低于 20 MB，总工作集约 50 MB |
+| OpenGL（可选） | GPU 合成；允许超过上述内存目标 |
+| DirectX（可选） | Direct2D 硬件合成；沿用 GDI 的内存目标，目前仍有超标场景 |
+
+这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节；私有工作集与私有提交量分别记录。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-可选 OpenGL 模式不受 20 MB 目标约束，DirectX 仍有超标场景。切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
+切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
 ConPTY 提供伪控制台连接；OpenConsole 在宿主进程中处理 Windows 控制台 API，
@@ -142,7 +165,8 @@ cd nemoterm
 | [Single executable from source](.github/workflows/single-exe.yml) | MSVC 从源码构建单 EXE，在隔离目录执行原生协议、像素和客户端测试；保留单文件产物与测试证据 |
 
 两条工作流独立报告结果；验证某个提交时，应同时查看两条工作流的日志。
-历史检查点可参考 [设置快捷键修复的验证记录](research/settings-shortcuts.md)。
+已合入主分支的检查点见 [原生测试清理修复的验证记录](research/native-observer-cleanup.md)，
+其中保留了对应提交、两条 CI 结果和单文件产物校验信息。
 
 本地核心与 MinGW 对照测试需要 `gcc.exe` 在 PATH 中：
 
@@ -165,9 +189,8 @@ python -m pip install frida==17.24.3
 
 ## 开发状态
 
-主分支与开发分支的验证进度可能不同。最新开发改动及待验证项见
-[开发分支需求账本](https://github.com/xiongnemo/nemoterm/blob/feature/attribute-colour-settings/docs/REQUIREMENTS.md)。
-部分新颜色设置、字符集恢复和字符保护改动仍在验证中，尚未全部合入 `main`。
+主分支与开发分支的验证进度可能不同。部分新颜色设置、字符集恢复和字符保护改动仍在验证中，
+尚未全部合入 `main`。开发分支中的实现和测试结果应以各自提交为准。
 
 长期鼠标与窗口生命周期、真实 IME / 多显示器 DPI、长时间终端应用负载仍有待完成的验收。
 kitty / iTerm 图片、彩色 emoji 和完整 ISO 2022 等能力不能视为已完整支持；
