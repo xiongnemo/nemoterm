@@ -781,6 +781,45 @@ static void test_sixel_column_budget(Mock *mk)
     term_set_cell_size(mk->term, 8, 16);
 }
 
+static void test_alignment_images(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "alignment erases only active-screen images");
+    Terminal *t = mk->term;
+    term_size(t, 4, 8, 100);
+    term_set_cell_size(t, 8, 16);
+    term_data_fragmented(t, "\033[?80h");
+    image_feed(mk);
+    IEQUAL(image_count(t), 1);
+    term_data_fragmented(t, "\033[?47h");
+    image_feed(mk);
+    IEQUAL(image_count(t), 2);
+    term_data_fragmented(t, "\033#8");
+    IEQUAL(image_count(t), 1);
+    if (t->images) IEQUAL(t->images->screen, 0);
+    check_image_accounting(mk);
+    term_data_fragmented(t, "\033[?47l\033#8");
+    IEQUAL(image_count(t), 0); IEQUAL(t->image_bytes, 0);
+
+    reset(mk);
+    test_context(mk, "alignment preserves image rows in history, then scrollback erase retires them");
+    term_size(t, 4, 8, 100);
+    term_set_cell_size(t, 8, 16);
+    term_data_fragmented(t, "\033[?80h");
+    image_feed(mk);
+    term_data_fragmented(t, "\033[4;1H\n");
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    IEQUAL(image_row(t, t->images, 0) < 0, true);
+    term_data_fragmented(t, "\033#8");
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    IEQUAL(image_row(t, t->images, 0) < 0, true);
+    check_image_accounting(mk);
+    term_clrsb(t);
+    IEQUAL(image_count(t), 0); IEQUAL(t->image_bytes, 0);
+}
+
 static void test_graphics_registers(Mock *mk)
 {
     reset(mk);
@@ -826,6 +865,7 @@ int main(void)
     test_sixel_column_budget(mk);
     test_sixel_horizontal(mk);
     test_graphics_registers(mk);
+    test_alignment_images(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Sixel terminal suite FAILED" : "Sixel terminal suite passed");

@@ -4,13 +4,13 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `37ef26d` passes both full workflows,
-including 93 single-image groups. Its [manifest](../research/underline-capabilities-validation.json)
-identifies the exact EXE, parameterized rendition discovery/replay results and
-local acceptance limits: GDI passes at 16.64 MB in the Sarasa 160x48 workload;
-DirectX reaches 30.47 MB on an unmodified follow-up and remains above 25 MB.
-An initial DX temporary-tab resource-count failure is retained and unresolved;
-the later diagnostic and unmodified repeat did not reproduce it.
+The published product checkpoint at `18e912d` passes both full workflows,
+including 96 single-image groups. Its [manifest](../research/alignment-reset-validation.json)
+identifies the exact EXE, DECALN replies/pixels and local acceptance limits:
+GDI passes at 16.21 MB in the Sarasa 160x48 workload. DirectX again fails the
+temporary-tab resource-count gate before its full memory workload; the cause
+remains unproven. The preceding `37ef26d` image's complete unmodified DX run
+reached 30.47 MB, above 25 MB; that older result is not a measurement of this image.
 The earlier sidecar reply-order issue was resolved by building the same host
 source and overlay for compiler comparison. Local testing has resumed.
 The preceding [overline checkpoint](../research/overline.md) includes local checks
@@ -54,7 +54,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC Z (DECID) | Source only | Shares configured primary DA response; not separately covered by identity oracle. |
 | ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
 | ESC #3/#4/#5/#6 | Partial | Output, cursor movement, pending wraps, wide/combining text and cluster growth checked; see `double-size-lines.md`. The three tabulation failures are fixed. Row-size-specific editing/resize combinations remain open. |
-| ESC #8 (DECALN) | Known differences | [Independent state audit](../research/alignment-audit.md): 14 native/reference cases, with missing cursor/origin/margin/pending-wrap and rendition resets. Full cell, colour, graphics and selection semantics remain open. |
+| ESC #8 (DECALN) | Partial | [State/image fix](../research/alignment-reset.md): 13 exact XTerm query cases, direct RGB policy, cell/selection/history assertions and 12 native pixel checks per renderer. Both full CI workflows and downloaded-image actual GDI/OpenGL/DirectX checks pass. Current RGB keeps valid encoding instead of XTerm's packed-index report after reset. |
 | ESC ( / ) / * / + with A/B/0/U | Partial | British/ASCII/DEC graphics/SCO designation in G0–G3; reported and restored by presentation-state controls. Other national and 96-character sets remain missing; PuTTY's UTF-8 British/codepage behavior is retained. |
 | ESC % G / ESC % @ | Partial | UTF-8 switching exists; not full ISO 2022 conformance. |
 | ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Single/locking GL shifts use the four supported banks; native G2/G3 line-drawing pixels and one-shot lifetime are tested. GR bank tracking and legacy line/UK remapping exist, but default GR still follows PuTTY's byte codepage and full ISO 2022 mappings remain open. |
