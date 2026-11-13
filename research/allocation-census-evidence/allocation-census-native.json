@@ -1,0 +1,210 @@
+{
+  "completed": true,
+  "scope": "Controlled private heap, not terminal memory attribution",
+  "pid": 4200,
+  "phase": "complete",
+  "source_sha256": {
+    "allocation_census_probe.js": "bf009c05001c164a0fdbc9a0d72ece0a4057628102333ff72dcfb3e73299fb37",
+    "allocation_census_selftest.js": "b17649834e37881f214b2b9b75b3a6a79c3b67e3a78ae11f83e65015e3d7341f",
+    "allocation_census.h": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e"
+  },
+  "results": {
+    "destroyed-heap": {
+      "checks": [
+        {
+          "name": "empty",
+          "active": 1,
+          "errors": 0,
+          "generation": "0",
+          "live_count": 0,
+          "live_requested_bytes": "0",
+          "capacity": 64
+        },
+        {
+          "name": "two-allocations",
+          "active": 1,
+          "errors": 0,
+          "generation": "2",
+          "live_count": 2,
+          "live_requested_bytes": "192",
+          "capacity": 64
+        },
+        {
+          "name": "successful-realloc",
+          "active": 1,
+          "errors": 0,
+          "generation": "4",
+          "live_count": 2,
+          "live_requested_bytes": "224",
+          "capacity": 64
+        },
+        {
+          "name": "successful-free",
+          "active": 1,
+          "errors": 0,
+          "generation": "4",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        },
+        {
+          "name": "allocation-reuse-cycles",
+          "active": 1,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        },
+        {
+          "name": "heap-destruction",
+          "active": 1,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 0,
+          "live_requested_bytes": "0",
+          "capacity": 64
+        }
+      ],
+      "final": {
+        "pid": 4200,
+        "instrumented": true,
+        "memory_acceptance": false,
+        "scope": {
+          "pid": 4200,
+          "heap": "0x22edfbb0000",
+          "capacity": 64
+        },
+        "counts": {
+          "active": 0,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 0,
+          "live_requested_bytes": "0",
+          "capacity": 64
+        },
+        "entries": [],
+        "valid": true,
+        "limits": "Observed heap blocks only; excludes pre-attach and out-of-scope allocations. Requested bytes are not private working set. Instrumentation may change allocation behaviour."
+      },
+      "expected_address": "0x22edfbb08b0",
+      "expected_heap": "0x22edfbb0000"
+    },
+    "live-snapshot": {
+      "checks": [
+        {
+          "name": "empty",
+          "active": 1,
+          "errors": 0,
+          "generation": "0",
+          "live_count": 0,
+          "live_requested_bytes": "0",
+          "capacity": 64
+        },
+        {
+          "name": "two-allocations",
+          "active": 1,
+          "errors": 0,
+          "generation": "2",
+          "live_count": 2,
+          "live_requested_bytes": "192",
+          "capacity": 64
+        },
+        {
+          "name": "successful-realloc",
+          "active": 1,
+          "errors": 0,
+          "generation": "4",
+          "live_count": 2,
+          "live_requested_bytes": "224",
+          "capacity": 64
+        },
+        {
+          "name": "successful-free",
+          "active": 1,
+          "errors": 0,
+          "generation": "4",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        },
+        {
+          "name": "allocation-reuse-cycles",
+          "active": 1,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        },
+        {
+          "name": "live-block-before-freeze",
+          "active": 1,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        }
+      ],
+      "final": {
+        "pid": 4200,
+        "instrumented": true,
+        "memory_acceptance": false,
+        "scope": {
+          "pid": 4200,
+          "heap": "0x22edfb10000",
+          "capacity": 64
+        },
+        "counts": {
+          "active": 0,
+          "errors": 0,
+          "generation": "104",
+          "live_count": 1,
+          "live_requested_bytes": "128",
+          "capacity": 64
+        },
+        "entries": [
+          {
+            "address": "0x22edfb108b0",
+            "heap": "0x22edfb10000",
+            "caller": "0x7ffa461be271",
+            "module": "frida-agent.dll",
+            "offset": "0x28e271",
+            "requested_bytes": "128",
+            "generation": "2"
+          }
+        ],
+        "valid": true,
+        "limits": "Observed heap blocks only; excludes pre-attach and out-of-scope allocations. Requested bytes are not private working set. Instrumentation may change allocation behaviour."
+      },
+      "expected_address": "0x22edfb108b0",
+      "expected_heap": "0x22edfb10000"
+    }
+  },
+  "cleanup": {
+    "before": {
+      "total": 2,
+      "active": 2,
+      "terminated": 0
+    },
+    "after": {
+      "total": 2,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true,
+    "remaining_processes": [
+      {
+        "pid": 4200,
+        "image": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "exit_code": 259
+      },
+      {
+        "pid": 6392,
+        "image": "C:\\Windows\\System32\\conhost.exe",
+        "exit_code": 259
+      }
+    ]
+  }
+}

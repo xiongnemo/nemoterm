@@ -1,0 +1,33 @@
+{
+  "recorded_utc": "2026-11-13T13:36:32.784432+00:00",
+  "source_commit": "f6d1ce2111edc14ac81396cf83c5dba00d9a13c0",
+  "run": 43434405328,
+  "result": "success",
+  "core_checks": "C11 with ASan and UBSan",
+  "native_cases": [
+    "destroyed-heap",
+    "live-snapshot"
+  ],
+  "native_scope": "A controlled private heap in a disposable Python process; no terminal or frontend measurement",
+  "native_range_scope_validated": false,
+  "frontend_attribution_performed": false,
+  "working_set_acceptance": false,
+  "local_runtime_testing_paused": true,
+  "local_checks": [
+    "MinGW C compilation only",
+    "JavaScript syntax",
+    "Python AST"
+  ],
+  "evidence": [
+    {
+      "path": "research/allocation-census-evidence/allocation-census-native.json",
+      "bytes": 5824,
+      "sha256": "17e3b04d77a8fb998c374c6448fcd94e4a5ee0c532d411d78ebe741520102916"
+    },
+    {
+      "path": "research/allocation-census-evidence/allocation-census-test.log",
+      "bytes": 80,
+      "sha256": "9447c1b4050afe7c7e2ada42a90c35af9dcafb097a15e9db8d35570460c929fe"
+    }
+  ]
+}
