@@ -102,6 +102,20 @@ function Set-Combo($combo, [int]$index) {
     $id=[ShellSettingsNative]::GetDlgCtrlID($handle)
     [ShellSettingsNative]::SendMessageW([ShellSettingsNative]::GetParent($handle),0x111,[IntPtr]($id -bor (1 -shl 16)),$handle) | Out-Null
 }
+function Check-HyperlinkControls($dialog) {
+    $terminal=Wait-Value { Find-Name $dialog 'Terminal' }
+    $terminal.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $terminal 'Hyperlinks' | Out-Null
+    foreach ($label in @('Disable OSC 8 hyperlinks','Allow registered custom URI schemes')) {
+        $control=Wait-Value { Find-Name $dialog $label }
+        if ($control.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($control.Current.BoundingRectangle)) {
+            throw 'Hyperlink option clipped or missing'
+        }
+        if ($control.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) {
+            throw 'Unexpected hyperlink preference'
+        }
+    }
+}
 try {
     New-Item -Path $profilePath -Force | Out-Null
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
@@ -113,6 +127,7 @@ try {
         $node = Wait-Value { Find-Name $dialog $name }
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     }
+    Check-HyperlinkControls $dialog
     Select-Node $dialog 'Extended' | Out-Null
     Select-Node $dialog 'All keys' | Out-Null
     Select-Node $dialog 'CSI-u' | Out-Null
@@ -320,6 +335,7 @@ try {
     foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
         $dialog=Dialog $app
+        Check-HyperlinkControls $dialog
         $node=Find-Name $dialog 'Window'
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
         Select-Node $dialog 'Rendering' | Out-Null
@@ -339,6 +355,7 @@ try {
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
+        hyperlink_settings_startup=$true;hyperlink_settings_live=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;
         saved_unicode_directory=$fixtureCwd;saved_directory_inheritance=$false;query=$observed}
     $evidenceName=if ($TabHost) {'research/tabs-settings-window-observed.json'} else {'research/settings-window-observed.json'}
