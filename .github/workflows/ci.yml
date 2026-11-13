@@ -114,6 +114,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_presentation_state_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_cursor_charset_cases.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_horizontal_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_reverse_wrap_oracle.py --check

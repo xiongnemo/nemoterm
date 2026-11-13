@@ -2846,8 +2846,10 @@ static void power_on(Terminal *term, bool clear)
     term->utf8.state = 0;
     term->alt_sco_acs = term->sco_acs =
         term->save_sco_acs = term->alt_save_sco_acs = 0;
-    term->cset_attr[0] = term->cset_attr[1] = term->cset_attr[2] = term->cset_attr[3] =
-        term->save_csattr = term->alt_save_csattr = CSET_ASCII;
+    term->save_cset_gr = term->alt_save_cset_gr = 2;
+    for (size_t i = 0; i < lenof(term->cset_attr); i++)
+        term->cset_attr[i] = term->save_csattr[i] =
+            term->alt_save_csattr[i] = CSET_ASCII;
     term->rvideo = false;
     term->in_vbell = false;
     term->cursor_on = true;
@@ -4450,10 +4452,16 @@ static void swap_screen(Terminal *term, int which,
         if (!reset)
             term->save_cset = term->alt_save_cset;
         term->alt_save_cset = t;
-        t = term->save_csattr;
+        t = term->save_cset_gr;
         if (!reset)
-            term->save_csattr = term->alt_save_csattr;
-        term->alt_save_csattr = t;
+            term->save_cset_gr = term->alt_save_cset_gr;
+        term->alt_save_cset_gr = t;
+        for (size_t i = 0; i < lenof(term->save_csattr); i++) {
+            t = term->save_csattr[i];
+            if (!reset)
+                term->save_csattr[i] = term->alt_save_csattr[i];
+            term->alt_save_csattr[i] = t;
+        }
         t = term->save_attr;
         if (!reset)
             term->save_attr = term->alt_save_attr;
@@ -4864,10 +4872,11 @@ static void save_cursor(Terminal *term, bool save)
         term->save_truecolour = term->curr_truecolour;
         term->save_hyperlink = term->curr_hyperlink;
         term->save_cset = term->cset;
+        term->save_cset_gr = term->cset_gr;
         term->save_utf = term->utf;
         term->save_wnext = term->wrapnext;
         term->save_om = term->dec_om;
-        term->save_csattr = term->cset_attr[term->cset];
+        memcpy(term->save_csattr, term->cset_attr, sizeof(term->save_csattr));
         term->save_sco_acs = term->sco_acs;
     } else {
         term->curs = term->savecurs;
@@ -4885,8 +4894,16 @@ static void save_cursor(Terminal *term, bool save)
         term->curr_attr = term->save_attr;
         term->curr_truecolour = term->save_truecolour;
         term->curr_hyperlink = term->save_hyperlink;
-        term->cset = term->save_cset;
-        term->utf = term->save_utf;
+        /* A saved cursor must not bypass the current local charset policy.
+         * XTerm saves all four designations and both locking-shift selectors;
+         * its pending SS2/SS3 is live state, not part of the saved cursor. */
+        if (!term->no_remote_charset) {
+            term->cset = term->save_cset;
+            term->cset_gr = term->save_cset_gr;
+            memcpy(term->cset_attr, term->save_csattr, sizeof(term->cset_attr));
+            term->utf = term->save_utf;
+            term->sco_acs = term->save_sco_acs;
+        }
         term->wrapnext = term->save_wnext;
         /*
          * wrapnext might reset to False if the x position is no
@@ -4894,8 +4911,6 @@ static void save_cursor(Terminal *term, bool save)
          */
         if (term->wrapnext && term->curs.x < nemo_write_right(term, scrlineptr(term->curs.y)))
             term->wrapnext = false;
-        term->cset_attr[term->cset] = term->save_csattr;
-        term->sco_acs = term->save_sco_acs;
         set_erase_char(term);
         seen_disp_event(term);
     }

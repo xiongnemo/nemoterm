@@ -1,5 +1,14 @@
 # Nemoterm requirements and evidence ledger
 
+## Saved cursor character sets (2026-11-13; runtime testing paused)
+
+[Cursor charset restoration](../research/cursor-charset-save.md) now retains
+all four supported designations and the GL/GR selectors in each screen's saved
+cache. Current local charset restrictions are respected on restore. Forty-four
+authored wire cases plus core/native checks are prepared; Windows/Linux builds
+and single-EXE linking pass. None of the new runtime checks has executed, and
+the accepted main executable remains unchanged.
+
 ## Saved attribute colours (2026-11-13; runtime testing paused)
 
 [The native attribute-colour settings page](../research/attribute-colour-settings.md)

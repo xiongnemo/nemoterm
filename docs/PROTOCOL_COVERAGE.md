@@ -37,7 +37,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | C0 SI/SO | Partial | G0/G1 bank selection is covered by presentation-state reports; full ISO 2022 combinations remain unverified. |
 | C0 CAN/SUB/ESC cancellation | Partial | Numerous query/OSC/DCS recovery cases; complete state-machine matrix remains open. |
 | ESC D/E/M (IND/NEL/RI) | Tested | `margins`, including partial horizontal scroll regions. |
-| ESC 7/8 (DECSC/DECRC) | Tested | `state_control`, cursor/rendition/alternate-screen state. |
+| ESC 7/8 (DECSC/DECRC) | Partial | `state_control` covers the earlier cursor/rendition/alternate-screen state. Saving all supported G0–G3 designations and both GL/GR selectors is now implemented with 44 authored cases, but only compiled, not executed; see [cursor charset checkpoint](../research/cursor-charset-save.md). |
 | ESC = / ESC > | Tested | `modes`, `keyboard`, application/numeric keypad state. |
 | ESC Z (DECID) | Source only | Shares configured primary DA response; not separately covered by identity oracle. |
 | ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
@@ -74,7 +74,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ' } / ' ~ (DECIC/DECDC) | Tested | VT420 column insertion/deletion over vertical margins from the cursor column. Full cell lifetimes and bounded Sixel views are checked separately from the 198-case XTerm matrix. |
 | b (REP) | Tested | `terminal`, `grapheme_terminal`; bounded repeats and optional whole clusters. |
 | r (DECSTBM); s with mode 69 (DECSLRM) | Tested | `margins`, independent xterm oracle. |
-| s/u without mode 69 | Tested | `state_control`; ANSI cursor save/restore aliases. |
+| s/u without mode 69 | Partial | `state_control`; ANSI cursor save/restore aliases. The new full supported-bank cache shares DECSC/DECRC's pending runtime acceptance. |
 | !p (DECSTR) | Tested | `state_control`, soft reset retention and mode reset semantics. |
 | $p / ?$p (DECRQM) | Tested | `modes`; reports implemented state, local restrictions and unknown modes. |
 | ?s / ?r (XTSAVE/XTRESTORE) | Partial | `state_control`, `margins`; bounded explicit list of supported private modes, not arbitrary modes. |

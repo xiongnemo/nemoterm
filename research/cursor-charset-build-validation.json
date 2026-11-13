@@ -1,0 +1,118 @@
+{
+  "source_base": "371f59e0582d4187767b7a256b8a67afcfc54fbe",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-cursor-charset-unverified/dist/nemoterm.exe",
+    "bytes": 4454912,
+    "sha256": "9bfac38feb28efb7cf78e61447b99ca9fd0f5720c87d6d7e309b010300742193"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_state_control",
+        "test_queries"
+      ],
+      "log": "research/cursor-charset-build-evidence/cursor-charset-msvc-build.log",
+      "executed_tests": false,
+      "bytes": 2367,
+      "sha256": "8454eb3b5e1c75b245524609411c7cebf0c7fac1e6e284de5b71e1941c432018"
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_state_control",
+        "test_queries"
+      ],
+      "log": "research/cursor-charset-build-evidence/cursor-charset-linux-build.log",
+      "executed_tests": false,
+      "bytes": 1806,
+      "sha256": "a88d5eaf88d475aeb2a4d93f08fe8f8843ff00df2c1538ae056de3235b390392"
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "research/cursor-charset-build-evidence/cursor-charset-single-build.log",
+      "executed_tests": false,
+      "bytes": 3045,
+      "sha256": "a206704422c31a6abaae47a4e2b959aa8bb7503be87285882486d172deefdffb"
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 497349,
+      "sha256": "cdc0377627bb7591d380ce3cb02dddb071bd8eb406405548876ad4cf3892e941",
+      "lf_bytes": 497349,
+      "sha256_lf": "cdc0377627bb7591d380ce3cb02dddb071bd8eb406405548876ad4cf3892e941"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 29324,
+      "sha256": "849bafb48cd18c2a17cb1c229bad7a9e76680ae3626232a5cdbed6351ba12d89",
+      "lf_bytes": 28530,
+      "sha256_lf": "bc78092a933a04a308f770ec06f735640390df429a624c4e348e27b91db440e5"
+    },
+    "vendor/putty-0.85/test/test_state_control.c": {
+      "bytes": 17562,
+      "sha256": "c64f042cd6aa60995ce413fd845dee8b948060c941da16871fc4cdff4034d688",
+      "lf_bytes": 17562,
+      "sha256_lf": "c64f042cd6aa60995ce413fd845dee8b948060c941da16871fc4cdff4034d688"
+    },
+    "tests/cursor_charset_cases.py": {
+      "bytes": 2250,
+      "sha256": "e2ae7b9ef96a0be7f58eb9956a892ef93031c5e4024d7245c6f8a40623ae8329",
+      "lf_bytes": 2250,
+      "sha256_lf": "e2ae7b9ef96a0be7f58eb9956a892ef93031c5e4024d7245c6f8a40623ae8329"
+    },
+    "tests/cursor_charset_cases.h": {
+      "bytes": 9050,
+      "sha256": "9f376c69a9169ddccb73d224d1161007c5e35aa3a18af7b8d7c91cc557bb1f5c",
+      "lf_bytes": 9050,
+      "sha256_lf": "9f376c69a9169ddccb73d224d1161007c5e35aa3a18af7b8d7c91cc557bb1f5c"
+    },
+    "tests/generate_cursor_charset_cases.py": {
+      "bytes": 1135,
+      "sha256": "a33e7eaeb776d981b5262d9bb18fa4ec7d640ac5e8fda600888c9b6cea81d8ee",
+      "lf_bytes": 1135,
+      "sha256_lf": "a33e7eaeb776d981b5262d9bb18fa4ec7d640ac5e8fda600888c9b6cea81d8ee"
+    },
+    "tests/xterm_cursor_charset_oracle.py": {
+      "bytes": 1129,
+      "sha256": "cc47e4c2ea7711dd408709b2255386d0aee67d461c0593b28204225ac867bc62",
+      "lf_bytes": 1129,
+      "sha256_lf": "cc47e4c2ea7711dd408709b2255386d0aee67d461c0593b28204225ac867bc62"
+    },
+    "tests/presentation_state_window_smoke.py": {
+      "bytes": 4181,
+      "sha256": "efb164cf371854ae239a7566b8a51fa5008246f535083c68b405667c6487c0d6",
+      "lf_bytes": 4181,
+      "sha256_lf": "efb164cf371854ae239a7566b8a51fa5008246f535083c68b405667c6487c0d6"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 35763,
+      "sha256": "143c23b06c2175aab57dc5fb60f0fc951f90b921881949f2e2d321440f55031c",
+      "lf_bytes": 35763,
+      "sha256_lf": "143c23b06c2175aab57dc5fb60f0fc951f90b921881949f2e2d321440f55031c"
+    }
+  },
+  "unchanged_images": {
+    "main": {
+      "bytes": 4371456,
+      "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+    },
+    "previous_attribute_settings": {
+      "bytes": 4454912,
+      "sha256": "e5a17231b337f81ed142e05091d889935ad9c1715e9d8d2c65fe72791abfc049"
+    }
+  },
+  "prepared_authored_wire_cases": 44,
+  "static_checks": [
+    "Python syntax",
+    "case generator freshness",
+    "git diff --check"
+  ]
+}

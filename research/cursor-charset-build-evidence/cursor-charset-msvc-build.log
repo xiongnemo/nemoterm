@@ -1,0 +1,30 @@
+[1/30] Updating licence.h
+[2/29] Checking current git commit
+[3/29] Updating cmake_commit.c
+[4/28] Building C object CMakeFiles\utils.dir\utils\stripctrl.c.obj
+[5/28] Building C object CMakeFiles\utils.dir\windows\unicode.c.obj
+[6/28] Building C object CMakeFiles\guiterminal.dir\terminal\nemo_tcap.c.obj
+[7/28] Building C object CMakeFiles\guiterminal.dir\terminal\terminal.c.obj
+[8/28] Building C object CMakeFiles\guiterminal.dir\ldisc.c.obj
+[9/28] Building C object CMakeFiles\guiterminal.dir\terminal\lineedit.c.obj
+[10/28] Building C object CMakeFiles\guiterminal.dir\windows\nemo_link_ui.c.obj
+C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\vendor\putty-0.85\windows\nemo_link_ui.c(285): warning C4319: '~': zero extending 'unsigned int' to 'WPARAM' of greater size
+[11/28] Building C object CMakeFiles\guiterminal.dir\windows\nemo_key_input.c.obj
+[12/28] Linking C static library utils.lib
+[13/28] Building C object CMakeFiles\guiterminal.dir\windows\nemo_osc52_ui.c.obj
+[14/28] Linking CXX static library guiterminal.lib
+[15/28] Building C object windows\CMakeFiles\test_queries.dir\__\test\test_queries.c.obj
+[16/28] Building C object windows\CMakeFiles\pterm.dir\window.c.obj
+C:\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\vendor\putty-0.85\windows\window.c(3245): warning C4319: '~': zero extending 'unsigned int' to 'WPARAM' of greater size
+[17/28] Building C object windows\CMakeFiles\test_queries.dir\__\stubs\no-gss.c.obj
+[18/28] Building C object windows\CMakeFiles\test_queries.dir\__\stubs\no-storage.c.obj
+[19/28] Building C object windows\CMakeFiles\test_queries.dir\__\stubs\no-timing.c.obj
+[20/28] Building C object windows\CMakeFiles\test_queries.dir\no-jump-list.c.obj
+[21/28] Building C object windows\CMakeFiles\test_state_control.dir\__\test\test_state_control.c.obj
+[22/28] Building C object windows\CMakeFiles\test_state_control.dir\__\stubs\no-gss.c.obj
+[23/28] Building C object windows\CMakeFiles\test_state_control.dir\__\stubs\no-storage.c.obj
+[24/28] Building C object windows\CMakeFiles\test_state_control.dir\__\stubs\no-timing.c.obj
+[25/28] Linking CXX static library nemoterm.lib
+[26/28] Linking CXX executable test_queries.exe
+[27/28] Building C object windows\CMakeFiles\test_state_control.dir\no-jump-list.c.obj
+[28/28] Linking CXX executable test_state_control.exe

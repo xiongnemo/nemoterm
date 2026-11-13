@@ -1,6 +1,7 @@
 """Presentation reports, replay, character-set pixels and resize in an owned job."""
 from presentation_state_oracle_cases import CASES
 from presentation_state_direct_cases import CASES as DIRECT
+from cursor_charset_cases import CASES as CURSOR_CHARSETS
 from protocol_oracle_window import run
 from native_test_utils import capture, hashlib, terminal_host, u, wait_for, time
 
@@ -25,6 +26,12 @@ def exercise(hwnd, phase, current):
     assert actual == expected and actual != normal
     actual = pixels('g3-single-and-locking', frame+'\x1b+0\x1bOqq\x1boqq')
     assert actual == expected
+
+    expected = pixels('saved-bank-baseline', frame+'\x1b(0qqqq')
+    actual = pixels('saved-inactive-banks', frame+
+                    '\x1b(0\x1b)0\x1b*0\x1b+0\x1b7'+
+                    '\x1b(B\x1b)B\x1b*B\x1b+B\x1b8q\x0eq\x1bnq\x1boq')
+    assert actual == expected, 'saved inactive character sets did not restore'
 
     expected = pixels('cursor-style-baseline', frame+CSI+'1;4;7m'+' '*20)
     report = phase('capture-cursor', frame+CSI+'1;4;7m'+CSI+'1$w',
@@ -71,5 +78,5 @@ def exercise(hwnd, phase, current):
     return evidence
 
 
-run('presentation-state', CASES, extra_cases=DIRECT, exercise=exercise,
+run('presentation-state', CASES, extra_cases=DIRECT+CURSOR_CHARSETS, exercise=exercise,
     barrier=barrier, profile=dict(UTF8linedraw=1, NemoAllowChecksum=1, WarnOnClose=0))

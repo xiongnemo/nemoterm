@@ -4,6 +4,7 @@
 #undef main
 #include "../../../tests/tabulation_oracle_cases.h"
 #include "../../../tests/double_size_oracle_cases.h"
+#include "../../../tests/cursor_charset_cases.h"
 
 static void test_double_size(Mock *mk)
 {
@@ -95,6 +96,64 @@ static void state_reply(Mock *mk, const char *input, const char *expected)
     strbuf_clear(mk->to_backend);
     term_data_fragmented(mk->term, input);
     SEQUAL(mk->to_backend->s, expected);
+}
+
+static void test_cursor_charsets(Mock *mk)
+{
+    Terminal *t = mk->term;
+    int old_codepage = mk->ucsdata->line_codepage;
+    bool old_linedraw = conf_get_bool(mk->conf, CONF_utf8linedraw);
+    conf_set_bool(mk->conf, CONF_utf8linedraw, true);
+    term_reconfig(t, mk->conf);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(cursor_charset_cases); i++) {
+        reset(mk);
+        test_context(mk, "authored cursor charset: %s", cursor_charset_cases[i].name);
+        state_reply(mk, cursor_charset_cases[i].sequence, cursor_charset_cases[i].reply);
+        IEQUAL(mk->clipboard_writes, 0);
+    }
+
+    reset(mk);
+    mk->ucsdata->line_codepage = CP_ISO8859_1;
+    test_context(mk, "restored inactive banks and GR produce line-drawing cells");
+    term_data_fragmented(t, "\033(0\033)0\033*0\033+0\033n\033|\0337"
+                         "\033(B\033)B\033*B\033+B\017\033~\0338"
+                         "\017q\016q\033nq\033oq\361");
+    for (int x = 0; x < 5; x++)
+        IEQUAL(get_termchar(t, x, 0).chr, CSET_LINEDRW|'q');
+    IEQUAL(t->cset_gr, 3);
+    IEQUAL(t->curs.x, 5);
+
+    reset(mk);
+    test_context(mk, "PuTTY SCO designations are retained in all saved banks");
+    term_data_fragmented(t, "\033(U\033)U\033*U\033+U\0337"
+                         "\033(B\033)B\033*B\033+B\0338");
+    for (size_t i = 0; i < lenof(t->cset_attr); i++)
+        IEQUAL(t->cset_attr[i], CSET_SCOACS);
+
+    reset(mk);
+    test_context(mk, "saved charset state obeys the current local prohibition");
+    term_data_fragmented(t, "\033(0\033)0\033*0\033+0\033n\033|"
+                         "\033[12m\033%G\0337\017\033}");
+    conf_set_bool(mk->conf, CONF_no_remote_charset, true);
+    term_reconfig(t, mk->conf);
+    term_data_fragmented(t, "\0338");
+    IEQUAL(t->cset, 0); IEQUAL(t->cset_gr, 2);
+    IEQUAL(t->utf, false); IEQUAL(t->sco_acs, 0);
+    for (size_t i = 0; i < lenof(t->cset_attr); i++)
+        IEQUAL(t->cset_attr[i], CSET_ASCII);
+    conf_set_bool(mk->conf, CONF_no_remote_charset, false);
+    term_reconfig(t, mk->conf);
+    term_data_fragmented(t, "\0338");
+    IEQUAL(t->cset, 2); IEQUAL(t->cset_gr, 3);
+    IEQUAL(t->utf, true); IEQUAL(t->sco_acs, 2);
+    for (size_t i = 0; i < lenof(t->cset_attr); i++)
+        IEQUAL(t->cset_attr[i], CSET_LINEDRW);
+
+    conf_set_bool(mk->conf, CONF_utf8linedraw, old_linedraw);
+    term_reconfig(t, mk->conf);
+    mk->ucsdata->line_codepage = old_codepage;
+    reset(mk);
 }
 
 static bool state_sync(TermWin *win, bool enabled) { return true; }
@@ -314,6 +373,7 @@ int main(void)
     test_soft_policy_and_palette(mk);
     test_saved_modes(mk);
     test_cursor_aliases_and_origin(mk);
+    test_cursor_charsets(mk);
     test_saved_extensions_and_recovery(mk);
     test_tabulation(mk);
     test_double_size(mk);

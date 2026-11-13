@@ -1,0 +1,26 @@
+[1/30] Updating sbcsdat.c
+[2/27] Checking current git commit
+[3/27] Updating cmake_commit.c
+[4/26] Building C object CMakeFiles/utils.dir/utils/stripctrl.c.o
+[5/26] Building C object CMakeFiles/guiterminal.dir/terminal/nemo_tcap.c.o
+[6/26] Building C object CMakeFiles/guiterminal.dir/ldisc.c.o
+[7/26] Building C object CMakeFiles/guiterminal.dir/terminal/lineedit.c.o
+[8/26] Linking C static library libutils.a
+[9/26] Building C object unix/CMakeFiles/test_state_control.dir/__/test/test_state_control.c.o
+[10/26] Building C object unix/CMakeFiles/test_state_control.dir/__/stubs/no-gss.c.o
+[11/26] Building C object unix/CMakeFiles/test_state_control.dir/__/stubs/no-storage.c.o
+[12/26] Building C object unix/CMakeFiles/test_state_control.dir/__/stubs/no-timing.c.o
+[13/26] Building C object unix/CMakeFiles/test_state_control.dir/__/stubs/no-printing.c.o
+[14/26] Building C object unix/CMakeFiles/test_state_control.dir/unicode.c.o
+[15/26] Building C object unix/CMakeFiles/test_state_control.dir/no-gtk.c.o
+[16/26] Building C object unix/CMakeFiles/test_queries.dir/__/test/test_queries.c.o
+[17/26] Building C object unix/CMakeFiles/test_queries.dir/__/stubs/no-gss.c.o
+[18/26] Building C object unix/CMakeFiles/test_queries.dir/__/stubs/no-storage.c.o
+[19/26] Building C object unix/CMakeFiles/test_queries.dir/__/stubs/no-timing.c.o
+[20/26] Building C object unix/CMakeFiles/test_queries.dir/__/stubs/no-printing.c.o
+[21/26] Building C object unix/CMakeFiles/test_queries.dir/unicode.c.o
+[22/26] Building C object unix/CMakeFiles/test_queries.dir/no-gtk.c.o
+[23/26] Building C object CMakeFiles/guiterminal.dir/terminal/terminal.c.o
+[24/26] Linking C static library libguiterminal.a
+[25/26] Linking C executable test_state_control
+[26/26] Linking C executable test_queries

@@ -227,7 +227,8 @@ struct terminal_tag {
     int cset;                          /* GL character-set bank, 0..3 */
     int cset_gr, cset_ss;               /* GR bank; one-shot GL bank or zero */
     bool dec_protection;               /* protection family selected by DECSCA */
-    int save_cset, save_csattr;        /* saved with cursor position */
+    int save_cset, save_cset_gr;       /* saved GL and GR bank selectors */
+    int save_csattr[4];               /* all designations, including inactive banks */
     bool save_utf, save_wnext;         /* saved with cursor position */
     bool save_om;
     bool rvideo;                       /* global reverse video flag */
@@ -251,7 +252,7 @@ struct terminal_tag {
     pos alt_savecurs;
     int alt_save_attr;
     truecolour alt_save_truecolour;
-    int alt_save_cset, alt_save_csattr;
+    int alt_save_cset, alt_save_cset_gr, alt_save_csattr[4];
     bool alt_save_utf;
     bool alt_save_wnext;
     bool alt_save_om;
