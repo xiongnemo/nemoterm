@@ -1,0 +1,34 @@
+name: Allocation census bookkeeping
+
+on:
+  push:
+    paths:
+      - 'tests/allocation_census.h'
+      - 'tests/test_allocation_census.c'
+      - '.github/workflows/allocation-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bookkeeping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Compile and check allocation lifetime bookkeeping
+        shell: bash
+        run: |
+          set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror -O1 -g \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            tests/test_allocation_census.c -o allocation-census-test
+          ./allocation-census-test 2>&1 | tee allocation-census-test.log
+      - name: Retain diagnostic collector validation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: allocation-census-bookkeeping-${{ github.sha }}
+          path: allocation-census-test.log
+          if-no-files-found: warn
