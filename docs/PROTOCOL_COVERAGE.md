@@ -31,7 +31,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | Wire function | Status | Evidence or limitation |
 | --- | --- | --- |
 | C0 BEL | Source only | Bell callback and local policies; audible/visual behavior needs dedicated acceptance. |
-| C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; linefeed and boundary behavior. |
+| C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; BS follows explicit reverse-wrap modes 45/1045, with physical-cell counting and pending-wrap cases. Default BS stays on the current line. |
 | C0 HT; ESC H (HTS) | Tested | `state_control`, 108 tabulation oracle comparisons and native ConPTY replies. |
 | C0 ENQ | Source only | Configured answerback path. |
 | C0 SI/SO | Partial | G0/G1 bank selection is covered by presentation-state reports; full ISO 2022 combinations remain unverified. |
@@ -57,7 +57,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 | Wire function | Status | Evidence or limitation |
 | --- | --- | --- |
-| A/B/C/D (CUU/CUD/CUF/CUB) | Tested | `margins`, `terminal`; origin and scroll-region boundaries. |
+| A/B/C/D (CUU/CUD/CUF/CUB) | Tested | `margins`, `terminal`; origin and scroll-region boundaries. CUB shares reverse-wrap handling with BS, including bounded large counts and extended cycles. |
 | E/F (CNL/CPL) | Source only | Handlers exist; dedicated origin/horizontal-margin matrix remains open. |
 | G and backtick (CHA/HPA); d (VPA); H/f (CUP/HVP) | Tested | `margins`, `queries`, origin-relative positioning. |
 | a/e (HPR/VPR) | Source only | Share relative movement handlers; aliases need direct cases. |
@@ -116,6 +116,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DEC modes 1/2/3/5/6/7/8/12/25/66 | Partial | `modes`, `state_control`; corresponding legacy behavior and configuration gates. Full VT52 and 80/132 transition coverage remains open. |
 | DEC modes 47/1047/1048/1049 | Tested | Alternate screen and cursor state, `state_control`, `margins`, `grapheme_terminal`. |
 | DEC mode 69 | Tested | Horizontal margin state and edits, `margins`. |
+| DEC modes 45/1045 | Tested | Normal/extended reverse wrap: 567 exact XTerm cases, 13 direct boundary cases, private save/restore, reset, alternate-screen state, pending wrap, wide/double-size cells and margin scrolling. Cursor stays in the viewport where ten reference cases leave it; see [reverse-wrap record](../research/reverse-wrap.md). |
 | DEC modes 9/1000/1001/1002/1003 | Tested | X10, press/release, highlight, button/all motion; `mouse`, `highlight`, native HWND fixtures. |
 | DEC modes 1005/1006/1015/1016 | Tested | UTF-8/SGR/urxvt/pixel mouse encodings and bounded coordinates. |
 | DEC modes 1004/1007 | Tested | Focus reports and alternate-screen wheel behavior. |
@@ -123,7 +124,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DEC modes 80/1070/8452 | Tested | Sixel display/palette/cursor-scroll behavior, `sixel_terminal`. |
 | DEC modes 2026/2027 | Partial | Synchronized frames and opt-in grapheme widths tested; see `sync`, `grapheme_terminal`, `graphemes.md`. Color-font/emoji policy and long workloads remain open. |
 | DEC mode 9001 | Gated | Windows input records, `win32_input`, user setting and native fixture. |
-| Other DEC modes, including 45 reverse wrap and 1042/1043 bell focus | Missing | Not in the current mode handler; DECRQM returns unknown rather than advertising support. |
+| Other DEC modes, including 1042/1043 bell focus | Missing | Not in the current mode handler; DECRQM returns unknown rather than advertising support. |
 | >m/>n/?m; >f/?g/>g (modifyOtherKeys family) | Partial | `mok`, native key tests and independent reference; supported resource is modifyOtherKeys, not all xterm key resources. |
 | ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |
 | DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
@@ -156,7 +157,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
    extend the implemented DEC status queries when UDK/locator/macro support exists.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
-3. Add reverse-wrap modes and remaining xterm report/stack operations with
+3. Add remaining xterm report/stack operations and remaining mode families with
    independent reference cases and bounded storage.
 4. Extend double-size row coverage to editing and resize combinations beyond
    the now-verified text output, cursor and grapheme behavior.

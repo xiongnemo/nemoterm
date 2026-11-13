@@ -217,6 +217,7 @@ struct terminal_tag {
     unsigned rectangle_extent;         /* DECSACE: 2=rectangle, others=stream */
     unsigned checksum_flags;           /* XTCHECKSUM, low five bits */
     bool wrap, wrapnext;               /* wrap flags */
+    bool reverse_wrap, reverse_wrap_extended; /* xterm modes 45 / 1045 */
     bool grapheme_mode, grapheme_pending, grapheme_wrapnext;
     NemoGraphemeState grapheme;
     NemoGraphemeWidth grapheme_width;
@@ -304,7 +305,7 @@ struct terminal_tag {
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
      * groups and alternate-screen aliases share entries (84 bytes total). */
-    int saved_dec_modes[23];
+    int saved_dec_modes[25];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 

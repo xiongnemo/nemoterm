@@ -63,6 +63,8 @@ static void test_switchable_modes(Mock *mk)
         MODE_CASE("?", "8", "DECARM key repeat, inverse of repeat_off"),
         MODE_CASE("?", "12", "cursor blinking"),
         MODE_CASE("?", "25", "DECTCEM cursor visibility"),
+        MODE_CASE("?", "45", "xterm reverse wrap"),
+        MODE_CASE("?", "1045", "xterm extended reverse wrap"),
         MODE_CASE("?", "66", "DECNKM application keypad"),
         MODE_CASE("?", "69", "DECLRMM left/right margins"),
         MODE_CASE("?", "47", "alternate screen mode 47"),

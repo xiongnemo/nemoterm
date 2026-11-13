@@ -225,6 +225,7 @@ extern const int colour_indices_oscp_to_osc4[OSCP_NCOLOURS];
 #define LATTR_WRAPPED2 0x00000020UL    /* with WRAPPED: CJK wide character
                                           wrapped to next line, so last
                                           single-width cell is empty */
+#define LATTR_CURSOR_WRAPPED 0x00000040UL /* margin wrap, without full-row reflow */
 
 #define ATTR_INVALID 0x03FFFFU
 

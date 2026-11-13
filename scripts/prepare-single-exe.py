@@ -100,6 +100,16 @@ def patch_input_dcs_fragments():
             "    if (!_isEngineForInput)\n    {\n        _cachedSequence.reset();\n    }")
 
 
+def patch_cursor_sync_fragments():
+    # A tagged cursor reply can cross pipe reads before the first actual key.
+    # While that transaction is pending, a trailing ESC/ESC[ is a stream
+    # prefix, not the parser's legacy heuristic for an isolated Alt key.
+    replace(DEST / "src/terminal/parser/InputStateMachineEngine.cpp",
+            "    return _encounteredWin32InputModeSequence;",
+            "    return _encounteredWin32InputModeSequence ||\n"
+            "        _nemoCursorRequest.load(std::memory_order_relaxed) != 0;")
+
+
 def main():
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
@@ -236,6 +246,7 @@ def main():
 
     patch_cursor_sync()
     patch_input_dcs_fragments()
+    patch_cursor_sync_fragments()
 
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.

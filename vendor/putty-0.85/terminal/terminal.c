@@ -2817,6 +2817,7 @@ static void power_on(Terminal *term, bool clear)
     term->save_wnext = false;
     term->alt_save_wnext = false;
     term->alt_wrap = term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
+    term->reverse_wrap = term->reverse_wrap_extended = false;
     term->alt_cset = term->cset = term->save_cset = term->alt_save_cset = 0;
     term->alt_utf = false;
     term->utf = false;
@@ -4440,6 +4441,7 @@ static void scroll(Terminal *term, int topline, int botline,
             termline *row = scrlineptr(y); check_line_size(term, row);
             check_boundary(term, left, y); check_boundary(term, right, y);
             check_selection(term, (pos){y,left}, (pos){y,right});
+            if (row->lattr & LATTR_WRAPPED) row->lattr |= LATTR_CURSOR_WRAPPED;
             row->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2);
         }
         int step = lines > 0 ? 1 : -1;
@@ -4624,6 +4626,50 @@ static void move(Terminal *term, int x, int y, int marg_clip)
 /*
  * Save or restore the cursor and SGR mode.
  */
+/* BS/CUB count cells. Mode 45 crosses only a wrapped line; mode 1045 can
+ * cross hard breaks and cycle inside the row margins. Neither may place our
+ * cursor in history: a reference edge case above the margins reports row 0.
+ * Cap the wire count like xterm, and reduce extended cycles arithmetically. */
+static void nemo_cursor_back(Terminal *term, unsigned count)
+{
+    count = min(count ? count : 1, 65535u);
+    bool reverse = term->wrap && term->reverse_wrap;
+    bool extended = term->wrap && term->reverse_wrap_extended;
+    int left = term->curs.x < term->marg_l ? 0 : term->marg_l;
+    int right = term->marg_r;
+    /* Xterm's CursorBack consumes an extra unit for a pending-wrap CUB;
+     * BS(1) and CUB(2) both clear the pending state without moving. */
+    if (term->wrapnext && (reverse || extended)) count = count > 1 ? count-2 : 0;
+    term->wrapnext = false;
+    while (count) {
+        int x = term->curs.x, y = term->curs.y;
+        if (extended && y >= term->marg_t && y <= term->marg_b && x <= right) {
+            uint64_t width = right-left+1;
+            uint64_t area = width*(term->marg_b-term->marg_t+1);
+            uint64_t offset = (y-term->marg_t)*width+x-left;
+            offset = (offset+area-count%area)%area;
+            term->curs.x = left+(int)(offset%width);
+            term->curs.y = term->marg_t+(int)(offset/width);
+            break;
+        }
+        unsigned distance = min(count, (unsigned)(x-left));
+        term->curs.x -= distance;
+        count -= distance;
+        if (!count || (!reverse && !extended)) break;
+        int previous = extended && y == term->marg_t ? term->marg_b : y-1;
+        if (previous < 0) break;
+        if (!extended && !(scrlineptr(previous)->lattr & (LATTR_WRAPPED | LATTR_CURSOR_WRAPPED))) {
+            /* Retain the reference's lower-margin boundary behavior. */
+            if (previous >= term->marg_b) term->curs.y = previous;
+            break;
+        }
+        term->curs.y = previous;
+        term->curs.x = right;
+        count--;
+    }
+    seen_disp_event(term);
+}
+
 static void save_cursor(Terminal *term, bool save)
 {
     if (save) {
@@ -4686,6 +4732,7 @@ static void nemo_soft_reset(Terminal *term)
     term->marg_l = 0; term->marg_r = max(0, term->cols-1);
     term->lrmm = false;
     term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
+    term->reverse_wrap = term->reverse_wrap_extended = false;
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
@@ -4832,7 +4879,7 @@ static void nemo_selective_erase(Terminal *term, bool line_only, unsigned mode)
         int right = row == term->curs.y && mode == 1 ? term->curs.x+1 : term->cols;
         nemo_erase_row(term, row, left, right, true, NEMO_ERASE_BCE);
         if (right == term->cols)
-            scrlineptr(row)->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2);
+            scrlineptr(row)->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2 | LATTR_CURSOR_WRAPPED);
     }
     if (!line_only && mode == 2 && term->dec_protection) {
         bool remains = false;
@@ -5173,7 +5220,7 @@ static void erase_lots(Terminal *term,
             check_line_size(term, ldata);
             if (start.x == term->cols) {
                 if (!erase_lattr)
-                    ldata->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2);
+                    ldata->lattr &= ~(LATTR_WRAPPED | LATTR_WRAPPED2 | LATTR_CURSOR_WRAPPED);
                 else
                     ldata->lattr = LATTR_NORM;
             } else {
@@ -5325,8 +5372,11 @@ static void nemo_column_index(Terminal *term, bool backward)
     if (nemo_in_lr(term) && term->curs.x == (backward ? term->marg_l : term->marg_r)) {
         nemo_scroll_columns(term, 1, !backward, term->marg_l);
     } else {
-        int right = min(nemo_right(term), nemo_line_columns(term, scrlineptr(term->curs.y))-1);
-        move(term, backward ? term->curs.x-1 : min(term->curs.x+1, right), term->curs.y, 1);
+        if (backward) nemo_cursor_back(term, 1);
+        else {
+            int right = min(nemo_right(term), nemo_line_columns(term, scrlineptr(term->curs.y))-1);
+            move(term, min(term->curs.x+1, right), term->curs.y, 1);
+        }
     }
     seen_disp_event(term);
 }
@@ -5445,6 +5495,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 8:                      /* DECARM: auto key repeat */
             term->repeat_off = !state;
             break;
+          case 45: term->reverse_wrap = state; break;
+          case 1045: term->reverse_wrap_extended = state; break;
           case 12:                     /* cursor blinking (att610/xterm) */
             term->blink_cur = state;
             term->cblinker = true;
@@ -5601,6 +5653,8 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 6: state = term->dec_om; break;
           case 7: state = term->wrap; break;
           case 8: state = !term->repeat_off; break;
+          case 45: state = term->reverse_wrap; break;
+          case 1045: state = term->reverse_wrap_extended; break;
           case 12: state = term->blink_cur; break;
           case 25: state = term->cursor_on; break;
           case 66:
@@ -5655,7 +5709,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     }
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
-        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001
+        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;
@@ -6410,6 +6464,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
             copy_termchar(line, anchor.x, &term->erase_char);
             if (!term->marg_l && term->marg_r == term->cols-1)
                 line->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
+            else line->lattr |= LATTR_CURSOR_WRAPPED;
             nemo_linefeed(term);
             term->curs.x = term->marg_l;
             term->wrapnext = false;
@@ -6488,6 +6543,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
     if (term->wrapnext && term->wrap && width > 0) {
         if (!term->marg_l && term->marg_r == term->cols-1)
             cline->lattr |= LATTR_WRAPPED;
+        else cline->lattr |= LATTR_CURSOR_WRAPPED;
         nemo_linefeed(term);
         term->curs.x = term->marg_l;
         term->wrapnext = false;
@@ -6550,6 +6606,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
                           &term->erase_char);
             if (!term->marg_l && term->marg_r == term->cols-1)
                 cline->lattr |= LATTR_WRAPPED | LATTR_WRAPPED2;
+            else cline->lattr |= LATTR_CURSOR_WRAPPED;
             nemo_images_erase(term, term->curs, (pos){term->curs.y,term->curs.x+1});
             nemo_linefeed(term);
             term->curs.x = term->marg_l;
@@ -7283,40 +7340,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 break;
               }
               case '\b':              /* BS: Back space */
-                if (term->lrmm) {
-                    if (term->curs.x > nemo_cr_x(term)) term->curs.x--;
-                    term->wrapnext = false;
-                } else if (term->wrapnext) {
-                    term->wrapnext = false;
-                } else if (term->curs.x == 0 &&
-                           (term->curs.y == 0 || !term->wrap)) {
-                    /* do nothing */
-                } else if (term->curs.x == 0 && term->curs.y > 0) {
-                    term->curs.x = term->cols - 1, term->curs.y--;
-
-                    /*
-                     * If the line we've just wrapped back on to had the
-                     * LATTR_WRAPPED2 flag set, it means that the line wrapped
-                     * because a double-width character was printed with the
-                     * cursor in the rightmost column, and the best handling
-                     * available was to leave that column empty and move the
-                     * whole character to the next line. In that situation,
-                     * backspacing needs to put the cursor on the previous
-                     * _logical_ character, i.e. skip the empty space left by
-                     * the wrapping. This arranges that if an application
-                     * unaware of the terminal width or cursor position prints
-                     * a number of printing characters and then tries to return
-                     * to a particular one of them by emitting the right number
-                     * of backspaces, it's still the right number even if a
-                     * line break appeared in a maximally awkward position.
-                     */
-                    termline *ldata = scrlineptr(term->curs.y);
-                    if (term->curs.x > 0 && (ldata->lattr & LATTR_WRAPPED2))
-                        term->curs.x--;
-                } else {
-                    term->curs.x--;
-                }
-                seen_disp_event(term);
+                nemo_cursor_back(term, 1);
                 break;
               case '\016':            /* LS1: Locking-shift one */
                 compatibility(VT100);
@@ -7810,10 +7834,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         seen_disp_event(term);
                         break;
                       case 'D':       /* CUB: move left N cols */
-                        CLAMP(term->esc_args[0], term->cols);
-                        move(term, term->curs.x - def(term->esc_args[0], 1),
-                             term->curs.y, 1);
-                        seen_disp_event(term);
+                        nemo_cursor_back(term, term->esc_args[0]);
                         break;
                       case 'E':       /* CNL: move down N lines and CR */
                         compatibility(ANSI);

@@ -285,6 +285,7 @@ static void test_wrap(Mock *mk)
 
     /* Print 'abc' without enough space for the c, in wrapping mode */
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     mk->term->curs.x = 78;
     mk->term->curs.y = 0;
     mk->term->wrap = true;
@@ -353,6 +354,7 @@ static void test_wrap(Mock *mk)
 
     /* Now put the DW character in place of bc */
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     mk->term->curs.x = 78;
     mk->term->curs.y = 0;
     mk->term->wrap = true;
@@ -382,15 +384,16 @@ static void test_wrap(Mock *mk)
     IEQUAL(mk->term->curs.x, 0);
     IEQUAL(mk->term->curs.y, 1);
     IEQUAL(mk->term->wrapnext, 0);
-    /* Now backspace again, and the cursor skips the empty column so
-     * that it can return to the previous logical character, to wit, the a */
+    /* Xterm reverse wrap counts physical cells, including the padding
+     * cell left when a wide character wrapped. */
     term_datapl(mk->term, PTRLEN_LITERAL("\b"));
-    IEQUAL(mk->term->curs.x, 78);
+    IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
     IEQUAL(mk->term->wrapnext, 0);
 
     /* Print 'ab' up to the rightmost column, and then backspace */
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     mk->term->curs.x = 78;
     mk->term->curs.y = 0;
     mk->term->wrap = true;
@@ -411,6 +414,7 @@ static void test_wrap(Mock *mk)
 
     /* For completeness, the easy case: just print 'a' then backspace */
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     mk->term->curs.x = 78;
     mk->term->curs.y = 0;
     mk->term->wrap = true;
@@ -433,6 +437,7 @@ static void test_wrap(Mock *mk)
      */
 
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     term_size(mk->term, 24, 1, 0);
     mk->term->curs.x = 0;
     mk->term->curs.y = 0;
@@ -465,6 +470,7 @@ static void test_wrap(Mock *mk)
 
     /* And now try with a double-width character */
     reset(mk);
+    term_data_fragmented(mk->term, "\033[?45h");
     term_size(mk->term, 24, 1, 0);
     mk->term->curs.x = 0;
     mk->term->curs.y = 0;

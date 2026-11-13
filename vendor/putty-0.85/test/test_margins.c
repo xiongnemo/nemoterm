@@ -4,6 +4,34 @@
 #undef main
 #include "../../../tests/margin_oracle_cases.h"
 #include "../../../tests/horizontal_oracle_cases.h"
+#include "../../../tests/reverse_wrap_oracle_cases.h"
+
+static void test_reverse_wrap_oracle(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(reverse_wrap_oracle); i++) {
+        reset(mk); test_context(mk, "%s", reverse_wrap_oracle[i].name);
+        mk->ucsdata->line_codepage = CP_UTF8;
+        term_size(mk->term, 24, 80, 100);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, reverse_wrap_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, reverse_wrap_oracle[i].reply);
+        for (size_t j = 0; j < lenof(reverse_wrap_cells); j++) {
+            int x = reverse_wrap_cells[j][1]-1, y = reverse_wrap_cells[j][0]-1;
+            unsigned ch = get_termchar(mk->term, x, y).chr;
+            if (ch == UCSWIDE) ch = 0;
+            else if (DIRECT_CHAR(ch)) ch &= ~CSET_MASK;
+            test_context(mk, "%s at %d,%d", reverse_wrap_oracle[i].name,y+1,x+1);
+            IEQUAL(ch, reverse_wrap_oracle[i].cells[j]);
+        }
+    }
+    for (size_t i = 0; i < lenof(reverse_wrap_direct); i++) {
+        reset(mk); term_size(mk->term, 24, 80, 100);
+        test_context(mk, "%s", reverse_wrap_direct[i].name);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, reverse_wrap_direct[i].sequence);
+        SEQUAL(mk->to_backend->s, reverse_wrap_direct[i].reply);
+    }
+}
 
 static void test_horizontal_oracle(Mock *mk)
 {
@@ -196,6 +224,56 @@ static void test_horizontal_lifetimes(Mock *mk)
     IEQUAL(t->curs.x, 0); IEQUAL(t->curs.y, 0);
 }
 
+static void test_reverse_wrap_lifetimes(Mock *mk)
+{
+    margin_setup(mk, "reverse motion preserves pixels, selection and retained cell payloads");
+    Terminal *t = mk->term;
+    IEQUAL(t->reverse_wrap, false); IEQUAL(t->reverse_wrap_extended, false);
+    term_data_fragmented(t, "\033[2;80Hx\xcc\x81" "BC\033[8;4H"
+        "\033P0;1q#1;2;100;0;0!24~\033\\\033[?45h");
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_CLICK, 0, 2, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_DRAG, 1, 2, true, false, false);
+    term_mouse(t, MBT_LEFT, MBT_SELECT, MA_RELEASE, 1, 2, true, false, false);
+    int selected = t->selstate;
+    IEQUAL(selected != NO_SELECTION, true);
+    NemoTermImage *image = t->images;
+    size_t bytes = t->image_bytes;
+    for (int i = 0; i < 500; i++)
+        term_data_fragmented(t, "\033[3;3H\033[3D\033[2C\b");
+    IEQUAL(t->selstate, selected); IEQUAL(t->images == image, true);
+    IEQUAL(t->image_bytes, bytes);
+    termline *line = term_get_line(t, 1);
+    IEQUAL(line->chars[79].chr & ~CSET_MASK, 'x');
+    IEQUAL(line->chars[79+line->chars[79].cc_next].chr, 0x301);
+    term_release_line(line);
+
+    margin_setup(mk, "margin wrap does not join outside columns during copy or resize");
+    term_data_fragmented(t, "\033[?69h\033[3;8s\033[3;6r\033[3;3HABCDEFGHIJKLM\033[?45h");
+    IEQUAL(!!(get_lineattr(t,2) & LATTR_CURSOR_WRAPPED), true);
+    IEQUAL(!!(get_lineattr(t,2) & LATTR_WRAPPED), false);
+    int clip = CLIP_LOCAL;
+    term_copyall(t, &clip, 1); /* mock clipboard, never the desktop clipboard */
+#ifdef _WIN32
+    IEQUAL(wcsstr(t->last_selected_text, L"ABCDEF\r\n  GHIJKL") != NULL, true);
+#else
+    IEQUAL(wcsstr(t->last_selected_text, L"ABCDEF\n  GHIJKL") != NULL, true);
+#endif
+    term_data_fragmented(t, "\033[?69l");
+    term_size(t, 24, 100, 100);
+    IEQUAL(get_termchar(t,2,2).chr & ~CSET_MASK, 'A');
+    IEQUAL(get_termchar(t,2,3).chr & ~CSET_MASK, 'G');
+
+    test_context(mk, "bounded reverse wrap for tiny grids and saturated counts");
+    for (int rows = 1; rows <= 6; rows++) for (int cols = 1; cols <= 8; cols++) {
+        reset(mk); term_size(t, rows, cols, 0);
+        for (int i = 0; i < 60; i++) {
+            term_data_fragmented(t, "\033[?45;1045h\033[99999999999999999D\b\0336");
+            IEQUAL(t->curs.x >= 0 && t->curs.x < cols, true);
+            IEQUAL(t->curs.y >= 0 && t->curs.y < rows, true);
+        }
+    }
+}
+
 int main(void)
 {
     setvbuf(stdout,NULL,_IONBF,0);
@@ -205,6 +283,8 @@ int main(void)
     test_margin_oracle(mk);test_wide_boundaries(mk);test_margin_state(mk);test_cell_lifetimes(mk);
     test_horizontal_oracle(mk);
     test_horizontal_lifetimes(mk);
+    test_reverse_wrap_oracle(mk);
+    test_reverse_wrap_lifetimes(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Margin suite FAILED":"Margin suite passed");
     return failed?1:0;
