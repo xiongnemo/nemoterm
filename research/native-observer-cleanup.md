@@ -61,3 +61,14 @@ The single-image test list keeps its existing order and announces each fixture
 before invoking it. Both workflows retain the shutdown JSON even on failure.
 These are diagnostic changes, not a claim that the underlying intermittent
 shutdown hang is fixed. Local runtime execution remains paused.
+
+Source `52d09621ca30481836c84326251a61064d901ee9` passes both the
+[core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264)
+and [57-group single-image workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324).
+Both retain all six shutdown cases at `cleanup-complete` with zero exit codes.
+The [new artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324/artifacts/14050547004)
+contains one 4,371,456-byte EXE; its downloaded SHA-256 is
+`2f4fa075381aa90c05d91853f04ac1e6e7f2b31e8c78abf890542d98ae8768cb`.
+The [new validation manifest](shutdown-diagnostics-validation.json) binds those
+records. This confirms the diagnostic changes pass existing checks; the earlier
+timeout remains unexplained and no local runtime acceptance is inferred.

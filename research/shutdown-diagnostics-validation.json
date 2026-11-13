@@ -1,0 +1,35 @@
+{
+  "recorded_utc": "2026-11-13T15:22:46.477372+00:00",
+  "tested_commit": "52d09621ca30481836c84326251a61064d901ee9",
+  "core_run": 43449297264,
+  "core_result": "success",
+  "single_exe_run": 43449297324,
+  "single_exe_result": "success",
+  "passed_check_groups": 57,
+  "artifact_id": 14050547004,
+  "evidence_artifact_id": 14051110654,
+  "executable_bytes": 4371456,
+  "executable_sha256": "2f4fa075381aa90c05d91853f04ac1e6e7f2b31e8c78abf890542d98ae8768cb",
+  "shutdown_cases_per_build": 6,
+  "product_source_changed": false,
+  "local_runtime_tests_executed": false,
+  "accepted_local_executable_replaced": false,
+  "all_historical_shutdown_stalls_explained": false,
+  "evidence": [
+    {
+      "path": "research/native-observer-cleanup-evidence/shutdown-main-diagnostics-core.json",
+      "bytes": 7844,
+      "sha256": "f6affb856b0ec7ba008e4edcfe44e273fedaa58e74822d2a0c2f07cf91f7d578"
+    },
+    {
+      "path": "research/native-observer-cleanup-evidence/shutdown-main-diagnostics-single.json",
+      "bytes": 7850,
+      "sha256": "c0d2b51d282b2fc50a424e97e72826f010df960d5dd90082e8b0594d80ef4ce1"
+    },
+    {
+      "path": "research/native-observer-cleanup-evidence/shutdown-main-diagnostics-validation.json",
+      "bytes": 1401,
+      "sha256": "ab8c0bb7625e105e96760998f9bb88832bd91dba89061e9390c5fb6b60423720"
+    }
+  ]
+}

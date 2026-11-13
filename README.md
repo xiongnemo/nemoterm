@@ -28,9 +28,9 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-已验证的固定快照：[下载 `1b09f82` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348/artifacts/14041675507)。
+已验证的固定快照：[下载 `52d0962` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324/artifacts/14050547004)。
 该提交已合入 `main`，在修复分支上通过两条 CI 和 57 组单文件检查；
-后续主分支复跑的单文件任务超时取消，详见下方 [CI 状态](#测试与-ci)。
+包含关闭测试的阶段记录与超时诊断。早期运行的超时问题及验证范围见下方 [CI 状态](#测试与-ci)。
 产物预计于 **2026-12-13（UTC）** 过期，SHA-256 和完整范围见 [验证记录](research/native-observer-cleanup.md)。
 
 查找后续开发构建：
@@ -169,14 +169,16 @@ cd nemoterm
 | [Test and build](.github/workflows/ci.yml) | Windows 核心回归、MinGW 对照构建及原生集成测试，Linux ASan / UBSan；保留对照包和测试日志 |
 | [Single executable from source](.github/workflows/single-exe.yml) | MSVC 从源码构建单 EXE，在隔离目录执行原生协议、像素和客户端测试；保留单文件产物与测试证据 |
 
-截至 **2026-11-14（Australia/Sydney）**，提交 `1b09f82` 的运行结果为：
+截至 **2026-11-14（Australia/Sydney）**，相关提交的运行结果为：
 
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
-| 修复分支，合入 `main` 前 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
-| `main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
+| `52d0962`，关闭诊断修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43449297264) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43449297324) |
+| `1b09f82`，早期修复分支 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43431838203) | [通过，57 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43431838348) |
+| `1b09f82`，`main` 合入后复跑 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410) | [达到 45 分钟上限，取消](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339) |
 
-后一次单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
+早期超时的单文件运行未完成验收，也未上传已验证的 EXE；超时原因仍在排查。
+新检查点的 6 个关闭场景均正常完成，不能由此宣称所有历史卡住现象已解决。
 固定快照的通过记录不代表后续运行均通过。页面顶部徽章显示 `main` 的工作流状态，
 具体提交的测试范围、日志和产物应以对应运行记录为准。
 
