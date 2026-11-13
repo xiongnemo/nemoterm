@@ -40,21 +40,34 @@ try:
             evidence['source_sha256'] = {name: hashlib.sha256((root/'tests'/name).read_bytes()).hexdigest()
                                          for name in files}
             source = '\n'.join((root/'tests'/name).read_text(encoding='utf-8') for name in files[:2])
-            script = call_frida('census-create-script', session.create_script, source)
-            errors = []
-            script.on('message', lambda message, data: errors.append(message)
-                      if message['type'] == 'error' else None)
-            checkpoint('load')
-            call_frida('census-load', script.load)
-            checkpoint('controlled-heap-transitions')
-            evidence['result'] = script.exports_sync.selftest(
-                process.pid, (root/'tests/allocation_census.h').read_text(encoding='utf-8'))
-            assert not errors, errors
-            result = evidence['result']
-            assert len(result['checks']) == 6
-            assert result['final']['valid'] and not result['final']['counts']['active']
-            assert result['final']['entries'] == []
-            assert result['final']['pid'] == process.pid
+            evidence['results'] = {}
+            for retain_live, name in ((False, 'destroyed-heap'), (True, 'live-snapshot')):
+                script = call_frida('census-create-script', session.create_script, source)
+                errors = []
+                script.on('message', lambda message, data: errors.append(message)
+                          if message['type'] == 'error' else None)
+                checkpoint(name+'-load')
+                call_frida('census-load', script.load)
+                checkpoint(name+'-transitions')
+                result = script.exports_sync.selftest(process.pid,
+                    (root/'tests/allocation_census.h').read_text(encoding='utf-8'), retain_live)
+                evidence['results'][name] = result
+                assert not errors, errors
+                assert len(result['checks']) == 6
+                assert result['final']['valid'] and not result['final']['counts']['active']
+                assert result['final']['pid'] == process.pid
+                entries = result['final']['entries']
+                if retain_live:
+                    assert len(entries) == 1, entries
+                    entry = entries[0]
+                    assert entry['address'] == result['expected_address']
+                    assert entry['heap'] == result['expected_heap']
+                    assert entry['requested_bytes'] == '128'
+                    assert int(entry['generation']) > 0 and int(entry['caller'], 16) > 0
+                else:
+                    assert entries == []
+                checkpoint(name+'-unload')
+                call_frida('census-unload', script.unload)
             checkpoint('detach-live-observer')
             detach_session(session); session = None
         finally:
