@@ -3,8 +3,9 @@
 #include "terminal.h"
 #include "nemo_tcap.h"
 
-/* XTGETTCAP names identify logical keys, not arbitrary terminfo programs.
- * Values use the same encoders as the Win32 input path. Local shortcuts and
+/* XTGETTCAP uses a bounded whitelist of identity, colour, rendition and keys,
+ * not an arbitrary terminfo database. Key values use the same encoders as the
+ * Win32 input path. Local shortcuts and
  * keyboard layout translation precede those encoders and remain independent.
  * Protocol reference: xterm ctlseqs, DCS + q (Patch 411). */
 typedef struct CapKey {
@@ -43,6 +44,18 @@ static const CapKey extended[] = {
     {NULL, "kpMUL", 'N', '*', 0}, {NULL, "kpDIV", 'N', '/', 0},
     {NULL, "kpDOT", 'N', '.', 0}, {NULL, "kpCMA", 'N', ',', 0},
     {NULL, "kpZRO", 'N', '0', 0},
+};
+
+/* Literal, parameter-free sequences from ncurses' ecma+ renditions. Keep
+ * termcap aliases only where include/Caps defines them; extended names are
+ * case sensitive (Smol/Rmol, unlike the lower-case standard names).
+ * https://github.com/ThomasDickey/ncurses-snapshots/blob/master/misc/terminfo.src
+ * https://github.com/ThomasDickey/ncurses-snapshots/blob/master/include/Caps */
+static const struct { const char *name, *alias, *value; } renditions[] = {
+    {"smul", "us", "\033[4m"},  {"rmul", "ue", "\033[24m"},
+    {"sitm", "ZH", "\033[3m"},  {"ritm", "ZR", "\033[23m"},
+    {"smxx", NULL, "\033[9m"},  {"rmxx", NULL, "\033[29m"},
+    {"Smol", NULL, "\033[53m"}, {"Rmol", NULL, "\033[55m"},
 };
 
 static int key_value(Terminal *term, CapKey key, char value[64])
@@ -92,6 +105,13 @@ static int capability(Terminal *term, const char *name, char value[64])
         return sprintf(value, "%u", !term->ansi_colour ? 2 : term->xterm_256_colour ? 256 : 16);
     if (!strcmp(name, "RGB"))
         return sprintf(value, "%d", term->true_colour ? 8 : -1);
+    for (size_t i = 0; i < lenof(renditions); i++) {
+        if (!strcmp(name, renditions[i].name) ||
+            (renditions[i].alias && !strcmp(name, renditions[i].alias))) {
+            strcpy(value, renditions[i].value);
+            return strlen(value);
+        }
+    }
     if (!strcmp(name, "kb") || !strcmp(name, "kbs")) {
         value[0] = term->bksp_is_delete ? '\177' : '\010';
         return 1;

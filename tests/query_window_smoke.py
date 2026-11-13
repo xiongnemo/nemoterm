@@ -199,6 +199,30 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
         phase('tcap-colours', '\x1bP+q436f;544e;524742\x1b\\',
               b'\x1bP1+r436f=323536;544e=787465726d2d323536636f6c6f72;524742=38\x1b\\')
         phase('tcap-unsupported', '\x1bP+q637570\x1b\\', b'\x1bP0+r\x1b\\')
+        # Exact wire replies for the parameter-free rendition whitelist.
+        # Replay the values actually returned by the terminal, then use a
+        # separate DECRQSS query to check their effect through real ConPTY.
+        renditions = {'smul': '\x1b[4m', 'rmul': '\x1b[24m',
+            'us': '\x1b[4m', 'ue': '\x1b[24m',
+            'sitm': '\x1b[3m', 'ritm': '\x1b[23m',
+            'ZH': '\x1b[3m', 'ZR': '\x1b[23m',
+            'smxx': '\x1b[9m', 'rmxx': '\x1b[29m',
+            'Smol': '\x1b[53m', 'Rmol': '\x1b[55m'}
+        returned = {}
+        for name, value in renditions.items():
+            encoded = name.encode().hex()
+            case = 'tcap-rendition-'+name
+            identity_phase(case, f'\x1bP+q{encoded}\x1b\\',
+                           f'\x1bP1+r{encoded}={value.encode().hex()}\x1b\\'.encode())
+            reply = bytes.fromhex(evidence[case]['reply'])
+            returned[name] = bytes.fromhex(reply.split(b'=', 1)[1].split(b'\x1b\\', 1)[0].decode()).decode()
+        for name in ('smol', 'rmol', 'Smulx', 'Setulc', 'Su'):
+            identity_phase('tcap-unknown-'+name, f'\x1bP+q{name.encode().hex()}\x1b\\', b'\x1bP0+r\x1b\\')
+        on = ''.join(returned[name] for name in ('sitm', 'smul', 'smxx', 'Smol'))
+        identity_phase('tcap-renditions-replay-on', '\x1b[0m'+on+'\x1bP$qm\x1b\\',
+                       b'\x1bP1$r0;3;9;4;53m\x1b\\')
+        off = ''.join(returned[name] for name in ('ritm', 'rmul', 'rmxx', 'Rmol'))
+        identity_phase('tcap-renditions-replay-off', off+'\x1bP$qm\x1b\\', b'\x1bP1$r0m\x1b\\')
         evidence.update(peak_private_ws=max(s['private_ws'] for s in samples),
                         peak_total_ws=max(s['total_ws'] for s in samples),
                         executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
