@@ -56,5 +56,20 @@ from updating a bitmap still referenced by the current draw batch, including
 old content appearing in a newly assigned cache slot.
 
 [Follow-up run 43450313623](https://github.com/xiongnemo/nemoterm/actions/runs/43450313623)
-is pending at this checkpoint. No result is inferred from compilation.
+also fails the unchanged DirectX limit. Control private WS is **25,276,416**
+bytes versus **22,409,216** for the candidate (total WS 63,746,048 versus
+61,308,928). GDI is 11,227,136 versus 11,026,432 private bytes. Both images
+complete all nine tab functional groups and exit naturally. All three new
+cache-eviction scenes match GDI exactly for actual DirectX: zero changed
+channels. OpenGL falls back to GDI on these runners, so this is not physical
+OpenGL validation. The manifest's `follow_up` section retains exact identities;
+compressed memory JSON files preserve every sample and the decompressed hashes.
+
+The next candidate, `4422bd7`, keeps the bounded bitmap pool across compatible
+target resizes as well, clearing its content keys. Device destruction still
+releases everything. Microsoft's [resource-domain contract](https://learn.microsoft.com/en-us/windows/win32/direct2d/resources-and-resource-domains)
+allows sharing resources with targets created as compatible with the same
+parent. [Run 43451668160](https://github.com/xiongnemo/nemoterm/actions/runs/43451668160)
+adds the existing device-failure/cleanup fixture alongside pixels and workloads.
+Its result is pending at this checkpoint; compilation is not acceptance.
 Local runtime tests remain paused; downloaded binaries are evidence only.

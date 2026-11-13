@@ -1,0 +1,273 @@
+{
+  "executable_sha256": "835df44a0e4c4e1bdb9c538eda5918d30f98b04888bb8c122c10b6b3b1c0dbfa",
+  "font": "Consolas",
+  "modes": [
+    {
+      "iteration": 0,
+      "requested": 0,
+      "active": "GDI",
+      "checks": [
+        {
+          "scene": "text"
+        },
+        {
+          "scene": "sixel"
+        },
+        {
+          "scene": "sync-end"
+        },
+        {
+          "scene": "resize"
+        },
+        {
+          "scene": "palette"
+        },
+        {
+          "scene": "cursor-active-2"
+        },
+        {
+          "scene": "cursor-active-4"
+        },
+        {
+          "scene": "cursor-active-6"
+        },
+        {
+          "scene": "cursor-inactive-2"
+        },
+        {
+          "scene": "cursor-inactive-4"
+        },
+        {
+          "scene": "cursor-inactive-6"
+        },
+        {
+          "scene": "cache-eviction-0"
+        },
+        {
+          "scene": "cache-eviction-1"
+        },
+        {
+          "scene": "cache-eviction-2"
+        }
+      ],
+      "memory_before_instrumentation": {
+        "private_ws": 3637248,
+        "total_ws": 29290496,
+        "private_commit": 4653056
+      },
+      "capture_method": "PrintWindow explicit client render",
+      "memory_instrumented": true,
+      "focus_model": "owned-process active and inactive states",
+      "gdi_snapshot_rounding": {
+        "changed_channels": 0,
+        "max_channel_error": 0
+      },
+      "focus_observations": {
+        "focused": false,
+        "suppressed_mouse_messages": 1,
+        "suppressed_focus_messages": 0
+      },
+      "memory": {
+        "private_ws": 6725632,
+        "total_ws": 41558016,
+        "private_commit": 10268672
+      }
+    },
+    {
+      "iteration": 1,
+      "requested": 1,
+      "active": "GDI",
+      "checks": [
+        {
+          "scene": "text",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sixel",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sync-end",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "resize",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "palette",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-4",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-6",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-4",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-6",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-0",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-1",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        }
+      ],
+      "memory_before_instrumentation": {
+        "private_ws": 3674112,
+        "total_ws": 28950528,
+        "private_commit": 4681728
+      },
+      "capture_method": "PrintWindow explicit client render",
+      "memory_instrumented": true,
+      "focus_model": "owned-process active and inactive states",
+      "gdi_snapshot_rounding": {
+        "changed_channels": 0,
+        "max_channel_error": 0
+      },
+      "focus_observations": {
+        "focused": false,
+        "suppressed_mouse_messages": 1,
+        "suppressed_focus_messages": 0
+      },
+      "memory": {
+        "private_ws": 6766592,
+        "total_ws": 41193472,
+        "private_commit": 10285056
+      }
+    },
+    {
+      "iteration": 2,
+      "requested": 2,
+      "active": "DirectX",
+      "checks": [
+        {
+          "scene": "text",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sixel",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "sync-end",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "resize",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "palette",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-4",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-active-6",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-4",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cursor-inactive-6",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-0",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-1",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        },
+        {
+          "scene": "cache-eviction-2",
+          "changed_channels": 0,
+          "max_channel_error": 0
+        }
+      ],
+      "memory_before_instrumentation": {
+        "private_ws": 6348800,
+        "total_ws": 38641664,
+        "private_commit": 7901184
+      },
+      "capture_method": "owned-process-retained-frame",
+      "memory_instrumented": true,
+      "focus_model": "owned-process active and inactive states",
+      "focus_observations": {
+        "focused": false,
+        "suppressed_mouse_messages": 1,
+        "suppressed_focus_messages": 0
+      },
+      "memory": {
+        "private_ws": 14147584,
+        "total_ws": 58093568,
+        "private_commit": 18272256
+      }
+    }
+  ],
+  "completed": true,
+  "parity_failures": []
+}

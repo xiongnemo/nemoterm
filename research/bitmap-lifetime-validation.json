@@ -121,6 +121,56 @@
       "sha256": "c52afed2beb2f83243b208d89c04c1202a008da60355b0329f3d81d9ec852421"
     },
     {
+      "path": "research/bitmap-lifetime-evidence/pool-control-directx-memory.json.gz",
+      "bytes": 16972,
+      "sha256": "fdaffa6e258b81c8a89edacfe18b679f07ad1a58c079b4a295044d3f48f43486"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-control-directx-observed.json",
+      "bytes": 15973,
+      "sha256": "9f91d50c168efea59a3c868d59d91ee843910b1d9cfca403a65f3b84b28864ad"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-control-gdi-memory.json.gz",
+      "bytes": 22282,
+      "sha256": "d1c174e89e0d05dc1235705f383291a95f611b03550e4990e39bb24947abc1d0"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-control-gdi-observed.json",
+      "bytes": 15864,
+      "sha256": "c60cbc3f6956e33dea7b4b138b7e1fa6cbe28378fab7f7e72f81c6fad3177f03"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-control-renderer-observed.json",
+      "bytes": 6898,
+      "sha256": "ebdbcd129e3b413c8d46179c664f3aec408a56dcff8af913105592be44f98da8"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-reuse-directx-memory.json.gz",
+      "bytes": 18722,
+      "sha256": "c761ca2293379fc6a2cbb3f74cc47d67c8fac75ae9c29a168d7b7c11f73492f9"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-reuse-directx-observed.json",
+      "bytes": 15971,
+      "sha256": "7894295f3d8ab29434dd9919f96f4ce66972ad295d4a74d4bdadce75b0be600f"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-reuse-gdi-memory.json.gz",
+      "bytes": 24304,
+      "sha256": "94eee09395de40758eff400e6de115299eac92ab5bfe4d41bd355ae21ae3281e"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-reuse-gdi-observed.json",
+      "bytes": 15860,
+      "sha256": "951afce6b666fdc3b858d792d0c386d097a2ad69b4dc4e414312a945f8cd93b7"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/pool-reuse-renderer-observed.json",
+      "bytes": 6898,
+      "sha256": "a1ddbe9e0247d7b1aac63f64bc1fd063c89cb41eb50866e4a6df8440be2b9715"
+    },
+    {
       "path": "research/bitmap-lifetime-evidence/reuse-bitmap-directx-workload.log",
       "bytes": 261,
       "sha256": "1fe3b3ac1710bd559c8eeb07414002c6e512532ba967992c068a6fcec0a1e3dc"
@@ -155,5 +205,200 @@
       "bytes": 15865,
       "sha256": "0cfb9c608cd7198028135e4a7b10efae71ff69b0b937da15eaba9400a57a4bc5"
     }
-  ]
+  ],
+  "follow_up": {
+    "run": 43450313623,
+    "commit": "3f7a9fd1f32de99be96753a7c6ba825c840c5abf",
+    "result": "failure",
+    "variants": {
+      "control": {
+        "artifact_id": 14051530013,
+        "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+        "executable_bytes": 4436992,
+        "workloads": {
+          "gdi": {
+            "peak": {
+              "count": 1,
+              "private_ws": 11227136,
+              "total_ws": 40960000,
+              "private_commit": 13340672
+            },
+            "samples": 337,
+            "actual_renderer": 1,
+            "completed": true,
+            "memory_limit_passed": true,
+            "natural_cleanup": true,
+            "memory_json_sha256": "43ed8294e9df1c4742b2872d6d55faf3ee2ea17c43c6bd8c42eec5d38b5a14df"
+          },
+          "directx": {
+            "peak": {
+              "count": 1,
+              "private_ws": 25276416,
+              "total_ws": 63746048,
+              "private_commit": 28200960
+            },
+            "samples": 245,
+            "actual_renderer": 3,
+            "completed": false,
+            "memory_limit_passed": false,
+            "natural_cleanup": true,
+            "memory_json_sha256": "295e301fc2041b1a71bb5d418960e9a543bb37b50dca879331fd53005452a363"
+          }
+        },
+        "pixel_scenes": [
+          {
+            "renderer": "GDI",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0"
+              },
+              {
+                "scene": "cache-eviction-1"
+              },
+              {
+                "scene": "cache-eviction-2"
+              }
+            ]
+          },
+          {
+            "renderer": "GDI",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-1",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-2",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              }
+            ]
+          },
+          {
+            "renderer": "DirectX",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-1",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-2",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              }
+            ]
+          }
+        ]
+      },
+      "reuse": {
+        "artifact_id": 14051895595,
+        "executable_sha256": "835df44a0e4c4e1bdb9c538eda5918d30f98b04888bb8c122c10b6b3b1c0dbfa",
+        "executable_bytes": 4437504,
+        "workloads": {
+          "gdi": {
+            "peak": {
+              "count": 1,
+              "private_ws": 11026432,
+              "total_ws": 40833024,
+              "private_commit": 13115392
+            },
+            "samples": 352,
+            "actual_renderer": 1,
+            "completed": true,
+            "memory_limit_passed": true,
+            "natural_cleanup": true,
+            "memory_json_sha256": "addfb2344be1be73b42036c7927d5faa6349a0e821f3a553bb7e8d110f2669fa"
+          },
+          "directx": {
+            "peak": {
+              "count": 1,
+              "private_ws": 22409216,
+              "total_ws": 61308928,
+              "private_commit": 24920064
+            },
+            "samples": 255,
+            "actual_renderer": 3,
+            "completed": false,
+            "memory_limit_passed": false,
+            "natural_cleanup": true,
+            "memory_json_sha256": "7714927962c757d0a5c6805e90d91f2d79cf10031e42af88d9bc45e0cca35820"
+          }
+        },
+        "pixel_scenes": [
+          {
+            "renderer": "GDI",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0"
+              },
+              {
+                "scene": "cache-eviction-1"
+              },
+              {
+                "scene": "cache-eviction-2"
+              }
+            ]
+          },
+          {
+            "renderer": "GDI",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-1",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-2",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              }
+            ]
+          },
+          {
+            "renderer": "DirectX",
+            "checks": 14,
+            "cache_eviction": [
+              {
+                "scene": "cache-eviction-0",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-1",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              },
+              {
+                "scene": "cache-eviction-2",
+                "changed_channels": 0,
+                "max_channel_error": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
 }
