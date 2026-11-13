@@ -233,6 +233,15 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-query-') as directory:
             identity_phase(case, f'\x1bP+q{encoded}\x1b\\',
                            f'\x1bP1+r{encoded}={value.hex()}\x1b\\'.encode())
             decode_reply(name, bytes.fromhex(evidence[case]['reply']))
+        # A repeated Setulc query exceeds the previous 14 KiB reply bound and
+        # crosses many ConPTY pipe reads. Verify all bytes and recovery through
+        # the actual host, not just the core parser's in-memory reply buffer.
+        token = 'Setulc'.encode().hex()
+        many = (token+';')*157
+        reply = b'\x1bP1+r'+((token+'='+PROGRAMS['Setulc'].hex()+';')*157).encode()+b'\x1b\\'
+        assert len(reply) == 21045
+        identity_phase('tcap-program-max', '\x1bP+q'+many+'\x1b\\', reply)
+        identity_phase('tcap-program-overflow', '\x1bP+q'+many+token+'\x1b\\', b'\x1bP0+r\x1b\\')
         for name, parameter, sequence, expected in underline_cases():
             identity_phase(f'tcap-expanded-{name}-{parameter}',
                            '\x1b[0m'+sequence.decode()+'\x1bP$qm\x1b\\', expected)

@@ -66,6 +66,14 @@ captured Windows programs are then separately passed to the same ncurses
 checker in WSL, and all **780 expansions pass again**. The fixture's five owned
 processes drain naturally without forced termination.
 
+A further native transport check receives the full **21,045-byte** maximum
+repeated-name reply, followed by its separate four-byte DSR barrier. An
+oversized request produces the expected negative response and another intact
+barrier. This verifies the increased response bound across real ConPTY reads.
+The same image passes the extended fixture with natural five-process cleanup;
+its newly captured programs pass all 780 ncurses expansions as well. These two
+transport cases are included in the permanent Windows fixture.
+
 The local single image is **4,467,200 bytes**, SHA-256
 `e06d094d785e2f79abe03fe3d429a83efad81f59244594253091fef0f368775d`.
 The native cursor fixture instruments only its owned process; its memory sample
