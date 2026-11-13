@@ -93,3 +93,57 @@ rpc.exports.selftest = function(pid, header, retainLiveBlock, rangeScope) {
         if (!excludedHeap.isNull()) heapDestroy(excludedHeap);
     }
 };
+
+rpc.exports.lfhtest = function(pid, header) {
+    const kernel=Process.getModuleByName('kernel32.dll'),nt=Process.getModuleByName('ntdll.dll');
+    const create=new NativeFunction(kernel.getExportByName('HeapCreate'),'pointer',['uint','size_t','size_t']);
+    const destroy=new NativeFunction(kernel.getExportByName('HeapDestroy'),'int',['pointer']);
+    const setInfo=new NativeFunction(kernel.getExportByName('HeapSetInformation'),
+        'int',['pointer','uint','pointer','size_t']);
+    const queryInfo=new NativeFunction(kernel.getExportByName('HeapQueryInformation'),
+        'int',['pointer','uint','pointer','size_t','pointer']);
+    const alloc=new NativeFunction(nt.getExportByName('RtlAllocateHeap'),'pointer',['pointer','uint','size_t']);
+    const free=new NativeFunction(nt.getExportByName('RtlFreeHeap'),'uint8',['pointer','uint','pointer']);
+    const resize=new NativeFunction(nt.getExportByName('RtlReAllocateHeap'),
+        'pointer',['pointer','uint','pointer','size_t']);
+    const heap=create(0,1048576,0),mode=Memory.alloc(4);
+    if (heap.isNull()) throw Error('LFH test heap creation failed');
+    const live=new Map(),checks=[];
+    function check(name) {
+        const counts=censusCounts();
+        const bytes=Array.from(live.values()).reduce((total,item)=>total+item.size,0);
+        if (counts.errors || counts.live_count!==live.size || counts.live_requested_bytes!==String(bytes))
+            throw Error(name+': '+JSON.stringify({counts,expected_count:live.size,expected_bytes:bytes}));
+        checks.push({name,...counts});
+    }
+    try {
+        mode.writeU32(2);
+        if (!setInfo(heap,0,mode,4)) throw Error('Enabling LFH failed');
+        mode.writeU32(0);
+        if (!queryInfo(heap,0,mode,4,ptr(0)) || mode.readU32()!==2)
+            throw Error('LFH mode was not confirmed');
+        startCensus({pid,heap:heap.toString(),capacity:4096},header);
+        check('lfh-empty');
+        for (let i=0;i<2048;i++) {
+            const size=64+(i%8)*16,address=alloc(heap,0,size);
+            if (address.isNull()) throw Error('LFH allocation failed');
+            live.set(i,{address:address.toString(),size});
+        }
+        check('lfh-2048-live-requests');
+        for (let i=0;i<2048;i+=2) {
+            if (!free(heap,0,ptr(live.get(i).address))) throw Error('LFH free failed');
+            live.delete(i);
+        }
+        check('lfh-half-freed');
+        for (let i=1;i<2048;i+=64) {
+            const address=resize(heap,0,ptr(live.get(i).address),512);
+            if (address.isNull()) throw Error('LFH realloc failed');
+            live.set(i,{address:address.toString(),size:512});
+        }
+        check('lfh-reallocated');
+        return {checks,lfh_mode:2,expected_entries:Array.from(live.values()),final:freezeCensus()};
+    } finally {
+        if (census) freezeCensus();
+        destroy(heap);
+    }
+};

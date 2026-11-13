@@ -44,7 +44,8 @@ try:
             for retain_live, range_scope, name in (
                     (False, False, 'destroyed-heap'),
                     (True, False, 'live-snapshot'),
-                    (True, True, 'reservation-range-snapshot')):
+                    (True, True, 'reservation-range-snapshot'),
+                    (True, False, 'lfh-external-requests')):
                 script = call_frida('census-create-script', session.create_script, source)
                 errors = []
                 script.on('message', lambda message, data: errors.append(message)
@@ -52,15 +53,23 @@ try:
                 checkpoint(name+'-load')
                 call_frida('census-load', script.load)
                 checkpoint(name+'-transitions')
-                result = script.exports_sync.selftest(process.pid,
-                    (root/'tests/allocation_census.h').read_text(encoding='utf-8'), retain_live, range_scope)
+                header=(root/'tests/allocation_census.h').read_text(encoding='utf-8')
+                lfh=name=='lfh-external-requests'
+                result = (script.exports_sync.lfhtest(process.pid,header) if lfh else
+                          script.exports_sync.selftest(process.pid,header,retain_live,range_scope))
                 evidence['results'][name] = result
                 assert not errors, errors
-                assert len(result['checks']) == (8 if range_scope else 6)
+                assert len(result['checks']) == (4 if lfh else 8 if range_scope else 6)
                 assert result['final']['valid'] and not result['final']['counts']['active']
                 assert result['final']['pid'] == process.pid
                 entries = result['final']['entries']
-                if retain_live:
+                if lfh:
+                    assert result['lfh_mode']==2 and len(entries)==1024
+                    actual={e['address']:int(e['requested_bytes']) for e in entries}
+                    expected={e['address']:e['size'] for e in result['expected_entries']}
+                    assert actual==expected
+                    assert int(result['final']['counts']['ignored_nested_calls']['alloc'])>0
+                elif retain_live:
                     assert len(entries) == 1, entries
                     entry = entries[0]
                     assert entry['address'] == result['expected_address']
