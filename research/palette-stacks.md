@@ -99,7 +99,13 @@ separate completed log per suite. This avoids treating a shell exit status as
 proof that the intended tests actually ran.
 
 Both CI workflows include the new native fixture; the main workflow also
-checks generated cases and runs the color suite under ASan/UBSan. CI startup
-and artifacts must be checked separately. The existing DirectX memory failure,
+checks generated cases and runs the color suite under ASan/UBSan. For source
+commit `1251fc62fd1a2b9769e2574e6b636137ce9f8109`, the
+[test/build run](https://github.com/xiongnemo/nemoterm/actions/runs/43402441704)
+and [single-image run](https://github.com/xiongnemo/nemoterm/actions/runs/43402441424)
+were both rejected before any step started. GitHub reports an account payment
+or spending-limit problem; both runs have zero artifacts. These failures do
+not validate or invalidate the code; remote CI acceptance remains open.
+The existing DirectX memory failure,
 clipboard/real-agent work, physical devices and remaining protocol families
 are still open. This change does not relax any memory gate.
