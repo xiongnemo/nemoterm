@@ -22,6 +22,7 @@
 #include "win-gui-seat.h"
 #include "nemo_snapshot.h"
 #include "nemo_debug.h"
+#include "nemo_drop.h"
 #include "nemo_link_ui.h"
 #include "nemo_shell.h"
 #include "nemo_key_input.h"
@@ -88,6 +89,8 @@ typedef struct NemoPasteRequest {
     UINT_PTR session_id;
     HGLOBAL data;
     bool unicode;
+    bool application_paste;
+    bool files;
 } NemoPasteRequest;
 
 /* Needed for Chinese support and apparently not always defined. */
@@ -182,6 +185,13 @@ static void make_full_screen(WinGuiSeat *wgs);
 static void clear_full_screen(WinGuiSeat *wgs);
 static void flip_full_screen(WinGuiSeat *wgs);
 static void process_clipdata(WinGuiSeat *wgs, HGLOBAL clipdata, bool unicode);
+static void nemo_paste_drop(WinGuiSeat *wgs, HDROP drop)
+{
+    if (!wgs || wgs->closing || !wgs->term || !wgs->ldisc || !wgs->backend) return;
+    size_t length=0;wchar_t *paths=nemo_drop_paths(drop,wgs->conf,&length);
+    if (paths) {term_do_paste(wgs->term,paths,length);sfree(paths);}
+    else MessageBeep(MB_ICONWARNING);
+}
 static void setup_clipboards(Terminal *, Conf *);
 static void wgs_cleanup(void *vctx);
 static void wgs_request_close(WinGuiSeat *wgs);
@@ -647,6 +657,7 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
     }
 
     SetWindowLongPtr(wgs->term_hwnd, GWLP_USERDATA, (LONG_PTR)wgs);
+    DragAcceptFiles(wgs->term_hwnd,TRUE);
 
     /*
      * Initialise the fonts, simultaneously correcting the guesses
@@ -4129,6 +4140,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             term_invalidate(wgs->term);
         }
         break;
+      case WM_DROPFILES:
+        nemo_paste_drop(wgs,(HDROP)wParam);DragFinish((HDROP)wParam);return 0;
       case WM_GOT_CLIPDATA:
         /* The worker owns this request until SendMessage returns. A delayed
          * clipboard owner may outlive its target window; never route the
@@ -4136,7 +4149,13 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (!wgs->closing && wgs->backend && wgs->ldisc &&
             wParam == wgs->session_id) {
             const NemoPasteRequest *request = (const NemoPasteRequest *)lParam;
-            process_clipdata(wgs, request->data, request->unicode);
+            if (request->files) nemo_paste_drop(wgs,(HDROP)request->data);
+            else if (request->application_paste) {
+                /* Image transfer belongs to the foreground application's
+                 * native clipboard reader. Never encode pixels as VT text. */
+                wchar_t paste_key=0x16;
+                term_keyinputw(wgs->term,&paste_key,1);
+            } else process_clipdata(wgs, request->data, request->unicode);
         }
         return 0;
       case WM_NEMO_OSC52_READY:
@@ -6597,16 +6616,25 @@ static DWORD WINAPI clipboard_read_threadfunc(void *param)
     NemoPasteRequest *request = param;
 
     if (nemo_open_clipboard(NULL)) {
-        request->data = GetClipboardData(CF_UNICODETEXT);
+        request->data = GetClipboardData(CF_HDROP);
+        request->files = request->data!=NULL;
+        if (!request->data) request->data = GetClipboardData(CF_UNICODETEXT);
         request->unicode = true;
         if (!request->data) {
             request->data = GetClipboardData(CF_TEXT);
             request->unicode = false;
         }
+        if (!request->data)
+            request->application_paste=IsClipboardFormatAvailable(CF_DIB) ||
+                IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_BITMAP) ||
+                IsClipboardFormatAvailable(RegisterClipboardFormatW(L"PNG"));
         if (request->data)
             SendMessage(request->hwnd, WM_GOT_CLIPDATA,
                         request->session_id, (LPARAM)request);
         CloseClipboard();
+        /* The application must be able to open the clipboard immediately. */
+        if (request->application_paste)
+            SendMessage(request->hwnd,WM_GOT_CLIPDATA,request->session_id,(LPARAM)request);
     }
     sfree(request);
     return 0;

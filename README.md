@@ -214,6 +214,10 @@ CI 使用 `tools/codex-fixture` 锁定的客户端版本，并通过本地响应
 
 ## 开发状态
 
+文件和文件夹拖入窗口时会按 shell 转义后粘贴路径，也支持资源管理器复制文件后的粘贴。
+剪贴板只有图片时，Paste 绑定会交给前台应用读取；已用隔离的真实 Codex / OpenCode
+验证图片提交。行为、测试方法与边界见 [文件和图片输入](docs/INPUT_TRANSFERS.md)。
+
 本机调试可用 `nemoterm.exe --automation` 按需开启发现、标签页寻址、输入和画面接口。
 `python tools/nemoterm_debug.py discover` 会列出可连接的实例；文字快照和 PNG 截图
 无需抢焦点或读写剪贴板。它使用仅限当前用户和登录会话的 Windows 命名管道，默认关闭，

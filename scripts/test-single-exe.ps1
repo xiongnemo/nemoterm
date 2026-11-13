@@ -24,6 +24,9 @@ try {
         & python "$Destination/tests/automation_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/automation-$renderer.log"
         if ($LASTEXITCODE) { throw "Local automation integration test failed: $renderer" }
         $checks.Add("automation-$renderer")
+        & python "$Destination/tests/drop_window_smoke.py" --renderer $renderer 2>&1 | Tee-Object "$Destination/logs/drop-$renderer.log"
+        if ($LASTEXITCODE) { throw "File drop and clipboard integration test failed: $renderer" }
+        $checks.Add("drop-$renderer")
     }
     $tests = @('single_exe', 'shutdown', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
@@ -116,6 +119,12 @@ try {
     if ($LASTEXITCODE) { throw 'Single-executable tab settings test failed' }
     $checks.Add('tabs-settings')
     if ($CodexExecutable) {
+        $imageArgs = @('--client', 'codex', '--client-exe', $CodexExecutable,
+            '--terminal', "$Destination/dist/nemoterm.exe")
+        if ($env:CI -eq 'true') { $imageArgs += @('--font', 'Consolas') }
+        & python "$Destination/tests/agent_clipboard_smoke.py" @imageArgs 2>&1 | Tee-Object "$Destination/logs/codex-image-paste.log"
+        if ($LASTEXITCODE) { throw 'Real Codex image clipboard test failed' }
+        $checks.Add('codex-image-paste')
         foreach ($mode in @('default', 'inline', 'tabs-default', 'tabs-inline')) {
             $nativeArgs = @('--codex', $CodexExecutable)
             if ($mode.EndsWith('inline')) { $nativeArgs += '--inline' }

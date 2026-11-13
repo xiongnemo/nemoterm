@@ -367,6 +367,14 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
 {
     WinGuiSeat *active=tab_host.active;
     switch (msg) {
+      case WM_DROPFILES: {
+        POINT point;WinGuiSeat *target=active;
+        if (DragQueryPoint((HDROP)wp,&point)) {
+            NemoTabHit hit=nemo_tabs_hit(&tab_host.layout,point.x,point.y);
+            if (hit.kind==NEMO_TAB_BODY || hit.kind==NEMO_TAB_CLOSE) target=nemo_host_item(hit.index);
+        }
+        nemo_paste_drop(target,(HDROP)wp);DragFinish((HDROP)wp);return 0;
+      }
       case WM_ERASEBKGND:return 1;
       case WM_PAINT: {
         PAINTSTRUCT p;HDC dc=BeginPaint(hwnd,&p);
@@ -471,7 +479,7 @@ static bool nemo_host_create(Conf *conf, int width, int height)
     tab_host.side=conf_get_int(conf,CONF_nemo_tab_side);
     tab_host.sidebar=conf_get_int(conf,CONF_nemo_tab_sidebar);tab_host.dpi=96;
     nemo_host_font();
-    tab_host.hwnd=CreateWindowExW(conf_get_bool(conf,CONF_alwaysontop)?WS_EX_TOPMOST:0,
+    tab_host.hwnd=CreateWindowExW(WS_EX_ACCEPTFILES|(conf_get_bool(conf,CONF_alwaysontop)?WS_EX_TOPMOST:0),
         L"NemotermHost",L"Nemoterm",WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT,CW_USEDEFAULT,width,height,NULL,NULL,hinst,NULL);
     return tab_host.hwnd!=NULL;

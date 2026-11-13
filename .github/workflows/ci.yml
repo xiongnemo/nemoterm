@@ -253,6 +253,14 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/automation-gdi-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test file drops and native clipboard formats
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          python tests/drop_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/drop-gdi-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test window callback lifetime during native shutdown
         timeout-minutes: 3
         shell: pwsh
