@@ -1,0 +1,2 @@
+# Preserve exact captured bytes so manifest SHA-256 hashes survive checkout.
+* -text
