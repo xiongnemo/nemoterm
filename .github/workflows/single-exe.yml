@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+env:
+  NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+  NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
+
 concurrency:
   group: single-exe-${{ github.ref }}
   cancel-in-progress: true

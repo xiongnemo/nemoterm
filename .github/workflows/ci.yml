@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+  NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -194,6 +198,7 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
       - name: Test window callback lifetime during native shutdown
+        timeout-minutes: 3
         shell: pwsh
         run: |
           python tests/shutdown_window_smoke.py
@@ -550,6 +555,7 @@ jobs:
           path: |
             test-results/
             build/native-crashes/
+            research/shutdown-window-observed.json
           if-no-files-found: warn
 
   decoder-sanitizers:

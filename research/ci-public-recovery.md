@@ -82,3 +82,23 @@ checks and local Sarasa/IME/multiple-monitor acceptance remain open.
 The [manifest](ci-public-recovery-validation.json) binds retained logs and JSON
 records to their source commits and individual jobs. Local checks consisted
 only of generation, static inspection and compilation/linking.
+
+## In-flight shutdown diagnosis
+
+The development MinGW job remained inside the shutdown fixture beyond its
+bounded window/child waits. Frida attachment, script loading, synchronous RPC
+and detach have no fixture-level timeout, so the current observation does not
+identify whether the terminal or instrumentation is blocked.
+
+The fixture now writes an atomic evidence checkpoint before each stage and
+logs observer-installation progress. CI enables Python watchdog stack dumps;
+the shutdown fixture has a 120-second CI-only deadline, with a three-minute
+step limit in the MinGW workflow. A watchdog expiration is a failure, not a
+pass. Private kill-on-close job handles still bound the owned descendants if
+the Python controller exits immediately. The partial JSON is uploaded even
+when the fixture does not reach normal cleanup. The single-image matrix runs
+the same shutdown assertions earlier without dropping any fixture.
+
+Python/JavaScript/PowerShell syntax and preservation of the assertion/fixture
+sets were checked statically. The new diagnostics have not been executed
+locally and are not yet evidence of a product fix.

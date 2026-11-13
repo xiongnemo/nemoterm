@@ -18,11 +18,12 @@ $previousExe = $env:NEMOTERM_TEST_EXE
 $env:NEMOTERM_TEST_EXE = "$Destination/dist/nemoterm.exe"
 $checks = [Collections.Generic.List[string]]::new()
 try {
-    $tests = @('single_exe', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
+    $tests = @('single_exe', 'shutdown', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
-        'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'shutdown', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
+        'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     foreach ($name in $tests) {
+        Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
