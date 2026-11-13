@@ -1,0 +1,51 @@
+{
+  "preferences": {
+    "long_address_bytes": 2083,
+    "custom_scheme_default_disabled": true,
+    "live_hover_refresh": true,
+    "right_copy_paste_with_busy_clipboard": true,
+    "disabled": true
+  },
+  "completed": false,
+  "activations": [
+    {
+      "phase": "labels",
+      "before": 0,
+      "capture_after_down": 2818574,
+      "launches": [],
+      "fixture": {
+        "phase": "labels",
+        "hex": "1b5b3f313030303b322479",
+        "columns": 40,
+        "rows": 12,
+        "input_mode": 640,
+        "input_cp": 437,
+        "input_api": "ReadFile"
+      },
+      "foreground": 2818574,
+      "capture": null,
+      "tooltip": [
+        1704530,
+        "Ctrl+click to open; Ctrl+right-click for link actions.\nnemoterm-test-656f43bdc3174a35b6876169ae525ea8://host/path?x=one%20two&y=%22quoted%22#part"
+      ]
+    }
+  ],
+  "hover_text": "Ctrl+click to open; Ctrl+right-click for link actions.\nnemoterm-test-656f43bdc3174a35b6876169ae525ea8://host/path?x=one%20two&y=%22quoted%22#part",
+  "hover_bounds": [
+    10,
+    31,
+    127,
+    32
+  ],
+  "hover_paint_samples": [
+    {
+      "bounds": [
+        10,
+        31,
+        127,
+        32
+      ],
+      "pixels": 72
+    }
+  ]
+}

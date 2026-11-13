@@ -173,3 +173,46 @@ failure is not explained by the repeat and must remain visible in acceptance
 notes. Resource thresholds were not relaxed. All memory samples precede
 instrumentation and exclude child processes and hover-preview peaks; this
 development frontend is not the final embedded single-EXE artifact.
+
+## Remaining failures after the isolated-factory fix
+
+At `4c93714`, MSVC's repeated renderer diagnostic is green and the portable
+job passes the cluster/clipboard, all tab sides, dense tabs and embedded-icon
+checks. It later fails one synthetic Ctrl+click in the hyperlink fixture.
+The single-image build passes that hyperlink test, the native cluster cases
+and GDI/top, GDI/bottom and DirectX/left tab groups. It then reports an access
+violation (`0xc0000005`) while closing the original tab in the OpenGL/right
+case, which actually uses GDI on CI. Both failure JSON files are retained.
+Neither workflow is green, and no artifact is promoted.
+
+The unverified single image is 4,397,056 bytes, SHA-256
+`551bae249c30584df644511224b89baed10507d13b4a4a33c4ccd65ba2e86b86`.
+Locally it passes the actual OpenGL/right tab case and eight GDI/right repeats
+at CI's 88x35 grid and Consolas font. The eight repeats used an external
+ProcDump monitor, exited normally and produced no crash dump. These negative
+reproductions do not dismiss the CI access violation. Disposable CI runners
+now retain application-scoped Windows minidumps and Application Error events;
+the fast MSVC job repeats the failing tab scenario eight times. The normal
+executable does not acquire diagnostic code or an extra dependency.
+
+A local observation-only hyperlink trace captured 255 queued mouse-leave
+messages immediately after synthetic hover messages. This independently
+confirms that mixing desktop tracking with SendMessage's synthetic modifier
+state makes the old fixture unreliable; it does not establish the exact
+message that cancelled the earlier CI click. The fixture now models pointer
+tracking inside its owned HWND, drops queued desktop motion/leave messages,
+and retains sent mouse gestures, button messages, focus and capture cancellation.
+It no longer moves its window under the user's cursor. Local activation and
+all four app-mouse modes pass. The explicit local activation-only option never
+opens the clipboard, and is rejected in CI. Full CI still tests the real
+clipboard and all link actions. Instrumented memory is labelled and retains
+the existing 20,000,000-byte assertion.
+
+Visual review also found absent Hebrew glyphs in the native parity scene.
+An owned 40x8 GDI/Consolas comparison of the accepted `a108894f` executable
+and development `f9241a87` produced identical pixels, so this is an existing
+limitation, not a newly established cluster regression. GDI reports no Hebrew
+glyphs in Consolas or Sarasa, while Segoe UI and Arial provide them. PuTTY's
+`exact_textout` intentionally disables font linking for RTL runs. A separate
+RTL fallback fix and glyph-presence assertions remain required; agreement
+among compositors alone is not proof that every script rendered correctly.

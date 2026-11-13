@@ -19,6 +19,9 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Retain native crash diagnostics on this disposable runner
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1
       - name: Build frontend and offscreen renderer checks
         shell: pwsh
         run: |
@@ -44,6 +47,21 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/renderer_window_smoke.py
           exit $LASTEXITCODE
+      - name: Repeat tab sibling lifetime and hyperlink input checks
+        shell: pwsh
+        run: |
+          1..8 | ForEach-Object {
+            python tests/tabs_window_smoke.py --renderer opengl --side right --cols 88 --rows 35 --font Consolas
+            $result = $LASTEXITCODE
+            Copy-Item research/tabs-opengl-right-observed.json "research/tabs-close-repeat-$_.json" -ErrorAction SilentlyContinue
+            if ($result) { exit $result }
+          }
+          python tests/hyperlink_window_smoke.py
+          exit $LASTEXITCODE
+      - name: Collect application failure events
+        if: always()
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1 -Collect
       - name: Retain native diagnostics
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -53,6 +71,9 @@ jobs:
             research/renderer-observed.json
             research/renderer-*-text.png
             research/renderer-*-clusters.txt
+            research/tabs-close-repeat-*.json
+            research/hyperlink-window-observed.json
+            build/native-crashes/
           retention-days: 14
   windows:
     name: Windows x64 tests and portable build
@@ -63,6 +84,9 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Retain native crash diagnostics on this disposable runner
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1
       - name: Verify pinned Unicode data and generated grapheme tables
         shell: pwsh
         run: python scripts/generate-grapheme-tables.py --check
@@ -398,12 +422,18 @@ jobs:
           path: dist/
           if-no-files-found: error
           retention-days: 30
+      - name: Collect application failure events
+        if: always()
+        shell: pwsh
+        run: ./scripts/native-crash-evidence.ps1 -Collect
       - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: test-results-windows-${{ github.sha }}
-          path: test-results/
+          path: |
+            test-results/
+            build/native-crashes/
           if-no-files-found: warn
 
   decoder-sanitizers:

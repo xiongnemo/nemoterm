@@ -2,11 +2,19 @@
 import uuid
 import winreg
 import re
+import argparse
 from contextlib import contextmanager
 from clipboard_test_utils import SavedClipboard, clipboard_text
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, threading, time, read_snapshot, write_snapshot,
     memory_sample, wait_for, wait_snapshot, find_window, capture)
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--activation-only',action='store_true',help='Local input diagnosis without touching the clipboard')
+args=parser.parse_args()
+if args.activation_only and os.environ.get('CI')=='true':
+    parser.error('CI must run the full clipboard and hyperlink contract')
+exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 
 u.GetClientRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
 u.GetWindowRect.argtypes = [w.HWND, c.POINTER(w.RECT)]
@@ -20,18 +28,26 @@ u.SetWindowPos.argtypes = [w.HWND, w.HWND, c.c_int, c.c_int, c.c_int, c.c_int, w
 k.WaitForSingleObject.argtypes, k.WaitForSingleObject.restype = [w.HANDLE, w.DWORD], w.DWORD
 k.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 
-def align_pointer(hwnd, x, y):
-    # TrackMouseEvent uses the real desktop hit test. Keep only our test
-    # window above other windows and under the existing cursor, without
-    # activation or any global pointer/key injection.
-    assert u.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x13)
-    cursor, origin, outer = w.POINT(), w.POINT(), w.RECT()
-    u.GetCursorPos(c.byref(cursor)); u.ClientToScreen(hwnd, c.byref(origin))
-    u.GetWindowRect(hwnd, c.byref(outer))
-    dx, dy = cursor.x-origin.x-x, cursor.y-origin.y-y
-    if dx or dy:
-        assert u.MoveWindow(hwnd, outer.left+dx, outer.top+dy,
-                            outer.right-outer.left, outer.bottom-outer.top, True)
+class PointerModel:
+    def __init__(self,pid,hwnd,record):
+        import frida
+        owner=w.DWORD();u.GetWindowThreadProcessId(hwnd,c.byref(owner))
+        assert owner.value==pid
+        self.session=frida.attach(pid);self.record=record
+        self.script=self.session.create_script('const ownedWindow=ptr("'+hex(hwnd)+'");\n'+
+            (root/'tests/hyperlink_message_probe.js').read_text())
+        record['input_trace']=[];record['memory_instrumented']=True
+        self.script.on('message',lambda message,data:record['input_trace'].append(message.get('payload',message)))
+        try:self.script.load()
+        except BaseException:self.session.detach();raise
+    def snapshot(self):
+        import frida
+        try:self.record['pointer_model']=self.script.exports_sync.stats()
+        except frida.InvalidOperationError:self.record['observer_detached']=True
+    def close(self):
+        import frida
+        try:self.session.detach()
+        except frida.InvalidOperationError:pass
 
 class GuiThreadInfo(c.Structure):
     _fields_ = [('cbSize', w.DWORD), ('flags', w.DWORD)] + [(name, w.HWND) for name in
@@ -130,20 +146,21 @@ def preference_checks():
             launches = directory/'launches'; launches.mkdir()
             with settings(launches, custom=disabled, disabled=disabled) as (scheme, profile):
                 report, control = directory/'report.json', directory/'control.json'
-                process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '-load', profile,
+                process = subprocess.Popen([str(exe), '-load', profile,
                     '--cols', '40', '--rows', '8', '--right-click', 'copy-paste', '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled'),
                     creationflags=subprocess.CREATE_NO_WINDOW)
-                hwnd = None
+                hwnd = None;pointer=None
                 try:
                     hwnd = wait_for(lambda: find_window(process.pid))
+                    record={};evidence.setdefault('pointer_observations',[]).append(record)
+                    pointer=PointerModel(process.pid,hwnd,record)
                     wait_for(lambda: read_snapshot(report))
                     rect = w.RECT()
                     u.GetClientRect(hwnd, c.byref(rect))
                     cw, ch = (rect.right-2)//40, (rect.bottom-2)//8
                     x, y = 1+2*cw+cw//2, 1+ch+ch//2
-                    align_pointer(hwnd, x, y)
                     uri = scheme+'://host/'
                     uri += 'x' * (2083-len(uri))
                     def draw(name, target):
@@ -154,7 +171,6 @@ def preference_checks():
                         time.sleep(.08)
                     def hover_target(target):
                         def probe():
-                            align_pointer(hwnd, x, y)
                             u.SendMessageW(hwnd, 0x200, 0, x | (y << 16))
                             tip = tooltip(process.pid)
                             return tip if tip and target in ''.join(tip[1].splitlines()) else None
@@ -205,6 +221,7 @@ def preference_checks():
                             saved.restore()
                     assert process.poll() is None
                 finally:
+                    if pointer:pointer.snapshot()
                     write_snapshot(control, {'stop': True})
                     try:
                         process.wait(timeout=10)
@@ -214,6 +231,8 @@ def preference_checks():
                         except subprocess.TimeoutExpired:
                             process.terminate(); process.wait(timeout=5)
                         raise
+                    finally:
+                        if pointer:pointer.close()
     return evidence
 
 def clipboard_contention(action, duration):
@@ -243,14 +262,14 @@ def clipboard_contention(action, duration):
         thread.join(8)
         assert not thread.is_alive() and not failures, failures
 
-preferences = preference_checks()
+preferences = {} if args.activation_only else preference_checks()
 
 with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
     directory = Path(directory)
     launches = directory/'launches'; launches.mkdir()
     with settings(launches) as (scheme, profile):
         report, control = directory/'report.json', directory/'control.json'
-        process = subprocess.Popen([str(root/'dist/nemoterm.exe'), '-load', profile,
+        process = subprocess.Popen([str(exe), '-load', profile,
             '--cols', '40', '--rows', '12', '-e', sys.executable,
             str(root/'tests/mouse_fixture.py'), str(report), str(control)],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled'), creationflags=subprocess.CREATE_NO_WINDOW)
@@ -258,6 +277,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
         evidence, samples, stop, clipboard, hwnd = {
             'preferences': preferences, 'completed': False, 'activations': []
         }, [], threading.Event(), None, None
+        message_session=None
+        evidence['scope']='activation-only' if args.activation_only else 'full'
+        evidence['executable_sha256']=hashlib.sha256(exe.read_bytes()).hexdigest()
         def sampler():
             while not stop.is_set():
                 samples.append(memory_sample(handle)); stop.wait(.025)
@@ -318,7 +340,6 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             last = None
             def probe():
                 nonlocal last
-                align_pointer(hwnd, 1+2*cw+cw//2, 1+ch+ch//2)
                 msg(0x200)
                 tip = tooltip(process.pid)
                 last = tip
@@ -378,7 +399,9 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             return bytes.fromhex(value['hex'])
         try:
             hwnd = wait_for(lambda: find_window(process.pid))
-            clipboard = SavedClipboard(hwnd)
+            evidence['memory_before_instrumentation']=memory_sample(handle)
+            message_session=PointerModel(process.pid,hwnd,evidence)
+            if not args.activation_only:clipboard = SavedClipboard(hwnd)
             wait_for(current)
             rect = w.RECT(); u.GetClientRect(hwnd, c.byref(rect))
             cw, ch = (rect.right-2)//40, (rect.bottom-2)//12
@@ -453,6 +476,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                 reports = re.findall(rb'\x1b\[<(\d+);(\d+);(\d+)([Mm])', received)
                 assert all(mode == 1003 and r == (b'35', b'3', b'2', b'M') for r in reports), received
                 evidence['mouse-'+str(mode)] = received.hex()
+            if args.activation_only:
+                evidence['completed']=True
+                print('Local hyperlink activation and app-mouse modes passed; clipboard not tested')
+                raise SystemExit(0)
             phase('menu-copy', scene)
             menu(0x1d0)
             wait_for(lambda: clipboard_text(hwnd) == uri)
@@ -607,12 +634,14 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
             evidence.update(peak_private_ws=max(s['private_ws'] for s in samples),
                             peak_total_ws=max(s['total_ws'] for s in samples),
                             peak_private_commit=max(s['private_commit'] for s in samples),
-                            executable_sha256=hashlib.sha256((root/'dist/nemoterm.exe').read_bytes()).hexdigest())
+                            executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest())
             assert evidence['peak_private_ws'] < 20_000_000, evidence
             evidence['completed'] = True
             (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
-            print('Native hyperlink checks passed:', evidence)
+            print('Native hyperlink checks passed:',len(evidence['activations']),'activations;',
+                  evidence['peak_private_ws'],'bytes sampled private WS; owned pointer instrumentation')
         finally:
+            if message_session:message_session.snapshot()
             (root/'research/hyperlink-window-observed.json').write_text(json.dumps(evidence, indent=2))
             try:
                 if clipboard: clipboard.restore()
@@ -629,3 +658,5 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-hyperlink-') as directory:
                     except subprocess.TimeoutExpired:
                         process.terminate(); process.wait(timeout=5)
                     raise
+                finally:
+                    if message_session:message_session.close()

@@ -249,7 +249,8 @@ try:
             captures=[]
             u.PostMessageW(first['hwnd'],0x10,0,0)
             wait_for(lambda:not u.IsWindow(first['hwnd']))
-            assert process.poll() is None and u.IsWindow(second['hwnd'])
+            evidence['first_tab_close']=dict(frontend_exit=process.poll(),sibling_alive=bool(u.IsWindow(second['hwnd'])))
+            assert evidence['first_tab_close']['frontend_exit'] is None and evidence['first_tab_close']['sibling_alive'],evidence['first_tab_close']
             output(second,'STILL ALIVE')
             u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
             assert process.returncode==0,process.returncode
