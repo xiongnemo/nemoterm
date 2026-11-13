@@ -84,6 +84,15 @@ check. The collector now retains short/long prior-query and trailing-separator
 variants. Nemoterm retains the documented selective-reset semantics while this
 reference behaviour is investigated.
 
+[Follow-up 43456769586](https://github.com/xiongnemo/nemoterm/actions/runs/43456769586)
+repeats both corrected reset replies and retains eight selective-reset variants.
+Adding a trailing separator to `OSC 105;2`, or preceding it with an `OSC 4`
+alias query, prevents the extra underline reset. This supports the parser-tail
+explanation; Nemoterm keeps the documented single-index behaviour. The reference
+collector now checks exact upstream bytes for both known differences, reports
+them separately from matching product cases, and still fails on any unexpected
+reply. This does not claim full parity or change either product assertion.
+
 39 authored wire cases cover aliases, BEL/ST, selective/full resets, malformed
 inputs, stack retention and screen/reset interactions. The mock-renderer suite
 adds each mode, priority combinations, preserved stored attributes, explicit

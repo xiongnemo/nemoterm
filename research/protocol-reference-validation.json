@@ -52,5 +52,23 @@
       "path": "research/protocol-reference-evidence/20261114-cursor-charset-xterm.json",
       "sha256": "b7d8859778185ec70ceba2dd18d52dd87e6df14cafb4dfd1431e4a8f3ffc9bbd"
     }
-  ]
+  ],
+  "attribute_reset_follow_up": {
+    "run": 43456769586,
+    "artifact": 14053213855,
+    "fixture_commit": "1051ddf7dd89a16d0c7a87e5c726158d03569a05",
+    "workflow_result": "failure",
+    "remaining_differences": [
+      "reset-one-special",
+      "overflow-index"
+    ],
+    "reset_semantics_matched": [
+      "reset-ris",
+      "reset-decstr"
+    ],
+    "case_count": 47,
+    "reference_executable_sha256": "9f440380b493c91dbd1fcb8a6277df1ca121390b23fe526baa24c15525f4df64",
+    "path": "research/protocol-reference-evidence/20261114-attribute-reset-follow-up.json",
+    "sha256": "c2c6e87c7821ce8fbb8571e8ee12480d757ccddb073fbaf57577d1290f52edfa"
+  }
 }
