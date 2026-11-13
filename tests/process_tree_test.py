@@ -1,10 +1,30 @@
 """Process ancestry must account for historical parent-PID reuse. No windows."""
 import unittest
 from unittest.mock import patch
-from console_process_utils import descendant_pids
+from console_process_utils import descendant_pids, workload_process_role
 import console_process_utils as process_utils
 
 class ProcessIdentityTests(unittest.TestCase):
+    def test_two_tab_single_image_and_sidecar_host_roles(self):
+        frontend = r'D:\app\dist\nemoterm.exe'
+        for host in (frontend, r'd:/APP/dist/OpenConsole.EXE'):
+            processes = [dict(pid=10, parent=1, path=frontend),
+                         dict(pid=11, parent=10, path=host),
+                         dict(pid=12, parent=10, path=r'C:\Python\python.exe'),
+                         dict(pid=13, parent=10, path=host),
+                         dict(pid=14, parent=10, path=r'C:\Python\python.exe')]
+            self.assertEqual([workload_process_role(p, 10, frontend) for p in processes],
+                             ['frontend', 'hosts', 'clients', 'hosts', 'clients'])
+
+    def test_host_role_needs_exact_path_and_direct_parent(self):
+        frontend = r'D:\app\dist\nemoterm.exe'
+        for parent, path in [(10, r'C:\unrelated\OpenConsole.exe'),
+                             (10, r'D:\app\dist\other\nemoterm.exe'),
+                             (12, r'D:\app\dist\OpenConsole.exe'),
+                             (12, frontend)]:
+            self.assertEqual(workload_process_role(
+                dict(pid=20, parent=parent, path=path), 10, frontend), 'clients')
+
     def test_recycled_root_pid_does_not_claim_old_services(self):
         rows = {10:(1,'terminal'), 11:(10,'host'), 12:(11,'shell'),
                 20:(10,'old-service'), 21:(20,'service-child'), 30:(1,'sibling')}

@@ -12,7 +12,10 @@ GDI. Windows MinGW core checks pass at the same commit; that job later times out
 in native shutdown. The diagnostic repeat at `41a6cc5` passes all six shutdown
 cases but exposes a real duplicate Alt+A in the attribute settings page. The
 selector and custom-URI option now avoid the global About/Apply accelerator;
-remote settings acceptance is pending.
+the native MinGW settings fixture passes at `82f4d59`, including save/load and
+live application. Its subsequent workload exposed a sampler classification bug
+for the sidecar OpenConsole processes. That classifier is corrected for remote
+revalidation without changing ownership checks or the memory threshold.
 Main `992faa3` has a successful 57-group single-image artifact, while its
 separate MinGW profile-close timeout remains unresolved. Development single-image
 colour/charset/guarded-area checks pass at `ed78f2b`; its two-tab workload passes

@@ -1,4 +1,5 @@
 """Read process metadata, returning only descendants of an owned root PID."""
+import ntpath
 from native_test_utils import c, w, k, memory_sample
 
 class ProcessEntry(c.Structure):
@@ -45,6 +46,23 @@ def sample_process_memory(handle, pid, exited=None):
         exited.append(dict(pid=pid, signaled=True, exit_code=status.value if known else None,
                            error=repr(error)))
         return None
+
+
+def workload_process_role(process, root_pid, executable):
+    """Classify already-owned fixture processes for both supported packages.
+
+    Same-image hosts and the exact bundled OpenConsole path are direct children
+    of the frontend. A matching basename elsewhere, or a nested program launched
+    by a client, must not be counted as one of the fixture's console hosts.
+    """
+    if process['pid'] == root_pid:
+        return 'frontend'
+    frontend = ntpath.normcase(ntpath.normpath(executable))
+    sidecar = ntpath.join(ntpath.dirname(frontend), 'openconsole.exe')
+    path = ntpath.normcase(ntpath.normpath(process['path']))
+    if process['parent'] == root_pid and path in (frontend, sidecar):
+        return 'hosts'
+    return 'clients'
 
 
 def owned_processes(root_pid, exited=None):

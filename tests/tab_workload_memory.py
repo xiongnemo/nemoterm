@@ -5,7 +5,7 @@ Summed working sets count shared pages in each process; they are not physical
 machine RAM. The Python workload clients are reported separately from the app.
 """
 from native_test_utils import time, threading, os, Path, w, c, u
-from console_process_utils import owned_processes
+from console_process_utils import owned_processes, workload_process_role
 
 
 class TabMemorySampler:
@@ -35,8 +35,7 @@ class TabMemorySampler:
                 groups = {name: dict(count=0, private_ws=0, total_ws=0, private_commit=0)
                           for name in ('frontend','hosts','clients','all')}
                 for process in processes:
-                    role = ('frontend' if process['pid'] == self.pid else
-                            'hosts' if os.path.normcase(process['path']) == self.executable else 'clients')
+                    role = workload_process_role(process, self.pid, self.executable)
                     process['role'] = role
                     for group in (groups[role],groups['all']):
                         group['count'] += 1

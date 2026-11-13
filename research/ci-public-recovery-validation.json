@@ -1,5 +1,5 @@
 {
-  "recorded_utc": "2026-11-13T12:22:41.947228+00:00",
+  "recorded_utc": "2026-11-13T12:37:45.644498+00:00",
   "local_runtime_testing_paused": true,
   "local_runtime_tests_executed": [],
   "main": {
@@ -392,6 +392,21 @@
       "path": "research/ci-public-recovery-evidence/windows-ed78f2b-status.json",
       "bytes": 6045,
       "sha256": "7139914a183cc3b4c778988a85818f123c438eeb3775a8954fa351567a504619"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/settings-82f4d59.json",
+      "bytes": 12007,
+      "sha256": "ad9ad55ce4811241c3d7b009b23322e1777137bbf7a874986eea06228c2a4409"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/settings-82f4d59.png",
+      "bytes": 14930,
+      "sha256": "6d8ce2ec18dc7e468a70b638821b5a908d719f947058b991ce46da7ebd65edd9"
+    },
+    {
+      "path": "research/ci-public-recovery-evidence/sidecar-role-failure-82f4d59.json",
+      "bytes": 2578,
+      "sha256": "42ae2ead5ae288d36e4b1629b1a806680279ce6a368c006d48815e6110aefc1d"
     }
   ],
   "development_msvc_current": {
@@ -450,7 +465,7 @@
     "previous_shutdown_stall_explained": false,
     "settings_failure": "controls.c:1207 !dp->shortcuts[s]; Alt+A collides with About/Apply",
     "local_runtime_tests_executed": [],
-    "fixed_settings_runtime_acceptance": "pending"
+    "fixed_settings_runtime_acceptance": "passed in MinGW settings fixture at 82f4d59"
   },
   "settings_fix_local_build": {
     "base_commit": "41a6cc5635e7fc1f80667d73f2dfdad44f6105dc",
@@ -459,5 +474,33 @@
     "runtime_executed": false,
     "executable_bytes": 4455424,
     "executable_sha256": "3043a4061faaffcf034bdf9eef2daf0c3dc3410ef1f6aed0128c1acf92774750"
+  },
+  "settings_fix_remote": {
+    "commit": "82f4d596f73b9300261b126e2e1973a2206d80c1",
+    "run": 43424726737,
+    "job": 131883237016,
+    "artifact_id": 14037840427,
+    "settings_result": "success",
+    "executable_sha256": "026971827ea2c09ff9f4764c12814fdb949a9f970dc45aa7ac77daca43b241d7",
+    "attribute_query_checks": 5,
+    "hyperlink_startup_and_live": true,
+    "whole_job_result": "failure: sidecar host-role accounting",
+    "local_runtime_executed": false
+  },
+  "sidecar_accounting_fix": {
+    "previous_recorded_counts": {
+      "frontend": 1,
+      "hosts": 0,
+      "clients": 4
+    },
+    "observed_processes": "frontend plus two exact bundled OpenConsole paths and two Python clients",
+    "required_counts_unchanged": {
+      "frontend": 1,
+      "hosts": 2,
+      "clients": 2
+    },
+    "frontend_private_ws_limit_bytes_unchanged": 20000000,
+    "local_runtime_executed": false,
+    "remote_validation": "pending"
   }
 }

@@ -99,12 +99,6 @@ try {
         if ($LASTEXITCODE) { throw "Single-executable tab host test failed: $name" }
         $checks.Add($name)
     }
-    foreach ($case in @(@('gdi','top'), @('directx','left'))) {
-        $name = "workload-tabs-$($case[0])-$($case[1])"
-        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --workload-memory 2>&1 | Tee-Object "$Destination/logs/$name.log"
-        if ($LASTEXITCODE) { throw "Single-executable tab workload and memory test failed: $name" }
-        $checks.Add($name)
-    }
     & python "$Destination/tests/tabs_regression_suite.py" 2>&1 | Tee-Object "$Destination/logs/tabs-regressions.log"
     if ($LASTEXITCODE) { throw 'Single-executable tab regression suite failed' }
     $checks.Add('tabs-regressions')
@@ -124,6 +118,14 @@ try {
             if ($LASTEXITCODE) { throw "Single-executable Codex test failed: $mode" }
             $checks.Add("codex-$mode")
         }
+    }
+    # Independent functional checks run before the still-mandatory memory gate.
+    # No success manifest or distributable is produced when either workload fails.
+    foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+        $name = "workload-tabs-$($case[0])-$($case[1])"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --workload-memory 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        if ($LASTEXITCODE) { throw "Single-executable tab workload and memory test failed: $name" }
+        $checks.Add($name)
     }
     $files = @(Get-ChildItem -LiteralPath "$Destination/dist" -File)
     if ($files.Count -ne 1 -or $files[0].Name -ne 'nemoterm.exe') { throw 'Unexpected sidecar files in isolated executable directory' }

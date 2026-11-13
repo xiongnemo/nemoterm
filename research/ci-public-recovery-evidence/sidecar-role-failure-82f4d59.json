@@ -1,0 +1,95 @@
+{
+  "run": 43424726737,
+  "job": 131883237016,
+  "artifact_id": 14037840427,
+  "source_file": "test-results/workload-tabs-gdi-top-memory.json",
+  "source_sha256": "40838908281c41632afa0b83cb75058b076ce8c51816ef5535d7374109049bec",
+  "scope": "One unmodified stable sample from the failed sidecar role-classification check; not a passing workload",
+  "sample": {
+    "seconds": 13.312,
+    "phase": "history-0",
+    "groups": {
+      "frontend": {
+        "count": 1,
+        "private_ws": 6520832,
+        "total_ws": 34320384,
+        "private_commit": 8065024
+      },
+      "hosts": {
+        "count": 0,
+        "private_ws": 0,
+        "total_ws": 0,
+        "private_commit": 0
+      },
+      "clients": {
+        "count": 4,
+        "private_ws": 20766720,
+        "total_ws": 57282560,
+        "private_commit": 25899008
+      },
+      "all": {
+        "count": 5,
+        "private_ws": 27287552,
+        "total_ws": 91602944,
+        "private_commit": 33964032
+      }
+    },
+    "processes": [
+      {
+        "pid": 4112,
+        "parent": 7468,
+        "path": "D:\\a\\nemoterm\\nemoterm\\dist\\nemoterm.exe",
+        "memory": {
+          "private_ws": 6520832,
+          "total_ws": 34320384,
+          "private_commit": 8065024
+        },
+        "role": "frontend"
+      },
+      {
+        "pid": 3220,
+        "parent": 4112,
+        "path": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+        "memory": {
+          "private_ws": 1814528,
+          "total_ws": 11550720,
+          "private_commit": 2576384
+        },
+        "role": "clients"
+      },
+      {
+        "pid": 3832,
+        "parent": 4112,
+        "path": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "memory": {
+          "private_ws": 8560640,
+          "total_ws": 17088512,
+          "private_commit": 10366976
+        },
+        "role": "clients"
+      },
+      {
+        "pid": 7660,
+        "parent": 4112,
+        "path": "D:\\a\\nemoterm\\nemoterm\\dist\\OpenConsole.exe",
+        "memory": {
+          "private_ws": 1810432,
+          "total_ws": 11546624,
+          "private_commit": 2576384
+        },
+        "role": "clients"
+      },
+      {
+        "pid": 7848,
+        "parent": 4112,
+        "path": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "memory": {
+          "private_ws": 8581120,
+          "total_ws": 17096704,
+          "private_commit": 10379264
+        },
+        "role": "clients"
+      }
+    ]
+  }
+}

@@ -136,5 +136,38 @@ uniqueness assertion is retained.
 The existing settings fixture still verifies attribute control geometry,
 save/load, configured queries and live application; it additionally opens the
 hyperlink page at startup and during live reconfiguration. MSVC frontend
-compilation and source-linked single-image linking pass. The corrected settings
-have not been run locally; their remote native acceptance is pending.
+compilation and source-linked single-image linking pass. The
+[MinGW native settings test at 82f4d59](https://github.com/xiongnemo/nemoterm/actions/runs/43424726737/job/131883237016)
+now passes, including five attribute-colour query checks and both hyperlink
+page entry points. The retained screenshot also shows the controls fitting
+inside the dialog. This image is
+`026971827ea2c09ff9f4764c12814fdb949a9f970dc45aa7ac77daca43b241d7`;
+local runtime testing remains paused.
+
+The hyperlink-only fix is separately prepared against main at `108af0c`, on
+`fix/settings-hyperlink-accelerator`. Its remote validation is in progress;
+main and the accepted local distribution remain unchanged.
+
+## Sidecar workload accounting correction
+
+The `82f4d59` MinGW job then fails the stable-process-count assertion during its
+GDI workload, before any memory-limit assertion. All five owned processes are
+present: one frontend, two bundled `OpenConsole.exe` processes and two Python
+clients. The sampler classified a host only when its image path equalled the
+frontend image, so it incorrectly reported zero hosts and four clients in this
+sidecar package. No process was omitted from the recorded total.
+
+The classifier now recognizes direct children running either the same image
+or the exact `OpenConsole.exe` path beside it. A matching basename in another
+directory, or a program launched by a client, is not a fixture host. Two
+regression tests cover both packages and those exclusions. Ownership discovery,
+all raw memory records, the required 1/2/2 stable counts and the 20,000,000-byte
+frontend threshold remain unchanged.
+
+Both CI matrices now run the same resource gates after the independent native
+functional checks. A failure still prevents the success manifest/package.
+This allows settings, tab-regression and Codex evidence to be collected before
+the known DirectX limit failure. No fixture or failure guard was removed.
+The accounting correction is statically checked but has not been executed
+locally; a fresh remote workload must validate it. The failed old sample is
+retained as diagnosis, not retroactively accepted.
