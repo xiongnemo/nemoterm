@@ -27,7 +27,9 @@ try:
             def phase(sequence):
                 phase.counter+=1;token=str(phase.counter)
                 write_snapshot(control,dict(phase=token,sequence=sequence+'\x1b[?2026$p'))
-                wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')==token and b'\x1b[?2026;' in bytes.fromhex(v.get('hex','')))
+                phase.snapshot=wait_snapshot(lambda:read_snapshot(report),
+                    lambda v:v.get('phase')==token and v.get('columns',0)>0 and v.get('rows',0)>0
+                    and b'\x1b[?2026;' in bytes.fromhex(v.get('hex','')))
                 time.sleep(.08)
                 return capture(hwnd,return_pixels=True)
             phase.counter=0
@@ -111,7 +113,9 @@ try:
                 expected=grid.copy();expected[1]='BBZZZZBBBBBB'
                 reference=phase(frame(expected))
                 assert phase(frame(grid)+'\x1b[90;2;3;2;6$x')==reference
-                state=read_snapshot(report);evidence['resize_dimensions'].append([state['columns'],state['rows']])
+                # Reuse the acknowledged phase snapshot. A second file read
+                # can briefly fail while the child replaces its JSON mailbox.
+                state=phase.snapshot;evidence['resize_dimensions'].append([state['columns'],state['rows']])
             assert evidence['resize_dimensions'][-1]==[40,12]
             evidence['checks'].append('resize-then-edit')
             old=phase(frame(grid));assert phase('\x1b[?2026h\x1b[90;1;1;3;4$x')==old
