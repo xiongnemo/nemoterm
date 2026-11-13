@@ -67,6 +67,23 @@ Pointer/Tektronix colours remain separate, unimplemented protocol work.
 
 ## Prepared validation, not runtime acceptance
 
+The subsequent [independent capture](protocol-reference-20261114.md) found
+that both RIS and DECSTR reset the five special colours to their configured
+defaults. This agrees with `ReallyReset` calling `ResetAnsiColorRequest` for
+both hard and soft reset in the pinned `charproc.c`. The implementation now
+clears application overrides in both paths, retaining saved defaults and mode
+switches. Wire cases and configured-colour paint checks cover the correction;
+the local test target is compiled and linked only, with runtime checks in CI.
+
+Two reference differences remain separate from that fix: overflowing indices
+remain rejected, and `OSC 105;2` unexpectedly resets an additional slot in the
+pinned capture. Its `ResetAnsiColorRequest` source advances `next` after testing
+`strchr(";", *next)` even when `*next` is NUL. That permits scanning beyond the
+logical string terminator; the exact extra slot still needs a runtime causal
+check. The collector now retains short/long prior-query and trailing-separator
+variants. Nemoterm retains the documented selective-reset semantics while this
+reference behaviour is investigated.
+
 39 authored wire cases cover aliases, BEL/ST, selective/full resets, malformed
 inputs, stack retention and screen/reset interactions. The mock-renderer suite
 adds each mode, priority combinations, preserved stored attributes, explicit

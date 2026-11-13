@@ -216,6 +216,20 @@ static bool test_attribute_colour_settings(void)
     term_data_fragmented(mk->term, "\033]5;0;red\007\033]105;0\007"); term_update(mk->term);
     selection_check_display(mk, 0, 0x112233, 0);
 
+    test_context(mk, "hard and soft reset restore saved defaults without resetting modes");
+    static const char *const resets[] = {"\033c", "\033[!p"};
+    for (unsigned i = 0; i < lenof(resets); i++) {
+        term_data_fragmented(mk->term, "\033]5;0;red;1;blue\007\033]6;1;1\007");
+        term_data_fragmented(mk->term, resets[i]);
+        IEQUAL(mk->term->attribute_colour_modes, 3);
+        for (unsigned j = 0; j < 5; j++)
+            IEQUAL(mk->term->attribute_colours[j].enabled, false);
+        term_data_fragmented(mk->term, "\033]5;0;?;1;?\007");
+        reply(mk, "\033]5;0;rgb:1111/2222/3333\007\033]5;1;rgb:4444/5555/6666\007");
+        term_data_fragmented(mk->term, "\033[?25l\033[1;1H\033[1mX"); term_update(mk->term);
+        selection_check_display(mk, 0, 0x112233, 0);
+    }
+
     test_context(mk, "unrelated preferences preserve application colours and modes");
     term_data_fragmented(mk->term, "\033]5;0;red;1;blue\007\033]6;1;1\007");
     conf_set_int(mk->conf, CONF_savelines, conf_get_int(mk->conf, CONF_savelines)+1);

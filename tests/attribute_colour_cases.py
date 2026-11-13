@@ -1,4 +1,4 @@
-"""Authored OSC 5/6 expectations; no independent runtime results yet."""
+"""OSC 5/6 cases, with reset semantics checked against pinned XTerm(412)."""
 CSI, OSC, ST = '\x1b[', '\x1b]', '\x1b\\'
 COLORS = ('112233', '445566', '778899', 'aabbcc', 'ddeeff')
 
@@ -51,6 +51,7 @@ CASES += [
      CSI+'1#Q'+query(), replies()),
     ('stack-restores-defaults', command(105)+CSI+'1#P'+SET+CSI+'1#Q'+query(), replies(DEFAULTS)),
 ]
-for name, control in [('ris', '\x1bc'), ('decstr', CSI+'!p'),
-                      ('alternate', CSI+'?1049h'+CSI+'?1049l'), ('sgr', CSI+'0m')]:
+for name, control in [('ris', '\x1bc'), ('decstr', CSI+'!p')]:
+    CASES.append(('reset-'+name, SET+control+query(), replies(DEFAULTS)))
+for name, control in [('alternate', CSI+'?1049h'+CSI+'?1049l'), ('sgr', CSI+'0m')]:
     CASES.append(('retain-'+name, SET+control+query(), replies()))

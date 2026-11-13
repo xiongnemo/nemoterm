@@ -6,7 +6,7 @@ reset expectations independent of the user's XTerm resource database.
 import argparse
 import json
 from pathlib import Path
-from attribute_colour_cases import CASES
+from attribute_colour_cases import CASES, SET, command, query
 from xterm_state_oracle import run_cases
 
 if __name__ == '__main__':
@@ -17,7 +17,15 @@ if __name__ == '__main__':
     resources = ['-ti', 'vt520', '-fg', '#ffffff', '-bg', '#000000']
     for mode in ('BD', 'UL', 'BL', 'RV', 'IT'):
         resources += ['-xrm', f'*color{mode}: #ffffff']
-    run_cases(args.xterm, args.output, {name: sequence for name, sequence, _ in CASES},
+    cases = {name: sequence for name, sequence, _ in CASES}
+    # Diagnose the pinned reference's single-index reset independently of the
+    # product expectations. Preserve complete replies, including any preceding
+    # query, instead of assuming identical parser behaviour across histories.
+    for prior_name, prior in (('set', ''), ('short-query', command(5, '0;?')),
+                              ('long-query', query()), ('alias-query', query(4))):
+        for suffix in ('2', '2;'):
+            cases[f'reference-reset-{prior_name}-{suffix}'] = SET+prior+command(105, suffix)+query()
+    run_cases(args.xterm, args.output, cases,
               resources, raw_replies=True)
     actual = json.loads(Path(args.output).read_text(encoding='utf-8'))['cases']
     differences = [name for name, sequence, expected in CASES

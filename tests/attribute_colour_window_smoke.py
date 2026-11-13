@@ -118,7 +118,7 @@ if args.configured:
         profile['NemoAttribute'+name+'Colour'] = int(colour, 16)
 
 run(test_name, (), extra_cases=() if args.configured else CASES, exercise=exercise,
-    source_reference='Authored specification/source expectations; independent XTerm capture pending',
+    source_reference='XTerm(412) capture 43454910323; strict index parsing and selective reset divergences documented',
     barrier=(CSI+'>q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'),
     profile=profile,
     font=os.environ.get('NEMOTERM_TEST_FONT',

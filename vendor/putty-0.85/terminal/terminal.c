@@ -15,6 +15,7 @@
 #include "nemo_colour.h"
 
 static void term_bidi_cache_clear_line(Terminal *term, size_t line);
+static void nemo_attribute_colours_reset(Terminal *term);
 
 #define VT52_PLUS
 
@@ -2798,6 +2799,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    nemo_attribute_colours_reset(term);
     nemo_presentation_cancel(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
@@ -3562,6 +3564,14 @@ static void nemo_attribute_colour_set(Terminal *term, unsigned which,
         term->attribute_colours[which] = colour;
         term_invalidate(term);
     }
+}
+
+/* XTerm ReallyReset restores special colours for both RIS and DECSTR.
+ * Application mode switches and configured defaults remain independent. */
+static void nemo_attribute_colours_reset(Terminal *term)
+{
+    for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
+        nemo_attribute_colour_set(term, i, optionalrgb_none);
 }
 
 static void nemo_palette_stack_op(Terminal *term, bool push)
@@ -4924,6 +4934,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
+    nemo_attribute_colours_reset(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
     term->cset_ss = 0;
