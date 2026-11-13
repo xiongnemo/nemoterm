@@ -1,0 +1,43 @@
+{
+  "executable_sha256": "219dec1279798188ef60fb522fe63a566026d60c2cbdb8fb444331fad95e96bb",
+  "completed": true,
+  "cases": {
+    "alive": "1b5b306e1b503024721b5c"
+  },
+  "source_reference": "XTerm(412)",
+  "reference_case_count": 0,
+  "direct_case_names": [
+    "alive"
+  ],
+  "profile_values": {
+    "NemoRenderer": 1,
+    "WarnOnClose": 0
+  },
+  "exercise": {
+    "requested_renderer": "OpenGL",
+    "actual_renderer": 2
+  },
+  "cleanup": {
+    "before": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  },
+  "last_snapshot": {
+    "phase": "alive",
+    "hex": "1b5b306e1b503024721b5c",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640,
+    "input_cp": 65001,
+    "input_api": "ReadFile"
+  }
+}

@@ -6,13 +6,19 @@
 #include "window_resize_cases.h"
 #include "../../../tests/graphics_query_oracle_cases.h"
 #include "../../../tests/dec_status_oracle_cases.h"
+#include "../../../tests/checksum_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
     size_t len = strlen(expected);
-    if (len != mk->to_backend->len || memcmp(expected, mk->to_backend->s, len))
+    if (len != mk->to_backend->len || memcmp(expected, mk->to_backend->s, len)) {
         report_fail(mk, __FILE__, __LINE__, "query reply differs: %zu expected, %zu actual bytes",
                     len, mk->to_backend->len);
+        printf(" actual hex:");
+        for (size_t i = 0; i < mk->to_backend->len; i++)
+            printf(" %02X", (unsigned char)mk->to_backend->s[i]);
+        putchar('\n');
+    }
     strbuf_clear(mk->to_backend);
 }
 
@@ -80,6 +86,79 @@ static void test_dec_status(Mock *mk)
     response(mk, "");
     term_data_fragmented(mk->term, "\033[61;1\"p\033[?9001;65535n");
     response(mk, "\033[?9001;65535;7;17R");
+}
+
+static void test_checksums(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "screen checksum access is disabled by default");
+    term_data_fragmented(mk->term, "\033[64;1\"pA\033[23#y\033[7;1;1;1;1;1*y");
+    response(mk, "");
+    IEQUAL(mk->term->checksum_flags, 0);
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
+    conf_set_bool(mk->conf, CONF_crhaslf, false);
+    conf_set_bool(mk->conf, CONF_lfhascr, false);
+    conf_set_bool(mk->conf, CONF_utf8linedraw, true);
+    term_reconfig(mk->term, mk->conf);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(checksum_oracle); i++) {
+        reset(mk);
+        test_context(mk, "rectangle checksum %s", checksum_oracle[i].name);
+        term_data_fragmented(mk->term, checksum_oracle[i].sequence);
+        response(mk, checksum_oracle[i].reply);
+    }
+    for (size_t i = 0; i < lenof(checksum_direct); i++) {
+        reset(mk);
+        test_context(mk, "retained-cell checksum %s", checksum_direct[i].name);
+        term_data_fragmented(mk->term, checksum_direct[i].sequence);
+        response(mk, checksum_direct[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "checksums preserve pending wrap, selection and both buffers");
+    term_data_fragmented(mk->term, "\033[1;80HZ\033[23#y");
+    mk->term->selstate = SELECTED;
+    mk->term->selstart = (pos){0, 79};
+    mk->term->selend = (pos){1, 0};
+    mk->term->disptop = -1;
+    mk->term->grapheme_pending = true;
+    term_data_fragmented(mk->term, "\033[7;1;1;80;1;80*y");
+    response(mk, "\033P7!~005A\033\\");
+    IEQUAL(mk->term->curs.x, 79); IEQUAL(mk->term->curs.y, 0);
+    IEQUAL(mk->term->wrapnext, true);
+    IEQUAL(mk->term->selstate, SELECTED);
+    IEQUAL(mk->term->disptop, -1);
+    IEQUAL(mk->term->grapheme_pending, true);
+    mk->term->grapheme_pending = false;
+    mk->term->disptop = 0;
+    term_data_fragmented(mk->term, "X\033[?1049h\033[2J\033[H"
+        "\033[7;1;1;1;1;1*y\033[?1049l\033[7;1;1;80;1;80*y");
+    response(mk, "\033P7!~0020\033\\\033P7!~005A\033\\");
+    IEQUAL(get_termchar(mk->term, 0, 1).chr, CSET_ASCII|'X');
+    test_context(mk, "writing over a selected cell still invalidates it");
+    term_data_fragmented(mk->term, "\033[1;80H");
+    mk->term->selstate = SELECTED;
+    mk->term->selstart = (pos){0, 79};
+    mk->term->selend = (pos){1, 0};
+    term_data_fragmented(mk->term, "Q");
+    IEQUAL(mk->term->selstate, NO_SELECTION);
+    test_context(mk, "checksums do not allocate or expose hidden retained columns");
+    /* Shrinking can leave a longer retained physical row. Never checksum its
+     * hidden tail; growing a sparse row must not resize its allocation here. */
+    term_size(mk->term, 24, 40, 0);
+    termline *sparse = index234(mk->term->screen, 23);
+    int saved_cols = sparse->cols;
+    sparse->cols = 5; /* Present only the initialized prefix to the reader. */
+    termchar *before = sparse->chars;
+    term_data_fragmented(mk->term, "\033[7;1;24;39;24;99999999999999999*y");
+    response(mk, "\033P7!~0040\033\\");
+    IEQUAL(sparse->cols, 5);
+    IEQUAL(sparse->chars == before, true);
+    sparse->cols = saved_cols;
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, false);
+    term_reconfig(mk->term, mk->conf);
+    test_context(mk, "revoking screen checksum access takes effect immediately");
+    term_data_fragmented(mk->term, "\033[7;1;1;1;1;1*y");
+    response(mk, "");
 }
 
 static void test_cursor(Mock *mk)
@@ -450,6 +529,7 @@ int main(void)
     test_window_resize(mk);
     test_graphics_queries(mk);
     test_dec_status(mk);
+    test_checksums(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

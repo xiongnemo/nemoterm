@@ -1,0 +1,36 @@
+{
+  "executable_sha256": "219dec1279798188ef60fb522fe63a566026d60c2cbdb8fb444331fad95e96bb",
+  "completed": true,
+  "cases": {
+    "default-denied": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c"
+  },
+  "source_reference": "XTerm(412)",
+  "reference_case_count": 0,
+  "direct_case_names": [
+    "default-denied"
+  ],
+  "profile_values": {},
+  "cleanup": {
+    "before": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  },
+  "last_snapshot": {
+    "phase": "default-denied",
+    "hex": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "columns": 80,
+    "rows": 24,
+    "input_mode": 640,
+    "input_cp": 65001,
+    "input_api": "ReadFile"
+  }
+}

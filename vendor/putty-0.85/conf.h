@@ -654,6 +654,11 @@ CONF_OPTION(nemo_osc52_read, /* allow clipboard contents to return to a session 
     DEFAULT_BOOL(false),
     SAVE_KEYWORD("NemoOSC52Read"),
 )
+CONF_OPTION(nemo_allow_checksum, /* DECRQCRA screen contents readback */
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoAllowChecksum"),
+)
 CONF_OPTION(no_remote_charset, /* disable remote charset config */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(false),

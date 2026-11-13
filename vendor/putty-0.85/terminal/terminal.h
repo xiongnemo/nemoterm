@@ -210,6 +210,7 @@ struct terminal_tag {
     bool lrmm;                        /* DECLRMM enables DECSLRM */
     bool dec_om;                       /* DEC origin mode flag */
     unsigned rectangle_extent;         /* DECSACE: 2=rectangle, others=stream */
+    unsigned checksum_flags;           /* XTCHECKSUM, low five bits */
     bool wrap, wrapnext;               /* wrap flags */
     bool grapheme_mode, grapheme_pending, grapheme_wrapnext;
     NemoGraphemeState grapheme;

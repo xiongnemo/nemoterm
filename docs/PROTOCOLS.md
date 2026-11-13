@@ -126,6 +126,16 @@ DECSCA、DECSEL/DECSED、DECERA/DECSERA 已实现并通过核心、原生像素�
 1–1024 字节的控制台原始/行输入。物理 IME 候选操作、真实多屏切换及完整
 字素整形仍未验收，不能由合成消息测试替代。
 
+### 屏幕区域校验查询
+
+实现 DECRQCRA（`CSI Pi;Pg;Pt;Pl;Pb;Pr * y`）及 XTCHECKSUM（`CSI Ps # y`）。
+默认关闭，在 **Terminal / Screen queries** 启用；设置可保存并在当前会话应用。
+只读取当前活动屏幕的有界字符区域，不读取滚动历史，也不对 Sixel 像素求和。
+364 项独立 xterm 对照及 8 项明确差异测试通过单文件 ConPTY 路径。
+Unicode 组合字符存储、旧式字符校验和英国字符集存在已记录差异，不能据此宣称完全一致。
+查询保持选区、光标、待换行状态和画面；真正覆盖所选字符仍取消选区。
+完整模式语义、来源和验证范围见[校验记录](../research/rectangle-checksums.md)。
+
 ### 真实 Codex 界面与原生控制台事件
 
 实际 Codex 0.167.0 客户端已用于中文/emoji 输入、流式 Markdown、长回复、

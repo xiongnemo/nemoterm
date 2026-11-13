@@ -89,7 +89,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | $z / ${ (DECERA/DECSERA) | Tested | `selective_erase`, rectangular protected/unprotected erasure. |
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
 | $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
-| *y (DECRQCRA); #y (checksum selection) | Missing | Used by the independent xterm oracle, not implemented by Nemoterm. |
+| *y (DECRQCRA); #y (XTCHECKSUM) | Gated / Partial | Off by default; `queries` and native `checksum`: 364 exact XTerm cases, 8 retained-cell expectations, attributes/blank modes/origin/resize/reset. Unicode normalization and legacy charSeen differences are explicit; see [checksum record](../research/rectangle-checksums.md). |
 | $w (DECRQPSR); $u (terminal state request) | Missing | Presentation/terminal state reports are not implemented. |
 | #\| (XTREPORTSGR), #{ / #} (SGR stack) | Missing | Current-state DECRQSS is separate from rectangle/stack operations. |
 | #P/#Q/#R (palette stack) | Missing | OSC palette mutation exists; no palette stack. |
@@ -149,7 +149,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 ## Work queue from this audit
 
-1. Add remaining presentation/terminal-state reports and checksum operations;
+1. Add remaining presentation/terminal-state reports and extend checksum charset coverage;
    extend the implemented DEC status queries when UDK/locator/macro support exists.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.

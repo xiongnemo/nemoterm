@@ -2509,6 +2509,7 @@ static void power_on(Terminal *term, bool clear)
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
     term->curr_truecolour.decoration = 0;
     term->rectangle_extent = 0;
+    term->checksum_flags = 0;
     term->save_truecolour = term->alt_save_truecolour = term->curr_truecolour;
     term->curr_hyperlink = term->save_hyperlink = term->alt_save_hyperlink = 0;
     term->hover_hyperlink = 0;
@@ -4326,6 +4327,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
+    term->checksum_flags = 0;
     term_set_grapheme_clustering(term, false);
     term->insert = term->dec_om = false;
     term->marg_t = 0;
@@ -5772,6 +5774,114 @@ static unsigned long nemo_grapheme_scalar(Terminal *term, unsigned long c)
     }
 }
 
+/* DEC's legacy checksum uses its character-set codes rather than Unicode.
+ * No per-cell checksum cache is needed: read the retained glyphs, leaving
+ * cursor, pending wrap, selection, scrollback and image state untouched. */
+static uint32_t nemo_checksum_legacy(unsigned long ch)
+{
+    static const uint32_t graphics[] = {
+        0x10000, 0x14, 0x78, 0x0a, 0x0d, 0x0e, 0x0b, 0xb0,
+        0xb1, 0x15, 0x0c, 0x16, 0x17, 0x18, 0x19, 0x1a,
+        0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x80, 0x81, 0x82,
+        0x83, 0x84, 0x85, 0x86, 0xc6, 0x87, 0xa3, 0xb7,
+    };
+    unsigned long cset = ch & CSET_MASK;
+    if (ch == UCSWIDE) return ' ';
+    if (cset == CSET_ASCII || cset == CSET_LINEDRW || cset == CSET_GBCHR)
+        ch &= 0xff;
+    if (ch < 32 || ch > 255 || ch == 160) return 27;
+    if (ch == 127 || ch == 255) return 0;
+    ch &= 127;
+    if (cset == CSET_LINEDRW && ch >= 0x5f && ch <= 0x7e)
+        return graphics[ch-0x5f];
+    return (uint32_t)ch;
+}
+
+static uint32_t nemo_checksum_unicode(unsigned long ch)
+{
+    /* Protocol values, not unitab_xterm: the latter may contain font indices
+     * and varies with the selected font/platform. Match DEC graphic codes
+     * as interpreted by xterm (including its zero for the reserved '_'). */
+    static const uint16_t graphics[] = {
+        0, 0x25c6, 0x2592, 0x2409, 0x240c, 0x240d, 0x240a, 0x00b0,
+        0x00b1, 0x2424, 0x240b, 0x2518, 0x2510, 0x250c, 0x2514, 0x253c,
+        0x23ba, 0x23bb, 0x2500, 0x23bc, 0x23bd, 0x251c, 0x2524, 0x2534,
+        0x252c, 0x2502, 0x2264, 0x2265, 0x03c0, 0x2260, 0x00a3, 0x00b7,
+    };
+    unsigned long cset = ch & CSET_MASK;
+    if (cset == CSET_ASCII || cset == CSET_LINEDRW || cset == CSET_GBCHR) {
+        ch &= 0xff;
+        if (cset == CSET_LINEDRW && ch >= 0x5f && ch <= 0x7e)
+            return graphics[ch-0x5f];
+    }
+    return (uint32_t)ch;
+}
+
+static void nemo_checksum_rectangle(Terminal *term)
+{
+    if (!term->ldisc || !conf_get_bool(term->conf, CONF_nemo_allow_checksum) ||
+        (!term->esc_arg_present && term->esc_nargs == 1)) return;
+    struct NemoRect r;
+    unsigned mode = term->checksum_flags;
+    uint32_t total = 0;
+    bool first = true;
+    /* xterm interprets the short one/two-parameter form as coordinates too.
+     * The full form skips Pi/Pg; this terminal has one addressable page. */
+    if (nemo_rectangle(term, term->esc_nargs > 2 ? 2 : 0, 4, &r)) {
+        for (int row = r.top; row < r.bottom; row++) {
+            const termline *line = index234(term->screen, row);
+            assert(line);
+            for (int col = r.left; col < r.right; col++) {
+                const termchar *cell = col < line->cols ? &line->chars[col] :
+                    &term->basic_erase_char;
+                unsigned long attr = cell->attr;
+                uint32_t decoration = cell->truecolour.decoration;
+                bool drawn = !(decoration & CELL_UNDRAWN);
+                uint32_t value;
+                if (!drawn) {
+                    if (!(mode & (4 | 8))) continue;
+                    value = ' ';
+                } else if (!(mode & 16)) {
+                    value = nemo_checksum_legacy(cell->chr);
+                } else {
+                    value = nemo_checksum_unicode(cell->chr);
+                    if (cell->chr == UCSWIDE || (value >= 0xfff0 && value <= 0xffff))
+                        continue;
+                }
+                if (!(mode & 2)) {
+                    if (decoration & CELL_PROTECTED) value += 4;
+                    if (attr & ATTR_CONCEAL) value += 8;
+                    if (attr & ATTR_UNDER) value += 16;
+                    if (attr & ATTR_REVERSE) value += 32;
+                    if (attr & ATTR_BLINK) value += 64;
+                    if (attr & ATTR_BOLD) value += 128;
+                }
+                /* xterm counts explicit blanks and styled erased cells. Its
+                 * bit 3 includes undrawn cells, despite the ctlseqs wording.
+                 * Bits 2/4 also gate its legacy combining-mark summation. */
+                bool styled = (attr & ~(ATTR_WIDE | ATTR_NARROW | DATTR_MASK)) != ATTR_DEFAULT ||
+                    cell->truecolour.fg.enabled || cell->truecolour.bg.enabled ||
+                    (decoration & ~CELL_UNDRAWN);
+                if ((mode & 4) || first || value != ' ' || drawn || styled)
+                    total += value;
+                if ((mode & (4 | 16)) == 4 && col < line->cols) {
+                    for (const termchar *cc = cell; cc->cc_next;) {
+                        cc += cc->cc_next;
+                        total += nemo_checksum_unicode(cc->chr);
+                    }
+                }
+                first = false;
+            }
+            first = false;
+        }
+    }
+    if (!(mode & 1)) total = 0u - total;
+    char reply[32];
+    int length = sprintf(reply, "\033P%u!~%04X\033\\",
+                         min(term->esc_args[0], 65535u), (unsigned)(total & 0xffff));
+    ldisc_send(term->ldisc, reply, length, false);
+}
+
 static void nemo_grapheme_remember(Terminal *term, pos anchor, unsigned cells,
                                   NemoGraphemeState state, NemoGraphemeWidth width)
 {
@@ -6411,6 +6521,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
     while (nchars_got < nchars_used ||
            unget != -1 ||
            bufchain_size(&term->inbuf) > 0) {
+        pos cursor_before = term->curs;
         if (unget != -1) {
             /*
              * Handle a character we left in 'unget' the last time
@@ -6561,6 +6672,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
              c != '[' && c != ']' && c != 'P' && c != '7') ||
             (term->termstate == SEEN_CSI && c >= '@' && c <= '~' &&
              c != 'm' && c != 'n' && c != 'c' &&
+             !(c == 'y' && (term->esc_query == '*' || term->esc_query == '#')) &&
              !(c == 'p' && (term->esc_query == '$' || term->esc_query == 0x100+'$'))))
             term->grapheme_pending = false;
 
@@ -7267,6 +7379,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         nemo_rectangle_attributes(term, c == 't'); break;
                       case ANSI('x', '*'): /* DECSACE; xterm retains any value */
                         term->rectangle_extent = term->esc_args[0]; break;
+                      case ANSI('y', '*'): /* DECRQCRA */
+                        compatibility(VT420);
+                        nemo_checksum_rectangle(term); break;
+                      case ANSI('y', '#'): /* XTCHECKSUM */
+                        if (conf_get_bool(term->conf, CONF_nemo_allow_checksum))
+                            term->checksum_flags = term->esc_args[0] & 31;
+                        break;
                       case ANSI('q', '"'): /* DECSCA, independent of SGR */
                         if (term->esc_args[0] <= 2) {
                             term->curr_truecolour.decoration &= ~CELL_PROTECTED;
@@ -8559,7 +8678,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
 #endif
               default: break;          /* placate gcc warning about enum use */
             }
-        if (term->selstate != NO_SELECTION) {
+        /* Cell writers/erasers invalidate affected selections themselves.
+         * Only cursor movement needs this extra point check. Otherwise every
+         * byte of an incoming query clears a selection covering the cursor. */
+        if (term->selstate != NO_SELECTION && !poseq(cursor_before, term->curs)) {
             pos cursplus = term->curs;
             incpos(cursplus);
             check_selection(term, term->curs, cursplus);

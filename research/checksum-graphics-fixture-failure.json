@@ -1,0 +1,16 @@
+{
+  "failure": "KeyError: columns during owned-window resize; shared snapshot reader allowed a transient empty snapshot",
+  "executable_sha256": "219dec1279798188ef60fb522fe63a566026d60c2cbdb8fb444331fad95e96bb",
+  "completed": false,
+  "cases_completed": 38,
+  "last_snapshot": {
+    "phase": "initial-geometry",
+    "hex": "1b5b363b32303b38741b5b383b32343b3830741b5b3f323b303b3634303b343830531b5b3f323b303b383139323b38313932531b503024721b5c",
+    "columns": 83,
+    "rows": 22,
+    "input_mode": 640,
+    "input_cp": 65001,
+    "input_api": "ReadFile"
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-checksum-check\\tests\\graphics_query_window_smoke.py\", line 67, in <module>\n    run('graphics-query', CASES, extra_cases=direct, exercise=exercise)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-checksum-check\\tests\\protocol_oracle_window.py\", line 65, in run\n    evidence['exercise'] = exercise(hwnd, phase, current)\n                           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-checksum-check\\tests\\graphics_query_window_smoke.py\", line 32, in exercise\n    wait_for(lambda: (current()['columns'], current()['rows']) != before)\n    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-checksum-check\\tests\\native_test_utils.py\", line 104, in wait_for\n    result = fn()\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-checksum-check\\tests\\graphics_query_window_smoke.py\", line 32, in <lambda>\n    wait_for(lambda: (current()['columns'], current()['rows']) != before)\n                      ~~~~~~~~~^^^^^^^^^^^\nKeyError: 'columns'\n"
+}

@@ -188,6 +188,15 @@ try {
         $node = Wait-Value { Find-Name $dialog $name }
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
     }
+    Select-Node $dialog 'Screen queries' | Out-Null
+    $checksumLabel = 'Allow applications to query screen checksums'
+    $checksum = Wait-Value { Find-Name $dialog $checksumLabel }
+    if ($checksum.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($checksum.Current.BoundingRectangle)) {
+        throw 'Screen checksum control clipped'
+    }
+    $checksumToggle = $checksum.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+    if ($checksumToggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Screen checksum queries enabled by default' }
+    $checksumToggle.Toggle()
     Select-Node $dialog 'Extended' | Out-Null
     Select-Node $dialog 'All keys' | Out-Null
     Select-Node $dialog 'CSI-u' | Out-Null
@@ -330,6 +339,7 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoAllowChecksum -ne 1) { throw 'Screen checksum preference was not saved' }
     if ($values.NemoGraphemeWidths -ne 1) {throw 'Grapheme startup preference was not saved'}
     if ($values.NemoTabSide -ne 2 -or $values.NemoTabs -ne [int][bool]$TabHost -or
         $values.NemoNextTabBinding -ne 0x64e -or $values.NemoPreviousTabBinding -ne 0x650) { throw 'Tab settings did not save' }
@@ -378,6 +388,9 @@ try {
     Select-Node $dialog 'Extended' | Out-Null
     $reloadedWin32 = Wait-Value { Find-Name $dialog $win32Label }
     if ($reloadedWin32.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Win32 preference did not reload' }
+    Select-Node $dialog 'Screen queries' | Out-Null
+    $reloadedChecksum = Wait-Value { Find-Name $dialog $checksumLabel }
+    if ($reloadedChecksum.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Screen checksum preference did not reload' }
     Select-Node $dialog 'Window' | Out-Null
     $reloaded = Wait-Value { Find-Name $dialog $reflowLabel }
     if ($reloaded.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Reflow preference did not reload' }
@@ -428,8 +441,13 @@ try {
         if ($mode -eq 'DirectX (Direct2D composition)' -and $env:NEMOTERM_REQUIRE_DIRECTX -eq '1') {$allowed=@(3)}
         $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
         if ($mode -eq 'GDI (low memory)' -and $active -ne 1) { throw 'Live GDI switch failed' }
-        $rendererChanges += @{requested=$mode;active=$active}
-        $graphemeChecks+=Check-Grapheme ('grapheme-preserved-'+$rendererChanges.Count) '' $false
+        # EndDialog can destroy the settings HWND before its caller finishes
+        # reconfiguring the renderer. A terminal query/reply completes that
+        # transition before recording the renderer actually used by the frame.
+        $earlyRenderer=$active
+        $graphemeChecks+=Check-Grapheme ('grapheme-preserved-'+($rendererChanges.Count+1)) '' $false
+        $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
+        $rendererChanges += @{requested=$mode;active=$active;before_query_barrier=$earlyRenderer}
     }
     $graphemeChecks+=Check-Grapheme 'grapheme-app-enable' ([char]27+'[?2027h') $true
     Set-GraphemePreference $false
@@ -444,6 +462,7 @@ try {
         grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
+        checksum_default=$false;saved_checksum=$true;
         saved_shell='git-bash';saved_choose_shell=$true;explicit_command_overrides_shell=$true;
         saved_unicode_directory=$fixtureCwd;saved_directory_inheritance=$false;query=$observed}
     $evidenceName=if ($TabHost) {'research/tabs-settings-window-observed.json'} else {'research/settings-window-observed.json'}

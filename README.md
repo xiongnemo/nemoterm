@@ -108,6 +108,8 @@ Window/Translation 可保存“Use grapheme cluster widths at startup”，默�
 * 没有选中文字时，普通右键在应用鼠标模式下交给应用，否则显示菜单。
 * OSC 52 允许应用复制文本；读取剪贴板默认关闭，可在 Terminal/Clipboard 分别配置读写。
   启用读取后，运行中的会话（包括远端主机）可以获取剪贴板文本。
+* 屏幕区域校验查询默认关闭，可在 Terminal/Screen queries 启用；
+  支持 DECRQCRA 和 XTCHECKSUM，具体 Unicode 差异见[校验记录](research/rectangle-checksums.md)。
 * 默认使用现代 xterm 功能键、Home/End 和修饰键编码；命名配置可继续选择旧键盘模式。
   Ctrl+PageUp/PageDown 在默认模式下发送给应用；Shift+PageUp/PageDown 保留本地滚动。
 * 支持应用协商 xterm modifyOtherKeys 的 0–3 级和两种编码格式；

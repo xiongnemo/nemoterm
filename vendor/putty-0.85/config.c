@@ -2325,6 +2325,13 @@ void setup_config_box(struct controlbox *b, bool midsession,
                   'p', HELPCTX(features_bracketed_paste), conf_checkbox_handler,
                   I(CONF_no_bracketed_paste));
 
+    ctrl_settitle(b, "Terminal/Screen queries", "Application screen queries");
+    s = ctrl_getset(b, "Terminal/Screen queries", "checksums", "Screen checksums");
+    ctrl_checkbox(s, "Allow applications to query screen checksums", 's',
+                  HELPCTX(no_help), conf_checkbox_handler, I(CONF_nemo_allow_checksum));
+    ctrl_text(s, "Returns checksums of current terminal cells to the running "
+              "session. Disabled by default.", HELPCTX(no_help));
+
     ctrl_settitle(b, "Terminal/Hyperlinks", "Options controlling OSC 8 hyperlinks");
     s = ctrl_getset(b, "Terminal/Hyperlinks", "hyperlinks", "Hyperlink actions");
     ctrl_text(s, "Hover to see the address. Ctrl+click opens a link; "

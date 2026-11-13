@@ -2,27 +2,54 @@
 from native_test_utils import (root, hashlib, json, os, subprocess, sys,
     tempfile, Path, time, read_snapshot, write_snapshot, wait_for, find_window, capture)
 from owned_job import OwnedJob
+from contextlib import contextmanager
 
 
-def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False):
+@contextmanager
+def saved_profile(values):
+    if values is None:
+        yield []
+        return
+    import uuid
+    import winreg
+    name = 'protocol-test-'+uuid.uuid4().hex
+    keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+name
+    try:
+        with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
+            for setting, value in values.items():
+                winreg.SetValueEx(key, setting, 0, winreg.REG_DWORD, value)
+        yield ['-load', name]
+    finally:
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER, keypath)
+
+
+def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, report_cursor=False,
+        profile=None):
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
     barrier_sequence, marker = barrier or ('\x1bP$qprotocol-marker\x1b\\', b'\x1bP0$r\x1b\\')
     evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                     completed=False, cases={}, source_reference='XTerm(412)',
                     reference_case_count=len(cases), direct_case_names=[c[0] for c in extra_cases])
-    with tempfile.TemporaryDirectory(prefix='nemoterm-'+name+'-') as directory, OwnedJob() as job:
+    evidence['profile_values'] = profile
+    with saved_profile(profile) as profile_args, \
+            tempfile.TemporaryDirectory(prefix='nemoterm-'+name+'-') as directory, OwnedJob() as job:
         folder = Path(directory)
         report, control = folder/'report.json', folder/'control.json'
-        process = job.spawn([str(exe), '--cols', '80', '--rows', '24', '-e',
-            sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control)],
+        process = job.spawn([str(exe), *profile_args, '--cols', '80', '--rows', '24', '-e',
+            sys.executable, str(root/'tests/mouse_fixture.py'), str(report), str(control), '180'],
             env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_EXACT_OUTPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         try:
             hwnd = wait_for(lambda: find_window(process.pid))
-            def current():
+            def snapshot():
                 value = read_snapshot(report)
                 assert process.poll() is None and not value.get('error'), value
-                return value
+                # Windows can briefly deny a mailbox read during replacement.
+                # Every caller needs the same complete snapshot, including
+                # geometry checks after an owned-window resize.
+                return value or None
+            def current():
+                return wait_for(snapshot)
             wait_for(lambda: current().get('columns') == 80 and current().get('rows') == 24)
             def phase(phase_name, sequence, expected):
                 write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
