@@ -2,7 +2,13 @@
 #include "../../../tests/selection_colour_cases.h"
 
 static unsigned selection_draws;
-static bool selection_setup_draw(TermWin *win) { return true; }
+static bool selection_setup_draw(TermWin *win)
+{
+    Mock *mk = container_of(win, Mock, tw);
+    /* reset() powers on before the first term_size(). A real frontend has
+     * no drawable grid at that point; do not paint the -1 size sentinel. */
+    return mk->term && mk->term->rows > 0 && mk->term->cols > 0;
+}
 static void selection_draw_text(TermWin *win, int x, int y, wchar_t *text,
                                 int len, unsigned long attr, int lattr,
                                 truecolour tc) { selection_draws++; }
