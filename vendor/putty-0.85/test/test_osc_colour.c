@@ -2,6 +2,7 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "test_clock.h"
 #include "../../../tests/palette_stack_oracle_cases.h"
 #include "../../../tests/x11_colour_cases.h"
 

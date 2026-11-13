@@ -30,6 +30,7 @@ static bool test_attribute_colour_wire(void)
 
 static bool test_attribute_colour_paint(void)
 {
+    memset(selection_frame, 0, sizeof(selection_frame));
     Mock *mk = mock_new();
     attribute_conf(mk->conf);
     struct TermWinVtable vt = mock_termwin_vt;
@@ -66,7 +67,7 @@ static bool test_attribute_colour_paint(void)
                 "\033[?25l\033[1;1H\033[0;%umX", i, sgr[i]);
         term_data_fragmented(mk->term, command); term_update(mk->term);
         selection_check_display(mk, 0, i == 3 ? 0xffffff : colours[i], i == 3 ? colours[i] : 0);
-        IEQUAL((mk->term->disptext[0]->chars[0].attr & flags[i]) != 0, false);
+        IEQUAL((selection_frame[0][0].attr & flags[i]) != 0, false);
         termchar original = get_termchar(mk->term, 0, 0);
         IEQUAL((original.attr & flags[i]) != 0, true);
         IEQUAL(original.truecolour.fg.enabled, false);
@@ -108,12 +109,13 @@ static bool test_attribute_colour_paint(void)
     term_data_fragmented(mk->term, "\033[?5h"); term_update(mk->term);
     selection_check_display(mk, 0, 0xaabbcc, 0xffffff);
     term_data_fragmented(mk->term, "\033[?5l\033]6;0;1;3;0;5;0\007");
+    selection_finish_flash(mk);
 
     test_context(mk, "colour preferences can disable attribute overlays");
     term_data_fragmented(mk->term, "\033[1;1H\033[0;1mX"); term_update(mk->term);
     conf_set_bool(mk->conf, CONF_ansi_colour, false);
     term_reconfig(mk->term, mk->conf); term_update(mk->term);
-    IEQUAL(mk->term->disptext[0]->chars[0].truecolour.fg.enabled, false);
+    IEQUAL(selection_frame[0][0].tc.fg.enabled, false);
     conf_set_bool(mk->conf, CONF_ansi_colour, true);
     term_reconfig(mk->term, mk->conf); term_update(mk->term);
     selection_check_display(mk, 0, 0x112233, 0);
@@ -121,8 +123,10 @@ static bool test_attribute_colour_paint(void)
     test_context(mk, "colour-mode updates repaint without modifying history cells");
     term_data_fragmented(mk->term, "\033[1;1H\033[0;1mX\033]6;5;0;4;0\007");
     term_update(mk->term);
+    term_data_fragmented(mk->term, "\033[?2026h");
+    IEQUAL(mk->term->synchronized_update, true);
     unsigned before = selection_draws;
-    term_data_fragmented(mk->term, "\033[?2026h\033]5;0;red;0;?\007");
+    term_data_fragmented(mk->term, "\033]5;0;red;0;?\007");
     reply(mk, "\033]5;0;rgb:ffff/0000/0000\007");
     term_update(mk->term); IEQUAL(selection_draws, before);
     selection_check_display(mk, 0, 0x112233, 0);
@@ -178,6 +182,7 @@ static bool test_attribute_colour_paint(void)
 
 static bool test_attribute_colour_settings(void)
 {
+    memset(selection_frame, 0, sizeof(selection_frame));
     Mock *mk = mock_new();
     attribute_conf(mk->conf);
     conf_set_int(mk->conf, CONF_nemo_attribute_custom, 31);
@@ -243,12 +248,12 @@ static bool test_attribute_colour_settings(void)
         /* Real blink is consumed after colour resolution by do_paint. */
         mk->term->blink_is_real = false;
         term_update(mk->term);
-        IEQUAL((mk->term->disptext[0]->chars[0].attr & flags[i]) != 0, true);
+        IEQUAL((selection_frame[0][0].attr & flags[i]) != 0, true);
         if (i == 3) selection_check_display(mk, 0, 0xaabbcc, 0xffffff);
     }
     conf_set_int(mk->conf, CONF_nemo_attribute_keep_styles, 0);
     term_reconfig(mk->term, mk->conf); term_update(mk->term);
-    IEQUAL((mk->term->disptext[0]->chars[0].attr & ATTR_ITALIC) != 0, false);
+    IEQUAL((selection_frame[0][0].attr & ATTR_ITALIC) != 0, false);
     IEQUAL(mk->term->attribute_colours[1].enabled, true);
 
     test_context(mk, "saved unset palette entry follows newer local default");

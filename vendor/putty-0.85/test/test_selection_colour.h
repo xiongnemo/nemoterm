@@ -2,6 +2,11 @@
 #include "../../../tests/selection_colour_cases.h"
 
 static unsigned selection_draws;
+static struct {
+    unsigned long attr;
+    truecolour tc;
+    bool valid;
+} selection_frame[8][24];
 static bool selection_setup_draw(TermWin *win)
 {
     Mock *mk = container_of(win, Mock, tw);
@@ -11,7 +16,21 @@ static bool selection_setup_draw(TermWin *win)
 }
 static void selection_draw_text(TermWin *win, int x, int y, wchar_t *text,
                                 int len, unsigned long attr, int lattr,
-                                truecolour tc) { selection_draws++; }
+                                truecolour tc)
+{
+    selection_draws++;
+    /* These painting fixtures use ASCII, so one character is one cell.
+     * Capture the actual draw call: disptext is an invalidatable work cache,
+     * not a retained image during synchronized output. */
+    if (y < 0 || y >= (int)lenof(selection_frame)) return;
+    for (int i = 0; i < len; i++) {
+        int col = x+i;
+        if (col < 0 || col >= (int)lenof(selection_frame[0])) continue;
+        selection_frame[y][col].attr = attr;
+        selection_frame[y][col].tc = tc;
+        selection_frame[y][col].valid = true;
+    }
+}
 static void selection_free_draw(TermWin *win) {}
 static void selection_set_cursor(TermWin *win, int x, int y) {}
 static void selection_draw_sigil(TermWin *win, int x, int y) {}
@@ -25,20 +44,26 @@ static void selection_check_rgb(Mock *mk, rgb colour, unsigned expected)
     IEQUAL(colour.b, expected & 255);
 }
 
-/* Resolve the display record, not the original screen cell. Tests use plain
+/* Resolve the recorded draw call, not the original screen cell. Tests use plain
  * text without dim/bold, for which the frontend applies exactly this swap. */
 static void selection_check_display(Mock *mk, int x, unsigned fg, unsigned bg)
 {
-    termchar *ch = &mk->term->disptext[0]->chars[x];
-    unsigned indices[] = {(ch->attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
-                          (ch->attr & ATTR_BGMASK) >> ATTR_BGSHIFT};
-    optionalrgb overrides[] = {ch->truecolour.fg, ch->truecolour.bg};
+    IEQUAL(x >= 0 && x < (int)lenof(selection_frame[0]), true);
+    if (x < 0 || x >= (int)lenof(selection_frame[0])) return;
+    IEQUAL(selection_frame[0][x].valid, true);
+    unsigned long attr = selection_frame[0][x].attr;
+    truecolour tc = selection_frame[0][x].tc;
+    unsigned indices[] = {(attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
+                          (attr & ATTR_BGMASK) >> ATTR_BGSHIFT};
+    optionalrgb overrides[] = {tc.fg, tc.bg};
     rgb colours[2];
     for (unsigned i = 0; i < 2; i++) {
         optionalrgb c = overrides[i];
+        IEQUAL(c.enabled || indices[i] < OSC4_NCOLOURS, true);
+        if (!c.enabled && indices[i] >= OSC4_NCOLOURS) return;
         colours[i] = c.enabled ? (rgb){c.r, c.g, c.b} : mk->term->palette[indices[i]];
     }
-    bool reverse = (ch->attr & ATTR_REVERSE) != 0;
+    bool reverse = (attr & ATTR_REVERSE) != 0;
     selection_check_rgb(mk, colours[reverse ? 1 : 0], fg);
     selection_check_rgb(mk, colours[reverse ? 0 : 1], bg);
 }
@@ -47,9 +72,18 @@ static void selection_select_row(Mock *mk)
 {
     mk->term->selstate = SELECTED;
     mk->term->seltype = LEXICOGRAPHIC;
-    mk->term->selstart = (pos){0, 0};
-    mk->term->selend = (pos){4, 0};
+    mk->term->selstart = (pos){.x=0, .y=0};
+    mk->term->selend = (pos){.x=4, .y=0};
     term_invalidate(mk->term);
+    term_update(mk->term);
+}
+
+static void selection_finish_flash(Mock *mk)
+{
+    /* A quick DECSCNM on/off deliberately produces a timed visual bell.
+     * Expire it through the timer API before testing ordinary colours. */
+    if (mk->term->in_vbell) advance_test_clock(mk->term->vbell_end);
+    IEQUAL(mk->term->in_vbell, false);
     term_update(mk->term);
 }
 
@@ -72,6 +106,7 @@ static bool test_selection_colour_wire(void)
 
 static bool test_selection_colour_paint(void)
 {
+    memset(selection_frame, 0, sizeof(selection_frame));
     Mock *mk = mock_new();
     for (int i = 0; i < 3; i++) {
         conf_set_int_int(mk->conf, CONF_colours, CONF_COLOUR_fg*3+i, 255);
@@ -140,14 +175,17 @@ static bool test_selection_colour_paint(void)
     term_update(mk->term);
     selection_check_display(mk, 0, 0x445566, 0x112233);
     term_data_fragmented(mk->term, "\033[?5l\033[1;1H\033[7mABCDE");
+    selection_finish_flash(mk);
     selection_select_row(mk);
     selection_check_display(mk, 0, 0x445566, 0x112233);
     term_data_fragmented(mk->term, "\033[1;1H\033[27mABCDE");
     selection_select_row(mk);
 
     test_context(mk, "2026 freezes selection colours while queries see pending changes");
+    term_data_fragmented(mk->term, "\033[?2026h");
+    IEQUAL(mk->term->synchronized_update, true);
     unsigned before = selection_draws;
-    term_data_fragmented(mk->term, "\033[?2026h\033]17;red;;blue\007"
+    term_data_fragmented(mk->term, "\033]17;red;;blue\007"
         "\033]17;?;;?\007");
     reply(mk, "\033]17;rgb:ffff/0000/0000\007\033]19;rgb:0000/0000/ffff\007");
     term_update(mk->term);
@@ -160,15 +198,15 @@ static bool test_selection_colour_paint(void)
 
     test_context(mk, "rectangular and application highlight selection share display colours");
     mk->term->seltype = RECTANGULAR;
-    mk->term->selstart = (pos){1, 0};
-    mk->term->selend = (pos){3, 1};
+    mk->term->selstart = (pos){.x=1, .y=0};
+    mk->term->selend = (pos){.x=3, .y=1};
     term_invalidate(mk->term); term_update(mk->term);
     selection_check_display(mk, 0, 0x102030, 0x405060);
     selection_check_display(mk, 1, 0x0000ff, 0xff0000);
     mk->term->selstate = NO_SELECTION;
     mk->term->mouse_highlight = HIGHLIGHT_ACTIVE;
-    mk->term->highlight_start = (pos){1, 0};
-    mk->term->highlight_end = (pos){3, 0};
+    mk->term->highlight_start = (pos){.x=1, .y=0};
+    mk->term->highlight_end = (pos){.x=3, .y=0};
     term_invalidate(mk->term); term_update(mk->term);
     selection_check_display(mk, 1, 0x0000ff, 0xff0000);
     mk->term->mouse_highlight = HIGHLIGHT_OFF;

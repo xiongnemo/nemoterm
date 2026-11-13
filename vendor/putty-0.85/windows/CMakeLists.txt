@@ -444,7 +444,6 @@ add_executable(test_osc_colour
   ${CMAKE_SOURCE_DIR}/test/test_osc_colour.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
   ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
-  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
   no-jump-list.c)
 target_link_libraries(test_osc_colour
   guiterminal settings eventloop utils ${platform_libraries})
