@@ -1,0 +1,159 @@
+{
+  "recorded_utc": "2026-11-13T15:13:28.905960+00:00",
+  "run": 43448937817,
+  "commit": "95d06d04067354df2fa27dcebbad13fc189ac1ce",
+  "result": "failure",
+  "memory_requirement_bytes": 20000000,
+  "local_runtime_tests_executed": false,
+  "accepted_distribution_replaced": false,
+  "variants": {
+    "control": {
+      "artifact_id": 14048369482,
+      "workloads": {
+        "gdi": {
+          "peak": {
+            "count": 1,
+            "private_ws": 11153408,
+            "total_ws": 41144320,
+            "private_commit": 13074432
+          },
+          "sample_count": 339,
+          "actual_renderer": 1,
+          "functional_groups": 9,
+          "completed": true,
+          "memory_limit_passed": true,
+          "error": null,
+          "natural_cleanup": true
+        },
+        "directx": {
+          "peak": {
+            "count": 1,
+            "private_ws": 25317376,
+            "total_ws": 64319488,
+            "private_commit": 27979776
+          },
+          "sample_count": 248,
+          "actual_renderer": 3,
+          "functional_groups": 9,
+          "completed": false,
+          "memory_limit_passed": false,
+          "error": "AssertionError(25317376)",
+          "natural_cleanup": true
+        }
+      },
+      "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+      "executable_bytes": 4436992,
+      "renderer_evidence": "CI renderer step and retained log passed; first workflow incorrectly packaged a tracked renderer-printclient JSON, which is excluded."
+    },
+    "reuse": {
+      "artifact_id": 14049871462,
+      "workloads": {
+        "gdi": {
+          "peak": {
+            "count": 1,
+            "private_ws": 10936320,
+            "total_ws": 43106304,
+            "private_commit": 13152256
+          },
+          "sample_count": 279,
+          "actual_renderer": 1,
+          "functional_groups": 9,
+          "completed": true,
+          "memory_limit_passed": true,
+          "error": null,
+          "natural_cleanup": true
+        },
+        "directx": {
+          "peak": {
+            "count": 1,
+            "private_ws": 23642112,
+            "total_ws": 65208320,
+            "private_commit": 26525696
+          },
+          "sample_count": 225,
+          "actual_renderer": 3,
+          "functional_groups": 9,
+          "completed": false,
+          "memory_limit_passed": false,
+          "error": "AssertionError(23642112)",
+          "natural_cleanup": true
+        }
+      },
+      "executable_sha256": "2bb5588bf72e1cf67f79d4d2f65116c5f914a446c0fb39e45c6078d7e876fd8a",
+      "executable_bytes": 4436992,
+      "renderer_evidence": "CI renderer step and retained log passed; first workflow incorrectly packaged a tracked renderer-printclient JSON, which is excluded."
+    }
+  },
+  "evidence": [
+    {
+      "path": "research/bitmap-lifetime-evidence/control-bitmap-directx-workload.log",
+      "bytes": 261,
+      "sha256": "93cf611ddb450b9a9381bb416d05a1b1334b44d3e2c82c227661dfdc551d6a34"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-bitmap-gdi-workload.log",
+      "bytes": 32,
+      "sha256": "625ee09b7020f3b9fab74351050e690328d52e4f08cc14fd6f24cbb8e7420031"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-bitmap-renderer.log",
+      "bytes": 352,
+      "sha256": "b5601136fd3e6f0892db00f137c8f23dfdb262ae5d240e1aa11660ed6b578452"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-directx-memory.json",
+      "bytes": 628388,
+      "sha256": "72428dc3632dce4f4a5d22cf4c232b07f046831c0b644df2c08975631a66bd0a"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-directx-observed.json",
+      "bytes": 15973,
+      "sha256": "fb4ed4fca712ac9123b63d4f3161b6ded6483c18d3ae2813dfa8f51f5d2963bb"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-gdi-memory.json",
+      "bytes": 870455,
+      "sha256": "f834d2d7563843dd59cb6d43cf7796aa8a3f44d7a8c6b02719c203668277d159"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/control-gdi-observed.json",
+      "bytes": 15860,
+      "sha256": "c52afed2beb2f83243b208d89c04c1202a008da60355b0329f3d81d9ec852421"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-bitmap-directx-workload.log",
+      "bytes": 261,
+      "sha256": "1fe3b3ac1710bd559c8eeb07414002c6e512532ba967992c068a6fcec0a1e3dc"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-bitmap-gdi-workload.log",
+      "bytes": 32,
+      "sha256": "625ee09b7020f3b9fab74351050e690328d52e4f08cc14fd6f24cbb8e7420031"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-bitmap-renderer.log",
+      "bytes": 352,
+      "sha256": "d9989875bacf5b0b9ff702b34f73096ccc57394da7d7098d0f8e0658fa7ea64f"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-directx-memory.json",
+      "bytes": 569794,
+      "sha256": "90d5d64a864b38da831fbb0c4c32a25f84979a2a7599fadac0d67c2a546f6162"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-directx-observed.json",
+      "bytes": 15973,
+      "sha256": "c04a4d7c54de2e848fcb90fe2b27d70ae05d233088861ff0966f7e23ad6befaa"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-gdi-memory.json",
+      "bytes": 709734,
+      "sha256": "e860a64f3f364c150a862a6c2f35a8132173f2a40b8b298cea53cc93dfb91e73"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/reuse-gdi-observed.json",
+      "bytes": 15865,
+      "sha256": "0cfb9c608cd7198028135e4a7b10efae71ff69b0b937da15eaba9400a57a4bc5"
+    }
+  ]
+}

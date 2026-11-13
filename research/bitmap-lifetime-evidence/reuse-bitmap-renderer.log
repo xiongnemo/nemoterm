@@ -1,0 +1,1 @@
+GDI/OpenGL/DirectX pixel parity, text, Sixel, resize, expose and synchronized update passed: [('GDI', {'private_ws': 7024640, 'total_ws': 44167168, 'private_commit': 10686464}), ('GDI', {'private_ws': 6979584, 'total_ws': 43458560, 'private_commit': 10637312}), ('DirectX', {'private_ws': 14938112, 'total_ws': 60981248, 'private_commit': 18759680})]

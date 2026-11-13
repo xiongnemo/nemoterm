@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\a\nemoterm\nemoterm\tests\tabs_window_smoke.py", line 327, in <module>
+    assert evidence['memory_limit_passed'],evidence['peak_private_ws']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 23642112
