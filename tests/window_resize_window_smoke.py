@@ -189,10 +189,16 @@ try:
                         mode['minimized_output_preserved']=True
                     if active==1:
                         assert max(v['memory']['private_ws'] for v in mode['checks'])<20_000_000
+                    if gl:
+                        gl.close();gl=None
+                        mode['capture_detached_before_stop']=True
                     write_snapshot(control,dict(stop=True));assert process.wait(timeout=10)==0
                 finally:
-                    if gl:gl.close()
-                    job.finish(grace=0);process.wait(timeout=5);k.CloseHandle(handle)
+                    try:
+                        if gl:gl.close()
+                    finally:
+                        try:job.finish(grace=0);process.wait(timeout=5)
+                        finally:k.CloseHandle(handle)
         finally:
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)
     evidence['completed']=True

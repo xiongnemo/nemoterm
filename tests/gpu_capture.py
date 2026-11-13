@@ -5,6 +5,7 @@ test-only; samples taken after attaching include its memory and must be labelled
 This validates the retained framebuffer, not the physical display/compositor.
 """
 from native_test_utils import root, c, w, u, struct, capture_result
+from frida_test_utils import call_frida, detach_session
 
 
 class OwnedGPUCapture:
@@ -15,11 +16,12 @@ class OwnedGPUCapture:
         if owner.value != pid:
             raise ValueError('Capture HWND does not belong to the fixture PID')
         import frida
-        self.session = frida.attach(pid)
+        self.session = call_frida('capture-attach', frida.attach, pid)
         try:
             source = 'const ownedWindow=ptr("'+hex(hwnd)+'");\n'
-            self.script = self.session.create_script(source+(root/'tests/gpu_capture.js').read_text())
-            self.script.load()
+            self.script = call_frida('capture-create-script', self.session.create_script,
+                source+(root/'tests/gpu_capture.js').read_text(encoding='utf-8'))
+            call_frida('capture-load-script', self.script.load)
         except BaseException:
             self.close()
             raise
@@ -31,5 +33,5 @@ class OwnedGPUCapture:
 
     def close(self):
         if self.session is not None:
-            self.session.detach()
+            detach_session(self.session)
             self.session = None
