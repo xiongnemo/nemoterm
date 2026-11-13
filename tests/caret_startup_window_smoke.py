@@ -2,10 +2,10 @@
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,sys,tempfile,Path,
     read_snapshot,write_snapshot,wait_for,find_window)
 from owned_job import OwnedJob, k as job_api
+from frida_test_utils import call_frida, detach_session
 import frida
 import atexit
 import faulthandler
-import threading
 import time
 import uuid
 import winreg
@@ -30,17 +30,7 @@ def checkpoint(phase):
 
 def observe_call(phase,function,*args):
     checkpoint(phase)
-    cancellable=frida.Cancellable()
-    timer=threading.Timer(15,cancellable.cancel)
-    timer.daemon=True
-    with cancellable:
-        timer.start()
-        try:
-            return function(*args)
-        except frida.OperationCancelledError as error:
-            raise TimeoutError(f'Frida {phase} exceeded 15 seconds') from error
-        finally:
-            timer.cancel()
+    return call_frida(phase,function,*args)
 
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,NemoRenderer=0).items():
@@ -69,18 +59,24 @@ try:
             observe_call('resume',device.resume,pid)
             checkpoint('window-and-fixture-ready')
             hwnd=wait_for(lambda:find_window(pid));wait_for(lambda:read_snapshot(report))
-            evidence['startup']=observe_call('startup-events',script.exports_sync.events)
+            # This pinned Frida version does not cancel synchronous RPC waits;
+            # the CI fixture watchdog covers these two observation requests.
+            checkpoint('startup-events')
+            evidence['startup']=script.exports_sync.events()
             # Exercise a normal focus event as well, without global input.
             checkpoint('send-focus')
             u.SendMessageW(hwnd,7,0,0)
-            evidence['after_focus']=observe_call('focus-events',script.exports_sync.events)
+            checkpoint('focus-events')
+            evidence['after_focus']=script.exports_sync.events()
             assert evidence['after_focus'],evidence
             assert not errors,errors
             assert all(event['result'] and event['bitmap'] not in ('0x0','0x1')
                        for event in evidence['after_focus']),evidence
             # This probe observes startup/focus, not shutdown. Unload its hooks
             # while the frontend is alive, before asking that process to exit.
-            observe_call('detach-live-observer',session.detach)
+            assert k.WaitForSingleObject(handle,0)==258,'Frontend exited before observer cleanup'
+            checkpoint('detach-live-observer')
+            detach_session(session)
             session=None
             evidence['observer_detached_before_stop']=True
             checkpoint('stop-fixture')
@@ -101,8 +97,8 @@ try:
         finally:
             try:
                 if session and not session.is_detached:
-                    try:observe_call('cleanup-detach',session.detach)
-                    except frida.InvalidOperationError:pass
+                    checkpoint('cleanup-detach')
+                    detach_session(session)
             finally:
                 try:
                     if not assigned:observe_call('cleanup-spawn',device.kill,pid)
