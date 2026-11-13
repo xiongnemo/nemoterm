@@ -109,8 +109,20 @@ the default replies after each reset, then reapplies red before the explicit
 OSC 105 reset check. This adds checks rather than accepting an arbitrary reply.
 The corrected tabbed settings checks pass in core run `43458313530`; that
 workflow later fails the separate guarded-area response-ordering check. Its
-MSVC renderer and sanitizer jobs pass. The complete single-image run remains
-pending at this checkpoint; the superseded earlier run is not claimed as passing.
+MSVC renderer and sanitizer jobs pass. The complete
+[single-image run 43458313477](https://github.com/xiongnemo/nemoterm/actions/runs/43458313477)
+also passes all 85 groups at `ea042bc`, including the corrected settings checks,
+configured attribute colours and real Codex default/inline and tabbed fixtures.
+Its [manifest and retained raw evidence](attribute-reset-validation.json)
+bind image artifact `14057575850` to SHA256
+`470491a27c2899396482c4224293382fee039b73d20c8366e4d2bc7222e5af0e`.
+This 4,437,504-byte EXE predates the later indexed reset/reverse-colour changes.
+
+The same run's uninstrumented two-tab workloads pass with frontend private WS
+peaks of 11,206,656 bytes for GDI and 21,819,392 bytes for DirectX. Total WS peaks
+are 40,538,112 and 60,420,096 bytes respectively, so DirectX still exceeds the
+approximate 50 MB total-WS target. Both jobs drain naturally. The private-WS
+limits remain strict 20 MB for GDI and inclusive 25 MB for DirectX.
 
 39 authored wire cases cover aliases, BEL/ST, selective/full resets, malformed
 inputs, stack retention and screen/reset interactions. The mock-renderer suite
@@ -139,8 +151,9 @@ the user's testing pause. The accepted local executable remains unchanged.
 
 The follow-up [indexed reset and dynamic-colour work](reset-palette.md) extends
 these fixes using 25 additional independent XTerm observations. Memory policy
-and actual workload measurements are recorded separately in
-[memory-budget.md](memory-budget.md). Remaining source-host, rendering and
+and earlier workload measurements are recorded separately in
+[main's memory policy](https://github.com/xiongnemo/nemoterm/blob/main/research/memory-budget.md).
+Remaining source-host, rendering and
 compatibility checks prevent treating this checkpoint as completion of the
 terminal goal. Expected replies must continue to come from the specification
 and independent observations, not from the implementation under test.

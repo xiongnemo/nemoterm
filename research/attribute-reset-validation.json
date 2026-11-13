@@ -1,0 +1,204 @@
+{
+  "recorded_utc": "2026-11-13T16:25:18.902294+00:00",
+  "source_commit": "ea042bc34b43c10c91b126240a48fafb11bfd6f5",
+  "single_run": 43458313477,
+  "image_artifact": 14057575850,
+  "evidence_artifact": 14057061294,
+  "passed_checks": [
+    "single_exe",
+    "shutdown",
+    "startup_size",
+    "renderer",
+    "grapheme",
+    "grapheme-font",
+    "rtl",
+    "rtl-courier",
+    "bindings",
+    "input_method",
+    "unicode_input",
+    "console_unicode",
+    "mouse",
+    "selection",
+    "selection-directx",
+    "sync",
+    "sgr",
+    "font_resize",
+    "font_fallback",
+    "font-fallback-courier",
+    "query",
+    "highlight",
+    "sixel",
+    "sixel_font",
+    "hyperlink",
+    "reflow",
+    "keyboard",
+    "keyboard-courier",
+    "osc52",
+    "mok",
+    "mok-courier",
+    "win32_input",
+    "state_control",
+    "tabulation",
+    "double_size",
+    "graphics_query",
+    "dec_status",
+    "checksum",
+    "sgr_stack",
+    "palette_stack",
+    "palette_stack-opengl",
+    "palette_stack-directx",
+    "selection_colour",
+    "selection_colour-opengl",
+    "selection_colour-directx",
+    "selection-colour-gdi-configured",
+    "attribute_colour",
+    "attribute_colour-opengl",
+    "attribute_colour-directx",
+    "attribute-colour-gdi-configured",
+    "presentation_state",
+    "horizontal",
+    "reverse_wrap",
+    "selective_erase",
+    "guarded_area",
+    "rectangle",
+    "margins",
+    "cwd",
+    "shell_marks",
+    "shell",
+    "powershell_environment",
+    "delegated_console",
+    "caret_startup",
+    "session",
+    "session-opengl",
+    "session-directx",
+    "session_restart",
+    "titles",
+    "title-modes",
+    "geometry",
+    "window_resize",
+    "gpu_lifecycle",
+    "tabs-gdi-top",
+    "tabs-gdi-bottom",
+    "tabs-directx-left",
+    "tabs-opengl-right",
+    "tabs-regressions",
+    "settings",
+    "tabs-settings",
+    "codex-default",
+    "codex-inline",
+    "codex-tabs-default",
+    "codex-tabs-inline",
+    "workload-tabs-gdi-top",
+    "workload-tabs-directx-left"
+  ],
+  "executable_sha256": "470491a27c2899396482c4224293382fee039b73d20c8366e4d2bc7222e5af0e",
+  "executable_bytes": 4437504,
+  "files": [
+    {
+      "path": "research/attribute-reset-evidence/single-exe-validation.json.gz",
+      "original_bytes": 2113,
+      "original_sha256": "9608fe05623a1ea3f23106dde11fef14316e5e7d04f4300d9f89c205b049b756",
+      "gzip_sha256": "d186f1b80cfd9ae811a8797dda9e41c5dec31a62d845e92bb1720dc68c78dc3c"
+    },
+    {
+      "path": "research/attribute-reset-evidence/workload-tabs-gdi-top-memory.json.gz",
+      "original_bytes": 1048990,
+      "original_sha256": "513dc7e065f54cd99f40150964eb1fe995752c9a01bb6c348742ff3c225fa64a",
+      "gzip_sha256": "ca585c31c7ad8d451817f355f8189a3179a0f153d746d5b44857ce93668669ea"
+    },
+    {
+      "path": "research/attribute-reset-evidence/workload-tabs-directx-left-memory.json.gz",
+      "original_bytes": 649063,
+      "original_sha256": "fe1fdd9ed4484393884c8b3657727630c029c8202261d3c6ada393c7d84e1341",
+      "gzip_sha256": "58b3c1f1d029e8a0fda4c8d9b0c69af931efce44fb98185bb419278cb2aa55b2"
+    },
+    {
+      "path": "research/attribute-reset-evidence/workload-tabs-gdi-top-observed.json.gz",
+      "original_bytes": 15938,
+      "original_sha256": "3602e9b9639f2cc9cb51e0960407eb3cab0553e56e5ad26c3fb54adea3e53b03",
+      "gzip_sha256": "4658a204961c0f0e0b6e530367fb4f5abfc185c12163c35a9ffddf44c62c7e4d"
+    },
+    {
+      "path": "research/attribute-reset-evidence/workload-tabs-directx-left-observed.json.gz",
+      "original_bytes": 15999,
+      "original_sha256": "3052df0dfe3895460c84fd199affd499eacabfed6c897acac58cdb904cbe2962",
+      "gzip_sha256": "ff60342f5d482bee183878166bc63197f1939713a56cba5176f47d0389658f9e"
+    },
+    {
+      "path": "research/attribute-reset-evidence/attribute-colour-gdi-observed.json.gz",
+      "original_bytes": 18621,
+      "original_sha256": "ba9712a031d67b2a6ceb1a64e4b2dfbc3761eaeb8fa7e5f646aac14ea93ede9a",
+      "gzip_sha256": "fe7731ecb71e4dbee3feb6ffac134f52137338ac13d07af43c319ca25c80c121"
+    },
+    {
+      "path": "research/attribute-reset-evidence/attribute-colour-opengl-observed.json.gz",
+      "original_bytes": 18621,
+      "original_sha256": "31fdf4504c3a71f052bff9051b27097aaa887898e2a0346f4196aff25c41f2eb",
+      "gzip_sha256": "49c4503ca0d47e4f2823b85e5072e8e6e50ec008d81997e02102082f287f271d"
+    },
+    {
+      "path": "research/attribute-reset-evidence/attribute-colour-directx-observed.json.gz",
+      "original_bytes": 18676,
+      "original_sha256": "705cb3f7ad17462ad17f2243db3d5aa866142319cb64f419061469ee0df4f36c",
+      "gzip_sha256": "0d03c2be495212d9683c73bca8dc414f54719a805e712155a7a423be97f720d3"
+    },
+    {
+      "path": "research/attribute-reset-evidence/attribute-colour-gdi-configured-observed.json.gz",
+      "original_bytes": 8764,
+      "original_sha256": "f28f3356edded2adde67ce7ae9cdb3b5cdc9f33eb06ff837d9482c6823a936a8",
+      "gzip_sha256": "e2dcc5b2378e5ddf690bfad0220732e16255a3f38dd63165218d633c04803ec8"
+    },
+    {
+      "path": "research/attribute-reset-evidence/tabs-settings-window-observed.json.gz",
+      "original_bytes": 13409,
+      "original_sha256": "9a80799eb8044ca03b4ba67d239434e4c02a68cb072ee6d0d317bfb2a21621a9",
+      "gzip_sha256": "a1748c4e9d79d8f706b682e24ad051f573c5950976462d341290297b159bdfb5"
+    },
+    {
+      "path": "research/attribute-reset-evidence/settings-window-observed.json.gz",
+      "original_bytes": 13411,
+      "original_sha256": "a91940cabcce2ad1999224a290d3983ac6ea1ab12493581b9e595c4224114281",
+      "gzip_sha256": "5bfb481b7cdf6d730f667aedc83a73df7cbad0c47c751eea55fc0cef35907080"
+    },
+    {
+      "path": "research/attribute-reset-evidence/tabs-profiles-observed.json.gz",
+      "original_bytes": 2806,
+      "original_sha256": "db3a55935e4164a0b8f66e5fdd5cfcaeadecaf043c01c87cab3dd8b10f19fd89",
+      "gzip_sha256": "15513d0389a7ad983c382e2f022269caababb6805a621b8cda6751e53cd9a5c0"
+    }
+  ],
+  "uninstrumented_frontend_memory": {
+    "gdi": {
+      "peaks": {
+        "count": 1,
+        "private_ws": 11206656,
+        "total_ws": 40538112,
+        "private_commit": 13008896
+      },
+      "sample_count": 407,
+      "seconds": 42.391,
+      "actual_renderer": 1,
+      "limit_bytes": 20000000,
+      "limit_inclusive": false,
+      "natural_cleanup": true
+    },
+    "directx": {
+      "peaks": {
+        "count": 1,
+        "private_ws": 21819392,
+        "total_ws": 60420096,
+        "private_commit": 24317952
+      },
+      "sample_count": 254,
+      "seconds": 26.25,
+      "actual_renderer": 3,
+      "limit_bytes": 25000000,
+      "limit_inclusive": true,
+      "natural_cleanup": true
+    }
+  },
+  "local_runtime_tests_executed": false,
+  "core_run": 43458313530,
+  "core_result": "failure: sidecar guarded-area response ordering",
+  "source_scope": "Attribute reset correction; predates indexed reset and reverse-colour changes in d2aa14a"
+}
