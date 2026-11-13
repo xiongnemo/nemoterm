@@ -41,3 +41,23 @@ Runtime observations came from hosted Windows runners. Local runtime tests
 remain paused. This checkpoint does not resolve the development branch's
 DirectX workload limit, sidecar reply-order mismatch, physical IME/multi-monitor
 acceptance or the remaining protocol ledger.
+
+## Main repeat and shutdown diagnostics
+
+The same source's [main single-image repeat](https://github.com/xiongnemo/nemoterm/actions/runs/43434238339)
+reached the 45-minute job deadline. The last completed fixture was delegated
+console; the next scheduled fixture was shutdown. No completed shutdown
+record or log was retained, so this does not identify a blocked call or prove
+a product crash. The [core repeat](https://github.com/xiongnemo/nemoterm/actions/runs/43434238410)
+passed. The earlier passing checkpoint is retained, not generalized to all runs.
+
+Shutdown observation now writes an atomic phase record before each attach,
+script operation, close request, process wait and detach. It streams destruction
+events and preserves the existing lifetime assertions. CI sets a 120-second
+fixture watchdog, which emits Python stacks and fails instead of waiting for
+the overall job deadline; owned processes remain inside a kill-on-close job.
+The other native fixtures emit periodic controller stacks after 60 seconds.
+The single-image test list keeps its existing order and announces each fixture
+before invoking it. Both workflows retain the shutdown JSON even on failure.
+These are diagnostic changes, not a claim that the underlying intermittent
+shutdown hang is fixed. Local runtime execution remains paused.

@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+  NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -75,6 +79,7 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
       - name: Test window callback lifetime during native shutdown
+        timeout-minutes: 3
         shell: pwsh
         run: |
           python tests/shutdown_window_smoke.py
@@ -320,7 +325,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: test-results-windows-${{ github.sha }}
-          path: test-results/
+          path: |
+            test-results/
+            research/shutdown-window-observed.json
           if-no-files-found: warn
 
   decoder-sanitizers:

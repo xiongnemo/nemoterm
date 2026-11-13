@@ -8,10 +8,12 @@ const getThread = new NativeFunction(user32.getExportByName('GetWindowThreadProc
     'uint', ['pointer', 'pointer']);
 rpc.exports = {
     watch(value) {
+        send({event:'probe-phase', phase:'window-data'});
         const window = ptr(value), seat = getData(window, -21);
         if (seat.isNull() || !isWindow(window)) throw new Error('No live fixture seat');
         const thread = getThread(window, ptr(0));
         let freed = false;
+        send({event:'probe-phase', phase:'install-heap-observer'});
         Interceptor.attach(Process.getModuleByName('ntdll.dll').getExportByName('RtlFreeHeap'), {
             onEnter(args) {
                 if (args[2].equals(seat)) {
@@ -20,17 +22,20 @@ rpc.exports = {
                 }
             }
         });
+        send({event:'probe-phase', phase:'install-com-observer'});
         Interceptor.attach(Process.getModuleByName('ole32.dll').getExportByName('CoUninitialize'), {
             onEnter() {
                 if (this.threadId === thread)
                     send({event:'com-uninitialize', window_alive:!!isWindow(window), seat_freed:freed});
             }
         });
+        send({event:'probe-phase', phase:'install-window-observer'});
         Interceptor.attach(getData(window, -4), {
             onEnter(args) {
                 if (freed && args[0].equals(window))
                     send({event:'callback-after-seat-free', message:args[1].toUInt32()});
             }
         });
+        send({event:'probe-phase', phase:'observers-installed'});
     }
 };
