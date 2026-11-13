@@ -1,0 +1,85 @@
+{
+    "local_launch":  true,
+    "saved_reflow":  false,
+    "hyperlink_settings_live":  true,
+    "saved_choose_shell":  true,
+    "saved_unicode_directory":  "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\settings-test-93291d79d7104f31a67713e1f32bb417\\working 中",
+    "saved_format":  1,
+    "query":  {
+                  "phase":  "settings-launch",
+                  "hex":  "1b5b3e343b336d1b5b3e343b3166",
+                  "columns":  109,
+                  "rows":  42,
+                  "input_mode":  640,
+                  "input_cp":  437,
+                  "input_api":  "ReadFile"
+              },
+    "default_grid":  [
+                         160,
+                         48
+                     ],
+    "copy_only_default":  true,
+    "saved_tab_bindings":  [
+                               3,
+                               20,
+                               3,
+                               23,
+                               6,
+                               14,
+                               6,
+                               16
+                           ],
+    "executable_sha256":  "733c04f2ce18e557ab954231e2d7082f552f0e8ec1fcca11aaa628eb10279b3f",
+    "saved_win32":  true,
+    "live_renderer_changes":  [
+                                  {
+                                      "active":  1,
+                                      "requested":  "GDI (low memory)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "requested":  "OpenGL (GPU composition)"
+                                  },
+                                  {
+                                      "active":  3,
+                                      "requested":  "DirectX (Direct2D composition)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "requested":  "GDI (low memory)"
+                                  }
+                              ],
+    "saved_shell":  "git-bash",
+    "explicit_command_overrides_shell":  true,
+    "reflow_default":  true,
+    "saved_tab_side":  2,
+    "saved_renderer":  2,
+    "initial_renderer":  3,
+    "saved_bindings":  [
+                           6,
+                           24,
+                           5,
+                           25,
+                           3,
+                           26,
+                           5
+                       ],
+    "saved_level":  3,
+    "cancel_exit":  0,
+    "tab_host":  false,
+    "saved_copy_and_paste":  true,
+    "saved_shell_bindings":  [
+                                 7,
+                                 45,
+                                 7,
+                                 46,
+                                 7,
+                                 47,
+                                 7,
+                                 48
+                             ],
+    "duplicate_binding_rejected":  true,
+    "saved_directory_inheritance":  false,
+    "hyperlink_settings_startup":  true,
+    "win32_default":  false
+}

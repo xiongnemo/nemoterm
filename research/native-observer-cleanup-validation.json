@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-11-13T13:32:55.720579+00:00",
+  "tested_commit": "1b09f82ea0f813d98c82e9dae174c160bf64f545",
+  "core_run": 43431838203,
+  "core_result": "success",
+  "single_exe_run": 43431838348,
+  "single_exe_result": "success",
+  "passed_check_groups": 57,
+  "artifact_id": 14041675507,
+  "evidence_artifact_id": 14041255768,
+  "executable_bytes": 4371456,
+  "executable_sha256": "1ea595ce00b573335a4de1a2a5e3cdc5a547b49a8b1fa13b9b52ee9cf8f53359",
+  "distribution_files": [
+    "nemoterm.exe"
+  ],
+  "download_matches_native_records": true,
+  "product_source_changed": false,
+  "local_runtime_testing_paused": true,
+  "local_distribution_replaced": false,
+  "all_historical_shutdown_stalls_explained": false,
+  "evidence": [
+    {
+      "path": "research/native-observer-cleanup-evidence/caret-startup-observed.json",
+      "bytes": 1514,
+      "sha256": "adeb4c1215018ec15bae803cb91c0a17a7836ac38bc01e23581af88b44712358"
+    },
+    {
+      "path": "research/native-observer-cleanup-evidence/rectangle-window-observed.json",
+      "bytes": 766,
+      "sha256": "891858e56884210aec0587fea9fbc34409b540b5bef1e0367004927573f9c9c3"
+    },
+    {
+      "path": "research/native-observer-cleanup-evidence/single-exe-validation.json",
+      "bytes": 1401,
+      "sha256": "e8b6b41877f772013687fbe704a76d32ccc2c90530e233f44ac31a1446528b7f"
+    },
+    {
+      "path": "research/native-observer-cleanup-evidence/window-resize-observed.json",
+      "bytes": 118701,
+      "sha256": "8b92a9a7e1869754786f03799fb79cd77610e5a4058bf052a6779505251a60df"
+    }
+  ]
+}

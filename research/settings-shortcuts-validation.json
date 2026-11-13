@@ -1,0 +1,67 @@
+{
+  "recorded_utc": "2026-11-13T12:42:24.405899+00:00",
+  "tested_commit": "108af0cd42f36b6fdcde9f69df148d8c48219eed",
+  "core_workflow": {
+    "run": 43425076349,
+    "result": "success"
+  },
+  "single_exe_workflow": {
+    "run": 43425076239,
+    "result": "success",
+    "passed_check_groups": 57,
+    "artifact_id": 14038426448,
+    "evidence_artifact_id": 14038526273,
+    "executable_sha256": "0a5115bbb0cce074256c0b3726afeb72421e18943689066756dc79fca4fd17c9",
+    "executable_bytes": 4371456,
+    "download_matches_native_manifest": true,
+    "distribution_files": [
+      "nemoterm.exe"
+    ]
+  },
+  "local_runtime_testing_paused": true,
+  "local_executable_replaced": false,
+  "earlier_tab_close_timeout_explained": false,
+  "full_goal_complete": false,
+  "evidence": [
+    {
+      "path": "research/settings-shortcuts-evidence/mingw-settings-window-observed.json",
+      "bytes": 3223,
+      "sha256": "cd7622832d2c6542e03db71a5e40e5ae0399116484e731a776f2d7be255744c9"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/mingw-tabs-profiles-observed.json",
+      "bytes": 2806,
+      "sha256": "2324d963248433b9fea494b34231fc489e6fcf9d80ea0beff9d695462b66d4cc"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/mingw-tabs-settings-window-observed.json",
+      "bytes": 3221,
+      "sha256": "9ad8a2068fcb020427424101cb82d4e37230124d70c48f3348a282e0a9f7bfa5"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/settings-window-observed.json",
+      "bytes": 3223,
+      "sha256": "a953bda1d5ebfffbeb2e303668b25a56406f1a6470a4b34d0b7dab87f5ada8a9"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/single-exe-validation.json",
+      "bytes": 1401,
+      "sha256": "58ac65e8df24287a6f57af6651530895c1c3ae930de0bec2a4a6516a0970f81a"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/tabs-profiles-observed.json",
+      "bytes": 2806,
+      "sha256": "cf4cb156860dafabd93a1e67df937ef25b68ec1cee984a9095b5753e3d407b7c"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/tabs-regressions-observed.json",
+      "bytes": 309,
+      "sha256": "ec6eccab3da68d07067a03b7390e5d888858feaf93e93a4ed2ab7f7aa091359a"
+    },
+    {
+      "path": "research/settings-shortcuts-evidence/tabs-settings-window-observed.json",
+      "bytes": 3221,
+      "sha256": "c6a0e7c549acdc6002efc19cfc1a1308377504ff64968c54b23b390bde752ef4"
+    }
+  ]
+}

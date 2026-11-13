@@ -2572,6 +2572,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
               HELPCTX(no_help));
     ctrl_checkbox(s, "Disable OSC 8 hyperlinks", 'd', HELPCTX(no_help),
                   conf_checkbox_handler, I(CONF_no_remote_hyperlinks));
+    /* Alt+A belongs to About at startup and Apply during reconfiguration. */
     ctrl_checkbox(s, "Allow registered custom URI schemes", 'r', HELPCTX(no_help),
                   conf_checkbox_handler, I(CONF_nemo_custom_url_schemes));
     ctrl_text(s, "By default, links can open HTTP, HTTPS, FTP, mailto and local "

@@ -579,6 +579,7 @@ try {
     foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
         $dialog=Dialog $app
+        Check-HyperlinkControls $dialog
         $node=Find-Name $dialog 'Window'
         $node.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
         Select-Node $dialog 'Rendering' | Out-Null

@@ -1,5 +1,10 @@
 # DirectX frontend integration
 
+The current user-approved frontend private-working-set ceiling is **25 MB**
+(25,000,000 bytes, inclusive), adjusted on 2026-11-14; further DirectX memory
+optimization is deferred. GDI keeps its strict 20 MB limit. Historical results
+below retain their original thresholds and executable identities.
+
 This branch adds a Direct2D hardware compositor behind the same strip/run API
 as OpenGL. It is a frontend implementation, separate from the Microsoft host's
 existing DirectX imports. GDI remains the default and creates no GPU object.

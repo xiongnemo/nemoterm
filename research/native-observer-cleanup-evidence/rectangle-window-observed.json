@@ -1,0 +1,36 @@
+{
+  "executable_sha256": "1ea595ce00b573335a4de1a2a5e3cdc5a547b49a8b1fa13b9b52ee9cf8f53359",
+  "checks": [
+    "fill-pixels",
+    "copy-overlap-down",
+    "copy-overlap-up",
+    "copy-overlap-right",
+    "attributes-stream",
+    "attributes-rectangle",
+    "written-space-versus-undrawn",
+    "sixel-local-erasure",
+    "unicode-fill-cell-boundaries",
+    "origin-relative-rectangle",
+    "resize-then-edit",
+    "synchronized-editing"
+  ],
+  "shift_copy": "A\u0301\u4e2d\u6587Z",
+  "resize_dimensions": [
+    [
+      60,
+      18
+    ],
+    [
+      30,
+      9
+    ],
+    [
+      40,
+      12
+    ]
+  ],
+  "overlap_stress_copies": 3000,
+  "peak_private_ws": 4096000,
+  "peak_total_ws": 29024256,
+  "peak_private_commit": 5386240
+}
