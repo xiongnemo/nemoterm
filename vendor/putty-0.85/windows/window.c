@@ -6434,6 +6434,8 @@ static void wintw_clip_write(
                     attrBold  = 0;
 
                 attrUnder = attr[tindex] & ATTR_UNDER;
+                if (truecolour && (truecolour[tindex].decoration & UNDER_DOUBLE_LEGACY))
+                    attrUnder = ATTR_UNDER;
 
                 /*
                  * Reverse video

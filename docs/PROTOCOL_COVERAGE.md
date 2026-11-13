@@ -91,7 +91,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
 | *y (DECRQCRA); #y (XTCHECKSUM) | Gated / Partial | Off by default; `queries` and native `checksum`: 364 exact XTerm cases, 8 retained-cell expectations, attributes/blank modes/origin/resize/reset. Unicode normalization and legacy charSeen differences are explicit; see [checksum record](../research/rectangle-checksums.md). |
 | $w (DECRQPSR); $u (terminal state request) | Missing | Presentation/terminal state reports are not implemented. |
-| #\| (XTREPORTSGR), #{ / #} (SGR stack) | Missing | Current-state DECRQSS is separate from rectangle/stack operations. |
+| #\| (XTREPORTSGR), #{ / #} and #p / #q (SGR stack) | Tested | `queries`, native `sgr_stack`: 193 exact XTerm captures and 14 modern-underline expectations. Ten retained frames, bounded overflow, selective attributes/colors, origin-relative intersections, reset/alternate-screen retention and read-only queries. Six XTerm cases ignore modern underline styles and are documented separately; see [SGR stack record](../research/sgr-stack.md). |
 | #P/#Q/#R (palette stack) | Missing | OSC palette mutation exists; no palette stack. |
 | #S (title-stack position query) | Missing | Title push/pop exists; position query is separate. |
 | t, operations 1–9, 11, 13–16, 18–23 and line count >=24 | Partial | `queries`, `titles`, `window_resize`; native movement, size and title policies apply. Other window operations remain missing. |

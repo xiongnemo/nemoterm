@@ -113,7 +113,7 @@ static void test_styles_and_rectangles(Mock *mk)
     term_data_fragmented(t,"\033[31;44;1;4mABC\033[32;45m\033[?2K");
     a=get_termchar(t,0,0);
     IEQUAL(a.attr & (ATTR_BOLD|ATTR_UNDER),0);
-    IEQUAL(a.attr & ATTR_FGMASK,2); IEQUAL((a.attr & ATTR_BGMASK)>>ATTR_BGSHIFT,5);
+    IEQUAL(a.attr & ATTR_FGMASK,10); IEQUAL((a.attr & ATTR_BGMASK)>>ATTR_BGSHIFT,5);
 
     for (int defaults=0;defaults<2;defaults++) {
         erase_setup(mk,"rectangle origin defaults and clipping");

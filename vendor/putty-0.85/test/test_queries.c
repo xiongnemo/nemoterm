@@ -7,6 +7,7 @@
 #include "../../../tests/graphics_query_oracle_cases.h"
 #include "../../../tests/dec_status_oracle_cases.h"
 #include "../../../tests/checksum_oracle_cases.h"
+#include "../../../tests/sgr_stack_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -159,6 +160,96 @@ static void test_checksums(Mock *mk)
     test_context(mk, "revoking screen checksum access takes effect immediately");
     term_data_fragmented(mk->term, "\033[7;1;1;1;1;1*y");
     response(mk, "");
+}
+
+static void test_sgr_stack(Mock *mk)
+{
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
+    conf_set_bool(mk->conf, CONF_crhaslf, false);
+    conf_set_bool(mk->conf, CONF_lfhascr, false);
+    conf_set_int(mk->conf, CONF_bold_style, BOLD_STYLE_COLOUR);
+    term_reconfig(mk->term, mk->conf);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(sgr_stack_oracle); i++) {
+        reset(mk);
+        test_context(mk, "SGR stack %s", sgr_stack_oracle[i].name);
+        term_data_fragmented(mk->term, sgr_stack_oracle[i].sequence);
+        response(mk, sgr_stack_oracle[i].reply);
+    }
+    for (size_t i = 0; i < lenof(sgr_stack_direct); i++) {
+        reset(mk);
+        test_context(mk, "SGR extension %s", sgr_stack_direct[i].name);
+        term_data_fragmented(mk->term, sgr_stack_direct[i].sequence);
+        response(mk, sgr_stack_direct[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "stack stays bounded during overflow and releases storage when drained");
+    IEQUAL(mk->term->sgr_stack == NULL, true);
+    term_data_fragmented(mk->term, "\033[31m\033[#{\033[32m");
+    struct NemoSgrStack *allocated = mk->term->sgr_stack;
+    IEQUAL(allocated != NULL, true);
+    for (int i = 0; i < 5000; i++) {
+        term_data_fragmented(mk->term, "\033[#{");
+        IEQUAL(mk->term->sgr_stack == allocated, true);
+    }
+    term_data_fragmented(mk->term, "\033[34m");
+    for (int i = 0; i < 4991; i++) {
+        term_data_fragmented(mk->term, "\033[#}");
+        IEQUAL(mk->term->curr_attr & ATTR_FGMASK, 4);
+    }
+    for (int i = 0; i < 9; i++) {
+        term_data_fragmented(mk->term, "\033[#}");
+        IEQUAL(mk->term->curr_attr & ATTR_FGMASK, 2);
+    }
+    term_data_fragmented(mk->term, "\033[#}");
+    IEQUAL(mk->term->curr_attr & ATTR_FGMASK, 1);
+    IEQUAL(mk->term->sgr_stack == NULL, true);
+
+    reset(mk);
+    test_context(mk, "stack and reports preserve selection, pending wrap and grapheme attachment");
+    term_data_fragmented(mk->term, "\033[1;80H\033[4:3;21me");
+    mk->term->selstate = SELECTED;
+    mk->term->selstart = (pos){0, 79};
+    mk->term->selend = (pos){1, 0};
+    mk->term->disptop = -1;
+    term_data_fragmented(mk->term, "\033[#{\033[0m\033[#}\033[1;80;1;80#|");
+    response(mk, "\033[0;4:3;21m");
+    IEQUAL(mk->term->curs.x, 79); IEQUAL(mk->term->curs.y, 0);
+    IEQUAL(mk->term->wrapnext, true);
+    IEQUAL(mk->term->selstate, SELECTED);
+    IEQUAL(mk->term->disptop, -1);
+    mk->term->disptop = 0;
+    term_data_fragmented(mk->term, "\xcc\x81");
+    termline *line = term_get_line(mk->term, 0);
+    IEQUAL(line->chars[79].cc_next != 0, true);
+    if (line->chars[79].cc_next)
+        IEQUAL(line->chars[79+line->chars[79].cc_next].chr, 0x301);
+    term_release_line(line);
+    IEQUAL(mk->term->curs.y, 0);
+    IEQUAL(mk->term->sgr_stack == NULL, true);
+
+    test_context(mk, "attribute queries do not grow sparse rows or allocate stack storage");
+    termline *sparse = index234(mk->term->screen, 23);
+    int saved_cols = sparse->cols;
+    sparse->cols = 5;
+    termchar *before = sparse->chars;
+    term_data_fragmented(mk->term, "\033[24;39;24;99999999999999999#|");
+    response(mk, "\033[0m");
+    IEQUAL(sparse->cols, 5); IEQUAL(sparse->chars == before, true);
+    IEQUAL(mk->term->sgr_stack == NULL, true);
+    sparse->cols = saved_cols;
+
+    test_context(mk, "checksum selection respects operating level and resets on DECSCL");
+    for (unsigned level = 61; level <= 65; level++) {
+        char sequence[64];
+        snprintf(sequence, sizeof(sequence), "\033[%u;1\"p\033[23#y", level);
+        term_data_fragmented(mk->term, sequence);
+        IEQUAL(mk->term->checksum_flags, level < 64 ? 0 : 23);
+        term_data_fragmented(mk->term, "\033[64;1\"p");
+        IEQUAL(mk->term->checksum_flags, 0);
+    }
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, false);
+    term_reconfig(mk->term, mk->conf);
 }
 
 static void test_cursor(Mock *mk)
@@ -530,6 +621,7 @@ int main(void)
     test_graphics_queries(mk);
     test_dec_status(mk);
     test_checksums(mk);
+    test_sgr_stack(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

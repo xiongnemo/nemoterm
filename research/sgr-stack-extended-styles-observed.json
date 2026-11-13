@@ -1,0 +1,37 @@
+{
+  "blank": "2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e",
+  "underline-1": "272c842da28c632f737808ba8fafcbd0d2aca94997e3c7b6cf2a411ba9e7a3e5",
+  "underline-2": "eaf37b6cdb896bd49dd940ed713c1ff423c55ed37d92b0c7e21a296b1d4c287d",
+  "underline-3": "f15279d7aaa293d3e50a878682086279b4a40a0b596e3538abe21a1f3d63aa4f",
+  "underline-4": "67af8f7c3e5ffafa6f039050b26d70900b705ca53f058e34cabd6773ee082bba",
+  "underline-5": "4c913d6e163dd1df9e82a3cc4f0e0f609d14bc02488c9042f760a110d963730d",
+  "reverse-underline": "5ab2090b96f1a20f8d1d19d1905b58dfb1adf12709a0f5516f3bcb18c289aa5c",
+  "legacy-double": "eaf37b6cdb896bd49dd940ed713c1ff423c55ed37d92b0c7e21a296b1d4c287d",
+  "underline-reset": "2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e",
+  "conceal": "2684275db4a7425b07b2cfe6ca604f40bed2e103439ea87a10a5bbc70086949e",
+  "regular": "d4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d",
+  "italic": "03e6ce74e5f2fa502b31d904774eddc1e115f5a3147002446d47b1ad8ec86517",
+  "italic-reset": "d4b5206c1303c379110da15d1ae7fea1215d3a4f8a13756c3cee4841b1eaed2d",
+  "normal-m-width": "274d9e0aa842c2b45cd40d944e00831e51dae646675650291e4771a628994a66",
+  "italic-m-width": "6cbabdbfcd461763bb26449cf49172b6e3b5ebd661bada63511df37e972eac44",
+  "normal_and_italic_M_width": [
+    8,
+    8
+  ],
+  "normal-cjk-width": "a6f2ba9c69d2ced7fa6b045915d866d36199deb1bb7176364c908d337c4fb739",
+  "italic-cjk-width": "2ccd070703a29ccc9d93459291e390499009be8991310c1b203073c603d01cb5",
+  "normal_and_italic_CJK_width": [
+    14,
+    14
+  ],
+  "colon-rgb": "5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd",
+  "semicolon-rgb": "5783c657c5b328af9484492660c83e3d91ab131a8335f1e2dc140fc0471f94fd",
+  "indexed-underline": "272c842da28c632f737808ba8fafcbd0d2aca94997e3c7b6cf2a411ba9e7a3e5",
+  "palette-change": "47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063",
+  "styled-sync-freeze": "47068a3ab03bcafbc1390c6359db0d4044e6657b9752d9851bb316dcf48bc063",
+  "styled-sync-release": "ad497301196407f3dd29ee2437db5e75f47144ad0d600f4886e69c5c43b3d3fd",
+  "gallery": "64434a44b2bc51a6ff4be68a844baa85f5656dbc762c7c420203349198297d29",
+  "peak_private_ws": 5222400,
+  "peak_total_ws": 19472384,
+  "executable_sha256": "425f4280c5ac04839b93b4c2b7b0a953472f634e57bd0a8da26388ac49f88668"
+}

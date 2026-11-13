@@ -107,6 +107,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             for style in range(1,6):
                 text+=(' '*style+f'\x1b[4:{style};58:2::255:80:0m'+
                        ('e\u0301 A\u0308 ')*5+'\x1b[0m\r\n')
+            text+=('\x1b[21;58:2::80:180:255mLegacy double underline\x1b[0m\r\n'
+                   '\x1b[4;21mIndependent single and double\x1b[0m\r\n'
+                   '\x1b[4:3;58:2::255:80:0m\x1b[21#{\x1b[21m\x1b[#}'
+                   'Selective pop restores curly\x1b[0m\r\n')
             render('text',text);base=compare('text')
             # An expose must preserve both unchanged glyphs and the cached frame.
             u.RedrawWindow(hwnd,None,None,0x185);time.sleep(.1)

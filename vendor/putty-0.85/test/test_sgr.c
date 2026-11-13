@@ -57,7 +57,8 @@ static void test_styles(Mock *mk)
         "\033[3;8;21;58:2::255:0:0mA\033[23;28;24mB\033[0mC");
     termchar tc = get_termchar(mk->term, 0, 0);
     IEQUAL(tc.attr & (ATTR_ITALIC | ATTR_CONCEAL | ATTR_UNDER),
-           ATTR_ITALIC | ATTR_CONCEAL | ATTR_UNDER);
+           ATTR_ITALIC | ATTR_CONCEAL);
+    IEQUAL(!!(tc.truecolour.decoration & UNDER_DOUBLE_LEGACY), true);
     IEQUAL(UNDER_STYLE(tc.truecolour), 2);
     tc = get_termchar(mk->term, 1, 0);
     IEQUAL(tc.attr & (ATTR_ITALIC | ATTR_CONCEAL | ATTR_UNDER), 0);
@@ -120,9 +121,12 @@ static void test_style_lifetime(Mock *mk)
     reset(mk); test_context(mk, "style colour survives compressed history");
     term_size(mk->term, 4, 20, 100);
     mk->ucsdata->line_codepage = CP_UTF8;
-    term_data_fragmented(mk->term, "\033[3;8;4:5;38:2::1:2:3;58:5:123m"
+    term_data_fragmented(mk->term, "\033[3;8;4:5;21;38:2::1:2:3;58:5:123m"
                                   "A\xe4\xb8\xad" "e\xcc\x81\033[0m");
     termchar original = get_termchar(mk->term, 0, 0);
+    IEQUAL(UNDER_STYLE_RAW(original.truecolour), 5);
+    IEQUAL(UNDER_STYLE(original.truecolour), 2);
+    IEQUAL(!!(original.truecolour.decoration & UNDER_DOUBLE_LEGACY), true);
     term_data_fragmented(mk->term, "\r\none\r\ntwo\r\nthree\r\nfour");
     IEQUAL(count234(mk->term->scrollback), 1);
     termchar history = get_termchar(mk->term, 0, -1);

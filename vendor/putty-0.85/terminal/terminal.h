@@ -194,6 +194,7 @@ struct terminal_tag {
 
     int default_attr, curr_attr, save_attr;
     truecolour curr_truecolour, save_truecolour;
+    struct NemoSgrStack *sgr_stack; /* allocated only while rendition frames exist */
     NemoHyperlinks *hyperlinks;
     NemoCwd working_directory;
     NemoShellMarks shell_marks;

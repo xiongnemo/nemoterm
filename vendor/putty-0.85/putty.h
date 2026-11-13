@@ -1007,7 +1007,9 @@ typedef struct truecolour {
 #define UNDER_RGB         UINT32_C(0x02000000)
 #define UNDER_STYLE_SHIFT 26
 #define UNDER_STYLE_MASK  UINT32_C(0x1c000000)
-#define UNDER_STYLE(tc) (((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT)
+#define UNDER_DOUBLE_LEGACY UINT32_C(0x80000000)
+#define UNDER_STYLE_RAW(tc) (((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT)
+#define UNDER_STYLE(tc) (((tc).decoration & UNDER_DOUBLE_LEGACY) ? 2 : UNDER_STYLE_RAW(tc))
 /* Non-visual cell metadata shares an unused bit; no per-cell allocation. */
 #define CELL_PROTECTED UINT32_C(0x20000000)
 /* Occupancy for DEC stream-attribute operations, without growing a cell. */

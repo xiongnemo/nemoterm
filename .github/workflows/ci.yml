@@ -101,6 +101,8 @@ jobs:
           python tests/generate_dec_status_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_checksum_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_sgr_stack_oracle.py --check
           exit $LASTEXITCODE
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
@@ -534,7 +536,7 @@ jobs:
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
           cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_queries test_titles --parallel 4
-          cmake --build build-asan --target test_grapheme_terminal --parallel 4
+          cmake --build build-asan --target test_grapheme_terminal test_sgr --parallel 4
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_grapheme_terminal 2>&1 | tee terminal-grapheme-cells-sanitizers.log
@@ -566,6 +568,8 @@ jobs:
             ./build-asan/test_shell_marks 2>&1 | tee terminal-shell-marks-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_queries 2>&1 | tee terminal-queries-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_sgr 2>&1 | tee terminal-sgr-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_titles 2>&1 | tee terminal-titles-sanitizers.log
       - name: Upload sanitizer logs

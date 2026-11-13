@@ -2247,8 +2247,10 @@ static void nemo_sixel_complete(Terminal *term)
     term_invalidate(term);
 }
 
+static void set_erase_char(Terminal *term);
+
 static void nemo_report_sgr_colour(strbuf *reply, unsigned prefix,
-                                   unsigned index, optionalrgb rgb)
+                                   unsigned index, optionalrgb rgb, bool colon)
 {
     if (rgb.enabled)
         put_fmt(reply, ";%u:2::%u:%u:%u", prefix, rgb.r, rgb.g, rgb.b);
@@ -2257,7 +2259,79 @@ static void nemo_report_sgr_colour(strbuf *reply, unsigned prefix,
     else if (index < 16)
         put_fmt(reply, ";%u", (prefix == 38 ? 90 : 100) + index-8);
     else if (index < 256)
-        put_fmt(reply, ";%u;5;%u", prefix, index);
+        put_fmt(reply, colon ? ";%u:5:%u" : ";%u;5;%u", prefix, index);
+}
+
+struct NemoSgrStack {
+    uint64_t used;
+    struct {
+        uint32_t mask;
+        unsigned long attr;
+        truecolour tc;
+    } frames[10];
+};
+
+/* The ten retained frames match xterm. Excess pushes consume only a bounded
+ * counter, so their corresponding pops cannot prematurely restore a frame. */
+static void nemo_push_sgr(Terminal *term)
+{
+    uint32_t mask = 0;
+    if (term->esc_nargs == 1 && !term->esc_arg_present) {
+        mask = UINT32_MAX;
+    } else {
+        for (int i = 0; i < term->esc_nargs; i++) {
+            unsigned selector = term->esc_args[i];
+            if (selector == 10) selector = 30;
+            if (selector == 11) selector = 31;
+            if (selector > 0 && selector < 32)
+                mask |= UINT32_C(1) << (selector-1);
+        }
+    }
+    if (!term->sgr_stack) {
+        term->sgr_stack = snew(struct NemoSgrStack);
+        memset(term->sgr_stack, 0, sizeof(*term->sgr_stack));
+    }
+    struct NemoSgrStack *stack = term->sgr_stack;
+    if (stack->used < lenof(stack->frames)) {
+        stack->frames[stack->used].mask = mask;
+        stack->frames[stack->used].attr = term->curr_attr;
+        stack->frames[stack->used].tc = term->curr_truecolour;
+    }
+    if (stack->used < UINT64_MAX) stack->used++;
+}
+
+static void nemo_pop_sgr(Terminal *term)
+{
+    struct NemoSgrStack *stack = term->sgr_stack;
+    if (!stack) return;
+    assert(stack->used);
+    if (--stack->used < lenof(stack->frames)) {
+        uint32_t mask = stack->frames[stack->used].mask;
+        unsigned long saved = stack->frames[stack->used].attr, attrs = 0;
+        truecolour tc = stack->frames[stack->used].tc;
+        static const struct { unsigned selector; unsigned long bits; } flags[] = {
+            {1, ATTR_BOLD}, {2, ATTR_DIM}, {3, ATTR_ITALIC}, {4, ATTR_UNDER},
+            {5, ATTR_BLINK}, {7, ATTR_REVERSE}, {8, ATTR_CONCEAL}, {9, ATTR_STRIKE},
+            {30, ATTR_FGMASK}, {31, ATTR_BGMASK},
+        };
+        for (size_t i = 0; i < lenof(flags); i++)
+            if (mask & (UINT32_C(1) << (flags[i].selector-1))) attrs |= flags[i].bits;
+        term->curr_attr = (term->curr_attr & ~attrs) | (saved & attrs);
+        if (mask & (UINT32_C(1) << 29)) term->curr_truecolour.fg = tc.fg;
+        if (mask & (UINT32_C(1) << 30)) term->curr_truecolour.bg = tc.bg;
+        uint32_t decorations = 0;
+        if (mask & (UINT32_C(1) << 3)) decorations |= UNDER_STYLE_MASK;
+        if (mask & (UINT32_C(1) << 20)) decorations |= UNDER_DOUBLE_LEGACY;
+        /* No-argument saves also preserve our modern underline colour. */
+        if (mask == UINT32_MAX) decorations |= UNDER_COLOUR_MASK;
+        term->curr_truecolour.decoration =
+            (term->curr_truecolour.decoration & ~decorations) | (tc.decoration & decorations);
+        set_erase_char(term);
+    }
+    if (!stack->used) {
+        sfree(stack);
+        term->sgr_stack = NULL;
+    }
 }
 
 static void nemo_modify_keys_setting(Terminal *term, bool format)
@@ -2309,12 +2383,13 @@ static void nemo_decrqss(Terminal *term)
         for (size_t i = 0; i < lenof(flags); i++)
             if (attr & flags[i].attr) put_fmt(reply, ";%u", flags[i].sgr);
         if (attr & ATTR_UNDER) {
-            unsigned style = UNDER_STYLE(tc);
+            unsigned style = UNDER_STYLE_RAW(tc);
             if (style <= 1) put_dataz(reply, ";4");
             else put_fmt(reply, ";4:%u", style);
         }
-        nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg);
-        nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg);
+        if (tc.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+        nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg, false);
+        nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg, false);
         uint32_t colour = tc.decoration & UNDER_COLOUR_MASK;
         if (colour & UNDER_RGB)
             put_fmt(reply, ";58:2::%u:%u:%u", (colour >> 16) & 255,
@@ -2697,6 +2772,15 @@ static void set_erase_char(Terminal *term)
     if (term->use_bce) {
         term->erase_char.attr = (term->curr_attr &
                                  (ATTR_FGMASK | ATTR_BGMASK));
+        /* BCE drops rendition flags, but retains the resolved foreground.
+         * It can become visible later through reverse/rectangle attributes. */
+        unsigned fg = (term->curr_attr & ATTR_FGMASK) >> ATTR_FGSHIFT;
+        if ((term->curr_attr & ATTR_BOLD) &&
+            (conf_get_int(term->conf, CONF_bold_style) & BOLD_STYLE_COLOUR) &&
+            !term->curr_truecolour.fg.enabled && fg < 8)
+            term->erase_char.attr = (term->erase_char.attr & ~ATTR_FGMASK) |
+                ((fg+8) << ATTR_FGSHIFT);
+        term->erase_char.truecolour.fg = term->curr_truecolour.fg;
         term->erase_char.truecolour.bg = term->curr_truecolour.bg;
     }
 }
@@ -3228,6 +3312,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 void term_free(Terminal *term)
 {
     nemo_osc52_free(term->osc52);
+    sfree(term->sgr_stack);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
     nemo_hyperlink_free(term->hyperlinks);
@@ -4513,6 +4598,73 @@ static bool nemo_rectangle(Terminal *term, unsigned first, unsigned count,
     *r = (struct NemoRect){base+coords[0]-1, xbase+coords[1]-1,
                           base+coords[2], xbase+coords[3]};
     return true;
+}
+
+static void nemo_report_rectangle_sgr(Terminal *term)
+{
+    if (!term->ldisc) return;
+    struct NemoRect r;
+    termchar common = term->basic_erase_char;
+    bool first = true;
+    if (nemo_rectangle(term, 0, 4, &r)) {
+        bool bold_colours = conf_get_int(term->conf, CONF_bold_style) & BOLD_STYLE_COLOUR;
+        for (int y = r.top; y < r.bottom; y++) {
+            const termline *line = index234(term->screen, y);
+            assert(line);
+            for (int x = r.left; x < r.right; x++) {
+                termchar cell = x < line->cols ? line->chars[x] : term->basic_erase_char;
+                unsigned fg = (cell.attr & ATTR_FGMASK) >> ATTR_FGSHIFT;
+                if (bold_colours && (cell.attr & ATTR_BOLD) && !cell.truecolour.fg.enabled && fg < 8)
+                    cell.attr = (cell.attr & ~ATTR_FGMASK) | ((fg+8) << ATTR_FGSHIFT);
+                if (first) { common = cell; first = false; }
+                if ((common.attr & ATTR_FGMASK) != (cell.attr & ATTR_FGMASK) ||
+                    !optionalrgb_equal(common.truecolour.fg, cell.truecolour.fg)) {
+                    common.attr = (common.attr & ~ATTR_FGMASK) | ATTR_DEFFG;
+                    common.truecolour.fg = optionalrgb_none;
+                }
+                if ((common.attr & ATTR_BGMASK) != (cell.attr & ATTR_BGMASK) ||
+                    !optionalrgb_equal(common.truecolour.bg, cell.truecolour.bg)) {
+                    common.attr = (common.attr & ~ATTR_BGMASK) | ATTR_DEFBG;
+                    common.truecolour.bg = optionalrgb_none;
+                }
+                common.attr &= cell.attr | ATTR_COLOURS;
+                if (UNDER_STYLE_RAW(common.truecolour) != UNDER_STYLE_RAW(cell.truecolour)) {
+                    common.attr &= ~ATTR_UNDER;
+                    common.truecolour.decoration &= ~UNDER_STYLE_MASK;
+                }
+                if ((common.truecolour.decoration & UNDER_COLOUR_MASK) !=
+                    (cell.truecolour.decoration & UNDER_COLOUR_MASK))
+                    common.truecolour.decoration &= ~UNDER_COLOUR_MASK;
+                common.truecolour.decoration &= cell.truecolour.decoration | ~UNDER_DOUBLE_LEGACY;
+            }
+        }
+    }
+    strbuf *reply = strbuf_new();
+    put_dataz(reply, "\033[0");
+    if (common.attr & ATTR_BOLD) put_dataz(reply, ";1");
+    if (common.attr & ATTR_UNDER) {
+        unsigned style = UNDER_STYLE_RAW(common.truecolour);
+        if (style <= 1) put_dataz(reply, ";4");
+        else put_fmt(reply, ";4:%u", style);
+    }
+    static const struct { unsigned long bit; unsigned sgr; } flags[] = {
+        {ATTR_BLINK, 5}, {ATTR_REVERSE, 7}, {ATTR_CONCEAL, 8},
+        {ATTR_DIM, 2}, {ATTR_ITALIC, 3}, {ATTR_STRIKE, 9},
+    };
+    for (size_t i = 0; i < lenof(flags); i++)
+        if (common.attr & flags[i].bit) put_fmt(reply, ";%u", flags[i].sgr);
+    if (common.truecolour.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+    nemo_report_sgr_colour(reply, 38, (common.attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
+                           common.truecolour.fg, true);
+    nemo_report_sgr_colour(reply, 48, (common.attr & ATTR_BGMASK) >> ATTR_BGSHIFT,
+                           common.truecolour.bg, true);
+    uint32_t colour = common.truecolour.decoration & UNDER_COLOUR_MASK;
+    if (colour & UNDER_RGB)
+        put_fmt(reply, ";58:2::%u:%u:%u", (colour >> 16) & 255, (colour >> 8) & 255, colour & 255);
+    else if (colour & UNDER_INDEXED) put_fmt(reply, ";58:5:%u", colour & 255);
+    put_byte(reply, 'm');
+    ldisc_send(term->ldisc, reply->s, reply->len, false);
+    strbuf_free(reply);
 }
 
 static void nemo_erase_rectangle(Terminal *term, bool selective)
@@ -6432,7 +6584,7 @@ static void nemo_underline_style(Terminal *term, unsigned style)
     if (style) term->curr_attr |= ATTR_UNDER;
     else term->curr_attr &= ~ATTR_UNDER;
     term->curr_truecolour.decoration =
-        (term->curr_truecolour.decoration & ~UNDER_STYLE_MASK) |
+        (term->curr_truecolour.decoration & ~(UNDER_STYLE_MASK | UNDER_DOUBLE_LEGACY)) |
         (style << UNDER_STYLE_SHIFT);
 }
 
@@ -6673,6 +6825,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
             (term->termstate == SEEN_CSI && c >= '@' && c <= '~' &&
              c != 'm' && c != 'n' && c != 'c' &&
              !(c == 'y' && (term->esc_query == '*' || term->esc_query == '#')) &&
+             !(term->esc_query == '#' && (c == '{' || c == '}' || c == 'p' || c == 'q' || c == '|')) &&
              !(c == 'p' && (term->esc_query == '$' || term->esc_query == 0x100+'$'))))
             term->grapheme_pending = false;
 
@@ -7383,9 +7536,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(VT420);
                         nemo_checksum_rectangle(term); break;
                       case ANSI('y', '#'): /* XTCHECKSUM */
+                        compatibility(VT420);
                         if (conf_get_bool(term->conf, CONF_nemo_allow_checksum))
                             term->checksum_flags = term->esc_args[0] & 31;
                         break;
+                      case ANSI('{', '#'): case ANSI('p', '#'): /* XTPUSHSGR */
+                        nemo_push_sgr(term); break;
+                      case ANSI('}', '#'): case ANSI('q', '#'): /* XTPOPSGR */
+                        nemo_pop_sgr(term); break;
+                      case ANSI('|', '#'): /* XTREPORTSGR */
+                        nemo_report_rectangle_sgr(term); break;
                       case ANSI('q', '"'): /* DECSCA, independent of SGR */
                         if (term->esc_args[0] <= 2) {
                             term->curr_truecolour.decoration &= ~CELL_PROTECTED;
@@ -7578,12 +7738,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 21:      /* double underline */
                             compatibility(OTHER);
-                            nemo_underline_style(term, 2);
+                            term->curr_truecolour.decoration |= UNDER_DOUBLE_LEGACY;
                             break;
                           case 4:       /* enable underline */
                             compatibility(VT100AVO);
-                            if (!term->esc_sub_count[i])
-                                nemo_underline_style(term, 1);
+                            if (!term->esc_sub_count[i]) {
+                                term->curr_attr |= ATTR_UNDER;
+                                term->curr_truecolour.decoration =
+                                    (term->curr_truecolour.decoration & ~UNDER_STYLE_MASK) |
+                                    (UINT32_C(1) << UNDER_STYLE_SHIFT);
+                            }
                             else if (term->esc_sub_count[i] == 1 &&
                                      (term->esc_sub_present[i] & 1))
                                 nemo_underline_style(term, term->esc_subargs[i][0]);
@@ -8083,6 +8247,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         set_erase_char(term);
                         break;
                       case ANSI('p', '"'): /* DECSCL: set compat level */
+                        if (term->esc_args[0] >= 61 && term->esc_args[0] <= 65)
+                            term->checksum_flags = 0;
                         /*
                          * Allow the host to make this emulator a
                          * 'perfect' VT102. This first appeared in
@@ -9119,6 +9285,8 @@ static void do_paint(Terminal *term)
 
             tchar = d->chr;
             tattr = d->attr;
+            if (d->truecolour.decoration & UNDER_DOUBLE_LEGACY)
+                tattr |= ATTR_UNDER;
             if (d->hyperlink && d->hyperlink == term->hover_hyperlink &&
                 term_hyperlink_uri(term, d->hyperlink))
                 tattr |= ATTR_UNDER;
