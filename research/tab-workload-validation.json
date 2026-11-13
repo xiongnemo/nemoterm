@@ -1,0 +1,276 @@
+{
+  "recorded_utc": "2026-11-13T08:28:07.243445+00:00",
+  "acceptance_passed": false,
+  "executable": {
+    "source_commit": "fab17ec243463613524d3f7fd8746f08012a57fb",
+    "sha256": "d6a46003b58a48bc5927437af6214c5492d78273e98911da6c21dda49b5546c3",
+    "bytes": 4430336,
+    "path": "build\\local-tab-workload-evidence\\dist\\nemoterm.exe"
+  },
+  "changes": "Test and evidence changes only; both speculative DirectX changes were reverted.",
+  "cases": {
+    "workload-gdi-top": {
+      "exit_code": 0,
+      "functional_groups": 9,
+      "actual_renderer": 1,
+      "completed": true,
+      "log": "Tabs passed: gdi top 9 checks\n",
+      "root_peak_private_ws": 14778368,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "memory_limit_passed": true,
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 14778368,
+          "total_ws": 37662720,
+          "private_commit": 16928768
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7086080,
+          "total_ws": 33906688,
+          "private_commit": 10444800
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27082752,
+          "total_ws": 53964800,
+          "private_commit": 33599488
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 43130880,
+          "total_ws": 120340480,
+          "private_commit": 54652928
+        }
+      },
+      "seconds": 48.785,
+      "sample_count": 451,
+      "stable_process_counts_verified": true,
+      "frontend_units": {
+        "private_ws": {
+          "bytes": 14778368,
+          "decimal_mb": 14.7784,
+          "mib": 14.0938
+        },
+        "total_ws": {
+          "bytes": 37662720,
+          "decimal_mb": 37.6627,
+          "mib": 35.918
+        },
+        "private_commit": {
+          "bytes": 16928768,
+          "decimal_mb": 16.9288,
+          "mib": 16.1445
+        }
+      }
+    },
+    "workload-directx-left": {
+      "exit_code": 1,
+      "functional_groups": 9,
+      "actual_renderer": 3,
+      "completed": false,
+      "log": "Traceback (most recent call last):\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence/tests/tabs_window_smoke.py\", line 288, in <module>\n    assert evidence['memory_limit_passed'],evidence['peak_private_ws']\n           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 29532160\n",
+      "root_peak_private_ws": 29532160,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "memory_limit_passed": false,
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 29532160,
+          "total_ws": 65937408,
+          "private_commit": 102064128
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7057408,
+          "total_ws": 34308096,
+          "private_commit": 9420800
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26705920,
+          "total_ws": 53641216,
+          "private_commit": 33124352
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 53821440,
+          "total_ws": 143962112,
+          "private_commit": 132739072
+        }
+      },
+      "seconds": 38.03,
+      "sample_count": 352,
+      "stable_process_counts_verified": true,
+      "frontend_units": {
+        "private_ws": {
+          "bytes": 29532160,
+          "decimal_mb": 29.5322,
+          "mib": 28.1641
+        },
+        "total_ws": {
+          "bytes": 65937408,
+          "decimal_mb": 65.9374,
+          "mib": 62.8828
+        },
+        "private_commit": {
+          "bytes": 102064128,
+          "decimal_mb": 102.0641,
+          "mib": 97.3359
+        }
+      }
+    },
+    "gdi-bottom": {
+      "exit_code": 0,
+      "functional_groups": 9,
+      "actual_renderer": 1,
+      "completed": true,
+      "log": "Tabs passed: gdi bottom 9 checks\n",
+      "root_peak_private_ws": 8691712,
+      "cleanup": {
+        "before": {
+          "total": 54,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 54,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "opengl-right": {
+      "exit_code": 0,
+      "functional_groups": 9,
+      "actual_renderer": 2,
+      "completed": true,
+      "log": "Tabs passed: opengl right 9 checks\n",
+      "root_peak_private_ws": 51150848,
+      "cleanup": {
+        "before": {
+          "total": 54,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 54,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  },
+  "experiments": [
+    {
+      "description": "Bounded GDI readback bands instead of an interoperable full retained frame.",
+      "executable_sha256": "4c9c087b9a677debe14131398cf1b05eb353cb159b9eef9bfacd0775c50ec238",
+      "patch_sha256": "f1167feff07409cca219e12ca0d4895115509cf4228e9e578bf17fa0ea73ca5e",
+      "peaks": {
+        "count": 1,
+        "private_ws": 27402240,
+        "total_ws": 63627264,
+        "private_commit": 114495488
+      },
+      "renderer_parity_passed": true,
+      "retained_in_product": false,
+      "conclusion": "Did not satisfy the limit. Single-run differences are not a causal attribution or an established optimization."
+    },
+    {
+      "description": "64 cached bitmaps and 512 KiB payload instead of 256 and 4 MiB; original transfer allowance preserved.",
+      "executable_sha256": "917eab46bc1d145a8d1edf8aeb690643cbb74c01be733794bdb008b3f8646267",
+      "patch_sha256": "344fe5ac84c31f523f0292e6477b3c6af02ebfb7eb9051b5c3188631856238fc",
+      "peaks": {
+        "count": 1,
+        "private_ws": 28147712,
+        "total_ws": 64495616,
+        "private_commit": 95244288
+      },
+      "renderer_parity_passed": true,
+      "retained_in_product": false,
+      "conclusion": "Did not satisfy the limit. Single-run differences are not a causal attribution or an established optimization."
+    }
+  ],
+  "test_source_sha256": {
+    "tests/tab_workload_memory.py": "ab3f528e43a93f4592adb6a698170a84392a564b83377dee448739efd0696e1e",
+    "tests/working_set_regions.py": "7b8bf6d8835c3458975f210faa515b83ca01dbbd1eb1f0889495923681c7ae51",
+    "tests/tabs_window_smoke.py": "361078b048bd38eb520d785e48d9c58f9a9987067ab83abab8cc480c4c75d3a3",
+    "tests/console_process_utils.py": "2ebd135d531b4c5b12c5bd53a4073a97a4631eab8f8f672907e4c6044983efb0",
+    "tests/process_tree_test.py": "2972181b7e6526ecd633351b92e5ae757bc0f31ddb90932672cb3063d24890ce"
+  },
+  "unit_tests": {
+    "process_identity_and_exit_races": 6,
+    "working_set_query": 3,
+    "owned_job": 2
+  },
+  "evidence_sha256": {
+    "tab-workload-gdi-observed.json": "eac2dab068454399a199bfe2355dcebc3db8e129a55f064034cd5fc682b36c75",
+    "tab-workload-gdi-memory.json": "4f2fe8a11072708a5b187c47965dd234a5660854f7a825ffa63ec5253fd480ad",
+    "tab-workload-directx-observed.json": "8459720ae8c53e68e076789d0b8863dc2837448b98faa459ae99719564ce2c3b",
+    "tab-workload-directx-memory.json": "4c02ef2b7d7803660997d92b17b535b7919c0f0ac1acac59a82ccdb995919873",
+    "tab-workload-gdi-bottom-observed.json": "485b7962d5227e9b498953daf4871ffb61a7e0b706ec6bc7fbc1c0ab3c94d764",
+    "tab-workload-opengl-right-observed.json": "8cdfa388585df9327e06043bd3ba3da53fc370f46f0fc5a532c8d20a1040dc50",
+    "tab-workload-directx-preview.png": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+    "tab-workload-opengl-preview.png": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+  },
+  "rejected_harness_runs": [
+    {
+      "path": "build/local-tab-workload-preview-check",
+      "reason": "Sampling stopped on a process read error; no complete peak claim.",
+      "errors": [
+        {
+          "seconds": 16.3922,
+          "error": "PermissionError(13, 'Access is denied.', None, 5)"
+        }
+      ]
+    },
+    {
+      "path": "build/local-tab-workload-checkpoint",
+      "reason": "A synthetic hover with unmodified physical pointer was canceled by real leave tracking before the timer. Not a valid preview-memory gate; this probe was removed, and sustained preview-memory acceptance remains open."
+    }
+  ],
+  "limitations": [
+    "Sampled peaks at 100 ms, not an instantaneous maximum or a long-running real-agent measurement.",
+    "Region mapping queries metadata only and cannot attribute private allocations to a particular allocator or module.",
+    "GPU/preview/key instrumentation begins only after memory sampling stops; sustained hover memory and physical interaction remain unverified.",
+    "Child Python workload clients and same-image hosts are separate; sums count shared pages per process and are not physical system RAM.",
+    "DirectX private working set exceeds 20,000,000 bytes and remains a failing acceptance gate.",
+    "No local clipboard access; real-agent clipboard acceptance and remaining protocol coverage remain open."
+  ],
+  "next_action": "Attribute the additional DirectX private allocations with owned-process allocation evidence before choosing another optimization.",
+  "main_distribution": {
+    "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed",
+    "unchanged": true
+  }
+}

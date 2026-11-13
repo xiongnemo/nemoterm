@@ -208,6 +208,8 @@ ConPTY 下的长行、历史、Shift 选择复制与宽高变化；[实现与验
 50,000,000 bytes。量测记录同时列出 ConPTY 和子进程，禁止用主动清空工作集
 制造低数值。`scripts/measure-memory.ps1 -ProcessId <PID>` 可复查。
 文本与颜色图形基线已低于目标，图片、长历史与真实 agent 还需要继续验收。
+开发版本的[双标签负载采样](research/tab-workload-memory.md)中，GDI 私有工作集峰值
+约 14.78 MB，DirectX 约 29.53 MB；DirectX 尚未达到内存目标，CI 保留失败门槛。
 
 [pterm 研究报告](research/pterm-findings.md) 记录制品散列、REA 导入表、官方源码依据
 和实测内存。PuTTY 的压缩回滚、按变化绘制和原生数据结构是当前实现的基础。

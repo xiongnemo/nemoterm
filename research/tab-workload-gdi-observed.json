@@ -1,0 +1,5374 @@
+{
+  "executable_sha256": "d6a46003b58a48bc5927437af6214c5492d78273e98911da6c21dda49b5546c3",
+  "renderer": "gdi",
+  "side": "top",
+  "font": "SarasaTermSC Nerd Font Light",
+  "requested_grid": [
+    160,
+    48
+  ],
+  "dense_clusters": true,
+  "completed": true,
+  "checks": [
+    "one host with independent child terminals and native tab hit testing",
+    "12 create/close cycles retain one shared renderer without handle growth",
+    "new, close, next and previous shortcuts act through the terminal input thread",
+    "failed child process or content window creation preserves active tab and renderer",
+    "bounded hover preview refreshes background output without selecting it",
+    "synchronized pixels survive device transfer between tabs",
+    "fullscreen returns the host to its original rectangle",
+    "host resize updates both terminal grids",
+    "closing original tab preserves sibling; host close drains all processes"
+  ],
+  "memory_instrumented": false,
+  "actual_grid": [
+    160,
+    48
+  ],
+  "actual_renderer": 1,
+  "live_temporary_tabs": [
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 9871360,
+      "total_ws": 32440320,
+      "private_commit": 11997184
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 9912320,
+      "total_ws": 32579584,
+      "private_commit": 12132352
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10002432,
+      "total_ws": 32690176,
+      "private_commit": 12132352
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 9981952,
+      "total_ws": 32686080,
+      "private_commit": 12124160
+    },
+    {
+      "handles": 345,
+      "gdi": 44,
+      "user": 42,
+      "private_ws": 9867264,
+      "total_ws": 32600064,
+      "private_commit": 12115968
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 9932800,
+      "total_ws": 32686080,
+      "private_commit": 12124160
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10326016,
+      "total_ws": 33103872,
+      "private_commit": 12541952
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10276864,
+      "total_ws": 33071104,
+      "private_commit": 12533760
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10248192,
+      "total_ws": 33046528,
+      "private_commit": 12533760
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 42,
+      "private_ws": 10166272,
+      "total_ws": 32968704,
+      "private_commit": 12533760
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10379264,
+      "total_ws": 33198080,
+      "private_commit": 12529664
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10289152,
+      "total_ws": 33120256,
+      "private_commit": 12533760
+    },
+    {
+      "handles": 345,
+      "gdi": 43,
+      "user": 43,
+      "private_ws": 10166272,
+      "total_ws": 33001472,
+      "private_commit": 12533760
+    }
+  ],
+  "warmup": {
+    "handles": 340,
+    "gdi": 36,
+    "user": 37,
+    "private_ws": 8826880,
+    "total_ws": 31444992,
+    "private_commit": 11173888
+  },
+  "initial": {
+    "handles": 331,
+    "gdi": 29,
+    "user": 31,
+    "private_ws": 7004160,
+    "total_ws": 29192192,
+    "private_commit": 9179136
+  },
+  "two_tabs": {
+    "handles": 338,
+    "gdi": 36,
+    "user": 35,
+    "private_ws": 8794112,
+    "total_ws": 31416320,
+    "private_commit": 11173888
+  },
+  "cycles": [
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9158656,
+      "total_ws": 31825920,
+      "private_commit": 11026432
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9240576,
+      "total_ws": 31932416,
+      "private_commit": 10899456
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9224192,
+      "total_ws": 31928320,
+      "private_commit": 12062720
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9195520,
+      "total_ws": 31928320,
+      "private_commit": 10833920
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9388032,
+      "total_ws": 32141312,
+      "private_commit": 12001280
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9580544,
+      "total_ws": 32358400,
+      "private_commit": 12021760
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9506816,
+      "total_ws": 32301056,
+      "private_commit": 11493376
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9453568,
+      "total_ws": 32251904,
+      "private_commit": 11120640
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9400320,
+      "total_ws": 32206848,
+      "private_commit": 11509760
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9474048,
+      "total_ws": 32292864,
+      "private_commit": 12029952
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 37,
+      "private_ws": 9543680,
+      "total_ws": 32374784,
+      "private_commit": 12214272
+    },
+    {
+      "handles": 340,
+      "gdi": 36,
+      "user": 36,
+      "private_ws": 9400320,
+      "total_ws": 32239616,
+      "private_commit": 11567104
+    }
+  ],
+  "peak_private_ws": 14778368,
+  "memory_regions": {
+    "history-0": {
+      "private_ws": 10821632,
+      "by_kind": {
+        "private": 8941568,
+        "mapped": 69632,
+        "image": 1810432
+      },
+      "allocations": [
+        {
+          "allocation": "0x2198ecf0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2588672,
+          "regions": 2,
+          "committed_regions_with_private_pages": 2662400
+        },
+        {
+          "allocation": "0x2198cd70000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2076672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 2093056
+        },
+        {
+          "allocation": "0x21988590000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198b1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1040384,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198f9a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1028096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1150976
+        },
+        {
+          "allocation": "0x2198b080000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 520192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 958464
+        },
+        {
+          "allocation": "0xb6c66c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 212992,
+          "regions": 1,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0xb6c6800000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 118784,
+          "regions": 1,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7df5886c0000",
+          "kind": "mapped",
+          "path": null,
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 151552
+        },
+        {
+          "allocation": "0x7ffe1c690000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\D3DCompiler_47.dll",
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 741376
+        },
+        {
+          "allocation": "0x7ffe26130000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntdll.dll",
+          "private_ws": 61440,
+          "regions": 3,
+          "committed_regions_with_private_pages": 532480
+        },
+        {
+          "allocation": "0x21988810000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 57344,
+          "regions": 1,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24870000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shell32.dll",
+          "private_ws": 57344,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1196032
+        },
+        {
+          "allocation": "0x7ffe21570000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\windows.storage.dll",
+          "private_ws": 53248,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1277952
+        },
+        {
+          "allocation": "0x7ffe20bc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\DWrite.dll",
+          "private_ws": 45056,
+          "regions": 3,
+          "committed_regions_with_private_pages": 884736
+        },
+        {
+          "allocation": "0x7ffe18930000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\iertutil.dll",
+          "private_ws": 40960,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1327104
+        },
+        {
+          "allocation": "0x7ff6fcc70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence\\dist\\nemoterm.exe",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 3158016
+        },
+        {
+          "allocation": "0x7ffdec6f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\UIAutomationCore.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 851968
+        },
+        {
+          "allocation": "0x7ffe18000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\urlmon.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 258048
+        },
+        {
+          "allocation": "0x7ffe23a50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\KernelBase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1060864
+        },
+        {
+          "allocation": "0x7ffe23d50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32full.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 397312
+        },
+        {
+          "allocation": "0x7ffe23f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\crypt32.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe254b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\combase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 704512
+        },
+        {
+          "allocation": "0x2198a330000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 32768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 32768
+        },
+        {
+          "allocation": "0x7ffe07190000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\comctl32.dll",
+          "private_ws": 32768,
+          "regions": 3,
+          "committed_regions_with_private_pages": 544768
+        },
+        {
+          "allocation": "0x7ffe24260000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\comdlg32.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe24480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\clbcatq.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 180224
+        },
+        {
+          "allocation": "0x2198a1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 28672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe205f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d2d1.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 2654208
+        },
+        {
+          "allocation": "0x7ffe212c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d3d11.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 442368
+        },
+        {
+          "allocation": "0x7ffe21e80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dxgi.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 315392
+        },
+        {
+          "allocation": "0x7ffe22340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\srvcli.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24540000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel32.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24610000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcrt.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 122880
+        },
+        {
+          "allocation": "0x7ffe247c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sechost.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 159744
+        },
+        {
+          "allocation": "0x7ffdeaf40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\hhctrl.ocx",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffdee6e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cdp.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1114112
+        },
+        {
+          "allocation": "0x7ffe1eb50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+          "private_ws": 24576,
+          "regions": 2,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe221b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dsreg.dll",
+          "private_ws": 24576,
+          "regions": 5,
+          "committed_regions_with_private_pages": 565248
+        },
+        {
+          "allocation": "0x7ffe238a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp_win.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 266240
+        },
+        {
+          "allocation": "0x7ffe24140000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msctf.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 184320
+        },
+        {
+          "allocation": "0x7ffe24340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleaut32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe25940000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\user32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1077248
+        },
+        {
+          "allocation": "0x7ffe26030000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\advapi32.dll",
+          "private_ws": 24576,
+          "regions": 4,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0xb6c6f00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x21988770000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x7ffde9600000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\AppResolver.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdf2440000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TaskFlowDataEngine.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffdf5b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntshrui.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 98304
+        },
+        {
+          "allocation": "0x7ffe1c040000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextInputFramework.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0x7ffe1c330000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreUIComponents.dll",
+          "private_ws": 20480,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1544192
+        },
+        {
+          "allocation": "0x7ffe1caf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreMessaging.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffe1ded0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\propsys.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe1e010000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\WinTypes.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 348160
+        },
+        {
+          "allocation": "0x7ffe1fdd0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\uxtheme.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 204800
+        },
+        {
+          "allocation": "0x7ffe235f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sspicli.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\rpcrt4.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 176128
+        },
+        {
+          "allocation": "0x7ffe25810000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ole32.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 286720
+        },
+        {
+          "allocation": "0x7ffe25f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\SHCore.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdec280000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleacc.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0x7ffdf7aa0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe11d40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\winmm.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe1b110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\policymanager.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e920000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\apphelp.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e9c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\BCP47Langs.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7ffe22900000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntmarta.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 53248
+        },
+        {
+          "allocation": "0x7ffe22fc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\wldp.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23630000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\userenv.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23750000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cfgmgr32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 73728
+        },
+        {
+          "allocation": "0x7ffe237a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ucrtbase.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24420000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shlwapi.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe24730000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ws2_32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe25080000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0xb6c6d00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 12288,
+          "regions": 1,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffdfb390000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\linkinfo.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 24576
+        },
+        {
+          "allocation": "0x7ffdfcaf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cscapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe06410000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cabinet.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 36864
+        },
+        {
+          "allocation": "0x7ffe21e30000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel.appcore.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe220e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sppc.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe22740000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp110_win.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe23000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cryptsp.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe234d0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\umpdc.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe23680000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\profapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe23e70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcrypt.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe25480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\imm32.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 57344
+        },
+        {
+          "allocation": "0xb6c6a00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6b00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6c00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6e00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7200000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7400000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7600000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988570000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988820000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x2198a0c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x7ffdee4f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\virtdisk.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffdf6150000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\usp10.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe02720000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextShaping.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 368640
+        },
+        {
+          "allocation": "0x7ffe04b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\fltLib.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe22110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\slc.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffe22b80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\netutils.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe239c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcryptprimitives.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe23ea0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\win32u.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25240000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\normaliz.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0xb6c7100000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7300000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7500000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a030000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a0a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a130000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1e0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a320000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198b180000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198dfe0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198e000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198ece0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        }
+      ],
+      "scope": "VirtualQueryEx metadata for resident private pages only; no process memory bytes read. Shared pages and nonresident-only regions are excluded."
+    },
+    "history-1": {
+      "private_ws": 11767808,
+      "by_kind": {
+        "private": 9887744,
+        "mapped": 69632,
+        "image": 1810432
+      },
+      "allocations": [
+        {
+          "allocation": "0x2198ecf0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 3534848,
+          "regions": 5,
+          "committed_regions_with_private_pages": 3579904
+        },
+        {
+          "allocation": "0x2198cd70000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2076672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 2093056
+        },
+        {
+          "allocation": "0x21988590000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198b1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1040384,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198f9a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1028096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1150976
+        },
+        {
+          "allocation": "0x2198b080000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 520192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 958464
+        },
+        {
+          "allocation": "0xb6c66c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 212992,
+          "regions": 1,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0xb6c6800000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 118784,
+          "regions": 1,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7df5886c0000",
+          "kind": "mapped",
+          "path": null,
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 151552
+        },
+        {
+          "allocation": "0x7ffe1c690000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\D3DCompiler_47.dll",
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 741376
+        },
+        {
+          "allocation": "0x7ffe26130000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntdll.dll",
+          "private_ws": 61440,
+          "regions": 3,
+          "committed_regions_with_private_pages": 532480
+        },
+        {
+          "allocation": "0x21988810000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 57344,
+          "regions": 1,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24870000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shell32.dll",
+          "private_ws": 57344,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1196032
+        },
+        {
+          "allocation": "0x7ffe21570000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\windows.storage.dll",
+          "private_ws": 53248,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1277952
+        },
+        {
+          "allocation": "0x7ffe20bc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\DWrite.dll",
+          "private_ws": 45056,
+          "regions": 3,
+          "committed_regions_with_private_pages": 884736
+        },
+        {
+          "allocation": "0x7ffe18930000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\iertutil.dll",
+          "private_ws": 40960,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1327104
+        },
+        {
+          "allocation": "0x7ff6fcc70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence\\dist\\nemoterm.exe",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 3158016
+        },
+        {
+          "allocation": "0x7ffdec6f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\UIAutomationCore.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 851968
+        },
+        {
+          "allocation": "0x7ffe18000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\urlmon.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 258048
+        },
+        {
+          "allocation": "0x7ffe23a50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\KernelBase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1060864
+        },
+        {
+          "allocation": "0x7ffe23d50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32full.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 397312
+        },
+        {
+          "allocation": "0x7ffe23f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\crypt32.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe254b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\combase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 704512
+        },
+        {
+          "allocation": "0x2198a330000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 32768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 32768
+        },
+        {
+          "allocation": "0x7ffe07190000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\comctl32.dll",
+          "private_ws": 32768,
+          "regions": 3,
+          "committed_regions_with_private_pages": 544768
+        },
+        {
+          "allocation": "0x7ffe24260000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\comdlg32.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe24480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\clbcatq.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 180224
+        },
+        {
+          "allocation": "0x2198a1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 28672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe205f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d2d1.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 2654208
+        },
+        {
+          "allocation": "0x7ffe212c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d3d11.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 442368
+        },
+        {
+          "allocation": "0x7ffe21e80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dxgi.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 315392
+        },
+        {
+          "allocation": "0x7ffe22340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\srvcli.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24540000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel32.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24610000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcrt.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 122880
+        },
+        {
+          "allocation": "0x7ffe247c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sechost.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 159744
+        },
+        {
+          "allocation": "0x7ffdeaf40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\hhctrl.ocx",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffdee6e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cdp.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1114112
+        },
+        {
+          "allocation": "0x7ffe1eb50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+          "private_ws": 24576,
+          "regions": 2,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe221b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dsreg.dll",
+          "private_ws": 24576,
+          "regions": 5,
+          "committed_regions_with_private_pages": 565248
+        },
+        {
+          "allocation": "0x7ffe238a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp_win.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 266240
+        },
+        {
+          "allocation": "0x7ffe24140000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msctf.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 184320
+        },
+        {
+          "allocation": "0x7ffe24340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleaut32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe25940000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\user32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1077248
+        },
+        {
+          "allocation": "0x7ffe26030000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\advapi32.dll",
+          "private_ws": 24576,
+          "regions": 4,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0xb6c6f00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x21988770000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x7ffde9600000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\AppResolver.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdf2440000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TaskFlowDataEngine.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffdf5b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntshrui.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 98304
+        },
+        {
+          "allocation": "0x7ffe1c040000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextInputFramework.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0x7ffe1c330000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreUIComponents.dll",
+          "private_ws": 20480,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1544192
+        },
+        {
+          "allocation": "0x7ffe1caf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreMessaging.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffe1ded0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\propsys.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe1e010000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\WinTypes.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 348160
+        },
+        {
+          "allocation": "0x7ffe1fdd0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\uxtheme.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 204800
+        },
+        {
+          "allocation": "0x7ffe235f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sspicli.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\rpcrt4.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 176128
+        },
+        {
+          "allocation": "0x7ffe25810000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ole32.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 286720
+        },
+        {
+          "allocation": "0x7ffe25f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\SHCore.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdec280000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleacc.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0x7ffdf7aa0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe11d40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\winmm.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe1b110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\policymanager.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e920000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\apphelp.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e9c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\BCP47Langs.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7ffe22900000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntmarta.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 53248
+        },
+        {
+          "allocation": "0x7ffe22fc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\wldp.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23630000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\userenv.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23750000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cfgmgr32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 73728
+        },
+        {
+          "allocation": "0x7ffe237a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ucrtbase.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24420000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shlwapi.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe24730000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ws2_32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe25080000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0xb6c6d00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 12288,
+          "regions": 1,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffdfb390000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\linkinfo.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 24576
+        },
+        {
+          "allocation": "0x7ffdfcaf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cscapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe06410000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cabinet.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 36864
+        },
+        {
+          "allocation": "0x7ffe21e30000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel.appcore.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe220e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sppc.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe22740000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp110_win.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe23000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cryptsp.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe234d0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\umpdc.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe23680000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\profapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe23e70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcrypt.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe25480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\imm32.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 57344
+        },
+        {
+          "allocation": "0xb6c6a00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6b00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6c00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6e00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7200000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7400000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7600000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988570000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988820000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x2198a0c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x7ffdee4f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\virtdisk.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffdf6150000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\usp10.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe02720000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextShaping.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 368640
+        },
+        {
+          "allocation": "0x7ffe04b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\fltLib.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe22110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\slc.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffe22b80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\netutils.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe239c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcryptprimitives.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe23ea0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\win32u.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25240000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\normaliz.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0xb6c7100000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7300000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7500000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a030000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a0a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a130000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1e0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a320000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198b180000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198dfe0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198e000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198ece0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        }
+      ],
+      "scope": "VirtualQueryEx metadata for resident private pages only; no process memory bytes read. Shared pages and nonresident-only regions are excluded."
+    },
+    "frame-0": {
+      "private_ws": 12898304,
+      "by_kind": {
+        "private": 11018240,
+        "mapped": 69632,
+        "image": 1810432
+      },
+      "allocations": [
+        {
+          "allocation": "0x2198ecf0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4108288,
+          "regions": 5,
+          "committed_regions_with_private_pages": 4120576
+        },
+        {
+          "allocation": "0x2198cd70000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2080768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 2093056
+        },
+        {
+          "allocation": "0x21988590000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198b1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198f9a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1028096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1150976
+        },
+        {
+          "allocation": "0x2198f0f0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 548864,
+          "regions": 1,
+          "committed_regions_with_private_pages": 552960
+        },
+        {
+          "allocation": "0x2198b080000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 520192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 958464
+        },
+        {
+          "allocation": "0xb6c66c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 212992,
+          "regions": 1,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0xb6c6800000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 118784,
+          "regions": 1,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7df5886c0000",
+          "kind": "mapped",
+          "path": null,
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 151552
+        },
+        {
+          "allocation": "0x7ffe1c690000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\D3DCompiler_47.dll",
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 741376
+        },
+        {
+          "allocation": "0x7ffe26130000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntdll.dll",
+          "private_ws": 61440,
+          "regions": 3,
+          "committed_regions_with_private_pages": 532480
+        },
+        {
+          "allocation": "0x21988810000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 57344,
+          "regions": 1,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24870000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shell32.dll",
+          "private_ws": 57344,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1196032
+        },
+        {
+          "allocation": "0x7ffe21570000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\windows.storage.dll",
+          "private_ws": 53248,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1277952
+        },
+        {
+          "allocation": "0x7ffe20bc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\DWrite.dll",
+          "private_ws": 45056,
+          "regions": 3,
+          "committed_regions_with_private_pages": 884736
+        },
+        {
+          "allocation": "0x7ffe18930000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\iertutil.dll",
+          "private_ws": 40960,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1327104
+        },
+        {
+          "allocation": "0x7ff6fcc70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence\\dist\\nemoterm.exe",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 3158016
+        },
+        {
+          "allocation": "0x7ffdec6f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\UIAutomationCore.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 851968
+        },
+        {
+          "allocation": "0x7ffe18000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\urlmon.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 258048
+        },
+        {
+          "allocation": "0x7ffe23a50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\KernelBase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1060864
+        },
+        {
+          "allocation": "0x7ffe23d50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32full.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 397312
+        },
+        {
+          "allocation": "0x7ffe23f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\crypt32.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe254b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\combase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 704512
+        },
+        {
+          "allocation": "0x2198a330000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 32768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 32768
+        },
+        {
+          "allocation": "0x7ffe07190000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\comctl32.dll",
+          "private_ws": 32768,
+          "regions": 3,
+          "committed_regions_with_private_pages": 544768
+        },
+        {
+          "allocation": "0x7ffe24260000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\comdlg32.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe24480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\clbcatq.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 180224
+        },
+        {
+          "allocation": "0x2198a1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 28672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe205f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d2d1.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 2654208
+        },
+        {
+          "allocation": "0x7ffe212c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d3d11.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 442368
+        },
+        {
+          "allocation": "0x7ffe21e80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dxgi.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 315392
+        },
+        {
+          "allocation": "0x7ffe22340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\srvcli.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24540000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel32.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24610000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcrt.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 122880
+        },
+        {
+          "allocation": "0x7ffe247c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sechost.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 159744
+        },
+        {
+          "allocation": "0x7ffdeaf40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\hhctrl.ocx",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffdee6e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cdp.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1114112
+        },
+        {
+          "allocation": "0x7ffe1eb50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+          "private_ws": 24576,
+          "regions": 2,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe221b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dsreg.dll",
+          "private_ws": 24576,
+          "regions": 5,
+          "committed_regions_with_private_pages": 565248
+        },
+        {
+          "allocation": "0x7ffe238a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp_win.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 266240
+        },
+        {
+          "allocation": "0x7ffe24140000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msctf.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 184320
+        },
+        {
+          "allocation": "0x7ffe24340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleaut32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe25940000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\user32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1077248
+        },
+        {
+          "allocation": "0x7ffe26030000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\advapi32.dll",
+          "private_ws": 24576,
+          "regions": 4,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0xb6c6f00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x21988770000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x7ffde9600000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\AppResolver.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdf2440000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TaskFlowDataEngine.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffdf5b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntshrui.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 98304
+        },
+        {
+          "allocation": "0x7ffe1c040000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextInputFramework.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0x7ffe1c330000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreUIComponents.dll",
+          "private_ws": 20480,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1544192
+        },
+        {
+          "allocation": "0x7ffe1caf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreMessaging.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffe1ded0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\propsys.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe1e010000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\WinTypes.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 348160
+        },
+        {
+          "allocation": "0x7ffe1fdd0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\uxtheme.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 204800
+        },
+        {
+          "allocation": "0x7ffe235f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sspicli.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\rpcrt4.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 176128
+        },
+        {
+          "allocation": "0x7ffe25810000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ole32.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 286720
+        },
+        {
+          "allocation": "0x7ffe25f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\SHCore.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdec280000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleacc.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0x7ffdf7aa0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe11d40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\winmm.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe1b110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\policymanager.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e920000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\apphelp.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e9c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\BCP47Langs.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7ffe22900000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntmarta.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 53248
+        },
+        {
+          "allocation": "0x7ffe22fc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\wldp.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23630000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\userenv.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23750000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cfgmgr32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 73728
+        },
+        {
+          "allocation": "0x7ffe237a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ucrtbase.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24420000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shlwapi.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe24730000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ws2_32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe25080000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0xb6c6d00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 12288,
+          "regions": 1,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffdfb390000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\linkinfo.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 24576
+        },
+        {
+          "allocation": "0x7ffdfcaf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cscapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe06410000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cabinet.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 36864
+        },
+        {
+          "allocation": "0x7ffe21e30000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel.appcore.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe220e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sppc.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe22740000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp110_win.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe23000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cryptsp.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe234d0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\umpdc.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe23680000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\profapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe23e70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcrypt.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe25480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\imm32.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 57344
+        },
+        {
+          "allocation": "0xb6c6a00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6b00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6c00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6e00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7200000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7400000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7600000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988570000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988820000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x2198a0c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x7ffdee4f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\virtdisk.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffdf6150000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\usp10.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe02720000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextShaping.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 368640
+        },
+        {
+          "allocation": "0x7ffe04b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\fltLib.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe22110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\slc.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffe22b80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\netutils.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe239c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcryptprimitives.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe23ea0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\win32u.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25240000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\normaliz.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0xb6c7100000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7300000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7500000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a030000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a0a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a130000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1e0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a320000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198b180000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198dfe0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198e000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198ece0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        }
+      ],
+      "scope": "VirtualQueryEx metadata for resident private pages only; no process memory bytes read. Shared pages and nonresident-only regions are excluded."
+    },
+    "frame-23": {
+      "private_ws": 13979648,
+      "by_kind": {
+        "private": 12099584,
+        "mapped": 69632,
+        "image": 1810432
+      },
+      "allocations": [
+        {
+          "allocation": "0x2198ecf0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 3874816,
+          "regions": 12,
+          "committed_regions_with_private_pages": 3911680
+        },
+        {
+          "allocation": "0x2198f0f0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2170880,
+          "regions": 7,
+          "committed_regions_with_private_pages": 2228224
+        },
+        {
+          "allocation": "0x2198cd70000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1912832,
+          "regions": 4,
+          "committed_regions_with_private_pages": 2043904
+        },
+        {
+          "allocation": "0x21988590000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198f9a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1028096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1150976
+        },
+        {
+          "allocation": "0x2198b1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 933888,
+          "regions": 4,
+          "committed_regions_with_private_pages": 933888
+        },
+        {
+          "allocation": "0x2198b080000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 520192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 958464
+        },
+        {
+          "allocation": "0xb6c66c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 212992,
+          "regions": 1,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0xb6c6800000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 110592,
+          "regions": 2,
+          "committed_regions_with_private_pages": 110592
+        },
+        {
+          "allocation": "0x7df5886c0000",
+          "kind": "mapped",
+          "path": null,
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 151552
+        },
+        {
+          "allocation": "0x7ffe1c690000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\D3DCompiler_47.dll",
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 741376
+        },
+        {
+          "allocation": "0x7ffe26130000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntdll.dll",
+          "private_ws": 61440,
+          "regions": 3,
+          "committed_regions_with_private_pages": 532480
+        },
+        {
+          "allocation": "0x21988810000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 57344,
+          "regions": 1,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24870000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shell32.dll",
+          "private_ws": 57344,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1196032
+        },
+        {
+          "allocation": "0x7ffe21570000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\windows.storage.dll",
+          "private_ws": 53248,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1277952
+        },
+        {
+          "allocation": "0x7ffe20bc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\DWrite.dll",
+          "private_ws": 45056,
+          "regions": 3,
+          "committed_regions_with_private_pages": 884736
+        },
+        {
+          "allocation": "0x7ffe18930000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\iertutil.dll",
+          "private_ws": 40960,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1327104
+        },
+        {
+          "allocation": "0x7ff6fcc70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence\\dist\\nemoterm.exe",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 3158016
+        },
+        {
+          "allocation": "0x7ffdec6f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\UIAutomationCore.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 851968
+        },
+        {
+          "allocation": "0x7ffe18000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\urlmon.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 258048
+        },
+        {
+          "allocation": "0x7ffe23a50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\KernelBase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1060864
+        },
+        {
+          "allocation": "0x7ffe23d50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32full.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 397312
+        },
+        {
+          "allocation": "0x7ffe23f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\crypt32.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe254b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\combase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 704512
+        },
+        {
+          "allocation": "0x2198a330000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 32768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 32768
+        },
+        {
+          "allocation": "0x7ffe07190000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\comctl32.dll",
+          "private_ws": 32768,
+          "regions": 3,
+          "committed_regions_with_private_pages": 544768
+        },
+        {
+          "allocation": "0x7ffe24260000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\comdlg32.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe24480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\clbcatq.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 180224
+        },
+        {
+          "allocation": "0x2198a1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 28672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe205f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d2d1.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 2654208
+        },
+        {
+          "allocation": "0x7ffe212c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d3d11.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 442368
+        },
+        {
+          "allocation": "0x7ffe21e80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dxgi.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 315392
+        },
+        {
+          "allocation": "0x7ffe22340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\srvcli.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24540000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel32.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24610000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcrt.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 122880
+        },
+        {
+          "allocation": "0x7ffe247c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sechost.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 159744
+        },
+        {
+          "allocation": "0x7ffdeaf40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\hhctrl.ocx",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffdee6e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cdp.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1114112
+        },
+        {
+          "allocation": "0x7ffe1eb50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+          "private_ws": 24576,
+          "regions": 2,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe221b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dsreg.dll",
+          "private_ws": 24576,
+          "regions": 5,
+          "committed_regions_with_private_pages": 565248
+        },
+        {
+          "allocation": "0x7ffe238a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp_win.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 266240
+        },
+        {
+          "allocation": "0x7ffe24140000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msctf.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 184320
+        },
+        {
+          "allocation": "0x7ffe24340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleaut32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe25940000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\user32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1077248
+        },
+        {
+          "allocation": "0x7ffe26030000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\advapi32.dll",
+          "private_ws": 24576,
+          "regions": 4,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x21988770000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x7ffde9600000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\AppResolver.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdf2440000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TaskFlowDataEngine.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffdf5b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntshrui.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 98304
+        },
+        {
+          "allocation": "0x7ffe1c040000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextInputFramework.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0x7ffe1c330000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreUIComponents.dll",
+          "private_ws": 20480,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1544192
+        },
+        {
+          "allocation": "0x7ffe1caf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreMessaging.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffe1ded0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\propsys.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe1e010000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\WinTypes.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 348160
+        },
+        {
+          "allocation": "0x7ffe1fdd0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\uxtheme.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 204800
+        },
+        {
+          "allocation": "0x7ffe235f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sspicli.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\rpcrt4.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 176128
+        },
+        {
+          "allocation": "0x7ffe25810000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ole32.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 286720
+        },
+        {
+          "allocation": "0x7ffe25f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\SHCore.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdec280000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleacc.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0x7ffdf7aa0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe11d40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\winmm.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe1b110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\policymanager.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e920000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\apphelp.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e9c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\BCP47Langs.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7ffe22900000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntmarta.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 53248
+        },
+        {
+          "allocation": "0x7ffe22fc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\wldp.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23630000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\userenv.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23750000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cfgmgr32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 73728
+        },
+        {
+          "allocation": "0x7ffe237a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ucrtbase.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24420000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shlwapi.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe24730000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ws2_32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe25080000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0xb6c6d00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 12288,
+          "regions": 1,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffdfb390000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\linkinfo.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 24576
+        },
+        {
+          "allocation": "0x7ffdfcaf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cscapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe06410000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cabinet.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 36864
+        },
+        {
+          "allocation": "0x7ffe21e30000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel.appcore.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe220e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sppc.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe22740000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp110_win.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe23000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cryptsp.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe234d0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\umpdc.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe23680000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\profapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe23e70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcrypt.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe25480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\imm32.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 57344
+        },
+        {
+          "allocation": "0xb6c6a00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6b00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6c00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6e00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7200000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7400000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7600000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988570000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988820000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x2198a0c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x7ffdee4f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\virtdisk.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffdf6150000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\usp10.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe02720000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextShaping.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 368640
+        },
+        {
+          "allocation": "0x7ffe04b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\fltLib.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe22110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\slc.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffe22b80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\netutils.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe239c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcryptprimitives.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe23ea0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\win32u.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25240000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\normaliz.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0xb6c7100000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7300000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7500000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a030000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a0a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a130000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1b0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1e0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a320000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198b180000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198dfe0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198e000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        }
+      ],
+      "scope": "VirtualQueryEx metadata for resident private pages only; no process memory bytes read. Shared pages and nonresident-only regions are excluded."
+    },
+    "settled": {
+      "private_ws": 13979648,
+      "by_kind": {
+        "private": 12099584,
+        "mapped": 69632,
+        "image": 1810432
+      },
+      "allocations": [
+        {
+          "allocation": "0x2198ecf0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 3874816,
+          "regions": 12,
+          "committed_regions_with_private_pages": 3911680
+        },
+        {
+          "allocation": "0x2198f0f0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 2170880,
+          "regions": 7,
+          "committed_regions_with_private_pages": 2228224
+        },
+        {
+          "allocation": "0x2198cd70000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1912832,
+          "regions": 4,
+          "committed_regions_with_private_pages": 2043904
+        },
+        {
+          "allocation": "0x21988590000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1044480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1044480
+        },
+        {
+          "allocation": "0x2198f9a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 1028096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 1150976
+        },
+        {
+          "allocation": "0x2198b1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 933888,
+          "regions": 4,
+          "committed_regions_with_private_pages": 933888
+        },
+        {
+          "allocation": "0x2198b080000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 520192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 958464
+        },
+        {
+          "allocation": "0xb6c66c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 212992,
+          "regions": 1,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0xb6c6800000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 110592,
+          "regions": 2,
+          "committed_regions_with_private_pages": 110592
+        },
+        {
+          "allocation": "0x7df5886c0000",
+          "kind": "mapped",
+          "path": null,
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 151552
+        },
+        {
+          "allocation": "0x7ffe1c690000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\D3DCompiler_47.dll",
+          "private_ws": 69632,
+          "regions": 3,
+          "committed_regions_with_private_pages": 741376
+        },
+        {
+          "allocation": "0x7ffe26130000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntdll.dll",
+          "private_ws": 61440,
+          "regions": 3,
+          "committed_regions_with_private_pages": 532480
+        },
+        {
+          "allocation": "0x21988810000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 57344,
+          "regions": 1,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24870000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shell32.dll",
+          "private_ws": 57344,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1196032
+        },
+        {
+          "allocation": "0x7ffe21570000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\windows.storage.dll",
+          "private_ws": 53248,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1277952
+        },
+        {
+          "allocation": "0x7ffe20bc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\DWrite.dll",
+          "private_ws": 45056,
+          "regions": 3,
+          "committed_regions_with_private_pages": 884736
+        },
+        {
+          "allocation": "0x7ffe18930000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\iertutil.dll",
+          "private_ws": 40960,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1327104
+        },
+        {
+          "allocation": "0x7ff6fcc70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\build\\local-tab-workload-evidence\\dist\\nemoterm.exe",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 3158016
+        },
+        {
+          "allocation": "0x7ffdec6f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\UIAutomationCore.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 851968
+        },
+        {
+          "allocation": "0x7ffe18000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\urlmon.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 258048
+        },
+        {
+          "allocation": "0x7ffe23a50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\KernelBase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1060864
+        },
+        {
+          "allocation": "0x7ffe23d50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32full.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 397312
+        },
+        {
+          "allocation": "0x7ffe23f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\crypt32.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe254b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\combase.dll",
+          "private_ws": 36864,
+          "regions": 3,
+          "committed_regions_with_private_pages": 704512
+        },
+        {
+          "allocation": "0x2198a330000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 32768,
+          "regions": 1,
+          "committed_regions_with_private_pages": 32768
+        },
+        {
+          "allocation": "0x7ffe07190000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.7802_none_60b401cf71fa5b8a\\comctl32.dll",
+          "private_ws": 32768,
+          "regions": 3,
+          "committed_regions_with_private_pages": 544768
+        },
+        {
+          "allocation": "0x7ffe24260000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\comdlg32.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe24480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\clbcatq.dll",
+          "private_ws": 32768,
+          "regions": 4,
+          "committed_regions_with_private_pages": 180224
+        },
+        {
+          "allocation": "0x2198a1d0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 28672,
+          "regions": 1,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe205f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d2d1.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 2654208
+        },
+        {
+          "allocation": "0x7ffe212c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\d3d11.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 442368
+        },
+        {
+          "allocation": "0x7ffe21e80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dxgi.dll",
+          "private_ws": 28672,
+          "regions": 4,
+          "committed_regions_with_private_pages": 315392
+        },
+        {
+          "allocation": "0x7ffe22340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\srvcli.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 61440
+        },
+        {
+          "allocation": "0x7ffe24540000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel32.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24610000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcrt.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 122880
+        },
+        {
+          "allocation": "0x7ffe247c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sechost.dll",
+          "private_ws": 28672,
+          "regions": 3,
+          "committed_regions_with_private_pages": 159744
+        },
+        {
+          "allocation": "0x7ffdeaf40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\hhctrl.ocx",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffdee6e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cdp.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1114112
+        },
+        {
+          "allocation": "0x7ffe1eb50000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.7291_none_792d678f2443dbb3\\comctl32.dll",
+          "private_ws": 24576,
+          "regions": 2,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe221b0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\dsreg.dll",
+          "private_ws": 24576,
+          "regions": 5,
+          "committed_regions_with_private_pages": 565248
+        },
+        {
+          "allocation": "0x7ffe238a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp_win.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 266240
+        },
+        {
+          "allocation": "0x7ffe24140000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msctf.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 184320
+        },
+        {
+          "allocation": "0x7ffe24340000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleaut32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe25940000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\user32.dll",
+          "private_ws": 24576,
+          "regions": 3,
+          "committed_regions_with_private_pages": 1077248
+        },
+        {
+          "allocation": "0x7ffe26030000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\advapi32.dll",
+          "private_ws": 24576,
+          "regions": 4,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x21988770000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 20480,
+          "regions": 1,
+          "committed_regions_with_private_pages": 20480
+        },
+        {
+          "allocation": "0x7ffde9600000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\AppResolver.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdf2440000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TaskFlowDataEngine.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffdf5b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntshrui.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 98304
+        },
+        {
+          "allocation": "0x7ffe1c040000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextInputFramework.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 212992
+        },
+        {
+          "allocation": "0x7ffe1c330000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreUIComponents.dll",
+          "private_ws": 20480,
+          "regions": 4,
+          "committed_regions_with_private_pages": 1544192
+        },
+        {
+          "allocation": "0x7ffe1caf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\CoreMessaging.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 319488
+        },
+        {
+          "allocation": "0x7ffe1ded0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\propsys.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe1e010000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\WinTypes.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 348160
+        },
+        {
+          "allocation": "0x7ffe1fdd0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\uxtheme.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 204800
+        },
+        {
+          "allocation": "0x7ffe235f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sspicli.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\rpcrt4.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 176128
+        },
+        {
+          "allocation": "0x7ffe25810000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ole32.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 286720
+        },
+        {
+          "allocation": "0x7ffe25f80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\SHCore.dll",
+          "private_ws": 20480,
+          "regions": 3,
+          "committed_regions_with_private_pages": 139264
+        },
+        {
+          "allocation": "0x7ffdec280000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\oleacc.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0x7ffdf7aa0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\OneCoreCommonProxyStub.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 192512
+        },
+        {
+          "allocation": "0x7ffe11d40000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\winmm.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 69632
+        },
+        {
+          "allocation": "0x7ffe1b110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\policymanager.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e920000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\apphelp.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 147456
+        },
+        {
+          "allocation": "0x7ffe1e9c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\BCP47Langs.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 118784
+        },
+        {
+          "allocation": "0x7ffe22900000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ntmarta.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 53248
+        },
+        {
+          "allocation": "0x7ffe22fc0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\wldp.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23630000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\userenv.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe23750000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cfgmgr32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 73728
+        },
+        {
+          "allocation": "0x7ffe237a0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ucrtbase.dll",
+          "private_ws": 16384,
+          "regions": 2,
+          "committed_regions_with_private_pages": 233472
+        },
+        {
+          "allocation": "0x7ffe24420000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\shlwapi.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe24730000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\ws2_32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 143360
+        },
+        {
+          "allocation": "0x7ffe25080000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\gdi32.dll",
+          "private_ws": 16384,
+          "regions": 3,
+          "committed_regions_with_private_pages": 102400
+        },
+        {
+          "allocation": "0xb6c6d00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 12288,
+          "regions": 1,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffdfb390000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\linkinfo.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 24576
+        },
+        {
+          "allocation": "0x7ffdfcaf0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cscapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe06410000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cabinet.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 36864
+        },
+        {
+          "allocation": "0x7ffe21e30000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\kernel.appcore.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe220e0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\sppc.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe22740000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\msvcp110_win.dll",
+          "private_ws": 12288,
+          "regions": 2,
+          "committed_regions_with_private_pages": 221184
+        },
+        {
+          "allocation": "0x7ffe23000000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\cryptsp.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe234d0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\umpdc.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 28672
+        },
+        {
+          "allocation": "0x7ffe23680000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\profapi.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 49152
+        },
+        {
+          "allocation": "0x7ffe23e70000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcrypt.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 40960
+        },
+        {
+          "allocation": "0x7ffe25480000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\imm32.dll",
+          "private_ws": 12288,
+          "regions": 3,
+          "committed_regions_with_private_pages": 57344
+        },
+        {
+          "allocation": "0xb6c6a00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6b00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6c00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c6e00000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7200000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7400000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0xb6c7600000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988570000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x21988820000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x2198a0c0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 8192,
+          "regions": 1,
+          "committed_regions_with_private_pages": 8192
+        },
+        {
+          "allocation": "0x7ffdee4f0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\virtdisk.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffdf6150000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\usp10.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe02720000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\TextShaping.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 368640
+        },
+        {
+          "allocation": "0x7ffe04b00000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\fltLib.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe22110000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\slc.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0x7ffe22b80000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\netutils.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 12288
+        },
+        {
+          "allocation": "0x7ffe239c0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\bcryptprimitives.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 86016
+        },
+        {
+          "allocation": "0x7ffe23ea0000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\win32u.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 65536
+        },
+        {
+          "allocation": "0x7ffe25240000",
+          "kind": "image",
+          "path": "\\Device\\HarddiskVolume5\\Windows\\System32\\normaliz.dll",
+          "private_ws": 8192,
+          "regions": 2,
+          "committed_regions_with_private_pages": 16384
+        },
+        {
+          "allocation": "0xb6c7100000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7300000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0xb6c7500000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a030000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a0a0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a130000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1b0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a1e0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198a320000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198b180000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198dfe0000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        },
+        {
+          "allocation": "0x2198e000000",
+          "kind": "private",
+          "path": null,
+          "private_ws": 4096,
+          "regions": 1,
+          "committed_regions_with_private_pages": 4096
+        }
+      ],
+      "scope": "VirtualQueryEx metadata for resident private pages only; no process memory bytes read. Shared pages and nonresident-only regions are excluded."
+    }
+  },
+  "workload": {
+    "history_lines_per_tab": 4096,
+    "history_limit": 2000,
+    "redraw_frames": 24,
+    "resize_transitions": 24,
+    "samples": [
+      {
+        "phase": "history-0",
+        "handles": 338,
+        "gdi": 36,
+        "user": 35,
+        "private_ws": 10821632,
+        "total_ws": 33697792,
+        "private_commit": 12873728
+      },
+      {
+        "phase": "history-1",
+        "handles": 338,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 11767808,
+        "total_ws": 34643968,
+        "private_commit": 13807616
+      },
+      {
+        "phase": "frame-0",
+        "handles": 338,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 12898304,
+        "total_ws": 35778560,
+        "private_commit": 14901248
+      },
+      {
+        "phase": "frame-1",
+        "handles": 338,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 13889536,
+        "total_ws": 36769792,
+        "private_commit": 15994880
+      },
+      {
+        "phase": "frame-2",
+        "handles": 338,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 13627392,
+        "total_ws": 36507648,
+        "private_commit": 15720448
+      },
+      {
+        "phase": "frame-3",
+        "handles": 338,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 14114816,
+        "total_ws": 36995072,
+        "private_commit": 16400384
+      },
+      {
+        "phase": "frame-4",
+        "handles": 340,
+        "gdi": 36,
+        "user": 34,
+        "private_ws": 13668352,
+        "total_ws": 36536320,
+        "private_commit": 15863808
+      },
+      {
+        "phase": "frame-5",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14041088,
+        "total_ws": 36925440,
+        "private_commit": 16494592
+      },
+      {
+        "phase": "frame-6",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13721600,
+        "total_ws": 36605952,
+        "private_commit": 15986688
+      },
+      {
+        "phase": "frame-7",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14282752,
+        "total_ws": 37167104,
+        "private_commit": 16388096
+      },
+      {
+        "phase": "frame-8",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13737984,
+        "total_ws": 36622336,
+        "private_commit": 16068608
+      },
+      {
+        "phase": "frame-9",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13910016,
+        "total_ws": 36798464,
+        "private_commit": 16179200
+      },
+      {
+        "phase": "frame-10",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13529088,
+        "total_ws": 36417536,
+        "private_commit": 15536128
+      },
+      {
+        "phase": "frame-11",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14127104,
+        "total_ws": 37015552,
+        "private_commit": 16498688
+      },
+      {
+        "phase": "frame-12",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13324288,
+        "total_ws": 36212736,
+        "private_commit": 15339520
+      },
+      {
+        "phase": "frame-13",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13701120,
+        "total_ws": 36589568,
+        "private_commit": 15761408
+      },
+      {
+        "phase": "frame-14",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13467648,
+        "total_ws": 36360192,
+        "private_commit": 15474688
+      },
+      {
+        "phase": "frame-15",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13934592,
+        "total_ws": 36827136,
+        "private_commit": 16248832
+      },
+      {
+        "phase": "frame-16",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14106624,
+        "total_ws": 36999168,
+        "private_commit": 16277504
+      },
+      {
+        "phase": "frame-17",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13836288,
+        "total_ws": 36728832,
+        "private_commit": 15945728
+      },
+      {
+        "phase": "frame-18",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13975552,
+        "total_ws": 36868096,
+        "private_commit": 16039936
+      },
+      {
+        "phase": "frame-19",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13721600,
+        "total_ws": 36614144,
+        "private_commit": 15777792
+      },
+      {
+        "phase": "frame-20",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14184448,
+        "total_ws": 37076992,
+        "private_commit": 16642048
+      },
+      {
+        "phase": "frame-21",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14184448,
+        "total_ws": 37076992,
+        "private_commit": 16670720
+      },
+      {
+        "phase": "frame-22",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 14237696,
+        "total_ws": 37130240,
+        "private_commit": 16723968
+      },
+      {
+        "phase": "frame-23",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13979648,
+        "total_ws": 36872192,
+        "private_commit": 16195584
+      },
+      {
+        "phase": "settled",
+        "handles": 332,
+        "gdi": 36,
+        "user": 33,
+        "private_ws": 13979648,
+        "total_ws": 36872192,
+        "private_commit": 16195584
+      }
+    ]
+  },
+  "process_tree_memory": {
+    "interval_seconds": 0.1,
+    "sample_count": 451,
+    "seconds": 48.785,
+    "errors": [],
+    "exited_during_sample": [],
+    "injected": false,
+    "peaks": {
+      "frontend": {
+        "count": 1,
+        "private_ws": 14778368,
+        "total_ws": 37662720,
+        "private_commit": 16928768
+      },
+      "hosts": {
+        "count": 3,
+        "private_ws": 7086080,
+        "total_ws": 33906688,
+        "private_commit": 10444800
+      },
+      "clients": {
+        "count": 3,
+        "private_ws": 27082752,
+        "total_ws": 53964800,
+        "private_commit": 33599488
+      },
+      "all": {
+        "count": 7,
+        "private_ws": 43130880,
+        "total_ws": 120340480,
+        "private_commit": 54652928
+      }
+    },
+    "scope": "Synthetic dense text, bounded scrollback, links, images, tab lifetime and resize; not a real agent or physical hover acceptance.",
+    "totals_note": "Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold."
+  },
+  "memory_limit_required": true,
+  "memory_limit_passed": true,
+  "pixel_capture_instrumented": true,
+  "rapid_shell_closes": [
+    {
+      "total": 33,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 35,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 37,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 39,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 41,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 43,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 45,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 47,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 49,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 51,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 53,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 55,
+      "active": 5,
+      "terminated": 0
+    }
+  ],
+  "closing_shell_attempt": 11,
+  "first_tab_close": {
+    "frontend_exit": null,
+    "sibling_alive": true
+  },
+  "owned_job_cleanup": {
+    "before": {
+      "total": 56,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 56,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  }
+}

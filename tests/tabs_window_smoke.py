@@ -12,8 +12,11 @@ parser.add_argument('--font',default='Consolas' if os.environ.get('CI')=='true' 
 parser.add_argument('--cols',type=int,default=160)
 parser.add_argument('--rows',type=int,default=48)
 parser.add_argument('--dense-clusters',action='store_true')
+parser.add_argument('--workload-memory',action='store_true',
+                    help='sample the full process tree during dense history and resize before instrumentation')
 args=parser.parse_args()
-prefix='cluster-tabs' if args.dense_clusters else 'tabs'
+if args.workload_memory:args.dense_clusters=True
+prefix='workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -56,15 +59,19 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
         winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
+    if args.workload_memory:winreg.SetValueEx(key,'ScrollbackLines',0,winreg.REG_DWORD,2000)
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
-        tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None
+        tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None
         process=job.spawn([str(exe),'-load',profile,'--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)
         try:
+            if args.workload_memory:
+                from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
+                memory_sampler=TabMemorySampler(process.pid,exe)
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
             def new_child(before):
                 def launch():
@@ -112,6 +119,11 @@ try:
                 for visible_hwnd in windows(process.pid,'Nemoterm',host,True):
                     u.RedrawWindow(visible_hwnd,None,None,0x185)
                 count=w.DWORD();assert k.GetProcessHandleCount(handle,c.byref(count))
+                if memory_sampler and os.environ.get('NEMOTERM_TEST_MEMORY_REGIONS')=='1':
+                    phase=memory_sampler.phase
+                    if phase in ('history-0','history-1','frame-0','frame-23','settled'):
+                        from working_set_regions import private_regions
+                        evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
                 return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),**memory_sample(handle))
             first=new_child([])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
@@ -158,8 +170,23 @@ try:
             evidence['checks'].append('12 create/close cycles retain one shared renderer without handle growth')
             memory_observations=[initial,baseline]+evidence['cycles']+evidence['live_temporary_tabs']
             evidence['peak_private_ws']=max(v['private_ws'] for v in memory_observations)
-            if actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1'):
+            if not args.workload_memory and (actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1')):
                 assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
+            if args.workload_memory:
+                evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene)
+                memory=memory_sampler.stop();memory_sampler=None
+                memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
+                memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')
+                assert not memory['errors'],memory['errors']
+                assert memory['sample_count']>=20,memory['sample_count']
+                stable=[s for s in memory['samples'] if s['phase']!='startup']
+                assert stable and all(s['groups']['frontend']['count']==1 and
+                    s['groups']['hosts']['count']==2 and s['groups']['clients']['count']==2
+                    for s in stable),'Stable two-tab workload omitted an owned process'
+                evidence['process_tree_memory']={k:v for k,v in memory.items() if k!='samples'}
+                evidence['peak_private_ws']=max(evidence['peak_private_ws'],memory['peaks']['frontend']['private_ws'])
+                evidence['memory_limit_required']=actual in (1,3)
+                evidence['memory_limit_passed']=evidence['peak_private_ws']<20_000_000
             if args.dense_clusters:
                 dense_memory_phase=False
                 output(first,scene('TAB ONE','80;20;20'));output(second,scene('TAB TWO','20;70;20'))
@@ -257,8 +284,13 @@ try:
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['checks'].append('closing original tab preserves sibling; host close drains all processes')
+            if args.workload_memory and evidence['memory_limit_required']:
+                assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             evidence['completed']=True
         finally:
+            if memory_sampler:
+                memory=memory_sampler.stop()
+                (root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json').write_text(json.dumps(memory,indent=2),encoding='utf-8')
             if hover_session:hover_session.detach()
             for capture_helper in captures:capture_helper.close()
             if handle:k.CloseHandle(handle)

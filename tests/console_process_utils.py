@@ -12,6 +12,7 @@ k.Process32FirstW.argtypes = k.Process32NextW.argtypes = [w.HANDLE, c.POINTER(Pr
 k.QueryFullProcessImageNameW.argtypes = [w.HANDLE, w.DWORD, w.LPWSTR, c.POINTER(w.DWORD)]
 k.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
 k.GetProcessTimes.argtypes = [w.HANDLE] + [c.POINTER(w.FILETIME)] * 4
+k.WaitForSingleObject.argtypes, k.WaitForSingleObject.restype = [w.HANDLE,w.DWORD],w.DWORD
 
 def creation_time(handle):
     times = [w.FILETIME() for _ in range(4)]
@@ -31,7 +32,22 @@ def descendant_pids(rows, root_pid, started):
             return selected
         selected |= more
 
-def owned_processes(root_pid):
+def sample_process_memory(handle, pid, exited=None):
+    try:
+        return memory_sample(handle)
+    except OSError as error:
+        # A retained process handle is the identity and termination proof. Do
+        # not turn a permission/read failure on a live process into zero bytes.
+        if exited is None or k.WaitForSingleObject(handle,0) != 0:
+            raise
+        status=w.DWORD()
+        known=k.GetExitCodeProcess(handle,c.byref(status))
+        exited.append(dict(pid=pid, signaled=True, exit_code=status.value if known else None,
+                           error=repr(error)))
+        return None
+
+
+def owned_processes(root_pid, exited=None):
     snapshot = k.CreateToolhelp32Snapshot(2, 0)
     assert snapshot not in (None, c.c_void_p(-1).value)
     rows = {}
@@ -58,7 +74,7 @@ def owned_processes(root_pid):
     result = []
     for pid in selected:
         if pid not in rows: continue
-        handle = k.OpenProcess(0x410, False, pid)
+        handle = k.OpenProcess(0x100410 if exited is not None else 0x410, False, pid)
         if not handle: continue
         try:
             if creation_time(handle) != created[pid]:
@@ -66,8 +82,10 @@ def owned_processes(root_pid):
             name, size = c.create_unicode_buffer(32768), w.DWORD(32768)
             if not k.QueryFullProcessImageNameW(handle, 0, name, c.byref(size)):
                 continue
-            result.append(dict(pid=pid, parent=rows[pid][0], path=name.value,
-                               memory=memory_sample(handle)))
+            memory=sample_process_memory(handle,pid,exited)
+            if memory is not None:
+                result.append(dict(pid=pid, parent=rows[pid][0], path=name.value,
+                                   memory=memory))
         finally:
             k.CloseHandle(handle)
     return result

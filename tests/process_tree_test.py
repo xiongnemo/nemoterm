@@ -1,6 +1,8 @@
 """Process ancestry must account for historical parent-PID reuse. No windows."""
 import unittest
+from unittest.mock import patch
 from console_process_utils import descendant_pids
+import console_process_utils as process_utils
 
 class ProcessIdentityTests(unittest.TestCase):
     def test_recycled_root_pid_does_not_claim_old_services(self):
@@ -25,6 +27,28 @@ class ProcessIdentityTests(unittest.TestCase):
         rows = {12:(11,'shell'), 11:(10,'host'), 10:(1,'terminal')}
         self.assertEqual(descendant_pids(rows, 10, {10:100,11:100,12:101}.get),
                          {10,11,12})
+
+    def test_memory_read_failure_of_signaled_process_is_recorded(self):
+        exited=[]
+        def status(handle,pointer):
+            pointer._obj.value=0
+            return 1
+        with patch.object(process_utils,'memory_sample',side_effect=PermissionError('closed')), \
+             patch.object(process_utils.k,'WaitForSingleObject',return_value=0), \
+             patch.object(process_utils.k,'GetExitCodeProcess',status):
+            self.assertIsNone(process_utils.sample_process_memory(123,45,exited))
+        self.assertEqual(exited[0]['pid'],45)
+        self.assertTrue(exited[0]['signaled'])
+        self.assertEqual(exited[0]['exit_code'],0)
+
+    def test_live_or_unverifiable_process_read_failure_still_fails(self):
+        for result in (258,0xffffffff):  # WAIT_TIMEOUT, WAIT_FAILED
+            exited=[]
+            with patch.object(process_utils,'memory_sample',side_effect=PermissionError('denied')), \
+                 patch.object(process_utils.k,'WaitForSingleObject',return_value=result):
+                with self.assertRaises(PermissionError):
+                    process_utils.sample_process_memory(123,45,exited)
+            self.assertEqual(exited,[])
 
 if __name__ == '__main__':
     unittest.main()

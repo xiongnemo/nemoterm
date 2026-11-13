@@ -1,5 +1,16 @@
 # Nemoterm requirements and evidence ledger
 
+## Latest memory checkpoint (2026-11-13)
+
+The [two-tab workload record](../research/tab-workload-memory.md) adds continuous
+frontend/host/client sampling during history, links, dense text, images and
+resize. GDI passes that bounded workload at 14,778,368 private working-set bytes;
+actual DirectX fails at 29,532,160 bytes. Both complete the tab functional checks
+and natural owned-job cleanup. No product optimization is claimed: two attempted
+DirectX changes were reverted after failing the same threshold. CI now retains
+this longer workload gate. Sustained hover memory, real-agent/clipboard and
+full-goal acceptance remain open.
+
 The complete user goal remains active. This is a native terminal project based on the
 MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implements all protocols.
 
