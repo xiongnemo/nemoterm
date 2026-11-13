@@ -61,7 +61,11 @@ RTL glyph fallback, bounded bidi/layout caches, and a persisted startup width
 preference. These are not yet part of a newly accepted single-image artifact.
 See `research/graphemes.md`, `research/rtl-font-fallback.md`, and
 `research/grapheme-settings.md` for exact source/artifact identities, native
-results and outstanding acceptance. New GitHub jobs are currently prevented
+results and outstanding acceptance. A newer local MSVC single image now covers
+those changes, and selected Windows PowerShell launches also correct inherited
+PowerShell 7 module paths. See `research/local-msvc-single-exe.md` for the two
+exact artifact identities, compiler/native checks and remaining CI requirements.
+New GitHub jobs are currently prevented
 from starting by account billing/spending limits. Historical checkpoints below
 describe their own commits, not a current declaration that all listed work is
 finished or still missing.

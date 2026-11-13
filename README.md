@@ -18,6 +18,8 @@ GitHub Actions 会从源码构建单文件版本，运行隔离目录中的原�
 单文件版本已在本机 Windows 10 19044 和 CI Windows Server 2025 验证。
 下载 CI 产物即可使用；源码构建需要 Python、Git 子模块、CMake/Ninja、NuGet 和
 Visual Studio 2026 x64 开发者 shell。MinGW 对照构建仍使用 `scripts/build.ps1 -Tests`。
+最新开发分支也已在本机用 MSVC 构建合并后的单文件；
+[构建身份、测试范围和待完成验收](research/local-msvc-single-exe.md)。
 
 ```powershell
 git submodule update --init

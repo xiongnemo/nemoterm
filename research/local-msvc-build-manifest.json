@@ -1,0 +1,285 @@
+{
+  "source_commit": "800be22e8f80aca17d9b0d4c0bc066773c747485",
+  "microsoft_terminal_commit": "f6de9e0618015def1c9dda5b82f9d3abf03eb799",
+  "compiler": "MSVC 19.44.35230 for x64",
+  "msbuild": "17.14.60.43110",
+  "windows_sdk_package": "Microsoft.Windows.SDK.CPP and .x64 10.0.26100.6584",
+  "windows_sdk_target": "10.0.26100.0",
+  "nuget": "6.14.0.116",
+  "vcpkg_commit": "927f62e4b8838bd7e441e9c45103a16ffd75007e",
+  "native_dependencies": {
+    "fmt": "12.1.0",
+    "ms-gsl": "4.2.2",
+    "Microsoft.Windows.ImplementationLibrary": "1.0.250325.1"
+  },
+  "tools": [
+    {
+      "path": "build/local-msvc/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+      "bytes": 677736,
+      "sha256": "e87e78b3ef6580b75aebda843f8a22e874612d9f766344046551399f898eb226",
+      "file_version": "19.44.35230.0",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "path": "build/local-msvc/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe",
+      "bytes": 3252616,
+      "sha256": "49a5df25c3182a22684375b1d62a025016deffccea247894fe5ca2c85610c6a6",
+      "file_version": "14.44.35230.0",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "path": "build/local-msvc/vs/MSBuild/Current/Bin/amd64/MSBuild.exe",
+      "bytes": 435504,
+      "sha256": "7da5f86d7dfa627c4071edc9563fda7ace7ec0aaadd8b2aaccb92d2a823535c0",
+      "file_version": "17.14.60.43110",
+      "signature_status": "Valid",
+      "signer": "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "path": "build/local-msvc/nuget.exe",
+      "bytes": 8974384,
+      "sha256": "92dbed160ddee0f64b901e907439e021211b428e57c089ecc12fc38dcc4bd9a5",
+      "file_version": "6.14.0.116",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "path": "build/local-msvc/vcpkg/vcpkg.exe",
+      "bytes": 6649888,
+      "sha256": "f1edbf3a39de350e2bb065214fdc057111aa87a2e2ed9a7dcb8ddc86e17751b9",
+      "file_version": null,
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "path": "build/local-msvc/packages/Microsoft.Windows.SDK.CPP.10.0.26100.6584/c/bin/10.0.26100.0/x64/rc.exe",
+      "bytes": 55680,
+      "sha256": "d7cbb732f44216a2a6c6e2dc97c23778c1d8917258e51756a87d5e37e99fb9ef",
+      "file_version": "10.0.26100.6584 (WinBuild.160101.0800)",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    }
+  ],
+  "vs_packages": [
+    {
+      "id": "Microsoft.VisualCpp.Tools.HostX64.TargetX64",
+      "version": "14.44.35230",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/68398668-2749-47a9-a7be-0f777acfa4bf/fe796f7def7a8054f6ea1b7c476aa5be7c5cbc5b6d0a282e30427a0e3ab44eeb/Microsoft.VisualCpp.Tools.HostX64.TargetX64.vsix",
+      "sha256": "fe796f7def7a8054f6ea1b7c476aa5be7c5cbc5b6d0a282e30427a0e3ab44eeb",
+      "actual_bytes": 10989
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.Tools.HostX64.TargetX64.base",
+      "version": "14.44.35230",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/68398668-2749-47a9-a7be-0f777acfa4bf/fb0eb9097fcac86ae264917fa543aecb6ab88c6656f29d912de56bfde802c541/Microsoft.VC.14.44.17.14.Tools.HostX64.TargetX64.base.vsix",
+      "sha256": "fb0eb9097fcac86ae264917fa543aecb6ab88c6656f29d912de56bfde802c541",
+      "actual_bytes": 26606933
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.Tools.HostX64.TargetX64.Res.base",
+      "version": "14.44.35230",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/68398668-2749-47a9-a7be-0f777acfa4bf/aa79883c5534acad5f506f66a6e4f40c0a1f89b6867c3733d82583c34d7f0b30/Microsoft.VC.14.44.17.14.Tools.HostX64.TargetX64.Res.base.enu.vsix",
+      "sha256": "aa79883c5534acad5f506f66a6e4f40c0a1f89b6867c3733d82583c34d7f0b30",
+      "actual_bytes": 231727
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.CRT.Headers.base",
+      "version": "14.44.35220",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/c610cd8c-801b-44b8-a80a-82cc382aeb43/852382a9aa73502b7849c1bcadfb603ba7175c4e8b60e6aba03c7de711d4ece5/Microsoft.VC.14.44.17.14.CRT.Headers.base.vsix",
+      "sha256": "852382a9aa73502b7849c1bcadfb603ba7175c4e8b60e6aba03c7de711d4ece5",
+      "actual_bytes": 2116223
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.CRT.Headers.Resources.base",
+      "version": "14.44.35220",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/c610cd8c-801b-44b8-a80a-82cc382aeb43/7b6ead51c6d5cf775acaf50df36e89486eeea6c805c37785db6a337da20ee340/Microsoft.VC.14.44.17.14.CRT.Headers.Resources.base.enu.vsix",
+      "sha256": "7b6ead51c6d5cf775acaf50df36e89486eeea6c805c37785db6a337da20ee340",
+      "actual_bytes": 376066
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.CRT.x64.Desktop.base",
+      "version": "14.44.35226",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/67cf767c-5e71-47c2-a54a-cd5631e28942/f01f701a7bcd9587a340898c851424f6a52bb913a70c185ff0d5bf0288c5831a/Microsoft.VC.14.44.17.14.CRT.x64.Desktop.base.vsix",
+      "sha256": "f01f701a7bcd9587a340898c851424f6a52bb913a70c185ff0d5bf0288c5831a",
+      "actual_bytes": 50776097
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.CRT.x64.Store.base",
+      "version": "14.44.35226",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/67cf767c-5e71-47c2-a54a-cd5631e28942/9135b03c0df53c7a0aa9bef7230a1c2ff4263a0ee7baa7e419d034f484f6bb56/Microsoft.VC.14.44.17.14.CRT.x64.Store.base.vsix",
+      "sha256": "9135b03c0df53c7a0aa9bef7230a1c2ff4263a0ee7baa7e419d034f484f6bb56",
+      "actual_bytes": 27596908
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.ATL.Headers.base",
+      "version": "14.44.35208",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/d2fa077f-a814-4fb2-b903-1fca7658d17e/f8d375a254b6cfdbe0e7dc4fe7342d6212052068eb6394070dd932c815adb500/Microsoft.VC.14.44.17.14.ATL.Headers.base.vsix",
+      "sha256": "f8d375a254b6cfdbe0e7dc4fe7342d6212052068eb6394070dd932c815adb500",
+      "actual_bytes": 585841
+    },
+    {
+      "id": "Microsoft.VC.14.44.17.14.ATL.X64.base",
+      "version": "14.44.35208",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/d2fa077f-a814-4fb2-b903-1fca7658d17e/6dd0b7f8079c654db2b8fdaebc74900e8418b5204914a77bde93a5b01ac0998c/Microsoft.VC.14.44.17.14.ATL.X64.base.vsix",
+      "sha256": "6dd0b7f8079c654db2b8fdaebc74900e8418b5204914a77bde93a5b01ac0998c",
+      "actual_bytes": 809804
+    },
+    {
+      "id": "Microsoft.Build",
+      "version": "17.14.60.2643110",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/bd279649-2725-4d57-b2ca-20240e3fd7fa/dd60a169e94ae9a682ac1a83c2785588392114ac65164eb5605acd89ee7f2426/Microsoft.Build.vsix",
+      "sha256": "dd60a169e94ae9a682ac1a83c2785588392114ac65164eb5605acd89ee7f2426",
+      "actual_bytes": 15215102
+    },
+    {
+      "id": "Microsoft.Build.Dependencies",
+      "version": "17.14.36015.10",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/58af20f6-56e8-48a0-86d3-115fb110097b/02cf79e4335684c439d5cb5d587aec12bccb53037869c5aea93aca62a6f42a31/payload.vsix",
+      "sha256": "02cf79e4335684c439d5cb5d587aec12bccb53037869c5aea93aca62a6f42a31",
+      "actual_bytes": 2763565
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Compilers",
+      "version": "4.14.0.2642407",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/314f2ead-f595-49f4-92ec-5e69b4b24892/43af29129f225cb940aee4ea331462f68370da30d438b28c226bd6ff79914f51/Microsoft.CodeAnalysis.Compilers.x64.vsix",
+      "sha256": "43af29129f225cb940aee4ea331462f68370da30d438b28c226bd6ff79914f51",
+      "actual_bytes": 13250798
+    },
+    {
+      "id": "Microsoft.VisualStudio.VC.MSBuild.v170.Base",
+      "version": "17.14.36518.7",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/c8fc9133-40be-4412-8403-7a2525e10208/1e6e4a79da18b5fa6170be38cc3495f17c1898a80bbd2db074136835cabe3394/payload.vsix",
+      "sha256": "1e6e4a79da18b5fa6170be38cc3495f17c1898a80bbd2db074136835cabe3394",
+      "actual_bytes": 622776
+    },
+    {
+      "id": "Microsoft.VisualStudio.VC.MSBuild.v170.Base.Resources",
+      "version": "17.14.37502.0",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/a4042166-7ed1-461e-8a33-6ec856b4de62/c4a588ead42bdadc39b63dad39991febef6844ee76f22fd40a3a3513f19ea92f/payload.vsix",
+      "sha256": "c4a588ead42bdadc39b63dad39991febef6844ee76f22fd40a3a3513f19ea92f",
+      "actual_bytes": 112296
+    },
+    {
+      "id": "Microsoft.VisualStudio.VC.MSBuild.v170.X64",
+      "version": "17.14.36015.10",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/58af20f6-56e8-48a0-86d3-115fb110097b/ff449f187733d3334cd141988979f3e7c3a3cbaa504fead7b135c0460a032805/payload.vsix",
+      "sha256": "ff449f187733d3334cd141988979f3e7c3a3cbaa504fead7b135c0460a032805",
+      "actual_bytes": 13019
+    },
+    {
+      "id": "Microsoft.VisualStudio.VC.MSBuild.v170.X64.v143",
+      "version": "17.14.36015.10",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/58af20f6-56e8-48a0-86d3-115fb110097b/3b2d6b39798ac7219cfd6bf22e1ebac85cd7c2d41011d14b689108a66c03b136/payload.vsix",
+      "sha256": "3b2d6b39798ac7219cfd6bf22e1ebac85cd7c2d41011d14b689108a66c03b136",
+      "actual_bytes": 10940
+    },
+    {
+      "id": "Microsoft.VisualStudio.VC.vcvars",
+      "version": "17.14.36518.7",
+      "url": "https://download.visualstudio.microsoft.com/download/pr/c8fc9133-40be-4412-8403-7a2525e10208/b4ec9e7ca2d27ec029bd818145ad6d4bcaa8ac830ec3a284c7956f13988b3fec/payload.vsix",
+      "sha256": "b4ec9e7ca2d27ec029bd818145ad6d4bcaa8ac830ec3a284c7956f13988b3fec",
+      "actual_bytes": 20498
+    }
+  ],
+  "sdk_nuget_packages": [
+    {
+      "name": "Microsoft.Windows.SDK.CPP.10.0.26100.6584.nupkg",
+      "sha256": "5d31b38205bdd9ac761b4cb39fbbc6b7209b01c11194324afc674d7d119483a0",
+      "bytes": 160036542
+    },
+    {
+      "name": "Microsoft.Windows.SDK.CPP.x64.10.0.26100.6584.nupkg",
+      "sha256": "c29ce7a4641cb37ee32ebb8078cc65cfbabc7025076bcfba869039204b1e960d",
+      "bytes": 52245405
+    }
+  ],
+  "commands": {
+    "frontend": "cmake -S vendor/putty-0.85 -B build/frontend-single -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_C_FLAGS=\"/std:c11 /utf-8\" -DCMAKE_C_FLAGS_MINSIZEREL=\"/O1 /Ob1 /Gy /Gw\" -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=<root>/build/frontend-single -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON",
+    "host": "msbuild build/openconsole-single/src/host/exe/Host.EXE.vcxproj /m:2 /v:minimal /p:Configuration=Release /p:Platform=x64 /p:SolutionDir=<root>/build/openconsole-single/ /p:WindowsTerminalBranding=Release /p:BuildInParallel=false /p:UseEnv=true /p:PreferredToolArchitecture=x64 /p:VcpkgManifestInstall=false"
+  },
+  "catalog_note": "Official VS17 catalog downloaded over HTTPS; byte hash differed from the parent channel digest. Every selected VSIX payload matched its own catalog SHA256; compiler, linker, MSBuild, NuGet, vcpkg and resource compiler Authenticode signatures verified Valid. No EWDK was used.",
+  "catalog_sha256": "d1d8109899558618035724949673f69f8c1b5704f542a2e76f31d87e425d5710",
+  "executable_sha256": "cd654873bf56be28e65e5d357065b2d0941fb7ef5d673007f6a9c57f36a8b511",
+  "executable_bytes": 4416000,
+  "pe_dependencies": [
+    "COMDLG32.dll",
+    "api-ms-win-core-libraryloader-l1-2-0.dll",
+    "api-ms-win-core-synch-l1-1-0.dll",
+    "api-ms-win-core-heap-l1-1-0.dll",
+    "api-ms-win-core-errorhandling-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-0.dll",
+    "api-ms-win-core-localization-l1-2-0.dll",
+    "api-ms-win-core-debug-l1-1-0.dll",
+    "api-ms-win-core-handle-l1-1-0.dll",
+    "api-ms-win-core-string-l1-1-0.dll",
+    "api-ms-win-core-winrt-error-l1-1-0.dll",
+    "api-ms-win-eventing-provider-l1-1-0.dll",
+    "api-ms-win-core-processenvironment-l1-1-0.dll",
+    "api-ms-win-core-file-l1-1-0.dll",
+    "api-ms-win-core-libraryloader-l1-2-1.dll",
+    "api-ms-win-core-util-l1-1-0.dll",
+    "api-ms-win-core-sysinfo-l1-1-0.dll",
+    "api-ms-win-core-memory-l1-1-0.dll",
+    "api-ms-win-core-heap-l2-1-0.dll",
+    "api-ms-win-core-heap-obsolete-l1-1-0.dll",
+    "api-ms-win-core-largeinteger-l1-1-0.dll",
+    "api-ms-win-core-kernel32-legacy-l1-1-0.dll",
+    "api-ms-win-ntuser-sysparams-l1-1-0.dll",
+    "api-ms-win-core-com-l1-1-0.dll",
+    "api-ms-win-core-file-l1-2-2.dll",
+    "api-ms-win-core-namedpipe-l1-1-0.dll",
+    "Cabinet.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "api-ms-win-core-io-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-1.dll",
+    "api-ms-win-security-base-l1-1-0.dll",
+    "api-ms-win-core-registry-l1-1-0.dll",
+    "api-ms-win-core-registry-l2-1-0.dll",
+    "api-ms-win-core-sysinfo-l2-1-0.dll",
+    "ntdll.dll",
+    "USER32.dll",
+    "GDI32.dll",
+    "SHELL32.dll",
+    "ole32.dll",
+    "IMM32.dll",
+    "USP10.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-core-threadpool-l1-2-0.dll",
+    "ext-ms-win-uiacore-l1-1-0.dll",
+    "OLEAUT32.dll",
+    "api-ms-win-shcore-scaling-l1-1-1.dll",
+    "api-ms-win-core-shlwapi-legacy-l1-1-0.dll",
+    "ext-ms-win-uiacore-l1-1-1.dll",
+    "PROPSYS.dll",
+    "api-ms-win-shell-namespace-l1-1-0.dll",
+    "api-ms-win-core-path-l1-1-0.dll",
+    "api-ms-win-core-realtime-l1-1-0.dll",
+    "api-ms-win-core-psapi-l1-1-0.dll",
+    "api-ms-win-shcore-obsolete-l1-1-0.dll",
+    "api-ms-win-core-sidebyside-l1-1-0.dll",
+    "api-ms-win-core-rtlsupport-l1-1-0.dll",
+    "api-ms-win-core-profile-l1-1-0.dll",
+    "api-ms-win-core-interlocked-l1-1-0.dll",
+    "WINMM.dll",
+    "d2d1.dll",
+    "DWrite.dll",
+    "dxgi.dll",
+    "d3d11.dll",
+    "api-ms-win-core-synch-l1-2-1.dll",
+    "D3DCOMPILER_47.dll",
+    "api-ms-win-core-version-l1-1-0.dll",
+    "api-ms-win-core-url-l1-1-0.dll",
+    "api-ms-win-core-file-l2-1-0.dll",
+    "icu.dll"
+  ]
+}

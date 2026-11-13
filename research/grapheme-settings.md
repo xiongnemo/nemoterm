@@ -20,6 +20,11 @@ or image allocation associated with this preference.
 
 ## Local evidence
 
+The later [local MSVC single-image checkpoint](local-msvc-single-exe.md) builds
+and exercises this setting in a combined executable. The MinGW evidence below
+remains the record of the original implementation; full CI acceptance is still
+outstanding.
+
 Development frontend SHA-256:
 `c6818d59accc482a70952e4e89643ce181548a257941a3dac1af3da894c6c7d7`.
 This is the local MinGW frontend with the pinned ConPTY runtime and accepted

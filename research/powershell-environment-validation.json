@@ -1,0 +1,1310 @@
+{
+  "source_commit": "8955fb72a846ebad25b3fc834333f1dbf391573c",
+  "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+  "executable_bytes": 4417024,
+  "source_sha256_lf": {
+    "vendor/putty-0.85/windows/conpty.c": "65de64bd42bdd80cbc37e0eb96977f3dc53e91ccd3947f6c24b0a1692a1cd903",
+    "vendor/putty-0.85/windows/nemo_shell.c": "e9d68944f2885a473c1da97b2a86260461eda0c9ea489e39fd8db12ff4ab4545",
+    "vendor/putty-0.85/windows/nemo_shell.h": "85cbfd91c01490a9458e4402cc7ce796baeb64083674254f7943350447befa51",
+    "vendor/putty-0.85/windows/test/test_shell.c": "5b6cd784020f1197b61aa1cc302c9750c35c100f9484d2a5e81c1ffab84b0e93",
+    "tests/powershell_environment_window_smoke.py": "134af49c3fe2028be13d99e948ad40b65f37e60925087c5338952afef71f3942"
+  },
+  "core_compilers_passed": [
+    "MSVC 19.44.35230",
+    "MinGW GCC 16.2.0"
+  ],
+  "native_regression": {
+    "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+    "completed": true,
+    "checks": [
+      {
+        "name": "selected",
+        "rebuilt_path": true,
+        "get_file_hash_available": true,
+        "module_path": "C:\\Users\\nemo\\scoop\\modules;C:\\Users\\nemo\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+        "file_hash": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+        "sentinel": "kept"
+      },
+      {
+        "name": "saved-tabs",
+        "rebuilt_path": true,
+        "get_file_hash_available": true,
+        "module_path": "C:\\Users\\nemo\\scoop\\modules;C:\\Users\\nemo\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+        "file_hash": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+        "sentinel": "kept"
+      },
+      {
+        "name": "custom",
+        "rebuilt_path": false,
+        "get_file_hash_available": false,
+        "module_path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\Modules;C:\\Users\\nemo\\AppData\\Local\\Temp\\nemo-module-env-xp79m_g5\\custom modules \u4e2d;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+        "file_hash": "",
+        "sentinel": "kept"
+      },
+      {
+        "name": "explicit",
+        "rebuilt_path": false,
+        "get_file_hash_available": false,
+        "module_path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\Modules;C:\\Users\\nemo\\AppData\\Local\\Temp\\nemo-module-env-xp79m_g5\\custom modules \u4e2d;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+        "file_hash": "",
+        "sentinel": "kept"
+      },
+      {
+        "name": "pwsh",
+        "rebuilt_path": false,
+        "get_file_hash_available": true,
+        "module_path": "C:\\Users\\nemo\\Documents\\PowerShell\\Modules;C:\\Program Files\\PowerShell\\Modules;C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\Modules;C:\\Users\\nemo\\AppData\\Local\\Temp\\nemo-module-env-xp79m_g5\\custom modules \u4e2d;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+        "file_hash": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+        "sentinel": "kept"
+      }
+    ]
+  },
+  "before": {
+    "executable_sha256": "cd654873bf56be28e65e5d357065b2d0941fb7ef5d673007f6a9c57f36a8b511",
+    "shell": "powershell",
+    "parent_module_path": "C:\\Users\\nemo\\Documents\\PowerShell\\Modules;C:\\Program Files\\PowerShell\\Modules;c:\\users\\nemo\\scoop\\apps\\pwsh\\current\\Modules;C:\\Users\\nemo\\scoop\\modules;C:\\Users\\nemo\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "child_module_path": "C:\\Users\\nemo\\Documents\\PowerShell\\Modules;C:\\Program Files\\PowerShell\\Modules;c:\\users\\nemo\\scoop\\apps\\pwsh\\current\\Modules;C:\\Users\\nemo\\scoop\\modules;C:\\Users\\nemo\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "get_file_hash_available": false
+  },
+  "local_clipboard_tested": false,
+  "post_fix_checks": {
+    "source_commit": "8955fb72a846ebad25b3fc834333f1dbf391573c",
+    "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+    "completed": true,
+    "checks": [
+      {
+        "name": "single_exe",
+        "arguments": [],
+        "seconds": 1.38,
+        "exit_code": 0
+      },
+      {
+        "name": "shell",
+        "arguments": [],
+        "seconds": 8.17,
+        "exit_code": 0
+      },
+      {
+        "name": "startup_size",
+        "arguments": [],
+        "seconds": 0.61,
+        "exit_code": 0
+      },
+      {
+        "name": "renderer",
+        "arguments": [],
+        "seconds": 7.73,
+        "exit_code": 0
+      },
+      {
+        "name": "tabs-gdi",
+        "arguments": [
+          "--renderer",
+          "gdi",
+          "--side",
+          "top",
+          "--dense-clusters"
+        ],
+        "seconds": 21.3,
+        "exit_code": 0
+      },
+      {
+        "name": "tabs-directx",
+        "arguments": [
+          "--renderer",
+          "directx",
+          "--side",
+          "left",
+          "--dense-clusters"
+        ],
+        "seconds": 21.24,
+        "exit_code": 0
+      },
+      {
+        "name": "session_restart",
+        "arguments": [],
+        "seconds": 2.92,
+        "exit_code": 0
+      }
+    ],
+    "clipboard_tested": false
+  },
+  "post_fix_reports": {
+    "cluster-tabs-directx-left-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "renderer": "directx",
+      "side": "left",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "dense_clusters": true,
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "actual_renderer": 3,
+      "live_temporary_tabs": [
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 18984960,
+          "total_ws": 55033856,
+          "private_commit": 73408512
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19210240,
+          "total_ws": 55328768,
+          "private_commit": 73707520
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 46,
+          "private_ws": 19156992,
+          "total_ws": 55287808,
+          "private_commit": 73584640
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 46,
+          "private_ws": 19378176,
+          "total_ws": 55529472,
+          "private_commit": 73482240
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19394560,
+          "total_ws": 55574528,
+          "private_commit": 73457664
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19419136,
+          "total_ws": 55603200,
+          "private_commit": 73515008
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19423232,
+          "total_ws": 55635968,
+          "private_commit": 73388032
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19415040,
+          "total_ws": 55644160,
+          "private_commit": 73441280
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 46,
+          "private_ws": 19423232,
+          "total_ws": 55668736,
+          "private_commit": 73420800
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19439616,
+          "total_ws": 55693312,
+          "private_commit": 73449472
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 46,
+          "private_ws": 19456000,
+          "total_ws": 55730176,
+          "private_commit": 73396224
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19447808,
+          "total_ws": 55734272,
+          "private_commit": 73445376
+        },
+        {
+          "handles": 475,
+          "gdi": 44,
+          "user": 47,
+          "private_ws": 19443712,
+          "total_ws": 55738368,
+          "private_commit": 73420800
+        }
+      ],
+      "warmup": {
+        "handles": 470,
+        "gdi": 38,
+        "user": 40,
+        "private_ws": 18223104,
+        "total_ws": 54292480,
+        "private_commit": 72474624
+      },
+      "initial": {
+        "handles": 453,
+        "gdi": 30,
+        "user": 35,
+        "private_ws": 15540224,
+        "total_ws": 51249152,
+        "private_commit": 69058560
+      },
+      "two_tabs": {
+        "handles": 470,
+        "gdi": 37,
+        "user": 41,
+        "private_ws": 18223104,
+        "total_ws": 54292480,
+        "private_commit": 72474624
+      },
+      "cycles": [
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 41,
+          "private_ws": 18403328,
+          "total_ws": 54521856,
+          "private_commit": 73248768
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 41,
+          "private_ws": 18542592,
+          "total_ws": 54681600,
+          "private_commit": 72519680
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18550784,
+          "total_ws": 54706176,
+          "private_commit": 72519680
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 41,
+          "private_ws": 18657280,
+          "total_ws": 54837248,
+          "private_commit": 72679424
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 41,
+          "private_ws": 18673664,
+          "total_ws": 54861824,
+          "private_commit": 72904704
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18657280,
+          "total_ws": 54874112,
+          "private_commit": 72609792
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18649088,
+          "total_ws": 54882304,
+          "private_commit": 72540160
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18690048,
+          "total_ws": 54935552,
+          "private_commit": 72646656
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18681856,
+          "total_ws": 54943744,
+          "private_commit": 72564736
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18698240,
+          "total_ws": 54976512,
+          "private_commit": 72638464
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18706432,
+          "total_ws": 54992896,
+          "private_commit": 72593408
+        },
+        {
+          "handles": 470,
+          "gdi": 37,
+          "user": 40,
+          "private_ws": 18710528,
+          "total_ws": 55005184,
+          "private_commit": 72650752
+        }
+      ],
+      "peak_private_ws": 19456000,
+      "pixel_capture_instrumented": true,
+      "rapid_shell_closes": [
+        {
+          "total": 33,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 35,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 37,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 39,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 41,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 43,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 45,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 47,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 49,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 51,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 53,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 55,
+          "active": 5,
+          "terminated": 0
+        }
+      ],
+      "closing_shell_attempt": 11,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "owned_job_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "cluster-tabs-gdi-top-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "renderer": "gdi",
+      "side": "top",
+      "font": "SarasaTermSC Nerd Font Light",
+      "requested_grid": [
+        160,
+        48
+      ],
+      "dense_clusters": true,
+      "completed": true,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "memory_instrumented": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "actual_renderer": 1,
+      "live_temporary_tabs": [
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 9736192,
+          "total_ws": 31420416,
+          "private_commit": 11784192
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 9809920,
+          "total_ws": 31551488,
+          "private_commit": 11870208
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 9859072,
+          "total_ws": 31645696,
+          "private_commit": 12009472
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10022912,
+          "total_ws": 31838208,
+          "private_commit": 12279808
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10059776,
+          "total_ws": 31895552,
+          "private_commit": 12279808
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10203136,
+          "total_ws": 32063488,
+          "private_commit": 12406784
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10063872,
+          "total_ws": 31936512,
+          "private_commit": 12414976
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10194944,
+          "total_ws": 32079872,
+          "private_commit": 12414976
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10223616,
+          "total_ws": 32116736,
+          "private_commit": 12414976
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10158080,
+          "total_ws": 32059392,
+          "private_commit": 12410880
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10076160,
+          "total_ws": 31993856,
+          "private_commit": 12414976
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10125312,
+          "total_ws": 32051200,
+          "private_commit": 12406784
+        },
+        {
+          "handles": 339,
+          "gdi": 43,
+          "user": 43,
+          "private_ws": 10166272,
+          "total_ws": 32104448,
+          "private_commit": 12398592
+        }
+      ],
+      "warmup": {
+        "handles": 334,
+        "gdi": 36,
+        "user": 37,
+        "private_ws": 8589312,
+        "total_ws": 30298112,
+        "private_commit": 10563584
+      },
+      "initial": {
+        "handles": 325,
+        "gdi": 29,
+        "user": 31,
+        "private_ws": 6664192,
+        "total_ws": 28049408,
+        "private_commit": 8855552
+      },
+      "two_tabs": {
+        "handles": 332,
+        "gdi": 36,
+        "user": 35,
+        "private_ws": 8556544,
+        "total_ws": 30265344,
+        "private_commit": 10563584
+      },
+      "cycles": [
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 8699904,
+          "total_ws": 30453760,
+          "private_commit": 10698752
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 8753152,
+          "total_ws": 30547968,
+          "private_commit": 10768384
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9261056,
+          "total_ws": 31084544,
+          "private_commit": 11321344
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9285632,
+          "total_ws": 31125504,
+          "private_commit": 12066816
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9060352,
+          "total_ws": 30924800,
+          "private_commit": 11534336
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9293824,
+          "total_ws": 31166464,
+          "private_commit": 11526144
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9113600,
+          "total_ws": 30998528,
+          "private_commit": 12013568
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9072640,
+          "total_ws": 30965760,
+          "private_commit": 11079680
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9043968,
+          "total_ws": 30945280,
+          "private_commit": 11067392
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9330688,
+          "total_ws": 31252480,
+          "private_commit": 11321344
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9322496,
+          "total_ws": 31248384,
+          "private_commit": 11563008
+        },
+        {
+          "handles": 334,
+          "gdi": 36,
+          "user": 37,
+          "private_ws": 9400320,
+          "total_ws": 31338496,
+          "private_commit": 11542528
+        }
+      ],
+      "peak_private_ws": 10223616,
+      "pixel_capture_instrumented": true,
+      "rapid_shell_closes": [
+        {
+          "total": 33,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 35,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 37,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 39,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 41,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 43,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 45,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 47,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 49,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 51,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 53,
+          "active": 5,
+          "terminated": 0
+        },
+        {
+          "total": 55,
+          "active": 5,
+          "terminated": 0
+        }
+      ],
+      "closing_shell_attempt": 11,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "owned_job_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "renderer-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "font": "SarasaTermSC Nerd Font Light",
+      "modes": [
+        {
+          "iteration": 0,
+          "requested": 0,
+          "active": "GDI",
+          "checks": [
+            {
+              "scene": "text"
+            },
+            {
+              "scene": "sixel"
+            },
+            {
+              "scene": "sync-end"
+            },
+            {
+              "scene": "resize"
+            },
+            {
+              "scene": "palette"
+            },
+            {
+              "scene": "cursor-active-2"
+            },
+            {
+              "scene": "cursor-active-4"
+            },
+            {
+              "scene": "cursor-active-6"
+            },
+            {
+              "scene": "cursor-inactive-2"
+            },
+            {
+              "scene": "cursor-inactive-4"
+            },
+            {
+              "scene": "cursor-inactive-6"
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 3694592,
+            "total_ws": 22179840,
+            "private_commit": 4841472
+          },
+          "capture_method": "PrintWindow explicit client render",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "gdi_snapshot_rounding": {
+            "changed_channels": 0,
+            "max_channel_error": 0
+          },
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 7884800,
+            "total_ws": 33386496,
+            "private_commit": 11370496
+          }
+        },
+        {
+          "iteration": 1,
+          "requested": 1,
+          "active": "OpenGL",
+          "checks": [
+            {
+              "scene": "text",
+              "changed_channels": 60,
+              "max_channel_error": 1
+            },
+            {
+              "scene": "sixel",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "sync-end",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "resize",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "palette",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 28651520,
+            "total_ws": 58540032,
+            "private_commit": 82477056
+          },
+          "capture_method": "owned-process-retained-frame",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 40566784,
+            "total_ws": 77344768,
+            "private_commit": 100581376
+          }
+        },
+        {
+          "iteration": 2,
+          "requested": 2,
+          "active": "DirectX",
+          "checks": [
+            {
+              "scene": "text",
+              "changed_channels": 60,
+              "max_channel_error": 1
+            },
+            {
+              "scene": "sixel",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "sync-end",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "resize",
+              "changed_channels": 0,
+              "max_channel_error": 0
+            },
+            {
+              "scene": "palette",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-active-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-2",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-4",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            },
+            {
+              "scene": "cursor-inactive-6",
+              "changed_channels": 84,
+              "max_channel_error": 2
+            }
+          ],
+          "memory_before_instrumentation": {
+            "private_ws": 12005376,
+            "total_ws": 44802048,
+            "private_commit": 61865984
+          },
+          "capture_method": "owned-process-retained-frame",
+          "memory_instrumented": true,
+          "focus_model": "owned-process active and inactive states",
+          "focus_observations": {
+            "focused": false,
+            "suppressed_mouse_messages": 0,
+            "suppressed_focus_messages": 0
+          },
+          "memory": {
+            "private_ws": 19648512,
+            "total_ws": 59359232,
+            "private_commit": 77930496
+          }
+        }
+      ],
+      "completed": true,
+      "parity_failures": []
+    },
+    "session-restart-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "completed": true,
+      "cycles": [
+        {
+          "index": 0,
+          "old_session": 1,
+          "new_session": 3,
+          "old_pid": 38020,
+          "new_pid": 11172
+        },
+        {
+          "index": 1,
+          "old_session": 3,
+          "new_session": 4,
+          "old_pid": 11172,
+          "new_pid": 22352
+        },
+        {
+          "index": 2,
+          "old_session": 4,
+          "new_session": 5,
+          "old_pid": 22352,
+          "new_pid": 28208
+        },
+        {
+          "index": 3,
+          "old_session": 5,
+          "new_session": 6,
+          "old_pid": 28208,
+          "new_pid": 24656
+        }
+      ],
+      "instrumented": true,
+      "clipboard": "synthetic request; real clipboard untouched",
+      "instrumentation": {
+        "armed": "",
+        "failurePending": false,
+        "hits": [
+          {
+            "event": "inactive-dialog"
+          },
+          {
+            "event": "inactive-dialog"
+          },
+          {
+            "event": "inactive-dialog"
+          },
+          {
+            "event": "inactive-dialog"
+          }
+        ]
+      },
+      "owned_job_cleanup": {
+        "before": {
+          "total": 13,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 13,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "frontend_exit": 0
+    },
+    "shell-window-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "detected": [
+        {
+          "id": "pwsh",
+          "name": "PowerShell (pwsh)",
+          "available": true,
+          "path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe",
+          "command": "\"C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe\" -NoLogo"
+        },
+        {
+          "id": "powershell",
+          "name": "Windows PowerShell",
+          "available": true,
+          "path": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "command": "\"C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo"
+        },
+        {
+          "id": "busybox-ash",
+          "name": "BusyBox ash",
+          "available": true,
+          "path": "C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe",
+          "command": "\"C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe\" ash -i"
+        },
+        {
+          "id": "git-bash",
+          "name": "Git Bash",
+          "available": true,
+          "path": "C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe",
+          "command": "\"C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe\" --login -i"
+        },
+        {
+          "id": "wsl-bash",
+          "name": "WSL Bash",
+          "available": true,
+          "path": "C:\\Windows\\system32\\wsl.exe",
+          "command": "\"C:\\Windows\\system32\\wsl.exe\" --distribution Debian --exec bash --login -i"
+        },
+        {
+          "id": "cmd",
+          "name": "Command Prompt",
+          "available": true,
+          "path": "C:\\Windows\\system32\\cmd.exe",
+          "command": "\"C:\\Windows\\system32\\cmd.exe\""
+        }
+      ],
+      "launches": {
+        "pwsh": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5029888,
+            "total_ws": 23883776,
+            "private_commit": 6258688
+          },
+          "path": "C:\\Users\\nemo\\scoop\\apps\\pwsh\\current\\pwsh.exe",
+          "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-wpitg4z9\\startup \u4e2d space"
+        },
+        "powershell": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5107712,
+            "total_ws": 23953408,
+            "private_commit": 6320128
+          },
+          "path": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-wpitg4z9\\startup \u4e2d space"
+        },
+        "busybox-ash": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5058560,
+            "total_ws": 23920640,
+            "private_commit": 6262784
+          },
+          "path": "C:\\Users\\nemo\\scoop\\apps\\busybox\\current\\busybox.exe",
+          "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-wpitg4z9/startup \u4e2d space"
+        },
+        "git-bash": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5058560,
+            "total_ws": 23900160,
+            "private_commit": 6275072
+          },
+          "path": "C:\\Users\\nemo\\scoop\\apps\\git\\current\\bin\\bash.exe",
+          "directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-wpitg4z9/startup \u4e2d space",
+          "duplicate_directory": "C:/Users/nemo/AppData/Local/Temp/nemoterm-shells-wpitg4z9/duplicate \u4e2d;$(literal) git-bash"
+        },
+        "wsl-bash": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5095424,
+            "total_ws": 23961600,
+            "private_commit": 6303744
+          },
+          "path": "C:\\Windows\\system32\\wsl.exe",
+          "directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-wpitg4z9/startup \u4e2d space",
+          "duplicate_directory": "/mnt/c/Users/nemo/AppData/Local/Temp/nemoterm-shells-wpitg4z9/duplicate \u4e2d;$(literal) wsl-bash"
+        },
+        "cmd": {
+          "command_executed": true,
+          "memory": {
+            "private_ws": 5083136,
+            "total_ws": 23928832,
+            "private_commit": 6311936
+          },
+          "path": "C:\\Windows\\system32\\cmd.exe",
+          "directory": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm-shells-wpitg4z9\\startup \u4e2d space"
+        }
+      }
+    },
+    "single-exe-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "embedded_licenses_bytes": 81403,
+      "processes": [
+        {
+          "pid": 46196,
+          "parent": 29564,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d obk1wx_j\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 1601536,
+            "total_ws": 10620928,
+            "private_commit": 2306048
+          }
+        },
+        {
+          "pid": 29564,
+          "parent": 44556,
+          "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d obk1wx_j\\portable\\nemoterm.exe",
+          "memory": {
+            "private_ws": 4419584,
+            "total_ws": 23015424,
+            "private_commit": 5582848
+          }
+        }
+      ],
+      "host_same_image": true,
+      "launcher_exit_preserves_console": true,
+      "only_executable_in_directory": true
+    },
+    "startup-size-observed.json": {
+      "executable_sha256": "1fa253babd6baf0aa83ec07a5141780cbbc2c5bdf7dba9626a74f513654e034e",
+      "checks": [
+        {
+          "oversized": false,
+          "columns": 160,
+          "rows": 48,
+          "cell": [
+            8,
+            20
+          ],
+          "memory": {
+            "private_ws": 4251648,
+            "total_ws": 22716416,
+            "private_commit": 5390336,
+            "peak_total_ws": 22757376
+          },
+          "workarea": [
+            0,
+            0,
+            1920,
+            1040
+          ]
+        },
+        {
+          "oversized": true,
+          "columns": 117,
+          "rows": 24,
+          "cell": [
+            16,
+            40
+          ],
+          "memory": {
+            "private_ws": 3772416,
+            "total_ws": 22257664,
+            "private_commit": 4935680,
+            "peak_total_ws": 22351872
+          },
+          "workarea": [
+            0,
+            0,
+            1920,
+            1040
+          ]
+        }
+      ]
+    }
+  },
+  "post_fix_logs": {
+    "powershell-environment.log": "36e34e7e58c27014625ab68d6d20bd4994de8005b97422a80f95150d0795d4cf",
+    "renderer.log": "b813faf1c39a4b85ddb085e46c036d2fb6910d68e6d7b7c20be69ae4bc41be33",
+    "session_restart.log": "6efb04f291336f446375811e7b5bb1cdd481bdd2ca457a054ff60e2adb9bd911",
+    "shell.log": "a0a3c68c0c610826e4ebe5a2eabe97618fab88aefd9bf2e0c61cd363b36de4dc",
+    "single_exe.log": "5a2dd2e4564e5a7f0ee830ecbb25f128034d63e4060af36eea6ef47c4917f220",
+    "startup_size.log": "421abadcf40cff559cb6ea6f7b5e35b90fd8ef65897e5d140c5005f3e17aeba7",
+    "tabs-directx.log": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a",
+    "tabs-gdi.log": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+  }
+}

@@ -122,6 +122,11 @@ OpenGL remains an explicitly permitted exception to the private-memory target.
 
 ## Remaining acceptance work
 
+The later [local MSVC single-image checkpoint](local-msvc-single-exe.md) covers
+these changes in an actual combined executable. Its compiler/native results
+supplement the original MinGW evidence above; they do not replace the remaining
+CI clipboard and real-agent gates.
+
 Local clipboard access is unavailable, so these runs do not validate clipboard
 contents. CI retains real clipboard assertions, including logical Hebrew order.
 Windows CI and the exact single-image validation script now include the RTL

@@ -1,0 +1,183 @@
+{
+  "source_commit": "800be22e8f80aca17d9b0d4c0bc066773c747485",
+  "compiler": "MSVC 19.44.35230 x64",
+  "configuration": "MinSizeRel, static CRT",
+  "test_count": 35,
+  "tests": {
+    "test_cluster_renderer": {
+      "exit_code": 0,
+      "log_sha256": "d8a99567357c6ac201922edc4f30ea0d93b3df4ce09555d6f354288a45a72a3e",
+      "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed\r\n"
+    },
+    "test_colour": {
+      "exit_code": 0,
+      "log_sha256": "0e112b31c6b9f24a8008d802fea49590e1b060c042d8c1313643b8bb9b75b000",
+      "output": "OSC colour parser tests passed\r\n"
+    },
+    "test_conf": {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": null
+    },
+    "test_cwd": {
+      "exit_code": 0,
+      "log_sha256": "f0dcf78126e56ea9f8839a6a41bc91a3646edafb234643ad418aadccf6c8a544",
+      "output": "Directory metadata suite passed\r\n"
+    },
+    "test_font_cmap": {
+      "exit_code": 0,
+      "log_sha256": "ab78c75069de7ba0202f89d16a7866822ad9157b8321b0f61ba1b4901b5c789d",
+      "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed\r\n"
+    },
+    "test_font_fallback": {
+      "exit_code": 0,
+      "log_sha256": "cd979e64a84b79363810c157f66403c537a48b9b1be797f2ce754d93a8393fa2",
+      "output": "Requested Consolas; initially selected Consolas\r\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\r\nRequested Courier; initially selected Courier\r\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\r\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\r\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\r\nRequested Nemo Test Missing Font 938471; initially selected Arial\r\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\r\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache\r\n"
+    },
+    "test_grapheme": {
+      "exit_code": 0,
+      "log_sha256": "f3a0ed43ca94c929939bd967c9ddf21f99eba542829b4ff9094435b62df81842",
+      "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed\r\n"
+    },
+    "test_grapheme_terminal": {
+      "exit_code": 0,
+      "log_sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0",
+      "output": "Grapheme terminal suite passed\r\n"
+    },
+    "test_highlight": {
+      "exit_code": 0,
+      "log_sha256": "120e2b243b432acd0e328eff1f6d0a642629ea6f8724e3096bd5fe677ab22f5b",
+      "output": "Highlight suite passed\r\n"
+    },
+    "test_hyperlink": {
+      "exit_code": 0,
+      "log_sha256": "6462b368612e7ebe26e1bae02d79d8e1cf84e92029634dd71df918b612581461",
+      "output": "Hyperlink test suite passed\r\n"
+    },
+    "test_keyboard": {
+      "exit_code": 0,
+      "log_sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0",
+      "output": "Keyboard protocol suite passed\r\n"
+    },
+    "test_margins": {
+      "exit_code": 0,
+      "log_sha256": "0b900d400e5fc1ec998a59ef390a81637026ad6ad185dfafd9955060049a73e4",
+      "output": "Margin suite passed\r\n"
+    },
+    "test_modes": {
+      "exit_code": 0,
+      "log_sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843",
+      "output": "Mode test suite passed\r\n"
+    },
+    "test_mok": {
+      "exit_code": 0,
+      "log_sha256": "4c986100b63bbdc59bb633d908cb71765f68c220345e4a2ce59b0cbea35ec77b",
+      "output": "Modified keys suite passed\r\n"
+    },
+    "test_mouse": {
+      "exit_code": 0,
+      "log_sha256": "472f27dbb97edade3d44427aa024ca65d0e6585bd6802b41c1fb609f3fc74a56",
+      "output": "Mouse test suite passed\r\n"
+    },
+    "test_osc52": {
+      "exit_code": 0,
+      "log_sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086",
+      "output": "OSC 52 suite passed\r\n"
+    },
+    "test_osc_colour": {
+      "exit_code": 0,
+      "log_sha256": "4cd154ad75c54b329bc6ca05c4900ad052cfc4356736361da62a0e9960574e8c",
+      "output": "OSC colour suite passed\r\n"
+    },
+    "test_queries": {
+      "exit_code": 0,
+      "log_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1",
+      "output": "Query suite passed\r\n"
+    },
+    "test_rectangle": {
+      "exit_code": 0,
+      "log_sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f",
+      "output": "Rectangle editing and independent XTerm oracle suite passed\r\n"
+    },
+    "test_reflow": {
+      "exit_code": 0,
+      "log_sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7",
+      "output": "Reflow suite passed\r\n"
+    },
+    "test_resize": {
+      "exit_code": 0,
+      "log_sha256": "023398bd1fed7f20d837565b10a6c7e3a9ed39cba6a60fd6cd26525b38201114",
+      "output": "Resize suite passed\r\n"
+    },
+    "test_selective_erase": {
+      "exit_code": 0,
+      "log_sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2",
+      "output": "Selective erase suite passed\r\n"
+    },
+    "test_sgr": {
+      "exit_code": 0,
+      "log_sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1",
+      "output": "SGR suite passed\r\n"
+    },
+    "test_shell": {
+      "exit_code": 0,
+      "log_sha256": "35e17b6930b82490f551fe7c3733568cdb632e518b8b9ec79c45b63a0cbc7d71",
+      "output": "Shell detection, Unicode command quoting and child environment suite passed\r\n"
+    },
+    "test_shell_marks": {
+      "exit_code": 0,
+      "log_sha256": "3b159797825571adc538687810fef8457cb4617b2169a9c8d3e429b765a1687a",
+      "output": "Shell mark suite passed\r\n"
+    },
+    "test_sixel": {
+      "exit_code": 0,
+      "log_sha256": "4afb222291fe779247a50d3aaca204ffc3bbe9c8bc6a7013270d17b7af859ae8",
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\r\n"
+    },
+    "test_sixel_terminal": {
+      "exit_code": 0,
+      "log_sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742",
+      "output": "Sixel terminal suite passed\r\n"
+    },
+    "test_snapshot": {
+      "exit_code": 0,
+      "log_sha256": "b6265320e28f100005f957723548f63d4b6b8cbd24698321ed02614e7a5dc1cd",
+      "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\r\nsnapshot tests passed\r\n"
+    },
+    "test_state_control": {
+      "exit_code": 0,
+      "log_sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6",
+      "output": "State control suite passed\r\n"
+    },
+    "test_sync": {
+      "exit_code": 0,
+      "log_sha256": "775314ae84994666444c822e8e751a0b8fdd8e79d62ed4ac55d4240e27e6badf",
+      "output": "Synchronized output test suite passed\r\n"
+    },
+    "test_tabs_layout": {
+      "exit_code": 0,
+      "log_sha256": "f5ecc41ba851d70ab2a6f3c2e4ac88deb9f2f4b4b1c8f6b2b9b94fadd082a039",
+      "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed\r\n"
+    },
+    "test_tcap": {
+      "exit_code": 0,
+      "log_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156",
+      "output": "Capability/keyboard suite passed\r\n"
+    },
+    "test_terminal": {
+      "exit_code": 0,
+      "log_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb",
+      "output": "Test suite passed\r\n"
+    },
+    "test_titles": {
+      "exit_code": 0,
+      "log_sha256": "ccfe9ee484c6347c85ab1614d9cfc7aa75846ba44b81e4e61d957d7d3c76d4f3",
+      "output": "Title suite passed\r\n"
+    },
+    "test_win32_input": {
+      "exit_code": 0,
+      "log_sha256": "2e1bf51c8d29aad5e216fa45e67b3d628fce73a20c2552dc1fcbccd3d69e771a",
+      "output": "Win32 input suite passed\r\n"
+    }
+  }
+}
