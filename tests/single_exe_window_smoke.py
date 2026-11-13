@@ -19,6 +19,7 @@ try:
         exe = isolated/'nemoterm.exe'; shutil.copyfile(source, exe)
         licenses = subprocess.check_output([str(exe), '--licenses'], timeout=10).decode('utf-8')
         assert 'Microsoft Corporation' in licenses and 'Simon Tatham' in licenses and 'MIT License' in licenses
+        assert 'The Open Group' in licenses and 'Digital Equipment Corporation' in licenses
         evidence['embedded_licenses_bytes'] = len(licenses.encode('utf-8'))
         report, stop = directory/'report.json', directory/'stop'
         process = subprocess.Popen([str(exe), '-load', profile, '-e', sys.executable,

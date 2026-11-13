@@ -25,5 +25,6 @@ Copy-Item "$root/vendor/nerd-fonts/LICENSE" (Join-Path $Destination 'LICENSE-Ner
 Copy-Item "$root/vendor/nerd-fonts/README.md" (Join-Path $Destination 'NOTICE-Nerd-Symbols.md')
 Copy-Item "$root/vendor/nerd-fonts/NOTICE.txt" (Join-Path $Destination 'LICENSE-Nerd-Components.txt')
 Copy-Item "$root/tools/unicode/18.0.0/LICENSE.txt" (Join-Path $Destination 'LICENSE-Unicode.txt')
+Copy-Item "$root/tools/x11/xorg-server-21.1.16/LICENSE.txt" (Join-Path $Destination 'LICENSE-X11-Colours.txt')
 & "$PSScriptRoot/fetch-conpty.ps1" -Architecture x64 -Destination $Destination
 Get-Item (Join-Path $Destination 'nemoterm.exe') | Select-Object FullName,Length

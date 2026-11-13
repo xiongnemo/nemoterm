@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "nemo_colour.h"
+#include "nemo_x11_colour_data.h"
 
 /* Xlib sections 6.1/6.2 describe device RGB, linear RGBi and the distinct
  * rgb:/# scaling rules:
@@ -13,15 +14,16 @@ static unsigned char ascii_lower(unsigned char c)
     return c >= 'A' && c <= 'Z' ? (unsigned char)(c + ('a' - 'A')) : c;
 }
 
-static bool equal_ascii(const char *text, size_t len, const char *name)
+static int compare_ascii(const char *text, size_t len, const char *name)
 {
     size_t i;
-    for (i = 0; i < len; i++) {
-        if (!name[i] || ascii_lower((unsigned char)text[i]) !=
-                        (unsigned char)name[i])
-            return false;
+    for (i = 0; i < len && name[i]; i++) {
+        int diff = (int)ascii_lower((unsigned char)text[i]) -
+                   (unsigned char)name[i];
+        if (diff)
+            return diff;
     }
-    return name[len] == '\0';
+    return i < len ? 1 : (name[i] ? -1 : 0);
 }
 
 static bool hex_value(const char *text, size_t len, uint32_t *value)
@@ -88,36 +90,32 @@ static bool parse_sharp(const char *text, size_t len, uint8_t channels[3])
 
 bool nemo_colour_parse(const char *text, size_t len, NemoColour *out)
 {
-    static const struct {
-        const char *name;
-        NemoColour colour;
-    } names[] = {
-        { "black",   {   0,   0,   0 } },
-        { "white",   { 255, 255, 255 } },
-        { "red",     { 255,   0,   0 } },
-        { "green",   {   0, 255,   0 } },
-        { "blue",    {   0,   0, 255 } },
-        { "yellow",  { 255, 255,   0 } },
-        { "magenta", { 255,   0, 255 } },
-        { "cyan",    {   0, 255, 255 } },
-    };
     uint8_t channels[3];
-    size_t i;
 
-    if (!text || !out || !len || len > 18)
+    if (!text || !out || !len || len > NEMO_X11_COLOUR_MAX_NAME)
         return false;
-    if (len >= 4 && equal_ascii(text, 4, "rgb:")) {
+    if (len >= 4 && compare_ascii(text, 4, "rgb:") == 0) {
         if (!parse_rgb(text, len, channels))
             return false;
     } else if (text[0] == '#') {
         if (!parse_sharp(text, len, channels))
             return false;
     } else {
-        for (i = 0; i < sizeof(names) / sizeof(names[0]); i++) {
-            if (equal_ascii(text, len, names[i].name)) {
-                *out = names[i].colour;
+        size_t low = 0, high = sizeof(nemo_x11_colours) / sizeof(nemo_x11_colours[0]);
+        while (low < high) {
+            size_t mid = low + (high - low) / 2;
+            int diff = compare_ascii(text, len,
+                nemo_x11_colour_names + nemo_x11_colours[mid].offset);
+            if (!diff) {
+                out->r = nemo_x11_colours[mid].r;
+                out->g = nemo_x11_colours[mid].g;
+                out->b = nemo_x11_colours[mid].b;
                 return true;
             }
+            if (diff < 0)
+                high = mid;
+            else
+                low = mid + 1;
         }
         return false;
     }

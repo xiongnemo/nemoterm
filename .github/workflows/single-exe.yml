@@ -22,6 +22,8 @@ jobs:
       - name: Retain native crash diagnostics on this disposable runner
         shell: pwsh
         run: ./scripts/native-crash-evidence.ps1
+      - name: Verify pinned X11 colour data
+        run: python scripts/generate-x11-colours.py --check
       - name: Build frontend and OpenConsole into the same image
         shell: pwsh
         run: |

@@ -3,6 +3,7 @@
 #include "test_terminal.c"
 #undef main
 #include "../../../tests/palette_stack_oracle_cases.h"
+#include "../../../tests/x11_colour_cases.h"
 
 static void check_colour(Mock *mk, unsigned index, unsigned r, unsigned g, unsigned b)
 {
@@ -18,6 +19,35 @@ static void reply(Mock *mk, const char *expected)
 }
 
 #include "test_selection_colour.h"
+
+static void named_colour_protocol(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(x11_colour_cases); i++) {
+        char command[128], expected[80];
+        const char *end = i % 2 ? "\007" : "\033\\";
+        test_context(mk, "source-derived X11 colour %s", x11_colour_cases[i].name);
+        sprintf(command, "\033]4;1;%s;1;?%s", x11_colour_cases[i].name, end);
+        sprintf(expected, "\033]4;1;rgb:%04x/%04x/%04x%s",
+                x11_colour_cases[i].r * 257, x11_colour_cases[i].g * 257,
+                x11_colour_cases[i].b * 257, end);
+        term_data_fragmented(mk->term, command);
+        reply(mk, expected);
+        check_colour(mk, 1, x11_colour_cases[i].r,
+                     x11_colour_cases[i].g, x11_colour_cases[i].b);
+    }
+    test_context(mk, "named dynamic and selection colours, exact spaces, invalid names");
+    term_data_fragmented(mk->term,
+        "\033]10;gray50;LightGoldenrodYellow;light blue\007"
+        "\033]17;WebGray\007\033]19;Red1\007"
+        "\033]10;gray101\007\033]11;light  blue\007"
+        "\033]17;web gray \007\033]19;red5\007"
+        "\033]10;?;?;?\033\\\033]17;?\007\033]19;?\007");
+    reply(mk, "\033]10;rgb:7f7f/7f7f/7f7f\033\\"
+              "\033]11;rgb:fafa/fafa/d2d2\033\\"
+              "\033]12;rgb:adad/d8d8/e6e6\033\\"
+              "\033]17;rgb:8080/8080/8080\007"
+              "\033]19;rgb:ffff/0000/0000\007");
+}
 
 static void stack_bounds_and_roundtrip(Mock *mk)
 {
@@ -143,6 +173,7 @@ int main(void)
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     reset(mk);
     stack_bounds_and_roundtrip(mk);
+    named_colour_protocol(mk);
     failed |= mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "OSC colour suite FAILED!" : "OSC colour suite passed");

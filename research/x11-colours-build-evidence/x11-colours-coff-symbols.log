@@ -1,0 +1,88 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35230.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file build\frontend-single\CMakeFiles\guiterminal.dir\terminal\nemo_colour.c.obj
+
+File Type: COFF OBJECT
+
+COFF SYMBOL TABLE
+000 0104899E ABS    notype       Static       | @comp.id
+001 80010190 ABS    notype       Static       | @feat.00
+002 00000003 ABS    notype       Static       | @vol.md
+003 00000000 SECT1  notype       Static       | .drectve
+    Section length   2F, #relocs    0, #linenums    0, checksum        0
+005 00000000 SECT2  notype       Static       | .debug$S
+    Section length   DC, #relocs    0, #linenums    0, checksum        0
+007 00000000 SECT3  notype       Static       | .rdata
+    Section length 1DBF, #relocs    0, #linenums    0, checksum F2A929DC, selection    1 (pick no duplicates)
+009 00000000 SECT3  notype       Static       | nemo_x11_colour_names
+00A 00000000 SECT4  notype       Static       | .rdata
+    Section length 1254, #relocs    0, #linenums    0, checksum 709FE3A1, selection    1 (pick no duplicates)
+00C 00000000 SECT4  notype       Static       | nemo_x11_colours
+00D 00000000 SECT5  notype       Static       | .text$mn
+    Section length   10, #relocs    0, #linenums    0, checksum 76F409AE, selection    1 (pick no duplicates)
+00F 00000000 SECT6  notype       Static       | .text$mn
+    Section length   63, #relocs    1, #linenums    0, checksum 57BF080D, selection    1 (pick no duplicates)
+011 00000000 SECT7  notype       Static       | .text$mn
+    Section length   72, #relocs    1, #linenums    0, checksum  3BD863B, selection    1 (pick no duplicates)
+013 00000000 SECT8  notype       Static       | .text$mn
+    Section length  130, #relocs    7, #linenums    0, checksum D883EACE, selection    1 (pick no duplicates)
+015 00000000 SECT9  notype       Static       | .text$mn
+    Section length   B7, #relocs    1, #linenums    0, checksum 7E9829C4, selection    1 (pick no duplicates)
+017 00000000 SECTA  notype       Static       | .text$mn
+    Section length   99, #relocs    1, #linenums    0, checksum 8E083112, selection    1 (pick no duplicates)
+019 00000000 SECT8  notype ()    External     | nemo_colour_parse
+01A 00000000 SECT5  notype ()    Static       | ascii_lower
+01B 00000000 SECT6  notype ()    Static       | compare_ascii
+01C 00000000 SECT7  notype ()    Static       | hex_value
+01D 00000000 SECT9  notype ()    Static       | parse_rgb
+01E 00000000 SECTA  notype ()    Static       | parse_sharp
+01F 00000000 SECT8  notype       Label        | $LN27
+020 00000000 SECTB  notype       Static       | .xdata
+    Section length   1C, #relocs    0, #linenums    0, checksum 608E54BF, selection    5 (pick associative Section 0x8)
+022 00000000 SECTB  notype       Static       | $unwind$nemo_colour_parse
+023 00000000 SECTC  notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum 23BA58C9, selection    5 (pick associative Section 0x8)
+025 00000000 SECTC  notype       Static       | $pdata$nemo_colour_parse
+026 00000000 SECTD  notype       Static       | .xdata
+    Section length    C, #relocs    0, #linenums    0, checksum 2559CD25, selection    5 (pick associative Section 0x6)
+028 00000000 SECTD  notype       Static       | $unwind$compare_ascii
+029 00000000 SECTE  notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum 5E64A758, selection    5 (pick associative Section 0x6)
+02B 00000000 SECTE  notype       Static       | $pdata$compare_ascii
+02C 00000000 SECTF  notype       Static       | .xdata
+    Section length    C, #relocs    0, #linenums    0, checksum 2559CD25, selection    5 (pick associative Section 0x7)
+02E 00000000 SECTF  notype       Static       | $unwind$hex_value
+02F 00000000 SECT10 notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum EE7596ED, selection    5 (pick associative Section 0x7)
+031 00000000 SECT10 notype       Static       | $pdata$hex_value
+032 00000000 SECT11 notype       Static       | .xdata
+    Section length   18, #relocs    0, #linenums    0, checksum 4D92FE4F, selection    5 (pick associative Section 0x9)
+034 00000000 SECT11 notype       Static       | $unwind$parse_rgb
+035 00000000 SECT12 notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum DC33DFBE, selection    5 (pick associative Section 0x9)
+037 00000000 SECT12 notype       Static       | $pdata$parse_rgb
+038 00000000 SECT13 notype       Static       | .xdata
+    Section length   14, #relocs    0, #linenums    0, checksum 6A0FA876, selection    5 (pick associative Section 0xA)
+03A 00000000 SECT13 notype       Static       | $unwind$parse_sharp
+03B 00000000 SECT14 notype       Static       | .pdata
+    Section length    C, #relocs    3, #linenums    0, checksum 30CFAFDA, selection    5 (pick associative Section 0xA)
+03D 00000000 SECT14 notype       Static       | $pdata$parse_sharp
+03E 00000000 SECT15 notype       Static       | .rdata
+    Section length    5, #relocs    0, #linenums    0, checksum 4B19BD22, selection    2 (pick any)
+040 00000000 SECT15 notype       External     | ??_C@_04HCMELFMA@rgb?3@ (`string')
+041 00000000 SECT16 notype       Static       | .chks64
+    Section length   B0, #relocs    0, #linenums    0, checksum        0
+
+String Table Size = 0x15A bytes
+
+  Summary
+
+          B0 .chks64
+          DC .debug$S
+          2F .drectve
+          3C .pdata
+        3018 .rdata
+         365 .text$mn
+          60 .xdata

@@ -1,0 +1,11 @@
+[1/14] Updating licence.h
+[2/13] Checking current git commit
+[3/13] Updating cmake_commit.c
+[4/11] Building C object CMakeFiles\guiterminal.dir\terminal\nemo_colour.c.obj
+[5/11] Building C object CMakeFiles\test_colour.dir\C_\Users\nemo\Documents\Projects\nemoterm\build\rtl-worktree\tests\test_colour.c.obj
+[6/11] Building C object CMakeFiles\test_colour.dir\terminal\nemo_colour.c.obj
+[7/11] Building C object windows\CMakeFiles\test_osc_colour.dir\__\test\test_osc_colour.c.obj
+[8/11] Linking C executable test_colour.exe
+[9/11] Building C object CMakeFiles\guiterminal.dir\terminal\terminal.c.obj
+[10/11] Linking CXX static library guiterminal.lib
+[11/11] Linking CXX executable test_osc_colour.exe

@@ -92,6 +92,8 @@ jobs:
         run: |
           python scripts/generate-grapheme-tables.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-x11-colours.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_tabulation_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_double_size_oracle.py --check

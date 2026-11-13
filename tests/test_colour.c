@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "x11_colour_cases.h"
 
 #define CHECK(condition) do { \
     if (!(condition)) { \
@@ -63,6 +64,14 @@ static void examples(void)
         { "yellow", 255, 255, 0 },
         { "MaGeNtA", 255, 0, 255 },
         { "cyan", 0, 255, 255 },
+        { "gray", 190, 190, 190 },
+        { "grey", 190, 190, 190 },
+        { "WebGray", 128, 128, 128 },
+        { "WebGreen", 0, 128, 0 },
+        { "RED1", 255, 0, 0 },
+        { "gray50", 127, 127, 127 },
+        { "LightGoldenrodYellow", 250, 250, 210 },
+        { "light goldenrod yellow", 250, 250, 210 },
     };
     size_t i;
     for (i = 0; i < sizeof(cases) / sizeof(cases[0]); i++)
@@ -83,7 +92,9 @@ static void invalid(void)
         "rgb:1/2/3;", "rgb:1/2/3\n", "rgb: 1/2/3", " rgb:1/2/3",
         "rgbi:0.5/0/1", "rgbi:0/0/0", "rgbi:nan/inf/-1",
         "CIEXYZ:0/0/0", "transparent", "not-a-colour", "red ", " red",
-        "reddish", "r", "red\n", "grey", "gray", "RED1", "\xff",
+        "reddish", "r", "red\n", "gray101", "grey-1", "RED5", "\xff",
+        "gray 50", "light  blue", "light\tblue", "LightGoldenrodYellow ",
+        " light goldenrod yellow", "light goldenrod yellow!",
     };
     const char embedded_nul[] = { 'r', 'e', 'd', '\0', 'x' };
     const char hex_nul[] = { '#', 'f', 'f', '\0' };
@@ -110,6 +121,42 @@ static void slices(void)
     expect_slice("redjunk", 3, 255, 0, 0);
     for (i = 0; i < 9; i++)
         reject_slice(command, i);
+}
+
+static void named_colours(void)
+{
+    for (size_t i = 0; i < sizeof(x11_colour_cases)/sizeof(x11_colour_cases[0]); i++) {
+        const char *name = x11_colour_cases[i].name;
+        size_t len = strlen(name);
+        /* Exact allocation without a NUL sentinel makes ASan check the
+         * bounded-slice contract, including the binary-search edge names. */
+        char *slice = malloc(len);
+        char *invalid = malloc(len + 1);
+        CHECK(slice && invalid);
+        for (unsigned variant = 0; variant < 4; variant++) {
+            for (size_t j = 0; j < len; j++) {
+                unsigned char c = (unsigned char)name[j];
+                if (variant && c >= 'A' && c <= 'Z') c += 'a' - 'A';
+                if ((variant == 2 || (variant == 3 && j % 2)) &&
+                    c >= 'a' && c <= 'z') c -= 'a' - 'A';
+                slice[j] = (char)c;
+            }
+            expect_slice(slice, len, x11_colour_cases[i].r,
+                         x11_colour_cases[i].g, x11_colour_cases[i].b);
+        }
+        memcpy(invalid, name, len);
+        invalid[len] = '!';
+        reject_slice(invalid, len + 1);
+        invalid[len] = '\0';
+        reject_slice(invalid, len + 1); /* terminator is not part of a name */
+        for (size_t j = 0; j < len; j++) {
+            memcpy(slice, name, len);
+            slice[j] = '\0';
+            reject_slice(slice, len);
+        }
+        free(invalid);
+        free(slice);
+    }
 }
 
 static void precision(void)
@@ -154,6 +201,7 @@ int main(void)
     examples();
     invalid();
     slices();
+    named_colours();
     precision();
     puts("OSC colour parser tests passed");
     return 0;

@@ -1,5 +1,13 @@
 # Nemoterm requirements and evidence ledger
 
+## X11 named colours (2026-11-13; runtime testing paused)
+
+[The pinned 782-name Xorg table](../research/x11-colours.md) replaces the shared
+OSC parser's eight-name whitelist. It uses read-only data and no per-terminal
+allocation or new runtime library. Source-derived parser/protocol checks and an
+independent XTerm collector are prepared. Windows/Linux builds and single-EXE
+linking pass; runtime behaviour and memory acceptance remain unverified.
+
 ## Saved selection colours (2026-11-13; runtime testing paused)
 
 [Selection colour preferences](../research/selection-settings.md) add a native

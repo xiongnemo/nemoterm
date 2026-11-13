@@ -1,0 +1,193 @@
+{
+  "source_base": "0bd1aeb9b385734c9c96c95a267bcd6184af6979",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-x11-colours-unverified/dist/nemoterm.exe",
+    "bytes": 4448256,
+    "sha256": "47621d261253697e4ab43852f988f80ef54a8c7a88f9a2cbf5043d80baeecbe8"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_colour",
+        "test_osc_colour"
+      ],
+      "log": "research/x11-colours-build-evidence/x11-colours-msvc-build.log",
+      "bytes": 714,
+      "sha256": "90ca37a8bcf2225c49d0c34ba599851f10bedfbe78647c57d188a1a7a1cfb1b0",
+      "executed_tests": false
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_colour",
+        "test_osc_colour"
+      ],
+      "log": "research/x11-colours-build-evidence/x11-colours-linux-build.log",
+      "bytes": 693,
+      "sha256": "4dd492f5fd11a917aabd88e81158b475e5fd586e9156e5248a66848cb759e161",
+      "executed_tests": false
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "research/x11-colours-build-evidence/x11-colours-single-build.log",
+      "bytes": 3031,
+      "sha256": "cab699dd9525ad18ab6c0d1f1d088780bce521d99fc187d633295fd6b2af00e7",
+      "executed_tests": false
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/terminal/nemo_colour.c": {
+      "bytes": 3862,
+      "sha256": "ba875b15467dce6575b2b39b61f72ce83419a5dc6da73ade1b911b57b3bc3a65",
+      "lf_bytes": 3862,
+      "sha256_lf": "ba875b15467dce6575b2b39b61f72ce83419a5dc6da73ade1b911b57b3bc3a65"
+    },
+    "vendor/putty-0.85/terminal/nemo_colour.h": {
+      "bytes": 1625,
+      "sha256": "a80cc4821fcde9a9ced2d80ae869ba009b97ec6bcf104f7af382e0df7c06cfca",
+      "lf_bytes": 1625,
+      "sha256_lf": "a80cc4821fcde9a9ced2d80ae869ba009b97ec6bcf104f7af382e0df7c06cfca"
+    },
+    "vendor/putty-0.85/terminal/nemo_x11_colour_data.h": {
+      "bytes": 34498,
+      "sha256": "d3846af204666381039bb342881c96ef3c079f812fe1f643a6490dd6e3fa69f0",
+      "lf_bytes": 34498,
+      "sha256_lf": "d3846af204666381039bb342881c96ef3c079f812fe1f643a6490dd6e3fa69f0"
+    },
+    "vendor/putty-0.85/test/test_osc_colour.c": {
+      "bytes": 8027,
+      "sha256": "9604d071dc0ff22471c9205478559d8138626e11b5352f56d256e4e4f7cb7c9c",
+      "lf_bytes": 8027,
+      "sha256_lf": "9604d071dc0ff22471c9205478559d8138626e11b5352f56d256e4e4f7cb7c9c"
+    },
+    "tests/test_colour.c": {
+      "bytes": 7603,
+      "sha256": "84825f7e0ee7dc05bf89e007527979fa77c8c1e7174f1176fd1df4551a0e5f71",
+      "lf_bytes": 7603,
+      "sha256_lf": "84825f7e0ee7dc05bf89e007527979fa77c8c1e7174f1176fd1df4551a0e5f71"
+    },
+    "tests/x11_colour_cases.h": {
+      "bytes": 25984,
+      "sha256": "5a3b19d6be3d747debd57d0ee5062f51a48547732517c6e032761ca434b61a6a",
+      "lf_bytes": 25984,
+      "sha256_lf": "5a3b19d6be3d747debd57d0ee5062f51a48547732517c6e032761ca434b61a6a"
+    },
+    "tests/xterm_x11_colour_oracle.py": {
+      "bytes": 2486,
+      "sha256": "65ea576156fe9ee50136fd907de1a91e19945d280ae0436acc3d9ca9f6bed6da",
+      "lf_bytes": 2486,
+      "sha256_lf": "65ea576156fe9ee50136fd907de1a91e19945d280ae0436acc3d9ca9f6bed6da"
+    },
+    "tests/single_exe_window_smoke.py": {
+      "bytes": 3667,
+      "sha256": "7ef74aaa08acd824d8abe6086666be7f1241953c81b0972495dcd84264190fc1",
+      "lf_bytes": 3667,
+      "sha256_lf": "7ef74aaa08acd824d8abe6086666be7f1241953c81b0972495dcd84264190fc1"
+    },
+    "scripts/generate-x11-colours.py": {
+      "bytes": 4026,
+      "sha256": "e39a8cd2d92b2ea0ff366be99aeaf4db289ca2852f0663e8af179b52569ae827",
+      "lf_bytes": 4026,
+      "sha256_lf": "e39a8cd2d92b2ea0ff366be99aeaf4db289ca2852f0663e8af179b52569ae827"
+    },
+    "scripts/prepare-single-exe.py": {
+      "bytes": 17036,
+      "sha256": "993ff82d76c40ada627bc069ac01e907d1111e503722da85feae93059339dbea",
+      "lf_bytes": 17036,
+      "sha256_lf": "993ff82d76c40ada627bc069ac01e907d1111e503722da85feae93059339dbea"
+    },
+    "scripts/build.ps1": {
+      "bytes": 2703,
+      "sha256": "5b554e669a00316a3bef4416a617435ccd6757652b975d27cfd17580deb698e7",
+      "lf_bytes": 2703,
+      "sha256_lf": "5b554e669a00316a3bef4416a617435ccd6757652b975d27cfd17580deb698e7"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 34597,
+      "sha256": "6116b51921e7185106b23f83c565b572e7d22e225c84282e23d748cfa5b07caa",
+      "lf_bytes": 34597,
+      "sha256_lf": "6116b51921e7185106b23f83c565b572e7d22e225c84282e23d748cfa5b07caa"
+    },
+    ".github/workflows/single-exe.yml": {
+      "bytes": 3560,
+      "sha256": "f9a7d6faa51efee10459ef176f556f9333230c2a563d1ad005216a1b5f4b7968",
+      "lf_bytes": 3560,
+      "sha256_lf": "f9a7d6faa51efee10459ef176f556f9333230c2a563d1ad005216a1b5f4b7968"
+    },
+    "tools/x11/xorg-server-21.1.16/oscolor.c": {
+      "bytes": 57748,
+      "sha256": "b80408019373ba1e65dfe60d0ece6e2c3e9ac7a8ddc305075461cd9074f69a01",
+      "lf_bytes": 57748,
+      "sha256_lf": "b80408019373ba1e65dfe60d0ece6e2c3e9ac7a8ddc305075461cd9074f69a01"
+    },
+    "tools/x11/xorg-server-21.1.16/LICENSE.txt": {
+      "bytes": 2144,
+      "sha256": "a3fedc5b448082e178db7c9795be352234889fb4e0c69e29a7b0560048b280a5",
+      "lf_bytes": 2144,
+      "sha256_lf": "a3fedc5b448082e178db7c9795be352234889fb4e0c69e29a7b0560048b280a5"
+    },
+    "tools/x11/xorg-server-21.1.16/manifest.json": {
+      "bytes": 499,
+      "sha256": "3b70725106d1b3c270242fb3e18e7a9bd008cda031db944a5e379b0bae197a91",
+      "lf_bytes": 499,
+      "sha256_lf": "3b70725106d1b3c270242fb3e18e7a9bd008cda031db944a5e379b0bae197a91"
+    },
+    "tools/x11/xorg-server-21.1.16/.gitattributes": {
+      "bytes": 42,
+      "sha256": "790b2f5f383e1f3bc0d66af9544861266d93d77dbb1c578e315d3d3e3a7b0783",
+      "lf_bytes": 40,
+      "sha256_lf": "9dbdd0c472c4093249408c12281406cece3b58686c4c4b52b479d3e63ba4e254"
+    }
+  },
+  "static_checks": [
+    "offline generator freshness and upstream file hashes",
+    "Python syntax compilation",
+    "PowerShell build.ps1 AST",
+    "git diff --check",
+    "complete embedded licence resource bytes (Windows CRLF)",
+    "named-colour strings in non-writable PE .rdata"
+  ],
+  "data": {
+    "names": 782,
+    "max_name_bytes": 22,
+    "string_bytes": 7615,
+    "table_bytes": 4692,
+    "coff_data_relocations": 0,
+    "coff_log": {
+      "path": "research/x11-colours-build-evidence/x11-colours-coff-symbols.log",
+      "bytes": 5639,
+      "sha256": "00a4a9f9bcd388bd92facaf7d5e6e61b150e6a0f8e5c9bc5c6310fdc2c49a7f3"
+    },
+    "per_terminal_fields_added": 0
+  },
+  "embedded_license_resource": {
+    "bytes": 83592,
+    "sha256": "ae00ad30f810f054ecf011cc62c1fd0d664c709ef4295c9709308fb3788e1fb4"
+  },
+  "preserved_images": {
+    "accepted_main": {
+      "bytes": 4371456,
+      "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+    },
+    "tested_palette_candidate": {
+      "bytes": 4430848,
+      "sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332"
+    }
+  },
+  "runtime_pending": [
+    "parser and OSC core suites",
+    "ASan/UBSan execution",
+    "independent XTerm/Xlib colour capture",
+    "single-executable licence and process isolation smoke",
+    "native protocol and rendering regression",
+    "uninstrumented GDI memory acceptance"
+  ]
+}
