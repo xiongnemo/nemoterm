@@ -89,7 +89,11 @@ jobs:
         run: ./scripts/native-crash-evidence.ps1
       - name: Verify pinned Unicode data and generated grapheme tables
         shell: pwsh
-        run: python scripts/generate-grapheme-tables.py --check
+        run: |
+          python scripts/generate-grapheme-tables.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_tabulation_oracle.py --check
+          exit $LASTEXITCODE
       - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
         with:
           msystem: UCRT64
@@ -391,6 +395,13 @@ jobs:
           python tests/state_control_window_smoke.py 2>&1 | Tee-Object test-results/state-control-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/state-control-observed.json, research/state-control-window.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Compare native tabulation with independent XTerm replies
+        shell: pwsh
+        run: |
+          python tests/tabulation_window_smoke.py 2>&1 | Tee-Object test-results/tabulation-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/tabulation-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test native selective erasure and protected Sixel pixels
         shell: pwsh

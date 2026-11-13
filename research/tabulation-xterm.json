@@ -1,0 +1,450 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "cases": {
+    "ht-column-1": {
+      "sequence": "\u001bc\u001b[1;1H\t\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "ht-column-8": {
+      "sequence": "\u001bc\u001b[1;8H\t\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "ht-column-9": {
+      "sequence": "\u001bc\u001b[1;9H\t\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "ht-column-10": {
+      "sequence": "\u001bc\u001b[1;10H\t\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "ht-column-40": {
+      "sequence": "\u001bc\u001b[1;40H\t\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "ht-column-72": {
+      "sequence": "\u001bc\u001b[1;72H\t\u001b[6n",
+      "reply": "\u001b[1;73R"
+    },
+    "ht-column-73": {
+      "sequence": "\u001bc\u001b[1;73H\t\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "ht-column-79": {
+      "sequence": "\u001bc\u001b[1;79H\t\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "ht-column-80": {
+      "sequence": "\u001bc\u001b[1;80H\t\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "ht-no-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;40H\t\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "ht-custom-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[1;18H\u001bH\u001b[1;10H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;18R\u001b[1;80R"
+    },
+    "ht-double-#3": {
+      "sequence": "\u001bc\u001b#3\u001b[1;39H\t\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "ht-double-#4": {
+      "sequence": "\u001bc\u001b#4\u001b[1;39H\t\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "ht-double-#6": {
+      "sequence": "\u001bc\u001b#6\u001b[1;39H\t\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "ht-pending-wrap": {
+      "sequence": "\u001bc\u001b[1;80HX\t\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;80R\u001b[2;2R"
+    },
+    "ht-double-wrap": {
+      "sequence": "\u001bc\u001b#6\u001b[1;40HX\t\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;40R\u001b[2;2R"
+    },
+    "ht-margins-1": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;1H\t\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "ht-margins-5": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;5H\t\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "ht-margins-9": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;9H\t\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "ht-margins-17": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;17H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-margins-20": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;20H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-margins-24": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;24H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-margins-25": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;25H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-margins-40": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;40H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-margins-80": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;80H\t\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "ht-origin": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[3;8r\u001b[?6h\t\u001b[6n",
+      "reply": "\u001b[1;5R"
+    },
+    "cht-column-1": {
+      "sequence": "\u001bc\u001b[1;1H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cht-column-8": {
+      "sequence": "\u001bc\u001b[1;8H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cht-column-9": {
+      "sequence": "\u001bc\u001b[1;9H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cht-column-10": {
+      "sequence": "\u001bc\u001b[1;10H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cht-column-40": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "cht-column-72": {
+      "sequence": "\u001bc\u001b[1;72H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;73R"
+    },
+    "cht-column-73": {
+      "sequence": "\u001bc\u001b[1;73H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "cht-column-79": {
+      "sequence": "\u001bc\u001b[1;79H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "cht-column-80": {
+      "sequence": "\u001bc\u001b[1;80H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "cht-no-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;40H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "cht-custom-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[1;18H\u001bH\u001b[1;10H\u001b[I\u001b[6n\u001b[I\u001b[6n",
+      "reply": "\u001b[1;18R\u001b[1;80R"
+    },
+    "cht-double-#3": {
+      "sequence": "\u001bc\u001b#3\u001b[1;39H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "cht-double-#4": {
+      "sequence": "\u001bc\u001b#4\u001b[1;39H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "cht-double-#6": {
+      "sequence": "\u001bc\u001b#6\u001b[1;39H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;40R"
+    },
+    "cht-pending-wrap": {
+      "sequence": "\u001bc\u001b[1;80HX\u001b[I\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;80R\u001b[2;2R"
+    },
+    "cht-double-wrap": {
+      "sequence": "\u001bc\u001b#6\u001b[1;40HX\u001b[I\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;40R\u001b[2;2R"
+    },
+    "cht-margins-1": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;1H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cht-margins-5": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;5H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cht-margins-9": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;9H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cht-margins-17": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;17H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-margins-20": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;20H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-margins-24": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;24H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-margins-25": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;25H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-margins-40": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;40H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-margins-80": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;80H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;20R"
+    },
+    "cht-origin": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[3;8r\u001b[?6h\u001b[I\u001b[6n",
+      "reply": "\u001b[1;5R"
+    },
+    "cbt-column-1": {
+      "sequence": "\u001bc\u001b[1;1H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-column-8": {
+      "sequence": "\u001bc\u001b[1;8H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-column-9": {
+      "sequence": "\u001bc\u001b[1;9H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-column-10": {
+      "sequence": "\u001bc\u001b[1;10H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cbt-column-40": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "cbt-column-72": {
+      "sequence": "\u001bc\u001b[1;72H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;65R"
+    },
+    "cbt-column-73": {
+      "sequence": "\u001bc\u001b[1;73H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;65R"
+    },
+    "cbt-column-79": {
+      "sequence": "\u001bc\u001b[1;79H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;73R"
+    },
+    "cbt-column-80": {
+      "sequence": "\u001bc\u001b[1;80H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;73R"
+    },
+    "cbt-no-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;40H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-custom-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[1;18H\u001bH\u001b[1;10H\u001b[Z\u001b[6n\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;5R\u001b[1;1R"
+    },
+    "cbt-double-#3": {
+      "sequence": "\u001bc\u001b#3\u001b[1;39H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "cbt-double-#4": {
+      "sequence": "\u001bc\u001b#4\u001b[1;39H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "cbt-double-#6": {
+      "sequence": "\u001bc\u001b#6\u001b[1;39H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "cbt-pending-wrap": {
+      "sequence": "\u001bc\u001b[1;80HX\u001b[Z\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;73R\u001b[2;2R"
+    },
+    "cbt-double-wrap": {
+      "sequence": "\u001bc\u001b#6\u001b[1;40HX\u001b[Z\u001b[6nY\u001b[6n",
+      "reply": "\u001b[1;33R\u001b[2;2R"
+    },
+    "cbt-margins-1": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;1H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-margins-5": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;5H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-margins-9": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;9H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "cbt-margins-17": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;17H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "cbt-margins-20": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;20H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cbt-margins-24": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;24H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cbt-margins-25": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;25H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "cbt-margins-40": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;40H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "cbt-margins-80": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[1;80H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;73R"
+    },
+    "cbt-origin": {
+      "sequence": "\u001bc\u001b[?69h\u001b[5;20s\u001b[3;8r\u001b[?6h\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "I-argument-": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "I-argument-0": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[0I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "I-argument-1": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[1I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "I-argument-2": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2I\u001b[6n",
+      "reply": "\u001b[1;49R"
+    },
+    "I-argument-100": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[100I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "I-argument-4294967295": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[4294967295I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "I-argument-999999999999999999999": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[999999999999999999999I\u001b[6n",
+      "reply": "\u001b[1;80R"
+    },
+    "I-argument-2;3": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2;3I\u001b[6n",
+      "reply": "\u001b[1;49R"
+    },
+    "I-argument-1:2": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[1:2I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "I-cancelled": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2\u0018I\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "Z-argument-": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "Z-argument-0": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[0Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "Z-argument-1": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[1Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "Z-argument-2": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2Z\u001b[6n",
+      "reply": "\u001b[1;25R"
+    },
+    "Z-argument-100": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[100Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "Z-argument-4294967295": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[4294967295Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "Z-argument-999999999999999999999": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[999999999999999999999Z\u001b[6n",
+      "reply": "\u001b[1;1R"
+    },
+    "Z-argument-2;3": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2;3Z\u001b[6n",
+      "reply": "\u001b[1;25R"
+    },
+    "Z-argument-1:2": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[1:2Z\u001b[6n",
+      "reply": "\u001b[1;33R"
+    },
+    "Z-cancelled": {
+      "sequence": "\u001bc\u001b[1;40H\u001b[2\u0018Z\u001b[6n",
+      "reply": "\u001b[1;41R"
+    },
+    "clear-current": {
+      "sequence": "\u001bc\u001b[1;9H\u001b[g\u001b[1;1H\t\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "clear-multiple": {
+      "sequence": "\u001bc\u001b[1;9H\u001b[0;3g\u001b[1;1H\t\u001b[6n",
+      "reply": "\u001b[1;17R"
+    },
+    "restore-": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-0": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?0W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-3": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?3W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;5R\u001b[1;80R"
+    },
+    "restore-5": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?5W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-5;0": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?5;0W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-0;5": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?0;5W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-5:1": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?5:1W\u001b[1;1H\t\u001b[6n\t\u001b[6n",
+      "reply": "\u001b[1;9R\u001b[1;17R"
+    },
+    "restore-pending-wrap": {
+      "sequence": "\u001bc\u001b[1;80HX\u001b[?5WY\u001b[6n",
+      "reply": "\u001b[2;2R"
+    },
+    "soft-reset-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[!p\u001b[1;1H\u001b[I\u001b[6n",
+      "reply": "\u001b[1;5R"
+    },
+    "hard-reset-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001bc\u001b[I\u001b[6n",
+      "reply": "\u001b[1;9R"
+    },
+    "alternate-shared-stops": {
+      "sequence": "\u001bc\u001b[3g\u001b[1;5H\u001bH\u001b[?1049h\u001b[I\u001b[6n\u001b[1;18H\u001bH\u001b[?1049l\u001b[I\u001b[6n",
+      "reply": "\u001b[1;80R\u001b[1;18R"
+    }
+  }
+}

@@ -3886,6 +3886,32 @@ static void check_selection(Terminal *term, pos from, pos to)
         deselect(term);
 }
 
+static void nemo_tabulate(Terminal *term, unsigned count, bool forward)
+{
+    pos old_curs = term->curs;
+    termline *line = scrlineptr(term->curs.y);
+    int limit = forward ? term->marg_r : term->dec_om ? term->marg_l : 0;
+    if (forward && (line->lattr & LATTR_MODE) != LATTR_NORM)
+        limit = min(limit, max(0, term->cols / 2 - 1));
+    count = min(count ? count : 1, (unsigned)term->cols);
+    while (count--) {
+        if (forward) {
+            /* HT/CHT clamp to the right margin even when starting outside
+             * it. This intentionally differs from ordinary CUF movement. */
+            if (term->curs.x >= limit) { term->curs.x = limit; break; }
+            do { term->curs.x++; }
+            while (term->curs.x < limit && !term->tabs[term->curs.x]);
+        } else {
+            if (term->curs.x <= limit) { term->curs.x = limit; break; }
+            do { term->curs.x--; }
+            while (term->curs.x > limit && !term->tabs[term->curs.x]);
+        }
+    }
+    /* Like xterm, both directions preserve a pending automatic wrap. */
+    check_selection(term, old_curs, term->curs);
+    seen_disp_event(term);
+}
+
 static void clear_line(Terminal *term, termline *line)
 {
     resizeline(term, line, term->cols);
@@ -6597,28 +6623,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 if (term->logctx)
                     logtraffic(term->logctx, (unsigned char) c, LGTYP_ASCII);
                 break;
-              case '\t': {              /* HT: Character tabulation */
-                pos old_curs = term->curs;
-                termline *ldata = scrlineptr(term->curs.y);
-                int right = nemo_right(term);
-
-                do {
-                    term->curs.x++;
-                } while (term->curs.x < right &&
-                         !term->tabs[term->curs.x]);
-
-                if ((ldata->lattr & LATTR_MODE) != LATTR_NORM) {
-                    if (term->curs.x >= term->cols / 2)
-                        term->curs.x = term->cols / 2 - 1;
-                } else {
-                    if (term->curs.x > right)
-                        term->curs.x = right;
-                }
-
-                check_selection(term, old_curs, term->curs);
-                seen_disp_event(term);
+              case '\t':              /* HT: Character tabulation */
+                nemo_tabulate(term, 1, true);
                 break;
-              }
             }
         } else
             switch (term->termstate) {
@@ -7213,15 +7220,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case 'g':       /* TBC: clear tabs */
                         compatibility(VT100);
-                        if (term->esc_nargs == 1) {
-                            if (term->esc_args[0] == 0) {
-                                term->tabs[term->curs.x] = false;
-                            } else if (term->esc_args[0] == 3) {
-                                int i;
-                                for (i = 0; i < term->cols; i++)
-                                    term->tabs[i] = false;
-                            }
-                        }
+                        if (term->esc_args[0] == 0)
+                            term->tabs[term->curs.x] = false;
+                        else if (term->esc_args[0] == 3)
+                            memset(term->tabs, 0, term->cols);
+                        break;
+                      case ANSI_QUE('W'): /* DECST8C: restore eight-column tabs */
+                        compatibility(VT510);
+                        if (term->esc_args[0] == 0 || term->esc_args[0] == 5)
+                            for (int i = 0; i < term->cols; i++)
+                                term->tabs[i] = i > 0 && i % 8 == 0;
                         break;
                       case ANSI('q', ' '): /* DECSCUSR */
                         if (term->esc_nargs == 1)
@@ -7721,21 +7729,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             }
                         }
                         break;
-                      case 'Z': {         /* CBT */
+                      case 'I':           /* CHT */
+                      case 'Z':           /* CBT */
                         compatibility(OTHER);
-                        CLAMP(term->esc_args[0], term->cols);
-                        int i = def(term->esc_args[0], 1);
-                        pos old_curs = term->curs;
-
-                        for (; i>0 && term->curs.x>0; i--) {
-                            do {
-                                term->curs.x--;
-                            } while (term->curs.x >0 &&
-                                     !term->tabs[term->curs.x]);
-                        }
-                        check_selection(term, old_curs, term->curs);
+                        nemo_tabulate(term, term->esc_args[0], c == 'I');
                         break;
-                      }
                       case ANSI('c', '='):      /* DA3, or legacy SCO cursor */
                         /* The default PuTTY superset includes SCO, whose
                          * cursor control collides with DA3. Only explicit

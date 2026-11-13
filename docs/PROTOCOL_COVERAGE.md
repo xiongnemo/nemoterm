@@ -1,0 +1,160 @@
+# Protocol coverage and remaining gaps
+
+This is an audited inventory of the current development sources, not a claim
+of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
+has an older source identity; consult the artifact records in `research/`.
+
+Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
+(page identifies patch 411); independent captures use the pinned
+[XTerm 412 source](https://github.com/ThomasDickey/xterm-snapshots/tree/5c75ead9a75d4b2e666ca06fa94503b5766ed93f).
+Modern extensions are tracked separately below. Xterm itself has optional,
+platform-specific and build-dependent functions.
+
+Status vocabulary:
+
+* **Tested**: concrete assertions exist for the listed behavior. This does not
+  imply every parameter combination or real application has been verified.
+* **Partial**: an implementation and tests exist, with an explicit limitation.
+* **Gated**: a local setting controls the operation. Protocol unit tests are
+  distinct from permission and native integration acceptance.
+* **Source only**: a handler exists, but this audit has not established adequate
+  behavioral evidence.
+* **Missing**: no implementation was found in the current dispatch path.
+
+Test names below refer to `vendor/putty-0.85/test/test_<name>.c` unless noted.
+The main parser is `vendor/putty-0.85/terminal/terminal.c`; modern helpers are
+`terminal/nemo_*.c`. The inventory is organized by wire function, not by the
+number of passing executables. Unlisted private extensions remain **unverified**.
+
+## Controls and character sets
+
+| Wire function | Status | Evidence or limitation |
+| --- | --- | --- |
+| C0 BEL | Source only | Bell callback and local policies; audible/visual behavior needs dedicated acceptance. |
+| C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; linefeed and boundary behavior. |
+| C0 HT; ESC H (HTS) | Tested | `state_control`, 105 tabulation oracle comparisons and native ConPTY replies. |
+| C0 ENQ | Source only | Configured answerback path. |
+| C0 SI/SO | Source only | G0/G1 selection exists; full ISO 2022 combinations remain unverified. |
+| C0 CAN/SUB/ESC cancellation | Partial | Numerous query/OSC/DCS recovery cases; complete state-machine matrix remains open. |
+| ESC D/E/M (IND/NEL/RI) | Tested | `margins`, including partial horizontal scroll regions. |
+| ESC 7/8 (DECSC/DECRC) | Tested | `state_control`, cursor/rendition/alternate-screen state. |
+| ESC = / ESC > | Tested | `modes`, `keyboard`, application/numeric keypad state. |
+| ESC Z (DECID) | Source only | Shares configured primary DA response; not separately covered by identity oracle. |
+| ESC c (RIS) | Tested | `state_control`, `grapheme_terminal`, `sixel_terminal`. |
+| ESC #3/#4/#5/#6 | Partial | Line rendering and cursor-only tabulation checked. Text autowrap still uses physical width on double-size lines; three captured failures in `tabulation-xterm.json`. |
+| ESC #8 (DECALN) | Source only | Screen fill exists; graphics/attributes/selection interactions need a focused audit. |
+| ESC ( A/B/0/U; ESC ) A/B/0/U | Partial | British/ASCII/DEC graphics/SCO sets in G0/G1 only. Other national sets and G2/G3 designations are missing. |
+| ESC % G / ESC % @ | Partial | UTF-8 switching exists; not full ISO 2022 conformance. |
+| ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Missing | G2/G3 invocation is not implemented. |
+| ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
+| ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
+| ESC 6/9 (DECBI/DECFI) | Missing | Horizontal index scrolling is not implemented. |
+| ESC V/W (SPA/EPA) | Missing | DEC protection via DECSCA exists; ISO guarded areas are separate. |
+| Raw C1 bytes and UTF-8 encoded C1 | Partial | Existing codepage-sensitive parser; exhaustive byte/state conformance is still open. Do not assume UTF-8 text is reprocessed as controls. |
+| SOS/PM/APC strings | Partial | String consumption/recovery only; no application payload support. |
+
+## CSI cursor, editing, status and window functions
+
+| Wire function | Status | Evidence or limitation |
+| --- | --- | --- |
+| A/B/C/D (CUU/CUD/CUF/CUB) | Tested | `margins`, `terminal`; origin and scroll-region boundaries. |
+| E/F (CNL/CPL) | Source only | Handlers exist; dedicated origin/horizontal-margin matrix remains open. |
+| G and backtick (CHA/HPA); d (VPA); H/f (CUP/HVP) | Tested | `margins`, `queries`, origin-relative positioning. |
+| a/e (HPR/VPR) | Source only | Share relative movement handlers; aliases need direct cases. |
+| I/Z (CHT/CBT) | Tested | `state_control`, defaults/counts, custom stops, margins and pending wrap; native oracle replay. |
+| g, parameters 0/3 (TBC) | Tested | Tabulation oracle, including extra parameters using the first value. |
+| ?W, parameters default/0/5 (DECST8C) | Tested | Tabulation oracle; VT510 compatibility capability required. |
+| @/P (ICH/DCH) | Tested | `margins`, `rectangle`, `reflow`, wide/combining boundaries. |
+| L/M (IL/DL) | Tested | `margins`, `sixel_terminal`, partial-region lifetimes. |
+| J/K/X (ED/EL/ECH) | Tested | `terminal`, `selective_erase`, `rectangle`, Sixel cell erasure. |
+| J parameter 3 (saved-line erase) | Gated | Local remote-clear-scrollback setting; active screen is separate. |
+| ?J/?K (DECSED/DECSEL) | Tested | `selective_erase`; protected text and image erasure. |
+| S/T (SU/SD) | Tested | `margins`, `sixel_terminal`; T also has mouse highlight syntax. |
+| ^ (SD alias), SP @ / SP A (SL/SR) | Missing | No alias or horizontal shift handlers. |
+| b (REP) | Tested | `terminal`, `grapheme_terminal`; bounded repeats and optional whole clusters. |
+| r (DECSTBM); s with mode 69 (DECSLRM) | Tested | `margins`, independent xterm oracle. |
+| s/u without mode 69 | Tested | `state_control`; ANSI cursor save/restore aliases. |
+| !p (DECSTR) | Tested | `state_control`, soft reset retention and mode reset semantics. |
+| $p / ?$p (DECRQM) | Tested | `modes`; reports implemented state, local restrictions and unknown modes. |
+| ?s / ?r (XTSAVE/XTRESTORE) | Partial | `state_control`, `margins`; bounded explicit list of supported private modes, not arbitrary modes. |
+| SP q (DECSCUSR) | Tested | `queries`, cursor shape and blink readback. |
+| c / >c / =c (DA/DA2/DA3) | Tested | `queries`, `identity-queries.md`; compatibility identity is not a feature-completeness claim. |
+| >q (XTVERSION) | Tested | `queries`; reports Nemoterm/PuTTY lineage. |
+| n parameters 5/6 (DSR/CPR) | Tested | `queries`, `margins`, tabulation oracle. |
+| ?n (DEC-specific DSR, including extended CPR) | Missing | No dispatch handler. |
+| x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
+| "p (DECSCL) | Partial | PuTTY compatibility masks; second parameter's 7/8-bit control selection is not implemented. |
+| "q (DECSCA) | Tested | `selective_erase`, independent of SGR resets. |
+| $z / ${ (DECERA/DECSERA) | Tested | `selective_erase`, rectangular protected/unprotected erasure. |
+| $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
+| $r / $t / *x (DECCARA/DECRARA/DECSACE) | Tested | `rectangle`, stream/rectangle attribute extent. |
+| *y (DECRQCRA); #y (checksum selection) | Missing | Used by the independent xterm oracle, not implemented by Nemoterm. |
+| $w (DECRQPSR); $u (terminal state request) | Missing | Presentation/terminal state reports are not implemented. |
+| #\| (XTREPORTSGR), #{ / #} (SGR stack) | Missing | Current-state DECRQSS is separate from rectangle/stack operations. |
+| #P/#Q/#R (palette stack) | Missing | OSC palette mutation exists; no palette stack. |
+| #S (title-stack position query) | Missing | Title push/pop exists; position query is separate. |
+| t, operations 1–9, 11, 13–16, 18–23 and line count >=24 | Partial | `queries`, `titles`, `window_resize`; native movement, size and title policies apply. Other window operations remain missing. |
+| >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
+| *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
+| i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |
+| DEC locator 'w/'z/'{/'\| controls | Missing | Xterm mouse tracking is implemented separately; DEC locator is not. |
+
+## Rendition, modes, input and graphics
+
+| Wire function | Status | Evidence or limitation |
+| --- | --- | --- |
+| SGR 0,1,2,3,4,5,7,8,9,21–25,27–29 | Tested | `sgr`, `queries`; bold/dim/italic/underline/blink/inverse/conceal/strike and resets. |
+| SGR 4:0–5; 58/59 | Tested | Underline styles/colours and reset, native pixels and query round trips. |
+| SGR 30–37/40–47/90–97/100–107/39/49 | Tested | Indexed/default foreground/background and configuration policy. |
+| SGR 38/48/58, indexed or RGB, semicolon/colon forms | Tested | `sgr`, `queries`; supported forms and malformed input recovery. |
+| SGR font-selection, framed/encircled/overline, ideogram attributes | Missing | No complete xterm implementation; legacy SCO font controls do not satisfy this family. |
+| ANSI modes 4/12/20/34 | Tested | `modes`, `state_control`; insertion, echo, newline and legacy cursor mode. |
+| DEC modes 1/2/3/5/6/7/8/12/25/66 | Partial | `modes`, `state_control`; corresponding legacy behavior and configuration gates. Full VT52 and 80/132 transition coverage remains open. |
+| DEC modes 47/1047/1048/1049 | Tested | Alternate screen and cursor state, `state_control`, `margins`, `grapheme_terminal`. |
+| DEC mode 69 | Tested | Horizontal margin state and edits, `margins`. |
+| DEC modes 9/1000/1001/1002/1003 | Tested | X10, press/release, highlight, button/all motion; `mouse`, `highlight`, native HWND fixtures. |
+| DEC modes 1005/1006/1015/1016 | Tested | UTF-8/SGR/urxvt/pixel mouse encodings and bounded coordinates. |
+| DEC modes 1004/1007 | Tested | Focus reports and alternate-screen wheel behavior. |
+| DEC mode 2004 | Gated | Bracketed paste protocol tested; local real clipboard acceptance remains unavailable, mandatory CI gate retained. |
+| DEC modes 80/1070/8452 | Tested | Sixel display/palette/cursor-scroll behavior, `sixel_terminal`. |
+| DEC modes 2026/2027 | Partial | Synchronized frames and opt-in grapheme widths tested; see `sync`, `grapheme_terminal`, `graphemes.md`. Color-font/emoji policy and long workloads remain open. |
+| DEC mode 9001 | Gated | Windows input records, `win32_input`, user setting and native fixture. |
+| Other DEC modes, including 45 reverse wrap and 1042/1043 bell focus | Missing | Not in the current mode handler; DECRQM returns unknown rather than advertising support. |
+| >m/>n/?m; >f/?g/>g (modifyOtherKeys family) | Partial | `mok`, native key tests and independent reference; supported resource is modifyOtherKeys, not all xterm key resources. |
+| ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |
+| DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
+| DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key capability whitelist, not arbitrary terminfo access. |
+| DCS +p ... ST (XTSETTCAP), user-defined keys and state restoration | Missing | Query-only termcap support. |
+| DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
+| CSI ? ... S (XTSMGRAPHICS) | Missing | Sixel rendering does not imply graphics-capability query support. |
+| ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |
+| APC G (kitty graphics); OSC 1337 inline file/image transfer | Missing | APC is consumed; OSC 1337 working-directory metadata does not implement image transfer. |
+
+## OSC and modern shell metadata
+
+| Wire function | Status | Evidence or limitation |
+| --- | --- | --- |
+| OSC 0/1/2/21 | Gated | `titles`, bounded title/icon strings, encoding modes and local title policies. |
+| OSC 4 / 104 | Tested | `osc_colour`, indexed palette set/query/reset; multiple pairs and malformed data. |
+| OSC 10/11/12 and 110/111/112 | Tested | Default foreground/background/cursor colours and resets. |
+| OSC 5/6, 13–19, 105/106, 113–119 | Missing | Special/attribute/highlight/other dynamic colour operations are not implemented. |
+| OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
+| OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy; mandatory native clipboard-related cases still await CI. |
+| OSC 9;9 / OSC 633 P;Cwd= / OSC 1337 CurrentDir= | Partial | `cwd`; metadata subset only, not every operation in these namespaces. |
+| OSC 133 / OSC 633 A/B/C/D | Partial | `shell_marks`; bounded prompt/command/output marks; not a complete VS Code terminal protocol. |
+| OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Actual clipboard integration remains a required CI gate. |
+| OSC P / R (Linux palette legacy syntax) | Source only | Inherited handlers; separate from tested OSC 4 parsing. |
+| OSC 3/22/30/31/46/50/60/61/62 and remaining xterm OSC commands | Missing | X properties, pointer/font/log/resource operations are not implemented. |
+
+## Work queue from this audit
+
+1. Correct double-size line text wrapping and audit wide/cluster writes across
+   a transition to the next line; retain the three independent failing captures.
+2. Add XTSMGRAPHICS and DEC-specific status queries, with truthful capabilities.
+3. Audit C0/C1 and character-set state transitions; expand individual mode and
+   unlisted CSI entries instead of treating this first inventory as exhaustive.
+4. Add horizontal index/shift and remaining xterm report/stack operations with
+   independent reference cases and bounded storage.
+5. Preserve native clipboard, real-agent, physical IME, graphics lifetime and
+   full process-tree memory acceptance as separate gates. Passing protocol unit
+   tests does not close these requirements.

@@ -2,6 +2,50 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "../../../tests/tabulation_oracle_cases.h"
+
+static void test_tabulation(Mock *mk)
+{
+    for (size_t i = 0; i < lenof(tabulation_oracle); i++) {
+        reset(mk);
+        test_context(mk, "tabulation: %s", tabulation_oracle[i].name);
+        term_size(mk->term, 24, 80, 0);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, tabulation_oracle[i].sequence);
+        SEQUAL(mk->to_backend->s, tabulation_oracle[i].reply);
+    }
+
+    reset(mk);
+    test_context(mk, "backward tabs stop at the origin's left margin");
+    term_data_fragmented(mk->term, "\033[?69h\033[5;20s\033[?6h\033[999Z");
+    IEQUAL(mk->term->curs.x, 4);
+
+    reset(mk);
+    test_context(mk, "tabulation rejects colon subparameters without changes");
+    term_data_fragmented(mk->term, "\033[3g\033[1;5H\033H\033[1;10H"
+                         "\033[2:3I\033[2:3Z\033[?5:1W");
+    IEQUAL(mk->term->curs.x, 9);
+    IEQUAL(mk->term->tabs[4], true);
+    IEQUAL(mk->term->tabs[8], false);
+
+    reset(mk);
+    test_context(mk, "tab movement leaves text and attributes untouched");
+    term_data_fragmented(mk->term, "\033[31;44;1mKEPT\033[1;1H\033[999I\033[999Z");
+    for (int x = 0; x < 4; x++) {
+        termchar ch = get_termchar(mk->term, x, 0);
+        IEQUAL(ch.chr & ~CSET_MASK, "KEPT"[x]);
+        IEQUAL(ch.attr & ATTR_BOLD, ATTR_BOLD);
+        IEQUAL((ch.attr & ATTR_FGMASK) >> ATTR_FGSHIFT, 1);
+        IEQUAL((ch.attr & ATTR_BGMASK) >> ATTR_BGSHIFT, 4);
+    }
+
+    reset(mk);
+    test_context(mk, "one-column double-width line remains in bounds");
+    term_size(mk->term, 1, 1, 0);
+    term_data_fragmented(mk->term, "\033#6\t\033[I\033[Z\033[?5W");
+    IEQUAL(mk->term->curs.x, 0);
+    IEQUAL(mk->term->curs.y, 0);
+}
 
 static void state_reply(Mock *mk, const char *input, const char *expected)
 {
@@ -228,6 +272,7 @@ int main(void)
     test_saved_modes(mk);
     test_cursor_aliases_and_origin(mk);
     test_saved_extensions_and_recovery(mk);
+    test_tabulation(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "State control suite FAILED" : "State control suite passed");

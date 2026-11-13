@@ -186,7 +186,8 @@ VT/kitty/modifyOtherKeys 切换，以及 Shift 选择和 Ctrl+Shift+C/V。测试
 `python tests/sixel_font_window_smoke.py` 验证字体尺寸变化后保留图片和擦除孔洞，
 包括新格宽/格高下擦除、分段滚动、历史与主/备用屏。图片保持原始像素尺寸，
 起点和滚动位移随字符格变化；不复制或重采样位图。真实多屏 DPI 切换仍待验收。
-这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)。
+这些测试不等于所有终端协议完整支持，详见 [需求账本](docs/REQUIREMENTS.md)
+和 [逐项协议覆盖清单](docs/PROTOCOL_COVERAGE.md)。
 
 本机 Windows 10 19044 自带 ConPTY 会破坏 Sixel 的 DCS 传输；单文件版本已将
 固定版本的微软 ConPTY/OpenConsole 源码编入 EXE，并通过真实窗口 Sixel 色块显示验证。

@@ -1,0 +1,353 @@
+{
+  "parent_commit": "9eba715f69e6cc546452b120008651a27e70b750",
+  "captured_utc": "2026-11-13T04:05:51.062458+00:00",
+  "source_lf_sha256": {
+    "vendor/putty-0.85/terminal/terminal.c": "4117a1e3660d68e21d46150d86b1aa6530c5ab4d7ebaab76aa34ed1eb1ffe40e",
+    "vendor/putty-0.85/test/test_state_control.c": "b94d009a2cc6630c9e964dbda35de0078a289836f63b888d1f793366216516d7",
+    "tests/xterm_tabulation_oracle.py": "249494c47611e22e1f534f30df28df2372b453dc49d67f0f1d15da31750202d5",
+    "tests/tabulation_window_smoke.py": "7ffacbf9293796656e3e490d8348402c824c43011a1f3f0f23fcb62cd6a12d96",
+    "tests/generate_tabulation_oracle.py": "03f416020cb7a4b2fedfdeb0cb66589a10582787b2b650a4f6aab95e03c5e2ff",
+    "tests/tabulation_oracle_cases.h": "b156fc53e0f64e62b7e344b01c6ec4a9f5f0d5400a1a0fb39864bd5e74dabcea",
+    "tests/tabulation_oracle_cases.py": "82740b59b667faf1c7e9b57e66c9208dece864f4120075a211d58a67cee9d6ee"
+  },
+  "artifact": {
+    "path": "build\\local-tabulation-check\\dist\\nemoterm.exe",
+    "size": 4417024,
+    "sha256": "11d97279c9e836aad3492c54afac9ccf722390d6ca8350832ede41970a2f6337"
+  },
+  "before": {
+    "exit_code": 1,
+    "failed_assertions": 49,
+    "output": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: ht-double-wrap): '\u001b[1;40R\u001b[1;41R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: ht-margins-24): '\u001b[1;25R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: ht-margins-25): '\u001b[1;33R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: ht-margins-40): '\u001b[1;41R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: ht-margins-80): '\u001b[1;80R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-1): '\u001b[1;1R' != '\u001b[1;9R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-8): '\u001b[1;8R' != '\u001b[1;9R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-9): '\u001b[1;9R' != '\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-10): '\u001b[1;10R' != '\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-40): '\u001b[1;40R' != '\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-72): '\u001b[1;72R' != '\u001b[1;73R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-73): '\u001b[1;73R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-column-79): '\u001b[1;79R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-no-stops): '\u001b[1;40R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-custom-stops): '\u001b[1;10R\u001b[1;10R' != '\u001b[1;18R\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-double-#3): '\u001b[1;39R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-double-#4): '\u001b[1;39R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-double-#6): '\u001b[1;39R' != '\u001b[1;40R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-double-wrap): '\u001b[1;41R\u001b[1;42R' != '\u001b[1;40R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-1): '\u001b[1;1R' != '\u001b[1;9R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-5): '\u001b[1;5R' != '\u001b[1;9R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-9): '\u001b[1;9R' != '\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-17): '\u001b[1;17R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-24): '\u001b[1;24R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-25): '\u001b[1;25R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-40): '\u001b[1;40R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-margins-80): '\u001b[1;80R' != '\u001b[1;20R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cht-origin): '\u001b[1;1R' != '\u001b[1;5R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cbt-double-wrap): '\u001b[1;33R\u001b[1;34R' != '\u001b[1;33R\u001b[2;2R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: cbt-origin): '\u001b[1;-3R' != '\u001b[1;1R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-): '\u001b[1;40R' != '\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-0): '\u001b[1;40R' != '\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-1): '\u001b[1;40R' != '\u001b[1;41R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-2): '\u001b[1;40R' != '\u001b[1;49R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-100): '\u001b[1;40R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-4294967295): '\u001b[1;40R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-999999999999999999999): '\u001b[1;40R' != '\u001b[1;80R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: I-argument-2;3): '\u001b[1;40R' != '\u001b[1;49R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: clear-multiple): '\u001b[1;9R' != '\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: restore-): '\u001b[1;5R\u001b[1;80R' != '\u001b[1;9R\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: restore-0): '\u001b[1;5R\u001b[1;80R' != '\u001b[1;9R\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: restore-5): '\u001b[1;5R\u001b[1;80R' != '\u001b[1;9R\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: restore-5;0): '\u001b[1;5R\u001b[1;80R' != '\u001b[1;9R\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: restore-0;5): '\u001b[1;5R\u001b[1;80R' != '\u001b[1;9R\u001b[1;17R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: soft-reset-stops): '\u001b[1;1R' != '\u001b[1;5R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: hard-reset-stops): '\u001b[1;1R' != '\u001b[1;9R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:15 (tabulation: alternate-shared-stops): '\u001b[1;5R\u001b[1;5R' != '\u001b[1;80R\u001b[1;18R'\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:21 (backward tabs stop at the origin's left margin): 0 != 4 / 0 != 0x4\nC:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\rtl-worktree\\vendor\\putty-0.85\\test\\test_state_control.c:46 (one-column double-width line remains in bounds): -1 != 0 / 0xffffffffffffffff != 0\nState control suite FAILED\n"
+  },
+  "core": {
+    "test_shell": {
+      "exit_code": 0,
+      "output": "Shell detection, Unicode command quoting and child environment suite passed\r\n"
+    },
+    "test_font_fallback": {
+      "exit_code": 0,
+      "output": "Requested Consolas; initially selected Consolas\r\nSelected after registration Consolas; cmap bytes 10410; U+F0001 glyph 0\r\nRequested Courier; initially selected Courier\r\nSelected after registration Courier; cmap bytes 4294967295; U+F0001 glyph 0\r\nRequested SarasaTermSC Nerd Font Light; initially selected SarasaTermSC Nerd Font Light\r\nSelected after registration SarasaTermSC Nerd Font Light; cmap bytes 42560; U+F0001 glyph 0\r\nRequested Nemo Test Missing Font 938471; initially selected Arial\r\nSelected after registration Arial; cmap bytes 10158; U+F0001 glyph 0\r\nFont fallback preserves supported glyphs, handles supplementary icons and releases its bounded cache\r\n"
+    },
+    "test_shell_marks": {
+      "exit_code": 0,
+      "output": "Shell mark suite passed\r\n"
+    },
+    "test_terminal": {
+      "exit_code": 0,
+      "output": "Test suite passed\r\n"
+    },
+    "test_cluster_renderer": {
+      "exit_code": 0,
+      "output": "Cluster renderer: system fallback, NFC, bounded cells, clipping, double-height and handle lifetime passed\r\n"
+    },
+    "test_mouse": {
+      "exit_code": 0,
+      "output": "Mouse test suite passed\r\n"
+    },
+    "test_selective_erase": {
+      "exit_code": 0,
+      "output": "Selective erase suite passed\r\n"
+    },
+    "test_sgr": {
+      "exit_code": 0,
+      "output": "SGR suite passed\r\n"
+    },
+    "test_colour": {
+      "exit_code": 0,
+      "output": "OSC colour parser tests passed\r\n"
+    },
+    "test_keyboard": {
+      "exit_code": 0,
+      "output": "Keyboard protocol suite passed\r\n"
+    },
+    "test_cwd": {
+      "exit_code": 0,
+      "output": "Directory metadata suite passed\r\n"
+    },
+    "test_margins": {
+      "exit_code": 0,
+      "output": "Margin suite passed\r\n"
+    },
+    "test_conf": {
+      "exit_code": 0,
+      "output": ""
+    },
+    "test_highlight": {
+      "exit_code": 0,
+      "output": "Highlight suite passed\r\n"
+    },
+    "test_tcap": {
+      "exit_code": 0,
+      "output": "Capability/keyboard suite passed\r\n"
+    },
+    "test_font_cmap": {
+      "exit_code": 0,
+      "output": "Font cmap BMP/supplementary mapping, missing glyphs and malformed bounds passed\r\n"
+    },
+    "test_resize": {
+      "exit_code": 0,
+      "output": "Resize suite passed\r\n"
+    },
+    "test_rectangle": {
+      "exit_code": 0,
+      "output": "Rectangle editing and independent XTerm oracle suite passed\r\n"
+    },
+    "test_mok": {
+      "exit_code": 0,
+      "output": "Modified keys suite passed\r\n"
+    },
+    "test_state_control": {
+      "exit_code": 0,
+      "output": "State control suite passed\r\n"
+    },
+    "test_win32_input": {
+      "exit_code": 0,
+      "output": "Win32 input suite passed\r\n"
+    },
+    "test_hyperlink": {
+      "exit_code": 0,
+      "output": "Hyperlink test suite passed\r\n"
+    },
+    "test_tabs_layout": {
+      "exit_code": 0,
+      "output": "Tab layout: 72000 small-window/DPI/overflow cases plus edge and preview checks passed\r\n"
+    },
+    "test_grapheme_terminal": {
+      "exit_code": 0,
+      "output": "Grapheme terminal suite passed\r\n"
+    },
+    "test_reflow": {
+      "exit_code": 0,
+      "output": "Reflow suite passed\r\n"
+    },
+    "test_titles": {
+      "exit_code": 0,
+      "output": "Title suite passed\r\n"
+    },
+    "test_sixel": {
+      "exit_code": 0,
+      "output": "Sixel decoder: pixel/color/stream/bounds/budget + 20000 fuzz cases passed\r\n"
+    },
+    "test_sixel_terminal": {
+      "exit_code": 0,
+      "output": "Sixel terminal suite passed\r\n"
+    },
+    "test_osc_colour": {
+      "exit_code": 0,
+      "output": "OSC colour suite passed\r\n"
+    },
+    "test_queries": {
+      "exit_code": 0,
+      "output": "Query suite passed\r\n"
+    },
+    "test_modes": {
+      "exit_code": 0,
+      "output": "Mode test suite passed\r\n"
+    },
+    "test_osc52": {
+      "exit_code": 0,
+      "output": "OSC 52 suite passed\r\n"
+    },
+    "test_grapheme": {
+      "exit_code": 0,
+      "output": "UAX29 Unicode 18.0.0: 853 official vectors, all chunk splits, bounded long streams and invalid scalars passed\r\n"
+    },
+    "test_snapshot": {
+      "exit_code": 0,
+      "output": "4K snapshot: retained=634781 peak=1287691 compressed=135660 bytes\r\nsnapshot tests passed\r\n"
+    },
+    "test_sync": {
+      "exit_code": 0,
+      "output": "Synchronized output test suite passed\r\n"
+    }
+  },
+  "sanitizers": {
+    "tests": [
+      "test_state_control",
+      "test_margins"
+    ],
+    "exit_code": 0,
+    "asan": "detect_leaks=1:halt_on_error=1",
+    "ubsan": "halt_on_error=1"
+  },
+  "native": {
+    "executable_sha256": "11d97279c9e836aad3492c54afac9ccf722390d6ca8350832ede41970a2f6337",
+    "completed": true,
+    "cases": {
+      "ht-column-1": "1b5b313b39521b503024721b5c",
+      "ht-column-8": "1b5b313b39521b503024721b5c",
+      "ht-column-9": "1b5b313b3137521b503024721b5c",
+      "ht-column-10": "1b5b313b3137521b503024721b5c",
+      "ht-column-40": "1b5b313b3431521b503024721b5c",
+      "ht-column-72": "1b5b313b3733521b503024721b5c",
+      "ht-column-73": "1b5b313b3830521b503024721b5c",
+      "ht-column-79": "1b5b313b3830521b503024721b5c",
+      "ht-column-80": "1b5b313b3830521b503024721b5c",
+      "ht-no-stops": "1b5b313b3830521b503024721b5c",
+      "ht-custom-stops": "1b5b313b3138521b5b313b3830521b503024721b5c",
+      "ht-double-#3": "1b5b313b3430521b503024721b5c",
+      "ht-double-#4": "1b5b313b3430521b503024721b5c",
+      "ht-double-#6": "1b5b313b3430521b503024721b5c",
+      "ht-pending-wrap": "1b5b313b3830521b5b323b32521b503024721b5c",
+      "ht-margins-1": "1b5b313b39521b503024721b5c",
+      "ht-margins-5": "1b5b313b39521b503024721b5c",
+      "ht-margins-9": "1b5b313b3137521b503024721b5c",
+      "ht-margins-17": "1b5b313b3230521b503024721b5c",
+      "ht-margins-20": "1b5b313b3230521b503024721b5c",
+      "ht-margins-24": "1b5b313b3230521b503024721b5c",
+      "ht-margins-25": "1b5b313b3230521b503024721b5c",
+      "ht-margins-40": "1b5b313b3230521b503024721b5c",
+      "ht-margins-80": "1b5b313b3230521b503024721b5c",
+      "ht-origin": "1b5b313b35521b503024721b5c",
+      "cht-column-1": "1b5b313b39521b503024721b5c",
+      "cht-column-8": "1b5b313b39521b503024721b5c",
+      "cht-column-9": "1b5b313b3137521b503024721b5c",
+      "cht-column-10": "1b5b313b3137521b503024721b5c",
+      "cht-column-40": "1b5b313b3431521b503024721b5c",
+      "cht-column-72": "1b5b313b3733521b503024721b5c",
+      "cht-column-73": "1b5b313b3830521b503024721b5c",
+      "cht-column-79": "1b5b313b3830521b503024721b5c",
+      "cht-column-80": "1b5b313b3830521b503024721b5c",
+      "cht-no-stops": "1b5b313b3830521b503024721b5c",
+      "cht-custom-stops": "1b5b313b3138521b5b313b3830521b503024721b5c",
+      "cht-double-#3": "1b5b313b3430521b503024721b5c",
+      "cht-double-#4": "1b5b313b3430521b503024721b5c",
+      "cht-double-#6": "1b5b313b3430521b503024721b5c",
+      "cht-pending-wrap": "1b5b313b3830521b5b323b32521b503024721b5c",
+      "cht-margins-1": "1b5b313b39521b503024721b5c",
+      "cht-margins-5": "1b5b313b39521b503024721b5c",
+      "cht-margins-9": "1b5b313b3137521b503024721b5c",
+      "cht-margins-17": "1b5b313b3230521b503024721b5c",
+      "cht-margins-20": "1b5b313b3230521b503024721b5c",
+      "cht-margins-24": "1b5b313b3230521b503024721b5c",
+      "cht-margins-25": "1b5b313b3230521b503024721b5c",
+      "cht-margins-40": "1b5b313b3230521b503024721b5c",
+      "cht-margins-80": "1b5b313b3230521b503024721b5c",
+      "cht-origin": "1b5b313b35521b503024721b5c",
+      "cbt-column-1": "1b5b313b31521b503024721b5c",
+      "cbt-column-8": "1b5b313b31521b503024721b5c",
+      "cbt-column-9": "1b5b313b31521b503024721b5c",
+      "cbt-column-10": "1b5b313b39521b503024721b5c",
+      "cbt-column-40": "1b5b313b3333521b503024721b5c",
+      "cbt-column-72": "1b5b313b3635521b503024721b5c",
+      "cbt-column-73": "1b5b313b3635521b503024721b5c",
+      "cbt-column-79": "1b5b313b3733521b503024721b5c",
+      "cbt-column-80": "1b5b313b3733521b503024721b5c",
+      "cbt-no-stops": "1b5b313b31521b503024721b5c",
+      "cbt-custom-stops": "1b5b313b35521b5b313b31521b503024721b5c",
+      "cbt-double-#3": "1b5b313b3333521b503024721b5c",
+      "cbt-double-#4": "1b5b313b3333521b503024721b5c",
+      "cbt-double-#6": "1b5b313b3333521b503024721b5c",
+      "cbt-pending-wrap": "1b5b313b3733521b5b323b32521b503024721b5c",
+      "cbt-margins-1": "1b5b313b31521b503024721b5c",
+      "cbt-margins-5": "1b5b313b31521b503024721b5c",
+      "cbt-margins-9": "1b5b313b31521b503024721b5c",
+      "cbt-margins-17": "1b5b313b39521b503024721b5c",
+      "cbt-margins-20": "1b5b313b3137521b503024721b5c",
+      "cbt-margins-24": "1b5b313b3137521b503024721b5c",
+      "cbt-margins-25": "1b5b313b3137521b503024721b5c",
+      "cbt-margins-40": "1b5b313b3333521b503024721b5c",
+      "cbt-margins-80": "1b5b313b3733521b503024721b5c",
+      "cbt-origin": "1b5b313b31521b503024721b5c",
+      "I-argument-": "1b5b313b3431521b503024721b5c",
+      "I-argument-0": "1b5b313b3431521b503024721b5c",
+      "I-argument-1": "1b5b313b3431521b503024721b5c",
+      "I-argument-2": "1b5b313b3439521b503024721b5c",
+      "I-argument-100": "1b5b313b3830521b503024721b5c",
+      "I-argument-4294967295": "1b5b313b3830521b503024721b5c",
+      "I-argument-999999999999999999999": "1b5b313b3830521b503024721b5c",
+      "I-argument-2;3": "1b5b313b3439521b503024721b5c",
+      "I-cancelled": "1b5b313b3431521b503024721b5c",
+      "Z-argument-": "1b5b313b3333521b503024721b5c",
+      "Z-argument-0": "1b5b313b3333521b503024721b5c",
+      "Z-argument-1": "1b5b313b3333521b503024721b5c",
+      "Z-argument-2": "1b5b313b3235521b503024721b5c",
+      "Z-argument-100": "1b5b313b31521b503024721b5c",
+      "Z-argument-4294967295": "1b5b313b31521b503024721b5c",
+      "Z-argument-999999999999999999999": "1b5b313b31521b503024721b5c",
+      "Z-argument-2;3": "1b5b313b3235521b503024721b5c",
+      "Z-cancelled": "1b5b313b3431521b503024721b5c",
+      "clear-current": "1b5b313b3137521b503024721b5c",
+      "clear-multiple": "1b5b313b3137521b503024721b5c",
+      "restore-": "1b5b313b39521b5b313b3137521b503024721b5c",
+      "restore-0": "1b5b313b39521b5b313b3137521b503024721b5c",
+      "restore-3": "1b5b313b35521b5b313b3830521b503024721b5c",
+      "restore-5": "1b5b313b39521b5b313b3137521b503024721b5c",
+      "restore-5;0": "1b5b313b39521b5b313b3137521b503024721b5c",
+      "restore-0;5": "1b5b313b39521b5b313b3137521b503024721b5c",
+      "restore-pending-wrap": "1b5b323b32521b503024721b5c",
+      "soft-reset-stops": "1b5b313b35521b503024721b5c",
+      "hard-reset-stops": "1b5b313b39521b503024721b5c",
+      "alternate-shared-stops": "1b5b313b3830521b5b313b3138521b503024721b5c"
+    },
+    "source_reference": "XTerm(412)",
+    "cleanup": {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "last_snapshot": {
+      "phase": "alternate-shared-stops",
+      "hex": "1b5b313b3830521b5b313b3138521b503024721b5c",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 65001,
+      "input_api": "ReadFile"
+    }
+  },
+  "isolation": {
+    "executable_sha256": "11d97279c9e836aad3492c54afac9ccf722390d6ca8350832ede41970a2f6337",
+    "embedded_licenses_bytes": 81403,
+    "processes": [
+      {
+        "pid": 40344,
+        "parent": 32028,
+        "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d p_a26bb3\\portable\\nemoterm.exe",
+        "memory": {
+          "private_ws": 1585152,
+          "total_ws": 10596352,
+          "private_commit": 2289664
+        }
+      },
+      {
+        "pid": 32028,
+        "parent": 2996,
+        "path": "C:\\Users\\nemo\\AppData\\Local\\Temp\\nemoterm single \u4e2d p_a26bb3\\portable\\nemoterm.exe",
+        "memory": {
+          "private_ws": 4403200,
+          "total_ws": 22962176,
+          "private_commit": 5574656
+        }
+      }
+    ],
+    "host_same_image": true,
+    "launcher_exit_preserves_console": true,
+    "only_executable_in_directory": true
+  },
+  "mingw": {
+    "state": {
+      "exit_code": 0,
+      "output": "State control suite passed\n"
+    },
+    "margins": {
+      "exit_code": 0,
+      "output": "Margin suite passed\n"
+    }
+  },
+  "notes": [
+    "Local artifact built from the recorded parent plus exact source hashes; embedded cached version metadata is not the artifact identity.",
+    "105 exact xterm comparisons exclude three malformed-colon policy differences and three still-open double-size text-wrap failures.",
+    "CI clipboard and real-agent gates remain outstanding."
+  ]
+}

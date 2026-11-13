@@ -48,6 +48,12 @@ intentionally gated, unsupported and unverified sequences. There is no finite un
 registry of every private terminal extension; do not equate xterm-compatible with all.
 Do not drop requirements merely because upstream lacks them.
 
+The first source-and-test audit is in [PROTOCOL_COVERAGE.md](PROTOCOL_COVERAGE.md).
+It distinguishes tested subsets, configuration gates, missing handlers and
+unverified behavior. [Tabulation](../research/tabulation.md) now has 105 exact
+independent xterm comparisons through both the core and native ConPTY path;
+three captured double-size text-wrapping discrepancies remain open.
+
 Pending: CSI/ESC/C0/C1 conformance; SGR styles/true colour; scrolling/margins/alternate
 screens; Unicode/graphemes/emoji/IME; keyboard modifier, kitty/CSI-u and Windows input;
 mouse/focus/bracketed paste; OSC titles/palettes/links/clipboard/cwd/shell integration;
