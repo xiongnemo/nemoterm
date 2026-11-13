@@ -1,0 +1,232 @@
+{
+    "saved_checksum":  true,
+    "saved_tab_side":  2,
+    "saved_reflow":  false,
+    "saved_directory_inheritance":  false,
+    "copy_only_default":  true,
+    "saved_selection_rgb":  [
+                                17,
+                                34,
+                                51,
+                                221,
+                                238,
+                                255
+                            ],
+    "reflow_default":  true,
+    "saved_format":  1,
+    "live_renderer_changes":  [
+                                  {
+                                      "active":  1,
+                                      "before_query_barrier":  1,
+                                      "requested":  "GDI (low memory)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "before_query_barrier":  1,
+                                      "requested":  "OpenGL (GPU composition)"
+                                  },
+                                  {
+                                      "active":  3,
+                                      "before_query_barrier":  3,
+                                      "requested":  "DirectX (Direct2D composition)"
+                                  },
+                                  {
+                                      "active":  1,
+                                      "before_query_barrier":  1,
+                                      "requested":  "GDI (low memory)"
+                                  }
+                              ],
+    "saved_renderer":  2,
+    "cancel_exit":  0,
+    "win32_default":  false,
+    "saved_tab_bindings":  [
+                               3,
+                               20,
+                               3,
+                               23,
+                               6,
+                               14,
+                               6,
+                               16
+                           ],
+    "grapheme_checks":  [
+                            {
+                                "phase":  "grapheme-startup",
+                                "reply":  "1b5b313b33521b5b3f323032373b312479",
+                                "enabled":  true
+                            },
+                            {
+                                "phase":  "grapheme-app-disable",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-preserved-1",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-preserved-2",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-preserved-3",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-preserved-4",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-app-enable",
+                                "reply":  "1b5b313b33521b5b3f323032373b312479",
+                                "enabled":  true
+                            },
+                            {
+                                "phase":  "grapheme-live-disabled",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-live-enabled",
+                                "reply":  "1b5b313b33521b5b3f323032373b312479",
+                                "enabled":  true
+                            },
+                            {
+                                "phase":  "grapheme-soft-reset",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            },
+                            {
+                                "phase":  "grapheme-hard-reset",
+                                "reply":  "1b5b313b35521b5b3f323032373b322479",
+                                "enabled":  false
+                            }
+                        ],
+    "duplicate_binding_rejected":  true,
+    "saved_bindings":  [
+                           6,
+                           24,
+                           5,
+                           25,
+                           3,
+                           26,
+                           5
+                       ],
+    "saved_level":  3,
+    "explicit_command_overrides_shell":  true,
+    "saved_choose_shell":  true,
+    "saved_copy_and_paste":  true,
+    "executable_sha256":  "bb2a9acf9e934645d7c4990a6dbbfe70e492a4e80da55282e3afe255e7a3d138",
+    "saved_win32":  true,
+    "attribute_colour_checks":  [
+                                    {
+                                        "reply":  "1b5d353b303b7267623a313131312f323232322f33333333071b5d353b313b7267623a343434342f353535352f36363636071b5d353b323b7267623a373737372f383838382f39393939071b5d353b333b7267623a616161612f626262622f63636363071b5d353b343b7267623a646464642f656565652f6666666607",
+                                        "phase":  "attribute-startup"
+                                    },
+                                    {
+                                        "reply":  "1b5d353b303b7267623a666666662f303030302f30303030071b5d353b313b7267623a343434342f353535352f36363636071b5d353b323b7267623a373737372f383838382f39393939071b5d353b333b7267623a616161612f626262622f63636363071b5d353b343b7267623a646464642f656565652f6666666607",
+                                        "phase":  "attribute-application-override"
+                                    },
+                                    {
+                                        "reply":  "1b5d353b303b7267623a666666662f303030302f30303030071b5d353b313b7267623a343434342f353535352f36363636071b5d353b323b7267623a373737372f383838382f39393939071b5d353b333b7267623a616161612f626262622f63636363071b5d353b343b7267623a646464642f656565652f6666666607",
+                                        "phase":  "attribute-unrelated-settings"
+                                    },
+                                    {
+                                        "reply":  "1b5d353b303b7267623a313131312f323232322f33333333071b5d353b313b7267623a343434342f353535352f36363636071b5d353b323b7267623a373737372f383838382f39393939071b5d353b333b7267623a616161612f626262622f63636363071b5d353b343b7267623a646464642f656565652f6666666607",
+                                        "phase":  "attribute-configured-reset"
+                                    },
+                                    {
+                                        "reply":  "1b5d353b303b7267623a313031302f323032302f33303330071b5d353b313b7267623a343434342f353535352f36363636071b5d353b323b7267623a373737372f383838382f39393939071b5d353b333b7267623a616161612f626262622f63636363071b5d353b343b7267623a646464642f656565652f6666666607",
+                                        "phase":  "attribute-live-apply"
+                                    }
+                                ],
+    "hyperlink_settings_live":  true,
+    "query":  {
+                  "phase":  "settings-launch",
+                  "hex":  "1b5b3e343b336d1b5b3e343b3166",
+                  "columns":  109,
+                  "rows":  42,
+                  "input_mode":  640,
+                  "input_cp":  437,
+                  "input_api":  "ReadFile"
+              },
+    "initial_renderer":  3,
+    "saved_shell":  "git-bash",
+    "hyperlink_settings_startup":  true,
+    "saved_unicode_directory":  "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\settings-test-ffb6ab5e982e47d890b516c0ef8f79f8\\working 中",
+    "local_launch":  true,
+    "saved_grapheme":  true,
+    "tab_host":  false,
+    "saved_attribute_modes":  49,
+    "checksum_default":  false,
+    "default_grid":  [
+                         160,
+                         48
+                     ],
+    "saved_attribute_rgb":  [
+                                [
+                                    17,
+                                    34,
+                                    51
+                                ],
+                                [
+                                    68,
+                                    85,
+                                    102
+                                ],
+                                [
+                                    119,
+                                    136,
+                                    153
+                                ],
+                                [
+                                    170,
+                                    187,
+                                    204
+                                ],
+                                [
+                                    221,
+                                    238,
+                                    255
+                                ]
+                            ],
+    "selection_colour_default":  "inverse",
+    "saved_attribute_keep_styles":  1,
+    "saved_shell_bindings":  [
+                                 7,
+                                 45,
+                                 7,
+                                 46,
+                                 7,
+                                 47,
+                                 7,
+                                 48
+                             ],
+    "grapheme_default":  false,
+    "selection_colour_checks":  [
+                                    {
+                                        "reply":  "1b5d31373b7267623a313131312f323232322f33333333071b5d31393b7267623a646464642f656565652f6666666607",
+                                        "phase":  "selection-colour-startup"
+                                    },
+                                    {
+                                        "reply":  "1b5d31373b7267623a666666662f303030302f30303030071b5d31393b7267623a303030302f303030302f6666666607",
+                                        "phase":  "selection-colour-app-override"
+                                    },
+                                    {
+                                        "reply":  "1b5d31373b7267623a666666662f303030302f30303030071b5d31393b7267623a303030302f303030302f6666666607",
+                                        "phase":  "selection-colour-unrelated-settings"
+                                    },
+                                    {
+                                        "reply":  "1b5d31373b7267623a313131312f323232322f33333333071b5d31393b7267623a646464642f656565652f6666666607",
+                                        "phase":  "selection-colour-configured-reset"
+                                    },
+                                    {
+                                        "reply":  "1b5d31373b7267623a353535352f363636362f37373737071b5d31393b7267623a646464642f656565652f6666666607",
+                                        "phase":  "selection-colour-live-apply"
+                                    }
+                                ]
+}

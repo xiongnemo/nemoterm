@@ -1,0 +1,212 @@
+{
+  "recorded_utc": "2026-11-13T13:07:34.912548+00:00",
+  "local_runtime_testing_paused": true,
+  "local_runtime_tests_executed": [],
+  "local_distribution_replaced": false,
+  "source_commit": "d4dfb3032d511464c1efb2deb72ae0b00324461e",
+  "single_exe_run": 43426865236,
+  "single_exe_job": 131890300855,
+  "whole_workflow_result": "failure: DirectX private working set",
+  "evidence_artifact_id": 14039385758,
+  "diagnostic_image_artifact_id": 14039240985,
+  "executable_sha256": "bb2a9acf9e934645d7c4990a6dbbfe70e492a4e80da55282e3afe255e7a3d138",
+  "executable_bytes": 4436992,
+  "download_matches_native_records": true,
+  "workload": {
+    "gdi": {
+      "peak_frontend": {
+        "count": 1,
+        "private_ws": 11530240,
+        "total_ws": 42917888,
+        "private_commit": 13524992
+      },
+      "samples": 317,
+      "seconds": 32.609,
+      "injected": false,
+      "passed": true
+    },
+    "directx": {
+      "peak_frontend": {
+        "count": 1,
+        "private_ws": 23580672,
+        "total_ws": 63578112,
+        "private_commit": 26423296
+      },
+      "samples": 227,
+      "seconds": 23.594,
+      "injected": false,
+      "passed": false
+    },
+    "private_ws_limit_bytes": 20000000
+  },
+  "sidecar_protocol_failure": {
+    "run": 43426865243,
+    "job": 131890301112,
+    "phase": "pending-wrap-K",
+    "expected_wire_hex": "1b5b313b3830521b5b313b3830521b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "observed_wire_hex": "1b5b313b3830521b503e7c4e656d6f7465726d28507554545920302e3835291b5c1b5b313b383052",
+    "root_cause_proven": false
+  },
+  "caret_stall": {
+    "run": 43422849935,
+    "job": 131876855192,
+    "result": "cancelled: 45-minute job deadline",
+    "observed_controller_call": "frida.Session.detach",
+    "original_failure_before_finally_known": false,
+    "fix_commit": "7f7166e4b7dc6fb0f2e7b4cc30cf4ca321b1971f",
+    "fix_runtime_validation": "pending"
+  },
+  "rectangle_snapshot_fix": {
+    "failed_run": 43427249103,
+    "failed_job": 131891598018,
+    "fix_commit": "34ca37b587a08dd93cb2835226aaf71fe6859f78",
+    "runtime_validation": "pending"
+  },
+  "evidence": [
+    {
+      "path": "research/ci-fixture-evidence/caret-detach-41a6cc5-excerpt.log",
+      "bytes": 992,
+      "sha256": "202546a9844c4c8c5a14eebea288927e1cca1fe3cd051de95de36a2a9d2e91e1"
+    },
+    {
+      "path": "research/ci-fixture-evidence/sidecar-guarded-area-d4dfb30.json",
+      "bytes": 18822,
+      "sha256": "a1461815a3e38eccd3371837d16d09ae2c56858305cbcb28cca6bf9564e70f7b"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/attribute-colour-directx-observed.json",
+      "bytes": 18662,
+      "sha256": "4cda644f23801741233a0c873eef65147efc66d7c9fcf07c7fbc02ed0386cefa"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/attribute-colour-gdi-configured-observed.json",
+      "bytes": 8746,
+      "sha256": "f2c226daef213c037d3f80fa03e405795df9d3f47dd9e99354740a239bd37bab"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/attribute-colour-gdi-observed.json",
+      "bytes": 18607,
+      "sha256": "331b5831c574098b985066a0ac6b2a8149fcc0eee5f75275e3145d243004a1ab"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/attribute-colour-opengl-observed.json",
+      "bytes": 18607,
+      "sha256": "2f4268f019aa2c876f9a935d01b8d6f6003f06e5966e482c9e4d551088fcfec6"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/caret-startup-observed.json",
+      "bytes": 965,
+      "sha256": "0594e10b865969f93dedbf3d5b7207eef712c578b5b67fc5a3c512b450b24aa5"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/codex-default-observed.json",
+      "bytes": 8684,
+      "sha256": "ee99111c137e47fbf4828a7398e7d8864d834ea5664123528eca6899f55053bf"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/codex-inline-observed.json",
+      "bytes": 15361,
+      "sha256": "21b4b9b87fb12ac72ffe7bad08312942ce368de002bd47124f7fdf7cd87d1695"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/codex-tabs-default-observed.json",
+      "bytes": 8848,
+      "sha256": "d708adff05bf4cd4ff288222a994e0d2a045f90294bd71c491c95c5429f945ae"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/codex-tabs-inline-observed.json",
+      "bytes": 15389,
+      "sha256": "6b7e35068f789bc734b9c9542ed606221f3f3f726088dde5e922eba4fc3dd23c"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/guarded-area-observed.json",
+      "bytes": 22533,
+      "sha256": "9e6bb0a127ec275ceadbee822550cf22bb270188b37019210f2c31ef4566a792"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/presentation-state-observed.json",
+      "bytes": 43028,
+      "sha256": "da4632c9affb013d5d333c02d5e573de2e64972eb9ce754efd8da32a37c95ff8"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/selection-colour-directx-observed.json",
+      "bytes": 15749,
+      "sha256": "6bfac758ab15148197a5b8b7f7804ad7f3216d028f86463f4d692513f21592d5"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/selection-colour-gdi-configured-observed.json",
+      "bytes": 15695,
+      "sha256": "a97e2592ed167eb1c2d8bea126a1974690dabe6e6c48bc832298e630d1a6fd20"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/selection-colour-gdi-observed.json",
+      "bytes": 15696,
+      "sha256": "6a1049383ecf3b774b35e6d0a3493fcf5c979fcdbcf1064c5b71c7d376d95443"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/selection-colour-opengl-observed.json",
+      "bytes": 15696,
+      "sha256": "66248001ac2054b047f955448234d873e8d86bd69a7ed54adea4ca9fcaa3a297"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/settings-window-observed.json",
+      "bytes": 12009,
+      "sha256": "615a890ddbfabec4498c26edbb2dd0c945ee8599709ba3908a58919f710fd6cf"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/shutdown-window-observed.json",
+      "bytes": 7834,
+      "sha256": "2eb1e6c049755ea5b5fb7446d6195ba2f86f5d1dd915eafd8f7c46fcad93ea93"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-directx-left-observed.json",
+      "bytes": 4870,
+      "sha256": "f6bac65d90d320df2ecdc67f89fb9fc6745ba0ada78970be98917e9aa283c6d9"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-gdi-bottom-observed.json",
+      "bytes": 4855,
+      "sha256": "92854cdbac79d7589c39f819e3f5227dcfb1bd2e4e814e4d8cc66a1a022184a8"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-gdi-top-observed.json",
+      "bytes": 4852,
+      "sha256": "4a8cf9dd25532d5497d7d0099a5ade7d364874fd1206cf8a942dd75c3c6779e2"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-opengl-right-observed.json",
+      "bytes": 4856,
+      "sha256": "fd5ba90cc3a55751ee6cfb6bc7637f7d66bbccbbdd07c7d2eb5fbd27f5adfe77"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-regressions-observed.json",
+      "bytes": 309,
+      "sha256": "ec6eccab3da68d07067a03b7390e5d888858feaf93e93a4ed2ab7f7aa091359a"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/tabs-settings-window-observed.json",
+      "bytes": 12007,
+      "sha256": "22d3683c630306bf899c673b9366829828c2723681dd13ba5a591b62201d826b"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/workload-tabs-directx-left-memory.json",
+      "bytes": 573617,
+      "sha256": "dc42fec421970df6df1581cca85379d71b479795469452476fee1e89fa5c0a7c"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/workload-tabs-directx-left-observed.json",
+      "bytes": 14428,
+      "sha256": "f132fbc0f0c098bb9cfb946d63da8186f202deb0ddf8a503a3fb010bf0f2c4ba"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/workload-tabs-gdi-top-memory.json",
+      "bytes": 808720,
+      "sha256": "57984139973c18d790527920e12858b1393144035039df2e7eecc71071fc9e98"
+    },
+    {
+      "path": "research/ci-fixture-evidence/single-d4dfb30/workload-tabs-gdi-top-observed.json",
+      "bytes": 14322,
+      "sha256": "9d8ae38a5f08a936553572e21bd82e725f5419e55c91c0473235486f1b3a161f"
+    }
+  ]
+}

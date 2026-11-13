@@ -1,0 +1,9 @@
+2026-11-13T12:25:41.7549315Z Starting isolated native test: caret_startup
+2026-11-13T12:26:41.8221932Z [31;1mTimeout (0:01:00)![0m
+2026-11-13T12:26:41.8223694Z [31;1mThread 0x0000076c (most recent call first):[0m
+2026-11-13T12:26:41.8226899Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\threading.py", line 355 in wait[0m
+2026-11-13T12:26:41.8231010Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\threading.py", line 655 in wait[0m
+2026-11-13T12:26:41.8234856Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\frida\__init__.py", line 224 in _invoke[0m
+2026-11-13T12:26:41.8238282Z [31;1m  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\frida\__init__.py", line 1603 in detach[0m
+2026-11-13T12:26:41.8241733Z [31;1m  File "D:\a\nemoterm\nemoterm\build\single-exe-check/tests/caret_startup_window_smoke.py", line 50 in <module>[0m
+2026-11-13T12:27:41.8156840Z [31;1mTimeout (0:01:00)![0m

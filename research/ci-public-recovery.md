@@ -144,9 +144,13 @@ inside the dialog. This image is
 `026971827ea2c09ff9f4764c12814fdb949a9f970dc45aa7ac77daca43b241d7`;
 local runtime testing remains paused.
 
-The hyperlink-only fix is separately prepared against main at `108af0c`, on
-`fix/settings-hyperlink-accelerator`. Its remote validation is in progress;
-main and the accepted local distribution remain unchanged.
+The hyperlink-only fix at `108af0c` subsequently passed both workflows on its
+fix branch and was merged into main. Main retains the detailed
+[settings-fix record](https://github.com/xiongnemo/nemoterm/blob/main/research/settings-shortcuts.md).
+The accepted local distribution was not replaced. A later main comparison
+repeat found a rectangle-fixture mailbox race; see the newer
+[native CI checkpoint](ci-fixture-recovery.md) for that failure and the
+development single-image functional/memory results.
 
 ## Sidecar workload accounting correction
 

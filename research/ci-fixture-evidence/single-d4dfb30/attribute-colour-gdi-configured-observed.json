@@ -1,0 +1,273 @@
+{
+  "executable_sha256": "bb2a9acf9e934645d7c4990a6dbbfe70e492a4e80da55282e3afe255e7a3d138",
+  "completed": true,
+  "cases": {
+    "saved-startup-scene": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "explicit-reference": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "attribute-scene": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "save-change": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "restore": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "sync-disable": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "sync-commit": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "mode-restore": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "reset-special": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "restore-special": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "resized-reference": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "resized-attributes": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-0": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-1": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-2": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-3": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-4": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-5": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-6": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-7": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-8": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-9": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-10": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-11": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-12": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-13": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-14": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-15": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-16": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-17": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-18": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "bounded-19": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c"
+  },
+  "source_reference": "Authored specification/source expectations; independent XTerm capture pending",
+  "reference_case_count": 0,
+  "direct_case_names": [],
+  "profile_values": {
+    "NemoRenderer": 0,
+    "MouseAutocopy": 0,
+    "WarnOnClose": 0,
+    "Colour0": "255,255,255",
+    "Colour2": "0,0,0",
+    "NemoAttributeCustomColours": 31,
+    "NemoAttributeColourModes": 31,
+    "NemoAttributeKeepStyles": 0,
+    "NemoAttributeBoldColour": 1122867,
+    "NemoAttributeUnderlineColour": 4478310,
+    "NemoAttributeBlinkColour": 7833753,
+    "NemoAttributeReverseColour": 11189196,
+    "NemoAttributeItalicColour": 14544639
+  },
+  "requested_font": "Consolas",
+  "exercise": {
+    "actual_renderer": 1,
+    "pixel_checks": [
+      {
+        "name": "saved-startup-modes-and-colours",
+        "sha256": "5578c906824770cb814c0b00507b26b1847298800638880493a43e792d547bf9"
+      },
+      {
+        "name": "explicit-rgb-reference",
+        "sha256": "5578c906824770cb814c0b00507b26b1847298800638880493a43e792d547bf9"
+      },
+      {
+        "name": "attribute-equivalence",
+        "sha256": "5578c906824770cb814c0b00507b26b1847298800638880493a43e792d547bf9"
+      },
+      {
+        "name": "changed-colours",
+        "sha256": "37e2d378423896fbe5477a90ab468871c97dc1e1e379c41abf8d60ecbf002fed"
+      },
+      {
+        "name": "frozen-mode-change",
+        "sha256": "5578c906824770cb814c0b00507b26b1847298800638880493a43e792d547bf9"
+      },
+      {
+        "name": "committed-mode-change",
+        "sha256": "7123388d35181ba3d4dd39fdb3ec0d3c79e296b553a675a599a0c3c53c6bbbf4"
+      },
+      {
+        "name": "special-reset",
+        "sha256": "5578c906824770cb814c0b00507b26b1847298800638880493a43e792d547bf9"
+      },
+      {
+        "name": "resized-explicit-reference",
+        "sha256": "f1b3506466c68d01ec244516058f7d93b875bea81eaa8ea0cc79a74e4de54009"
+      },
+      {
+        "name": "resized-equivalence",
+        "sha256": "f1b3506466c68d01ec244516058f7d93b875bea81eaa8ea0cc79a74e4de54009"
+      }
+    ],
+    "memory_samples": [
+      {
+        "private_ws": 4341760,
+        "total_ws": 33497088,
+        "private_commit": 5685248
+      },
+      {
+        "private_ws": 4341760,
+        "total_ws": 33497088,
+        "private_commit": 5685248
+      },
+      {
+        "private_ws": 4341760,
+        "total_ws": 33497088,
+        "private_commit": 5685248
+      },
+      {
+        "private_ws": 4341760,
+        "total_ws": 33509376,
+        "private_commit": 5685248
+      },
+      {
+        "private_ws": 4390912,
+        "total_ws": 33587200,
+        "private_commit": 5705728
+      },
+      {
+        "private_ws": 4300800,
+        "total_ws": 33497088,
+        "private_commit": 5869568
+      },
+      {
+        "private_ws": 4300800,
+        "total_ws": 33497088,
+        "private_commit": 5869568
+      },
+      {
+        "private_ws": 4464640,
+        "total_ws": 33730560,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4481024,
+        "total_ws": 33746944,
+        "private_commit": 5943296
+      },
+      {
+        "private_ws": 4501504,
+        "total_ws": 33767424,
+        "private_commit": 5963776
+      },
+      {
+        "private_ws": 4501504,
+        "total_ws": 33767424,
+        "private_commit": 5963776
+      },
+      {
+        "private_ws": 4501504,
+        "total_ws": 33767424,
+        "private_commit": 5963776
+      },
+      {
+        "private_ws": 4501504,
+        "total_ws": 33767424,
+        "private_commit": 5963776
+      },
+      {
+        "private_ws": 4501504,
+        "total_ws": 33767424,
+        "private_commit": 5963776
+      }
+    ],
+    "memory_instrumented": false,
+    "clipboard_access": false,
+    "configured_defaults": true,
+    "repeated_save_restore": 1000,
+    "peak_private_ws": 4501504
+  },
+  "cleanup": {
+    "before": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 3,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  },
+  "last_snapshot": {
+    "phase": "bounded-19",
+    "hex": "1b503e7c4e656d6f7465726d28507554545920302e3835291b5c",
+    "columns": 82,
+    "rows": 26,
+    "input_mode": 640,
+    "input_cp": 437,
+    "input_api": "ReadFile"
+  }
+}

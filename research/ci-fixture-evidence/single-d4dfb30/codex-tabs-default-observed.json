@@ -1,0 +1,182 @@
+{
+  "executable_sha256": "bb2a9acf9e934645d7c4990a6dbbfe70e492a4e80da55282e3afe255e7a3d138",
+  "codex_launcher": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+  "codex_launcher_sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70",
+  "codex_version": "codex-cli 0.167.0",
+  "mode": "tabs-default",
+  "font": "Consolas",
+  "renderer": "gdi",
+  "backend": "loopback deterministic SSE; no model or tool calls",
+  "checks": [
+    "actual-client-startup",
+    "unicode-input-reaches-real-client",
+    "streamed-markdown-long-reply",
+    "32-live-client-resizes",
+    "shift-grid-select-ctrl-shift-c-exact-unicode",
+    "ctrl-shift-v-exact-unicode-through-real-client"
+  ],
+  "screenshots": [
+    {
+      "file": "codex-tabs-default-startup.png",
+      "pixel_sha256": "50fd4aca6a36d36bac20b271f794f4b5ac0d5d26c8c66d16263b24647874e915"
+    },
+    {
+      "file": "codex-tabs-default-markdown.png",
+      "pixel_sha256": "b7b8e34fe277e21f831090fb15d4886027be2bcfdeedf7a9ef39c46fb9b79980"
+    },
+    {
+      "file": "codex-tabs-default-response.png",
+      "pixel_sha256": "e38219efa34f94ff797de20cbeb08da1b57ac7e828d540948a4d732bea4fafff"
+    },
+    {
+      "file": "codex-tabs-default-resized.png",
+      "pixel_sha256": "547ea8b42b7649203508c0dea458c6a231953c1c8dfdd2b8d0b39a1f3a9b089a"
+    },
+    {
+      "file": "codex-tabs-default-selection.png",
+      "pixel_sha256": "b5176fe21ee83732423d683179d7e3571839c5a420399ace7f1bba4e742c4979"
+    },
+    {
+      "file": "codex-tabs-default-paste.png",
+      "pixel_sha256": "12dd33cdea8049e0745a3d777d4ac47dfd77636a1a96985b3cdcbb72d968c63b"
+    }
+  ],
+  "startup_processes": [
+    {
+      "pid": 10104,
+      "parent": 4628,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1748992,
+        "total_ws": 12505088,
+        "private_commit": 2523136
+      }
+    },
+    {
+      "pid": 4628,
+      "parent": 9768,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 4268032,
+        "total_ws": 32370688,
+        "private_commit": 5623808
+      }
+    },
+    {
+      "pid": 7872,
+      "parent": 4628,
+      "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 4517888,
+        "total_ws": 27275264,
+        "private_commit": 6672384
+      },
+      "sha256": "edfdd48f8b458af0906e507b4cb05217b326c3d6e515e9f024e05e3b8d650f70"
+    }
+  ],
+  "typed_text": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1z_fbt5c\\work\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1z\u2026\r\n\r\n",
+  "markdown_preview": "\r\n  >_ OpenAI Codex (v0.167.0)\r\n     D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1z_fbt5c\\work\r\n\r\n\r\n\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n\r\n\u2022 # Nemoterm real Codex rendering fixture\r\n\r\n  Bold, italic, inline code, and \u4e2d\u6587\u4e0e\u7ec4\u5408\u5b57\u7b26 e\u0301.\r\n\r\n  print(\"\u4e2d\u6587\u4e0e Unicode\")\r\n\r\n   Check    Result\r\n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\r\n   \u4e2d\u6587     \u4fdd\u7559\r\n  \u2500\u2500\u2500\u2500\u2500\u2500\u2500  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\r\n   ASCII    kept\r\n\r\n  ROW_001 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_002 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_003 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_005 \u4e2d\u6587 e\u0301: l\r\n\r\n\r\n\u203a Ask Codex to do anything\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1z\u2026\r\n  \u2190 for agents \u00b7 ? for shortcuts                                           \u26a0 1 warning \u00b7 f2 to view\r\n",
+  "uninstrumented_frontend": {
+    "samples": 76,
+    "peak_private_ws": 5197824,
+    "peak_total_ws": 38273024,
+    "peak_private_commit": 6922240
+  },
+  "post_resize_processes": [
+    {
+      "pid": 10104,
+      "parent": 4628,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 1802240,
+        "total_ws": 12636160,
+        "private_commit": 2576384
+      }
+    },
+    {
+      "pid": 4628,
+      "parent": 9768,
+      "path": "D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\dist\\nemoterm.exe",
+      "memory": {
+        "private_ws": 4714496,
+        "total_ws": 37289984,
+        "private_commit": 6049792
+      }
+    },
+    {
+      "pid": 7872,
+      "parent": 4628,
+      "path": "D:\\a\\nemoterm\\nemoterm\\tools\\codex-fixture\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+      "memory": {
+        "private_ws": 27545600,
+        "total_ws": 107401216,
+        "private_commit": 34775040
+      }
+    }
+  ],
+  "selected_row": 19,
+  "paste_delivery_seconds": 0.0,
+  "pasted_text": "\u203a NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n  ROW_064 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_065 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_066 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_067 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_068 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_069 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_070 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_071 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_072 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_073 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_074 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_075 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_076 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_077 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_078 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_079 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n  ROW_080 \u4e2d\u6587 e\u0301: long-output scroll and redraw verification.\r\n\r\n  NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END\r\n\r\n  NEMOTERM_REPLY_1_DONE\r\n\r\n  Worked for 2s \u2022 12:56 PM\r\n\r\n\r\n\u203a NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42\r\n\r\n  nemoterm-ui-fixture default \u00b7 D:\\a\\nemoterm\\nemoterm\\build\\single-exe-check\\build\\codex-window-1z\u2026\r\n                                                                           \u26a0 1 warning \u00b7 f2 to view\r\n",
+  "paste_visible_seconds": 0.14099999999984902,
+  "requests": [
+    {
+      "turn": 1,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 1,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    },
+    {
+      "turn": 2,
+      "auxiliary": false,
+      "path": "/v1/responses",
+      "user_text": [
+        "NEMOTERM_INPUT \u4e2d\u6587 e\u0301 \ud83d\ude42",
+        "NEMOTERM_PASTE \u4e2d\u6587 e\u0301 \ud83d\ude42"
+      ]
+    },
+    {
+      "turn": 2,
+      "auxiliary": true,
+      "path": "/v1/responses",
+      "user_text": []
+    }
+  ],
+  "copy_text": "NEMOTERM_COPY \u4e2d\u6587 e\u0301 \uf120 \udb80\udc01 END",
+  "input_scope": "own-HWND Unicode and mouse messages; own UI-thread keyboard state; not physical devices",
+  "owned_job_cleanup": {
+    "before": {
+      "total": 70,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 70,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  },
+  "cleanup": [
+    {
+      "pid": 10104,
+      "exit_code": 0
+    },
+    {
+      "pid": 4628,
+      "exit_code": 0
+    },
+    {
+      "pid": 7872,
+      "exit_code": 3221225786
+    }
+  ]
+}
