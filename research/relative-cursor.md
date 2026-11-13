@@ -39,3 +39,10 @@ It uses the unchanged source-built host from `37ef26d`, SHA-256
 The [manifest](relative-cursor-validation.json) retains exact source/binary
 identities, all replies, pixel hashes/screenshots, natural cleanup and sanitizer
 logs. This is a development sidecar build; the accepted local EXE is unchanged.
+
+The subsequent development merge includes the [DECALN correction](alignment-reset.md)
+and its UTF-8 generator fix. The merged margin, state-control and Sixel suites
+pass on MinGW and Linux ASan/UBSan. Those separate source hashes/build logs are
+retained without relabeling the earlier native captures as a merged-image test.
+The combined single-image workflow now expects 99 functional groups; its full
+remote and downloaded-image validation is pending.
