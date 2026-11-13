@@ -3071,6 +3071,18 @@ static void set_erase_char(Terminal *term)
  * lookups which would be involved in fetching them from the former
  * every time.
  */
+static const int attribute_colour_keys[] = {
+    CONF_nemo_attribute_bold, CONF_nemo_attribute_underline,
+    CONF_nemo_attribute_blink, CONF_nemo_attribute_reverse,
+    CONF_nemo_attribute_italic
+};
+
+static unsigned attribute_conf_mask(Conf *conf, int key, unsigned maximum)
+{
+    unsigned value = conf_get_int(conf, key);
+    return value <= maximum ? value : 0;
+}
+
 static void term_copy_stuff_from_conf(Terminal *term)
 {
     static const int selection_enable[] = {
@@ -3088,6 +3100,18 @@ static void term_copy_stuff_from_conf(Terminal *term)
             (value >> 16) & 255, (value >> 8) & 255, value & 255
         };
     }
+    unsigned custom = attribute_conf_mask(term->conf, CONF_nemo_attribute_custom, 31);
+    for (unsigned i = 0; i < lenof(attribute_colour_keys); i++) {
+        unsigned value = conf_get_int(term->conf, attribute_colour_keys[i]);
+        if (value > 0xffffff)
+            value = conf_key_info[attribute_colour_keys[i]].default_value.ival;
+        term->attribute_defaults[i] = (optionalrgb){
+            (custom & (1u << i)) != 0, (value >> 16) & 255,
+            (value >> 8) & 255, value & 255
+        };
+    }
+    term->attribute_keep_styles = attribute_conf_mask(
+        term->conf, CONF_nemo_attribute_keep_styles, 31);
     term->ansi_colour = conf_get_bool(term->conf, CONF_ansi_colour);
     term->no_arabicshaping = conf_get_bool(term->conf, CONF_no_arabicshaping);
     term->beep = conf_get_int(term->conf, CONF_beep);
@@ -3198,6 +3222,19 @@ void term_reconfig(Terminal *term, Conf *conf)
         conf_get_int(term->conf, CONF_nemo_selection_fg) !=
             conf_get_int(conf, CONF_nemo_selection_fg)
     };
+    unsigned attribute_custom_changed =
+        attribute_conf_mask(term->conf, CONF_nemo_attribute_custom, 31) ^
+        attribute_conf_mask(conf, CONF_nemo_attribute_custom, 31);
+    unsigned attribute_modes_changed =
+        attribute_conf_mask(term->conf, CONF_nemo_attribute_modes, 63) ^
+        attribute_conf_mask(conf, CONF_nemo_attribute_modes, 63);
+    bool attribute_styles_changed =
+        attribute_conf_mask(term->conf, CONF_nemo_attribute_keep_styles, 31) !=
+        attribute_conf_mask(conf, CONF_nemo_attribute_keep_styles, 31);
+    for (unsigned i = 0; i < lenof(attribute_colour_keys); i++)
+        if (conf_get_int(term->conf, attribute_colour_keys[i]) !=
+            conf_get_int(conf, attribute_colour_keys[i]))
+            attribute_custom_changed |= 1u << i;
     bool reset_graphemes = conf_get_bool(term->conf, CONF_nemo_grapheme_widths) !=
                            conf_get_bool(conf, CONF_nemo_grapheme_widths);
     if (conf_get_bool(term->conf, CONF_nemo_win32_input) !=
@@ -3325,6 +3362,14 @@ void term_reconfig(Terminal *term, Conf *conf)
     if (palette_changed)
         term_notify_palette_changed(term);
     term_copy_stuff_from_conf(term);
+    for (unsigned i = 0; i < lenof(term->attribute_colours); i++)
+        if (attribute_custom_changed & (1u << i))
+            term->attribute_colours[i] = optionalrgb_none;
+    term->attribute_colour_modes =
+        (term->attribute_colour_modes & ~attribute_modes_changed) |
+        (attribute_conf_mask(conf, CONF_nemo_attribute_modes, 63) & attribute_modes_changed);
+    if (attribute_custom_changed || attribute_modes_changed || attribute_styles_changed)
+        term_invalidate(term);
     for (unsigned i = 0; i < lenof(reset_selection); i++) {
         if (reset_selection[i]) {
             /* Explicit local changes apply immediately to that component;
@@ -3497,7 +3542,8 @@ static void nemo_selection_colour_set(Terminal *term, unsigned which,
 
 static rgb nemo_attribute_colour(Terminal *term, unsigned which)
 {
-    optionalrgb c = term->attribute_colours[which];
+    optionalrgb c = term->attribute_colours[which].enabled ?
+        term->attribute_colours[which] : term->attribute_defaults[which];
     unsigned layer = term->subpalettes[SUBPAL_PLATFORM].present[OSC4_COLOUR_fg] ?
         SUBPAL_PLATFORM : SUBPAL_CONF;
     return c.enabled ? (rgb){c.r, c.g, c.b} :
@@ -3667,6 +3713,8 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
     term_copy_stuff_from_conf(term);
 
+    term->attribute_colour_modes = attribute_conf_mask(
+        term->conf, CONF_nemo_attribute_modes, 63);
     deselect(term);
     term->rows = term->cols = -1;
     power_on(term, true);
@@ -9823,6 +9871,7 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
         {2, ATTR_BLINK}, {0, ATTR_BOLD}, {1, ATTR_UNDER}, {4, ATTR_ITALIC}
     };
     unsigned modes = term->attribute_colour_modes;
+    unsigned keep = term->attribute_keep_styles;
     bool override = (modes & (1u << 5)) != 0;
     if (!term->ansi_colour || !modes) return;
     /* Resolve before screen reverse and selection. Only display records
@@ -9833,7 +9882,7 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
             if ((modes & (1u << mode)) && (*attr & order[i].attr)) {
                 rgb c = colours[mode];
                 tc->fg = (optionalrgb){true, c.r, c.g, c.b};
-                if (mode == 2) *attr &= ~ATTR_BLINK;
+                if (mode == 2 && !(keep & (1u << 2))) *attr &= ~ATTR_BLINK;
                 break;
             }
         }
@@ -9841,23 +9890,23 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
     /* XTerm's default veryBoldColors=0 suppresses these font attributes
      * whenever their colour modes are enabled, even if explicit SGR wins.
      * Preserve ANSI brightening separately from the suppressed bold font. */
-    if (modes & 1u) {
+    if ((modes & 1u) && !(keep & 1u)) {
         unsigned fg = (*attr & ATTR_FGMASK) >> ATTR_FGSHIFT;
         if (bold_colours && (*attr & ATTR_BOLD) && !tc->fg.enabled && fg < 8)
             *attr = (*attr & ~ATTR_FGMASK) | ((fg+8) << ATTR_FGSHIFT);
         *attr &= ~ATTR_BOLD;
     }
-    if (modes & (1u << 1)) {
+    if ((modes & (1u << 1)) && !(keep & (1u << 1))) {
         *attr &= ~ATTR_UNDER;
         tc->decoration &= ~(UNDER_STYLE_MASK | UNDER_DOUBLE_LEGACY);
     }
-    if (modes & (1u << 4)) *attr &= ~ATTR_ITALIC;
+    if ((modes & (1u << 4)) && !(keep & (1u << 4))) *attr &= ~ATTR_ITALIC;
     if ((modes & (1u << 3)) && (*attr & ATTR_REVERSE)) {
         if (override || (!tc->bg.enabled && (*attr & ATTR_BGMASK) == ATTR_DEFBG)) {
             rgb c = colours[3];
             tc->bg = (optionalrgb){true, c.r, c.g, c.b};
         }
-        *attr &= ~ATTR_REVERSE;
+        if (!(keep & (1u << 3))) *attr &= ~ATTR_REVERSE;
     }
 }
 

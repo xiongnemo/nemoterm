@@ -1465,3 +1465,38 @@ CONF_OPTION(nemo_selection_fg,
     DEFAULT_INT(0x000000),
     SAVE_KEYWORD("NemoSelectionForeground"),
 )
+
+/* Attribute-colour keys are appended so existing serialised IDs stay stable.
+ * Masks use OSC 5 order: bold, underline, blink, reverse, italic. */
+CONF_OPTION(nemo_attribute_custom,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoAttributeCustomColours"),
+)
+CONF_OPTION(nemo_attribute_modes,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoAttributeColourModes"),
+)
+CONF_OPTION(nemo_attribute_keep_styles,
+    VALUE_TYPE(INT), DEFAULT_INT(0),
+    SAVE_KEYWORD("NemoAttributeKeepStyles"),
+)
+CONF_OPTION(nemo_attribute_bold,
+    VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoAttributeBoldColour"),
+)
+CONF_OPTION(nemo_attribute_underline,
+    VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoAttributeUnderlineColour"),
+)
+CONF_OPTION(nemo_attribute_blink,
+    VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoAttributeBlinkColour"),
+)
+CONF_OPTION(nemo_attribute_reverse,
+    VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoAttributeReverseColour"),
+)
+CONF_OPTION(nemo_attribute_italic,
+    VALUE_TYPE(INT), DEFAULT_INT(0xffffff),
+    SAVE_KEYWORD("NemoAttributeItalicColour"),
+)

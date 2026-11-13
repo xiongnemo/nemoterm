@@ -158,6 +158,7 @@ int main(void)
     failed |= test_selection_colour_paint();
     failed |= test_attribute_colour_wire();
     failed |= test_attribute_colour_paint();
+    failed |= test_attribute_colour_settings();
     for (size_t i = 0; i < lenof(palette_stack_oracle); i++) {
         mk = mock_new();
         conf_set_int(mk->conf, CONF_remote_qtitle_action, TITLE_REAL);

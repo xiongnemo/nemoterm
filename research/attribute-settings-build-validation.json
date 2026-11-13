@@ -1,0 +1,167 @@
+{
+  "source_base": "7d821687fd44401a73d783adf2d48b2d9d6e2dcf",
+  "status": "compiled and linked; runtime unverified",
+  "runtime_testing_paused_by_user": true,
+  "runtime_tests_executed": [],
+  "candidate": {
+    "path": "build/local-attribute-settings-unverified/dist/nemoterm.exe",
+    "bytes": 4454912,
+    "sha256": "e5a17231b337f81ed142e05091d889935ad9c1715e9d8d2c65fe72791abfc049"
+  },
+  "builds": {
+    "msvc": {
+      "exit_code": 0,
+      "targets": [
+        "pterm",
+        "test_conf",
+        "test_osc_colour"
+      ],
+      "log": "research/attribute-settings-build-evidence/attribute-settings-msvc-build.log",
+      "bytes": 17700,
+      "sha256": "bc3574fbf0faae54c3139757673fa6d7c6f8df297fe348ba2f42e8c00db1d20a",
+      "executed_tests": false
+    },
+    "linux": {
+      "exit_code": 0,
+      "targets": [
+        "test_conf",
+        "test_osc_colour"
+      ],
+      "log": "research/attribute-settings-build-evidence/attribute-settings-linux-build.log",
+      "bytes": 12900,
+      "sha256": "4ce7eb54aa675cccd5519fd6a1e0a7694eb1607bb6b8dd9d856712be62b0e86c",
+      "executed_tests": false
+    },
+    "single": {
+      "exit_code": 0,
+      "targets": [
+        "Host.EXE.vcxproj"
+      ],
+      "log": "research/attribute-settings-build-evidence/attribute-settings-single-build.log",
+      "bytes": 3046,
+      "sha256": "d0bfcfd7653709ea5e8e624fd07d15eaaeb9796f7aee7c23ae09e6661ec5ca3e",
+      "executed_tests": false
+    }
+  },
+  "source_files": {
+    "vendor/putty-0.85/conf.h": {
+      "bytes": 40432,
+      "sha256": "374914e6bc04cda6b01776931f5b78c30724df4addcd20ed76223020e0b228d2",
+      "lf_bytes": 40432,
+      "sha256_lf": "374914e6bc04cda6b01776931f5b78c30724df4addcd20ed76223020e0b228d2"
+    },
+    "vendor/putty-0.85/config.c": {
+      "bytes": 164428,
+      "sha256": "d549f3992f2cbaa2268f9ed2da533bac2315fcb574f61dbf9c2474acdcb80950",
+      "lf_bytes": 164428,
+      "sha256_lf": "d549f3992f2cbaa2268f9ed2da533bac2315fcb574f61dbf9c2474acdcb80950"
+    },
+    "vendor/putty-0.85/terminal/terminal.c": {
+      "bytes": 496608,
+      "sha256": "2ca1251a86203bfafaf0030aa6869dd29c6d568719dcb2343ef76d47f190dae1",
+      "lf_bytes": 496608,
+      "sha256_lf": "2ca1251a86203bfafaf0030aa6869dd29c6d568719dcb2343ef76d47f190dae1"
+    },
+    "vendor/putty-0.85/terminal/terminal.h": {
+      "bytes": 29211,
+      "sha256": "03e2a900b6cf267e2b1ebe480ba22aacbb49b7e20cc819b1639950e40fd55a7e",
+      "lf_bytes": 28418,
+      "sha256_lf": "ac0536fef7e02bd275f9fbd10aed3d0462b1cef8bee2a6525d646b55084b89f6"
+    },
+    "vendor/putty-0.85/test/test_conf.c": {
+      "bytes": 43850,
+      "sha256": "12a6cef5ec9a8fdc9e031c3e56fe93dc0316e0a8630efe109712e1ed2572a700",
+      "lf_bytes": 43850,
+      "sha256_lf": "12a6cef5ec9a8fdc9e031c3e56fe93dc0316e0a8630efe109712e1ed2572a700"
+    },
+    "vendor/putty-0.85/test/test_osc_colour.c": {
+      "bytes": 8199,
+      "sha256": "1eb4645785fb499868004b2f40c38eaf72fd81f9443ffec2e993a45da3cb1090",
+      "lf_bytes": 8199,
+      "sha256_lf": "1eb4645785fb499868004b2f40c38eaf72fd81f9443ffec2e993a45da3cb1090"
+    },
+    "vendor/putty-0.85/test/test_attribute_colour.h": {
+      "bytes": 14503,
+      "sha256": "25498e2395e4231003a186eac55a418f4d16373c114a4fd10c68ef76c060e330",
+      "lf_bytes": 14503,
+      "sha256_lf": "25498e2395e4231003a186eac55a418f4d16373c114a4fd10c68ef76c060e330"
+    },
+    "tests/settings_window_smoke.ps1": {
+      "bytes": 47828,
+      "sha256": "5f21f1df79353ae7c6d7be955748c0a9dd3f2e766baf002e774b861244ead251",
+      "lf_bytes": 47828,
+      "sha256_lf": "5f21f1df79353ae7c6d7be955748c0a9dd3f2e766baf002e774b861244ead251"
+    },
+    "tests/attribute_colour_window_smoke.py": {
+      "bytes": 6429,
+      "sha256": "b8704fbd0bcea62179e0a305b42b8f01f07fa8838704921730e8e3e57ab6a0c6",
+      "lf_bytes": 6429,
+      "sha256_lf": "b8704fbd0bcea62179e0a305b42b8f01f07fa8838704921730e8e3e57ab6a0c6"
+    },
+    "scripts/test-single-exe.ps1": {
+      "bytes": 9938,
+      "sha256": "93892c7e3f8fb0be3b51ae3738ea359f0285ea7003a629ca822fe1fbb7529c50",
+      "lf_bytes": 9938,
+      "sha256_lf": "93892c7e3f8fb0be3b51ae3738ea359f0285ea7003a629ca822fe1fbb7529c50"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 35647,
+      "sha256": "4133e1b41408c1b38afe87ffa0940514426f538501328f05d8ebc69b97e624b2",
+      "lf_bytes": 35647,
+      "sha256_lf": "4133e1b41408c1b38afe87ffa0940514426f538501328f05d8ebc69b97e624b2"
+    }
+  },
+  "static_checks": [
+    "Python syntax compilation: attribute_colour_window_smoke.py",
+    "PowerShell AST: settings_window_smoke.ps1 and test-single-exe.ps1",
+    "Conf key order: all 248 old IDs retained; eight appended",
+    "39 authored attribute protocol cases regenerate unchanged",
+    "git diff --check",
+    "Settings fixture mailbox path no longer shares the UI loop variable"
+  ],
+  "conf_key_order": {
+    "existing_unchanged": 248,
+    "appended": [
+      "nemo_attribute_custom",
+      "nemo_attribute_modes",
+      "nemo_attribute_keep_styles",
+      "nemo_attribute_bold",
+      "nemo_attribute_underline",
+      "nemo_attribute_blink",
+      "nemo_attribute_reverse",
+      "nemo_attribute_italic"
+    ]
+  },
+  "source_member_sizes": {
+    "additional_terminal_before_padding": 21,
+    "new_configuration_entries": 8,
+    "additional_palette_snapshot": 0,
+    "additional_screen_cell": 0,
+    "additional_scrollback_cell": 0
+  },
+  "preserved_images": {
+    "accepted_main": {
+      "bytes": 4371456,
+      "sha256": "a108894f50f7d797f7d2c01558a71f268a1c812fe365270e5a6a7fb7868ca4ed"
+    },
+    "tested_palette_candidate": {
+      "bytes": 4430848,
+      "sha256": "2deba6c22973f24439e92de7e1a304e57d5719e21698835ae05e71abcb4de332"
+    },
+    "unverified_attribute_candidate": {
+      "bytes": 4450816,
+      "sha256": "7343eef8406f4b0907c08059d1610c53645689affa87eac302167096f1c9ee00"
+    }
+  },
+  "runtime_pending": [
+    "configuration save/load suite",
+    "attribute colour wire, paint and live preference suite",
+    "Linux ASan/UBSan execution",
+    "ordinary and tabbed settings UI fixture with screenshot review",
+    "native colour picker accept/cancel",
+    "configured GDI startup/reset pixel fixture",
+    "GDI/OpenGL/DirectX attribute and selection regressions",
+    "independent XTerm compatibility review",
+    "uninstrumented GDI working-set acceptance"
+  ]
+}

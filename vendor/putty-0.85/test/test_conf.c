@@ -869,6 +869,14 @@ void test_simple(void)
     test_int_simple(CONF_nemo_selection_bg, "NemoSelectionBackground", 0xffffff);
     test_bool_simple(CONF_nemo_selection_fg_enabled, "NemoSelectionForegroundEnabled", false);
     test_int_simple(CONF_nemo_selection_fg, "NemoSelectionForeground", 0x000000);
+    test_int_simple(CONF_nemo_attribute_custom, "NemoAttributeCustomColours", 0);
+    test_int_simple(CONF_nemo_attribute_modes, "NemoAttributeColourModes", 0);
+    test_int_simple(CONF_nemo_attribute_keep_styles, "NemoAttributeKeepStyles", 0);
+    test_int_simple(CONF_nemo_attribute_bold, "NemoAttributeBoldColour", 0xffffff);
+    test_int_simple(CONF_nemo_attribute_underline, "NemoAttributeUnderlineColour", 0xffffff);
+    test_int_simple(CONF_nemo_attribute_blink, "NemoAttributeBlinkColour", 0xffffff);
+    test_int_simple(CONF_nemo_attribute_reverse, "NemoAttributeReverseColour", 0xffffff);
+    test_int_simple(CONF_nemo_attribute_italic, "NemoAttributeItalicColour", 0xffffff);
     test_bool_simple(CONF_system_colour, "UseSystemColours", false);
     test_bool_simple(CONF_try_palette, "TryPalette", false);
     test_int_translated(CONF_mouse_is_xterm, "MouseIsXterm", 0,

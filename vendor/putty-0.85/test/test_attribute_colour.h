@@ -175,3 +175,113 @@ static bool test_attribute_colour_paint(void)
     mock_free(mk);
     return failed;
 }
+
+static bool test_attribute_colour_settings(void)
+{
+    Mock *mk = mock_new();
+    attribute_conf(mk->conf);
+    conf_set_int(mk->conf, CONF_nemo_attribute_custom, 31);
+    conf_set_int(mk->conf, CONF_nemo_attribute_modes, 1);
+    conf_set_int(mk->conf, CONF_nemo_attribute_bold, 0x112233);
+    conf_set_int(mk->conf, CONF_nemo_attribute_underline, 0x445566);
+    conf_set_int(mk->conf, CONF_nemo_attribute_blink, 0x778899);
+    conf_set_int(mk->conf, CONF_nemo_attribute_reverse, 0xaabbcc);
+    conf_set_int(mk->conf, CONF_nemo_attribute_italic, 0xddeeff);
+    struct TermWinVtable vt = mock_termwin_vt;
+    vt.setup_draw_ctx = selection_setup_draw;
+    vt.draw_text = selection_draw_text;
+    vt.free_draw_ctx = selection_free_draw;
+    vt.set_cursor_pos = selection_set_cursor;
+    vt.draw_trust_sigil = selection_draw_sigil;
+    vt.char_width = selection_char_width;
+    vt.set_synchronized_update = selection_sync;
+    mk->tw.vt = &vt;
+    mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+    mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+    reset(mk); term_size(mk->term, 4, 12, 0);
+
+    test_context(mk, "saved defaults and mode apply at startup and survive protocol resets");
+    IEQUAL(mk->term->attribute_colour_modes, 1);
+    term_data_fragmented(mk->term, "\033]5;0;?;1;?;2;?;3;?;4;?\007");
+    reply(mk, "\033]5;0;rgb:1111/2222/3333\007\033]5;1;rgb:4444/5555/6666\007"
+              "\033]5;2;rgb:7777/8888/9999\007\033]5;3;rgb:aaaa/bbbb/cccc\007"
+              "\033]5;4;rgb:dddd/eeee/ffff\007");
+    term_data_fragmented(mk->term, "\033[?25l\033[1;1H\033[1mX"); term_update(mk->term);
+    selection_check_display(mk, 0, 0x112233, 0);
+    term_data_fragmented(mk->term, "\033]5;0;red\007\033]105;0\007"); term_update(mk->term);
+    selection_check_display(mk, 0, 0x112233, 0);
+
+    test_context(mk, "unrelated preferences preserve application colours and modes");
+    term_data_fragmented(mk->term, "\033]5;0;red;1;blue\007\033]6;1;1\007");
+    conf_set_int(mk->conf, CONF_savelines, conf_get_int(mk->conf, CONF_savelines)+1);
+    term_reconfig(mk->term, mk->conf); term_update(mk->term);
+    selection_check_display(mk, 0, 0xff0000, 0);
+    IEQUAL(mk->term->attribute_colour_modes, 3);
+    IEQUAL(mk->term->attribute_colours[1].enabled, true);
+
+    test_context(mk, "editing one local colour clears only that override");
+    conf_set_int(mk->conf, CONF_nemo_attribute_bold, 0xabcdef);
+    term_reconfig(mk->term, mk->conf); term_update(mk->term);
+    selection_check_display(mk, 0, 0xabcdef, 0);
+    IEQUAL(mk->term->attribute_colours[0].enabled, false);
+    IEQUAL(mk->term->attribute_colours[1].enabled, true);
+    IEQUAL(mk->term->attribute_colour_modes, 3);
+    conf_set_int(mk->conf, CONF_nemo_attribute_modes, 16);
+    term_reconfig(mk->term, mk->conf);
+    IEQUAL(mk->term->attribute_colour_modes, 18); /* unchanged app underline survives */
+
+    test_context(mk, "retained styles combine with their configured colours");
+    conf_set_int(mk->conf, CONF_nemo_attribute_modes, 31);
+    conf_set_int(mk->conf, CONF_nemo_attribute_keep_styles, 31);
+    term_reconfig(mk->term, mk->conf);
+    static const unsigned sgr[] = {1, 4, 5, 7, 3};
+    static const unsigned long flags[] = {ATTR_BOLD, ATTR_UNDER, ATTR_BLINK, ATTR_REVERSE, ATTR_ITALIC};
+    for (unsigned i = 0; i < 5; i++) {
+        char command[60];
+        sprintf(command, "\033[1;1H\033[0;%umX", sgr[i]);
+        term_data_fragmented(mk->term, command);
+        /* Real blink is consumed after colour resolution by do_paint. */
+        mk->term->blink_is_real = false;
+        term_update(mk->term);
+        IEQUAL((mk->term->disptext[0]->chars[0].attr & flags[i]) != 0, true);
+        if (i == 3) selection_check_display(mk, 0, 0xaabbcc, 0xffffff);
+    }
+    conf_set_int(mk->conf, CONF_nemo_attribute_keep_styles, 0);
+    term_reconfig(mk->term, mk->conf); term_update(mk->term);
+    IEQUAL((mk->term->disptext[0]->chars[0].attr & ATTR_ITALIC) != 0, false);
+    IEQUAL(mk->term->attribute_colours[1].enabled, true);
+
+    test_context(mk, "saved unset palette entry follows newer local default");
+    term_data_fragmented(mk->term, "\033]105;0\007\033[1#P\033]5;0;red\007");
+    conf_set_int(mk->conf, CONF_nemo_attribute_bold, 0x102030);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033[1#Q\033]5;0;?\007");
+    reply(mk, "\033]5;0;rgb:1010/2020/3030\007");
+    IEQUAL(mk->term->attribute_colours[0].enabled, false);
+    conf_set_int(mk->conf, CONF_nemo_attribute_custom, 30);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033]10;red\007\033]5;0;?\007");
+    reply(mk, "\033]5;0;rgb:ffff/ffff/ffff\007");
+    conf_set_int(mk->conf, CONF_nemo_attribute_custom, 31);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033]5;0;?\007");
+    reply(mk, "\033]5;0;rgb:1010/2020/3030\007");
+
+    test_context(mk, "invalid persisted masks and colours fall back without enabling modes");
+    conf_set_int(mk->conf, CONF_nemo_attribute_modes, -1);
+    conf_set_int(mk->conf, CONF_nemo_attribute_keep_styles, 32);
+    conf_set_int(mk->conf, CONF_nemo_attribute_custom, -1);
+    conf_set_int(mk->conf, CONF_nemo_attribute_bold, -1);
+    term_reconfig(mk->term, mk->conf);
+    IEQUAL(mk->term->attribute_colour_modes, 0);
+    IEQUAL(mk->term->attribute_keep_styles, 0);
+    IEQUAL(mk->term->attribute_defaults[0].enabled, false);
+    conf_set_int(mk->conf, CONF_nemo_attribute_custom, 1);
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\033]5;0;?\007");
+    reply(mk, "\033]5;0;rgb:ffff/ffff/ffff\007");
+    IEQUAL(mk->clipboard_writes, 0);
+    bool failed = mk->any_test_failed;
+    mock_free(mk);
+    return failed;
+}

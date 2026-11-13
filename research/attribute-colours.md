@@ -58,9 +58,11 @@ overflowing values are rejected, rather than emulating XTerm's permissive
 `atoi` cases. Empty mode fields surrounded by separators represent zero;
 missing final values do nothing. Unknown numeric mode pairs are skipped.
 Oversized/binary OSC strings and cancelled operations do not partially apply.
-Malformed pair recovery is not claimed identical to XTerm. Separate saved
-defaults for these five colours and the optional `veryBoldColors` resource are
-not exposed in settings yet; reset uses Nemoterm's configured foreground.
+Malformed pair recovery is not claimed identical to XTerm. The subsequent
+[settings implementation](attribute-colour-settings.md) adds saved custom
+defaults, initial modes and style retention. Its reset path reveals the saved
+custom colour before falling back to the configured foreground. The style
+mask is a Nemoterm setting, not an identical `veryBoldColors` resource mapping.
 Pointer/Tektronix colours remain separate, unimplemented protocol work.
 
 ## Prepared validation, not runtime acceptance

@@ -1202,6 +1202,143 @@ static void selection_colour_controls(struct controlbox *box,
                                  selection_colour_handler, P(sc));
 }
 
+struct attribute_colour_data {
+    dlgcontrol *which, *flags[4], *rgb[3], *button;
+    unsigned selected;
+    bool refreshing;
+};
+
+static const int attribute_ui_keys[] = {
+    CONF_nemo_attribute_bold, CONF_nemo_attribute_underline,
+    CONF_nemo_attribute_blink, CONF_nemo_attribute_reverse,
+    CONF_nemo_attribute_italic
+};
+static const int attribute_flag_keys[] = {
+    CONF_nemo_attribute_modes, CONF_nemo_attribute_custom,
+    CONF_nemo_attribute_keep_styles, CONF_nemo_attribute_modes
+};
+
+static unsigned attribute_ui_flags(Conf *conf, int key)
+{
+    unsigned value = conf_get_int(conf, key);
+    return value <= (key == CONF_nemo_attribute_modes ? 63u : 31u) ? value : 0;
+}
+
+static void attribute_ui_set_flag(Conf *conf, int key, unsigned bit, bool enabled)
+{
+    unsigned value = attribute_ui_flags(conf, key);
+    conf_set_int(conf, key, enabled ? value | (1u << bit) : value & ~(1u << bit));
+}
+
+static void attribute_ui_refresh(struct attribute_colour_data *ac, dlgparam *dlg)
+{
+    for (unsigned i = 0; i < lenof(ac->flags); i++) dlg_refresh(ac->flags[i], dlg);
+    for (unsigned i = 0; i < lenof(ac->rgb); i++) dlg_refresh(ac->rgb[i], dlg);
+}
+
+static void attribute_colour_handler(dlgcontrol *ctrl, dlgparam *dlg,
+                                      void *data, int event)
+{
+    Conf *conf = data;
+    struct attribute_colour_data *ac = ctrl->context.p;
+    if (ac->refreshing) return;
+    int key = attribute_ui_keys[ac->selected];
+    unsigned value = selection_colour_value(conf, key);
+    if (event == EVENT_REFRESH) {
+        ac->refreshing = true;
+        if (ctrl == ac->which) {
+            static const char *const names[] = {"Bold", "Underline", "Blink", "Reverse", "Italic"};
+            dlg_update_start(ctrl, dlg);
+            dlg_listbox_clear(ctrl, dlg);
+            for (unsigned i = 0; i < lenof(names); i++) dlg_listbox_add(ctrl, dlg, names[i]);
+            dlg_listbox_select(ctrl, dlg, ac->selected);
+            dlg_update_done(ctrl, dlg);
+        }
+        for (unsigned i = 0; i < lenof(ac->flags); i++)
+            if (ctrl == ac->flags[i])
+                dlg_checkbox_set(ctrl, dlg, (attribute_ui_flags(conf, attribute_flag_keys[i]) &
+                    (1u << (i == 3 ? 5 : ac->selected))) != 0);
+        for (unsigned i = 0; i < lenof(ac->rgb); i++) {
+            if (ctrl == ac->rgb[i]) {
+                char text[4];
+                sprintf(text, "%u", (value >> (16-8*i)) & 255);
+                dlg_editbox_set(ctrl, dlg, text);
+            }
+        }
+        ac->refreshing = false;
+    } else if (event == EVENT_SELCHANGE && ctrl == ac->which) {
+        int index = dlg_listbox_index(ctrl, dlg);
+        if (index < 0 || (unsigned)index >= lenof(attribute_ui_keys)) return;
+        ac->selected = index;
+        attribute_ui_refresh(ac, dlg);
+    } else if (event == EVENT_VALCHANGE) {
+        for (unsigned i = 0; i < lenof(ac->flags); i++) {
+            if (ctrl == ac->flags[i]) {
+                attribute_ui_set_flag(conf, attribute_flag_keys[i], i == 3 ? 5 : ac->selected,
+                                      dlg_checkbox_get(ctrl, dlg));
+                return;
+            }
+        }
+        for (unsigned i = 0; i < lenof(ac->rgb); i++) {
+            if (ctrl != ac->rgb[i]) continue;
+            char *text = dlg_editbox_get(ctrl, dlg);
+            unsigned channel = 0;
+            bool valid = *text != 0;
+            for (const char *p = text; *p; p++) {
+                if (*p < '0' || *p > '9') { valid = false; break; }
+                channel = min(255, channel*10 + (*p-'0'));
+            }
+            sfree(text);
+            if (!valid) return;
+            unsigned shift = 16-8*i;
+            conf_set_int(conf, key, (value & ~(255u << shift)) | (channel << shift));
+            attribute_ui_set_flag(conf, CONF_nemo_attribute_custom, ac->selected, true);
+            dlg_refresh(ac->flags[1], dlg);
+        }
+    } else if (event == EVENT_ACTION && ctrl == ac->button) {
+        dlg_coloursel_start(ctrl, dlg, (value >> 16) & 255, (value >> 8) & 255, value & 255);
+    } else if (event == EVENT_CALLBACK && ctrl == ac->button) {
+        int r, g, b;
+        if (dlg_coloursel_results(ctrl, dlg, &r, &g, &b)) {
+            conf_set_int(conf, key, ((r & 255) << 16) | ((g & 255) << 8) | (b & 255));
+            attribute_ui_set_flag(conf, CONF_nemo_attribute_custom, ac->selected, true);
+            attribute_ui_refresh(ac, dlg);
+        }
+    }
+}
+
+static void attribute_colour_controls(struct controlbox *box)
+{
+    const char *path = "Window/Colours/Attributes";
+    ctrl_settitle(box, path, "Colours for text attributes");
+    struct controlset *set = ctrl_getset(box, path, "defaults", "Saved attribute defaults");
+    struct attribute_colour_data *ac = ctrl_alloc(box, sizeof(*ac));
+    memset(ac, 0, sizeof(*ac));
+    ac->which = ctrl_droplist(set, "Text attribute:", 'a', 55, HELPCTX(no_help),
+                              attribute_colour_handler, P(ac));
+    ac->flags[0] = ctrl_checkbox(set, "Use colour for this attribute", NO_SHORTCUT,
+        HELPCTX(no_help), attribute_colour_handler, P(ac));
+    ac->flags[2] = ctrl_checkbox(set, "Keep its original text style", NO_SHORTCUT,
+        HELPCTX(no_help), attribute_colour_handler, P(ac));
+    ac->flags[1] = ctrl_checkbox(set, "Use a custom attribute colour", NO_SHORTCUT,
+        HELPCTX(no_help), attribute_colour_handler, P(ac));
+    ctrl_columns(set, 3, 34, 33, 33);
+    const char *const labels[] = {"Red", "Green", "Blue"};
+    for (unsigned i = 0; i < lenof(ac->rgb); i++) {
+        ac->rgb[i] = ctrl_editbox(set, labels[i], NO_SHORTCUT, 50, HELPCTX(no_help),
+                                 attribute_colour_handler, P(ac), P(NULL));
+        ac->rgb[i]->column = i;
+    }
+    ctrl_columns(set, 1, 100);
+    ac->button = ctrl_pushbutton(set, "Choose attribute colour...", NO_SHORTCUT,
+        HELPCTX(no_help), attribute_colour_handler, P(ac));
+    ctrl_text(set, "Without a custom colour, use the configured text foreground.", HELPCTX(no_help));
+    set = ctrl_getset(box, path, "priority", "Colour priority");
+    ac->flags[3] = ctrl_checkbox(set, "Override application text colours", NO_SHORTCUT,
+        HELPCTX(no_help), attribute_colour_handler, P(ac));
+    ctrl_text(set, "Applications can change attribute colours and modes during a session.", HELPCTX(no_help));
+}
+
 /* Array of the user-visible colour names defined in the list macro in
  * putty.h */
 static const char *const colours[] = {
@@ -2819,6 +2956,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                                  colour_handler, P(cd));
     cd->button->column = 1;
     ctrl_columns(s, 1, 100);
+
+    attribute_colour_controls(b);
 
     /*
      * The Connection panel. This doesn't show up if we're in a

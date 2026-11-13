@@ -64,6 +64,11 @@ try {
                 if ($LASTEXITCODE) { throw 'Single-executable configured selection colour test failed' }
                 $checks.Add('selection-colour-gdi-configured')
             }
+            if ($name -eq 'attribute_colour') {
+                & python "$Destination/tests/attribute_colour_window_smoke.py" --renderer gdi --configured 2>&1 | Tee-Object "$Destination/logs/attribute-colour-gdi-configured.log"
+                if ($LASTEXITCODE) { throw 'Single-executable configured attribute colour test failed' }
+                $checks.Add('attribute-colour-gdi-configured')
+            }
         }
         if ($name -eq 'titles') {
             & python "$Destination/tests/titles_window_smoke.py" --modes 2>&1 | Tee-Object "$Destination/logs/title-modes.log"

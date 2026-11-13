@@ -537,7 +537,9 @@ struct terminal_tag {
     /* OSC 5: bold, underline, blink, reverse, italic. These are distinct
      * from PuTTY's internal default/cursor indices 256..261. */
     optionalrgb attribute_colours[5];
+    optionalrgb attribute_defaults[5];
     unsigned char attribute_colour_modes; /* bits 0..4; bit 5 overrides SGR */
+    unsigned char attribute_keep_styles;  /* retain styles alongside colours */
     struct NemoPaletteStack *palette_stack;
 
     int winpos_x, winpos_y;

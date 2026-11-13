@@ -12,9 +12,10 @@ from gpu_capture import OwnedGPUCapture
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer', choices=('gdi', 'directx', 'opengl'), default='gdi')
+parser.add_argument('--configured', action='store_true', help='Verify saved startup modes and colour defaults')
 args = parser.parse_args()
 requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
-test_name = 'attribute-colour-'+args.renderer
+test_name = 'attribute-colour-'+args.renderer+('-configured' if args.configured else '')
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
 MODES_OFF = command(6, '0;0;1;0;2;0;3;0;4;0;5;0')
 MODES_ON = command(106, '0;1;1;1;2;1;3;1;4;1;5;0')
@@ -22,8 +23,8 @@ TEXT = 'Colour 中文 e\u0301 0123456789'
 CLEAR = CSI+'0m'+CSI+'?25l'+CSI+'2J'
 
 
-def scene(reference=False):
-    result = (MODES_OFF if reference else MODES_ON)+CLEAR
+def scene(reference=False, set_modes=True):
+    result = ((MODES_OFF if reference else MODES_ON) if set_modes else '')+CLEAR
     styles = ['1', '4:3', '5', '7', '3', '1;3;4;5',
               '1;38;2;18;52;86', '7;48;2;16;32;48']
     for i, style in enumerate(styles):
@@ -46,7 +47,8 @@ def exercise(hwnd, phase, current):
     handle = k.OpenProcess(0x410, False, pid.value); assert handle
     gpu = None
     evidence = dict(actual_renderer=active, pixel_checks=[], memory_samples=[],
-                    memory_instrumented=active != 1, clipboard_access=False)
+                    memory_instrumented=active != 1, clipboard_access=False,
+                    configured_defaults=args.configured)
     try:
         if active != 1: gpu = OwnedGPUCapture(pid.value, hwnd)
         def pixels():
@@ -60,8 +62,12 @@ def exercise(hwnd, phase, current):
         def equal(expected):
             wait_for(lambda: pixels() == expected)
 
+        if args.configured:
+            phase('saved-startup-scene', scene(set_modes=False), '')
+            startup = remember('saved-startup-modes-and-colours')
         phase('explicit-reference', command(10, '#ffffff;#000000')+SET+scene(True), '')
         expected = remember('explicit-rgb-reference')
+        if args.configured: assert startup == expected
         phase('attribute-scene', scene(), '')
         equal(expected); assert remember('attribute-equivalence') == expected
         phase('save-change', CSI+'1#P'+command(5, '0;red;3;blue'), '')
@@ -76,7 +82,9 @@ def exercise(hwnd, phase, current):
 
         # Reset of colour values must not reset enable/override modes.
         phase('reset-special', command(105), '')
-        assert remember('special-reset') != expected
+        reset = remember('special-reset')
+        if args.configured: assert reset == expected
+        else: assert reset != expected
         phase('restore-special', SET, ''); equal(expected)
         old_size = [current()['columns'], current()['rows']]
         assert u.MoveWindow(terminal_host(hwnd), 50, 50, 780, 540, True)
@@ -101,10 +109,17 @@ def exercise(hwnd, phase, current):
         k.CloseHandle(handle)
 
 
-run(test_name, (), extra_cases=CASES, exercise=exercise,
+profile = dict(NemoRenderer=requested, MouseAutocopy=0, WarnOnClose=0,
+               Colour0='255,255,255', Colour2='0,0,0')
+if args.configured:
+    profile.update(NemoAttributeCustomColours=31, NemoAttributeColourModes=31,
+                   NemoAttributeKeepStyles=0)
+    for name, colour in zip(('Bold', 'Underline', 'Blink', 'Reverse', 'Italic'), COLORS):
+        profile['NemoAttribute'+name+'Colour'] = int(colour, 16)
+
+run(test_name, (), extra_cases=() if args.configured else CASES, exercise=exercise,
     source_reference='Authored specification/source expectations; independent XTerm capture pending',
     barrier=(CSI+'>q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'),
-    profile=dict(NemoRenderer=requested, MouseAutocopy=0, WarnOnClose=0,
-                 Colour0='255,255,255', Colour2='0,0,0'),
+    profile=profile,
     font=os.environ.get('NEMOTERM_TEST_FONT',
         'Consolas' if os.environ.get('CI') == 'true' else 'SarasaTermSC Nerd Font Light'))

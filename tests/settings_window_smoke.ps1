@@ -62,7 +62,7 @@ $profilePath = 'HKCU:\Software\Nemo\Nemoterm\Sessions\' + $fixtureProfile
 $directory = Join-Path ([IO.Path]::GetTempPath()) $fixtureProfile
 New-Item -ItemType Directory -Path $directory | Out-Null
 $report = Join-Path $directory 'report.json'
-$control = Join-Path $directory 'control.json'
+$controlFile = Join-Path $directory 'control.json'
 $app = $null
 $scope = [System.Windows.Automation.TreeScope]::Descendants
 
@@ -109,12 +109,12 @@ function Invoke-Button($dialog, [string]$name) {
     $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
 }
 function Write-Control($value) {
-    $temporary = $control + '.tmp'
+    $temporary = $controlFile + '.tmp'
     [IO.File]::WriteAllText($temporary, ($value | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
     # Match fixture_io.py: replacement must remain atomic while the child
     # briefly holds a read handle. Move-Item -Force is not an atomic replace.
     $deadline=[DateTime]::UtcNow.AddSeconds(2)
-    while (![ShellSettingsNative]::MoveFileExW($temporary,$control,1)) {
+    while (![ShellSettingsNative]::MoveFileExW($temporary,$controlFile,1)) {
         $errorCode=[Runtime.InteropServices.Marshal]::GetLastWin32Error()
         if ($errorCode -notin @(5,32,33) -or [DateTime]::UtcNow -ge $deadline) {
             throw (New-Object ComponentModel.Win32Exception($errorCode))
@@ -193,6 +193,40 @@ function Selection-Colour-Controls($dialog) {
     }
     return @{background=$background;text=$text;edits=$edits}
 }
+function Attribute-Colour-Controls($dialog) {
+    $window=Wait-Value { Find-Name $dialog 'Window' }
+    $window.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    $nameCondition=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty,'Colours')
+    $colours=$window.FindFirst([System.Windows.Automation.TreeScope]::Children,$nameCondition)
+    if (!$colours) { throw 'Window Colours tree item missing' }
+    $colours.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
+    Select-Node $colours 'Attributes' | Out-Null
+    $combos=$dialog.FindAll($scope,(New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty,[System.Windows.Automation.ControlType]::ComboBox)))
+    if ($combos.Count -ne 1) { throw 'Expected one attribute selector' }
+    $condition=New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty,'Edit')
+    $edits=@($dialog.FindAll($scope,$condition) | Sort-Object { $_.Current.BoundingRectangle.Left })
+    if ($edits.Count -ne 3) { throw 'Expected three attribute RGB fields' }
+    $flags=@('Use colour for this attribute','Use a custom attribute colour','Keep its original text style','Override application text colours') | ForEach-Object { Find-Name $dialog $_ }
+    foreach ($control in @($combos[0])+$edits+$flags+@((Find-Name $dialog 'Choose attribute colour...'))) {
+        if (!$control -or $control.Current.IsOffscreen -or !$dialog.Current.BoundingRectangle.Contains($control.Current.BoundingRectangle)) { throw 'Attribute colour control clipped or missing' }
+    }
+    return @{selector=$combos[0];edits=$edits;flags=$flags}
+}
+function Check-AttributeColours([string]$phase,[string]$prefix,[string[]]$colours) {
+    $esc=[string][char]27; $bel=[string][char]7
+    Write-Control @{phase=$phase;sequence=($prefix+$esc+']5;0;?;1;?;2;?;3;?;4;?'+$bel)}
+    $expected=''
+    for ($i=0;$i -lt 5;$i++) { $expected+=$esc+']5;'+$i+';rgb:'+$colours[$i]+$bel }
+    $hex=-join ([Text.Encoding]::UTF8.GetBytes($expected) | ForEach-Object { $_.ToString('x2') })
+    $reply=Wait-Value {
+        if (Test-Path -LiteralPath $report) {
+            $value=Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
+            if ($value.error) { throw $value.error }
+            if ($value.phase -eq $phase -and $value.hex -eq $hex) { $value }
+        }
+    }
+    return @{phase=$phase;reply=$reply.hex}
+}
 function Check-SelectionColours([string]$phase,[string]$prefix,[string]$background,[string]$foreground) {
     $esc=[string][char]27
     $bel=[string][char]7
@@ -210,10 +244,10 @@ function Check-SelectionColours([string]$phase,[string]$prefix,[string]$backgrou
 }
 try {
     Write-Control @{phase='atomic-before'}
-    $heldReader=[ShellSettingsNative]::HoldSnapshotReader($control)
+    $heldReader=[ShellSettingsNative]::HoldSnapshotReader($controlFile)
     Write-Control @{phase='atomic-after'}
     $heldReader.Join()
-    if ((Get-Content -LiteralPath $control -Raw | ConvertFrom-Json).phase -ne 'atomic-after') {throw 'Owned control snapshot replacement failed'}
+    if ((Get-Content -LiteralPath $controlFile -Raw | ConvertFrom-Json).phase -ne 'atomic-after') {throw 'Owned control snapshot replacement failed'}
     New-Item -Path $profilePath -Force | Out-Null
     New-ItemProperty -Path $profilePath -Name WarnOnClose -Value 0 -PropertyType DWord | Out-Null
     # This is the visible GUI under test, not a background helper. Hidden
@@ -348,6 +382,29 @@ try {
     }
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle selection-colour-settings.png
     if ($LASTEXITCODE) { throw 'Selection colour settings capture failed' }
+    $attributes=Attribute-Colour-Controls $dialog
+    $attributeRGB=@(@(17,34,51),@(68,85,102),@(119,136,153),@(170,187,204),@(221,238,255))
+    for ($index=0;$index -lt 5;$index++) {
+        Set-Combo $attributes.selector $index
+        foreach ($flag in $attributes.flags) {
+            if ($flag.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne [System.Windows.Automation.ToggleState]::Off) { throw 'Attribute options unexpectedly enabled on refresh' }
+        }
+        for ($channel=0;$channel -lt 3;$channel++) {
+            $attributes.edits[$channel].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue([string]$attributeRGB[$index][$channel])
+        }
+        $custom=$attributes.flags[1].GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+        if ($custom.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'RGB edit did not enable custom attribute colour' }
+        $custom.Toggle();$custom.Toggle()
+        if ($index -in @(0,4)) { $attributes.flags[0].GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Toggle() }
+        if ($index -eq 0) { $attributes.flags[2].GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Toggle() }
+    }
+    $attributes.flags[3].GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Toggle()
+    Set-Combo $attributes.selector 0
+    for ($channel=0;$channel -lt 3;$channel++) {
+        if ([int]$attributes.edits[$channel].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $attributeRGB[0][$channel]) { throw 'Switching attributes lost stored RGB' }
+    }
+    python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle attribute-colour-settings.png
+    if ($LASTEXITCODE) { throw 'Attribute colour settings capture failed' }
     Select-Node $dialog 'Selection' | Out-Null
     $copyOnly = Find-Name $dialog 'Copy only'
     if (!$copyOnly.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) {
@@ -391,6 +448,9 @@ try {
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoChooseShell -ne 1) { throw 'Shell startup preference was not saved' }
     if ((Get-ItemProperty -LiteralPath $profilePath).NemoShell -ne 'git-bash') { throw 'Selected default shell was not saved' }
     $values = Get-ItemProperty -LiteralPath $profilePath
+    if ($values.NemoAttributeCustomColours -ne 31 -or $values.NemoAttributeColourModes -ne 49 -or $values.NemoAttributeKeepStyles -ne 1 -or
+        $values.NemoAttributeBoldColour -ne 0x112233 -or $values.NemoAttributeUnderlineColour -ne 0x445566 -or $values.NemoAttributeBlinkColour -ne 0x778899 -or
+        $values.NemoAttributeReverseColour -ne 0xaabbcc -or $values.NemoAttributeItalicColour -ne 0xddeeff) { throw 'Attribute colour preferences did not save' }
     if ($values.NemoSelectionBackgroundEnabled -ne 1 -or $values.NemoSelectionForegroundEnabled -ne 1 -or
         $values.NemoSelectionBackground -ne 0x112233 -or $values.NemoSelectionForeground -ne 0xddeeff) {
         throw 'Selection colours were not saved'
@@ -422,7 +482,7 @@ try {
     $fixture = Join-Path $PSScriptRoot 'mouse_fixture.py'
     # The child remains alive across several modal UIA rounds. Each operation
     # still has its own short deadline; this is only the owned child's ceiling.
-    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$control+'"'), '300')
+    $arguments = @('-load', $fixtureProfile, '--settings', '-e', ('"'+$python+'"'), ('"'+$fixture+'"'), ('"'+$report+'"'), ('"'+$controlFile+'"'), '300')
     $app = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru
     $dialog = Dialog $app
     $reloadedShell = Wait-Value { Find-Name $dialog 'Choose shell on startup' }
@@ -461,6 +521,18 @@ try {
     if (!(Find-Name $dialog 'Left').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Tab position did not reload' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'DirectX (Direct2D composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
+    $attributes=Attribute-Colour-Controls $dialog
+    for ($index=0;$index -lt 5;$index++) {
+        Set-Combo $attributes.selector $index
+        $expectedFlags=@(($index -in @(0,4)),$true,($index -eq 0),$true)
+        for ($i=0;$i -lt 4;$i++) {
+            $enabled=$attributes.flags[$i].GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On
+            if ($enabled -ne $expectedFlags[$i]) { throw 'Attribute flag did not reload independently' }
+        }
+        for ($channel=0;$channel -lt 3;$channel++) {
+            if ([int]$attributes.edits[$channel].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value -ne $attributeRGB[$index][$channel]) { throw 'Attribute RGB did not reload' }
+        }
+    }
     Invoke-Button $dialog 'Open'
     $observed = Wait-Value {
         if (Test-Path -LiteralPath $report) {
@@ -481,6 +553,10 @@ try {
     $initialRenderer=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32()
     $selectionColourChecks=@(Check-SelectionColours 'selection-colour-startup' '' '1111/2222/3333' 'dddd/eeee/ffff')
     $esc=[string][char]27;$bel=[string][char]7
+    $attributeReplies=@('1111/2222/3333','4444/5555/6666','7777/8888/9999','aaaa/bbbb/cccc','dddd/eeee/ffff')
+    $attributeChecks=@(Check-AttributeColours 'attribute-startup' '' $attributeReplies)
+    $attributeOverride=@('ffff/0000/0000')+$attributeReplies[1..4]
+    $attributeChecks+=Check-AttributeColours 'attribute-application-override' ($esc+']5;0;red'+$bel+$esc+']6;0;0'+$bel) $attributeOverride
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-app-override' ($esc+']17;red;;blue'+$bel) 'ffff/0000/0000' '0000/0000/ffff'
     $graphemeChecks=@(Check-Grapheme 'grapheme-startup' '' $true)
     $graphemeChecks+=Check-Grapheme 'grapheme-app-disable' ([char]27+'[?2027l') $false
@@ -516,6 +592,8 @@ try {
     $graphemeChecks+=Check-Grapheme 'grapheme-soft-reset' ([char]27+'[!p') $false
     $graphemeChecks+=Check-Grapheme 'grapheme-hard-reset' ([char]27+'[?2027h'+[char]27+'c') $false
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-unrelated-settings' '' 'ffff/0000/0000' '0000/0000/ffff'
+    $attributeChecks+=Check-AttributeColours 'attribute-unrelated-settings' '' $attributeOverride
+    $attributeChecks+=Check-AttributeColours 'attribute-configured-reset' ($esc+']105;0'+$bel) $attributeReplies
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-configured-reset' ($esc+']117'+$bel+$esc+']119'+$bel) '1111/2222/3333' 'dddd/eeee/ffff'
     [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
     $dialog=Dialog $app
@@ -528,15 +606,22 @@ try {
     $selectionColours.edits[0].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('85')
     $selectionColours.edits[1].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('102')
     $selectionColours.edits[2].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('119')
+    $attributes=Attribute-Colour-Controls $dialog
+    Set-Combo $attributes.selector 0
+    $attributes.edits[0].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('16')
+    $attributes.edits[1].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('32')
+    $attributes.edits[2].GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue('48')
     $handle=[IntPtr]$dialog.Current.NativeWindowHandle
     Invoke-Button $dialog 'Apply'
     Wait-Value { ![ShellSettingsNative]::IsWindow($handle) } | Out-Null
     $selectionColourChecks+=Check-SelectionColours 'selection-colour-live-apply' '' '5555/6666/7777' 'dddd/eeee/ffff'
+    $attributeChecks+=Check-AttributeColours 'attribute-live-apply' '' (@('1010/2020/3030')+$attributeReplies[1..4])
     $evidence = @{executable_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();
         default_grid=@(160,48);tab_host=[bool]$TabHost;saved_tab_side=2;saved_tab_bindings=$tabBindings;saved_bindings=$customBindings;duplicate_binding_rejected=$true;live_renderer_changes=$rendererChanges;
         saved_shell_bindings=$customShellBindings;saved_renderer=2;initial_renderer=$initialRenderer;
         grapheme_default=$false;saved_grapheme=$true;grapheme_checks=$graphemeChecks;
         selection_colour_default='inverse';saved_selection_rgb=$selectionRGB;selection_colour_checks=$selectionColourChecks;
+        saved_attribute_rgb=$attributeRGB;saved_attribute_modes=49;saved_attribute_keep_styles=1;attribute_colour_checks=$attributeChecks;
         saved_level=3;saved_format=1;copy_only_default=$true;saved_copy_and_paste=$true;
         reflow_default=$true;saved_reflow=$false;win32_default=$false;saved_win32=$true;cancel_exit=0;local_launch=$true;
         checksum_default=$false;saved_checksum=$true;

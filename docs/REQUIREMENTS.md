@@ -1,5 +1,13 @@
 # Nemoterm requirements and evidence ledger
 
+## Saved attribute colours (2026-11-13; runtime testing paused)
+
+[The native attribute-colour settings page](../research/attribute-colour-settings.md)
+adds independent saved colours/modes/style choices and live component-wise
+updates. Previous Conf IDs are unchanged. Configuration/mock/native fixtures
+are prepared; Windows/Linux compilation and single-EXE linking pass. UI,
+runtime compatibility and memory acceptance are still pending.
+
 ## Attribute-colour development (2026-11-13; runtime testing paused)
 
 [OSC 5/6/105/106 and indexed aliases](../research/attribute-colours.md) now have
