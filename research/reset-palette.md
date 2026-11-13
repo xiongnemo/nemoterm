@@ -48,6 +48,14 @@ compilation/linking and whitespace inspection. Product execution remains in
 GitHub CI while local runtime testing is paused. Complete native acceptance
 is pending for this patch.
 
+Source `d2aa14aaf1b70323cc742d31995f5024722ddbc9` passes the ASan/UBSan
+and MSVC renderer jobs in
+[core run 43461348513](https://github.com/xiongnemo/nemoterm/actions/runs/43461348513).
+The sanitizer OSC-colour suite includes all 25 captured cases. The Windows
+native job and
+[single-image run 43461348325](https://github.com/xiongnemo/nemoterm/actions/runs/43461348325)
+are still pending at this checkpoint. The accepted local executable is unchanged.
+
 The preceding `ea042bc` core workflow passed the sanitizer and MSVC renderer
 jobs but failed the native guarded-area fixture again. Its downloaded evidence
 must remain a failure; it does not establish complete core-CI success. That

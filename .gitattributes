@@ -13,3 +13,4 @@ CMakeLists.txt text eol=lf
 /tools/unicode/18.0.0/*.txt -text
 # Independent wire captures are hashed as downloaded, without newline conversion.
 /research/protocol-reference-evidence/* -text
+/research/ci-fixture-recovery-evidence/guarded-area-ea042bc-ordering.json -text

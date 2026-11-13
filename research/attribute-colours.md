@@ -107,16 +107,19 @@ RIS. The actual reply correctly contains the configured defaults. Fixture
 `ea042bc` checks unrelated-setting preservation before those resets, asserts
 the default replies after each reset, then reapplies red before the explicit
 OSC 105 reset check. This adds checks rather than accepting an arbitrary reply.
-Its complete native workflows remain pending; the earlier single-image run was
-superseded by this corrected fixture and is not claimed as passing.
+The corrected tabbed settings checks pass in core run `43458313530`; that
+workflow later fails the separate guarded-area response-ordering check. Its
+MSVC renderer and sanitizer jobs pass. The complete single-image run remains
+pending at this checkpoint; the superseded earlier run is not claimed as passing.
 
 39 authored wire cases cover aliases, BEL/ST, selective/full resets, malformed
 inputs, stack retention and screen/reset interactions. The mock-renderer suite
 adds each mode, priority combinations, preserved stored attributes, explicit
 ANSI/truecolour, override mode, screen reverse, selection precedence, ANSI
 colour policy, synchronized painting, parser boundaries and cancellation.
-The independent XTerm collector retains actual raw replies before comparing;
-it has not run and authored cases are not labelled captured reference data.
+The independent XTerm collector retains actual raw replies before comparing,
+with the successful reference verification and two documented divergences
+recorded above. Authored cases remain distinguished from captured reference data.
 
 The native GDI/OpenGL/DirectX fixture compares a coloured-attribute scene with
 an explicit-RGB scene including Chinese and a combining character. It also
@@ -124,20 +127,20 @@ checks mode updates, palette restoration, synchronized output, resize and
 1,000 bounded save/restore cycles. It uses a private saved profile with explicit
 white/black defaults, owned windows/processes, and no clipboard access.
 GPU measurements are labelled instrumented; the GDI sample gate remains
-20,000,000 private-working-set bytes. These fixtures are wired into CI and the
-single-file validation script but have not been executed.
+20,000,000 private-working-set bytes. These fixtures pass in the `7fc3c9c` single-image run before the reset fix.
+They are rerun by the post-fix workflows; the earlier success does not validate
+the changed reset paths.
 
-MSVC frontend/core compilation, Linux ASan/UBSan compilation and single-EXE
-host linking passed. Python syntax compilation, generated-fixture freshness,
-PowerShell AST parsing and whitespace checks passed. The host overlay was not
-regenerated. Existing unrelated C4319 warnings were seen in the initial Windows
-build. **No new executable, unit suite, sanitizer suite, XTerm or desktop
-fixture was run**, in accordance with the user's testing pause.
+The original compile-only checkpoint passed MSVC frontend/core compilation,
+Linux sanitizer compilation, single-EXE linking, Python syntax, generated-data
+freshness and PowerShell parsing. Later runtime evidence comes from GitHub CI;
+no local product, unit, sanitizer, XTerm or desktop tests were executed during
+the user's testing pause. The accepted local executable remains unchanged.
 
-The candidate is isolated under `build/local-attribute-colours-unverified`.
-Accepted main and the last native-tested palette candidate remain unchanged.
-This patch does not establish runtime compatibility, working-set compliance,
-DirectX memory acceptance or completion of the terminal goal. Resume with core
-checks and independent wire/pixel comparison, then all native colour/selection
-regressions and uninstrumented GDI memory sampling. Inspect mismatches rather
-than regenerating expected data to match the implementation.
+The follow-up [indexed reset and dynamic-colour work](reset-palette.md) extends
+these fixes using 25 additional independent XTerm observations. Memory policy
+and actual workload measurements are recorded separately in
+[memory-budget.md](memory-budget.md). Remaining source-host, rendering and
+compatibility checks prevent treating this checkpoint as completion of the
+terminal goal. Expected replies must continue to come from the specification
+and independent observations, not from the implementation under test.

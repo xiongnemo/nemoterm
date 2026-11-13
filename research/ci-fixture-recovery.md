@@ -109,6 +109,18 @@ The source-linked single-image run passed this same case. That contrast is
 consistent with different console-host handling but is not a complete causal
 trace of the sidecar mismatch. Do not call the entire comparison CI green.
 
+[Core run 43458313530](https://github.com/xiongnemo/nemoterm/actions/runs/43458313530)
+at `ea042bc` repeats the exact ordering failure after 58 completed cases. The
+[raw record](ci-fixture-recovery-evidence/guarded-area-ea042bc-ordering.json)
+contains `CSI 1;80R`, the identity barrier, then another `CSI 1;80R` for
+`pending-wrap-K`. Its SHA256 is
+`7224fb4e3ab26d1cc33103f353082deb416c59b063883bf073b3c5f83bfeab2b`;
+artifact `14055891819` identifies the originating download. The MSVC renderer
+and sanitizer jobs pass, as do the earlier tabbed attribute-settings checks.
+Neither the failed wire assertion nor its deadline was changed. A trace across
+the frontend/host pipe is still needed to distinguish response interception
+from host output scheduling; the application snapshot alone cannot do that.
+
 DirectX allocation ownership, historical close stalls, physical IME/multi-monitor
 behaviour, the requested local Sarasa workload and the remaining protocol ledger
 are still open. This checkpoint does not complete the terminal goal.
