@@ -82,7 +82,7 @@ jobs:
 
   frontend-workload:
     # Explicit diagnostics only. Normal test/build workflows retain their
-    # uninstrumented 20,000,000-byte gate and do not recognize diagnostic exit 2.
+    # uninstrumented renderer-specific gates and do not recognize diagnostic exit 2.
     if: github.event_name == 'workflow_dispatch' && inputs.observation != 'native' && inputs.observation != 'etw-decode' && inputs.observation != 'bitmap-reuse'
     needs: [bookkeeping, native-adapter]
     strategy:
@@ -239,12 +239,14 @@ jobs:
           @{variant='${{ matrix.variant }}'; workflow_commit=$env:GITHUB_SHA; executable_sha256=(Get-FileHash $image -Algorithm SHA256).Hash.ToLowerInvariant(); complete_product_acceptance=$false} | ConvertTo-Json | Set-Content bitmap-candidate.json
           python -m pip install frida==17.24.3
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/memory_limits_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Verify unchanged renderer pixels
         shell: pwsh
         run: |
           python tests/renderer_window_smoke.py 2>&1 | Tee-Object bitmap-renderer.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-      - name: Run normal two-tab workloads with the original memory limits
+      - name: Run normal two-tab workloads with approved renderer memory limits
         shell: pwsh
         run: |
           foreach ($renderer in @('gdi', 'directx')) {

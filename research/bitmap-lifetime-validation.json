@@ -171,6 +171,66 @@
       "sha256": "a1ddbe9e0247d7b1aac63f64bc1fd063c89cb41eb50866e4a6df8440be2b9715"
     },
     {
+      "path": "research/bitmap-lifetime-evidence/resize-control-directx-memory.json.gz",
+      "bytes": 17776,
+      "sha256": "c334a72d93a1d547b1d7fc6b432f2f5dea10a499c61c094b282110113a855576"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-control-directx-observed.json",
+      "bytes": 15973,
+      "sha256": "95b4310705b11d6fad5027263f4a46327abc52fd9053621917ffffc4d2a92838"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-control-gdi-memory.json.gz",
+      "bytes": 23678,
+      "sha256": "98acf41fb1690700ab996678985e33fe899559dbb1bcd3d9d3f7ae57f994a82f"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-control-gdi-observed.json",
+      "bytes": 15859,
+      "sha256": "1a8b8cdb647728a3f5151a6722f1b88456c3607739db0145a2cbcfa5bc633e06"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-control-gpu-lifecycle-observed.json",
+      "bytes": 7562,
+      "sha256": "0bb762f6f35826742d5679c84c159cb5d311183c93b8fccca1e1c3dba8ff3d7a"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-control-renderer-observed.json",
+      "bytes": 6898,
+      "sha256": "f31670fa85642d31277790c727d3c9535ace0767b655270fb5c3bf30506ace4b"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-directx-memory.json.gz",
+      "bytes": 20990,
+      "sha256": "08b3e390a0a356357e742fd451939d2d2181366eb250a2d081f83034d1e134b2"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-directx-observed.json",
+      "bytes": 15973,
+      "sha256": "3c2c13e337a61eeafb7ec16bde2615d6c1ba21c641c5db6048457e573b59183f"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-gdi-memory.json.gz",
+      "bytes": 23503,
+      "sha256": "13a15210e6c5b4688952de1db32ae22a1a12a37d36a76dcf30438c063153c966"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-gdi-observed.json",
+      "bytes": 15859,
+      "sha256": "1191fc16ec324495b515e46d88ed5b787fe8a6b8259326c588e598ed352ecad0"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-gpu-lifecycle-observed.json",
+      "bytes": 7547,
+      "sha256": "718e8ed034df4f38ca36c419bdeecba7d5c76e1c93579f27cd4a74492b31fb8b"
+    },
+    {
+      "path": "research/bitmap-lifetime-evidence/resize-reuse-renderer-observed.json",
+      "bytes": 6898,
+      "sha256": "c6a67d7f1a50cd5954b4d0aed510f24162020375bfc62833d0e2fd04fd61ab3a"
+    },
+    {
       "path": "research/bitmap-lifetime-evidence/reuse-bitmap-directx-workload.log",
       "bytes": 261,
       "sha256": "1fe3b3ac1710bd559c8eeb07414002c6e512532ba967992c068a6fcec0a1e3dc"
@@ -400,5 +460,89 @@
         ]
       }
     }
+  },
+  "resize_experiment": {
+    "run": 43451668160,
+    "commit": "4422bd769c113fa6a6c28967a9d3ebdcee05a554",
+    "result": "failure",
+    "decision": "Rejected: retaining cache resources across resize did not improve the measured peak.",
+    "variants": {
+      "control": {
+        "artifact_id": 14050332787,
+        "executable_sha256": "5f4d3f0a20171fc84c59c0e9afd8023916da80dab984849b6f0afce3c16b04f3",
+        "workloads": {
+          "gdi": {
+            "peak": {
+              "count": 1,
+              "private_ws": 10960896,
+              "total_ws": 40927232,
+              "private_commit": 12980224
+            },
+            "samples": 348,
+            "actual_renderer": 1,
+            "completed": true,
+            "original_memory_limit_passed": true,
+            "natural_cleanup": true,
+            "memory_json_sha256": "355940ae2b40d243406f7e4c71c779082f8d3a9cfb83ddb55e86b70f2d7aa373"
+          },
+          "directx": {
+            "peak": {
+              "count": 1,
+              "private_ws": 24981504,
+              "total_ws": 63774720,
+              "private_commit": 27930624
+            },
+            "samples": 250,
+            "actual_renderer": 3,
+            "completed": false,
+            "original_memory_limit_passed": false,
+            "natural_cleanup": true,
+            "memory_json_sha256": "391f5978ec8e8e51bc7406122468175b5d70456ce61ed21151ba902e526cde0c"
+          }
+        }
+      },
+      "reuse": {
+        "artifact_id": 14052670652,
+        "executable_sha256": "034b742c530909ee87761f1e03bd05c13a8fcb0bbf993e151e4e43db2ffc513e",
+        "workloads": {
+          "gdi": {
+            "peak": {
+              "count": 1,
+              "private_ws": 11288576,
+              "total_ws": 40529920,
+              "private_commit": 13287424
+            },
+            "samples": 345,
+            "actual_renderer": 1,
+            "completed": true,
+            "original_memory_limit_passed": true,
+            "natural_cleanup": true,
+            "memory_json_sha256": "238b401735cb36c1ac11456bbb1114470c1264c0a017beb0a4b3633e05c533f8"
+          },
+          "directx": {
+            "peak": {
+              "count": 1,
+              "private_ws": 25210880,
+              "total_ws": 64610304,
+              "private_commit": 27729920
+            },
+            "samples": 326,
+            "actual_renderer": 3,
+            "completed": false,
+            "original_memory_limit_passed": false,
+            "natural_cleanup": true,
+            "memory_json_sha256": "ed4d1fa75050840c12321007ad3df548e6dbd3d5081d0773ecb354889628533b"
+          }
+        }
+      }
+    }
+  },
+  "current_user_policy": {
+    "accepted_local_date": "2026-11-14",
+    "gdi_private_ws_exclusive_bytes": 20000000,
+    "directx_private_ws_inclusive_bytes": 25000000,
+    "opengl_exception": true,
+    "source": "Explicit user instruction: DX about 25M or below is acceptable; further optimization can wait.",
+    "historical_results_rewritten": false
   }
 }

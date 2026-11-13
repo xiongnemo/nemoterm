@@ -1,5 +1,6 @@
 """Owned native cells and whole-cluster pixels through the actual ConPTY path."""
 from native_test_utils import *
+from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 from gpu_capture import OwnedGPUCapture
 import re
@@ -72,7 +73,8 @@ try:
                     try:mode['memory_uninstrumented'].append(memory_sample(h))
                     finally:k.CloseHandle(h)
                     mode['peak_private_ws']=max(v['private_ws'] for v in mode['memory_uninstrumented'])
-                    if active in (1,3):assert mode['peak_private_ws']<20_000_000,mode
+                    mode.update(private_ws_policy(active))
+                    if mode['memory_limit_required']:assert private_ws_passes(active,mode['peak_private_ws']),mode
                     if active in (2,3):gpu=OwnedGPUCapture(process.pid,hwnd)
                     def pixels(name):
                         return gpu.capture(name,True) if gpu else capture(hwnd,name,True,print_flags=1)

@@ -1,0 +1,398 @@
+{
+  "executable_sha256": "034b742c530909ee87761f1e03bd05c13a8fcb0bbf993e151e4e43db2ffc513e",
+  "checks": [
+    {
+      "fault": "factory",
+      "status": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "factory",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      },
+      "renderer": 1
+    },
+    {
+      "fault": "draw",
+      "status": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "draw",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      },
+      "renderer": 1
+    },
+    {
+      "fault": "resize",
+      "status": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      },
+      "renderer": 1
+    }
+  ],
+  "completed": true,
+  "memory_instrumented": true,
+  "input_scope": "owned HWND and COM HRESULT injection",
+  "mode_changes": [
+    {
+      "requested": 2,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "factory",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "factory",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "draw",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "draw",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    },
+    {
+      "requested": 0,
+      "active": 1,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 0
+      }
+    },
+    {
+      "requested": 2,
+      "active": 3,
+      "faults": {
+        "armed": "",
+        "hits": [
+          {
+            "fault": "resize",
+            "original": 0
+          }
+        ],
+        "targets": 2
+      }
+    }
+  ],
+  "output_replies": [
+    {
+      "elapsed": 4.062999999999988,
+      "phase": "factory-recovery",
+      "hex": "1b5b306e",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 4.687999999999988,
+      "phase": "draw-failure",
+      "hex": "1b5b306e",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 4.781999999999925,
+      "phase": "draw-recovery",
+      "hex": "1b5b306e",
+      "columns": 80,
+      "rows": 24,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 5.3599999999999,
+      "phase": "resize-recovery",
+      "hex": "1b5b306e",
+      "columns": 88,
+      "rows": 26,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 6.390999999999963,
+      "phase": "cycle-0",
+      "hex": "1b5b306e",
+      "columns": 88,
+      "rows": 26,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 6.937999999999988,
+      "phase": "cycle-1",
+      "hex": "1b5b306e",
+      "columns": 88,
+      "rows": 26,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 7.437999999999988,
+      "phase": "cycle-2",
+      "hex": "1b5b306e",
+      "columns": 88,
+      "rows": 26,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    },
+    {
+      "elapsed": 7.9849999999999,
+      "phase": "cycle-3",
+      "hex": "1b5b306e",
+      "columns": 88,
+      "rows": 26,
+      "input_mode": 640,
+      "input_cp": 437,
+      "input_api": "ReadFile"
+    }
+  ],
+  "hardware_directx": true,
+  "resources": {
+    "baseline": {
+      "gdi": 31,
+      "user": 29,
+      "handles": 414
+    },
+    "samples": [
+      {
+        "gdi": 31,
+        "user": 28,
+        "handles": 414
+      },
+      {
+        "gdi": 31,
+        "user": 27,
+        "handles": 414
+      },
+      {
+        "gdi": 31,
+        "user": 27,
+        "handles": 414
+      },
+      {
+        "gdi": 31,
+        "user": 27,
+        "handles": 414
+      }
+    ]
+  },
+  "elapsed_seconds": 8.125,
+  "last_child_snapshot": {
+    "phase": "cycle-3",
+    "hex": "1b5b306e",
+    "columns": 88,
+    "rows": 26,
+    "input_mode": 640,
+    "input_cp": 437,
+    "input_api": "ReadFile"
+  },
+  "last_ui_snapshot": {
+    "id": 15,
+    "applied": 2
+  },
+  "frontend_exit": 0,
+  "owned_job_cleanup": {
+    "before": {
+      "total": 7,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 7,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  }
+}

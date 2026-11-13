@@ -1,6 +1,10 @@
 # Direct2D bitmap lifetime experiment
 
-**Not accepted: DirectX still exceeds 20,000,000 private-working-set bytes.**
+**Current policy:** on 2026-11-14 the user approved DirectX private working set
+up to **25,000,000 bytes**, with further optimization deferred. GDI remains
+strictly below 20,000,000 bytes; optional OpenGL keeps its exception. The
+experiments below ran with the earlier 20,000,000-byte DirectX limit and their
+original failure records are preserved. Fresh acceptance uses the new policy.
 The [exact ETW stacks](virtual-memory-trace.md) attribute 5,009,408 newly
 committed bytes in a selected graphics reservation to the text-run bitmap
 creation path. This does not mean those pages are live bitmap contents or
@@ -71,5 +75,10 @@ releases everything. Microsoft's [resource-domain contract](https://learn.micros
 allows sharing resources with targets created as compatible with the same
 parent. [Run 43451668160](https://github.com/xiongnemo/nemoterm/actions/runs/43451668160)
 adds the existing device-failure/cleanup fixture alongside pixels and workloads.
-Its result is pending at this checkpoint; compilation is not acceptance.
+That run finished all pixel, functional and device-failure/cleanup checks, but
+the candidate private peak increased to **25,210,880** bytes versus control
+**24,981,504**. It also exceeds the newly approved 25 MB ceiling. This resize
+resource-pool change is rejected and restored to the `3f7a9fd` product source.
+The earlier 22,409,216-byte candidate is retained for fresh validation under
+the new policy; a historical 20 MB failure is not relabelled as a CI pass.
 Local runtime tests remain paused; downloaded binaries are evidence only.

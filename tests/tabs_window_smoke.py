@@ -1,5 +1,6 @@
 """Owned native tab host: routing, four-sided chrome, preview and GPU lifetime."""
 from native_test_utils import *
+from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 import argparse
 import uuid
@@ -146,6 +147,7 @@ try:
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
             actual=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0)
             evidence['actual_renderer']=actual
+            evidence.update(private_ws_policy(actual))
             if args.renderer=='directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert actual==3
             surface_class={2:'NemotermOpenGL',3:'NemotermDirect2D'}.get(actual)
             surface=windows(process.pid,surface_class,host) if surface_class else []
@@ -186,8 +188,9 @@ try:
             evidence['checks'].append('12 create/close cycles retain one shared renderer without handle growth')
             memory_observations=[initial,baseline]+evidence['cycles']+evidence['live_temporary_tabs']
             evidence['peak_private_ws']=max(v['private_ws'] for v in memory_observations)
-            if not args.workload_memory and (actual==1 or (actual==3 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1')):
-                assert evidence['peak_private_ws']<20_000_000,evidence['peak_private_ws']
+            if not args.workload_memory and evidence['memory_limit_required']:
+                evidence['memory_limit_passed']=private_ws_passes(actual,evidence['peak_private_ws'])
+                assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             if args.workload_memory:
                 if diagnostic:
                     if args.etw_memory_trace:
@@ -212,8 +215,7 @@ try:
                     for s in stable),'Stable two-tab workload omitted an owned process'
                 evidence['process_tree_memory']={k:v for k,v in memory.items() if k!='samples'}
                 evidence['peak_private_ws']=max(evidence['peak_private_ws'],memory['peaks']['frontend']['private_ws'])
-                evidence['memory_limit_required']=actual in (1,3)
-                evidence['memory_limit_passed']=None if diagnostic else evidence['peak_private_ws']<20_000_000
+                evidence['memory_limit_passed']=None if diagnostic else private_ws_passes(actual,evidence['peak_private_ws'])
                 if diagnostic:
                     evidence['memory_observation']=census_observer.freeze()
                     census_observer.close();census_observer=None
