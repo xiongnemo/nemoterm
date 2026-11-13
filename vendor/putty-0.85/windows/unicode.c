@@ -1328,6 +1328,7 @@ bool BinarySink_put_wc_to_mb(
         }
 
         smemclr(allocbuf, allocsize);
+        sfree(allocbuf);
         if (success)
             return true;
     }
@@ -1410,6 +1411,7 @@ bool BinarySink_put_mb_to_wc(
         }
 
         smemclr(allocbuf, allocsize * sizeof(wchar_t));
+        sfree(allocbuf);
         if (success)
             return true;
     }

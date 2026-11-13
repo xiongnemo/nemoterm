@@ -2,6 +2,30 @@
 #include "../../test/test_terminal.c"
 #undef main
 #include "nemo_shell.h"
+#include <psapi.h>
+
+static SIZE_T private_commit(void)
+{
+    typedef BOOL (WINAPI *MemoryInfo)(HANDLE,PPROCESS_MEMORY_COUNTERS,DWORD);
+    MemoryInfo get_info=(MemoryInfo)GetProcAddress(GetModuleHandleW(L"kernel32.dll"),
+                                                 "K32GetProcessMemoryInfo");
+    assert(get_info);
+    PROCESS_MEMORY_COUNTERS_EX info={0};info.cb=sizeof(info);
+    assert(get_info(GetCurrentProcess(),(PPROCESS_MEMORY_COUNTERS)&info,sizeof(info)));
+    return info.PrivateUsage;
+}
+
+static void long_conversion(void)
+{
+    wchar_t text[4097];
+    for (size_t i=0;i<4096;i++) text[i]=0x4e2d;
+    text[4096]=0;
+    char *encoded=dup_wc_to_mb(CP_UTF8,text,NULL);
+    assert(strlen(encoded)==4096*3);
+    wchar_t *decoded=dup_mb_to_wc(CP_UTF8,encoded);
+    assert(!wcscmp(text,decoded));
+    sfree(encoded);sfree(decoded);
+}
 
 static wchar_t *created[64];
 static size_t ncreated;
@@ -38,6 +62,20 @@ int main(void)
     wchar_t *roundtrip=dup_mb_to_wc(CP_UTF8,converted);
     assert(!wcscmp(roundtrip,conversion_wide));
     sfree(roundtrip);sfree(converted);conf_free(conversion_conf);
+
+    /* Exercise both heap-backed conversion directions after warming their
+     * allocator size classes. Leaking the temporary buffers grows > 20 MiB;
+     * allow 8 MiB for allocator retention without trimming the process. */
+    for (int i=0;i<16;i++) long_conversion();
+    SIZE_T conversion_before=private_commit();
+    for (int i=0;i<1000;i++) long_conversion();
+    SIZE_T conversion_after=private_commit();
+    printf("1000 long UTF-8 round trips: private commit %llu -> %llu bytes\n",
+           (unsigned long long)conversion_before,(unsigned long long)conversion_after);
+    if (conversion_after>conversion_before+8*1024*1024) {
+        fputs("Character conversion retains temporary buffers\n",stderr);
+        return 1;
+    }
 
     wchar_t temp[MAX_PATH], base[MAX_PATH];
     assert(GetTempPathW(lenof(temp), temp));
