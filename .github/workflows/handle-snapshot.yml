@@ -1,0 +1,48 @@
+name: Owned handle metadata diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tests/handle_snapshot.py'
+      - 'tests/handle_snapshot_native_test.py'
+      - '.github/workflows/handle-snapshot.yml'
+  pull_request:
+    paths:
+      - 'tests/handle_snapshot.py'
+      - 'tests/handle_snapshot_native_test.py'
+      - '.github/workflows/handle-snapshot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [windows-2022, windows-2025]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate process-local handle types and owned lifetime
+        shell: pwsh
+        env:
+          PYTHONWARNDEFAULTENCODING: '1'
+          PYTHONWARNINGS: error::EncodingWarning
+        run: |
+          python --version
+          python tests/handle_snapshot_native_test.py --output research/handle-snapshot-native.json
+          exit $LASTEXITCODE
+      - name: Retain exact observer result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: handle-snapshot-${{ matrix.runner }}-${{ github.sha }}
+          path: |
+            research/handle-snapshot-native.json
+            tests/handle_snapshot.py
+            tests/handle_snapshot_native_test.py
+          if-no-files-found: error
+          retention-days: 30
