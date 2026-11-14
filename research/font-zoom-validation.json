@@ -242,5 +242,321 @@
         "compressed_sha256": "c05fad2c96cb437f9205831795bd8365629a0c247b3609fa8ace1c87d1c28652"
       }
     ]
+  },
+  "full_single_ci": {
+    "recorded_utc": "2026-11-14T15:22:50.641097+00:00",
+    "source_commit": "04d31a7292788460990c8463685c30be2fc16393",
+    "run_id": 43606924121,
+    "conclusion": "success",
+    "product_artifact_id": 14119299452,
+    "evidence_artifact_id": 14119089768,
+    "executable_bytes": 4486144,
+    "executable_sha256": "bfc0278320055794f89f9f8d0f1d4cabb494ee3e1e8ba0b7a5b5a0026563cc34",
+    "execution_directory_files": [
+      "nemoterm.exe"
+    ],
+    "passed_checks": 122,
+    "actual_zoom_renderers": [
+      1,
+      1,
+      3,
+      1
+    ],
+    "workloads": [
+      {
+        "case": "animated-workload-tabs-directx-left-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          88,
+          35
+        ],
+        "actual_renderer": 3,
+        "samples": 316,
+        "peak_bytes": {
+          "private_ws": 16928768,
+          "total_ws": 54140928,
+          "private_commit": 19288064
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "case": "animated-workload-tabs-gdi-top-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          109,
+          34
+        ],
+        "actual_renderer": 1,
+        "samples": 367,
+        "peak_bytes": {
+          "private_ws": 12992512,
+          "total_ws": 45232128,
+          "private_commit": 14860288
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "case": "inline-workload-tabs-directx-left-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          88,
+          35
+        ],
+        "actual_renderer": 3,
+        "samples": 334,
+        "peak_bytes": {
+          "private_ws": 17006592,
+          "total_ws": 53936128,
+          "private_commit": 19263488
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "case": "inline-workload-tabs-gdi-top-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          109,
+          34
+        ],
+        "actual_renderer": 1,
+        "samples": 374,
+        "peak_bytes": {
+          "private_ws": 12627968,
+          "total_ws": 44896256,
+          "private_commit": 15187968
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "case": "workload-tabs-directx-left-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          88,
+          35
+        ],
+        "actual_renderer": 3,
+        "samples": 299,
+        "peak_bytes": {
+          "private_ws": 15421440,
+          "total_ws": 51978240,
+          "private_commit": 18386944
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "case": "workload-tabs-gdi-top-observed",
+        "font": "Consolas",
+        "actual_grid": [
+          109,
+          34
+        ],
+        "actual_renderer": 1,
+        "samples": 346,
+        "peak_bytes": {
+          "private_ws": 11632640,
+          "total_ws": 43102208,
+          "private_commit": 13434880
+        },
+        "groups": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "limitations": [
+      "CI Consolas; smaller grids than local Sarasa 160x48 acceptance",
+      "OpenGL requested path falls back to GDI",
+      "Memory workload is normal default-size workload, not a zoom-specific memory stress test",
+      "Local native tests remain paused; accepted EXE unchanged",
+      "Prior local DirectX resource-cycle failure unresolved"
+    ],
+    "retained": [
+      {
+        "file": "font-zoom-evidence/04d31a7-single-run.json.gz",
+        "raw_sha256": "f0482bbb3e040aaa3cf647e938ca06fa80e954e5d36b5f945bfac6f8b1ae4ee8",
+        "compressed_sha256": "fcbda4fad813dbe629f3576cc052f85980d46b85f0456987a1a6d1487eea9bcc"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-single-run.log.gz",
+        "raw_sha256": "468675bf6236c460ee5e81802d069476b32638d0788f97bf71bf89ddbd0e9cb5",
+        "compressed_sha256": "1a8439255ba24837a2d4a6775730c5763e027c9f2d26ae7e05001b2c470a5e27"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-single-artifacts.json.gz",
+        "raw_sha256": "70d30fa6480a24007c3fb94db0800a9e72bd1011c3ea981f764d146788e5d113",
+        "compressed_sha256": "46012d1e841bc016fcd2e70da1c9685ae02cb37bd61ec61ab6d6e88b2228bf9d"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-single-exe-validation.json.gz",
+        "raw_sha256": "74f64ca9b5fd34de0f721e75878bf55cbe2de7e5648ed589f3397f0a2b64c590",
+        "compressed_sha256": "9f8abbc97e5f9220d0e61a58baa91420ad6e93b50774210163e21cc9c090bf0c"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-font-zoom-observed.json.gz",
+        "raw_sha256": "89ce2caff88c3a1b2b74998e509d9df56e9b1106454b7618d7b81ffcce10a411",
+        "compressed_sha256": "5da1b8a64c5c9b1923064a7bab3c0b19bc2673c51e1a74ee5b8fd5d49be120a6"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-tabs-profiles-observed.json.gz",
+        "raw_sha256": "2f8023e124dcfeec780418bce5107ce3c60eb789666b09d6d665d6788c6af61f",
+        "compressed_sha256": "eb5dac8b9d5b5c30ee8474115a6e4ed139863159afdaa0127d52374584fbc46c"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-bell-mode-0-observed.json.gz",
+        "raw_sha256": "8c15fb25a8037d4473612e6a1a66c42b03f7ce3847c8b2607c689fb265b63f69",
+        "compressed_sha256": "558c01bba52448ad78a574ae9ee582aea2b39591cb240ab1bc8f0bb0ed1e1672"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-bell-mode-1-observed.json.gz",
+        "raw_sha256": "e85beb0db3c3dfd031a3484b96202d86535c2b1ad85b9c281977338465090293",
+        "compressed_sha256": "0a0914d0d263b28bd620b4453281ce15e13991c6efd60fb8cc0b10c26b0169fe"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-bell-mode-2-observed.json.gz",
+        "raw_sha256": "dac68b2cdf13f37b1e3bc40a09fd74916d6584a0ed7552addf9e69ee39d3ddae",
+        "compressed_sha256": "7bf3e13350a9388f6e4700ce82a5a40da6727fc662603522623089a95421f703"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-animated-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "0e2d44ac41ddc95136183c3f3c1ecad263bd103648de4942b2bf731aa62b27d2",
+        "compressed_sha256": "f9261ec34036ce06f4f16a52dffb8b3fba738feb99e3b163ae1ceea352b609c3"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-animated-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "58f789a94850f53f86423e8aef3b42d5cfaf8cb764e9dc57aa46d1206c32785b",
+        "compressed_sha256": "a6713538adcb2bf4aa0f1f7d0e05a16c5d58f67fef05c16d2f4b34100520492b"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-animated-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "9e98189f48952a0fce2d7d1c7d1bf7014bddeb6a23878214527b34aa80188e0b",
+        "compressed_sha256": "287f56193aff9d1811cc720bcbbcab1cccbdbc0af1ea1a4863b69b672bea775a"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-animated-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "49e562873b3b870ffef2b8b5c47f03d5cd15a87bd3d135b1282c4333c8ab51bb",
+        "compressed_sha256": "1eb87206ffdd9aeecd64c10c9c412926a88c20d62f238f31b09910fb7b41fd3c"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-inline-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "63be7c3132a10065546cd554311d9f17f4b2ca5c62019c4ce1c292c28d35519e",
+        "compressed_sha256": "cb52cd19abc1b93ebcbb87ee36cb33861c5383efb2ce6182aaa48fdf867820c7"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-inline-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "a721779de25d0bc00e12a90677c7216365e5e9b98468f72f547c7170924b1334",
+        "compressed_sha256": "89b8bd4c910a5a67410d17fa8850ffc9ac9fe96f7c4b718029a1cc6b016aaee5"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-inline-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "0c7c133736920391f8b6ff4b5463269970f54d8bf365bd06441c3cdc84413809",
+        "compressed_sha256": "4ac82d4fb6b43991185e16a3e61bcb393cf563f5fb0f775b9f5fcfe6a3c86629"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-inline-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "20593920d1d642a784e86371b8ef45d42a60d3423ae6dfd0f036eac973699aab",
+        "compressed_sha256": "7ce231f50d83f672b96cb070e5b70f04ea977a96c77acac98dd270b0364e41c2"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "7efbfd2eab2db0b0b7aee287b97aa814e6637771cdfe5178b015d3939c4bc769",
+        "compressed_sha256": "2104751af23b9aa345c40f2e778edd44139e2cad78daece53cff19e4e00aec18"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "bb60b077e61cc56da19daa74a4224d84162781dd044d0ba63af6aab9f6bb3a42",
+        "compressed_sha256": "23a9ade3f50cebafc24b7b1b796a6c0e60376aeb4ea2c98168e83f85880ff449"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "cd8a96b39e482e6da5316aac96e5e0d50f51fd9bd2ce2bed49df133327c4d8b7",
+        "compressed_sha256": "68b8c3059a2f76472e23f606c84da1e6154e25c15b86437d33be1cf0c4160033"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "0379a0947e98ccfef6f9309a696a6b44cabe696e410eaba681b7131cbbb566c8",
+        "compressed_sha256": "43e91019854137fe86e6158a63d82ddf953d82a1c0d289a9f4c04b8f8564d7be"
+      }
+    ]
   }
 }
