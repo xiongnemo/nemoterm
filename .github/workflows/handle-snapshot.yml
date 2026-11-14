@@ -7,12 +7,14 @@ on:
       - 'tests/handle_snapshot.py'
       - 'tests/handle_snapshot_native_test.py'
       - 'tests/handle_trace*'
+      - 'tests/thread_snapshot*'
       - '.github/workflows/handle-snapshot.yml'
   pull_request:
     paths:
       - 'tests/handle_snapshot.py'
       - 'tests/handle_snapshot_native_test.py'
       - 'tests/handle_trace*'
+      - 'tests/thread_snapshot*'
       - '.github/workflows/handle-snapshot.yml'
 
 permissions:
@@ -47,6 +49,14 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tests/handle_trace_native_test.py --output research/handle-trace-native.json
           exit $LASTEXITCODE
+      - name: Validate owned thread identities and exact retirement
+        shell: pwsh
+        env:
+          PYTHONWARNDEFAULTENCODING: '1'
+          PYTHONWARNINGS: error::EncodingWarning
+        run: |
+          python tests/thread_snapshot_native_test.py --output research/thread-snapshot-native.json
+          exit $LASTEXITCODE
       - name: Retain exact observer result
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -61,5 +71,8 @@ jobs:
             tests/handle_trace.js
             tests/handle_trace.py
             tests/handle_trace_native_test.py
+            research/thread-snapshot-native.json
+            tests/thread_snapshot.py
+            tests/thread_snapshot_native_test.py
           if-no-files-found: error
           retention-days: 30
