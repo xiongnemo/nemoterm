@@ -1421,8 +1421,16 @@ Direct `o=z` RGB/RGBA/PNG is implemented on the compression branch, with indepen
 26-case/36-state upstream replay and 29 local pixel stages on each actual renderer,
 plus presented GDI capture. The decoder stays within the existing graphics budgets;
 compressed PNG includes overlapping encoded/pixel storage in admission. This is a
-development frontend with sidecars, not the accepted `97d6025` single image. Full
-CI, new single-image pixels and both private-WS policies remain required. See
+development work, not part of the accepted `97d6025` single image. Component CI
+passed GCC, Clang and strict MSVC; full ordinary CI passed all four jobs at
+`48a0263`. A separate source-host single-file precheck passed 116 local pixel
+stages and the compressed-image private-WS policies at 160 x 48 (GDI 16,396,288 B;
+DirectX 23,707,648 B). The formal single-image run failed an early shutdown
+observation. Its exact artifact passed local and runner diagnosis after bounding
+the observer lifetime and adding uninjected controls; the root cause remains
+unproven. Full single-image acceptance is running at `b3e03bb` with unchanged
+production source. New downloaded-product pixels and memory acceptance remain
+required. See
 [the implementation record](../research/kitty-compression.md) for raw evidence and
 remaining scope. No original protocol, physical input or real-application requirement
 is removed by this checkpoint.

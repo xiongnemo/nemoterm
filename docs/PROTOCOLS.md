@@ -58,7 +58,7 @@
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
 | bracketed paste 2004：`CSI 200~` / `CSI 201~` | 已证（有限范围） | `test_bracketed_paste` 验证UTF-8内容、开关和空粘贴；仍须测大段、多行、取消、内嵌结束符、系统剪贴板及真实ConPTY。 |
 | synchronized output 2026：`CSI ? 2026 h/l` 与 `CSI ? 2026 $ p` 查询 | 已证（有限范围） | 解析/输入/查询继续，冻结的是呈现。`test_sync`用可控时钟证明重复SET不续期、单RESET结束、旧timer隔离和1秒超时；`sync_window_smoke.py`证明文本/Sixel/颜色期间像素不变、结束/超时更新、输入继续与resize释放。冻结按32行压缩，模块总预算8MiB；资源不足拒绝本次冻结并记录事件，不保留部分快照。 |
-| DA/DA2/DA3/XTVERSION：`CSI c`、`CSI > c`、`CSI = c`、`CSI > q` | 集成中，核心测试已过 | DA3 不再触发默认模式的 SCO 隐藏光标，显式 SCO 模式保留旧行为；首参数零／省略才回复，额外普通参数忽略。XTVERSION 明确标识 Nemoterm(PuTTY 0.85)，DA2 保留旧兼容值。独立 XTerm、原生整流回复和像素验证待完成，见[身份查询记录](../research/identity-queries.md)。 |
+| DA/DA2/DA3/XTVERSION：`CSI c`、`CSI > c`、`CSI = c`、`CSI > q` | 已证（有限范围） | DA3 不再触发默认模式的 SCO 隐藏光标，显式 SCO 模式保留旧行为；普通参数中首参数零／省略才回复，额外参数忽略，冒号子参数按独立对照处理。XTVERSION 明确标识 Nemoterm(PuTTY 0.85)，DA2 保留旧兼容值。62 项独立 XTerm 对照、65 项本机整流回复／光标画面检查及后续完整 CI 已通过；终端身份值有意不冒充 XTerm。见[身份查询记录](../research/identity-queries.md)。 |
 | DSR/CPR：`CSI 5n/6n` | 源码已见，局部已证 | 状态／光标回复已有专项测试；完整 origin/边距组合与回包顺序仍须逐项证明。 |
 | DECRQM/DECRPM：`CSI [ ? ] Ps $ p` → `... $ y` | 已证（有限范围） | `test_modes`验证标准4/12/20/34、DEC基础模式、备用屏别名、鼠标各组、Sixel模式、2004及2026，未知0；配置禁用的相关模式返回4。与xterm一致只处理首Ps。身份查询见上一行；不能由有限模式报告称所有查询已支持。 |
 | 窗口操作 `CSI Ps ... t`、像素/字符尺寸 | 查询及字符/像素 resize 已证；其余修改操作仍有缺口 | 11、13/13;2、14/14;2、15、16、18、19 使用实时尺寸；负坐标按 XTerm 的 16 位参数编码。4/8 与 DECSLPP 已实现，区分省略与显式零，保留完成顺序，并在拒绝请求时同步 ConPTY 子进程尺寸。39 项独立 XTerm 对照中 36 项精确回复匹配，3 项明确保留完整字符/实时尺寸的差异。源44ac455单文件通过42组CI及本机100项GDI/硬件OpenGL resize检查，包括最小化期间输出、锁定窗口和字体缩放。分轴最大化/全屏与物理 DPI 仍待实现或核实。见[resize记录](../research/window-resize.md)及[几何查询记录](../research/window-geometry.md)。 |
