@@ -18,10 +18,160 @@
     "local_native_tests": "paused by user; none run",
     "local_compile": "not run during pause",
     "static_diff": "passed",
-    "remote_tests": "pending"
+    "remote_tests": "Focused GCC, Clang and MSVC workflow passed; full application workflows pending"
   },
   "png_evidence": "Injected callback and ownership tests only; no real PNG decoding claimed",
   "runtime_graphics_support": false,
   "memory_acceptance": false,
-  "accepted_executable_changed": false
+  "accepted_executable_changed": false,
+  "remote_ci": {
+    "source_commit": "400486d02ed9d181ceeb63e0641673b0d197757a",
+    "run_id": 43611847711,
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43611847711",
+    "conclusion": "success",
+    "artifacts": [
+      {
+        "id": 14120642432,
+        "name": "kitty-transport-msvc-400486d02ed9d181ceeb63e0641673b0d197757a"
+      },
+      {
+        "id": 14120093751,
+        "name": "kitty-transport-clang-400486d02ed9d181ceeb63e0641673b0d197757a"
+      },
+      {
+        "id": 14120038932,
+        "name": "kitty-transport-gcc-400486d02ed9d181ceeb63e0641673b0d197757a"
+      }
+    ],
+    "executions": [
+      {
+        "compiler": "gcc",
+        "mode": "cache-normal.log",
+        "checks": 1564
+      },
+      {
+        "compiler": "gcc",
+        "mode": "cache-sanitizers.log",
+        "checks": 1564
+      },
+      {
+        "compiler": "clang",
+        "mode": "cache-normal.log",
+        "checks": 1564
+      },
+      {
+        "compiler": "clang",
+        "mode": "cache-sanitizers.log",
+        "checks": 1564
+      },
+      {
+        "compiler": "msvc",
+        "mode": "cache-test.log",
+        "checks": 1564
+      }
+    ],
+    "source_manifests_verified": true,
+    "retained": [
+      {
+        "file": "kitty-image-cache-evidence/400486d-artifacts.json.gz",
+        "raw_sha256": "9f42bd71a3feb5a042fb9cae4ca591282e72730778505087f9b41a4feb31602a",
+        "compressed_sha256": "eba2087877440489be098acd49297d4763042589f28cb08f26a92fbe89116333"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-cache-normal.log.gz",
+        "raw_sha256": "2d53c5616e70e3033a3264a1f198d0586d06dcfd4b8bd3ef1b42b171b06a10b1",
+        "compressed_sha256": "04ba74ca0343efc32033f03531d92fbb1534ef46ce1ce65fafa17ef278d7bb00"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-cache-sanitizers.log.gz",
+        "raw_sha256": "2d53c5616e70e3033a3264a1f198d0586d06dcfd4b8bd3ef1b42b171b06a10b1",
+        "compressed_sha256": "04ba74ca0343efc32033f03531d92fbb1534ef46ce1ce65fafa17ef278d7bb00"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "compressed_sha256": "80e86502bbb97c95c72a54b9dd7adbdaa039a5450d5f7534ca880d3585455879"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-normal.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-sanitizers.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-clang-sources.sha256.gz",
+        "raw_sha256": "4288f9e27332663bf131a444556b708123002ce00d1bf62c107bb4888924438d",
+        "compressed_sha256": "2346574e1c2b9bf87a7c60b6fd5c3ebc96a25f64707f455e9517f719388f782a"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-cache-normal.log.gz",
+        "raw_sha256": "2d53c5616e70e3033a3264a1f198d0586d06dcfd4b8bd3ef1b42b171b06a10b1",
+        "compressed_sha256": "04ba74ca0343efc32033f03531d92fbb1534ef46ce1ce65fafa17ef278d7bb00"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-cache-sanitizers.log.gz",
+        "raw_sha256": "2d53c5616e70e3033a3264a1f198d0586d06dcfd4b8bd3ef1b42b171b06a10b1",
+        "compressed_sha256": "04ba74ca0343efc32033f03531d92fbb1534ef46ce1ce65fafa17ef278d7bb00"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "compressed_sha256": "27f07f4ec94cfc6c13536d2c12e3ff50b0d0757b7b242e57b302b3f1929fa0f9"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-normal.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-sanitizers.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-gcc-sources.sha256.gz",
+        "raw_sha256": "4288f9e27332663bf131a444556b708123002ce00d1bf62c107bb4888924438d",
+        "compressed_sha256": "2346574e1c2b9bf87a7c60b6fd5c3ebc96a25f64707f455e9517f719388f782a"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-msvc-build.log.gz",
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+        "compressed_sha256": "350638a70109f856546b3428f046c80ace1410c0f43279d5b979b77eecac0761"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-msvc-cache-build.log.gz",
+        "raw_sha256": "5d6ad973ca5d01ed199b3dc6e2a4cc9d94e3847f0e54cef66071b9e8bd543122",
+        "compressed_sha256": "cdb6f7e65f28f9e6106333d62019b03d5b7baa6059d14949f22675b099dd3c4b"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-msvc-cache-test.log.gz",
+        "raw_sha256": "6152e9377a4c9074cfbad1305167209373e073fa197a2cffd3cc9ae56875afae",
+        "compressed_sha256": "bc478eac4e874e222949b0767dbb958e8ad4da930b84d8a6a4561e82eb3b5ccd"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-msvc-sources.txt.gz",
+        "raw_sha256": "0bf25c2597af35d77a25a054ef5e093e4f128ac228ce570fadf8d8ed431db80d",
+        "compressed_sha256": "5fe8d05c4d2c6dd2bafd21a9e998d7353581f5d295501d4f0df5315e84333a24"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-msvc-test.log.gz",
+        "raw_sha256": "f6a7d1e078e958d21704a3dcb4809e78605d2c70ffacb9b30b5e60b1dc7022fa",
+        "compressed_sha256": "dba80e16cf5911d414410ee0168402751174293f64bfa3795cf285ef52eaf345"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-run.json.gz",
+        "raw_sha256": "1b3b6ea18b59dfa2f3bc3f1cdee12cd239dd17e69efd4c3f4412548f1ce8b739",
+        "compressed_sha256": "9610e0d6834654b352a6395a94ad5fad69d3206bc8b2f2c9f2feb65eafbba0ca"
+      },
+      {
+        "file": "kitty-image-cache-evidence/400486d-workflow.log.gz",
+        "raw_sha256": "8e251b7eae5dae52d82b4dd560bf174e11ed53a1baec33a4f7d5ce60d4f7427c",
+        "compressed_sha256": "df3c6667c31ccd5d3b0b2729d16fcae1a9a3adb36f01af2d4595f1e1f8709ee1"
+      }
+    ]
+  }
 }

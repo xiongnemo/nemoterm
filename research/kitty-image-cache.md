@@ -38,8 +38,13 @@ callbacks, invalid sizes/lengths, admission denial, shared-budget pressure,
 unplaced-first eviction, image-count limits and decoder failure cleanup. Its
 injected PNG decoder tests the callback/ownership contract only; those checks are
 **not evidence of real PNG decoding**. Existing platform WIC decoding still needs
-to be wired and tested through this new path. Compiler/sanitizer execution is
-submitted to remote CI; no local executable or native fixture has run.
+to be wired and tested through this new path. The [focused remote workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43611847711)
+at `400486d02ed9d181ceeb63e0641673b0d197757a` passed GCC, Clang and MSVC.
+Each run passes 1,564 cache assertions, with additional ASan/UBSan runs on both
+Linux compilers. All three source manifests match this checkout. Twenty raw
+logs/manifests are retained with hashes in the [validation record](kitty-image-cache-validation.json).
+The full application workflows are still pending; no local executable or native
+fixture has run, and this does not establish runtime graphics or memory acceptance.
 
 ## Layout questions found during source inspection
 
