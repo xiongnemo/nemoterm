@@ -1,0 +1,2295 @@
+{
+  "recorded_utc": "2026-11-14T00:49:32.498270+00:00",
+  "experimental_base_commit": "47f801be7734d7ac95044ad40dcd2e26ad377dbd",
+  "candidate": {
+    "bytes": 4507136,
+    "sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+    "source_sha256": "b1db546b3cc9cb274f9b4c940a655fe3111314e4c22573cdaa6310bd19ab479a"
+  },
+  "control_sha256": "bb73edd96408c84a8e00d6e321ff4f99fc54d894b91fcf5444a72b907760cd3c",
+  "source_reference": "https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_create_device_flag",
+  "reused_host_source_checkpoint": "37ef26dae839319f7bf703bb648038c343c357f1",
+  "distribution": "Experimental local single image; not CI artifact or accepted product",
+  "decision": "Keep as experiment: memory observations improved, resource gate still fails",
+  "accepted_distribution_replaced": false,
+  "full_goal_complete": false,
+  "cases": {
+    "no-worker-pixels": {
+      "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+      "controller": {
+        "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+        "name": "renderer",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 12060,
+        "cleanup": {
+          "before": {
+            "total": 11,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 11,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 10.5
+      },
+      "modes": [
+        {
+          "active": "GDI",
+          "checks": 16,
+          "memory_instrumented": true
+        },
+        {
+          "active": "OpenGL",
+          "checks": 16,
+          "memory_instrumented": true
+        },
+        {
+          "active": "DirectX",
+          "checks": 16,
+          "memory_instrumented": true
+        }
+      ],
+      "memory_acceptance": false
+    },
+    "no-worker-workload": {
+      "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+      "controller": {
+        "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 50940,
+        "cleanup": {
+          "before": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 18.016
+      },
+      "diagnostic_completed": false,
+      "memory_acceptance": false,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing"
+      ],
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 19197952,
+          "total_ws": 58527744,
+          "private_commit": 71860224
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 5976064,
+          "total_ws": 33775616,
+          "private_commit": 8568832
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26877952,
+          "total_ws": 53735424,
+          "private_commit": 33370112
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 51933184,
+          "total_ws": 145866752,
+          "private_commit": 113700864
+        }
+      },
+      "samples": 163,
+      "seconds": 17.651,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "error": "AssertionError(({'handles': 540, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18206720, 'total_ws': 57413632, 'private_commit': 71499776}, {'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18169856, 'total_ws': 57643008, 'private_commit': 70983680}))",
+      "baseline": {
+        "handles": 540,
+        "gdi": 39,
+        "user": 54,
+        "injected": false,
+        "private_ws": 18206720,
+        "total_ws": 57413632,
+        "private_commit": 71499776
+      },
+      "cycles": [
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18354176,
+          "total_ws": 57618432,
+          "private_commit": 71380992
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18329600,
+          "total_ws": 57626624,
+          "private_commit": 71237632
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18116608,
+          "total_ws": 57446400,
+          "private_commit": 70946816
+        },
+        {
+          "handles": 545,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18112512,
+          "total_ws": 57466880,
+          "private_commit": 70889472
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18100224,
+          "total_ws": 57458688,
+          "private_commit": 70553600
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18104320,
+          "total_ws": 57475072,
+          "private_commit": 70782976
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18092032,
+          "total_ws": 57483264,
+          "private_commit": 70578176
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18022400,
+          "total_ws": 57438208,
+          "private_commit": 71041024
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18153472,
+          "total_ws": 57593856,
+          "private_commit": 70844416
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18116608,
+          "total_ws": 57581568,
+          "private_commit": 71024640
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18169856,
+          "total_ws": 57643008,
+          "private_commit": 70983680
+        }
+      ],
+      "violations": null,
+      "inner_cleanup": {
+        "before": {
+          "total": 29,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 29,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 10212,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\no-worker-workload\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 43100,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\no-worker-workload\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 31872,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 10596,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\no-worker-workload\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 53112,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      },
+      "threads_by_phase": {}
+    },
+    "no-worker-resource-diagnostic": {
+      "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+      "controller": {
+        "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 38868,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 50.643
+      },
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 23654400,
+          "total_ws": 63111168,
+          "private_commit": 86548480
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7024640,
+          "total_ws": 33542144,
+          "private_commit": 9732096
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26501120,
+          "total_ws": 53362688,
+          "private_commit": 32964608
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 51216384,
+          "total_ws": 145117184,
+          "private_commit": 117903360
+        }
+      },
+      "samples": 434,
+      "seconds": 46.898,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "error": "AssertionError(({'handles': 540, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18112512, 'total_ws': 57331712, 'private_commit': 71262208}, {'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 17993728, 'total_ws': 57397248, 'private_commit': 71081984}))",
+      "baseline": {
+        "handles": 540,
+        "gdi": 39,
+        "user": 54,
+        "injected": false,
+        "private_ws": 18112512,
+        "total_ws": 57331712,
+        "private_commit": 71262208
+      },
+      "cycles": [
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18251776,
+          "total_ws": 57528320,
+          "private_commit": 71479296
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18223104,
+          "total_ws": 57520128,
+          "private_commit": 71376896
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18006016,
+          "total_ws": 57327616,
+          "private_commit": 71041024
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17973248,
+          "total_ws": 57315328,
+          "private_commit": 71278592
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18014208,
+          "total_ws": 57380864,
+          "private_commit": 71299072
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17969152,
+          "total_ws": 57348096,
+          "private_commit": 71372800
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17948672,
+          "total_ws": 57331712,
+          "private_commit": 71180288
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17948672,
+          "total_ws": 57339904,
+          "private_commit": 71299072
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17920000,
+          "total_ws": 57311232,
+          "private_commit": 71532544
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 17969152,
+          "total_ws": 57372672,
+          "private_commit": 71434240
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 17993728,
+          "total_ws": 57397248,
+          "private_commit": 71081984
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 17985536,
+          "total_ws": 57389056,
+          "private_commit": 71151616
+        }
+      ],
+      "violations": [
+        {
+          "cycle": 10,
+          "baseline": {
+            "handles": 540,
+            "gdi": 39,
+            "user": 54,
+            "injected": false,
+            "private_ws": 18112512,
+            "total_ws": 57331712,
+            "private_commit": 71262208
+          },
+          "sample": {
+            "handles": 548,
+            "gdi": 39,
+            "user": 55,
+            "injected": false,
+            "private_ws": 17993728,
+            "total_ws": 57397248,
+            "private_commit": 71081984
+          }
+        },
+        {
+          "cycle": 11,
+          "baseline": {
+            "handles": 540,
+            "gdi": 39,
+            "user": 54,
+            "injected": false,
+            "private_ws": 18112512,
+            "total_ws": 57331712,
+            "private_commit": 71262208
+          },
+          "sample": {
+            "handles": 548,
+            "gdi": 39,
+            "user": 55,
+            "injected": false,
+            "private_ws": 17985536,
+            "total_ws": 57389056,
+            "private_commit": 71151616
+          }
+        }
+      ],
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "threads_by_phase": {}
+    },
+    "threading-control-diagnostic": {
+      "executable_sha256": "bb73edd96408c84a8e00d6e321ff4f99fc54d894b91fcf5444a72b907760cd3c",
+      "controller": {
+        "executable_sha256": "bb73edd96408c84a8e00d6e321ff4f99fc54d894b91fcf5444a72b907760cd3c",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 42024,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 50.163
+      },
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 25956352,
+          "total_ws": 65613824,
+          "private_commit": 94248960
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7032832,
+          "total_ws": 33787904,
+          "private_commit": 9388032
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26722304,
+          "total_ws": 53575680,
+          "private_commit": 33357824
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 53870592,
+          "total_ws": 148054016,
+          "private_commit": 125140992
+        }
+      },
+      "samples": 427,
+      "seconds": 46.385,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "error": "AssertionError(({'handles': 559, 'gdi': 39, 'user': 57, 'injected': False, 'private_ws': 18788352, 'total_ws': 58155008, 'private_commit': 72728576}, {'handles': 567, 'gdi': 39, 'user': 58, 'injected': False, 'private_ws': 19570688, 'total_ws': 59166720, 'private_commit': 73175040}))",
+      "baseline": {
+        "handles": 559,
+        "gdi": 39,
+        "user": 57,
+        "injected": false,
+        "private_ws": 18788352,
+        "total_ws": 58155008,
+        "private_commit": 72728576
+      },
+      "cycles": [
+        {
+          "handles": 559,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19210240,
+          "total_ws": 58605568,
+          "private_commit": 72847360
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19677184,
+          "total_ws": 59101184,
+          "private_commit": 73285632
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19378176,
+          "total_ws": 58818560,
+          "private_commit": 72978432
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19386368,
+          "total_ws": 58863616,
+          "private_commit": 72978432
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19476480,
+          "total_ws": 58970112,
+          "private_commit": 73056256
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19496960,
+          "total_ws": 59031552,
+          "private_commit": 73080832
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19480576,
+          "total_ws": 59031552,
+          "private_commit": 73072640
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19570688,
+          "total_ws": 59129856,
+          "private_commit": 73150464
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19488768,
+          "total_ws": 59068416,
+          "private_commit": 73084928
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19472384,
+          "total_ws": 59052032,
+          "private_commit": 73080832
+        },
+        {
+          "handles": 565,
+          "gdi": 39,
+          "user": 57,
+          "injected": false,
+          "private_ws": 19492864,
+          "total_ws": 59084800,
+          "private_commit": 73076736
+        },
+        {
+          "handles": 567,
+          "gdi": 39,
+          "user": 58,
+          "injected": false,
+          "private_ws": 19570688,
+          "total_ws": 59166720,
+          "private_commit": 73175040
+        }
+      ],
+      "violations": [
+        {
+          "cycle": 11,
+          "baseline": {
+            "handles": 559,
+            "gdi": 39,
+            "user": 57,
+            "injected": false,
+            "private_ws": 18788352,
+            "total_ws": 58155008,
+            "private_commit": 72728576
+          },
+          "sample": {
+            "handles": 567,
+            "gdi": 39,
+            "user": 58,
+            "injected": false,
+            "private_ws": 19570688,
+            "total_ws": 59166720,
+            "private_commit": 73175040
+          }
+        }
+      ],
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "threads_by_phase": {
+        "startup": {
+          "min": 4,
+          "max": 36
+        },
+        "history-0": {
+          "min": 34,
+          "max": 34
+        },
+        "history-1": {
+          "min": 34,
+          "max": 34
+        },
+        "frame-0": {
+          "min": 34,
+          "max": 34
+        },
+        "frame-1": {
+          "min": 34,
+          "max": 34
+        },
+        "frame-2": {
+          "min": 34,
+          "max": 34
+        },
+        "frame-3": {
+          "min": 34,
+          "max": 34
+        },
+        "frame-4": {
+          "min": 32,
+          "max": 34
+        },
+        "frame-5": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-6": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-7": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-8": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-9": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-10": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-11": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-12": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-13": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-14": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-15": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-16": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-17": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-18": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-19": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-20": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-21": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-22": {
+          "min": 32,
+          "max": 32
+        },
+        "frame-23": {
+          "min": 32,
+          "max": 32
+        },
+        "settled": {
+          "min": 32,
+          "max": 32
+        }
+      }
+    },
+    "threading-candidate-diagnostic": {
+      "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+      "controller": {
+        "executable_sha256": "f4b7cc47a4278b578b775bb2fdb1d0012b75306bd1bd8580deace9dc12599940",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 52232,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 50.259
+      },
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 23777280,
+          "total_ws": 63299584,
+          "private_commit": 86970368
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 6754304,
+          "total_ws": 34353152,
+          "private_commit": 9826304
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26873856,
+          "total_ws": 53727232,
+          "private_commit": 33226752
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 51875840,
+          "total_ws": 146264064,
+          "private_commit": 118640640
+        }
+      },
+      "samples": 429,
+      "seconds": 46.495,
+      "font": "SarasaTermSC Nerd Font Light",
+      "actual_grid": [
+        160,
+        48
+      ],
+      "error": "AssertionError(({'handles': 540, 'gdi': 41, 'user': 54, 'injected': False, 'private_ws': 18296832, 'total_ws': 57516032, 'private_commit': 71843840}, {'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18063360, 'total_ws': 57491456, 'private_commit': 70991872}))",
+      "baseline": {
+        "handles": 540,
+        "gdi": 41,
+        "user": 54,
+        "injected": false,
+        "private_ws": 18296832,
+        "total_ws": 57516032,
+        "private_commit": 71843840
+      },
+      "cycles": [
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18321408,
+          "total_ws": 57597952,
+          "private_commit": 71217152
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18305024,
+          "total_ws": 57606144,
+          "private_commit": 71479296
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18051072,
+          "total_ws": 57368576,
+          "private_commit": 70823936
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18051072,
+          "total_ws": 57380864,
+          "private_commit": 71094272
+        },
+        {
+          "handles": 544,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18059264,
+          "total_ws": 57401344,
+          "private_commit": 70819840
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18051072,
+          "total_ws": 57413632,
+          "private_commit": 71487488
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18071552,
+          "total_ws": 57450496,
+          "private_commit": 70942720
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18100224,
+          "total_ws": 57503744,
+          "private_commit": 71380992
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18071552,
+          "total_ws": 57479168,
+          "private_commit": 70791168
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18079744,
+          "total_ws": 57487360,
+          "private_commit": 71348224
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18063360,
+          "total_ws": 57491456,
+          "private_commit": 70991872
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18165760,
+          "total_ws": 57614336,
+          "private_commit": 71221248
+        }
+      ],
+      "violations": [
+        {
+          "cycle": 10,
+          "baseline": {
+            "handles": 540,
+            "gdi": 41,
+            "user": 54,
+            "injected": false,
+            "private_ws": 18296832,
+            "total_ws": 57516032,
+            "private_commit": 71843840
+          },
+          "sample": {
+            "handles": 548,
+            "gdi": 39,
+            "user": 55,
+            "injected": false,
+            "private_ws": 18063360,
+            "total_ws": 57491456,
+            "private_commit": 70991872
+          }
+        },
+        {
+          "cycle": 11,
+          "baseline": {
+            "handles": 540,
+            "gdi": 41,
+            "user": 54,
+            "injected": false,
+            "private_ws": 18296832,
+            "total_ws": 57516032,
+            "private_commit": 71843840
+          },
+          "sample": {
+            "handles": 548,
+            "gdi": 39,
+            "user": 55,
+            "injected": false,
+            "private_ws": 18165760,
+            "total_ws": 57614336,
+            "private_commit": 71221248
+          }
+        }
+      ],
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "threads_by_phase": {
+        "startup": {
+          "min": 4,
+          "max": 33
+        },
+        "history-0": {
+          "min": 31,
+          "max": 31
+        },
+        "history-1": {
+          "min": 31,
+          "max": 31
+        },
+        "frame-0": {
+          "min": 31,
+          "max": 31
+        },
+        "frame-1": {
+          "min": 31,
+          "max": 31
+        },
+        "frame-2": {
+          "min": 31,
+          "max": 31
+        },
+        "frame-3": {
+          "min": 31,
+          "max": 31
+        },
+        "frame-4": {
+          "min": 29,
+          "max": 31
+        },
+        "frame-5": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-6": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-7": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-8": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-9": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-10": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-11": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-12": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-13": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-14": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-15": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-16": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-17": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-18": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-19": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-20": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-21": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-22": {
+          "min": 29,
+          "max": 29
+        },
+        "frame-23": {
+          "min": 29,
+          "max": 29
+        },
+        "settled": {
+          "min": 29,
+          "max": 29
+        }
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-active-2.png.gz",
+      "bytes": 11941,
+      "sha256": "1a7247362b3338189c9f4037e17321cdf35bcb928c7e53960562ad583a58093c",
+      "raw_bytes": 13576,
+      "raw_sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-active-4.png.gz",
+      "bytes": 12001,
+      "sha256": "25fd790b7d22127f5267629497cb7901c0e19f2f855f01aaa62f58025c54f273",
+      "raw_bytes": 13588,
+      "raw_sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-active-6.png.gz",
+      "bytes": 11976,
+      "sha256": "95daa3828b653ae959a1942abec1842401577552b8534650d8117153111a1620",
+      "raw_bytes": 13599,
+      "raw_sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 11919,
+      "sha256": "42f8f94980207ad5df0e33a349cdfd38da017c4cdb72189b9e2ded555ba05174",
+      "raw_bytes": 13625,
+      "raw_sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 11979,
+      "sha256": "e46e8fa88c1ab666219f133bb27fac263975896a7feae03bfd1fd8a2fb9c39fa",
+      "raw_bytes": 13588,
+      "raw_sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 11920,
+      "sha256": "a1aae6959b1c1871e542f1d26f1eafb1283bf5c3aadbbedadb7082c85bef5a47",
+      "raw_bytes": 13605,
+      "raw_sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-expose.png.gz",
+      "bytes": 10243,
+      "sha256": "a948b0fe25a3463f8e4377b9fb38359308f2e42404b78867a4c04a209c57aa1a",
+      "raw_bytes": 10981,
+      "raw_sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-palette.png.gz",
+      "bytes": 11904,
+      "sha256": "783c5b652994cff5814c320cac68e805bb152b915a64133f071638041904d1cc",
+      "raw_bytes": 13582,
+      "raw_sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-0-text.png.gz",
+      "bytes": 10243,
+      "sha256": "a948b0fe25a3463f8e4377b9fb38359308f2e42404b78867a4c04a209c57aa1a",
+      "raw_bytes": 10981,
+      "raw_sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-active-2.png.gz",
+      "bytes": 11951,
+      "sha256": "c8c87079508699c1fe4441293bbff6603f1f04a36e121318056f092d4afdbcd2",
+      "raw_bytes": 13549,
+      "raw_sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-active-4.png.gz",
+      "bytes": 11973,
+      "sha256": "29553e43947b9adc155fc056bb09734e384b15f2daa120ca7109089463b92fe8",
+      "raw_bytes": 13552,
+      "raw_sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-active-6.png.gz",
+      "bytes": 12003,
+      "sha256": "961e16c797f0035fdaa13d50390e24d4068557b97db7f1ace4184054701b9e55",
+      "raw_bytes": 13564,
+      "raw_sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 11907,
+      "sha256": "610e36381daa94d3ad0e2a4f0035ae3a5115c52af61c6c8c91d03ecb7e8a7de8",
+      "raw_bytes": 13592,
+      "raw_sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 11945,
+      "sha256": "1cb6185a8f7f40b0e9d8bcdcb5c30ffecf7b417b4807829c3739c364711821cf",
+      "raw_bytes": 13552,
+      "raw_sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 11903,
+      "sha256": "f6424cf4c679e60ad512483af8df65d01ea0573c256070e06d8ce4d9f53c6a56",
+      "raw_bytes": 13569,
+      "raw_sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-expose.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-palette.png.gz",
+      "bytes": 11857,
+      "sha256": "9ed143ca292fb19f68a327638bdb6d7caf65fc2f4bdedb9e55bf4bb6b1cf4dd1",
+      "raw_bytes": 13547,
+      "raw_sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-1-text.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-active-2.png.gz",
+      "bytes": 11951,
+      "sha256": "c8c87079508699c1fe4441293bbff6603f1f04a36e121318056f092d4afdbcd2",
+      "raw_bytes": 13549,
+      "raw_sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-active-4.png.gz",
+      "bytes": 11973,
+      "sha256": "29553e43947b9adc155fc056bb09734e384b15f2daa120ca7109089463b92fe8",
+      "raw_bytes": 13552,
+      "raw_sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-active-6.png.gz",
+      "bytes": 12003,
+      "sha256": "961e16c797f0035fdaa13d50390e24d4068557b97db7f1ace4184054701b9e55",
+      "raw_bytes": 13564,
+      "raw_sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 11907,
+      "sha256": "610e36381daa94d3ad0e2a4f0035ae3a5115c52af61c6c8c91d03ecb7e8a7de8",
+      "raw_bytes": 13592,
+      "raw_sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 11945,
+      "sha256": "1cb6185a8f7f40b0e9d8bcdcb5c30ffecf7b417b4807829c3739c364711821cf",
+      "raw_bytes": 13552,
+      "raw_sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 11903,
+      "sha256": "f6424cf4c679e60ad512483af8df65d01ea0573c256070e06d8ce4d9f53c6a56",
+      "raw_bytes": 13569,
+      "raw_sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-expose.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-palette.png.gz",
+      "bytes": 11857,
+      "sha256": "9ed143ca292fb19f68a327638bdb6d7caf65fc2f4bdedb9e55bf4bb6b1cf4dd1",
+      "raw_bytes": 13547,
+      "raw_sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-2-text.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-controller.json.gz",
+      "bytes": 261,
+      "sha256": "5f127a41f61642a1ad5726b46fd829ad88b93df2308c615934ed61de83bbb211",
+      "raw_bytes": 471,
+      "raw_sha256": "b1f4059c68b4a282412ad8c11e14b3529c5168b51574ce5282fd49485d5cb62c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer-observed.json.gz",
+      "bytes": 908,
+      "sha256": "72df1d42f0b5d5dc914d6a31d64f32195ef84fc67c8a2e9f8e04455a68c858a4",
+      "raw_bytes": 7585,
+      "raw_sha256": "1950b97081fc486ebfdafa428c232d7034daa9f20e979020b7a2165734c952b0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-renderer.log.gz",
+      "bytes": 236,
+      "sha256": "6ba6af26123e054620ce8743547040c1046f6220afd31ce97eb53c25cbb6e33a",
+      "raw_bytes": 357,
+      "raw_sha256": "5da2e03fe993e874a41752039168310523d3df5ddd991c4264fa0e610b1700ff",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-controller.log.gz",
+      "bytes": 243,
+      "sha256": "d1b4f95efda5ed4a69938b622f13ca20a757b69c014d83348d408b87e66fb270",
+      "raw_bytes": 368,
+      "raw_sha256": "0af2c2caf25da0c2033e3e274a098c7601caaa00620fbca7bb54b20de102be74",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_tabs_window_smoke.py.gz",
+      "bytes": 6839,
+      "sha256": "9c7f6c2841adc37aca63c05e2a0257011e4780d0e109390f6e8ea729db8a4daa",
+      "raw_bytes": 24147,
+      "raw_sha256": "9713e65bd5591f297a9862118514f1346eabbb17703a619df4d6dd655ea203d1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_console_process_utils.py.gz",
+      "bytes": 1806,
+      "sha256": "ac8738f0be770f376b76f831f93ddf63202735af0e5645685933062f7f29ba9e",
+      "raw_bytes": 4774,
+      "raw_sha256": "b7f396b4b074d0be0b6facc22020b38bbaa840c1262d6c99375efa723e554d29",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_tab_workload_memory.py.gz",
+      "bytes": 2343,
+      "sha256": "0487a1095eecfe7b994f19cb27ad93eea7b2aa4601fa005d69119930ca1d3b1c",
+      "raw_bytes": 6122,
+      "raw_sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-pixels-tests_memory_limits.py.gz",
+      "bytes": 499,
+      "sha256": "0a08ab31ffc69b237970c835a33bb381d72877508de60f9ae500377027a803e1",
+      "raw_bytes": 1015,
+      "raw_sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "1cdfca3b89b5dc8bbf94c2a5435387fa548d28216b7ddcd111196dee8f581ecc",
+      "raw_bytes": 470,
+      "raw_sha256": "c41413c588ffbfd7ea476d55b43422b2f735b90b5f40dd2d5600a237071bca2c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 12941,
+      "sha256": "71a6d24ebdaea8d0efe429313f95325cdeeb9ab213b0a335b8a7a6811f7558b2",
+      "raw_bytes": 471574,
+      "raw_sha256": "8cb085f57a5f5b8e705de0062ed27e6c7de6ee0bffcf6847a3bbf4201b75e15f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1313,
+      "sha256": "22a0e68e4df49a424266f1e350ce34ebddd2bcb38218baf730868a6a3d83785f",
+      "raw_bytes": 7173,
+      "raw_sha256": "10bab10c1ed6521eb38c41f00513040a142d0c9de0e4a584f4132d6b442a1839",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tabs.log.gz",
+      "bytes": 345,
+      "sha256": "bb6244daecfd3329e466158711a346a0bab7056ac1d561b4fbb40d72b9011095",
+      "raw_bytes": 594,
+      "raw_sha256": "6bdaaad3838653de305d97be27af3c90810833f26d2394dda4fb3e2ec6f588c8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-controller.log.gz",
+      "bytes": 536,
+      "sha256": "42f2f9e5d8e4e43706f91663af168f0bec07781089a0e2d4dd25a2fe5b0b9943",
+      "raw_bytes": 963,
+      "raw_sha256": "717e0a81b988edd7f5311ca6a54c52b9b9b4a1cf0b483edaf863c3bb53aa2d03",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_tabs_window_smoke.py.gz",
+      "bytes": 6839,
+      "sha256": "9c7f6c2841adc37aca63c05e2a0257011e4780d0e109390f6e8ea729db8a4daa",
+      "raw_bytes": 24147,
+      "raw_sha256": "9713e65bd5591f297a9862118514f1346eabbb17703a619df4d6dd655ea203d1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_console_process_utils.py.gz",
+      "bytes": 1806,
+      "sha256": "ac8738f0be770f376b76f831f93ddf63202735af0e5645685933062f7f29ba9e",
+      "raw_bytes": 4774,
+      "raw_sha256": "b7f396b4b074d0be0b6facc22020b38bbaa840c1262d6c99375efa723e554d29",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_tab_workload_memory.py.gz",
+      "bytes": 2343,
+      "sha256": "0487a1095eecfe7b994f19cb27ad93eea7b2aa4601fa005d69119930ca1d3b1c",
+      "raw_bytes": 6122,
+      "raw_sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-workload-tests_memory_limits.py.gz",
+      "bytes": 499,
+      "sha256": "0a08ab31ffc69b237970c835a33bb381d72877508de60f9ae500377027a803e1",
+      "raw_bytes": 1015,
+      "raw_sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 267,
+      "sha256": "e3c3cb62ecdc5a275dfcfb4ec08f78617473888e59782705160b12b4745cd027",
+      "raw_bytes": 354,
+      "raw_sha256": "f67984bc4944414d9dd427ec0fc3e9d23ab06f8611b99265a656c140f017c76f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-resource-progress.json.gz",
+      "bytes": 1709,
+      "sha256": "712bc0cba6c28745eeb2383a5c08386a290dab93499b653fb5a80e46b6405a20",
+      "raw_bytes": 32368,
+      "raw_sha256": "7b38125198abc53b31274aa35ce55c67c52b76dd8a9901347610dd5ebc0f590c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "805b08c7550b13e48d9f0c6b49ba28924fd197b6ba9c2c2c4b73b85c185362f2",
+      "raw_bytes": 470,
+      "raw_sha256": "de9eba32d77b72345466d916e15d8980e0a47acc39cd601a5da7743ee8ebc02b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 28580,
+      "sha256": "1de88417a579430152b8cde1ed98f8e579d8ee0a9ca42b95f0d99162b6748a8d",
+      "raw_bytes": 1202355,
+      "raw_sha256": "980eb2b812e6a3f7630d2062710fb782db4a641d771cac51a6fed4c1ca6e980e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 3446,
+      "sha256": "d0898328fa3415612d93ca51a070e04ce283e1ba52929e8b33b94605b048b059",
+      "raw_bytes": 42606,
+      "raw_sha256": "102e0b5bf03837b3020f8f84f6f66d5b08e445d3a1694c01720a7ee282a734c9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tabs.log.gz",
+      "bytes": 581,
+      "sha256": "7dcbb140cdd7f786f1b59b4bcda26a5c8a26d9fc6e4415e4d84edec67504fa23",
+      "raw_bytes": 2551,
+      "raw_sha256": "21bb94ade03f44c48c9e90ddd89dc78a5600afd6b1cff06e3da774b90b7923cc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-controller.log.gz",
+      "bytes": 778,
+      "sha256": "98036c16d7364a93e84dd43a594ec4aa20dee3cc7c65b19d6329881d028935b8",
+      "raw_bytes": 2920,
+      "raw_sha256": "60b368f0b6be4916151d2409619a53c3a0d9fe234da46592c58757471440fdf0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7287,
+      "sha256": "c47e6d22b73bcfe16f3a8798cd8abe04170a33b1caf856644bfded9105d1fee2",
+      "raw_bytes": 26265,
+      "raw_sha256": "28bdefa50edd59d253ad62234c5419cf01f9522b4cb5b8a7bf50b94b020ca429",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_console_process_utils.py.gz",
+      "bytes": 1806,
+      "sha256": "ac8738f0be770f376b76f831f93ddf63202735af0e5645685933062f7f29ba9e",
+      "raw_bytes": 4774,
+      "raw_sha256": "b7f396b4b074d0be0b6facc22020b38bbaa840c1262d6c99375efa723e554d29",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_tab_workload_memory.py.gz",
+      "bytes": 2343,
+      "sha256": "0487a1095eecfe7b994f19cb27ad93eea7b2aa4601fa005d69119930ca1d3b1c",
+      "raw_bytes": 6122,
+      "raw_sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-resource-diagnostic-tests_memory_limits.py.gz",
+      "bytes": 499,
+      "sha256": "0a08ab31ffc69b237970c835a33bb381d72877508de60f9ae500377027a803e1",
+      "raw_bytes": 1015,
+      "raw_sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 267,
+      "sha256": "e3c3cb62ecdc5a275dfcfb4ec08f78617473888e59782705160b12b4745cd027",
+      "raw_bytes": 354,
+      "raw_sha256": "f67984bc4944414d9dd427ec0fc3e9d23ab06f8611b99265a656c140f017c76f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-resource-progress.json.gz",
+      "bytes": 1699,
+      "sha256": "0028ae2b376d934e4f347e44d784a540ed8e06ccf556b95fb1ba22bfa45bc6a3",
+      "raw_bytes": 31704,
+      "raw_sha256": "1bf7ae3ff24ed9bf43360fbff930351b001f5335a8210f80b38dff053fb14632",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "c2ced0bc348ae5cfbe6b4fa1aff6b1f669ae484449a484b678700871dcfe0325",
+      "raw_bytes": 470,
+      "raw_sha256": "ec854151d0d0f97b482b77e391a57abb53e1d22e4a3fe478e407a4b928c9ce9e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 30781,
+      "sha256": "1f4e765f408ee8ab7ea573f09c03cbe7e0f3cbc962cf70e8c52e566cc317a493",
+      "raw_bytes": 1242132,
+      "raw_sha256": "0ef01265a2ef1486b47befe70926a4374685c090b934666b0c6c8c988afbeaf1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 3496,
+      "sha256": "c4d338d8e6958a0495ee8cf21502ce64c31bb24ff8128ee9ff06596cc127b499",
+      "raw_bytes": 41943,
+      "raw_sha256": "b3eedc36391584efe50e5036e133a19325f7f2ac6ba62dcb05dbf48787faa8ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tabs.log.gz",
+      "bytes": 598,
+      "sha256": "a75c513d34b5be7998b47414b7493fea1c50ee55b71abef983d7769b7e2ab410",
+      "raw_bytes": 2550,
+      "raw_sha256": "edb06077c8becbbffca265525e1232164d19f63dadc82d2863fb2ec700b7201d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-controller.log.gz",
+      "bytes": 793,
+      "sha256": "1141eab09d0dc6e71579b6b470e359cc6f4822c7eb59ccfe848803735b9f8c1a",
+      "raw_bytes": 2919,
+      "raw_sha256": "2e9539be739fbd69c0de1521f7d2e810ae25de0f9ed504c468d5a1471130c7eb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7287,
+      "sha256": "c47e6d22b73bcfe16f3a8798cd8abe04170a33b1caf856644bfded9105d1fee2",
+      "raw_bytes": 26265,
+      "raw_sha256": "28bdefa50edd59d253ad62234c5419cf01f9522b4cb5b8a7bf50b94b020ca429",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_console_process_utils.py.gz",
+      "bytes": 1846,
+      "sha256": "f42e014275a7f3f30678cf0ff6afde3819eb9c3c0c15cfb818c1256c731cdf1f",
+      "raw_bytes": 4983,
+      "raw_sha256": "24e4e99317f352c5723f8d14db2c3bc183b54a87c773a7cb14abd8939a2032ce",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_tab_workload_memory.py.gz",
+      "bytes": 2343,
+      "sha256": "0487a1095eecfe7b994f19cb27ad93eea7b2aa4601fa005d69119930ca1d3b1c",
+      "raw_bytes": 6122,
+      "raw_sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-diagnostic-tests_memory_limits.py.gz",
+      "bytes": 499,
+      "sha256": "0a08ab31ffc69b237970c835a33bb381d72877508de60f9ae500377027a803e1",
+      "raw_bytes": 1015,
+      "raw_sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 267,
+      "sha256": "e3c3cb62ecdc5a275dfcfb4ec08f78617473888e59782705160b12b4745cd027",
+      "raw_bytes": 354,
+      "raw_sha256": "f67984bc4944414d9dd427ec0fc3e9d23ab06f8611b99265a656c140f017c76f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-resource-progress.json.gz",
+      "bytes": 1745,
+      "sha256": "7cdb34c388b87f0aca33ab51df367e207ac3954707204bf812a1d060e05fe8b6",
+      "raw_bytes": 32368,
+      "raw_sha256": "6d9016652da37e6d858df1d7c17bfd2b9227c4fcb0d834f64a8c77a5c6ec906c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "c46e3dbe8b7570b0cac320404626208d57fa07201b7b3b4ef9645ae93a7f16fc",
+      "raw_bytes": 470,
+      "raw_sha256": "072354acc470c25032ccaffa8d5d6bf88489e6e7a60832028f8ed1affcb56cbf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 28521,
+      "sha256": "978b0c2191779de503195e5424185c143a748c8b25a299a135c56c5b219e2dd0",
+      "raw_bytes": 1247467,
+      "raw_sha256": "1117f05f4c7f51fd879e85a30f3f430850c2625ead26f44b80a99fa89b842047",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 3484,
+      "sha256": "1a2deb387c758aa206850dd38cd12084c7639fa484c2e030e55cf0913d02012a",
+      "raw_bytes": 42606,
+      "raw_sha256": "adfd5874928d264e70c4e94d855a0f08c8cf3ab64c8a8c7f53ffe6ff8a0463d3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tabs.log.gz",
+      "bytes": 598,
+      "sha256": "0aabe9f89c2afdba69f024a0b6775a5ff153a6a814c5cc12ccccb4dbc11bb7d6",
+      "raw_bytes": 2552,
+      "raw_sha256": "020ba88ffa344f05c44ac1ecf916a963b1318a5a9eb877f400a8a2ae8f736f1d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-controller.log.gz",
+      "bytes": 799,
+      "sha256": "4159e73b226f9817c4f80160dc6ba804b0974cf123951f4444873132c6898cac",
+      "raw_bytes": 2921,
+      "raw_sha256": "d10b2251f226f39a2c5cf684f72e55b2d868e59f1654b3b17da521d9b24fbf20",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7287,
+      "sha256": "c47e6d22b73bcfe16f3a8798cd8abe04170a33b1caf856644bfded9105d1fee2",
+      "raw_bytes": 26265,
+      "raw_sha256": "28bdefa50edd59d253ad62234c5419cf01f9522b4cb5b8a7bf50b94b020ca429",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_console_process_utils.py.gz",
+      "bytes": 1846,
+      "sha256": "f42e014275a7f3f30678cf0ff6afde3819eb9c3c0c15cfb818c1256c731cdf1f",
+      "raw_bytes": 4983,
+      "raw_sha256": "24e4e99317f352c5723f8d14db2c3bc183b54a87c773a7cb14abd8939a2032ce",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_tab_workload_memory.py.gz",
+      "bytes": 2343,
+      "sha256": "0487a1095eecfe7b994f19cb27ad93eea7b2aa4601fa005d69119930ca1d3b1c",
+      "raw_bytes": 6122,
+      "raw_sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-diagnostic-tests_memory_limits.py.gz",
+      "bytes": 499,
+      "sha256": "0a08ab31ffc69b237970c835a33bb381d72877508de60f9ae500377027a803e1",
+      "raw_bytes": 1015,
+      "raw_sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/no-worker-frontend.log.gz",
+      "bytes": 185,
+      "sha256": "99def638a83d3c7e7df22a83e0adf8fb589606bd6aa13258696d9016a91f50c9",
+      "raw_bytes": 219,
+      "raw_sha256": "794d9000f49a98fdf7b2d7994c9645d933629618b6c27bb58144fa420c4e7056",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-no-worker-checks.py.gz",
+      "bytes": 814,
+      "sha256": "02286ecfb0716f7434a9f25f74c1cfdae9ce0a99250c9b7b2afbdf81f17af023",
+      "raw_bytes": 1756,
+      "raw_sha256": "31f2ede19d09068d6e2dfbe34b3d38122aac6704d91c534a4b50f09e1761ae21",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-no-worker-diagnostic.py.gz",
+      "bytes": 1465,
+      "sha256": "bfd7a92fdcdbeaa2b7c4565fc90b1a4a5030e2833879d26f4553df30a5474a13",
+      "raw_bytes": 4030,
+      "raw_sha256": "7c250098578b420c9fdb7da076eb958dd6dde51f0cf764a3152c53ebb1f94bb9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/prepare-threading-pair.py.gz",
+      "bytes": 626,
+      "sha256": "e9d2f7829c43da92ff2d44c567575815eff325383029b68d4bb0cf05bfa14e1c",
+      "raw_bytes": 1538,
+      "raw_sha256": "3941b2266dafbe2d10af6854d346bff8b342bb1ee5594f6b6b3b8fb77726c020",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-threading-control.py.gz",
+      "bytes": 1699,
+      "sha256": "2b844816d57e01a8fb70afc6753c1867d828f9bc5850ac8ab9f67897c4292f64",
+      "raw_bytes": 4828,
+      "raw_sha256": "d80d9fe505a8ad761ac5827e431e1beb1b47252b8b45c9b4275dde987cf54070",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-threading-candidate.py.gz",
+      "bytes": 1699,
+      "sha256": "5c30640682a23372be2f5fd5b6f8807c03a693ad5f141276318cecda1e051e13",
+      "raw_bytes": 4831,
+      "raw_sha256": "2a7c4343acaf9d168dc309c54b1086f1d2d781d2d7d368d37d625607def06707",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-control-invocation.log.gz",
+      "bytes": 793,
+      "sha256": "10f80069876c3a6799d957b465f7c3e915351ccab1434c1edfca686fb20bd096",
+      "raw_bytes": 2921,
+      "raw_sha256": "d9ddacef7f834a15dcf8f38e1cc22b770e02488b43cac424e7fed7ebcf8a2762",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate-invocation.log.gz",
+      "bytes": 799,
+      "sha256": "27a10704b6e8f5454d8d463f2c8ac74c54421dcacaac7451b6a93255576b5849",
+      "raw_bytes": 2923,
+      "raw_sha256": "74bf6b4e11f2a8fcf95d28d5ea5b04f33c31dbada955a1ba37a59e0d45fc29e0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/retain-threading.py.gz",
+      "bytes": 2333,
+      "sha256": "2ae2c7228dbef2804f5f16b3a4a2da86585f8e363f366c9c043714c4a8fdbf9a",
+      "raw_bytes": 5535,
+      "raw_sha256": "e70a952c0f08cb84d002eafaf9c7f1d4b430feb01b45749a30d259719fe4cf8f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/link-image.py.gz",
+      "bytes": 884,
+      "sha256": "668de1da8ce69d9158a07330a807c5261afe95047ebc003a09c574f661706823",
+      "raw_bytes": 1701,
+      "raw_sha256": "aa22adf559749c6383b49adb13a6719ce82729bc5fc0dd50094f83efa1d10c19",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/link-image.json.gz",
+      "bytes": 111,
+      "sha256": "ca19ef74bf115d0077d0c4e6b1221563dcbb763ce0974947d9d58ac54e6d5b60",
+      "raw_bytes": 107,
+      "raw_sha256": "8468b997dd79ac85dd3fa2562b68ecdea5a778fd409e9e1a428bd1c63ca3a555",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/link-link-inputs.json.gz",
+      "bytes": 1879,
+      "sha256": "4dc8d85d107de01b95ba45b15a3d863d14261deb60ddc1ba2c61bc1d41d29bf6",
+      "raw_bytes": 7789,
+      "raw_sha256": "c69380b0b37d2712058ddc562cdd8793e1b026761052fdfdd4182c28d51b1316",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/link-link.log.gz",
+      "bytes": 49,
+      "sha256": "329bdaf0eb9447cdde5f4d12d9c6cb72f8b141262e077c1df19e54db76c2c30f",
+      "raw_bytes": 43,
+      "raw_sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/link-link.rsp.gz",
+      "bytes": 960,
+      "sha256": "df494b12ac5e0fa841ee5429effac28f7e4527925abc3fd735008c894348e5f4",
+      "raw_bytes": 5447,
+      "raw_sha256": "6d4f19b00905b30f6bf872086a72c283efad1f6fa1140f54f21de450909cc7e6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/candidate-nemo_d3d11.c.gz",
+      "bytes": 5088,
+      "sha256": "ab498f6ddc9e7ab933b2e84f7c37deb9dbec5198f1c5658f31aa8dac432572c5",
+      "raw_bytes": 15811,
+      "raw_sha256": "78b4239727bc5c1bfff87e1b6b33d65eb7599c74df4a87f4b34619b8f6232001",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/threading-candidate.patch.gz",
+      "bytes": 500,
+      "sha256": "8bd767d4c75f2b37f5d75586f7c1b1c7f2fbbea0a096af336b938e54afa8e1a3",
+      "raw_bytes": 933,
+      "raw_sha256": "90aef533fcc2691a4690bcf72b2abcf029b4f1b972b7f3458608cde81ad04f45",
+      "encoding": "gzip"
+    }
+  ]
+}

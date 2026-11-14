@@ -141,3 +141,9 @@ One initial batched build failed because a local type name collided with Win32's
 candidate; the failed log is retained. No stale executable was run after that
 compile failure. The manifest retains 337 compressed records with compressed
 and decoded hashes, including all failed attempts and modified fixture sources.
+
+The subsequent [internal-threading experiment](d3d11-threading.md) observes
+23.65–23.78 MB private working set in full diagnostic workloads, with fewer
+frontend threads than its same-session control. Its original resource gate
+still fails. The renderer remains experimental and is not promoted by these
+memory observations.
