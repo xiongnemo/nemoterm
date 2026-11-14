@@ -71,6 +71,17 @@ def main():
             assert result['actual_renderer'] == (2 if args.renderer=='directx' else 0), instance
             text = wait_for(lambda: (t if 'NEMOTERM_DEBUG_READY' in (t := api.request(endpoint, 'text', seat)) else None))
             assert '中文 e\u0301 😀' in text, repr(text)
+            result['io_contexts'] = []
+            def io_contexts(expected):
+                def snapshot():
+                    value = api.request(endpoint)['io_handles']
+                    assert value['created']-value['destroyed'] == value['input']+value['output']
+                    assert 0 <= value['closing'] <= value['input']+value['output']
+                    return value if value['input'] == value['output'] == expected and value['closing'] == 0 else None
+                value = wait_for(snapshot)
+                result['io_contexts'].append(value)
+                return value
+            io_before = io_contexts(1)
             # Text parsing precedes the scheduled presentation frame.
             time.sleep(.15)
             checked('discover, stable session ID and Unicode logical screen')
@@ -151,9 +162,14 @@ def main():
             sessions = wait_for(lambda: (s if len(s := api.request(endpoint)['sessions']) == 2 else None))
             second = next(s['id'] for s in sessions if s['id'] != seat)
             wait_for(lambda: 'NEMOTERM_DEBUG_READY' in api.request(endpoint, 'text', second))
+            io_open = io_contexts(2)
+            assert io_open['created'] == io_before['created']+2
             assert len(api.request(endpoint, 'image', seat)) > 54
             api.request(endpoint, 'input', second, 'quit\r')
             wait_for(lambda: len(api.request(endpoint)['sessions']) == 1)
+            io_closed = io_contexts(1)
+            assert io_closed['destroyed'] == io_before['destroyed']+2
+            checked('I/O context statistics return to baseline after tab shutdown')
             try:
                 api.request(endpoint, 'input', second, 'must not reach another tab')
                 raise AssertionError('Closed tab ID was accepted')

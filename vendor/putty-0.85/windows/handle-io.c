@@ -73,6 +73,10 @@ struct handle_generic {
 
 typedef enum { HT_INPUT, HT_OUTPUT } HandleType;
 
+/* Creation, retirement and queries all run on the main thread. */
+static HandleIOStats io_stats;
+HandleIOStats handle_io_stats(void) { return io_stats; }
+
 /* ----------------------------------------------------------------------
  * Input threads.
  */
@@ -472,6 +476,7 @@ struct handle *handle_input_new(HANDLE handle, handle_inputfn_t gotdata,
     DWORD in_threadid; /* required for Win9x */
 
     h->type = HT_INPUT;
+    io_stats.input++; io_stats.created++;
     h->u.i.h = handle;
     h->u.i.ev_from_main = CreateEvent(NULL, false, false, NULL);
     h->u.i.gotdata = gotdata;
@@ -498,6 +503,7 @@ struct handle *handle_output_new(HANDLE handle, handle_outputfn_t sentdata,
     DWORD out_threadid; /* required for Win9x */
 
     h->type = HT_OUTPUT;
+    io_stats.output++; io_stats.created++;
     h->u.o.h = handle;
     h->u.o.ev_from_main = CreateEvent(NULL, false, false, NULL);
     h->u.o.busy = false;
@@ -551,12 +557,17 @@ static void handle_destroy(struct handle *h)
         bufchain_clear(&h->u.o.queued_data);
     CloseHandle(h->u.g.ev_from_main);
     remove_from_ready_list(&h->u.g.ready_node);
+    assert(io_stats.closing);
+    io_stats.closing--; io_stats.destroyed++;
+    if (h->type == HT_INPUT) { assert(io_stats.input); io_stats.input--; }
+    else { assert(io_stats.output); io_stats.output--; }
     sfree(h);
 }
 
 void handle_free(struct handle *h)
 {
     assert(h && !h->u.g.moribund);
+    io_stats.closing++;
     if (h->u.g.busy) {
         /*
          * If the handle is currently busy, we cannot immediately free
@@ -600,7 +611,13 @@ static void handle_ready(struct handle *h)
          * the actual I/O result. We just signal the thread to die if
          * we haven't yet done so, or destroy the handle if not.
          */
-        if (h->u.g.done) {
+        /* EOF/read error and write error also terminate the worker. In those
+         * cases no second shutdown acknowledgement will ever arrive. The
+         * published completion fields are stable after ready-list delivery;
+         * the worker uses only local variables after that notification. */
+        if (h->u.g.done ||
+            (h->type == HT_INPUT && h->u.i.len == 0) ||
+            (h->type == HT_OUTPUT && h->u.o.writeerr != 0)) {
             handle_destroy(h);
         } else {
             h->u.g.done = true;

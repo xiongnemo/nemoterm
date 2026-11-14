@@ -217,6 +217,9 @@ add_executable(test_screenshot
   test/test_screenshot.c)
 target_link_libraries(test_screenshot utils ${platform_libraries})
 
+add_executable(test_handle_io test/test_handle_io.c ${CMAKE_SOURCE_DIR}/stubs/no-rand.c)
+target_link_libraries(test_handle_io eventloop utils ${platform_libraries})
+
 add_executable(test_lineedit
   ${CMAKE_SOURCE_DIR}/test/test_lineedit.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c

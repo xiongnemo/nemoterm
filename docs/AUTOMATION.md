@@ -43,6 +43,14 @@ is an error, never an implicit redirect to the active tab. The endpoint contains
 both PID and process creation time. The client verifies both against the actual
 pipe server before sending anything. Closing the process removes its endpoint.
 
+The top-level `io_handles` object reports the frontend's stream-I/O contexts:
+`input` and `output` are live counts, `closing` counts those awaiting retirement,
+and `created`/`destroyed` are cumulative totals. Closing contexts are included
+in the live counts. These read-only UI-thread counters perform no cleanup or
+synchronization. They exclude OS/driver handles; a retired context's worker may
+still be returning from its thread procedure. They help diagnose session cleanup
+but do not replace OS resource or memory measurements.
+
 `text` returns the visible logical screen rows in UTF-8, including spaces and a
 newline per row. Wide-cell continuations are skipped and combining characters
 are included. It does not return scrollback or pixel layout/BiDi visual order.
