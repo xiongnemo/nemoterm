@@ -23,4 +23,14 @@ static inline bool nemo_rectangle_binding(int configured, bool shift, bool ctrl,
         (configured & (NEMO_BIND_CTRL | NEMO_BIND_ALT)) &&
         (pressed & (unsigned)configured) == (unsigned)configured;
 }
+
+static inline bool nemo_zoom_wheel_binding(int configured, unsigned pressed,
+                                         bool application_mouse)
+{
+    return configured > 0 && configured <= 7 && pressed <= 7 &&
+        (configured & (NEMO_BIND_CTRL | NEMO_BIND_ALT)) &&
+        (pressed == (unsigned)configured ||
+         pressed == ((unsigned)configured | NEMO_BIND_SHIFT)) &&
+        (!application_mouse || (pressed & NEMO_BIND_SHIFT));
+}
 #endif

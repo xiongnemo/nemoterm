@@ -76,6 +76,8 @@ struct WinGuiSeat {
     int extra_width, extra_height;
     int font_width, font_height;
     int font_gdi_width; /* GDI average width, distinct from the grid advance */
+    int font_zoom_height, font_display_points; /* transient, per terminal */
+    unsigned char font_zoom_keys[32];
     bool font_dualwidth, font_varpitch;
     int offset_width, offset_height;
     bool was_zoomed;
@@ -133,6 +135,8 @@ struct WinGuiSeat {
 
     bool send_raw_mouse;
     int wheel_accumulator, horizontal_wheel_accumulator;
+    int font_zoom_wheel_accumulator;
+    bool font_zoom_wheeling;
 
     bool pointer_indicates_raw_mouse;
 

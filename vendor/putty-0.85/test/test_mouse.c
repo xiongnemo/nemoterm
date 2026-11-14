@@ -635,6 +635,19 @@ static void test_ctrl_rectangle(Mock *mk)
     conf_set_int(mk->term->conf,CONF_nemo_rectangle_modifiers,2);
 }
 
+static void test_zoom_policy(Mock *mk)
+{
+    test_context(mk, "zoom leaves application Ctrl wheels alone; Shift forces local zoom");
+    static const struct { int binding; unsigned keys; bool app, zoom; } cases[] = {
+        {2,2,false,true}, {2,3,false,true}, {2,2,true,false}, {2,3,true,true},
+        {2,0,false,false}, {2,1,false,false}, {2,6,false,false}, {2,7,true,false},
+        {0,3,false,false}, {1,1,false,false}, {8,3,false,false}, {-1,3,false,false},
+        {3,2,false,false}, {3,3,true,true}, {4,4,true,false}, {4,5,true,true}
+    };
+    for (size_t i=0; i<lenof(cases); i++)
+        IEQUAL(nemo_zoom_wheel_binding(cases[i].binding,cases[i].keys,cases[i].app),cases[i].zoom);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -656,6 +669,7 @@ int main(void)
     test_unencodable_release_cancel(mk);
     test_shift_selection(mk);
     test_ctrl_rectangle(mk);
+    test_zoom_policy(mk);
 
     bool failed = mk->any_test_failed;
     mock_free(mk);

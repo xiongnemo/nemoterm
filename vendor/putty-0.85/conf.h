@@ -1088,6 +1088,18 @@ CONF_OPTION(nemo_rectangle_modifiers,
     DEFAULT_INT(2), /* Ctrl; additional Shift forces local selection */
     SAVE_KEYWORD("NemoRectangleModifiers"),
 )
+CONF_OPTION(nemo_zoom_modifiers,
+    VALUE_TYPE(INT), DEFAULT_INT(2), SAVE_KEYWORD("NemoZoomModifiers"),
+)
+CONF_OPTION(nemo_zoom_in_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomInBinding"),
+)
+CONF_OPTION(nemo_zoom_out_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomOutBinding"),
+)
+CONF_OPTION(nemo_zoom_reset_binding,
+    VALUE_TYPE(INT), DEFAULT_INT(0), SAVE_KEYWORD("NemoZoomResetBinding"),
+)
 CONF_OPTION(nemo_previous_prompt_binding,
     VALUE_TYPE(INT), DEFAULT_INT(0),
     SAVE_KEYWORD("NemoPreviousPromptBinding"),

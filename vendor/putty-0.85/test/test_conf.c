@@ -891,6 +891,10 @@ void test_simple(void)
     test_bool_simple(CONF_mouseautocopy, "MouseAutocopy", false);
     test_bool_simple(CONF_nemo_right_click_paste, "RightClickCopyAndPaste", false);
     test_int_simple(CONF_nemo_copy_binding, "NemoCopyBinding", 0x343);
+    test_int_simple(CONF_nemo_zoom_modifiers, "NemoZoomModifiers", 2);
+    test_int_simple(CONF_nemo_zoom_in_binding, "NemoZoomInBinding", 0);
+    test_int_simple(CONF_nemo_zoom_out_binding, "NemoZoomOutBinding", 0);
+    test_int_simple(CONF_nemo_zoom_reset_binding, "NemoZoomResetBinding", 0);
     test_int_simple(CONF_nemo_paste_binding, "NemoPasteBinding", 0x356);
     test_int_simple(CONF_nemo_copy_paste_binding, "NemoCopyPasteBinding", 0);
     test_int_simple(CONF_nemo_rectangle_modifiers, "NemoRectangleModifiers", 2);

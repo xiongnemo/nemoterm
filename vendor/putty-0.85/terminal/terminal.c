@@ -8205,7 +8205,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
 
                 ticks = GETTICKCOUNT();
 
-                if (!term->beep_overloaded) {
+                if (term->bellovl && !term->beep_overloaded) {
                     newbeep = snew(struct beeptime);
                     newbeep->ticks = ticks;
                     newbeep->next = NULL;
@@ -8222,7 +8222,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                  * t seconds ago.
                  */
                 while (term->beephead &&
-                       term->beephead->ticks < ticks - term->bellovl_t) {
+                       (!term->bellovl ||
+                        ticks - term->beephead->ticks > (unsigned)term->bellovl_t)) {
                     struct beeptime *tmp = term->beephead;
                     term->beephead = tmp->next;
                     sfree(tmp);

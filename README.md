@@ -123,6 +123,12 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
+
+字号缩放开发分支增加 `Ctrl+滚轮`：应用接管鼠标时，加 `Shift` 才强制缩放。
+缩放只改变当前终端，保持窗口外框大小；菜单可恢复默认字号，
+Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
+键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
+这些新增检查正在远程 CI 验证，本机实测暂停，详见[字号与响铃记录](research/font-zoom-and-bell.md)。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 

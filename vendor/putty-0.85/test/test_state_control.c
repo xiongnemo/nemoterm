@@ -661,6 +661,8 @@ static void test_saved_extensions_and_recovery(Mock *mk)
     state_reply(mk,"\033[?1r\033[?1$p","\033[?1;1$y");
 }
 
+#include "test_bell.inc"
+
 int main(void)
 {
     Mock *mk=mock_new();
@@ -684,6 +686,7 @@ int main(void)
     test_tabulation(mk);
     test_double_size(mk);
     test_alignment(mk);
+    test_bell_policy(mk);
     bool failed=mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "State control suite FAILED" : "State control suite passed");

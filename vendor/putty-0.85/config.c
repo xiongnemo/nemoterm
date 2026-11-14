@@ -22,7 +22,8 @@ static const int nemo_binding_options[] = {
     CONF_nemo_previous_prompt_binding, CONF_nemo_next_prompt_binding,
     CONF_nemo_select_command_binding, CONF_nemo_select_output_binding,
     CONF_nemo_new_tab_binding, CONF_nemo_close_tab_binding,
-    CONF_nemo_next_tab_binding, CONF_nemo_previous_tab_binding
+    CONF_nemo_next_tab_binding, CONF_nemo_previous_tab_binding,
+    CONF_nemo_zoom_in_binding, CONF_nemo_zoom_out_binding, CONF_nemo_zoom_reset_binding
 };
 
 static void nemo_binding_item(dlgcontrol *ctrl, dlgparam *dlg, const char *text,
@@ -73,7 +74,8 @@ static void nemo_binding_handler(dlgcontrol *ctrl, dlgparam *dlg, void *data, in
                 {"Space",0x20},{"Escape",0x1b},{"Backspace",0x08},
                 {"Semicolon",0xba},{"Plus",0xbb},{"Comma",0xbc},{"Minus",0xbd},
                 {"Period",0xbe},{"Slash",0xbf},{"Backtick",0xc0},{"Left bracket",0xdb},
-                {"Backslash",0xdc},{"Right bracket",0xdd},{"Apostrophe",0xde}
+                {"Backslash",0xdc},{"Right bracket",0xdd},{"Apostrophe",0xde},
+                {"Numpad plus",0x6b},{"Numpad minus",0x6d}
             };
             for (size_t i = 0; i < lenof(special); i++)
                 nemo_binding_item(ctrl, dlg, special[i].name, special[i].key,
@@ -109,6 +111,7 @@ static void nemo_bindings_reset(dlgcontrol *ctrl, dlgparam *dlg, void *data, int
     conf_set_int(conf, CONF_nemo_paste_binding, NEMO_BIND_KEY('V',3));
     conf_set_int(conf, CONF_nemo_copy_paste_binding, 0);
     conf_set_int(conf, CONF_nemo_rectangle_modifiers, NEMO_BIND_CTRL);
+    conf_set_int(conf, CONF_nemo_zoom_modifiers, NEMO_BIND_CTRL);
     for (size_t i = 3; i < lenof(nemo_binding_options); i++)
         conf_set_int(conf, nemo_binding_options[i], 0);
     conf_set_int(conf, CONF_nemo_new_tab_binding, NEMO_BIND_KEY('T',3));
@@ -2798,6 +2801,26 @@ void setup_config_box(struct controlbox *b, bool midsession,
     ctrl_text(s, "Hold this modifier while dragging with the left button. Add Shift when an application captures the mouse.", HELPCTX(no_help));
     ctrl_text(s, "Shift always forces local selection. Right-click behavior and the default selection shape are under Selection.", HELPCTX(no_help));
     ctrl_pushbutton(s, "Reset bindings", NO_SHORTCUT, HELPCTX(no_help), nemo_bindings_reset, I(0));
+
+    ctrl_settitle(b, "Window/Bindings/Font", "Current terminal font size");
+    s = ctrl_getset(b, "Window/Bindings/Font", "wheel", "Mouse wheel zoom");
+    ctrl_droplist(s, "Wheel modifier", NO_SHORTCUT, 55, HELPCTX(no_help),
+                  nemo_binding_handler, I(CONF_nemo_zoom_modifiers*4+2));
+    ctrl_text(s, "When an application captures the mouse, add Shift to zoom. Ordinary and horizontal scrolling keep their normal behavior.", HELPCTX(no_help));
+    s = ctrl_getset(b, "Window/Bindings/Font", "keys", "Optional font shortcuts");
+    const char *const zoom_binding_labels[][2] = {
+        {"Increase modifiers", "Increase key"}, {"Decrease modifiers", "Decrease key"},
+        {"Reset modifiers", "Reset key"}
+    };
+    ctrl_columns(s, 2, 50, 50);
+    for (size_t i = 0; i < lenof(zoom_binding_labels); i++)
+        for (int field = 0; field < 2; field++) {
+            c = ctrl_droplist(s, zoom_binding_labels[i][field], NO_SHORTCUT, 100,
+                HELPCTX(no_help), nemo_binding_handler, I(nemo_binding_options[i+11]*4+field));
+            c->column = field;
+        }
+    ctrl_columns(s, 1, 100);
+    ctrl_text(s, "Font shortcuts start disabled. Zoom changes only the current terminal, keeps the window size, and does not save over your configured font. Reset restores that font.", HELPCTX(no_help));
 
     ctrl_settitle(b, "Window/Bindings/Commands", "Shell integration shortcuts");
     s = ctrl_getset(b, "Window/Bindings/Commands", "keys", "Commands and output");

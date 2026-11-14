@@ -74,6 +74,9 @@
 #define IDM_NEXTPROMPT 0x0910
 #define IDM_SELECTCOMMAND 0x0920
 #define IDM_SELECTOUTPUT 0x0930
+#define IDM_ZOOMIN 0x0940
+#define IDM_ZOOMOUT 0x0950
+#define IDM_ZOOMRESET 0x0960
 
 #define IDM_SAVED_MIN 0x1000
 #define IDM_SAVED_MAX 0x5000
@@ -860,6 +863,9 @@ static WinGuiSeat *wgs_create(Conf *conf, int show)
             AppendMenu(m, MF_POPUP | MF_ENABLED, (UINT_PTR)wgs->savedsess_menu,
                        "Sa&ved Sessions");
             AppendMenu(m, MF_ENABLED, IDM_RECONF, "Chan&ge Settings...");
+            AppendMenu(m, MF_ENABLED, IDM_ZOOMIN, "Increase Font Size");
+            AppendMenu(m, MF_ENABLED, IDM_ZOOMOUT, "Decrease Font Size");
+            AppendMenu(m, MF_ENABLED, IDM_ZOOMRESET, "Reset Font Size");
             AppendMenu(m, MF_SEPARATOR, 0, 0);
             AppendMenu(m, MF_ENABLED, IDM_COPYALL, "C&opy All to Clipboard");
             AppendMenu(m, MF_ENABLED, IDM_CLRSB, "C&lear Scrollback");
@@ -1846,7 +1852,7 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
     if (pick_height)
         wgs->font_height = pick_height;
     else {
-        wgs->font_height = font->height;
+        wgs->font_height = wgs->font_zoom_height ? wgs->font_zoom_height : font->height;
         if (wgs->font_height > 0) {
             wgs->font_height = -MulDiv(
                 wgs->font_height, wgs->dpi_info.cur_dpi.y, 72);
@@ -1895,6 +1901,8 @@ static void init_fonts(WinGuiSeat *wgs, int pick_width, int pick_height)
         wgs->font_strikethrough_y = tm.tmAscent - (tm.tmAscent * 3 / 8);
 
     GetObject(wgs->fonts[FONT_NORMAL], sizeof(LOGFONT), &wgs->lfont);
+    wgs->font_display_points = max(1, MulDiv(tm.tmHeight-tm.tmInternalLeading,
+        72, max(1, wgs->dpi_info.cur_dpi.y)));
 
     /* Note that the TMPF_FIXED_PITCH bit is defined upside down :-( */
     if (!(tm.tmPitchAndFamily & TMPF_FIXED_PITCH)) {
@@ -2301,6 +2309,59 @@ static void recompute_window_offset(WinGuiSeat *wgs)
     /* Even an unchanged border width encloses different pixels after a
      * resize. Windows can preserve old image/text pixels in the new margin. */
     InvalidateRect(wgs->term_hwnd, NULL, true);
+}
+
+/* Session-only zoom: leave Conf and the outer window intact. Existing font
+ * teardown releases GPU glyphs and fallback faces before rebuilding them. */
+static void nemo_zoom_font(WinGuiSeat *wgs, int delta)
+{
+    if (!wgs->term || wgs->closing || !wgs_active(wgs) ||
+        IsIconic(wgs_window(wgs))) return;
+    int points = 0;
+    if (delta) {
+        int64_t wanted = (int64_t)wgs->font_display_points + delta;
+        points = (int)max(4, min(72, wanted));
+        if (points == wgs->font_display_points) return;
+    }
+    wgs->font_zoom_height = points;
+    term_end_synchronized_update(wgs->term);
+    deinit_fonts(wgs);
+    init_fonts(wgs, 0, 0);
+    if (wgs->tabbed) {
+        nemo_host_hide_preview();
+        nemo_host_resize(wgs, 1);
+    } else {
+        RECT cr;
+        GetClientRect(wgs->term_hwnd, &cr);
+        int border = conf_get_int(wgs->conf, CONF_window_border);
+        term_size(wgs->term,
+            max(1, (cr.bottom-2*border)/max(1,wgs->font_height)),
+            max(1, (cr.right-2*border)/max(1,wgs->font_width)),
+            conf_get_int(wgs->conf, CONF_savelines));
+        recompute_window_offset(wgs);
+        term_invalidate(wgs->term);
+    }
+    /* Keep the invisible system caret/IME geometry aligned without leaking
+     * one GDI bitmap per zoom. Only replace this seat's focused caret. */
+    size_t bytes = ((size_t)wgs->font_width+15)/16*2*wgs->font_height;
+    if (bytes && bytes <= 1024*1024) {
+        char *bits = snewn(bytes, char);
+        memset(bits, 0, bytes);
+        HBITMAP bitmap = CreateBitmap(wgs->font_width, wgs->font_height, 1, 1, bits);
+        sfree(bits);
+        if (bitmap) {
+            bool focused = GetFocus() == wgs->term_hwnd;
+            if (focused) DestroyCaret();
+            if (wgs->caretbm) DeleteObject(wgs->caretbm);
+            wgs->caretbm = bitmap;
+            if (focused) {
+                CreateCaret(wgs->term_hwnd, bitmap, wgs->font_width, wgs->font_height);
+                ShowCaret(wgs->term_hwnd);
+            }
+        }
+    }
+    wgs->caret_x = wgs->caret_y = -1;
+    sys_cursor_update(wgs);
 }
 
 static void reset_window(WinGuiSeat *wgs, int reinit)
@@ -3061,6 +3122,10 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                 FontSpec *prev_font = conf_get_fontspec(prev_conf,
                                                         CONF_font);
 
+                if (strcmp(font->name, prev_font->name) ||
+                    font->height != prev_font->height)
+                    wgs->font_zoom_height = 0;
+
                 if (!strcmp(font->name, prev_font->name) ||
                     !strcmp(conf_get_str(wgs->conf, CONF_line_codepage),
                             conf_get_str(prev_conf, CONF_line_codepage)) ||
@@ -3123,6 +3188,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
           case IDM_CLRSB:
             term_clrsb(wgs->term);
             break;
+          case IDM_ZOOMIN: nemo_zoom_font(wgs, 1); break;
+          case IDM_ZOOMOUT: nemo_zoom_font(wgs, -1); break;
+          case IDM_ZOOMRESET: nemo_zoom_font(wgs, 0); break;
           case IDM_RESET:
             term_pwron(wgs->term, true);
             if (wgs->ldisc)
@@ -3597,6 +3665,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         term_update(wgs->term);
         break;
       case WM_KILLFOCUS:
+        memset(wgs->font_zoom_keys, 0, sizeof(wgs->font_zoom_keys));
+        wgs->font_zoom_wheel_accumulator = 0;
+        wgs->font_zoom_wheeling = false;
         nemo_link_cancel(wgs);
         nemo_keyboard_focus_lost(wgs);
         wgs->pending_surrogate = 0;
@@ -4174,22 +4245,43 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         if (message == wm_mousewheel || message == WM_MOUSEWHEEL
                                                 || message == WM_MOUSEHWHEEL) {
             bool shift_pressed = false, control_pressed = false;
+            int delta;
             int *accumulator = message == WM_MOUSEHWHEEL ?
                 &wgs->horizontal_wheel_accumulator : &wgs->wheel_accumulator;
 
             if (message == WM_MOUSEWHEEL || message == WM_MOUSEHWHEEL) {
-                *accumulator += (short)HIWORD(wParam);
+                delta = (short)HIWORD(wParam);
                 shift_pressed=LOWORD(wParam) & MK_SHIFT;
                 control_pressed=LOWORD(wParam) & MK_CONTROL;
             } else {
                 BYTE keys[256];
-                *accumulator += (int)wParam;
+                delta = (int)wParam;
                 if (GetKeyboardState(keys)!=0) {
                     shift_pressed=keys[VK_SHIFT]&0x80;
                     control_pressed=keys[VK_CONTROL]&0x80;
                 }
             }
 
+            unsigned modifiers = (shift_pressed ? NEMO_BIND_SHIFT : 0) |
+                (control_pressed ? NEMO_BIND_CTRL : 0) |
+                (is_alt_pressed() ? NEMO_BIND_ALT : 0);
+            bool zoom = message != WM_MOUSEHWHEEL && nemo_zoom_wheel_binding(
+                conf_get_int(wgs->conf, CONF_nemo_zoom_modifiers),
+                modifiers, wgs->send_raw_mouse);
+            if (message != WM_MOUSEHWHEEL) {
+                if (zoom != wgs->font_zoom_wheeling) {
+                    wgs->font_zoom_wheel_accumulator = wgs->wheel_accumulator = 0;
+                    wgs->font_zoom_wheeling = zoom;
+                }
+                if (zoom) {
+                    int64_t accumulated = (int64_t)wgs->font_zoom_wheel_accumulator + delta;
+                    int steps = (int)(accumulated / WHEEL_DELTA);
+                    wgs->font_zoom_wheel_accumulator = (int)(accumulated % WHEEL_DELTA);
+                    if (steps) nemo_zoom_font(wgs, steps);
+                    return 0;
+                }
+            }
+            *accumulator += delta;
             /* process events when the threshold is reached */
             while (abs(*accumulator) >= WHEEL_DELTA) {
                 int b;
@@ -5330,6 +5422,11 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
         left_alt = true;
 
     key_down = ((HIWORD(lParam) & KF_UP) == 0);
+    if (original_key < 256 && !key_down &&
+        (wgs->font_zoom_keys[original_key/8] & (1u << (original_key%8)))) {
+        wgs->font_zoom_keys[original_key/8] &= ~(1u << (original_key%8));
+        return 0;
+    }
     if (wgs->tabbed && !key_down && original_key<256 && tab_host.consumed_keys[original_key]) {
         tab_host.consumed_keys[original_key]=0;
         return 0;
@@ -5343,6 +5440,15 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             ((keystate[VK_CONTROL] & 0x80) ? NEMO_BIND_CTRL : 0) |
             (left_alt ? NEMO_BIND_ALT : 0);
         if (nemo_host_binding(wgs,original_key,modifiers)) return 0;
+        int zoom = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_in_binding), original_key, modifiers) ? 1 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_out_binding), original_key, modifiers) ? -1 :
+            nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_zoom_reset_binding), original_key, modifiers) ? 2 : 0;
+        if (zoom) {
+            if (original_key < 256)
+                wgs->font_zoom_keys[original_key/8] |= 1u << (original_key%8);
+            nemo_zoom_font(wgs, zoom == 2 ? 0 : zoom);
+            return 0;
+        }
         int action = nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_binding), original_key, modifiers) ? 1 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_paste_binding), original_key, modifiers) ? 2 :
             nemo_binding_matches(conf_get_int(wgs->conf, CONF_nemo_copy_paste_binding), original_key, modifiers) ? 3 :
