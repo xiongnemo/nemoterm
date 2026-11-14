@@ -4,7 +4,7 @@
   "artifact_id": 14118695012,
   "native_executable_sha256": "779be18fe7125cfdbd6f08c106f4d08be488036dff9889ee0c82c938846ec536",
   "failure": "one-point zoom increases cell height from 19 to 20; bright glyph bounding box stays 7x7",
-  "resolution_status": "Independent startup pixel reference and four-point growth passed in remote artifact replay; original failed run retained.",
+  "resolution_status": "Independent startup pixel comparison passed in focused replay and both complete fresh core and single-executable workflows; all original failures retained.",
   "local_native_tests": "remain paused by user",
   "retained": [
     {
@@ -556,6 +556,61 @@
         "file": "font-zoom-evidence/04d31a7-workload-tabs-gdi-top-memory.json.gz",
         "raw_sha256": "0379a0947e98ccfef6f9309a696a6b44cabe696e410eaba681b7131cbbb566c8",
         "compressed_sha256": "43e91019854137fe86e6158a63d82ddf953d82a1c0d289a9f4c04b8f8564d7be"
+      }
+    ]
+  },
+  "full_core_ci": {
+    "source_commit": "04d31a7292788460990c8463685c30be2fc16393",
+    "run_id": 43606924130,
+    "conclusion": "success",
+    "native_executable_sha256": "77025c9f0b90fd0c3b605e54045d2a7faf5103bc085c4a48835ec63500de9190",
+    "evidence_artifact_id": 14119980636,
+    "actual_zoom_renderers": [
+      1,
+      1,
+      3,
+      1
+    ],
+    "retained": [
+      {
+        "file": "font-zoom-evidence/04d31a7-core-run.json.gz",
+        "raw_sha256": "58227ab935121a3427554ab3b7f45a538d37461288a3b846aaac55d0fb6fb41f",
+        "compressed_sha256": "1720ec8467f03773f7c4e437123bbedc0bae2a75b762e2bd30e723166d4f7ebf"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-run.log.gz",
+        "raw_sha256": "f6d53c1b97990bf7c375b4395875da3c213838a18e458ba2be7b775bfad391c8",
+        "compressed_sha256": "58f4168553aa31ee6366446c1b7fdb3d33a94cd7c3598358939636b00f3e32d4"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-artifacts.json.gz",
+        "raw_sha256": "825ca29c369c91329452494517dc48742b8d76ac07878aad62d736584a112347",
+        "compressed_sha256": "5f1cd4aa5b35dddf596dbcd122859fd214308203500e05437f7ce222409c9ecc"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-font-zoom-observed.json.gz",
+        "raw_sha256": "9fb7f5727ad9e2af29e9d0d02ec7fd43a349a4bdc7a6433e8136afda93c3c702",
+        "compressed_sha256": "02540318ee17bcba28568c3d503ed71338def178901ad493dfc204fea262658a"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-tabs-profiles-observed.json.gz",
+        "raw_sha256": "977d93e7629c3b2f97a0dba1bed0525681594fbb03d4fe5f8a9439655f47748f",
+        "compressed_sha256": "87b85af61b937410ea0f808f0b1646e6fd3c4be89c6e132ad03859009fb57926"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-bell-mode-0-observed.json.gz",
+        "raw_sha256": "17756ffa170dc1df235dc15a3a4afca1bdc210ba218a86447142a6b158e55211",
+        "compressed_sha256": "b314622d9bb762160f8254085141e174ea7430e9653d2f07ced46357527b1681"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-bell-mode-1-observed.json.gz",
+        "raw_sha256": "16194dac7616c2d013f333b4e538b95f616ba4f2da6abeacc8137b189f3c1a90",
+        "compressed_sha256": "aba746a75a5748c7805b4ff4d461240ccba1d58bc638a3810267a4f57811490e"
+      },
+      {
+        "file": "font-zoom-evidence/04d31a7-core-bell-mode-2-observed.json.gz",
+        "raw_sha256": "d5d4569e4673816bbda7ddd2be8a45c91960efdf063a1a8a343fda5cbc2e277e",
+        "compressed_sha256": "8e6b2116a20ba53e1177a6d2ea4d09d876edc9fa9d699d7ea6706d28571a4c45"
       }
     ]
   }
