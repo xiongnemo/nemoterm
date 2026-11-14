@@ -1,0 +1,90 @@
+{
+  "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+  "baseline_commit": "197f93b1c3a34e22ac9ca90ca4763abbe7bd9816",
+  "scope": "Offscreen MinGW diagnostic, not single-executable memory acceptance",
+  "application_acceptance": false,
+  "accepted_executable_changed": false,
+  "pairs": [
+    {
+      "order": [
+        "baseline",
+        "cache"
+      ],
+      "results": {
+        "baseline": {
+          "first_frame_ms": 75.606,
+          "warm_median_ms": 62.644,
+          "observed_private_commit_max": 8527872,
+          "observed_total_ws_max": 15593472
+        },
+        "cache": {
+          "first_frame_ms": 52.92,
+          "warm_median_ms": 43.356,
+          "observed_private_commit_max": 8003584,
+          "observed_total_ws_max": 15466496
+        }
+      }
+    },
+    {
+      "order": [
+        "cache",
+        "baseline"
+      ],
+      "results": {
+        "cache": {
+          "first_frame_ms": 57.827,
+          "warm_median_ms": 43.297,
+          "observed_private_commit_max": 7966720,
+          "observed_total_ws_max": 15101952
+        },
+        "baseline": {
+          "first_frame_ms": 76.477,
+          "warm_median_ms": 63.646,
+          "observed_private_commit_max": 8486912,
+          "observed_total_ws_max": 15253504
+        }
+      }
+    }
+  ],
+  "retained": [
+    {
+      "file": "cluster-layout-cache-evidence/baseline-benchmark.json.gz",
+      "raw_sha256": "c526df01871936d12ccaa48795c7071084d54a9373dbee5a15f1fa5848c3fd20",
+      "compressed_sha256": "7f044ac9c5b3cb6a6ddd94c4b79f14ee0a07d208f7df4a9b15b1faa56736587a"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/cache-benchmark.json.gz",
+      "raw_sha256": "8e775ea1574dadafb309bb7033067a513c8e35db5e69b0117c2ce7be77cbe99d",
+      "compressed_sha256": "cb6ff078c3e63135e7fc26136e753965ed665f450feb0e552d9db00f458f1a7d"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/cache-benchmark-reverse.json.gz",
+      "raw_sha256": "48ba9c6cad39719cfb80e728223ef31501733346785f059de7352e805abc4388",
+      "compressed_sha256": "6178ab64a8ec0b16c498c736259af8e8acbd6b0ece56ab87b1f7fff3c5e56a39"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/baseline-benchmark-reverse.json.gz",
+      "raw_sha256": "e4717035734921fa8dbe0b5adc852c704f81d5f485098bb9809c715496061e0f",
+      "compressed_sha256": "8954fedfbc31a77ac0177fdabfad6578a70467d620a9803abbd4ab0a3d3be8a6"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/compiler.txt.gz",
+      "raw_sha256": "5884887610866c298099b3f5be25fd8b4c56e3b5d069d49c55a11675f7c52a36",
+      "compressed_sha256": "a9c6f67a2ddd43fcbe87ccc375221b9bea3e30fb225015c59e0c8629e5fc9eaf"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/cluster-test.log.gz",
+      "raw_sha256": "d8a99567357c6ac201922edc4f30ea0d93b3df4ce09555d6f354288a45a72a3e",
+      "compressed_sha256": "b39d3a072ffe91bd348f67d9954cf04adc0076ea3e561dc3dc589179ae729d33"
+    },
+    {
+      "file": "cluster-layout-cache-evidence/cluster-layout-benchmark.cpp.gz",
+      "raw_sha256": "6e9a2a01aa2abd3ad9b87c954b04b1376841a12322cc9a7c2717ac75a0775453",
+      "compressed_sha256": "ede0a0ab0c1328b38c1202b8f49e4c1fa908d0d453bb58abc8a8557cef4b2d74"
+    }
+  ],
+  "source_sha256": {
+    "vendor\\putty-0.85\\windows\\nemo_cluster.cpp": "6b9caa5ece5def31823794af9efad677f9ae4374eee758f681d0f4bae89ca1dc",
+    "tests\\test_cluster_renderer.cpp": "2c7cb3cb6947398e95a79480e679f8d3038db9f0cc9fe5a9dea0dd4a2e0c0c17"
+  }
+}
