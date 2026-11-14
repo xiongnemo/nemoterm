@@ -4,7 +4,7 @@ Hardware is optional on CI: absence must take the working GDI fallback path.
 Use NEMOTERM_REQUIRE_OPENGL=1 for the hardware acceptance run.
 """
 from native_test_utils import *
-from gpu_capture import OwnedGPUCapture
+from automation_capture import OwnedAutomationCapture
 import uuid
 import winreg
 import atexit
@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
         if os.environ.get('CI')=='true' or os.environ.get('NEMOTERM_TEST_CLUSTER_TRACE')=='1':
             trace.write_text('')
             child_env['NEMOTERM_CLUSTER_TRACE']=str(trace)
-        process=subprocess.Popen([str(exe),'-load',profile,'--cols','80','--rows','24',
+        process=subprocess.Popen([str(exe),'-load',profile,'--automation','--cols','80','--rows','24',
             '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
             env=child_env,creationflags=subprocess.CREATE_NO_WINDOW)
         gl_capture = focus_session = None
@@ -61,8 +61,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
             focus_script.on('message',lambda message,data:focus_errors.append(message) if message.get('type')=='error' else None)
             focus_script.load();focused=False
             focus_script.exports_sync.set_focus(hex(hwnd),focused)
-            if active in (2,3):gl_capture=OwnedGPUCapture(process.pid,hwnd)
-            mode['capture_method']='owned-process-retained-frame' if gl_capture else 'PrintWindow explicit client render'
+            if active in (2,3):gl_capture=OwnedAutomationCapture(process.pid,hwnd)
+            mode['capture_method']='public automation API' if gl_capture else 'PrintWindow explicit client render'
+            mode['capture_injected']=False
+            mode['focus_injected']=True
             mode['memory_instrumented']=True
             mode['focus_model']='owned-process active and inactive states'
             def captured(name=None):

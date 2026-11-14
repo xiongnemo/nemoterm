@@ -340,6 +340,7 @@ try:
             evidence['checks'].append('failed child process or content window creation preserves active tab and renderer')
             # Preview the hidden first tab, then change only its output. The
             # active terminal and input recipient must remain the second tab.
+            hover_script.exports_sync.begin()
             x,y=position(0);u.SendMessageW(host,0x200,0,x|(y<<16))
             preview=wait_for(lambda:next(iter(windows(process.pid,'NemotermPreview',visible=True)),None))
             before=capture(preview,return_pixels=True)
@@ -355,6 +356,9 @@ try:
             evidence['checks'].append('bounded hover preview refreshes background output without selecting it')
             u.SendMessageW(host,0x2a3,0,0)
             wait_for(lambda:not u.IsWindowVisible(preview))
+            evidence['hover_observations']=hover_script.exports_sync.stats()
+            assert evidence['hover_observations']['moves'] and evidence['hover_observations']['leaves']
+            assert evidence['hover_observations']['timers']
             hover_session.detach();hover_session=None
             select(first,0);output(first,scene('FROZEN FIRST','80;10;10'));time.sleep(.08)
             frozen=captures[0].capture(return_pixels=True)
@@ -400,7 +404,10 @@ try:
                 if memory_sampler:
                     memory=memory_sampler.stop()
                     (root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json').write_text(json.dumps(memory,indent=2),encoding='utf-8')
-                if hover_session:hover_session.detach()
+                if hover_session:
+                    try:evidence['hover_observations']=hover_script.exports_sync.stats()
+                    except Exception as error:evidence['hover_observation_error']=repr(error)
+                    hover_session.detach()
                 for capture_helper in captures:capture_helper.close()
                 for lease in worker_leases:lease.close()
                 if handle:k.CloseHandle(handle)

@@ -1,7 +1,8 @@
 """Owned native RTL glyph presence, cell order, system fallback and resizing."""
 from native_test_utils import *
 from owned_job import OwnedJob
-from gpu_capture import OwnedGPUCapture
+from automation_capture import OwnedAutomationCapture
+from thread_snapshot import OwnedThreadSnapshot
 import argparse
 import uuid
 import winreg
@@ -15,7 +16,8 @@ u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 u.GetClientRect.argtypes=u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),font=args.font,
-              completed=False,modes=[],clipboard_tested=False)
+              completed=False,modes=[],clipboard_tested=False,injected=False,
+              capture='public automation API')
 reference=None
 try:
     for requested in ((0,) if args.gdi_only else (0,1,2)):
@@ -27,7 +29,7 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-rtl-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
-                process=job.spawn([str(exe),'-load',profile,'--font',args.font,'--cols','40','--rows','12',
+                process=job.spawn([str(exe),'-load',profile,'--automation','--font',args.font,'--cols','40','--rows','12',
                     '-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
                     creationflags=subprocess.CREATE_NO_WINDOW)
@@ -65,8 +67,8 @@ try:
                             ((top+row*ch+y)*rect.right+left+(col+columns)*cw)*3] for y in range(rows*ch))
                     send('\x1b[?25l\x1b[2J\x1b[Hאבג ابت\r\nא\u05b0 ب\u064e')
                     record['memory_before_capture']=memory_sample(handle)
-                    observer=OwnedGPUCapture(process.pid,hwnd)
-                    record['capture_instrumented']=True
+                    observer=OwnedAutomationCapture(process.pid,hwnd)
+                    record['capture_instrumented']=False
                     characters='אבג\ufe8d\ufe91\ufe96'
                     glyphs={ch:cell(frame(ch)) for ch in characters}
                     observer.capture(f'rtl-{requested}-last-reference.png')
@@ -121,7 +123,19 @@ try:
                         record['checks'].append('real clipboard preserves logical Hebrew order')
                         saved.restore();saved=None
                     observer.close();observer=None
-                    u.PostMessageW(hwnd,0x10,0,0);assert process.wait(timeout=10)==0
+                    close_started=time.monotonic()
+                    assert u.PostMessageW(hwnd,0x10,0,0)
+                    try:
+                        assert process.wait(timeout=10)==0
+                        record['close_seconds']=time.monotonic()-close_started
+                    except subprocess.TimeoutExpired:
+                        record['close_seconds']=time.monotonic()-close_started
+                        record['window_still_exists']=bool(u.IsWindow(hwnd))
+                        try:
+                            record['timeout_threads']=OwnedThreadSnapshot(process,job).snapshot('rtl-close-timeout')
+                        except Exception as error:
+                            record['snapshot_error']=repr(error)
+                        raise
                     record['cleanup']=job.finish(grace=5);assert not record['cleanup']['terminated_remaining']
                 finally:
                     if saved:saved.restore()
