@@ -148,7 +148,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
 | CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
 | ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |
-| APC G (kitty graphics); OSC 1337 inline file/image transfer | Missing | APC is consumed; OSC 1337 working-directory metadata does not implement image transfer. |
+| APC G (kitty graphics) | Missing | APC is consumed; no kitty graphics transport or placement implementation. |
+| OSC 1337 inline images: File / MultipartFile / FilePart / FileEnd | Partial; integration candidate | PNG/JPEG/BMP and animated GIF use streaming transport, Windows WIC and the shared bounded raster lifetime. This candidate passes 32 static and 36 animation scenes on each actual GDI/OpenGL/DirectX backend. File downloading, feature reporting and full iTerm parity remain open; the accepted download is unchanged. See [integration evidence](../research/graphics-charsets-integration.md). |
 
 ## OSC and modern shell metadata
 

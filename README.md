@@ -28,6 +28,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
+本整合分支已加入 OSC 1337 静态图片、GIF 动画与 ISO 2022 字符集修复，
+本机画面及 GDI 内存检查通过，DX 标签资源检查仍失败，完整 CI 尚待验证。
+验证范围见[整合记录](research/graphics-charsets-integration.md)；下方已验收下载仍是此前版本。
+
 ## 下载
 
 已通过 CI 的开发快照：[下载 `8ff214f` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43565551266/artifacts/14103002979)。

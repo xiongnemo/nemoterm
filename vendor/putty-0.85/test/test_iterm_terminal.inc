@@ -56,6 +56,28 @@ static void test_inline_images(Mock *mk)
     term_data_fragmented(mk->term, "\033[2J");
     IEQUAL(image_count(mk->term), 0); IEQUAL(mk->term->image_bytes, 0);
 
+    test_context(mk, "Inline image framing preserves ISO 2022 GL designation");
+    reset(mk);
+    term_data_fragmented(mk->term, "\033[65;1\"p\033%@\033-F\016AB");
+    IEQUAL(get_termchar(mk->term, 0, 0).chr, 0x0391);
+    IEQUAL(get_termchar(mk->term, 1, 0).chr, 0x0392);
+    term_data_fragmented(mk->term, "\033]1337;File=inline=1:YWJj\033\\C");
+    IEQUAL(image_count(mk->term), 1);
+    IEQUAL(get_termchar(mk->term, 2, 1).chr, 0x0393);
+    /* A designation between complete multipart OSCs changes subsequent text,
+     * while the file's base64 bytes remain protocol data in either charset. */
+    term_data_fragmented(mk->term,
+        "\033]1337;MultipartFile=inline=1;height=1\007"
+        "\033]1337;FilePart=Y\007\033)B"
+        "\033]1337;FilePart=WJj\007\033]1337;FileEnd\007");
+    IEQUAL(image_count(mk->term), 2);
+    IEQUAL(mk->term->iterm_pending == NULL, true);
+    term_data_fragmented(mk->term, "A");
+    IEQUAL(get_termchar(mk->term, 3, 1).chr, CSET_ASCII | 'A');
+    /* Text overwrites the newly placed one-cell image at the same cursor. */
+    IEQUAL(image_count(mk->term), 1);
+    reset(mk);
+
     test_context(mk, "iTerm multipart interleaving and recovery");
     term_data_fragmented(mk->term,
         "\033]1337;MultipartFile=inline=1;width=16px;height=16px;preserveAspectRatio=0\007"
