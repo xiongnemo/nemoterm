@@ -27,7 +27,19 @@ product. It creates no OS window and does not establish rendered GPU pixels.
 Completion requires the upstream test without skips, all states, natural process
 exit, verified REA cleanup and an exact observation-file digest in the capture.
 
-The capture has not yet completed. Its results must be reviewed before deriving
+The [first capture run 43648565834](https://github.com/xiongnemo/nemoterm/actions/runs/43648565834)
+completed all 84 cases and 176 states, passed the upstream test and exited
+naturally with verified cleanup. It nevertheless failed the untruncated-evidence
+gate: REA retained all 4,850 raw PTY bytes and hashed the complete 194,123-byte
+observation file, but omitted 19 of 98 cumulative rendered terminal frames after
+the 262,144-byte output budget filled. The observation SHA256 is
+`cffa489fa0c80ffb31b6b24c62492d4098868e94189fd36691cab48a4febe0d5`.
+The original failure is retained in `kitty-feature-query-validation.json`.
+
+The follow-up declares a 524,288-byte terminal-record budget specifically for
+this larger reference family. Inputs, observations, process deadlines, file
+capture bounds and the no-truncation gate are unchanged. A complete accepted
+capture is still pending. Its results must be reviewed before deriving
 Nemoterm's supported subset and regression expectations. Unicode placeholders,
 animation and the remaining graphics/protocol scope remain required work; feature
 discovery is not a substitute for implementing those capabilities.

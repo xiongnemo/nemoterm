@@ -1,0 +1,81 @@
+{
+  "upstream_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+  "accepted_reference": false,
+  "runs": [
+    {
+      "run": 43648565834,
+      "fixture_commit": "b492437706bb4a55bec1816fff14016c871b9234",
+      "conclusion": "failure",
+      "evidence_id": "ev_9f3d81f9ad6a2c32f5cd9da4b5ed2bdd44d02f6150449438ea15bc8eb4d3e745",
+      "failure": "Cumulative rendered terminal frames exceeded the declared output budget",
+      "observations_sha256": "cffa489fa0c80ffb31b6b24c62492d4098868e94189fd36691cab48a4febe0d5",
+      "records": [
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-features-artifacts.json.gz",
+          "raw_bytes": 790,
+          "raw_sha256": "16d10022e599afbb863a11f947b44bfd29ace8e1c53617908b63095484951e22"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-features-observed-at.txt.gz",
+          "raw_bytes": 32,
+          "raw_sha256": "0e54c9cf9c126e12243d18abe57e3ebc22aaa9759f44ecb9119e60afd58d8ea5"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-features-run.json.gz",
+          "raw_bytes": 4366,
+          "raw_sha256": "1dceabe1822a744dbd4d5689332dd391f1fd3a142eb5b4db7257cd3b4a23649b"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-features-run.log.gz",
+          "raw_bytes": 310449,
+          "raw_sha256": "0e21c43cbe6f6cfba7ed2a01bf78be2adc0876b073ac35413a4f0b12fe24da9a"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--fixture-commit.txt.gz",
+          "raw_bytes": 41,
+          "raw_sha256": "26f5c35bbc34e22dfd927189dd6553f005ee878e1672ea9ec40c9ca0c1c2b7b2"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--observations.json.gz",
+          "raw_bytes": 194123,
+          "raw_sha256": "cffa489fa0c80ffb31b6b24c62492d4098868e94189fd36691cab48a4febe0d5"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--rea-evidence.json.gz",
+          "raw_bytes": 314143,
+          "raw_sha256": "c9f08a18bb0c3ebd6dddee4581294f3ad2a12d14ba5536220a22196962a65d44"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--rea-package-lock.json.gz",
+          "raw_bytes": 79411,
+          "raw_sha256": "e2c5a08c23c6f8da5276253e6fe55a14778761c6d4cb74d65cffdcb20c7a18b7"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--rea-progress.jsonl.gz",
+          "raw_bytes": 1928,
+          "raw_sha256": "9d906dfd18e3155f88cabfb28cb14115fd111d11cc5a8f3a3f4bc9cc5ac6feda"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--scenario.json.gz",
+          "raw_bytes": 1026,
+          "raw_sha256": "f6dca3528eaeee0164057bcdb6940e31e7065704e837d631ed8ff386b47bfd32"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--upstream-build.log.gz",
+          "raw_bytes": 107784,
+          "raw_sha256": "c2f9e166ab4b1c2caede11a3708315aa3d983cadb61b7a356fec820b90485d11"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference--upstream-commit.txt.gz",
+          "raw_bytes": 41,
+          "raw_sha256": "481f17e8511c69b76f6d27d4ecb643ab087abc15b7a7dd9dc8e1e84d711f8d00"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/b492437-reference-download.json.gz",
+          "raw_bytes": 82,
+          "raw_sha256": "a57fc379f09b725efa4d350926fb2987987b08ebda4a9a4d91410ab740cab928"
+        }
+      ]
+    }
+  ]
+}
