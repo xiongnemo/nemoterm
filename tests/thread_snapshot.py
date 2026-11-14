@@ -21,6 +21,8 @@ k.CloseHandle.argtypes=[w.HANDLE]
 k.GetProcessIdOfThread.argtypes=[w.HANDLE];k.GetProcessIdOfThread.restype=w.DWORD
 k.GetThreadTimes.argtypes=[w.HANDLE]+[c.POINTER(w.FILETIME)]*4
 k.WaitForSingleObject.argtypes=[w.HANDLE,w.DWORD];k.WaitForSingleObject.restype=w.DWORD
+k.WaitForMultipleObjects.argtypes=[w.DWORD,c.POINTER(w.HANDLE),w.BOOL,w.DWORD]
+k.WaitForMultipleObjects.restype=w.DWORD
 k.GetThreadIOPendingFlag.argtypes=[w.HANDLE,c.POINTER(w.BOOL)]
 n.NtQueryInformationThread.argtypes=[w.HANDLE,w.ULONG,c.c_void_p,w.ULONG,c.POINTER(w.ULONG)]
 n.NtQueryInformationThread.restype=w.LONG
@@ -51,6 +53,9 @@ class OwnedThreadSnapshot:
     def __init__(self,process,job):
         self.owner=OwnedHandleSnapshot(process,job)
         if c.sizeof(c.c_void_p)!=8:raise RuntimeError('Only Windows x64 is validated')
+
+    def retain(self,entries):
+        return OwnedThreadLease(self.owner,entries)
 
     def snapshot(self,label):
         self.owner._validate_owner();started=time.monotonic();pid=self.owner.process.pid
@@ -99,3 +104,41 @@ class OwnedThreadSnapshot:
         return dict(label=label,pid=pid,threads=threads,unavailable=unavailable,modules=catalogue,
                     seconds=time.monotonic()-started,injected=False,
                     caveat='Sequential metadata; module/start addresses do not identify ownership of OS handles')
+
+class OwnedThreadLease:
+    """Keep observer-side thread handles so termination can be tested by identity."""
+    def __init__(self,owner,entries):
+        self.owner=owner;self.entries=list(entries);self.handles=[]
+        owner._validate_owner()
+        if not 0<len(entries)<=64 or len({e['tid'] for e in entries})!=len(entries):
+            raise ValueError('Expected 1 through 64 distinct owned threads')
+        try:
+            for entry in entries:
+                thread=k.OpenThread(0x100040,False,entry['tid'])
+                if not thread:raise c.WinError(c.get_last_error())
+                self.handles.append(thread)
+                if k.GetProcessIdOfThread(thread)!=owner.process.pid:raise RuntimeError('Thread owner changed')
+                times=[w.FILETIME() for _ in range(4)]
+                if not k.GetThreadTimes(thread,*(c.byref(t) for t in times)):raise c.WinError(c.get_last_error())
+                created=times[0].dwLowDateTime|(times[0].dwHighDateTime<<32)
+                if created!=entry['created']:raise RuntimeError('Thread creation identity changed')
+        except BaseException:
+            self.close();raise
+
+    def states(self):
+        if not self.handles:raise RuntimeError('Thread lease is closed')
+        states=[k.WaitForSingleObject(h,0) for h in self.handles]
+        if any(s not in (0,258) for s in states):raise c.WinError(c.get_last_error())
+        return states
+
+    def wait(self,timeout_ms):
+        if not self.handles:raise RuntimeError('Thread lease is closed')
+        if not 0<=timeout_ms<=5000:raise ValueError('Wait must be bounded to five seconds')
+        handles=(w.HANDLE*len(self.handles))(*self.handles)
+        status=k.WaitForMultipleObjects(len(handles),handles,True,timeout_ms)
+        if status not in (0,258):raise c.WinError(c.get_last_error())
+        return status==0
+
+    def close(self):
+        for handle in self.handles:k.CloseHandle(handle)
+        self.handles=[]
