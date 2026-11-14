@@ -1,0 +1,1374 @@
+{
+  "recorded_utc": "2026-11-14T02:35:26.272907+00:00",
+  "source_commit": "c2606cd8b77731212a839178faa2634293b9c4dd",
+  "local_frontend_base": "7a3b95e285b9ea0e881e35501cd8040b60a7cf8f",
+  "ci": {
+    "core": 43546782794,
+    "single": 43546782899,
+    "status": "in_progress"
+  },
+  "files": [
+    {
+      "path": "research/startup-visibility-evidence/startup-activation-startup-activation-observed.json.gz",
+      "bytes": 21145,
+      "sha256": "f1b95d4e75eca5ab482656d49225f44ec070bf4c0b92754785335202471d8a90",
+      "raw_bytes": 811671,
+      "raw_sha256": "778b6643661c52699bda57fa2e44f05a1bee09036d9a25a5825b8e7039393efd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-activation-startup_activation-controller.json.gz",
+      "bytes": 266,
+      "sha256": "af8ebb4520e2e636c47c8afdc6d304a186a09654c7f04c1c5596426ddf5c8de4",
+      "raw_bytes": 481,
+      "raw_sha256": "42d003ac5a54e2615b6500a4caece51edac31be7b45226edad4f0ebf263de278",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-activation-tests_startup_activation_window_smoke.py.gz",
+      "bytes": 2293,
+      "sha256": "cd82bf02b0e32968ba646b3f2ca17a02b7f59c2f5565ce09b10edba02def2a9d",
+      "raw_bytes": 5864,
+      "raw_sha256": "9e9996f421e859793982e32e9fe58537c31bb8803ea6d593da6824d660b6fa22",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-activation-startup_activation.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-activation-controller.log.gz",
+      "bytes": 249,
+      "sha256": "b7605d1a15e79cfffe52dd8d28fd04385b097617ce0029697cce3f4b6dbc7d67",
+      "raw_bytes": 380,
+      "raw_sha256": "c5fda67bc8fbd0e700a25185c740ae843412b026f3dd709f511f31863de04c77",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-show-diagnostic-startup-activation-observed.json.gz",
+      "bytes": 21321,
+      "sha256": "22655bcd1f119a7f76ea25730975763f824898f2b2ddb5e81bf91fab91c18f45",
+      "raw_bytes": 880247,
+      "raw_sha256": "1e68154026cdbb1a82cfa89015c7af5031511aae390587ed21b099281d5162bb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-show-diagnostic-startup_activation-controller.json.gz",
+      "bytes": 265,
+      "sha256": "0e764f456a36423c22877ac0a14173df2073b366a61e261ac35bb532c5a025af",
+      "raw_bytes": 481,
+      "raw_sha256": "5f48f408ff70b2f1b154d2a74063a31281594b23cc9e2a819993f39174c8e6b7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-show-diagnostic-tests_startup_activation_window_smoke.py.gz",
+      "bytes": 2378,
+      "sha256": "41ee39496a49580ae161c4d37826391f3ecf07b4534811e80d34bce8b1f60f67",
+      "raw_bytes": 6110,
+      "raw_sha256": "068d1f1ff4b67f0a12dcc5f5c825109158c7a9266c9a1ba1c7d726abb3119aa9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-show-diagnostic-startup_activation.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-show-diagnostic-controller.log.gz",
+      "bytes": 248,
+      "sha256": "fc3244cea57e74b057919ddb770d33433272deb9ca2e9ca9e3d13061e944c8bb",
+      "raw_bytes": 380,
+      "raw_sha256": "a2b46209a5e9db3f14afdb78856caf9caf8363c5171f1b337ab7e850b6527405",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-startup-activation-observed.json.gz",
+      "bytes": 21268,
+      "sha256": "f760ed043ddd4fd0dd620f1415df68ad2c1325fa716d44e193568e0f56aa91c7",
+      "raw_bytes": 877870,
+      "raw_sha256": "0cc0d48f779f210eb5c761d13aa2838de14c7f828f1eed5dfc79bec1c7a84651",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-startup-False.vt.gz",
+      "bytes": 121,
+      "sha256": "107b2f217c8fc9c144126fd2a16eed351ceef6dddd0a283d20e013e56a1094fc",
+      "raw_bytes": 138,
+      "raw_sha256": "7890ff3ca312f52d3f33ee5a4b590d2e429349d3bea4cca901b90960449d6363",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-startup-True.vt.gz",
+      "bytes": 121,
+      "sha256": "f2c47b7e97b6b303f8212c77ddab37c51a821e13ce98407a9c4518048d22f473",
+      "raw_bytes": 138,
+      "raw_sha256": "ceb4b4f307efa7aae8f6ba77b27c93ea436304ff95cc95cb426aacfe31f0638e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-startup_activation-controller.json.gz",
+      "bytes": 265,
+      "sha256": "db3f40b8d4cfffef19e49be49551e9749f939dbc4be648e4396099379e4b53b6",
+      "raw_bytes": 481,
+      "raw_sha256": "36177dd66732f9e4a199837338839f6cfe5357b905117b903229f719b943590e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-tests_startup_activation_window_smoke.py.gz",
+      "bytes": 2461,
+      "sha256": "5204131aec6b4abe99247b2646273f700af0edfdeb3a3fc42a1210dfe25b83ca",
+      "raw_bytes": 6464,
+      "raw_sha256": "e9a331e709ced8dda40ef07a5c78a977fb7cc21171bb70de7256828716e5a60c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-startup_activation.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-output-controller.log.gz",
+      "bytes": 248,
+      "sha256": "f302aecca11a9affc8a750c3c4e49b10e5bfae329be023f3ce84174c4d1a4cd0",
+      "raw_bytes": 380,
+      "raw_sha256": "d08f37ea12d1312fdfd95636fe2e93fd08a377793dabf6598417bfe61c3929f4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-startup-activation-observed.json.gz",
+      "bytes": 21134,
+      "sha256": "e268fbf432b0ae211bc6b9630a896f8d92956ce01543ad4ebdc19b176e9fb45e",
+      "raw_bytes": 834125,
+      "raw_sha256": "b8bcb1a7d8a3db177a6531d776fb611e8f49f6a86791dc6ca30f80b43aec2cb6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-startup-False.vt.gz",
+      "bytes": 117,
+      "sha256": "6164e5be0b8d9b4a859c1a85a7c000bb4aa5521dcd48e9d9091b6a071602ab08",
+      "raw_bytes": 134,
+      "raw_sha256": "691e77025f9317cbd50103be136e9a3a5b563ead89307db4fcb029e4e09b4e86",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-startup-True.vt.gz",
+      "bytes": 117,
+      "sha256": "52b93dc85853024bc6134c270cbc3778a307c838348c6f40679f77407d4f75b5",
+      "raw_bytes": 134,
+      "raw_sha256": "41840905440f10acc1fd408a9428f346858c3ccb7fa987f922ba416ec1061c8e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-startup_activation-controller.json.gz",
+      "bytes": 266,
+      "sha256": "5d0af57f4c8b10966ff85f492ae6ac24fd1bc694be71b9966f4af1e2895f11e3",
+      "raw_bytes": 481,
+      "raw_sha256": "e42bf4379fa4d403a0cd77e196f1ec6290917b266ea0f5986bbe1560c8abdd35",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-tests_startup_activation_window_smoke.py.gz",
+      "bytes": 2461,
+      "sha256": "5204131aec6b4abe99247b2646273f700af0edfdeb3a3fc42a1210dfe25b83ca",
+      "raw_bytes": 6464,
+      "raw_sha256": "e9a331e709ced8dda40ef07a5c78a977fb7cc21171bb70de7256828716e5a60c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-startup_activation.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/startup-visibility-fixed-controller.log.gz",
+      "bytes": 248,
+      "sha256": "3c002f9779e98f794a0d2f5f9414009046a655abe95bc55d9abee8b33c18e592",
+      "raw_bytes": 380,
+      "raw_sha256": "04fcf2621f17441b6c6c350aee3ec26b013659bb320ceaa1fe1aa5e6f533e61b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-research_startup-visibility-observed.json.gz",
+      "bytes": 765,
+      "sha256": "7776c83453f0e5ff7ccf7a8657e9ee8fb8059da89d509ab21f52d03fa922643b",
+      "raw_bytes": 3185,
+      "raw_sha256": "72614cd794e35db6cb2bc1eab637878545f0ee774f5822863473def3ef91433f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-research_startup_visibility-controller.json.gz",
+      "bytes": 268,
+      "sha256": "df5c6fd079d0c1be2982736647c0dd22150c7f8cd3b25846a2a414d0a2f2133b",
+      "raw_bytes": 481,
+      "raw_sha256": "2c849f633796db95cae4b62625fc82e2a409dce7dd375aebd04e65dc0cf10fb7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-tests_startup_visibility_window_smoke.py.gz",
+      "bytes": 1817,
+      "sha256": "a5d5d0ba80aaac8138169919270ac1c99d74e442d679530e7eb62b3e1649a240",
+      "raw_bytes": 4325,
+      "raw_sha256": "fef5e21150b3e1e90ca6425b83c5ac3ec46af0568d1457bf04e7c831b9e59efc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-tests_startup_visibility_fixture.py.gz",
+      "bytes": 995,
+      "sha256": "900dd2e6001a87439374811df7531beec2be7e309032f5de72150f2a87f97ef6",
+      "raw_bytes": 2200,
+      "raw_sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-startup_visibility.log.gz",
+      "bytes": 476,
+      "sha256": "328ff0629ea7b66f709d0c340fb3eff2b625519414a4b412fab5a8ea1990269a",
+      "raw_bytes": 1116,
+      "raw_sha256": "89be979a139d2a2b45a2012eb8476fb968b967703067ff349280fea49f957b04",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/before-controller.log.gz",
+      "bytes": 649,
+      "sha256": "cf9ad4967d5c9e3d27fb6fd263da2655c88fb1d819bf7ea6fce5c622dca44a6a",
+      "raw_bytes": 1496,
+      "raw_sha256": "9c6b5b23fcf98ad7b46cf7d68695c587449c2b7470d90722501868af3c48641b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-research_startup-visibility-observed.json.gz",
+      "bytes": 495,
+      "sha256": "6960d49f73d7f1dea6fa4dd60797c15e01bd9f495572473953fc564c8e1365f2",
+      "raw_bytes": 4449,
+      "raw_sha256": "d34fec9c1d1d9776d111272312ad34b50273bf7a06898b62d9d1d0b238623ff2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-research_startup_visibility-controller.json.gz",
+      "bytes": 271,
+      "sha256": "dca0e8b19b4cb179c2ebe69444c636057e833248a881b0996f64a3549a2b80a3",
+      "raw_bytes": 482,
+      "raw_sha256": "ae4a365e5b65e9c11b8aed31f05069f76a7f128c91e28024ee237238a78ce1b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-tests_startup_visibility_window_smoke.py.gz",
+      "bytes": 1817,
+      "sha256": "a5d5d0ba80aaac8138169919270ac1c99d74e442d679530e7eb62b3e1649a240",
+      "raw_bytes": 4325,
+      "raw_sha256": "fef5e21150b3e1e90ca6425b83c5ac3ec46af0568d1457bf04e7c831b9e59efc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-tests_startup_visibility_fixture.py.gz",
+      "bytes": 995,
+      "sha256": "900dd2e6001a87439374811df7531beec2be7e309032f5de72150f2a87f97ef6",
+      "raw_bytes": 2200,
+      "raw_sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-startup_visibility.log.gz",
+      "bytes": 57,
+      "sha256": "8e47d894e43991dc0bda7de88390c116ddf279c87f2f71d1296ff1ce300b02d5",
+      "raw_bytes": 37,
+      "raw_sha256": "6e08fe59e74206d7ce87c84c87ad0ad4493aa11ebd08fa8482fdf83778dcab62",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/after-controller.log.gz",
+      "bytes": 252,
+      "sha256": "47faf4622bcb892e7cd0f30faa1d102b65c5b1c687ea7a1f0d4f70e02900a134",
+      "raw_bytes": 379,
+      "raw_sha256": "10eed53a9cffd627acf279ecbc6fa16b09de46eb016338fba4f2bb20a88ab352",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-tabs-controller.json.gz",
+      "bytes": 260,
+      "sha256": "0099ffabdfe06bc5c12b9b215a857f3815fcf03c1608b7c2937c6d52432865cd",
+      "raw_bytes": 469,
+      "raw_sha256": "88ba9fb069945ef5dc1b72fbe2ae5a220b2baeddab645706d1298ed934f0d8b7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-tabs-gdi-top-host.png.gz",
+      "bytes": 2163,
+      "sha256": "11f23279f11bec14e60a80dbe698fadbdda76710c6161a73e79ffb65dc790a0e",
+      "raw_bytes": 4287,
+      "raw_sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 32261,
+      "sha256": "98620563730ae99f0a13a91c2b47481c2620a6fd6eba2b749903e0561640c473",
+      "raw_bytes": 1361684,
+      "raw_sha256": "2818a9832f07507fd211ce6697b77017692bf0b3e8e24f51147fa67cb02062b5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 2564,
+      "sha256": "ddfd8716ab96ebe8146a01fb9209860b807b5cc82934040677fd9d90119c877e",
+      "raw_bytes": 16012,
+      "raw_sha256": "9c806e30b5acde7654e0c55ecc526ce06e871e2a57363cc01e840a76badcdb53",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-tests_tabs_window_smoke.py.gz",
+      "bytes": 6805,
+      "sha256": "5049a50fce6ca6afeb6c16fb8c37fa861a9a15688e2d6048e6c828948facf550",
+      "raw_bytes": 23791,
+      "raw_sha256": "0d30b8f47a12ba5a0e9b716fa596d6f0fcaefd1bbf0daf64fb391005e84fbe4c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-tabs.log.gz",
+      "bytes": 51,
+      "sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4",
+      "raw_bytes": 31,
+      "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/workload-controller.log.gz",
+      "bytes": 240,
+      "sha256": "be46150d5f3e1d30aa6072cf8a5f6a6ac501f03a5ae53442140b8e67c0bce654",
+      "raw_bytes": 366,
+      "raw_sha256": "d9cffe25265cc0119a224dd32b7bf9206fd9d833512e9272c18ebc8069441600",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-activation.py.gz",
+      "bytes": 2678,
+      "sha256": "13d7dd3a5456868f22321845e84be1daa7dacda6afdebd279363c3e3cdef7140",
+      "raw_bytes": 6723,
+      "raw_sha256": "8f1fb758f4dc5cf61e662e348810b71f607b2eaf5d11bc8e53eb65318f192cbe",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-show-diagnostic.py.gz",
+      "bytes": 579,
+      "sha256": "4704d5a908b7ba320572f947f03540e9f046b08deaf700da1b7a6437104227b6",
+      "raw_bytes": 1234,
+      "raw_sha256": "35ee54275260b174490b7c78e786d413ec7fa48c916959e87136e718491b2b97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-show-diagnostic-expanded.py.gz",
+      "bytes": 2770,
+      "sha256": "12515af04967dc44a7a0b043b76f5d8e9f4b78a9e2e9f0205c86f7bff8166581",
+      "raw_bytes": 7104,
+      "raw_sha256": "de5a0b28793cf497ada0e65a8c2841680a94fa65726a5b77c26105fa45253bc6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-output.py.gz",
+      "bytes": 502,
+      "sha256": "00207682e55e4f182854b23998515dd578acd17591fe397f16359125a1f0e454",
+      "raw_bytes": 1034,
+      "raw_sha256": "1a9e8634d77045edd0e9558737f3855162b0774d8d3acc4e0c7ffbf8467ee00c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-output-expanded.py.gz",
+      "bytes": 2857,
+      "sha256": "2c146eaae42ea48ebc11c0825930a3df993ec80531de99570ce48ccf65e8c6f6",
+      "raw_bytes": 7449,
+      "raw_sha256": "fbfa6d7c46d63c52f6950fcebced7573366f3f004d9eaf83647d20575db30ec6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-visibility-fixed.py.gz",
+      "bytes": 326,
+      "sha256": "19f79da8399fa992b14aca6c0bf3794cd171491d6b75d57fc83fa2f415acf434",
+      "raw_bytes": 622,
+      "raw_sha256": "fbee67aae70c57def034d7a90679b712d3941c043847d995d2d29a06885da173",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-startup-visibility-fixed-expanded.py.gz",
+      "bytes": 2866,
+      "sha256": "95d899819f201190606c276dbae2c7a6e1e1b8bd739b180b88fc68e9b16ed4d0",
+      "raw_bytes": 7462,
+      "raw_sha256": "5eed76fd9137a50778f3a53d890f29136640a114b431352d7865a36d37a82436",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/configure.log.gz",
+      "bytes": 753,
+      "sha256": "bc0e4007133182e08295948b7c9170004d6812c01ff26a5e16eee642d1fa5d91",
+      "raw_bytes": 2966,
+      "raw_sha256": "4abe2093a03b80e33865c82b91c9cb6544298657a8ff4d4d6302e432491fa316",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/configure-02.log.gz",
+      "bytes": 284,
+      "sha256": "2fdfbba3366f277b530978ab8cd6fdb7dbc4bc8e6e776cd0b85c504ac4e6590a",
+      "raw_bytes": 363,
+      "raw_sha256": "1e95b484daa762b3705acd8910ad2ccfeba3f024fd53b7a70d88666278a9c03f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/diagnostic-build.log.gz",
+      "bytes": 743,
+      "sha256": "ce87cebcecba21ce081a124edc59e7a2e22748faaa3d33ce693c2098227ad7b8",
+      "raw_bytes": 5062,
+      "raw_sha256": "417ea2e3f394e20acd405d732a3f02358d9a9d043624d4662c920fadde18ef0b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/diagnostic-build-02.log.gz",
+      "bytes": 2747,
+      "sha256": "787acc4ab5f0a476538f8cac65f84ee336e07d85b27aea1afeda9f91b76ace8b",
+      "raw_bytes": 17444,
+      "raw_sha256": "78e86ba7a97a5d06e236b08d2a161716913aa2ab47b9f7bdc18b0f3f19698d55",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/clean-frontend.log.gz",
+      "bytes": 303,
+      "sha256": "722faabb2d867595508a6fac7bd78f8dd55c938e503cada243885bfd755c72e4",
+      "raw_bytes": 392,
+      "raw_sha256": "41b7cedc3f05e49a96cd969fccafcd13e94f7a0ad1acff108fba25d765527705",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/window-show-diagnostic.c.gz",
+      "bytes": 69076,
+      "sha256": "e41d97798ef4ee1be2a760ffbbc491b1a31bbe79eabc48e706f9a8facc84c40e",
+      "raw_bytes": 273118,
+      "raw_sha256": "74c7705d6c2bb10fe992fd6eac61c0df3aafeb938ed4b33b8fae660eba03b4ab",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/show-diagnostic.patch.gz",
+      "bytes": 415,
+      "sha256": "de2361dcd3b774108e34491b879abbf4aab276f250acae88d3ebbe1385510b85",
+      "raw_bytes": 1056,
+      "raw_sha256": "385c9bca31f0cc8b3f333f2949aa7f8ddf98ccc7bf5e6422ed553ab99d48479b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/link-image.py.gz",
+      "bytes": 884,
+      "sha256": "668de1da8ce69d9158a07330a807c5261afe95047ebc003a09c574f661706823",
+      "raw_bytes": 1701,
+      "raw_sha256": "aa22adf559749c6383b49adb13a6719ce82729bc5fc0dd50094f83efa1d10c19",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/build-visibility-overlay.py.gz",
+      "bytes": 1240,
+      "sha256": "d68021c82a299e8be4ec2e8ae9fe3edd7bfa3e405d5f8a8b83caacb441ed7471",
+      "raw_bytes": 3110,
+      "raw_sha256": "1bfc4038a4ba5b8be99d48c35dcdd556f2572d8707bfb92605fd9c71e33c4678",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/build-visibility-overlay-initial.py.gz",
+      "bytes": 1219,
+      "sha256": "fed1ba179e19ad90d05ae3db78dd501b209423dc1e3b084cd91a1390d0ef5a1d",
+      "raw_bytes": 3013,
+      "raw_sha256": "0850dd8583b42ae5e3111b7c3ac2c25eb273535823dafe35d2465144e472fcb6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/link-clean-visibility.py.gz",
+      "bytes": 673,
+      "sha256": "b781a453d96c329143c9333b6fcada7e15491cbe6dbbe876c5a3348b585b9ff2",
+      "raw_bytes": 1182,
+      "raw_sha256": "192da7fb31e1d0fb4c3edee485bc7738e319ee3a6a504cabab803dc7b187c0cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-visibility-regression.py.gz",
+      "bytes": 601,
+      "sha256": "ca4bb7225a4d111e69264c0b735e6261349a1bec96b1522ff87ac679e7187f4e",
+      "raw_bytes": 1129,
+      "raw_sha256": "37e01e7db71c89392dc1e4222c72510bb04b523588c01d37de3a666c2e9c694c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/visibility-comparison.json.gz",
+      "bytes": 84,
+      "sha256": "1251a7262b9124786833b0110855dce634c5af86652ac54759070a3f21ac0e53",
+      "raw_bytes": 114,
+      "raw_sha256": "d7792112c473f4720f21a6b1f73d0e6237c2cb28bd9c3aec880c0481a91a5f92",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/check-visibility-workload.py.gz",
+      "bytes": 484,
+      "sha256": "f612f0a1784ee32ce98723be5d037fe8adaa3ef2e607a7b29a28ef9a0bd305bc",
+      "raw_bytes": 816,
+      "raw_sha256": "400e50d13bb02467164a02d2dc7a7f17d7a92eb781f8c13d51aa37e1f24bcdf9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/watch-visibility-ci.py.gz",
+      "bytes": 1103,
+      "sha256": "282865ebe04d7baa1fd2d41acc3438e7e7c2a1566ed90d91204654d4ba47caac",
+      "raw_bytes": 2453,
+      "raw_sha256": "c10185f0964c37321f74bc86ebd6e07b610a77f74c26ac14dbcc639c5ff9c007",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/retain-startup-visibility.py.gz",
+      "bytes": 1906,
+      "sha256": "13edbc18d44c1cb30163982a16b0ef4556efb4bd96b2f630a9379c0c67d57ecc",
+      "raw_bytes": 5667,
+      "raw_sha256": "01aeabb415dab374713bd36cfbaef025338cc0850ae2b004df8d0c21065fe10c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/show-diagnostic-image.json.gz",
+      "bytes": 111,
+      "sha256": "03939f0825abe00d4c3d2307666dc360ae8fe72102cfe1e8412d931096ad2120",
+      "raw_bytes": 107,
+      "raw_sha256": "730c73c4cc7c0e499bf5738599aa48061412df82a025860796d5c66a7975b280",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/show-diagnostic-link-inputs.json.gz",
+      "bytes": 1887,
+      "sha256": "9976073c59ed825a72d40b3e62bc09d5d1ba06d7e61b333c81573faa9a34ca92",
+      "raw_bytes": 7803,
+      "raw_sha256": "90b0681c2dcafca3e25630bc95bc9eafc1777da13b7eea4142b7e2e6fd56013b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/show-diagnostic-link.log.gz",
+      "bytes": 49,
+      "sha256": "329bdaf0eb9447cdde5f4d12d9c6cb72f8b141262e077c1df19e54db76c2c30f",
+      "raw_bytes": 43,
+      "raw_sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/show-diagnostic-link.rsp.gz",
+      "bytes": 964,
+      "sha256": "82487623b98a2764d602cfff3d3ba57da0ee7ddbb8a7d81ef6b6949ed5333a74",
+      "raw_bytes": 5464,
+      "raw_sha256": "55753a80eba4bebeacd1fb7ea913e3efd22a70564185548750b8b0c440cc00e6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-compile.log.gz",
+      "bytes": 233,
+      "sha256": "215ce282424cccb1d9b2c7fd89ade202550d9155bb27f2d5bdf7723137411bd8",
+      "raw_bytes": 427,
+      "raw_sha256": "5bc1ec3d29e523164d4f60d53029146b7164a7abf1acfc7a52de21610d469a81",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-compile.rsp.gz",
+      "bytes": 784,
+      "sha256": "7ce848b876bc162e91978a94d90a8e7c94c85da3bd1cf111a4c77e8cd2c4eb78",
+      "raw_bytes": 2369,
+      "raw_sha256": "168324e6c93f96882c020b350b07809c5e924b6cfdd10abd56747472f90374f9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-src_interactivity_base_InteractivityFactory.cpp.gz",
+      "bytes": 4765,
+      "sha256": "e726177cc1e318b6d1c1338ddeac96bded6c6bd42d3c373b416c45f646418064",
+      "raw_bytes": 18902,
+      "raw_sha256": "378473b914fafade152fe119469263bd648180ec6f3fdd79a1a816ca6d2ed429",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-compile.log.gz",
+      "bytes": 46,
+      "sha256": "40d4636805b45be18e0784a4764060dd79b8f0a362e6e86991d49b90bf0df7c4",
+      "raw_bytes": 26,
+      "raw_sha256": "337f35afbc88e7f8935370601aa6a0f5efc5c2a8584efe513782e4b0eabfb192",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-compile.rsp.gz",
+      "bytes": 750,
+      "sha256": "ede4f0b13f578399e45d42c5e4d1537ca325becb3bedad2165ce6812a34cbe07",
+      "raw_bytes": 2212,
+      "raw_sha256": "e31f9ade4339d039fd935ce0f842af0bc169f8b2e0ef226e7b5c3f31c277c248",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-inputs.json.gz",
+      "bytes": 564,
+      "sha256": "98f0075a2e9c93cb6d909ab00792a175f747fbeb6c72dfb38f21e4b49632965f",
+      "raw_bytes": 1578,
+      "raw_sha256": "ddc09a2e3237fe4d063e427489930b6cf9d0f29bcc51beef32b3b5c191cec0e0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-library.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-library.rsp.gz",
+      "bytes": 411,
+      "sha256": "160e44f549deec9236da290c01a5ece9443fc8a3b24b27f20c1579ee79d03082",
+      "raw_bytes": 1717,
+      "raw_sha256": "87e6cb2a127b1be83f44c2b8370244a5e40f7a2a4d62bd16c4f2151f9138625f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-link.log.gz",
+      "bytes": 49,
+      "sha256": "329bdaf0eb9447cdde5f4d12d9c6cb72f8b141262e077c1df19e54db76c2c30f",
+      "raw_bytes": 43,
+      "raw_sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-link.rsp.gz",
+      "bytes": 992,
+      "sha256": "c86d2dae80c978f1d3619153e5cf1bc5db3f488d132c31b3983498cf70aac52f",
+      "raw_bytes": 5461,
+      "raw_sha256": "6296240366a7f2d698ef605a50e919dc0281c9d689f4d9b4ef775ed87d194a97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/host-visibility-02-src_interactivity_base_InteractivityFactory.cpp.gz",
+      "bytes": 4765,
+      "sha256": "e726177cc1e318b6d1c1338ddeac96bded6c6bd42d3c373b416c45f646418064",
+      "raw_bytes": 18902,
+      "raw_sha256": "378473b914fafade152fe119469263bd648180ec6f3fdd79a1a816ca6d2ed429",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/visibility-single-image.json.gz",
+      "bytes": 1995,
+      "sha256": "4aa2f5197d2bb8bae6d40f6acb09b79cbea16c2b7aa5dde5ba6e1530ae82c204",
+      "raw_bytes": 8211,
+      "raw_sha256": "e4e2d3334f80f781c5eacc5449144ac422bf6a4846030f072c3c8ffadbdadfc2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/visibility-single-link.log.gz",
+      "bytes": 49,
+      "sha256": "329bdaf0eb9447cdde5f4d12d9c6cb72f8b141262e077c1df19e54db76c2c30f",
+      "raw_bytes": 43,
+      "raw_sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/visibility-single-link.rsp.gz",
+      "bytes": 997,
+      "sha256": "43fc73aad99c2de3ad6196d33a4dac50f6ca12b65d213a6e36158f823488dda9",
+      "raw_bytes": 5458,
+      "raw_sha256": "2efd8a80e95fe437526d7233a9e6d80f413d00a8c0ca5c01db78c9ffb9453173",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/source-scripts_prepare-single-exe.py.gz",
+      "bytes": 5673,
+      "sha256": "bb0bc87c56835f1215b09aaf6ad5a86aa0e44d51e4ff6a5dca70bcea7ff3b5c2",
+      "raw_bytes": 17634,
+      "raw_sha256": "dd9dc31c85d49f81baf8a6853695b7e73dcf6546338714eae5f0556e6d06120e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/source-scripts_test-single-exe.ps1.gz",
+      "bytes": 2750,
+      "sha256": "f7306475689d94d423e6732f99c885863155ac8f2aa87363d2724a9c44d7ed26",
+      "raw_bytes": 11907,
+      "raw_sha256": "49f87a2eb085ff93ca82bcc575246d3f9078244bae60aa3ee9330d4f6c607c19",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/source-tests_startup_visibility_fixture.py.gz",
+      "bytes": 995,
+      "sha256": "900dd2e6001a87439374811df7531beec2be7e309032f5de72150f2a87f97ef6",
+      "raw_bytes": 2200,
+      "raw_sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/startup-visibility-evidence/source-tests_startup_visibility_window_smoke.py.gz",
+      "bytes": 1850,
+      "sha256": "ea171d3f966b5b4a0fac0d64e0586bb97f9f9399f334499db6ab6e5c4f6934fe",
+      "raw_bytes": 4393,
+      "raw_sha256": "2f4cadfe287a17a2e7e1c0c33955dbc1ffc428d4cee0e3d3e4ed7fddf433866b",
+      "encoding": "gzip"
+    }
+  ],
+  "cases": {
+    "startup-activation": {
+      "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+      "diagnostic_completed": true,
+      "controller": {
+        "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+        "name": "startup_activation",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 28184,
+        "cleanup": {
+          "before": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 8.442
+      },
+      "memory_acceptance": false
+    },
+    "startup-show-diagnostic": {
+      "executable_sha256": "fa6f45ac0e01a3ad5a12ed46483fea4eb98c86d7151e022c2f753511c17f9c4d",
+      "diagnostic_completed": true,
+      "controller": {
+        "executable_sha256": "fa6f45ac0e01a3ad5a12ed46483fea4eb98c86d7151e022c2f753511c17f9c4d",
+        "name": "startup_activation",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 21072,
+        "cleanup": {
+          "before": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 8.608
+      },
+      "memory_acceptance": false
+    },
+    "startup-output": {
+      "executable_sha256": "fa6f45ac0e01a3ad5a12ed46483fea4eb98c86d7151e022c2f753511c17f9c4d",
+      "diagnostic_completed": true,
+      "controller": {
+        "executable_sha256": "fa6f45ac0e01a3ad5a12ed46483fea4eb98c86d7151e022c2f753511c17f9c4d",
+        "name": "startup_activation",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 42192,
+        "cleanup": {
+          "before": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 8.622
+      },
+      "memory_acceptance": false
+    },
+    "startup-visibility-fixed": {
+      "executable_sha256": "3367a770021dcc8968a17fac808452a67644ba3e609d0a33568523d20c25caf9",
+      "diagnostic_completed": true,
+      "controller": {
+        "executable_sha256": "3367a770021dcc8968a17fac808452a67644ba3e609d0a33568523d20c25caf9",
+        "name": "startup_activation",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 18388,
+        "cleanup": {
+          "before": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 8.646
+      },
+      "memory_acceptance": false
+    },
+    "before": {
+      "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+      "completed": false,
+      "checks": [
+        "initial minimized=False, tabs=False",
+        "explicit VT and Win32 visibility, minimized=False, tabs=False"
+      ],
+      "controller": {
+        "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+        "name": "startup_visibility",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 13576,
+        "cleanup": {
+          "before": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 8,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 1.067
+      },
+      "cases": [
+        {
+          "tabbed": false,
+          "minimized": false,
+          "operations": [
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "vt_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "native_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "native_restore",
+              "iconic": false
+            }
+          ],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": false,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "tabbed": false,
+          "minimized": true,
+          "operations": [],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": false,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 3,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": true,
+            "remaining_processes": [
+              {
+                "pid": 39656,
+                "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\startup-worktree\\build\\visibility-before\\dist\\nemoterm.exe",
+                "exit_code": 259
+              },
+              {
+                "pid": 25272,
+                "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\startup-worktree\\build\\visibility-before\\dist\\nemoterm.exe",
+                "exit_code": 259
+              },
+              {
+                "pid": 50104,
+                "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+                "exit_code": 259
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "after": {
+      "executable_sha256": "eeb61feb5e7ca220d9af5850ab6736ad6d087ae6acbb9284f6be7ef74303c7b3",
+      "completed": true,
+      "checks": [
+        "initial minimized=False, tabs=False",
+        "explicit VT and Win32 visibility, minimized=False, tabs=False",
+        "initial minimized=True, tabs=False",
+        "explicit VT and Win32 visibility, minimized=True, tabs=False",
+        "initial minimized=False, tabs=True",
+        "explicit VT and Win32 visibility, minimized=False, tabs=True",
+        "initial minimized=True, tabs=True",
+        "explicit VT and Win32 visibility, minimized=True, tabs=True"
+      ],
+      "controller": {
+        "executable_sha256": "eeb61feb5e7ca220d9af5850ab6736ad6d087ae6acbb9284f6be7ef74303c7b3",
+        "name": "startup_visibility",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 48952,
+        "cleanup": {
+          "before": {
+            "total": 14,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 14,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 2.496
+      },
+      "cases": [
+        {
+          "tabbed": false,
+          "minimized": false,
+          "operations": [
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "vt_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "native_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "native_restore",
+              "iconic": false
+            }
+          ],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": false,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "tabbed": false,
+          "minimized": true,
+          "operations": [
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "vt_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "native_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "native_restore",
+              "iconic": false
+            }
+          ],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": true,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "tabbed": true,
+          "minimized": false,
+          "operations": [
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "vt_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "native_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "native_restore",
+              "iconic": false
+            }
+          ],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": false,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "tabbed": true,
+          "minimized": true,
+          "operations": [
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "vt_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "vt_restore",
+              "iconic": false
+            },
+            {
+              "operation": "native_minimize",
+              "iconic": true
+            },
+            {
+              "operation": "native_restore",
+              "iconic": false
+            }
+          ],
+          "actual_grid": [
+            160,
+            48
+          ],
+          "initial_iconic": true,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ]
+    },
+    "gdi_workload": {
+      "executable_sha256": "eeb61feb5e7ca220d9af5850ab6736ad6d087ae6acbb9284f6be7ef74303c7b3",
+      "completed": true,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "baseline": {
+        "handles": 405,
+        "gdi": 38,
+        "user": 50,
+        "injected": false,
+        "private_ws": 9850880,
+        "total_ws": 36282368,
+        "private_commit": 12857344
+      },
+      "cycles": [
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10170368,
+          "total_ws": 36646912,
+          "private_commit": 13058048
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10268672,
+          "total_ws": 36777984,
+          "private_commit": 12906496
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10264576,
+          "total_ws": 36806656,
+          "private_commit": 13664256
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10280960,
+          "total_ws": 36847616,
+          "private_commit": 13176832
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10285056,
+          "total_ws": 36868096,
+          "private_commit": 12869632
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10272768,
+          "total_ws": 36872192,
+          "private_commit": 12906496
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10211328,
+          "total_ws": 36823040,
+          "private_commit": 13385728
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10366976,
+          "total_ws": 36986880,
+          "private_commit": 13217792
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10301440,
+          "total_ws": 36921344,
+          "private_commit": 12787712
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10399744,
+          "total_ws": 37023744,
+          "private_commit": 13320192
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10432512,
+          "total_ws": 37060608,
+          "private_commit": 12750848
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10412032,
+          "total_ws": 37044224,
+          "private_commit": 13262848
+        }
+      ],
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 16224256,
+          "total_ws": 42893312,
+          "private_commit": 18972672
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7049216,
+          "total_ws": 33648640,
+          "private_commit": 9842688
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27373568,
+          "total_ws": 54231040,
+          "private_commit": 33345536
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44695552,
+          "total_ws": 125825024,
+          "private_commit": 56020992
+        }
+      },
+      "samples": 491,
+      "seconds": 49.4,
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "controller": {
+        "executable_sha256": "eeb61feb5e7ca220d9af5850ab6736ad6d087ae6acbb9284f6be7ef74303c7b3",
+        "name": "tabs",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 25768,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 52.726
+      }
+    }
+  },
+  "original_gdi_failure_resolved": false,
+  "accepted_distribution_replaced": false
+}
