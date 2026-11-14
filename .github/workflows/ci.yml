@@ -457,6 +457,15 @@ jobs:
             Copy-Item "research/sixel-background-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
+      - name: Test iTerm inline image formats, alpha, lifecycle and limits
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/iterm_image_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/iterm-images-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/iterm-images-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test native hyperlink hover, activation and mouse interaction
         shell: pwsh
         run: |
@@ -658,6 +667,15 @@ jobs:
             python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1] --workload-memory
             $testExit = $LASTEXITCODE
             Copy-Item research/workload-tabs-* test-results/ -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+      - name: Test inline images with the same mandatory tab memory limits
+        shell: pwsh
+        run: |
+          foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+            python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1] --workload-memory --inline-images
+            $testExit = $LASTEXITCODE
+            Copy-Item research/inline-workload-tabs-* test-results/ -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
       - name: Upload portable terminal

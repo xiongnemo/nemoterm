@@ -50,5 +50,11 @@ bool nemo_iterm_feed(NemoIterm *, const void *, size_t);
 bool nemo_iterm_finish(NemoIterm *, NemoItermPacket *);
 NemoItermStatus nemo_iterm_status(const NemoIterm *);
 size_t nemo_iterm_memory(const NemoIterm *);
+/* Resolve dimensions without allocating. Zero dimensions and overflow fail.
+ * Auto/auto uses intrinsic pixels, fitting the viewport width if necessary. */
+bool nemo_iterm_size(const NemoItermPacket *, unsigned natural_width,
+                    unsigned natural_height, unsigned cell_width,
+                    unsigned cell_height, unsigned cols, unsigned rows,
+                    unsigned limit, unsigned *width, unsigned *height);
 
 #endif

@@ -19,6 +19,8 @@ parser.add_argument('--rows',type=int,default=48)
 parser.add_argument('--dense-clusters',action='store_true')
 parser.add_argument('--workload-memory',action='store_true',
                     help='sample the full process tree during dense history and resize before instrumentation')
+parser.add_argument('--inline-images',action='store_true',
+                    help='add translucent PNG images to --workload-memory')
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
@@ -29,6 +31,8 @@ observation.add_argument('--virtual-memory-trace',action='store_true',
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
+if args.inline_images and not args.workload_memory:
+    parser.error('--inline-images requires --workload-memory')
 injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
 diagnostic=injected_observer or args.etw_memory_trace
 if diagnostic and not args.workload_memory:
@@ -38,6 +42,7 @@ if diagnostic and not args.local_heap_census and os.environ.get('CI')!='true':
 if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
 prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
+if args.inline_images:prefix='inline-'+prefix
 base_scene=scene
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
@@ -262,7 +267,8 @@ try:
                         **({'all_post_attach_heaps':True} if args.local_heap_census else {}))
                     census_observer.result['executable_sha256']=evidence['executable_sha256']
                     census_observer.start()
-                evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene)
+                evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene,
+                                                     inline_images=args.inline_images)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
                 memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')

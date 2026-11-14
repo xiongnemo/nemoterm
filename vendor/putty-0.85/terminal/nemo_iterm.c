@@ -1,5 +1,47 @@
 /* SPDX-License-Identifier: MIT */
 #include "nemo_iterm.h"
+
+static uint64_t dimension_pixels(NemoItermDimension d, unsigned cell, unsigned count)
+{
+    switch (d.unit) {
+      case NEMO_ITERM_PIXELS: return d.value;
+      case NEMO_ITERM_CELLS: return (uint64_t)d.value * cell;
+      case NEMO_ITERM_PERCENT:
+        /* Check multiplication before the percentage conversion. */
+        if (cell && (uint64_t)d.value * count > UINT64_MAX / cell)
+            return UINT64_MAX;
+        return (uint64_t)d.value * count * cell / 100;
+      default: return 0;
+    }
+}
+
+bool nemo_iterm_size(const NemoItermPacket *p, unsigned nw, unsigned nh,
+                    unsigned cw, unsigned ch, unsigned cols, unsigned rows,
+                    unsigned limit, unsigned *width, unsigned *height)
+{
+    if (!p || !nw || !nh || !cw || !ch || !cols || !rows || !limit) return false;
+    bool aw = p->width.unit == NEMO_ITERM_AUTO;
+    bool ah = p->height.unit == NEMO_ITERM_AUTO;
+    uint64_t w = aw ? nw : dimension_pixels(p->width, cw, cols);
+    uint64_t h = ah ? nh : dimension_pixels(p->height, ch, rows);
+    if (!w || !h || (!aw && w > limit) || (!ah && h > limit)) return false;
+    if (aw && ah) {
+        uint64_t viewport = (uint64_t)cw * cols;
+        if (w > viewport) { w = viewport; h = (uint64_t)nh * w / nw; }
+    } else if (aw) {
+        w = (uint64_t)nw * h / nh;
+    } else if (ah) {
+        h = (uint64_t)nh * w / nw;
+    } else if (p->preserve_aspect) {
+        if (w * nh < h * nw) h = w * nh / nw;
+        else w = h * nw / nh;
+    }
+    if (!w) w = 1;
+    if (!h) h = 1;
+    if (w > limit || h > limit) return false;
+    *width = (unsigned)w; *height = (unsigned)h;
+    return true;
+}
 #include <stdlib.h>
 #include <string.h>
 

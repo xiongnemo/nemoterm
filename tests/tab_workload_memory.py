@@ -69,10 +69,13 @@ class TabMemorySampler:
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 
 
-def exercise(sampler, first, second, output, select, resources, host, scene):
+def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False):
     """Keep two 2000-line histories while switching/repainting/resizing."""
     result = dict(history_lines_per_tab=4096, history_limit=2000,
-                  redraw_frames=24, resize_transitions=24, samples=[])
+                  redraw_frames=24, resize_transitions=24, inline_images=inline_images, samples=[])
+    if inline_images:
+        from iterm_image_window_smoke import png, transfer
+        inline = transfer(png(512,288,bytes((255,0,0,128))*512*288))
     for tab_index,child in enumerate((first,second)):
         select(child,tab_index)
         sampler.phase = f'history-{tab_index}'
@@ -100,6 +103,8 @@ def exercise(sampler, first, second, output, select, resources, host, scene):
         # One sizeable Sixel per retained terminal, rebuilt through normal VT.
         output(child,'\x1b[2;4H\x1bP0;1q"1;1;512;288#1;2;20;40;70#1'+
                      ('!512~-')*48+'\x1b\\')
+        if inline_images:
+            output(child,inline)
         target = (max(400,width-160),max(300,height-100)) if frame%2 == 0 else (width,height)
         assert u.MoveWindow(host,original.left,original.top,*target,True)
         for other in (first,second):

@@ -205,10 +205,44 @@ static void fuzz(NemoIterm *s)
     }
 }
 
+static void layout(void)
+{
+    NemoItermPacket p = {0};
+    p.preserve_aspect = true;
+    unsigned w = 0, h = 0;
+#define SIZE(nw,nh,ew,eh) do { \
+    assert(nemo_iterm_size(&p,nw,nh,8,16,80,24,8192,&w,&h)); \
+    assert(w == ew && h == eh); } while (0)
+    SIZE(20,10,20,10);
+    SIZE(1280,320,640,160);
+    p.width = (NemoItermDimension){NEMO_ITERM_CELLS,2};
+    SIZE(2,4,16,32);
+    p.width = (NemoItermDimension){NEMO_ITERM_AUTO,0};
+    p.height = (NemoItermDimension){NEMO_ITERM_PERCENT,50};
+    SIZE(2,4,96,192);
+    p.width = (NemoItermDimension){NEMO_ITERM_PIXELS,4};
+    p.height = (NemoItermDimension){NEMO_ITERM_PIXELS,6};
+    SIZE(2,2,4,4);
+    p.preserve_aspect = false;
+    SIZE(2,2,4,6);
+    p.width = (NemoItermDimension){NEMO_ITERM_PERCENT,10};
+    p.height = (NemoItermDimension){NEMO_ITERM_PERCENT,25};
+    SIZE(2,2,64,96);
+    p.width.value = 0;
+    assert(!nemo_iterm_size(&p,2,2,8,16,80,24,8192,&w,&h));
+    p.width.value = UINT32_MAX;
+    assert(!nemo_iterm_size(&p,2,2,UINT32_MAX,16,UINT32_MAX,24,8192,&w,&h));
+    p.width = (NemoItermDimension){NEMO_ITERM_PIXELS,1};
+    p.height = (NemoItermDimension){NEMO_ITERM_AUTO,0};
+    SIZE(8192,1,1,1);
+    assert(!nemo_iterm_size(&p,0,2,8,16,80,24,8192,&w,&h));
+#undef SIZE
+}
+
 int main(void)
 {
     NemoIterm *s=nemo_iterm_new(BUDGET,NULL,NULL);assert(s);
-    vectors(s);metadata(s);multipart(s);malformed(s);limits(s);fuzz(s);
+    vectors(s);metadata(s);multipart(s);malformed(s);limits(s);fuzz(s);layout();
     nemo_iterm_free(s);
     puts("iTerm transport suite passed");return 0;
 }

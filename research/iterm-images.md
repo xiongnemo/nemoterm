@@ -1,4 +1,9 @@
-# iTerm2 inline images: transport implementation in progress
+# iTerm2 inline images: transport checkpoint (3a60e4f)
+
+This document preserves the transport-only checkpoint. The subsequent native
+display implementation and its current limitations are recorded in
+[the inline-display report](iterm-inline-display.md). Statements below about
+unconnected components describe this earlier checkpoint, not the later branch.
 
 This branch is preparing OSC 1337 inline-image support. The transport component
 and its tests are implemented. The terminal parser, image codec, placement and

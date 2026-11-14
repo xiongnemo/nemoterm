@@ -1045,6 +1045,8 @@ static void test_sixel_implicit_background(Mock *mk)
     check_image_accounting(mk);
 }
 
+#include "test_iterm_terminal.inc"
+
 int main(void)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -1069,6 +1071,7 @@ int main(void)
     test_sixel_palette_fragments(mk);
     test_sixel_implicit_background(mk);
     test_alignment_images(mk);
+    test_inline_images(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Sixel terminal suite FAILED" : "Sixel terminal suite passed");
