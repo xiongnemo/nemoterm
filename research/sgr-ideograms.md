@@ -79,5 +79,6 @@ The [manifest](sgr-ideogram-validation.json) verifies 160 compressed records
 (1,382,130 bytes), including compiler logs, original failures, exact pixels,
 queries, memory samples, cleanup and link-input/source hashes. These are local
 observations, not REA-server Evidence. Full branch CI and downloaded-artifact
-verification are still required before promotion. The accepted main executable
-is unchanged; this does not close the broader terminal compatibility goal.
+verification subsequently passed in the [accepted artifact checkpoint](sgr-ideogram-ci.md).
+The earlier local image above is not reassigned that artifact identity; the
+broader terminal compatibility goal remains open.

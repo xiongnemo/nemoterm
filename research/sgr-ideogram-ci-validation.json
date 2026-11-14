@@ -1,0 +1,632 @@
+{
+  "source": "8ff214feb549c2b79bb57960467c1d6963eab47e",
+  "image_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+  "image_bytes": 4452864,
+  "kind": "CI and local owned Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/check-ci-ideogram-native.py",
+      "archive": "research/sgr-ideogram-ci-records/000-check-ci-ideogram-native.py.gz",
+      "bytes": 1800,
+      "sha256": "5f2bd452609e42aca9a83d730081bc5c0c97f5432831ac9154d62a5f88557d4c"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/core-artifacts.json",
+      "archive": "research/sgr-ideogram-ci-records/001-core-artifacts.json.gz",
+      "bytes": 3797,
+      "sha256": "9872a6a628b6d86838aff0fbedd25b5258f21f5f884b6449e7954a6179fe11a9"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/core-run.json",
+      "archive": "research/sgr-ideogram-ci-records/002-core-run.json.gz",
+      "bytes": 18402,
+      "sha256": "9099aba5df0e97425052fd32401363c45d0bacce85bd90047e43332742db9d8e"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/single-artifacts.json",
+      "archive": "research/sgr-ideogram-ci-records/003-single-artifacts.json.gz",
+      "bytes": 1537,
+      "sha256": "e5e692488dffbe01abb27380faf632764938c852b77e352eb4b7c51cc5227a6a"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/single-evidence/build/single-exe-check/research/single-exe-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/004-single-exe-observed.json.gz",
+      "bytes": 869,
+      "sha256": "8abf51f81f13206043e4ddf9d980f66ecba207284c11e75d123b8cecb884d719"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/single-evidence/build/single-exe-check/research/single-exe-validation.json",
+      "archive": "research/sgr-ideogram-ci-records/005-single-exe-validation.json.gz",
+      "bytes": 2707,
+      "sha256": "e99cb600fba8a5e8185eb13f9736a711c8519caecbbfa757d315072b8649fbc2"
+    },
+    {
+      "path": "build/ci-ideogram-8ff214f/single-run.json",
+      "archive": "research/sgr-ideogram-ci-records/006-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "bd887af94cc30648e80bc8953fe894d97d5485eacc3737fd1055554d1c4cb5aa"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/bindings.log",
+      "archive": "research/sgr-ideogram-ci-records/007-bindings.log.gz",
+      "bytes": 91,
+      "sha256": "5439679ed594d1ec9daa8895015416d7edb570e3f2c3868dc7f547c5c2218e7c"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/controller.log",
+      "archive": "research/sgr-ideogram-ci-records/008-controller.log.gz",
+      "bytes": 367,
+      "sha256": "fe8b12b934b316e17928f74f34270453355b60038d8fc78120400704eaf79d33"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/research/bindings-controller.json",
+      "archive": "research/sgr-ideogram-ci-records/009-bindings-controller.json.gz",
+      "bytes": 470,
+      "sha256": "c0d1ff426e6439b7d45caf1f64a429e21e8285ef1c6b6fe1208619853823bff5"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/research/bindings-last-snapshot.json",
+      "archive": "research/sgr-ideogram-ci-records/010-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "14fbd35be003b88b4b7ff788d4daada3f560aab27e9fda13ec550c313e639538"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/research/bindings-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/011-bindings-observed.json.gz",
+      "bytes": 1371,
+      "sha256": "4e45c98ede9cf301f05914c5e7dc9c8c0401340d626889b313e33c4538501104"
+    },
+    {
+      "path": "build/ci-ideogram-local/bindings/tests/bindings_window_smoke.py",
+      "archive": "research/sgr-ideogram-ci-records/012-bindings_window_smoke.py.gz",
+      "bytes": 6235,
+      "sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/controller.log",
+      "archive": "research/sgr-ideogram-ci-records/013-controller.log.gz",
+      "bytes": 366,
+      "sha256": "c59c41bb6e63f30a83dac4ff965977d94ff6fe383be4729ccb7643dbeb9e4045"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/research/tabs-controller.json",
+      "archive": "research/sgr-ideogram-ci-records/014-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "87436b72f97f579f9ff869949e018814e027633926c4b5a27408ed9edfaac18d"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sgr-ideogram-ci-records/015-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1448915,
+      "sha256": "77579bdf38aa538ad5431f233a47613979891fda553d5e3eda986556e197cfc5"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/016-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 184036,
+      "sha256": "f33594c60ed68276d6022f834ef6207606ee992733c32fd1cdc2d63ceb2c40b6"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/sgr-ideogram-ci-records/017-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-directx/tabs.log",
+      "archive": "research/sgr-ideogram-ci-records/018-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/controller.log",
+      "archive": "research/sgr-ideogram-ci-records/019-controller.log.gz",
+      "bytes": 366,
+      "sha256": "01b0e50e7c6a3155bc7ff088e17ee738446f9c0d8bc83e78babb0be529ae3182"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/research/tabs-controller.json",
+      "archive": "research/sgr-ideogram-ci-records/020-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "5a87b94c1e3ad97b012858201c2394c92f32c5bca094eced41e438fd0d8bb410"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/sgr-ideogram-ci-records/021-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/sgr-ideogram-ci-records/022-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1460600,
+      "sha256": "a6070431644d67751375d8aebd1edf6264bd270012a054f8b0f2f39920e0a8b6"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/023-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 175116,
+      "sha256": "c57a6a95af6aa160db6072c1679e3d8307b58404b1f57e6e4b1d3b041d663812"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/sgr-ideogram-ci-records/024-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ci-ideogram-local/memory-gdi/tabs.log",
+      "archive": "research/sgr-ideogram-ci-records/025-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/controller.log",
+      "archive": "research/sgr-ideogram-ci-records/026-controller.log.gz",
+      "bytes": 370,
+      "sha256": "31eaa711197ced86e67bda2a17a653a872eb1c329e250cdf19fc95383fa8c850"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/renderer.log",
+      "archive": "research/sgr-ideogram-ci-records/027-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "de63e43ca3e55cd850ebfb55926bab65bcd592df56c12f590c8243bb990cf683"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-ci-records/028-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-ci-records/029-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-ci-records/030-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-ci-records/031-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-ci-records/032-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-ci-records/033-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-ci-records/034-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-ci-records/035-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-ci-records/036-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/037-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-enclosures.png",
+      "archive": "research/sgr-ideogram-ci-records/038-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-expose.png",
+      "archive": "research/sgr-ideogram-ci-records/039-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/040-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-ideograms.png",
+      "archive": "research/sgr-ideogram-ci-records/041-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/042-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-overline.png",
+      "archive": "research/sgr-ideogram-ci-records/043-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-palette.png",
+      "archive": "research/sgr-ideogram-ci-records/044-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-resize.png",
+      "archive": "research/sgr-ideogram-ci-records/045-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-sixel.png",
+      "archive": "research/sgr-ideogram-ci-records/046-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-sync-end.png",
+      "archive": "research/sgr-ideogram-ci-records/047-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/sgr-ideogram-ci-records/048-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-0-text.png",
+      "archive": "research/sgr-ideogram-ci-records/049-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-ci-records/050-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-ci-records/051-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-ci-records/052-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-ci-records/053-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-ci-records/054-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-ci-records/055-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-ci-records/056-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-ci-records/057-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-ci-records/058-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/059-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-enclosures.png",
+      "archive": "research/sgr-ideogram-ci-records/060-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-expose.png",
+      "archive": "research/sgr-ideogram-ci-records/061-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/062-renderer-1-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-ideograms.png",
+      "archive": "research/sgr-ideogram-ci-records/063-renderer-1-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-overline-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/064-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-overline.png",
+      "archive": "research/sgr-ideogram-ci-records/065-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-palette.png",
+      "archive": "research/sgr-ideogram-ci-records/066-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-resize.png",
+      "archive": "research/sgr-ideogram-ci-records/067-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-sixel.png",
+      "archive": "research/sgr-ideogram-ci-records/068-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-sync-end.png",
+      "archive": "research/sgr-ideogram-ci-records/069-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/sgr-ideogram-ci-records/070-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-1-text.png",
+      "archive": "research/sgr-ideogram-ci-records/071-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-ci-records/072-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-ci-records/073-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-ci-records/074-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-ci-records/075-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-ci-records/076-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-ci-records/077-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-ci-records/078-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-ci-records/079-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-ci-records/080-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/081-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-enclosures.png",
+      "archive": "research/sgr-ideogram-ci-records/082-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-expose.png",
+      "archive": "research/sgr-ideogram-ci-records/083-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/084-renderer-2-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-ideograms.png",
+      "archive": "research/sgr-ideogram-ci-records/085-renderer-2-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-overline-double-size.png",
+      "archive": "research/sgr-ideogram-ci-records/086-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-overline.png",
+      "archive": "research/sgr-ideogram-ci-records/087-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-palette.png",
+      "archive": "research/sgr-ideogram-ci-records/088-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-resize.png",
+      "archive": "research/sgr-ideogram-ci-records/089-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-sixel.png",
+      "archive": "research/sgr-ideogram-ci-records/090-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-sync-end.png",
+      "archive": "research/sgr-ideogram-ci-records/091-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-sync-frozen.png",
+      "archive": "research/sgr-ideogram-ci-records/092-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-2-text.png",
+      "archive": "research/sgr-ideogram-ci-records/093-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-controller.json",
+      "archive": "research/sgr-ideogram-ci-records/094-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "bf0a36dbf5cc6bc431237121e4b5904df6072387930a975ddcf5b3de498a6f37"
+    },
+    {
+      "path": "build/ci-ideogram-local/renderer/research/renderer-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/095-renderer-observed.json.gz",
+      "bytes": 9120,
+      "sha256": "9355f73f3f5ea0300b9b28f974e9f0031b237b5c81035932f0b731ba6bbd436e"
+    },
+    {
+      "path": "build/ci-ideogram-local/results.json",
+      "archive": "research/sgr-ideogram-ci-records/096-results.json.gz",
+      "bytes": 610,
+      "sha256": "ed7e7306399458f67d51304fd082bfb2433dce78f97e8d9b7c0a6b9dee45002d"
+    },
+    {
+      "path": "build/ci-ideogram-local/wire/controller.log",
+      "archive": "research/sgr-ideogram-ci-records/097-controller.log.gz",
+      "bytes": 369,
+      "sha256": "a25214b65ab05e19966c236116de10a0df9e788b202c68a3d363607f12eb502f"
+    },
+    {
+      "path": "build/ci-ideogram-local/wire/research/sgr-stack-observed.json",
+      "archive": "research/sgr-ideogram-ci-records/098-sgr-stack-observed.json.gz",
+      "bytes": 72295,
+      "sha256": "1feec8053892b94ce3c44c2a1b979b845c77cc0eba9d0261b538dcc11c4e3838"
+    },
+    {
+      "path": "build/ci-ideogram-local/wire/research/sgr-stack-window.png",
+      "archive": "research/sgr-ideogram-ci-records/099-sgr-stack-window.png.gz",
+      "bytes": 3669,
+      "sha256": "ca6a83eb0432b7cef707e7692d0ccf7e31f0a31586174334c0e5f7a70c4bc63d"
+    },
+    {
+      "path": "build/ci-ideogram-local/wire/research/sgr_stack-controller.json",
+      "archive": "research/sgr-ideogram-ci-records/100-sgr_stack-controller.json.gz",
+      "bytes": 472,
+      "sha256": "ba2e2a809770dcaf8751728973f2bff7d7ea19c4e2c45ad32d7d1dbb5d3699ef"
+    },
+    {
+      "path": "build/ci-ideogram-local/wire/sgr_stack.log",
+      "archive": "research/sgr-ideogram-ci-records/101-sgr_stack.log.gz",
+      "bytes": 56,
+      "sha256": "3fc1927d9312fa700fd4a9aaa46fde3fc613012d6abc883c2220907ac1268417"
+    },
+    {
+      "path": "build/retain-ci-ideogram-evidence.py",
+      "archive": "research/sgr-ideogram-ci-records/102-retain-ci-ideogram-evidence.py.gz",
+      "bytes": 2117,
+      "sha256": "b9450b99d51bfa51a5c1fb09b53d6ed8b71e39b687103eca45d29b7861e04e57"
+    },
+    {
+      "path": "build/watch-ideogram-ci.py",
+      "archive": "research/sgr-ideogram-ci-records/103-watch-ideogram-ci.py.gz",
+      "bytes": 2544,
+      "sha256": "f9a74a5833dfdedc03eba7c9ee22b57fe3cf25d61410e6461606a5ca580e2cf0"
+    }
+  ]
+}

@@ -1,0 +1,2216 @@
+{
+  "source": "9e7549bc051147b3048636503f2b4c0e5d800ac7",
+  "image_sha256": "c239b4af83eb3ae341309c81f59afd7e7af8039f0c058a990eb7a9a5ac1cda84",
+  "image_bytes": 4451840,
+  "kind": "CI and local owned Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/check-ci-integrated-native.py",
+      "archive": "research/sixel-enclosure-integration-ci-records/000-check-ci-integrated-native.py.gz",
+      "bytes": 1865,
+      "sha256": "727ca0d6147f3ffdb927d5b420e99dfd47883db4e1e0685a7fc8fdb10d433693"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/core-artifacts.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/001-core-artifacts.json.gz",
+      "bytes": 3837,
+      "sha256": "b26eda0cf16807172698221f7780a09bd6690bff3bbd58c9c5e230d5a823ef15"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/core-run.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/002-core-run.json.gz",
+      "bytes": 18402,
+      "sha256": "c56955a41bcd1173743c36dd644a90402c59776c7d91d0ea8ed16783ce2c5a0d"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/single-artifacts.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/003-single-artifacts.json.gz",
+      "bytes": 1553,
+      "sha256": "f0447aa9167bd93cbf3522238c281a42be355ba537b74803783de70d2f592c67"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/single-evidence/build/single-exe-check/research/single-exe-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/004-single-exe-observed.json.gz",
+      "bytes": 870,
+      "sha256": "2bb406c80e25289575541a7931950a89db1aab5c2b5a45c4d9209429ab821be2"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/single-evidence/build/single-exe-check/research/single-exe-validation.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/005-single-exe-validation.json.gz",
+      "bytes": 2707,
+      "sha256": "aff973415ab02cf91fb29b8abae5117596d687dd3ffabe77fc02c2c50a283e1e"
+    },
+    {
+      "path": "build/ci-integrated-9e7549b/single-run.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/006-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "567d1397cc0e777f31dba30af68aa7547a50a0dbcd7f74695fd24ed60bc0289d"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/007-controller.log.gz",
+      "bytes": 375,
+      "sha256": "7bb7b260e2a855e0f704ab71bb93f1c730f77fe1d7f0d89f7f76413c8b61513f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/01-p2-0-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/008-01-p2-0-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/01-p2-0-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/009-01-p2-0-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/02-p2-1-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/010-02-p2-1-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e9a4c59013cca508fe81703205693e9ba33c902d7955d575db31c1ab8352ef45"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/02-p2-1-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/011-02-p2-1-implicit-colours.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/03-p2-2-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/012-03-p2-2-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/03-p2-2-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/013-03-p2-2-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/04-implicit-register3-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/014-04-implicit-register3-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "b34ba690e45ae4fd8d020e1372e53742b21c2d24fd86d8b5ad0977cce5e7ea3b"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/04-implicit-register3-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/015-04-implicit-register3-redefinition.png.gz",
+      "bytes": 788,
+      "sha256": "a820253cb50b24fecbfeddabdfdee8b083391826cb900e89144794370d9bce36"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/05-opaque-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/016-05-opaque-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "2002c862113b5866abcdf184ef9592e19ae476cef2ffa1a34e7ab7105765e457"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/05-opaque-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/017-05-opaque-register0-redefinition.png.gz",
+      "bytes": 796,
+      "sha256": "a376c88b90e45323bb42644c7cb3d6b233dbc9bec19ec4c8cd184e9ca1d4ee9c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/06-opaque-independent-of-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/018-06-opaque-independent-of-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3ceb1387826229685ed4d5948f6c53e19c0c4a4f97cd5843bbb93636df98ca68"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/06-opaque-independent-of-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/019-06-opaque-independent-of-OSC11.png.gz",
+      "bytes": 948,
+      "sha256": "cc6f44f697820f6f87ca9fbed411d6429b21cda25d5d42fdec9d20751d311a44"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/07-transparent-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/020-07-transparent-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e9a4c59013cca508fe81703205693e9ba33c902d7955d575db31c1ab8352ef45"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/07-transparent-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/021-07-transparent-register0-redefinition.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/08-transparent-follows-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/022-08-transparent-follows-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "743a8ad033cbfefaa3450e916d53b25f51c6d4168f8f7e902a4b6b2133287a24"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/08-transparent-follows-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/023-08-transparent-follows-OSC11.png.gz",
+      "bytes": 927,
+      "sha256": "9561c3b3654b12872d288e169fa508cfb0bf4f0210081bba1dc7b53f76687a6a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/09-shared-and-private-background-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/024-09-shared-and-private-background-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "ca168beb3eb0ac70a1e3e5f35ca87af6b83556ce742843e3cc061b9d85c2b00c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/09-shared-and-private-background-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/025-09-shared-and-private-background-before.png.gz",
+      "bytes": 806,
+      "sha256": "4e472fa94fb60373cc5de1a7c5431f7f4ae0b0bc37da61565b76131553b62c57"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/10-shared-background-CAN.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/026-10-shared-background-CAN.bmp.gz",
+      "bytes": 333094,
+      "sha256": "69bc1ca38fc403f5a4dcea1ce50a506c88f5828b4a477f9d4dd08cf2309c9fba"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/10-shared-background-CAN.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/027-10-shared-background-CAN.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/11-soft-reset-retains-background-ownership.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/028-11-soft-reset-retains-background-ownership.bmp.gz",
+      "bytes": 333094,
+      "sha256": "69bc1ca38fc403f5a4dcea1ce50a506c88f5828b4a477f9d4dd08cf2309c9fba"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/11-soft-reset-retains-background-ownership.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/029-11-soft-reset-retains-background-ownership.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/12-background-redefinition-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/030-12-background-redefinition-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3b85b94ea33144fa4da65abcc291f1202625d339b04787b2cc7cbf86b8c81996"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/12-background-redefinition-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/031-12-background-redefinition-after-soft-reset.png.gz",
+      "bytes": 808,
+      "sha256": "911577b761667f7e79387786e8d02a467fd900538f5023ac1b764389e3d7ed17"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/13-RIS-clears-background-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/032-13-RIS-clears-background-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "04fdd93f717fd804a8ecc8e756a687e0eed243f9f2366d787908c9f29fa77f99"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/13-RIS-clears-background-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/033-13-RIS-clears-background-images.png.gz",
+      "bytes": 773,
+      "sha256": "eb24f3039c68bd40fc3020cef85ad2e0fabb6cea66553e30ef38d4ae0216ed2d"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/14-shared-defaults-after-RIS.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/034-14-shared-defaults-after-RIS.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/14-shared-defaults-after-RIS.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/035-14-shared-defaults-after-RIS.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/15-no-raster-sparse-opaque.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/036-15-no-raster-sparse-opaque.bmp.gz",
+      "bytes": 333094,
+      "sha256": "b820eda183fdcd43e8d2a18cd91ee78b8fee35c37d7c6b76a0e454ea576bb3f5"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/15-no-raster-sparse-opaque.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/037-15-no-raster-sparse-opaque.png.gz",
+      "bytes": 790,
+      "sha256": "ba9fcd35f7b72e66f69dd8fb501a3080be97054c5a4c71d526b7d9532bfe2014"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/16-no-raster-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/038-16-no-raster-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "1bba7609b3bae4b2d8e3dbfce448c51a186559339826492990fa0adb25b73bcf"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/16-no-raster-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/039-16-no-raster-holes-follow-OSC11.png.gz",
+      "bytes": 932,
+      "sha256": "4c6134dd761fc5032872e8460c7e69e610515c5a26dc2483c3acb7ed8453eebd"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/17-set-pixels-outside-declared-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/040-17-set-pixels-outside-declared-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "2fd30215651331ba5a22563f8628954ea0a22a9874205e0a35dcc8c0a0f1f762"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/17-set-pixels-outside-declared-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/041-17-set-pixels-outside-declared-fill.png.gz",
+      "bytes": 795,
+      "sha256": "8f66ed2a65ab8bf4b2cad4681714202961d53c40a7161fdf95c398a4a232a466"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/18-undeclared-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/042-18-undeclared-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "4944f332fe08c09133d204d412c4d3e8d47840c4bc3fbc21a979865664235f9e"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/18-undeclared-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/043-18-undeclared-holes-follow-OSC11.png.gz",
+      "bytes": 939,
+      "sha256": "30964477465f158a94b0c6d1190c352095f8a8a1a72b4fb0a2b0e99a18dc385a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/19-raster-only-underlay-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/044-19-raster-only-underlay-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/19-raster-only-underlay-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/045-19-raster-only-underlay-before.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/20-raster-only-does-not-cover.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/046-20-raster-only-does-not-cover.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/20-raster-only-does-not-cover.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/047-20-raster-only-does-not-cover.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/21-first-zero-sixel-activates-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/048-21-first-zero-sixel-activates-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0caba3f43284254f3e424bcadaea6ed418481fb384fa5c2e02c0e8378da47a58"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/21-first-zero-sixel-activates-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/049-21-first-zero-sixel-activates-fill.png.gz",
+      "bytes": 783,
+      "sha256": "906d08869be23994ef58416836684410338eaaf020241c9c55cda03114355d42"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/22-transparent-zero-sixel-retains-underlay.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/050-22-transparent-zero-sixel-retains-underlay.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/22-transparent-zero-sixel-retains-underlay.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/051-22-transparent-zero-sixel-retains-underlay.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/052-checks.json.gz",
+      "bytes": 33619,
+      "sha256": "b28022b5b868d43551f0a213e8e47010267dca58654d879491629771b49a0a27"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/053-child-control.json.gz",
+      "bytes": 351,
+      "sha256": "134bdecff6424383098973e63b7c10afed78c5c027557f527f66092d8b5b52a8"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-86fb8873c5b145ec92f2b4b488d61b52/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/054-child-report.json.gz",
+      "bytes": 182,
+      "sha256": "d43df2c76b3354529f4f9b073a350fedeee4714dce9ae269c12b97e5e8226dd2"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel-background-directx-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/055-sixel-background-directx-observed.json.gz",
+      "bytes": 36058,
+      "sha256": "bfb5e88e018a6f54fed11c6ead52dc90fdf4dc50f08824b311943bfca2e0f0e2"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/research/sixel_background-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/056-sixel_background-controller.json.gz",
+      "bytes": 478,
+      "sha256": "fa50cbcc53c2557d18c2c14f2778380fd57ad68929e09867c756cb3c30f40515"
+    },
+    {
+      "path": "build/ci-integrated-local/background-directx/sixel_background.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/057-sixel_background.log.gz",
+      "bytes": 2745,
+      "sha256": "0ec830c0b4c838881cf03c4f78a91b2d71f8dbcf6cc4c08d2b41b4721a4acc09"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/058-controller.log.gz",
+      "bytes": 375,
+      "sha256": "29b23755cae83e40963065170f1f79f6f5248556bcc9efb4c736e69675d987be"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/01-p2-0-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/059-01-p2-0-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a0f65d7e2e4a9c857a0a6ce496bbfe0a5a75bdab882c111fe39d815f10cc23fb"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/01-p2-0-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/060-01-p2-0-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/02-p2-1-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/061-02-p2-1-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5547adf5e660c89493ab6e34f2d65685e4548e98a0dc0a7aeb189090f0ebe794"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/02-p2-1-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/062-02-p2-1-implicit-colours.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/03-p2-2-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/063-03-p2-2-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a0f65d7e2e4a9c857a0a6ce496bbfe0a5a75bdab882c111fe39d815f10cc23fb"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/03-p2-2-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/064-03-p2-2-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/04-implicit-register3-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/065-04-implicit-register3-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "ea1ba094af14e2f2292f4c4e13ec5bb96d10f2ff2e1894f4d565a710b7326557"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/04-implicit-register3-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/066-04-implicit-register3-redefinition.png.gz",
+      "bytes": 788,
+      "sha256": "a820253cb50b24fecbfeddabdfdee8b083391826cb900e89144794370d9bce36"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/05-opaque-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/067-05-opaque-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6ba2292097c8374b28ec07aac3fbaceab671c9978b8ff4b93844170676372710"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/05-opaque-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/068-05-opaque-register0-redefinition.png.gz",
+      "bytes": 796,
+      "sha256": "a376c88b90e45323bb42644c7cb3d6b233dbc9bec19ec4c8cd184e9ca1d4ee9c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/06-opaque-independent-of-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/069-06-opaque-independent-of-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "50470b94c7c0e10b3e6c5e2f881edd3e784475d43faba47d10e9938287a05910"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/06-opaque-independent-of-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/070-06-opaque-independent-of-OSC11.png.gz",
+      "bytes": 948,
+      "sha256": "cc6f44f697820f6f87ca9fbed411d6429b21cda25d5d42fdec9d20751d311a44"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/07-transparent-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/071-07-transparent-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5547adf5e660c89493ab6e34f2d65685e4548e98a0dc0a7aeb189090f0ebe794"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/07-transparent-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/072-07-transparent-register0-redefinition.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/08-transparent-follows-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/073-08-transparent-follows-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "1b641b1f6018decffb1b2876f9a377af6e4eec3286b77f177a80fe252b96ddb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/08-transparent-follows-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/074-08-transparent-follows-OSC11.png.gz",
+      "bytes": 927,
+      "sha256": "9561c3b3654b12872d288e169fa508cfb0bf4f0210081bba1dc7b53f76687a6a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/09-shared-and-private-background-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/075-09-shared-and-private-background-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "d9cd21c8456983182580e9b31d898722aba7b59ce40ce2ddf7384486edc1c0aa"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/09-shared-and-private-background-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/076-09-shared-and-private-background-before.png.gz",
+      "bytes": 806,
+      "sha256": "4e472fa94fb60373cc5de1a7c5431f7f4ae0b0bc37da61565b76131553b62c57"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/10-shared-background-CAN.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/077-10-shared-background-CAN.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5462e80fa0d2f981a15e8c72d5cd0152d11568b81f367d7ade970251f669112e"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/10-shared-background-CAN.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/078-10-shared-background-CAN.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/11-soft-reset-retains-background-ownership.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/079-11-soft-reset-retains-background-ownership.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5462e80fa0d2f981a15e8c72d5cd0152d11568b81f367d7ade970251f669112e"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/11-soft-reset-retains-background-ownership.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/080-11-soft-reset-retains-background-ownership.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/12-background-redefinition-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/081-12-background-redefinition-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fc7f2beda04f009aa07ce14117def9cbec91c93c4f15c29c4e8ad205a0e4a588"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/12-background-redefinition-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/082-12-background-redefinition-after-soft-reset.png.gz",
+      "bytes": 808,
+      "sha256": "911577b761667f7e79387786e8d02a467fd900538f5023ac1b764389e3d7ed17"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/13-RIS-clears-background-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/083-13-RIS-clears-background-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "1228ed71854f52ebd71f3b0acd18845495f5d30f1ffdac6af4161721ebaa7235"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/13-RIS-clears-background-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/084-13-RIS-clears-background-images.png.gz",
+      "bytes": 773,
+      "sha256": "eb24f3039c68bd40fc3020cef85ad2e0fabb6cea66553e30ef38d4ae0216ed2d"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/14-shared-defaults-after-RIS.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/085-14-shared-defaults-after-RIS.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a0f65d7e2e4a9c857a0a6ce496bbfe0a5a75bdab882c111fe39d815f10cc23fb"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/14-shared-defaults-after-RIS.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/086-14-shared-defaults-after-RIS.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/15-no-raster-sparse-opaque.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/087-15-no-raster-sparse-opaque.bmp.gz",
+      "bytes": 333094,
+      "sha256": "034f1c5308d0d99cb60a26ccf6255ddd6880431b8e6382ca4a0354c7c215409a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/15-no-raster-sparse-opaque.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/088-15-no-raster-sparse-opaque.png.gz",
+      "bytes": 790,
+      "sha256": "ba9fcd35f7b72e66f69dd8fb501a3080be97054c5a4c71d526b7d9532bfe2014"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/16-no-raster-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/089-16-no-raster-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c76c128d5586e69b4a141c78d299b02f72a0dd9f2c5196edea902646c4c02570"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/16-no-raster-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/090-16-no-raster-holes-follow-OSC11.png.gz",
+      "bytes": 932,
+      "sha256": "4c6134dd761fc5032872e8460c7e69e610515c5a26dc2483c3acb7ed8453eebd"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/17-set-pixels-outside-declared-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/091-17-set-pixels-outside-declared-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "27423fde83492e8129a75d1d5e3d604e76faad883e487337eae8021c4045ef84"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/17-set-pixels-outside-declared-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/092-17-set-pixels-outside-declared-fill.png.gz",
+      "bytes": 795,
+      "sha256": "8f66ed2a65ab8bf4b2cad4681714202961d53c40a7161fdf95c398a4a232a466"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/18-undeclared-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/093-18-undeclared-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6381fc9ab0f8d212d474d7e12add3ec582133507a3355f6eac3865edb46c81b0"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/18-undeclared-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/094-18-undeclared-holes-follow-OSC11.png.gz",
+      "bytes": 939,
+      "sha256": "30964477465f158a94b0c6d1190c352095f8a8a1a72b4fb0a2b0e99a18dc385a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/19-raster-only-underlay-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/095-19-raster-only-underlay-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "89bbb2459c4637e499d3441e3747d7219dc01a9def492aadf217631020e2a054"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/19-raster-only-underlay-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/096-19-raster-only-underlay-before.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/20-raster-only-does-not-cover.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/097-20-raster-only-does-not-cover.bmp.gz",
+      "bytes": 333094,
+      "sha256": "89bbb2459c4637e499d3441e3747d7219dc01a9def492aadf217631020e2a054"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/20-raster-only-does-not-cover.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/098-20-raster-only-does-not-cover.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/21-first-zero-sixel-activates-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/099-21-first-zero-sixel-activates-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3b0b795d756d89cf2cd34793a4cbbbec7d4c2fb7c53cbebf0f12a75ee1e744b3"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/21-first-zero-sixel-activates-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/100-21-first-zero-sixel-activates-fill.png.gz",
+      "bytes": 783,
+      "sha256": "906d08869be23994ef58416836684410338eaaf020241c9c55cda03114355d42"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/22-transparent-zero-sixel-retains-underlay.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/101-22-transparent-zero-sixel-retains-underlay.bmp.gz",
+      "bytes": 333094,
+      "sha256": "89bbb2459c4637e499d3441e3747d7219dc01a9def492aadf217631020e2a054"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/22-transparent-zero-sixel-retains-underlay.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/102-22-transparent-zero-sixel-retains-underlay.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/103-checks.json.gz",
+      "bytes": 33619,
+      "sha256": "80ad8b7debcffdf1c2a69de6464e0a4672e6b6c28410b6430196e65af03d567e"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/104-child-control.json.gz",
+      "bytes": 351,
+      "sha256": "134bdecff6424383098973e63b7c10afed78c5c027557f527f66092d8b5b52a8"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-2eb46ca27b944df69f6a449ef40b425b/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/105-child-report.json.gz",
+      "bytes": 182,
+      "sha256": "d43df2c76b3354529f4f9b073a350fedeee4714dce9ae269c12b97e5e8226dd2"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel-background-gdi-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/106-sixel-background-gdi-observed.json.gz",
+      "bytes": 36016,
+      "sha256": "8b2e7f33bb94e3f6a3ec8de8d25e061fd513d12312bf374a75b4c0ba7b65fb6c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/research/sixel_background-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/107-sixel_background-controller.json.gz",
+      "bytes": 478,
+      "sha256": "de1a6bd9c5f0c26953a41dad4296f97ffea1576acb188be9677c08e3bdc0668a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-gdi/sixel_background.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/108-sixel_background.log.gz",
+      "bytes": 2741,
+      "sha256": "7b27512eb21bf389a58f6f703470892efa841f7551c3314dc2e6ba3298caccf1"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/109-controller.log.gz",
+      "bytes": 375,
+      "sha256": "c0ec98530bd2751b33cb3050265291ce93a11f7869d701763021bdca81cd4976"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/01-p2-0-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/110-01-p2-0-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/01-p2-0-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/111-01-p2-0-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/02-p2-1-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/112-02-p2-1-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e9a4c59013cca508fe81703205693e9ba33c902d7955d575db31c1ab8352ef45"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/02-p2-1-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/113-02-p2-1-implicit-colours.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/03-p2-2-implicit-colours.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/114-03-p2-2-implicit-colours.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/03-p2-2-implicit-colours.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/115-03-p2-2-implicit-colours.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/04-implicit-register3-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/116-04-implicit-register3-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "b34ba690e45ae4fd8d020e1372e53742b21c2d24fd86d8b5ad0977cce5e7ea3b"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/04-implicit-register3-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/117-04-implicit-register3-redefinition.png.gz",
+      "bytes": 788,
+      "sha256": "a820253cb50b24fecbfeddabdfdee8b083391826cb900e89144794370d9bce36"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/05-opaque-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/118-05-opaque-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "2002c862113b5866abcdf184ef9592e19ae476cef2ffa1a34e7ab7105765e457"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/05-opaque-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/119-05-opaque-register0-redefinition.png.gz",
+      "bytes": 796,
+      "sha256": "a376c88b90e45323bb42644c7cb3d6b233dbc9bec19ec4c8cd184e9ca1d4ee9c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/06-opaque-independent-of-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/120-06-opaque-independent-of-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3ceb1387826229685ed4d5948f6c53e19c0c4a4f97cd5843bbb93636df98ca68"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/06-opaque-independent-of-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/121-06-opaque-independent-of-OSC11.png.gz",
+      "bytes": 948,
+      "sha256": "cc6f44f697820f6f87ca9fbed411d6429b21cda25d5d42fdec9d20751d311a44"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/07-transparent-register0-redefinition.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/122-07-transparent-register0-redefinition.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e9a4c59013cca508fe81703205693e9ba33c902d7955d575db31c1ab8352ef45"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/07-transparent-register0-redefinition.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/123-07-transparent-register0-redefinition.png.gz",
+      "bytes": 786,
+      "sha256": "4dcade93dc043b2fb2a49e7884c956b275d769d54c24af514e84d4d803134c5f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/08-transparent-follows-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/124-08-transparent-follows-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "743a8ad033cbfefaa3450e916d53b25f51c6d4168f8f7e902a4b6b2133287a24"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/08-transparent-follows-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/125-08-transparent-follows-OSC11.png.gz",
+      "bytes": 927,
+      "sha256": "9561c3b3654b12872d288e169fa508cfb0bf4f0210081bba1dc7b53f76687a6a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/09-shared-and-private-background-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/126-09-shared-and-private-background-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "ca168beb3eb0ac70a1e3e5f35ca87af6b83556ce742843e3cc061b9d85c2b00c"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/09-shared-and-private-background-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/127-09-shared-and-private-background-before.png.gz",
+      "bytes": 806,
+      "sha256": "4e472fa94fb60373cc5de1a7c5431f7f4ae0b0bc37da61565b76131553b62c57"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/10-shared-background-CAN.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/128-10-shared-background-CAN.bmp.gz",
+      "bytes": 333094,
+      "sha256": "69bc1ca38fc403f5a4dcea1ce50a506c88f5828b4a477f9d4dd08cf2309c9fba"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/10-shared-background-CAN.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/129-10-shared-background-CAN.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/11-soft-reset-retains-background-ownership.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/130-11-soft-reset-retains-background-ownership.bmp.gz",
+      "bytes": 333094,
+      "sha256": "69bc1ca38fc403f5a4dcea1ce50a506c88f5828b4a477f9d4dd08cf2309c9fba"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/11-soft-reset-retains-background-ownership.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/131-11-soft-reset-retains-background-ownership.png.gz",
+      "bytes": 808,
+      "sha256": "8bd836200bd9f53bffce377b72af19e104b58c09c79b49327f8a6885217fca41"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/12-background-redefinition-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/132-12-background-redefinition-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3b85b94ea33144fa4da65abcc291f1202625d339b04787b2cc7cbf86b8c81996"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/12-background-redefinition-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/133-12-background-redefinition-after-soft-reset.png.gz",
+      "bytes": 808,
+      "sha256": "911577b761667f7e79387786e8d02a467fd900538f5023ac1b764389e3d7ed17"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/13-RIS-clears-background-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/134-13-RIS-clears-background-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "04fdd93f717fd804a8ecc8e756a687e0eed243f9f2366d787908c9f29fa77f99"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/13-RIS-clears-background-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/135-13-RIS-clears-background-images.png.gz",
+      "bytes": 773,
+      "sha256": "eb24f3039c68bd40fc3020cef85ad2e0fabb6cea66553e30ef38d4ae0216ed2d"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/14-shared-defaults-after-RIS.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/136-14-shared-defaults-after-RIS.bmp.gz",
+      "bytes": 333094,
+      "sha256": "f09498d01f6c8ba6f0a2d5f7e3f3f3d4eb100142a3072fec507c94fd92b41169"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/14-shared-defaults-after-RIS.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/137-14-shared-defaults-after-RIS.png.gz",
+      "bytes": 794,
+      "sha256": "fb04fc8414365dc83f111303091931dd47148187509d45cc81518e1b4c5bfe69"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/15-no-raster-sparse-opaque.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/138-15-no-raster-sparse-opaque.bmp.gz",
+      "bytes": 333094,
+      "sha256": "b820eda183fdcd43e8d2a18cd91ee78b8fee35c37d7c6b76a0e454ea576bb3f5"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/15-no-raster-sparse-opaque.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/139-15-no-raster-sparse-opaque.png.gz",
+      "bytes": 790,
+      "sha256": "ba9fcd35f7b72e66f69dd8fb501a3080be97054c5a4c71d526b7d9532bfe2014"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/16-no-raster-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/140-16-no-raster-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "1bba7609b3bae4b2d8e3dbfce448c51a186559339826492990fa0adb25b73bcf"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/16-no-raster-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/141-16-no-raster-holes-follow-OSC11.png.gz",
+      "bytes": 932,
+      "sha256": "4c6134dd761fc5032872e8460c7e69e610515c5a26dc2483c3acb7ed8453eebd"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/17-set-pixels-outside-declared-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/142-17-set-pixels-outside-declared-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "2fd30215651331ba5a22563f8628954ea0a22a9874205e0a35dcc8c0a0f1f762"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/17-set-pixels-outside-declared-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/143-17-set-pixels-outside-declared-fill.png.gz",
+      "bytes": 795,
+      "sha256": "8f66ed2a65ab8bf4b2cad4681714202961d53c40a7161fdf95c398a4a232a466"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/18-undeclared-holes-follow-OSC11.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/144-18-undeclared-holes-follow-OSC11.bmp.gz",
+      "bytes": 333094,
+      "sha256": "4944f332fe08c09133d204d412c4d3e8d47840c4bc3fbc21a979865664235f9e"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/18-undeclared-holes-follow-OSC11.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/145-18-undeclared-holes-follow-OSC11.png.gz",
+      "bytes": 939,
+      "sha256": "30964477465f158a94b0c6d1190c352095f8a8a1a72b4fb0a2b0e99a18dc385a"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/19-raster-only-underlay-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/146-19-raster-only-underlay-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/19-raster-only-underlay-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/147-19-raster-only-underlay-before.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/20-raster-only-does-not-cover.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/148-20-raster-only-does-not-cover.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/20-raster-only-does-not-cover.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/149-20-raster-only-does-not-cover.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/21-first-zero-sixel-activates-fill.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/150-21-first-zero-sixel-activates-fill.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0caba3f43284254f3e424bcadaea6ed418481fb384fa5c2e02c0e8378da47a58"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/21-first-zero-sixel-activates-fill.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/151-21-first-zero-sixel-activates-fill.png.gz",
+      "bytes": 783,
+      "sha256": "906d08869be23994ef58416836684410338eaaf020241c9c55cda03114355d42"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/22-transparent-zero-sixel-retains-underlay.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/152-22-transparent-zero-sixel-retains-underlay.bmp.gz",
+      "bytes": 333094,
+      "sha256": "231f3745c92a255605ef86d845f26b3af8d415233cbf0562afc0f4813eac0eb6"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/22-transparent-zero-sixel-retains-underlay.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/153-22-transparent-zero-sixel-retains-underlay.png.gz",
+      "bytes": 783,
+      "sha256": "e675037b8cc9ed8d90e933346e9227d7fa885a60bb4cdb8c6820806b06962d2f"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/154-checks.json.gz",
+      "bytes": 33619,
+      "sha256": "b28022b5b868d43551f0a213e8e47010267dca58654d879491629771b49a0a27"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/155-child-control.json.gz",
+      "bytes": 351,
+      "sha256": "134bdecff6424383098973e63b7c10afed78c5c027557f527f66092d8b5b52a8"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-26da321c196c4b5cb804336df709eedf/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/156-child-report.json.gz",
+      "bytes": 182,
+      "sha256": "d43df2c76b3354529f4f9b073a350fedeee4714dce9ae269c12b97e5e8226dd2"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel-background-opengl-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/157-sixel-background-opengl-observed.json.gz",
+      "bytes": 36048,
+      "sha256": "f8b88264ca4a65ef35fe10734850724f695a77905f18a7d9a4f013ce26d02ab7"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/research/sixel_background-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/158-sixel_background-controller.json.gz",
+      "bytes": 478,
+      "sha256": "aa1596d2b2ea05b7b1038047f6b025cfd45e177dbcbcc5af0fe18c3dc549de98"
+    },
+    {
+      "path": "build/ci-integrated-local/background-opengl/sixel_background.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/159-sixel_background.log.gz",
+      "bytes": 2744,
+      "sha256": "11a385c646237438fd43314a51b2ce6b812d9b3a63fb71df527be3283f371821"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/160-controller.log.gz",
+      "bytes": 366,
+      "sha256": "f12f5c08c32ba987d193fe583e788c29d6ab7ac471f014af3feac66cf8b62b7d"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/research/tabs-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/161-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "b92ff76fbc46889f4b51336727173beea0ef78c714d4593aecb4e113a77a19bc"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/162-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1483043,
+      "sha256": "4cb3a4889d9158f861cefb8ccca04afa2fee3735db50234b7f605b8abbaf35d2"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/163-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 183972,
+      "sha256": "08a75bef65709b1e573e60dc21243e2a53c3f6842eb6449efbce14d74b1376b4"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/164-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-directx/tabs.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/165-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/166-controller.log.gz",
+      "bytes": 366,
+      "sha256": "83ccaee4bef8ce508b17921efd7aec7bb41c52573a05571d30ef9d90710d0cc7"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/research/tabs-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/167-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "f48f9b2b82d4f40a783ad0144bab2b89e8dc91b718a62ef87217c816ef3b671b"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/168-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/169-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1517248,
+      "sha256": "15e1bf0b51a86c8148a6101efc9574c9ef5fde915bf4894c8663c800683b478d"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/170-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 175911,
+      "sha256": "885623613baf0ac3a8add283732af958789559f74e24e4879090f692883fceae"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/171-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ci-integrated-local/memory-gdi/tabs.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/172-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/173-controller.log.gz",
+      "bytes": 372,
+      "sha256": "5f9034d8bb58fee19783eff584d44e3923e6ffbcea340e06b094ab1e93bc938b"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/174-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/01-private-same-dcs-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/175-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/176-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/02-private-same-dcs-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/177-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/178-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/03-shared-same-dcs.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/179-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/04-private-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/180-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/04-private-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/181-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/05-private-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/182-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0141442f22c22ebba9994b4cda7c83bd9c6f0f33d5b4a775af641341d7ad03b9"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/05-private-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/183-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/184-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6c793643296ad72ed2aadc4a8e9fdbc5ce98579824da24c53f5645803b5156ff"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/185-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/186-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "d3d545c0531af857df7d974e15b6281b1ca247c4749aebd65c3674c3c8187a14"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/07-overwrite-register-identity.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/187-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/08-shared-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/188-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/08-shared-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/189-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/09-shared-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/190-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3fa1b531245882036168f58d199f2cb73a0837ebad2248dc2e039e2f75f6472d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/09-shared-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/191-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/10-shared-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/192-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/10-shared-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/193-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/11-private-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/194-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/11-private-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/195-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/196-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/197-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/198-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/13-shared-mode-restored.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/199-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/200-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/201-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/202-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/203-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/204-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "24a1d50ccaa822c44c60160725a20a9608a13df1e4e30ed3ff550b59609d2e90"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/205-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/206-checks.json.gz",
+      "bytes": 15611,
+      "sha256": "e48de6f3565c642d150dc57aa192fd59262045ff083e5525f7ad2ab72519b24e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/207-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-81a38ad5fb51417dab40e46cf36154aa/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/208-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel-palette-directx-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/209-sixel-palette-directx-observed.json.gz",
+      "bytes": 18002,
+      "sha256": "a8f13beddb5990da37a54215f543b83b21825a59ad6bb9bee66ac7c1a2fa1118"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/research/sixel_palette-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/210-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "58d41db3c470ab91a684c82ec0b5af00c70f0a6050055ff1bce41e3fd157cbbd"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-directx/sixel_palette.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/211-sixel_palette.log.gz",
+      "bytes": 1006,
+      "sha256": "d5f74ec5a40dd26ee88fcc366273c47f752ec0cbf5ff676994ae840a7a2f60f6"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/212-controller.log.gz",
+      "bytes": 372,
+      "sha256": "7809ebd3568338fd5067527dac2676920425569a8837b769d18027802982049c"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/213-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/01-private-same-dcs-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/214-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/215-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c85a35e52ced365fa419681fe9fe4981a9c26aaad08e79dfc298ba83dde2346c"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/02-private-same-dcs-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/216-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/217-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c85a35e52ced365fa419681fe9fe4981a9c26aaad08e79dfc298ba83dde2346c"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/03-shared-same-dcs.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/218-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/04-private-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/219-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/04-private-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/220-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/05-private-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/221-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "4fb9b523498e507249b52a13953de97a9030171a9480392c6759161350d39191"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/05-private-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/222-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/223-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0d0419e0117a02b72d749e4b72fc80cf91138690e6efff49fc6aeac95be67dff"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/224-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/225-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5845211c6d8bd0f4578fbf14897e5041894fdd7fb0c7cf099653831615386907"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/07-overwrite-register-identity.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/226-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/08-shared-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/227-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/08-shared-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/228-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/09-shared-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/229-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c56d9d30c44109c114404582e4069d5294aec3df09959ecbe5a828b183c00f50"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/09-shared-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/230-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/10-shared-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/231-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0a3d3f0f15c03c7cf2f65e302be7795530ab8e8c2dc5f1efaa6cb375a7cc15a9"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/10-shared-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/232-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/11-private-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/233-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0a3d3f0f15c03c7cf2f65e302be7795530ab8e8c2dc5f1efaa6cb375a7cc15a9"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/11-private-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/234-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/235-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a917e686d4846437f662218203dfa0cfbbe63bff75cabb681c636d796eb2e7dd"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/236-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/237-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "21896b2f2eb1d12f5825283e8db5f98d93dfaaf5ae642760fa91a72c74c921e3"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/13-shared-mode-restored.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/238-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/239-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "21896b2f2eb1d12f5825283e8db5f98d93dfaaf5ae642760fa91a72c74c921e3"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/240-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/241-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a917e686d4846437f662218203dfa0cfbbe63bff75cabb681c636d796eb2e7dd"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/242-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/243-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "77eb875544ba7627342926c1112234d5c5e90ff7cca4f9fa9b44d40a67bf4189"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/244-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/245-checks.json.gz",
+      "bytes": 15611,
+      "sha256": "eeaa321507dd22aa6b42c072d2a62e2939bbbaa8085bfae353866a3a7770cb8a"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/246-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-5acfa254c60b4e3bb33bf0731eba6956/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/247-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel-palette-gdi-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/248-sixel-palette-gdi-observed.json.gz",
+      "bytes": 17960,
+      "sha256": "8b78563dc9ec418cef1c7cabac8af4bb2b1106a0fedda92face56288be497038"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/research/sixel_palette-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/249-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "60a040aa9440b4168cf3e9ae72ed72e2b4910479efe2ee36cc42037557851411"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-gdi/sixel_palette.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/250-sixel_palette.log.gz",
+      "bytes": 1002,
+      "sha256": "bb700373382a79ce0e44c857254b8df6377f8798a638f0e0af4ab951dc7aaa8e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/251-controller.log.gz",
+      "bytes": 372,
+      "sha256": "37d62fc49e7b04ecdfc89f5f692857ec056e3baa5d3c029f02117c80c9ea0e94"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/252-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/01-private-same-dcs-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/253-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/254-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/02-private-same-dcs-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/255-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/256-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/03-shared-same-dcs.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/257-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/04-private-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/258-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/04-private-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/259-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/05-private-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/260-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0141442f22c22ebba9994b4cda7c83bd9c6f0f33d5b4a775af641341d7ad03b9"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/05-private-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/261-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/262-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6c793643296ad72ed2aadc4a8e9fdbc5ce98579824da24c53f5645803b5156ff"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/263-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/264-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "d3d545c0531af857df7d974e15b6281b1ca247c4749aebd65c3674c3c8187a14"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/07-overwrite-register-identity.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/265-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/08-shared-cross-before.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/266-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/08-shared-cross-before.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/267-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/09-shared-cross-after.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/268-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3fa1b531245882036168f58d199f2cb73a0837ebad2248dc2e039e2f75f6472d"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/09-shared-cross-after.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/269-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/10-shared-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/270-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/10-shared-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/271-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/11-private-cancel.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/272-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/11-private-cancel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/273-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/274-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/275-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/276-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/13-shared-mode-restored.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/277-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/278-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/279-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/280-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/281-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-enclosure-integration-ci-records/282-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "24a1d50ccaa822c44c60160725a20a9608a13df1e4e30ed3ff550b59609d2e90"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/283-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/checks.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/284-checks.json.gz",
+      "bytes": 15611,
+      "sha256": "e48de6f3565c642d150dc57aa192fd59262045ff083e5525f7ad2ab72519b24e"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/child-control.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/285-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-df994678e3db43cfb5256af291ac9b98/child-report.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/286-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel-palette-opengl-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/287-sixel-palette-opengl-observed.json.gz",
+      "bytes": 17992,
+      "sha256": "bdfba6ca7657a9aa3005c5bf3e44cd79ee1cce8107d9a604afc8a15912d76481"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/research/sixel_palette-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/288-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "29cf1f5bc4e16ce24eab84bb97a7cb05202cb7ed57da43fc7056868feb3e3878"
+    },
+    {
+      "path": "build/ci-integrated-local/palette-opengl/sixel_palette.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/289-sixel_palette.log.gz",
+      "bytes": 1005,
+      "sha256": "e01c73d3ff6b3ea58a9e7f53e22bdd3809a17cf8af16b4bdfcb542252768c93a"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/290-controller.log.gz",
+      "bytes": 370,
+      "sha256": "d1fdd716b3583b9d9321cb22dd78413775819ec2a0244d7aeb4b2140c9aaca16"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/renderer.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/291-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "76bbc752482e1e6c76ad53945513a8b76e0cb08331077797ddd858f728e9d678"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/292-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/293-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/294-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/295-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/296-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/297-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/298-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/299-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/300-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/301-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-enclosures.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/302-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-expose.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/303-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/304-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-overline.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/305-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-palette.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/306-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-resize.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/307-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-sixel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/308-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-sync-end.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/309-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/310-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-0-text.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/311-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/312-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/313-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/314-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-active-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/315-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-active-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/316-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-active-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/317-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/318-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/319-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/320-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-enclosures-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/321-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-enclosures.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/322-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-expose.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/323-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-overline-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/324-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-overline.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/325-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-palette.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/326-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-resize.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/327-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-sixel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/328-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-sync-end.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/329-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/330-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-1-text.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/331-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/332-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/333-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/334-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-active-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/335-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-active-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/336-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-active-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/337-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/338-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/339-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/340-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-enclosures-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/341-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-enclosures.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/342-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-expose.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/343-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-overline-double-size.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/344-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-overline.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/345-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-palette.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/346-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-resize.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/347-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-sixel.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/348-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-sync-end.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/349-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-sync-frozen.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/350-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-2-text.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/351-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/352-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "20062b16e6e06d70eee04e335f600c24d9a100e1c46ac3b20ba01750b678bedf"
+    },
+    {
+      "path": "build/ci-integrated-local/renderer/research/renderer-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/353-renderer-observed.json.gz",
+      "bytes": 8357,
+      "sha256": "9dda2fc8f394368c381fd618928efc089fe5878418757716b6b12c58f084e9f6"
+    },
+    {
+      "path": "build/ci-integrated-local/results.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/354-results.json.gz",
+      "bytes": 997,
+      "sha256": "ce0242ceefdef0311e18fcf0bb0d9e5b27532d88c824dbb49c7df80db4b8a35f"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/355-controller.log.gz",
+      "bytes": 364,
+      "sha256": "c69f4ff52c5932ab86b4f5c48f9adcd926257721f8f07a0f2e3c0153c7c5d9f0"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/research/sixel-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/356-sixel-controller.json.gz",
+      "bytes": 467,
+      "sha256": "ecd1f94edcdbf6298e689f76882e2b2c57922de6c10555acc6a3c0c4cc10ce06"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/research/sixel-partial-scroll.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/357-sixel-partial-scroll.png.gz",
+      "bytes": 673,
+      "sha256": "39cac33bf0f3517174ae302e0e2fea7a808418213a527e23d801f13cdc3c24c9"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/research/sixel-resize-retained.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/358-sixel-resize-retained.png.gz",
+      "bytes": 772,
+      "sha256": "d2b39d9a0e8fecb11945ad89cb7bcf9faf14d9843c5a7b3b040c4a28fbfb42e0"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/research/sixel-window-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/359-sixel-window-observed.json.gz",
+      "bytes": 4519,
+      "sha256": "0fc244a8bb50138e26850beeef9c6f4c27f73041db4b4b780e94720524727591"
+    },
+    {
+      "path": "build/ci-integrated-local/sixel-resize/sixel.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/360-sixel.log.gz",
+      "bytes": 2832,
+      "sha256": "40f72cd0e157ac1be8a6490cba3e5616b54811811be1a080c6ba4723075b0c88"
+    },
+    {
+      "path": "build/ci-integrated-local/wire/controller.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/361-controller.log.gz",
+      "bytes": 369,
+      "sha256": "82d3f1b6f9882295fb03bbc96bb572239ab187da3cabca47b4b4fab446c9a57e"
+    },
+    {
+      "path": "build/ci-integrated-local/wire/research/sgr-stack-observed.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/362-sgr-stack-observed.json.gz",
+      "bytes": 61585,
+      "sha256": "e1ef9425c3c05ef112e159892b6cc0974547f3ab2d6c476af196259ea7c3e32d"
+    },
+    {
+      "path": "build/ci-integrated-local/wire/research/sgr-stack-window.png",
+      "archive": "research/sixel-enclosure-integration-ci-records/363-sgr-stack-window.png.gz",
+      "bytes": 3669,
+      "sha256": "ca6a83eb0432b7cef707e7692d0ccf7e31f0a31586174334c0e5f7a70c4bc63d"
+    },
+    {
+      "path": "build/ci-integrated-local/wire/research/sgr_stack-controller.json",
+      "archive": "research/sixel-enclosure-integration-ci-records/364-sgr_stack-controller.json.gz",
+      "bytes": 472,
+      "sha256": "2f7272afd6e3cef673a0eee92929f23652787727bd20fc8d46974ad90c504cb5"
+    },
+    {
+      "path": "build/ci-integrated-local/wire/sgr_stack.log",
+      "archive": "research/sixel-enclosure-integration-ci-records/365-sgr_stack.log.gz",
+      "bytes": 56,
+      "sha256": "0251ecbbd59f7528851e2d668187c9ebf8424853316d196ff2697f70c4186bb2"
+    },
+    {
+      "path": "build/retain-ci-integrated-evidence.py",
+      "archive": "research/sixel-enclosure-integration-ci-records/366-retain-ci-integrated-evidence.py.gz",
+      "bytes": 2095,
+      "sha256": "837effa9641feb8267b42c7b1e1e6478fc7caf65b8d4d9e14b824d39b57dbbae"
+    },
+    {
+      "path": "build/watch-integrated-ci.py",
+      "archive": "research/sixel-enclosure-integration-ci-records/367-watch-integrated-ci.py.gz",
+      "bytes": 2567,
+      "sha256": "01f3cd09acd99296df5ec463bbb0920718a312e0ea43c3e854e8d66c0916b417"
+    }
+  ]
+}

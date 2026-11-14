@@ -2,7 +2,9 @@
 
 Local merge `4e4bbc7` combines the Sixel background branch `9f9cdbb`, SGR
 enclosure branch `87b7bd5` and menu/resource-observation branch `f2f7dbc`.
-The merge is clean. This is an integration candidate, not the accepted download.
+The merge is clean. This document records the local candidate before acceptance;
+its later [CI artifact and local acceptance](sixel-enclosure-integration-ci.md)
+now supply the accepted download.
 The earlier individual branch failures remain in their original records.
 
 The locally linked single executable is 4,511,744 bytes, SHA-256
@@ -58,7 +60,7 @@ The [manifest](sixel-enclosure-integration-validation.json) verifies 398 compres
 records (1,195,201 bytes): compiler commands/results, the failed strict command,
 native pixels/replies, all memory samples, executable provenance and cleanup.
 These are local observations, not REA-server Evidence. Full integration CI and
-downloaded-artifact verification remain required before merging to main or
-replacing the accepted executable. This checkpoint does not complete physical
+downloaded-artifact verification subsequently passed as recorded in the linked
+CI checkpoint. This checkpoint does not complete physical
 IME/multi-monitor, long real-agent sessions, remaining SGR/graphics or exhaustive
 xterm compatibility work.
