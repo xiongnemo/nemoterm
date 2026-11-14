@@ -50,7 +50,8 @@ retained accounting nodes when accounting is disabled. A remote native fixture
 observes actual MessageBeep calls without replacing the function or its return
 value; disabled and visual modes must not call it. This establishes API dispatch,
 not audible speaker output. The resumed local visual-pixel result is recorded
-below; custom WAV/PC-speaker operation and local audible acceptance remain open.
+below. The user also confirmed hearing the default Windows sound in the resumed
+local test. Custom WAV/PC-speaker operation remains open.
 
 ## Verification
 
@@ -189,10 +190,24 @@ This uses the opted-in renderer image API without target injection, timing
 patches or global input. It captures the retained renderer surface, not the
 physical desktop compositor, and does not measure memory. Six original
 normal/flash PNGs and the raw observations are retained in the validation
-record. The fixture is added to regular core/single-image CI and focused replay;
-remote verification of the new fixture remains pending.
+record. The fixture is added to regular core/single-image CI and focused replay.
+The [focused replay](https://github.com/xiongnemo/nemoterm/actions/runs/43618369395)
+passes at fixture `4c0e8a37826fcf6274f0138597cefe89ff79609c` against unchanged
+production source `9bef90786e2bc1ccb8edbc180ac369b00c98ea4b`. Its isolated image
+is 4,486,656 bytes, SHA-256
+`cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466`.
+Zoom, mixed tabs, real bell API dispatch and visual pixels all pass. The remote
+OpenGL request falls back to GDI; it is not evidence of remote OpenGL rendering.
+Local OpenGL pixels above use the original `69cd5a4` image. Complete application
+CI and exact-image local acceptance of the new cache candidate remain pending.
 
 A separate attempt to exercise physical keyboard/wheel input through the
 computer-use helper made zero input actions: all three connection attempts,
 including a kernel reset, reported that the native pipe was unavailable. The
 owned fixture closed naturally. This attempt is not a passed input test.
+
+The user answered the earlier listening question with “听到了” (heard it).
+Combined with the actual `MessageBeep(MB_OK)` call and successful API return,
+this accepts the default Windows audible-bell path on the local `69cd5a4` image.
+It does not establish custom WAV playback, PC-speaker behavior or a waveform
+measurement, and is not attributed to the newer cache/replay executable.
