@@ -11,7 +11,7 @@ def child():
     folder=Path(sys.argv[2]);pid=os.getpid()
     os.write(1,f'\x1b[2J\x1b[HRECT_CHILD_{pid}'.encode())
     sys.argv=[str(root/'tests/mouse_fixture.py'),str(folder/f'{pid}.json'),
-              str(folder/f'{pid}.control'),'180']
+              str(folder/f'{pid}-control.json'),'180']
     runpy.run_path(sys.argv[0],run_name='__main__')
 
 
@@ -60,7 +60,9 @@ def main():
                     def send(sid,pid,sequence):
                         nonlocal serial
                         serial+=1
-                        write_snapshot(folder/f'{pid}.control',dict(phase=serial,sequence=sequence+'\x1b[5n'))
+                        # write_snapshot uses with_suffix('.tmp'); report and
+                        # control must have different stems, not just suffixes.
+                        write_snapshot(folder/f'{pid}-control.json',dict(phase=serial,sequence=sequence+'\x1b[5n'))
                         wait_snapshot(lambda:read_snapshot(folder/f'{pid}.json'),lambda a:
                             a.get('phase')==serial and b'\x1b[0n' in bytes.fromhex(a.get('hex','')))
                         u.SendMessageW(target(sid)['hwnd'],0x8,0,0)
@@ -115,7 +117,7 @@ def main():
                     api.request(endpoint,'key',second['id'],struct.pack('<II',9,3))
                     wait_for(lambda:target(first['id'])['active'])
                     compare(first['id'],image(first['id']),'reactivated presentation')
-                    for pid in (first_pid,second_pid):write_snapshot(folder/f'{pid}.control',dict(stop=True))
+                    for pid in (first_pid,second_pid):write_snapshot(folder/f'{pid}-control.json',dict(stop=True))
                     assert process.wait(timeout=10)==0
                     item['cleanup']=job.finish(grace=5);assert not item['cleanup']['terminated_remaining']
                     item['completed']=True

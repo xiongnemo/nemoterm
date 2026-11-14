@@ -1,0 +1,73 @@
+name: Rectangle capture artifact replay
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/image-rectangle-replay.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  replay:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: f6b3d6412ef3f6fb6ad607b3c00968459fdc500b
+      SOURCE_RUN: '43622372607'
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify unchanged production and isolate the original built image
+        shell: pwsh
+        run: |
+          git diff --exit-code $env:SOURCE_COMMIT HEAD -- vendor/putty-0.85 native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+          if ($LASTEXITCODE) { throw 'Production differs from the original image' }
+          gh run download $env:SOURCE_RUN --name "source-console-host-x64-$env:SOURCE_COMMIT" --dir build/capture-source
+          if ($LASTEXITCODE) { throw 'Source artifact download failed' }
+          $manifest = Get-Content build/capture-source/SOURCE-HOST.json -Raw | ConvertFrom-Json
+          $exe = Get-Item build/capture-source/nemoterm.exe
+          $digest = (Get-FileHash $exe.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($manifest.SourceCommit -ne $env:SOURCE_COMMIT -or $manifest.Executable.SHA256 -ne $digest -or $manifest.Executable.Bytes -ne $exe.Length) { throw 'Source image identity mismatch' }
+          New-Item -ItemType Directory -Force build/capture-product, build/capture-evidence | Out-Null
+          Copy-Item $exe.FullName build/capture-product/nemoterm.exe
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path build/capture-product/nemoterm.exe).Path
+          "NEMOTERM_TEST_EXE=$env:NEMOTERM_TEST_EXE" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          [ordered]@{
+            source_commit = $env:SOURCE_COMMIT
+            fixture_commit = (git rev-parse HEAD).Trim()
+            source_run = $env:SOURCE_RUN
+            executable_sha256 = $digest
+            executable_bytes = $exe.Length
+            execution_directory_files = @(Get-ChildItem build/capture-product -File | ForEach-Object Name)
+            scope = 'Corrected mailbox fixture against unchanged production; not memory acceptance'
+          } | ConvertTo-Json | Set-Content build/capture-evidence/identity.json -Encoding utf8
+      - name: Install native comparison dependency
+        run: python -m pip install frida==17.24.3
+      - name: Compare rectangle pixels and frozen-tab lifetime
+        shell: pwsh
+        run: |
+          python tests/image_rectangle_window_smoke.py 2>&1 | Tee-Object build/capture-evidence/rectangle.log
+          exit $LASTEXITCODE
+      - name: Verify existing full-frame API behavior
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi','directx')) {
+            python tests/automation_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "build/capture-evidence/automation-$renderer.log"
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+      - name: Retain complete observations
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force build/capture-evidence | Out-Null
+          Copy-Item research/image-rectangle-observed.json, research/automation-*-observed.json build/capture-evidence/ -ErrorAction SilentlyContinue
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rectangle-replay-${{ github.sha }}
+          path: build/capture-evidence/
+          retention-days: 14
