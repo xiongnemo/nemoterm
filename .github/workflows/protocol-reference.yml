@@ -144,7 +144,7 @@ jobs:
               filesystem_observation_paths=[str(output)], events=[],
               terminal=dict(columns=120, rows=40, scrollback=100),
               timeout_ms=60000, idle_timeout_ms=20000, finalization_ms=2000,
-              limits=dict(output_bytes=262144, file_bytes=262144, files=10,
+              limits=dict(output_bytes=262144, file_bytes=524288, files=10,
                           filesystem_depth=1, processes=16))
           (base / 'scenario.json').write_text(json.dumps(scenario, indent=2) + '\n')
           PY
@@ -167,6 +167,7 @@ jobs:
           assert not capture['truncated'], capture['truncated']
           observed = json.loads((base / 'observations.json').read_text())
           assert observed['status'] == 'complete' and observed['case_count'] == 43, observed.get('status')
+          assert observed['state_count'] == 101, observed['state_count']
           digest = hashlib.sha256((base / 'observations.json').read_bytes()).hexdigest()
           assert any(x.get('sha256') == digest for x in capture['files_after']), 'Observation digest missing from REA snapshot'
           summary = dict(evidence_id=evidence['evidence_id'],
