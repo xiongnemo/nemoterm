@@ -144,7 +144,9 @@ try:
             evidence['checks'].append('frozen pixels survive destroying and recreating the shared renderer')
             for helper in captures:helper.close()
             captures=[];session.detach();session=None
-            u.PostMessageW(host,0x10,0,0);assert process.wait(timeout=15)==0
+            u.PostMessageW(host,0x10,0,0)
+            evidence['frontend_exit']=process.wait(timeout=15)
+            assert evidence['frontend_exit']==0,evidence['frontend_exit']
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['completed']=True
