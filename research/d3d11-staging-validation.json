@@ -1,0 +1,1238 @@
+{
+  "source_base": "3d10a8564ed5ed5d83e0ad722001774a6487e5af",
+  "executable": {
+    "sha256": "9300a9cd87fc9f9fc4dff39408c07221addce0febc70e0b7b7fa2f7a3fee42c0",
+    "bytes": 4523520
+  },
+  "scope": "32-row DirectX staging experiment; local functional/memory pass, CI pending; default executable unchanged",
+  "results": [
+    {
+      "name": "before-directx-images",
+      "exit_code": 1,
+      "samples": 672,
+      "peaks": {
+        "count": 1,
+        "private_ws": 25034752,
+        "total_ws": 65105920,
+        "private_commit": 87969792
+      }
+    },
+    {
+      "name": "after-renderer",
+      "exit_code": 0
+    },
+    {
+      "name": "after-static-images",
+      "exit_code": 0
+    },
+    {
+      "name": "after-gif-animation",
+      "exit_code": 0
+    },
+    {
+      "name": "after-directx",
+      "exit_code": 0,
+      "samples": 548,
+      "peaks": {
+        "count": 1,
+        "private_ws": 23875584,
+        "total_ws": 63348736,
+        "private_commit": 92762112
+      }
+    },
+    {
+      "name": "after-directx-images",
+      "exit_code": 0,
+      "samples": 710,
+      "peaks": {
+        "count": 1,
+        "private_ws": 24608768,
+        "total_ws": 64692224,
+        "private_commit": 88510464
+      }
+    },
+    {
+      "name": "after-gdi-images",
+      "exit_code": 0,
+      "samples": 677,
+      "peaks": {
+        "count": 1,
+        "private_ws": 17854464,
+        "total_ws": 45326336,
+        "private_commit": 20496384
+      }
+    }
+  ],
+  "records": [
+    {
+      "path": "build/build-staging.log",
+      "archive": "research/d3d11-staging-records/000-build-staging.log.gz",
+      "bytes": 17822,
+      "sha256": "4d1c2816231262e0327e9e37b1c127da11e903fe512347d7d7242a4ac310e67f"
+    },
+    {
+      "path": "build/check-staging.py",
+      "archive": "research/d3d11-staging-records/001-check-staging.py.gz",
+      "bytes": 2233,
+      "sha256": "6016986daf6fa19e8e086b42abde1e1ba9b02fdfebd13859a2424b8d545ee697"
+    },
+    {
+      "path": "build/configure-staging.log",
+      "archive": "research/d3d11-staging-records/002-configure-staging.log.gz",
+      "bytes": 3101,
+      "sha256": "1cc56333365c57b33a664075b5446355ba1a70692730ead8c013f9b18deb3597"
+    },
+    {
+      "path": "build/link-staging-01.py",
+      "archive": "research/d3d11-staging-records/003-link-staging-01.py.gz",
+      "bytes": 1402,
+      "sha256": "b53ac3e370caf2c784a02b3c6c46ac5ec0e0d2a7ff90431aaafe6dc9a9a9ca90"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/controller.log",
+      "archive": "research/d3d11-staging-records/004-controller.log.gz",
+      "bytes": 366,
+      "sha256": "7c41c429d318394d406e2a6ab6e6a616698df789bfa9672f70da04254dd42729"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/research/tabs-controller.json",
+      "archive": "research/d3d11-staging-records/005-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "54da5cc7ec5f9dfcba19b44d463b8329b555fe228ebeb10e0861e3cafdf83c01"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-staging-records/006-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1543705,
+      "sha256": "908578b5418d093f9b02aca9d676033ae29a8e49096af4ed7b8028643f825fdd"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-staging-records/007-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 179723,
+      "sha256": "79a978f507bf289e357619a44361d1baf725349f83382bbeff0591840684a772"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-staging-records/008-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/staging-comparison/after-directx/tabs.log",
+      "archive": "research/d3d11-staging-records/009-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/controller.log",
+      "archive": "research/d3d11-staging-records/010-controller.log.gz",
+      "bytes": 366,
+      "sha256": "6cc868896b734cbca6f5b2644eea54bc54f04b3025f12ef57a5754b07eb39b15"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/research/inline-workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-staging-records/011-inline-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1992430,
+      "sha256": "5afb39ecf6f998a389536577df7b3bec660e94ab2ec58df83bfce20b93b0f506"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/research/inline-workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-staging-records/012-inline-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 182434,
+      "sha256": "d7ed2b8edbf22ac4054f1448b54691f9eeaba6a22b546a1ff2570ea4a589d23e"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/research/inline-workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-staging-records/013-inline-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/research/tabs-controller.json",
+      "archive": "research/d3d11-staging-records/014-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "3e00e68f2b3cd458e9faffdeecdd5aa9edee155ca6a1d2746a12adb42cee67b7"
+    },
+    {
+      "path": "build/staging-comparison/after-directx-images/tabs.log",
+      "archive": "research/d3d11-staging-records/015-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/controller.log",
+      "archive": "research/d3d11-staging-records/016-controller.log.gz",
+      "bytes": 366,
+      "sha256": "5c35d1b09cda622c9cf8dd2bd4a016e94bc05aaa04110b8764219aa1b23b9a92"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/research/inline-workload-tabs-gdi-top-memory.json",
+      "archive": "research/d3d11-staging-records/017-inline-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1900312,
+      "sha256": "f8a14cf5cb852d460f808f621a0f49d2b7a8d79d0b8f97ede8e3153a81ec383b"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/research/inline-workload-tabs-gdi-top-observed.json",
+      "archive": "research/d3d11-staging-records/018-inline-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 176180,
+      "sha256": "75966543d788062bea9b737bd35150100c91f9a4a4356cf99fb6edfbae30fa12"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/research/inline-workload-tabs-gdi-top-preview.png",
+      "archive": "research/d3d11-staging-records/019-inline-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/research/tabs-controller.json",
+      "archive": "research/d3d11-staging-records/020-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "a8a2936dc4c973c2637356d01e8103cd7e093b5a0514d8c5ca1f5d67ef931965"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/research/tabs-gdi-top-host.png",
+      "archive": "research/d3d11-staging-records/021-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/staging-comparison/after-gdi-images/tabs.log",
+      "archive": "research/d3d11-staging-records/022-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/controller.log",
+      "archive": "research/d3d11-staging-records/023-controller.log.gz",
+      "bytes": 372,
+      "sha256": "e7c5a7fa663f6da7cc4d38a787c269e1f0ff940f3554058a6f663d4288cfb43b"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/gif_animation.log",
+      "archive": "research/d3d11-staging-records/024-gif_animation.log.gz",
+      "bytes": 6376,
+      "sha256": "a6630adaf7877a5d86da15eed19fee484808040159a51e67c7cfb3ed7cf4537e"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/01-infinite-red.png",
+      "archive": "research/d3d11-staging-records/025-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/02-infinite-blue.png",
+      "archive": "research/d3d11-staging-records/026-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/03-infinite-red-again.png",
+      "archive": "research/d3d11-staging-records/027-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/04-infinite-blue-again.png",
+      "archive": "research/d3d11-staging-records/028-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/05-one-pass-final.png",
+      "archive": "research/d3d11-staging-records/029-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/06-finite-first-red.png",
+      "archive": "research/d3d11-staging-records/030-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/07-finite-first-blue.png",
+      "archive": "research/d3d11-staging-records/031-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/08-finite-second-red.png",
+      "archive": "research/d3d11-staging-records/032-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/09-finite-final-blue.png",
+      "archive": "research/d3d11-staging-records/033-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/10-zero-intermediate.png",
+      "archive": "research/d3d11-staging-records/034-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/11-all-zero-stops-final.png",
+      "archive": "research/d3d11-staging-records/035-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/12-disposal-0.png",
+      "archive": "research/d3d11-staging-records/036-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/13-disposal-1.png",
+      "archive": "research/d3d11-staging-records/037-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/14-disposal-2.png",
+      "archive": "research/d3d11-staging-records/038-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/15-disposal-3.png",
+      "archive": "research/d3d11-staging-records/039-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/16-previous-after-clear.png",
+      "archive": "research/d3d11-staging-records/040-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/17-transparent-over-previous.png",
+      "archive": "research/d3d11-staging-records/041-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/18-transparent-clear-exposes-grid.png",
+      "archive": "research/d3d11-staging-records/042-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/19-logical-canvas-background.png",
+      "archive": "research/d3d11-staging-records/043-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/20-interlaced-rows.png",
+      "archive": "research/d3d11-staging-records/044-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/21-local-palette.png",
+      "archive": "research/d3d11-staging-records/045-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/22-erase-animated-before.png",
+      "archive": "research/d3d11-staging-records/046-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/23-erase-animated.png",
+      "archive": "research/d3d11-staging-records/047-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/24-reset-animated-before.png",
+      "archive": "research/d3d11-staging-records/048-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/25-reset-animated.png",
+      "archive": "research/d3d11-staging-records/049-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/26-alternate-before.png",
+      "archive": "research/d3d11-staging-records/050-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/27-alternate-hides.png",
+      "archive": "research/d3d11-staging-records/051-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/28-alternate-restores.png",
+      "archive": "research/d3d11-staging-records/052-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/29-alternate-restored-ticks.png",
+      "archive": "research/d3d11-staging-records/053-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/30-scaled-animation.png",
+      "archive": "research/d3d11-staging-records/054-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/31-mask-across-frames.png",
+      "archive": "research/d3d11-staging-records/055-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/32-mask-across-frames-red.png",
+      "archive": "research/d3d11-staging-records/056-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/33-frame-count-limit.png",
+      "archive": "research/d3d11-staging-records/057-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/34-composed-cache-limit.png",
+      "archive": "research/d3d11-staging-records/058-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/35-logical-dimension-limit.png",
+      "archive": "research/d3d11-staging-records/059-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/36-recover-after-limits.png",
+      "archive": "research/d3d11-staging-records/060-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/checks.json",
+      "archive": "research/d3d11-staging-records/061-checks.json.gz",
+      "bytes": 3344257,
+      "sha256": "339a09db32b2055b90ae2b6b0446d84bfc85fa6c06ecee4abbec5fd1064978af"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/child-control.json",
+      "archive": "research/d3d11-staging-records/062-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-15ac14feb5eb4ec5ac20dc840ba36c85/child-report.json",
+      "archive": "research/d3d11-staging-records/063-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif-animation-directx-observed.json",
+      "archive": "research/d3d11-staging-records/064-gif-animation-directx-observed.json.gz",
+      "bytes": 3346580,
+      "sha256": "868afb4f8c19f75c1a0902e8c8a7c029d4410d3a8e836132421ed2284db04f24"
+    },
+    {
+      "path": "build/staging-comparison/after-gif-animation/research/gif_animation-controller.json",
+      "archive": "research/d3d11-staging-records/065-gif_animation-controller.json.gz",
+      "bytes": 475,
+      "sha256": "97d86422db31f11e00bd44e7cec7f1a2c69c7cdf6679c6f5892d363eac213f63"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/controller.log",
+      "archive": "research/d3d11-staging-records/066-controller.log.gz",
+      "bytes": 370,
+      "sha256": "f512fedf9253ffb28c212495e1e2af1bb6d3d2e4fce3b589b085fc5a93c8f4da"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/renderer.log",
+      "archive": "research/d3d11-staging-records/067-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "a83d7bc5012afa2ad79a41e68fff0d80bae1d45b8994b6f07d6e49df0de47a9e"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/d3d11-staging-records/068-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/d3d11-staging-records/069-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/d3d11-staging-records/070-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/d3d11-staging-records/071-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/d3d11-staging-records/072-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/d3d11-staging-records/073-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/d3d11-staging-records/074-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/d3d11-staging-records/075-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/d3d11-staging-records/076-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/d3d11-staging-records/077-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-enclosures.png",
+      "archive": "research/d3d11-staging-records/078-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-expose.png",
+      "archive": "research/d3d11-staging-records/079-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-ideograms-double-size.png",
+      "archive": "research/d3d11-staging-records/080-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-ideograms.png",
+      "archive": "research/d3d11-staging-records/081-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/d3d11-staging-records/082-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-overline.png",
+      "archive": "research/d3d11-staging-records/083-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-palette.png",
+      "archive": "research/d3d11-staging-records/084-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-resize.png",
+      "archive": "research/d3d11-staging-records/085-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-sixel.png",
+      "archive": "research/d3d11-staging-records/086-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-sync-end.png",
+      "archive": "research/d3d11-staging-records/087-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/d3d11-staging-records/088-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-0-text.png",
+      "archive": "research/d3d11-staging-records/089-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/d3d11-staging-records/090-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/d3d11-staging-records/091-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/d3d11-staging-records/092-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-active-2.png",
+      "archive": "research/d3d11-staging-records/093-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-active-4.png",
+      "archive": "research/d3d11-staging-records/094-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-active-6.png",
+      "archive": "research/d3d11-staging-records/095-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/d3d11-staging-records/096-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/d3d11-staging-records/097-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/d3d11-staging-records/098-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-enclosures-double-size.png",
+      "archive": "research/d3d11-staging-records/099-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-enclosures.png",
+      "archive": "research/d3d11-staging-records/100-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-expose.png",
+      "archive": "research/d3d11-staging-records/101-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-ideograms-double-size.png",
+      "archive": "research/d3d11-staging-records/102-renderer-1-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-ideograms.png",
+      "archive": "research/d3d11-staging-records/103-renderer-1-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-overline-double-size.png",
+      "archive": "research/d3d11-staging-records/104-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-overline.png",
+      "archive": "research/d3d11-staging-records/105-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-palette.png",
+      "archive": "research/d3d11-staging-records/106-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-resize.png",
+      "archive": "research/d3d11-staging-records/107-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-sixel.png",
+      "archive": "research/d3d11-staging-records/108-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-sync-end.png",
+      "archive": "research/d3d11-staging-records/109-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/d3d11-staging-records/110-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-1-text.png",
+      "archive": "research/d3d11-staging-records/111-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/d3d11-staging-records/112-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/d3d11-staging-records/113-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/d3d11-staging-records/114-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-active-2.png",
+      "archive": "research/d3d11-staging-records/115-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-active-4.png",
+      "archive": "research/d3d11-staging-records/116-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-active-6.png",
+      "archive": "research/d3d11-staging-records/117-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/d3d11-staging-records/118-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/d3d11-staging-records/119-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/d3d11-staging-records/120-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-enclosures-double-size.png",
+      "archive": "research/d3d11-staging-records/121-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-enclosures.png",
+      "archive": "research/d3d11-staging-records/122-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-expose.png",
+      "archive": "research/d3d11-staging-records/123-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-ideograms-double-size.png",
+      "archive": "research/d3d11-staging-records/124-renderer-2-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-ideograms.png",
+      "archive": "research/d3d11-staging-records/125-renderer-2-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-overline-double-size.png",
+      "archive": "research/d3d11-staging-records/126-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-overline.png",
+      "archive": "research/d3d11-staging-records/127-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-palette.png",
+      "archive": "research/d3d11-staging-records/128-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-resize.png",
+      "archive": "research/d3d11-staging-records/129-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-sixel.png",
+      "archive": "research/d3d11-staging-records/130-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-sync-end.png",
+      "archive": "research/d3d11-staging-records/131-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-sync-frozen.png",
+      "archive": "research/d3d11-staging-records/132-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-2-text.png",
+      "archive": "research/d3d11-staging-records/133-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-controller.json",
+      "archive": "research/d3d11-staging-records/134-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "e48afbba814d583333515d737a097fa16afe056ae0284ad87188aec804a33384"
+    },
+    {
+      "path": "build/staging-comparison/after-renderer/research/renderer-observed.json",
+      "archive": "research/d3d11-staging-records/135-renderer-observed.json.gz",
+      "bytes": 9301,
+      "sha256": "2928958fc9201f59d471e34af4bf731bbe1420f1d2888c3415f0877ecd692c43"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/controller.log",
+      "archive": "research/d3d11-staging-records/136-controller.log.gz",
+      "bytes": 370,
+      "sha256": "5ef678eb92fdfd060adad34a088d91ebdc590845eaf88f5992e0ef03605f6f10"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/iterm_image.log",
+      "archive": "research/d3d11-staging-records/137-iterm_image.log.gz",
+      "bytes": 5460,
+      "sha256": "f710e0931826b713acacb186758ed17ff6bccecbb1ed9c1e9b9098236283e878"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/01-inline-intrinsic-png.png",
+      "archive": "research/d3d11-staging-records/138-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/02-inline-BEL.png",
+      "archive": "research/d3d11-staging-records/139-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/03-inline-bmp.png",
+      "archive": "research/d3d11-staging-records/140-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/04-inline-jpeg.png",
+      "archive": "research/d3d11-staging-records/141-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/05-inline-static-gif.png",
+      "archive": "research/d3d11-staging-records/142-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/06-multipart-1.png",
+      "archive": "research/d3d11-staging-records/143-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/07-multipart-3.png",
+      "archive": "research/d3d11-staging-records/144-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/08-multipart-200.png",
+      "archive": "research/d3d11-staging-records/145-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/09-pixel-dimensions.png",
+      "archive": "research/d3d11-staging-records/146-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/10-aspect-preserved.png",
+      "archive": "research/d3d11-staging-records/147-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/11-cell-dimensions.png",
+      "archive": "research/d3d11-staging-records/148-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/12-percentage-dimensions.png",
+      "archive": "research/d3d11-staging-records/149-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/13-partial-alpha-black.png",
+      "archive": "research/d3d11-staging-records/150-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/14-partial-alpha-repaint.png",
+      "archive": "research/d3d11-staging-records/151-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/15-partial-alpha-background-change.png",
+      "archive": "research/d3d11-staging-records/152-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/16-partial-alpha-over-image.png",
+      "archive": "research/d3d11-staging-records/153-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/17-reset-clears.png",
+      "archive": "research/d3d11-staging-records/154-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/18-erase-before.png",
+      "archive": "research/d3d11-staging-records/155-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/19-erase-image.png",
+      "archive": "research/d3d11-staging-records/156-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/20-alternate-before.png",
+      "archive": "research/d3d11-staging-records/157-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/21-alternate-hides.png",
+      "archive": "research/d3d11-staging-records/158-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/22-alternate-own-image.png",
+      "archive": "research/d3d11-staging-records/159-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/23-alternate-restores.png",
+      "archive": "research/d3d11-staging-records/160-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/24-scroll-before.png",
+      "archive": "research/d3d11-staging-records/161-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/25-scroll-up.png",
+      "archive": "research/d3d11-staging-records/162-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/26-scroll-down.png",
+      "archive": "research/d3d11-staging-records/163-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/27-malformed-recovers.png",
+      "archive": "research/d3d11-staging-records/164-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/28-cancel-recovers.png",
+      "archive": "research/d3d11-staging-records/165-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/29-codec-reject-recovers.png",
+      "archive": "research/d3d11-staging-records/166-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/30-dimension-limit.png",
+      "archive": "research/d3d11-staging-records/167-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/31-decoded-budget-limit.png",
+      "archive": "research/d3d11-staging-records/168-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/checks.json",
+      "archive": "research/d3d11-staging-records/169-checks.json.gz",
+      "bytes": 96343,
+      "sha256": "ceeed07c42480d0f71916f15d5ff5306877fe277cb9ae858a3f58d4456486122"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/child-control.json",
+      "archive": "research/d3d11-staging-records/170-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-32b4c70847f142159f660f7137239d9d/child-report.json",
+      "archive": "research/d3d11-staging-records/171-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm-images-directx-observed.json",
+      "archive": "research/d3d11-staging-records/172-iterm-images-directx-observed.json.gz",
+      "bytes": 98659,
+      "sha256": "79eeb296a54a9483464451e6b33306fbe5fe0e1a70675cb5da4fb5b193fc997d"
+    },
+    {
+      "path": "build/staging-comparison/after-static-images/research/iterm_image-controller.json",
+      "archive": "research/d3d11-staging-records/173-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "f6994f110de10926183c14f425ba1c008e7dacf93b2b8b48ea84bb9a13f0b1db"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/controller.log",
+      "archive": "research/d3d11-staging-records/174-controller.log.gz",
+      "bytes": 722,
+      "sha256": "2e49bccfe8a0753135fbacaa4a8e19ee224d2dccc2ee4f249827a895e751c72b"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/research/inline-workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-staging-records/175-inline-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1890279,
+      "sha256": "556e6e1ffb3b7faee4693ba03474a28f9fda101c5502fe7e64fba2ab650f1d98"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/research/inline-workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-staging-records/176-inline-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 178997,
+      "sha256": "1f06e70271df11fe9a4a8f577c61c3ea434b6d488def82a0e67adacc5da51c44"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/research/inline-workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-staging-records/177-inline-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/research/tabs-controller.json",
+      "archive": "research/d3d11-staging-records/178-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "b182dd25e66f54335cf24f8cb22bf41926a94db4a0ecabca35abb14991cc8242"
+    },
+    {
+      "path": "build/staging-comparison/before-directx-images/tabs.log",
+      "archive": "research/d3d11-staging-records/179-tabs.log.gz",
+      "bytes": 353,
+      "sha256": "88d426f239c222c01338f47c914482172bdc314d48f85a56ec210c286abd8c3e"
+    },
+    {
+      "path": "build/staging-comparison/results.json",
+      "archive": "research/d3d11-staging-records/180-results.json.gz",
+      "bytes": 1093,
+      "sha256": "a742c072af55ff6adbb039fa6de910f28c9a4f81a750f0be2f341161640a8b61"
+    },
+    {
+      "path": "build/staging-single-01/image.json",
+      "archive": "research/d3d11-staging-records/181-image.json.gz",
+      "bytes": 8232,
+      "sha256": "511ae0e06335af0fbd208264f433dc60c60ec31b053c12ab5bb3236824c4721d"
+    },
+    {
+      "path": "build/staging-single-01/link.log",
+      "archive": "research/d3d11-staging-records/182-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/staging-single-01/link.rsp",
+      "archive": "research/d3d11-staging-records/183-link.rsp.gz",
+      "bytes": 5506,
+      "sha256": "3e4086e2cf1116c2beea21759fa1e0ae3468c0008564aafbc057ff0c60d1d455"
+    },
+    {
+      "path": "tests/automation_capture.py",
+      "archive": "research/d3d11-staging-records/184-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "tests/gif_animation_window_smoke.py",
+      "archive": "research/d3d11-staging-records/185-gif_animation_window_smoke.py.gz",
+      "bytes": 4695,
+      "sha256": "d1ad555e1d46317d84a14179085711c5b949851ccefeae4b0eefc99287b264ef"
+    },
+    {
+      "path": "tests/gif_fixture.py",
+      "archive": "research/d3d11-staging-records/186-gif_fixture.py.gz",
+      "bytes": 2223,
+      "sha256": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0"
+    },
+    {
+      "path": "tests/iterm_image_window_smoke.py",
+      "archive": "research/d3d11-staging-records/187-iterm_image_window_smoke.py.gz",
+      "bytes": 5612,
+      "sha256": "cc64a08fcf58607e7f1fdd264f80a4de7830a06f1ca4e17d846ad13ba26044b3"
+    },
+    {
+      "path": "tests/memory_limits.py",
+      "archive": "research/d3d11-staging-records/188-memory_limits.py.gz",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "path": "tests/renderer_window_smoke.py",
+      "archive": "research/d3d11-staging-records/189-renderer_window_smoke.py.gz",
+      "bytes": 20166,
+      "sha256": "033bc275a74bcfdf434994a3ad7fc10cc990913b34470008cc5d64e51ebaf746"
+    },
+    {
+      "path": "tests/resource_settle.py",
+      "archive": "research/d3d11-staging-records/190-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "tests/tab_workload_memory.py",
+      "archive": "research/d3d11-staging-records/191-tab_workload_memory.py.gz",
+      "bytes": 6381,
+      "sha256": "493984014cef34d76b6951d2de182954f768c5e8d2199fd69ea5ecfdc5007a2e"
+    },
+    {
+      "path": "tests/tabs_hover_probe.js",
+      "archive": "research/d3d11-staging-records/192-tabs_hover_probe.js.gz",
+      "bytes": 1877,
+      "sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "archive": "research/d3d11-staging-records/193-tabs_window_smoke.py.gz",
+      "bytes": 28245,
+      "sha256": "cb60d32ab48d20a45e3aaf9ec73d57cf253c53b166c4df15a80d51646f638e30"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_d3d11.c",
+      "archive": "research/d3d11-staging-records/194-nemo_d3d11.c.gz",
+      "bytes": 15499,
+      "sha256": "c41be3ac26c601420dd04d384ee332142241c34954a8e63b67c42401e2f958c0"
+    }
+  ]
+}
