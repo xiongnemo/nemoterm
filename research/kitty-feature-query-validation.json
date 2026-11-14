@@ -1,6 +1,6 @@
 {
   "upstream_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
-  "accepted_reference": false,
+  "accepted_reference": true,
   "runs": [
     {
       "run": 43648565834,
@@ -76,6 +76,91 @@
           "raw_sha256": "a57fc379f09b725efa4d350926fb2987987b08ebda4a9a4d91410ab740cab928"
         }
       ]
+    },
+    {
+      "run": 43649195027,
+      "fixture_commit": "6ba734580ce081da265aae8aab1a7708cf78196a",
+      "conclusion": "success",
+      "evidence_id": "ev_94e4121d9aaa143279c6944e6ac364598b44df00762d37eb8e3f9e45e984de75",
+      "observations_sha256": "d3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac",
+      "case_count": 84,
+      "state_count": 176,
+      "states_equal_to_first_capture": true,
+      "records": [
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-features-artifacts.json.gz",
+          "raw_bytes": 790,
+          "raw_sha256": "65b257c1a064d952dbca4f82ff1db6845fe6ed0c8646f003bf284cb52ff4c603"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-features-observed-at.txt.gz",
+          "raw_bytes": 32,
+          "raw_sha256": "0bc04ce824f1908442610b48815bfd808eb9d639c5edc5ff1d35e42e8e073da8"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-features-run.json.gz",
+          "raw_bytes": 4366,
+          "raw_sha256": "7c80355c1b768c5284c24b655d8ed31f0f5bd4e8852ef76d02845f55147cc1d7"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-features-run.log.gz",
+          "raw_bytes": 315681,
+          "raw_sha256": "84863ca1c7e5319dbfc172ee674c037fc0647fcc88f327a2bb661e3832e7c1e6"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--fixture-commit.txt.gz",
+          "raw_bytes": 41,
+          "raw_sha256": "38e084d8142292493e69e7359fd4eb5e0af57eec141df54bec2d4cb1f7ad2ed3"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--observations.json.gz",
+          "raw_bytes": 194123,
+          "raw_sha256": "d3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--rea-evidence.json.gz",
+          "raw_bytes": 438528,
+          "raw_sha256": "63b99c6470757133ecb3da055e32435499d6e1e97baf7136ae76b49cad5f19e0"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--rea-package-lock.json.gz",
+          "raw_bytes": 79411,
+          "raw_sha256": "e2c5a08c23c6f8da5276253e6fe55a14778761c6d4cb74d65cffdcb20c7a18b7"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--rea-progress.jsonl.gz",
+          "raw_bytes": 1646,
+          "raw_sha256": "29630722af300bdb5b59660b41d33fa2e72cb3014720d6e601dfc98513e323ba"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--rea-summary.json.gz",
+          "raw_bytes": 970,
+          "raw_sha256": "16ba2f9727e8749af8cad58a9824b7ffaf06df0a24d836d7e82b79e9030925c0"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--scenario.json.gz",
+          "raw_bytes": 1026,
+          "raw_sha256": "85a61d118d3be3d25f72225257512b7f41045673d13e395b8cf571f43ad17428"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--upstream-build.log.gz",
+          "raw_bytes": 107784,
+          "raw_sha256": "0571dd87258062ae535dbcb294f4280a77d8b6beed64eaeb0c29fe94fcbde817"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference--upstream-commit.txt.gz",
+          "raw_bytes": 41,
+          "raw_sha256": "481f17e8511c69b76f6d27d4ecb643ab087abc15b7a7dd9dc8e1e84d711f8d00"
+        },
+        {
+          "path": "research/kitty-feature-query-evidence/6ba7345-reference-download.json.gz",
+          "raw_bytes": 82,
+          "raw_sha256": "c085bfea4126bf9df697926b66369f033ed73fc3a15cae449d1bf960fb033813"
+        }
+      ]
     }
-  ]
+  ],
+  "accepted_run": 43649195027,
+  "accepted_observations_sha256": "d3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac",
+  "scope": "Upstream query observation only; Nemoterm feature-query dispatch still returns ENOTSUP"
 }

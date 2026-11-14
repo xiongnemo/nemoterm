@@ -1,4 +1,4 @@
-# Kitty feature-query reference preparation
+# Independent Kitty feature-query reference
 
 The current terminal transport recognizes `a=q,e=<action>` and preserves a
 pending image upload, but terminal dispatch replies `ENOTSUP:feature query`.
@@ -38,8 +38,35 @@ The original failure is retained in `kitty-feature-query-validation.json`.
 
 The follow-up declares a 524,288-byte terminal-record budget specifically for
 this larger reference family. Inputs, observations, process deadlines, file
-capture bounds and the no-truncation gate are unchanged. A complete accepted
-capture is still pending. Its results must be reviewed before deriving
-Nemoterm's supported subset and regression expectations. Unicode placeholders,
-animation and the remaining graphics/protocol scope remain required work; feature
-discovery is not a substitute for implementing those capabilities.
+capture bounds and the no-truncation gate are unchanged.
+
+[Follow-up run 43649195027](https://github.com/xiongnemo/nemoterm/actions/runs/43649195027)
+at `6ba7345` passed. REA retained all 97 rendered frames (374,752 cumulative bytes),
+reported no truncation, and verified natural exit and cleanup. The full observation
+file is 194,123 bytes, SHA256
+`d3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac`,
+bound to Evidence
+`ev_94e4121d9aaa143279c6944e6ac364598b44df00762d37eb8e3f9e45e984de75`.
+Fixture/source hashes and all 176 input/reply/model states match the first run.
+The validation index retains 27 raw records across both runs, including the
+original failed recorder evidence.
+
+The observations establish several details for the next implementation:
+
+- Unknown requested actions return `OK` without an `e` capability key.
+- Explicit `f=32` and `t=d` can appear in replies even though they are ordinary
+  transfer defaults; zero numeric fields are omitted. Keys depend on the action.
+- Successful quiet queries suppress replies. All four interleaved queries leave
+  the pending upload usable, including a feature query carrying `m=1`.
+- Ignored payload includes invalid base64 and a payload larger than an ordinary
+  chunk. The observed query leaves the existing image, cursor and layers intact.
+- Missing/zero query IDs and parser-rejected media/compression values produce no
+  reply. Simultaneous nonzero `i` and `I` produces an identity error.
+- In the explicit non-query control, upstream ignores `e` and performs the normal
+  image transmission. That case is recorded separately from non-mutating queries.
+
+Nemoterm still returns `ENOTSUP` for feature queries. A new implementation must
+derive its reported capabilities from its own supported actions, formats and
+limits, while preserving the observed query/lifecycle behavior. Unicode
+placeholders, animation and the remaining graphics/protocol scope remain required
+work; feature discovery is not a substitute for implementing those capabilities.
