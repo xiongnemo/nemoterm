@@ -11,6 +11,7 @@ from collections import Counter
 import argparse
 import uuid
 import winreg
+import traceback
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer',choices=('gdi','directx','opengl'),default='gdi')
@@ -30,6 +31,8 @@ images.add_argument('--kitty-images',action='store_true',
                     help='add Kitty PNG images, cleanup and preview checks to --workload-memory')
 parser.add_argument('--kitty-compression',action='store_true',
                     help='use zlib-compressed PNG for the Kitty memory workload')
+parser.add_argument('--probe-boundaries',action='store_true',
+                    help='retain read-only owned procedure-entry/liveness snapshots around test probes')
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--resource-inventory',action='store_true',
                     help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
@@ -359,11 +362,18 @@ try:
             for child in (first,second):captures.append(OwnedAutomationCapture(process.pid,child['hwnd']))
             evidence['pixel_capture_instrumented']=False
             evidence['pixel_capture']='owned-automation-api'
+            boundary=None
             import frida
             hover_session=frida.attach(process.pid)
             hover_script=hover_session.create_script('const ownedHost=ptr("'+hex(host)+'");\n'+(root/'tests/tabs_hover_probe.js').read_text())
             hover_script.load()
+            if args.probe_boundaries:
+                from tab_probe_boundary import TabProbeBoundary
+                evidence['probe_entry_baseline']=hover_script.exports_sync.entry()
+                boundary=TabProbeBoundary(process,job,host,evidence['probe_entry_baseline'])
+                evidence['probe_boundaries']=[]
             key_script=hover_session.create_script((root/'tests/agent_key_probe.js').read_text());key_script.load()
+            if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-load'))
             def key(child,code,modifiers):
                 global serial
                 serial+=1;key_script.exports_sync.key(dict(id=serial,key=code,modifiers=modifiers))
@@ -430,9 +440,13 @@ try:
             assert evidence['hover_observations']['moves'] and evidence['hover_observations']['leaves']
             assert evidence['hover_observations']['timers']
             evidence['phase']='detach-key-fault-hover-probes'
+            if boundary:evidence['probe_boundaries'].append(boundary.snapshot('before-detach'))
             detach_session(hover_session);hover_session=None
+            if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-detach'))
             evidence['phase']='synchronized-tab-transfer'
-            select(first,0);output(first,scene('FROZEN FIRST','80;10;10'));time.sleep(.08)
+            select(first,0)
+            if boundary:evidence['probe_boundaries'].append(boundary.snapshot('after-select'))
+            output(first,scene('FROZEN FIRST','80;10;10'));time.sleep(.08)
             frozen=captures[0].capture(return_pixels=True)
             output(first,'\x1b[?2026h\x1b[2J\x1b[HLATER FRAME')
             select(second,1);select(first,0)
@@ -486,6 +500,7 @@ try:
                 evidence['diagnostic_completed']=True
                 raise SystemExit(2)
         except BaseException as failure:
+            evidence['error_traceback']=traceback.format_exc()
             if not (evidence.get('diagnostic_completed') and isinstance(failure,SystemExit) and failure.code==2):
                 record_owned_failure(process,job,evidence,'tabs-'+evidence['phase'])
             raise
