@@ -49,14 +49,17 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     IDWriteRenderingParams *params=nullptr;
     IDWriteBitmapRenderTarget *target=nullptr;
     IDWriteTextFormat *format=nullptr;
-    /* Repeated missing RTL cells otherwise repeat font fallback and shaping
-     * on every repaint. Retain at most 32 immutable single-character layouts
-     * for the current font. Pixels, colours and geometry are never cached. */
-    struct SingleLayout {
-        wchar_t character=0;
+    /* Repeated clusters otherwise repeat font fallback and shaping on every
+     * repaint. Retain at most 32 immutable layouts for the current font.
+     * Emoji presentation is part of the key. Pixels, colours and destination
+     * geometry are never cached. Longer NFC expansions still render uncached. */
+    struct ClusterLayout {
+        wchar_t text[MAX_UNITS]{};
+        unsigned length=0;
+        bool emoji=false;
         IDWriteTextLayout *layout=nullptr;
-    } single_layouts[32];
-    unsigned next_single_layout=0;
+    } layouts[32];
+    unsigned next_layout=0;
     LOGFONTW font{};
     FLOAT em=0;
     unsigned width=0,height=0;
@@ -67,22 +70,27 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
     unsigned trace_count=0;
     bool trace_glyph=false;
 
-    void clear_single_layouts() {
-        for (auto &entry:single_layouts) release(entry.layout);
-        next_single_layout=0;
+    void clear_layouts() {
+        for (auto &entry:layouts) release(entry.layout);
+        next_layout=0;
     }
-    IDWriteTextLayout *find_single_layout(wchar_t character) {
-        for (auto &entry:single_layouts)
-            if (entry.layout && entry.character==character) {
+    IDWriteTextLayout *find_layout(const wchar_t *text, unsigned length, bool emoji) {
+        if (length>MAX_UNITS) return nullptr;
+        for (auto &entry:layouts)
+            if (entry.layout && entry.length==length && entry.emoji==emoji &&
+                !std::memcmp(entry.text,text,length*sizeof(*text))) {
                 entry.layout->AddRef();return entry.layout;
             }
         return nullptr;
     }
-    void retain_single_layout(wchar_t character, IDWriteTextLayout *layout) {
-        auto &entry=single_layouts[next_single_layout];
+    void retain_layout(const wchar_t *text, unsigned length, bool emoji,
+                       IDWriteTextLayout *layout) {
+        if (length>MAX_UNITS) return;
+        auto &entry=layouts[next_layout];
         release(entry.layout);layout->AddRef();
-        entry.character=character;entry.layout=layout;
-        next_single_layout=(next_single_layout+1)%32;
+        std::memcpy(entry.text,text,length*sizeof(*text));
+        entry.length=length;entry.emoji=emoji;entry.layout=layout;
+        next_layout=(next_layout+1)%32;
     }
 
     void trace_line(const char *pattern, ...) {
@@ -97,7 +105,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
 
     ~NemoClusterRenderer() {
         if (trace!=INVALID_HANDLE_VALUE) CloseHandle(trace);
-        clear_single_layouts();
+        clear_layouts();
         release(format);release(target);release(params);release(interop);release_factory(factory);
         if (normaliz) FreeLibrary(normaliz);
         if (library) FreeLibrary(library);
@@ -128,7 +136,7 @@ struct NemoClusterRenderer final : IDWriteTextRenderer {
         FLOAT size=static_cast<FLOAT>(metrics.tmHeight-metrics.tmInternalLeading);
         if (size<=0 || size>2048) return false;
         if (format && size==em && !std::memcmp(&font,&next,sizeof(font))) return true;
-        clear_single_layouts();
+        clear_layouts();
         release(format);
         IDWriteFont *face=nullptr;
         IDWriteFontFamily *family=nullptr;
@@ -260,11 +268,10 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
     wchar_t normalized[MAX_UNITS*4];
     int length=s.normalize(NormalizationC,text,units,normalized,MAX_UNITS*4);
     if (length<=0 || length>static_cast<int>(MAX_UNITS*4)) return false;
-    bool single=!emoji && units==1 && length==1;
-    IDWriteTextLayout *layout=single?s.find_single_layout(normalized[0]):nullptr;
+    IDWriteTextLayout *layout=s.find_layout(normalized,length,emoji);
     bool cached=layout!=nullptr;
     HRESULT hr=cached?S_OK:s.factory->CreateTextLayout(normalized,length,s.format,4096,4096,&layout);
-    if (SUCCEEDED(hr) && emoji) {
+    if (SUCCEEDED(hr) && emoji && !cached) {
         const DWRITE_TEXT_RANGE all={0,static_cast<UINT32>(length)};
         hr=layout->SetFontFamilyName(L"Segoe UI Emoji",all);
         if (SUCCEEDED(hr)) hr=layout->SetFontWeight(DWRITE_FONT_WEIGHT_NORMAL,all);
@@ -332,8 +339,8 @@ bool nemo_cluster_draw(NemoClusterRenderer **slot, HDC dc, const RECT *box,
         /* Complete the copy before another cluster reuses the source tile. */
         if (!GdiFlush()) hr=E_FAIL;
     }
-    if (SUCCEEDED(hr) && single && !cached)
-        s.retain_single_layout(normalized[0],layout);
+    if (SUCCEEDED(hr) && !cached)
+        s.retain_layout(normalized,length,emoji,layout);
     release(layout);
     return SUCCEEDED(hr);
 }
