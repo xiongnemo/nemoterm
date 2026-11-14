@@ -133,7 +133,9 @@ Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配
 Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
 键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
 字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过远程专项回归，
-新单 EXE 的 122 项检查与完整 MinGW 核心流程均已通过。本机实测保持暂停，
+新单 EXE 的 122 项检查与完整 MinGW 核心流程均已通过。本机恢复测试后，
+Sarasa 字体在实际 GDI、OpenGL、DirectX 下的字号回归，以及标签隔离与响铃 API 检查也已通过；
+物理滚轮、跨屏 DPI 和实际听感仍需单独验证。
 详见[字号与响铃记录](research/font-zoom-and-bell.md)。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。

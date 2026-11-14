@@ -1,8 +1,8 @@
 # Session font zoom and bell validation
 
 Development work based on `5b2e6f1263ba5b63ea861ea34ec78eb97b243e4a`.
-The user has not resumed local native testing. This change is submitted to
-remote CI; no new local runtime or memory result is claimed.
+Remote CI passed first. The user subsequently resumed local native testing;
+the local functional checkpoint below uses the downloaded `69cd5a4` single image.
 
 ## Interaction
 
@@ -137,7 +137,40 @@ source/artifact identities and the complete workflow log are retained in the
 validation record. The [complete MinGW/core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43606924130)
 also passes, including sanitizer, MSVC diagnostics, and the corrected native
 font/bell and profile-isolation checks. Both full workflows for this checkpoint
-are now green. Physical high-resolution wheels,
-DPI transitions and local Sarasa rendering still require further verification.
+are now green. Physical high-resolution wheels and
+DPI transitions still require further verification.
 The accepted executable remains unchanged, and the prior integrated DirectX
 resource-cycle failure remains unresolved.
+
+## Local functional checkpoint after testing resumed
+
+The user explicitly resumed computer testing on November 15 (Sydney time).
+The isolated local run uses the fully CI-verified `69cd5a4` image, 4,486,144 bytes,
+SHA-256 `e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6`.
+It has the same font/bell implementation and additionally links the unused kitty
+transport component. The accepted `dist/nemoterm.exe` was not replaced.
+
+With SarasaTermSC Nerd Font Light, the actual GDI, OpenGL and DirectX paths all
+pass the zoom fixture; OpenGL does not fall back on this machine. The 12-point
+cell changes from 8 by 20 to 9 by 21 at 13 points, matching the independently
+started 13-point terminal's glyph-cell pixels exactly on all three renderers.
+A four-point increase produces an 11 by 26 cell. Window outer bounds stay fixed,
+the child grid changes, application mouse reports retain Ctrl-wheel, Shift forces
+local zoom, bindings reset/increase/decrease correctly, and disabled wheel zoom
+leaves application input intact. Six zoom/reset cycles retain GDI object counts
+of 24/24, 32/32 and 28/28 for GDI/OpenGL/DirectX respectively.
+
+Three mixed profiles pass all seven functional groups, including active-tab-only
+zoom and unchanged saved font sizes. Thirty-six renderer switches retain exact
+frames; the final resource counts are 634 handles, 50 GDI and 69 USER objects,
+compared with 634/50/70 in the first recorded cycle. This is an instrumented
+functional run, not a process memory acceptance measurement.
+
+The three local bell profiles observe one real successful `MessageBeep(MB_OK)`
+for sound mode, and none for disabled/visual modes; an OSC BEL terminator does
+not ring. All owned process trees exit naturally. Audible output still requires
+an external listening observation; visual flash pixels and custom WAV/PC-speaker
+behavior are not established by this fixture. Nine raw local logs/manifests and
+observations are retained in `local_native` in the validation record. These tests
+send events to fixture-owned UI threads and do not establish physical-wheel or
+cross-monitor DPI acceptance.

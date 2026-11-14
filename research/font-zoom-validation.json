@@ -613,5 +613,121 @@
         "compressed_sha256": "8e6b2116a20ba53e1177a6d2ea4d09d876edc9fa9d699d7ea6706d28571a4c45"
       }
     ]
+  },
+  "local_native": {
+    "source_commit": "69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac",
+    "ci_run": 43609279193,
+    "ci_artifact": 14121125045,
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "executable_bytes": 4486144,
+    "fixture_commit": "45c71c0e97b7333c8c913dddbe16bee3ddb0dc76",
+    "font": "SarasaTermSC Nerd Font Light",
+    "started_utc": "2026-11-14T16:03:10.004104+00:00",
+    "accepted_executable_changed": false,
+    "checks": [
+      "font_zoom_window_smoke.py",
+      "bell_window_smoke.py",
+      "tabs_profiles_window_smoke.py"
+    ],
+    "recorded_utc": "2026-11-14T16:07:37.229108+00:00",
+    "completed": true,
+    "actual_renderers": [
+      1,
+      2,
+      3,
+      1
+    ],
+    "gdi_resource_cycles": [
+      [
+        24,
+        24
+      ],
+      [
+        32,
+        32
+      ],
+      [
+        28,
+        28
+      ],
+      null
+    ],
+    "bell_api": [
+      {
+        "bell_mode": 0,
+        "api_events": [],
+        "observation": "actual API invocation; no API return replacement; audible speaker output unverified"
+      },
+      {
+        "bell_mode": 1,
+        "api_events": [
+          {
+            "api": "MessageBeep",
+            "kind": 0,
+            "result": 1
+          }
+        ],
+        "observation": "actual API invocation; no API return replacement; audible speaker output unverified"
+      },
+      {
+        "bell_mode": 2,
+        "api_events": [],
+        "observation": "actual API invocation; no API return replacement; audible speaker output unverified"
+      }
+    ],
+    "tab_profile_checks": 7,
+    "tab_switches": 36,
+    "natural_cleanup": true,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-manifest.json.gz",
+        "raw_sha256": "66d0c8d7406f930b99866ab6f8a81c123883fff2b5efdb7b8e6348b112509f35",
+        "compressed_sha256": "76a7b67885256a9c5c93ec9eb2a28124e4d5f5c19506f5bdc030b951a327cdf2"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-font-zoom.log.gz",
+        "raw_sha256": "b760af02f4d86d672c6bd826f415d5b2f40573b0532bd7a2355b3b5f70c0d6fc",
+        "compressed_sha256": "a61f8c0c4bd33cb9efc243f29c8647a71f6b49956c62d87795fb858ea5cb3060"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell.log.gz",
+        "raw_sha256": "c2ac7536f53d3a2438964a577f524f2a0951ad2237f50581e32fe5f875568a8b",
+        "compressed_sha256": "69e0b9a6f2035761a9a55df1333fc08daeb2c4850afff6f3e15e5c4fc4f77756"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-tabs-profiles.log.gz",
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+        "compressed_sha256": "c59fc7e1826c6f37462e51122aeb368094f98ea2e66cf84e17ac28c25755d31a"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-font-zoom-observed.json.gz",
+        "raw_sha256": "d3293895efa3d605a925178f4fdad33d2e63597eea734b6e1b1e142876be1a2c",
+        "compressed_sha256": "5dba88623d8a90e55e8c6dfbca2003a7b951704699ba12cd732b64539ec6467c"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-tabs-profiles-observed.json.gz",
+        "raw_sha256": "1dd41bdb922465932f4be852a50c703fc1b85e436c8c9ab2bf9029eb5f8d3771",
+        "compressed_sha256": "87fed0b1d550b17ba816b9391d286af9b0469d118872d4493e484b2f670e4a71"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell-mode-0-observed.json.gz",
+        "raw_sha256": "789dcbf00242c864a6cae7497830d550467001939d9fab62791beb652af11440",
+        "compressed_sha256": "f29a83d6348e7767f292e394d7d09138aeff07bde60461dfa01989548b913587"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell-mode-1-observed.json.gz",
+        "raw_sha256": "7f3ec15b7a2c0df640da964d545db4bd3b614bdc78096fdcacd97eb62aebdfda",
+        "compressed_sha256": "a00a8dad4d508e75575428dba40f88d6037632411194b2db34106d8c37952e2b"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell-mode-2-observed.json.gz",
+        "raw_sha256": "3a2922389d282153747b6771c670322180ae2721406e1427c71849b422993857",
+        "compressed_sha256": "26532a016b47ee62f3068fdb2842588e8d8fce0f2a1db5328e8cf99e45b43fd8"
+      }
+    ],
+    "audible_output": "awaiting optional user observation; not established by API return",
+    "physical_input": false,
+    "memory_acceptance": false,
+    "dpi_transition_acceptance": false
   }
 }
