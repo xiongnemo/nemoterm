@@ -69,7 +69,9 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cmake -S vendor/putty-0.85 -B build-cluster -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io --parallel 4
+          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io test_iso2022_charset --parallel 4
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-cluster/test_iso2022_charset.exe 2>&1 | Tee-Object charset-msvc.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_handle_io.exe 2>&1 | Tee-Object handle-io-msvc.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -118,6 +120,7 @@ jobs:
             build/native-crashes/
             gl-lifetime-msvc.log
             handle-io-msvc.log
+            charset-msvc.log
           retention-days: 14
   windows:
     name: Windows x64 tests and portable build
@@ -196,12 +199,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
+          for test in test_conf test_terminal test_sixel test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -700,6 +703,15 @@ jobs:
             -I vendor/putty-0.85/terminal tests/test_colour.c \
             vendor/putty-0.85/terminal/nemo_colour.c -o test-colour
           ASAN_OPTIONS=detect_leaks=1 ./test-colour
+      - name: Test ISO 2022 mapping data with sanitizers
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_charset.c \
+            vendor/putty-0.85/terminal/nemo_charset.c -o test-iso2022-charset
+          set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./test-iso2022-charset 2>&1 | tee terminal-charset-sanitizers.log
       - name: Test Unicode grapheme boundaries with sanitizers
         run: |
           python3 scripts/generate-grapheme-tables.py --check

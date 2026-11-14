@@ -39,7 +39,9 @@ def child(report, control):
         if command.get('stop'): break
         if command.get('phase')!=phase:
             phase=command['phase'];data=b''
-            os.write(1,command['sequence'].encode())
+            sequence=(bytes.fromhex(command['sequence_hex']) if 'sequence_hex' in command
+                      else command['sequence'].encode())
+            os.write(1,sequence)
             write(report,dict(phase=phase,hex=''))
         if select.select([0],[],[],.005)[0]:
             data+=os.read(0,65536)
@@ -88,14 +90,14 @@ def main():
     run_cases(args.xterm, args.output, cases)
 
 
-def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False):
+def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False, utf8_command_line=True):
     with tempfile.TemporaryDirectory(prefix='nemoterm-xterm-oracle-') as temporary:
         folder=Path(temporary);report=folder/'report.json';control=folder/'control.json'
         r,w=os.pipe()
         xvfb=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','1024x768x24','-nolisten','tcp'],
                               pass_fds=[w],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         os.close(w);display=os.read(r,100).decode().strip();os.close(r)
-        terminal=subprocess.Popen([xterm,'-geometry','80x24','-u8',*extra_args,'-e',sys.executable,
+        terminal=subprocess.Popen([xterm,'-geometry','80x24',*(['-u8'] if utf8_command_line else []),*extra_args,'-e',sys.executable,
             str(Path(__file__).resolve()),'--child',str(report),str(control)],
             env=dict(os.environ,DISPLAY=':'+display),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         results=dict(version=subprocess.check_output([xterm,'-version'],text=True).strip(),
@@ -105,7 +107,10 @@ def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False):
             while not report.exists() and time.monotonic()<deadline:time.sleep(.01)
             assert report.exists()
             for name,sequence in cases.items():
-                write(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
+                if isinstance(sequence,bytes):
+                    write(control,dict(phase=name,sequence_hex=(sequence+b'\x1b[5n').hex()))
+                else:
+                    write(control,dict(phase=name,sequence=sequence+'\x1b[5n'))
                 deadline=time.monotonic()+8
                 while time.monotonic()<deadline:
                     result=read(report)
@@ -121,11 +126,14 @@ def run_cases(xterm, output, cases, extra_args=(), *, raw_replies=False):
                         decoded = response.decode('utf-8')
                     except UnicodeDecodeError:
                         decoded = None
-                    results['cases'][name] = dict(sequence=sequence,
+                    results['cases'][name] = dict(sequence=None if isinstance(sequence,bytes) else sequence,
+                        **({'sequence_hex':sequence.hex()} if isinstance(sequence,bytes) else {}),
                         reply=decoded, reply_hex=response.hex())
                     print(name, repr(response), flush=True)
                 else:
-                    results['cases'][name]=dict(sequence=sequence,reply=response.decode())
+                    results['cases'][name]=dict(sequence=None if isinstance(sequence,bytes) else sequence,
+                        **({'sequence_hex':sequence.hex()} if isinstance(sequence,bytes) else {}),
+                        reply=response.decode())
                     print(name,repr(response.decode()),flush=True)
         finally:
             Path(output).write_text(json.dumps(results,indent=2))

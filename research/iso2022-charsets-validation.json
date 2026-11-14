@@ -1,0 +1,376 @@
+{
+  "source_base": "8a41ad7acccf22f6b87f4223935255eacda8f02d",
+  "scope": "Mapping/descriptor component only; not yet connected to terminal parser or advertised as runtime support",
+  "reference": {
+    "version": "XTerm(412)",
+    "sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+    "captured_streams": 320,
+    "verified_mapping_streams": 160,
+    "verified_cells": 15360,
+    "earlier_forced_utf8_capture": "not mapping acceptance"
+  },
+  "linux": [
+    {
+      "kind": "normal",
+      "command": [
+        "gcc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O1",
+        "-g",
+        "-I",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/vendor/putty-0.85/terminal",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/tests/test_charset.c",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/vendor/putty-0.85/terminal/nemo_charset.c",
+        "-o",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/build/charset-linux/test_charset-normal"
+      ],
+      "exit_code": 0
+    },
+    {
+      "kind": "sanitizers",
+      "command": [
+        "gcc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-I",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/vendor/putty-0.85/terminal",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/tests/test_charset.c",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/vendor/putty-0.85/terminal/nemo_charset.c",
+        "-o",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/build/charset-linux/test_charset-sanitizers"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "cmake": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/vendor/putty-0.85",
+        "-B",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/build/charset-cmake",
+        "-G",
+        "Ninja",
+        "-DPUTTY_GTK_VERSION=NONE",
+        "-DPUTTY_GSSAPI=OFF"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/build/charset-cmake",
+        "--target",
+        "test_iso2022_charset",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/mnt/c/Users/nemo/Documents/Projects/nemoterm/build/charset-worktree/build/charset-cmake/test_iso2022_charset"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "existing_reference_regression": {
+    "cases": 44,
+    "exact_match": true
+  },
+  "records": [
+    {
+      "path": "build/charset-cmake/0.log",
+      "archive": "research/iso2022-charset-records/000-0.log.gz",
+      "bytes": 4349,
+      "sha256": "753b76274b5aeea793b44bd7cf8743262d1234a088b4665d5e5f7c1bf8567802"
+    },
+    {
+      "path": "build/charset-cmake/1.log",
+      "archive": "research/iso2022-charset-records/001-1.log.gz",
+      "bytes": 285,
+      "sha256": "18fdb220f4b4b2dfce61302383e46e128241ff9612313e2a2a7090807876d94c"
+    },
+    {
+      "path": "build/charset-cmake/2.log",
+      "archive": "research/iso2022-charset-records/002-2.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "path": "build/charset-cmake/results.json",
+      "archive": "research/iso2022-charset-records/003-results.json.gz",
+      "bytes": 806,
+      "sha256": "d20b0a5c10a64e0cc15fb83a331f0a479b61a013b667706b21fda4b25e2a2832"
+    },
+    {
+      "path": "build/charset-linux/normal-build.log",
+      "archive": "research/iso2022-charset-records/004-normal-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/charset-linux/normal-test.log",
+      "archive": "research/iso2022-charset-records/005-normal-test.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "path": "build/charset-linux/results.json",
+      "archive": "research/iso2022-charset-records/006-results.json.gz",
+      "bytes": 1370,
+      "sha256": "16990a765b6a57ce07698a5d2944e2ceacc79daded87f285994f06a235a4024b"
+    },
+    {
+      "path": "build/charset-linux/sanitizers-build.log",
+      "archive": "research/iso2022-charset-records/007-sanitizers-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/charset-linux/sanitizers-test.log",
+      "archive": "research/iso2022-charset-records/008-sanitizers-test.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "path": "build/charset-msvc/build.log",
+      "archive": "research/iso2022-charset-records/009-build.log.gz",
+      "bytes": 52,
+      "sha256": "68f433b0472aec54703fb7580b28abc3ee62bf2c8291ffbb229b5de4e2e4c32c"
+    },
+    {
+      "path": "build/charset-msvc/test.log",
+      "archive": "research/iso2022-charset-records/010-test.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "path": "build/check-charset-cmake.py",
+      "archive": "research/iso2022-charset-records/011-check-charset-cmake.py.gz",
+      "bytes": 869,
+      "sha256": "cf0e7e78d99713fa5f4037d88d026751a4cb38f07d5f7ddfad6f4b4cdf83173a"
+    },
+    {
+      "path": "build/check-charset-linux.py",
+      "archive": "research/iso2022-charset-records/012-check-charset-linux.py.gz",
+      "bytes": 1321,
+      "sha256": "2d0fe0ad103e6ba10b8ad6fc66db12c035f2a858485555b2ae492ab0d993e0b7"
+    },
+    {
+      "path": "build/generate-charset-reference.py",
+      "archive": "research/iso2022-charset-records/013-generate-charset-reference.py.gz",
+      "bytes": 1639,
+      "sha256": "60732876e95f5a603a726f1da0bbbc9968c7d5f7441705106207bfdc2f5d9289"
+    },
+    {
+      "path": "build/probe-charset-env.py",
+      "archive": "research/iso2022-charset-records/014-probe-charset-env.py.gz",
+      "bytes": 843,
+      "sha256": "e7f5aabfb77307238839fda91c72aecf4e8b0c925922468fec537f9114b75189"
+    },
+    {
+      "path": "build/reference/charproc.c",
+      "archive": "research/iso2022-charset-records/015-charproc.c.gz",
+      "bytes": 413168,
+      "sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+    },
+    {
+      "path": "build/reference/charset-environment-default.json",
+      "archive": "research/iso2022-charset-records/016-charset-environment-default.json.gz",
+      "bytes": 2008,
+      "sha256": "da8440a83e8482eaed93723832d889e7c4b70f8f8c1ff11d03825336b97e99bf"
+    },
+    {
+      "path": "build/reference/charset-environment-toggle.json",
+      "archive": "research/iso2022-charset-records/017-charset-environment-toggle.json.gz",
+      "bytes": 2008,
+      "sha256": "da8440a83e8482eaed93723832d889e7c4b70f8f8c1ff11d03825336b97e99bf"
+    },
+    {
+      "path": "build/reference/charset-environment-unforced.log",
+      "archive": "research/iso2022-charset-records/018-charset-environment-unforced.log.gz",
+      "bytes": 702,
+      "sha256": "d648f95a4cffbe48737f072be706f24f0822db4f7ea4f051662f71abd4214f10"
+    },
+    {
+      "path": "build/reference/charset-environment.log",
+      "archive": "research/iso2022-charset-records/019-charset-environment.log.gz",
+      "bytes": 702,
+      "sha256": "408bac9c4017103a26a14202c864f754983175d3098da3a6b274540df6851457"
+    },
+    {
+      "path": "build/reference/charsets-0.json",
+      "archive": "research/iso2022-charset-records/020-charsets-0.json.gz",
+      "bytes": 875644,
+      "sha256": "1617fb1b3b60a4df7a2d286f8bcea72ce11e46aceaaef4af522662494b4a9805"
+    },
+    {
+      "path": "build/reference/charsets-0.log",
+      "archive": "research/iso2022-charset-records/021-charsets-0.log.gz",
+      "bytes": 150960,
+      "sha256": "f6341a715d10551d358f1fce9d7258b5d0cc6aa85cbf79f8556a57bb5f655971"
+    },
+    {
+      "path": "build/reference/charsets-canonical-.log",
+      "archive": "research/iso2022-charset-records/022-charsets-canonical-.log.gz",
+      "bytes": 192,
+      "sha256": "0ef14d754dfba0ac964d92fcfa351f514eba1e2a6321c1958c753a5513d67f15"
+    },
+    {
+      "path": "build/reference/charsets-canonical-0.json",
+      "archive": "research/iso2022-charset-records/023-charsets-canonical-0.json.gz",
+      "bytes": 875775,
+      "sha256": "676218212dc95c67a501cdba9dfa224917924d5e9bb1c0d5b380448dc4b83b8b"
+    },
+    {
+      "path": "build/reference/charsets-canonical-0.log",
+      "archive": "research/iso2022-charset-records/024-charsets-canonical-0.log.gz",
+      "bytes": 150960,
+      "sha256": "36acc0c10c8aaebc8d1f4b47b7ceac0b0ba81f6d3c748f5eedb1c33c02877607"
+    },
+    {
+      "path": "build/reference/charsets-canonical-1.json",
+      "archive": "research/iso2022-charset-records/025-charsets-canonical-1.json.gz",
+      "bytes": 875844,
+      "sha256": "77846070ace75646d9ad9789ba1c35ab51a69ac586893ca9b6117facbf0a5c7a"
+    },
+    {
+      "path": "build/reference/charsets-canonical-1.log",
+      "archive": "research/iso2022-charset-records/026-charsets-canonical-1.log.gz",
+      "bytes": 150980,
+      "sha256": "b94b02da92cc031cc7b7dccfc5c6f24acb7c0299fd7006ca76f1d226a2afcd85"
+    },
+    {
+      "path": "build/reference/charsets-canonical-2.json",
+      "archive": "research/iso2022-charset-records/027-charsets-canonical-2.json.gz",
+      "bytes": 878514,
+      "sha256": "36e0115ce8f9515c85fa3a4030d5c519822485f21458dfe76f11711a5023c71b"
+    },
+    {
+      "path": "build/reference/charsets-canonical-2.log",
+      "archive": "research/iso2022-charset-records/028-charsets-canonical-2.log.gz",
+      "bytes": 151156,
+      "sha256": "083f379b5212d570e69d1c3ab4c1a601e2ef5406a9228f5c75c6570d8f659fc2"
+    },
+    {
+      "path": "build/reference/charsets-canonical-3.json",
+      "archive": "research/iso2022-charset-records/029-charsets-canonical-3.json.gz",
+      "bytes": 879528,
+      "sha256": "6c0f5521c74a7b88d509d52c6e9c1ae09c900c582bce95d37bc3c1cd13a95d65"
+    },
+    {
+      "path": "build/reference/charsets-canonical-3.log",
+      "archive": "research/iso2022-charset-records/030-charsets-canonical-3.log.gz",
+      "bytes": 150984,
+      "sha256": "f72458899600ff7478023df66f087632c6df7b2a8c32ab6ca9959c9600194c90"
+    },
+    {
+      "path": "build/reference/charsets.c",
+      "archive": "research/iso2022-charset-records/031-charsets.c.gz",
+      "bytes": 18292,
+      "sha256": "87f1bb0b23c7078ffa983a81ff230abf2bfc1cea9d3f26a9b721556ae9d7056b"
+    },
+    {
+      "path": "build/reference/charsets.h",
+      "archive": "research/iso2022-charset-records/032-charsets.h.gz",
+      "bytes": 124637,
+      "sha256": "a6c3be7bb162c771a73108a57522ea7af33e7539d1474384ddc5cd6204dc10b6"
+    },
+    {
+      "path": "build/reference/cursor-charset-regression.json",
+      "archive": "research/iso2022-charset-records/033-cursor-charset-regression.json.gz",
+      "bytes": 16367,
+      "sha256": "8c51c5838324638e2348c4dc30bf20f1393df55c5e3e85d6c25a23c9572beb04"
+    },
+    {
+      "path": "build/reference/cursor-charset-regression.log",
+      "archive": "research/iso2022-charset-records/034-cursor-charset-regression.log.gz",
+      "bytes": 2605,
+      "sha256": "6fa90dbc377df78e92dc62211048f7b96f588df2b4815da40a0b16c050ba96d6"
+    },
+    {
+      "path": "build/reference/keysymdef.h",
+      "archive": "research/iso2022-charset-records/035-keysymdef.h.gz",
+      "bytes": 186634,
+      "sha256": "4ba0724695c817a08b4ea3a79c5e8a52e0798cc8d5906281b10f89dc6225208d"
+    },
+    {
+      "path": "build/reference/VTparse.h",
+      "archive": "research/iso2022-charset-records/036-VTparse.h.gz",
+      "bytes": 3042,
+      "sha256": "28fa02a0ddc47fb403c72aedda97f482253cab480665af42cd84c4fc096ddbd6"
+    },
+    {
+      "path": "build/retain-charsets.py",
+      "archive": "research/iso2022-charset-records/037-retain-charsets.py.gz",
+      "bytes": 2213,
+      "sha256": "62311cd60b63d5651a39da2f41feb1904f34a74046c4000eda1955af710f4f81"
+    },
+    {
+      "path": "build/run-charset-reference.py",
+      "archive": "research/iso2022-charset-records/038-run-charset-reference.py.gz",
+      "bytes": 542,
+      "sha256": "a1340ae0e7612b96610bb96fb5038c7c4a1b6942f920af9810fc402a5b2f9de4"
+    },
+    {
+      "path": "tests/charset_reference.h",
+      "archive": "research/iso2022-charset-records/039-charset_reference.h.gz",
+      "bytes": 128365,
+      "sha256": "23a815d4c76a1d24d47789322c74ca1f196010ca0d8916384a5ae4933083dd70"
+    },
+    {
+      "path": "tests/test_charset.c",
+      "archive": "research/iso2022-charset-records/040-test_charset.c.gz",
+      "bytes": 3512,
+      "sha256": "6d48e4a9103488dde1c318a8f03a9b2257cd2f12aaf54008fc7db9dc8a34dd46"
+    },
+    {
+      "path": "tests/xterm_charsets_oracle.py",
+      "archive": "research/iso2022-charset-records/041-xterm_charsets_oracle.py.gz",
+      "bytes": 3348,
+      "sha256": "f7e12f48aa2c6692acd965005d83eb4d4dc86619ce006d0782fe848f14ac179f"
+    },
+    {
+      "path": "tests/xterm_state_oracle.py",
+      "archive": "research/iso2022-charset-records/042-xterm_state_oracle.py.gz",
+      "bytes": 7243,
+      "sha256": "3e20c4cdf9f73c1bfda373d8429c3f32b3de84290397ef9aea8fc09f773204dc"
+    },
+    {
+      "path": "tools/generate_charset_tables.py",
+      "archive": "research/iso2022-charset-records/043-generate_charset_tables.py.gz",
+      "bytes": 3518,
+      "sha256": "55e330ae0d9ca1ae30fa2e9b5383ac1b728c07d141ecccb42a5b4dc99bcede8b"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_charset.c",
+      "archive": "research/iso2022-charset-records/044-nemo_charset.c.gz",
+      "bytes": 3670,
+      "sha256": "76296f1985cb99e83e1d671b2739cf0e906da6db96f1491794302f1f4dc347be"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_charset.h",
+      "archive": "research/iso2022-charset-records/045-nemo_charset.h.gz",
+      "bytes": 1278,
+      "sha256": "d5605cb13f03346b3a06dcc4302e75529dc45f2778efaf69d4ac7b27a7f6d2d8"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_charset_data.h",
+      "archive": "research/iso2022-charset-records/046-nemo_charset_data.h.gz",
+      "bytes": 27253,
+      "sha256": "7ec2d193c0acc6c9f6b4784a83182d3d2e1da0d90e2ee2645678d4fe3323979b"
+    }
+  ]
+}

@@ -69,6 +69,7 @@ add_library(guiterminal STATIC
 add_executable(test_sixel ../../tests/test_sixel.c terminal/nemo_sixel.c)
 add_executable(test_colour ../../tests/test_colour.c terminal/nemo_colour.c)
 add_executable(test_grapheme ../../tests/test_grapheme.c terminal/nemo_grapheme.c)
+add_executable(test_iso2022_charset ../../tests/test_charset.c terminal/nemo_charset.c)
 
 add_library(noterminal STATIC
   stubs/no-term.c ldisc.c)
