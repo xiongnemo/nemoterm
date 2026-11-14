@@ -49,8 +49,9 @@ ordinary bells, visual state, overload suppression and 10,000 bells with no
 retained accounting nodes when accounting is disabled. A remote native fixture
 observes actual MessageBeep calls without replacing the function or its return
 value; disabled and visual modes must not call it. This establishes API dispatch,
-not audible speaker output. Visual pixels, custom WAV/PC-speaker operation and
-local audible acceptance remain open.
+not audible speaker output. The resumed local visual-pixel result is recorded
+below. The user also confirmed hearing the default Windows sound in the resumed
+local test. Custom WAV/PC-speaker operation remains open.
 
 ## Verification
 
@@ -174,3 +175,48 @@ behavior are not established by this fixture. Nine raw local logs/manifests and
 observations are retained in `local_native` in the validation record. These tests
 send events to fixture-owned UI threads and do not establish physical-wheel or
 cross-monitor DPI acceptance.
+
+
+## Resumed local visual bell pixels
+
+The exact downloaded `69cd5a4` image passes a further pixel fixture on actual
+GDI, OpenGL and DirectX. A single ordinary BEL in visual mode swaps the default
+background/foreground colour in an empty interior patch, then restores the
+original colour. Each phase samples for 0.8 seconds; the three renderers retain
+13, 4 and 13 flashed samples respectively. OSC's BEL terminator and disabled
+bell mode never flash. All four owned process groups exit naturally.
+
+This uses the opted-in renderer image API without target injection, timing
+patches or global input. It captures the retained renderer surface, not the
+physical desktop compositor, and does not measure memory. Six original
+normal/flash PNGs and the raw observations are retained in the validation
+record. The fixture is added to regular core/single-image CI and focused replay.
+The [focused replay](https://github.com/xiongnemo/nemoterm/actions/runs/43618369395)
+passes at fixture `4c0e8a37826fcf6274f0138597cefe89ff79609c` against unchanged
+production source `9bef90786e2bc1ccb8edbc180ac369b00c98ea4b`. Its isolated image
+is 4,486,656 bytes, SHA-256
+`cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466`.
+Zoom, mixed tabs, real bell API dispatch and visual pixels all pass. The remote
+OpenGL request falls back to GDI; it is not evidence of remote OpenGL rendering.
+Local OpenGL pixels above use the original `69cd5a4` image. Complete application
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43618369540) and
+[single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43618369308)
+CI subsequently passed at `4c0e8a3`, including 123 mandatory single-image checks.
+The independently built formal image is 4,486,656 bytes with SHA-256
+`4644a9a44953be559e9780b01c391d4c053e5b9bd1d41922ce165f1e0852a401`.
+Its validation manifest, font/tab/bell/visual records, full workflow logs and
+artifact identities are retained separately from the replay's `cf36e20` image.
+Local acceptance of the earlier formal `9bef907` cache image is recorded in
+[the cache validation](cluster-layout-cache.md); results are not transferred
+between different EXE hashes.
+
+A separate attempt to exercise physical keyboard/wheel input through the
+computer-use helper made zero input actions: all three connection attempts,
+including a kernel reset, reported that the native pipe was unavailable. The
+owned fixture closed naturally. This attempt is not a passed input test.
+
+The user answered the earlier listening question with “听到了” (heard it).
+Combined with the actual `MessageBeep(MB_OK)` call and successful API return,
+this accepts the default Windows audible-bell path on the local `69cd5a4` image.
+It does not establish custom WAV playback, PC-speaker behavior or a waveform
+measurement, and is not attributed to the newer cache/replay executable.

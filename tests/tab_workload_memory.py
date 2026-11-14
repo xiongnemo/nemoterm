@@ -144,16 +144,29 @@ def verify_animation(pid, children, select, observations, prefix):
                     injected=False,after_memory_sampling=True,captures=0,frames=[])
         observations.append(record)
         colours={bytes((0,0,255)):'red',bytes((0,255,0)):'green',bytes((255,0,0)):'blue'}
-        seen=set();started=time.monotonic();deadline=started+3
+        cropped='image-rectangle' in current.get('capabilities',[])
+        record['capture_scope']='rectangle' if cropped else 'full-client'
+        payload=b''
+        if cropped:
+            cw,ch=(target['client_width']-2)//target['cols'],(target['client_height']-2)//target['rows']
+            patch_x,patch_y=1+2*cw+256,1+ch+144
+            payload=struct.pack('<IIII',patch_x,patch_y,8,8)
+        frames=[];seen=set();started=time.monotonic();deadline=started+3
         while seen!=set(colours.values()) and time.monotonic()<deadline:
-            bmp=api.request(instance['endpoint'],'image',target['id'])
+            bmp=api.request(instance['endpoint'],'image',target['id'],payload)
+            returned=time.monotonic()-started
             width,height=struct.unpack_from('<ii',bmp,18);height=-height
             offset=struct.unpack_from('<I',bmp,10)[0]
             assert bmp[:2]==b'BM' and offset==54 and len(bmp)==54+width*height*4
             # The fixture places a 512x288 image at cell (3,2). This interior
             # patch stays inside it across the workload's 100px height changes.
-            cw,ch=(width-2)//target['cols'],(height-2)//target['rows']
-            x,y=1+2*cw+256,1+ch+144
+            if cropped:
+                assert (width,height)==(8,8)
+                x=y=0
+            else:
+                cw,ch=(width-2)//target['cols'],(height-2)//target['rows']
+                x,y=1+2*cw+256,1+ch+144
+                patch_x,patch_y=x,y
             assert x+8<=width and y+8<=height
             pixels=[bmp[offset+((y+dy)*width+x+dx)*4:offset+((y+dy)*width+x+dx)*4+3]
                     for dy in range(8) for dx in range(8)]
@@ -161,9 +174,14 @@ def verify_animation(pid, children, select, observations, prefix):
             colour=colours.get(pixels[0])
             if colour and colour not in seen and all(p==pixels[0] for p in pixels):
                 seen.add(colour);name=f'{prefix}-tab-{index}-{colour}.png'
-                (root/'research'/name).write_bytes(api.png_from_bmp(bmp))
-                record['frames'].append(dict(colour=colour,seconds=time.monotonic()-started,
-                    image=name,bmp_sha256=hashlib.sha256(bmp).hexdigest(),patch=[x,y,8,8]))
+                frames.append((name,bmp))
+                record['frames'].append(dict(colour=colour,seconds=returned,
+                    image=name,bmp_sha256=hashlib.sha256(bmp).hexdigest(),patch=[patch_x,patch_y,8,8]))
             time.sleep(.025)
         record['seconds']=time.monotonic()-started
+        # Encoding and disk I/O must not delay the next observation. At most
+        # three bounded images are retained in this external test controller,
+        # after frontend memory sampling has already stopped.
+        for name,bmp in frames:
+            (root/'research'/name).write_bytes(api.png_from_bmp(bmp))
         assert seen==set(colours.values()),record

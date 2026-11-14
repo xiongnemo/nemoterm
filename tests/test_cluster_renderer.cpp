@@ -124,6 +124,28 @@ int main()
         CHECK(draw(&fresh,b,narrow,rtl[0],false,2,.75f,true,true));GdiFlush();
         CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
         nemo_cluster_free(&fresh);
+        /* Repeated whole clusters must still match a fresh renderer when
+         * geometry, background, shadow bold or emoji presentation changes.
+         * Run both presentations of the same text to catch a stale font
+         * override. The surrounding font loop also exercises invalidation. */
+        for (auto text:samples) for (unsigned presentation=0;presentation<2;presentation++) {
+            a.clear();CHECK(draw(&renderer,a,box,text,presentation!=0));
+            a.clear();b.clear();
+            CHECK(draw(&renderer,a,narrow,text,presentation!=0,2,.75f,true,true));
+            CHECK(draw(&fresh,b,narrow,text,presentation!=0,2,.75f,true,true));GdiFlush();
+            CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
+            nemo_cluster_free(&fresh);
+        }
+        /* Churn distinct multi-unit strings, then revisit a prior cluster. */
+        for (unsigned i=0;i<80;i++) {
+            wchar_t text[]={static_cast<wchar_t>(0x5d0+i),0x301,0};
+            a.clear();CHECK(draw(&renderer,a,box,text));
+        }
+        a.clear();b.clear();
+        CHECK(draw(&renderer,a,narrow,samples[4],true));
+        CHECK(draw(&fresh,b,narrow,samples[4],true));GdiFlush();
+        CHECK(std::memcmp(a.pixels,b.pixels,WIDTH*HEIGHT*4)==0);
+        nemo_cluster_free(&fresh);
         /* A normalized rendering copy must make decomposed text identical
          * to its canonical equivalent, without modifying the input. */
         for (unsigned i=0;i<2;i++) {

@@ -41,7 +41,18 @@ not substitutes for the failed full workload.
 The preceding `26f50c8` resource-count failure is also unresolved. Successful
 resource cycles on this artifact do not establish its cause. The approximate
 50 MB total working-set target is not met by these DirectX observations.
-Fresh GDI memory acceptance and a more reliable margin below the unchanged
-25,000,000-byte DirectX ceiling remain to be completed. Logs, raw samples,
+The unchanged GDI baseline, PNG and GIF cases also ran at the actual 160 by 48
+Sarasa grid. All three pass nine functional groups, the strict private-working-set
+gate and natural cleanup. The GIF case observes all three required colours in
+both tabs after memory sampling. These fresh GDI results are:
+
+| GDI workload | Samples | Private WS peak | Total WS peak | Private commit peak |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline | 529 | 15,953,920 | 38,117,376 | 18,620,416 |
+| PNG | 596 | 16,211,968 | 38,920,192 | 18,964,480 |
+| GIF | 576 | 16,691,200 | 39,477,248 | 19,292,160 |
+
+A reliable margin below the unchanged 25,000,000-byte DirectX ceiling remains
+to be established. Logs, raw samples,
 diagnostic scripts, observations and original failure images are retained with
 hashes in [the validation record](local-69cd5a4-validation.json).

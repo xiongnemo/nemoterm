@@ -729,5 +729,382 @@
     "physical_input": false,
     "memory_acceptance": false,
     "dpi_transition_acceptance": false
+  },
+  "physical_ui_attempt": {
+    "recorded_utc": "2026-11-14T16:39:36.194115+00:00",
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "memory_acceptance": false,
+    "checks": [],
+    "pid": 31260,
+    "cleanup": {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "natural_exit": true,
+    "requested_input_method": "Sky scoped SendInput",
+    "input_actions": 0,
+    "completed": false,
+    "reason": "Computer Use native pipe is unavailable: failed to connect native pipe: The system cannot find the file specified. (os error 2)",
+    "connection_attempts": 3,
+    "kernel_reset_attempted": true,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-observed.json.gz",
+        "raw_sha256": "89eb15a7e197eb31319e3dcfa0b6fb2b72188aff3af09686e9b206bd73ca1d41",
+        "compressed_sha256": "fff94d318f73e30a1bcdcb51b467c21cfbd528f8dcaf550da243aab940f3b71d"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-physical-zoom.log.gz",
+        "raw_sha256": "2d8494e81410fb7cced08519d22ae7dcebb23a355f0d66b4f436e7a87f16f63e",
+        "compressed_sha256": "44ffea2c3bba0a5fad731dca451ecb9de0e3313791f3f0d550c96e48e2503ab8"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-physical_zoom_session.py.gz",
+        "raw_sha256": "9607e6ecbf3ed3a40b4d681a8b621d19c74aa66883b0f2e0b2f8e2cdea7b862a",
+        "compressed_sha256": "851cea8e973c56df8969f8f789c413b082039b02b665bede9920342aea2a5d08"
+      }
+    ]
+  },
+  "local_visual_bell": {
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "requested_renderers": [
+      0,
+      1,
+      2,
+      0
+    ],
+    "actual_renderers_api_ids": [
+      0,
+      1,
+      2,
+      0
+    ],
+    "completed": true,
+    "input_injection": false,
+    "physical_desktop_capture": false,
+    "memory_acceptance": false,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-observed.json.gz",
+        "raw_sha256": "4780f3992c564c6d46ae01613d4ae9db0419af8f688f9fe4381cdbf882aaa7b9",
+        "compressed_sha256": "a5e7b9c96317867fdd7ed9400db9b48ccd63b3902021d735816db49e9d715f56"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell.log.gz",
+        "raw_sha256": "c78d090c2ada7326facff30c677069b0afa65f5d83df7d2aa2b8aa398c529b14",
+        "compressed_sha256": "93ab0c3ca607137f478c06ef46a6e346e6b3ba0896c931313653b675fd0ba138"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell_visual_window_smoke.py.gz",
+        "raw_sha256": "450d91a10f0c509d2cdaf2cae2eaa19b966c32637f6926ee77a8a2065bacc5cf",
+        "compressed_sha256": "00f65d423b6ce3c33e962ee142a50351a8a4a857c43827d058de92d7899d1b62"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-0-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-0-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-1-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-1-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-2-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-2-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      }
+    ]
+  },
+  "visual_bell_replay": {
+    "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+    "fixture_commit": "4c0e8a37826fcf6274f0138597cefe89ff79609c",
+    "source_run": "43615872418",
+    "executable_sha256": "cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466",
+    "executable_bytes": 4486656,
+    "execution_directory_files": [
+      "nemoterm.exe"
+    ],
+    "scope": "Fixture replay against unchanged production; not a build or memory acceptance",
+    "run_id": 43618369395,
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43618369395",
+    "conclusion": "success",
+    "retained": [
+      {
+        "file": "font-zoom-evidence/4c0e8a3-run.json.gz",
+        "raw_sha256": "2354cbc3356f83bd084a36efe0fca92df0c0fd5cc509adf3b6f37b35d6396b2e",
+        "compressed_sha256": "57ab207372e4bd1b97de80e777fdc302c55e25424b54abc16eb0bc1219120842"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-run.log.gz",
+        "raw_sha256": "775cc6fd4c40c5557c91846c958dd694e678a9058d47c4ad876284c17ff86ba1",
+        "compressed_sha256": "5410a5cbdb427b656823356aec1d359caff4c14e6fee7d7aa24f5dccaf896e28"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-artifacts.json.gz",
+        "raw_sha256": "db1149ca4c241d971fb6a3cb3ed4439c3b70adc5f3b3d67b43d503e879179f48",
+        "compressed_sha256": "bc76378705ea8f22ebe59c32ee52f09767232153c9fe33414e1bbcd73f31a273"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-bell-mode-0-observed.json.gz",
+        "raw_sha256": "394deb4d1da09a7ce75a1a5127959d09269af999e6e8a5557d26a56615e64786",
+        "compressed_sha256": "f45a8dfba406cbfc44ff534e32f65e73e49b9aa9b526cc8b29a019e76e17cb8f"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-bell-mode-1-observed.json.gz",
+        "raw_sha256": "d3fe36986bede1953d1e70b7d134354446a223634ada291eed07c1d105139387",
+        "compressed_sha256": "e8dfd4c3bf742dc04ea9be5797537650a0f6926967b1e8242a45bc6e225fb5b7"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-bell-mode-2-observed.json.gz",
+        "raw_sha256": "59efe31af3ad477d81f25a89098fd4b986f2300d3505edd757e0fc03c333f479",
+        "compressed_sha256": "cc4128d6f6496bce65d53ad97b45eec4937b681939933a56de0232f4a0525e87"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-bell.log.gz",
+        "raw_sha256": "c2ac7536f53d3a2438964a577f524f2a0951ad2237f50581e32fe5f875568a8b",
+        "compressed_sha256": "69e0b9a6f2035761a9a55df1333fc08daeb2c4850afff6f3e15e5c4fc4f77756"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-font-zoom-observed.json.gz",
+        "raw_sha256": "9d93f10008820ed3d39f813f70230811a2137c2278a50aa56c9a379aeffac02f",
+        "compressed_sha256": "a93657b2c350cfb403a7db7d765c5d05660e9b0632ff4bdd7b35e2ad3653303c"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-font-zoom.log.gz",
+        "raw_sha256": "51637c6f25c28c4ef6e51f4a69fd5d033fe59051c56c585bab6a8257ff9b00f4",
+        "compressed_sha256": "299e6a61a71e1faf56ef21e01a8f06ed5e2d9f91a13e200451b21495f5f9cf5e"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-identity.json.gz",
+        "raw_sha256": "9394428418ea8d11d83b71fc0bc87f032b4130fa1d3668334efc22452b7880ca",
+        "compressed_sha256": "9eb84185887bdf07fe3e3668c7f30deb1ca558a9698449aaa82364b80f499fef"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-tabs-profiles-observed.json.gz",
+        "raw_sha256": "10ff5d7379fdc9a4152614cd87abfbc153bfa6d711e182927fcc2fed040495db",
+        "compressed_sha256": "16b198a20a502ef8dc1005699ff964ea30823cd62c37450da9316e88d86dfae9"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-tabs-profiles.log.gz",
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+        "compressed_sha256": "c59fc7e1826c6f37462e51122aeb368094f98ea2e66cf84e17ac28c25755d31a"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-0-flash.png.gz",
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d",
+        "compressed_sha256": "5133ea337258a4d534b8d288b283417c37cbe1a606ab1b125ad42166b0755821"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-0-normal.png.gz",
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f",
+        "compressed_sha256": "998b2e5777e11c7bb9a5540f01da48c82a77ce6d98ba85470c47f5eff7891c62"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-1-flash.png.gz",
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d",
+        "compressed_sha256": "5133ea337258a4d534b8d288b283417c37cbe1a606ab1b125ad42166b0755821"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-1-normal.png.gz",
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f",
+        "compressed_sha256": "998b2e5777e11c7bb9a5540f01da48c82a77ce6d98ba85470c47f5eff7891c62"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-2-flash.png.gz",
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d",
+        "compressed_sha256": "5133ea337258a4d534b8d288b283417c37cbe1a606ab1b125ad42166b0755821"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-2-normal.png.gz",
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f",
+        "compressed_sha256": "998b2e5777e11c7bb9a5540f01da48c82a77ce6d98ba85470c47f5eff7891c62"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell-observed.json.gz",
+        "raw_sha256": "c51a9a291db613c1fd0aebe15dc0086771f820bb78a5498202ab3b4119d0d00c",
+        "compressed_sha256": "38aee980d086b70280e5ec2cee603912d1fe9c642c1b7243010405230c1d99bd"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-visual-bell.log.gz",
+        "raw_sha256": "1f140b0e15d7a3a580f3500642f4589102932a5fce5c43d6de685b73e291c8bb",
+        "compressed_sha256": "be430d8198738560fc316e61336fe79b95f74a2031a748b949612754185abdf5"
+      }
+    ],
+    "visual_bell_actual_renderer_api_ids": [
+      0,
+      0,
+      2,
+      0
+    ]
+  },
+  "local_audible_confirmation": {
+    "recorded_utc": "2026-11-14T17:04:19.547238+00:00",
+    "source": "User reply to the earlier listening question",
+    "answer": "\u542c\u5230\u4e86",
+    "bell_mode": "Windows system MessageBeep(MB_OK)",
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "accepted": true,
+    "scope": "Default system sound heard by user; custom WAV and PC speaker not covered"
+  },
+  "visual_bell_full_ci": {
+    "recorded_utc": "2026-11-14T17:41:40.939741+00:00",
+    "source_commit": "4c0e8a37826fcf6274f0138597cefe89ff79609c",
+    "executable_sha256": "4644a9a44953be559e9780b01c391d4c053e5b9bd1d41922ce165f1e0852a401",
+    "executable_bytes": 4486656,
+    "passed_checks": 123,
+    "workflows": {
+      "core": {
+        "databaseId": 43618369540,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43618369540",
+        "conclusion": "success",
+        "artifacts": [
+          {
+            "id": 14124430656,
+            "name": "test-results-windows-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          },
+          {
+            "id": 14124171602,
+            "name": "nemoterm-windows-x64-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          },
+          {
+            "id": 14123910524,
+            "name": "source-console-host-x64-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          },
+          {
+            "id": 14123576211,
+            "name": "cluster-msvc-diagnostics-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          },
+          {
+            "id": 14123130852,
+            "name": "test-results-sanitizers-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          }
+        ]
+      },
+      "single": {
+        "databaseId": 43618369308,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43618369308",
+        "conclusion": "success",
+        "artifacts": [
+          {
+            "id": 14123993141,
+            "name": "nemoterm-single-exe-x64-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          },
+          {
+            "id": 14123598971,
+            "name": "single-exe-evidence-4c0e8a37826fcf6274f0138597cefe89ff79609c"
+          }
+        ]
+      }
+    },
+    "matched_evidence": [
+      "single-exe-validation.json",
+      "single-exe-observed.json",
+      "font-zoom-observed.json",
+      "tabs-profiles-observed.json",
+      "bell-mode-0-observed.json",
+      "bell-mode-1-observed.json",
+      "bell-mode-2-observed.json",
+      "renderer-observed.json",
+      "visual-bell-observed.json"
+    ],
+    "accepted_executable_changed": false,
+    "local_memory_acceptance": false,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-core-run.json.gz",
+        "raw_sha256": "2d072ef095baa95b2e7f2724108bbea82ac5d86318e6a26fbcd3c394d80bf460",
+        "compressed_sha256": "83ce039c326d96645789b09856077ae2dce538255faaa23c2ce1069c569af168"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-core-run.log.gz",
+        "raw_sha256": "90a6b3c524a270e7852d2ad295e38fd59e7512297ac8bdc61e64614fd1f2a415",
+        "compressed_sha256": "a5d71cc272528a1e4196cffc416f4f50c7e473bb2d7b251662b0efcd4805b220"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-core-artifacts.json.gz",
+        "raw_sha256": "83870d8efea96d8f7502e0fb4601d2dc8abd46ff87bc685f487c0419e606eafb",
+        "compressed_sha256": "9ce9ec4706df5bc5cd313f5f1f0f34001dec13f145ee2bc08e97de77f6dc759c"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-single-run.json.gz",
+        "raw_sha256": "b054af90b1f9b9f6fbae9527919a2068bdb51be6c13ce2a27905a48a1fa39366",
+        "compressed_sha256": "8f197cf45a29ddc6c7875aa2a91260c28b5f4cbdadfc918fec42d6055830d0c6"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-single-run.log.gz",
+        "raw_sha256": "bbb8bf1ce191b15f7446632309b0cf8ea75d111c4afa752e2ff9e3f8ac8ce448",
+        "compressed_sha256": "f8ee179329634d6cd75a6978fd17373c2d0db9f81db4d49f2079852f0cc4b826"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-single-artifacts.json.gz",
+        "raw_sha256": "03b6917639bb05e4823fc6028c3d631055ea9a59acbf552700ba2353ae0d8f65",
+        "compressed_sha256": "63a1c02b219934e0ee8d67651c104e54cff8128aedd0baa4f4afcf036ba8cc7f"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-single-exe-validation.json.gz",
+        "raw_sha256": "b49d435e7c6d1403719218cab9725db6e4c6477608b68637693ff65ba30b191d",
+        "compressed_sha256": "a76740e493b741d824cc4fe482b8eaa79800a8771d8367f91db34173f3c8f8e1"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-single-exe-observed.json.gz",
+        "raw_sha256": "f79b049604c3066ac4a643e047d11be31a8111e17ed279893187299e2ca5b5d6",
+        "compressed_sha256": "6533a4cb6b596064e71892d37502606697cb32cff164986a8714b4e002477c2b"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-font-zoom-observed.json.gz",
+        "raw_sha256": "93d0fe271d0d860de8e5daf1e2a712ad2b430a05e74a9cc22ba553dc397ab29c",
+        "compressed_sha256": "91672e16a765f789ca40c0f2efc19785ddc8d9f0102461ce1fd1ea4a46ae1dc0"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-tabs-profiles-observed.json.gz",
+        "raw_sha256": "53d6c8e7a9108ba30d477d20dc25d5672583f76869360d4a8feffcf14f0de162",
+        "compressed_sha256": "462db7058c6e0b5533cfe2e0487b540bdc042e96da140885e3c1c0544c91843f"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-bell-mode-0-observed.json.gz",
+        "raw_sha256": "d08e8c8d098f2eec74af8480217160f6b8a0944e1cbebbb3d8436a2c256bf4e4",
+        "compressed_sha256": "9a0db67a09760f61c1e1ce8a2697dac3f00568b99a929a6cf24ce0bc8dac4655"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-bell-mode-1-observed.json.gz",
+        "raw_sha256": "82ba74f9c51cc5c9d015c205afc9371d5d5990cee0e0abc4100fa58d2942a15a",
+        "compressed_sha256": "54fdd450f4a5d16145860bf04caac28eaaf007d035fe91bd303e63583f4f8ac5"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-bell-mode-2-observed.json.gz",
+        "raw_sha256": "609dc91d1abe7ca7177934a7b1922dd99e4cf907fbc122c24e33c8a9fa1636c1",
+        "compressed_sha256": "743e4b47821e54d8a27eda529159a45af35dc23947c8439dbccc2a31f3b67537"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-renderer-observed.json.gz",
+        "raw_sha256": "7d3d36b89207cae4aefcb633e17fd0c350774040dcad19882dbb9ce4656d27a5",
+        "compressed_sha256": "5ebbf121440fa7c54e242e8510dd1e6175fe568f85cb77b11dbde10b43b2dc5e"
+      },
+      {
+        "file": "font-zoom-evidence/4c0e8a3-full-visual-bell-observed.json.gz",
+        "raw_sha256": "0c1b0cc21cbeef831d4ea50a0ec7e74e6fb9d7c9605c793a8bb2f6927f907f93",
+        "compressed_sha256": "420b05dc37a2840e5cf0591c5945fa1177b558ecc416e863e1ac23fb57a8110a"
+      }
+    ]
   }
 }

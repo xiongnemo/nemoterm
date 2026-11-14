@@ -51,6 +51,11 @@ synchronization. They exclude OS/driver handles; a retired context's worker may
 still be returning from its thread procedure. They help diagnose session cleanup
 but do not replace OS resource or memory measurements.
 
+Discovery advertises optional features in `capabilities`. `image-rectangle`
+means the image operation accepts a client-pixel rectangle. Each session also
+reports `client_width` and `client_height`, excluding the tab bar and frame.
+Existing clients can ignore these additive fields.
+
 `text` returns the visible logical screen rows in UTF-8, including spaces and a
 newline per row. Wide-cell continuations are skipped and combining characters
 are included. It does not return scrollback or pixel layout/BiDi visual order.
@@ -58,10 +63,20 @@ Legacy DBCS direct-font byte extraction is not a guaranteed lossless view; use
 the screenshot when checking presentation. `image` returns a top-down 32-bit
 BGRA BMP of the terminal client area, excluding the tab bar/window frame. Active
 views use the existing renderer capture, including a retained synchronized
-frame; inactive tabs are rendered from their current grid through GDI without
-activation. Inactive capture is therefore content evidence, not a DirectX pixel
+frame; inactive tabs preserve a retained synchronized frame when one exists,
+otherwise rendering their current grid through GDI without activation.
+Inactive capture is therefore content evidence, not a DirectX pixel
 comparison. The Python client can convert this BMP to PNG with the standard
 library. Both read APIs are snapshots; there is no continuous output subscription.
+
+For a small observation, use `image --rect X Y WIDTH HEIGHT --output patch.png`
+with the same `--endpoint` and `--session` arguments. Coordinates are relative
+to the terminal client. The rectangle must be nonempty and entirely inside it;
+the server rejects out-of-bounds requests instead of silently clipping them.
+The BMP/PNG dimensions equal the requested dimensions. Only those image rows
+are read or rendered, and the capture buffer contains only the rectangle.
+GPU readback still uses the renderer's bounded full-width row buffers. This
+avoids allocating and transferring a full window just to inspect a small area.
 
 ## Transport and boundaries
 
@@ -86,8 +101,10 @@ The 24-byte request header is `struct.pack('<4sHHQII', ...)`:
 | uint32 payload length | 0 through 65,536 |
 | uint32 reserved | 0 |
 
-The payload immediately follows the header. List/text/image require an empty
-payload. Input/paste take strict UTF-8. Key takes two uint32 values: Windows
+The payload immediately follows the header. List/text require an empty payload.
+Image accepts an empty payload for the full client, or four uint32 values
+`x, y, width, height` (`'<IIII'`, 16 bytes) when `image-rectangle` is advertised.
+Input/paste take strict UTF-8. Key takes two uint32 values: Windows
 virtual-key code and modifiers (Shift=1, Ctrl=2, Alt=4). VK_PACKET and
 VK_PROCESSKEY are rejected; send Unicode text using `input` or `paste` instead.
 
@@ -122,6 +139,16 @@ because cross-process PrintWindow does not reliably capture the child GPU
 surface. Its post-probe memory samples are marked instrumented. The API itself
 and its Python client require no instrumentation. Tests never attach to existing
 user terminals.
+
+[`tests/image_rectangle_window_smoke.py`](../tests/image_rectangle_window_smoke.py)
+compares 24 crops per renderer with full-frame RGB pixels, including border
+pixels, partial glyphs, row-band boundaries, active/inactive tabs and retained
+synchronized output. It also checks malformed rectangles, CLI PNG output and
+natural cleanup. Local hardware runs require real OpenGL and DirectX; CI records
+the actual renderer so fallback is visible. The animated workload uses this
+capability when available, retaining its three-second/all-colour requirement.
+PNG encoding occurs after observation, and frame timestamps measure image
+receipt rather than subsequent encoding and disk writes.
 
 See the [validation checkpoint](../research/automation-input.md) for exact image
 hashes, screenshots, failed fixture attempts and completed CI baselines.

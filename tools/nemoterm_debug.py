@@ -180,7 +180,16 @@ def main():
     parser.add_argument('--shift', action='store_true')
     parser.add_argument('--alt', action='store_true')
     parser.add_argument('--output', type=Path, help='Image .png or .bmp destination')
+    parser.add_argument('--rect', nargs=4, type=int, metavar=('X', 'Y', 'WIDTH', 'HEIGHT'),
+                        help='Capture a rectangle in terminal client pixels (image only)')
     args = parser.parse_args()
+    if args.rect is not None:
+        if args.operation != 'image':
+            parser.error('--rect is only valid for image')
+        x, y, width, height = args.rect
+        if not (0 <= x <= 0xffffffff and 0 <= y <= 0xffffffff
+                and 0 < width <= 0xffffffff and 0 < height <= 0xffffffff):
+            parser.error('--rect requires nonnegative coordinates and positive 32-bit dimensions')
     if args.operation == 'discover':
         print(json.dumps(discover(args.pid), ensure_ascii=False, indent=2));return
     if not args.endpoint:
@@ -198,6 +207,8 @@ def main():
         payload = struct.pack('<II', args.vk, args.shift | args.ctrl << 1 | args.alt << 2)
     elif args.operation == 'image' and (not args.output or args.output.suffix.lower() not in ('.png', '.bmp')):
         parser.error('image requires --output with .png or .bmp extension')
+    if args.rect is not None:
+        payload = struct.pack('<IIII', *args.rect)
     value = request(args.endpoint, args.operation, args.session, payload)
     if isinstance(value, bytes):
         args.output.write_bytes(png_from_bmp(value) if args.output.suffix.lower() == '.png' else value)

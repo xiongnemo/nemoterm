@@ -1,5 +1,5 @@
 {
-  "recorded_utc": "2026-11-14T16:24:18.622477+00:00",
+  "recorded_utc": "2026-11-14T16:35:53.425809+00:00",
   "source_commit": "69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac",
   "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
   "font": "SarasaTermSC Nerd Font Light",
@@ -368,5 +368,271 @@
       "raw_sha256": "0f88ea9c9dc2846abb5c4aa7391997d29bd1f75ce9c493639f67182e10a11705",
       "compressed_sha256": "58e0919f9fa06d6676ca5a2d1b35bd69fdab5c22befd3a4a1b8e5eb94b635149"
     }
-  ]
+  ],
+  "gdi_resumed": {
+    "workloads": [
+      {
+        "workload": "baseline",
+        "samples": 529,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 15953920,
+          "total_ws": 38117376,
+          "private_commit": 18620416
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "workload": "png",
+        "samples": 596,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 16211968,
+          "total_ws": 38920192,
+          "private_commit": 18964480
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "workload": "gif",
+        "samples": 576,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 16691200,
+          "total_ws": 39477248,
+          "private_commit": 19292160
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": [
+          {
+            "session": 1,
+            "hwnd": 2228322,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "red",
+                "seconds": 0.4668113000225276,
+                "image": "animated-workload-tabs-gdi-top-tab-0-red.png",
+                "bmp_sha256": "f2a49146449b01e3a47cd0b9c6576f8ff86566bcdb898324ccedbce76e8afd55",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 1.081264500040561,
+                "image": "animated-workload-tabs-gdi-top-tab-0-blue.png",
+                "bmp_sha256": "638e31e0b3528a8b358e299cd66015f53c8c2d899a91216338d1ad1dac865eaf",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 1.696466299938038,
+                "image": "animated-workload-tabs-gdi-top-tab-0-green.png",
+                "bmp_sha256": "dba94e7ee4931819ad27d01c7b85986ca0dd99849d2412892382580bf84a0f2c",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.7246658001095057
+          },
+          {
+            "session": 2,
+            "hwnd": 10289722,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "green",
+                "seconds": 0.2958712999243289,
+                "image": "animated-workload-tabs-gdi-top-tab-1-green.png",
+                "bmp_sha256": "80bf2e9191dacfd63ad9c54bc1a0edff77a5987a89c479907589c016492a958d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 0.8484022000338882,
+                "image": "animated-workload-tabs-gdi-top-tab-1-blue.png",
+                "bmp_sha256": "605f4891022f9492b0f54e504df998743a23a681a384c73fe09ca9a904c10e12",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "red",
+                "seconds": 1.3907981999218464,
+                "image": "animated-workload-tabs-gdi-top-tab-1-red.png",
+                "bmp_sha256": "0ddd97a71e2454f4c0173681a652fa471f0480fcf7a128bec1ead0bd655bdde3",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.4192575998604298
+          }
+        ]
+      }
+    ],
+    "retained": [
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "0e03c6b80aa5503b1b581b8f11cab3359ef59c8b8a1826ea8491188e604ac021",
+        "compressed_sha256": "302ea705e9ff39a744be2cfdb26bc847298bc0c07768daf7e49da2fdd910dccc"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "a8b1401c7b2396d515cc065fc31f32a0e3cdbf107bef91818f0621daaa6a3136",
+        "compressed_sha256": "1c756ebfc1f1db566607d4d6ed59452ace943c8ce2beeb3d51c19f7f5ac79293"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-gdi-workload-baseline.log.gz",
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "compressed_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-inline-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "875017a42396b0552a3a8e6ea7ce3c0403d03cf9cb28a77999fe3a5a931f8f43",
+        "compressed_sha256": "6b6dcdbc0641bb8451313a506c117b09a1f8430e884e14acfbe1e991eace776d"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-inline-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "2f288e442fc738457374e21b96d38d99500804ce5f6317ceeaa66236c1c8d87d",
+        "compressed_sha256": "599c3c491d8bf2c3b4c376d2410af46a44d940b53be0f42174f4629bfa646ca9"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-gdi-workload-png.log.gz",
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "compressed_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-animated-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "a45a961d83b13c8b0259a58ea8241262efbe22de7830d5308570ee8732a53630",
+        "compressed_sha256": "bd86a5d93ccf96be9be2e916e9fdfbfcc58bb76b7b9b2a05da32466d0840d334"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-animated-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "d82262a34c44056fd10974cf08125f80ec63f2f16fe5d10496aa7fcc75a39a1e",
+        "compressed_sha256": "1ac8e9e4c97f7488b516d7bd03475fd452b4a7b7c237fc8c6afe1bfce3fed276"
+      },
+      {
+        "file": "local-69cd5a4-evidence/69cd5a4-gdi-workload-gif.log.gz",
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "compressed_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-0-blue.png",
+        "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-0-green.png",
+        "sha256": "414f169fea743fc89def37e81fad67fc8e7225fedbc5d9faab049788436fc8c8"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-0-red.png",
+        "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-1-blue.png",
+        "sha256": "41737ac65e736704206ec06cbeb6b3e20ab289c163ba18b5ddef1aaac03f6a1f"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-1-green.png",
+        "sha256": "61c993bc0f41f4cc5d9ede9e89c84dbcd8012acf88cfd090bc3177760a205a77"
+      },
+      {
+        "file": "local-69cd5a4-evidence/animated-workload-tabs-gdi-top-tab-1-red.png",
+        "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+      }
+    ]
+  }
 }
