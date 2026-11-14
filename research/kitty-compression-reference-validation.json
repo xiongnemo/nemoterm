@@ -1,0 +1,92 @@
+{
+  "failed_capture_run": 43639660461,
+  "fixture_commit": "24d0df75b20fe9edc24440dda6a4b33933a2e73f",
+  "upstream_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+  "reason": "Observer requested root-frame data from a rejected compressed PNG load; native accessor reports no decoded frame. Upstream remained unmodified; process exited 1 with verified cleanup.",
+  "records": [
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-compression-artifacts.json.gz",
+      "raw_bytes": 793,
+      "raw_sha256": "769dd3ca18c50b86a980bd6825597a27d7264e414cb260d218bbba3646dfbcae",
+      "gzip_sha256": "5361928afd6fc2b82dc85d747dc4a28d1c76723a54368579d75e970771abb283"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-compression-observed-at.txt.gz",
+      "raw_bytes": 32,
+      "raw_sha256": "7605a1073df0b872518af87c0c201867c35a3d6fc8080e37317512e13de5d11a",
+      "gzip_sha256": "82ee3eaf440319b6008730bf6cbd4ff1d9479f9fc9bb95e87493722a06a0d88c"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-compression-run.json.gz",
+      "raw_bytes": 4366,
+      "raw_sha256": "4d85e37e441e18baf5c8eb82e8e6359a415f68c8b0d7e7eb6bd043194e62cf5e",
+      "gzip_sha256": "a2e00ccdb7ff8022c4016d40a8cb23329054045c9a963167f84e4f7b119e4aca"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-compression-run.log.gz",
+      "raw_bytes": 309440,
+      "raw_sha256": "0e553c6d239dba10261ef98071074f71d95b588a0f48cea57ad91e8bac3b59d7",
+      "gzip_sha256": "d21d0b8c8ba254bc0567b29a8bbdc771e9beadb139019729e87b637dade5d0f6"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-failed-steps.log.gz",
+      "raw_bytes": 8233,
+      "raw_sha256": "5d0b054a078454c154a38a120cc33035706f9d759635f5f3911442c03f91d3ac",
+      "gzip_sha256": "6a27d42b2b55b4c00d1badf0d0d4d2569f84906b823b6804737a6f5db53b12ae"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--fixture-commit.txt.gz",
+      "raw_bytes": 41,
+      "raw_sha256": "e673399ec68a9a92906198cae07ad2376448307b748f11656c56c0cdabff5a87",
+      "gzip_sha256": "171f1c22f9e005919bc59aab4d42d67c42525a8f1a165cd31d2acdf94491db1b"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--observations.json.gz",
+      "raw_bytes": 19971,
+      "raw_sha256": "56f7155bedf98ee5c8d3e481e5ea118bac0334f409494c9cf21f16775852e774",
+      "gzip_sha256": "c7429cd2716ff2a2578c48096437862c9d27720c14c68e5cf68c4e9d2061e9a7"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--rea-evidence.json.gz",
+      "raw_bytes": 87136,
+      "raw_sha256": "b5b412653569d863431d921aae3dd41ec335717e1521b1a39bafd645e475fa5e",
+      "gzip_sha256": "f859486a4cf2406d154f9ba3ca37dc447cb75d24a6faa0a5642cae85cd10f773"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--rea-package-lock.json.gz",
+      "raw_bytes": 79411,
+      "raw_sha256": "e2c5a08c23c6f8da5276253e6fe55a14778761c6d4cb74d65cffdcb20c7a18b7",
+      "gzip_sha256": "ee655213b702129a2cff1cd47f0a3104897a5059a1a909e4149e3c87d977cabd"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--rea-progress.jsonl.gz",
+      "raw_bytes": 1776,
+      "raw_sha256": "34a3402181098a87f7b3d2065b9b6ae8e15070045c2b778304f4b0c5d472965e",
+      "gzip_sha256": "de48f77a22f75695cba2abf8f4264df5d3c54a67f520fac395e989b341482d16"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--scenario.json.gz",
+      "raw_bytes": 1029,
+      "raw_sha256": "f33ab08c5db46018ea4196c3b19ff3bd4987784f9b82c3fe68f8e58fdaba6250",
+      "gzip_sha256": "6153da8fd2f0b177841217b1a327c0e198daa3d922a63532474bdac6c9b00685"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--upstream-build.log.gz",
+      "raw_bytes": 107784,
+      "raw_sha256": "2ddae9a67f3f68aef3bba8ff7aa64bae95c72a823c870eaf3d8b82ad53a33115",
+      "gzip_sha256": "a7e21173856370b9f9814dbbb0e2d784d7dbb35fac7f6b65a6bbc86b656a3767"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference--upstream-commit.txt.gz",
+      "raw_bytes": 41,
+      "raw_sha256": "481f17e8511c69b76f6d27d4ecb643ab087abc15b7a7dd9dc8e1e84d711f8d00",
+      "gzip_sha256": "8d073ea7cbdae62db818e59bb3ad32fce368ee96cbc69b2fab11fff35551ca70"
+    },
+    {
+      "path": "research/kitty-compression-evidence/24d0df7-reference-download.json.gz",
+      "raw_bytes": 82,
+      "raw_sha256": "51f47e7a07c4cd43f82c41612516a472cdb08668dec41c641a14e84a22d5c4b2",
+      "gzip_sha256": "5723c3f7512e4fbbd199b63ab374240641ff3a4b6d166efa2a1cf53409fecea7"
+    }
+  ]
+}

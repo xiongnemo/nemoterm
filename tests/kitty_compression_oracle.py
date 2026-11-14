@@ -141,7 +141,17 @@ def main():
                     # id is absent. Never call it on an empty manager, and do
                     # not request decoded data during a partial transmission.
                     pending = b'm=1' in wire.partition(b';')[0]
-                    image = screen.grman.image_for_client_id(1) if count and not pending else None
+                    image, image_read_error = None, None
+                    if count and not pending:
+                        try:
+                            image = screen.grman.image_for_client_id(1)
+                        except RuntimeError as error:
+                            # A rejected load can retain an internal slot with
+                            # no decoded root frame. Preserve that observation
+                            # and the wire reply instead of inventing pixels.
+                            if str(error) != 'Failed to get data for root frame':
+                                raise
+                            image_read_error = str(error)
                     assert screen.grman.image_count == count
                     decoded = None
                     if image is not None:
@@ -152,7 +162,8 @@ def main():
                     case['steps'].append(dict(label=label, input_base64=base64.b64encode(wire).decode('ascii'),
                                              reply_base64=base64.b64encode(screen.callbacks.wtcbuf).decode('ascii'),
                                              cursor=[screen.cursor.x, screen.cursor.y],
-                                             image_count=count, partial_transfer=pending, image=decoded))
+                                             image_count=count, partial_transfer=pending, image=decoded,
+                                             image_read_error=image_read_error))
                     save()
                 print('Captured compression:', name, len(steps), 'states', flush=True)
             finally:
