@@ -1,0 +1,461 @@
+{
+  "source_commit": "26f50c8796b6ba4ee5e941490a1dbd63021383f4",
+  "recorded_utc": "2026-11-14T14:41:36.915614+00:00",
+  "native_pause_respected": true,
+  "local_download_execution": "not run",
+  "accepted_executable_changed": false,
+  "runs": {
+    "core": {
+      "id": 43601787424,
+      "conclusion": "success"
+    },
+    "single": {
+      "id": 43601787330,
+      "conclusion": "success"
+    }
+  },
+  "workloads": [
+    {
+      "case": "animated-workload-tabs-directx-left-observed",
+      "font": "Consolas",
+      "grid": [
+        88,
+        35
+      ],
+      "actual_renderer": 3,
+      "samples": 317,
+      "peak_bytes": {
+        "private_ws": 16633856,
+        "total_ws": 53809152,
+        "private_commit": 19800064
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "case": "animated-workload-tabs-gdi-top-observed",
+      "font": "Consolas",
+      "grid": [
+        109,
+        34
+      ],
+      "actual_renderer": 1,
+      "samples": 366,
+      "peak_bytes": {
+        "private_ws": 12722176,
+        "total_ws": 44953600,
+        "private_commit": 14848000
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "case": "inline-workload-tabs-directx-left-observed",
+      "font": "Consolas",
+      "grid": [
+        88,
+        35
+      ],
+      "actual_renderer": 3,
+      "samples": 337,
+      "peak_bytes": {
+        "private_ws": 16781312,
+        "total_ws": 54063104,
+        "private_commit": 19664896
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "case": "inline-workload-tabs-gdi-top-observed",
+      "font": "Consolas",
+      "grid": [
+        109,
+        34
+      ],
+      "actual_renderer": 1,
+      "samples": 383,
+      "peak_bytes": {
+        "private_ws": 12832768,
+        "total_ws": 45076480,
+        "private_commit": 15364096
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "case": "workload-tabs-directx-left-observed",
+      "font": "Consolas",
+      "grid": [
+        88,
+        35
+      ],
+      "actual_renderer": 3,
+      "samples": 295,
+      "peak_bytes": {
+        "private_ws": 15446016,
+        "total_ws": 52322304,
+        "private_commit": 18178048
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "case": "workload-tabs-gdi-top-observed",
+      "font": "Consolas",
+      "grid": [
+        109,
+        34
+      ],
+      "actual_renderer": 1,
+      "samples": 341,
+      "peak_bytes": {
+        "private_ws": 11345920,
+        "total_ws": 42676224,
+        "private_commit": 13455360
+      },
+      "groups": 9,
+      "natural_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "retained": [
+    {
+      "file": "graphics-charsets-ci-evidence/core-run.json.gz",
+      "raw_bytes": 20127,
+      "compressed_bytes": 3276,
+      "raw_sha256": "30f7db0be6a5d6edb95430446276f9dfe74b1c7c85b97affd26ccf57ec2f605d",
+      "compressed_sha256": "b8c84640f802fb33a11f60c6095a3c76d5139bd0cefaf1a6542e776d21432ae2"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/core-run.log.gz",
+      "raw_bytes": 1101936,
+      "compressed_bytes": 112713,
+      "raw_sha256": "ee82bd09fd1925311f8f0517c9f968c06fb2403431efd3d6bf40e93b509fa845",
+      "compressed_sha256": "4dbda52aeb7fb12f5c28f92c85fad10c3b651513646089c00eea19bf8433475b"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/core-artifacts.json.gz",
+      "raw_bytes": 3842,
+      "compressed_bytes": 898,
+      "raw_sha256": "bfacd3fbc2d2f1329aa5e3846cf3627f6f535aab1d03128b56f4fe7db46a18af",
+      "compressed_sha256": "c1cf12363b041d5a5f7ce299043e85b74dab5e93c23d463d693fb19bb9ae2d97"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/single-run.json.gz",
+      "raw_bytes": 3011,
+      "compressed_bytes": 764,
+      "raw_sha256": "e80e73998c9f69b333fb9d14d7577cdcbc86bcc9cbcae14a023b0e8425eec688",
+      "compressed_sha256": "123a93460515402423b15cf4bf069cabb5660a712ac345c7312a4faa21f65da3"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/single-run.log.gz",
+      "raw_bytes": 513063,
+      "compressed_bytes": 52814,
+      "raw_sha256": "8ca5594c2f7b09b790a0a85d4ab85dc00269c6d8b99265b0821eda6a85e57685",
+      "compressed_sha256": "7bb6ab9e6566dea73f3795865f47bff2d03da164983007f852df2126e416f8b9"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/single-artifacts.json.gz",
+      "raw_bytes": 1555,
+      "compressed_bytes": 570,
+      "raw_sha256": "eb87b3177344c9335f4356d2df23328cd5d2365ea687d51501e5944b76ddf10c",
+      "compressed_sha256": "413e988ede872e90fb67c3a1157994647f0b504c761053c499af3b6e9d82e43c"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/single-exe-validation.json.gz",
+      "raw_bytes": 3041,
+      "compressed_bytes": 924,
+      "raw_sha256": "15c28854540f5dc3b7be1efcef75ef2f48b789c0ca25759c3cda278da15c2e5b",
+      "compressed_sha256": "c0a0adf6f0ac8b9526ba9f6086d0d67945c5c4fe3cee6ef7fccc2e227beaf519"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/animated-workload-tabs-directx-left-observed.json.gz",
+      "raw_bytes": 175888,
+      "compressed_bytes": 7790,
+      "raw_sha256": "686f4f2b2f38ffc96b47c52256d8c54fa142be6f413807566ec610a758da24ec",
+      "compressed_sha256": "b8cb00a88ca272e06693ba80c2b5e4a8344617fede055e8ddaaf639905880003"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/animated-workload-tabs-directx-left-memory.json.gz",
+      "raw_bytes": 808619,
+      "compressed_bytes": 22014,
+      "raw_sha256": "77a064b67a7d43db7fef79eb149a897e8028086f3b72fdd2d680afd4edddc8d1",
+      "compressed_sha256": "aa98818c93fb8e4475ffe99d8c31eebfe6ea99cdfdce90776f358be86511c01e"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/animated-workload-tabs-gdi-top-observed.json.gz",
+      "raw_bytes": 175646,
+      "compressed_bytes": 7814,
+      "raw_sha256": "807cabd20b6bf0e84a3ed41e5a82411ad0ef2e88f43993b9739d853f3af180cf",
+      "compressed_sha256": "591c9b67bca099d145f465d5db99360a66d448aa9c16c73db11479da2ff7a8e4"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/animated-workload-tabs-gdi-top-memory.json.gz",
+      "raw_bytes": 934244,
+      "compressed_bytes": 26249,
+      "raw_sha256": "0605796eba00e760dcaa765eb092bdb02a6a3a7c7b6f43aa3baab9b2ff61de44",
+      "compressed_sha256": "906a8659b3c8ad37dfd218958995f9b88e76fbb65e27f4714928509b22ca30ab"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/inline-workload-tabs-directx-left-observed.json.gz",
+      "raw_bytes": 170153,
+      "compressed_bytes": 7146,
+      "raw_sha256": "626dbcfdcc8621b762228461a6d71a254385984412a4628e53bb11a703a5a959",
+      "compressed_sha256": "16f08fe5fe47eff7726c5ad473a48b7eee2e67396f0879828c2ebdf8da83358d"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/inline-workload-tabs-directx-left-memory.json.gz",
+      "raw_bytes": 858267,
+      "compressed_bytes": 22073,
+      "raw_sha256": "5bfc8bc27a0e774ff2d03756f25cccf706f38e0cd9a1a1f87a289daf2020e61e",
+      "compressed_sha256": "46e3446f88a1087c28ea7438da4ac4e37674672e71f4b9a12ac28a32e572d32e"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/inline-workload-tabs-gdi-top-observed.json.gz",
+      "raw_bytes": 170067,
+      "compressed_bytes": 7026,
+      "raw_sha256": "201ce9a562d88ba1cbae571619b87a717106e8d2c7e0c43c43308cbe8e85a3e7",
+      "compressed_sha256": "ad6e87f941a9700cce55caef592777aff5179ba39e922fcafa5ec2374af7fdcc"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/inline-workload-tabs-gdi-top-memory.json.gz",
+      "raw_bytes": 975933,
+      "compressed_bytes": 25309,
+      "raw_sha256": "babfce0c1e2420dc710e46bce15240f129d5ab33bf45f890ca27b55acd243abf",
+      "compressed_sha256": "2ba5b6ac37e0893b6aa9ff1af04b8a7b153c4931a5bc6155c79a842940bb9bdf"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/workload-tabs-directx-left-observed.json.gz",
+      "raw_bytes": 170223,
+      "compressed_bytes": 6962,
+      "raw_sha256": "daa51003cd655eae10a0d38d5b32ac05273184ddf62de44170ac91b119b4e452",
+      "compressed_sha256": "45fb0f7cf6b2960965757e0a098af3c7a2c20d69d495a0084a4969bbb19029b9"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/workload-tabs-directx-left-memory.json.gz",
+      "raw_bytes": 753295,
+      "compressed_bytes": 19122,
+      "raw_sha256": "1cf5763fa1fcd3989c23a5f4d0eb565fce6654eff627afe830a39aba02d4dc4b",
+      "compressed_sha256": "5ad4a5f83315db90a5f590f69ffcec6891f57ff89c9cbb31adb3ebcae7ea3c30"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/workload-tabs-gdi-top-observed.json.gz",
+      "raw_bytes": 170074,
+      "compressed_bytes": 7071,
+      "raw_sha256": "ea969a05801f6b37d8da4a00bda4541739dbc01e0f563b7c2a1668d4f1f23ead",
+      "compressed_sha256": "c9e17e38cb5efeeac83931bfed75e2f849d7f6910ef4a22f23f2df4076c51307"
+    },
+    {
+      "file": "graphics-charsets-ci-evidence/workload-tabs-gdi-top-memory.json.gz",
+      "raw_bytes": 872402,
+      "compressed_bytes": 21917,
+      "raw_sha256": "db8c690ee80580635ea3e8f75867c708ca9153e04ccb6f3a3928a73b3bce2e87",
+      "compressed_sha256": "5073f382d18d7adf3615e955e7adb6ebda72141c51186e0ba43c811068fc10a9"
+    }
+  ],
+  "executable": {
+    "bytes": 4482048,
+    "sha256": "2bdb95280ded966c653c4c6b80d1ad0308e331fcc52a92fb09098b3b2284a0fa",
+    "artifact_id": 14117501693,
+    "single_executable_verified": true
+  },
+  "passed_checks": [
+    "automation-gdi",
+    "drop-gdi",
+    "automation-directx",
+    "drop-directx",
+    "single_exe",
+    "shutdown",
+    "startup_size",
+    "renderer",
+    "grapheme",
+    "grapheme-font",
+    "rtl",
+    "rtl-courier",
+    "bindings",
+    "input_method",
+    "unicode_input",
+    "console_unicode",
+    "mouse",
+    "selection",
+    "selection-directx",
+    "sync",
+    "sgr",
+    "font_resize",
+    "font_fallback",
+    "font-fallback-courier",
+    "query",
+    "highlight",
+    "sixel",
+    "sixel_font",
+    "sixel_palette",
+    "sixel_palette-opengl",
+    "sixel_palette-directx",
+    "sixel_background",
+    "sixel_background-opengl",
+    "sixel_background-directx",
+    "iterm_image",
+    "iterm_image-opengl",
+    "iterm_image-directx",
+    "gif_animation",
+    "gif_animation-opengl",
+    "gif_animation-directx",
+    "hyperlink",
+    "reflow",
+    "keyboard",
+    "keyboard-courier",
+    "osc52",
+    "mok",
+    "mok-courier",
+    "win32_input",
+    "state_control",
+    "iso2022",
+    "tabulation",
+    "double_size",
+    "alignment",
+    "alignment-opengl",
+    "alignment-directx",
+    "graphics_query",
+    "dec_status",
+    "checksum",
+    "sgr_stack",
+    "palette_stack",
+    "palette_stack-opengl",
+    "palette_stack-directx",
+    "reset_palette",
+    "reset_palette-opengl",
+    "reset_palette-directx",
+    "selection_colour",
+    "selection_colour-opengl",
+    "selection_colour-directx",
+    "selection-colour-gdi-configured",
+    "attribute_colour",
+    "attribute_colour-opengl",
+    "attribute_colour-directx",
+    "attribute-colour-gdi-configured",
+    "presentation_state",
+    "horizontal",
+    "reverse_wrap",
+    "relative_cursor",
+    "relative_cursor-opengl",
+    "relative_cursor-directx",
+    "selective_erase",
+    "guarded_area",
+    "rectangle",
+    "margins",
+    "cwd",
+    "shell_marks",
+    "shell",
+    "powershell_environment",
+    "delegated_console",
+    "caret_startup",
+    "session",
+    "session-opengl",
+    "session-directx",
+    "session_restart",
+    "titles",
+    "title-modes",
+    "geometry",
+    "window_resize",
+    "gpu_lifecycle",
+    "c1_controls",
+    "c1-controls-utf8",
+    "startup_visibility",
+    "tabs-gdi-top",
+    "tabs-gdi-bottom",
+    "tabs-directx-left",
+    "tabs-opengl-right",
+    "tabs-regressions",
+    "settings",
+    "tabs-settings",
+    "codex-image-paste",
+    "codex-default",
+    "codex-inline",
+    "codex-tabs-default",
+    "codex-tabs-inline",
+    "workload-tabs-gdi-top",
+    "workload-tabs-directx-left",
+    "inline-workload-tabs-gdi-top",
+    "inline-workload-tabs-directx-left",
+    "animated-workload-tabs-gdi-top",
+    "animated-workload-tabs-directx-left"
+  ]
+}
