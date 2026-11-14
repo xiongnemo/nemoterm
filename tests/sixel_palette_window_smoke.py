@@ -42,7 +42,7 @@ def reset(private=True):
             CSI+'0m'+ESC+']11;rgb:0/0/0\x07'+CSI+'2J'+CSI+'3J'+CSI+'H')
 
 
-def main(background_exercise=None, *, suite_name=None, font='Consolas'):
+def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     args = parser.parse_args()
@@ -107,6 +107,8 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas'):
                 cw, ch = (width-2*BORDER)//COLS, (height-2*BORDER)//ROWS
                 assert cw > 0 and ch >= 6 and width == COLS*cw+2*BORDER and height == ROWS*ch+2*BORDER
                 evidence.update(image_size=[width, height], cell_pixels=[cw, ch])
+                if before_exercise:
+                    before_exercise(evidence)
 
                 def block(row, colour, left=0, count=16, top=0, height=6):
                     return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,

@@ -1,0 +1,8915 @@
+{
+  "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73",
+  "renderer": "directx",
+  "side": "left",
+  "font": "SarasaTermSC Nerd Font Light",
+  "requested_grid": [
+    160,
+    48
+  ],
+  "dense_clusters": true,
+  "completed": true,
+  "checks": [
+    "one host with independent child terminals and native tab hit testing",
+    "12 create/close cycles retain one shared renderer with bounded resource return",
+    "new, close, next and previous shortcuts act through the terminal input thread",
+    "failed child process or content window creation preserves active tab and renderer",
+    "hidden Kitty placement appears in hover preview without selecting its tab",
+    "bounded hover preview refreshes background output without selecting it",
+    "synchronized pixels survive device transfer between tabs",
+    "fullscreen returns the host to its original rectangle",
+    "host resize updates both terminal grids",
+    "closing original tab preserves sibling; host close drains all processes"
+  ],
+  "memory_instrumented": false,
+  "automation_enabled": true,
+  "phase": "complete",
+  "worker_closes": [
+    {
+      "child_pid": 50836,
+      "threads": [
+        {
+          "tid": 31820,
+          "created": 134391586144943497,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 50072,
+          "created": 134391586144943700,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.22306489991024137
+    },
+    {
+      "child_pid": 46440,
+      "threads": [
+        {
+          "tid": 32,
+          "created": 134391586189194464,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 15920,
+          "created": 134391586189194682,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2926111000124365
+    },
+    {
+      "child_pid": 40988,
+      "threads": [
+        {
+          "tid": 8640,
+          "created": 134391586209135444,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 2600,
+          "created": 134391586209135652,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.3057847002055496
+    },
+    {
+      "child_pid": 19652,
+      "threads": [
+        {
+          "tid": 24124,
+          "created": 134391586229760248,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 45468,
+          "created": 134391586229760463,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2858649999834597
+    },
+    {
+      "child_pid": 10912,
+      "threads": [
+        {
+          "tid": 25272,
+          "created": 134391586250143299,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 40396,
+          "created": 134391586250143504,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2903577999677509
+    },
+    {
+      "child_pid": 14496,
+      "threads": [
+        {
+          "tid": 38212,
+          "created": 134391586270702708,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 37832,
+          "created": 134391586270703029,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2875692998059094
+    },
+    {
+      "child_pid": 11024,
+      "threads": [
+        {
+          "tid": 31460,
+          "created": 134391586290701209,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 39512,
+          "created": 134391586290701437,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.28358319983817637
+    },
+    {
+      "child_pid": 6928,
+      "threads": [
+        {
+          "tid": 48020,
+          "created": 134391586310615651,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 18284,
+          "created": 134391586310615846,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2790001002140343
+    },
+    {
+      "child_pid": 49644,
+      "threads": [
+        {
+          "tid": 13064,
+          "created": 134391586330680779,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 25224,
+          "created": 134391586330681133,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2891792000737041
+    },
+    {
+      "child_pid": 34304,
+      "threads": [
+        {
+          "tid": 43432,
+          "created": 134391586350691802,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 33208,
+          "created": 134391586350692208,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.14598889998160303
+    },
+    {
+      "child_pid": 42668,
+      "threads": [
+        {
+          "tid": 30892,
+          "created": 134391586367945857,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 22324,
+          "created": 134391586367946060,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2980314998421818
+    },
+    {
+      "child_pid": 41208,
+      "threads": [
+        {
+          "tid": 17976,
+          "created": 134391586388027008,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 40140,
+          "created": 134391586388027266,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2876412000041455
+    },
+    {
+      "child_pid": 46216,
+      "threads": [
+        {
+          "tid": 49016,
+          "created": 134391586407971750,
+          "exited": false,
+          "start": 140700679167120,
+          "io_pending": false,
+          "module": "nemoterm.exe",
+          "rva": 220304
+        },
+        {
+          "tid": 46792,
+          "created": 134391586407972139,
+          "exited": false,
+          "start": 140700679166480,
+          "io_pending": true,
+          "module": "nemoterm.exe",
+          "rva": 219664
+        }
+      ],
+      "before": [
+        258,
+        258
+      ],
+      "all_signalled": true,
+      "after": [
+        0,
+        0
+      ],
+      "seconds": 0.2780474000610411
+    }
+  ],
+  "system_menus": [
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9372326,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744072060342733,
+        46405921,
+        845620003
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9437862,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        540346457,
+        862523733,
+        1495278735
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9503398,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744073298122359,
+        381491387,
+        1735265939
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9700006,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        804982793,
+        18446744072163036579,
+        18446744072265994929
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9765542,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744073298908791,
+        18446744073509144291,
+        199301631
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9831078,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        805441545,
+        18446744073520358677,
+        18446744073298974327
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9896614,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744073510323939,
+        50010401,
+        2118586595
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9962150,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744072463713603,
+        18446744073520489749,
+        538715621
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 10027686,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1859454447,
+        18446744071886538207,
+        18446744072586133667
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 10093222,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744072268026545,
+        18446744072494581385,
+        18446744071886603743
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 10158758,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        550176857,
+        18446744073129953183,
+        18446744072495171209
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 25300074,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        18446744072905297915,
+        1682705335,
+        540222949
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 25365610,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1619597017,
+        18446744071585403519,
+        18446744072554088547
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 9240988,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1231358507,
+        18446744072469480343,
+        1250501443
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    },
+    {
+      "child": 29561328,
+      "menu": 18446744073632813947,
+      "native": [
+        {
+          "command": 61728,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61456,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61440,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61472,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 61488,
+          "separator": false,
+          "submenu": null
+        },
+        {
+          "command": 0,
+          "separator": true,
+          "submenu": null
+        },
+        {
+          "command": 61536,
+          "separator": false,
+          "submenu": null
+        }
+      ],
+      "submenus": [
+        1864763937,
+        1894126209,
+        1466308377
+      ],
+      "app_commands": [
+        400,
+        432,
+        416,
+        448,
+        464,
+        480,
+        4294967295,
+        0,
+        4294967295,
+        512,
+        16,
+        0,
+        32,
+        48,
+        4294967295,
+        80,
+        2368,
+        2384,
+        2400,
+        0,
+        368,
+        96,
+        112,
+        0,
+        384,
+        0,
+        336
+      ]
+    }
+  ],
+  "actual_grid": [
+    160,
+    48
+  ],
+  "actual_renderer": 3,
+  "memory_limit_bytes": 25000000,
+  "memory_limit_inclusive": true,
+  "memory_limit_required": true,
+  "live_temporary_tabs": [
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17530880,
+      "total_ws": 50839552,
+      "private_commit": 69890048
+    },
+    {
+      "handles": 473,
+      "gdi": 51,
+      "user": 44,
+      "injected": false,
+      "private_ws": 17289216,
+      "total_ws": 50667520,
+      "private_commit": 69804032
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 44,
+      "injected": false,
+      "private_ws": 17338368,
+      "total_ws": 50753536,
+      "private_commit": 69812224
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17346560,
+      "total_ws": 50810880,
+      "private_commit": 69832704
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17358848,
+      "total_ws": 50851840,
+      "private_commit": 69836800
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 44,
+      "injected": false,
+      "private_ws": 17285120,
+      "total_ws": 50794496,
+      "private_commit": 69832704
+    },
+    {
+      "handles": 473,
+      "gdi": 51,
+      "user": 44,
+      "injected": false,
+      "private_ws": 17293312,
+      "total_ws": 50814976,
+      "private_commit": 69828608
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 44,
+      "injected": false,
+      "private_ws": 17375232,
+      "total_ws": 50905088,
+      "private_commit": 69832704
+    },
+    {
+      "handles": 473,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17416192,
+      "total_ws": 50966528,
+      "private_commit": 69828608
+    },
+    {
+      "handles": 475,
+      "gdi": 50,
+      "user": 46,
+      "injected": false,
+      "private_ws": 17362944,
+      "total_ws": 50917376,
+      "private_commit": 69910528
+    },
+    {
+      "handles": 475,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17383424,
+      "total_ws": 50941952,
+      "private_commit": 69910528
+    },
+    {
+      "handles": 475,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17412096,
+      "total_ws": 50987008,
+      "private_commit": 69910528
+    },
+    {
+      "handles": 475,
+      "gdi": 50,
+      "user": 45,
+      "injected": false,
+      "private_ws": 17420288,
+      "total_ws": 51015680,
+      "private_commit": 69914624
+    }
+  ],
+  "retired_tab_menus": [
+    {
+      "child": 9372326,
+      "submenus": [
+        18446744072060342733,
+        46405921,
+        845620003
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9437862,
+      "submenus": [
+        540346457,
+        862523733,
+        1495278735
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9503398,
+      "submenus": [
+        18446744073298122359,
+        381491387,
+        1735265939
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9700006,
+      "submenus": [
+        804982793,
+        18446744072163036579,
+        18446744072265994929
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9765542,
+      "submenus": [
+        18446744073298908791,
+        18446744073509144291,
+        199301631
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9831078,
+      "submenus": [
+        805441545,
+        18446744073520358677,
+        18446744073298974327
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9896614,
+      "submenus": [
+        18446744073510323939,
+        50010401,
+        2118586595
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 9962150,
+      "submenus": [
+        18446744072463713603,
+        18446744073520489749,
+        538715621
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 10027686,
+      "submenus": [
+        1859454447,
+        18446744071886538207,
+        18446744072586133667
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 10093222,
+      "submenus": [
+        18446744072268026545,
+        18446744072494581385,
+        18446744071886603743
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 10158758,
+      "submenus": [
+        550176857,
+        18446744073129953183,
+        18446744072495171209
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 25300074,
+      "submenus": [
+        18446744072905297915,
+        1682705335,
+        540222949
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "child": 25365610,
+      "submenus": [
+        1619597017,
+        18446744071585403519,
+        18446744072554088547
+      ],
+      "valid_after_close": [
+        false,
+        false,
+        false
+      ]
+    }
+  ],
+  "warmup": {
+    "handles": 462,
+    "gdi": 41,
+    "user": 36,
+    "injected": false,
+    "private_ws": 16302080,
+    "total_ws": 49623040,
+    "private_commit": 69087232
+  },
+  "startup_resources": [
+    {
+      "seconds": 0.11400999990291893,
+      "quiet_seconds": 0.0,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.16828299988992512,
+      "quiet_seconds": 0.0,
+      "sample": {
+        "handles": 462,
+        "gdi": 42,
+        "user": 36,
+        "injected": false,
+        "private_ws": 16297984,
+        "total_ws": 49618944,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.22196109988726676,
+      "quiet_seconds": 0.05367809999734163,
+      "sample": {
+        "handles": 462,
+        "gdi": 42,
+        "user": 36,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.2754310998134315,
+      "quiet_seconds": 0.0,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.3288045998197049,
+      "quiet_seconds": 0.05337350000627339,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.38207539985887706,
+      "quiet_seconds": 0.10664430004544556,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.43549019983038306,
+      "quiet_seconds": 0.16005910001695156,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 69087232
+      }
+    },
+    {
+      "seconds": 0.48940579988993704,
+      "quiet_seconds": 0.21397470007650554,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.5426131999120116,
+      "quiet_seconds": 0.2671821000985801,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.5962588000111282,
+      "quiet_seconds": 0.3208277001976967,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.6499746998306364,
+      "quiet_seconds": 0.3745436000172049,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.7029611999168992,
+      "quiet_seconds": 0.4275301001034677,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.7567433000076562,
+      "quiet_seconds": 0.4813122001942247,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.8107032999396324,
+      "quiet_seconds": 0.5352722001262009,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.8644979998935014,
+      "quiet_seconds": 0.5890669000800699,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.9175121998414397,
+      "quiet_seconds": 0.6420811000280082,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 0.9711143998429179,
+      "quiet_seconds": 0.6956833000294864,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.0248998999595642,
+      "quiet_seconds": 0.7494688001461327,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.0783227998763323,
+      "quiet_seconds": 0.8028917000629008,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.1318715999368578,
+      "quiet_seconds": 0.8564405001234263,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.185055400012061,
+      "quiet_seconds": 0.9096243001986295,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.2385585999581963,
+      "quiet_seconds": 0.9631275001447648,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.291731699835509,
+      "quiet_seconds": 1.0163006000220776,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.344831199850887,
+      "quiet_seconds": 1.0694001000374556,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.3982039999682456,
+      "quiet_seconds": 1.1227729001548141,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.4548676998820156,
+      "quiet_seconds": 1.179436600068584,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.5087790999095887,
+      "quiet_seconds": 1.2333480000961572,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.5626149999443442,
+      "quiet_seconds": 1.2871839001309127,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.6156328998040408,
+      "quiet_seconds": 1.3402017999906093,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.669998199911788,
+      "quiet_seconds": 1.3945671000983566,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.7228824999183416,
+      "quiet_seconds": 1.4474514001049101,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.7772960998117924,
+      "quiet_seconds": 1.5018649999983609,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.8310730999801308,
+      "quiet_seconds": 1.5556420001666993,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.8872528998181224,
+      "quiet_seconds": 1.6118218000046909,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.9414650998078287,
+      "quiet_seconds": 1.6660339999943972,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 1.9958620998077095,
+      "quiet_seconds": 1.720430999994278,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.0486744998488575,
+      "quiet_seconds": 1.773243400035426,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.1030784000176936,
+      "quiet_seconds": 1.8276473002042621,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.156876499997452,
+      "quiet_seconds": 1.8814454001840204,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.2130805999040604,
+      "quiet_seconds": 1.9376495000906289,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.26666839979589,
+      "quiet_seconds": 1.9912372999824584,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.3207679998595268,
+      "quiet_seconds": 2.0453369000460953,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.374844199977815,
+      "quiet_seconds": 2.0994131001643836,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.4328073000069708,
+      "quiet_seconds": 2.1573762001935393,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.486334899906069,
+      "quiet_seconds": 2.2109038000926375,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.540335699915886,
+      "quiet_seconds": 2.2649046001024544,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.593764499993995,
+      "quiet_seconds": 2.3183334001805633,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.6502547999843955,
+      "quiet_seconds": 2.374823700170964,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.7035892999265343,
+      "quiet_seconds": 2.428158200113103,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.7572945998981595,
+      "quiet_seconds": 2.481863500084728,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.810397299937904,
+      "quiet_seconds": 2.5349662001244724,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.867845800006762,
+      "quiet_seconds": 2.5924147001933306,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.9217816998716444,
+      "quiet_seconds": 2.646350600058213,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 2.9764237999916077,
+      "quiet_seconds": 2.700992700178176,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    },
+    {
+      "seconds": 3.0301455999724567,
+      "quiet_seconds": 2.754714500159025,
+      "sample": {
+        "handles": 462,
+        "gdi": 41,
+        "user": 37,
+        "injected": false,
+        "private_ws": 16302080,
+        "total_ws": 49623040,
+        "private_commit": 68993024
+      }
+    }
+  ],
+  "resource_return": [
+    [
+      {
+        "seconds": 0.004247399978339672,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69218304
+        }
+      },
+      {
+        "seconds": 0.058173999888822436,
+        "within": true,
+        "quiet_seconds": 0.053926599910482764,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69214208
+        }
+      },
+      {
+        "seconds": 0.11155369994230568,
+        "within": true,
+        "quiet_seconds": 0.10730629996396601,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69218304
+        }
+      },
+      {
+        "seconds": 0.16597299999557436,
+        "within": true,
+        "quiet_seconds": 0.16172560001723468,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69218304
+        }
+      },
+      {
+        "seconds": 0.2194761000573635,
+        "within": true,
+        "quiet_seconds": 0.21522870007902384,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69218304
+        }
+      },
+      {
+        "seconds": 0.2734808998648077,
+        "within": true,
+        "quiet_seconds": 0.26923349988646805,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16347136,
+          "total_ws": 49733632,
+          "private_commit": 69218304
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.003799299942329526,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      },
+      {
+        "seconds": 0.05786939989775419,
+        "within": true,
+        "quiet_seconds": 0.054070099955424666,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      },
+      {
+        "seconds": 0.11221949988976121,
+        "within": true,
+        "quiet_seconds": 0.10842019994743168,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      },
+      {
+        "seconds": 0.1659866999834776,
+        "within": true,
+        "quiet_seconds": 0.16218740004114807,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      },
+      {
+        "seconds": 0.21962759993039072,
+        "within": true,
+        "quiet_seconds": 0.2158282999880612,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      },
+      {
+        "seconds": 0.27317499998025596,
+        "within": true,
+        "quiet_seconds": 0.26937570003792644,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16060416,
+          "total_ws": 49496064,
+          "private_commit": 68198400
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.003792600007727742,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      },
+      {
+        "seconds": 0.057503300020471215,
+        "within": true,
+        "quiet_seconds": 0.05371070001274347,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      },
+      {
+        "seconds": 0.11213600006885827,
+        "within": true,
+        "quiet_seconds": 0.10834340006113052,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      },
+      {
+        "seconds": 0.16586890001781285,
+        "within": true,
+        "quiet_seconds": 0.1620763000100851,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      },
+      {
+        "seconds": 0.21965180011466146,
+        "within": true,
+        "quiet_seconds": 0.2158592001069337,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      },
+      {
+        "seconds": 0.27292070002295077,
+        "within": true,
+        "quiet_seconds": 0.269128100015223,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16408576,
+          "total_ws": 49876992,
+          "private_commit": 68976640
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.004598499974235892,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      },
+      {
+        "seconds": 0.057803899981081486,
+        "within": true,
+        "quiet_seconds": 0.05320540000684559,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      },
+      {
+        "seconds": 0.1120889000594616,
+        "within": true,
+        "quiet_seconds": 0.1074904000852257,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      },
+      {
+        "seconds": 0.16537720011547208,
+        "within": true,
+        "quiet_seconds": 0.16077870014123619,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      },
+      {
+        "seconds": 0.21911250008270144,
+        "within": true,
+        "quiet_seconds": 0.21451400010846555,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      },
+      {
+        "seconds": 0.27219310007058084,
+        "within": true,
+        "quiet_seconds": 0.26759460009634495,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16433152,
+          "total_ws": 49926144,
+          "private_commit": 69492736
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.003772399853914976,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16084992,
+          "total_ws": 49594368,
+          "private_commit": 68530176
+        }
+      },
+      {
+        "seconds": 0.0577591999899596,
+        "within": true,
+        "quiet_seconds": 0.05398680013604462,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16089088,
+          "total_ws": 49598464,
+          "private_commit": 68530176
+        }
+      },
+      {
+        "seconds": 0.11110929981805384,
+        "within": true,
+        "quiet_seconds": 0.10733689996413887,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16089088,
+          "total_ws": 49598464,
+          "private_commit": 68530176
+        }
+      },
+      {
+        "seconds": 0.1644454998895526,
+        "within": true,
+        "quiet_seconds": 0.16067310003563762,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16089088,
+          "total_ws": 49598464,
+          "private_commit": 68530176
+        }
+      },
+      {
+        "seconds": 0.21801169984973967,
+        "within": true,
+        "quiet_seconds": 0.2142392999958247,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16089088,
+          "total_ws": 49598464,
+          "private_commit": 68530176
+        }
+      },
+      {
+        "seconds": 0.2716419999487698,
+        "within": true,
+        "quiet_seconds": 0.26786960009485483,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16089088,
+          "total_ws": 49598464,
+          "private_commit": 68530176
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.004792999941855669,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16093184,
+          "total_ws": 49614848,
+          "private_commit": 68448256
+        }
+      },
+      {
+        "seconds": 0.05885270005092025,
+        "within": true,
+        "quiet_seconds": 0.05405970010906458,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16097280,
+          "total_ws": 49618944,
+          "private_commit": 68448256
+        }
+      },
+      {
+        "seconds": 0.11230350006371737,
+        "within": true,
+        "quiet_seconds": 0.1075105001218617,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16097280,
+          "total_ws": 49618944,
+          "private_commit": 68448256
+        }
+      },
+      {
+        "seconds": 0.16615880001336336,
+        "within": true,
+        "quiet_seconds": 0.1613658000715077,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16097280,
+          "total_ws": 49618944,
+          "private_commit": 68448256
+        }
+      },
+      {
+        "seconds": 0.21942690014839172,
+        "within": true,
+        "quiet_seconds": 0.21463390020653605,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16097280,
+          "total_ws": 49618944,
+          "private_commit": 68448256
+        }
+      },
+      {
+        "seconds": 0.2724073000717908,
+        "within": true,
+        "quiet_seconds": 0.26761430012993515,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16097280,
+          "total_ws": 49618944,
+          "private_commit": 68448256
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.0052924000192433596,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16445440,
+          "total_ws": 49983488,
+          "private_commit": 69091328
+        }
+      },
+      {
+        "seconds": 0.05978679982945323,
+        "within": true,
+        "quiet_seconds": 0.05449439981020987,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16441344,
+          "total_ws": 49979392,
+          "private_commit": 69091328
+        }
+      },
+      {
+        "seconds": 0.11324269999749959,
+        "within": true,
+        "quiet_seconds": 0.10795029997825623,
+        "sample": {
+          "handles": 462,
+          "gdi": 42,
+          "user": 36,
+          "injected": false,
+          "private_ws": 16445440,
+          "total_ws": 49983488,
+          "private_commit": 69091328
+        }
+      },
+      {
+        "seconds": 0.166806599823758,
+        "within": true,
+        "quiet_seconds": 0.16151419980451465,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16445440,
+          "total_ws": 49983488,
+          "private_commit": 69091328
+        }
+      },
+      {
+        "seconds": 0.21984959999099374,
+        "within": true,
+        "quiet_seconds": 0.21455719997175038,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16445440,
+          "total_ws": 49983488,
+          "private_commit": 69091328
+        }
+      },
+      {
+        "seconds": 0.27285850001499057,
+        "within": true,
+        "quiet_seconds": 0.2675660999957472,
+        "sample": {
+          "handles": 462,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16445440,
+          "total_ws": 49983488,
+          "private_commit": 69091328
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.005158500047400594,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16515072,
+          "total_ws": 50065408,
+          "private_commit": 68882432
+        }
+      },
+      {
+        "seconds": 0.05857670004479587,
+        "within": true,
+        "quiet_seconds": 0.05341819999739528,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16519168,
+          "total_ws": 50069504,
+          "private_commit": 68882432
+        }
+      },
+      {
+        "seconds": 0.11300110002048314,
+        "within": true,
+        "quiet_seconds": 0.10784259997308254,
+        "sample": {
+          "handles": 464,
+          "gdi": 40,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16515072,
+          "total_ws": 50065408,
+          "private_commit": 68882432
+        }
+      },
+      {
+        "seconds": 0.16670259996317327,
+        "within": true,
+        "quiet_seconds": 0.16154409991577268,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16519168,
+          "total_ws": 50069504,
+          "private_commit": 68882432
+        }
+      },
+      {
+        "seconds": 0.21971219987608492,
+        "within": true,
+        "quiet_seconds": 0.21455369982868433,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16519168,
+          "total_ws": 50069504,
+          "private_commit": 68882432
+        }
+      },
+      {
+        "seconds": 0.27268019993789494,
+        "within": true,
+        "quiet_seconds": 0.26752169989049435,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16519168,
+          "total_ws": 50069504,
+          "private_commit": 68882432
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.003921600058674812,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 39,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      },
+      {
+        "seconds": 0.05750659992918372,
+        "within": true,
+        "quiet_seconds": 0.05358499987050891,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 39,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      },
+      {
+        "seconds": 0.11059900000691414,
+        "within": true,
+        "quiet_seconds": 0.10667739994823933,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 39,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      },
+      {
+        "seconds": 0.1636941998731345,
+        "within": true,
+        "quiet_seconds": 0.15977259981445968,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      },
+      {
+        "seconds": 0.217226899927482,
+        "within": true,
+        "quiet_seconds": 0.2133052998688072,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      },
+      {
+        "seconds": 0.2706132000312209,
+        "within": true,
+        "quiet_seconds": 0.2666915999725461,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16175104,
+          "total_ws": 49729536,
+          "private_commit": 68259840
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.0037164001259952784,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      },
+      {
+        "seconds": 0.056773400167003274,
+        "within": true,
+        "quiet_seconds": 0.053057000041007996,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      },
+      {
+        "seconds": 0.11051270016469061,
+        "within": true,
+        "quiet_seconds": 0.10679630003869534,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      },
+      {
+        "seconds": 0.16461370000615716,
+        "within": true,
+        "quiet_seconds": 0.16089729988016188,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      },
+      {
+        "seconds": 0.21800080011598766,
+        "within": true,
+        "quiet_seconds": 0.21428439998999238,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      },
+      {
+        "seconds": 0.2721301999408752,
+        "within": true,
+        "quiet_seconds": 0.2684137998148799,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16171008,
+          "total_ws": 49729536,
+          "private_commit": 68255744
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.003961800131946802,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16183296,
+          "total_ws": 49758208,
+          "private_commit": 68276224
+        }
+      },
+      {
+        "seconds": 0.05796690005809069,
+        "within": true,
+        "quiet_seconds": 0.054005099926143885,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16187392,
+          "total_ws": 49762304,
+          "private_commit": 68276224
+        }
+      },
+      {
+        "seconds": 0.11128970002755523,
+        "within": true,
+        "quiet_seconds": 0.10732789989560843,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16187392,
+          "total_ws": 49762304,
+          "private_commit": 68276224
+        }
+      },
+      {
+        "seconds": 0.16466880007646978,
+        "within": true,
+        "quiet_seconds": 0.16070699994452298,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16187392,
+          "total_ws": 49762304,
+          "private_commit": 68276224
+        }
+      },
+      {
+        "seconds": 0.22157780011184514,
+        "within": true,
+        "quiet_seconds": 0.21761599997989833,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16187392,
+          "total_ws": 49762304,
+          "private_commit": 68276224
+        }
+      },
+      {
+        "seconds": 0.2754763001576066,
+        "within": true,
+        "quiet_seconds": 0.2715145000256598,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16187392,
+          "total_ws": 49762304,
+          "private_commit": 68276224
+        }
+      }
+    ],
+    [
+      {
+        "seconds": 0.004031300079077482,
+        "within": true,
+        "quiet_seconds": 0.0,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49811456,
+          "private_commit": 68288512
+        }
+      },
+      {
+        "seconds": 0.05781399994157255,
+        "within": true,
+        "quiet_seconds": 0.053782699862495065,
+        "sample": {
+          "handles": 464,
+          "gdi": 42,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49811456,
+          "private_commit": 68292608
+        }
+      },
+      {
+        "seconds": 0.1120066000148654,
+        "within": true,
+        "quiet_seconds": 0.10797529993578792,
+        "sample": {
+          "handles": 464,
+          "gdi": 40,
+          "user": 37,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49811456,
+          "private_commit": 68292608
+        }
+      },
+      {
+        "seconds": 0.16537680011242628,
+        "within": true,
+        "quiet_seconds": 0.1613455000333488,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49811456,
+          "private_commit": 68292608
+        }
+      },
+      {
+        "seconds": 0.2186869999859482,
+        "within": true,
+        "quiet_seconds": 0.21465569990687072,
+        "sample": {
+          "handles": 464,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49811456,
+          "private_commit": 68292608
+        }
+      },
+      {
+        "seconds": 0.27204570011235774,
+        "within": true,
+        "quiet_seconds": 0.26801440003328025,
+        "sample": {
+          "handles": 466,
+          "gdi": 41,
+          "user": 38,
+          "injected": false,
+          "private_ws": 16216064,
+          "total_ws": 49799168,
+          "private_commit": 68292608
+        }
+      }
+    ]
+  ],
+  "initial": {
+    "handles": 451,
+    "gdi": 33,
+    "user": 33,
+    "injected": false,
+    "private_ws": 13660160,
+    "total_ws": 46628864,
+    "private_commit": 65478656
+  },
+  "two_tabs": {
+    "handles": 462,
+    "gdi": 41,
+    "user": 37,
+    "injected": false,
+    "private_ws": 16302080,
+    "total_ws": 49623040,
+    "private_commit": 68993024
+  },
+  "cycles": [
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16347136,
+      "total_ws": 49733632,
+      "private_commit": 69218304
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16060416,
+      "total_ws": 49496064,
+      "private_commit": 68198400
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16408576,
+      "total_ws": 49876992,
+      "private_commit": 68976640
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16433152,
+      "total_ws": 49926144,
+      "private_commit": 69492736
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16089088,
+      "total_ws": 49598464,
+      "private_commit": 68530176
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16097280,
+      "total_ws": 49618944,
+      "private_commit": 68448256
+    },
+    {
+      "handles": 462,
+      "gdi": 41,
+      "user": 37,
+      "injected": false,
+      "private_ws": 16445440,
+      "total_ws": 49983488,
+      "private_commit": 69091328
+    },
+    {
+      "handles": 464,
+      "gdi": 41,
+      "user": 38,
+      "injected": false,
+      "private_ws": 16519168,
+      "total_ws": 50069504,
+      "private_commit": 68882432
+    },
+    {
+      "handles": 464,
+      "gdi": 41,
+      "user": 38,
+      "injected": false,
+      "private_ws": 16175104,
+      "total_ws": 49729536,
+      "private_commit": 68259840
+    },
+    {
+      "handles": 464,
+      "gdi": 41,
+      "user": 38,
+      "injected": false,
+      "private_ws": 16171008,
+      "total_ws": 49729536,
+      "private_commit": 68255744
+    },
+    {
+      "handles": 464,
+      "gdi": 41,
+      "user": 38,
+      "injected": false,
+      "private_ws": 16187392,
+      "total_ws": 49762304,
+      "private_commit": 68276224
+    },
+    {
+      "handles": 466,
+      "gdi": 41,
+      "user": 38,
+      "injected": false,
+      "private_ws": 16216064,
+      "total_ws": 49799168,
+      "private_commit": 68292608
+    }
+  ],
+  "peak_private_ws": 23269376,
+  "workload": {
+    "history_lines_per_tab": 4096,
+    "history_limit": 2000,
+    "redraw_frames": 24,
+    "resize_transitions": 24,
+    "inline_images": false,
+    "animated_images": false,
+    "kitty_images": true,
+    "samples": [
+      {
+        "phase": "history-0",
+        "handles": 456,
+        "gdi": 41,
+        "user": 38,
+        "injected": false,
+        "private_ws": 17928192,
+        "total_ws": 51572736,
+        "private_commit": 70017024
+      },
+      {
+        "phase": "history-1",
+        "handles": 456,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 19116032,
+        "total_ws": 52760576,
+        "private_commit": 71364608
+      },
+      {
+        "phase": "frame-0",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 20443136,
+        "total_ws": 54624256,
+        "private_commit": 76812288
+      },
+      {
+        "phase": "frame-1",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 21966848,
+        "total_ws": 56147968,
+        "private_commit": 84639744
+      },
+      {
+        "phase": "frame-2",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22573056,
+        "total_ws": 56754176,
+        "private_commit": 85581824
+      },
+      {
+        "phase": "frame-3",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22724608,
+        "total_ws": 56913920,
+        "private_commit": 85557248
+      },
+      {
+        "phase": "frame-4",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22757376,
+        "total_ws": 56946688,
+        "private_commit": 85790720
+      },
+      {
+        "phase": "frame-5",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22675456,
+        "total_ws": 56864768,
+        "private_commit": 85225472
+      },
+      {
+        "phase": "frame-6",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 23166976,
+        "total_ws": 57356288,
+        "private_commit": 85782528
+      },
+      {
+        "phase": "frame-7",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22491136,
+        "total_ws": 56680448,
+        "private_commit": 85139456
+      },
+      {
+        "phase": "frame-8",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 21766144,
+        "total_ws": 55955456,
+        "private_commit": 84275200
+      },
+      {
+        "phase": "frame-9",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22224896,
+        "total_ws": 56418304,
+        "private_commit": 84848640
+      },
+      {
+        "phase": "frame-10",
+        "handles": 458,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 23187456,
+        "total_ws": 57380864,
+        "private_commit": 86163456
+      },
+      {
+        "phase": "frame-11",
+        "handles": 458,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22790144,
+        "total_ws": 56983552,
+        "private_commit": 85803008
+      },
+      {
+        "phase": "frame-12",
+        "handles": 459,
+        "gdi": 42,
+        "user": 36,
+        "injected": false,
+        "private_ws": 23166976,
+        "total_ws": 57364480,
+        "private_commit": 86233088
+      },
+      {
+        "phase": "frame-13",
+        "handles": 459,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22904832,
+        "total_ws": 57102336,
+        "private_commit": 86024192
+      },
+      {
+        "phase": "frame-14",
+        "handles": 459,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22233088,
+        "total_ws": 56430592,
+        "private_commit": 84754432
+      },
+      {
+        "phase": "frame-15",
+        "handles": 459,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22716416,
+        "total_ws": 56913920,
+        "private_commit": 86310912
+      },
+      {
+        "phase": "frame-16",
+        "handles": 454,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22646784,
+        "total_ws": 56848384,
+        "private_commit": 85331968
+      },
+      {
+        "phase": "frame-17",
+        "handles": 454,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22708224,
+        "total_ws": 56909824,
+        "private_commit": 85213184
+      },
+      {
+        "phase": "frame-18",
+        "handles": 456,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22851584,
+        "total_ws": 57053184,
+        "private_commit": 85483520
+      },
+      {
+        "phase": "frame-19",
+        "handles": 456,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22040576,
+        "total_ws": 56242176,
+        "private_commit": 84500480
+      },
+      {
+        "phase": "frame-20",
+        "handles": 456,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22679552,
+        "total_ws": 56881152,
+        "private_commit": 85585920
+      },
+      {
+        "phase": "frame-21",
+        "handles": 456,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22806528,
+        "total_ws": 57008128,
+        "private_commit": 85852160
+      },
+      {
+        "phase": "frame-22",
+        "handles": 456,
+        "gdi": 41,
+        "user": 36,
+        "injected": false,
+        "private_ws": 22798336,
+        "total_ws": 56999936,
+        "private_commit": 85696512
+      },
+      {
+        "phase": "frame-23",
+        "handles": 456,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22355968,
+        "total_ws": 56557568,
+        "private_commit": 84824064
+      },
+      {
+        "phase": "settled",
+        "handles": 456,
+        "gdi": 41,
+        "user": 35,
+        "injected": false,
+        "private_ws": 22355968,
+        "total_ws": 56557568,
+        "private_commit": 84824064
+      }
+    ]
+  },
+  "process_tree_memory": {
+    "interval_seconds": 0.1,
+    "sample_count": 660,
+    "seconds": 71.859,
+    "errors": [],
+    "exited_during_sample": [],
+    "injected": false,
+    "kernel_etw_recording": false,
+    "diagnostic_only": false,
+    "peaks": {
+      "frontend": {
+        "count": 1,
+        "private_ws": 23269376,
+        "total_ws": 57462784,
+        "private_commit": 86315008
+      },
+      "hosts": {
+        "count": 3,
+        "private_ws": 7675904,
+        "total_ws": 32964608,
+        "private_commit": 9998336
+      },
+      "clients": {
+        "count": 3,
+        "private_ws": 27742208,
+        "total_ws": 54599680,
+        "private_commit": 33349632
+      },
+      "all": {
+        "count": 7,
+        "private_ws": 51044352,
+        "total_ws": 137756672,
+        "private_commit": 116768768
+      }
+    },
+    "scope": "Synthetic dense text, bounded scrollback, links, images, tab lifetime and resize; not a real agent or physical hover acceptance.",
+    "totals_note": "Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold."
+  },
+  "memory_limit_passed": true,
+  "post_memory_kitty": [
+    {
+      "session": 1,
+      "renderer": 2,
+      "active": false,
+      "after_memory_sampling": true,
+      "injected": false,
+      "patch": [
+        17,
+        21,
+        8,
+        8
+      ],
+      "matched": true,
+      "image": "kitty-workload-tabs-directx-left-tab-0-inactive.png",
+      "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19"
+    },
+    {
+      "session": 1,
+      "renderer": 2,
+      "active": true,
+      "after_memory_sampling": true,
+      "injected": false,
+      "patch": [
+        17,
+        21,
+        8,
+        8
+      ],
+      "matched": true,
+      "image": "kitty-workload-tabs-directx-left-tab-0-active.png",
+      "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19"
+    },
+    {
+      "session": 2,
+      "renderer": 2,
+      "active": false,
+      "after_memory_sampling": true,
+      "injected": false,
+      "patch": [
+        17,
+        21,
+        8,
+        8
+      ],
+      "matched": true,
+      "image": "kitty-workload-tabs-directx-left-tab-1-inactive.png",
+      "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19"
+    },
+    {
+      "session": 2,
+      "renderer": 2,
+      "active": true,
+      "after_memory_sampling": true,
+      "injected": false,
+      "patch": [
+        17,
+        21,
+        8,
+        8
+      ],
+      "matched": true,
+      "image": "kitty-workload-tabs-directx-left-tab-1-active.png",
+      "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19"
+    }
+  ],
+  "pixel_capture_instrumented": false,
+  "pixel_capture": "owned-automation-api",
+  "rapid_shell_closes": [
+    {
+      "total": 33,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 35,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 37,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 39,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 41,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 43,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 45,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 47,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 49,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 51,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 53,
+      "active": 5,
+      "terminated": 0
+    },
+    {
+      "total": 55,
+      "active": 5,
+      "terminated": 0
+    }
+  ],
+  "closing_shell_attempt": 11,
+  "hover_observations": {
+    "moves": 1,
+    "leaves": 1,
+    "ignored": 0,
+    "timers": 2,
+    "events": [
+      {
+        "msg": 512,
+        "flags": 1,
+        "lp": 917600,
+        "ignored": false
+      },
+      {
+        "msg": 675,
+        "flags": 1,
+        "lp": 0,
+        "ignored": false
+      }
+    ]
+  },
+  "first_tab_close": {
+    "frontend_exit": null,
+    "sibling_alive": true
+  },
+  "host_close": {
+    "exit_code": 0,
+    "seconds": 0.06905779987573624
+  },
+  "owned_job_cleanup": {
+    "before": {
+      "total": 56,
+      "active": 0,
+      "terminated": 0
+    },
+    "after": {
+      "total": 56,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": false,
+    "remaining_processes": []
+  }
+}

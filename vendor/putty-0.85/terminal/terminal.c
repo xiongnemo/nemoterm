@@ -10700,6 +10700,17 @@ static void do_paint(Terminal *term)
     /* Rebuild the grid before compositing alpha. Repeated cursor repaints
      * must not blend a translucent image over its own previous frame. No
      * timer is scheduled here; this only invalidates the current paint. */
+    for (const NemoKittyPlacement *p=nemo_kitty_placements_first(term_kitty_placements(term,term->alt_which));
+         p;p=nemo_kitty_placement_next(p)) {
+        NemoKittyView v;
+        if (!nemo_kitty_placement_view(p,term->cell_width,term->cell_height,&v) ||
+            v.right<=0 || v.left>=(double)term->cols*term->cell_width ||
+            v.bottom<=(double)term->disptop*term->cell_height ||
+            v.top>=(double)(term->disptop+term->rows)*term->cell_height) continue;
+        for (int y=0;y<term->rows;y++)
+            for (int x=0;x<term->cols;x++) term->disptext[y]->chars[x].attr|=ATTR_INVALID;
+        break;
+    }
     for (NemoTermImage *image = term->images; image; image = image->next) {
         if (image->screen != term->alt_which || !image->source->raster.partial_alpha ||
             image->last_y < term->disptop || image->y >= term->disptop + term->rows)

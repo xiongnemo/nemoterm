@@ -31,6 +31,7 @@
 #include "nemo_font_fallback.h"
 #include "nemo_cluster.h"
 #include "nemo_gpu.h"
+#include "nemo_kitty_paint.h"
 #include "nemo_wic.h"
 #include "nemo_tabs_host.h"
 #include "terminal/nemo_window_size.h"
@@ -176,6 +177,7 @@ static void nemo_renderer_configure(WinGuiSeat *wgs);
 static bool nemo_renderer_begin(WinGuiSeat *wgs);
 static void nemo_renderer_finish(WinGuiSeat *wgs);
 static void nemo_paint_images(WinGuiSeat *wgs);
+static void nemo_paint_legacy_images(WinGuiSeat *wgs);
 static void init_dpi_info(WinGuiSeat *wgs);
 static void another_font(WinGuiSeat *wgs, int);
 static void deinit_fonts(WinGuiSeat *wgs);
@@ -269,6 +271,7 @@ static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
 static const TermWinVtable windows_termwin_vt = {
+    .kitty_graphics = true,
     .decode_image = nemo_wic_decode,
     .grapheme_clusters = true,
     .get_geometry = wintw_get_geometry,
@@ -1160,6 +1163,7 @@ static void wgs_cleanup(void *vctx)
     if (wgs->logctx) log_free(wgs->logctx);
     nemo_keyboard_free(wgs);
     nemo_cluster_free(&wgs->cluster_renderer);
+    nemo_kitty_paint_free(&wgs->kitty_painter);
     deinit_fonts(wgs);
     if (wgs->caretbm) DeleteObject(wgs->caretbm);
     sfree(wgs->logpal);
@@ -4763,18 +4767,29 @@ static void do_text_internal(
     if (line_box.right > wgs->font_width*wgs->term->cols+wgs->offset_width)
         line_box.right = wgs->font_width*wgs->term->cols+wgs->offset_width;
 
+    bool kitty_background = nemo_kitty_intersects(wgs->term,line_box,
+        wgs->offset_width,wgs->offset_height,false,
+        !truecolour.bg.enabled && nbg==(ATTR_DEFBG>>ATTR_BGSHIFT));
+    if (kitty_background) {
+        ExtTextOutW(wgs->wintw_hdc,0,0,ETO_OPAQUE,&line_box,NULL,0,NULL);
+        nemo_kitty_paint(&wgs->kitty_painter,wgs->term,wgs->wintw_hdc,line_box,
+            wgs->offset_width,wgs->offset_height,false,
+            !truecolour.bg.enabled && nbg==(ATTR_DEFBG>>ATTR_BGSHIFT),NULL);
+        SetBkMode(wgs->wintw_hdc,TRANSPARENT);
+    }
+
     if (whole_cluster) {
         if (len <= (int)lenof(cluster_text) && nemo_cluster_draw(
                 &wgs->cluster_renderer,wgs->wintw_hdc,&line_box,text,len,
                 text_adjust-wgs->font_height*(lattr==LATTR_BOT),fg,bg,emoji,
                 (lattr==LATTR_WIDE?2.0f:1.0f)*((attr&ATTR_NARROW)?0.5f:1.0f),
-                wgs->bold_font_mode==BOLD_SHADOW && (attr&ATTR_BOLD), false))
+                wgs->bold_font_mode==BOLD_SHADOW && (attr&ATTR_BOLD), kitty_background))
             goto decorations;
         /* Preserve this cluster's grid width even if a system API/font or
          * the bounded scratch allocation is unavailable. */
         cluster_text[0]=0xfffd;text=cluster_text;len=1;
         attr &= ~TATTR_COMBINING;
-        SetBkMode(wgs->wintw_hdc,OPAQUE);
+        SetBkMode(wgs->wintw_hdc,kitty_background ? TRANSPARENT : OPAQUE);
     }
 
     if (wgs->font_varpitch) {
@@ -4800,7 +4815,7 @@ static void do_text_internal(
         maxlen = len;
     }
 
-    opaque = true;                     /* start by erasing the rectangle */
+    opaque = !kitty_background; /* Preserve the image under this text run. */
     for (remaining = len; remaining > 0;
          text += len, remaining -= len, x += char_width * len2) {
         len = (maxlen < remaining ? maxlen : remaining);
@@ -5149,7 +5164,11 @@ static void nemo_draw_run(TermWin *tw, int x, int y, wchar_t *text, int len,
     if (box.right<=box.left || box.top<0) return;
     if (cursor) {nemo_gpu_cursor(wgs,box,advance*((attr&ATTR_WIDE)?2:1),text,attr);return;}
     strbuf *key=NULL;
-    if (!cursor) {
+    bool kitty_background=nemo_kitty_intersects(wgs->term,box,
+        wgs->offset_width,wgs->offset_height,false,true);
+    /* Image pixels depend on placement, source and absolute location. Do not
+     * retain them in the shared text-run cache or reuse a plain-background run. */
+    if (!cursor && !kitty_background) {
         key=strbuf_new();
         put_uint32(key,attr);put_uint32(key,lattr);put_uint64(key,tc.decoration);
         /* Rasterized text includes the active block cursor's colours.
@@ -6206,6 +6225,18 @@ static void wintw_free_draw_ctx(TermWin *tw)
  * transparency keeps the Sixel fast path. Partial alpha uses one lazy row
  * DIB and the GPU's existing bounded overlay readback/upload path. */
 static void nemo_paint_images(WinGuiSeat *wgs)
+{
+    nemo_paint_legacy_images(wgs);
+    Terminal *term=wgs->term;
+    if (!term || !wgs->wintw_hdc) return;
+    RECT clip={wgs->offset_width,wgs->offset_height,
+        wgs->offset_width+term->cols*wgs->font_width,
+        wgs->offset_height+term->rows*wgs->font_height};
+    nemo_kitty_paint(&wgs->kitty_painter,term,wgs->wintw_hdc,clip,
+        wgs->offset_width,wgs->offset_height,true,true,wgs->gpu_drawing ? wgs->gpu : NULL);
+}
+
+static void nemo_paint_legacy_images(WinGuiSeat *wgs)
 {
     Terminal *term = wgs->term;
     if (!term || !term->images || !wgs->wintw_hdc)

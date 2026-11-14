@@ -1,9 +1,10 @@
 # Kitty terminal input integration
 
-This development branch connects the bounded graphics components to the real
-terminal byte parser. The Windows frontend still leaves `kitty_graphics` false:
-there is no claim of native Kitty image display or application memory acceptance
-until the three compositor layers are implemented and tested. The accepted
+This checkpoint connects the bounded graphics components to the real terminal
+byte parser. At source `4b21bce`, the Windows frontend left `kitty_graphics`
+false; those tests did not establish native image display or application memory
+acceptance. The subsequent [Windows compositor](kitty-windows-compositor.md)
+enables the capability on its development branch. The accepted root
 `dist/nemoterm.exe` has not been replaced.
 
 The adapter streams APC `G` input independently of UTF-8 and ISO 2022 decoding,

@@ -1,0 +1,25 @@
+rgba-intrinsic {'red': 48, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+rgb-intrinsic {'red': 0, 'green': 48, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+png-native-codec {'red': 0, 'green': 0, 'blue': 48, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+scaled-cells {'red': 960, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+crop-scale-transparent {'red': 0, 'green': 320, 'blue': 0, 'vt340-green': 0, 'black': 320, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+negative-above-coloured-background {'red': 640, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+below-background {'red': 320, 'green': 0, 'blue': 320, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+layer-boundary {'red': 640, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+negative-under-text-and-clusters {'red': 160, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 4, 'blue-over-red': 0}
+positive-over-text {'red': 0, 'green': 0, 'blue': 800, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+delete-reveals-text {'red': 160, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 4, 'blue-over-red': 0}
+same-z-creation-order {'red': 0, 'green': 0, 'blue': 48, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+alpha-positive-over-negative {'red': 0, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 48}
+alpha-repeated-presentation {'red': 0, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 48}
+sync-before {'red': 48, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+sync-frozen-image {'red': 48, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+sync-committed-image {'red': 0, 'green': 0, 'blue': 48, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+alternate-hides {'red': 0, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 48, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+alternate-owned-image {'red': 0, 'green': 48, 'blue': 0, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+alternate-restores {'red': 0, 'green': 0, 'blue': 48, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+scroll-one-row {'red': 0, 'green': 0, 'blue': 48, 'vt340-green': 0, 'black': 0, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+screen-erase-removes-image {'red': 0, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 48, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+margin-source-clipping {'red': 0, 'green': 160, 'blue': 0, 'vt340-green': 0, 'black': 160, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+hard-reset-removes-image {'red': 0, 'green': 0, 'blue': 0, 'vt340-green': 0, 'black': 48, 'magenta': 0, 'cyan': 0, 'half-red': 0, 'half-red-cyan': 0, 'white': 0, 'blue-over-red': 0}
+Native kitty-image directx: 24 exact pixel checks passed

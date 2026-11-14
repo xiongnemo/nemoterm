@@ -1,0 +1,235 @@
+{
+  "start": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"session_id\":\"5f11e03c-b32a-4e23-9c68-b10de36c6b5a\",\"device_id\":\"local\",\"target\":\"nemoterm.exe (pid 38972)\",\"pid\":38972,\"mode\":\"attach\",\"state\":\"running\"}"
+      }
+    ],
+    "structuredContent": {
+      "session_id": "5f11e03c-b32a-4e23-9c68-b10de36c6b5a",
+      "device_id": "local",
+      "target": "nemoterm.exe (pid 38972)",
+      "pid": 38972,
+      "mode": "attach",
+      "state": "running"
+    }
+  },
+  "load": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"evidence_id\":\"ev_ce5b2483b83ebdf73521bf30078853762c65ca339aef2454d65ee9f57f3dffd2\",\"subject\":null,\"provider\":{\"id\":\"frida\",\"name\":\"Frida\",\"version\":null},\"analysis_profile\":null,\"predicate_type\":\"rea.frida.instrumentation-observation\",\"operation\":\"load_frida_script\",\"parameters\":{\"session_id\":\"5f11e03c-b32a-4e23-9c68-b10de36c6b5a\"},\"raw_result\":null,\"normalized_result\":{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"source_kind\":\"inline\",\"source_path\":null,\"source_sha256\":\"11e14643198389d931a2663868ce803570f2f11a90129355f888585f9f3c8b34\",\"messages\":[{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"ready\":true,\"pid\":38972,\"module\":\"GDI32.dll\",\"operation\":\"GdiAlphaBlend\",\"address\":\"0x7ffe25086bd0\"}}],\"messages_truncated\":false},\"confidence\":\"observed\",\"authority\":\"external-service\",\"environment\":null,\"limitations\":[\"Artifact identity is unavailable for this observation.\",\"The target operating system and architecture were not reported by this observation.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+      }
+    ],
+    "structuredContent": {
+      "evidence_id": "ev_ce5b2483b83ebdf73521bf30078853762c65ca339aef2454d65ee9f57f3dffd2",
+      "subject": null,
+      "provider": {
+        "id": "frida",
+        "name": "Frida",
+        "version": null
+      },
+      "analysis_profile": null,
+      "predicate_type": "rea.frida.instrumentation-observation",
+      "operation": "load_frida_script",
+      "parameters": {
+        "session_id": "5f11e03c-b32a-4e23-9c68-b10de36c6b5a"
+      },
+      "raw_result": null,
+      "normalized_result": {
+        "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+        "source_kind": "inline",
+        "source_path": null,
+        "source_sha256": "11e14643198389d931a2663868ce803570f2f11a90129355f888585f9f3c8b34",
+        "messages": [
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "ready": true,
+              "pid": 38972,
+              "module": "GDI32.dll",
+              "operation": "GdiAlphaBlend",
+              "address": "0x7ffe25086bd0"
+            }
+          }
+        ],
+        "messages_truncated": false
+      },
+      "confidence": "observed",
+      "authority": "external-service",
+      "environment": null,
+      "limitations": [
+        "Artifact identity is unavailable for this observation.",
+        "The target operating system and architecture were not reported by this observation."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    }
+  },
+  "status": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"evidence_id\":\"ev_cffca0605178da8640a2c424bb96f45a96d8394b9dd6a1db4c761286d4699255\",\"subject\":null,\"provider\":{\"id\":\"frida\",\"name\":\"Frida\",\"version\":null},\"analysis_profile\":null,\"predicate_type\":\"rea.frida.instrumentation-observation\",\"operation\":\"frida_session_status\",\"parameters\":{\"session_id\":\"5f11e03c-b32a-4e23-9c68-b10de36c6b5a\"},\"raw_result\":null,\"normalized_result\":{\"session_id\":\"5f11e03c-b32a-4e23-9c68-b10de36c6b5a\",\"device_id\":\"local\",\"state\":\"detached\",\"target\":\"nemoterm.exe (pid 38972)\",\"pid\":38972,\"mode\":\"attach\",\"scripts\":[{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"name\":\"rea-054f364c-2427-4c01-9a62-58526c540049\"}],\"messages\":[{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"ready\":true,\"pid\":38972,\"module\":\"GDI32.dll\",\"operation\":\"GdiAlphaBlend\",\"address\":\"0x7ffe25086bd0\"}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":0,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":246,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":1286,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":1730,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":2282,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":2846,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":3422,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":3680,\"failed\":0}}},{\"script_id\":\"054f364c-2427-4c01-9a62-58526c540049\",\"type\":\"send\",\"payload\":{\"counts\":{\"blend\":3794,\"failed\":0}}}],\"messages_truncated\":false},\"confidence\":\"observed\",\"authority\":\"external-service\",\"environment\":null,\"limitations\":[\"Artifact identity is unavailable for this observation.\",\"The target operating system and architecture were not reported by this observation.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+      }
+    ],
+    "structuredContent": {
+      "evidence_id": "ev_cffca0605178da8640a2c424bb96f45a96d8394b9dd6a1db4c761286d4699255",
+      "subject": null,
+      "provider": {
+        "id": "frida",
+        "name": "Frida",
+        "version": null
+      },
+      "analysis_profile": null,
+      "predicate_type": "rea.frida.instrumentation-observation",
+      "operation": "frida_session_status",
+      "parameters": {
+        "session_id": "5f11e03c-b32a-4e23-9c68-b10de36c6b5a"
+      },
+      "raw_result": null,
+      "normalized_result": {
+        "session_id": "5f11e03c-b32a-4e23-9c68-b10de36c6b5a",
+        "device_id": "local",
+        "state": "detached",
+        "target": "nemoterm.exe (pid 38972)",
+        "pid": 38972,
+        "mode": "attach",
+        "scripts": [
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "name": "rea-054f364c-2427-4c01-9a62-58526c540049"
+          }
+        ],
+        "messages": [
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "ready": true,
+              "pid": 38972,
+              "module": "GDI32.dll",
+              "operation": "GdiAlphaBlend",
+              "address": "0x7ffe25086bd0"
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 0,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 246,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 1286,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 1730,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 2282,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 2846,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 3422,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 3680,
+                "failed": 0
+              }
+            }
+          },
+          {
+            "script_id": "054f364c-2427-4c01-9a62-58526c540049",
+            "type": "send",
+            "payload": {
+              "counts": {
+                "blend": 3794,
+                "failed": 0
+              }
+            }
+          }
+        ],
+        "messages_truncated": false
+      },
+      "confidence": "observed",
+      "authority": "external-service",
+      "environment": null,
+      "limitations": [
+        "Artifact identity is unavailable for this observation.",
+        "The target operating system and architecture were not reported by this observation."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    }
+  },
+  "close": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"target_state\":\"unknown\"}"
+      }
+    ],
+    "structuredContent": {
+      "target_state": "unknown"
+    }
+  }
+}

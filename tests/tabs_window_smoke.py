@@ -26,6 +26,8 @@ images.add_argument('--inline-images',action='store_true',
                     help='add translucent PNG images to --workload-memory')
 images.add_argument('--animated-images',action='store_true',
                     help='add four-frame GIF images to --workload-memory')
+images.add_argument('--kitty-images',action='store_true',
+                    help='add Kitty PNG images, cleanup and preview checks to --workload-memory')
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--resource-inventory',action='store_true',
                     help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
@@ -38,7 +40,7 @@ observation.add_argument('--virtual-memory-trace',action='store_true',
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
-if (args.inline_images or args.animated_images) and not args.workload_memory:
+if (args.inline_images or args.animated_images or args.kitty_images) and not args.workload_memory:
     parser.error('Image workloads require --workload-memory')
 injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
 diagnostic=injected_observer or args.etw_memory_trace
@@ -51,11 +53,16 @@ if args.workload_memory:args.dense_clusters=True
 prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 if args.inline_images:prefix='inline-'+prefix
 if args.animated_images:prefix='animated-'+prefix
+if args.kitty_images:prefix='kitty-'+prefix
 base_scene=scene
 if args.resource_inventory:prefix='inventory-tabs'
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
     result=base_scene(text,colour)
+    if args.kitty_images:
+        from kitty_image_window_smoke import image
+        # Every temporary tab must own a painter before its close cycle.
+        result+=image('blue',ident=2)
     if not dense_memory_phase:return result
     cols,rows=evidence['actual_grid']
     unit='e\u0301 \U0001f469\u200d\U0001f4bb \U0001f44d\U0001f3fd 1\ufe0f\u20e3 \u1100\u1161\u11a8 אבג ابت '
@@ -297,7 +304,8 @@ try:
                     census_observer.result['executable_sha256']=evidence['executable_sha256']
                     census_observer.start()
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene,
-                                                     inline_images=args.inline_images,animated_images=args.animated_images)
+                                                     inline_images=args.inline_images,animated_images=args.animated_images,
+                                                     kitty_images=args.kitty_images)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
                 memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')
@@ -322,6 +330,11 @@ try:
                     # Dedicated diagnostic CI recognizes this explicit outcome.
                     # Ordinary acceptance workflows must not turn green here.
                     raise SystemExit(2)
+                if args.kitty_images:
+                    from kitty_tab_workload import verify_images
+                    evidence['post_memory_kitty']=[]
+                    verify_images(process.pid,(first,second),select,
+                        evidence['post_memory_kitty'],f'{prefix}-{args.renderer}-{args.side}')
                 if args.animated_images:
                     # Do not allocate screenshot buffers during acceptance sampling.
                     # Check retained images still animate in each real active renderer
@@ -387,11 +400,21 @@ try:
             preview=wait_for(lambda:next(iter(windows(process.pid,'NemotermPreview',visible=True)),None))
             before=capture(preview,return_pixels=True)
             output(first,scene('HIDDEN UPDATE','10;20;90'))
+            if args.kitty_images:
+                from kitty_image_window_smoke import image
+                output(first,image('green',ident=3,columns=40,rows=12))
             def updated_preview():
                 pixels=capture(preview,return_pixels=True)
                 return any(pixels[i+2]>180 and pixels[i]<60 and pixels[i+1]<90
                            for i in range(0,len(pixels),3))
             wait_for(updated_preview)
+            if args.kitty_images:
+                def kitty_preview():
+                    pixels=capture(preview,return_pixels=True)
+                    return sum(pixels[i+1]>220 and pixels[i]<30 and pixels[i+2]<30
+                               for i in range(0,len(pixels),3))>=64
+                wait_for(kitty_preview)
+                evidence['checks'].append('hidden Kitty placement appears in hover preview without selecting its tab')
             assert windows(process.pid,'Nemoterm',host,True)==[second['hwnd']]
             r=w.RECT();u.GetClientRect(preview,c.byref(r));assert 0<r.right<=320 and 0<r.bottom<=200
             capture(preview,f'{prefix}-{args.renderer}-{args.side}-preview.png')
@@ -427,7 +450,7 @@ try:
                 select(child,index);output(child,'\x1b[18t')
                 assert '\x1b[8;'.encode().hex() in read_snapshot(child['report'])['hex']
             evidence['checks'].append('host resize updates both terminal grids')
-            if actual==1:capture(host,f'tabs-{args.renderer}-{args.side}-host.png')
+            if actual==1:capture(host,f'{prefix}-{args.renderer}-{args.side}-host.png')
             evidence['phase']='close-capture-clients'
             for capture_helper in captures:capture_helper.close()
             captures=[]

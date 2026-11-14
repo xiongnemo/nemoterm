@@ -33,8 +33,11 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 此前 `f6b3d64` 的正式单 EXE 产物在本机 160×48 Sarasa 动画负载中，
 私有工作集峰值为 GDI 16.7 MB、DX 24.1 MB；DX 总工作集约 60.4 MB，仍需优化。
 这两项是不同提交／产物的验证，准确身份及保留的失败记录见[裁剪截图验证](research/cropped-capture.md)。
-Kitty 图片协议正在接入，当前已加入终端输入与生命周期测试，Windows 绘制能力仍关闭；
-进度见[接入记录](research/kitty-terminal-input.md)。下方已验收下载仍是此前版本。
+Kitty 图片协议的开发分支已接入 Windows 三层绘制，GDI、OpenGL、DirectX 各通过
+24 项本机像素检查；支持直接 RGB/RGBA/PNG、裁剪缩放、透明度、查询、放置和删除。
+共享内存、文件传输、压缩、动画及 Unicode 占位等扩展尚未实现。
+当前开发构建和正式单 EXE 的验证分别记录在[绘制接入记录](research/kitty-windows-compositor.md)。
+下方已验收下载仍是此前版本。
 
 ## 下载
 

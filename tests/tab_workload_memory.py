@@ -69,12 +69,15 @@ class TabMemorySampler:
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 
 
-def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False):
+def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False):
     """Keep two 2000-line histories while switching/repainting/resizing."""
     result = dict(history_lines_per_tab=4096, history_limit=2000,
                   redraw_frames=24, resize_transitions=24, inline_images=inline_images,
-                  animated_images=animated_images, samples=[])
-    assert not (inline_images and animated_images)
+                  animated_images=animated_images, kitty_images=kitty_images, samples=[])
+    assert sum((inline_images,animated_images,kitty_images))<=1
+    if kitty_images:
+        from kitty_tab_workload import workload_image
+        inline=workload_image()
     if inline_images:
         from iterm_image_window_smoke import png, transfer
         inline = transfer(png(512,288,bytes((255,0,0,128))*512*288))
@@ -114,7 +117,7 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
         # One sizeable Sixel per retained terminal, rebuilt through normal VT.
         output(child,'\x1b[2;4H\x1bP0;1q"1;1;512;288#1;2;20;40;70#1'+
                      ('!512~-')*48+'\x1b\\')
-        if inline_images or animated_images:
+        if inline_images or animated_images or kitty_images:
             output(child,inline)
         target = (max(400,width-160),max(300,height-100)) if frame%2 == 0 else (width,height)
         assert u.MoveWindow(host,original.left,original.top,*target,True)

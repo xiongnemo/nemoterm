@@ -1,0 +1,705 @@
+{
+  "checkpoint": "Windows Kitty compositor",
+  "source_parent": "f01bf003d4161a22a5b49ea1357a94e95a752bbf",
+  "source_branch": "feature/kitty-windows-compositor-20261115",
+  "formal_single_executable_acceptance": false,
+  "pixel_runs": [
+    {
+      "renderer": "gdi",
+      "actual_renderer": 0,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-image-gdi-observed.json",
+        "sha256": "4b20edc4f0af5b37a401c1e42f4400ea70cc2d8e44c5a07e5cc7b753326e58ff",
+        "bytes": 56535
+      },
+      "checks": 24,
+      "instrumented": true,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/gdi-01-rgba-intrinsic.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-02-rgb-intrinsic.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-03-png-native-codec.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-04-scaled-cells.png",
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575",
+          "bytes": 391
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-05-crop-scale-transparent.png",
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-06-negative-above-coloured-background.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-07-below-background.png",
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7",
+          "bytes": 359
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-08-layer-boundary.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-09-negative-under-text-and-clusters.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-10-positive-over-text.png",
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-11-delete-reveals-text.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-12-same-z-creation-order.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-13-alpha-positive-over-negative.png",
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+          "bytes": 332
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-14-alpha-repeated-presentation.png",
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c",
+          "bytes": 378
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-15-sync-before.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-16-sync-frozen-image.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-17-sync-committed-image.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-18-alternate-hides.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-19-alternate-owned-image.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-20-alternate-restores.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-21-scroll-one-row.png",
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-22-screen-erase-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-23-margin-source-clipping.png",
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa",
+          "bytes": 351
+        },
+        {
+          "path": "research/kitty-windows-evidence/gdi-24-hard-reset-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "runtime_files": {
+        "OpenConsole.exe": "014d5f192bd6043648a41ba199e9e6503452f559211bb10e25b245f0ab6d6772",
+        "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+      },
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    },
+    {
+      "renderer": "opengl",
+      "actual_renderer": 1,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-image-opengl-observed.json",
+        "sha256": "eaca322c5baee821efbab9e72edcc492fad7d3954273bb57daa7d89669403688",
+        "bytes": 56501
+      },
+      "checks": 24,
+      "instrumented": false,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/opengl-01-rgba-intrinsic.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-02-rgb-intrinsic.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-03-png-native-codec.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-04-scaled-cells.png",
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575",
+          "bytes": 391
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-05-crop-scale-transparent.png",
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-06-negative-above-coloured-background.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-07-below-background.png",
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7",
+          "bytes": 359
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-08-layer-boundary.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-09-negative-under-text-and-clusters.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-10-positive-over-text.png",
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-11-delete-reveals-text.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-12-same-z-creation-order.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-13-alpha-positive-over-negative.png",
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+          "bytes": 332
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-14-alpha-repeated-presentation.png",
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c",
+          "bytes": 378
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-15-sync-before.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-16-sync-frozen-image.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-17-sync-committed-image.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-18-alternate-hides.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-19-alternate-owned-image.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-20-alternate-restores.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-21-scroll-one-row.png",
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-22-screen-erase-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-23-margin-source-clipping.png",
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa",
+          "bytes": 351
+        },
+        {
+          "path": "research/kitty-windows-evidence/opengl-24-hard-reset-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "runtime_files": {
+        "OpenConsole.exe": "014d5f192bd6043648a41ba199e9e6503452f559211bb10e25b245f0ab6d6772",
+        "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+      },
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    },
+    {
+      "renderer": "directx",
+      "actual_renderer": 2,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-image-directx-observed.json",
+        "sha256": "0f4cb4a0efba13095150097794d846712816ed5b37694d9cb43260293854a231",
+        "bytes": 56500
+      },
+      "checks": 24,
+      "instrumented": false,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/directx-01-rgba-intrinsic.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-02-rgb-intrinsic.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-03-png-native-codec.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-04-scaled-cells.png",
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575",
+          "bytes": 391
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-05-crop-scale-transparent.png",
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-06-negative-above-coloured-background.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-07-below-background.png",
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7",
+          "bytes": 359
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-08-layer-boundary.png",
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-09-negative-under-text-and-clusters.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-10-positive-over-text.png",
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e",
+          "bytes": 352
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-11-delete-reveals-text.png",
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51",
+          "bytes": 561
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-12-same-z-creation-order.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-13-alpha-positive-over-negative.png",
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+          "bytes": 332
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-14-alpha-repeated-presentation.png",
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c",
+          "bytes": 378
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-15-sync-before.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-16-sync-frozen-image.png",
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-17-sync-committed-image.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-18-alternate-hides.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-19-alternate-owned-image.png",
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-20-alternate-restores.png",
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-21-scroll-one-row.png",
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48",
+          "bytes": 326
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-22-screen-erase-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-23-margin-source-clipping.png",
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa",
+          "bytes": 351
+        },
+        {
+          "path": "research/kitty-windows-evidence/directx-24-hard-reset-removes-image.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+          "bytes": 306
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "runtime_files": {
+        "OpenConsole.exe": "014d5f192bd6043648a41ba199e9e6503452f559211bb10e25b245f0ab6d6772",
+        "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+      },
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    }
+  ],
+  "workload_runs": [
+    {
+      "renderer": "gdi",
+      "actual_renderer": 1,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-observed.json",
+        "sha256": "1b1670b1bfe43c7cffc34d92f99cc7b263136bcd3e98ff567b6ad898c4b16873",
+        "bytes": 182448
+      },
+      "full_samples": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-memory.json.gz",
+        "gzip_sha256": "fb7f6cbfd24955b96cd90b9eee67a5e7713b0e4f17c6ce3eaa62174ca2a04c0b",
+        "raw_sha256": "9ec466fc94b4e0b24f162a8c7368190e028e0f16a1751762deef4d95c9b61fde"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-host.png",
+          "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+          "bytes": 4287
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-preview.png",
+          "sha256": "7a158b6078ee0b9e7c10523a563d463873878c26444563700994765abb583024",
+          "bytes": 881
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-tab-0-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-tab-0-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-tab-1-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-gdi-top-tab-1-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        }
+      ],
+      "memory_samples": 588,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 15798272,
+        "total_ws": 37183488,
+        "private_commit": 17948672
+      },
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "post_memory_image_checks": 4,
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    },
+    {
+      "renderer": "directx",
+      "actual_renderer": 3,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-observed.json",
+        "sha256": "5c3ff110f209b3a5345ba0cb1be3fcb086a05d7723b2fa507d71e67eb77d02dd",
+        "bytes": 182599
+      },
+      "full_samples": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-memory.json.gz",
+        "gzip_sha256": "fbc0f024cc809a0178ae7216e60bdf2d2a2b42f6824dae7235860a387e43a770",
+        "raw_sha256": "d49306d508e1462b8bb5a4597acbca30c551e37a294485834d55f8fceb6b25a5"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-preview.png",
+          "sha256": "7a158b6078ee0b9e7c10523a563d463873878c26444563700994765abb583024",
+          "bytes": 881
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-tab-0-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-tab-0-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-tab-1-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-directx-left-tab-1-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+          "bytes": 73
+        }
+      ],
+      "memory_samples": 660,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 23269376,
+        "total_ws": 57462784,
+        "private_commit": 86315008
+      },
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "post_memory_image_checks": 4,
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    }
+  ],
+  "records": [
+    {
+      "path": "research/kitty-windows-evidence/kitty-painter-gdi.log",
+      "sha256": "39b946874244091f0f80e528ddd445ad938fe8719c81c0a4522280082568fe1c",
+      "bytes": 4359
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-painter-opengl.log",
+      "sha256": "d951c2aae3d7b8e0d94a2f70506bf1e1627be46df160f3c7ae078f6cabe3f3b5",
+      "bytes": 4362
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-painter-directx.log",
+      "sha256": "9e3c453d0daffbbf0e96adc99be2c490047c0063a61f0ecd41c2714401b01db5",
+      "bytes": 4363
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-image-rea-gdi.json",
+      "sha256": "70b1795fc5e37eee67c772b6a31670e7bad473a9e83c7cbe4b28bc94f9901f40",
+      "bytes": 10124
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-painter-build.log.gz",
+      "sha256": "56da412f01675edcfaa26f15952b0792c67c83f07cb8fdab73b39e3e5437d0cb",
+      "bytes": 446
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-tabs-gdi.log",
+      "sha256": "026d0cd544a80c0fb4d2d8df13f531d0317e9ec6847b8ddabea6d6a78c327ee4",
+      "bytes": 1721
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-tabs-directx.log",
+      "sha256": "58456be8cd68451642da6d005a8e0694106c5e1a91cf4595bca5129face46809",
+      "bytes": 1726
+    }
+  ],
+  "sources": [
+    {
+      "path": "vendor/putty-0.85/windows/nemo_kitty_paint.c",
+      "normalized_lf_sha256": "290184d7305ad8527c8a98c873d00966bbc1bfc582cfeb7f9199031b1511b32c"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_kitty_paint.h",
+      "normalized_lf_sha256": "bfc650166c3feb477e7108b6b64a135441daedaecb5ec6a1818259389e0c716e"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/window.c",
+      "normalized_lf_sha256": "81009bf7920f4bc9e3d4d16c9cb843f9fd4e97a70e1dc0d846ef0ca5587529cd"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/win-gui-seat.h",
+      "normalized_lf_sha256": "458500235308fdd68d1e4754ff63dca2a9a96ed56669a7a37612b4b871e89e94"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/CMakeLists.txt",
+      "normalized_lf_sha256": "500f0c4258570022faf8db6b6718a7e5aa43e4d69dad5e7981847481e8fd4780"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "normalized_lf_sha256": "17d4c5da51d8acfc8e050aa2cccd8744fecf841330dabfb343e73b67580c1962"
+    },
+    {
+      "path": "tests/kitty_image_window_smoke.py",
+      "normalized_lf_sha256": "8a8c667c4cb8473917b3daeeef632db62d728e0dc3efab59e43d54e12066439a"
+    },
+    {
+      "path": "tests/kitty_tab_workload.py",
+      "normalized_lf_sha256": "f27c4578c68b63076b2813e3c3ca012aceafe5f3558417aec335375335e8bf39"
+    },
+    {
+      "path": "tests/sixel_palette_window_smoke.py",
+      "normalized_lf_sha256": "91aa16a120a311fb59037976aa5ecac261d7baa425558ccdaa6929a662c596ca"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "normalized_lf_sha256": "678429ed50f47474c4cfa487d68091c1422e09886480c7eae5696b43be91a198"
+    },
+    {
+      "path": "tests/tab_workload_memory.py",
+      "normalized_lf_sha256": "d9635b6452324605e5629e423b1e301750e8a3aa608462c968378a13edd69fde"
+    },
+    {
+      "path": "scripts/test-single-exe.ps1",
+      "normalized_lf_sha256": "5e2a24886def0215346fb2b08d1834b7736404669bb0538c102c8329d82fc445"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "normalized_lf_sha256": "c3ed24ea31493c68b1d2a62f4d7381bbe9a5f29b4c289cf6e41f4fece17fd0b0"
+    }
+  ],
+  "upstream_render_source": {
+    "commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+    "path": "kitty/shaders.c",
+    "sha256": "21707111331ba7467eea27a13ab1d195a520f8ef761666c8b43b2b75b3f0532f"
+  }
+}

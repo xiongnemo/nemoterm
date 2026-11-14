@@ -69,6 +69,7 @@ struct WinGuiSeat {
     struct NemoClipboardRead *osc52_read;
     struct NemoFontFallback *font_fallback;
     struct NemoClusterRenderer *cluster_renderer;
+    struct NemoKittyPainter *kitty_painter;
     struct NemoGPU *gpu;
     bool gpu_drawing, gpu_failed;
     bool link_mouse_inside;
