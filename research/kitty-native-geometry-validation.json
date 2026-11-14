@@ -1,0 +1,254 @@
+{
+  "production_source": "97d60254e3bae94fbba9803ff15e1abfce5373f8",
+  "distribution": "MinGW developer frontend with source-built console host, not single EXE acceptance",
+  "fixture": "tests/kitty_geometry_window_smoke.py",
+  "fixture_lf_sha256": "1e033e52d43e07a5139cc548620ccc16c0f93f5542558f98f7533cda73df101e",
+  "cases": [
+    "intrinsic pixel size",
+    "explicit cell scale",
+    "permanent offset clamp",
+    "font reset",
+    "window resize",
+    "frozen image",
+    "zoom ends synchronization"
+  ],
+  "native": [
+    {
+      "renderer": "gdi",
+      "actual_renderer": 0,
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73",
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-gdi-observed.json.gz",
+        "raw_sha256": "334ec2f8712190325add42646d94eac778a3763c1ab065a4db90e09aa3102f18",
+        "gzip_sha256": "684f04375fcb9a2d1626fe510aae5d1c45bd7bbeba980beb5438a63a4858bb11"
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-gdi.log.gz",
+        "raw_sha256": "2b87ca97b4b0ed2c7b7bdeb00d35c1cad0f2ba36102cd00f815b8c240210671d",
+        "gzip_sha256": "8c494664c88fba898ef6648653250d22c066b3c24d3e4c237f1926883785353a"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-01-initial.png",
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-02-smaller-1.png",
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-03-smaller-2.png",
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-04-smaller-3.png",
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-05-reset-offsets-clamped.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-06-larger-1.png",
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-07-larger-2.png",
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-08-reset-larger.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-09-wider-taller.png",
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-10-original-size.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-11-frozen-image-before-zoom.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-gdi-12-zoom-ends-freeze.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "renderer": "opengl",
+      "actual_renderer": 1,
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73",
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-opengl-observed.json.gz",
+        "raw_sha256": "2935bece74da2e19a6c126d902ca011ccdaffae50735ba3be3df01b304b78850",
+        "gzip_sha256": "bf4126f4f5150933354d20f83d5e3e74cd4c902a4f6058b4d97397059227919c"
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-opengl.log.gz",
+        "raw_sha256": "0ad0f254c0176a01be4b6f634c80900ad55a45436d40a2cae7abf7d264bbe061",
+        "gzip_sha256": "488d6fb933388768bfd797ffd19b76650156856155ba6ce133ed44e38822a9f0"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-01-initial.png",
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-02-smaller-1.png",
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-03-smaller-2.png",
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-04-smaller-3.png",
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-05-reset-offsets-clamped.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-06-larger-1.png",
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-07-larger-2.png",
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-08-reset-larger.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-09-wider-taller.png",
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-10-original-size.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-11-frozen-image-before-zoom.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-opengl-12-zoom-ends-freeze.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "renderer": "directx",
+      "actual_renderer": 2,
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73",
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-directx-observed.json.gz",
+        "raw_sha256": "17374985e996824c01aba10ecbc74f4871131db95e1ab2c262c6434d9dd38d7e",
+        "gzip_sha256": "6335976fae57a6ec12845ebefc66f321aad3082678cd0b0dbccf08d997962342"
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/kitty-geometry-directx.log.gz",
+        "raw_sha256": "a2f5ade02f3a203bcb5719e4dad4c9f19e0d268824eeadb7867d221975dc7b11",
+        "gzip_sha256": "2e2af7cb64f41d5a67219d284401ae511eb1ff8d163cf9305dc04bc57e6628a1"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-01-initial.png",
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-02-smaller-1.png",
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-03-smaller-2.png",
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-04-smaller-3.png",
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-05-reset-offsets-clamped.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-06-larger-1.png",
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-07-larger-2.png",
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-08-reset-larger.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-09-wider-taller.png",
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-10-original-size.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-11-frozen-image-before-zoom.png",
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/geometry-directx-12-zoom-ends-freeze.png",
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ]
+}

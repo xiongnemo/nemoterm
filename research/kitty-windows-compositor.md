@@ -64,6 +64,17 @@ sessions use bounded native snapshot rendering. These checks do not observe the
 physical desktop compositor. Each of the three jobs drained all three owned
 processes without forced termination and removed its temporary profile.
 
+A follow-up native geometry fixture passed 12 additional stages per renderer
+on this same developer executable. It compares every red/blue image pixel after
+three font decreases, font reset, two increases, another reset, window enlargement
+and restoration. It distinguishes the intrinsic 32-by-24-pixel image from a
+4-by-3-cell placement and checks that pixel offsets clamped by a smaller font
+remain clamped after restoring the font. The last two stages verify that a
+frozen deleted image remains visible until font zoom ends synchronization.
+All nine owned processes exited naturally. [Geometry evidence](kitty-native-geometry-validation.json)
+retains all 36 images, exact geometry/replies and fixture identity; this also
+runs across the three renderers in the product CI on the follow-up test branch.
+
 ## Workload and remaining acceptance
 
 The new `--kitty-images` workload keeps two 2000-line histories, renders dense
