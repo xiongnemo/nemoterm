@@ -46,3 +46,19 @@ UTF-8 designation without changing C1 transmission.
 This is bounded transmission coverage, not complete C0/C1 input-parser, VT52,
 charset, keyboard-layout or XTerm conformance. Renderer memory and lifetime
 acceptance remain independent.
+
+The [validation manifest](c1-controls-validation.json) retains 210 compressed
+records with decoded and compressed SHA-256 hashes, including every local
+failed attempt. The final development frontend is
+`960f1ea3e8ed9691ddff355b32c2ee2f83138238986e457565745e114ef87d0a`;
+both code-page runs exit naturally. Its separate automation recheck passes all
+nine interface groups, compares screenshots with zero differing channels and
+drains all ten processes owned by the outer test job. Those small-window
+observations are not the Sarasa 160x48 memory acceptance workload.
+
+Source checkpoint `517124f30da646ff2d67b589226a5259002dd117` is undergoing
+[full compiler/core/native CI](https://github.com/xiongnemo/nemoterm/actions/runs/43534154821)
+and [single-image integration](https://github.com/xiongnemo/nemoterm/actions/runs/43534154789).
+At this record's creation the sanitizer, MSVC renderer and source-host jobs
+have passed; the remaining native jobs are still running. This branch has not
+been merged and the accepted `dist/nemoterm.exe` has not been replaced.
