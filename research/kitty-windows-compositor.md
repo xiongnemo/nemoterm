@@ -113,6 +113,35 @@ are running on that production source. Formal CI
 artifacts and exact-artifact local memory acceptance are still pending at this
 checkpoint; OpenGL is allowed to exceed the GDI memory cap.
 
+## Same-source single-image precheck
+
+The independent source-host job of core run `43633479250` uploaded an integrated
+single executable as artifact `14128844123` while the full product jobs were
+still running. It has 4,509,184 bytes and SHA-256
+`355d0e83a9153dee3b2e6193cfcc215b931fbce93785d7e9d23a456256051429`.
+Its source manifest names production `97d6025` and the expected Microsoft
+Terminal revision, entrypoint and overlay hashes. It was staged in a new
+directory containing only `nemoterm.exe`, with test fixtures from `d8d8854`.
+
+That exact image passed all 108 native image/geometry stages (36 per actual
+renderer). Two 160-by-48 Sarasa Kitty workloads then passed before screenshots
+and input/hover instrumentation:
+
+| Renderer | Samples | Private WS peak | Total WS peak | Private commit peak |
+| --- | ---: | ---: | ---: | ---: |
+| GDI | 577 | 16,744,448 | 39,354,368 | 19,394,560 |
+| DirectX | 656 | 23,740,416 | 59,363,328 | 92,454,912 |
+
+All quantities are bytes. Each workload drained 56 owned processes naturally;
+each pixel/geometry fixture drained three. Exact captures, full memory samples
+and cleanup records are in the [precheck manifest](kitty-single-image-precheck.json).
+The private working-set limits pass for this image; the total DX working set remains above the desired
+approximately 50 MB.
+
+This artifact came from the independent build job. Its identity still needs
+comparison with the final single-EXE product artifact after the complete CI run;
+the precheck does not establish product-CI completion or replace that check.
+
 File/shared-memory transport, compression, animation, relative placement and
 Unicode placeholders remain unsupported. The four-MiB shared raster budget,
 two-MiB transfer cap, 128 images/512 placements per screen and bounded placement
