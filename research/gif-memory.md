@@ -41,5 +41,12 @@ canary is not counted as a naturally closing product pass.
 The [manifest](gif-memory-validation.json) retains exact executable identities,
 fixtures, samples, captures, results and cleanup evidence. The new GDI/DirectX
 workloads are registered in both CI packaging paths, in addition to the existing
-baseline/PNG gates. Their full CI and downloaded-artifact local acceptance are
-still pending. The accepted default executable has not been replaced.
+baseline/PNG gates. Both complete workflows pass at `55c47d1`:
+[core/compiler comparison](https://github.com/xiongnemo/nemoterm/actions/runs/43579832223)
+and [single executable, 118 groups](https://github.com/xiongnemo/nemoterm/actions/runs/43579832247).
+The downloaded single EXE is 4,465,152 bytes, SHA-256
+`65eedfaccb8f11ce6909be57bb3c38a5a3688b4afa4fe7cdd09706dbd1d2d1b8`,
+artifact 14108318556. That exact image has not passed local acceptance.
+The same product source's preceding `a3eb24e` CI image failed the local DirectX
+PNG gate as recorded in [the staging follow-up](d3d11-staging.md).
+The accepted default executable has not been replaced.

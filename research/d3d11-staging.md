@@ -54,8 +54,15 @@ DirectX. Pixel tolerances, resource allowances and deadlines were not relaxed.
 This run uses the independently validated API renderer capture and scoped
 preview pointer fixture; its uninstrumented memory phase is unchanged.
 
-The subsequent [animated-image workload](gif-memory.md) also passes locally;
-full CI and downloaded-artifact local verification remain outstanding.
+The subsequent [animated-image workload](gif-memory.md) also passes locally.
+Both full workflows at `a3eb24e` pass, but the exact downloaded single image
+`106439ed2b4f099091229e965c74cf55b32e6326432d47ee58f1c2972d113959`
+fails local DirectX PNG memory acceptance at **25,202,688 bytes**. All nine
+functional/resource groups and natural cleanup pass. The later read-only
+diagnostic replay is not replacement acceptance. See the
+[retained exact-image failure](https://github.com/xiongnemo/nemoterm/blob/611f368badd389a87c77d87c310b9a0436a4f592/research/image-pixel-storage.md).
+The subsequent [PNG scanline experiment](wic-rows.md) also fails to establish
+a memory improvement and is not retained.
 The separate earlier resource-return and hosted
 startup/close failures are not declared fixed by this staging change. The
 accepted default `dist/nemoterm.exe` has not been replaced.
