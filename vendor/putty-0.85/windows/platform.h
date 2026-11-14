@@ -708,6 +708,14 @@ void handle_free(struct handle *h);
 void handle_unthrottle(struct handle *h, size_t backlog);
 size_t handle_backlog(struct handle *h);
 void *handle_get_privdata(struct handle *h);
+/* UI-thread snapshot of handle-io contexts, not OS/driver handle counts.
+ * Retired contexts reported completion or acknowledged shutdown; threads may still
+ * be returning from the thread procedure. No synchronization is performed. */
+typedef struct HandleIOStats {
+    size_t input, output, closing;
+    uint64_t created, destroyed;
+} HandleIOStats;
+HandleIOStats handle_io_stats(void);
 /* Analogue of stdio_sink in marshal.h, for a Windows handle */
 struct handle_sink {
     struct handle *h;

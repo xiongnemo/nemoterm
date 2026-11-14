@@ -46,6 +46,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/fixture_traceback_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3 Pillow==13.0.0
       - name: Install pinned real Codex client for local-response UI tests
         run: npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund

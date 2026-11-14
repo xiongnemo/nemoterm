@@ -1,8 +1,6 @@
 """Pixel and working-set checks on a newly spawned Nemoterm/ConPTY window."""
 import ctypes as c
 from ctypes import wintypes as w
-import atexit
-import faulthandler
 import hashlib
 import json
 import mmap
@@ -18,11 +16,12 @@ import zlib
 from fixture_io import read_snapshot, write_snapshot, wait_snapshot
 
 root = Path(__file__).resolve().parent.parent
-# CI can retain Python stacks even when a synchronous native/Frida call never
-# returns. This observer does not terminate the fixture or change assertions.
+# Retain stacks while blocking native calls release the GIL. The observer
+# cannot diagnose a native call that holds the GIL; external deadlines still
+# apply. It never terminates the fixture or changes test assertions.
 if trace_interval := os.environ.get('NEMOTERM_TEST_TRACEBACK_SECONDS'):
-    faulthandler.dump_traceback_later(float(trace_interval), repeat=True)
-    atexit.register(faulthandler.cancel_dump_traceback_later)
+    from fixture_traceback import start_periodic_tracebacks
+    start_periodic_tracebacks(float(trace_interval))
 
 u, g, k, ps = c.windll.user32, c.windll.gdi32, c.windll.kernel32, c.windll.psapi
 u.SetProcessDPIAware()

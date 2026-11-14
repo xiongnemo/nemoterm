@@ -2640,7 +2640,7 @@ void setup_config_box(struct controlbox *b, bool midsession,
                      conf_radiobutton_handler, I(CONF_nemo_renderer),
                      "GDI (low memory)", NO_SHORTCUT, I(0),
                      "OpenGL (GPU composition)", NO_SHORTCUT, I(1),
-                     "DirectX (Direct2D composition)", NO_SHORTCUT, I(2));
+                     "DirectX (GPU composition)", NO_SHORTCUT, I(2));
     ctrl_text(s, "GPU modes cache text textures and compose text and images on "
               "the GPU. They use the installed graphics driver and can use "
               "more memory. GDI is used if the selected GPU mode is unavailable.", HELPCTX(no_help));

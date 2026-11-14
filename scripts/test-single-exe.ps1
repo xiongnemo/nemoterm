@@ -32,7 +32,7 @@ try {
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'alignment', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'relative_cursor', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
-    $tests += 'c1_controls'
+    $tests += 'c1_controls', 'startup_visibility'
     foreach ($name in $tests) {
         Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
