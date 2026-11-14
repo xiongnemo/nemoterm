@@ -42,6 +42,12 @@ typedef struct NemoImageRow {
     unsigned erased_pixels;
 } NemoImageRow;
 
+typedef struct NemoImageTimer {
+    Terminal *term;
+    unsigned long next;
+    bool pending;
+} NemoImageTimer;
+
 typedef struct NemoImageSource {
     NemoSixel *bitmap; /* fixed pixels after DCS; shared palette remains live */
     unsigned references;
@@ -163,6 +169,7 @@ struct terminal_tag {
     /* Oldest first, owned by the terminal. Coordinates are screen cell
      * coordinates; negative y positions belong to main-screen scrollback. */
     NemoTermImage *images;
+    NemoImageTimer image_timer;
     size_t image_bytes;
     int cell_width, cell_height;
     NemoSixel *sixel_pending;

@@ -1607,22 +1607,56 @@ static void term_schedule_vbell(Terminal *term, bool already_started,
  * shares the same budget; no whole-DCS string is buffered. */
 #define NEMO_IMAGE_MASK_ROWS 32
 
+static void nemo_images_tick(Terminal *term, uint32_t now);
+static void nemo_image_timer(void *ctx, unsigned long now)
+{
+    NemoImageTimer *timer = ctx;
+    if (timer->pending && now == timer->next) nemo_images_tick(timer->term, (uint32_t)GETTICKCOUNT());
+}
+
+static void nemo_images_tick(Terminal *term, uint32_t now)
+{
+    NemoImageTimer *timer = &term->image_timer;
+    expire_timer_context(timer);
+    timer->pending = false;
+    unsigned next = UINT_MAX;
+    bool repaint = false;
+    for (NemoTermImage *image = term->images; image; image = image->next) {
+        bool changed = false;
+        unsigned delay = nemo_raster_tick(&image->source->raster, now, &changed);
+        if (delay && delay < next) next = delay;
+        if (changed && !repaint)
+            for (NemoTermImage *view = term->images; view; view = view->next)
+                if (view->source == image->source && view->screen == term->alt_which &&
+                    view->last_y >= term->disptop && view->y < term->disptop+term->rows)
+                    repaint = true;
+    }
+    if (next != UINT_MAX) {
+        timer->term = term;
+        timer->pending = true;
+        timer->next = schedule_timer((int)min(next, 60000u), nemo_image_timer, timer);
+    }
+    if (repaint) term_invalidate(term);
+}
+
 static void nemo_image_remove(Terminal *term, NemoTermImage **link)
 {
     NemoTermImage *image = *link;
+    bool animated = image->source->raster.frame_count > 1;
     *link = image->next;
     term->image_bytes -= image->memory_bytes;
     assert(image->source->references);
     if (!--image->source->references) {
         term->image_bytes -= image->source->memory_bytes;
         nemo_sixel_free(image->source->bitmap);
-        free(image->source->raster.pixels);
+        nemo_raster_free(&image->source->raster);
         sfree(image->source);
     }
     for (unsigned i = 0; i < image->band_count; i++) sfree(image->mask_bands[i]);
     sfree(image->mask_bands);
     sfree(image->lines);
     sfree(image);
+    if (animated || term->image_timer.pending) nemo_images_tick(term, (uint32_t)GETTICKCOUNT());
 }
 
 static void nemo_inline_cancel(Terminal *term)
@@ -1635,6 +1669,8 @@ static void nemo_inline_cancel(Terminal *term)
 static void nemo_images_clear(Terminal *term)
 {
     while (term->images) nemo_image_remove(term, &term->images);
+    expire_timer_context(&term->image_timer);
+    memset(&term->image_timer, 0, sizeof(term->image_timer));
     nemo_sixel_free(term->sixel_pending);
     term->sixel_pending = NULL;
     nemo_inline_cancel(term);
@@ -2487,6 +2523,7 @@ static void nemo_inline_display(Terminal *term, const NemoItermPacket *packet)
         target--;
     }
     term->curs.y = min(target, term->rows-1);
+    nemo_images_tick(term, (uint32_t)GETTICKCOUNT());
     term_invalidate(term);
 }
 

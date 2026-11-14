@@ -2,6 +2,7 @@
 import argparse
 import struct
 import traceback
+import time
 import uuid
 import winreg
 from native_test_utils import (root, c, w, u, hashlib, os, subprocess, sys,
@@ -111,11 +112,11 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas'):
                     return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,
                                 width=count, height=height, colour=colour)
 
-                def phase(name, sequence, regions):
+                def phase(name, sequence, regions, *, stable_seconds=0):
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
                         barrier_sequence_hex=(CSI+'5n').encode().hex(), input_barrier=serial,
-                        regions=regions, matched=False)
+                        regions=regions, matched=False, stable_seconds=stable_seconds)
                     evidence['checks'].append(record)
                     write_snapshot(control, dict(phase=name, sequence=sequence,
                         preserve_mouse=True, input_barrier=serial))
@@ -138,9 +139,11 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas'):
                     record['scope'] = 'exact probe regions' if background_exercise else 'all client RGB probe colours'
                     record['expected_counts'] = {colour: len(points) for colour, points in wanted.items()}
                     last = None
+                    stable_since = None
+                    started = time.monotonic()
 
                     def matches():
-                        nonlocal last
+                        nonlocal last, stable_since
                         last = api.request(endpoint, 'image', seat)
                         image_width, image_height, pixels = bitmap(last)
                         assert (image_width, image_height) == (width, height)
@@ -162,7 +165,14 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas'):
                             missing=sorted(wanted.get(colour, set())-observed.get(colour, set()))[:8],
                             unexpected=sorted(observed.get(colour, set())-wanted.get(colour, set()))[:8])
                             for colour in sorted(wanted.keys() | observed.keys())}
-                        return observed == wanted
+                        record['capture_samples'] = record.get('capture_samples', 0)+1
+                        if observed != wanted:
+                            stable_since = None
+                            return False
+                        now = time.monotonic()
+                        if stable_since is None:stable_since = now
+                        record['stable_observed_seconds'] = now-stable_since
+                        return now-stable_since >= stable_seconds
 
                     try:
                         wait_for(matches)
@@ -174,6 +184,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas'):
                             (folder/(basename+'.png')).write_bytes(api.png_from_bmp(last))
                             record.update(bmp=basename+'.bmp', png=basename+'.png',
                                           bmp_sha256=hashlib.sha256(last).hexdigest())
+                        record['observation_seconds'] = time.monotonic()-started
                         write_snapshot(folder/'checks.json', evidence['checks'])
                     print(name, record['observed_counts'], flush=True)
 

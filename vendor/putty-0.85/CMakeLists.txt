@@ -61,6 +61,7 @@ add_library(agent STATIC
 
 add_library(guiterminal STATIC
   terminal/nemo_iterm.c
+  terminal/nemo_raster.c
   terminal/nemo_grapheme.c
   terminal/nemo_shell_marks.c
   terminal/terminal.c terminal/bidi.c terminal/nemo_sixel.c terminal/nemo_colour.c terminal/nemo_tcap.c terminal/nemo_hyperlink.c terminal/nemo_cwd.c terminal/nemo_keyboard.c terminal/nemo_osc52.c terminal/nemo_mok.c terminal/nemo_win32_input.c terminal/nemo_window_size.c
@@ -69,6 +70,7 @@ add_library(guiterminal STATIC
 
 add_executable(test_sixel ../../tests/test_sixel.c terminal/nemo_sixel.c)
 add_executable(test_iterm ../../tests/test_iterm.c terminal/nemo_iterm.c)
+add_executable(test_raster ../../tests/test_raster.c terminal/nemo_raster.c)
 add_executable(test_colour ../../tests/test_colour.c terminal/nemo_colour.c)
 add_executable(test_grapheme ../../tests/test_grapheme.c terminal/nemo_grapheme.c)
 

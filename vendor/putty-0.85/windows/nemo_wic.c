@@ -7,6 +7,132 @@
 #include "terminal/nemo_iterm.h"
 #include "terminal/nemo_sixel.h"
 
+static bool metadata_uint(IWICMetadataQueryReader *reader, const wchar_t *path,
+                          unsigned fallback, unsigned *out)
+{
+    PROPVARIANT value = {0};
+    HRESULT hr = IWICMetadataQueryReader_GetMetadataByName(reader, path, &value);
+    bool ok = true;
+    *out = fallback;
+    if (SUCCEEDED(hr)) {
+        switch (value.vt) {
+          case VT_UI1: *out = value.bVal; break;
+          case VT_UI2: *out = value.uiVal; break;
+          case VT_UI4: *out = value.ulVal; break;
+          case VT_BOOL: *out = value.boolVal != VARIANT_FALSE; break;
+          default: ok = false; break;
+        }
+    }
+    PropVariantClear(&value);
+    return ok;
+}
+
+static unsigned gif_plays(IWICMetadataQueryReader *reader)
+{
+    for (unsigned i = 0; i < 256; i++) {
+        wchar_t path[64];
+        PROPVARIANT value = {0};
+        swprintf(path, lenof(path), L"/[%u]appext/Application", i);
+        HRESULT hr = IWICMetadataQueryReader_GetMetadataByName(reader, path, &value);
+        bool match = SUCCEEDED(hr) && value.vt == (VT_UI1 | VT_VECTOR) &&
+            value.caub.cElems == 11 &&
+            (!memcmp(value.caub.pElems, "NETSCAPE2.0", 11) ||
+             !memcmp(value.caub.pElems, "ANIMEXTS1.0", 11));
+        PropVariantClear(&value);
+        if (FAILED(hr)) break;
+        if (!match) continue;
+        swprintf(path, lenof(path), L"/[%u]appext/Data", i);
+        hr = IWICMetadataQueryReader_GetMetadataByName(reader, path, &value);
+        unsigned plays = 1;
+        if (SUCCEEDED(hr) && value.vt == (VT_UI1 | VT_VECTOR) &&
+            value.caub.cElems >= 4 && value.caub.pElems[0] == 3 &&
+            value.caub.pElems[1] == 1) {
+            unsigned repeats = value.caub.pElems[2] | (unsigned)value.caub.pElems[3] << 8;
+            plays = repeats ? repeats+1 : 0;
+        }
+        PropVariantClear(&value);
+        return plays;
+    }
+    return 1; /* No loop extension: one pass through the GIF data stream. */
+}
+
+static bool decode_gif(IWICImagingFactory *factory, IWICBitmapDecoder *decoder,
+                       unsigned frames, NemoRaster *out, NemoRasterAdmission admit, void *ctx)
+{
+    IWICMetadataQueryReader *global = NULL, *metadata = NULL;
+    IWICBitmapFrameDecode *frame = NULL;
+    IWICFormatConverter *converter = NULL;
+    IWICPalette *palette = NULL;
+    unsigned width = 0, height = 0, background_index = 0;
+    uint32_t background = 0, row[NEMO_SIXEL_MAX_DIMENSION];
+    bool ok = false;
+    NemoRasterComposer compose = {0};
+#define GIF_TRY(call) do { if (FAILED(call)) goto done; } while (0)
+    if (!frames || frames > NEMO_RASTER_MAX_FRAMES) return false;
+    GIF_TRY(IWICBitmapDecoder_GetMetadataQueryReader(decoder, &global));
+    if (!metadata_uint(global, L"/logscrdesc/Width", 0, &width) ||
+        !metadata_uint(global, L"/logscrdesc/Height", 0, &height) ||
+        !width || !height || width > NEMO_SIXEL_MAX_DIMENSION ||
+        height > NEMO_SIXEL_MAX_DIMENSION) goto done;
+    size_t bytes = nemo_raster_storage(width, height, frames);
+    if (!bytes || bytes > NEMO_SIXEL_DEFAULT_BUDGET ||
+        !admit(ctx, width, height, bytes) ||
+        !nemo_raster_allocate(out, width, height, frames, bytes)) goto done;
+    out->plays = gif_plays(global);
+    if (metadata_uint(global, L"/logscrdesc/BackgroundColorIndex", 0, &background_index) &&
+        SUCCEEDED(IWICImagingFactory_CreatePalette(factory, &palette)) &&
+        SUCCEEDED(IWICBitmapDecoder_CopyPalette(decoder, palette))) {
+        WICColor colours[256]; UINT count = 0;
+        if (SUCCEEDED(IWICPalette_GetColors(palette, lenof(colours), colours, &count)) &&
+            background_index < count) background = colours[background_index];
+    }
+    for (unsigned i = 0; i < frames; i++) {
+        UINT fw = 0, fh = 0;
+        unsigned left, top, disposal, delay, transparent;
+        GIF_TRY(IWICBitmapDecoder_GetFrame(decoder, i, &frame));
+        GIF_TRY(IWICBitmapFrameDecode_GetSize(frame, &fw, &fh));
+        GIF_TRY(IWICBitmapFrameDecode_GetMetadataQueryReader(frame, &metadata));
+        if (!metadata_uint(metadata, L"/imgdesc/Left", 0, &left) ||
+            !metadata_uint(metadata, L"/imgdesc/Top", 0, &top) ||
+            !metadata_uint(metadata, L"/grctlext/Disposal", 0, &disposal) ||
+            !metadata_uint(metadata, L"/grctlext/Delay", 0, &delay) ||
+            !metadata_uint(metadata, L"/grctlext/TransparencyFlag", 0, &transparent) ||
+            !fw || !fh || left > width || top > height ||
+            fw > width-left || fh > height-top || delay > 65535 || disposal > 3) goto done;
+        if (!i) compose.background = transparent ? 0 : background;
+        if (!nemo_raster_prepare(out, i, &compose)) goto done;
+        GIF_TRY(IWICImagingFactory_CreateFormatConverter(factory, &converter));
+        GIF_TRY(IWICFormatConverter_Initialize(converter, (IWICBitmapSource *)frame,
+            &GUID_WICPixelFormat32bppBGRA, WICBitmapDitherTypeNone, NULL, 0,
+            WICBitmapPaletteTypeCustom));
+        for (unsigned y = 0; y < fh; y++) {
+            WICRect rect = {0, (INT)y, (INT)fw, 1};
+            GIF_TRY(IWICFormatConverter_CopyPixels(converter, &rect, fw*4, fw*4, (BYTE *)row));
+            for (unsigned x = 0; x < fw; x++) {
+                if (row[x] >> 24) out->frames[i].pixels[(size_t)(top+y)*width+left+x] = row[x];
+            }
+        }
+        out->frames[i].delay_ms = delay*10;
+        /* Transparent GIF disposal exposes the terminal underneath. Restore
+         * previous must retain the preceding base and its clear colour. */
+        if (disposal == 2) compose.background = transparent ? 0 : background;
+        if (!nemo_raster_dispose(out, &compose, i, disposal, left, top, fw, fh)) goto done;
+        IWICFormatConverter_Release(converter); converter = NULL;
+        IWICMetadataQueryReader_Release(metadata); metadata = NULL;
+        IWICBitmapFrameDecode_Release(frame); frame = NULL;
+    }
+    ok = true;
+done:
+    if (!ok) nemo_raster_free(out);
+    if (converter) IWICFormatConverter_Release(converter);
+    if (metadata) IWICMetadataQueryReader_Release(metadata);
+    if (frame) IWICBitmapFrameDecode_Release(frame);
+    if (palette) IWICPalette_Release(palette);
+    if (global) IWICMetadataQueryReader_Release(global);
+    return ok;
+#undef GIF_TRY
+}
+
 bool nemo_wic_decode(TermWin *win, const void *data, size_t length,
                      NemoRaster *out, NemoRasterAdmission admit, void *ctx)
 {
@@ -37,8 +163,10 @@ bool nemo_wic_decode(TermWin *win, const void *data, size_t length,
         !IsEqualGUID(&format, &GUID_ContainerFormatBmp) &&
         !IsEqualGUID(&format, &GUID_ContainerFormatGif)) goto done;
     TRY(IWICBitmapDecoder_GetFrameCount(decoder, &frames));
-    /* Animation needs a bounded frame scheduler, not a silent first-frame
-     * approximation. This decoder currently accepts single-frame images. */
+    if (IsEqualGUID(&format, &GUID_ContainerFormatGif)) {
+        ok = decode_gif(factory, decoder, frames, out, admit, ctx);
+        goto done;
+    }
     if (frames != 1) goto done;
     TRY(IWICBitmapDecoder_GetFrame(decoder, 0, &frame));
     TRY(IWICBitmapFrameDecode_GetSize(frame, &width, &height));

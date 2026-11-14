@@ -5,8 +5,18 @@ static bool inline_mock_decode(TermWin *win, const void *data, size_t length,
                                NemoRaster *out, NemoRasterAdmission admit, void *ctx)
 {
     (void)win;
-    if (length != 3 || (memcmp(data, "abc", 3) && memcmp(data, "big", 3))) return false;
+    if (length != 3 || (memcmp(data, "abc", 3) && memcmp(data, "big", 3) && memcmp(data, "ani", 3))) return false;
     unsigned width = 8, height = 32;
+    if (!memcmp(data, "ani", 3)) {
+        size_t bytes=nemo_raster_storage(width,height,3);
+        if (!admit(ctx,width,height,bytes) || !nemo_raster_allocate(out,width,height,3,bytes)) return false;
+        for (unsigned i=0;i<3;i++) {
+            out->frames[i].delay_ms=30000;
+            for (unsigned j=0;j<width*height;j++) out->frames[i].pixels[j]=0xff000000|(0xffu<<(8*i));
+        }
+        out->plays=0;
+        return true;
+    }
     if (!memcmp(data, "big", 3)) width = height = 512;
     size_t bytes = width * height * 4;
     if (!admit(ctx, width, height, bytes)) return false;
@@ -100,6 +110,25 @@ static void test_inline_images(Mock *mk)
     term_data_fragmented(mk->term, "\033\\\033c");
     IEQUAL(mk->term->image_bytes, 0);
     IEQUAL(mk->term->iterm_pending == NULL, true);
+    test_context(mk, "Animated raster ownership, scheduling and reset");
+    reset(mk);
+    term_data_fragmented(mk->term,"\033[H\033]1337;File=inline=1:YW5p\007");
+    IEQUAL(image_count(mk->term),1);
+    IEQUAL(mk->term->image_timer.pending,true);
+    IEQUAL(mk->term->image_timer.term==mk->term,true);
+    if (mk->term->images) {
+        NemoRaster *r=&mk->term->images->source->raster;
+        IEQUAL(r->frame_count,3);IEQUAL(r->started,true);
+        IEQUAL(r->bytes,nemo_raster_storage(8,32,3));
+    }
+    term_data_fragmented(mk->term,"\033[2J");
+    IEQUAL(image_count(mk->term),0);IEQUAL(mk->term->image_bytes,0);
+    IEQUAL(mk->term->image_timer.pending,false);
+    term_data_fragmented(mk->term,"\033[H\033]1337;File=inline=1:YW5p\007\033[?1049h");
+    IEQUAL(image_count(mk->term),1);IEQUAL(mk->term->image_timer.pending,true);
+    term_data_fragmented(mk->term,"\033c");
+    IEQUAL(image_count(mk->term),0);IEQUAL(mk->term->image_timer.pending,false);
+    IEQUAL(mk->term->image_bytes,0);
     /* The entire image OSC must be ignored by frontends without a decoder. */
     mk->tw.vt = &mock_termwin_vt;
     reset(mk);
