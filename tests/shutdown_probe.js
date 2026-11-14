@@ -12,25 +12,44 @@ rpc.exports = {
         const window = ptr(value), seat = getData(window, -21);
         if (seat.isNull() || !isWindow(window)) throw new Error('No live fixture seat');
         const thread = getThread(window, ptr(0));
-        let freed = false;
+        let freed = false, heapListener = null, comListener = null, windowListener = null;
+        const detached = [];
         send({event:'probe-phase', phase:'install-heap-observer'});
-        Interceptor.attach(Process.getModuleByName('ntdll.dll').getExportByName('RtlFreeHeap'), {
+        heapListener = Interceptor.attach(Process.getModuleByName('ntdll.dll').getExportByName('RtlFreeHeap'), {
             onEnter(args) {
-                if (args[2].equals(seat)) {
-                    freed = true;
-                    send({event:'seat-free', window_alive:!!isWindow(window)});
+                this.watchedSeat = args[2].equals(seat);
+            },
+            onLeave(result) {
+                if (this.watchedSeat) {
+                    freed = !result.isNull();
+                    heapListener.detach(); heapListener = null; detached.push('heap');
+                    send({event:'seat-free', success:freed, window_alive:!!isWindow(window)});
                 }
             }
         });
         send({event:'probe-phase', phase:'install-com-observer'});
-        Interceptor.attach(Process.getModuleByName('ole32.dll').getExportByName('CoUninitialize'), {
+        comListener = Interceptor.attach(Process.getModuleByName('ole32.dll').getExportByName('CoUninitialize'), {
             onEnter() {
-                if (this.threadId === thread)
+                this.watchedThread = this.threadId === thread;
+                if (this.watchedThread)
                     send({event:'com-uninitialize', window_alive:!!isWindow(window), seat_freed:freed});
+            },
+            onLeave() {
+                if (!this.watchedThread) return;
+                const alive = !!isWindow(window);
+                // Observe callbacks through the complete COM cleanup, then
+                // retire this script's hooks before CRT/DLL shutdown. Do not
+                // leave JavaScript heap callbacks installed as worker threads
+                // disappear. No application call, result or lifetime is changed.
+                if (heapListener) { heapListener.detach(); heapListener = null; detached.push('heap'); }
+                windowListener.detach(); windowListener = null; detached.push('window');
+                comListener.detach(); comListener = null; detached.push('com');
+                send({event:'com-uninitialize-return', window_alive:alive, seat_freed:freed,
+                      detached_observers:detached});
             }
         });
         send({event:'probe-phase', phase:'install-window-observer'});
-        Interceptor.attach(getData(window, -4), {
+        windowListener = Interceptor.attach(getData(window, -4), {
             onEnter(args) {
                 if (freed && args[0].equals(window))
                     send({event:'callback-after-seat-free', message:args[1].toUInt32()});

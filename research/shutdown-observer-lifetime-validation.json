@@ -1,0 +1,198 @@
+{
+  "source_commit": "48a02634323302fddd955b9bc25f2bd90ca7a6d3",
+  "failed_single_run": 43644077420,
+  "failed_executable_sha256": "7f3979dbd740604af2aa4075546c13d0e085a3ffa65514fa423ce449f08a0dd8",
+  "root_cause_proven": false,
+  "product_source_changed": false,
+  "local_baseline_repetitions": 3,
+  "local_new_observer_repetitions": 3,
+  "new_cases_per_repetition": 12,
+  "controls": [
+    "ordered",
+    "free-before-window",
+    "free-after-com"
+  ],
+  "records": [
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-run.json.gz",
+      "raw_sha256": "f311cb7684bd4cdfd77d23f234f6849c785c83ca1b7eee7ea2d382a6128346d2",
+      "raw_bytes": 3011
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-run.log.gz",
+      "raw_sha256": "9435f443390f3dd3a0cc9fc74721ce32b7dc4a53a9a37d4dcadc029a4af5636e",
+      "raw_bytes": 239969
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-artifacts.json.gz",
+      "raw_sha256": "31484a25a8cb3e59dd6a9f23eef45c799b5f240340d073c5671e9e4430ff15f8",
+      "raw_bytes": 1548
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-unverified-product-download.json.gz",
+      "raw_sha256": "c13b99d431ad18a611aa5c47d95f2f80cc24c1203b5fec79bdc74e46f331c733",
+      "raw_bytes": 82
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build-single-exe.log.gz",
+      "raw_sha256": "8b2fe5ccc6421d1b2740d049210f7cb0aef797aecc05c51ac34a47cee38601ea",
+      "raw_bytes": 41861
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--native-crashes--application-errors.json.gz",
+      "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "raw_bytes": 4
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--automation-directx.log.gz",
+      "raw_sha256": "219284050b25ebd5cf491120857af43dc6692837b506175f872f471e67e9de9a",
+      "raw_bytes": 2803
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--automation-gdi.log.gz",
+      "raw_sha256": "a335edb2f2a8944e36acbbe3a86a71d60d87423070428a98ef52e297c7c98edd",
+      "raw_bytes": 2800
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--drop-directx.log.gz",
+      "raw_sha256": "a960b2f04c847b764d3e6ea7a1e97f65ede1f1926b4a41a094955d3302647b67",
+      "raw_bytes": 5884
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--drop-gdi.log.gz",
+      "raw_sha256": "7b46e3b5f343e217be9133ad5c786da7ea9a41b2e0947c90368cd9bb0fdd321b",
+      "raw_bytes": 5880
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--shutdown.log.gz",
+      "raw_sha256": "e7c6143a951faf82cb24c8e7abbc72d9e71313b05f6fdc4a580600bba8a13467",
+      "raw_bytes": 3250
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--logs--single_exe.log.gz",
+      "raw_sha256": "5a2dd2e4564e5a7f0ee830ecbb25f128034d63e4060af36eea6ef47c4917f220",
+      "raw_bytes": 84
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--automation-directx-observed.json.gz",
+      "raw_sha256": "6e1d18c06b5a82b5779164339e4207faa3544a0fa7b593499134839de59150b9",
+      "raw_bytes": 1828
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--automation-gdi-observed.json.gz",
+      "raw_sha256": "2405d1c3fcdf5128c7d14fed686a767c2aba5b86e90c8321270e601162b0567e",
+      "raw_bytes": 1825
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--drop-directx-observed.json.gz",
+      "raw_sha256": "c5251ab8ca5a3de4809b54ee3f86ec39e7827a4e14843139194bb3546467e057",
+      "raw_bytes": 4745
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--drop-gdi-observed.json.gz",
+      "raw_sha256": "afa00b3fffa4b3d2310c9e8dc7c56ce14b2d52c153d8953028bffed639349fe1",
+      "raw_bytes": 4741
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--shutdown-window-observed.json.gz",
+      "raw_sha256": "83e1c223366db79844ce3c294051b7fdafcf37308b5cc73445ed554b81b8a9c1",
+      "raw_bytes": 13483
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/failed-single-single-evidence--build--single-exe-check--research--single-exe-observed.json.gz",
+      "raw_sha256": "6e1b18124ed76bfa7927653110bf87c29248a3255019569a9da1d3e4a2302eac",
+      "raw_bytes": 870
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-IDENTITY.json.gz",
+      "raw_sha256": "9495703f5a04b6b3f86bd3e87107093046331578eade69928501dcb9b3c6b60e",
+      "raw_bytes": 319
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--results.json.gz",
+      "raw_sha256": "02f9a066da40e387d84ac04d7a935aab4b96303c33f49e8522c782c7ac63b525",
+      "raw_bytes": 162
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-1-observed.json.gz",
+      "raw_sha256": "0edefc6be89318f24dc1586e9f3ea7f9002c41eaf0f8848f1bfaa1ad9a2f9657",
+      "raw_bytes": 3349
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-1.log.gz",
+      "raw_sha256": "07be8ce9108bb86f637bb403273e5085ef5bef81bf1ad9cdf779bb2f10b80ed4",
+      "raw_bytes": 2282
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-2-observed.json.gz",
+      "raw_sha256": "3131c867c6c3c01b6992f1acdac4eedb630cadcc1feb50df867bb4b02e5eafc5",
+      "raw_bytes": 3347
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-2.log.gz",
+      "raw_sha256": "07be8ce9108bb86f637bb403273e5085ef5bef81bf1ad9cdf779bb2f10b80ed4",
+      "raw_bytes": 2282
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-3-observed.json.gz",
+      "raw_sha256": "0b5e51a5acea55b2b3cf33a9e11edbe9e3b437da629afb175f995935ce9a8902",
+      "raw_bytes": 3344
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-before--logs--run-3.log.gz",
+      "raw_sha256": "07be8ce9108bb86f637bb403273e5085ef5bef81bf1ad9cdf779bb2f10b80ed4",
+      "raw_bytes": 2282
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--results.json.gz",
+      "raw_sha256": "02f9a066da40e387d84ac04d7a935aab4b96303c33f49e8522c782c7ac63b525",
+      "raw_bytes": 162
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-1-observed.json.gz",
+      "raw_sha256": "2a5a1f5257df32310f630a88aa9805077cae9de48dfae2d0b1283ddf2c27926f",
+      "raw_bytes": 16205
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-1.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-2-observed.json.gz",
+      "raw_sha256": "61310d4ed972c34deb345c9bd7a2724aed3d58b8b61955ac92e5a71e8d8a4867",
+      "raw_bytes": 16214
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-2.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-3-observed.json.gz",
+      "raw_sha256": "33abaa60cde940bc923a9d1c84fba3f495c64840cab5f89ce8dee8b1fac3388e",
+      "raw_bytes": 16216
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-after--logs--run-3.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-controls-research--shutdown-probe-controls-observed.json.gz",
+      "raw_sha256": "dbada5a5105ea5a58de5fc2c35acaced58915054e37aaa738f84e0b6ae44fbb9",
+      "raw_bytes": 2787
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/local-controls-build--shutdown-probe-controls.log.gz",
+      "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706",
+      "raw_bytes": 147
+    }
+  ],
+  "local_test_source_hashes": {
+    "tests/shutdown_probe.js": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f",
+    "tests/shutdown_window_smoke.py": "8130ea7cd9ae555ddf9d900c2486e3c0a70d02161a21d7748eef9e2299c93ac3",
+    "tests/shutdown_probe_controls.py": "4b445c85313a4b88dbc578dc5fddc26829f390440fe51dea2a96a78d851d29cb",
+    "tests/shutdown_probe_fixture.c": "2cf18627f7d9504bcc5d8d3a9eda813c202e67d1ac22b9df0742d3c21b798a85"
+  }
+}

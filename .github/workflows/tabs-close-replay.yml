@@ -1,8 +1,14 @@
-name: Diagnose mixed-profile close from an explicit artifact
+name: Diagnose close from an explicit artifact
 
 on:
   workflow_dispatch:
     inputs:
+      fixture:
+        description: Close fixture to diagnose
+        type: choice
+        options: [profiles, shutdown]
+        default: profiles
+        required: true
       source_commit:
         description: Full commit of the failed single-executable run
         type: string
@@ -29,7 +35,9 @@ jobs:
       SOURCE_COMMIT: ${{ inputs.source_commit }}
       SOURCE_RUN: ${{ inputs.source_run }}
       EXPECTED_SHA256: ${{ inputs.executable_sha256 }}
+      CLOSE_FIXTURE: ${{ inputs.fixture }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+      NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -55,20 +63,30 @@ jobs:
             fixture_commit = (git rev-parse HEAD).Trim()
             executable_sha256 = $digest
             executable_bytes = $exe.Length
-            fixture_sha256 = (Get-FileHash tests/tabs_profiles_window_smoke.py -Algorithm SHA256).Hash.ToLowerInvariant()
+            fixture = $env:CLOSE_FIXTURE
+            fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/shutdown_window_smoke.py, tests/shutdown_probe.js -Algorithm SHA256 | Select-Object Path, Hash)
             unverified_product = $true
-            scope = 'Close diagnosis only; unchanged 15-second close threshold; no product acceptance'
+            scope = 'Close diagnosis only; unchanged fixture close thresholds; no product acceptance'
           } | ConvertTo-Json | Set-Content build/close-replay-evidence/identity.json
       - name: Install fixture dependency
         run: python -m pip install frida==17.24.3
-      - name: Observe three independently owned mixed-profile lifetimes
+      - name: Verify shutdown observer detects invalid event orders
+        if: ${{ inputs.fixture == 'shutdown' }}
+        shell: pwsh
+        run: ./scripts/test-shutdown-observer.ps1 -Destination build/close-replay-evidence/probe-controls
+      - name: Observe three independently owned lifetimes
         shell: pwsh
         run: |
+          switch ($env:CLOSE_FIXTURE) {
+            'profiles' { $fixture = 'tabs_profiles_window_smoke.py'; $record = 'tabs-profiles-observed.json' }
+            'shutdown' { $fixture = 'shutdown_window_smoke.py'; $record = 'shutdown-window-observed.json' }
+            default { throw 'Unknown close fixture' }
+          }
           $failed = $false
           foreach ($iteration in 1..3) {
-            python tests/tabs_profiles_window_smoke.py 2>&1 | Tee-Object "build/close-replay-evidence/replay-$iteration.log"
+            python "tests/$fixture" 2>&1 | Tee-Object "build/close-replay-evidence/replay-$iteration.log"
             $code = $LASTEXITCODE
-            if (Test-Path research/tabs-profiles-observed.json) { Copy-Item research/tabs-profiles-observed.json "build/close-replay-evidence/replay-$iteration-observed.json" }
+            if (Test-Path "research/$record") { Copy-Item "research/$record" "build/close-replay-evidence/replay-$iteration-observed.json" }
             if ($code) { $failed = $true }
           }
           if ($failed) { throw 'At least one diagnostic replay failed; all completed observations retained' }

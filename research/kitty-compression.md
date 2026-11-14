@@ -109,5 +109,34 @@ on `48a0263` passed all three compiler jobs, including strict MSVC and Linux
 ASan/UBSan. Its complete records are retained alongside the failed predecessor.
 The [full build](https://github.com/xiongnemo/nemoterm/actions/runs/43644074575) and
 [single-image acceptance](https://github.com/xiongnemo/nemoterm/actions/runs/43644077420)
-were dispatched against that exact source. Their results and downloaded-product
-acceptance are still pending; component success does not replace those gates.
+were dispatched against that exact source. The full build passed all four jobs.
+The single-image run failed an early shutdown observation, before compression
+tests; its artifact is unverified. See [the retained failure and observer
+diagnosis](shutdown-observer-lifetime.md). Component success does not replace
+these gates.
+
+## Independent source-host single-file precheck
+
+The completed source-host job in full run `43644074575` supplied a separate
+single-file executable of source `48a0263`: 4,515,328 bytes, SHA256
+`e0717dbb34541701ee4dea716bd5685554cd6b7b6e398facef296305bcb7aa18`.
+It differs from the formal single-image run's executable and is not substituted
+for that run's failed acceptance. The isolated runtime directory contains only
+`nemoterm.exe`.
+
+GDI, actual OpenGL and actual DirectX each passed 29 exact compression pixel
+stages. Presented GDI client-DC capture passed another 29, for 116 stages.
+The compressed-PNG two-tab workloads used actual 160 x 48 grids and
+`SarasaTermSC Nerd Font Light`. Sampling was uninjected throughout:
+
+| Renderer | Samples | Peak private working set | Peak total working set | Peak private commit | Private working-set policy |
+| --- | ---: | ---: | ---: | ---: | --- |
+| GDI | 575 | 16,396,288 B | 39,002,112 B | 18,886,656 B | Strictly below 20,000,000 B: pass |
+| DirectX | 657 | 23,707,648 B | 59,215,872 B | 92,270,592 B | At most 25,000,000 B: pass |
+
+Every owned job exited naturally. Total working set and private commit are
+reported separately; the private working-set pass does not assert a 50 MB total
+working-set cap for DirectX. `kitty-compression-product-precheck.json` indexes
+272 original records, including pixels, memory observations and identity files.
+The accepted local executable remains unchanged while formal acceptance is
+outstanding.
