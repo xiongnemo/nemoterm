@@ -2,20 +2,24 @@
 
 ## Current integration checkpoint (2026-11-14 Sydney)
 
-Main now includes bounded Direct3D 11 composition, I/O worker cleanup, initial
-visibility preservation and the input-pipe-close/output-drain correction.
-Source `9c22311` passes both complete CI workflows, including 102 single-file
-checks. Its exact downloaded EXE is used for the local distribution and fresh
-160x48 Sarasa workload checks: GDI peaks at 16,408,576 private-working-set bytes
-and DX at 23,568,384. Total working set is respectively 43,368,448 and 63,107,072
-bytes; DX remains above the approximate 50 MB total target.
+Main includes bounded Direct3D 11 composition, I/O worker cleanup, initial
+visibility preservation, input-pipe-close/output-drain handling and Sixel
+register identity/shared palette lifetime. Source `e436ecd` passes both complete
+CI workflows, including 105 single-file checks. Its exact downloaded EXE is the
+local distribution and passes all 16 palette phases for actual local GDI,
+OpenGL and DirectX. CI's OpenGL palette request falls back to GDI; only the
+separate actual local OpenGL run establishes that backend's coverage.
 
-The same downloaded image passes 16 startup/visibility groups and ten DX
-automation groups, with zero screenshot channel differences and natural owned
-process shutdown. Exact artifact identity, CI links, samples and cleanup are in
-[the downloaded-image checkpoint](../research/d3d11-ci.md).
-Earlier failed CI runs remain failed; the observer crash and shutdown failures
-retain their distinct evidence boundaries. The separate
+Fresh actual 160x48 Sarasa workloads pass nine groups per mode. GDI peaks at
+16,568,320 private-working-set bytes and DX at 22,818,816. Total working set is
+respectively 43,401,216 and 58,470,400 bytes; DX remains above the approximate
+50 MB total target. Both jobs close all 56 inner / 58 outer processes naturally.
+See [the exact-image checkpoint](../research/sixel-palette-ci.md).
+
+The predecessor `9c22311` downloaded image also passed 16 local startup/visibility
+groups and ten DX automation groups with zero screenshot channel differences;
+those exact bytes remain identified in [their checkpoint](../research/d3d11-ci.md).
+Earlier failed CI runs remain failed. The separate
 [delay-load experiment](../research/delay-load.md) is not adopted and preserves
 unresolved late-initialization and USER-object resource failures. Successful
 downloaded-image runs do not prove those intermittent observations resolved.

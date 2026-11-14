@@ -4,9 +4,9 @@ The isolated `fix/sixel-palette-20261114` branch fixes an observed difference
 from XTerm: pixels painted through a Sixel register must follow later changes
 to that register. The previous decoder baked RGB at paint time. It therefore
 kept old colors within one image and could not recolor retained shared images.
-The branch has passed local core, sanitizer and native tests; full CI and a
-downloaded-image check remain pending. The accepted `9c22311` distribution
-does not yet contain this fix.
+The branch has passed local core, sanitizer and native tests, followed by both
+full CI workflows and the exact downloaded-image checks. The accepted
+`e436ecd` distribution contains this fix; see [the artifact checkpoint](sixel-palette-ci.md).
 
 ## Reference evidence
 
