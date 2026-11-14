@@ -1,0 +1,193 @@
+{
+  "base": "57171fac07e6ce69d9d6e457d45f27d4abb3c7c3",
+  "kind": "CI and local fixture observations; not REA-server Evidence",
+  "fixture_sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874",
+  "records": [
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/accepted-normal/bindings.log",
+      "archive": "research/bindings-observation-records/000-bindings.log.gz",
+      "bytes": 91,
+      "sha256": "5439679ed594d1ec9daa8895015416d7edb570e3f2c3868dc7f547c5c2218e7c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/accepted-normal/controller.log",
+      "archive": "research/bindings-observation-records/001-controller.log.gz",
+      "bytes": 367,
+      "sha256": "570c2cc954f2c0a393241a9d97fd0cd418116309561ffdd981574bd9d7719b03"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/accepted-normal/research/bindings-controller.json",
+      "archive": "research/bindings-observation-records/002-bindings-controller.json.gz",
+      "bytes": 470,
+      "sha256": "a80f957cf707f3f7670c28a41726ea5b26e966465300089c31b1a23156dec20c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/accepted-normal/research/bindings-last-snapshot.json",
+      "archive": "research/bindings-observation-records/003-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "14fbd35be003b88b4b7ff788d4daada3f560aab27e9fda13ec550c313e639538"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/accepted-normal/research/bindings-observed.json",
+      "archive": "research/bindings-observation-records/004-bindings-observed.json.gz",
+      "bytes": 1371,
+      "sha256": "1ed812ffbd8d6a7b5632dd3ecae04ee1ca8c7cd7461bde91177d869c31b8fb06"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/bindings_fault.log",
+      "archive": "research/bindings-observation-records/005-bindings_fault.log.gz",
+      "bytes": 864,
+      "sha256": "20a71084623a694d24f74573018da4d1d8ae4fd54864e87905838da17a7819a5"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/controller.log",
+      "archive": "research/bindings-observation-records/006-controller.log.gz",
+      "bytes": 1240,
+      "sha256": "5c7185995eb7a68e8791f842a2dbdf6b43514b0afe78f10903b3994f8a7b94c6"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/research/bindings-last-snapshot.json",
+      "archive": "research/bindings-observation-records/007-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "d084eca18af0de812d7eb96bb70a20d7b04912c01b36a6eab44467830dd5dd5c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/research/bindings-read-fault.json",
+      "archive": "research/bindings-observation-records/008-bindings-read-fault.json.gz",
+      "bytes": 38,
+      "sha256": "ff8cdffd452b6feeb8f8ec47ed6ed54a29cdd986f8a8fda5b6a58fc35bf6f5bc"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/research/bindings_fault-controller.json",
+      "archive": "research/bindings-observation-records/009-bindings_fault-controller.json.gz",
+      "bytes": 477,
+      "sha256": "0e4d2cea57a428dec785fe8810f9f1113fe6615d63fe42960e4d447f13d93b99"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/before-fault/tests/bindings_window_smoke.py",
+      "archive": "research/bindings-observation-records/010-bindings_window_smoke.py.gz",
+      "bytes": 5448,
+      "sha256": "dc64c7c5e2c50527a1eb85cdc8a87bb21f47e17040b5b017faf4f294efcc75a2"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/bindings_fault.log",
+      "archive": "research/bindings-observation-records/011-bindings_fault.log.gz",
+      "bytes": 91,
+      "sha256": "5439679ed594d1ec9daa8895015416d7edb570e3f2c3868dc7f547c5c2218e7c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/controller.log",
+      "archive": "research/bindings-observation-records/012-controller.log.gz",
+      "bytes": 372,
+      "sha256": "8bcaa29cc5226cfe0835cd07dc079c436557d2e9a4ccdd14afd68fae8d2c8db4"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/research/bindings-last-snapshot.json",
+      "archive": "research/bindings-observation-records/013-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "14fbd35be003b88b4b7ff788d4daada3f560aab27e9fda13ec550c313e639538"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/research/bindings-observed.json",
+      "archive": "research/bindings-observation-records/014-bindings-observed.json.gz",
+      "bytes": 1371,
+      "sha256": "49db8bb5d2be784a296bc3b4f368ed0b4e9567dc71270df7091dca83940208a5"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/research/bindings-read-fault.json",
+      "archive": "research/bindings-observation-records/015-bindings-read-fault.json.gz",
+      "bytes": 38,
+      "sha256": "5af2d35cca1870b567440ce28dafc4f9b1bef35438976dc1f8ee556b2df7295f"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/research/bindings_fault-controller.json",
+      "archive": "research/bindings-observation-records/016-bindings_fault-controller.json.gz",
+      "bytes": 475,
+      "sha256": "05400950bb76dbd1443a18290cab7ca0a45cc9dbd1997190b7dfb079a0ac5754"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/tests/bindings_fault_window_smoke.py",
+      "archive": "research/bindings-observation-records/017-bindings_fault_window_smoke.py.gz",
+      "bytes": 739,
+      "sha256": "0eb37e47a8b1546a2680915cf53778969d6c50da3e246885bf5b86f047cf29f4"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-fault/tests/bindings_window_smoke.py",
+      "archive": "research/bindings-observation-records/018-bindings_window_smoke.py.gz",
+      "bytes": 6235,
+      "sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/bindings.log",
+      "archive": "research/bindings-observation-records/019-bindings.log.gz",
+      "bytes": 91,
+      "sha256": "5439679ed594d1ec9daa8895015416d7edb570e3f2c3868dc7f547c5c2218e7c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/controller.log",
+      "archive": "research/bindings-observation-records/020-controller.log.gz",
+      "bytes": 367,
+      "sha256": "cfd103b498c14c7023c23556ea17a9f0d9dfe20cf9e830bbdd1ccd4ceaba8306"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/research/bindings-controller.json",
+      "archive": "research/bindings-observation-records/021-bindings-controller.json.gz",
+      "bytes": 470,
+      "sha256": "8e7d969995ae1f15742cdae9ed7feb6412c14e5e2258551d76568951935984ed"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/research/bindings-last-snapshot.json",
+      "archive": "research/bindings-observation-records/022-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "14fbd35be003b88b4b7ff788d4daada3f560aab27e9fda13ec550c313e639538"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/research/bindings-observed.json",
+      "archive": "research/bindings-observation-records/023-bindings-observed.json.gz",
+      "bytes": 1371,
+      "sha256": "49db8bb5d2be784a296bc3b4f368ed0b4e9567dc71270df7091dca83940208a5"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/fixed-normal/tests/bindings_window_smoke.py",
+      "archive": "research/bindings-observation-records/024-bindings_window_smoke.py.gz",
+      "bytes": 6235,
+      "sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/bindings-observation/results.json",
+      "archive": "research/bindings-observation-records/025-results.json.gz",
+      "bytes": 2088,
+      "sha256": "54a8ca8bd4b40739b3df596d1efb49fc0e56666dc6edc8ed0375e6e05a2db91c"
+    },
+    {
+      "path": "build/bindings-observation-worktree/build/check-bindings-observation.py",
+      "archive": "research/bindings-observation-records/026-check-bindings-observation.py.gz",
+      "bytes": 2990,
+      "sha256": "cc5d09b8ab96d13225b9c8f9a57c97d3ba7842e24bb9404b39e5bbfa3a8e823a"
+    },
+    {
+      "path": "build/ci-main-57171fa/single-artifacts.json",
+      "archive": "research/bindings-observation-records/027-single-artifacts.json.gz",
+      "bytes": 1489,
+      "sha256": "771505c35b270d4385a139f62f21371dd5d0e2efde0716933b4db94898c6cb45"
+    },
+    {
+      "path": "build/ci-main-57171fa/single-evidence/build/single-exe-check/logs/bindings.log",
+      "archive": "research/bindings-observation-records/028-bindings.log.gz",
+      "bytes": 256,
+      "sha256": "a390bdc0f487ad49c380deb851dada8f7db0a5c7b80b852168e56f06254a22c6"
+    },
+    {
+      "path": "build/ci-main-57171fa/single-evidence/build/single-exe-check/research/bindings-last-snapshot.json",
+      "archive": "research/bindings-observation-records/029-bindings-last-snapshot.json.gz",
+      "bytes": 141,
+      "sha256": "d084eca18af0de812d7eb96bb70a20d7b04912c01b36a6eab44467830dd5dd5c"
+    },
+    {
+      "path": "build/ci-main-57171fa/single-run.json",
+      "archive": "research/bindings-observation-records/030-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "032eb358f2b625dc38d749c632d5fd524da894872538c77d504bdd9e8dbb1c39"
+    }
+  ]
+}
