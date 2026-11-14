@@ -1657,7 +1657,11 @@ typedef struct TermWindowGeometry {
     bool minimised;
 } TermWindowGeometry;
 
+#include "terminal/nemo_raster.h"
 struct TermWinVtable {
+    /* Optional synchronous, bounded native image decoder. */
+    bool (*decode_image)(TermWin *, const void *, size_t, NemoRaster *,
+                         NemoRasterAdmission, void *);
     /* This frontend can shape a complete bounded cluster in one grid cell. */
     bool grapheme_clusters;
     /* Optional, synchronous snapshot; must not draw, resize or allocate. */

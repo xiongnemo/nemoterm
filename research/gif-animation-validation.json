@@ -1,0 +1,3316 @@
+{
+  "source_base": "3187ec51acb703adebf006fd637c1ad80fba8b43",
+  "executable": {
+    "sha256": "c83b8f54000b017116069419eedb7f6cfbaacd1fd8b7d69d134f4d1a5f734299",
+    "bytes": 4523520
+  },
+  "scope": "Local animated GIF functional and sanitizer checkpoint; memory acceptance and CI pending; not promoted",
+  "records": [
+    {
+      "path": "build/check-gif-linux.py",
+      "archive": "research/gif-animation-records/000-check-gif-linux.py.gz",
+      "bytes": 1123,
+      "sha256": "860c31621003fe6caeeb9674f9a3448dc515e23e7b4ada8dfb6997c0da17cda4"
+    },
+    {
+      "path": "build/check-gif-native-final.py",
+      "archive": "research/gif-animation-records/001-check-gif-native-final.py.gz",
+      "bytes": 2202,
+      "sha256": "8a36b78d83f26fb4d8014b1c5fca2fe95f6aa5903297553cf9e13425ca304f01"
+    },
+    {
+      "path": "build/check-gif-native.py",
+      "archive": "research/gif-animation-records/002-check-gif-native.py.gz",
+      "bytes": 2184,
+      "sha256": "2ddbf45ceb325b4f04903aac2799e5eabcae45e30038fbad9645bc3d4d21d74e"
+    },
+    {
+      "path": "build/gif-build-final.log",
+      "archive": "research/gif-animation-records/003-gif-build-final.log.gz",
+      "bytes": 13615,
+      "sha256": "5a16aac3344030a6c49a9ccbe3021d97221417b5b3843fdf5f380c63045611e7"
+    },
+    {
+      "path": "build/gif-build.log",
+      "archive": "research/gif-animation-records/004-gif-build.log.gz",
+      "bytes": 18931,
+      "sha256": "c9026c98208106b61ecd0a314d1f5ba693a0efde9519f170c0239b9253a5c3ee"
+    },
+    {
+      "path": "build/gif-configure.log",
+      "archive": "research/gif-animation-records/005-gif-configure.log.gz",
+      "bytes": 3103,
+      "sha256": "258865620c8d360eadde2958d32eda1d9a7c4d536dee3ba371d24f318b77f4ee"
+    },
+    {
+      "path": "build/gif-linux-01/asan-0.log",
+      "archive": "research/gif-animation-records/006-asan-0.log.gz",
+      "bytes": 3296,
+      "sha256": "2d9f1fcb7c11c7c2858189c9bd051ad7d7c4231bc10f1eefdbaca9f0c63c3cb4"
+    },
+    {
+      "path": "build/gif-linux-01/asan-1.log",
+      "archive": "research/gif-animation-records/007-asan-1.log.gz",
+      "bytes": 14142,
+      "sha256": "a6418c02468ee9b46d9f718f98b1cae9fba7b7e34e4064dd15f83acc427721c0"
+    },
+    {
+      "path": "build/gif-linux-01/asan-2.log",
+      "archive": "research/gif-animation-records/008-asan-2.log.gz",
+      "bytes": 46,
+      "sha256": "578eb92f098038f07598534fef24476ed1be9ccba39a259fa3d2807ce078c3bd"
+    },
+    {
+      "path": "build/gif-linux-01/asan-3.log",
+      "archive": "research/gif-animation-records/009-asan-3.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/gif-linux-01/asan-4.log",
+      "archive": "research/gif-animation-records/010-asan-4.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/gif-linux-01/asan-5.log",
+      "archive": "research/gif-animation-records/011-asan-5.log.gz",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "build/gif-linux-01/asan-6.log",
+      "archive": "research/gif-animation-records/012-asan-6.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/gif-linux-01/normal-0.log",
+      "archive": "research/gif-animation-records/013-normal-0.log.gz",
+      "bytes": 3298,
+      "sha256": "212cc49e8a5c18814d0393bcc783dfe5fbb8a16d9d53b1bc9534fc356942138d"
+    },
+    {
+      "path": "build/gif-linux-01/normal-1.log",
+      "archive": "research/gif-animation-records/014-normal-1.log.gz",
+      "bytes": 14142,
+      "sha256": "8ac957b31236486941993e0903fab1688ef0d828aa145098210d2d9ed034fea4"
+    },
+    {
+      "path": "build/gif-linux-01/normal-2.log",
+      "archive": "research/gif-animation-records/015-normal-2.log.gz",
+      "bytes": 46,
+      "sha256": "578eb92f098038f07598534fef24476ed1be9ccba39a259fa3d2807ce078c3bd"
+    },
+    {
+      "path": "build/gif-linux-01/normal-3.log",
+      "archive": "research/gif-animation-records/016-normal-3.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/gif-linux-01/normal-4.log",
+      "archive": "research/gif-animation-records/017-normal-4.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/gif-linux-01/normal-5.log",
+      "archive": "research/gif-animation-records/018-normal-5.log.gz",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "build/gif-linux-01/normal-6.log",
+      "archive": "research/gif-animation-records/019-normal-6.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/gif-native-01/before/controller.log",
+      "archive": "research/gif-animation-records/020-controller.log.gz",
+      "bytes": 1814,
+      "sha256": "e581d1d465a11582c403def7cbfe62c2a4d43bc2800e8739bb2211301eb253a8"
+    },
+    {
+      "path": "build/gif-native-01/before/gif_animation.log",
+      "archive": "research/gif-animation-records/021-gif_animation.log.gz",
+      "bytes": 1439,
+      "sha256": "e3e62672dd9380e5ec03e3efdad169f298db9bf7641cecffcbbc97960ed9df76"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif-animation-gdi-32bfd400fce249eeb356db8afee59f3a/01-infinite-red.png",
+      "archive": "research/gif-animation-records/022-01-infinite-red.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif-animation-gdi-32bfd400fce249eeb356db8afee59f3a/checks.json",
+      "archive": "research/gif-animation-records/023-checks.json.gz",
+      "bytes": 2090,
+      "sha256": "1908eed37c1e6ca743648b16c31947caa49eb473ac267bb46ba0ca7b5f8f83e9"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif-animation-gdi-32bfd400fce249eeb356db8afee59f3a/child-control.json",
+      "archive": "research/gif-animation-records/024-child-control.json.gz",
+      "bytes": 356,
+      "sha256": "b6677ddfd4ae3c4fd4f8218062f1da7fa0fd304ed0cc22456dfe5482bc28f97e"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif-animation-gdi-32bfd400fce249eeb356db8afee59f3a/child-report.json",
+      "archive": "research/gif-animation-records/025-child-report.json.gz",
+      "bytes": 154,
+      "sha256": "b77453fffe191c810b0e5c107665982638dd7f3267065f17da7eb9d9662f09cb"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif-animation-gdi-observed.json",
+      "archive": "research/gif-animation-records/026-gif-animation-gdi-observed.json.gz",
+      "bytes": 5425,
+      "sha256": "6c26bee42634dad875e22de148c5e05a851a777a87585e331a324d10fbf54e16"
+    },
+    {
+      "path": "build/gif-native-01/before/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/027-gif_animation-controller.json.gz",
+      "bytes": 476,
+      "sha256": "96a4349aab59ab5b982c249d96ef1149c0f52c2431b27e45e1f49f98c38c4cbf"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/controller.log",
+      "archive": "research/gif-animation-records/028-controller.log.gz",
+      "bytes": 372,
+      "sha256": "888eedfed5e1842bdc5e19b0ea811918e05dda465efa060242eb8bbdad876929"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/gif_animation.log",
+      "archive": "research/gif-animation-records/029-gif_animation.log.gz",
+      "bytes": 6376,
+      "sha256": "a6630adaf7877a5d86da15eed19fee484808040159a51e67c7cfb3ed7cf4537e"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/01-infinite-red.png",
+      "archive": "research/gif-animation-records/030-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/031-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/032-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/033-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/034-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/035-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/036-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/037-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/038-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/039-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/040-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/12-disposal-0.png",
+      "archive": "research/gif-animation-records/041-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/13-disposal-1.png",
+      "archive": "research/gif-animation-records/042-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/14-disposal-2.png",
+      "archive": "research/gif-animation-records/043-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/15-disposal-3.png",
+      "archive": "research/gif-animation-records/044-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/045-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/046-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/047-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/048-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/049-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/21-local-palette.png",
+      "archive": "research/gif-animation-records/050-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/051-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/23-erase-animated.png",
+      "archive": "research/gif-animation-records/052-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/053-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/25-reset-animated.png",
+      "archive": "research/gif-animation-records/054-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/26-alternate-before.png",
+      "archive": "research/gif-animation-records/055-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/056-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/057-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/058-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/059-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/060-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/061-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/062-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/063-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/064-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/065-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/checks.json",
+      "archive": "research/gif-animation-records/066-checks.json.gz",
+      "bytes": 3344250,
+      "sha256": "1a908c26f4eaf9a515f06ded2051f9fb70068a2e3d5ae2f3128cae1b26eb629b"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/child-control.json",
+      "archive": "research/gif-animation-records/067-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-b7bcabe068f74aabb92cb68bc1a3c23e/child-report.json",
+      "archive": "research/gif-animation-records/068-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif-animation-directx-observed.json",
+      "archive": "research/gif-animation-records/069-gif-animation-directx-observed.json.gz",
+      "bytes": 3346513,
+      "sha256": "05dd3510df5a0f852891265ff59bce1e35dab90b328e2b3218edb34012ece8fe"
+    },
+    {
+      "path": "build/gif-native-01/gif-directx/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/070-gif_animation-controller.json.gz",
+      "bytes": 475,
+      "sha256": "dfa64d6141621a0baa353e4062966e949dbd3ff7dc25201cf298fd9a7980c2ed"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/controller.log",
+      "archive": "research/gif-animation-records/071-controller.log.gz",
+      "bytes": 372,
+      "sha256": "165a65cbc4c3e263ca56c99b2901cef6182396ccd0826c4a613942304d113d8d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/gif_animation.log",
+      "archive": "research/gif-animation-records/072-gif_animation.log.gz",
+      "bytes": 6372,
+      "sha256": "d52270da1e5f72964ab56ab8ae941c2ccf39ba776a4af62ce641970a0794f135"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/01-infinite-red.png",
+      "archive": "research/gif-animation-records/073-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/074-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/075-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/076-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/077-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/078-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/079-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/080-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/081-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/082-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/083-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/12-disposal-0.png",
+      "archive": "research/gif-animation-records/084-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/13-disposal-1.png",
+      "archive": "research/gif-animation-records/085-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/14-disposal-2.png",
+      "archive": "research/gif-animation-records/086-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/15-disposal-3.png",
+      "archive": "research/gif-animation-records/087-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/088-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/089-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/090-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/091-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/092-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/21-local-palette.png",
+      "archive": "research/gif-animation-records/093-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/094-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/23-erase-animated.png",
+      "archive": "research/gif-animation-records/095-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/096-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/25-reset-animated.png",
+      "archive": "research/gif-animation-records/097-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/26-alternate-before.png",
+      "archive": "research/gif-animation-records/098-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/099-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/100-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/101-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/102-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/103-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/104-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/105-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/106-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/107-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/108-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/checks.json",
+      "archive": "research/gif-animation-records/109-checks.json.gz",
+      "bytes": 3344253,
+      "sha256": "d1eef583cc9d43f4709057d74d1582f1f8f765bea38b5c4f5d658d573b2d48e4"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/child-control.json",
+      "archive": "research/gif-animation-records/110-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-29ecda62af06488d8affa84a24282fc6/child-report.json",
+      "archive": "research/gif-animation-records/111-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif-animation-gdi-observed.json",
+      "archive": "research/gif-animation-records/112-gif-animation-gdi-observed.json.gz",
+      "bytes": 3346476,
+      "sha256": "bd323656bb1d9dfa4cd8699a231a265713646f15573b675eeff3006d1c570031"
+    },
+    {
+      "path": "build/gif-native-01/gif-gdi/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/113-gif_animation-controller.json.gz",
+      "bytes": 475,
+      "sha256": "ccf0517e0bf3530165757fe8f8debbefb570e7a9c1b7afec17388c0de04366de"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/controller.log",
+      "archive": "research/gif-animation-records/114-controller.log.gz",
+      "bytes": 373,
+      "sha256": "403b8aefb727701df0de6e34ab3d283426284a2373364858cbf1b9c052ab25a9"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/gif_animation.log",
+      "archive": "research/gif-animation-records/115-gif_animation.log.gz",
+      "bytes": 6375,
+      "sha256": "312724b8aa5f4b741da41f51db1ea5d4583d273fee8da92fea63c5da31b150d5"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/01-infinite-red.png",
+      "archive": "research/gif-animation-records/116-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/117-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/118-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/119-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/120-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/121-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/122-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/123-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/124-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/125-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/126-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/12-disposal-0.png",
+      "archive": "research/gif-animation-records/127-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/13-disposal-1.png",
+      "archive": "research/gif-animation-records/128-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/14-disposal-2.png",
+      "archive": "research/gif-animation-records/129-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/15-disposal-3.png",
+      "archive": "research/gif-animation-records/130-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/131-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/132-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/133-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/134-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/135-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/21-local-palette.png",
+      "archive": "research/gif-animation-records/136-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/137-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/23-erase-animated.png",
+      "archive": "research/gif-animation-records/138-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/139-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/25-reset-animated.png",
+      "archive": "research/gif-animation-records/140-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/26-alternate-before.png",
+      "archive": "research/gif-animation-records/141-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/142-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/143-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/144-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/145-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/146-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/147-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/148-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/149-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/150-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/151-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/checks.json",
+      "archive": "research/gif-animation-records/152-checks.json.gz",
+      "bytes": 3344230,
+      "sha256": "977b3a6d65b522cf0d00d53816bd040650be8e4e2c5f4737b68fe8c9475d45ca"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/child-control.json",
+      "archive": "research/gif-animation-records/153-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-642168bc8e7747cc9ec92257c9fcbf02/child-report.json",
+      "archive": "research/gif-animation-records/154-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif-animation-opengl-observed.json",
+      "archive": "research/gif-animation-records/155-gif-animation-opengl-observed.json.gz",
+      "bytes": 3346483,
+      "sha256": "368da3d52fa0df05b6ca8a5931527ca39ce4ff13590ed37f37d6c2d1e731450a"
+    },
+    {
+      "path": "build/gif-native-01/gif-opengl/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/156-gif_animation-controller.json.gz",
+      "bytes": 476,
+      "sha256": "e075595c773542a3ce3b9e896f2664944c04beb9a23d0432207add6ccd698ae2"
+    },
+    {
+      "path": "build/gif-native-01/results.json",
+      "archive": "research/gif-animation-records/157-results.json.gz",
+      "bytes": 2153,
+      "sha256": "b2d112f493fa8c90e7f129266804c518c002b78c6e90cd0496a5bd19c235b498"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/controller.log",
+      "archive": "research/gif-animation-records/158-controller.log.gz",
+      "bytes": 370,
+      "sha256": "bc4f28a4c1726f260c9df5eb831ecd49fb5fb5a4971b034d7864c607b376e72e"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/iterm_image.log",
+      "archive": "research/gif-animation-records/159-iterm_image.log.gz",
+      "bytes": 5460,
+      "sha256": "f710e0931826b713acacb186758ed17ff6bccecbb1ed9c1e9b9098236283e878"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/160-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/161-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/162-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/163-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/164-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/06-multipart-1.png",
+      "archive": "research/gif-animation-records/165-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/07-multipart-3.png",
+      "archive": "research/gif-animation-records/166-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/08-multipart-200.png",
+      "archive": "research/gif-animation-records/167-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/168-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/169-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/170-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/171-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/172-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/173-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/174-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/175-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/17-reset-clears.png",
+      "archive": "research/gif-animation-records/176-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/18-erase-before.png",
+      "archive": "research/gif-animation-records/177-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/19-erase-image.png",
+      "archive": "research/gif-animation-records/178-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/20-alternate-before.png",
+      "archive": "research/gif-animation-records/179-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/180-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/181-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/182-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/24-scroll-before.png",
+      "archive": "research/gif-animation-records/183-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/25-scroll-up.png",
+      "archive": "research/gif-animation-records/184-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/26-scroll-down.png",
+      "archive": "research/gif-animation-records/185-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/186-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/187-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/188-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/189-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/190-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/checks.json",
+      "archive": "research/gif-animation-records/191-checks.json.gz",
+      "bytes": 96343,
+      "sha256": "83ec28c5790a3cfc78b96daa1987fb6abced8a53f0a54b584715d1f4f97e2f47"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/child-control.json",
+      "archive": "research/gif-animation-records/192-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-fc94e0fd3abd4fdfa6e5406de897bb7a/child-report.json",
+      "archive": "research/gif-animation-records/193-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm-images-directx-observed.json",
+      "archive": "research/gif-animation-records/194-iterm-images-directx-observed.json.gz",
+      "bytes": 98619,
+      "sha256": "cbc1d217497a8d0c465c65482e51b56d23f5122b8055c1d376d3c239af4883c5"
+    },
+    {
+      "path": "build/gif-native-01/static-directx/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/195-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "c716df8e7ab8c3effa69b7245ed4f79899d9d2286c8471079fbd622cbd208252"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/controller.log",
+      "archive": "research/gif-animation-records/196-controller.log.gz",
+      "bytes": 369,
+      "sha256": "cc26bc28b5a380f6d6bf84abaab9fe07c0d820de37a5137783be40a2d08f701d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/iterm_image.log",
+      "archive": "research/gif-animation-records/197-iterm_image.log.gz",
+      "bytes": 5456,
+      "sha256": "5a42d52d7a5c40561cf184a1f267745628d4d6ac232242078ab7d5c1bf82b907"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/198-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/199-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/200-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/201-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/202-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/06-multipart-1.png",
+      "archive": "research/gif-animation-records/203-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/07-multipart-3.png",
+      "archive": "research/gif-animation-records/204-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/08-multipart-200.png",
+      "archive": "research/gif-animation-records/205-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/206-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/207-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/208-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/209-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/210-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/211-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/212-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/213-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/17-reset-clears.png",
+      "archive": "research/gif-animation-records/214-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/18-erase-before.png",
+      "archive": "research/gif-animation-records/215-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/19-erase-image.png",
+      "archive": "research/gif-animation-records/216-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/20-alternate-before.png",
+      "archive": "research/gif-animation-records/217-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/218-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/219-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/220-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/24-scroll-before.png",
+      "archive": "research/gif-animation-records/221-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/25-scroll-up.png",
+      "archive": "research/gif-animation-records/222-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/26-scroll-down.png",
+      "archive": "research/gif-animation-records/223-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/224-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/225-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/226-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/227-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/228-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/checks.json",
+      "archive": "research/gif-animation-records/229-checks.json.gz",
+      "bytes": 96343,
+      "sha256": "073668e4f7d3ad4b60b6ce7027a1a1eb5753de48ce66f503bfe9e2947c5d9e25"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/child-control.json",
+      "archive": "research/gif-animation-records/230-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-2d6f457833064cb0ad53adba6e2fb1a0/child-report.json",
+      "archive": "research/gif-animation-records/231-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm-images-gdi-observed.json",
+      "archive": "research/gif-animation-records/232-iterm-images-gdi-observed.json.gz",
+      "bytes": 98579,
+      "sha256": "66a1ea1e664c014d2aac78cc316bdb93991c96b1a00d2965b5646af66c80b858"
+    },
+    {
+      "path": "build/gif-native-01/static-gdi/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/233-iterm_image-controller.json.gz",
+      "bytes": 472,
+      "sha256": "724bd406edb02752741e575a869dcf0430ffbd886613c9d3eb79ea6990a374fd"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/controller.log",
+      "archive": "research/gif-animation-records/234-controller.log.gz",
+      "bytes": 369,
+      "sha256": "da39727523ab186282a691f1ef7109947b25309d73cd099eadbb1e7f17657d2a"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/iterm_image.log",
+      "archive": "research/gif-animation-records/235-iterm_image.log.gz",
+      "bytes": 5459,
+      "sha256": "b6397fef5c64b883276466c0c544e37574e838ab18bdf681354fe7765e4ee346"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/236-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/237-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/238-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/239-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/240-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/06-multipart-1.png",
+      "archive": "research/gif-animation-records/241-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/07-multipart-3.png",
+      "archive": "research/gif-animation-records/242-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/08-multipart-200.png",
+      "archive": "research/gif-animation-records/243-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/244-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/245-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/246-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/247-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/248-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/249-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/250-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/251-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/17-reset-clears.png",
+      "archive": "research/gif-animation-records/252-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/18-erase-before.png",
+      "archive": "research/gif-animation-records/253-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/19-erase-image.png",
+      "archive": "research/gif-animation-records/254-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/20-alternate-before.png",
+      "archive": "research/gif-animation-records/255-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/256-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/257-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/258-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/24-scroll-before.png",
+      "archive": "research/gif-animation-records/259-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/25-scroll-up.png",
+      "archive": "research/gif-animation-records/260-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/26-scroll-down.png",
+      "archive": "research/gif-animation-records/261-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/262-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/263-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/264-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/265-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/266-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/checks.json",
+      "archive": "research/gif-animation-records/267-checks.json.gz",
+      "bytes": 96319,
+      "sha256": "b4ee8736e98d691e8d3b541e70b5891d0ebfd68b08e06f710614918e7e5b9441"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/child-control.json",
+      "archive": "research/gif-animation-records/268-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-f89ae83394144cd6a938053d1c8a509b/child-report.json",
+      "archive": "research/gif-animation-records/269-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm-images-opengl-observed.json",
+      "archive": "research/gif-animation-records/270-iterm-images-opengl-observed.json.gz",
+      "bytes": 98583,
+      "sha256": "8fcb6d076ca2140284bc181b224ba81731990628c77b10c93582b0ccfd88c254"
+    },
+    {
+      "path": "build/gif-native-01/static-opengl/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/271-iterm_image-controller.json.gz",
+      "bytes": 472,
+      "sha256": "698a660ee2cbe07c6bc0bd8674a0423bf7132427fa57c28eeaad91a9fc5c88ee"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/controller.log",
+      "archive": "research/gif-animation-records/272-controller.log.gz",
+      "bytes": 372,
+      "sha256": "ee5be1268ce780bafa7a4ddcdae2b6bcc7e62a8ff630b10f26360e8c9323ea55"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/gif_animation.log",
+      "archive": "research/gif-animation-records/273-gif_animation.log.gz",
+      "bytes": 6376,
+      "sha256": "a6630adaf7877a5d86da15eed19fee484808040159a51e67c7cfb3ed7cf4537e"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/01-infinite-red.png",
+      "archive": "research/gif-animation-records/274-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/275-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/276-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/277-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/278-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/279-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/280-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/281-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/282-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/283-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/284-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/12-disposal-0.png",
+      "archive": "research/gif-animation-records/285-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/13-disposal-1.png",
+      "archive": "research/gif-animation-records/286-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/14-disposal-2.png",
+      "archive": "research/gif-animation-records/287-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/15-disposal-3.png",
+      "archive": "research/gif-animation-records/288-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/289-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/290-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/291-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/292-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/293-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/21-local-palette.png",
+      "archive": "research/gif-animation-records/294-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/295-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/23-erase-animated.png",
+      "archive": "research/gif-animation-records/296-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/297-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/25-reset-animated.png",
+      "archive": "research/gif-animation-records/298-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/26-alternate-before.png",
+      "archive": "research/gif-animation-records/299-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/300-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/301-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/302-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/303-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/304-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/305-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/306-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/307-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/308-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/309-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/checks.json",
+      "archive": "research/gif-animation-records/310-checks.json.gz",
+      "bytes": 3344258,
+      "sha256": "18f761b3981cc9588887b9e6059ab98e780dbaeb5aaac618954ff74684d49b61"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/child-control.json",
+      "archive": "research/gif-animation-records/311-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-8e0436bfe33f436d8ce12fc32a0d5b5e/child-report.json",
+      "archive": "research/gif-animation-records/312-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif-animation-directx-observed.json",
+      "archive": "research/gif-animation-records/313-gif-animation-directx-observed.json.gz",
+      "bytes": 3346521,
+      "sha256": "dce3f921f3a27a44a2156101dbd3f66f03469e738523441f5f8fe1583ae650a4"
+    },
+    {
+      "path": "build/gif-native-02/gif-directx/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/314-gif_animation-controller.json.gz",
+      "bytes": 475,
+      "sha256": "a8a659643808e11503cd2c10ff8dde939e3c9be98c94d26d210ee19d4d0630b0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/controller.log",
+      "archive": "research/gif-animation-records/315-controller.log.gz",
+      "bytes": 372,
+      "sha256": "c872b29fc2322337d9329c433640656fa97a666fd515da214df88e45ae485c55"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/gif_animation.log",
+      "archive": "research/gif-animation-records/316-gif_animation.log.gz",
+      "bytes": 6372,
+      "sha256": "d52270da1e5f72964ab56ab8ae941c2ccf39ba776a4af62ce641970a0794f135"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/01-infinite-red.png",
+      "archive": "research/gif-animation-records/317-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/318-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/319-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/320-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/321-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/322-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/323-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/324-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/325-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/326-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/327-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/12-disposal-0.png",
+      "archive": "research/gif-animation-records/328-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/13-disposal-1.png",
+      "archive": "research/gif-animation-records/329-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/14-disposal-2.png",
+      "archive": "research/gif-animation-records/330-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/15-disposal-3.png",
+      "archive": "research/gif-animation-records/331-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/332-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/333-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/334-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/335-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/336-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/21-local-palette.png",
+      "archive": "research/gif-animation-records/337-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/338-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/23-erase-animated.png",
+      "archive": "research/gif-animation-records/339-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/340-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/25-reset-animated.png",
+      "archive": "research/gif-animation-records/341-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/26-alternate-before.png",
+      "archive": "research/gif-animation-records/342-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/343-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/344-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/345-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/346-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/347-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/348-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/349-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/350-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/351-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/352-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/checks.json",
+      "archive": "research/gif-animation-records/353-checks.json.gz",
+      "bytes": 3344258,
+      "sha256": "38889d72ad543c39bb908507e0991ff7edc7f057200c8e65758ed919766f66e8"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/child-control.json",
+      "archive": "research/gif-animation-records/354-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-20d32cad907542ec89cf64d983fa594a/child-report.json",
+      "archive": "research/gif-animation-records/355-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif-animation-gdi-observed.json",
+      "archive": "research/gif-animation-records/356-gif-animation-gdi-observed.json.gz",
+      "bytes": 3346481,
+      "sha256": "8c028e2fcfbb44b7314bfa10e7589f937f28977473563c0a67d3faf387d30def"
+    },
+    {
+      "path": "build/gif-native-02/gif-gdi/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/357-gif_animation-controller.json.gz",
+      "bytes": 475,
+      "sha256": "f2155073497df05dc7cabb11121e0d8af822d2b028a1a2a62c806df8a0cf1c86"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/controller.log",
+      "archive": "research/gif-animation-records/358-controller.log.gz",
+      "bytes": 373,
+      "sha256": "b41dacc3a2230de95a4f6a9be0d7b085c1f51525ec61e146a2afe08e336fe68c"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/gif_animation.log",
+      "archive": "research/gif-animation-records/359-gif_animation.log.gz",
+      "bytes": 6375,
+      "sha256": "312724b8aa5f4b741da41f51db1ea5d4583d273fee8da92fea63c5da31b150d5"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/01-infinite-red.png",
+      "archive": "research/gif-animation-records/360-01-infinite-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/02-infinite-blue.png",
+      "archive": "research/gif-animation-records/361-02-infinite-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/03-infinite-red-again.png",
+      "archive": "research/gif-animation-records/362-03-infinite-red-again.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/04-infinite-blue-again.png",
+      "archive": "research/gif-animation-records/363-04-infinite-blue-again.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/05-one-pass-final.png",
+      "archive": "research/gif-animation-records/364-05-one-pass-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/06-finite-first-red.png",
+      "archive": "research/gif-animation-records/365-06-finite-first-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/07-finite-first-blue.png",
+      "archive": "research/gif-animation-records/366-07-finite-first-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/08-finite-second-red.png",
+      "archive": "research/gif-animation-records/367-08-finite-second-red.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/09-finite-final-blue.png",
+      "archive": "research/gif-animation-records/368-09-finite-final-blue.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/10-zero-intermediate.png",
+      "archive": "research/gif-animation-records/369-10-zero-intermediate.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/11-all-zero-stops-final.png",
+      "archive": "research/gif-animation-records/370-11-all-zero-stops-final.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/12-disposal-0.png",
+      "archive": "research/gif-animation-records/371-12-disposal-0.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/13-disposal-1.png",
+      "archive": "research/gif-animation-records/372-13-disposal-1.png.gz",
+      "bytes": 312,
+      "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/14-disposal-2.png",
+      "archive": "research/gif-animation-records/373-14-disposal-2.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/15-disposal-3.png",
+      "archive": "research/gif-animation-records/374-15-disposal-3.png.gz",
+      "bytes": 311,
+      "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/16-previous-after-clear.png",
+      "archive": "research/gif-animation-records/375-16-previous-after-clear.png.gz",
+      "bytes": 313,
+      "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/17-transparent-over-previous.png",
+      "archive": "research/gif-animation-records/376-17-transparent-over-previous.png.gz",
+      "bytes": 314,
+      "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/18-transparent-clear-exposes-grid.png",
+      "archive": "research/gif-animation-records/377-18-transparent-clear-exposes-grid.png.gz",
+      "bytes": 905,
+      "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/19-logical-canvas-background.png",
+      "archive": "research/gif-animation-records/378-19-logical-canvas-background.png.gz",
+      "bytes": 321,
+      "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/20-interlaced-rows.png",
+      "archive": "research/gif-animation-records/379-20-interlaced-rows.png.gz",
+      "bytes": 333,
+      "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/21-local-palette.png",
+      "archive": "research/gif-animation-records/380-21-local-palette.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/22-erase-animated-before.png",
+      "archive": "research/gif-animation-records/381-22-erase-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/23-erase-animated.png",
+      "archive": "research/gif-animation-records/382-23-erase-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/24-reset-animated-before.png",
+      "archive": "research/gif-animation-records/383-24-reset-animated-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/25-reset-animated.png",
+      "archive": "research/gif-animation-records/384-25-reset-animated.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/26-alternate-before.png",
+      "archive": "research/gif-animation-records/385-26-alternate-before.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/27-alternate-hides.png",
+      "archive": "research/gif-animation-records/386-27-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/28-alternate-restores.png",
+      "archive": "research/gif-animation-records/387-28-alternate-restores.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/29-alternate-restored-ticks.png",
+      "archive": "research/gif-animation-records/388-29-alternate-restored-ticks.png.gz",
+      "bytes": 312,
+      "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/30-scaled-animation.png",
+      "archive": "research/gif-animation-records/389-30-scaled-animation.png.gz",
+      "bytes": 311,
+      "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/31-mask-across-frames.png",
+      "archive": "research/gif-animation-records/390-31-mask-across-frames.png.gz",
+      "bytes": 310,
+      "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/32-mask-across-frames-red.png",
+      "archive": "research/gif-animation-records/391-32-mask-across-frames-red.png.gz",
+      "bytes": 311,
+      "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/33-frame-count-limit.png",
+      "archive": "research/gif-animation-records/392-33-frame-count-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/34-composed-cache-limit.png",
+      "archive": "research/gif-animation-records/393-34-composed-cache-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/35-logical-dimension-limit.png",
+      "archive": "research/gif-animation-records/394-35-logical-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/36-recover-after-limits.png",
+      "archive": "research/gif-animation-records/395-36-recover-after-limits.png.gz",
+      "bytes": 312,
+      "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/checks.json",
+      "archive": "research/gif-animation-records/396-checks.json.gz",
+      "bytes": 3344232,
+      "sha256": "fa220797ca1700bd4e72117d0ef0788308f153dfa4df3c95bd9645b665185d2a"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/child-control.json",
+      "archive": "research/gif-animation-records/397-child-control.json.gz",
+      "bytes": 263,
+      "sha256": "203fd11f494ff7ff67c3d3e0ef489f746141be49e52ff8a9a029dbda6bf40c1b"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-5011c15554484871973db44b1f5bbd89/child-report.json",
+      "archive": "research/gif-animation-records/398-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "12aefebdd77fc56836a09044558593bc782036308e82dcd957fa72a88e707254"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif-animation-opengl-observed.json",
+      "archive": "research/gif-animation-records/399-gif-animation-opengl-observed.json.gz",
+      "bytes": 3346485,
+      "sha256": "894a32ead78d43bf992837214c849cecb81964d0630980e1fe7ec855cd828b39"
+    },
+    {
+      "path": "build/gif-native-02/gif-opengl/research/gif_animation-controller.json",
+      "archive": "research/gif-animation-records/400-gif_animation-controller.json.gz",
+      "bytes": 476,
+      "sha256": "8dbe6736ab65bc0f8aeef8220e380d9c6f35969067e00cc72ce9b50fc49d1363"
+    },
+    {
+      "path": "build/gif-native-02/results.json",
+      "archive": "research/gif-animation-records/401-results.json.gz",
+      "bytes": 896,
+      "sha256": "c9b20e68d5043a70e4954b344a128b3143a49cbdf8b4b152cef57a76360e3418"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/controller.log",
+      "archive": "research/gif-animation-records/402-controller.log.gz",
+      "bytes": 370,
+      "sha256": "2b03709b61fba1f9260d0b0baab36c9b6828bfd3ded27931133de99b82681c7c"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/iterm_image.log",
+      "archive": "research/gif-animation-records/403-iterm_image.log.gz",
+      "bytes": 5460,
+      "sha256": "f710e0931826b713acacb186758ed17ff6bccecbb1ed9c1e9b9098236283e878"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/404-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/405-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/406-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/407-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/408-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/06-multipart-1.png",
+      "archive": "research/gif-animation-records/409-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/07-multipart-3.png",
+      "archive": "research/gif-animation-records/410-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/08-multipart-200.png",
+      "archive": "research/gif-animation-records/411-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/412-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/413-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/414-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/415-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/416-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/417-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/418-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/419-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/17-reset-clears.png",
+      "archive": "research/gif-animation-records/420-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/18-erase-before.png",
+      "archive": "research/gif-animation-records/421-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/19-erase-image.png",
+      "archive": "research/gif-animation-records/422-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/20-alternate-before.png",
+      "archive": "research/gif-animation-records/423-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/424-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/425-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/426-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/24-scroll-before.png",
+      "archive": "research/gif-animation-records/427-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/25-scroll-up.png",
+      "archive": "research/gif-animation-records/428-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/26-scroll-down.png",
+      "archive": "research/gif-animation-records/429-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/430-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/431-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/432-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/433-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/434-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/checks.json",
+      "archive": "research/gif-animation-records/435-checks.json.gz",
+      "bytes": 96341,
+      "sha256": "460ccc227920f841f652e24420991fed70d3e7d7aa895973ebabcb023585b1c5"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/child-control.json",
+      "archive": "research/gif-animation-records/436-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-f4c79c63f2a2472bae8d07868b5fbcaa/child-report.json",
+      "archive": "research/gif-animation-records/437-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm-images-directx-observed.json",
+      "archive": "research/gif-animation-records/438-iterm-images-directx-observed.json.gz",
+      "bytes": 98617,
+      "sha256": "a33c60d2df8b5d556f9674a540617f58d009a591769f5df9c4f9547562b62d8b"
+    },
+    {
+      "path": "build/gif-native-02/static-directx/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/439-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "8ac98e710a0aa90891572c7d080326c4be57413fd1038810ab80eef84929ac7a"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/controller.log",
+      "archive": "research/gif-animation-records/440-controller.log.gz",
+      "bytes": 370,
+      "sha256": "6e7390fd66579ed262bceeb5e7f362937d0200d48743a1dfc5995635b8f750a8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/iterm_image.log",
+      "archive": "research/gif-animation-records/441-iterm_image.log.gz",
+      "bytes": 5456,
+      "sha256": "5a42d52d7a5c40561cf184a1f267745628d4d6ac232242078ab7d5c1bf82b907"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/442-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/443-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/444-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/445-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/446-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/06-multipart-1.png",
+      "archive": "research/gif-animation-records/447-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/07-multipart-3.png",
+      "archive": "research/gif-animation-records/448-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/08-multipart-200.png",
+      "archive": "research/gif-animation-records/449-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/450-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/451-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/452-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/453-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/454-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/455-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/456-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/457-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/17-reset-clears.png",
+      "archive": "research/gif-animation-records/458-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/18-erase-before.png",
+      "archive": "research/gif-animation-records/459-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/19-erase-image.png",
+      "archive": "research/gif-animation-records/460-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/20-alternate-before.png",
+      "archive": "research/gif-animation-records/461-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/462-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/463-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/464-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/24-scroll-before.png",
+      "archive": "research/gif-animation-records/465-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/25-scroll-up.png",
+      "archive": "research/gif-animation-records/466-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/26-scroll-down.png",
+      "archive": "research/gif-animation-records/467-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/468-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/469-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/470-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/471-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/472-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/checks.json",
+      "archive": "research/gif-animation-records/473-checks.json.gz",
+      "bytes": 96342,
+      "sha256": "384500b4d81a45339a17d50bbca98e0267f624e4b0d85d270ebcb76466fd5356"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/child-control.json",
+      "archive": "research/gif-animation-records/474-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-9e9128f9ee4a48d18123567db33e0e12/child-report.json",
+      "archive": "research/gif-animation-records/475-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm-images-gdi-observed.json",
+      "archive": "research/gif-animation-records/476-iterm-images-gdi-observed.json.gz",
+      "bytes": 98578,
+      "sha256": "7f18ba0783698ffe58bdc65048fd3c4dd7e95ecd1d33ed16eef1005582bc5346"
+    },
+    {
+      "path": "build/gif-native-02/static-gdi/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/477-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "864033c34c9047272ad0a4bd905e03dd47ad368e3c02edad8dc39f17c299d585"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/controller.log",
+      "archive": "research/gif-animation-records/478-controller.log.gz",
+      "bytes": 370,
+      "sha256": "cb302a78f06e2f413c0c84c9d534939bdbeddd829f667b0974675b56cc67ff1f"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/iterm_image.log",
+      "archive": "research/gif-animation-records/479-iterm_image.log.gz",
+      "bytes": 5459,
+      "sha256": "b6397fef5c64b883276466c0c544e37574e838ab18bdf681354fe7765e4ee346"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/01-inline-intrinsic-png.png",
+      "archive": "research/gif-animation-records/480-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/02-inline-BEL.png",
+      "archive": "research/gif-animation-records/481-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/03-inline-bmp.png",
+      "archive": "research/gif-animation-records/482-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/04-inline-jpeg.png",
+      "archive": "research/gif-animation-records/483-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/05-inline-static-gif.png",
+      "archive": "research/gif-animation-records/484-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/06-multipart-1.png",
+      "archive": "research/gif-animation-records/485-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/07-multipart-3.png",
+      "archive": "research/gif-animation-records/486-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/08-multipart-200.png",
+      "archive": "research/gif-animation-records/487-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/09-pixel-dimensions.png",
+      "archive": "research/gif-animation-records/488-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/10-aspect-preserved.png",
+      "archive": "research/gif-animation-records/489-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/11-cell-dimensions.png",
+      "archive": "research/gif-animation-records/490-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/12-percentage-dimensions.png",
+      "archive": "research/gif-animation-records/491-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/13-partial-alpha-black.png",
+      "archive": "research/gif-animation-records/492-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/14-partial-alpha-repaint.png",
+      "archive": "research/gif-animation-records/493-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/15-partial-alpha-background-change.png",
+      "archive": "research/gif-animation-records/494-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/16-partial-alpha-over-image.png",
+      "archive": "research/gif-animation-records/495-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/17-reset-clears.png",
+      "archive": "research/gif-animation-records/496-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/18-erase-before.png",
+      "archive": "research/gif-animation-records/497-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/19-erase-image.png",
+      "archive": "research/gif-animation-records/498-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/20-alternate-before.png",
+      "archive": "research/gif-animation-records/499-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/21-alternate-hides.png",
+      "archive": "research/gif-animation-records/500-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/22-alternate-own-image.png",
+      "archive": "research/gif-animation-records/501-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/23-alternate-restores.png",
+      "archive": "research/gif-animation-records/502-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/24-scroll-before.png",
+      "archive": "research/gif-animation-records/503-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/25-scroll-up.png",
+      "archive": "research/gif-animation-records/504-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/26-scroll-down.png",
+      "archive": "research/gif-animation-records/505-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/27-malformed-recovers.png",
+      "archive": "research/gif-animation-records/506-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/28-cancel-recovers.png",
+      "archive": "research/gif-animation-records/507-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/29-codec-reject-recovers.png",
+      "archive": "research/gif-animation-records/508-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/30-dimension-limit.png",
+      "archive": "research/gif-animation-records/509-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/31-decoded-budget-limit.png",
+      "archive": "research/gif-animation-records/510-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/checks.json",
+      "archive": "research/gif-animation-records/511-checks.json.gz",
+      "bytes": 96320,
+      "sha256": "11b037cf9a488051762ced647dea98630dbedfe059b7d88adfacfd69d047ee54"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/child-control.json",
+      "archive": "research/gif-animation-records/512-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-dee5b90bb27940978e81b7c3f3be2725/child-report.json",
+      "archive": "research/gif-animation-records/513-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm-images-opengl-observed.json",
+      "archive": "research/gif-animation-records/514-iterm-images-opengl-observed.json.gz",
+      "bytes": 98586,
+      "sha256": "6423d9f818a123761b346f9097d4c0329184763a23293210574aac11c8c0bbb5"
+    },
+    {
+      "path": "build/gif-native-02/static-opengl/research/iterm_image-controller.json",
+      "archive": "research/gif-animation-records/515-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "5244b1dd816d9b8f4c9706b9781356e461e9e0e7a93bb9f814c7ce9952933311"
+    },
+    {
+      "path": "build/gif-reference/sources.json",
+      "archive": "research/gif-animation-records/516-sources.json.gz",
+      "bytes": 660,
+      "sha256": "ab9ed5fdbd912d371e87117d604278ebd25be31a8ad73ba2ea08ad61b61c12aa"
+    },
+    {
+      "path": "build/gif-single-01/image.json",
+      "archive": "research/gif-animation-records/517-image.json.gz",
+      "bytes": 8253,
+      "sha256": "54680184f3eeb7ae456c65204ae9238bd29831b2ec40afe6f32ec93d65cc8983"
+    },
+    {
+      "path": "build/gif-single-01/link.log",
+      "archive": "research/gif-animation-records/518-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/gif-single-01/link.rsp",
+      "archive": "research/gif-animation-records/519-link.rsp.gz",
+      "bytes": 5524,
+      "sha256": "8ca83954040dc416eb6429f27a362627c2e837c69d266ad1aef1c212f594a346"
+    },
+    {
+      "path": "build/gif-single-02/image.json",
+      "archive": "research/gif-animation-records/520-image.json.gz",
+      "bytes": 8253,
+      "sha256": "b352e09bdcb02ae4cf36d7e0368993dd6e0cf2a0b0523a198667767741b69505"
+    },
+    {
+      "path": "build/gif-single-02/link.log",
+      "archive": "research/gif-animation-records/521-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/gif-single-02/link.rsp",
+      "archive": "research/gif-animation-records/522-link.rsp.gz",
+      "bytes": 5524,
+      "sha256": "c2e2440afc59c1030ee2e516164fa15e31985ace4e7461d58ac6bca6f2710ec2"
+    },
+    {
+      "path": "build/gif-strict/msvc.log",
+      "archive": "research/gif-animation-records/523-msvc.log.gz",
+      "bytes": 50,
+      "sha256": "fcbbf0929a98d8a4700e479f58ddd5814b5d5d0e4ab5587badfa32859475cda5"
+    },
+    {
+      "path": "build/link-gif-01.py",
+      "archive": "research/gif-animation-records/524-link-gif-01.py.gz",
+      "bytes": 1394,
+      "sha256": "5741ab06b646fc872aed69c85a18d92f04136420c81f6e9e7d1c2e1740a9c4a8"
+    },
+    {
+      "path": "build/link-gif-02.py",
+      "archive": "research/gif-animation-records/525-link-gif-02.py.gz",
+      "bytes": 1396,
+      "sha256": "167fc4f5193e2bc1929a7fb3dc9a7d744176c4516bf228ce2094dce69cdac3e1"
+    },
+    {
+      "path": "tests/gif_animation_window_smoke.py",
+      "archive": "research/gif-animation-records/526-gif_animation_window_smoke.py.gz",
+      "bytes": 4695,
+      "sha256": "d1ad555e1d46317d84a14179085711c5b949851ccefeae4b0eefc99287b264ef"
+    },
+    {
+      "path": "tests/gif_fixture.py",
+      "archive": "research/gif-animation-records/527-gif_fixture.py.gz",
+      "bytes": 2223,
+      "sha256": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0"
+    },
+    {
+      "path": "tests/iterm_image_window_smoke.py",
+      "archive": "research/gif-animation-records/528-iterm_image_window_smoke.py.gz",
+      "bytes": 5612,
+      "sha256": "cc64a08fcf58607e7f1fdd264f80a4de7830a06f1ca4e17d846ad13ba26044b3"
+    },
+    {
+      "path": "tests/native_test_utils.py",
+      "archive": "research/gif-animation-records/529-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "path": "tests/owned_job.py",
+      "archive": "research/gif-animation-records/530-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "tests/sixel_palette_window_smoke.py",
+      "archive": "research/gif-animation-records/531-sixel_palette_window_smoke.py.gz",
+      "bytes": 15832,
+      "sha256": "c0df3d65acdcb9f612545c0e1c178085498aa023a6daa5a29893d0eddb226930"
+    },
+    {
+      "path": "tests/test_raster.c",
+      "archive": "research/gif-animation-records/532-test_raster.c.gz",
+      "bytes": 5572,
+      "sha256": "85ecbf29cfe487a729099165536683b0dcf04e7400fd0a71e117cc134daf8d5d"
+    },
+    {
+      "path": "tools/nemoterm_debug.py",
+      "archive": "research/gif-animation-records/533-nemoterm_debug.py.gz",
+      "bytes": 9528,
+      "sha256": "1a63181cc9acc34d3349464e9179942be2472feaeec1867dd5af87d8a9294522"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_raster.c",
+      "archive": "research/gif-animation-records/534-nemo_raster.c.gz",
+      "bytes": 3912,
+      "sha256": "03e9e2ce466749f80436d047d5fc8d1dfd11e6d0255b19e6db9c73eb61e9bb67"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_raster.h",
+      "archive": "research/gif-animation-records/535-nemo_raster.h.gz",
+      "bytes": 2082,
+      "sha256": "59413f95ddcfb400f67ea001baf1f4f49ca3933bc72c7859f541bc1abbd776e2"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "archive": "research/gif-animation-records/536-terminal.c.gz",
+      "bytes": 518339,
+      "sha256": "ec517014b74dc197d8aaf1358e6abcf03a6bccdd211ee045df8ce845ee8ddef4"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "archive": "research/gif-animation-records/537-terminal.h.gz",
+      "bytes": 29012,
+      "sha256": "00ab6cd20c0e09703bd6a310f173a8772e8c52ea39b7eded3ec686b6d8717b0f"
+    },
+    {
+      "path": "vendor/putty-0.85/test/test_iterm_terminal.inc",
+      "archive": "research/gif-animation-records/538-test_iterm_terminal.inc.gz",
+      "bytes": 6860,
+      "sha256": "04e4ab14a478be5ceeb524b9c8a7395e7c639c8b34534ce3c2186f4b7fc93a1f"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_wic.c",
+      "archive": "research/gif-animation-records/539-nemo_wic.c.gz",
+      "bytes": 9704,
+      "sha256": "6e2cbae5be6148aba6cc7240de49f8475aa5151f45706300c3ed2601b2a6d17b"
+    }
+  ],
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_raster.h": "59413f95ddcfb400f67ea001baf1f4f49ca3933bc72c7859f541bc1abbd776e2",
+    "vendor/putty-0.85/terminal/nemo_raster.c": "03e9e2ce466749f80436d047d5fc8d1dfd11e6d0255b19e6db9c73eb61e9bb67",
+    "vendor/putty-0.85/terminal/terminal.c": "ec517014b74dc197d8aaf1358e6abcf03a6bccdd211ee045df8ce845ee8ddef4",
+    "vendor/putty-0.85/terminal/terminal.h": "00ab6cd20c0e09703bd6a310f173a8772e8c52ea39b7eded3ec686b6d8717b0f",
+    "vendor/putty-0.85/windows/nemo_wic.c": "6e2cbae5be6148aba6cc7240de49f8475aa5151f45706300c3ed2601b2a6d17b",
+    "vendor/putty-0.85/test/test_iterm_terminal.inc": "04e4ab14a478be5ceeb524b9c8a7395e7c639c8b34534ce3c2186f4b7fc93a1f",
+    "tests/test_raster.c": "85ecbf29cfe487a729099165536683b0dcf04e7400fd0a71e117cc134daf8d5d",
+    "tests/gif_fixture.py": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0",
+    "tests/gif_animation_window_smoke.py": "d1ad555e1d46317d84a14179085711c5b949851ccefeae4b0eefc99287b264ef",
+    "tests/sixel_palette_window_smoke.py": "c0df3d65acdcb9f612545c0e1c178085498aa023a6daa5a29893d0eddb226930",
+    "tests/iterm_image_window_smoke.py": "cc64a08fcf58607e7f1fdd264f80a4de7830a06f1ca4e17d846ad13ba26044b3",
+    "tests/native_test_utils.py": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675",
+    "tests/owned_job.py": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+    "tools/nemoterm_debug.py": "1a63181cc9acc34d3349464e9179942be2472feaeec1867dd5af87d8a9294522"
+  },
+  "final_native": [
+    {
+      "name": "gif-gdi",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 0,
+      "checks": 36,
+      "error": null
+    },
+    {
+      "name": "gif-opengl",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 1,
+      "checks": 36,
+      "error": null
+    },
+    {
+      "name": "gif-directx",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 2,
+      "checks": 36,
+      "error": null
+    },
+    {
+      "name": "static-gdi",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 0,
+      "checks": 31,
+      "error": null
+    },
+    {
+      "name": "static-opengl",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 1,
+      "checks": 31,
+      "error": null
+    },
+    {
+      "name": "static-directx",
+      "exit_code": 0,
+      "completed": true,
+      "actual_renderer": 2,
+      "checks": 31,
+      "error": null
+    }
+  ]
+}

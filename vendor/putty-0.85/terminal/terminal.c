@@ -1610,28 +1610,73 @@ static void term_schedule_vbell(Terminal *term, bool already_started,
  * shares the same budget; no whole-DCS string is buffered. */
 #define NEMO_IMAGE_MASK_ROWS 32
 
+static void nemo_images_tick(Terminal *term, uint32_t now);
+static void nemo_image_timer(void *ctx, unsigned long now)
+{
+    NemoImageTimer *timer = ctx;
+    if (timer->pending && now == timer->next) nemo_images_tick(timer->term, (uint32_t)GETTICKCOUNT());
+}
+
+static void nemo_images_tick(Terminal *term, uint32_t now)
+{
+    NemoImageTimer *timer = &term->image_timer;
+    expire_timer_context(timer);
+    timer->pending = false;
+    unsigned next = UINT_MAX;
+    bool repaint = false;
+    for (NemoTermImage *image = term->images; image; image = image->next) {
+        bool changed = false;
+        unsigned delay = nemo_raster_tick(&image->source->raster, now, &changed);
+        if (delay && delay < next) next = delay;
+        if (changed && !repaint)
+            for (NemoTermImage *view = term->images; view; view = view->next)
+                if (view->source == image->source && view->screen == term->alt_which &&
+                    view->last_y >= term->disptop && view->y < term->disptop+term->rows)
+                    repaint = true;
+    }
+    if (next != UINT_MAX) {
+        timer->term = term;
+        timer->pending = true;
+        timer->next = schedule_timer((int)min(next, 60000u), nemo_image_timer, timer);
+    }
+    if (repaint) term_invalidate(term);
+}
+
 static void nemo_image_remove(Terminal *term, NemoTermImage **link)
 {
     NemoTermImage *image = *link;
+    bool animated = image->source->raster.frame_count > 1;
     *link = image->next;
     term->image_bytes -= image->memory_bytes;
     assert(image->source->references);
     if (!--image->source->references) {
         term->image_bytes -= image->source->memory_bytes;
         nemo_sixel_free(image->source->bitmap);
+        nemo_raster_free(&image->source->raster);
         sfree(image->source);
     }
     for (unsigned i = 0; i < image->band_count; i++) sfree(image->mask_bands[i]);
     sfree(image->mask_bands);
     sfree(image->lines);
     sfree(image);
+    if (animated || term->image_timer.pending) nemo_images_tick(term, (uint32_t)GETTICKCOUNT());
+}
+
+static void nemo_inline_cancel(Terminal *term)
+{
+    nemo_iterm_free(term->iterm_pending);
+    term->iterm_pending = NULL;
+    term->iterm_osc = false;
 }
 
 static void nemo_images_clear(Terminal *term)
 {
     while (term->images) nemo_image_remove(term, &term->images);
+    expire_timer_context(&term->image_timer);
+    memset(&term->image_timer, 0, sizeof(term->image_timer));
     nemo_sixel_free(term->sixel_pending);
     term->sixel_pending = NULL;
+    nemo_inline_cancel(term);
 }
 
 static bool nemo_image_admit(void *ctx, size_t current, size_t extra)
@@ -1650,6 +1695,25 @@ static bool nemo_image_admit(void *ctx, size_t current, size_t extra)
 
 static bool nemo_image_live(Terminal *term, NemoTermImage *image);
 
+static size_t nemo_image_pending(Terminal *term)
+{
+    return nemo_sixel_stats(term->sixel_pending).allocated_bytes +
+        nemo_iterm_memory(term->iterm_pending);
+}
+
+static bool nemo_sixel_admit(void *ctx, size_t current, size_t extra)
+{
+    Terminal *term = ctx;
+    return nemo_image_admit(term, current + nemo_iterm_memory(term->iterm_pending), extra);
+}
+
+static bool nemo_inline_admit(void *ctx, size_t current, size_t extra)
+{
+    Terminal *term = ctx;
+    return nemo_image_admit(term, current +
+        nemo_sixel_stats(term->sixel_pending).allocated_bytes, extra);
+}
+
 void term_set_cell_size(Terminal *term, int width, int height)
 {
     if (!term || width < 1 || height < 1) return;
@@ -1659,6 +1723,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
     nemo_sixel_free(term->sixel_pending);
     term->sixel_pending = NULL;
     term->cell_width = width;
+    nemo_inline_cancel(term);
     term->cell_height = height;
     for (NemoTermImage *image = term->images; image; image = image->next)
         nemo_image_live(term, image);
@@ -1675,17 +1740,27 @@ int64_t term_image_pixel_y(const NemoTermImage *image, unsigned y, int cell_heig
 size_t term_image_read_row(const NemoTermImage *image, unsigned y, unsigned x,
                           uint32_t *out, size_t count)
 {
-    NemoSixelStats st = nemo_sixel_stats(image->source->bitmap);
-    if (!st.width || !st.height || y >= (unsigned)image->pixel_height ||
+    if (y >= (unsigned)image->pixel_height ||
         x >= (unsigned)image->pixel_width || !count) return 0;
     size_t n = min(count, (size_t)image->pixel_width - x);
-    unsigned scale = st.aspect_horizontal;
     unsigned source_x = image->pixel_x + x;
-    unsigned first = source_x / scale, last = (source_x+n-1) / scale;
-    if (nemo_sixel_read_row(image->source->bitmap, y / st.aspect_vertical,
-                           first, out, last-first+1) != last-first+1) return 0;
-    /* Expand backwards in the caller's buffer; no second raster allocation. */
-    for (size_t i = n; i-- > 0;) out[i] = out[(source_x+i)/scale-first];
+    if (image->source->raster.pixels) {
+        const NemoImageSource *src = image->source;
+        size_t sy = (uint64_t)y * src->raster.height / src->display_height;
+        for (size_t i = 0; i < n; i++) {
+            size_t sx = (uint64_t)(source_x+i) * src->raster.width / src->display_width;
+            out[i] = src->raster.pixels[sy * src->raster.width + sx];
+        }
+    } else {
+        NemoSixelStats st = nemo_sixel_stats(image->source->bitmap);
+        if (!st.width || !st.height) return 0;
+        unsigned scale = st.aspect_horizontal;
+        unsigned first = source_x / scale, last = (source_x+n-1) / scale;
+        if (nemo_sixel_read_row(image->source->bitmap, y / st.aspect_vertical,
+                               first, out, last-first+1) != last-first+1) return 0;
+        /* Expand backwards without a second raster allocation. */
+        for (size_t i = n; i-- > 0;) out[i] = out[(source_x+i)/scale-first];
+    }
     const NemoImageRow *row = &image->lines[y];
     if (row->anchor == INT_MIN) {
         memset(out, 0, n * sizeof(*out));
@@ -1873,7 +1948,7 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
     size_t needed = 0;
     for (NemoTermImage *image = term->images; image; image = image->next)
         needed += nemo_image_erase_need(term, image, start, end);
-    size_t pending = nemo_sixel_stats(term->sixel_pending).allocated_bytes;
+    size_t pending = nemo_image_pending(term);
     while (term->images && needed >
            NEMO_SIXEL_DEFAULT_BUDGET - pending - term->image_bytes) {
         needed -= nemo_image_erase_need(term, term->images, start, end);
@@ -2025,7 +2100,7 @@ static void nemo_images_split_columns(Terminal *term, int left, int right,
     size_t needed = 0;
     for (NemoTermImage *image = term->images; image; image = image->next)
         needed += nemo_image_column_need(term, image, left, right, top, bottom);
-    size_t pending = nemo_sixel_stats(term->sixel_pending).allocated_bytes;
+    size_t pending = nemo_image_pending(term);
     /* Include peak temporary view storage. Evict before constructing any view
      * so no source, mask or iterator can be invalidated during a crop. */
     while (term->images && needed > NEMO_SIXEL_DEFAULT_BUDGET-pending-term->image_bytes) {
@@ -2094,7 +2169,7 @@ static void nemo_images_shift(Terminal *term, int left, int right,
         if (nemo_image_in_columns(term, im, source_left, source_right) &&
             nemo_image_row_regions(term, im, top, bottom) == 3)
             needed += nemo_image_crop_need(im, im->pixel_width);
-    size_t pending = nemo_sixel_stats(term->sixel_pending).allocated_bytes;
+    size_t pending = nemo_image_pending(term);
     while (term->images && needed > NEMO_SIXEL_DEFAULT_BUDGET-pending-term->image_bytes) {
         NemoTermImage *im = term->images;
         if (nemo_image_in_columns(term, im, source_left, source_right) &&
@@ -2299,13 +2374,13 @@ static void nemo_sixel_begin(Terminal *term)
 {
     /* 8 KiB is larger than the fixed decoder object. Reserve before init,
      * then admission tracks precise allocations, including the list node. */
-    if (!nemo_image_admit(term, 0, 8192)) return;
+    if (!nemo_sixel_admit(term, 0, 8192)) return;
     term->sixel_pending = nemo_sixel_init(
         NEMO_SIXEL_DEFAULT_BUDGET - sizeof(NemoTermImage),
         term->sixel_header[1] == 1);
     if (!term->sixel_pending) return;
     nemo_sixel_set_register_count(term->sixel_pending, term->sixel_register_count);
-    nemo_sixel_set_allocation_guard(term->sixel_pending, nemo_image_admit, term);
+    nemo_sixel_set_allocation_guard(term->sixel_pending, nemo_sixel_admit, term);
     if (!term->sixel_private_palette) {
         if (!term->sixel_palette_valid) {
             nemo_sixel_get_palette(term->sixel_pending, term->sixel_palette);
@@ -2345,7 +2420,7 @@ static void nemo_sixel_complete(Terminal *term)
     unsigned bands = ((unsigned)ph+NEMO_IMAGE_MASK_ROWS-1) / NEMO_IMAGE_MASK_ROWS;
     size_t extra = ph * sizeof(NemoImageRow) + bands*sizeof(unsigned char *) +
         sizeof(NemoTermImage) + sizeof(NemoImageSource);
-    if (!nemo_image_admit(term, st.allocated_bytes, extra)) {
+    if (!nemo_sixel_admit(term, st.allocated_bytes, extra)) {
         nemo_sixel_cancel(term); return;
     }
     NemoTermImage *image = snew(NemoTermImage);
@@ -2390,6 +2465,115 @@ static void nemo_sixel_complete(Terminal *term)
         term->wrapnext = false;
     }
     term_invalidate(term);
+}
+
+typedef struct NemoInlineLayout {
+    Terminal *term;
+    const NemoItermPacket *packet;
+    unsigned width, height, bands;
+    size_t metadata;
+} NemoInlineLayout;
+
+static bool nemo_inline_raster_admit(void *ctx, unsigned nw, unsigned nh, size_t bytes)
+{
+    NemoInlineLayout *layout = ctx;
+    Terminal *term = layout->term;
+    if (!nemo_iterm_size(layout->packet, nw, nh, term->cell_width, term->cell_height,
+                         term->cols, term->rows, NEMO_SIXEL_MAX_DIMENSION,
+                         &layout->width, &layout->height)) return false;
+    layout->bands = (layout->height + NEMO_IMAGE_MASK_ROWS-1) / NEMO_IMAGE_MASK_ROWS;
+    layout->metadata = (size_t)layout->height * sizeof(NemoImageRow) +
+        layout->bands * sizeof(unsigned char *) + sizeof(NemoTermImage) +
+        sizeof(NemoImageSource);
+    return nemo_image_admit(term, nemo_image_pending(term), bytes + layout->metadata);
+}
+
+static void nemo_inline_display(Terminal *term, const NemoItermPacket *packet)
+{
+    NemoRaster raster = {0};
+    NemoInlineLayout layout = {.term=term, .packet=packet};
+    if (!term->win->vt->decode_image ||
+        !term->win->vt->decode_image(term->win, packet->data, packet->length,
+            &raster, nemo_inline_raster_admit, &layout)) return;
+    NemoTermImage *image = snew(NemoTermImage);
+    memset(image, 0, sizeof(*image));
+    image->source = snew(NemoImageSource);
+    *image->source = (NemoImageSource){.references=1,
+        .memory_bytes=raster.bytes + sizeof(NemoImageSource), .raster=raster,
+        .display_width=layout.width, .display_height=layout.height};
+    unsigned rows = (layout.height-1) / term->cell_height + 1;
+    image->x = term->curs.x; image->y = term->curs.y;
+    image->last_y = term->curs.y + rows - 1;
+    image->screen = term->alt_which;
+    image->pixel_width = layout.width; image->pixel_height = layout.height;
+    image->live_rows = layout.height;
+    image->lines = snewn(layout.height, NemoImageRow);
+    memset(image->lines, 0, layout.height * sizeof(NemoImageRow));
+    for (unsigned y = 0; y < layout.height; y++) image->lines[y].anchor = image->y;
+    image->band_count = layout.bands;
+    image->mask_bands = snewn(layout.bands, unsigned char *);
+    memset(image->mask_bands, 0, layout.bands * sizeof(unsigned char *));
+    image->memory_bytes = layout.metadata - sizeof(NemoImageSource);
+    NemoTermImage **tail = &term->images;
+    while (*tail) tail = &(*tail)->next;
+    *tail = image;
+    term->image_bytes += image->memory_bytes + image->source->memory_bytes;
+    term->grapheme_pending = false;
+    term->wrapnext = false;
+    int target = image->last_y;
+    while (target > term->marg_b) {
+        scroll(term, term->marg_t, term->marg_b, 1, true);
+        target--;
+    }
+    term->curs.y = min(target, term->rows-1);
+    nemo_images_tick(term, (uint32_t)GETTICKCOUNT());
+    term_invalidate(term);
+}
+
+static void nemo_inline_feed(Terminal *term, unsigned char c)
+{
+    if (term->iterm_osc) {
+        nemo_iterm_feed(term->iterm_pending, &c, 1);
+        return;
+    }
+    if (term->osc_strlen >= NEMO_CWD_OSC_MAX) {
+        term->osc_overflow = true;
+        return;
+    }
+    term->osc_string[term->osc_strlen++] = (char)c;
+    static const struct { const char *prefix; size_t length; NemoItermCommand command; }
+        commands[] = {{"File=", 5, NEMO_ITERM_FILE},
+                      {"MultipartFile=", 14, NEMO_ITERM_MULTIPART},
+                      {"FilePart=", 9, NEMO_ITERM_PART}};
+    for (size_t i = 0; i < lenof(commands); i++) {
+        if (term->osc_strlen != commands[i].length ||
+            memcmp(term->osc_string, commands[i].prefix, commands[i].length)) continue;
+        term->iterm_osc = true;
+        if (!term->iterm_pending && term->win->vt->decode_image)
+            term->iterm_pending = nemo_iterm_new(NEMO_SIXEL_DEFAULT_BUDGET,
+                                                nemo_inline_admit, term);
+        nemo_iterm_begin(term->iterm_pending, commands[i].command);
+        return;
+    }
+}
+
+static bool nemo_inline_finish(Terminal *term)
+{
+    if (!term->iterm_osc && !term->osc_overflow && term->osc_strlen == 7 &&
+        !memcmp(term->osc_string, "FileEnd", 7)) {
+        term->iterm_osc = true;
+        nemo_iterm_begin(term->iterm_pending, NEMO_ITERM_END);
+    }
+    if (!term->iterm_osc) return false;
+    term->iterm_osc = false;
+    NemoItermPacket packet;
+    if (nemo_iterm_finish(term->iterm_pending, &packet)) {
+        nemo_inline_display(term, &packet);
+        nemo_inline_cancel(term);
+    } else if (nemo_iterm_status(term->iterm_pending) != NEMO_ITERM_OK) {
+        nemo_inline_cancel(term);
+    }
+    return true;
 }
 
 static void set_erase_char(Terminal *term);
@@ -4409,6 +4593,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     /* A partial DCS has not established its placement yet. Retained images
      * follow text-row moves, without splitting raster rows or copying tiles. */
     nemo_sixel_cancel(term);
+    nemo_inline_cancel(term);
 
     /* Behave sensibly if we're given zero (or negative) rows/cols */
 
@@ -6823,6 +7008,7 @@ static void do_osc(Terminal *term, bool bel)
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
           case 7: case 9: case 133: case 633: case 1337:
+            if (term->esc_args[0] == 1337 && nemo_inline_finish(term)) break;
             if (!term->osc_overflow) {
                 nemo_cwd_update(&term->working_directory, term->esc_args[0],
                                 term->osc_string, term->osc_strlen);
@@ -7840,6 +8026,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
             continue;
 
         if ((c == 0x18 || c == 0x1a) && term->termstate != TOPLEVEL) {
+            if (term->iterm_osc) nemo_inline_cancel(term);
             term->termstate = TOPLEVEL;
             term->esc_query = 0;
             continue;
@@ -8102,6 +8289,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                 }
                 nemo_osc52_cancel(term->osc52);
+                if (term->iterm_osc) nemo_inline_cancel(term);
                 /* else fall through */
               case SEEN_ESC:
                 if (c >= ' ' && c <= '/') {
@@ -8134,6 +8322,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     nemo_osc52_cancel(term->osc52);
                     term->termstate = SEEN_OSC;
                     term->osc_type = OSCLIKE_OSC;
+                    term->iterm_osc = false;
                     term->osc_strlen = 0;
                     term->osc_overflow = false;
                     term->esc_args[0] = 0;
@@ -9651,10 +9840,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
 
                 if ((!nemo_osc_title(term) && (c == '\012' || c == '\015')) ||
                     (nemo_osc_title(term) && (c == 0x18 || c == 0x1a)) ||
-                    (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52 &&
+                    (term->osc_type == OSCLIKE_OSC &&
+                     (term->esc_args[0] == 52 || term->esc_args[0] == 1337) &&
                      (c == 0x18 || c == 0x1a))) {
                     /* CR or LF aborts */
                     nemo_osc52_cancel(term->osc52);
+                    if (term->iterm_osc) nemo_inline_cancel(term);
                     term->termstate = TOPLEVEL;
                     break;
                 }
@@ -9685,6 +9876,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* Anything else gets added to the string */
                 if (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52) {
                     nemo_osc52_feed(term->osc52, (unsigned char)c);
+                } else if (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 1337) {
+                    nemo_inline_feed(term, (unsigned char)c);
                 } else if (term->osc_strlen < osc_string_limit(term))
                     term->osc_string[term->osc_strlen++] = (char)c;
                 else
@@ -9702,17 +9895,21 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* No, so append the pending C2 byte to the OSC string
                  * followed by the current character, and go back to
                  * OSC string accumulation */
-                if (term->osc_type == OSCLIKE_OSC && term->esc_args[0] == 52) {
-                    nemo_osc52_feed(term->osc52, 0xc2);
+                if (term->osc_type == OSCLIKE_OSC &&
+                    (term->esc_args[0] == 52 || term->esc_args[0] == 1337)) {
+                    if (term->esc_args[0] == 52) nemo_osc52_feed(term->osc52, 0xc2);
+                    else nemo_inline_feed(term, 0xc2);
                     if (c == '\012' || c == '\015' || c == 0x18 || c == 0x1a) {
                         nemo_osc52_cancel(term->osc52);
+                        if (term->iterm_osc) nemo_inline_cancel(term);
                         term->termstate = TOPLEVEL;
                     } else if (c == '\033') term->termstate = OSC_MAYBE_ST;
                     else if (c == '\007') {
                         do_osc(term, true);
                         term->termstate = TOPLEVEL;
                     } else if (c != 0xc2) {
-                        nemo_osc52_feed(term->osc52, (unsigned char)c);
+                        if (term->esc_args[0] == 52) nemo_osc52_feed(term->osc52, (unsigned char)c);
+                        else nemo_inline_feed(term, (unsigned char)c);
                         term->termstate = OSC_STRING;
                     }
                     break;
@@ -10417,6 +10614,19 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
 
 static void do_paint(Terminal *term)
 {
+    /* Rebuild the grid before compositing alpha. Repeated cursor repaints
+     * must not blend a translucent image over its own previous frame. No
+     * timer is scheduled here; this only invalidates the current paint. */
+    for (NemoTermImage *image = term->images; image; image = image->next) {
+        if (image->screen != term->alt_which || !image->source->raster.partial_alpha ||
+            image->last_y < term->disptop || image->y >= term->disptop + term->rows)
+            continue;
+        for (int y = 0; y < term->rows; y++)
+            for (int x = 0; x < term->cols; x++)
+                term->disptext[y]->chars[x].attr |= ATTR_INVALID;
+        break;
+    }
+
     int i, j, our_curs_y, our_curs_x;
     int rv, cursor;
     pos scrpos;

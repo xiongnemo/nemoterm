@@ -31,6 +31,7 @@
 #include "nemo_font_fallback.h"
 #include "nemo_cluster.h"
 #include "nemo_gpu.h"
+#include "nemo_wic.h"
 #include "nemo_tabs_host.h"
 #include "terminal/nemo_window_size.h"
 #include "tree234.h"
@@ -265,6 +266,7 @@ static void wintw_palette_get_overrides(TermWin *, Terminal *);
 static void wintw_unthrottle(TermWin *win, size_t bufsize);
 
 static const TermWinVtable windows_termwin_vt = {
+    .decode_image = nemo_wic_decode,
     .grapheme_clusters = true,
     .get_geometry = wintw_get_geometry,
     .set_synchronized_update = wintw_set_synchronized_update,
@@ -6093,9 +6095,9 @@ static void wintw_free_draw_ctx(TermWin *tw)
     nemo_link_refresh(wgs);
 }
 
-/* Compose Sixel over the character grid without a full-window backbuffer.
- * The only temporary pixel storage is one bounded scanline. Transparent
- * spans (including cells erased by subsequent text) leave the grid visible. */
+/* Compose retained raster images without a full-window backbuffer. Binary
+ * transparency keeps the Sixel fast path. Partial alpha uses one lazy row
+ * DIB and the GPU's existing bounded overlay readback/upload path. */
 static void nemo_paint_images(WinGuiSeat *wgs)
 {
     Terminal *term = wgs->term;
@@ -6124,13 +6126,17 @@ static void nemo_paint_images(WinGuiSeat *wgs)
                      wgs->offset_width + term->cols * wgs->font_width,
                      wgs->offset_height + term->rows * wgs->font_height);
     SetStretchBltMode(dc, COLORONCOLOR);
+    HDC alpha_dc = NULL;
+    HBITMAP alpha_bitmap = NULL;
+    HGDIOBJ alpha_old = NULL;
+    uint32_t *alpha_pixels = NULL;
+    bool alpha_attempted = false;
     for (NemoTermImage *img = term->images; img; img = img->next) {
         if (img->screen != term->alt_which)
             continue;
-        NemoSixelStats stats = nemo_sixel_stats(img->source->bitmap);
-        if (stats.status != NEMO_SIXEL_OK || !stats.width || !stats.height ||
-            stats.width > NEMO_SIXEL_MAX_DIMENSION ||
-            img->pixel_width <= 0 || img->pixel_height <= 0)
+        if ((!img->source->bitmap && !img->source->raster.pixels) ||
+            img->pixel_width <= 0 || img->pixel_width > NEMO_SIXEL_MAX_DIMENSION ||
+            img->pixel_height <= 0)
             continue;
         int64_t left64 = wgs->offset_width + (int64_t)img->x * wgs->font_width + img->pixel_x;
         if (left64 >= paint_clip.right || left64 + img->pixel_width <= paint_clip.left)
@@ -6156,11 +6162,46 @@ static void nemo_paint_images(WinGuiSeat *wgs)
             size_t n = term_image_read_row(img, y, 0, row, img->pixel_width);
             for (unsigned x = 0; x < n;) {
                 if (!(row[x] >> 24)) { x++; continue; }
+                bool partial = (row[x] >> 24) != 255;
                 unsigned end = x+1;
-                while (end < n && (row[end] >> 24)) end++;
+                while (end < n && (row[end] >> 24) &&
+                       ((row[end] >> 24) != 255) == partial) end++;
                 int x0 = left + x;
                 int x1 = left + end;
-                if (x1 > x0 && wgs->gpu_drawing) {
+                if (partial) {
+                    int a = max(x0, paint_clip.left), b = min(x1, paint_clip.right);
+                    if (b > a) {
+                        if (!alpha_attempted) {
+                            alpha_attempted = true;
+                            BITMAPINFO ai = bi;
+                            ai.bmiHeader.biWidth = NEMO_SIXEL_MAX_DIMENSION;
+                            alpha_dc = CreateCompatibleDC(dc);
+                            alpha_bitmap = CreateDIBSection(dc, &ai, DIB_RGB_COLORS,
+                                (void **)&alpha_pixels, NULL, 0);
+                            if (alpha_dc && alpha_bitmap)
+                                alpha_old = SelectObject(alpha_dc, alpha_bitmap);
+                        }
+                        if (alpha_dc && alpha_bitmap && alpha_old && alpha_old != HGDI_ERROR) {
+                            GdiFlush();
+                            for (int i = 0; i < b-a; i++) {
+                                uint32_t pixel = row[x + a-x0 + i];
+                                unsigned alpha = pixel >> 24;
+                                uint32_t value = pixel & 0xff000000;
+                                for (unsigned shift = 0; shift < 24; shift += 8)
+                                    value |= ((((pixel >> shift) & 255) * alpha + 127) / 255) << shift;
+                                alpha_pixels[i] = value;
+                            }
+                            RECT box = {a, y0, b, y0+1};
+                            if (!wgs->gpu_drawing || nemo_gpu_begin_run(wgs->gpu, box, true)) {
+                                BLENDFUNCTION blend = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
+                                GdiAlphaBlend(wgs->gpu_drawing ? nemo_gpu_dc(wgs->gpu) : dc,
+                                    a, y0, b-a, 1, alpha_dc, 0, 0, b-a, 1, blend);
+                                if (wgs->gpu_drawing)
+                                    nemo_gpu_end_run(wgs->gpu, box, make_ptrlen(NULL, 0));
+                            }
+                        }
+                    }
+                } else if (x1 > x0 && wgs->gpu_drawing) {
                     int a = max(x0, paint_clip.left), b = min(x1, paint_clip.right);
                     if (b > a) nemo_gpu_row(wgs->gpu, a, y0, b-a, row + x + a-x0);
                 } else if (x1 > x0)
@@ -6170,6 +6211,10 @@ static void nemo_paint_images(WinGuiSeat *wgs)
             }
         }
     }
+    GdiFlush();
+    if (alpha_dc && alpha_old && alpha_old != HGDI_ERROR) SelectObject(alpha_dc, alpha_old);
+    if (alpha_bitmap) DeleteObject(alpha_bitmap);
+    if (alpha_dc) DeleteDC(alpha_dc);
     if (saved) RestoreDC(dc, saved);
 }
 

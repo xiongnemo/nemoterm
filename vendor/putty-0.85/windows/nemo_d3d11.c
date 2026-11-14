@@ -13,7 +13,7 @@
 #define STRIP_BYTES (4U*1024U*1024U)
 #define FRAME_BYTES (128U*1024U*1024U)
 #define TILE_W 512
-#define TILE_H 64
+#define TILE_H 32
 #define BATCH_COUNT 512
 typedef struct NemoCopyRect { RECT dest; int x,y; } NemoCopyRect;
 static const GUID texture_iid={0x6f15aaf2,0xd208,0x4e89,{0x9a,0xb4,0x48,0x95,0x35,0xd3,0x4f,0x9c}};

@@ -2,6 +2,7 @@
 import argparse
 import struct
 import traceback
+import time
 import uuid
 import winreg
 from native_test_utils import (root, c, w, u, hashlib, os, subprocess, sys,
@@ -41,11 +42,11 @@ def reset(private=True):
             CSI+'0m'+ESC+']11;rgb:0/0/0\x07'+CSI+'2J'+CSI+'3J'+CSI+'H')
 
 
-def main(background_exercise=None):
+def main(background_exercise=None, *, suite_name=None, font='Consolas'):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     args = parser.parse_args()
-    suite = 'sixel-background' if background_exercise else 'sixel-palette'
+    suite = suite_name or ('sixel-background' if background_exercise else 'sixel-palette')
     colour_names = tuple(COLOURS) if background_exercise else ('red', 'green', 'blue')
     requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
@@ -72,7 +73,7 @@ def main(background_exercise=None):
             process, window = None, None
             try:
                 command = [str(exe), '-load', profile, '--automation',
-                    '--cols', str(COLS), '--rows', str(ROWS), '--font', 'Consolas',
+                    '--cols', str(COLS), '--rows', str(ROWS), '--font', font,
                     '-e', sys.executable, str(root/'tests/mouse_fixture.py'),
                     str(report), str(control), '180']
                 evidence['command'] = command
@@ -111,11 +112,11 @@ def main(background_exercise=None):
                     return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,
                                 width=count, height=height, colour=colour)
 
-                def phase(name, sequence, regions):
+                def phase(name, sequence, regions, *, stable_seconds=0):
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
                         barrier_sequence_hex=(CSI+'5n').encode().hex(), input_barrier=serial,
-                        regions=regions, matched=False)
+                        regions=regions, matched=False, stable_seconds=stable_seconds)
                     evidence['checks'].append(record)
                     write_snapshot(control, dict(phase=name, sequence=sequence,
                         preserve_mouse=True, input_barrier=serial))
@@ -138,9 +139,11 @@ def main(background_exercise=None):
                     record['scope'] = 'exact probe regions' if background_exercise else 'all client RGB probe colours'
                     record['expected_counts'] = {colour: len(points) for colour, points in wanted.items()}
                     last = None
+                    stable_since = None
+                    started = time.monotonic()
 
                     def matches():
-                        nonlocal last
+                        nonlocal last, stable_since
                         last = api.request(endpoint, 'image', seat)
                         image_width, image_height, pixels = bitmap(last)
                         assert (image_width, image_height) == (width, height)
@@ -162,7 +165,14 @@ def main(background_exercise=None):
                             missing=sorted(wanted.get(colour, set())-observed.get(colour, set()))[:8],
                             unexpected=sorted(observed.get(colour, set())-wanted.get(colour, set()))[:8])
                             for colour in sorted(wanted.keys() | observed.keys())}
-                        return observed == wanted
+                        record['capture_samples'] = record.get('capture_samples', 0)+1
+                        if observed != wanted:
+                            stable_since = None
+                            return False
+                        now = time.monotonic()
+                        if stable_since is None:stable_since = now
+                        record['stable_observed_seconds'] = now-stable_since
+                        return now-stable_since >= stable_seconds
 
                     try:
                         wait_for(matches)
@@ -174,6 +184,7 @@ def main(background_exercise=None):
                             (folder/(basename+'.png')).write_bytes(api.png_from_bmp(last))
                             record.update(bmp=basename+'.bmp', png=basename+'.png',
                                           bmp_sha256=hashlib.sha256(last).hexdigest())
+                        record['observation_seconds'] = time.monotonic()-started
                         write_snapshot(folder/'checks.json', evidence['checks'])
                     print(name, record['observed_counts'], flush=True)
 

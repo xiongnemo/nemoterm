@@ -8,6 +8,7 @@
 
 #include "tree234.h"
 #include "nemo_sixel.h"
+#include "nemo_iterm.h"
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
@@ -41,10 +42,18 @@ typedef struct NemoImageRow {
     unsigned erased_pixels;
 } NemoImageRow;
 
+typedef struct NemoImageTimer {
+    Terminal *term;
+    unsigned long next;
+    bool pending;
+} NemoImageTimer;
+
 typedef struct NemoImageSource {
     NemoSixel *bitmap; /* fixed pixels after DCS; shared palette remains live */
     unsigned references;
     size_t memory_bytes; /* decoder plus this shared owner, charged once */
+    NemoRaster raster;
+    unsigned display_width, display_height;
 } NemoImageSource;
 
 typedef struct NemoTermImage {
@@ -160,9 +169,12 @@ struct terminal_tag {
     /* Oldest first, owned by the terminal. Coordinates are screen cell
      * coordinates; negative y positions belong to main-screen scrollback. */
     NemoTermImage *images;
+    NemoImageTimer image_timer;
     size_t image_bytes;
     int cell_width, cell_height;
     NemoSixel *sixel_pending;
+    NemoIterm *iterm_pending;
+    bool iterm_osc;
     unsigned sixel_header[3], sixel_header_index;
     bool dcs_header_params, dcs_query_active, dcs_query_invalid;
     char dcs_query_type;

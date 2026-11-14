@@ -64,14 +64,14 @@ add_sources_from_current_dir(otherbackends
 add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
-  nemo_debug.c nemo_drop.c
+  nemo_debug.c nemo_drop.c nemo_wic.c
   nemo_tabs_layout.c
   nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_d3d11.c nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c
   nemo_cluster.cpp
   nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
   dialog.c controls.c config.c printing.c jump-list.c sizetip.c nemo_snapshot.c)
-target_link_libraries(guiterminal cabinet)
+target_link_libraries(guiterminal cabinet windowscodecs)
 add_executable(test_cluster_renderer
   ${CMAKE_SOURCE_DIR}/../../tests/test_cluster_renderer.cpp nemo_cluster.cpp)
 target_link_libraries(test_cluster_renderer ${platform_libraries})
