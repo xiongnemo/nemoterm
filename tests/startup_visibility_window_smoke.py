@@ -21,10 +21,12 @@ def top_window(pid,kind):
     u.EnumWindows(visit,0)
     return next(iter(found),None)
 try:
-    for tabbed in (False,True):
+    # Restore/focus events can still be queued when the last client exits.
+    # Repeat tabbed shutdown to exercise the input-close/output-EOF ordering.
+    for iteration,tabbed in enumerate((False,True,True,True)):
         for minimized in (False,True):
             profile='visibility-'+uuid.uuid4().hex;keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
-            case=dict(tabbed=tabbed,minimized=minimized,operations=[]);evidence['cases'].append(case)
+            case=dict(iteration=iteration,tabbed=tabbed,minimized=minimized,operations=[]);evidence['cases'].append(case)
             with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
                 for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=0).items():
                     winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
