@@ -1,0 +1,928 @@
+{
+  "source_commit": "2f478e76f86d1241d7e697225fa9205d7db17846",
+  "run": 43652684756,
+  "failed_job": 132624406615,
+  "unverified_artifact": 14136911157,
+  "executable_sha256": "04339e0b69d0ca57492068380163b28a07fb856921c2d48246b3b9f8bea0bb78",
+  "failure": {
+    "exit_code": 3221225477,
+    "phase": "synchronized-tab-transfer",
+    "actual_backend": "GDI",
+    "first_tab_selection_after_probe_detach": true,
+    "root_cause": "unproven",
+    "wer_events": []
+  },
+  "scope": "Exact failed MSVC sidecar-host image; local failure not reproduced; not product acceptance",
+  "records_note": "The uploaded hyperlink observation was already tracked at source and is not a fresh pass from the failed job",
+  "local": {
+    "original-opengl": [
+      {
+        "repeat": 1,
+        "exit_code": 0,
+        "seconds": 13.335681099910289,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 2,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "repeat": 2,
+        "exit_code": 0,
+        "seconds": 13.790532999904826,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 2,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "repeat": 3,
+        "exit_code": 0,
+        "seconds": 13.200003900099546,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 2,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "original-gdi": [
+      {
+        "repeat": 1,
+        "exit_code": 0,
+        "seconds": 12.48730990011245,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 1,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "repeat": 2,
+        "exit_code": 0,
+        "seconds": 12.525372499832883,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 1,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "repeat": 3,
+        "exit_code": 0,
+        "seconds": 12.455709400121123,
+        "completed": true,
+        "phase": "complete",
+        "actual_renderer": 1,
+        "error": null,
+        "process": null,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "first-observer-failure": [
+      {
+        "renderer": "gdi",
+        "exit_code": 0,
+        "seconds": 12.484712600009516,
+        "completed": true,
+        "observations": [
+          {
+            "label": "before-attach",
+            "seconds": 6.0900114476680756e-05,
+            "pid": 49520,
+            "exit_code": null,
+            "observation_error": "TypeError(\"'<=' not supported between instances of 'int' and 'NoneType'\")",
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-load",
+            "seconds": 0.11451540002599359,
+            "pid": 49520,
+            "exit_code": null,
+            "observation_error": "TypeError(\"'<=' not supported between instances of 'int' and 'NoneType'\")",
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "before-detach",
+            "seconds": 1.3988424001727253,
+            "pid": 49520,
+            "exit_code": null,
+            "observation_error": "TypeError(\"'<=' not supported between instances of 'int' and 'NoneType'\")",
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-detach",
+            "seconds": 1.4068352000322193,
+            "pid": 49520,
+            "exit_code": null,
+            "observation_error": "OSError(9, 'The handle is invalid.', None, 6)",
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-select",
+            "seconds": 1.4187165000475943,
+            "pid": 49520,
+            "exit_code": null,
+            "observation_error": "TypeError(\"'<=' not supported between instances of 'int' and 'NoneType'\")",
+            "exit_code_after_observation": null
+          }
+        ],
+        "executable_sha256": "04339e0b69d0ca57492068380163b28a07fb856921c2d48246b3b9f8bea0bb78",
+        "actual_renderer": 1,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "corrected-observer": [
+      {
+        "renderer": "gdi",
+        "exit_code": 0,
+        "seconds": 12.641321199946105,
+        "completed": true,
+        "observations": [
+          {
+            "label": "after-load",
+            "seconds": 0.007205999922007322,
+            "pid": 14900,
+            "exit_code": null,
+            "thread": 47148,
+            "address": 140700790089704,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "e91b18feff4154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": false,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "before-detach",
+            "seconds": 1.2379355998709798,
+            "pid": 14900,
+            "exit_code": null,
+            "thread": 47148,
+            "address": 140700790089704,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "e91b18feff4154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": false,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-detach",
+            "seconds": 1.2400515999179333,
+            "pid": 14900,
+            "exit_code": null,
+            "thread": 47148,
+            "address": 140700790089704,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "40555356574154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": true,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-select",
+            "seconds": 1.247535599861294,
+            "pid": 14900,
+            "exit_code": null,
+            "thread": 47148,
+            "address": 140700790089704,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "40555356574154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": true,
+            "exit_code_after_observation": null
+          }
+        ],
+        "executable_sha256": "04339e0b69d0ca57492068380163b28a07fb856921c2d48246b3b9f8bea0bb78",
+        "actual_renderer": 1,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "renderer": "opengl",
+        "exit_code": 0,
+        "seconds": 13.342913300031796,
+        "completed": true,
+        "observations": [
+          {
+            "label": "after-load",
+            "seconds": 0.009450200013816357,
+            "pid": 20388,
+            "exit_code": null,
+            "thread": 17400,
+            "address": 140695392413672,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "e91b18feff4154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": false,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "before-detach",
+            "seconds": 1.4389513002242893,
+            "pid": 20388,
+            "exit_code": null,
+            "thread": 17400,
+            "address": 140695392413672,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "e91b18feff4154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": false,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-detach",
+            "seconds": 1.4414524000603706,
+            "pid": 20388,
+            "exit_code": null,
+            "thread": 17400,
+            "address": 140695392413672,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "40555356574154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": true,
+            "exit_code_after_observation": null
+          },
+          {
+            "label": "after-select",
+            "seconds": 1.451203600037843,
+            "pid": 20388,
+            "exit_code": null,
+            "thread": 17400,
+            "address": 140695392413672,
+            "module": "nemoterm.exe",
+            "module_offset": 59368,
+            "entry_hex": "40555356574154415541564157488d6c24984881ec68010000488b0538280c00",
+            "matches_initial_entry": true,
+            "exit_code_after_observation": null
+          }
+        ],
+        "executable_sha256": "04339e0b69d0ca57492068380163b28a07fb856921c2d48246b3b9f8bea0bb78",
+        "actual_renderer": 2,
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ]
+  },
+  "bundles": [
+    {
+      "path": "research/tab-probe-detach-evidence/local-and-first-failure.tar.gz",
+      "archive_bytes": 316878,
+      "archive_sha256": "e27ad810c2443acc6d5069cc27da23f4de0f50c04df6d09a8bd5a0d9755093da",
+      "records": [
+        {
+          "path": "controller.py",
+          "raw_bytes": 3124,
+          "raw_sha256": "90619399a81d43c564926694411ff69c3a2944dd07f07646448f1e626e77b002"
+        },
+        {
+          "path": "corrected-observer/controller.py",
+          "raw_bytes": 2405,
+          "raw_sha256": "ef4d5d866fc0eba0b64a623644ba1ef901aab8af17ba1fdd97d2c7b554173761"
+        },
+        {
+          "path": "corrected-observer/gdi/research/tabs-gdi-right-host.png",
+          "raw_bytes": 8972,
+          "raw_sha256": "dd29c2c554f47eb88bb10a08d15b494b90db2891dd78c20c60610ef86bb2bc0d"
+        },
+        {
+          "path": "corrected-observer/gdi/research/tabs-gdi-right-observed.json",
+          "raw_bytes": 127562,
+          "raw_sha256": "fd682522582caae304c886edf5841f9144c226ef910f9c2fa76a62d578235410"
+        },
+        {
+          "path": "corrected-observer/gdi/research/tabs-gdi-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "corrected-observer/gdi/run.log",
+          "raw_bytes": 33,
+          "raw_sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+        },
+        {
+          "path": "corrected-observer/gdi/tests/tab_probe_boundary.py",
+          "raw_bytes": 2863,
+          "raw_sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc"
+        },
+        {
+          "path": "corrected-observer/gdi/tests/tabs_hover_probe.js",
+          "raw_bytes": 2072,
+          "raw_sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e"
+        },
+        {
+          "path": "corrected-observer/gdi/tests/tabs_window_smoke.py",
+          "raw_bytes": 35348,
+          "raw_sha256": "f35fe8fcb0700c1063cb34e585a9057e552c086d467aa49456dc083bcf456429"
+        },
+        {
+          "path": "corrected-observer/opengl/research/tabs-opengl-right-observed.json",
+          "raw_bytes": 127778,
+          "raw_sha256": "070c4ab0fc100a1d7890035187a98d3acd6a5e8abf8ab610a3e22e490deec07c"
+        },
+        {
+          "path": "corrected-observer/opengl/research/tabs-opengl-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "corrected-observer/opengl/run.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "corrected-observer/opengl/tests/tab_probe_boundary.py",
+          "raw_bytes": 2863,
+          "raw_sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc"
+        },
+        {
+          "path": "corrected-observer/opengl/tests/tabs_hover_probe.js",
+          "raw_bytes": 2072,
+          "raw_sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e"
+        },
+        {
+          "path": "corrected-observer/opengl/tests/tabs_window_smoke.py",
+          "raw_bytes": 35348,
+          "raw_sha256": "f35fe8fcb0700c1063cb34e585a9057e552c086d467aa49456dc083bcf456429"
+        },
+        {
+          "path": "corrected-observer/results.json",
+          "raw_bytes": 4728,
+          "raw_sha256": "e2d2c4cda902413fde885c1f2e2849c25844b583287903767302fea5948a7455"
+        },
+        {
+          "path": "failed-job/build/native-crashes/application-errors.json",
+          "raw_bytes": 4,
+          "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        {
+          "path": "failed-job/charset-msvc.log",
+          "raw_bytes": 74,
+          "raw_sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+        },
+        {
+          "path": "failed-job/gl-lifetime-msvc.log",
+          "raw_bytes": 58,
+          "raw_sha256": "63e7faacaea6446cf974f7c3816d687bda4333e3d254475e8ae27990155550e4"
+        },
+        {
+          "path": "failed-job/handle-io-msvc.log",
+          "raw_bytes": 54,
+          "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276"
+        },
+        {
+          "path": "failed-job/iterm-transport-msvc.log",
+          "raw_bytes": 30,
+          "raw_sha256": "f6c44ca396e0c2839871b225a584b1369025722993b65814299f74feda5a06df"
+        },
+        {
+          "path": "failed-job/job.log",
+          "raw_bytes": 75670,
+          "raw_sha256": "904cf4eb2681c96c7a5ac0617c2801f4ab5523746af87df3aec938a2a859d6ce"
+        },
+        {
+          "path": "failed-job/kitty-cache-msvc.log",
+          "raw_bytes": 39,
+          "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72"
+        },
+        {
+          "path": "failed-job/kitty-layout-msvc.log",
+          "raw_bytes": 700,
+          "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc"
+        },
+        {
+          "path": "failed-job/kitty-placements-msvc.log",
+          "raw_bytes": 4856,
+          "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422"
+        },
+        {
+          "path": "failed-job/kitty-transport-msvc.log",
+          "raw_bytes": 44,
+          "raw_sha256": "c32a0bd557cb1e5651b7b717f51fadc2d95cf84941b6f3b4cbed2ee4eb813eb1"
+        },
+        {
+          "path": "failed-job/raster-animation-msvc.log",
+          "raw_bytes": 47,
+          "raw_sha256": "1091fdbad1cf74e641e1407e37aa483176fdc9758ff02bded404ff8667e5d4d1"
+        },
+        {
+          "path": "failed-job/research/hyperlink-window-observed.json",
+          "raw_bytes": 1986,
+          "raw_sha256": "73e5b71e6650a97d479b4015735922b503cc0f1f97167982f5d92000cac5f553"
+        },
+        {
+          "path": "failed-job/research/renderer-0-0-clusters.txt",
+          "raw_bytes": 59302,
+          "raw_sha256": "0a940ae41b9b0319769618152504482bbfe52eefeaf7d6d066bbfa1d4552f900"
+        },
+        {
+          "path": "failed-job/research/renderer-0-0-text.png",
+          "raw_bytes": 9069,
+          "raw_sha256": "5ce040be80d594813dc79ebf57798bfe8d3cfe3cd0b6cf10c27f519d19dbfd49"
+        },
+        {
+          "path": "failed-job/research/renderer-1-0-clusters.txt",
+          "raw_bytes": 59302,
+          "raw_sha256": "0a940ae41b9b0319769618152504482bbfe52eefeaf7d6d066bbfa1d4552f900"
+        },
+        {
+          "path": "failed-job/research/renderer-1-0-text.png",
+          "raw_bytes": 9069,
+          "raw_sha256": "5ce040be80d594813dc79ebf57798bfe8d3cfe3cd0b6cf10c27f519d19dbfd49"
+        },
+        {
+          "path": "failed-job/research/renderer-2-1-clusters.txt",
+          "raw_bytes": 59302,
+          "raw_sha256": "0a940ae41b9b0319769618152504482bbfe52eefeaf7d6d066bbfa1d4552f900"
+        },
+        {
+          "path": "failed-job/research/renderer-2-1-text.png",
+          "raw_bytes": 9069,
+          "raw_sha256": "5ce040be80d594813dc79ebf57798bfe8d3cfe3cd0b6cf10c27f519d19dbfd49"
+        },
+        {
+          "path": "failed-job/research/renderer-3-0-clusters.txt",
+          "raw_bytes": 59302,
+          "raw_sha256": "0a940ae41b9b0319769618152504482bbfe52eefeaf7d6d066bbfa1d4552f900"
+        },
+        {
+          "path": "failed-job/research/renderer-3-0-text.png",
+          "raw_bytes": 9069,
+          "raw_sha256": "5ce040be80d594813dc79ebf57798bfe8d3cfe3cd0b6cf10c27f519d19dbfd49"
+        },
+        {
+          "path": "failed-job/research/renderer-4-2-clusters.txt",
+          "raw_bytes": 59302,
+          "raw_sha256": "0a940ae41b9b0319769618152504482bbfe52eefeaf7d6d066bbfa1d4552f900"
+        },
+        {
+          "path": "failed-job/research/renderer-4-2-text.png",
+          "raw_bytes": 9069,
+          "raw_sha256": "5ce040be80d594813dc79ebf57798bfe8d3cfe3cd0b6cf10c27f519d19dbfd49"
+        },
+        {
+          "path": "failed-job/research/renderer-observed.json",
+          "raw_bytes": 16494,
+          "raw_sha256": "7262860cdf2a9ca33545f1d0aeb8ee57056c8cb02f4b9f6882e75218f11caae2"
+        },
+        {
+          "path": "failed-job/research/tabs-close-repeat-1.json",
+          "raw_bytes": 115997,
+          "raw_sha256": "7122e05ac479a40e92bedd7511d2ec72832ec84198eb93334498313c2e39419d"
+        },
+        {
+          "path": "first-observer-failure/gdi/research/tabs-gdi-right-host.png",
+          "raw_bytes": 8972,
+          "raw_sha256": "dd29c2c554f47eb88bb10a08d15b494b90db2891dd78c20c60610ef86bb2bc0d"
+        },
+        {
+          "path": "first-observer-failure/gdi/research/tabs-gdi-right-observed.json",
+          "raw_bytes": 126599,
+          "raw_sha256": "3edd9d22d4905d76a11bdbbca946bb7cbb1370c53914f970c81b8c8f83430c92"
+        },
+        {
+          "path": "first-observer-failure/gdi/research/tabs-gdi-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "first-observer-failure/gdi/run.log",
+          "raw_bytes": 33,
+          "raw_sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+        },
+        {
+          "path": "first-observer-failure/gdi/tests/tab_probe_boundary.py",
+          "raw_bytes": 2908,
+          "raw_sha256": "96a3b77b2e10dfff0a7421f154127f0b3d63ca6dbf62ab4151c2a6dd07dfbcb1"
+        },
+        {
+          "path": "first-observer-failure/gdi/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "first-observer-failure/gdi/tests/tabs_window_smoke.py",
+          "raw_bytes": 35266,
+          "raw_sha256": "32b4a12d81e9282de3b0b2ac0dd9156f5d7786dbe0d39c36b36455d774cd8f96"
+        },
+        {
+          "path": "first-observer-failure/results.json",
+          "raw_bytes": 2028,
+          "raw_sha256": "45d9f732fc890108fa2a43033a74974fe69eca14919ff2f08fb36e6064bcfee1"
+        },
+        {
+          "path": "original-gdi/controller.py",
+          "raw_bytes": 2549,
+          "raw_sha256": "f4d65421ae85a3a36c575c2dc5548d232442e7435c58ec3e63bd611c82ef6668"
+        },
+        {
+          "path": "original-gdi/identity.json",
+          "raw_bytes": 32642,
+          "raw_sha256": "eeb7d2fefaa8f375dec592a958a34dcc8d93d4c4483a20ea54f9325e7c2699be"
+        },
+        {
+          "path": "original-gdi/results.json",
+          "raw_bytes": 1492,
+          "raw_sha256": "9db8af6168a36c9825631c258379134eb1253e843f035316a3b6fcb7d0aaed4b"
+        },
+        {
+          "path": "original-gdi/run-1/research/tabs-gdi-right-host.png",
+          "raw_bytes": 8972,
+          "raw_sha256": "dd29c2c554f47eb88bb10a08d15b494b90db2891dd78c20c60610ef86bb2bc0d"
+        },
+        {
+          "path": "original-gdi/run-1/research/tabs-gdi-right-observed.json",
+          "raw_bytes": 125741,
+          "raw_sha256": "bfd974e6aba4f075c2b7195bb5a36037a57581788c5a2097e05546d567bb1f0a"
+        },
+        {
+          "path": "original-gdi/run-1/research/tabs-gdi-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-gdi/run-1/run.log",
+          "raw_bytes": 33,
+          "raw_sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+        },
+        {
+          "path": "original-gdi/run-1/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-gdi/run-1/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        },
+        {
+          "path": "original-gdi/run-2/research/tabs-gdi-right-host.png",
+          "raw_bytes": 8972,
+          "raw_sha256": "dd29c2c554f47eb88bb10a08d15b494b90db2891dd78c20c60610ef86bb2bc0d"
+        },
+        {
+          "path": "original-gdi/run-2/research/tabs-gdi-right-observed.json",
+          "raw_bytes": 124931,
+          "raw_sha256": "b7e4270895f6b36522287027199b3e1ad0bc3a7d7afb5d6663ffe9d75f78e666"
+        },
+        {
+          "path": "original-gdi/run-2/research/tabs-gdi-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-gdi/run-2/run.log",
+          "raw_bytes": 33,
+          "raw_sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+        },
+        {
+          "path": "original-gdi/run-2/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-gdi/run-2/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        },
+        {
+          "path": "original-gdi/run-3/research/tabs-gdi-right-host.png",
+          "raw_bytes": 8972,
+          "raw_sha256": "dd29c2c554f47eb88bb10a08d15b494b90db2891dd78c20c60610ef86bb2bc0d"
+        },
+        {
+          "path": "original-gdi/run-3/research/tabs-gdi-right-observed.json",
+          "raw_bytes": 125672,
+          "raw_sha256": "5eb3ad8b721060d39fa970c39c3353ef8c09d80973af5bcf15b9d3004bd1f3ec"
+        },
+        {
+          "path": "original-gdi/run-3/research/tabs-gdi-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-gdi/run-3/run.log",
+          "raw_bytes": 33,
+          "raw_sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+        },
+        {
+          "path": "original-gdi/run-3/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-gdi/run-3/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        },
+        {
+          "path": "original-opengl/controller.py",
+          "raw_bytes": 2506,
+          "raw_sha256": "69ad448f5ba14fbd6917019de47488f98cb510066ba97e95013af54a97e1b351"
+        },
+        {
+          "path": "original-opengl/identity.json",
+          "raw_bytes": 32642,
+          "raw_sha256": "eeb7d2fefaa8f375dec592a958a34dcc8d93d4c4483a20ea54f9325e7c2699be"
+        },
+        {
+          "path": "original-opengl/results.json",
+          "raw_bytes": 1493,
+          "raw_sha256": "99b65058e20f02114eefcacf95c098bf06138c537d89ce7b97a549c52deb50e0"
+        },
+        {
+          "path": "original-opengl/run-1/research/tabs-opengl-right-observed.json",
+          "raw_bytes": 125376,
+          "raw_sha256": "4d5adbbc379dde0e851c5267d56cfa71c09230bd3dd5478b5e3a6dea5fcf5449"
+        },
+        {
+          "path": "original-opengl/run-1/research/tabs-opengl-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-opengl/run-1/run.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "original-opengl/run-1/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-opengl/run-1/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        },
+        {
+          "path": "original-opengl/run-2/research/tabs-opengl-right-observed.json",
+          "raw_bytes": 124697,
+          "raw_sha256": "3e5008a46ea3f0ec2a38bd66ada9cf5fb26b236c8ff5e3dd885ae1808bf6a267"
+        },
+        {
+          "path": "original-opengl/run-2/research/tabs-opengl-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-opengl/run-2/run.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "original-opengl/run-2/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-opengl/run-2/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        },
+        {
+          "path": "original-opengl/run-3/research/tabs-opengl-right-observed.json",
+          "raw_bytes": 125137,
+          "raw_sha256": "b779d7d5307bd8eb34a932ce7af0f88b53d640076a633e64df4f186af783fd1a"
+        },
+        {
+          "path": "original-opengl/run-3/research/tabs-opengl-right-preview.png",
+          "raw_bytes": 1429,
+          "raw_sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+        },
+        {
+          "path": "original-opengl/run-3/run.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "original-opengl/run-3/tests/tabs_hover_probe.js",
+          "raw_bytes": 1877,
+          "raw_sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+        },
+        {
+          "path": "original-opengl/run-3/tests/tabs_window_smoke.py",
+          "raw_bytes": 34358,
+          "raw_sha256": "38f85d1d70c6430fc05409884ef9297f6392db9a6ad106242e052fce6c213c2a"
+        }
+      ]
+    },
+    {
+      "path": "research/tab-probe-detach-evidence/focused-ci.tar.gz",
+      "archive_bytes": 28922,
+      "archive_sha256": "8b0659c23b1439d926c15ef7684b5ccf6a735bf7090afb1f9de75667ce657c46",
+      "records": [
+        {
+          "path": "diagnostic/identity.json",
+          "raw_bytes": 2412,
+          "raw_sha256": "92b326cb83f58a441e018d12bf1642f02da45ca091b0111bb23c98621f06c277"
+        },
+        {
+          "path": "diagnostic/replay-1-observed.json",
+          "raw_bytes": 124848,
+          "raw_sha256": "19aca34b6aca524fa35fbb54db370289f67f9ff2e89b099ecb2ecc56c6a25809"
+        },
+        {
+          "path": "diagnostic/replay-1.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "diagnostic/replay-2-observed.json",
+          "raw_bytes": 125054,
+          "raw_sha256": "11d6948144b59ec09d0d43c1d643b8a95d0b5b9c4fab8f3339df5a3ef570ec6c"
+        },
+        {
+          "path": "diagnostic/replay-2.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "diagnostic/replay-3-observed.json",
+          "raw_bytes": 125123,
+          "raw_sha256": "9521bea54aa57a0dc395aa40362d718c3d37f3b56ffb874bf9ff098b4b6971b4"
+        },
+        {
+          "path": "diagnostic/replay-3.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "diagnostic-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "b4140cd9ab703ecb42ea2e1528eefbe5dee6df74f96d2cab95d18be5e2ac31d0"
+        },
+        {
+          "path": "tabs-artifacts.json",
+          "raw_bytes": 786,
+          "raw_sha256": "10a1998541dad0f2839c9f609c4970600db7d619911df10518a2407820d063c5"
+        },
+        {
+          "path": "tabs-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "76112d19f1688c040e4bab75d0f1fd8106d1f52319929ac7e6079a239e86d2a2"
+        },
+        {
+          "path": "tabs-run.json",
+          "raw_bytes": 2100,
+          "raw_sha256": "e67b8698ccf6b296eb2175fbb4fcb49c358efd3a181b3ddebcd98481f30740fc"
+        },
+        {
+          "path": "tabs-run.log",
+          "raw_bytes": 70501,
+          "raw_sha256": "8100fe0dc3a101915920a920f20cc84d07c812462b78de7accd761ae2aab0063"
+        }
+      ]
+    }
+  ],
+  "focused_ci": {
+    "run": 43654728264,
+    "fixture_commit": "6a7ba5a142b7cb7b48ff9e4bd3924ccbed84aced",
+    "artifact_id": 14137517841,
+    "conclusion": "success",
+    "cases": [
+      {
+        "record": "replay-1-observed.json",
+        "checks": 9,
+        "actual_backend": "GDI",
+        "natural_exit": true,
+        "entry_restored": true
+      },
+      {
+        "record": "replay-2-observed.json",
+        "checks": 9,
+        "actual_backend": "GDI",
+        "natural_exit": true,
+        "entry_restored": true
+      },
+      {
+        "record": "replay-3-observed.json",
+        "checks": 9,
+        "actual_backend": "GDI",
+        "natural_exit": true,
+        "entry_restored": true
+      }
+    ],
+    "scope": "Three diagnostic successes; original failure cause remains unproven"
+  }
+}

@@ -12,9 +12,11 @@ Interceptor.replace(trackAddress,new NativeCallback(function(event) {
 },'int',['pointer']));
 const inSend=new NativeFunction(hoverUser.getExportByName('InSendMessageEx'),'uint',['pointer']);
 const getProc=new NativeFunction(hoverUser.getExportByName('GetWindowLongPtrW'),'pointer',['pointer','int']);
+const hostProcedure=getProc(ownedHost,-4);
+const initialEntry=Array.from(new Uint8Array(hostProcedure.readByteArray(32)));
 let virtualPointer=false;
 let observations={moves:0,leaves:0,ignored:0,timers:0,events:[]};
-Interceptor.attach(getProc(ownedHost,-4),{
+Interceptor.attach(hostProcedure,{
     onEnter(args) {
         if (!virtualPointer || !args[0].equals(ownedHost)) return;
         const msg=args[1].toUInt32();
@@ -30,6 +32,7 @@ Interceptor.attach(getProc(ownedHost,-4),{
     }
 });
 rpc.exports={
+    entry() {return {address:hostProcedure.toString(),bytes:initialEntry};},
     begin() {virtualPointer=true;},
     stats() {return observations;}
 };

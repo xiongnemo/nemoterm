@@ -19,6 +19,17 @@ groups exit naturally. The earlier `97d6025` / `8ff214f` acceptance and intermit
 resource/shutdown failures remain preserved; these passes do not prove the
 historical intermittent failures resolved.
 
+A later main-source MSVC diagnostic run records an access violation at the first
+tab selection after test-probe detachment, in a distinct sidecar-host build.
+Six original local replays, two local boundary-observer runs and three focused
+runner replays pass, but the original cause remains unproven. See
+[the retained failure](../research/tab-probe-detach.md).
+That run's separate Windows job was also cancelled by its 30-minute whole-job
+deadline during the last compressed-image memory group. The outer budget is now
+40 minutes, with individual checks and memory thresholds unchanged. Its single
+image passed 137 CI groups but is not a replacement accepted local artifact.
+[Integration outcomes and raw evidence](../research/compression-main-integration.md).
+
 The original full protocol, graphics, real-application, physical-input and
 long-session scope remains open. The following sections describe historical
 checkpoints at their stated source versions, not newer accepted binaries.
