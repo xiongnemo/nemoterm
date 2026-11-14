@@ -52,7 +52,7 @@ def main(output):
     from thread_snapshot import OwnedThreadSnapshot
     from handle_snapshot import k
     k.GetCurrentProcess.restype=w.HANDLE
-    result=dict(completed=False,checks=[],snapshots=[]);job=None
+    result=dict(completed=False,checks=[],snapshots=[]);job=None;lease=None
     try:
         with OwnedJob() as job:
             child=job.spawn([sys.executable,__file__,'--worker'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,
@@ -85,6 +85,17 @@ def main(output):
             assert len(live['threads'])==len(baseline['threads'])+2
             assert not live['unavailable']
             result['checks'].append('Two native threads have exact independent IDs, creation times and start addresses')
+            lease_before=w.DWORD();lease_after=w.DWORD()
+            assert k.GetProcessHandleCount(k.GetCurrentProcess(),c.byref(lease_before))
+            mismatched=[dict(t) for t in created['threads']];mismatched[1]['created']+=1
+            try:observer.retain(mismatched)
+            except RuntimeError as exc:assert 'creation identity changed' in str(exc)
+            else:raise AssertionError('Wrong thread generation accepted')
+            assert k.GetProcessHandleCount(k.GetCurrentProcess(),c.byref(lease_after))
+            assert lease_before.value==lease_after.value
+            lease=observer.retain(created['threads'])
+            assert lease.states()==[258,258] and not lease.wait(0)
+            result['checks'].append('Retained thread handles reject mismatched generations without leaking partial acquisitions')
             own_before=w.DWORD();own_after=w.DWORD()
             assert k.GetProcessHandleCount(k.GetCurrentProcess(),c.byref(own_before))
             for index in range(10):
@@ -100,9 +111,15 @@ def main(output):
             assert (gone['tid'],gone['created']) not in remaining
             assert (kept['tid'],kept['created']) in remaining
             assert len(after_one['threads'])==len(baseline['threads'])+1
+            assert lease.states()==[0,258] and not lease.wait(0)
             result['checks'].append('Signalled-and-joined thread disappears while its sibling remains alive')
             command('close');closed=observer.snapshot('closed');result['snapshots'].append(closed)
             assert [(t['tid'],t['created']) for t in closed['threads']]==[(t['tid'],t['created']) for t in baseline['threads']]
+            assert lease.wait(2000) and lease.states()==[0,0]
+            lease.close();lease=None
+            assert k.GetProcessHandleCount(k.GetCurrentProcess(),c.byref(lease_after))
+            assert lease_before.value==lease_after.value
+            result['checks'].append('Bounded wait proves both retained thread objects signalled and releases all observer handles')
             result['checks'].append('Both controlled thread lifetimes return to the exact baseline identities')
             child.stdin.write('exit\n');child.stdin.flush();assert child.wait(timeout=8)==0,child.stderr.read()
             reader_thread.join(2);assert not reader_thread.is_alive()
@@ -113,6 +130,7 @@ def main(output):
             result['cleanup']=job.finish(grace=2);assert not result['cleanup']['terminated_remaining']
             result['completed']=True
     finally:
+        if lease:lease.close()
         if job is not None and job.cleanup is not None:result['cleanup']=job.cleanup
         if sys.exc_info()[1]:result['error']=repr(sys.exc_info()[1])
         output.parent.mkdir(parents=True,exist_ok=True)
