@@ -19,7 +19,7 @@ typedef struct Reference {
 static bool parse(const char *header, NemoKittyCommand *command)
 {
     NemoKitty *s=nemo_kitty_new(4u*1024u*1024u,NULL,NULL);
-    NemoKittyPacket packet;
+    NemoKittyPacket packet={0};
     bool ok=s && nemo_kitty_begin(s) && nemo_kitty_feed(s,header,strlen(header)) &&
         nemo_kitty_finish(s,&packet)==NEMO_KITTY_PACKET;
     if (ok) *command=packet.command;

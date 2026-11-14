@@ -4,14 +4,14 @@
   "local_checks": 153,
   "reference_cases": 13,
   "reference_capture_sha256": "b00df940a8d246bfdc958ea46d67d8321d031d129b02db28cc2fe3b298a176a0",
-  "remote_ci": "pending",
+  "remote_ci": "Initial focused MSVC compile failed; explicit test packet initialization pending verification",
   "runtime_graphics_support": false,
   "memory_acceptance": false,
   "accepted_executable_changed": false,
   "source_sha256": {
     "vendor/putty-0.85/terminal/nemo_kitty_layout.c": "8dd4fc4a967b58b5c9cc6209c3ea0731e193b1bd0cd98eb26d69eb695de253a1",
     "vendor/putty-0.85/terminal/nemo_kitty_layout.h": "a39dab472bb4892b5687a193e471f82c1ad10c00f7d91e01580d4ba159f05f00",
-    "tests/test_kitty_layout.c": "7d301a062d7f88eaf1d8341107fba55d609e58472be1b3f3b2748127f6fa81c2",
+    "tests/test_kitty_layout.c": "ef92ba3687a175d026c2729af93fa0ba24642c3a9349700550b1b41414bdd787",
     "tests/kitty_layout_reference.h": "d49d99b9057d9d3848d38342b0695e70249c16c2c5ac26179591feb786850ac6",
     "scripts/generate-kitty-layout-reference.py": "8d499355f845589e6574e2b59af20c0b459e9b4bd5c668e6baf64b4858f0b140"
   },
@@ -31,5 +31,39 @@
       "raw_sha256": "3e4cf73f343e1f5c3d62c586f054be01eb7cb3698cc3a74a74fb299eac7f2193",
       "compressed_sha256": "2d878fd417355f2c51d3ee09bef884220433dc2080d6cd0e20ab1205d67071c7"
     }
-  ]
+  ],
+  "initial_remote_failure": {
+    "run_id": 43617438882,
+    "source_commit": "ebb346c35e6c4ed5f379c716f281a2385cc92ef4",
+    "reason": "MSVC /W4 /WX C4701: test parse helper packet may be uninitialized; no production layout change",
+    "jobs": [
+      {
+        "name": "unix (clang)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "unix (gcc)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "msvc",
+        "status": "completed",
+        "conclusion": "failure"
+      }
+    ],
+    "retained": [
+      {
+        "file": "kitty-layout-evidence/ebb346c-focused-run.json.gz",
+        "raw_sha256": "b833e41d58076981ecfc973f37aa8b90730f4a423b6ee9f1586c924677b42970",
+        "compressed_sha256": "5f26bf1d12ef946fae6e0d49af081eb92543353dcb4c31985ef4dc1f82a28dac"
+      },
+      {
+        "file": "kitty-layout-evidence/ebb346c-failed.log.gz",
+        "raw_sha256": "37fcc96c1daf1e23910164dd98f41665742c99fd5939f736bf43f052c8c1bf9b",
+        "compressed_sha256": "2d20f70dfac22e3e082893b93bb612e23311de16e5e39f733d5b921ee635a924"
+      }
+    ]
+  }
 }
