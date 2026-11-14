@@ -434,6 +434,15 @@ jobs:
           Copy-Item research/sixel-font-*.json test-results/ -ErrorAction SilentlyContinue
           Copy-Item research/sixel-font-*.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test Sixel palette identity through active renderer automation captures
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/sixel_palette_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/sixel-palette-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/sixel-palette-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test native hyperlink hover, activation and mouse interaction
         shell: pwsh
         run: |
