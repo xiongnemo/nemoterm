@@ -92,3 +92,13 @@ processes. The size-optimized frontend was rebuilt; all core tests and all four
 functional evidence remains under `kitty-compression-before-truncation-fix-validation.json`,
 and failure metadata remains alongside the new records. No failing test result
 is treated as success based solely on the shell controller exiting zero.
+
+## First cross-compiler run
+
+[Component run 43643569388](https://github.com/xiongnemo/nemoterm/actions/runs/43643569388)
+on `1877f94` passed GCC and Clang, including ASan/UBSan and the terminal replay.
+MSVC stopped at four `C4244` narrowing warnings promoted to errors before runtime
+tests. The follow-up uses explicit casts only after existing symbol/literal/length
+bounds; `/W4 /WX` remains enabled. Complete original results are retained in
+`kitty-compression-ci-validation.json`. This first run is a failed run, and the
+MSVC fix still needs its own completed CI result.

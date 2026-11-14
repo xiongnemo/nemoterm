@@ -9,7 +9,7 @@
       "file": "puff.c",
       "url": "https://raw.githubusercontent.com/madler/zlib/v1.3.1/contrib/puff/puff.c",
       "sha256": "5b9d75aeb5baf3575415bc6ade3f2a02e50b6b971b3f8b4fda2b03543bc6e52f",
-      "modified_sha256": "88a2a34f2e3615c7aeaacb85e19df368a42fe8757c5a0e889e0d98f596cd487f"
+      "modified_sha256": "1e2723b2b4c749b25b490f47185ba356b94b14519cbb06d818a3074fdd37f65e"
     },
     {
       "file": "puff.h",
@@ -21,6 +21,7 @@
   "changes": [
     "Per-call fixed Huffman tables remove shared mutable initialization.",
     "Entry point renamed nemo_puff and accepts the RFC 1950 declared distance window.",
-    "Truncated input propagates explicit return codes instead of setjmp/longjmp and CRT stack unwinding."
+    "Truncated input propagates explicit return codes instead of setjmp/longjmp and CRT stack unwinding.",
+    "Explicit narrow casts for already-bounded code symbols, byte literals and code lengths allow strict MSVC warnings without disabling them."
   ]
 }

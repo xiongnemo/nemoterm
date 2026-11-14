@@ -1,0 +1,226 @@
+{
+  "runs": [
+    {
+      "run": 43643569388,
+      "source_commit": "1877f941a8a45989ebe3d6e349b19143f9aca41c",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "name": "msvc",
+          "conclusion": "failure"
+        },
+        {
+          "name": "unix (gcc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "unix (clang)",
+          "conclusion": "success"
+        }
+      ],
+      "finding": "GCC and Clang including ASan/UBSan and terminal replay passed. MSVC stopped at four C4244 narrowing warnings under /W4 /WX before runtime tests; explicit casts added after existing value bounds, warning policy unchanged.",
+      "records": [
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--cache-normal.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--cache-sanitizers.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--compiler.txt.gz",
+          "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+          "raw_bytes": 122
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--layout-normal.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--layout-sanitizers.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--normal.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--placements-normal.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--placements-sanitizers.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--sanitizers.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--sources.sha256.gz",
+          "raw_sha256": "68681ee01d260dee5288465d6c403f880734ab21f3ebd122fb4291ef64bbccc7",
+          "raw_bytes": 2955
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-build.log.gz",
+          "raw_sha256": "9a264d507fd9eb5e0401d268eebf695b1da27203463804ad73c3a9c24a3563f3",
+          "raw_bytes": 13008
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-configure.log.gz",
+          "raw_sha256": "dd564202b9a5deee272367482fe690b9f49575dc69850192ea718fd281ba2f0c",
+          "raw_bytes": 4317
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-sanitizers.log.gz",
+          "raw_sha256": "f2a415989abbf09293f2d1ef32b9cd204d82a0a2a5e76c17253dcb16b374fad5",
+          "raw_bytes": 193
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-sources.sha256.gz",
+          "raw_sha256": "dc89a8f283606cb6fd70df37969bb5f69fcef7b9dc183afa9748cc5c15ee5e69",
+          "raw_bytes": 640
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--zlib-normal.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-clang-1877f941a8a45989ebe3d6e349b19143f9aca41c--zlib-sanitizers.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--cache-normal.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--cache-sanitizers.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--compiler.txt.gz",
+          "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+          "raw_bytes": 239
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--layout-normal.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--layout-sanitizers.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--normal.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--placements-normal.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--placements-sanitizers.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--sanitizers.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--sources.sha256.gz",
+          "raw_sha256": "68681ee01d260dee5288465d6c403f880734ab21f3ebd122fb4291ef64bbccc7",
+          "raw_bytes": 2955
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-build.log.gz",
+          "raw_sha256": "acd943c8b16910a35a705a7dc341e72ab3217a4d7ab67499ae0fa6a4950c7c64",
+          "raw_bytes": 14663
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-configure.log.gz",
+          "raw_sha256": "a844c53c75450e880b38615ebb1d261e555da6550958fd30d8b4093105deb241",
+          "raw_bytes": 4312
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-sanitizers.log.gz",
+          "raw_sha256": "f2a415989abbf09293f2d1ef32b9cd204d82a0a2a5e76c17253dcb16b374fad5",
+          "raw_bytes": 193
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--terminal-sources.sha256.gz",
+          "raw_sha256": "dc89a8f283606cb6fd70df37969bb5f69fcef7b9dc183afa9748cc5c15ee5e69",
+          "raw_bytes": 640
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--zlib-normal.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-gcc-1877f941a8a45989ebe3d6e349b19143f9aca41c--zlib-sanitizers.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts--kitty-transport-msvc-1877f941a8a45989ebe3d6e349b19143f9aca41c--zlib-build.log.gz",
+          "raw_sha256": "2bb130907815c638ff95aaa7794310a199095d294e4e5e593a9222f48b9f6362",
+          "raw_bytes": 654
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-run.json.gz",
+          "raw_sha256": "74450d16a49eeb2f78c92b5b9a9943a362b2e0615c15a877890a6d9a9179fb9d",
+          "raw_bytes": 4272
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-run.log.gz",
+          "raw_sha256": "27a2df8afaa6817586b69f987cb9e38d4b0449da076aedb58e961aaf73764b5b",
+          "raw_bytes": 276510
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-artifacts.json.gz",
+          "raw_sha256": "0856bb9ae4e92792dd8f964754a0f7e569dac0538efc59a4bca3089239729ea5",
+          "raw_bytes": 2292
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-compression-msvc-casts-build.log.gz",
+          "raw_sha256": "98529dcb37bf429d625f915a5ec27647c0f0ad5edd19aea4eb825dd21be0ddc4",
+          "raw_bytes": 533
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-compression-msvc-casts-test_kitty_cache.log.gz",
+          "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72",
+          "raw_bytes": 39
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-compression-msvc-casts-test_sixel_terminal.log.gz",
+          "raw_sha256": "6f0f565b9f5bd6d3980f31c89b68c6376a162ef21be99b43bcd8345307828b9f",
+          "raw_bytes": 196
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/1877f94-compression-msvc-casts-test_zlib.log.gz",
+          "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+          "raw_bytes": 36
+        }
+      ]
+    }
+  ]
+}
