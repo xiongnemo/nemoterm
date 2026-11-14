@@ -23,11 +23,11 @@ scene = ('\x1b[?25l\x1b[0m\x1b]10;#ffffff\x07\x1b]11;#000000\x07\x1b[2J'
          '\x1b[H\x1b[48;2;17;201;83m  \x1b[0m\x1b[2;2HM')
 
 try:
-    for renderer in range(3):
-        mode = dict(requested_renderer=renderer, checks=[])
+    for renderer,zoom_modifier in ((0,2),(1,2),(2,2),(0,0)):
+        mode = dict(requested_renderer=renderer, zoom_modifier=zoom_modifier, checks=[])
         evidence['modes'].append(mode)
         profile = dict(NemoRenderer=renderer, NemoTabs=int(renderer!=0), WarnOnClose=0,
-            TrueColour=1, FontHeight=12, LockSize=0, NemoZoomModifiers=2,
+            TrueColour=1, FontHeight=12, LockSize=0, NemoZoomModifiers=zoom_modifier,
             NemoZoomInBinding=0x37a, NemoZoomOutBinding=0x37b, NemoZoomResetBinding=0x379)
         with saved_profile(profile) as args, tempfile.TemporaryDirectory(prefix='nemo-zoom-') as tmp, OwnedJob() as job:
             report,control = Path(tmp)/'report.json',Path(tmp)/'control.json'
@@ -101,6 +101,20 @@ try:
                     action(modifiers=mods,mouse=[dict(message=0x20a,
                         keys=((delta&65535)<<16)|keys,point=(point.x&65535)|((point.y&65535)<<16))])
                 initial = metrics('initial')
+                if not zoom_modifier:
+                    phase('disabled-wheel','');wheel(120,8);barrier(marker)
+                    assert metrics('disabled-wheel-unchanged')['cell']==initial['cell']
+                    phase('disabled-app-mouse','\x1b[?1000;1006h');wheel(120,8)
+                    value=wait_snapshot(current,lambda v:re.search(rb'\x1b\[<80;\d+;\d+M$',bytes.fromhex(v.get('hex',''))))
+                    barrier(bytes.fromhex(value['hex']))
+                    assert metrics('disabled-app-unchanged')['cell']==initial['cell']
+                    session.detach();session=None
+                    write_snapshot(control,dict(stop=True))
+                    assert process.wait(timeout=10)==0
+                    mode['cleanup']=job.finish(grace=5)
+                    assert not mode['cleanup']['terminated_remaining']
+                    mode['completed']=True
+                    continue
                 phase('half-wheel','');wheel(60,8);barrier(marker)
                 assert metrics('half-unchanged')['cell']==initial['cell']
                 phase('second-half','');wheel(60,8);barrier(marker)

@@ -62,10 +62,15 @@ It records actual renderer selection (CI OpenGL may fall back), runs both a
 standalone terminal and tabbed terminals, and owns each process tree. Input is
 scoped to the test terminal's UI thread; no global keyboard/mouse input is used.
 These instrumented functional checks do not establish the memory target.
+The mixed-profile tab fixture additionally checks active-tab-only zoom, ignored
+zoom commands to inactive terminals, persistence across three renderer switches,
+unchanged sibling cell geometry and pixels, unchanged saved FontHeight values,
+and restoration of the original active-tab frame after reset.
+A separate profile disables wheel zoom and verifies both unchanged font size
+and the application's Ctrl-wheel report.
 
 Static source checks passed before submission; behavioral and compilation
-results are pending remote CI. Separate current/sibling-tab zoom isolation,
-saved-profile persistence, disabled wheel zoom, physical high-resolution wheels,
+results are pending remote CI. Physical high-resolution wheels,
 DPI transitions and local Sarasa rendering still require further verification.
 The accepted executable remains unchanged, and the prior integrated DirectX
 resource-cycle failure remains unresolved.

@@ -117,6 +117,36 @@ try:
             assert len({tuple(p['cell']) for p in evidence['profiles']})==3
             evidence['checks'].append('each tab retains its own font geometry and requested renderer')
             evidence['checks'].append('input stays in its session and active-profile custom tab bindings work')
+            def font_cell(child):
+                value=output(child,'\x1b[16t')
+                match=re.fullmatch(rb'\x1b\[6;(\d+);(\d+)t\x1b\[0n',bytes.fromhex(value['hex']))
+                assert match,value
+                return [int(v) for v in match.groups()]
+            zoom_outer=w.RECT();u.GetWindowRect(host,c.byref(zoom_outer))
+            u.SendMessageW(current['hwnd'],0x111,0x0940,0)
+            zoom_cell=font_cell(current)
+            assert zoom_cell[0]>evidence['profiles'][2]['cell'][0],zoom_cell
+            for index,child in enumerate(children[:2]):
+                assert font_cell(child)==evidence['profiles'][index]['cell']
+                # A command addressed to a hidden terminal cannot resize it.
+                u.SendMessageW(child['hwnd'],0x111,0x0940,0)
+                assert font_cell(child)==evidence['profiles'][index]['cell']
+            for index in range(3):
+                next_tab()
+                expected=zoom_cell if index==2 else evidence['profiles'][index]['cell']
+                assert font_cell(current)==expected,(index,expected)
+                with winreg.OpenKey(winreg.HKEY_CURRENT_USER,profiles[index]) as registry:
+                    assert winreg.QueryValueEx(registry,'FontHeight')[0]==10+index*2
+                if index<2:wait_for(lambda:captures[index].capture()==hashes[index])
+            zoom_after=w.RECT();u.GetWindowRect(host,c.byref(zoom_after))
+            assert bytes(zoom_after)==bytes(zoom_outer)
+            evidence['font_zoom']=dict(active_tab=2,zoomed_cell=zoom_cell,
+                                      siblings_unchanged=True,saved_profiles_unchanged=True)
+            u.SendMessageW(current['hwnd'],0x111,0x0960,0)
+            assert font_cell(current)==evidence['profiles'][2]['cell']
+            output(current,scene('PROFILE 2','10;10;90'))
+            wait_for(lambda:captures[2].capture()==hashes[2])
+            evidence['checks'].append('font zoom remains in its active tab across switches and preserves saved profiles')
             before=w.RECT();u.GetWindowRect(host,c.byref(before))
             old_grid=observed(children[0])
             hidden=output(children[0],'\x1b[2t\x1b[9;1t\x1b[3;77;88t\x1b[8;9;21t\x1b[18t')
