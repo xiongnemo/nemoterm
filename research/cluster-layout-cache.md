@@ -68,5 +68,10 @@ cleanup terminated five remaining owned processes. Its complete raw records and
 the two observed frame images are retained separately. That failure and the
 older `69cd5a4` failures are not erased by the formal image's first-run pass.
 Intermittent capture cadence and the small DirectX memory margin remain open;
-these results alone do not prove their cause or resolution. Physical input,
-agent workloads and the focused local font/pixel checks remain separate gates.
+these results alone do not prove their cause or resolution. The same formal
+image subsequently passed local Sarasa renderer parity, grapheme font resize,
+RTL shaping and resize, font zoom with independent reference glyphs, mixed
+font/renderer tabs, visual bell restoration and single-image isolation checks.
+Local OpenGL and DirectX were required and actually active. Those instrumented
+pixel/resource checks are separate from the uninstrumented workload memory
+results above. Physical input and real agent acceptance remain open.

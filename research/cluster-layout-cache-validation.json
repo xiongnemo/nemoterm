@@ -373,7 +373,7 @@
       "source_host_image_sha256": "cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466",
       "source_host_image_is_identical": false
     },
-    "recorded_utc": "2026-11-14T17:31:23.872425+00:00",
+    "recorded_utc": "2026-11-14T17:38:59.978762+00:00",
     "workloads": [
       {
         "renderer": "directx",
@@ -907,8 +907,144 @@
       {
         "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-1-red.png",
         "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-renderer-observed.json.gz",
+        "raw_sha256": "a7f48b609dcfcc40868c3ba09453ea3f541c26834a9e3ed3ec8c0501bb08ef13",
+        "compressed_sha256": "a46ac8c81b98dc113d1f5264a9b29e9026ecf572a17ccf7de381d50455135aa9"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-renderer.log.gz",
+        "raw_sha256": "8530ec7964e9e3446b9f8fe6df4b9a4e153b64ff27eccd6761294671ae94e1bb",
+        "compressed_sha256": "73478ae5887cd9065e7a097a71f5f384ed58f05d01b92a7944127930cd5120c7"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-grapheme-font-window-observed.json.gz",
+        "raw_sha256": "ab7b75d0daa391c41b5db7ea3904e0961619aa2de92a78bed46ff001137662e6",
+        "compressed_sha256": "22d947f3ddd3e623f53a543f7f4652d308f6761e35902bf4a64bbaf4b4d03d02"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-grapheme-font.log.gz",
+        "raw_sha256": "7a8950b5c0da9cb958458ec39f5289caf2f385b9ce17be4f71323bdd0fc5cfe8",
+        "compressed_sha256": "09b11251d049bb3873210a56f0dd69698729d04f95b8607d0f8406241854f139"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-rtl-window-observed.json.gz",
+        "raw_sha256": "107c094cf5077b9254d3edcf7174bd977707f747f0bdd75b2d141e63971a1251",
+        "compressed_sha256": "dcda27346e4feddc68d029fe3168590e72c6caa3c001ecb2133afb3c476d4b36"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-rtl.log.gz",
+        "raw_sha256": "a49c1848dc85352f86103e3415bf5e70e6412b222b948bc64e6ab5fbf287c3ed",
+        "compressed_sha256": "6dc395b31b8bc6aba52f83b5872b4a5c4a0d3a5cd9bfee4fa57e63ce7f85925e"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-font-zoom-observed.json.gz",
+        "raw_sha256": "e0b11772ae37907bfc9b57d4c86884b58c20598569331e0724700446ccb647d5",
+        "compressed_sha256": "91bde36696497976d9e284cac1a0690fc4ba9955b4af1b4aad6c1665ee09e68a"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-font-zoom.log.gz",
+        "raw_sha256": "b760af02f4d86d672c6bd826f415d5b2f40573b0532bd7a2355b3b5f70c0d6fc",
+        "compressed_sha256": "a61f8c0c4bd33cb9efc243f29c8647a71f6b49956c62d87795fb858ea5cb3060"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-tabs-profiles-observed.json.gz",
+        "raw_sha256": "8db72aaff55db4dc48a21121fb93136ece6ec78d2291ec95d2df14175ef49fd3",
+        "compressed_sha256": "3199d812c4f8bbb609874fad5162eac4b3bf8611d4c77dda3e53133bfdd537d8"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-tabs-profiles.log.gz",
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+        "compressed_sha256": "c59fc7e1826c6f37462e51122aeb368094f98ea2e66cf84e17ac28c25755d31a"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-visual-bell-observed.json.gz",
+        "raw_sha256": "e0e7b8973391d23a8ee7bcc110aae98bee4336d7340911a10b840bb8a1701b71",
+        "compressed_sha256": "c9f4d692c3fcb8271a7ace1cff0ecfb575aa3c90d2cc1979117475aa89591108"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-visual-bell.log.gz",
+        "raw_sha256": "c78d090c2ada7326facff30c677069b0afa65f5d83df7d2aa2b8aa398c529b14",
+        "compressed_sha256": "93ab0c3ca607137f478c06ef46a6e346e6b3ba0896c931313653b675fd0ba138"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-single-exe-observed.json.gz",
+        "raw_sha256": "dedaf5d93301881572919386223417c83a819790207f5989ee285523abb40bca",
+        "compressed_sha256": "cbdb402a260de291757f882b66ec1cc43aa8dbde14bb82f9153733d180f97109"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-single-exe.log.gz",
+        "raw_sha256": "5a2dd2e4564e5a7f0ee830ecbb25f128034d63e4060af36eea6ef47c4917f220",
+        "compressed_sha256": "4d55963124cf137d4946529899d0c7fecf16c1ac3289ffafa98fa4a680f0ee33"
       }
     ],
-    "scope": "Synthetic dense text, image, tab lifetime and resize workloads; not physical input or real agent acceptance"
+    "scope": "Synthetic dense text, image, tab lifetime and resize workloads; not physical input or real agent acceptance",
+    "focused_checks": [
+      {
+        "name": "renderer",
+        "passed": true,
+        "renderers": [
+          "GDI",
+          "OpenGL",
+          "DirectX"
+        ],
+        "memory_acceptance": false
+      },
+      {
+        "name": "grapheme-font",
+        "passed": true,
+        "renderers": [
+          1,
+          2,
+          3
+        ],
+        "memory_acceptance": false
+      },
+      {
+        "name": "rtl",
+        "passed": true,
+        "renderers": [
+          1,
+          2,
+          3
+        ],
+        "memory_acceptance": false
+      },
+      {
+        "name": "font-zoom",
+        "passed": true,
+        "renderers": [
+          1,
+          2,
+          3,
+          1
+        ],
+        "memory_acceptance": false
+      },
+      {
+        "name": "tabs-profiles",
+        "passed": true,
+        "renderers": [],
+        "memory_acceptance": false
+      },
+      {
+        "name": "visual-bell",
+        "passed": true,
+        "renderers": [
+          0,
+          1,
+          2,
+          0
+        ],
+        "memory_acceptance": false
+      },
+      {
+        "name": "single-exe",
+        "passed": true,
+        "renderers": [],
+        "memory_acceptance": false
+      }
+    ]
   }
 }
