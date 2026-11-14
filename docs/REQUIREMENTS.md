@@ -1,6 +1,26 @@
 # Nemoterm requirements and evidence ledger
 
-## Current integration checkpoint (2026-11-14 Sydney)
+## Current accepted artifact (2026-11-15 Sydney)
+
+The local distribution still contains only the accepted `nemoterm.exe` from
+source `8ff214feb549c2b79bb57960467c1d6963eab47e`: 4,452,864 bytes, SHA-256
+`c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`.
+Its [exact-image checkpoint](../research/sgr-ideogram-ci.md) records both full
+CI workflows, 108 native check groups and local renderer/protocol checks.
+The root file's hash was rechecked when this ledger was corrected.
+
+That image's actual 160x48 Sarasa two-tab workloads passed all nine groups:
+GDI private working set peaked at 16,093,184 bytes and DirectX at 23,494,656.
+Total working set was 42,897,408 and 63,029,248 respectively, so the approximate
+50 MB total target remains unmet for DX. Both jobs drained naturally. Later
+candidate builds and diagnostic passes do not replace this accepted artifact
+or resolve the retained intermittent resource/shutdown failures.
+
+The original full protocol, graphics, real-application, physical-input and
+long-session scope remains open. The following sections describe historical
+checkpoints at their stated source versions, not newer accepted binaries.
+
+## Earlier integration checkpoint (2026-11-14 Sydney)
 
 Main includes bounded Direct3D 11 composition, I/O worker cleanup, initial
 visibility preservation, input-pipe-close/output-drain handling and Sixel
