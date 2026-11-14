@@ -115,7 +115,7 @@ jobs:
         shell: pwsh
         run: |
           1..8 | ForEach-Object {
-            python tests/tabs_window_smoke.py --renderer opengl --side right --cols 88 --rows 35 --font Consolas
+            python tests/tabs_window_smoke.py --renderer opengl --side right --cols 88 --rows 35 --font Consolas --probe-boundaries
             $result = $LASTEXITCODE
             Copy-Item research/tabs-opengl-right-observed.json "research/tabs-close-repeat-$_.json" -ErrorAction SilentlyContinue
             if ($result) { exit $result }
@@ -159,9 +159,10 @@ jobs:
     name: Windows x64 tests and portable build
     needs: source-host
     runs-on: windows-latest
-    # The native oracle suites plus both unchanged memory workloads can exceed
-    # 20 minutes on hosted runners. Keep their individual checks and limits.
-    timeout-minutes: 30
+    # Run 43652684756 reached the 30-minute job ceiling during its final
+    # compressed-image memory group. The expanded native suites and ten memory
+    # workloads keep their individual deadlines, assertions and limits.
+    timeout-minutes: 40
     defaults:
       run:
         shell: msys2 {0}
