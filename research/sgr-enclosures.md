@@ -105,7 +105,9 @@ entries are now added using the existing generator, which passes `--check`.
 ASan/UBSan/LSan and MSVC builds. The unchanged XTerm capture is not regenerated
 or edited, and the product image is unaffected by this test-data correction.
 The original [failed run](https://github.com/xiongnemo/nemoterm/actions/runs/43556854787)
-is retained; the corrected commit still requires full CI.
+is retained. The corrected commit passes both full workflows; the
+[downloaded-artifact checkpoint](sgr-enclosure-ci.md) records successful local
+rendering/wire/GDI checks and the still-failing local DirectX resource gate.
 
 The [evidence manifest](sgr-enclosures-validation.json) retains original logs,
 pixels, sent/replied wire records, image provenance, resource failures and
