@@ -1,5 +1,29 @@
 # Nemoterm requirements and evidence ledger
 
+## Current integration checkpoint (2026-11-14 Sydney)
+
+The public candidate branch `fix/dx-input-close-20261114` combines bounded
+Direct3D 11 composition, I/O worker cleanup, initial visibility preservation and
+the input-pipe-close/output-drain correction. The latest locally linked image
+passes the 160x48 Sarasa DX workload at 23,678,976 private-working-set bytes;
+total working set is 63,270,912, still above the approximate 50 MB target.
+The corresponding GDI correction passes at 16,388,096 private and 43,196,416
+total bytes. Exact source/image identities and separate sampling records are in
+[the integration checkpoint](../research/d3d11-integration.md) and
+[the input-close record](../research/conpty-input-close.md).
+
+All ten local DX automation groups pass, with zero screenshot channel differences.
+Expanded startup/visibility and natural shutdown pass locally. Full candidate CI
+and exact downloaded-artifact validation are pending. Earlier failed CI runs
+remain failed; the test-observer crash and subsequent shutdown failures are
+retained with their different evidence boundaries. Main product source and the
+accepted local distribution have not yet been replaced by this candidate.
+
+The original complete-protocol, real application, physical input and long-session
+requirements remain open. This checkpoint does not replace those requirements
+with its narrower test scope. The sections below retain earlier checkpoints at
+their named source versions.
+
 ## Rendition discovery and current artifact (2026-11-14 Sydney)
 
 Eight parameter-free rendition sequences and four termcap aliases now have
