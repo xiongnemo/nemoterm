@@ -2,9 +2,15 @@ name: Font zoom and bell artifact replay
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/font-zoom-replay.yml
+    inputs:
+      source_commit:
+        description: Full source commit of the source-console-host artifact
+        type: string
+        required: true
+      source_run:
+        description: Successful Test and build run containing that artifact
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -16,8 +22,8 @@ jobs:
     timeout-minutes: 15
     env:
       GH_TOKEN: ${{ github.token }}
-      SOURCE_COMMIT: 9bef90786e2bc1ccb8edbc180ac369b00c98ea4b
-      SOURCE_RUN: '43615872418'
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SOURCE_RUN: ${{ inputs.source_run }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
@@ -29,7 +35,10 @@ jobs:
         run: |
           # This workflow diagnoses fixture changes only. Refuse to reuse an
           # old image if any production source or build recipe has changed.
-          git diff --exit-code $env:SOURCE_COMMIT HEAD -- vendor/putty-0.85 native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+          if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$') { throw 'Expected a full lowercase source SHA and numeric run ID' }
+          $run = gh run view $env:SOURCE_RUN --json headSha,status,conclusion | ConvertFrom-Json
+          if ($LASTEXITCODE -or $run.headSha -ne $env:SOURCE_COMMIT -or $run.status -ne 'completed' -or $run.conclusion -ne 'success') { throw 'Source run is not a completed successful build of the selected commit' }
+          git diff --quiet $env:SOURCE_COMMIT HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
           if ($LASTEXITCODE) { throw 'Production differs from the selected artifact' }
           gh run download $env:SOURCE_RUN --name "source-console-host-x64-$env:SOURCE_COMMIT" --dir build/source-artifact
           if ($LASTEXITCODE) { throw 'Artifact download failed' }

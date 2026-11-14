@@ -1,0 +1,33 @@
+{
+  "fixture_commit": "683f8c3b5a42d01ed4d0202466aff5b06267d579",
+  "runs": [
+    {
+      "run": {
+        "path": "research/replay-workflow-evidence/43638850816-run.gz",
+        "raw_sha256": "bf6909b71f492d9d3a6e984caf175f50505e3b286c2ff83dd1da10f4f799aa78",
+        "gzip_sha256": "d931f2ef7f98fae13e62328caf014ced52cdebdb8888aa0f42d957de3b7a808c"
+      },
+      "failed-log": {
+        "path": "research/replay-workflow-evidence/43638850816-failed-log.gz",
+        "raw_sha256": "71bab82549c552ab27acd87965317ac8065283e62c15be214ed57c3466bf127c",
+        "gzip_sha256": "543bdeec5597a1e7175e3f9711afebdd2891279083c2a0da6945ea6a306713b7"
+      },
+      "run_id": 43638850816,
+      "reason": "Retired fixed source differs from current production; no replay tests executed."
+    },
+    {
+      "run": {
+        "path": "research/replay-workflow-evidence/43638850791-run.gz",
+        "raw_sha256": "d48d0eda6f846f222c1f4372dbe0f956a18cb99016c5254c030dcb1d00de8305",
+        "gzip_sha256": "d3a6ca1a6ee0f72fd2ee524831332d7f5ea4301f3cc861118abc898b00305afc"
+      },
+      "failed-log": {
+        "path": "research/replay-workflow-evidence/43638850791-failed-log.gz",
+        "raw_sha256": "a7d23eb3fa06e16113c2cc9665455ec1adf7c63f20968a4ed2f24a54e1ce6b3b",
+        "gzip_sha256": "1b10b6c88fccd968c5b962d2af0fd86faa59f499e93c82a2255af9d475a38968"
+      },
+      "run_id": 43638850791,
+      "reason": "Retired fixed source differs from current production; no replay tests executed."
+    }
+  ]
+}
