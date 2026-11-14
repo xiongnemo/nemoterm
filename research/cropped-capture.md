@@ -69,7 +69,15 @@ core fixture race or establish local memory acceptance for this single image.
 Complete corrected-fixture
 [core](https://github.com/xiongnemo/nemoterm/actions/runs/43624369125) and
 [single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43624369106)
-workflows remain pending. The accepted executable remains unchanged.
+workflows both pass at `72754a3`, including all 124 mandatory single-image
+checks. The downloaded 4,487,168-byte single image has SHA-256
+`e271b9be8788e4de25a999910559ba7fadc319da8b27a2ee6bca498f057f98ce`.
+Its validation, rectangle, renderer, zoom, visual-bell and tab-profile records
+match that exact image. The separate MinGW core image also passes all 72
+rectangle comparisons with natural cleanup. On both runners, OpenGL requests
+fall back to GDI. Complete workflow logs, artifact metadata and sanitizer logs
+are retained. These results do not substitute for local memory measurement of
+this newer executable. The accepted executable remains unchanged.
 
 The formal single image `820f36f` also passes both local GIF workload runs with
 fixture `b95c406`, at 160 by 48 cells in SarasaTermSC Nerd Font Light. Each run
