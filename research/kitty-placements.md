@@ -36,8 +36,15 @@ states. The CMake targets also pass: placements 1,977, existing cache 1,564 and
 layout 153. GCC is selected explicitly; an initial implicit Clang configuration
 could not find Windows SDK import libraries and did not compile project code.
 That diagnostic is retained alongside successful logs and source hashes in
-[the validation record](kitty-placements-validation.json). GCC/Clang sanitizer,
-MSVC and full application CI are configured and pending.
+[the validation record](kitty-placements-validation.json). The
+[focused workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43625661587)
+at `f6f727e4c324cddf9aeda267a378ee2d9f1d11d3` passes GCC and Clang normal and
+ASan/UBSan runs, plus MSVC, with 1,977 placement checks in each run. All three
+compiler manifests match the committed sources. Their logs and manifests are
+retained. Complete application
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43625661617) and
+[single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43625661585)
+workflows are still pending.
 
 Remaining integration includes per-screen ownership, APC dispatch and replies,
 PNG decoding, shared budgets with Sixel/iTerm images, synchronized presentation,
