@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       family:
-        description: Pinned XTerm comparison or an isolated ConPTY wire diagnostic
+        description: Pinned upstream comparison or an isolated ConPTY wire diagnostic
         type: choice
         default: identity
         options:
@@ -18,6 +18,7 @@ on:
           - sidecar-wire
           - kitty-graphics
           - kitty-compression
+          - kitty-features
           - all
   push:
     paths:
@@ -31,7 +32,7 @@ permissions:
 
 jobs:
   xterm-reference:
-    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -86,7 +87,7 @@ jobs:
           if-no-files-found: error
 
   kitty-graphics-reference:
-    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression')
+    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression' || inputs.family == 'kitty-features')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -134,8 +135,10 @@ jobs:
           base = Path('build/kitty-reference').resolve()
           source = Path(os.environ['RUNNER_TEMP']) / 'kitty-reference'
           family = os.environ['KITTY_REFERENCE_FAMILY']
-          assert family in ('kitty-graphics', 'kitty-compression')
-          fixture = Path('tests/kitty_compression_oracle.py' if family == 'kitty-compression' else 'tests/kitty_graphics_oracle.py').resolve()
+          fixtures = {'kitty-graphics': 'kitty_graphics_oracle.py',
+                      'kitty-compression': 'kitty_compression_oracle.py',
+                      'kitty-features': 'kitty_features_oracle.py'}
+          fixture = (Path('tests') / fixtures[family]).resolve()
           output = base / 'observations.json'
           output.write_text('{"status":"not-started"}\n')
           scenario = dict(
@@ -174,6 +177,10 @@ jobs:
           if os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-compression':
               assert observed['family'] == 'kitty-compression'
               assert observed['case_count'] == 26 and observed['state_count'] == 36, (observed['case_count'], observed['state_count'])
+              assert [c['name'] for c in observed['cases']] == observed['expected_cases']
+          elif os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-features':
+              assert observed['family'] == 'kitty-features'
+              assert observed['case_count'] == 84 and observed['state_count'] == 176, (observed['case_count'], observed['state_count'])
               assert [c['name'] for c in observed['cases']] == observed['expected_cases']
           else:
               assert observed['case_count'] == 43 and observed['state_count'] == 101
