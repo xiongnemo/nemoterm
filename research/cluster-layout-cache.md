@@ -35,5 +35,38 @@ Raw source, compiler identity, frame observations and the integration-test log
 are retained with hashes in [the validation record](cluster-layout-cache-validation.json).
 Complete [core](https://github.com/xiongnemo/nemoterm/actions/runs/43615872418)
 and [single-executable](https://github.com/xiongnemo/nemoterm/actions/runs/43615872392)
-CI runs are pending. The resulting single image still needs the unchanged local
-font/pixel/resource and 160 by 48 Sarasa memory workloads, especially DirectX GIF.
+CI runs passed, including all 122 mandatory single-image checks. The downloaded
+4,486,656-byte formal EXE has SHA-256
+`432fdcb877cfba84422e9a336bf9fe8e0e919d6e02deb4e28ef28feb105141ac`.
+The single-image manifest and retained renderer, font zoom, tab-profile and bell
+records match that exact image. Full workflow logs and artifact identities are
+retained; this does not promote it to the accepted executable.
+
+The first local runs of that formal image passed all six unchanged 160 by 48
+Sarasa workloads, each with nine groups of checks and natural process cleanup:
+
+| Renderer | Workload | Samples | Peak private working set | Peak total working set | Peak private commit |
+| --- | --- | ---: | ---: | ---: | ---: |
+| DirectX | Dense text | 471 | 22,671,360 | 57,737,216 | 87,314,432 |
+| DirectX | PNG | 581 | 23,781,376 | 59,359,232 | 93,335,552 |
+| DirectX | GIF | 542 | 24,199,168 | 60,563,456 | 88,723,456 |
+| GDI | Dense text | 463 | 15,876,096 | 37,969,920 | 18,251,776 |
+| GDI | PNG | 512 | 16,465,920 | 39,206,912 | 19,521,536 |
+| GDI | GIF | 515 | 16,801,792 | 39,546,880 | 19,431,424 |
+
+Figures are bytes. Private working sets meet the original GDI <20,000,000 and
+DirectX <=25,000,000 limits; DirectX total working set remains above the desired
+roughly 50 MB. These are uninstrumented frontend samples, not summed host/client
+memory. Both GIF tabs exhibited all three required colours within the original
+three-second observation; screenshots occur after the memory sampling interval.
+
+A separately built source-host artifact from the same commit has a different
+EXE hash, `cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466`.
+Its local GIF workload **failed**: private working set peaked at 24,875,008 bytes,
+but the first tab's 21 captures over 3.085 seconds missed green, and failure
+cleanup terminated five remaining owned processes. Its complete raw records and
+the two observed frame images are retained separately. That failure and the
+older `69cd5a4` failures are not erased by the formal image's first-run pass.
+Intermittent capture cadence and the small DirectX memory margin remain open;
+these results alone do not prove their cause or resolution. Physical input,
+agent workloads and the focused local font/pixel checks remain separate gates.

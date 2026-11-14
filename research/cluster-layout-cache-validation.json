@@ -1,7 +1,7 @@
 {
   "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
   "baseline_commit": "197f93b1c3a34e22ac9ca90ca4763abbe7bd9816",
-  "scope": "Offscreen MinGW diagnostic, not single-executable memory acceptance",
+  "scope": "Bounded whole-cluster layout cache: offscreen diagnostics, complete CI and separately recorded local workloads",
   "application_acceptance": false,
   "accepted_executable_changed": false,
   "pairs": [
@@ -86,5 +86,829 @@
   "source_sha256": {
     "vendor\\putty-0.85\\windows\\nemo_cluster.cpp": "6b9caa5ece5def31823794af9efad677f9ae4374eee758f681d0f4bae89ca1dc",
     "tests\\test_cluster_renderer.cpp": "2c7cb3cb6947398e95a79480e679f8d3038db9f0cc9fe5a9dea0dd4a2e0c0c17"
+  },
+  "local_source_build_gif": {
+    "manifest": {
+      "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+      "fixture_commit": "d6a52a3e5418fa3b0566fda271dd4caf41b20aef",
+      "executable_sha256": "cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466",
+      "executable_bytes": 4486656,
+      "artifact_name": "source-console-host-x64-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+      "run_id": 43615872418,
+      "state": "exact source-build candidate; complete workflows pending",
+      "accepted_executable_changed": false
+    },
+    "acceptance": false,
+    "samples": 538,
+    "frontend_peaks": {
+      "count": 1,
+      "private_ws": 24875008,
+      "total_ws": 65073152,
+      "private_commit": 92745728
+    },
+    "actual_grid": [
+      160,
+      48
+    ],
+    "actual_renderer": 3,
+    "error": "AssertionError({'session': 1, 'hwnd': 9176278, 'renderer': 2, 'injected': False, 'after_memory_sampling': True, 'captures': 21, 'frames': [{'colour': 'blue', 'seconds': 0.49091670010238886, 'image': 'animated-workload-tabs-directx-left-tab-0-blue.png', 'bmp_sha256': 'a98fea5245f9c0e1115f99e7b4a4f6a4a9f44d1a837c88ef5202235536f4e1de', 'patch': [273, 165, 8, 8]}, {'colour': 'red', 'seconds': 1.150502200005576, 'image': 'animated-workload-tabs-directx-left-tab-0-red.png', 'bmp_sha256': '40cf67bd4b19e3ff5a64aa968a4c3a2d3ec072eefff97d39a0aba111aa7e2066', 'patch': [273, 165, 8, 8]}], 'seconds': 3.08517950004898})",
+    "post_memory_animation": [
+      {
+        "session": 1,
+        "hwnd": 9176278,
+        "renderer": 2,
+        "injected": false,
+        "after_memory_sampling": true,
+        "captures": 21,
+        "frames": [
+          {
+            "colour": "blue",
+            "seconds": 0.49091670010238886,
+            "image": "animated-workload-tabs-directx-left-tab-0-blue.png",
+            "bmp_sha256": "a98fea5245f9c0e1115f99e7b4a4f6a4a9f44d1a837c88ef5202235536f4e1de",
+            "patch": [
+              273,
+              165,
+              8,
+              8
+            ]
+          },
+          {
+            "colour": "red",
+            "seconds": 1.150502200005576,
+            "image": "animated-workload-tabs-directx-left-tab-0-red.png",
+            "bmp_sha256": "40cf67bd4b19e3ff5a64aa968a4c3a2d3ec072eefff97d39a0aba111aa7e2066",
+            "patch": [
+              273,
+              165,
+              8,
+              8
+            ]
+          }
+        ],
+        "seconds": 3.08517950004898
+      }
+    ],
+    "cleanup": {
+      "before": {
+        "total": 31,
+        "active": 5,
+        "terminated": 0
+      },
+      "after": {
+        "total": 31,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": true,
+      "remaining_processes": [
+        {
+          "pid": 12140,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-cluster-cache-source-host-9bef907-20261115\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 26680,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-cluster-cache-source-host-9bef907-20261115\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 51128,
+          "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 22308,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-cluster-cache-source-host-9bef907-20261115\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 17592,
+          "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+          "exit_code": 259
+        }
+      ]
+    },
+    "retained": [
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-manifest.json.gz",
+        "raw_sha256": "82ab4875287bd86a7de454c2b07db5e027eee3bb2fe93c6406d811722ebb5bd3",
+        "compressed_sha256": "d4ab6b8e1b01b959c9f5a23c33dd56c7c784a960a2346e09c1f00571086d5708"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-source-host-manifest.json.gz",
+        "raw_sha256": "574e8844ca8297d22c11a66e78561218d383b19b5b15438013aed990efd9ba05",
+        "compressed_sha256": "0a9dd3c6f3451e9fc555548942227bd8cdb6dea04041c75bb712f200e89aa256"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-dx-gif.log.gz",
+        "raw_sha256": "34002b8fe2309602b94a87b818563c3d80cade0c7fc6e76c09a2c11ffcaf3bb2",
+        "compressed_sha256": "4ca8443ee1326708ea906d869c255eaf85058420a4cffc7ee52e09d8678a3a71"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-animated-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "cc689e75526accd5b178c58c936f5132bdfe59c84287df0b5a7c67783cda60de",
+        "compressed_sha256": "131b676261c8b1f0ecebb7e3ad17e9daaed9607b28de4b552e72a5af009c0f43"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-animated-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "f5cc841b08f8f1963d3181055cf7d1375cbda1aa5b9f9c5010541b6c3beafeee",
+        "compressed_sha256": "b2fc11ef6ef9d08effd118faf28b500d3cf4394d7777a1bf37ab9d964a0093a3"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-animated-workload-tabs-directx-left-tab-0-blue.png",
+        "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-cf36e20-animated-workload-tabs-directx-left-tab-0-red.png",
+        "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+      }
+    ]
+  },
+  "full_application_ci": {
+    "recorded_utc": "2026-11-14T17:27:34.177330+00:00",
+    "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+    "executable_sha256": "432fdcb877cfba84422e9a336bf9fe8e0e919d6e02deb4e28ef28feb105141ac",
+    "executable_bytes": 4486656,
+    "passed_checks": 122,
+    "workflows": {
+      "core": {
+        "databaseId": 43615872418,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43615872418",
+        "conclusion": "success",
+        "artifacts": [
+          {
+            "id": 14123650766,
+            "name": "test-results-windows-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          },
+          {
+            "id": 14123221464,
+            "name": "nemoterm-windows-x64-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          },
+          {
+            "id": 14122536146,
+            "name": "test-results-sanitizers-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          },
+          {
+            "id": 14122227441,
+            "name": "cluster-msvc-diagnostics-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          },
+          {
+            "id": 14121912351,
+            "name": "source-console-host-x64-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          }
+        ]
+      },
+      "single": {
+        "databaseId": 43615872392,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43615872392",
+        "conclusion": "success",
+        "artifacts": [
+          {
+            "id": 14123935198,
+            "name": "single-exe-evidence-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          },
+          {
+            "id": 14122879286,
+            "name": "nemoterm-single-exe-x64-9bef90786e2bc1ccb8edbc180ac369b00c98ea4b"
+          }
+        ]
+      }
+    },
+    "matched_evidence": [
+      "single-exe-validation.json",
+      "single-exe-observed.json",
+      "font-zoom-observed.json",
+      "tabs-profiles-observed.json",
+      "bell-mode-0-observed.json",
+      "bell-mode-1-observed.json",
+      "bell-mode-2-observed.json",
+      "renderer-observed.json"
+    ],
+    "accepted_executable_changed": false,
+    "local_memory_acceptance": false,
+    "retained": [
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-core-run.json.gz",
+        "raw_sha256": "5a06f2291ca7dfc20bdf2449d73b55a5aea9ceeb0d997513ebf5c6df7d368b0a",
+        "compressed_sha256": "9f9ffc1387e43bb41c72ceaa05211c651be1c1d58dc41ccb76a49f4c8babc9c5"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-core-run.log.gz",
+        "raw_sha256": "9dcdb3fd81b1fcde20c4b66b75707f8f906e626a8c18354caf96b0ad4dc746a3",
+        "compressed_sha256": "092be4fc139c9d63117caf6a4c1a6b1f8350ca58c4332204d26401c2ea7dddd8"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-core-artifacts.json.gz",
+        "raw_sha256": "7fb57be374fe510649a7433feed63dfafaf1d33e3b766cc522ce56241ef1bac2",
+        "compressed_sha256": "9622f9b57c4426ccca8c5a07e8597a7fc7bac71cb52b5cea11b9eed114c6ab1a"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-single-run.json.gz",
+        "raw_sha256": "3797559483ac962da61cfb97f4ca765e7eea076385aecb1e4ae6cd170e48465b",
+        "compressed_sha256": "f9610966d647028f51978f7a9354bde24ceb33fdc536e80eb151ef111720c4a3"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-single-run.log.gz",
+        "raw_sha256": "768ae7cb5bccffff8a1e54adeaccf9be8a924213cd07acf34c9edc648ca4176f",
+        "compressed_sha256": "c929a041a0d827973a795662b29a9f513cd14d11708268183495b7baa5bef8c7"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-single-artifacts.json.gz",
+        "raw_sha256": "502614787fcbcbd67d8387e63894244cc36057d63b683f49da7286eb337aef1e",
+        "compressed_sha256": "a9a7eed8c7d3017228df4328c137e5c5d5d89b9d89dbf62b885dcaae3967d497"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-single-exe-validation.json.gz",
+        "raw_sha256": "b648e6269f4a370eb53de887a3aaff36219a568fe926ccb7be7da58c19be622d",
+        "compressed_sha256": "16e067669b693245354405cab87b9fbf061088b6d03c5d4927512d12b55db731"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-single-exe-observed.json.gz",
+        "raw_sha256": "c174cb749e1ecc0e225f20da3678e08b556a60cf34730aa51a28bed88d6e22b1",
+        "compressed_sha256": "a2a00c8f6be2f24c9147103cf2875b15fa58babf2a60c05b55456a3aa2e9297f"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-font-zoom-observed.json.gz",
+        "raw_sha256": "a0fec8845da977d963f206835b6e5c70eadedbd2b73afa75080c598c40961ffc",
+        "compressed_sha256": "a3f5d9d31c012b2fe154b9714d6ed41cfb64144c8d6b9c569901e27d9ecdd58e"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-tabs-profiles-observed.json.gz",
+        "raw_sha256": "7f85a38d3a289a0deb13a1f3255938ef690d89525ae19dc688c34a3a09741290",
+        "compressed_sha256": "d37297ec7a43c42099e66c2eab2fccb24e13534191dff6328eec817ff465b8e2"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-bell-mode-0-observed.json.gz",
+        "raw_sha256": "1a144167b561b01d9a7b921b7505c0b110fbbcc9146185e825ce761a7601b16d",
+        "compressed_sha256": "2fe759ba4a349c25eaa735f3959bb51ecda3b4577240608eb25f7a480b2dfbb9"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-bell-mode-1-observed.json.gz",
+        "raw_sha256": "32922e01442c26a4534edbc55e1ebc21e74b563e0e8c4376f11c18958838409c",
+        "compressed_sha256": "b109de524d3318b0d01e33201a143e62a833cbd6c3e08dc6e0219fc3e692ed0d"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-bell-mode-2-observed.json.gz",
+        "raw_sha256": "5ffb98b655b2b2a61251c2c645eeb61d28c4de54ff3dcf1368d3ecc27d80da26",
+        "compressed_sha256": "e62946d7ba77d3c5269965bdcd820c86c7f029efc4e64b2a99aa80c105066130"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/9bef907-full-renderer-observed.json.gz",
+        "raw_sha256": "df079aacf057874f8bea5b40dec6a7a40ce7d4eee2d1e5d2dba795d2687648f9",
+        "compressed_sha256": "69d359b0f96d631a0b3e1cfbaafed481c437647aad1c49c52290aad7909010e2"
+      }
+    ]
+  },
+  "local_formal_workloads": {
+    "manifest": {
+      "source_commit": "9bef90786e2bc1ccb8edbc180ac369b00c98ea4b",
+      "fixture_commit": "d6a52a3e5418fa3b0566fda271dd4caf41b20aef",
+      "state": "downloaded and verified complete-CI single executable",
+      "accepted_executable_changed": false,
+      "executable_sha256": "432fdcb877cfba84422e9a336bf9fe8e0e919d6e02deb4e28ef28feb105141ac",
+      "executable_bytes": 4486656,
+      "artifact_id": 14122879286,
+      "run_id": 43615872392,
+      "source_host_image_sha256": "cf36e20a147a2f77b6c57c28239b9ef2091eca71350cc8373b95e4263a535466",
+      "source_host_image_is_identical": false
+    },
+    "recorded_utc": "2026-11-14T17:31:23.872425+00:00",
+    "workloads": [
+      {
+        "renderer": "directx",
+        "workload": "baseline",
+        "samples": 471,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 22671360,
+          "total_ws": 57737216,
+          "private_commit": 87314432
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 3,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "renderer": "directx",
+        "workload": "png",
+        "samples": 581,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 23781376,
+          "total_ws": 59359232,
+          "private_commit": 93335552
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 3,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "renderer": "directx",
+        "workload": "gif",
+        "samples": 542,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 24199168,
+          "total_ws": 60563456,
+          "private_commit": 88723456
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 3,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": [
+          {
+            "session": 1,
+            "hwnd": 17830380,
+            "renderer": 2,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "red",
+                "seconds": 0.5755843999795616,
+                "image": "animated-workload-tabs-directx-left-tab-0-red.png",
+                "bmp_sha256": "40cf67bd4b19e3ff5a64aa968a4c3a2d3ec072eefff97d39a0aba111aa7e2066",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 1.0854758999776095,
+                "image": "animated-workload-tabs-directx-left-tab-0-blue.png",
+                "bmp_sha256": "a98fea5245f9c0e1115f99e7b4a4f6a4a9f44d1a837c88ef5202235536f4e1de",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 1.4198159000370651,
+                "image": "animated-workload-tabs-directx-left-tab-0-green.png",
+                "bmp_sha256": "9cc0a044433ac1e74ce9ee14ecf039b97d99d923cb7720f5c2ad0519e168c444",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.4487061998806894
+          },
+          {
+            "session": 2,
+            "hwnd": 66063346,
+            "renderer": 2,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "red",
+                "seconds": 0.2505272999405861,
+                "image": "animated-workload-tabs-directx-left-tab-1-red.png",
+                "bmp_sha256": "11749c042fe7a7febdb1a19e3807fc1f2f88c553193d53672f5482a310db46b9",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 0.7544623999856412,
+                "image": "animated-workload-tabs-directx-left-tab-1-blue.png",
+                "bmp_sha256": "b8eaae42d68f42679fc3134777dab8d50f8eb2b0e2f28acdcd7c0b43831d5135",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 1.135723500046879,
+                "image": "animated-workload-tabs-directx-left-tab-1-green.png",
+                "bmp_sha256": "8198de61dc81146f634aec32019df058fcec8ec95aade7056699cb16aa96a917",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.1642960999161005
+          }
+        ]
+      },
+      {
+        "renderer": "gdi",
+        "workload": "baseline",
+        "samples": 463,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 15876096,
+          "total_ws": 37969920,
+          "private_commit": 18251776
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "renderer": "gdi",
+        "workload": "png",
+        "samples": 512,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 16465920,
+          "total_ws": 39206912,
+          "private_commit": 19521536
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": null
+      },
+      {
+        "renderer": "gdi",
+        "workload": "gif",
+        "samples": 515,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 16801792,
+          "total_ws": 39546880,
+          "private_commit": 19431424
+        },
+        "actual_grid": [
+          160,
+          48
+        ],
+        "actual_renderer": 1,
+        "acceptance": true,
+        "checks": 9,
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "post_memory_animation": [
+          {
+            "session": 1,
+            "hwnd": 10027508,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "blue",
+                "seconds": 0.2921269000507891,
+                "image": "animated-workload-tabs-gdi-top-tab-0-blue.png",
+                "bmp_sha256": "638e31e0b3528a8b358e299cd66015f53c8c2d899a91216338d1ad1dac865eaf",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 0.6199193000793457,
+                "image": "animated-workload-tabs-gdi-top-tab-0-green.png",
+                "bmp_sha256": "dba94e7ee4931819ad27d01c7b85986ca0dd99849d2412892382580bf84a0f2c",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "red",
+                "seconds": 1.315730200149119,
+                "image": "animated-workload-tabs-gdi-top-tab-0-red.png",
+                "bmp_sha256": "f2a49146449b01e3a47cd0b9c6576f8ff86566bcdb898324ccedbce76e8afd55",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.3446860001422465
+          },
+          {
+            "session": 2,
+            "hwnd": 69733712,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "green",
+                "seconds": 0.27418449986726046,
+                "image": "animated-workload-tabs-gdi-top-tab-1-green.png",
+                "bmp_sha256": "80bf2e9191dacfd63ad9c54bc1a0edff77a5987a89c479907589c016492a958d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "red",
+                "seconds": 0.620111099909991,
+                "image": "animated-workload-tabs-gdi-top-tab-1-red.png",
+                "bmp_sha256": "0ddd97a71e2454f4c0173681a652fa471f0480fcf7a128bec1ead0bd655bdde3",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 1.2009900000412017,
+                "image": "animated-workload-tabs-gdi-top-tab-1-blue.png",
+                "bmp_sha256": "605f4891022f9492b0f54e504df998743a23a681a384c73fe09ca9a904c10e12",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "seconds": 1.230122199980542
+          }
+        ]
+      }
+    ],
+    "retained": [
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-manifest.json.gz",
+        "raw_sha256": "e2d79ecedf2a51c5b14d17fc03aaad4d4f32f652ecbf585f7837a8f2ac877f1f",
+        "compressed_sha256": "fc00ac0842996519f1198fd5840a555ec3ab33082fe7c87ac78bb71a76596af1"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "5f59c44fdd0197cf889835908c0310f37a146334453771928645505974d73870",
+        "compressed_sha256": "5c68c9d0577c29a03155b797c7cc472a835d644182ea741eb9f86eb926920335"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "510e8cfd7617800ec9149ed064b25155d5e62683b1d6905401bcff77f53d7c93",
+        "compressed_sha256": "b8d1da85649a062e1e84510253bd31db45830015f9971a66a9c19ad165f08c57"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-dx-baseline.log.gz",
+        "raw_sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a",
+        "compressed_sha256": "4e4c1e3947c700cc593361c74bc547534d17bf492be771e43d549680814d0fc1"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-inline-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "8853810b532c0ea03f561e9ccf4ddd569789ceeca200d32125ed5d1b34f5cdff",
+        "compressed_sha256": "e84bc10c41979e58c91399adc671caad8b8fc612ca39f727fcf8aa127b223d5f"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-inline-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "3296330c3b771db50b389286c1d84fac352efecceefcae5ba8851ce1ac42fd1d",
+        "compressed_sha256": "8dfcfcf5974d606f628b95fb878d71b5b21c0f33f3a77ac40ac08ff954b3782c"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-dx-png.log.gz",
+        "raw_sha256": "6a5ee2036508843eabb2e4bc3fe27df06a40a485600fc585c7352b87b15625f3",
+        "compressed_sha256": "cd463e2aec32e02ae55f0c9177518b4b0140cf57410892c3bd5e128fc9d03624"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "22456032c16e520159db054fe18d092c1632f97e1af5d57bd7916eb53561148f",
+        "compressed_sha256": "b5fce23a98b0786d23950a4da936d558ff1014da06484c813acf769f6404f728"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "612696b05d33e44540a519df413051717f446fb3960157f9c98672d777171bc2",
+        "compressed_sha256": "858ab0bea2399059fd1f079c6ac1a6ba490bd38f77cf92bf4500b039ec5ccd2e"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-dx-gif.log.gz",
+        "raw_sha256": "d5c8568171f0e282417b8841c3959f4f02f4ff676bf366d7511f34127b71b0f8",
+        "compressed_sha256": "6d07b850c1cfe263601cdbfc7a5b1acb5e7a88c08e686392d06fdd3fccf8dd51"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-0-blue.png",
+        "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-0-green.png",
+        "sha256": "414f169fea743fc89def37e81fad67fc8e7225fedbc5d9faab049788436fc8c8"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-0-red.png",
+        "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-1-blue.png",
+        "sha256": "41737ac65e736704206ec06cbeb6b3e20ab289c163ba18b5ddef1aaac03f6a1f"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-1-green.png",
+        "sha256": "61c993bc0f41f4cc5d9ede9e89c84dbcd8012acf88cfd090bc3177760a205a77"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-directx-left-tab-1-red.png",
+        "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "ba5ff7143881a7c2633720726fb63e477a7a070a864308ed197542c43b19bcbb",
+        "compressed_sha256": "9786ed68e5e0f8af51710cbc08f868dd64fb58253655f2ee1087e787ab4121b5"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "1d6bfd5086a752768c259120109744fbf0561f0697dcc4c1a116ebae3fa719a0",
+        "compressed_sha256": "e98a9eab3bebefe087decc329182b648ba52c351d620c4987ab1c7c8647c0349"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-gdi-baseline.log.gz",
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "compressed_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-inline-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "218baf373cf13579eb2aaaa0989dc4fd8688e1653a46b70cc100c4fe68e30022",
+        "compressed_sha256": "53031d8078d7482793fab48fd33e497d6f1456549cf237ac821829e55d4be31d"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-inline-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "66d95f55ac617966128d3831258137c75e48afd3e786c37fcb6994cb222f09b4",
+        "compressed_sha256": "e14a0bd213e90a2dc57f92edd5e1fc7dd36557db165da026080e74bff4422314"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-gdi-png.log.gz",
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "compressed_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "718d86500f130330a64de5eebe2e0413811953d55a628665de3d38c8eeea92ce",
+        "compressed_sha256": "b25a45f5b2333743bca5d07abe9ca8379f415e2fa3cb6a8601deff16e075a77b"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "5cdbd8353509e17b7085ebbc870e34f3d681c5cd1d2e40498dc8066503bfb470",
+        "compressed_sha256": "9e18cb4240b9ea6b243566d3dc9d202e7e6534d0278a719b80065833be40a71f"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-gdi-gif.log.gz",
+        "raw_sha256": "07a2ffefc0d4ecc24b675bcbc363c23ccdb8e18b52354eb834b9ac09572e9202",
+        "compressed_sha256": "f379b4f58f9ac97cd237f0e1c5017992f89e3f69ccdaed49f9ecaf9015caf74e"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-0-blue.png",
+        "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-0-green.png",
+        "sha256": "414f169fea743fc89def37e81fad67fc8e7225fedbc5d9faab049788436fc8c8"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-0-red.png",
+        "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-1-blue.png",
+        "sha256": "41737ac65e736704206ec06cbeb6b3e20ab289c163ba18b5ddef1aaac03f6a1f"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-1-green.png",
+        "sha256": "61c993bc0f41f4cc5d9ede9e89c84dbcd8012acf88cfd090bc3177760a205a77"
+      },
+      {
+        "file": "cluster-layout-cache-evidence/local-432fdcb-animated-workload-tabs-gdi-top-tab-1-red.png",
+        "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+      }
+    ],
+    "scope": "Synthetic dense text, image, tab lifetime and resize workloads; not physical input or real agent acceptance"
   }
 }
