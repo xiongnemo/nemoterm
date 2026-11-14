@@ -1,0 +1,566 @@
+{
+  "recorded_utc": "2026-11-14T01:16:39.915154+00:00",
+  "source_commit": "7a3b95e285b9ea0e881e35501cd8040b60a7cf8f",
+  "unit_scenarios": [
+    "idle-output",
+    "input-eof-close",
+    "input-error-close",
+    "output-error-close",
+    "completed-read-close",
+    "completed-write-close",
+    "transfer"
+  ],
+  "iterations_per_scenario": 40,
+  "unit_compilers": [
+    "MinGW GCC",
+    "MSVC 19.44"
+  ],
+  "memory_acceptance": false,
+  "files": [
+    {
+      "path": "research/io-lifetime-evidence/configure.log.gz",
+      "bytes": 740,
+      "sha256": "2e8f20fe40212396fc437fb49ce6798b0ac260b504f5fa173f0cf57ed3f38f81",
+      "raw_bytes": 2898,
+      "raw_sha256": "6208fca38de2ed3cb7e119c57242c5bfff1222bcb62793420e5ba4b88d49deb9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/core-build-initial.log.gz",
+      "bytes": 2330,
+      "sha256": "4751eb0248bd1a9d7cb83f392ddeaa44e64ccbf733c23fbf9ca2d10ee0229caf",
+      "raw_bytes": 12503,
+      "raw_sha256": "543129270e62a221def511df68beefb826edd230114ea5f119478962df421402",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/core-build-02.log.gz",
+      "bytes": 326,
+      "sha256": "68578df7064dbeaebdaa0de3715cadd94689ea0e9523c47fef2b3def3908fa58",
+      "raw_bytes": 451,
+      "raw_sha256": "01fec80c5b02012401b4550511fa3add870a17f73c54e44ebe47fff71e9b57e2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/initial-results.json.gz",
+      "bytes": 113,
+      "sha256": "29bfae205f207d559f875f8fc424093c473608ccf960cb850d6eba80416b1de0",
+      "raw_bytes": 229,
+      "raw_sha256": "a37fbe64a8929e11a4cf5ad80f0caaebb941d5c9b53691f57fab0db0dc6d6248",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/initial-idle-output.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/initial-input-eof-close.log.gz",
+      "bytes": 80,
+      "sha256": "6dfb0a67d66ed0613e87020c2f632d75aa6b66a0d3aba3e8dcee1318fc04de3b",
+      "raw_bytes": 67,
+      "raw_sha256": "23f7b3b1968ed32311a37107d1fe082d316de970b52b54996bbd676e59b4b125",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/initial-output-error-close.log.gz",
+      "bytes": 82,
+      "sha256": "f3fdd53a082f46b2d96d2db305630676c8c0a87b5f63e17cc27ab96a1095e450",
+      "raw_bytes": 70,
+      "raw_sha256": "60502abd111e0761d22883b620905a46f25fcc2dd16da3c3303549fd6b72cd0d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/initial-transfer.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/handle-io-before.c.gz",
+      "bytes": 6117,
+      "sha256": "b528daa39f6cb7c61919727f7df7cfd03d71933682329503ad79e1c026d2eccd",
+      "raw_bytes": 23041,
+      "raw_sha256": "d249d97c4bb2ff6a3d06d70aa929a4f9fa5497091febb03efefcdc92a8793899",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/test_handle_io-initial.c.gz",
+      "bytes": 1650,
+      "sha256": "eae78f95bc6ffb6d28aafdb54c4dfbb457c67f2ae6c1f04cfcc07db7e9156218",
+      "raw_bytes": 5061,
+      "raw_sha256": "bcafffbd518eb18f3b7df415bc28339eff32a45aa2776d749c263faa1ed69b5b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/core-build-fixed.log.gz",
+      "bytes": 2186,
+      "sha256": "ffd4fa125615096cd0eeb442b118f6bcb475478f6978742331df47a7e9658e8e",
+      "raw_bytes": 13789,
+      "raw_sha256": "d9d376cf5cc7ed9860f7ca93fa34e9c36b9333392251939eaf619f3642d8f390",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/handle-io-fixed.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/core-build-fixed-02.log.gz",
+      "bytes": 178,
+      "sha256": "c13b9dc913102ba5fc65fde9699fb3c6088b8eb583925b0157b2ec78b78b88c5",
+      "raw_bytes": 229,
+      "raw_sha256": "07861e785883186788c772dba7191ca6a3291e970e6d90d704c2fed2e3c14c8b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/handle-io-fixed-02.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/configure-msvc.log.gz",
+      "bytes": 841,
+      "sha256": "f78bc54e4eeed467f1e2647eeb58290133746f13e84733200e25603f323a55c7",
+      "raw_bytes": 3095,
+      "raw_sha256": "2a95de99f4a7bd879778095773292ccd1fe21b81271c0356c23fd63790a275b1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/core-build-msvc.log.gz",
+      "bytes": 1804,
+      "sha256": "4158c7ffc396fb6b4789d70af99828c3aedc829e718ed68794aff339ed3643bf",
+      "raw_bytes": 11391,
+      "raw_sha256": "4d15d63c62b2a393d93a7602ea7b1d855eadea1dbdaf8e4ba1a7e410256c624b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/handle-io-msvc.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/check-io-native.py.gz",
+      "bytes": 833,
+      "sha256": "2a1d4c1752b677e02b0d390af1ec65e894f74c1f90addd687dc11c706f521e39",
+      "raw_bytes": 1756,
+      "raw_sha256": "66e98c61f6cc0d01ae9ec8506730eb1fc32d8eb680c8bd1658ebee918a2370b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/retain-io.py.gz",
+      "bytes": 1655,
+      "sha256": "d59158e67ab19f1e54b809b0b40d329fe046acf771c408d594e1f5088eaf73c4",
+      "raw_bytes": 3915,
+      "raw_sha256": "e720e6b25bb5c09a728782e414b2074b86d929025df3cd96c903bdc1371d7f5e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-automation-controller.json.gz",
+      "bytes": 264,
+      "sha256": "37a806a9d8ac5df0585894713169553a989899fe8dccf0492d29f97a70a18cae",
+      "raw_bytes": 474,
+      "raw_sha256": "dd619eb0b5459ab97f1d458b52f042da8a1da05766d9b76a16be396e182ef316",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-automation-gdi-observed.json.gz",
+      "bytes": 937,
+      "sha256": "dac7b2c34b49d20f2566ea79b5b184d91f64a0198a2383f37a9bad30707b3331",
+      "raw_bytes": 1879,
+      "raw_sha256": "6686bfdef2204e9e77d20ac711be9df86bb609bbd98632377830d60e6b7f7bc3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-automation.log.gz",
+      "bytes": 1033,
+      "sha256": "bf3fd0f1d67c48b139304a39c3f1276d071ef12ed43ba03b83d985defa4a2dfa",
+      "raw_bytes": 2854,
+      "raw_sha256": "d5a492ee051f11299ab7908c6c66219c3aaa403c3324711f7eb36c9c98e5e526",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-controller.log.gz",
+      "bytes": 244,
+      "sha256": "3f5ccd9345936f06cf0c60031c8d532626defebe982778c5d1442a2146a73610",
+      "raw_bytes": 371,
+      "raw_sha256": "db81a9bf6fa50a6abf5e32bcb24f6151a248515c87c44c6b3647c1d596fbbe8e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-host-install.log.gz",
+      "bytes": 125,
+      "sha256": "98a32414af92fb654d39003ba5aeaa0cab819a3f1b4ae3958e233ac91f9ab858",
+      "raw_bytes": 131,
+      "raw_sha256": "783bd6e4638af86809bb68a2858bd7e311f7d3b0c5006ce9feade41a021f4c77",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-api.png.gz",
+      "bytes": 1422,
+      "sha256": "e0fa72707f2a18299e80c13b41ae561da3a7244b69ef120b5dba1a55b5ba6400",
+      "raw_bytes": 2233,
+      "raw_sha256": "9d2ec48fe985321e523ad524b65cba5d1553f3c6c512dbebab329fac62766e4f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/automation-reference.png.gz",
+      "bytes": 1422,
+      "sha256": "e0fa72707f2a18299e80c13b41ae561da3a7244b69ef120b5dba1a55b5ba6400",
+      "raw_bytes": 2233,
+      "raw_sha256": "9d2ec48fe985321e523ad524b65cba5d1553f3c6c512dbebab329fac62766e4f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session-session-controller.json.gz",
+      "bytes": 263,
+      "sha256": "d6b1c1bc6a4f9873f43fb0837933b6c8504b66cb812397e89904bf7e6d03c9d4",
+      "raw_bytes": 471,
+      "raw_sha256": "a4fd204b8b484e5dba5707716e659c243b714813fe198563e4a8954db952a870",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session-session-window-gdi-observed.json.gz",
+      "bytes": 1377,
+      "sha256": "f32df278f4a11835ff438fbd2420afdbd6bc7445c47827ad508873ae0374fa54",
+      "raw_bytes": 7677,
+      "raw_sha256": "ed4f35643856eec5acdbb0af7c9dc32b631a1aa916abfee47f0a2e56be0c6455",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session-controller.log.gz",
+      "bytes": 243,
+      "sha256": "863296da7476e32bbc17ec9cdd8d8825433c9e7bc8933ca5448d60060179e918",
+      "raw_bytes": 368,
+      "raw_sha256": "47dfb2f4b86fd6d273d6a3de06f2aba38a34db8988a8e7af5c4a6411a748f213",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session-host-install.log.gz",
+      "bytes": 125,
+      "sha256": "98a32414af92fb654d39003ba5aeaa0cab819a3f1b4ae3958e233ac91f9ab858",
+      "raw_bytes": 131,
+      "raw_sha256": "783bd6e4638af86809bb68a2858bd7e311f7d3b0c5006ce9feade41a021f4c77",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session-session.log.gz",
+      "bytes": 55,
+      "sha256": "56bc40ba999cea47eefdcec93ea1e830daf2ab6c059921612c3a9d81f804359c",
+      "raw_bytes": 35,
+      "raw_sha256": "6981761e205ded05044f59e047836dae289b8636a506ebb338ab669b8fd7433f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session_restart-session-restart-observed.json.gz",
+      "bytes": 461,
+      "sha256": "727fc973917d6544cffbdc9aa70c6a096ceaa6f3ff955cc9d40eb6c4d6760a3b",
+      "raw_bytes": 1371,
+      "raw_sha256": "df82ce6d312bd96e8e6f271add3576b67dd4b222e9c1b8f4dd627ca5940ff0a0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session_restart-session_restart-controller.json.gz",
+      "bytes": 268,
+      "sha256": "5f38aea02282c63273a28f2bf1c12d84cab8a15ed86b91380f3a6fce394056a3",
+      "raw_bytes": 479,
+      "raw_sha256": "04d162ebf40ba634041b328e4aea1f7b3543c8c86baaef76c4fe7eb3d3329949",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session_restart-controller.log.gz",
+      "bytes": 248,
+      "sha256": "ac89e487be8c55c23c6059959076b4137434f8a216563ebcf4df658ec6d75a5b",
+      "raw_bytes": 376,
+      "raw_sha256": "ab82923d4cd2d1ca5488685d40ad004f580cccc992c6f7f06eb8841530ef6c9f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session_restart-host-install.log.gz",
+      "bytes": 125,
+      "sha256": "98a32414af92fb654d39003ba5aeaa0cab819a3f1b4ae3958e233ac91f9ab858",
+      "raw_bytes": 131,
+      "raw_sha256": "783bd6e4638af86809bb68a2858bd7e311f7d3b0c5006ce9feade41a021f4c77",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/session_restart-session_restart.log.gz",
+      "bytes": 72,
+      "sha256": "c5710c21675ecc10479b343a7c4f07de33b9e23b465ea2b75e582c053f15a07e",
+      "raw_bytes": 54,
+      "raw_sha256": "6efb04f291336f446375811e7b5bb1cdd481bdd2ca457a054ff60e2adb9bd911",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/shutdown-shutdown-controller.json.gz",
+      "bytes": 265,
+      "sha256": "54babeb1be627ee4e0c7c80970903efa79ef19c046ee98a36d14b34915d1ffa3",
+      "raw_bytes": 472,
+      "raw_sha256": "3d45affac1b8d99a01d79355003340a7deb7021b6badce498c9d6e26a2c52e4c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/shutdown-shutdown-window-observed.json.gz",
+      "bytes": 1206,
+      "sha256": "a40f31149499ee9fe1d9ec7624b4af72d5b25387e7fd970d87cd44f9f6780c52",
+      "raw_bytes": 8529,
+      "raw_sha256": "757201ba202e0c3057fdf35986119a32f28bb0e57af30a8994b62f2d63cad4a6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/shutdown-controller.log.gz",
+      "bytes": 244,
+      "sha256": "bac722abb6bcc5add9abad3283bc2a5016e01c2b00158efb72ec34315e33c4d8",
+      "raw_bytes": 369,
+      "raw_sha256": "b2689ae1a3fec3232c7165d3bff388009f1c74ae7c4b2dedd83a21f603b01e74",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/shutdown-host-install.log.gz",
+      "bytes": 125,
+      "sha256": "98a32414af92fb654d39003ba5aeaa0cab819a3f1b4ae3958e233ac91f9ab858",
+      "raw_bytes": 131,
+      "raw_sha256": "783bd6e4638af86809bb68a2858bd7e311f7d3b0c5006ce9feade41a021f4c77",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/io-lifetime-evidence/shutdown-shutdown.log.gz",
+      "bytes": 637,
+      "sha256": "96617ae5bca9b9deb50221980d72cb3710df7114ca5112683146e73493887be7",
+      "raw_bytes": 6958,
+      "raw_sha256": "b6c722af03009d304e55edb72d9861bf36201954b98172a186ec707a3fcdaa1b",
+      "encoding": "gzip"
+    }
+  ],
+  "native": [
+    {
+      "name": "automation",
+      "controller": {
+        "executable_sha256": "d95d46d73c39256ca5e3878b42467eb6aa63480fac332eb71b65180d8ae1ecf2",
+        "name": "automation",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 14656,
+        "cleanup": {
+          "before": {
+            "total": 10,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 10,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 7.812
+      },
+      "observations": [
+        {
+          "name": "automation-gdi-observed.json",
+          "checks": [
+            "discover, stable session ID and Unicode logical screen",
+            "pixel screenshot without clipboard or foreground input",
+            "UTF-8 input, bracketed paste and Enter key reach the real child",
+            "stale target and malformed requests are rejected",
+            "partial disconnect and oversized frames leave the service usable",
+            "idle client timeout keeps the window and subsequent discovery responsive",
+            "I/O context statistics return to baseline after tab shutdown",
+            "multiple tabs, inactive capture and closed-tab targeting",
+            "natural shutdown removes discovery endpoint and drains owned children",
+            "automation is opt-in"
+          ],
+          "cases": 0
+        }
+      ]
+    },
+    {
+      "name": "session",
+      "controller": {
+        "executable_sha256": "d95d46d73c39256ca5e3878b42467eb6aa63480fac332eb71b65180d8ae1ecf2",
+        "name": "session",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 44996,
+        "cleanup": {
+          "before": {
+            "total": 36,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 36,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 8.207
+      },
+      "observations": [
+        {
+          "name": "session-window-gdi-observed.json",
+          "checks": [
+            "three sessions route input/output independently in one process",
+            "middle child exit and original window close preserve remaining session",
+            "12 image/synchronized-output open/close cycles release handles",
+            "failed shell start leaves existing session alive and permits retry",
+            "window creation failure frees a partial seat and preserves both running sessions",
+            "synthetic delayed paste rejects another session identity; valid paste stays isolated",
+            "last session exit drains all owned processes naturally"
+          ],
+          "cases": 0
+        }
+      ]
+    },
+    {
+      "name": "session_restart",
+      "controller": {
+        "executable_sha256": "d95d46d73c39256ca5e3878b42467eb6aa63480fac332eb71b65180d8ae1ecf2",
+        "name": "session_restart",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 37856,
+        "cleanup": {
+          "before": {
+            "total": 15,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 15,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 3.071
+      },
+      "observations": [
+        {
+          "name": "session-restart-observed.json",
+          "checks": [],
+          "cases": 0
+        }
+      ]
+    },
+    {
+      "name": "shutdown",
+      "controller": {
+        "executable_sha256": "d95d46d73c39256ca5e3878b42467eb6aa63480fac332eb71b65180d8ae1ecf2",
+        "name": "shutdown",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 43096,
+        "cleanup": {
+          "before": {
+            "total": 20,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 20,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 3.005
+      },
+      "observations": [
+        {
+          "name": "shutdown-window-observed.json",
+          "checks": [],
+          "cases": 6
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    ".github/workflows/ci.yml": "9bf334a6049a3f25b271807eccd4c667d28ead8afc6ecedd2f090d262c03f120",
+    "docs/AUTOMATION.md": "44749980219a488022587cf289ceceb349f06fbfe88ed75085304239ae33bbbd",
+    "tests/automation_window_smoke.py": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce",
+    "vendor/putty-0.85/windows/CMakeLists.txt": "7bad8904cd7d083f0452f8b84b70679191c186005fb8c7a2ae9565dc589acd81",
+    "vendor/putty-0.85/windows/handle-io.c": "f6e58277c258b88ceb226168a835a0531e2b045b29a9740b00fe192d9eb5c30f",
+    "vendor/putty-0.85/windows/nemo_debug_ui.inc": "48fc709df111412aae987ce5ec6c61ee3ddfcbc58ce8c5a56232b0179808e3c2",
+    "vendor/putty-0.85/windows/platform.h": "325d66c11090c5a7b5b98d95bf2de02a01c23d8f0d358dbf70d9f79148e26e48",
+    "vendor/putty-0.85/windows/test/test_handle_io.c": "73b050b4564249cda66da335517d2a695aa588505d33f2c5f21c1e90caf71a34"
+  },
+  "source_hash_format": "SHA-256 of UTF-8 checkout files with CRLF normalized to LF",
+  "images": {
+    "before": {
+      "path": "build/test_handle_io-before.exe",
+      "sha256": "b8895038dd704d84c333225f55966fa1d8e0fa2c91467fa71039d27233aa918a",
+      "bytes": 115229
+    },
+    "mingw_test": {
+      "path": "build/core/test_handle_io.exe",
+      "sha256": "2745c88eff01efe70921b077188c81efe65634bf05ead971987a246c68a16f95",
+      "bytes": 117253
+    },
+    "msvc_test": {
+      "path": "build/core-msvc/test_handle_io.exe",
+      "sha256": "45ca0c5cd427a48aa8a080f9db0c49093b30f368e3149dd3ec1857100e871644",
+      "bytes": 178176
+    },
+    "frontend": {
+      "path": "build/core/nemoterm.exe",
+      "sha256": "d95d46d73c39256ca5e3878b42467eb6aa63480fac332eb71b65180d8ae1ecf2",
+      "bytes": 3872482
+    }
+  },
+  "io_snapshots": [
+    {
+      "input": 1,
+      "output": 1,
+      "closing": 0,
+      "created": 2,
+      "destroyed": 0
+    },
+    {
+      "input": 2,
+      "output": 2,
+      "closing": 0,
+      "created": 4,
+      "destroyed": 0
+    },
+    {
+      "input": 1,
+      "output": 1,
+      "closing": 0,
+      "created": 4,
+      "destroyed": 2
+    }
+  ],
+  "remote_ci": {
+    "single": {
+      "id": 43539454999,
+      "status": "pending",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43539454999"
+    },
+    "core": {
+      "id": 43539455051,
+      "status": "pending",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43539455051"
+    }
+  }
+}
