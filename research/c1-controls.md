@@ -56,9 +56,32 @@ nine interface groups, compares screenshots with zero differing channels and
 drains all ten processes owned by the outer test job. Those small-window
 observations are not the Sarasa 160x48 memory acceptance workload.
 
-Source checkpoint `517124f30da646ff2d67b589226a5259002dd117` is undergoing
-[full compiler/core/native CI](https://github.com/xiongnemo/nemoterm/actions/runs/43534154821)
-and [single-image integration](https://github.com/xiongnemo/nemoterm/actions/runs/43534154789).
-At this record's creation the sanitizer, MSVC renderer and source-host jobs
-have passed; the remaining native jobs are still running. This branch has not
-been merged and the accepted `dist/nemoterm.exe` has not been replaced.
+## Downloaded single-image checkpoint; compiler repeat pending
+
+Source checkpoint `517124f30da646ff2d67b589226a5259002dd117` passes all 101 groups
+in [single-image integration](https://github.com/xiongnemo/nemoterm/actions/runs/43534154789).
+Artifact 14090051527 contains the 4,450,304-byte EXE, SHA-256
+`4beee874e66f49981ad39b6887cb05852fd77d7afea19cb0eac5346f7823527f`.
+Its two C1 code-page fixtures each pass 141 reference cases and five key/text
+checks remotely and again locally. The downloaded image also passes all nine
+automation groups locally with identical reference/API pixels and natural exit.
+
+The unmodified local GDI workload obtains SarasaTermSC Nerd Font Light at
+160x48, passes all nine groups, and drains 56 inner / 58 outer processes
+naturally. Across 453 samples over 48.979 seconds, frontend peaks are
+16,269,312 private-working-set bytes, 43,118,592 total-working-set bytes and
+18,931,712 private-commit bytes. Sampling uses no target injection or trimming.
+This is a GDI result; DirectX's outstanding limits are not closed by it.
+
+The first [compiler/core/native run](https://github.com/xiongnemo/nemoterm/actions/runs/43534154821)
+passes sanitizer, MSVC renderer and source-host jobs. The Windows job reaches
+its overall 20-minute deadline during the final memory-workload step and is
+cancelled, so the full workflow is not a pass. All preceding Windows steps
+report success; partial results and the job log are retained. Commit `cb52a3c`
+changes only the Windows whole-job deadline to 30 minutes; product and test
+sources are identical. Its [full repeat](https://github.com/xiongnemo/nemoterm/actions/runs/43537297417)
+is still pending and remains a merge gate. No numerical resource or memory
+assertion or individual test timeout was relaxed.
+
+The manifest now retains 303 compressed records. This branch is not yet merged;
+the accepted local `dist/nemoterm.exe` remains unchanged.
