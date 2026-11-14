@@ -27,3 +27,21 @@ replace full CI or exact-product local memory acceptance.
 Regular core and single-image workflows already include zoom, bell and
 rectangle checks. They retain their normal push triggers; only the two
 historical artifact replays require an explicit artifact selection.
+
+## Corrected executions
+
+Both explicit replays pass at fixture commit
+`4b3cf8ad34063636a54310e9e5d99e4ac6a6d4b1`:
+[font zoom/bell 43639226136](https://github.com/xiongnemo/nemoterm/actions/runs/43639226136)
+and [rectangle capture 43639229046](https://github.com/xiongnemo/nemoterm/actions/runs/43639229046).
+Both source/run guards pass, and both downloaded identity records name the
+expected `97d6025` source and `355d0e83` executable. The font replay completes
+zoom pixels/input, sibling tabs/settings, audible-bell API and visual-bell
+checks; rectangle replay completes cropped/frozen-tab and GDI/DirectX full-frame
+checks. Their 24 evidence files, complete logs and artifact/run metadata are
+retained in the validation manifest alongside the original failures.
+
+Local PowerShell parsing succeeded for all modified workflow blocks. The
+production comparison accepts `97d6025` and still rejects both historical
+fixed source commits. These workflow-only changes leave the accepted local
+`07c8d279` executable unchanged and do not cancel the full `683f8c3` workflows.
