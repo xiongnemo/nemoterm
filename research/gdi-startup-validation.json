@@ -1,0 +1,1121 @@
+{
+  "recorded_utc": "2026-11-14T02:13:46.581051+00:00",
+  "source_commit": "4c2e5adce00aab95f7ca3c0ececbdfdc26ce13ea",
+  "memory_acceptance": false,
+  "original_failure_resolved": false,
+  "files": [
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-diagnostic-fixture.json.gz",
+      "bytes": 308,
+      "sha256": "faf448931ebeb8bb2afa013edaf735e4f8993a840dad9e622d60d4c96dc35ac7",
+      "raw_bytes": 426,
+      "raw_sha256": "dd4e4f952dff95c5568aba8011704e7e3d5f3ac08c61453ffea18f026b5dad92",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "e0587928af6a8a7956c98f8423ae327237b2397a8d0fd6add07be7874fd7a93f",
+      "raw_bytes": 470,
+      "raw_sha256": "4f2e44c08b7542c3e4cd612879de004c4bfcb86974a42000cce2b85a6fe8f6f1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tabs-gdi-top-host.png.gz",
+      "bytes": 2163,
+      "sha256": "11f23279f11bec14e60a80dbe698fadbdda76710c6161a73e79ffb65dc790a0e",
+      "raw_bytes": 4287,
+      "raw_sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 32963,
+      "sha256": "d12f8467a7174c664536d118c6493df526b56b2489bdc871734961bff2e59ae2",
+      "raw_bytes": 1386194,
+      "raw_sha256": "1221104c2a77b527ee60e12f6499d80fbf9e3a91f7da4170961b6339c13afb0a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 3635,
+      "sha256": "6ae1a826aa85a9de1153698c9cc5fad6350ad2c01ba26aa9786a3da409ac133e",
+      "raw_bytes": 44085,
+      "raw_sha256": "7040a0d668e68f85be5de9ed22c02051a2aea80765cf4debbb89baca43e40ef3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tabs.log.gz",
+      "bytes": 415,
+      "sha256": "aa7d9edead3006ed36ed11583ea19b3eeb263a07072c4a0fefd51003c1482b8b",
+      "raw_bytes": 1205,
+      "raw_sha256": "792ec1d4a52e8284f6a95f95dc1a3c16b56a787e6cdf73407d601b800b4ed5a3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-controller.log.gz",
+      "bytes": 612,
+      "sha256": "00d4db1105ebbb799fa851d25c24dc2ba2d721a64c4d475b2c0ace5e9808ee9d",
+      "raw_bytes": 1574,
+      "raw_sha256": "9e6b6fe53e7f7f32b615368b3663b91d5107529dc912b629b0bcc3d7925d3380",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tests_tabs_window_smoke.py.gz",
+      "bytes": 7307,
+      "sha256": "bd8644f10e94adff48389e46c1ab008480c86140bc3ff566c280e2fc68f3e614",
+      "raw_bytes": 26371,
+      "raw_sha256": "be880ac02be43470fb10de542c2a8404a45db756a9a60cd400b75a0e19a22114",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-fast-windows-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-diagnostic-fixture.json.gz",
+      "bytes": 300,
+      "sha256": "b9e03fa77d44911bbc8c737a12ef85e4b6adeeb5b065e702036a66b28aae7f72",
+      "raw_bytes": 426,
+      "raw_sha256": "292dc56ba7f5008d77b1eefa5728cbe0b4984df3fe91e8fc521fadbf919774ad",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "2005226008ad84a22f53053f1a669ae4d9276d5ac1c43e7263e1226efcfa1883",
+      "raw_bytes": 470,
+      "raw_sha256": "2bd8845acd56c9b1e489c2738612455f4a4db31f502b9bc488b69346f18422e8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tabs-gdi-top-host.png.gz",
+      "bytes": 2163,
+      "sha256": "11f23279f11bec14e60a80dbe698fadbdda76710c6161a73e79ffb65dc790a0e",
+      "raw_bytes": 4287,
+      "raw_sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 31530,
+      "sha256": "58bca59b35b1afb942789078fbcdc60afac3e146c8125d6e5b2a1b225093604e",
+      "raw_bytes": 1377814,
+      "raw_sha256": "d6350f599ff745f5138ab8ed4f4258fb8f29d7db5f75df80ef34d9413843844a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 36352,
+      "sha256": "131e402709fe11c4f5cc0fb2520032c30e8bb0676432347ad258638f5124977d",
+      "raw_bytes": 1689733,
+      "raw_sha256": "8b88f9e2980c7af27ba186777b688c3d2071ec5c49d4a53502f05f4d1f6849ab",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-controller.log.gz",
+      "bytes": 241,
+      "sha256": "a706266eb5dcb4b38b9200bd1aceef3d5129c513e3ead5ed2263fb96d72205cb",
+      "raw_bytes": 369,
+      "raw_sha256": "5e89563e40c1b94ae08390ec8a6e576121d5226929b1730eb8aa07d3a74e597b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tests_tabs_window_smoke.py.gz",
+      "bytes": 7532,
+      "sha256": "12a99e12e1614108f8a1de22e295c0893a607a26ce6015c234fe6875e5d67409",
+      "raw_bytes": 27432,
+      "raw_sha256": "08e279b7a072fc204c5eed88a1c7520478a3766528fa06c477bf038a7ab546b2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-timeline-02-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-diagnostic-fixture.json.gz",
+      "bytes": 300,
+      "sha256": "b9e03fa77d44911bbc8c737a12ef85e4b6adeeb5b065e702036a66b28aae7f72",
+      "raw_bytes": 426,
+      "raw_sha256": "292dc56ba7f5008d77b1eefa5728cbe0b4984df3fe91e8fc521fadbf919774ad",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "30485d98d0e0f960ead6f5d25d9ffb1eee10640ac4841f9f6a449144d7965ce0",
+      "raw_bytes": 470,
+      "raw_sha256": "5157146245234015477b7459dcc4ecd8da304cde9e708780919eb4726d6a2fb7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tabs-gdi-top-host.png.gz",
+      "bytes": 2163,
+      "sha256": "11f23279f11bec14e60a80dbe698fadbdda76710c6161a73e79ffb65dc790a0e",
+      "raw_bytes": 4287,
+      "raw_sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 31620,
+      "sha256": "e795eb4782a4e24d07eb613ca1ae8e497fdd591717f82a08cd3176c47353b713",
+      "raw_bytes": 1366736,
+      "raw_sha256": "7fa36494a49454126c65e913d276f1d3c13a182f1a61c280c98d0a03148ccc8a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 36389,
+      "sha256": "ff9e6de797bb320eea4cf4d9c8df9491d3d20a849b38f024893908f4668d051d",
+      "raw_bytes": 1707400,
+      "raw_sha256": "202b3e5e6fb32fe80c2b807cac06ac1e7e95b6e555746ae7fea093da726668a0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-controller.log.gz",
+      "bytes": 243,
+      "sha256": "e0a3ecdc06be229b137f91f68f7ec53401d5ea2c293559f3190982dec4b19639",
+      "raw_bytes": 369,
+      "raw_sha256": "d540275d1c6fd7d463b30c80d17a42062fdddb163cc4e3dcad09edc9323bdfaa",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tests_tabs_window_smoke.py.gz",
+      "bytes": 7532,
+      "sha256": "12a99e12e1614108f8a1de22e295c0893a607a26ce6015c234fe6875e5d67409",
+      "raw_bytes": 27432,
+      "raw_sha256": "08e279b7a072fc204c5eed88a1c7520478a3766528fa06c477bf038a7ab546b2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/c1-window-timeline-tests_owned_job.py.gz",
+      "bytes": 2519,
+      "sha256": "ed37ad47c1d2eacd15c08cf531ad9c6475354fdd0c7198e3a03292a5984ef8ff",
+      "raw_bytes": 8182,
+      "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-gdi-fast-windows.py.gz",
+      "bytes": 1701,
+      "sha256": "002fa471dab1c3f2a50e761bd23237ee2b58bf9a0911f49f240ee50ddf2c121e",
+      "raw_bytes": 4299,
+      "raw_sha256": "48d386648bb51c6f5775d4b38bcd86686865e7637ee772bc0f850bc5e2c47df1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-gdi-window-timeline.py.gz",
+      "bytes": 1080,
+      "sha256": "17ce453fd8bb2c2dc4ec8d3d6742cfa2dd66b9575a61e474e9739e3588c1a65c",
+      "raw_bytes": 3058,
+      "raw_sha256": "bf5d5003564e487c14e4753766619cde1f29e0e90dcf283e456dd6ebcf7085b5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-gdi-window-timeline-initial.py.gz",
+      "bytes": 2112,
+      "sha256": "03bada697e1e64731d0da93ea8936a084c3adce9421e169537057bf6db57745d",
+      "raw_bytes": 5848,
+      "raw_sha256": "93e25efb44624ce00a894b82ac8f3448dbf8a1e2eb34a0c4851b7e0240b4feee",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-gdi-window-timeline-expanded.py.gz",
+      "bytes": 2121,
+      "sha256": "670c18cb03eb7d93664e0fb571c6a0a0bfc26f159603cd13c44da972a74621d9",
+      "raw_bytes": 5883,
+      "raw_sha256": "f84d47cb82005e48591e7d56842ad4d7613d407f1471d6f13dacbad43df780d2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-c1-window-timeline.py.gz",
+      "bytes": 350,
+      "sha256": "9f409cc524d384991c5fdd6ee87538d5761e1344c6da6c201227fc58c31ec369",
+      "raw_bytes": 643,
+      "raw_sha256": "30be5f7e481d9caf807542f46f40b010ce198cf5712b470f74402009dac14da5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/check-c1-window-timeline-expanded.py.gz",
+      "bytes": 2121,
+      "sha256": "f44cf00a475647dc4ac287d4016b1a52b9bb14b50303b7900098f43448125ab4",
+      "raw_bytes": 5895,
+      "raw_sha256": "7619f380f09b2a4fb3f861ca227e781d7ee37d3a0b1cb30316dfe65b087294f6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/gdi-window-class-strings.json.gz",
+      "bytes": 363,
+      "sha256": "1cdc98952e792728e9f010fe55fb923df1a339af394f63a44f598b64ba6505cf",
+      "raw_bytes": 805,
+      "raw_sha256": "a4b6309cebe37250064157b79136b875dd527b126a8ce7c36ae0d400fdc20360",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/gdi-startup-evidence/retain-gdi-startup.py.gz",
+      "bytes": 1772,
+      "sha256": "22661de1b33d7d8898b4aed7b42d761f0f98fd00a75980a063851db66cf07f65",
+      "raw_bytes": 4179,
+      "raw_sha256": "c4b10dcd627bffbc43dd4821e44ff17be7d4304c3d2caf45714cb5cea0215f93",
+      "encoding": "gzip"
+    }
+  ],
+  "cases": {
+    "gdi-fast-windows": {
+      "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+      "baseline": {
+        "handles": 405,
+        "gdi": 38,
+        "user": 50,
+        "injected": false,
+        "private_ws": 10117120,
+        "total_ws": 36556800,
+        "private_commit": 13279232
+      },
+      "cycles": [
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10158080,
+          "total_ws": 36659200,
+          "private_commit": 12677120
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10162176,
+          "total_ws": 36679680,
+          "private_commit": 13496320
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10248192,
+          "total_ws": 36802560,
+          "private_commit": 12976128
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10174464,
+          "total_ws": 36737024,
+          "private_commit": 12529664
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10182656,
+          "total_ws": 36753408,
+          "private_commit": 14041088
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10207232,
+          "total_ws": 36802560,
+          "private_commit": 13213696
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10248192,
+          "total_ws": 36864000,
+          "private_commit": 13737984
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10297344,
+          "total_ws": 36917248,
+          "private_commit": 12627968
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10190848,
+          "total_ws": 36814848,
+          "private_commit": 12644352
+        },
+        {
+          "handles": 405,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10178560,
+          "total_ws": 36802560,
+          "private_commit": 13602816
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10190848,
+          "total_ws": 36827136,
+          "private_commit": 13336576
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10186752,
+          "total_ws": 36831232,
+          "private_commit": 13176832
+        }
+      ],
+      "controller": {
+        "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 36300,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 53.796
+      },
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "error": "RuntimeError('Owned process is no longer running')",
+      "diagnostic_completed": false,
+      "memory_acceptance": false,
+      "diagnostic_peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 16404480,
+          "total_ws": 43110400,
+          "private_commit": 19021824
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7057408,
+          "total_ws": 34140160,
+          "private_commit": 9850880
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27033600,
+          "total_ws": 53886976,
+          "private_commit": 33042432
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44232704,
+          "total_ws": 125272064,
+          "private_commit": 55767040
+        }
+      },
+      "timeline_samples": 0
+    },
+    "gdi-window-timeline-02": {
+      "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+      "baseline": {
+        "handles": 405,
+        "gdi": 38,
+        "user": 50,
+        "injected": false,
+        "private_ws": 10158080,
+        "total_ws": 36593664,
+        "private_commit": 13524992
+      },
+      "cycles": [
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10280960,
+          "total_ws": 36761600,
+          "private_commit": 13500416
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10395648,
+          "total_ws": 36904960,
+          "private_commit": 13262848
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10375168,
+          "total_ws": 36917248,
+          "private_commit": 13324288
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10350592,
+          "total_ws": 36904960,
+          "private_commit": 13717504
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10375168,
+          "total_ws": 36950016,
+          "private_commit": 13705216
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10473472,
+          "total_ws": 37072896,
+          "private_commit": 13664256
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10436608,
+          "total_ws": 37044224,
+          "private_commit": 13258752
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10530816,
+          "total_ws": 37142528,
+          "private_commit": 13385728
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10391552,
+          "total_ws": 37011456,
+          "private_commit": 13500416
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10362880,
+          "total_ws": 36986880,
+          "private_commit": 12951552
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10334208,
+          "total_ws": 36970496,
+          "private_commit": 12898304
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10391552,
+          "total_ws": 37031936,
+          "private_commit": 13848576
+        }
+      ],
+      "controller": {
+        "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 40940,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 53.131
+      },
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "error": null,
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "diagnostic_peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 16220160,
+          "total_ws": 42897408,
+          "private_commit": 19226624
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7065600,
+          "total_ws": 34131968,
+          "private_commit": 9621504
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26955776,
+          "total_ws": 53809152,
+          "private_commit": 33267712
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44212224,
+          "total_ws": 125243392,
+          "private_commit": 56324096
+        }
+      },
+      "timeline_samples": 675,
+      "ui_transition": [
+        {
+          "seconds": 0.09646530007012188,
+          "handles": 321,
+          "gdi": 22,
+          "user": 26,
+          "classes": [
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "IME"
+          ]
+        },
+        {
+          "seconds": 0.1383495000191033,
+          "handles": 343,
+          "gdi": 27,
+          "user": 40,
+          "classes": [
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "MSCTFIME UI",
+            "IME"
+          ]
+        },
+        {
+          "seconds": 0.17328260000795126,
+          "handles": 390,
+          "gdi": 29,
+          "user": 47,
+          "classes": [
+            "NativeHWNDHost",
+            "Mode Indicator Button",
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "MSCTFIME UI",
+            "IME"
+          ]
+        }
+      ],
+      "first_second_tab_seconds": 0.6606537001207471,
+      "class_modules": [
+        {
+          "kind": "NativeHWNDHost",
+          "module": "DUI70.dll"
+        },
+        {
+          "kind": "Mode Indicator Button",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "NemotermHost",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "Nemoterm",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "Nemoterm",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "PuTTYTimerWindow",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "MSCTFIME UI",
+          "module": "MSCTF.dll"
+        },
+        {
+          "kind": "IME",
+          "module": "USER32.dll"
+        }
+      ]
+    },
+    "c1-window-timeline": {
+      "executable_sha256": "4beee874e66f49981ad39b6887cb05852fd77d7afea19cb0eac5346f7823527f",
+      "baseline": {
+        "handles": 405,
+        "gdi": 38,
+        "user": 50,
+        "injected": false,
+        "private_ws": 10264576,
+        "total_ws": 36712448,
+        "private_commit": 13438976
+      },
+      "cycles": [
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 9936896,
+          "total_ws": 36429824,
+          "private_commit": 13221888
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10149888,
+          "total_ws": 36671488,
+          "private_commit": 12996608
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10272768,
+          "total_ws": 36810752,
+          "private_commit": 13606912
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10153984,
+          "total_ws": 36716544,
+          "private_commit": 12951552
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10280960,
+          "total_ws": 36855808,
+          "private_commit": 13115392
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10403840,
+          "total_ws": 36995072,
+          "private_commit": 13017088
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10125312,
+          "total_ws": 36732928,
+          "private_commit": 12509184
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10375168,
+          "total_ws": 36982784,
+          "private_commit": 13008896
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10387456,
+          "total_ws": 37007360,
+          "private_commit": 13701120
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10403840,
+          "total_ws": 37023744,
+          "private_commit": 13598720
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10391552,
+          "total_ws": 37011456,
+          "private_commit": 12857344
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10371072,
+          "total_ws": 37003264,
+          "private_commit": 13422592
+        }
+      ],
+      "controller": {
+        "executable_sha256": "4beee874e66f49981ad39b6887cb05852fd77d7afea19cb0eac5346f7823527f",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 21068,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 52.833
+      },
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "error": null,
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "diagnostic_peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 16424960,
+          "total_ws": 43110400,
+          "private_commit": 19144704
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 7057408,
+          "total_ws": 33579008,
+          "private_commit": 9383936
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27373568,
+          "total_ws": 54226944,
+          "private_commit": 33259520
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44736512,
+          "total_ws": 125681664,
+          "private_commit": 55853056
+        }
+      },
+      "timeline_samples": 683,
+      "ui_transition": [
+        {
+          "seconds": 0.09793249983340502,
+          "handles": 338,
+          "gdi": 24,
+          "user": 33,
+          "classes": [
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "MSCTFIME UI",
+            "IME"
+          ]
+        },
+        {
+          "seconds": 0.12188959983177483,
+          "handles": 367,
+          "gdi": 27,
+          "user": 42,
+          "classes": [
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "MSCTFIME UI",
+            "IME"
+          ]
+        },
+        {
+          "seconds": 0.15028179995715618,
+          "handles": 390,
+          "gdi": 29,
+          "user": 47,
+          "classes": [
+            "NativeHWNDHost",
+            "Mode Indicator Button",
+            "NemotermHost",
+            "Nemoterm",
+            "PuTTYTimerWindow",
+            "MSCTFIME UI",
+            "IME"
+          ]
+        }
+      ],
+      "first_second_tab_seconds": 0.5943621997721493,
+      "class_modules": [
+        {
+          "kind": "NativeHWNDHost",
+          "module": "DUI70.dll"
+        },
+        {
+          "kind": "Mode Indicator Button",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "NemotermHost",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "Nemoterm",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "Nemoterm",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "PuTTYTimerWindow",
+          "module": "nemoterm.exe"
+        },
+        {
+          "kind": "MSCTFIME UI",
+          "module": "MSCTF.dll"
+        },
+        {
+          "kind": "IME",
+          "module": "USER32.dll"
+        }
+      ]
+    }
+  },
+  "preparation_failure": {
+    "script": "check-gdi-window-timeline-initial.py",
+    "error": "AssertionError:         finally:",
+    "reason": "Substring matched both outer and nested finally clauses",
+    "target_started": false,
+    "correction": "Use the unique outer finally followed by try; use a fresh destination"
+  }
+}
