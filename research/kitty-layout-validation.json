@@ -1,0 +1,35 @@
+{
+  "parent_commit": "2ac430b4979ef977200f291f83fc9dcdbc848e23",
+  "scope": "Ordinary geometry only; no terminal/runtime kitty support",
+  "local_checks": 153,
+  "reference_cases": 13,
+  "reference_capture_sha256": "b00df940a8d246bfdc958ea46d67d8321d031d129b02db28cc2fe3b298a176a0",
+  "remote_ci": "pending",
+  "runtime_graphics_support": false,
+  "memory_acceptance": false,
+  "accepted_executable_changed": false,
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty_layout.c": "8dd4fc4a967b58b5c9cc6209c3ea0731e193b1bd0cd98eb26d69eb695de253a1",
+    "vendor/putty-0.85/terminal/nemo_kitty_layout.h": "a39dab472bb4892b5687a193e471f82c1ad10c00f7d91e01580d4ba159f05f00",
+    "tests/test_kitty_layout.c": "7d301a062d7f88eaf1d8341107fba55d609e58472be1b3f3b2748127f6fa81c2",
+    "tests/kitty_layout_reference.h": "d49d99b9057d9d3848d38342b0695e70249c16c2c5ac26179591feb786850ac6",
+    "scripts/generate-kitty-layout-reference.py": "8d499355f845589e6574e2b59af20c0b459e9b4bd5c668e6baf64b4858f0b140"
+  },
+  "retained": [
+    {
+      "file": "kitty-layout-evidence/local-test.log.gz",
+      "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+      "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+    },
+    {
+      "file": "kitty-layout-evidence/local-test-release.log.gz",
+      "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+      "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+    },
+    {
+      "file": "kitty-layout-evidence/compiler.txt.gz",
+      "raw_sha256": "3e4cf73f343e1f5c3d62c586f054be01eb7cb3698cc3a74a74fb299eac7f2193",
+      "compressed_sha256": "2d878fd417355f2c51d3ee09bef884220433dc2080d6cd0e20ab1205d67071c7"
+    }
+  ]
+}

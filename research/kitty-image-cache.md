@@ -76,8 +76,12 @@ upstream model output, not visible GPU pixels. Also preserve the explicit distin
 clearing the screen and other text erases: the latter must not erase kitty
 placements, unlike the existing Sixel cell-mask path.
 
-Remaining work includes placement identity/deletion, crop/offset/scale/cursor and
-scroll lifetimes, rendering order around text/backgrounds, terminal framing and
+The [ordinary layout component](kitty-layout.md) now calculates crop, offsets,
+scale and cursor deltas against 13 retained upstream observations. It remains
+separate from placement ownership and actual rendering.
+
+Remaining work includes placement identity/deletion and scroll lifetimes,
+rendering order around text/backgrounds, terminal framing and
 replies, real PNG decoding, indexed/compressed formats, relative/Unicode placements,
 animation, independent pixel reference evidence and full local acceptance.
 The complete modern-terminal objective remains open.
