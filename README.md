@@ -46,6 +46,8 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 产物预计于 **2026-12-14 22:51 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-compression-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
+后续主分支 CI 的 MSVC 标签测试出现过一次访问冲突；相同产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
+
 查找后续开发构建：
 
 1. 登录 GitHub，打开 [Single executable from source](https://github.com/xiongnemo/nemoterm/actions/workflows/single-exe.yml)。

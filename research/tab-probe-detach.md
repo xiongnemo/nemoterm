@@ -56,3 +56,14 @@ MSVC artifact and records the same boundary metadata on a hosted runner. The
 diagnostic can run once the selected MSVC job has failed without cancelling the
 other jobs still running in that source workflow. The accepted local single EXE
 and the original full-goal requirements remain unchanged.
+
+## Hosted exact-image diagnosis
+
+[Focused run 43654728264](https://github.com/xiongnemo/nemoterm/actions/runs/43654728264)
+at fixture `6a7ba5a` passed three independent lifetimes of the exact failed image.
+All used actual GDI after the requested OpenGL profile fell back, matching the
+original runner. Each passed nine interaction groups, recorded patched procedure
+bytes while the probe was installed and restored bytes after detachment/selection,
+and naturally drained all 54 owned processes. Artifact `14137517841` and 12 raw
+records are retained in the validation index. This is a successful diagnostic
+comparison; the cause of the original access violation remains unproven.

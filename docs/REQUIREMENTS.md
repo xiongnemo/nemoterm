@@ -19,6 +19,12 @@ groups exit naturally. The earlier `97d6025` / `8ff214f` acceptance and intermit
 resource/shutdown failures remain preserved; these passes do not prove the
 historical intermittent failures resolved.
 
+A later main-source MSVC diagnostic run records an access violation at the first
+tab selection after test-probe detachment, in a distinct sidecar-host build.
+Six original local replays, two local boundary-observer runs and three focused
+runner replays pass, but the original cause remains unproven. See
+[the retained failure](../research/tab-probe-detach.md).
+
 The original full protocol, graphics, real-application, physical-input and
 long-session scope remains open. The following sections describe historical
 checkpoints at their stated source versions, not newer accepted binaries.
