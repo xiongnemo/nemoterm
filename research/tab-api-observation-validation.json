@@ -1,0 +1,927 @@
+{
+  "source_base": "8a41ad7acccf22f6b87f4223935255eacda8f02d",
+  "scope": "Use opt-in API for tab pixel capture; retain lifecycle failure state. No product change or resolution of earlier CI crash/resource failures claimed.",
+  "comparison": [
+    {
+      "name": "before-1",
+      "variant": "old",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 2,
+      "phase": null,
+      "error": null,
+      "seconds": 14.892,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "host_close": null,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "name": "before-2",
+      "variant": "old",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 1,
+      "checks": 1,
+      "actual": 2,
+      "phase": null,
+      "error": "AssertionError('Closed-tab resources did not return to baseline')",
+      "seconds": 7.118,
+      "first_tab_close": null,
+      "host_close": null,
+      "cleanup": {
+        "before": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "name": "after-gdi",
+      "variant": "new",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 1,
+      "phase": "complete",
+      "error": null,
+      "seconds": 13.469,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "host_close": {
+        "exit_code": 0,
+        "seconds": 0.055304099805653095
+      },
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "name": "after-opengl",
+      "variant": "new",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 1,
+      "checks": 1,
+      "actual": 2,
+      "phase": "resource-cycles",
+      "error": "AssertionError('Closed-tab resources did not return to baseline')",
+      "seconds": 7.261,
+      "first_tab_close": null,
+      "host_close": null,
+      "cleanup": {
+        "before": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "name": "after-directx",
+      "variant": "new",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 3,
+      "phase": "complete",
+      "error": null,
+      "seconds": 14.212,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "host_close": {
+        "exit_code": 0,
+        "seconds": 0.07137329992838204
+      },
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "name": "memory-gdi",
+      "variant": "new",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 1,
+      "phase": "complete",
+      "error": null,
+      "seconds": 59.677,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "host_close": {
+        "exit_code": 0,
+        "seconds": 0.06521979998797178
+      },
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 521,
+      "peaks": {
+        "count": 1,
+        "private_ws": 16392192,
+        "total_ws": 43364352,
+        "private_commit": 19238912
+      },
+      "injected": false
+    },
+    {
+      "name": "memory-directx",
+      "variant": "new",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 3,
+      "phase": "complete",
+      "error": null,
+      "seconds": 55.375,
+      "first_tab_close": {
+        "frontend_exit": null,
+        "sibling_alive": true
+      },
+      "host_close": {
+        "exit_code": 0,
+        "seconds": 0.07327120006084442
+      },
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 478,
+      "peaks": {
+        "count": 1,
+        "private_ws": 23633920,
+        "total_ws": 63430656,
+        "private_commit": 87261184
+      },
+      "injected": false
+    },
+    {
+      "name": "close-host-canary",
+      "variant": "canary",
+      "executable_sha256": "4e25f1652d0d622c1b5a46658e9881f36dd3ecce4d7e22847a68d70a3f42d614",
+      "exit_code": 1,
+      "checks": 1,
+      "actual": 1,
+      "phase": "resource-cycles",
+      "error": "AssertionError('Closed-tab resources did not return to baseline')",
+      "seconds": 7.077,
+      "first_tab_close": null,
+      "host_close": null,
+      "cleanup": {
+        "before": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 11,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "expected_failure_observed": false
+    }
+  ],
+  "diagnostic": {
+    "diagnostic_only": true,
+    "memory_acceptance": false,
+    "exit_code": 0,
+    "phase": "complete",
+    "error": null,
+    "checks": 9,
+    "handle_delta": null,
+    "type_deltas": null,
+    "inner_cleanup": {
+      "before": {
+        "total": 54,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 54,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "baseline_windows": [
+      "NativeHWNDHost",
+      "Mode Indicator Button",
+      "NemotermHost",
+      "Nemoterm",
+      "Nemoterm",
+      "NemotermOpenGL",
+      "NVOpenGLPbuffer",
+      "NVOpenGLPbuffer",
+      "PuTTYTimerWindow",
+      "MSCTFIME UI",
+      "IME",
+      "IME",
+      "IME"
+    ],
+    "baseline_thread_modules": [
+      "nemoterm.exe",
+      "ntdll.dll",
+      "ntdll.dll",
+      "ntdll.dll",
+      "ntdll.dll",
+      "ntdll.dll",
+      "shcore.dll",
+      "combase.dll",
+      "ntdll.dll",
+      "ntdll.dll",
+      "nemoterm.exe",
+      "nemoterm.exe",
+      "nvoglv64.dll",
+      "CRYPT32.dll",
+      "nvoglv64.dll",
+      "nvoglv64.dll",
+      "nemoterm.exe",
+      "msctfuimanager.dll",
+      "msvcrt.dll",
+      "combase.dll",
+      "msiltcfg.dll",
+      "nemoterm.exe",
+      "nemoterm.exe"
+    ],
+    "failure_windows": [],
+    "failure_thread_modules": []
+  },
+  "canary": {
+    "exit_code": 1,
+    "expected_failure_observed": true,
+    "phase": "close-first-tab",
+    "first_tab_close": {
+      "frontend_exit": null,
+      "sibling_alive": false
+    },
+    "process_before_cleanup": {
+      "pid": 23988,
+      "exit_code": null,
+      "job": {
+        "total": 5,
+        "active": 1,
+        "terminated": 0
+      },
+      "observation_error": "OSError(22, 'Only part of a ReadProcessMemory or WriteProcessMemory request was completed.', None, 299)",
+      "exit_code_after_observation": 0
+    },
+    "cleanup": {
+      "before": {
+        "total": 5,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 5,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "error": "AssertionError({'frontend_exit': None, 'sibling_alive': False})"
+  },
+  "records": [
+    {
+      "path": "project/build/ci-main-8a41ad7/census-artifacts.json",
+      "archive": "research/tab-api-observation-records/000-census-artifacts.json.gz",
+      "bytes": 1492,
+      "sha256": "1a49823cb50f073ee22299cf95b5bc8d97c2e7180841fcfb50c2b73c8c7a3589"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/census-run.json",
+      "archive": "research/tab-api-observation-records/001-census-run.json.gz",
+      "bytes": 4022,
+      "sha256": "1c10f7e5c8dda74e4b69874564a7445d9cfd6818fce5e5e7dcdadbbb0a9a9f4a"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/census-run.log",
+      "archive": "research/tab-api-observation-records/002-census-run.log.gz",
+      "bytes": 57055,
+      "sha256": "c31e0758246383d0392a849b0b69d5ae132aab78dfe26326524498874bf9100a"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/core-artifacts.json",
+      "archive": "research/tab-api-observation-records/003-core-artifacts.json.gz",
+      "bytes": 3672,
+      "sha256": "bd8769f38a9e129cc4901d2e82a732c54a644dc0efbeaf9d7ff37a85c10d3840"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/core-run.json",
+      "archive": "research/tab-api-observation-records/004-core-run.json.gz",
+      "bytes": 18402,
+      "sha256": "6aac231e7f457f7e387f853639c355e5944cfcccb5faf338d8432fcbe80301f6"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/core-run.log",
+      "archive": "research/tab-api-observation-records/005-core-run.log.gz",
+      "bytes": 1001261,
+      "sha256": "3d02b0bc1f9a8d405a700b4582be351a7fd2ea9d7be6cd2d0d9699d206e7c453"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/build/native-crashes/application-errors.json",
+      "archive": "research/tab-api-observation-records/006-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/research/tabs-close-repeat-1.json",
+      "archive": "research/tab-api-observation-records/007-tabs-close-repeat-1.json.gz",
+      "bytes": 121138,
+      "sha256": "4b3642fed089c8eaee56da52e88b0ed1dd3ee55cd5810846ae49870db7a635ae"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/research/tabs-close-repeat-2.json",
+      "archive": "research/tab-api-observation-records/008-tabs-close-repeat-2.json.gz",
+      "bytes": 121218,
+      "sha256": "a2c36aff1afa11ea04d0f72daa871246235c2a5367d4caae44dd43c353901e9d"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/research/tabs-close-repeat-3.json",
+      "archive": "research/tab-api-observation-records/009-tabs-close-repeat-3.json.gz",
+      "bytes": 121261,
+      "sha256": "a42acfd6bef4b3edeb12fd5b181c388edfdb77f27d09c3b9478b20e5a0ab8ead"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/research/tabs-close-repeat-4.json",
+      "archive": "research/tab-api-observation-records/010-tabs-close-repeat-4.json.gz",
+      "bytes": 121427,
+      "sha256": "43e90ed24e7bb6c9bc22d6371ada3c9a2683be28ba4e2026c2c76f071a9842c2"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/msvc/research/tabs-close-repeat-5.json",
+      "archive": "research/tab-api-observation-records/011-tabs-close-repeat-5.json.gz",
+      "bytes": 121727,
+      "sha256": "aad8c882876656daab67a13f72c6f599ba0bbb8f834ab74c888baa109c2784da"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/single-artifacts.json",
+      "archive": "research/tab-api-observation-records/012-single-artifacts.json.gz",
+      "bytes": 1487,
+      "sha256": "4124b65dc38a7e5844b4f37dfa4ed01c1a96a6d32c0225a55ac6251fe39118d4"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/single-evidence/build/single-exe-check/research/single-exe-validation.json",
+      "archive": "research/tab-api-observation-records/013-single-exe-validation.json.gz",
+      "bytes": 2707,
+      "sha256": "325a88c02d233651ba621b5225c3d527656fa8b20e8cdddc0b789fc8e7fa5d79"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/single-run.json",
+      "archive": "research/tab-api-observation-records/014-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "8a7c87afc2589dcdf31baf97c94796e5cf0c39bce286d7801010deeb3d2950db"
+    },
+    {
+      "path": "project/build/ci-main-8a41ad7/single-run.log",
+      "archive": "research/tab-api-observation-records/015-single-run.log.gz",
+      "bytes": 460166,
+      "sha256": "8bfda3b6029eddd2ef086bf3b6b6b1982fd05c0f4002a793e21d753a7719cb43"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "archive": "research/tab-api-observation-records/016-ci.yml.gz",
+      "bytes": 44706,
+      "sha256": "368df6058b54d17846f33663bd6e2fc9ed511a3e786f614660c123fd93ee66c4"
+    },
+    {
+      "path": "build/check-close-canary.py",
+      "archive": "research/tab-api-observation-records/017-check-close-canary.py.gz",
+      "bytes": 2294,
+      "sha256": "8daf7d79b451a1c81c43af8a0b667c7dccfa5e0e7bac26285dd91da298d80959"
+    },
+    {
+      "path": "build/check-resource-metadata.py",
+      "archive": "research/tab-api-observation-records/018-check-resource-metadata.py.gz",
+      "bytes": 3344,
+      "sha256": "cca35dc4fcef606214f88ef0f330fa5daa3a4b911d543fbfb93ebbfc98423258"
+    },
+    {
+      "path": "build/check-tab-api.py",
+      "archive": "research/tab-api-observation-records/019-check-tab-api.py.gz",
+      "bytes": 3830,
+      "sha256": "49ba1d30893a75d5793e3a12a2763f50129a4821ccf68117e4c74ad1f30d27ef"
+    },
+    {
+      "path": "build/close-canary-early-01/controller.log",
+      "archive": "research/tab-api-observation-records/020-controller.log.gz",
+      "bytes": 876,
+      "sha256": "4da4a97926da3cd0ec2fd1ffa53700b85969640496ed074a795eede683838a04"
+    },
+    {
+      "path": "build/close-canary-early-01/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/021-tabs-controller.json.gz",
+      "bytes": 467,
+      "sha256": "acb119e75821cda664e1c28bab16f20258475636f448e2606f5300c1695cde6f"
+    },
+    {
+      "path": "build/close-canary-early-01/research/tabs-gdi-top-observed.json",
+      "archive": "research/tab-api-observation-records/022-tabs-gdi-top-observed.json.gz",
+      "bytes": 6838,
+      "sha256": "1e32ab37273ad02748d6bdf2b472a87820095871c14bd721d4201ed74cb1f06d"
+    },
+    {
+      "path": "build/close-canary-early-01/result.json",
+      "archive": "research/tab-api-observation-records/023-result.json.gz",
+      "bytes": 855,
+      "sha256": "9fbb81958b29defcdb8e6c2a1dee249b9308208b27327515b7eb7417b9513941"
+    },
+    {
+      "path": "build/close-canary-early-01/tabs.log",
+      "archive": "research/tab-api-observation-records/024-tabs.log.gz",
+      "bytes": 510,
+      "sha256": "d307fa1337846e23a2bd4271b256640dc7ad22e85755423cd88220c59fb46361"
+    },
+    {
+      "path": "build/close-canary-early-01/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/025-tabs_window_smoke.py.gz",
+      "bytes": 30765,
+      "sha256": "30bc97c5f20a8121147bd1e14bee4742c70632854c8a66bc661b57ac9d455c26"
+    },
+    {
+      "path": "build/retain-tab-api.py",
+      "archive": "research/tab-api-observation-records/026-retain-tab-api.py.gz",
+      "bytes": 2563,
+      "sha256": "63520c4165aa90dcc52183463fe4722dc989bf7638a82bfcd6d0344cb9e103a7"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/controller.log",
+      "archive": "research/tab-api-observation-records/027-controller.log.gz",
+      "bytes": 366,
+      "sha256": "ff83630e5ef68fd586b37db16dd960246e42c39abf608d58e3563b708455f0fc"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/028-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "96eea53c096dd1546ee50b5fcc05f114c85ec378543902445c7b73d2282d65cc"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/research/tabs-directx-left-observed.json",
+      "archive": "research/tab-api-observation-records/029-tabs-directx-left-observed.json.gz",
+      "bytes": 128812,
+      "sha256": "1f95eda9be138c044a039a7757d8316f97a1a1a94c12069b121426913c901fa7"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/research/tabs-directx-left-preview.png",
+      "archive": "research/tab-api-observation-records/030-tabs-directx-left-preview.png.gz",
+      "bytes": 1429,
+      "sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/tabs.log",
+      "archive": "research/tab-api-observation-records/031-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/tab-api-comparison/after-directx/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/032-tabs_window_smoke.py.gz",
+      "bytes": 29815,
+      "sha256": "68892aaae2ab5adc52472698fab5115bc7b92c06e54794dd3b15055bc81472dd"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/controller.log",
+      "archive": "research/tab-api-observation-records/033-controller.log.gz",
+      "bytes": 365,
+      "sha256": "68d2101d0bb5c5df9a9059c7147a2291f05eacba12a0f1d061da44f002c51bba"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/034-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "0df1ee8c719d308fc5bc81b25ab32650863555d8d38a47e5e8e84af6bd2b0e72"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/tab-api-observation-records/035-tabs-gdi-top-host.png.gz",
+      "bytes": 6686,
+      "sha256": "1f8a8dfb11f999d36fc52eb8245c06785634b43196184aff4ece0eeeff2c3c70"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/research/tabs-gdi-top-observed.json",
+      "archive": "research/tab-api-observation-records/036-tabs-gdi-top-observed.json.gz",
+      "bytes": 128135,
+      "sha256": "7a812f8267e30a1631656a12331f8b17547e164f558e1e230bedef4ab5d21388"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/research/tabs-gdi-top-preview.png",
+      "archive": "research/tab-api-observation-records/037-tabs-gdi-top-preview.png.gz",
+      "bytes": 1429,
+      "sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/tabs.log",
+      "archive": "research/tab-api-observation-records/038-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/tab-api-comparison/after-gdi/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/039-tabs_window_smoke.py.gz",
+      "bytes": 29815,
+      "sha256": "68892aaae2ab5adc52472698fab5115bc7b92c06e54794dd3b15055bc81472dd"
+    },
+    {
+      "path": "build/tab-api-comparison/after-opengl/controller.log",
+      "archive": "research/tab-api-observation-records/040-controller.log.gz",
+      "bytes": 988,
+      "sha256": "c597162359ae6177e536ce695755dcb1b9b0c9938f91ae679d1c509b21d5baae"
+    },
+    {
+      "path": "build/tab-api-comparison/after-opengl/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/041-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "89c244368417b064b070d6bc8b50e28d8bda8d437b19cf1056b69842f00d0e86"
+    },
+    {
+      "path": "build/tab-api-comparison/after-opengl/research/tabs-opengl-right-observed.json",
+      "archive": "research/tab-api-observation-records/042-tabs-opengl-right-observed.json.gz",
+      "bytes": 76416,
+      "sha256": "68ae89ab2e78bbfb2c4f57ccd59dbb41d010c0e0524a1cb80a22082826ada550"
+    },
+    {
+      "path": "build/tab-api-comparison/after-opengl/tabs.log",
+      "archive": "research/tab-api-observation-records/043-tabs.log.gz",
+      "bytes": 620,
+      "sha256": "e321c914df97c5ac34dde33066094034ce77696e4cf30b7353db53d56ae0cb27"
+    },
+    {
+      "path": "build/tab-api-comparison/after-opengl/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/044-tabs_window_smoke.py.gz",
+      "bytes": 29815,
+      "sha256": "68892aaae2ab5adc52472698fab5115bc7b92c06e54794dd3b15055bc81472dd"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/controller.log",
+      "archive": "research/tab-api-observation-records/045-controller.log.gz",
+      "bytes": 366,
+      "sha256": "9d5c1b335cdf5e9edc748d2a6942736dbc52a51147047d4d7620d15bbbb765a2"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/046-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "ff305e39a3d0ce80b37ef80ac9dbfc4c7a82e3290a021505de64ec79191f8c8a"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/research/tabs-opengl-right-observed.json",
+      "archive": "research/tab-api-observation-records/047-tabs-opengl-right-observed.json.gz",
+      "bytes": 127060,
+      "sha256": "5c5c29b0b0aa89239dfbb090a2e7771199ddc9424ef8caa7b1310228386713c9"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/research/tabs-opengl-right-preview.png",
+      "archive": "research/tab-api-observation-records/048-tabs-opengl-right-preview.png.gz",
+      "bytes": 1429,
+      "sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/tabs.log",
+      "archive": "research/tab-api-observation-records/049-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "build/tab-api-comparison/before-1/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/050-tabs_window_smoke.py.gz",
+      "bytes": 27862,
+      "sha256": "db0c26ac814318a2fc4bd571fd8f2df7d620c3c417fe637b6f659fe1b9d7e126"
+    },
+    {
+      "path": "build/tab-api-comparison/before-2/controller.log",
+      "archive": "research/tab-api-observation-records/051-controller.log.gz",
+      "bytes": 980,
+      "sha256": "2a3e2608871d83aff1f1f7c4e14cdfd2a5a4115df0017cf5ffa8cbb66e0e576f"
+    },
+    {
+      "path": "build/tab-api-comparison/before-2/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/052-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "573154b0048c41b93d5108d61a906a9f1ae50f3923990c3d4a9917b1f759f827"
+    },
+    {
+      "path": "build/tab-api-comparison/before-2/research/tabs-opengl-right-observed.json",
+      "archive": "research/tab-api-observation-records/053-tabs-opengl-right-observed.json.gz",
+      "bytes": 49051,
+      "sha256": "d1580a96f5faa3364c7f85c1f934f6e4a7b5c678a35423f246acb75296cce7f7"
+    },
+    {
+      "path": "build/tab-api-comparison/before-2/tabs.log",
+      "archive": "research/tab-api-observation-records/054-tabs.log.gz",
+      "bytes": 612,
+      "sha256": "e5b2b69bf317807418a612adf9483dee66db0e364fb57a8d885800b9fa3a0d5f"
+    },
+    {
+      "path": "build/tab-api-comparison/before-2/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/055-tabs_window_smoke.py.gz",
+      "bytes": 27862,
+      "sha256": "db0c26ac814318a2fc4bd571fd8f2df7d620c3c417fe637b6f659fe1b9d7e126"
+    },
+    {
+      "path": "build/tab-api-comparison/close-host-canary/controller.log",
+      "archive": "research/tab-api-observation-records/056-controller.log.gz",
+      "bytes": 998,
+      "sha256": "61d9063fab793e0f65148b1d64d9f31a2667980e4358093aad5e3949312d01f7"
+    },
+    {
+      "path": "build/tab-api-comparison/close-host-canary/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/057-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "3c3ebcf07993c963087158f2e83e7ede3eab12e6f7087148824d99e1f27aa870"
+    },
+    {
+      "path": "build/tab-api-comparison/close-host-canary/research/tabs-gdi-top-observed.json",
+      "archive": "research/tab-api-observation-records/058-tabs-gdi-top-observed.json.gz",
+      "bytes": 72563,
+      "sha256": "f99d252538ab6c16825db65fe3ce9336f106b2f792347324ad876f5b1c62efa1"
+    },
+    {
+      "path": "build/tab-api-comparison/close-host-canary/tabs.log",
+      "archive": "research/tab-api-observation-records/059-tabs.log.gz",
+      "bytes": 630,
+      "sha256": "96bc1093bd04c3565f15e829c1bae552216b30412d98a4d8e2568807266c5c35"
+    },
+    {
+      "path": "build/tab-api-comparison/close-host-canary/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/060-tabs_window_smoke.py.gz",
+      "bytes": 30313,
+      "sha256": "b3eb75c088764bf2c2a3847458638892db5283b0438137c565b51d5d112aa158"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/controller.log",
+      "archive": "research/tab-api-observation-records/061-controller.log.gz",
+      "bytes": 366,
+      "sha256": "d6c7b074a411cfadb8e9f236ab859cd5ea0bb9c5b31113485d54bc20667e7886"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/062-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "0fb16b4a65ba287dc09d791b1a4cda78ad2839830126cbc67a7657329c7b0b7a"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-api-observation-records/063-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1339583,
+      "sha256": "408e8eb8d61d4e19a577324c1a78ff168d29efc28f0f889dda9700a88dacdc34"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-api-observation-records/064-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 178413,
+      "sha256": "5c1e6e5bcbb3a096fbfd30e570375e8dd2007afea3c2b43ba2f9e98eefe72df9"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/tab-api-observation-records/065-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/tabs.log",
+      "archive": "research/tab-api-observation-records/066-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-directx/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/067-tabs_window_smoke.py.gz",
+      "bytes": 29815,
+      "sha256": "68892aaae2ab5adc52472698fab5115bc7b92c06e54794dd3b15055bc81472dd"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/controller.log",
+      "archive": "research/tab-api-observation-records/068-controller.log.gz",
+      "bytes": 366,
+      "sha256": "54e4a4fc88434e22f1487fcac6b5a815df073c834bf81977e7be8841d5eb4322"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/069-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "d528b0d6def8752d9fa5a960af8a48b8707998d6d9b7d479cf7e41ade087734c"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/tab-api-observation-records/070-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/tab-api-observation-records/071-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1455102,
+      "sha256": "5f240ec90d2a9086ed416af0e2a0e4f91d794b092009dfa37f885a77cce0f9ea"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/tab-api-observation-records/072-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 177445,
+      "sha256": "89fe241bbe26b384cafeaf05e07b06e1a25e2bc99e8acefc4ba642fcec6e54db"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/tab-api-observation-records/073-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/tabs.log",
+      "archive": "research/tab-api-observation-records/074-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/tab-api-comparison/memory-gdi/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/075-tabs_window_smoke.py.gz",
+      "bytes": 29815,
+      "sha256": "68892aaae2ab5adc52472698fab5115bc7b92c06e54794dd3b15055bc81472dd"
+    },
+    {
+      "path": "build/tab-api-comparison/results.json",
+      "archive": "research/tab-api-observation-records/076-results.json.gz",
+      "bytes": 6210,
+      "sha256": "5ed3b9a70991b644258fa4dcf89820fd05623f37b77e3cfb33fe927c525faae0"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/controller.log",
+      "archive": "research/tab-api-observation-records/077-controller.log.gz",
+      "bytes": 366,
+      "sha256": "fe64057deb081082de2ee3d595ac9d723113ccc298a61e558be29e9e67cda15e"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/research/tabs-controller.json",
+      "archive": "research/tab-api-observation-records/078-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "ed66864290f81a304f536395b5fe89bdde75cc88bc2a48c53981cce3bd6e97c1"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/research/tabs-opengl-right-observed.json",
+      "archive": "research/tab-api-observation-records/079-tabs-opengl-right-observed.json.gz",
+      "bytes": 244245,
+      "sha256": "690d4777ca77e85cee4ba54ca6762be634bb8cef2a03371f0512c2b7720d7b76"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/research/tabs-opengl-right-preview.png",
+      "archive": "research/tab-api-observation-records/080-tabs-opengl-right-preview.png.gz",
+      "bytes": 1429,
+      "sha256": "73eee6de895b59be1ae57f1e675a977664e278702435aeaba59c78b1c286dd16"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/result.json",
+      "archive": "research/tab-api-observation-records/081-result.json.gz",
+      "bytes": 1307,
+      "sha256": "b3c3b06ddc79b8f84ba3e0ae2654f54aea8887548f56a2c1cb21bc04dc7fc652"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/tabs.log",
+      "archive": "research/tab-api-observation-records/082-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "build/tab-resource-metadata-01/tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/083-tabs_window_smoke.py.gz",
+      "bytes": 31198,
+      "sha256": "0577d65c77ca29e2ab10e4eed0a2b1bea53af14b92b9e2f27860420d8401a744"
+    },
+    {
+      "path": "docs/REQUIREMENTS.md",
+      "archive": "research/tab-api-observation-records/084-REQUIREMENTS.md.gz",
+      "bytes": 89572,
+      "sha256": "76c71f1b6831e4f162380b3b6b91f4b0f0310395d6906aaaba6ff83d6a076fcc"
+    },
+    {
+      "path": "tests/automation_capture.py",
+      "archive": "research/tab-api-observation-records/085-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "tests/frida_test_utils.py",
+      "archive": "research/tab-api-observation-records/086-frida_test_utils.py.gz",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+    },
+    {
+      "path": "tests/handle_snapshot.py",
+      "archive": "research/tab-api-observation-records/087-handle_snapshot.py.gz",
+      "bytes": 7089,
+      "sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e"
+    },
+    {
+      "path": "tests/owned_failure_state.py",
+      "archive": "research/tab-api-observation-records/088-owned_failure_state.py.gz",
+      "bytes": 2238,
+      "sha256": "c2875722eb3543051143651c67831af75a15f2d97a844b84d04fa37a2fd30fa7"
+    },
+    {
+      "path": "tests/resource_settle.py",
+      "archive": "research/tab-api-observation-records/089-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "tests/tabs_hover_probe.js",
+      "archive": "research/tab-api-observation-records/090-tabs_hover_probe.js.gz",
+      "bytes": 1877,
+      "sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "archive": "research/tab-api-observation-records/091-tabs_window_smoke.py.gz",
+      "bytes": 29857,
+      "sha256": "0ede5f4994144dfb044a58cd93417dfe48450601cdce8e89f0395b0a9c5df3d6"
+    },
+    {
+      "path": "tests/thread_snapshot.py",
+      "archive": "research/tab-api-observation-records/092-thread_snapshot.py.gz",
+      "bytes": 7972,
+      "sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+    }
+  ]
+}

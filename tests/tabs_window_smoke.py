@@ -3,6 +3,8 @@ from native_test_utils import *
 from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 from thread_snapshot import OwnedThreadSnapshot
+from owned_failure_state import record_owned_failure
+from frida_test_utils import detach_session
 from tab_menu_checks import TabMenuChecks
 from resource_settle import startup as resource_startup, after_close as resource_after_close
 from collections import Counter
@@ -25,6 +27,8 @@ images.add_argument('--inline-images',action='store_true',
 images.add_argument('--animated-images',action='store_true',
                     help='add four-frame GIF images to --workload-memory')
 observation=parser.add_mutually_exclusive_group()
+observation.add_argument('--resource-inventory',action='store_true',
+                    help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
 observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
 observation.add_argument('--local-heap-census',action='store_true',
@@ -48,6 +52,7 @@ prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_m
 if args.inline_images:prefix='inline-'+prefix
 if args.animated_images:prefix='animated-'+prefix
 base_scene=scene
+if args.resource_inventory:prefix='inventory-tabs'
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
     result=base_scene(text,colour)
@@ -84,8 +89,11 @@ def windows(pid,kind,parent=None,visible=False):
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
-              completed=False,checks=[],memory_instrumented=injected_observer)
+              completed=False,checks=[],memory_instrumented=injected_observer,
+              automation_enabled=True,phase='startup')
 if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False)
+if args.resource_inventory:
+    evidence.update(diagnostic_completed=False,memory_acceptance=False,resource_inventory=[])
 if args.etw_memory_trace:evidence['kernel_etw_recording']=True
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
@@ -96,13 +104,23 @@ try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
         worker_leases=[];evidence['worker_closes']=[];menu_checks=None
-        process=job.spawn([str(exe)]+(['--automation'] if args.animated_images else [])+['-load',profile,'--tabs','--tab-side',args.side,
+        process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)
         try:
             thread_observer=OwnedThreadSnapshot(process,job)
+            window_observer=None
+            if args.resource_inventory:
+                from window_snapshot import OwnedWindowSnapshot
+                window_observer=OwnedWindowSnapshot(thread_observer.owner)
+            def inventory(label):
+                if not window_observer:return
+                record=dict(label=label);evidence['resource_inventory'].append(record)
+                for kind,observer in [('handles',thread_observer.owner),('threads',thread_observer)]:
+                    try:record[kind]=observer.snapshot(label)
+                    except Exception as error:record[kind+'_error']=repr(error)
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
                 memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
@@ -189,8 +207,10 @@ try:
                     if phase in ('history-0','history-1','frame-0','frame-23','settled'):
                         from working_set_regions import private_regions
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
-                return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
-                            injected=injected_observer,**memory_sample(handle))
+                value=dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
+                           injected=injected_observer,**memory_sample(handle))
+                if window_observer:value['window_snapshot']=window_observer.snapshot(evidence['phase'])
+                return value
             def resource_observer():
                 # Preserve the original repaint at the first observation.
                 # Further polls must not restart the GUI timers being observed.
@@ -208,6 +228,7 @@ try:
             evidence['actual_renderer']=actual
             evidence.update(private_ws_policy(actual))
             if args.renderer=='directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert actual==3
+            if args.renderer=='opengl' and os.environ.get('NEMOTERM_REQUIRE_OPENGL')=='1':assert actual==2
             surface_class={2:'NemotermOpenGL',3:'NemotermDirect3D11'}.get(actual)
             surface=windows(process.pid,surface_class,host) if surface_class else []
             assert len(surface)==(1 if actual>1 else 0)
@@ -221,6 +242,7 @@ try:
             assert len(windows(process.pid,'NemotermHost'))==1
             evidence['checks'].append('one host with independent child terminals and native tab hit testing')
             # Measure before any injected capture helper loads into the PID.
+            evidence['phase']='resource-cycles'
             evidence['live_temporary_tabs']=[]
             if args.dense_clusters:
                 # Warm lazy window/IME/menu resources before comparing handle
@@ -235,6 +257,7 @@ try:
             evidence['startup_resources']=[];evidence['resource_return']=[]
             baseline=resource_startup(resource_observer(),evidence['startup_resources'])
             evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
+            inventory('resource-baseline')
             for i in range(12):
                 child=duplicate(second,track_workers=True);output(child,scene('TEMPORARY','60;10;60'))
                 if args.dense_clusters:evidence['live_temporary_tabs'].append(resources())
@@ -244,7 +267,8 @@ try:
                 wait_for(lambda:job.accounting()['active']==5)
                 wait_for_tab_workers(child)
                 returned=[];evidence['resource_return'].append(returned)
-                sample=resource_after_close(resource_observer(),baseline,returned)
+                try:sample=resource_after_close(resource_observer(),baseline,returned)
+                finally:inventory('closed-cycle-'+str(i+1))
                 evidence['cycles'].append(sample)
                 if surface_class:assert windows(process.pid,surface_class,host)==surface
                 assert sample['handles']<=baseline['handles']+6,(baseline,sample)
@@ -259,6 +283,7 @@ try:
                 evidence['memory_limit_passed']=private_ws_passes(actual,evidence['peak_private_ws'])
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             if args.workload_memory:
+                evidence['phase']='memory-workload'
                 if diagnostic:
                     if args.etw_memory_trace:
                         from etw_memory_trace import EtwMemoryTrace as Observer
@@ -308,11 +333,14 @@ try:
             if args.dense_clusters:
                 dense_memory_phase=False
                 output(first,scene('TAB ONE','80;20;20'));output(second,scene('TAB TWO','20;70;20'))
-            # Capture after memory samples, recording that subsequent pixels
-            # use test instrumentation for hardware readback only.
-            from gpu_capture import OwnedGPUCapture
-            for child in (first,second):captures.append(OwnedGPUCapture(process.pid,child['hwnd']))
-            evidence['pixel_capture_instrumented']=True
+            # Snapshot the active retained renderer through the opt-in API.
+            # Memory sampling includes the idle endpoint, but no image requests.
+            # Key, failure and preview probes below remain test instrumentation.
+            evidence['phase']='capture-and-key-probes'
+            from automation_capture import OwnedAutomationCapture
+            for child in (first,second):captures.append(OwnedAutomationCapture(process.pid,child['hwnd']))
+            evidence['pixel_capture_instrumented']=False
+            evidence['pixel_capture']='owned-automation-api'
             import frida
             hover_session=frida.attach(process.pid)
             hover_script=hover_session.create_script('const ownedHost=ptr("'+hex(host)+'");\n'+(root/'tests/tabs_hover_probe.js').read_text())
@@ -340,6 +368,7 @@ try:
                 wait_for(lambda:job.accounting()['active']==5)
                 evidence['rapid_shell_closes'].append(job.accounting())
             evidence['checks'].append('new, close, next and previous shortcuts act through the terminal input thread')
+            evidence['phase']='creation-faults'
             faults=hover_session.create_script((root/'tests/session_faults.js').read_text());faults.load()
             for fault in ('process','window'):
                 faults.exports_sync.arm(fault)
@@ -352,6 +381,7 @@ try:
             evidence['checks'].append('failed child process or content window creation preserves active tab and renderer')
             # Preview the hidden first tab, then change only its output. The
             # active terminal and input recipient must remain the second tab.
+            evidence['phase']='hover-preview'
             hover_script.exports_sync.begin()
             x,y=position(0);u.SendMessageW(host,0x200,0,x|(y<<16))
             preview=wait_for(lambda:next(iter(windows(process.pid,'NemotermPreview',visible=True)),None))
@@ -371,7 +401,9 @@ try:
             evidence['hover_observations']=hover_script.exports_sync.stats()
             assert evidence['hover_observations']['moves'] and evidence['hover_observations']['leaves']
             assert evidence['hover_observations']['timers']
-            hover_session.detach();hover_session=None
+            evidence['phase']='detach-key-fault-hover-probes'
+            detach_session(hover_session);hover_session=None
+            evidence['phase']='synchronized-tab-transfer'
             select(first,0);output(first,scene('FROZEN FIRST','80;10;10'));time.sleep(.08)
             frozen=captures[0].capture(return_pixels=True)
             output(first,'\x1b[?2026h\x1b[2J\x1b[HLATER FRAME')
@@ -380,6 +412,7 @@ try:
             output(first,'\x1b[?2026l')
             wait_for(lambda:captures[0].capture(return_pixels=True)!=frozen)
             evidence['checks'].append('synchronized pixels survive device transfer between tabs')
+            evidence['phase']='fullscreen'
             before_full=w.RECT();u.GetWindowRect(host,c.byref(before_full))
             u.SendMessageW(first['hwnd'],0x111,0x180,0)
             u.SendMessageW(first['hwnd'],0x111,0x180,0)
@@ -388,28 +421,49 @@ try:
             evidence['checks'].append('fullscreen returns the host to its original rectangle')
             # Resize the host, preserving one visible content window and
             # updating the backend grids of both sessions.
+            evidence['phase']='resize'
             u.MoveWindow(host,120,100,830,580,True)
             for child,index in ((second,1),(first,0)):
                 select(child,index);output(child,'\x1b[18t')
                 assert '\x1b[8;'.encode().hex() in read_snapshot(child['report'])['hex']
             evidence['checks'].append('host resize updates both terminal grids')
             if actual==1:capture(host,f'tabs-{args.renderer}-{args.side}-host.png')
+            evidence['phase']='close-capture-clients'
             for capture_helper in captures:capture_helper.close()
             captures=[]
+            evidence['phase']='close-first-tab'
             u.PostMessageW(first['hwnd'],0x10,0,0)
             wait_for(lambda:not u.IsWindow(first['hwnd']))
             evidence['first_tab_close']=dict(frontend_exit=process.poll(),sibling_alive=bool(u.IsWindow(second['hwnd'])))
             assert evidence['first_tab_close']['frontend_exit'] is None and evidence['first_tab_close']['sibling_alive'],evidence['first_tab_close']
+            evidence['phase']='sibling-output'
             output(second,'STILL ALIVE')
-            u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
+            evidence['phase']='close-host'
+            close_started=time.monotonic()
+            try:
+                u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
+            finally:
+                evidence['host_close']=dict(exit_code=process.poll(),seconds=time.monotonic()-close_started)
             assert process.returncode==0,process.returncode
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['checks'].append('closing original tab preserves sibling; host close drains all processes')
             if args.workload_memory and evidence['memory_limit_required']:
+                evidence['phase']='memory-acceptance'
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             evidence['completed']=True
+            evidence['phase']='complete'
+            if args.resource_inventory:
+                assert all(not any(k.endswith('_error') for k in row) for row in evidence['resource_inventory'])
+                evidence['diagnostic_completed']=True
+                raise SystemExit(2)
+        except BaseException as failure:
+            if not (evidence.get('diagnostic_completed') and isinstance(failure,SystemExit) and failure.code==2):
+                record_owned_failure(process,job,evidence,'tabs-'+evidence['phase'])
+            raise
         finally:
+            primary_failure=sys.exc_info()[1]
+            cleanup_failure=None
             try:
                 if census_observer:census_observer.close()
             finally:
@@ -419,11 +473,15 @@ try:
                 if hover_session:
                     try:evidence['hover_observations']=hover_script.exports_sync.stats()
                     except Exception as error:evidence['hover_observation_error']=repr(error)
-                    hover_session.detach()
+                    try:detach_session(hover_session)
+                    except Exception as error:
+                        evidence['hover_detach_error']=repr(error)
+                        cleanup_failure=error
                 for capture_helper in captures:capture_helper.close()
                 for lease in worker_leases:lease.close()
                 if handle:k.CloseHandle(handle)
                 evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
+                if cleanup_failure is not None and primary_failure is None:raise cleanup_failure
 finally:
     failure=sys.exc_info()[1]
     if failure and not (evidence.get('diagnostic_completed') and isinstance(failure,SystemExit) and failure.code==2):
