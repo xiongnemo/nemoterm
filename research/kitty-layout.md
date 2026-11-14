@@ -32,8 +32,20 @@ The local strict C99 test passes 153 assertions, covering the 13 observations,
 changed font-cell metrics, signed coordinates/z, oversized crops, offset clamps,
 integer limits, invalid input and unchanged output on failure. Focused GCC,
 Clang, MSVC, ASan and UBSan checks are added alongside the full core workflows.
-Their remote results are pending. The raw local log and source hashes are in
+The corrected [focused workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43617754804)
+passes at `077733e0e6d23f8af71b58c9dceedcce0aaf4b34`: GCC and Clang normal and
+ASan/UBSan runs, plus MSVC, each pass 153 checks including all 13 observations.
+The downloaded compiler manifests match the committed source/header/generator
+hashes. Fourteen additional raw records are retained. Full application workflows
+remain pending. The raw local log and source hashes are in
 [the validation record](kitty-layout-validation.json).
+
+The first focused run at `ebb346c` failed MSVC's warnings-as-errors rule for a
+potentially uninitialized test packet. Explicit zero initialization fixes the
+test helper without changing the production algorithm or assertions; that
+failure is retained. The generator subsequently gains explicit LF output so a
+Windows regeneration has the same bytes as the committed reference header.
+Local release and remote source hashes distinguish the original CRLF header.
 
 The terminal still does **not** implement or advertise kitty graphics. This
 geometry component has no placement store, source references, deletion, quota,

@@ -4,7 +4,7 @@
   "local_checks": 153,
   "reference_cases": 13,
   "reference_capture_sha256": "b00df940a8d246bfdc958ea46d67d8321d031d129b02db28cc2fe3b298a176a0",
-  "remote_ci": "Initial focused MSVC compile failed; explicit test packet initialization pending verification",
+  "remote_ci": "Corrected focused GCC, Clang and MSVC workflow passed, including both Linux sanitizer executions; full application runs pending",
   "runtime_graphics_support": false,
   "memory_acceptance": false,
   "accepted_executable_changed": false,
@@ -12,7 +12,7 @@
     "vendor/putty-0.85/terminal/nemo_kitty_layout.c": "8dd4fc4a967b58b5c9cc6209c3ea0731e193b1bd0cd98eb26d69eb695de253a1",
     "vendor/putty-0.85/terminal/nemo_kitty_layout.h": "a39dab472bb4892b5687a193e471f82c1ad10c00f7d91e01580d4ba159f05f00",
     "tests/test_kitty_layout.c": "ef92ba3687a175d026c2729af93fa0ba24642c3a9349700550b1b41414bdd787",
-    "tests/kitty_layout_reference.h": "d49d99b9057d9d3848d38342b0695e70249c16c2c5ac26179591feb786850ac6",
+    "tests/kitty_layout_reference.h": "b33cc16d6d31d0d99f4a14d57cee4ed4b10be93d28c13cb6935f8b9d5b8e825c",
     "scripts/generate-kitty-layout-reference.py": "8d499355f845589e6574e2b59af20c0b459e9b4bd5c668e6baf64b4858f0b140"
   },
   "retained": [
@@ -63,6 +63,149 @@
         "file": "kitty-layout-evidence/ebb346c-failed.log.gz",
         "raw_sha256": "37fcc96c1daf1e23910164dd98f41665742c99fd5939f736bf43f052c8c1bf9b",
         "compressed_sha256": "2d20f70dfac22e3e082893b93bb612e23311de16e5e39f733d5b921ee635a924"
+      }
+    ]
+  },
+  "local_release_source_commit": "ebb346c35e6c4ed5f379c716f281a2385cc92ef4",
+  "local_release_source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty_layout.c": "8dd4fc4a967b58b5c9cc6209c3ea0731e193b1bd0cd98eb26d69eb695de253a1",
+    "vendor/putty-0.85/terminal/nemo_kitty_layout.h": "a39dab472bb4892b5687a193e471f82c1ad10c00f7d91e01580d4ba159f05f00",
+    "tests/test_kitty_layout.c": "7d301a062d7f88eaf1d8341107fba55d609e58472be1b3f3b2748127f6fa81c2",
+    "tests/kitty_layout_reference.h": "d49d99b9057d9d3848d38342b0695e70249c16c2c5ac26179591feb786850ac6",
+    "scripts/generate-kitty-layout-reference.py": "8d499355f845589e6574e2b59af20c0b459e9b4bd5c668e6baf64b4858f0b140"
+  },
+  "local_release_line_endings_note": "Generator originally emitted CRLF on Windows; local release header digest retains those bytes. Committed and CI header is LF. Follow-up makes generator emit LF directly.",
+  "preliminary_local_log_note": "local-test.log predates small test-source cleanup; only local-test-release.log is bound to the release source identity above.",
+  "source_commit": "077733e0e6d23f8af71b58c9dceedcce0aaf4b34",
+  "focused_ci": {
+    "source_commit": "077733e0e6d23f8af71b58c9dceedcce0aaf4b34",
+    "run_id": 43617754804,
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43617754804",
+    "conclusion": "success",
+    "source_sha256": {
+      "vendor/putty-0.85/terminal/nemo_kitty_layout.c": "8dd4fc4a967b58b5c9cc6209c3ea0731e193b1bd0cd98eb26d69eb695de253a1",
+      "vendor/putty-0.85/terminal/nemo_kitty_layout.h": "a39dab472bb4892b5687a193e471f82c1ad10c00f7d91e01580d4ba159f05f00",
+      "tests/test_kitty_layout.c": "ef92ba3687a175d026c2729af93fa0ba24642c3a9349700550b1b41414bdd787",
+      "tests/kitty_layout_reference.h": "b33cc16d6d31d0d99f4a14d57cee4ed4b10be93d28c13cb6935f8b9d5b8e825c",
+      "scripts/generate-kitty-layout-reference.py": "8d499355f845589e6574e2b59af20c0b459e9b4bd5c668e6baf64b4858f0b140"
+    },
+    "source_manifests_verified": true,
+    "executions": [
+      {
+        "compiler": "gcc",
+        "mode": "layout-normal.log",
+        "checks": 153,
+        "reference_cases": 13
+      },
+      {
+        "compiler": "gcc",
+        "mode": "layout-sanitizers.log",
+        "checks": 153,
+        "reference_cases": 13
+      },
+      {
+        "compiler": "clang",
+        "mode": "layout-normal.log",
+        "checks": 153,
+        "reference_cases": 13
+      },
+      {
+        "compiler": "clang",
+        "mode": "layout-sanitizers.log",
+        "checks": 153,
+        "reference_cases": 13
+      },
+      {
+        "compiler": "msvc",
+        "mode": "layout-test.log",
+        "checks": 153,
+        "reference_cases": 13
+      }
+    ],
+    "retained": [
+      {
+        "file": "kitty-layout-evidence/077733e-gcc-compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "compressed_sha256": "27f07f4ec94cfc6c13536d2c12e3ff50b0d0757b7b242e57b302b3f1929fa0f9"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-gcc-layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-gcc-layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-gcc-sources.sha256.gz",
+        "raw_sha256": "294b39b6ec0273ebcb6a7a827c4a9db93dbad5758dbfc8e70a730e64507fdce5",
+        "compressed_sha256": "c29b705fbffb6eeff9626644df320f7f599a9a5e815430f8ff6ef0f8874edb1f"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-clang-compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "compressed_sha256": "80e86502bbb97c95c72a54b9dd7adbdaa039a5450d5f7534ca880d3585455879"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-clang-layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-clang-layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-clang-sources.sha256.gz",
+        "raw_sha256": "294b39b6ec0273ebcb6a7a827c4a9db93dbad5758dbfc8e70a730e64507fdce5",
+        "compressed_sha256": "c29b705fbffb6eeff9626644df320f7f599a9a5e815430f8ff6ef0f8874edb1f"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-msvc-layout-build.log.gz",
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea",
+        "compressed_sha256": "c119388a0b112bfbc9cdd362ea8b53f205f60c75cde51aaa05c77f9b10c5f307"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-msvc-layout-test.log.gz",
+        "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+        "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-msvc-sources.txt.gz",
+        "raw_sha256": "025275c1477332d28c82e47c2d245e612ac829c4924ec1e774beccc71b243aae",
+        "compressed_sha256": "766901587786c13b21f9e6b6f5cd3d3b71c02feed40dbc02204c47cc07c0727f"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-focused-run.json.gz",
+        "raw_sha256": "30d8ebde76491a545930635e2d5dcd5260de6780d7baacee4c8be7ba14e8ca48",
+        "compressed_sha256": "3f93ad909eee5c5d9b910d1aa315bc61a92f4d9d859b0fbc33c4fca4ea712a06"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-focused-run.log.gz",
+        "raw_sha256": "5660936b693ee17c9764b7e351a8dda5465858cbcb05d0ac84c67e7b7de0512f",
+        "compressed_sha256": "908628e88f7959c26c60e28b2b635d961afe91fd95e6cd1a07d0f32d35d5f2c2"
+      },
+      {
+        "file": "kitty-layout-evidence/077733e-artifacts.json.gz",
+        "raw_sha256": "941edbb569b5d631a1da519584b3f484d8926e6c5901e41841ac996ba3c79e80",
+        "compressed_sha256": "3a72be57d02cd205cc335eb548e7f5aa7f75107c8b32a8f19d506c6db1aaa75e"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 14122354813,
+        "name": "kitty-transport-clang-077733e0e6d23f8af71b58c9dceedcce0aaf4b34"
+      },
+      {
+        "id": 14121904292,
+        "name": "kitty-transport-gcc-077733e0e6d23f8af71b58c9dceedcce0aaf4b34"
+      },
+      {
+        "id": 14121889444,
+        "name": "kitty-transport-msvc-077733e0e6d23f8af71b58c9dceedcce0aaf4b34"
       }
     ]
   }

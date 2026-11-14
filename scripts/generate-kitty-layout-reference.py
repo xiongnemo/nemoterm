@@ -33,4 +33,4 @@ parser=argparse.ArgumentParser();parser.add_argument('--check',action='store_tru
 if args.check:
     assert target.read_text(encoding='utf-8')==expected,'Regenerate kitty layout observations'
     print('Pinned kitty layout reference: 13 literal observations verified')
-else:target.write_text(expected,encoding='utf-8')
+else:target.write_bytes(expected.encode('utf-8'))
