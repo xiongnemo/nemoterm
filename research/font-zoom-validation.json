@@ -5,7 +5,7 @@
   "native_executable_sha256": "779be18fe7125cfdbd6f08c106f4d08be488036dff9889ee0c82c938846ec536",
   "failure": "one-point zoom increases cell height from 19 to 20; bright glyph bounding box stays 7x7",
   "resolution_status": "Independent startup pixel comparison passed in focused replay and both complete fresh core and single-executable workflows; all original failures retained.",
-  "local_native_tests": "remain paused by user",
+  "local_native_tests": "Resumed explicitly by user; local Sarasa GDI/OpenGL/DirectX font, bell API and mixed-profile checks passed at 69cd5a4. See local_native; full memory acceptance remains separate.",
   "retained": [
     {
       "file": "font-zoom-evidence/555934a-failed.log.gz",
