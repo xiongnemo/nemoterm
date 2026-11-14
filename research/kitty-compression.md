@@ -54,7 +54,8 @@ Cache tests add overlapping PNG-buffer budgets, failed-decode cleanup, read-only
 query preservation and non-mutating peek; the complete cache suite has 1,667 checks.
 Transport (2,111,798 assertions), placements (2,719 checks), and the full terminal
 Sixel/image parser suite also pass locally with GCC. Strict GCC compilation passes.
-MSVC, Linux sanitizers and the source-built single image remain CI gates.
+MSVC and Linux sanitizers subsequently passed the component CI below. The
+source-built single image remains a separate acceptance gate.
 
 ## Native development build, not accepted single image
 
@@ -101,4 +102,12 @@ MSVC stopped at four `C4244` narrowing warnings promoted to errors before runtim
 tests. The follow-up uses explicit casts only after existing symbol/literal/length
 bounds; `/W4 /WX` remains enabled. Complete original results are retained in
 `kitty-compression-ci-validation.json`. This first run is a failed run, and the
-MSVC fix still needs its own completed CI result.
+MSVC fix was then checked in the completed run below.
+
+[Component run 43643811974](https://github.com/xiongnemo/nemoterm/actions/runs/43643811974)
+on `48a0263` passed all three compiler jobs, including strict MSVC and Linux
+ASan/UBSan. Its complete records are retained alongside the failed predecessor.
+The [full build](https://github.com/xiongnemo/nemoterm/actions/runs/43644074575) and
+[single-image acceptance](https://github.com/xiongnemo/nemoterm/actions/runs/43644077420)
+were dispatched against that exact source. Their results and downloaded-product
+acceptance are still pending; component success does not replace those gates.

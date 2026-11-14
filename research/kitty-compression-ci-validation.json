@@ -221,6 +221,278 @@
           "raw_bytes": 36
         }
       ]
+    },
+    {
+      "run": 43643811974,
+      "source_commit": "48a02634323302fddd955b9bc25f2bd90ca7a6d3",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "unix (clang)",
+          "conclusion": "success"
+        },
+        {
+          "name": "msvc",
+          "conclusion": "success"
+        },
+        {
+          "name": "unix (gcc)",
+          "conclusion": "success"
+        }
+      ],
+      "finding": "GCC, Clang and MSVC passed strict compilation, bounded codec/cache/transport checks and real terminal replay; GCC/Clang also passed ASan/UBSan. This is component validation, not single-image or memory acceptance.",
+      "records": [
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-normal.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-sanitizers.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--compiler.txt.gz",
+          "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+          "raw_bytes": 122
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-normal.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-sanitizers.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--normal.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-normal.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-sanitizers.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--sanitizers.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--sources.sha256.gz",
+          "raw_sha256": "12e5f4c4da64edf18698f9946144f2154435aa543c5081e78337667b808c18f0",
+          "raw_bytes": 2955
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-build.log.gz",
+          "raw_sha256": "57edae66fe32a0e7c56482c04352444df267af6a0cc9aaea7278029eb5a81978",
+          "raw_bytes": 13008
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-configure.log.gz",
+          "raw_sha256": "6b45c4d566b246f2e880c19d5b0a70f891efdf62b6f48bc216e391f6522e42b9",
+          "raw_bytes": 4317
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-sanitizers.log.gz",
+          "raw_sha256": "f2a415989abbf09293f2d1ef32b9cd204d82a0a2a5e76c17253dcb16b374fad5",
+          "raw_bytes": 193
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-sources.sha256.gz",
+          "raw_sha256": "dc89a8f283606cb6fd70df37969bb5f69fcef7b9dc183afa9748cc5c15ee5e69",
+          "raw_bytes": 640
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-normal.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-clang-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-sanitizers.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-normal.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-sanitizers.log.gz",
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d",
+          "raw_bytes": 38
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--compiler.txt.gz",
+          "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+          "raw_bytes": 239
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-normal.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-sanitizers.log.gz",
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+          "raw_bytes": 686
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--normal.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-normal.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-sanitizers.log.gz",
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+          "raw_bytes": 4790
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--sanitizers.log.gz",
+          "raw_sha256": "fe3981d938037c64a10cade3897d8eb14b2f348617cbb68bc40381e5040c9146",
+          "raw_bytes": 43
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--sources.sha256.gz",
+          "raw_sha256": "12e5f4c4da64edf18698f9946144f2154435aa543c5081e78337667b808c18f0",
+          "raw_bytes": 2955
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-build.log.gz",
+          "raw_sha256": "999725eab533cfe7c070388bdfed88685eeda22cd8b49872f2ab80b02ca6d07b",
+          "raw_bytes": 14663
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-configure.log.gz",
+          "raw_sha256": "a0ca70f42ac490174c357cdf39d910445349503e4bf476f577f17e190533a311",
+          "raw_bytes": 4312
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-sanitizers.log.gz",
+          "raw_sha256": "f2a415989abbf09293f2d1ef32b9cd204d82a0a2a5e76c17253dcb16b374fad5",
+          "raw_bytes": 193
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-sources.sha256.gz",
+          "raw_sha256": "dc89a8f283606cb6fd70df37969bb5f69fcef7b9dc183afa9748cc5c15ee5e69",
+          "raw_bytes": 640
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-normal.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-gcc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-sanitizers.log.gz",
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933",
+          "raw_bytes": 35
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--build.log.gz",
+          "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+          "raw_bytes": 58
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-build.log.gz",
+          "raw_sha256": "ca7396e8e14e52a83395bd252a539b9b7f02e26e31c523ea185086025b6a8a21",
+          "raw_bytes": 110
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--cache-test.log.gz",
+          "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72",
+          "raw_bytes": 39
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-build.log.gz",
+          "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea",
+          "raw_bytes": 76
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--layout-test.log.gz",
+          "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+          "raw_bytes": 700
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-build.log.gz",
+          "raw_sha256": "92079f571f84af0851a4456242ae469f75ab4378e06e65959965c303953b4deb",
+          "raw_bytes": 161
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--placements-test.log.gz",
+          "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+          "raw_bytes": 4856
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--sources.txt.gz",
+          "raw_sha256": "616baa0171e4d36a9e6c857e5f3dc66f759a0bf8ddb8e52e59b29b1b05a8b974",
+          "raw_bytes": 4917
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-build.log.gz",
+          "raw_sha256": "dbfa432fc4ca998fc05abeab0636b0ec571203f77127477070af524f85999f2c",
+          "raw_bytes": 16563
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-configure.log.gz",
+          "raw_sha256": "d062a9e1e3d7f114e849097834e7f88d1fd00bce01a11dd54e79408af88a948e",
+          "raw_bytes": 2886
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-sources.txt.gz",
+          "raw_sha256": "0962a531057685cbc0f028f4c95c6de13acb85c0b3bb3917a2572c88c439c07c",
+          "raw_bytes": 1062
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--terminal-test.log.gz",
+          "raw_sha256": "6f0f565b9f5bd6d3980f31c89b68c6376a162ef21be99b43bcd8345307828b9f",
+          "raw_bytes": 196
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--test.log.gz",
+          "raw_sha256": "c32a0bd557cb1e5651b7b717f51fadc2d95cf84941b6f3b4cbed2ee4eb813eb1",
+          "raw_bytes": 44
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-build.log.gz",
+          "raw_sha256": "a4439b8448eb1798560e9c8163383872f611513884d3426c3ebaa035ab0273b5",
+          "raw_bytes": 54
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts--kitty-transport-msvc-48a02634323302fddd955b9bc25f2bd90ca7a6d3--zlib-test.log.gz",
+          "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+          "raw_bytes": 36
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-run.json.gz",
+          "raw_sha256": "59618fb784efdd78d331a5c166bb4bbbb41e85f2a0ba7ca7db6e006dd5abd333",
+          "raw_bytes": 4272
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-run.log.gz",
+          "raw_sha256": "7d28581b0b2e55c561c52b042ed17f0f2b47bf06ce7691f0d173b205363386a7",
+          "raw_bytes": 331567
+        },
+        {
+          "path": "research/kitty-compression-ci-evidence/48a0263-artifacts.json.gz",
+          "raw_sha256": "0cfb7dacd24e073a7efa1b88cf21141b490e4a27e56a2848fac8f88ce620fee3",
+          "raw_bytes": 2293
+        }
+      ]
     }
   ]
 }
