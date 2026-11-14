@@ -199,7 +199,16 @@ is 4,486,656 bytes, SHA-256
 Zoom, mixed tabs, real bell API dispatch and visual pixels all pass. The remote
 OpenGL request falls back to GDI; it is not evidence of remote OpenGL rendering.
 Local OpenGL pixels above use the original `69cd5a4` image. Complete application
-CI and exact-image local acceptance of the new cache candidate remain pending.
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43618369540) and
+[single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43618369308)
+CI subsequently passed at `4c0e8a3`, including 123 mandatory single-image checks.
+The independently built formal image is 4,486,656 bytes with SHA-256
+`4644a9a44953be559e9780b01c391d4c053e5b9bd1d41922ce165f1e0852a401`.
+Its validation manifest, font/tab/bell/visual records, full workflow logs and
+artifact identities are retained separately from the replay's `cf36e20` image.
+Local acceptance of the earlier formal `9bef907` cache image is recorded in
+[the cache validation](cluster-layout-cache.md); results are not transferred
+between different EXE hashes.
 
 A separate attempt to exercise physical keyboard/wheel input through the
 computer-use helper made zero input actions: all three connection attempts,

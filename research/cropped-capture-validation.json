@@ -1,0 +1,540 @@
+{
+  "source_commit": "f6b3d6412ef3f6fb6ad607b3c00968459fdc500b",
+  "recorded_utc": "2026-11-14T17:44:48.541621+00:00",
+  "manifest": {
+    "source_commit": "f6b3d6412ef3f6fb6ad607b3c00968459fdc500b",
+    "recorded_utc": "2026-11-14T17:40:45.213937+00:00",
+    "files": {
+      "nemoterm.exe": {
+        "bytes": 3934918,
+        "sha256": "54883c9c8d10b62bab8f998e5b1a1ffbcb2ee5d33d967f44a7374349de4f31f5"
+      },
+      "conpty.dll": {
+        "bytes": 119608,
+        "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+      },
+      "OpenConsole.exe": {
+        "bytes": 4486144,
+        "sha256": "4b2135b5a363a738d2a799059d77fd12a8e3e430812b52530728820be8f286d4"
+      }
+    },
+    "scope": "Local MinGW frontend with separately retained CI console host; not single-executable acceptance",
+    "console_host_source": "077733e0e6d23f8af71b58c9dceedcce0aaf4b34",
+    "accepted_executable_changed": false
+  },
+  "accepted_executable_changed": false,
+  "single_executable_acceptance": false,
+  "local_checks": {
+    "rectangle": [
+      {
+        "renderer": 0,
+        "exact_rgb_comparisons": 24,
+        "median_seconds": 0.0004969000583514571,
+        "checks": [
+          "active exact crop",
+          "invalid rectangles leave subsequent captures usable",
+          "capture after invalid requests",
+          "CLI rectangle PNG matches direct API",
+          "active synchronized presentation",
+          "inactive synchronized presentation",
+          "inactive committed presentation",
+          "reactivated presentation"
+        ]
+      },
+      {
+        "renderer": 1,
+        "exact_rgb_comparisons": 24,
+        "median_seconds": 0.0006220000796020031,
+        "checks": [
+          "active exact crop",
+          "invalid rectangles leave subsequent captures usable",
+          "capture after invalid requests",
+          "CLI rectangle PNG matches direct API",
+          "active synchronized presentation",
+          "inactive synchronized presentation",
+          "inactive committed presentation",
+          "reactivated presentation"
+        ]
+      },
+      {
+        "renderer": 2,
+        "exact_rgb_comparisons": 24,
+        "median_seconds": 0.0003994000144302845,
+        "checks": [
+          "active exact crop",
+          "invalid rectangles leave subsequent captures usable",
+          "capture after invalid requests",
+          "CLI rectangle PNG matches direct API",
+          "active synchronized presentation",
+          "inactive synchronized presentation",
+          "inactive committed presentation",
+          "reactivated presentation"
+        ]
+      }
+    ],
+    "automation-gdi-observed.json": "passed; not a memory acceptance measurement",
+    "automation-directx-observed.json": "passed; not a memory acceptance measurement",
+    "visual-bell-observed.json": "passed; not a memory acceptance measurement"
+  },
+  "workloads": [
+    {
+      "renderer": "directx",
+      "checks": 9,
+      "grid": [
+        160,
+        48
+      ],
+      "samples": 538,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 23732224,
+        "total_ws": 58548224,
+        "private_commit": 92565504
+      },
+      "animation": [
+        {
+          "session": 1,
+          "hwnd": 72876124,
+          "renderer": 2,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 12,
+          "frames": [
+            {
+              "colour": "green",
+              "seconds": 0.13580509996972978,
+              "image": "animated-workload-tabs-directx-left-tab-0-green.png",
+              "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 0.3547771000303328,
+              "image": "animated-workload-tabs-directx-left-tab-0-blue.png",
+              "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "red",
+              "seconds": 1.0248205000534654,
+              "image": "animated-workload-tabs-directx-left-tab-0-red.png",
+              "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "capture_scope": "rectangle",
+          "seconds": 1.0507286000065506
+        },
+        {
+          "session": 2,
+          "hwnd": 64098974,
+          "renderer": 2,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 6,
+          "frames": [
+            {
+              "colour": "green",
+              "seconds": 0.09812469989992678,
+              "image": "animated-workload-tabs-directx-left-tab-1-green.png",
+              "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "red",
+              "seconds": 0.21832829993218184,
+              "image": "animated-workload-tabs-directx-left-tab-1-red.png",
+              "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 0.4606104998383671,
+              "image": "animated-workload-tabs-directx-left-tab-1-blue.png",
+              "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "capture_scope": "rectangle",
+          "seconds": 0.4859643999952823
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "scope": "Local separate-host build only; formal single-image memory acceptance still required"
+    },
+    {
+      "renderer": "gdi",
+      "checks": 9,
+      "grid": [
+        160,
+        48
+      ],
+      "samples": 516,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 16613376,
+        "total_ws": 38076416,
+        "private_commit": 18681856
+      },
+      "animation": [
+        {
+          "session": 1,
+          "hwnd": 9046972,
+          "renderer": 0,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 5,
+          "frames": [
+            {
+              "colour": "red",
+              "seconds": 0.05150359985418618,
+              "image": "animated-workload-tabs-gdi-top-tab-0-red.png",
+              "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "green",
+              "seconds": 0.21100079989992082,
+              "image": "animated-workload-tabs-gdi-top-tab-0-green.png",
+              "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 0.7076457999646664,
+              "image": "animated-workload-tabs-gdi-top-tab-0-blue.png",
+              "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "capture_scope": "rectangle",
+          "seconds": 0.7333123998250812
+        },
+        {
+          "session": 2,
+          "hwnd": 55446486,
+          "renderer": 0,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 4,
+          "frames": [
+            {
+              "colour": "green",
+              "seconds": 0.036315999925136566,
+              "image": "animated-workload-tabs-gdi-top-tab-1-green.png",
+              "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 0.14478760003112257,
+              "image": "animated-workload-tabs-gdi-top-tab-1-blue.png",
+              "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "red",
+              "seconds": 0.32704959996044636,
+              "image": "animated-workload-tabs-gdi-top-tab-1-red.png",
+              "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "capture_scope": "rectangle",
+          "seconds": 0.3526042001321912
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "scope": "Local separate-host build only; formal single-image memory acceptance still required"
+    }
+  ],
+  "source_sha256": {
+    "vendor/putty-0.85/windows/nemo_debug_ui.inc": {
+      "local": "9cec4e7ed4286cf4deaf5bb20dfa94ea6b5c46671b33b44a48c8b20b4954e933",
+      "committed": "62c20067ba80185df62c2ee554108deb606b90c98d57e441febbc16614c4f8b7"
+    },
+    "tools/nemoterm_debug.py": {
+      "local": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9",
+      "committed": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+    },
+    "tests/image_rectangle_window_smoke.py": {
+      "local": "bc8337c4e60b789c61171489c2e0bdff3e0d685fab656f9923574e43f905b3a3",
+      "committed": "bc8337c4e60b789c61171489c2e0bdff3e0d685fab656f9923574e43f905b3a3"
+    },
+    "tests/tab_workload_memory.py": {
+      "local": "8405155dc44569fdbbae5e034d4e94431f4028cf841a5b4a2aa794cb57126526",
+      "committed": "8405155dc44569fdbbae5e034d4e94431f4028cf841a5b4a2aa794cb57126526"
+    }
+  },
+  "retained": [
+    {
+      "file": "cropped-capture-evidence/manifest.json.gz",
+      "raw_sha256": "589f7461bc2136b67ac45317b5f3068003574a11248a4735b067fbfee338160b",
+      "compressed_sha256": "130e37b7b9f7526c71d7d3b43580f6770825d9830003216fa281809d34550ed1"
+    },
+    {
+      "file": "cropped-capture-evidence/SOURCE-HOST.json.gz",
+      "raw_sha256": "71076396aca86e684f288dd15f82c12c5f28ffe0237cbf49e0454582a108413f",
+      "compressed_sha256": "c401eaabf824d3a3270d88607be05013716a3a4b614ee1fc421a739743d3ff14"
+    },
+    {
+      "file": "cropped-capture-evidence/CONPTY-RUNTIME.json.gz",
+      "raw_sha256": "4077b9ade107639b731ab87763c6bffe538f3db2b70eee346297b027c715a0ad",
+      "compressed_sha256": "4de420e4c69f894b98f1364a483f288519ab3b440530848b69d6a483957ce5e3"
+    },
+    {
+      "file": "cropped-capture-evidence/cropped-capture-configure.log.gz",
+      "raw_sha256": "d3733a31b35ba45a7dbd69a1832812b8483d89d04debdc2ee0adc10823f9d8fd",
+      "compressed_sha256": "86fff6db85f27bd72708134514865d9edb30a3bed86a8f12e8f416ac03b8d838"
+    },
+    {
+      "file": "cropped-capture-evidence/cropped-capture-build.log.gz",
+      "raw_sha256": "7d620a60e33e9dcf81a62466b00b3a6c4b1ab7fa07c22c50ffd34e90274a5327",
+      "compressed_sha256": "0422f735db7dbbcd81a7c584d32a201dd9daaa2143d69bddcc212743ae4a128b"
+    },
+    {
+      "file": "cropped-capture-evidence/image-rectangle-local.log.gz",
+      "raw_sha256": "b2d609fac84689bf861043dc66209b64f21c31ba16fbd2d2ae7154b24674fdc5",
+      "compressed_sha256": "430549236abd54e980c35af3ab851cc59e7ac155664fa38f2a8a92fa4a6cd888"
+    },
+    {
+      "file": "cropped-capture-evidence/image-rectangle-initial-fixture.log.gz",
+      "raw_sha256": "1062b45e5aeb20fe4f5d58d902b6ac40006955d49374d4a1edca18f69f8c974d",
+      "compressed_sha256": "9d37eee708d4da309cb10869665ef09e39b6213cb0f9bf59442bb4b33e2382fb"
+    },
+    {
+      "file": "cropped-capture-evidence/image-rectangle-initial-fixture-observed.json.gz",
+      "raw_sha256": "36ad54c363eed765f5be69076646e52de0f3f28c40d50f938df06bab8d8354b9",
+      "compressed_sha256": "fa9728a85e0a8516d2c7d89bcf4d2bffaf61c56ee0ce2bc4728ef764d02c01ba"
+    },
+    {
+      "file": "cropped-capture-evidence/image-rectangle-initial-fixture.py.gz",
+      "raw_sha256": "7be71ff2a881673f81264ffcb0ebb791b28b76614e0899457d457b8620a0f39a",
+      "compressed_sha256": "19f2dffaf618b297d3b6e95784ad7b74ab11c8fe70445cba0d1e9dcd50221f99"
+    },
+    {
+      "file": "cropped-capture-evidence/image-rectangle-observed.json.gz",
+      "raw_sha256": "8a8ee17d8ebfb6d69f653a404402cfb77b384273e1f4d10d4709c35faae2962a",
+      "compressed_sha256": "248535c9a34282b129f51bb1fc8bee7f0fcc35a043e9a86b8f19c7899c2337d9"
+    },
+    {
+      "file": "cropped-capture-evidence/automation-gdi-observed.json.gz",
+      "raw_sha256": "21b5881f85e59f7cad8cdddd6cd39840d1f004472e7ff7a0af7eb106a46c74f5",
+      "compressed_sha256": "d62d69825150bda2e9e9401bc5dbdcd75e046772d5c1d48e70c589b0310f488a"
+    },
+    {
+      "file": "cropped-capture-evidence/automation-directx-observed.json.gz",
+      "raw_sha256": "d0cd0534b0662967f9fbde2c5197394484ce73243318d27e5f07c6eff11312ed",
+      "compressed_sha256": "7f671c78b20bc75fa4f9140a241dfaee8f4a27e8c1248378b07ee559640d3d4a"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-observed.json.gz",
+      "raw_sha256": "4084db896e474e5cffcd876e3fee63faaff14f49eff6cf6e5ec5298fc07e4cbf",
+      "compressed_sha256": "24f9ec39cc93baa520e51abb7c2101bd9cfed189555e0032c20388a1524c0bb1"
+    },
+    {
+      "file": "cropped-capture-evidence/crop-automation-gdi.log.gz",
+      "raw_sha256": "edcea6953bfeaa39f3726f3cd1c2a50bbf29f1ca24abe36cea422a0235a07a0c",
+      "compressed_sha256": "3fdec283d2f9b684e940b4933099e2f4bd14e72d27e6e516a4c0a7e884c1476b"
+    },
+    {
+      "file": "cropped-capture-evidence/crop-automation-directx.log.gz",
+      "raw_sha256": "8ca8e79fc3e38e46c7924dc983f751ac61ee81d52cdb0750632a0f286e82bd0d",
+      "compressed_sha256": "045063ee439664efe6a96f6fb04ac085ff044f5e3595018ac6e5092d550db91c"
+    },
+    {
+      "file": "cropped-capture-evidence/crop-visual-bell.log.gz",
+      "raw_sha256": "c78d090c2ada7326facff30c677069b0afa65f5d83df7d2aa2b8aa398c529b14",
+      "compressed_sha256": "93ab0c3ca607137f478c06ef46a6e346e6b3ba0896c931313653b675fd0ba138"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-0-flash.png",
+      "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-0-normal.png",
+      "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-1-flash.png",
+      "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-1-normal.png",
+      "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-2-flash.png",
+      "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+    },
+    {
+      "file": "cropped-capture-evidence/visual-bell-2-normal.png",
+      "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-observed.json.gz",
+      "raw_sha256": "d3f13ed3088ce2492a0911b01f71a631ade2f83b4b69406b92a2bddc1ff1f64e",
+      "compressed_sha256": "3d325282d11f8ed81e6a8431ffae2e563671dd69abedfdd30170e58129db1975"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-memory.json.gz",
+      "raw_sha256": "08ae7e11a6ccb31fd37175d1ee8ddcf4007edd585b1e7ab6035c888808c15271",
+      "compressed_sha256": "9d57b75327b44f89162a0fbf8a439e830cc8764d8de0434dbd0a1037de2f5d6f"
+    },
+    {
+      "file": "cropped-capture-evidence/dx-gif.log.gz",
+      "raw_sha256": "33687cfec2e553cd7d1ca2503c545b60ebdbeacdc78de0d28bc0d14b70588a99",
+      "compressed_sha256": "1d622ef18d07b4d04aa28ec90a8f62cec642c10d51536a11e0ae2bc7e8e5057e"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-0-blue.png",
+      "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-0-green.png",
+      "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-0-red.png",
+      "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-1-blue.png",
+      "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-1-green.png",
+      "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-directx-left-tab-1-red.png",
+      "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-observed.json.gz",
+      "raw_sha256": "6b0e3e0a200aa8d96abf02c62074d79687d0fb73f5119b3d9421b16645849c38",
+      "compressed_sha256": "367a97856ba66c43b4c4b354306d593226e0c92eeb7a5ff0c06fb9495f471a0f"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-memory.json.gz",
+      "raw_sha256": "a910a7f99dbd0b02108b45073dbc29ca42356d6a9de49ecadb82d05ad7086e70",
+      "compressed_sha256": "76217be87a3c64ede0603c8a7e1530fa4e2a2d6658841db58a71306e0f5a5a7e"
+    },
+    {
+      "file": "cropped-capture-evidence/gdi-gif.log.gz",
+      "raw_sha256": "71fbe27858e312f8834cc80d57d15472f9f8e92a55c364870e5b0443151ae2fa",
+      "compressed_sha256": "58ce1e53f1aaedc43f5ee9a30641d77e9ff57c523fa465a43b0982d954f8d426"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-0-blue.png",
+      "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-0-green.png",
+      "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-0-red.png",
+      "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-1-blue.png",
+      "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-1-green.png",
+      "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+    },
+    {
+      "file": "cropped-capture-evidence/animated-workload-tabs-gdi-top-tab-1-red.png",
+      "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+    }
+  ],
+  "initial_fixture_failure": "New-tab launched the configured default PowerShell shell, which has no RECT_CHILD marker. Fixture now invokes Duplicate Session for its own command. No production or pixel assertion change; failed run retained."
+}
