@@ -91,7 +91,8 @@ NemoD3D11 *nemo_d3d11_create(HWND parent)
     if (!g->module) goto fail;
     *(FARPROC *)&create=GetProcAddress(g->module,"D3D11CreateDevice");
     if (!create || !check(g,create(NULL,D3D_DRIVER_TYPE_HARDWARE,NULL,
-            D3D11_CREATE_DEVICE_SINGLETHREADED|D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+            D3D11_CREATE_DEVICE_SINGLETHREADED|D3D11_CREATE_DEVICE_BGRA_SUPPORT|
+            D3D11_CREATE_DEVICE_PREVENT_INTERNAL_THREADING_OPTIMIZATIONS,
             levels,lenof(levels),D3D11_SDK_VERSION,&g->device,&level,&g->context))) goto fail;
     g->limit=level>=D3D_FEATURE_LEVEL_11_0?16384:8192;
     if (!check(g,ID3D11Device_QueryInterface(g->device,&dxgi_device_iid,(void **)&dxgi)) ||
