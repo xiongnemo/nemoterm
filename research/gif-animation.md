@@ -87,4 +87,6 @@ assertions remain enabled. CI registers the new unit and native fixtures.
 The [validation manifest](gif-animation-validation.json) retains source hashes,
 exact test fixtures, negative canary, compiler/sanitizer logs, native captures,
 link identities and cleanup evidence. No memory limit was changed and no
-animated-image memory pass is claimed.
+animated-image memory pass is claimed by this original codec checkpoint.
+The subsequent [GIF workload checkpoint](gif-memory.md) records separate local
+GDI/DirectX measurements and the remaining acceptance work.

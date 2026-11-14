@@ -54,7 +54,8 @@ DirectX. Pixel tolerances, resource allowances and deadlines were not relaxed.
 This run uses the independently validated API renderer capture and scoped
 preview pointer fixture; its uninstrumented memory phase is unchanged.
 
-Full CI, downloaded-artifact local verification and animated-image memory
-workloads remain outstanding. The separate earlier resource-return and hosted
+The subsequent [animated-image workload](gif-memory.md) also passes locally;
+full CI and downloaded-artifact local verification remain outstanding.
+The separate earlier resource-return and hosted
 startup/close failures are not declared fixed by this staging change. The
 accepted default `dist/nemoterm.exe` has not been replaced.

@@ -1,0 +1,609 @@
+{
+  "executable_sha256": "9300a9cd87fc9f9fc4dff39408c07221addce0febc70e0b7b7fa2f7a3fee42c0",
+  "scope": "Local 160x48 Sarasa two-tab GIF workloads; pre-capture uninstrumented memory and post-memory animation pixels",
+  "results": [
+    {
+      "renderer": "gdi",
+      "side": "top",
+      "exit_code": 0,
+      "samples": 585,
+      "peaks": {
+        "count": 1,
+        "private_ws": 17514496,
+        "total_ws": 45105152,
+        "private_commit": 20242432
+      },
+      "injected": false,
+      "completed": true,
+      "checks": 9,
+      "error": null,
+      "animation": [
+        {
+          "session": 1,
+          "hwnd": 14223802,
+          "renderer": 0,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 6,
+          "frames": [
+            {
+              "colour": "blue",
+              "seconds": 0.7708730001468211,
+              "image": "animated-workload-tabs-gdi-top-tab-0-blue.png",
+              "bmp_sha256": "638e31e0b3528a8b358e299cd66015f53c8c2d899a91216338d1ad1dac865eaf",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "green",
+              "seconds": 1.1555116001982242,
+              "image": "animated-workload-tabs-gdi-top-tab-0-green.png",
+              "bmp_sha256": "dba94e7ee4931819ad27d01c7b85986ca0dd99849d2412892382580bf84a0f2c",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "red",
+              "seconds": 1.7612649002112448,
+              "image": "animated-workload-tabs-gdi-top-tab-0-red.png",
+              "bmp_sha256": "f2a49146449b01e3a47cd0b9c6576f8ff86566bcdb898324ccedbce76e8afd55",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "seconds": 1.790381700033322
+        },
+        {
+          "session": 2,
+          "hwnd": 10226196,
+          "renderer": 0,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 6,
+          "frames": [
+            {
+              "colour": "red",
+              "seconds": 0.30340450000949204,
+              "image": "animated-workload-tabs-gdi-top-tab-1-red.png",
+              "bmp_sha256": "0ddd97a71e2454f4c0173681a652fa471f0480fcf7a128bec1ead0bd655bdde3",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "green",
+              "seconds": 0.6297647999599576,
+              "image": "animated-workload-tabs-gdi-top-tab-1-green.png",
+              "bmp_sha256": "80bf2e9191dacfd63ad9c54bc1a0edff77a5987a89c479907589c016492a958d",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 1.4748549999203533,
+              "image": "animated-workload-tabs-gdi-top-tab-1-blue.png",
+              "bmp_sha256": "605f4891022f9492b0f54e504df998743a23a681a384c73fe09ca9a904c10e12",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "seconds": 1.5033534998074174
+        }
+      ],
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "renderer": "directx",
+      "side": "left",
+      "exit_code": 0,
+      "samples": 570,
+      "peaks": {
+        "count": 1,
+        "private_ws": 24920064,
+        "total_ws": 65183744,
+        "private_commit": 94543872
+      },
+      "injected": false,
+      "completed": true,
+      "checks": 9,
+      "error": null,
+      "animation": [
+        {
+          "session": 1,
+          "hwnd": 8720068,
+          "renderer": 2,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 5,
+          "frames": [
+            {
+              "colour": "red",
+              "seconds": 0.2621859998907894,
+              "image": "animated-workload-tabs-directx-left-tab-0-red.png",
+              "bmp_sha256": "40cf67bd4b19e3ff5a64aa968a4c3a2d3ec072eefff97d39a0aba111aa7e2066",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "green",
+              "seconds": 0.6280793000478297,
+              "image": "animated-workload-tabs-directx-left-tab-0-green.png",
+              "bmp_sha256": "9cc0a044433ac1e74ce9ee14ecf039b97d99d923cb7720f5c2ad0519e168c444",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "blue",
+              "seconds": 1.220548399956897,
+              "image": "animated-workload-tabs-directx-left-tab-0-blue.png",
+              "bmp_sha256": "a98fea5245f9c0e1115f99e7b4a4f6a4a9f44d1a837c88ef5202235536f4e1de",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "seconds": 1.2488476999569684
+        },
+        {
+          "session": 2,
+          "hwnd": 14094742,
+          "renderer": 2,
+          "injected": false,
+          "after_memory_sampling": true,
+          "captures": 9,
+          "frames": [
+            {
+              "colour": "blue",
+              "seconds": 0.2684295999351889,
+              "image": "animated-workload-tabs-directx-left-tab-1-blue.png",
+              "bmp_sha256": "b8eaae42d68f42679fc3134777dab8d50f8eb2b0e2f28acdcd7c0b43831d5135",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "red",
+              "seconds": 0.743538900045678,
+              "image": "animated-workload-tabs-directx-left-tab-1-red.png",
+              "bmp_sha256": "11749c042fe7a7febdb1a19e3807fc1f2f88c553193d53672f5482a310db46b9",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            },
+            {
+              "colour": "green",
+              "seconds": 1.6369068000931293,
+              "image": "animated-workload-tabs-directx-left-tab-1-green.png",
+              "bmp_sha256": "8198de61dc81146f634aec32019df058fcec8ec95aade7056699cb16aa96a917",
+              "patch": [
+                273,
+                165,
+                8,
+                8
+              ]
+            }
+          ],
+          "seconds": 1.6653182001318783
+        }
+      ],
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "canary": {
+    "exit_code": 1,
+    "executable_sha256": "8e52b517787fb508937611b15eb48855ab0e73521978f579d853cf48d9748585",
+    "error": "AssertionError({'session': 1, 'hwnd': 42206406, 'renderer': 0, 'injected': False, 'after_memory_sampling': True, 'captures': 17, 'frames': [], 'seconds': 3.0829263001214713})",
+    "animation": [
+      {
+        "session": 1,
+        "hwnd": 42206406,
+        "renderer": 0,
+        "injected": false,
+        "after_memory_sampling": true,
+        "captures": 17,
+        "frames": [],
+        "seconds": 3.0829263001214713
+      }
+    ],
+    "memory_limit_passed": true,
+    "cleanup": {
+      "before": {
+        "total": 31,
+        "active": 5,
+        "terminated": 0
+      },
+      "after": {
+        "total": 31,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": true,
+      "remaining_processes": [
+        {
+          "pid": 35140,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 52928,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 52180,
+          "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 33144,
+          "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\dist\\nemoterm.exe",
+          "exit_code": 259
+        },
+        {
+          "pid": 27196,
+          "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+          "exit_code": 259
+        }
+      ]
+    },
+    "expected_failure_observed": true
+  },
+  "records": [
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\.github\\workflows\\ci.yml",
+      "archive": "research/gif-memory-records/000-ci.yml.gz",
+      "bytes": 47827,
+      "sha256": "47f09e41727330d37646244dc000085b000c6b9c619e746b5e1328619a4fd715"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\controller.log",
+      "archive": "research/gif-memory-records/001-controller.log.gz",
+      "bytes": 365,
+      "sha256": "cd6922affcaebdc272646d7b7d0543cdd325905a6990bcebbd80f9b7dbd1c2d7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-memory.json",
+      "archive": "research/gif-memory-records/002-animated-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1580837,
+      "sha256": "1197f3167e1fa5011a2872334593e51b2436b5fec20eb9d93079f961d935ef82"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-observed.json",
+      "archive": "research/gif-memory-records/003-animated-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 189320,
+      "sha256": "67e06cb624b9f6558d86153274c966c227297f6e4c73e307c1f737ef5ef0b232"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-preview.png",
+      "archive": "research/gif-memory-records/004-animated-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-0-blue.png",
+      "archive": "research/gif-memory-records/005-animated-workload-tabs-directx-left-tab-0-blue.png.gz",
+      "bytes": 76836,
+      "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-0-green.png",
+      "archive": "research/gif-memory-records/006-animated-workload-tabs-directx-left-tab-0-green.png.gz",
+      "bytes": 76832,
+      "sha256": "414f169fea743fc89def37e81fad67fc8e7225fedbc5d9faab049788436fc8c8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-0-red.png",
+      "archive": "research/gif-memory-records/007-animated-workload-tabs-directx-left-tab-0-red.png.gz",
+      "bytes": 76827,
+      "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-1-blue.png",
+      "archive": "research/gif-memory-records/008-animated-workload-tabs-directx-left-tab-1-blue.png.gz",
+      "bytes": 53624,
+      "sha256": "41737ac65e736704206ec06cbeb6b3e20ab289c163ba18b5ddef1aaac03f6a1f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-1-green.png",
+      "archive": "research/gif-memory-records/009-animated-workload-tabs-directx-left-tab-1-green.png.gz",
+      "bytes": 53578,
+      "sha256": "61c993bc0f41f4cc5d9ede9e89c84dbcd8012acf88cfd090bc3177760a205a77"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\animated-workload-tabs-directx-left-tab-1-red.png",
+      "archive": "research/gif-memory-records/010-animated-workload-tabs-directx-left-tab-1-red.png.gz",
+      "bytes": 53586,
+      "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\research\\tabs-controller.json",
+      "archive": "research/gif-memory-records/011-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "2c30fca050e0ba1ee0acb46e3df0a6a8ffb40198a2e96dcb4b8d3fe0f25a7ba3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\tabs.log",
+      "archive": "research/gif-memory-records/012-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\tests\\tab_workload_memory.py",
+      "archive": "research/gif-memory-records/013-tab_workload_memory.py.gz",
+      "bytes": 9529,
+      "sha256": "94a3e5ddd576ada8d10a313f30d51d09bdb3bc81604df547c69a303667ce4eb0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\directx\\tests\\tabs_window_smoke.py",
+      "archive": "research/gif-memory-records/014-tabs_window_smoke.py.gz",
+      "bytes": 29179,
+      "sha256": "3f0fc12a1fdc5e702f8662bf1a119e7e276d9990a679c78f3b8a0d475ec6b1ce"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\controller.log",
+      "archive": "research/gif-memory-records/015-controller.log.gz",
+      "bytes": 366,
+      "sha256": "c2871246cfa9896da447537c748919b5257a99863ff567f9eab2c308417699c1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-memory.json",
+      "archive": "research/gif-memory-records/016-animated-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1612288,
+      "sha256": "dcdf3c5dce21d3e6aa10e79d99728d6e04aeb954347f30eb63fa0be8f365882c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-observed.json",
+      "archive": "research/gif-memory-records/017-animated-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 182164,
+      "sha256": "7e7783d1efe0cec4c395db95a88d1f7221b70afe9590978ad1fc4e158cee943e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-preview.png",
+      "archive": "research/gif-memory-records/018-animated-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-0-blue.png",
+      "archive": "research/gif-memory-records/019-animated-workload-tabs-gdi-top-tab-0-blue.png.gz",
+      "bytes": 76836,
+      "sha256": "bf64c0975bf7bd44f136b07ba1da368f1744a0669b3fa6823d5b8203c7a82867"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-0-green.png",
+      "archive": "research/gif-memory-records/020-animated-workload-tabs-gdi-top-tab-0-green.png.gz",
+      "bytes": 76832,
+      "sha256": "414f169fea743fc89def37e81fad67fc8e7225fedbc5d9faab049788436fc8c8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-0-red.png",
+      "archive": "research/gif-memory-records/021-animated-workload-tabs-gdi-top-tab-0-red.png.gz",
+      "bytes": 76827,
+      "sha256": "8972c7f1cc2cd720c8f80cf250494dabb90cdbd22d79e0e82ffdd64e84f56991"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-1-blue.png",
+      "archive": "research/gif-memory-records/022-animated-workload-tabs-gdi-top-tab-1-blue.png.gz",
+      "bytes": 53624,
+      "sha256": "41737ac65e736704206ec06cbeb6b3e20ab289c163ba18b5ddef1aaac03f6a1f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-1-green.png",
+      "archive": "research/gif-memory-records/023-animated-workload-tabs-gdi-top-tab-1-green.png.gz",
+      "bytes": 53578,
+      "sha256": "61c993bc0f41f4cc5d9ede9e89c84dbcd8012acf88cfd090bc3177760a205a77"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\animated-workload-tabs-gdi-top-tab-1-red.png",
+      "archive": "research/gif-memory-records/024-animated-workload-tabs-gdi-top-tab-1-red.png.gz",
+      "bytes": 53586,
+      "sha256": "473ba6d61a7b1a8f734f61d095b9362c85f04bdff836d80dcb7f6f0987f8e398"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\tabs-controller.json",
+      "archive": "research/gif-memory-records/025-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "2fcc877d308126e15f18435d9dd9be1e9a7123b792041e058bdbda53269d5995"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\research\\tabs-gdi-top-host.png",
+      "archive": "research/gif-memory-records/026-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\tabs.log",
+      "archive": "research/gif-memory-records/027-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\tests\\tab_workload_memory.py",
+      "archive": "research/gif-memory-records/028-tab_workload_memory.py.gz",
+      "bytes": 9529,
+      "sha256": "94a3e5ddd576ada8d10a313f30d51d09bdb3bc81604df547c69a303667ce4eb0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\gdi\\tests\\tabs_window_smoke.py",
+      "archive": "research/gif-memory-records/029-tabs_window_smoke.py.gz",
+      "bytes": 29179,
+      "sha256": "3f0fc12a1fdc5e702f8662bf1a119e7e276d9990a679c78f3b8a0d475ec6b1ce"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-01\\results.json",
+      "archive": "research/gif-memory-records/030-results.json.gz",
+      "bytes": 6987,
+      "sha256": "9853a4585cc55b8c761e46449020e8447fc65ed373ded15eac7c4c592a5688fe"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\controller.log",
+      "archive": "research/gif-memory-records/031-controller.log.gz",
+      "bytes": 1273,
+      "sha256": "3235404b34d79de124f7f84e395883a2d45747b7121e9cd08e767f33836b7f3a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\research\\animated-workload-tabs-gdi-top-memory.json",
+      "archive": "research/gif-memory-records/032-animated-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1520710,
+      "sha256": "d86ec724568b15083257978f2f7e679de10220998a5ecb6bab9dfb382ff41b5d"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\research\\animated-workload-tabs-gdi-top-observed.json",
+      "archive": "research/gif-memory-records/033-animated-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 154594,
+      "sha256": "43f7f4260c1f056ac42a077b75e42c699fffe76fadec7765b84af4762b8c0231"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\research\\tabs-controller.json",
+      "archive": "research/gif-memory-records/034-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "f2dcbb92dc02c299d0a5a7f7b8119e37d90a41151c298a2b69e17986b366f574"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\results.json",
+      "archive": "research/gif-memory-records/035-results.json.gz",
+      "bytes": 1830,
+      "sha256": "9b32a1f88b2f886400fe8cb73136eeb5dc46a63f97bcee40b63a1471be4df1f3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\tabs.log",
+      "archive": "research/gif-memory-records/036-tabs.log.gz",
+      "bytes": 905,
+      "sha256": "d32147de7027823a36917482532011f6725f38e390654c16dccafeb5fced7d9d"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\tests\\tab_workload_memory.py",
+      "archive": "research/gif-memory-records/037-tab_workload_memory.py.gz",
+      "bytes": 9530,
+      "sha256": "a744317b016bdf1dc46100912704a5d15a7c1f6aa05be47560668b34565cfd7b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\animated-memory-canary\\tests\\tabs_window_smoke.py",
+      "archive": "research/gif-memory-records/038-tabs_window_smoke.py.gz",
+      "bytes": 29179,
+      "sha256": "3f0fc12a1fdc5e702f8662bf1a119e7e276d9990a679c78f3b8a0d475ec6b1ce"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\check-animated-canary.py",
+      "archive": "research/gif-memory-records/039-check-animated-canary.py.gz",
+      "bytes": 1717,
+      "sha256": "a69f4d2c29e53034598cd47015e7a1aa35021c488357be72f6729c572be46c84"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\check-animated-memory.py",
+      "archive": "research/gif-memory-records/040-check-animated-memory.py.gz",
+      "bytes": 1879,
+      "sha256": "37b44f7b36874bec7399a1986b1946d9977ee94affbdcb50e44a67613ab061f6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\build\\retain-animated-memory.py",
+      "archive": "research/gif-memory-records/041-retain-animated-memory.py.gz",
+      "bytes": 1787,
+      "sha256": "70a40051e19687b396a284bae02e0d3f97ecabe6dabe05d71d70336921b8e537"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\scripts\\test-single-exe.ps1",
+      "archive": "research/gif-memory-records/042-test-single-exe.ps1.gz",
+      "bytes": 12943,
+      "sha256": "0683074f425d4037a64afda5d02cfb8b246a723533ea9621e4271b8537f4dbb7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\tests\\gif_fixture.py",
+      "archive": "research/gif-memory-records/043-gif_fixture.py.gz",
+      "bytes": 2223,
+      "sha256": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\tests\\memory_limits.py",
+      "archive": "research/gif-memory-records/044-memory_limits.py.gz",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\tests\\owned_job.py",
+      "archive": "research/gif-memory-records/045-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\tests\\tab_workload_memory.py",
+      "archive": "research/gif-memory-records/046-tab_workload_memory.py.gz",
+      "bytes": 9530,
+      "sha256": "a744317b016bdf1dc46100912704a5d15a7c1f6aa05be47560668b34565cfd7b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\dx-staging-worktree\\tests\\tabs_window_smoke.py",
+      "archive": "research/gif-memory-records/047-tabs_window_smoke.py.gz",
+      "bytes": 29179,
+      "sha256": "3f0fc12a1fdc5e702f8662bf1a119e7e276d9990a679c78f3b8a0d475ec6b1ce"
+    }
+  ]
+}

@@ -155,6 +155,12 @@ try {
         if ($LASTEXITCODE) { throw "Single-executable inline image workload and memory test failed: $name" }
         $checks.Add($name)
     }
+    foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+        $name = "animated-workload-tabs-$($case[0])-$($case[1])"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --workload-memory --animated-images 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        if ($LASTEXITCODE) { throw "Single-executable animated image workload and memory test failed: $name" }
+        $checks.Add($name)
+    }
     $files = @(Get-ChildItem -LiteralPath "$Destination/dist" -File)
     if ($files.Count -ne 1 -or $files[0].Name -ne 'nemoterm.exe') { throw 'Unexpected sidecar files in isolated executable directory' }
     $digest = Get-FileHash -LiteralPath "$Destination/dist/nemoterm.exe" -Algorithm SHA256
