@@ -1,0 +1,80 @@
+name: Kitty graphics transport
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/kitty-graphics.yml
+      - vendor/putty-0.85/terminal/nemo_kitty.*
+      - tests/test_kitty_transport.c
+  pull_request:
+    paths:
+      - .github/workflows/kitty-graphics.yml
+      - vendor/putty-0.85/terminal/nemo_kitty.*
+      - tests/test_kitty_transport.c
+
+permissions:
+  contents: read
+
+jobs:
+  unix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Compile and execute strict and sanitized transport checks
+        env:
+          CC: ${{ matrix.compiler }}
+        run: |
+          set -o pipefail
+          "$CC" --version | tee compiler.txt
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 \
+            -I vendor/putty-0.85/terminal tests/test_kitty_transport.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c -o kitty-transport
+          ./kitty-transport 2>&1 | tee normal.log
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_kitty_transport.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c -o kitty-transport-asan
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./kitty-transport-asan 2>&1 | tee sanitizers.log
+          sha256sum vendor/putty-0.85/terminal/nemo_kitty.* tests/test_kitty_transport.c > sources.sha256
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kitty-transport-${{ matrix.compiler }}-${{ github.sha }}
+          path: |
+            compiler.txt
+            normal.log
+            sanitizers.log
+            sources.sha256
+          retention-days: 14
+  msvc:
+    runs-on: windows-2025
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Compile and execute Windows transport checks
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_transport.c vendor/putty-0.85/terminal/nemo_kitty.c /Fe:kitty-transport.exe 2>&1 | Tee-Object build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-transport.exe 2>&1 | Tee-Object test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty.c, vendor/putty-0.85/terminal/nemo_kitty.h, tests/test_kitty_transport.c -Algorithm SHA256 | Format-List | Out-File sources.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kitty-transport-msvc-${{ github.sha }}
+          path: |
+            build.log
+            test.log
+            sources.txt
+          retention-days: 14

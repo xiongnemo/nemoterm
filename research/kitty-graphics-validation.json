@@ -1,0 +1,24 @@
+{
+  "parent_commit": "bc8366c95f96004353cc11da43063f492b0d07ca",
+  "stage": "transport component only; not connected to runtime APC handler",
+  "reference": {
+    "repository": "kovidgoyal/kitty",
+    "commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+    "path": "docs/graphics-protocol.rst",
+    "sha256": "c51470cc0bd16c804ff2d1652507f6fc6966271ab1164359012b8bbdb0375dbb"
+  },
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty.c": "78f93f0809c607e2e542d417442dfc91e02d507f1545fcd4883ec59f06a87741",
+    "vendor/putty-0.85/terminal/nemo_kitty.h": "ec4d9115c03920f3714dc02c59a132036d6229d251a7c0a9b366d948ca5d0d70",
+    "tests/test_kitty_transport.c": "9cf0449b49ae3e58798ed2fc4a8a61ced5b716e65cb841507803fdbed47debb9",
+    ".github/workflows/kitty-graphics.yml": "ceb2725b2abafaf69346d05637a20cf09a08ccc145a3755ab4c1cb5a55b10686"
+  },
+  "validation": {
+    "local_native_tests": "paused by user; none run",
+    "local_compile": "not run during pause",
+    "static_diff": "passed",
+    "remote_tests": "pending"
+  },
+  "memory_acceptance": false,
+  "accepted_executable_changed": false
+}
