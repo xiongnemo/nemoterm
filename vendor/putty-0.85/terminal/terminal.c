@@ -2175,18 +2175,6 @@ static void nemo_sixel_cancel(Terminal *term)
     term->sixel_pending = NULL;
 }
 
-static uint32_t nemo_sixel_colour(Terminal *term, bool foreground)
-{
-    optionalrgb tc = foreground ? term->curr_truecolour.fg : term->curr_truecolour.bg;
-    unsigned index = foreground ?
-        (term->curr_attr & ATTR_FGMASK) >> ATTR_FGSHIFT :
-        (term->curr_attr & ATTR_BGMASK) >> ATTR_BGSHIFT;
-    rgb c = term->palette[index < OSC4_NCOLOURS ? index : 0];
-    if (tc.enabled) { c.r = tc.r; c.g = tc.g; c.b = tc.b; }
-    return UINT32_C(0xff000000) | ((uint32_t)c.r << 16) |
-        ((uint32_t)c.g << 8) | c.b;
-}
-
 static void nemo_status_query(Terminal *term, bool private)
 {
     if (!term->ldisc) return;
@@ -2311,7 +2299,6 @@ static void nemo_sixel_begin(Terminal *term)
     if (!nemo_image_admit(term, 0, 8192)) return;
     term->sixel_pending = nemo_sixel_init(
         NEMO_SIXEL_DEFAULT_BUDGET - sizeof(NemoTermImage),
-        nemo_sixel_colour(term, true), nemo_sixel_colour(term, false),
         term->sixel_header[1] == 1);
     if (!term->sixel_pending) return;
     nemo_sixel_set_register_count(term->sixel_pending, term->sixel_register_count);
@@ -2348,7 +2335,7 @@ static void nemo_sixel_complete(Terminal *term)
     NemoSixelStats st = nemo_sixel_stats(decoder);
     uint64_t pw = (uint64_t)st.width * st.aspect_horizontal;
     uint64_t ph = (uint64_t)st.height * st.aspect_vertical;
-    if (!pw || !ph || pw > NEMO_SIXEL_MAX_DIMENSION ||
+    if (!st.has_sixels || !pw || !ph || pw > NEMO_SIXEL_MAX_DIMENSION ||
         ph > NEMO_SIXEL_MAX_DIMENSION) { nemo_sixel_cancel(term); return; }
     int cols = ((int)pw-1) / term->cell_width + 1;
     int rows = ((int)ph-1) / term->cell_height + 1;

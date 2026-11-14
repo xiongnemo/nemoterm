@@ -13,7 +13,9 @@ import nemoterm_debug as api
 
 ESC, CSI, DCS, ST = '\x1b', '\x1b[', '\x1bP', '\x1b\\'
 COLOURS = {'red': b'\x00\x00\xff', 'green': b'\x00\xff\x00',
-           'blue': b'\xff\x00\x00'}  # BMP stores BGR; alpha is not a colour channel.
+           'blue': b'\xff\x00\x00', 'vt340-green': b'\x33\xcc\x33',
+           'black': b'\0\0\0', 'magenta': b'\xff\0\xff',
+           'cyan': b'\xff\xff\0'}  # BMP stores BGR; alpha is not a colour channel.
 COLS, ROWS, BORDER = 40, 12, 1
 u.GetWindowThreadProcessId.argtypes = [w.HWND, c.POINTER(w.DWORD)]
 u.PostMessageW.argtypes, u.PostMessageW.restype = [w.HWND, w.UINT, w.WPARAM, w.LPARAM], w.BOOL
@@ -39,15 +41,17 @@ def reset(private=True):
             CSI+'0m'+ESC+']11;rgb:0/0/0\x07'+CSI+'2J'+CSI+'3J'+CSI+'H')
 
 
-def main():
+def main(background_exercise=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     args = parser.parse_args()
+    suite = 'sixel-background' if background_exercise else 'sixel-palette'
+    colour_names = tuple(COLOURS) if background_exercise else ('red', 'green', 'blue')
     requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
-    profile = 'sixel-palette-'+uuid.uuid4().hex
+    profile = suite+'-'+uuid.uuid4().hex
     keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
-    folder = root/'research'/f'sixel-palette-{args.renderer}-{uuid.uuid4().hex}'
+    folder = root/'research'/f'{suite}-{args.renderer}-{uuid.uuid4().hex}'
     folder.mkdir(parents=True)
     report, control = folder/'child-report.json', folder/'child-control.json'
     evidence = dict(completed=False, requested_renderer=args.renderer,
@@ -103,9 +107,9 @@ def main():
                 assert cw > 0 and ch >= 6 and width == COLS*cw+2*BORDER and height == ROWS*ch+2*BORDER
                 evidence.update(image_size=[width, height], cell_pixels=[cw, ch])
 
-                def block(row, colour, left=0, count=16):
-                    return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch,
-                                width=count, height=6, colour=colour)
+                def block(row, colour, left=0, count=16, top=0, height=6):
+                    return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,
+                                width=count, height=height, colour=colour)
 
                 def phase(name, sequence, regions):
                     serial = len(evidence['checks'])+1
@@ -120,11 +124,18 @@ def main():
                     record['reply_hex'] = value['hex']
                     assert bytes.fromhex(value['hex']).endswith((CSI+'0n').encode()), value
                     assert [value['columns'], value['rows']] == [COLS, ROWS], value
-                    wanted = {colour: set() for colour in COLOURS}
+                    # Later rectangles overwrite earlier ones, so a one-pixel
+                    # foreground can be specified over a full background ROI.
+                    wanted_pixels = {}
                     for region in regions:
-                        wanted[region['colour']].update((x, y)
-                            for y in range(region['y'], region['y']+region['height'])
-                            for x in range(region['x'], region['x']+region['width']))
+                        for y in range(region['y'], region['y']+region['height']):
+                            for x in range(region['x'], region['x']+region['width']):
+                                assert 0 <= x < width and 0 <= y < height
+                                wanted_pixels[x, y] = region['colour']
+                    wanted = {colour: set() for colour in colour_names}
+                    for point, colour in wanted_pixels.items():
+                        wanted[colour].add(point)
+                    record['scope'] = 'exact probe regions' if background_exercise else 'all client RGB probe colours'
                     record['expected_counts'] = {colour: len(points) for colour, points in wanted.items()}
                     last = None
 
@@ -133,16 +144,24 @@ def main():
                         last = api.request(endpoint, 'image', seat)
                         image_width, image_height, pixels = bitmap(last)
                         assert (image_width, image_height) == (width, height)
-                        observed = {colour: set() for colour in COLOURS}
-                        colours = {bgr: colour for colour, bgr in COLOURS.items()}
-                        for offset in range(0, len(pixels), 4):
-                            colour = colours.get(pixels[offset:offset+3])
-                            if colour:
-                                observed[colour].add((offset//4 % width, offset//4 // width))
+                        observed = {colour: set() for colour in colour_names}
+                        colours = {COLOURS[colour]: colour for colour in colour_names}
+                        if background_exercise:
+                            for x, y in wanted_pixels:
+                                offset = (y*width+x)*4
+                                bgr = pixels[offset:offset+3]
+                                colour = colours.get(bgr, 'rgb:'+bgr[::-1].hex())
+                                observed.setdefault(colour, set()).add((x, y))
+                        else:
+                            for offset in range(0, len(pixels), 4):
+                                colour = colours.get(pixels[offset:offset+3])
+                                if colour:
+                                    observed[colour].add((offset//4 % width, offset//4 // width))
                         record['observed_counts'] = {colour: len(points) for colour, points in observed.items()}
                         record['differences'] = {colour: dict(
-                            missing=sorted(wanted[colour]-observed[colour])[:8],
-                            unexpected=sorted(observed[colour]-wanted[colour])[:8]) for colour in COLOURS}
+                            missing=sorted(wanted.get(colour, set())-observed.get(colour, set()))[:8],
+                            unexpected=sorted(observed.get(colour, set())-wanted.get(colour, set()))[:8])
+                            for colour in sorted(wanted.keys() | observed.keys())}
                         return observed == wanted
 
                     try:
@@ -158,37 +177,40 @@ def main():
                         write_snapshot(folder/'checks.json', evidence['checks'])
                     print(name, record['observed_counts'], flush=True)
 
-                red, green = '#1;2;100;0;0!16~', '#1;2;0;100;0!16~'
-                recolour = '#1;2;100;0;0!8~#1;2;0;100;0!8~'
-                phase('private-same-dcs-before', reset()+image(red), [block(2, 'red')])
-                phase('private-same-dcs-after', reset()+image(recolour), [block(2, 'green')])
-                phase('shared-same-dcs', reset(False)+image(recolour), [block(2, 'green')])
-                phase('private-cross-before', reset()+image(red), [block(2, 'red')])
-                phase('private-cross-after', image(green, 5), [block(2, 'red'), block(5, 'green')])
-                phase('equal-rgb-distinct-registers', reset()+image(
-                    '#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0?'),
-                    [block(2, 'green', count=8), block(2, 'red', left=8, count=8)])
-                phase('overwrite-register-identity', reset()+image(
-                    '#1;2;100;0;0!16~$#2;2;0;0;100!8~#1;2;0;100;0?'),
-                    [block(2, 'blue', count=8), block(2, 'green', left=8, count=8)])
-                phase('shared-cross-before', reset(False)+image(red), [block(2, 'red')])
-                phase('shared-cross-after', image(green, 5), [block(2, 'green'), block(5, 'green')])
-                # '?' commits the completed numeric definition; CAN must not
-                # roll it back. Keep the same expectation through ConPTY.
-                phase('shared-cancel', DCS+'0;1q#1;2;0;0;100?\x18', [block(2, 'blue'), block(5, 'blue')])
-                phase('private-cancel', CSI+'?1070h'+DCS+'0;1q#1;2;100;0;0?\x18',
-                    [block(2, 'blue'), block(5, 'blue')])
-                phase('private-image-after-mode-toggle', image(green, 8),
-                    [block(2, 'blue'), block(5, 'blue'), block(8, 'green')])
-                phase('shared-mode-restored', CSI+'?1070l'+DCS+'0;1q#1;2;100;0;0?'+ST,
-                    [block(2, 'red'), block(5, 'red'), block(8, 'green')])
-                phase('soft-reset-retains-images', CSI+'!p'+CSI+'?25l',
-                    [block(2, 'red'), block(5, 'red'), block(8, 'green')])
-                phase('shared-after-soft-reset', CSI+'?1070l'+DCS+'0;1q#1;2;0;0;100?\x18',
-                    [block(2, 'blue'), block(5, 'blue'), block(8, 'green')])
-                # Do not follow RIS with ED: that could hide a broken RIS
-                # image-lifetime boundary. Only hide its restored cursor.
-                phase('hard-reset-clears-images', ESC+'c'+CSI+'?25l', [])
+                if background_exercise:
+                    background_exercise(phase, block)
+                else:
+                    red, green = '#1;2;100;0;0!16~', '#1;2;0;100;0!16~'
+                    recolour = '#1;2;100;0;0!8~#1;2;0;100;0!8~'
+                    phase('private-same-dcs-before', reset()+image(red), [block(2, 'red')])
+                    phase('private-same-dcs-after', reset()+image(recolour), [block(2, 'green')])
+                    phase('shared-same-dcs', reset(False)+image(recolour), [block(2, 'green')])
+                    phase('private-cross-before', reset()+image(red), [block(2, 'red')])
+                    phase('private-cross-after', image(green, 5), [block(2, 'red'), block(5, 'green')])
+                    phase('equal-rgb-distinct-registers', reset()+image(
+                        '#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0?'),
+                        [block(2, 'green', count=8), block(2, 'red', left=8, count=8)])
+                    phase('overwrite-register-identity', reset()+image(
+                        '#1;2;100;0;0!16~$#2;2;0;0;100!8~#1;2;0;100;0?'),
+                        [block(2, 'blue', count=8), block(2, 'green', left=8, count=8)])
+                    phase('shared-cross-before', reset(False)+image(red), [block(2, 'red')])
+                    phase('shared-cross-after', image(green, 5), [block(2, 'green'), block(5, 'green')])
+                    # '?' commits the completed numeric definition; CAN must not
+                    # roll it back. Keep the same expectation through ConPTY.
+                    phase('shared-cancel', DCS+'0;1q#1;2;0;0;100?\x18', [block(2, 'blue'), block(5, 'blue')])
+                    phase('private-cancel', CSI+'?1070h'+DCS+'0;1q#1;2;100;0;0?\x18',
+                        [block(2, 'blue'), block(5, 'blue')])
+                    phase('private-image-after-mode-toggle', image(green, 8),
+                        [block(2, 'blue'), block(5, 'blue'), block(8, 'green')])
+                    phase('shared-mode-restored', CSI+'?1070l'+DCS+'0;1q#1;2;100;0;0?'+ST,
+                        [block(2, 'red'), block(5, 'red'), block(8, 'green')])
+                    phase('soft-reset-retains-images', CSI+'!p'+CSI+'?25l',
+                        [block(2, 'red'), block(5, 'red'), block(8, 'green')])
+                    phase('shared-after-soft-reset', CSI+'?1070l'+DCS+'0;1q#1;2;0;0;100?\x18',
+                        [block(2, 'blue'), block(5, 'blue'), block(8, 'green')])
+                    # Do not follow RIS with ED: that could hide a broken RIS
+                    # image-lifetime boundary. Only hide its restored cursor.
+                    phase('hard-reset-clears-images', ESC+'c'+CSI+'?25l', [])
                 final = api.request(endpoint)
                 assert final['pid'] == process.pid and len(final['sessions']) == 1
                 assert final['sessions'][0]['id'] == seat and final['sessions'][0]['active']
@@ -219,8 +241,8 @@ def main():
                 winreg.DeleteKey(winreg.HKEY_CURRENT_USER, keypath)
             evidence['profile_removed'] = True
         finally:
-            write_snapshot(root/'research'/f'sixel-palette-{args.renderer}-observed.json', evidence)
-    print(f'Native Sixel palette {args.renderer}: {len(evidence["checks"])} exact pixel checks passed', flush=True)
+            write_snapshot(root/'research'/f'{suite}-{args.renderer}-observed.json', evidence)
+    print(f'Native {suite} {args.renderer}: {len(evidence["checks"])} exact pixel checks passed', flush=True)
 
 
 if __name__ == '__main__':

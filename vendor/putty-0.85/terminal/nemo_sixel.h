@@ -25,7 +25,7 @@ typedef struct NemoSixelStats {
     unsigned aspect_vertical, aspect_horizontal;
     size_t allocated_bytes, budget_bytes;
     NemoSixelStatus status;
-    bool finished;
+    bool finished, has_sixels;
 } NemoSixelStats;
 
 /* Colors are 0xAARRGGBB, i.e. BGRA bytes on little-endian Windows.
@@ -34,14 +34,14 @@ typedef struct NemoSixelStats {
  * Bitmap storage is tiled: small images do not allocate the full budget and
  * growth never makes a temporary second copy of the image.
  * Palette starts with VT340's 16 colors and an xterm-style cube/gray extension.
- * Pixels selected through # retain register identity and resolve its current
- * color when read. Until a # register is selected, set pixels use foreground.
- * Initial foreground/background pixels are independent of the palette.
+ * Set pixels retain register identity and resolve its current color when read.
+ * The initial selected register is 3 (green in this VT340 palette). Opaque
+ * background uses register 0, not the text background. It covers only the
+ * declared raster rectangle and activates on the first Sixel, including '?'.
+ * Undrawn pixels outside that rectangle remain transparent as the image grows.
  */
-NemoSixel *nemo_sixel_init(size_t budget_bytes, uint32_t foreground,
-                         uint32_t background, bool transparent);
-void nemo_sixel_reset(NemoSixel *s, uint32_t foreground,
-                      uint32_t background, bool transparent);
+NemoSixel *nemo_sixel_init(size_t budget_bytes, bool transparent);
+void nemo_sixel_reset(NemoSixel *s, bool transparent);
 void nemo_sixel_free(NemoSixel *s);
 
 /* Feed only Sixel payload after the DCS 'q', excluding ST/ESC/CAN/SUB.
@@ -56,6 +56,7 @@ NemoSixelStats nemo_sixel_stats(const NemoSixel *s);
 
 /* Copy at most count pixels within [x,width) of a valid row. No allocation.
  * Output alpha is 0 or 255. Callers composite transparent pixels themselves.
+ * A raster declaration alone has no visible pixels (stats.has_sixels=false).
  * No bitmap should be displayed when stats.status != NEMO_SIXEL_OK.
  */
 size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
