@@ -1,0 +1,41 @@
+{
+  "recorded_utc": "2026-11-14T14:10:59.289506+00:00",
+  "parent_commit": "26f50c8796b6ba4ee5e941490a1dbd63021383f4",
+  "validation": {
+    "local_native_tests": "paused by user; none run",
+    "static_python_parse": "passed for two changed Python fixtures",
+    "git_diff_check": "passed",
+    "remote_behavioral_tests": "pending submission"
+  },
+  "reference_kind": "official specification and pinned source inspection; no iTerm runtime capture",
+  "references": {
+    "sources/VT100/VT100Terminal.m": {
+      "commit": "b3010f0d41a1ee9b0bebbc751b1342d428616cc2",
+      "sha256": "5fbec65b36fca1839af40b31cf3717df49eae2dd755aed5b97657eadd433020e",
+      "bytes": 275861
+    },
+    "sources/VT100/VT100Output.m": {
+      "commit": "b3010f0d41a1ee9b0bebbc751b1342d428616cc2",
+      "sha256": "0cdb20e69996ef61ba0928039db86e5131ff679ea94f76cd037ea6750fbde703",
+      "bytes": 61706
+    },
+    "sources/PTYSession/PTYSession.m": {
+      "commit": "b3010f0d41a1ee9b0bebbc751b1342d428616cc2",
+      "sha256": "fbc962d9cd62b6e57330d8802a84e07228c985dd25a703787abba62555842e81",
+      "bytes": 1291403
+    }
+  },
+  "changed_source_sha256": {
+    ".github/workflows/ci.yml": "880a3c369f924a2c97d20051fc39f6180c2fd48da5b2bb4fdd32df6297c95de0",
+    "scripts/test-single-exe.ps1": "0fb7d7118cb129a02244e98eae2df638b4c3afe64440fbe10ae87e53b0efb53a",
+    "tests/geometry_window_smoke.py": "53b65b7235ddf798fa4e34755363dfd6b0743ce574b5a2ca43c7dd9982093e62",
+    "vendor/putty-0.85/putty.h": "aad4548010efe159c100eb9eb02c6569828830df4153159ba105ab3b3325937f",
+    "vendor/putty-0.85/terminal/terminal.c": "a55f1217638369ca4c4727ecaf6824e722a878ec90a9f0bbf8db5a23b7c1cee5",
+    "vendor/putty-0.85/test/test_iterm_terminal.inc": "0a74a269dacce3793217d9832e7bc7395a3a72f80eea8a25a6865fbe2573c58f",
+    "vendor/putty-0.85/test/test_queries.c": "f531aa8524c5db78e53062d16d5e44fd76efedb5c21ab05d6588f9b9d3c78a6e",
+    "vendor/putty-0.85/windows/window.c": "d025399fcb42f8aef9f5f64adca4f9a068ad0bd90e715ed6b5a97cebabc97fa1",
+    "tests/iterm_reports_window_smoke.py": "15bb8dd719ee3b307e866839841111532520c7a2e3c4c6000ffb7166c75ba400",
+    "vendor/putty-0.85/test/test_iterm_reports.inc": "881d6c17b0c698cd592fbf5cfb8473b688cfdfcfc9614ba0378e29537df69248"
+  },
+  "accepted_executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26"
+}

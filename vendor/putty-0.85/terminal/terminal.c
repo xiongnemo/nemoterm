@@ -6874,9 +6874,8 @@ static bool nemo_osc_title(Terminal *term)
         (term->esc_args[0] <= 2 || term->esc_args[0] == 21);
 }
 
-static void nemo_query_geometry(Terminal *term, unsigned command)
+static TermWindowGeometry nemo_current_geometry(Terminal *term)
 {
-    if (!term->ldisc) return;
     TermWindowGeometry g = {
         .outer_x = term->winpos_x, .outer_y = term->winpos_y,
         .outer_width = term->winpixsize_x, .outer_height = term->winpixsize_y,
@@ -6890,6 +6889,13 @@ static void nemo_query_geometry(Terminal *term, unsigned command)
         TermWindowGeometry current;
         if (term->win->vt->get_geometry(term->win, &current)) g = current;
     }
+    return g;
+}
+
+static void nemo_query_geometry(Terminal *term, unsigned command)
+{
+    if (!term->ldisc) return;
+    TermWindowGeometry g = nemo_current_geometry(term);
     bool second = term->esc_nargs > 1 && term->esc_args[1] == 2;
     char reply[96];
     int n = 0;
@@ -6921,6 +6927,55 @@ static void nemo_query_geometry(Terminal *term, unsigned command)
         break;
     }
     if (n) nemo_protocol_send(term, reply, n);
+}
+
+/* OSC 1337 queries use exact names: a reflected report must never trigger
+ * another report. No persistent buffer or image decoder is allocated. */
+static bool nemo_iterm_report(Terminal *term)
+{
+    if (term->osc_overflow) return false;
+    ptrlen request = make_ptrlen(term->osc_string, term->osc_strlen);
+    if (ptrlen_eq_string(request, "Capabilities")) {
+        if (!term->ldisc) return true;
+        char reply[128];
+        int n = sprintf(reply, "\033]1337;Capabilities=%s%sLr%sSc3%s%s%s%sGsGo%s%sSx\033\\",
+            term->true_colour ? "T1" : "",
+            conf_get_bool(term->conf, CONF_nemo_osc52_write) &&
+                term->win->vt->osc52_write ? "Cw" : "",
+            term->no_mouse_rep ? "" : "M",
+            in_utf(term) ? "U" : "",
+            in_utf(term) && term->cjk_ambig_wide ? "Aw" : "",
+            term->no_remote_wintitle ? "" : "Ts3",
+            term->no_bracketed_paste ? "" : "B",
+            term->win->vt->set_synchronized_update ? "Sy" : "",
+            term->no_remote_hyperlinks ? "" : "H");
+        /* F is assigned to BOTH focus reporting and files by the published
+         * spec and iTerm2 encoder. Omit it until file download is supported.
+         * Uw is omitted: our configurable width/cluster policy is not a
+         * single independently certified Unicode width-table version. */
+        nemo_protocol_send(term, reply, n);
+        return true;
+    }
+    if (ptrlen_eq_string(request, "ReportCellSize")) {
+        if (!term->ldisc) return true;
+        TermWindowGeometry g = nemo_current_geometry(term);
+        if (g.cell_width <= 0 || g.cell_height <= 0) return true;
+        unsigned dpi = g.dpi ? g.dpi : 96;
+        uint64_t height = ((uint64_t)g.cell_height * 96000 + dpi/2) / dpi;
+        uint64_t width = ((uint64_t)g.cell_width * 96000 + dpi/2) / dpi;
+        uint64_t scale = ((uint64_t)dpi * 1000 + 48) / 96;
+        char reply[128];
+        /* Integer formatting is independent of the process decimal locale.
+         * Cells use logical units; multiplying by scale gives pixel size. */
+        int n = sprintf(reply,
+            "\033]1337;ReportCellSize=%llu.%03u;%llu.%03u;%llu.%03u\033\\",
+            (unsigned long long)(height/1000), (unsigned)(height%1000),
+            (unsigned long long)(width/1000), (unsigned)(width%1000),
+            (unsigned long long)(scale/1000), (unsigned)(scale%1000));
+        nemo_protocol_send(term, reply, n);
+        return true;
+    }
+    return false;
 }
 
 static void nemo_title_stack_op(Terminal *term, bool push)
@@ -7009,6 +7064,7 @@ static void do_osc(Terminal *term, bool bel)
         switch (term->esc_args[0]) {
           case 7: case 9: case 133: case 633: case 1337:
             if (term->esc_args[0] == 1337 && nemo_inline_finish(term)) break;
+            if (term->esc_args[0] == 1337 && nemo_iterm_report(term)) break;
             if (!term->osc_overflow) {
                 nemo_cwd_update(&term->working_directory, term->esc_args[0],
                                 term->osc_string, term->osc_strlen);

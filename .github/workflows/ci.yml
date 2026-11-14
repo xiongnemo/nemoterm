@@ -387,6 +387,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/tabs-* test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test iTerm capability reports and preference policy through ConPTY
+        shell: pwsh
+        run: |
+          python tests/iterm_reports_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/iterm-reports*-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test synchronized pixels and working set
         shell: pwsh
         run: |

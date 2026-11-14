@@ -28,11 +28,13 @@ u.IsIconic.argtypes = [w.HWND]
 u.MonitorFromWindow.argtypes, u.MonitorFromWindow.restype = [w.HWND, w.DWORD], w.HANDLE
 u.GetMonitorInfoW.argtypes = [w.HANDLE, c.c_void_p]
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
+u.GetDpiForWindow.argtypes, u.GetDpiForWindow.restype = [w.HWND], w.UINT
 
 class MonitorInfo(c.Structure):
     _fields_ = [('size', w.DWORD), ('monitor', w.RECT), ('work', w.RECT), ('flags', w.DWORD)]
 
 queries = '\x1b[11t\x1b[13t\x1b[13;2t\x1b[14t\x1b[14;2t\x1b[15t\x1b[16t\x1b[18t\x1b[19t'
+queries += '\x1b]1337;ReportCellSize\x1b\\'
 def drawing(colors):
     green, blue = (';'.join(map(str, color)) for color in colors)
     return ('\x1b[?25l\x1b[0m\x1b]11;#000000\x07\x1b[2J'
@@ -111,6 +113,9 @@ try:
                         raw = bytes.fromhex(value['hex']).decode('ascii')
                         replies = [list(map(int, x.split(';'))) for x in re.findall('\x1b\\[([0-9;-]+)t', raw)]
                         assert len(replies) == 9, (name, raw)
+                        cell_reports = re.findall(
+                            r'\x1b\]1337;ReportCellSize=([0-9]+\.[0-9]{3});([0-9]+\.[0-9]{3});([0-9]+\.[0-9]{3})\x1b\\', raw)
+                        assert len(cell_reports) == 1, (name, raw)
                         outer, client, origin, monitor = snapshot()
                         if pixels:
                             def pixel_geometry():
@@ -147,10 +152,17 @@ try:
                             [4,outer.bottom-outer.top,outer.right-outer.left], [5,sh,sw], [6,ch,cw],
                             [8,value['rows'],value['columns']], [9,sh//ch,sw//cw]]
                         assert replies == expected, (name,replies,expected)
+                        dpi = int(u.GetDpiForWindow(hwnd))
+                        assert dpi > 0
+                        logical_cell = list(map(float, cell_reports[0]))
+                        logical_expected = [ch*96/dpi, cw*96/dpi, dpi/96]
+                        assert all(abs(a-b) <= 0.000501 for a,b in zip(logical_cell,logical_expected)), \
+                            (name, logical_cell, logical_expected, dpi)
                         assert int(u.GetPropW(hwnd, 'NemotermRenderer') or 0) == mode['active_renderer'], \
                             (name,'renderer changed during geometry operations')
                         sample = memory_sample(handle)
                         mode['checks'].append(dict(name=name, replies=replies, memory=sample,
+                            iterm_cell_report=logical_cell, native_dpi=dpi,
                             cell=[cw,ch], text_offset=[left,top], child_grid=[value['columns'],value['rows']],
                             native_outer=[outer.left,outer.top,outer.right,outer.bottom]))
                         return outer, client, value

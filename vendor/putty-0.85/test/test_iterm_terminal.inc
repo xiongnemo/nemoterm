@@ -82,6 +82,7 @@ static void test_inline_images(Mock *mk)
     term_data_fragmented(mk->term,
         "\033]1337;MultipartFile=inline=1;width=16px;height=16px;preserveAspectRatio=0\007"
         "\033]1337;FilePart=Y\007\033]2;interleaved title\007"
+        "\033]1337;Capabilities\007\033]1337;ReportCellSize\033\\"
         "\033P0;1q#1;2;100;0;0~\033\\"
         "\033]1337;FilePart=WJ\007\033]1337;FilePart=j\007"
         "\033]1337;FileEnd\007");

@@ -80,6 +80,7 @@
 | OSC633 其余扩展 | 缺失 | Completions 等未实现；已支持的子命令不代表整个命名空间完成。 |
 | OSC1337 CurrentDir / RemoteHost | 已证（有限范围） | 目录与主机分开更新；远端路径可复制但不用于本机启动。与 OSC7 共用有界存储；[目录记录](../research/working-directory.md)。 |
 | OSC1337 SetMark | 已证（有限范围） | 独立位置书签，参与导航；不虚构未知命令或输出范围。[标记记录](../research/shell-marks-design.md)。 |
+| OSC1337 Capabilities / ReportCellSize | 源码已实现，CI 待验证 | 按当前设置返回能力，按当前 DPI 返回逻辑字符尺寸和比例；歧义 `F` 标记暂不返回。本机测试暂停，见[实现与验证范围](../research/iterm-capability-reports.md)。 |
 | OSC1337 用户变量及其余非图像命令 | 缺失 | 命名空间按子命令登记；已支持的子命令不代表支持其余命令。 |
 | OSC1337图像：`File=...:base64`，MultipartFile/FilePart/FileEnd | 候选整合版已测，未替换默认 EXE | PNG/JPEG/BMP 静态图和 GIF 动画与 ISO 2022 修复已整合；同一个本地 EXE 在三种实际渲染器各通过 32 个静态、36 个动画场景。独立分支的完整 CI 与本机内存失败记录继续保留，整合版验收进度见[整合记录](../research/graphics-charsets-integration.md)。文件下载、特性查询和完整 iTerm 兼容仍缺失。[静态范围](../research/iterm-inline-display.md)、[动画范围](../research/gif-animation.md)。 |
 | DCS DECRQSS：`DCS $ q Pt ST`，如`m`、`r`、`SP q` | 已证（有限范围） | 支持现有SGR状态`m`、滚动边界`r`、光标`SP q`、列数`$|`、行数`*|`；成功1$r，未知/超长0$r且不回显请求。输入最多63字节；CAN/SUB/新ESC取消、ST结束和与Sixel共存已测。SGR回复可重放，包含RGB、索引色及下划线样式/颜色。另支持 DECSCA；DECSLRM左右边距`s`和DECSACE范围`*x`也已实现；DECSCL `"p` 在 VT220 及以上级别已通过 [C1 对照与产物验证](../research/c1-controls.md)；modifyOtherKeys 的 `>4m` / `>4f` 和标题模式 `>t` 查询也已有实现。其余未实现的状态不虚报。 |

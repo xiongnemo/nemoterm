@@ -1654,6 +1654,8 @@ typedef struct TermWindowGeometry {
     int outer_x, outer_y, outer_width, outer_height;
     int text_x, text_y, text_width, text_height;
     int screen_width, screen_height, cell_width, cell_height;
+    /* Physical pixels per 96 logical units; zero means an unscaled surface. */
+    unsigned dpi;
     bool minimised;
 } TermWindowGeometry;
 

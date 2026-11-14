@@ -763,6 +763,8 @@ static void test_window_resize(Mock *mk)
     mk->tw.vt = &mock_termwin_vt;
 }
 
+#include "test_iterm_reports.inc"
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -780,6 +782,7 @@ int main(void)
     test_sgr_stack(mk);
     test_presentation_state(mk);
     test_c1_controls(mk);
+    test_iterm_reports(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

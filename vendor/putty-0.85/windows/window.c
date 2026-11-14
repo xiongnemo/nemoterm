@@ -2127,6 +2127,7 @@ static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
         .screen_width = screen.right - screen.left,
         .screen_height = screen.bottom - screen.top,
         .cell_width = wgs->font_width, .cell_height = wgs->font_height,
+        .dpi = wgs->dpi_info.cur_dpi.x,
         .minimised = IsIconic(wgs_window(wgs)),
     };
     return true;
