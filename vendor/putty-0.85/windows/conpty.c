@@ -291,6 +291,19 @@ static void conpty_sentdata(struct handle *h, size_t new_backlog, int err,
                             bool close)
 {
     ConPTY *conpty = (ConPTY *)handle_get_privdata(h);
+    if (err == ERROR_BROKEN_PIPE || err == ERROR_NO_DATA ||
+        err == ERROR_PIPE_NOT_CONNECTED) {
+        /* The host can close its input before its final output is drained.
+         * A queued focus event or terminal reply then fails while the console
+         * is exiting normally. Retire only the write side and let output EOF
+         * decide session lifetime, including delegated console clients. */
+        handle_free(conpty->out);
+        conpty->out = NULL;
+        CloseHandle(conpty->outpipe);
+        conpty->outpipe = INVALID_HANDLE_VALUE;
+        conpty->bufsize = 0;
+        return;
+    }
     if (err) {
         const char *error_msg = "Error writing to conpty device";
 

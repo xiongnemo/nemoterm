@@ -1,4 +1,4 @@
-"""Owned Direct2D factory/device failure, recovery and resource lifetime."""
+"""Owned D3D11 creation/presentation failure, recovery and resource lifetime."""
 from native_test_utils import *
 from owned_job import OwnedJob
 from gpu_capture import OwnedGPUCapture
@@ -33,7 +33,8 @@ try:
                 creationflags=subprocess.CREATE_NO_WINDOW)
             wait_snapshot(lambda:read_snapshot(ui_report),lambda v:v.get('ready'),timeout=20)
             session=frida.attach(process.pid)
-            script=session.create_script('const ownedWindow=ptr("'+hex(hwnd)+'");\n'+(root/'tests/gpu_faults.js').read_text())
+            script=session.create_script('const ownedWindow=ptr("'+hex(hwnd)+'");\n'+
+                'const ownedImagePath='+json.dumps(str(exe))+';\n'+(root/'tests/gpu_faults.js').read_text())
             errors=[];script.on('message',lambda message,data:errors.append(message) if message.get('type')=='error' else None)
             script.load();serial=0
             def active():return int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
@@ -64,16 +65,16 @@ try:
                 evidence['checks'].append(dict(fault=name,status=status,renderer=active()))
             def gdi_pixels():
                 wait_for(lambda:capture(hwnd,return_pixels=True).count(bytes((27,191,103)))>=10)
-            script.exports_sync.arm('factory')
+            script.exports_sync.arm('device')
             assert mode(2)==1
-            fault('factory');output('factory-recovery');gdi_pixels()
+            fault('device');output('device-recovery');gdi_pixels()
             mode(0);script.exports_sync.arm('');hardware=mode(2)==3
             evidence['hardware_directx']=hardware
             if os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert hardware,'DirectX unavailable'
             if hardware:
-                for name in ('draw','resize'):
+                for name in ('present','resize'):
                     script.exports_sync.arm(name)
-                    if name=='draw':output('draw-failure')
+                    if name=='present':output('present-failure')
                     else:
                         r=w.RECT();assert u.GetWindowRect(hwnd,c.byref(r))
                         assert u.MoveWindow(hwnd,r.left,r.top,r.right-r.left+80,r.bottom-r.top+40,True)
@@ -96,7 +97,7 @@ try:
                 wait_for(lambda:gpu.capture(return_pixels=True).count(bytes((27,191,103)))>=10)
                 gpu.capture('gpu-lifecycle-directx.png')
                 assert active()==3
-            else:evidence['skipped']=['device EndDraw and Resize injection','hardware switch/resource cycles']
+            else:evidence['skipped']=['device Present and ResizeBuffers injection','hardware switch/resource cycles']
             write_snapshot(ui_control,dict(stop=True));assert driver.wait(timeout=10)==0
             write_snapshot(control,dict(stop=True));assert process.wait(timeout=10)==0
             evidence['completed']=True

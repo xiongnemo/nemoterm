@@ -24,17 +24,17 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **原生交互**：鼠标上报、滚轮、矩形选择、可配置快捷键，以及窗口缩放与历史重排。
 - **文件与图片输入**：拖入文件/文件夹粘贴转义路径；纯图片剪贴板交给支持图片的终端应用读取。
 - **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
-- **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct2D 合成；GPU 初始化或绘制失败时回退 GDI。
+- **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct3D 11 合成；GPU 初始化或绘制失败时回退 GDI。
 - **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `f079f80` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43517911793/artifacts/14082763320)。
-两条完整工作流通过，单文件 CI 共 99 组检查；包含本机自动化接口、文件路径拖放、
-图片粘贴、Unicode 路径修复、样式能力查询，以及屏幕校准和相对光标定位修复。EXE 为 **4,449,280 字节**。
-产物预计于 **2026-12-13（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/relative-cursor.md)。
-本机大窗口 DirectX 内存验收仍未达标，见下方 [渲染与内存](#渲染与内存)。
+已通过 CI 的开发快照：[下载 `9c22311` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43550497894/artifacts/14096259785)。
+两条完整工作流通过，单文件 CI 共 102 组检查；包含本机自动化接口、文件/图片输入、
+Direct3D 11 合成，以及窗口启动和终端退出流程修复。EXE 为 **4,451,328 字节**。
+产物预计于 **2026-12-14（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/d3d11-ci.md)。
+下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
 
@@ -139,21 +139,20 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 | --- | --- |
 | GDI（默认） | GDI 绘制；前端私有工作集低于 20 MB，总工作集约 50 MB |
 | OpenGL（可选） | GPU 合成；允许超过上述内存目标 |
-| DirectX（可选） | Direct2D 合成；前端私有工作集上限 25 MB，后续继续优化 |
+| DirectX（可选） | Direct3D 11 合成；前端私有工作集上限 25 MB，后续继续优化 |
 
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `f079f80` 在本机 Sarasa、160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.13 MB**，总工作集为 43.02 MB。
-同一产物的首次 DX 测试在临时标签句柄检查失败，原因未确认；原始失败、窗口与模块信息及清理记录均保留。
-随后使用未修改测试的完整 DX 复测通过 9 组功能检查，私有工作集峰值为 **30.63 MB**，总工作集为 71.81 MB，仍高于 25 MB 目标。
-CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收；版本、几何与原始样本见 [验证记录](research/relative-cursor.md)。
-后续 [本机分配诊断](research/local-directx-heap.md) 保留了两次未达标的优化实验；产品渲染器未合入这些改动。
-[首次初始化与 Direct3D 9Ex 探针](research/graphics-initialization.md) 补充了驱动分配证据；独立小程序的差异尚不能证明终端达标。
-[Direct3D 11 复制呈现实验](research/d3d11-copy.md) 的完整诊断降至 26.06 MB，但仍超预算且句柄检查失败；候选代码仅保留在实验分支。
-[句柄生命周期调查](research/handle-lifetime.md) 已定位 6 个短暂句柄的创建与关闭路径；另有一对持续句柄来源未明，原失败记录保留。
-新的 [Direct3D 11 组合候选](research/d3d11-integration.md) 在相同大窗口完整负载下已达到 **23.68 MB** 私有工作集，但总工作集仍为 **63.27 MB**。
-候选也包含 [退出时输入管道关闭的修复](research/conpty-input-close.md)；完整 CI 与下载产物复核仍在进行，尚未替换主分支产品和本机已验收 EXE。
+下载的 `9c22311` 在本机 Sarasa、实际 160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.41 MB**，DX 为 **23.57 MB**，各通过 9 组功能检查。
+GDI 总工作集为 **43.37 MB**，DX 为 **63.11 MB**；DX 仍高于约 50 MB 的总工作集目标。
+测试在关闭临时标签后等待该标签的两条 I/O 工作线程实际退出，再按原来的句柄和窗口资源限额检查；没有裁剪工作集或提高数值门槛。
+两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、故障恢复、像素比较和样本见 [成品验证记录](research/d3d11-ci.md)。
+CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
+旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
+[分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
+[Direct3D 11 实验](research/d3d11-copy.md) 和 [句柄调查](research/handle-lifetime.md) 保留了改动依据与未解决问题。
+[按需加载实验](research/delay-load.md) 收益不足，未合入；其中出现的初始化和 USER 对象计数失败仍保留为待查问题。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。
@@ -189,6 +188,7 @@ cd nemoterm
 
 | 运行位置 | Test and build | Single executable from source |
 | --- | --- | --- |
+| `9c22311`，Direct3D 11、启动与关闭流程 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43550497901) | [通过，102 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43550497894) |
 | `f079f80`，相对光标定位与双宽行边界 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43517911825) | [通过，99 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43517911793) |
 | `18e912d`，屏幕校准状态与 Sixel 清理 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43515344353) | [通过，96 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43515344377) |
 | `37ef26d`，参数化样式查询与关闭流程验证 | [通过](https://github.com/xiongnemo/nemoterm/actions/runs/43508891431) | [通过，93 组检查](https://github.com/xiongnemo/nemoterm/actions/runs/43508892024) |

@@ -66,7 +66,7 @@ add_sources_from_current_dir(agent
 add_sources_from_current_dir(guiterminal
   nemo_debug.c nemo_drop.c
   nemo_tabs_layout.c
-  nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_gpu.c
+  nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_d3d11.c nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c
   nemo_cluster.cpp
   nemo_link_ui.c nemo_clipboard.c nemo_key_input.c nemo_osc52_ui.c
@@ -216,6 +216,9 @@ target_link_libraries(test_split_into_argv utils ${platform_libraries})
 add_executable(test_screenshot
   test/test_screenshot.c)
 target_link_libraries(test_screenshot utils ${platform_libraries})
+
+add_executable(test_handle_io test/test_handle_io.c ${CMAKE_SOURCE_DIR}/stubs/no-rand.c)
+target_link_libraries(test_handle_io eventloop utils ${platform_libraries})
 
 add_executable(test_lineedit
   ${CMAKE_SOURCE_DIR}/test/test_lineedit.c

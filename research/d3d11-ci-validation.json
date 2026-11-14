@@ -1,0 +1,247 @@
+{
+  "source": "9c22311e8e0ae56facfc7cfcac15bb8242bc8324",
+  "executable_sha256": "ebd2d24edcf9ba10f0435597e15ad8aff44320fad1a707b6e4cbc10654345a63",
+  "kind": "GitHub CI results and local owned Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/dx-integration-worktree/build/check-ci-integrated-input-close.py",
+      "archive": "research/d3d11-ci-records/000-check-ci-integrated-input-close.py.gz",
+      "bytes": 1718,
+      "sha256": "8858aeec8a27f115fe1112b4a8125a7028ba35b4159a8674975d3692b7f653ad"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/automation/automation.log",
+      "archive": "research/d3d11-ci-records/001-automation.log.gz",
+      "bytes": 2878,
+      "sha256": "fe1d6d5742ab16e94efabf167db626c991f36a4ee0b00b472530c1399bbf5851"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/automation/controller.log",
+      "archive": "research/d3d11-ci-records/002-controller.log.gz",
+      "bytes": 371,
+      "sha256": "d208eed37ec1548f7da2ab3dea32d5d1c08d82cf157a6737b3601085a13f1f01"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/automation/research/automation-controller.json",
+      "archive": "research/d3d11-ci-records/003-automation-controller.json.gz",
+      "bytes": 474,
+      "sha256": "94277b55354c19ef8084cf0d260bc9b0c9a34e3c2b4d0c6fd7b2b4500d39dca9"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/automation/research/automation-directx-observed.json",
+      "archive": "research/d3d11-ci-records/004-automation-directx-observed.json.gz",
+      "bytes": 1903,
+      "sha256": "7279700c24ee95c128b09ddab47ec728795222ab64ae2071f805c97372fbb33a"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/controller.log",
+      "archive": "research/d3d11-ci-records/005-controller.log.gz",
+      "bytes": 366,
+      "sha256": "ff833a2d6a17fa6ff351f5c421fb7f7a10bc38cea18dc845068b958bc8be19ac"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/research/tabs-controller.json",
+      "archive": "research/d3d11-ci-records/006-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "2a58492f5dc1bde70cacf32d1fefe4f828e627756fe8052032194c0a72161c2c"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-ci-records/007-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1283608,
+      "sha256": "0fd9ba0bea8149e80dd7960cb1a9f24db128db8845624b41e463b7c138f0dc0e"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-ci-records/008-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25727,
+      "sha256": "3a5e774801b8e403aa0debd73caa9c57e825ef027d47d75be3daa68d5d86cf34"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-ci-records/009-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/directx/tabs.log",
+      "archive": "research/d3d11-ci-records/010-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/controller.log",
+      "archive": "research/d3d11-ci-records/011-controller.log.gz",
+      "bytes": 366,
+      "sha256": "d60697de6bb65bb88c0390d08e01854e0c88b5166e8447ffad323ad6ad8d9db4"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/research/tabs-controller.json",
+      "archive": "research/d3d11-ci-records/012-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "9d8f45d453e45460f4e1caaffb54177fe712a2282819c519961a47ceab434e16"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/d3d11-ci-records/013-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/d3d11-ci-records/014-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1332017,
+      "sha256": "1ea63fd1266ef8fc7d4c6e6bc17519f3eb7db19469fd3f72b4a9ea523327f8f2"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/d3d11-ci-records/015-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 25716,
+      "sha256": "6d8fd148ffdd0a9af4121eb5115fcaab3d1b78e822fc1adec8bc886d527059f2"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/d3d11-ci-records/016-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/gdi/tabs.log",
+      "archive": "research/d3d11-ci-records/017-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/results.json",
+      "archive": "research/d3d11-ci-records/018-results.json.gz",
+      "bytes": 544,
+      "sha256": "f9b69a775c22ae32baeb997e7b38838cbf60bc2bfb103044ca40862f76cca859"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/startup/controller.log",
+      "archive": "research/d3d11-ci-records/019-controller.log.gz",
+      "bytes": 377,
+      "sha256": "f50682724f897b85821e7f6d5555b5748cf4eb4dac9b7f17da2474fc8382212b"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/startup/research/startup-visibility-observed.json",
+      "archive": "research/d3d11-ci-records/020-startup-visibility-observed.json.gz",
+      "bytes": 8932,
+      "sha256": "e43cf2fc81b4239420ab5ccfafa0c3ed0ff18dee924326d6e848f3f5b9337a70"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/startup/research/startup_visibility-controller.json",
+      "archive": "research/d3d11-ci-records/021-startup_visibility-controller.json.gz",
+      "bytes": 480,
+      "sha256": "6b2b5cbcb39ce43163d28da992dd5b23b7d165a17383458b0cec9619fd2558c4"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-input-close-local/startup/startup_visibility.log",
+      "archive": "research/d3d11-ci-records/022-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "fe5f016d969fbee5f4af76f67e41039558606bf054dec87a79cb5b264797230b"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/core-artifacts.json",
+      "archive": "research/d3d11-ci-records/023-core-artifacts.json.gz",
+      "bytes": 3787,
+      "sha256": "d7fd59e6c8de1537c1cd902ed8f8daa4b1c2bd3c9b6ae3b852ffbc25fcee0a91"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/core-run.json",
+      "archive": "research/d3d11-ci-records/024-core-run.json.gz",
+      "bytes": 17989,
+      "sha256": "a62c23fd22e329be89e2193d6168b3f9a0b059d7489937f6b897eef55f4fdc1e"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/core-run.log",
+      "archive": "research/d3d11-ci-records/025-core-run.log.gz",
+      "bytes": 956763,
+      "sha256": "a45b938b161012b8750b0aec9d99cb45932e1299449ef3a9183f064f925dbf50"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-artifacts.json",
+      "archive": "research/d3d11-ci-records/026-single-artifacts.json.gz",
+      "bytes": 1533,
+      "sha256": "12de296f43e375d3668d901c4953d2270555c5fc47db75505eb2283df28ac2a5"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/automation-directx-observed.json",
+      "archive": "research/d3d11-ci-records/027-automation-directx-observed.json.gz",
+      "bytes": 1828,
+      "sha256": "9722826ff4be6af9b4e67a9ec7d8fe30adef8ab953e199a5e4b06e0805b7b718"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/automation-gdi-observed.json",
+      "archive": "research/d3d11-ci-records/028-automation-gdi-observed.json.gz",
+      "bytes": 1825,
+      "sha256": "e70871ff5d7d7caa61e1563c96d681ecc6b1c2494544fc474c5c415520b80b00"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/gpu-lifecycle-observed.json",
+      "archive": "research/d3d11-ci-records/029-gpu-lifecycle-observed.json.gz",
+      "bytes": 20889,
+      "sha256": "979f8bc4fe61d955255e59f1b6f825c25689077d47619cdb162715120b41cdf6"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/renderer-observed.json",
+      "archive": "research/d3d11-ci-records/030-renderer-observed.json.gz",
+      "bytes": 7654,
+      "sha256": "71c87a05012208eab665159b31a8acc0e5e7007318be019fd974a8460eba70b7"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/single-exe-observed.json",
+      "archive": "research/d3d11-ci-records/031-single-exe-observed.json.gz",
+      "bytes": 870,
+      "sha256": "bc0788da09ada7bbf0c3f27221e1e5a0b3361b39f69d1ee1e7012f4d6f0f376e"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/single-exe-validation.json",
+      "archive": "research/d3d11-ci-records/032-single-exe-validation.json.gz",
+      "bytes": 2536,
+      "sha256": "e610b9f9f64c68d05c82e97983c1ee4c9d2f44c06d6d07393fd7d064a5e53e22"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/startup-visibility-observed.json",
+      "archive": "research/d3d11-ci-records/033-startup-visibility-observed.json.gz",
+      "bytes": 8912,
+      "sha256": "bfe8563ce39ac348592704bc47507846114568383a58e5f62e03be40457c01f5"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-ci-records/034-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 682366,
+      "sha256": "a47d19a9b755f9aadbd2e54c6698cf075389bd86aae261b17cb12a59a2927629"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-ci-records/035-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25662,
+      "sha256": "37d0c95be84479c5515032138c7f317016c9f8771fa05cdda573707b17162a00"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/d3d11-ci-records/036-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 836677,
+      "sha256": "bf2335634c5c2c3b6bdc1731013ddce6c4ac6e0d53f2fdadcdde9aae46d8f42d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-evidence/build/single-exe-check/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/d3d11-ci-records/037-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 25610,
+      "sha256": "88f30819fc4437192711acaa90203870d512a9ce185b2baa4cdb929eb74d4feb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-run.json",
+      "archive": "research/d3d11-ci-records/038-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "849bc60b2622bec2729d2ce2d79480b30e4ad1d14b03c13c39b96522811a9a0f"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/ci-integrated-input-close-9c22311/single-run.log",
+      "archive": "research/d3d11-ci-records/039-single-run.log.gz",
+      "bytes": 431724,
+      "sha256": "e6f19d4d935583a0fcc1fe683f9668538226a2be34687e41716acfe0651f21cd"
+    }
+  ]
+}

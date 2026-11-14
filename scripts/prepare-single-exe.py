@@ -110,6 +110,16 @@ def patch_cursor_sync_fragments():
             "        _nemoCursorRequest.load(std::memory_order_relaxed) != 0;")
 
 
+def patch_initial_window_visibility():
+    # CreateWindow sends WM_SIZE(SIZE_RESTORED) before it returns, even for
+    # the hidden pseudo-window. That is initialization, not a client request
+    # to restore the hosting terminal. Keep later explicit visibility changes.
+    replace(DEST / "src/interactivity/base/InteractivityFactory.cpp",
+            "    if (_suppressVisibilityChange.load(std::memory_order_relaxed))",
+            "    if (!_pseudoConsoleWindowHwnd ||\n"
+            "        _suppressVisibilityChange.load(std::memory_order_relaxed))")
+
+
 def main():
     actual = subprocess.check_output(["git", "-C", str(UPSTREAM), "rev-parse", "HEAD"], text=True).strip()
     if actual != REVISION:
@@ -247,6 +257,7 @@ def main():
     patch_cursor_sync()
     patch_input_dcs_fragments()
     patch_cursor_sync_fragments()
+    patch_initial_window_visibility()
 
     # No COM handoff registration or legacy conhost loading
     # is needed for a host reached only through our inherited ConDrv handle.

@@ -2,22 +2,23 @@
 
 ## Current integration checkpoint (2026-11-14 Sydney)
 
-The public candidate branch `fix/dx-input-close-20261114` combines bounded
-Direct3D 11 composition, I/O worker cleanup, initial visibility preservation and
-the input-pipe-close/output-drain correction. The latest locally linked image
-passes the 160x48 Sarasa DX workload at 23,678,976 private-working-set bytes;
-total working set is 63,270,912, still above the approximate 50 MB target.
-The corresponding GDI correction passes at 16,388,096 private and 43,196,416
-total bytes. Exact source/image identities and separate sampling records are in
-[the integration checkpoint](../research/d3d11-integration.md) and
-[the input-close record](../research/conpty-input-close.md).
+Main now includes bounded Direct3D 11 composition, I/O worker cleanup, initial
+visibility preservation and the input-pipe-close/output-drain correction.
+Source `9c22311` passes both complete CI workflows, including 102 single-file
+checks. Its exact downloaded EXE is used for the local distribution and fresh
+160x48 Sarasa workload checks: GDI peaks at 16,408,576 private-working-set bytes
+and DX at 23,568,384. Total working set is respectively 43,368,448 and 63,107,072
+bytes; DX remains above the approximate 50 MB total target.
 
-All ten local DX automation groups pass, with zero screenshot channel differences.
-Expanded startup/visibility and natural shutdown pass locally. Full candidate CI
-and exact downloaded-artifact validation are pending. Earlier failed CI runs
-remain failed; the test-observer crash and subsequent shutdown failures are
-retained with their different evidence boundaries. Main product source and the
-accepted local distribution have not yet been replaced by this candidate.
+The same downloaded image passes 16 startup/visibility groups and ten DX
+automation groups, with zero screenshot channel differences and natural owned
+process shutdown. Exact artifact identity, CI links, samples and cleanup are in
+[the downloaded-image checkpoint](../research/d3d11-ci.md).
+Earlier failed CI runs remain failed; the observer crash and shutdown failures
+retain their distinct evidence boundaries. The separate
+[delay-load experiment](../research/delay-load.md) is not adopted and preserves
+unresolved late-initialization and USER-object resource failures. Successful
+downloaded-image runs do not prove those intermittent observations resolved.
 
 The original complete-protocol, real application, physical input and long-session
 requirements remain open. This checkpoint does not replace those requirements

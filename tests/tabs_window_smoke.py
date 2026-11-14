@@ -2,6 +2,8 @@
 from native_test_utils import *
 from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
+from thread_snapshot import OwnedThreadSnapshot
+from collections import Counter
 import argparse
 import uuid
 import winreg
@@ -82,12 +84,14 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
+        worker_leases=[];evidence['worker_closes']=[]
         process=job.spawn([str(exe),'-load',profile,'--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)
         try:
+            thread_observer=OwnedThreadSnapshot(process,job)
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
                 memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
@@ -118,10 +122,36 @@ try:
                 serial+=1;value=read_snapshot(child['control']);value['input_barrier']=serial
                 write_snapshot(child['control'],value)
                 return wait_snapshot(lambda:read_snapshot(child['report']),lambda v:v.get('input_barrier')==serial)
-            def duplicate(child):
+            def duplicate(child,track_workers=False):
                 before=windows(process.pid,'Nemoterm',host)
+                prior=thread_observer.snapshot('before-duplicate') if track_workers else None
                 u.SendMessageW(child['hwnd'],0x111,0x30,0)
-                return new_child(before)
+                created=new_child(before)
+                if track_workers:
+                    current=thread_observer.snapshot('after-duplicate')
+                    module=next(m for m in prior['modules'] if Path(m['path']).resolve()==exe)
+                    starts=Counter(t['start'] for t in prior['threads']
+                        if t['start'] is not None and module['base']<=t['start']<module['base']+module['size'])
+                    previous={(t['tid'],t['created']) for t in prior['threads']}
+                    # With two existing sessions, each frontend I/O worker entry
+                    # has two live instances. A duplicate adds one of each. Bind
+                    # both new identities before close, without fixed image RVAs.
+                    entries=[t for t in current['threads'] if (t['tid'],t['created']) not in previous
+                        and starts.get(t['start'])==2]
+                    assert len(entries)==2 and len({t['start'] for t in entries})==2,entries
+                    lease=thread_observer.retain(entries);worker_leases.append(lease)
+                    created['worker_lease']=lease
+                return created
+            def wait_for_tab_workers(child):
+                lease=child['worker_lease'];started=time.monotonic()
+                observation=dict(child_pid=child['pid'],threads=lease.entries,before=lease.states())
+                evidence['worker_closes'].append(observation)
+                try:
+                    observation['all_signalled']=lease.wait(2000)
+                    observation['after']=lease.states()
+                    observation['seconds']=time.monotonic()-started
+                    assert observation['all_signalled'],observation
+                finally:lease.close()
             def position(index):
                 cr=w.RECT();u.GetClientRect(host,c.byref(cr))
                 # Same DIP metrics as the pure geometry test, for a native hit.
@@ -153,7 +183,7 @@ try:
             evidence['actual_renderer']=actual
             evidence.update(private_ws_policy(actual))
             if args.renderer=='directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert actual==3
-            surface_class={2:'NemotermOpenGL',3:'NemotermDirect2D'}.get(actual)
+            surface_class={2:'NemotermOpenGL',3:'NemotermDirect3D11'}.get(actual)
             surface=windows(process.pid,surface_class,host) if surface_class else []
             assert len(surface)==(1 if actual>1 else 0)
             initial=resources();second=duplicate(first);output(second,'\x1b]0;Second terminal\x07'+scene('TAB TWO','20;70;20'))
@@ -170,20 +200,22 @@ try:
             if args.dense_clusters:
                 # Warm lazy window/IME/menu resources before comparing handle
                 # counts. Retain both live and post-close memory observations.
-                child=duplicate(second);output(child,scene('WARMUP','60;10;60'))
+                child=duplicate(second,track_workers=True);output(child,scene('WARMUP','60;10;60'))
                 evidence['live_temporary_tabs'].append(resources())
                 u.PostMessageW(child['hwnd'],0x10,0,0)
                 wait_for(lambda:not u.IsWindow(child['hwnd']))
                 select(second,1);wait_for(lambda:job.accounting()['active']==5)
+                wait_for_tab_workers(child)
                 evidence['warmup']=resources()
             baseline=resources();evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
             for i in range(12):
-                child=duplicate(second);output(child,scene('TEMPORARY','60;10;60'))
+                child=duplicate(second,track_workers=True);output(child,scene('TEMPORARY','60;10;60'))
                 if args.dense_clusters:evidence['live_temporary_tabs'].append(resources())
                 u.PostMessageW(child['hwnd'],0x10,0,0)
                 wait_for(lambda:not u.IsWindow(child['hwnd']))
                 select(second,1)
                 wait_for(lambda:job.accounting()['active']==5)
+                wait_for_tab_workers(child)
                 sample=resources();evidence['cycles'].append(sample)
                 if surface_class:assert windows(process.pid,surface_class,host)==surface
                 assert sample['handles']<=baseline['handles']+6,(baseline,sample)
@@ -342,6 +374,7 @@ try:
                     (root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json').write_text(json.dumps(memory,indent=2),encoding='utf-8')
                 if hover_session:hover_session.detach()
                 for capture_helper in captures:capture_helper.close()
+                for lease in worker_leases:lease.close()
                 if handle:k.CloseHandle(handle)
                 evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
 finally:

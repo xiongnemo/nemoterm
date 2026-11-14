@@ -378,7 +378,7 @@ try {
     if ($LASTEXITCODE) { throw 'Tab settings capture failed' }
     Select-Node $dialog 'Rendering' | Out-Null
     if (!(Find-Name $dialog 'GDI (low memory)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'GDI was not the default renderer' }
-    Select-Node $dialog 'DirectX (Direct2D composition)' | Out-Null
+    Select-Node $dialog 'DirectX (GPU composition)' | Out-Null
     python "$PSScriptRoot/settings_capture.py" $app.Id $dialog.Current.NativeWindowHandle rendering-settings.png
     if ($LASTEXITCODE) { throw 'Rendering settings capture failed' }
     $selectionColours=Selection-Colour-Controls $dialog
@@ -535,7 +535,7 @@ try {
     Binding-Controls $dialog $tabBindings 'Tabs' | Out-Null
     if (!(Find-Name $dialog 'Left').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Tab position did not reload' }
     Select-Node $dialog 'Rendering' | Out-Null
-    if (!(Find-Name $dialog 'DirectX (Direct2D composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
+    if (!(Find-Name $dialog 'DirectX (GPU composition)').GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern).Current.IsSelected) { throw 'Renderer did not reload' }
     $attributes=Attribute-Colour-Controls $dialog
     for ($index=0;$index -lt 5;$index++) {
         Set-Combo $attributes.selector $index
@@ -576,7 +576,7 @@ try {
     $graphemeChecks=@(Check-Grapheme 'grapheme-startup' '' $true)
     $graphemeChecks+=Check-Grapheme 'grapheme-app-disable' ([char]27+'[?2027l') $false
     $rendererChanges=@()
-    foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)','GDI (low memory)')) {
+    foreach ($mode in @('GDI (low memory)','OpenGL (GPU composition)','DirectX (GPU composition)','GDI (low memory)')) {
         [ShellSettingsNative]::PostMessageW($termHandle,0x111,[IntPtr]0x50,[IntPtr]::Zero) | Out-Null
         $dialog=Dialog $app
         Check-HyperlinkControls $dialog
@@ -589,7 +589,7 @@ try {
         Wait-Value { ![ShellSettingsNative]::IsWindow($dialogHandle) } | Out-Null
         $allowed=if ($mode -eq 'GDI (low memory)') {@(1)} elseif ($mode -eq 'OpenGL (GPU composition)') {@(1,2)} else {@(1,3)}
         if ($mode -eq 'OpenGL (GPU composition)' -and $env:NEMOTERM_REQUIRE_OPENGL -eq '1') {$allowed=@(2)}
-        if ($mode -eq 'DirectX (Direct2D composition)' -and $env:NEMOTERM_REQUIRE_DIRECTX -eq '1') {$allowed=@(3)}
+        if ($mode -eq 'DirectX (GPU composition)' -and $env:NEMOTERM_REQUIRE_DIRECTX -eq '1') {$allowed=@(3)}
         $active=Wait-Value { $value=[ShellSettingsNative]::GetPropW($termHandle,'NemotermRenderer').ToInt32(); if ($value -in $allowed) { $value } }
         if ($mode -eq 'GDI (low memory)' -and $active -ne 1) { throw 'Live GDI switch failed' }
         # EndDialog can destroy the settings HWND before its caller finishes
