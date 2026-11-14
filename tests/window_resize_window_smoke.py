@@ -1,7 +1,8 @@
 """Application resize requests through real ConPTY, with Win32 size evidence."""
 from native_test_utils import *
 from owned_job import OwnedJob
-from gpu_capture import OwnedGPUCapture
+from automation_capture import OwnedAutomationCapture
+from owned_failure_state import record_owned_failure
 import argparse
 import re
 import uuid
@@ -44,11 +45,12 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-window-resize-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
-                process=job.spawn([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','83','--rows','27',
+                process=job.spawn([str(exe),'--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','83','--rows','27',
                     '--font',font,'--font-size','12','-e',sys.executable,
                     str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
                     creationflags=subprocess.CREATE_NO_WINDOW)
+                mode['pid']=process.pid
                 handle=k.OpenProcess(0x410,False,process.pid)
                 gl=None
                 try:
@@ -60,8 +62,8 @@ try:
                     if renderer==2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert active==3
                     mode['active_renderer']=active
                     mode['memory_before_instrumentation']=memory_sample(handle)
-                    # Sample all resize phases before loading capture tooling.
-                    # Only the final retained-pixel assertion needs injection.
+                    # Sample all resize phases before requesting screenshots.
+                    # The retained-pixel assertion uses the opt-in local API.
                     mode['memory_instrumented']=False
                     def rectangles():
                         outer,client=w.RECT(),w.RECT()
@@ -178,8 +180,9 @@ try:
                         phase('minimized-request',CSI+'8;25;81t'+drawing,grid=[81,25],iconic=True)
                         u.ShowWindow(terminal_host(hwnd),9);wait_for(lambda:not u.IsIconic(terminal_host(hwnd)))
                         phase('restored-request',client=[2+81*cw,2+25*ch],grid=[81,25])
-                        if active in (2,3):gl=OwnedGPUCapture(process.pid,hwnd)
-                        mode['capture_instrumented']=bool(gl)
+                        if active in (2,3):gl=OwnedAutomationCapture(process.pid,hwnd)
+                        mode['capture_method']='owned-automation-retained-frame' if gl else 'PrintWindow'
+                        mode['capture_instrumented']=False
                         def captured():
                             return gl.capture(return_pixels=True) if gl else capture(hwnd,return_pixels=True)
                         colour=bytes((19,193,101))
@@ -191,13 +194,23 @@ try:
                         assert max(v['memory']['private_ws'] for v in mode['checks'])<20_000_000
                     if gl:
                         gl.close();gl=None
-                        mode['capture_detached_before_stop']=True
-                    write_snapshot(control,dict(stop=True));assert process.wait(timeout=10)==0
+                        mode['capture_closed_before_stop']=True
+                    write_snapshot(control,dict(stop=True))
+                    close_started=time.monotonic()
+                    try:mode['exit_code']=process.wait(timeout=10)
+                    finally:mode['close_seconds']=time.monotonic()-close_started
+                    assert mode['exit_code']==0,mode['exit_code']
+                    mode['cleanup']=job.finish(grace=5)
+                    assert not mode['cleanup']['terminated_remaining'],mode['cleanup']
+                except BaseException as error:
+                    mode['error']=repr(error)
+                    record_owned_failure(process,job,mode,'window-resize-failure')
+                    raise
                 finally:
                     try:
                         if gl:gl.close()
                     finally:
-                        try:job.finish(grace=0);process.wait(timeout=5)
+                        try:mode['cleanup']=job.finish(grace=0);process.wait(timeout=5)
                         finally:k.CloseHandle(handle)
         finally:
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER,keypath)

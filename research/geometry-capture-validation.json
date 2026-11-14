@@ -1,0 +1,1208 @@
+{
+  "scope": "API captures retain geometry and resize assertions; diagnose owned lifecycle failures without changing deadlines",
+  "ci": [
+    {
+      "run": 43575722079,
+      "conclusion": "failure"
+    },
+    {
+      "run": 43575726430,
+      "conclusion": "failure"
+    },
+    {
+      "run": 43576229677,
+      "conclusion": "failure"
+    }
+  ],
+  "results": [
+    {
+      "name": "resize-original",
+      "variant": "old",
+      "executable_sha256": "3ee59aa8ef2c08e5af3e306a4b8321e04f63b101e38858494f3f41170874f78f",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 42,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 42,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 42,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 6,
+          "exit_code": null,
+          "close_seconds": null,
+          "cleanup": null
+        }
+      ],
+      "shutdown_cases": []
+    },
+    {
+      "name": "resize-api",
+      "variant": "new",
+      "executable_sha256": "3ee59aa8ef2c08e5af3e306a4b8321e04f63b101e38858494f3f41170874f78f",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.0732394999358803,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.17047820007428527,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.08793550007976592,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": 0,
+          "close_seconds": 0.09200789988972247,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": 0,
+          "close_seconds": 0.08590619987808168,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 6,
+          "exit_code": 0,
+          "close_seconds": 0.0976305000949651,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "shutdown_cases": []
+    },
+    {
+      "name": "geometry-api-tabs",
+      "variant": "new",
+      "executable_sha256": "73c13e965ea595f37589639256498781e910ef4a83508dc846818ed323b1d406",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.09542299993336201,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.1620775000192225,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.10498800012283027,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "shutdown_cases": []
+    },
+    {
+      "name": "geometry-api-single",
+      "variant": "new",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.09651560010388494,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.17024930007755756,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "exit_code": 0,
+          "close_seconds": 0.10675149993039668,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "shutdown_cases": []
+    },
+    {
+      "name": "resize-api-single",
+      "variant": "new",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.07535160006955266,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.31304109981283545,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 42,
+          "exit_code": 0,
+          "close_seconds": 0.0897607000079006,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": 0,
+          "close_seconds": 0.09616559999994934,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 5,
+          "exit_code": 0,
+          "close_seconds": 0.09272249997593462,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 6,
+          "exit_code": 0,
+          "close_seconds": 0.09785490017384291,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "shutdown_cases": []
+    },
+    {
+      "name": "shutdown-original",
+      "variant": "old",
+      "executable_sha256": "200f0025d3266e865ce81877bcb35bf93b9db8146edf061b21d341b4e54fe873",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [],
+      "shutdown_cases": [
+        {
+          "renderer": "gdi",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        },
+        {
+          "renderer": "gdi",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        },
+        {
+          "renderer": "opengl",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        },
+        {
+          "renderer": "opengl",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        },
+        {
+          "renderer": "directx",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        },
+        {
+          "renderer": "directx",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": null
+        }
+      ]
+    },
+    {
+      "name": "shutdown-diagnostics",
+      "variant": "new",
+      "executable_sha256": "200f0025d3266e865ce81877bcb35bf93b9db8146edf061b21d341b4e54fe873",
+      "exit_code": 0,
+      "completed": true,
+      "error": null,
+      "modes": [],
+      "shutdown_cases": [
+        {
+          "renderer": "gdi",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "renderer": "gdi",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "renderer": "opengl",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "renderer": "opengl",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "renderer": "directx",
+          "close": "child-exit",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "renderer": "directx",
+          "close": "window-close",
+          "failed_phase": null,
+          "exit_code": 0,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "startup-diagnostic-canary",
+      "variant": "canary",
+      "executable_sha256": "200f0025d3266e865ce81877bcb35bf93b9db8146edf061b21d341b4e54fe873",
+      "exit_code": 1,
+      "completed": false,
+      "error": null,
+      "modes": [],
+      "shutdown_cases": [
+        {
+          "renderer": "gdi",
+          "close": "child-exit",
+          "failed_phase": "window-ready",
+          "exit_code": null,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 3,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": true,
+            "remaining_processes": [
+              {
+                "pid": 51604,
+                "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\dist\\nemoterm.exe",
+                "exit_code": 259
+              },
+              {
+                "pid": 49916,
+                "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\dist\\nemoterm.exe",
+                "exit_code": 259
+              },
+              {
+                "pid": 43804,
+                "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+                "exit_code": 259
+              }
+            ]
+          }
+        }
+      ],
+      "expected_failure_observed": true
+    }
+  ],
+  "records": [
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\gif-animation-worktree\\build\\ci-gif-3d10a85\\core-artifacts.json",
+      "archive": "research/geometry-capture-records/000-core-artifacts.json.gz",
+      "bytes": 3049,
+      "sha256": "4b2b449b6cda05dcb64720dabd62ca0572a8fed7ef922acff048a6b0917c403d"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\gif-animation-worktree\\build\\ci-gif-3d10a85\\core-evidence\\test-results\\tabs-geometry-window-observed.json",
+      "archive": "research/geometry-capture-records/001-tabs-geometry-window-observed.json.gz",
+      "bytes": 29563,
+      "sha256": "bd3ad14036a979fc3f22f6ec33b3ec95f5e2d20079f1eab9110843ddd0ac7462"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\gif-animation-worktree\\build\\ci-gif-3d10a85\\core-evidence\\test-results\\tabs-geometry.log",
+      "archive": "research/geometry-capture-records/002-tabs-geometry.log.gz",
+      "bytes": 2439,
+      "sha256": "0eced4515038eb8094c43131f45fa5130a0e812f2cbb0599d8b58f775edb8dbe"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\gif-animation-worktree\\build\\ci-gif-3d10a85\\core-run.json",
+      "archive": "research/geometry-capture-records/003-core-run.json.gz",
+      "bytes": 19361,
+      "sha256": "c50deafdbba088ff5a75b74e25562adeb2af91c40b716ca7b647e37f308a8ec9"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\gif-animation-worktree\\build\\ci-gif-3d10a85\\core-run.log",
+      "archive": "research/geometry-capture-records/004-core-run.log.gz",
+      "bytes": 788701,
+      "sha256": "c5d626020c8c4e90320fd366e7af30e6c33e4ab3a1367500299406857e6fbd32"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\ci-iterm-a6c94cc\\single-artifacts.json",
+      "archive": "research/geometry-capture-records/005-single-artifacts.json.gz",
+      "bytes": 1538,
+      "sha256": "aed2c9c4044e08c61ad448bf69cb9f13c3a15e72c80c35403be387ff01cc4297"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\ci-iterm-a6c94cc\\single-evidence\\build\\native-crashes\\application-errors.json",
+      "archive": "research/geometry-capture-records/006-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\ci-iterm-a6c94cc\\single-evidence\\build\\single-exe-check\\research\\shutdown-window-observed.json",
+      "archive": "research/geometry-capture-records/007-shutdown-window-observed.json.gz",
+      "bytes": 3160,
+      "sha256": "f0e47ac86cb91c033f82c40eaed9619aa7c0579bb232eebb4815ff8658d68c7b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\ci-iterm-a6c94cc\\single-run.json",
+      "archive": "research/geometry-capture-records/008-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "a261a72315620c0fa29b6340ea30f86cfa12caea57930ab3bb735a4a602a254f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\ci-iterm-a6c94cc\\single-run.log",
+      "archive": "research/geometry-capture-records/009-single-run.log.gz",
+      "bytes": 233814,
+      "sha256": "26ed9a9694908e2f3dac31d0a75265be03aa6cd11ffe2df654658bbec2ddaf91"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\check-geometry-capture.py",
+      "archive": "research/geometry-capture-records/010-check-geometry-capture.py.gz",
+      "bytes": 4247,
+      "sha256": "e0559c1cf9cf7526a73bf410d75e6043e61a15c6b25bf81f46da597e1f6c742c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-artifacts.json",
+      "archive": "research/geometry-capture-records/011-single-artifacts.json.gz",
+      "bytes": 1541,
+      "sha256": "5dd76fd13206404ac35da2afea4b667984d3c25e34b54781af04205f21e55c2f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-evidence\\build\\native-crashes\\application-errors.json",
+      "archive": "research/geometry-capture-records/012-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-evidence\\build\\single-exe-check\\research\\shutdown-window-observed.json",
+      "archive": "research/geometry-capture-records/013-shutdown-window-observed.json.gz",
+      "bytes": 7834,
+      "sha256": "b0a1e2a776f1fa8a7f67c32a692c09cbfb3f3b10fa13366afa84bd7c7c3440ee"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-evidence\\build\\single-exe-check\\research\\tabs-window-resize-observed.json",
+      "archive": "research/geometry-capture-records/014-tabs-window-resize-observed.json.gz",
+      "bytes": 104365,
+      "sha256": "b3b8adfc0c78784be80e4208d57d8a3eb3126d3c534ae7d5ad7e389e286a46ab"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-evidence\\build\\single-exe-check\\research\\tabs-window-resize.log",
+      "archive": "research/geometry-capture-records/015-tabs-window-resize.log.gz",
+      "bytes": 327,
+      "sha256": "80ca481f181d6048cf6a3d3c0f530e3641b7a5cd3d06818cd6f646f0fb550291"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-run.json",
+      "archive": "research/geometry-capture-records/016-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "6eafa65bb91076af0bf04b26a332e3880e04f530cd9930cc41097e8b7fe6bbb1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\ci-owned-e1261e2\\single-run.log",
+      "archive": "research/geometry-capture-records/017-single-run.log.gz",
+      "bytes": 440595,
+      "sha256": "bafe5a4d0eff89aab8466f15ee5dea1419201ef971cc6f648f39414da1f34e44"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\controller.log",
+      "archive": "research/geometry-capture-records/018-controller.log.gz",
+      "bytes": 368,
+      "sha256": "0d340521573fb7b07cbc8dee3ca24810e317ed8b7891c160f3240f4fddf4b1e4"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\geometry.log",
+      "archive": "research/geometry-capture-records/019-geometry.log.gz",
+      "bytes": 58,
+      "sha256": "d6014a224a258ec8c6e0b9996488c629d3d541d17f4d51c1498a8c2355c6619c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\research\\geometry-0.png",
+      "archive": "research/geometry-capture-records/020-geometry-0.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\research\\geometry-1.png",
+      "archive": "research/geometry-capture-records/021-geometry-1.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\research\\geometry-2.png",
+      "archive": "research/geometry-capture-records/022-geometry-2.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\research\\geometry-controller.json",
+      "archive": "research/geometry-capture-records/023-geometry-controller.json.gz",
+      "bytes": 471,
+      "sha256": "e596bbada1a5c8d0c2f97d4a681964ff0b132f2e6d2f5a0b7efd51108bc7bfda"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-single\\research\\geometry-window-observed.json",
+      "archive": "research/geometry-capture-records/024-geometry-window-observed.json.gz",
+      "bytes": 30767,
+      "sha256": "b749b67efeeccd7ec6d1ca599b268ce600031f757bf4929dd5c0f3aeedbb48c4"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\controller.log",
+      "archive": "research/geometry-capture-records/025-controller.log.gz",
+      "bytes": 369,
+      "sha256": "76361505dbdd5704062eb94bd47ee16ff7bda5ac12c964b6d4c1d36f0cfc4097"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\geometry.log",
+      "archive": "research/geometry-capture-records/026-geometry.log.gz",
+      "bytes": 58,
+      "sha256": "d6014a224a258ec8c6e0b9996488c629d3d541d17f4d51c1498a8c2355c6619c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\research\\geometry-0.png",
+      "archive": "research/geometry-capture-records/027-geometry-0.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\research\\geometry-1.png",
+      "archive": "research/geometry-capture-records/028-geometry-1.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\research\\geometry-2.png",
+      "archive": "research/geometry-capture-records/029-geometry-2.png.gz",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\research\\geometry-controller.json",
+      "archive": "research/geometry-capture-records/030-geometry-controller.json.gz",
+      "bytes": 472,
+      "sha256": "c2e9189b04f1dd5692ea38a3e0011c022a257c33fd03477b564287171f8c0c5f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\geometry-api-tabs\\research\\tabs-geometry-window-observed.json",
+      "archive": "research/geometry-capture-records/031-tabs-geometry-window-observed.json.gz",
+      "bytes": 30762,
+      "sha256": "5cdcc70973f941bcda4185cd057f04af8994f5ce8ea79a8d51688a386177a670"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\controller.log",
+      "archive": "research/geometry-capture-records/032-controller.log.gz",
+      "bytes": 375,
+      "sha256": "8e1c2e0a170ae6f335e5119c3ef8daede8c194ed712c752480607df7b38d9980"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\research\\tabs-window-resize-observed.json",
+      "archive": "research/geometry-capture-records/033-tabs-window-resize-observed.json.gz",
+      "bytes": 121621,
+      "sha256": "ce567734920045e18e39853327889019b8aa51a98055483e4696f839557fc45e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\research\\window-resize-gdi.png",
+      "archive": "research/geometry-capture-records/034-window-resize-gdi.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\research\\window-resize-gpu-2.png",
+      "archive": "research/geometry-capture-records/035-window-resize-gpu-2.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\research\\window-resize-gpu-3.png",
+      "archive": "research/geometry-capture-records/036-window-resize-gpu-3.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\research\\window_resize-controller.json",
+      "archive": "research/geometry-capture-records/037-window_resize-controller.json.gz",
+      "bytes": 478,
+      "sha256": "199e740c5e1996504862c53aea5ccf90e7d396c9b6582a8cf6e9a37a783701ab"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api\\window_resize.log",
+      "archive": "research/geometry-capture-records/038-window_resize.log.gz",
+      "bytes": 161,
+      "sha256": "7e68949ac08d5c9c0bce855de45d53ec0fbb7e4342e2a4fff4bad3b7196ff41a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\controller.log",
+      "archive": "research/geometry-capture-records/039-controller.log.gz",
+      "bytes": 375,
+      "sha256": "a4680709f8ab07f2c2cc37818108f323d335b837ae7b51ef62ed65fc70901412"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\research\\window-resize-gdi.png",
+      "archive": "research/geometry-capture-records/040-window-resize-gdi.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\research\\window-resize-gpu-2.png",
+      "archive": "research/geometry-capture-records/041-window-resize-gpu-2.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\research\\window-resize-gpu-3.png",
+      "archive": "research/geometry-capture-records/042-window-resize-gpu-3.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\research\\window-resize-observed.json",
+      "archive": "research/geometry-capture-records/043-window-resize-observed.json.gz",
+      "bytes": 121623,
+      "sha256": "d9d8756a0d08cb71dc3cb03ca4f8e17fc2075a6336260df1856f69769193eb60"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\research\\window_resize-controller.json",
+      "archive": "research/geometry-capture-records/044-window_resize-controller.json.gz",
+      "bytes": 478,
+      "sha256": "229dc943f54d491e160f60b84c6a31a2b54a72e3ce3673d225177e7269e3658e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-api-single\\window_resize.log",
+      "archive": "research/geometry-capture-records/045-window_resize.log.gz",
+      "bytes": 161,
+      "sha256": "7e68949ac08d5c9c0bce855de45d53ec0fbb7e4342e2a4fff4bad3b7196ff41a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\controller.log",
+      "archive": "research/geometry-capture-records/046-controller.log.gz",
+      "bytes": 375,
+      "sha256": "94c87cf7ee5b8b568941557e84a7bb917a25d5f1417ad06f4ae5fc231fe19095"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\research\\tabs-window-resize-observed.json",
+      "archive": "research/geometry-capture-records/047-tabs-window-resize-observed.json.gz",
+      "bytes": 119024,
+      "sha256": "c2d8bc4011c2c84ffe52539683e7f615176cf81edafc512201daeb351c5ae3ee"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\research\\window-resize-gdi.png",
+      "archive": "research/geometry-capture-records/048-window-resize-gdi.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\research\\window-resize-gpu-2.png",
+      "archive": "research/geometry-capture-records/049-window-resize-gpu-2.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\research\\window-resize-gpu-3.png",
+      "archive": "research/geometry-capture-records/050-window-resize-gpu-3.png.gz",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\research\\window_resize-controller.json",
+      "archive": "research/geometry-capture-records/051-window_resize-controller.json.gz",
+      "bytes": 478,
+      "sha256": "c0a041c6bfef7cfc1077c16951c900f923a2941949cff2c29f54e301b7a2fb6d"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\tests\\window_resize_window_smoke.py",
+      "archive": "research/geometry-capture-records/052-window_resize_window_smoke.py.gz",
+      "bytes": 14742,
+      "sha256": "d27abec29a7993971d91a4760a5d597a721a80f8b6fd3307dda6a9e5367eaeaf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\resize-original\\window_resize.log",
+      "archive": "research/geometry-capture-records/053-window_resize.log.gz",
+      "bytes": 161,
+      "sha256": "7e68949ac08d5c9c0bce855de45d53ec0fbb7e4342e2a4fff4bad3b7196ff41a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\results.json",
+      "archive": "research/geometry-capture-records/054-results.json.gz",
+      "bytes": 17505,
+      "sha256": "19254e999c62d5f040783f6161507d4e4519492138d4f3dce3384a735339cb64"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-diagnostics\\controller.log",
+      "archive": "research/geometry-capture-records/055-controller.log.gz",
+      "bytes": 369,
+      "sha256": "354dcd3900a76a4e187fdc8589315da13f2e1c846ce1a5741788cf55a6f492ea"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-diagnostics\\research\\shutdown-controller.json",
+      "archive": "research/geometry-capture-records/056-shutdown-controller.json.gz",
+      "bytes": 472,
+      "sha256": "6efd399e4e3324822b67de3ef8f1fb64ab3ef85ab51f72e29bc6c976bbdbcae0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-diagnostics\\research\\shutdown-window-observed.json",
+      "archive": "research/geometry-capture-records/057-shutdown-window-observed.json.gz",
+      "bytes": 9599,
+      "sha256": "0709997a3ef0c94199372639c179bd764914f069a4aa73f69bcba1c72524182c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-diagnostics\\shutdown.log",
+      "archive": "research/geometry-capture-records/058-shutdown.log.gz",
+      "bytes": 6958,
+      "sha256": "b6c722af03009d304e55edb72d9861bf36201954b98172a186ec707a3fcdaa1b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-original\\controller.log",
+      "archive": "research/geometry-capture-records/059-controller.log.gz",
+      "bytes": 369,
+      "sha256": "accd303775fe850dee29e93bce20d316aed000e3ba476504b0405d2bc1f06bb3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-original\\research\\shutdown-controller.json",
+      "archive": "research/geometry-capture-records/060-shutdown-controller.json.gz",
+      "bytes": 472,
+      "sha256": "e84b0f002ff913620c327fc3eb38736d5c002199b9c1339f63cf5f7a79e6bcc0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-original\\research\\shutdown-window-observed.json",
+      "archive": "research/geometry-capture-records/061-shutdown-window-observed.json.gz",
+      "bytes": 8521,
+      "sha256": "264f2ad672db12c7e7eb21b54a427469e65e9deed8450e342bef2c2b3a4c0123"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-original\\shutdown.log",
+      "archive": "research/geometry-capture-records/062-shutdown.log.gz",
+      "bytes": 6958,
+      "sha256": "b6c722af03009d304e55edb72d9861bf36201954b98172a186ec707a3fcdaa1b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\shutdown-original\\tests\\shutdown_window_smoke.py",
+      "archive": "research/geometry-capture-records/063-shutdown_window_smoke.py.gz",
+      "bytes": 6497,
+      "sha256": "5fe8d26da9b038f0320d2edcaa5f40aca66c0c7d7c806b9ba9bc0733522c5ace"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\controller.log",
+      "archive": "research/geometry-capture-records/064-controller.log.gz",
+      "bytes": 1149,
+      "sha256": "8589cb5469fb00d5ba80992dc771344181f63b4f3695409303bf8e141363b61c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\research\\shutdown-controller.json",
+      "archive": "research/geometry-capture-records/065-shutdown-controller.json.gz",
+      "bytes": 470,
+      "sha256": "535b671de69470996c9152d7d7731b6252a4fa7cd73e53ab9639eb753fe323af"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\research\\shutdown-window-observed.json",
+      "archive": "research/geometry-capture-records/066-shutdown-window-observed.json.gz",
+      "bytes": 14799,
+      "sha256": "f7a59303340c2a898b8654201cbe8a0bba91b54740e3909a77cbb4dd9e6bec66"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\shutdown.log",
+      "archive": "research/geometry-capture-records/067-shutdown.log.gz",
+      "bytes": 780,
+      "sha256": "056228112176d0fb15c6c10667dbba33e3acda57c00bf4c1e7d401fb7e349f48"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\geometry-capture-comparison\\startup-diagnostic-canary\\tests\\shutdown_window_smoke.py",
+      "archive": "research/geometry-capture-records/068-shutdown_window_smoke.py.gz",
+      "bytes": 7380,
+      "sha256": "60ff25da2a9fda278fd4dcaebc483b5e08c72aec1106ca9783dbcda15c840eef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\retain-geometry-capture.py",
+      "archive": "research/geometry-capture-records/069-retain-geometry-capture.py.gz",
+      "bytes": 2449,
+      "sha256": "d9d239efbde4cad83cfa58aaac8756f247648e649987960d8175e677412c8f9a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\automation_capture.py",
+      "archive": "research/geometry-capture-records/070-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\frida_test_utils.py",
+      "archive": "research/geometry-capture-records/071-frida_test_utils.py.gz",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\geometry_window_smoke.py",
+      "archive": "research/geometry-capture-records/072-geometry_window_smoke.py.gz",
+      "bytes": 14434,
+      "sha256": "61c239490886d645a8783db1edb9b35974ea7f9d6a315c48a766e5b958dcadfd"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\handle_snapshot.py",
+      "archive": "research/geometry-capture-records/073-handle_snapshot.py.gz",
+      "bytes": 7089,
+      "sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\owned_failure_state.py",
+      "archive": "research/geometry-capture-records/074-owned_failure_state.py.gz",
+      "bytes": 2238,
+      "sha256": "c2875722eb3543051143651c67831af75a15f2d97a844b84d04fa37a2fd30fa7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\owned_job.py",
+      "archive": "research/geometry-capture-records/075-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\shutdown_window_smoke.py",
+      "archive": "research/geometry-capture-records/076-shutdown_window_smoke.py.gz",
+      "bytes": 7219,
+      "sha256": "574f652e099cd6129cf89860ad6af60e8d95c65c7ce0f595e012e7cdbc7fd131"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\thread_snapshot.py",
+      "archive": "research/geometry-capture-records/077-thread_snapshot.py.gz",
+      "bytes": 7972,
+      "sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\window_resize_window_smoke.py",
+      "archive": "research/geometry-capture-records/078-window_resize_window_smoke.py.gz",
+      "bytes": 15561,
+      "sha256": "3f6410257836a9b42916eb52b01cbc702854266cecb6bea3ff1d571511df9e92"
+    }
+  ]
+}
