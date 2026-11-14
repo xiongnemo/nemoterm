@@ -59,9 +59,18 @@ Its budget probe checks allocation overlap; it does not measure process memory.
 GCC and Clang strict C99 builds plus ASan/UBSan, and MSVC C11 with warnings as
 errors, are configured in `kitty-graphics.yml`. The same target is added to the
 regular MinGW, MSVC and sanitizer workflows and local build/test scripts.
-At this checkpoint only source/static review has run locally; remote behavioral
-results are pending. These component tests are specification assertions, not
-independent kitty runtime evidence.
+The [focused workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43609279236)
+passes at `69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac`: both normal and sanitized
+executions on GCC and Clang, plus the MSVC execution. Downloaded source hashes
+match this checkpoint for all three compilers. Logs, job metadata and hashes
+are retained in [the validation record](kitty-graphics-validation.json).
+The reported assertion count includes a separate check of each byte in the
+2 MiB payload; it is not a count of distinct protocol cases.
+
+Only source/static review and artifact verification ran locally. Complete
+application CI workflows remain in progress. These component tests are
+specification assertions, not independent kitty runtime evidence, and do not
+establish image display or process memory acceptance.
 
 ## Remaining implementation and acceptance
 

@@ -17,8 +17,127 @@
     "local_native_tests": "paused by user; none run",
     "local_compile": "not run during pause",
     "static_diff": "passed",
-    "remote_tests": "pending"
+    "remote_tests": "Focused GCC, Clang and MSVC workflow passed; complete application workflows remain in progress"
   },
   "memory_acceptance": false,
-  "accepted_executable_changed": false
+  "accepted_executable_changed": false,
+  "remote_ci": {
+    "source_commit": "69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac",
+    "run_id": 43609279236,
+    "conclusion": "success",
+    "artifacts": [
+      {
+        "id": 14119488875,
+        "name": "kitty-transport-msvc-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+      },
+      {
+        "id": 14119423734,
+        "name": "kitty-transport-gcc-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+      },
+      {
+        "id": 14119042941,
+        "name": "kitty-transport-clang-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+      }
+    ],
+    "executions": [
+      {
+        "compiler": "clang",
+        "mode": "normal.log",
+        "assertions": 2111768
+      },
+      {
+        "compiler": "clang",
+        "mode": "sanitizers.log",
+        "assertions": 2111768
+      },
+      {
+        "compiler": "gcc",
+        "mode": "normal.log",
+        "assertions": 2111768
+      },
+      {
+        "compiler": "gcc",
+        "mode": "sanitizers.log",
+        "assertions": 2111768
+      },
+      {
+        "compiler": "msvc",
+        "mode": "test.log",
+        "assertions": 2111768
+      }
+    ],
+    "assertion_count_scope": "Includes an assertion per byte of the 2 MiB payload; not a count of distinct protocol cases",
+    "retained": [
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-artifacts.json.gz",
+        "raw_sha256": "d3075776bbedd52a624d685e97b7a4d0897b24f058ebc6368d2b5888dbd59fef",
+        "compressed_sha256": "217edab33eea8c394fe4f84256cfe943bf225365bbe5c4df5d70f8e001b7acf2"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-clang-compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "compressed_sha256": "80e86502bbb97c95c72a54b9dd7adbdaa039a5450d5f7534ca880d3585455879"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-clang-normal.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-clang-sanitizers.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-clang-sources.sha256.gz",
+        "raw_sha256": "ff5ff1d6b68321c8257d41ceeb943f095b88396a63a3bd369134cf8f87f38ff3",
+        "compressed_sha256": "a1712175bd507c597a87a53f3c153d8da7f83bb84781702cecb20127043182a5"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-gcc-compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "compressed_sha256": "27f07f4ec94cfc6c13536d2c12e3ff50b0d0757b7b242e57b302b3f1929fa0f9"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-gcc-normal.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-gcc-sanitizers.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-gcc-sources.sha256.gz",
+        "raw_sha256": "ff5ff1d6b68321c8257d41ceeb943f095b88396a63a3bd369134cf8f87f38ff3",
+        "compressed_sha256": "a1712175bd507c597a87a53f3c153d8da7f83bb84781702cecb20127043182a5"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-msvc-build.log.gz",
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+        "compressed_sha256": "350638a70109f856546b3428f046c80ace1410c0f43279d5b979b77eecac0761"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-msvc-sources.txt.gz",
+        "raw_sha256": "66732b612adc0425a3c91043d31a7db59a3cf5127eee867cf5b8f4433580a8eb",
+        "compressed_sha256": "b52c5cfbbb68964b8dbc9938c3e7112da17df05d4c8d80b51f6e5b0d62970f20"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-msvc-test.log.gz",
+        "raw_sha256": "f6a7d1e078e958d21704a3dcb4809e78605d2c70ffacb9b30b5e60b1dc7022fa",
+        "compressed_sha256": "dba80e16cf5911d414410ee0168402751174293f64bfa3795cf285ef52eaf345"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-run.json.gz",
+        "raw_sha256": "98ae8fbbdc41adb471e7506735901de3c8368c4aa62384d11a16120d7065a7d4",
+        "compressed_sha256": "e219722ec3121c167cf3d3dfec0153092526b1f9b5f860a04f8c91518440906d"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-run.log.gz",
+        "raw_sha256": "5847050e9d72d70e0b1b3a100957478d7b725b77f00decff537c98abd1ef5971",
+        "compressed_sha256": "79c034d7d99997d2251174ede38fc1201aece42078bafccf11063dfe99c16fda"
+      }
+    ]
+  }
 }
