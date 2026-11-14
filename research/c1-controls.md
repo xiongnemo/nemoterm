@@ -56,7 +56,7 @@ nine interface groups, compares screenshots with zero differing channels and
 drains all ten processes owned by the outer test job. Those small-window
 observations are not the Sarasa 160x48 memory acceptance workload.
 
-## Downloaded single-image checkpoint; compiler repeat pending
+## Downloaded single-image and completed compiler checkpoint
 
 Source checkpoint `517124f30da646ff2d67b589226a5259002dd117` passes all 101 groups
 in [single-image integration](https://github.com/xiongnemo/nemoterm/actions/runs/43534154789).
@@ -80,8 +80,16 @@ cancelled, so the full workflow is not a pass. All preceding Windows steps
 report success; partial results and the job log are retained. Commit `cb52a3c`
 changes only the Windows whole-job deadline to 30 minutes; product and test
 sources are identical. Its [full repeat](https://github.com/xiongnemo/nemoterm/actions/runs/43537297417)
-is still pending and remains a merge gate. No numerical resource or memory
-assertion or individual test timeout was relaxed.
+now passes all four jobs. The first repeat attempt failed during MSYS2 setup,
+before product compilation, with mirror timeouts and an invalid package-database
+signature. Retrying only that failed Windows job succeeds; signature verification
+is unchanged. Both attempts' metadata and logs are retained. No numerical
+resource or memory assertion or individual test timeout was relaxed.
 
-The manifest now retains 303 compressed records. This branch is not yet merged;
-the accepted local `dist/nemoterm.exe` remains unchanged.
+The downloaded compiler-job evidence confirms both nine-group workload runs
+complete with natural cleanup. Those hosted runs use Consolas and actual grids
+109x34 (GDI) and 88x35 (DirectX), so they do not replace the local Sarasa 160x48
+acceptance measurements above. DirectX's local resource and memory gate remains
+open. The completed compiler and single-image checks clear this C1 change's
+merge gate. The manifest retains 375 compressed records; the accepted local
+`dist/nemoterm.exe` remains unchanged.
