@@ -116,7 +116,13 @@ static void nemo_debug_ui(NemoDebugRequest *r)
             char *utf8=dup_wc_to_mb(CP_UTF8,title,NULL);nemo_debug_json_string(r->output,utf8);sfree(utf8);
             put_byte(r->output,'}');
         }
-        put_dataz(r->output,"]}");return;
+        HandleIOStats io = handle_io_stats();
+        put_fmt(r->output,"],\"io_handles\":{\"input\":%llu,\"output\":%llu,"
+            "\"closing\":%llu,\"created\":%llu,\"destroyed\":%llu}}",
+            (unsigned long long)io.input,(unsigned long long)io.output,
+            (unsigned long long)io.closing,(unsigned long long)io.created,
+            (unsigned long long)io.destroyed);
+        return;
     }
     WinGuiSeat *wgs=NULL;
     for (struct WinGuiSeatListNode *n=wgslisthead.next;n!=&wgslisthead;n=n->next) {
