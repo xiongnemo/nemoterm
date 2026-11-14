@@ -6,8 +6,8 @@
  *
  * Width/height include declared raster extents and actually set pixels.
  * Raster extents are not a clipping rectangle (DEC chapter 14).
- * Pixel colors are baked at drawing time; changing a register does not
- * retroactively recolor pixels already drawn or graphics retained elsewhere.
+ * Register-selected pixels retain their indices; readback resolves the live
+ * private or shared palette. Direct foreground/background pixels stay RGB.
  */
 #include "nemo_sixel.h"
 
@@ -18,6 +18,9 @@
 #define TILE_SIDE 32u
 #define BUCKET_COUNT 256u
 #define PARAM_COUNT 5u
+/* Public colors have alpha 0 or 255. This internal tag retains register
+ * identity in the existing 32-bit tile, without a second bitmap or mask. */
+#define REGISTER_PIXEL UINT32_C(0x01000000)
 
 typedef struct SixelTile {
     struct SixelTile *next;
@@ -30,6 +33,9 @@ struct NemoSixel {
     void *allocation_context;
     SixelTile *buckets[BUCKET_COUNT];
     uint32_t palette[NEMO_SIXEL_PALETTE_SIZE];
+    uint32_t *shared_palette;
+    NemoSixelPaletteChanged palette_changed;
+    void *palette_context;
     uint32_t foreground, background, params[PARAM_COUNT];
     unsigned x, y, width, height, aspect_vertical, aspect_horizontal;
     unsigned param_index, register_count;
@@ -257,16 +263,22 @@ static bool commit_parameters(NemoSixel *s)
     if (s->parameter_overflow) return fail(s, NEMO_SIXEL_MALFORMED);
     if (s->command == '#') {
         unsigned reg = p[0] % s->register_count;
+        uint32_t *palette = s->shared_palette ? s->shared_palette : s->palette;
         if (s->param_index == 4) {
+            uint32_t colour;
             if (p[1] == 2)
-                s->palette[reg] = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
+                colour = rgb(percent(p[2]), percent(p[3]), percent(p[4]));
             else if (p[1] == 1)
-                s->palette[reg] = hls(p[2], p[3], p[4]);
+                colour = hls(p[2], p[3], p[4]);
             else return fail(s, NEMO_SIXEL_MALFORMED);
+            if (palette[reg] != colour) {
+                palette[reg] = colour;
+                if (s->palette_changed) s->palette_changed(s->palette_context);
+            }
         } else if (s->param_index != 0) {
             return fail(s, NEMO_SIXEL_MALFORMED);
         }
-        s->foreground = s->palette[reg];
+        s->foreground = REGISTER_PIXEL | reg;
     } else if (s->command == '"' && !s->seen_pixels) {
         if (s->param_index < 1) return fail(s, NEMO_SIXEL_MALFORMED);
         nemo_sixel_set_aspect(s, p[0] ? p[0] : 1, p[1] ? p[1] : 1);
@@ -370,6 +382,7 @@ size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
 {
     size_t written = 0;
     if (!s || !bgra || y >= s->height || x >= s->width) return 0;
+    const uint32_t *palette = s->shared_palette ? s->shared_palette : s->palette;
     if (count > s->width - x) count = s->width - x;
     while (written < count) {
         unsigned tx = x / TILE_SIDE, ty = y / TILE_SIDE;
@@ -379,9 +392,13 @@ size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
         for (t = s->buckets[bucket(tx, ty)]; t; t = t->next)
             if (t->tx == tx && t->ty == ty) break;
         if (t) {
-            memcpy(bgra + written,
-                   &t->pixels[(y % TILE_SIDE) * TILE_SIDE + x % TILE_SIDE],
-                   n * sizeof(*bgra));
+            const uint32_t *pixels =
+                &t->pixels[(y % TILE_SIDE) * TILE_SIDE + x % TILE_SIDE];
+            for (j = 0; j < n; j++) {
+                uint32_t value = pixels[j];
+                bgra[written + j] = (value & UINT32_C(0xffffff00)) == REGISTER_PIXEL ?
+                    palette[value & 255] : value;
+            }
         } else {
             for (j = 0; j < n; j++) bgra[written + j] = s->background;
         }
@@ -401,14 +418,33 @@ bool nemo_sixel_set_register_count(NemoSixel *s, unsigned count)
 
 void nemo_sixel_get_palette(const NemoSixel *s, uint32_t palette[256])
 {
-    if (s && palette) memcpy(palette, s->palette, sizeof(s->palette));
+    if (s && palette) memmove(palette,
+        s->shared_palette ? s->shared_palette : s->palette, sizeof(s->palette));
 }
 
 void nemo_sixel_set_palette(NemoSixel *s, const uint32_t palette[256])
 {
     unsigned i;
     if (!s || !palette) return;
-    for (i = 0; i < 256; i++) s->palette[i] = palette[i] | UINT32_C(0xff000000);
+    uint32_t *active = s->shared_palette ? s->shared_palette : s->palette;
+    bool changed = false;
+    for (i = 0; i < 256; i++) {
+        uint32_t colour = palette[i] | UINT32_C(0xff000000);
+        changed |= active[i] != colour;
+        active[i] = colour;
+    }
+    if (changed && s->palette_changed) s->palette_changed(s->palette_context);
+}
+
+bool nemo_sixel_share_palette(NemoSixel *s, uint32_t palette[256],
+                             NemoSixelPaletteChanged changed, void *ctx)
+{
+    if (!s || !palette || s->finished || s->seen_pixels || s->command ||
+        s->status != NEMO_SIXEL_OK) return false;
+    s->shared_palette = palette;
+    s->palette_changed = changed;
+    s->palette_context = ctx;
+    return true;
 }
 
 void nemo_sixel_set_allocation_guard(NemoSixel *s,

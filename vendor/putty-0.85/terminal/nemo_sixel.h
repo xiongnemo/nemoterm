@@ -34,7 +34,9 @@ typedef struct NemoSixelStats {
  * Bitmap storage is tiled: small images do not allocate the full budget and
  * growth never makes a temporary second copy of the image.
  * Palette starts with VT340's 16 colors and an xterm-style cube/gray extension.
- * Until a # register is selected, set pixels use foreground.
+ * Pixels selected through # retain register identity and resolve its current
+ * color when read. Until a # register is selected, set pixels use foreground.
+ * Initial foreground/background pixels are independent of the palette.
  */
 NemoSixel *nemo_sixel_init(size_t budget_bytes, uint32_t foreground,
                          uint32_t background, bool transparent);
@@ -64,8 +66,21 @@ size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
  * Rendering should scale by the reduced ratio, with its own output limit.
  */
 void nemo_sixel_set_aspect(NemoSixel *s, unsigned vertical, unsigned horizontal);
+/* These access the active palette, including shared storage when bound.
+ * Palette updates can recolor finished images without changing their pixels. */
 void nemo_sixel_get_palette(const NemoSixel *s, uint32_t palette[256]);
 void nemo_sixel_set_palette(NemoSixel *s, const uint32_t palette[256]);
+
+/* Bind an initialized opaque AARRGGBB palette before feeding the image.
+ * The caller owns this array and must keep it alive until the decoder is freed
+ * or reset. Binding belongs to this image and is unaffected by later changes
+ * to the terminal's private/shared mode. Reset removes the binding.
+ * changed is called after a parsed definition (or set_palette) changes shared
+ * storage, even if the enclosing DCS is later canceled. It must not destroy or
+ * re-enter the decoder. No pixel or palette allocation is made here. */
+typedef void (*NemoSixelPaletteChanged)(void *);
+bool nemo_sixel_share_palette(NemoSixel *s, uint32_t palette[256],
+                             NemoSixelPaletteChanged changed, void *ctx);
 
 /* Select 2..PALETTE_SIZE registers before drawing. Sixel register numbers
  * wrap modulo this count, as on DEC terminals. Reset restores PALETTE_SIZE. */

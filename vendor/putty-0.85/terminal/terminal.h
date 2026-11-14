@@ -42,7 +42,7 @@ typedef struct NemoImageRow {
 } NemoImageRow;
 
 typedef struct NemoImageSource {
-    NemoSixel *bitmap; /* immutable after the DCS has completed */
+    NemoSixel *bitmap; /* fixed pixels after DCS; shared palette remains live */
     unsigned references;
     size_t memory_bytes; /* decoder plus this shared owner, charged once */
 } NemoImageSource;

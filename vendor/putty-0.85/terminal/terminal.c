@@ -1908,7 +1908,7 @@ static void nemo_images_erase(Terminal *term, pos start, pos end)
 }
 
 /* An upper bound on a cropped view, including temporarily duplicated masks.
- * The immutable decoder is already charged once to its shared owner. */
+ * The pixel storage is already charged once to its shared owner. */
 static size_t nemo_image_crop_need(const NemoTermImage *image, int width)
 {
     size_t bytes = sizeof(*image) + image->pixel_height*sizeof(NemoImageRow) +
@@ -2296,6 +2296,14 @@ static void nemo_graphics_query(Terminal *term)
     }
 }
 
+static void nemo_sixel_palette_changed(void *ctx)
+{
+    Terminal *term = ctx;
+    /* Shared register changes also recolor older retained sources. The
+     * palette mutation is independent of whether this DCS later completes. */
+    if (term->images) term_invalidate(term);
+}
+
 static void nemo_sixel_begin(Terminal *term)
 {
     /* 8 KiB is larger than the fixed decoder object. Reserve before init,
@@ -2308,8 +2316,19 @@ static void nemo_sixel_begin(Terminal *term)
     if (!term->sixel_pending) return;
     nemo_sixel_set_register_count(term->sixel_pending, term->sixel_register_count);
     nemo_sixel_set_allocation_guard(term->sixel_pending, nemo_image_admit, term);
-    if (!term->sixel_private_palette && term->sixel_palette_valid)
-        nemo_sixel_set_palette(term->sixel_pending, term->sixel_palette);
+    if (!term->sixel_private_palette) {
+        if (!term->sixel_palette_valid) {
+            nemo_sixel_get_palette(term->sixel_pending, term->sixel_palette);
+            term->sixel_palette_valid = true;
+        }
+        /* This binding is retained by the decoder after completion, so mode
+         * changes affect future images only. All decoders die before term. */
+        if (!nemo_sixel_share_palette(term->sixel_pending, term->sixel_palette,
+                                     nemo_sixel_palette_changed, term)) {
+            nemo_sixel_cancel(term);
+            return;
+        }
+    }
     /* Modern square-pixel default; explicit legacy macros retain DEC ratios. */
     unsigned macro = term->sixel_header[0];
     unsigned ratio = macro == 2 ? 5 : macro == 3 || macro == 4 ? 3 :
@@ -2362,10 +2381,6 @@ static void nemo_sixel_complete(Terminal *term)
     term->image_bytes += image->memory_bytes + image->source->memory_bytes;
     term->sixel_pending = NULL;
     nemo_sixel_set_allocation_guard(decoder, NULL, NULL);
-    if (!term->sixel_private_palette) {
-        nemo_sixel_get_palette(decoder, term->sixel_palette);
-        term->sixel_palette_valid = true;
-    }
     if (!term->sixel_display_mode) {
         int target_y = term->sixel_y + rows - 1;
         int target_x = term->sixel_x + (term->sixel_scrolls_right ? cols : 0);
