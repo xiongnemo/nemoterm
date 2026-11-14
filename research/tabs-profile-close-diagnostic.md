@@ -28,3 +28,9 @@ runner observations. It is diagnostic only and cannot promote this image.
 The compressed raw records and their hashes are listed in
 `tabs-profile-close-validation.json`. They retain the failed run alongside the
 successful local repetitions; the conclusions above never substitute for either.
+
+The [explicit diagnostic run](https://github.com/xiongnemo/nemoterm/actions/runs/43642042598)
+on fixture `e5b7c7a` passed three fresh runner executions of the exact failed image.
+Each recorded a successful owned-host WM_CLOSE post, frontend exit 0, and all
+seven job processes drained without forced termination. No product fix was made;
+the original single-image failure remains unresolved and this image stays unaccepted.
