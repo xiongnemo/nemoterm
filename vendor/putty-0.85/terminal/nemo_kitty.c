@@ -138,6 +138,9 @@ static bool parse_header(NemoKitty *s)
     while (p < end) {
         const char *next = memchr(p, ',', (size_t)(end - p));
         const char *stop = next ? next : end;
+        /* Retain feature-query intent even if its selector is malformed, so
+         * the owner can silently discard it as the reference parser does. */
+        if (stop-p>=2 && p[0]=='e' && p[1]=='=') set(&s->command,'e',0);
         if (stop - p < 3 || key_index(p[0]) < 0 || p[1] != '=')
             return fail(s, NEMO_KITTY_MALFORMED);
         char key = p[0];
@@ -159,9 +162,9 @@ static bool parse_header(NemoKitty *s)
         (nemo_kitty_get(c, 'i') && nemo_kitty_get(c, 'I')))
         return fail(s, NEMO_KITTY_MALFORMED);
     uint32_t action = nemo_kitty_get(c, 'a');
-    if (nemo_kitty_has(c, 'e')) {
-        if (action != 'q' || !nemo_kitty_get(c, 'i') || nemo_kitty_get(c, 'm'))
-            return fail(s, NEMO_KITTY_MALFORMED);
+    if (action == 'q' && nemo_kitty_has(c, 'e')) {
+        /* The query owns no payload. Even m=1 must not append to, finish or
+         * discard the upload. Missing identity is handled silently by owner. */
         s->feature_query = true;
         return true;
     }

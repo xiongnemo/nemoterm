@@ -1,10 +1,9 @@
 # Independent Kitty feature-query reference
 
-The current terminal transport recognizes `a=q,e=<action>` and preserves a
-pending image upload, but terminal dispatch replies `ENOTSUP:feature query`.
-Supporting the transport does not establish that feature discovery is implemented.
-This checkpoint adds an independent observer only; product source stays frozen
-while compression's formal single-image acceptance runs.
+At the reference-only checkpoint, terminal dispatch still replied
+`ENOTSUP:feature query`. The subsequent [development implementation](kitty-feature-implementation.md)
+now passes core/native replay; the accepted `b3e03bb` product still predates it.
+The independent source capture below remains unchanged.
 
 Kitty's [feature-query specification](https://sw.kovidgoyal.net/kitty/graphics-protocol/#querying-support-for-protocol-features)
 defines a non-mutating query for each action and value. An implementation should
@@ -65,8 +64,8 @@ The observations establish several details for the next implementation:
 - In the explicit non-query control, upstream ignores `e` and performs the normal
   image transmission. That case is recorded separately from non-mutating queries.
 
-Nemoterm still returns `ENOTSUP` for feature queries. A new implementation must
-derive its reported capabilities from its own supported actions, formats and
-limits, while preserving the observed query/lifecycle behavior. Unicode
+The implementation derives its reported capabilities from its own supported
+actions, formats and limits, while preserving the observed query/lifecycle behavior.
+Its explicit unsupported-key projections retain the original replies. Unicode
 placeholders, animation and the remaining graphics/protocol scope remain required
 work; feature discovery is not a substitute for implementing those capabilities.

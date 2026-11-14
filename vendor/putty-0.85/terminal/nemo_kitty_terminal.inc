@@ -198,6 +198,66 @@ static void nemo_kitty_reply(Terminal *term, const NemoKittyCommand *c,
     nemo_protocol_send(term,reply,n);
 }
 
+static void nemo_kitty_feature_reply(Terminal *term, const NemoKittyCommand *c,
+                                     bool malformed)
+{
+    unsigned id=nemo_kitty_get(c,'i'), number=nemo_kitty_get(c,'I');
+    unsigned quiet=nemo_kitty_get(c,'q');
+    if (!term->ldisc || !id || quiet>1) return;
+    char reply[384];
+    int used=snprintf(reply,sizeof(reply),"\033_Gi=%u",id);
+    if (number) {
+        used+=snprintf(reply+used,sizeof(reply)-(size_t)used,
+            ",I=%u;EINVAL:Must not specify both image id and image number\033\\",number);
+        nemo_protocol_send(term,reply,used);
+        return;
+    }
+    if (malformed || quiet) return;
+    for (char key='A';key<='z';key++) {
+        if (nemo_kitty_has(c,key) && !strchr("aetofsvSONiIpxywhXYcrCUzPQHVdmq",key)) return;
+    }
+    /* Invalid enum bytes are rejected by the upstream parser before query
+     * dispatch. Valid but unimplemented media/selectors simply are not echoed. */
+    unsigned medium=nemo_kitty_get(c,'t'), compression=nemo_kitty_get(c,'o');
+    unsigned deletion=nemo_kitty_get(c,'d');
+    if (medium>127 || !strchr("dfts",(int)medium) ||
+        (compression && compression!='z') || deletion>127 ||
+        !strchr("aAiIcCnNpPqQrRxXyYzZfF",(int)deletion)) return;
+    unsigned action=nemo_kitty_get(c,'e');
+    if (!((action>='a' && action<='z') || (action>='A' && action<='Z'))) return;
+    const char *keys=NULL;
+    switch (action) {
+      case 't': case 'q': keys="tofsvS"; break;
+      case 'T': keys="tofsvSpxywhXYcrCz"; break;
+      case 'p': keys="pxywhXYcrCz"; break;
+      case 'd': keys="dpxyz"; break;
+    }
+    if (keys) {
+        used+=snprintf(reply+used,sizeof(reply)-(size_t)used,",e=%c",(char)action);
+        for (;*keys;keys++) {
+            char key=*keys;
+            uint32_t value=nemo_kitty_get(c,key);
+            if (!nemo_kitty_has(c,key) || !value) continue;
+            if ((key=='t' && value!='d') ||
+                (key=='f' && value!=24 && value!=32 && value!=100) ||
+                ((key=='s' || key=='v' || key=='c' || key=='r') && value>NEMO_KITTY_AXIS_MAX) ||
+                (key=='S' && value>NEMO_KITTY_DATA_MAX) || (key=='C' && value!=1) ||
+                (key=='d' && (value>127 || !strchr("aAiInNcCpPqQrRxXyYzZ",(int)value)))) continue;
+            size_t available=sizeof(reply)-(size_t)used;
+            int n= key=='t' || key=='o' || key=='d' ?
+                snprintf(reply+used,available,",%c=%c",key,(char)value) :
+                key=='z' ? snprintf(reply+used,available,",z=%d",nemo_kitty_signed(c,key)) :
+                snprintf(reply+used,available,",%c=%u",key,value);
+            if (n<0 || (size_t)n>=available) return;
+            used+=n;
+        }
+    }
+    /* At most 17 numeric/flag fields; no allocation or graphics-owner access. */
+    if ((size_t)used+5>=sizeof(reply)) return;
+    memcpy(reply+used,";OK\033\\",5);
+    nemo_protocol_send(term,reply,used+5);
+}
+
 static const char *nemo_kitty_put(Terminal *term, NemoKittyScreen *s,
                                  NemoKittyImage *image, const NemoKittyCommand *c)
 {
@@ -250,12 +310,16 @@ static void nemo_kitty_finish_apc(Terminal *term)
     uint32_t id=nemo_kitty_get(c,'i'),number=nemo_kitty_get(c,'I');
     const char *status="EINVAL:graphics command";
     bool feature=nemo_kitty_get(c,'a')=='q' && nemo_kitty_has(c,'e');
+    if (feature) {
+        nemo_kitty_feature_reply(term,c,result==NEMO_KITTY_ERROR);
+        if (result==NEMO_KITTY_ERROR) nemo_kitty_cancel(term->kitty->input);
+        return;
+    }
     NemoKittyScreen *s=&term->kitty->screen[term->alt_which];
     if (result==NEMO_KITTY_ERROR) {
         if (nemo_kitty_status(term->kitty->input)==NEMO_KITTY_LIMIT) status="E2BIG:graphics payload";
         else if (nemo_kitty_status(term->kitty->input)==NEMO_KITTY_OUT_OF_MEMORY) status="ENOMEM:graphics payload";
-    } else if (feature) status="ENOTSUP:feature query";
-    else if (!nemo_kitty_screen_ready(s)) status="ENOMEM:image owner";
+    } else if (!nemo_kitty_screen_ready(s)) status="ENOMEM:image owner";
     else {
         unsigned action=nemo_kitty_get(c,'a');
         if (action=='t' || action=='T' || action=='q') {
@@ -281,7 +345,7 @@ static void nemo_kitty_finish_apc(Terminal *term)
         term_invalidate(term);
     }
     nemo_kitty_reply(term,c,id,number,status);
-    if (!feature || result==NEMO_KITTY_ERROR) nemo_kitty_cancel(term->kitty->input);
+    nemo_kitty_cancel(term->kitty->input);
 }
 
 /* Consume raw APC bytes before charset/UTF-8 decoding. BEL is payload, never

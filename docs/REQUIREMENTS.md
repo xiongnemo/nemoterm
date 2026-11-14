@@ -1440,3 +1440,15 @@ DX total working set still peaks above 50 MB. See the
 [the implementation record](../research/kitty-compression.md) for raw evidence and
 remaining scope. No original protocol, physical input or real-application requirement
 is removed by this checkpoint.
+
+### Kitty feature-query development checkpoint
+
+The branch now implements bounded discovery for its actual Kitty action/key
+subset, including pending-upload preservation with `m=1`. The independent
+84-case / 176-state capture is replayed in the real core; unsupported capabilities
+are explicitly omitted and the upstream replies retained. Native development
+ConPTY replay passes 528 API pixel/reply stages across actual GDI/GL/DX plus 176
+presented GDI stages. A 1,000-query core loop retains constant graphics-owner
+memory. This sidecar-host development image is not a newly accepted single EXE;
+the accepted `b3e03bb` and full-goal scope remain unchanged.
+[Implementation and evidence](../research/kitty-feature-implementation.md).

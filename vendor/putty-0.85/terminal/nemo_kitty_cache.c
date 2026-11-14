@@ -295,7 +295,8 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *s, const NemoKittyPac
     result.id = nemo_kitty_get(c, 'i'); result.number = nemo_kitty_get(c, 'I');
     uint32_t action = nemo_kitty_get(c, 'a');
     result.query = action == 'q';
-    if (nemo_kitty_has(c, 'e') || (action != 'q' && action != 't' && action != 'T')) {
+    if ((action == 'q' && nemo_kitty_has(c, 'e')) ||
+        (action != 'q' && action != 't' && action != 'T')) {
         result.status = NEMO_KITTY_IMAGE_UNSUPPORTED; return result;
     }
     if ((result.id && result.number) ||

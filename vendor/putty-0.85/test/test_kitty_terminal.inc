@@ -2,6 +2,7 @@
  * Real byte parser, ldisc replies and lifecycle. The mock codec separates
  * terminal ownership/budget checks from native WIC and compositor validation. */
 #include "kitty_compression_reference.h"
+#include "kitty_feature_reference.h"
 static void kitty_reset(Mock *mk)
 {
     reset(mk);
@@ -165,6 +166,50 @@ static void test_kitty_compression_reference(Mock *parent)
     puts("Kitty upstream compression replay: 26 cases, 36 states and decoded pixels checked");
 }
 
+static void test_kitty_feature_reference(Mock *parent)
+{
+    Mock *mk=NULL;
+    TermWinVtable vt=mock_termwin_vt;
+    vt.kitty_graphics=true;
+    for (size_t i=0;i<lenof(kitty_feature_reference);i++) {
+        const KittyFeatureReference *r=&kitty_feature_reference[i];
+        if (r->first) {
+            if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
+            mk=mock_new(); mk->tw.vt=&vt;
+            mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
+            mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
+            term_size(mk->term,8,12,20); term_set_cell_size(mk->term,10,20);
+            term_set_trust_status(mk->term,false);
+        }
+        test_context(mk,"Kitty upstream feature query: %s",r->name);
+        Terminal *t=mk->term;
+        size_t memory=term_kitty_memory(t);
+        term_data_fragmented(t,r->wire);
+        kitty_reply_is(mk,r->reply);
+        IEQUAL(t->curs.x,r->x); IEQUAL(t->curs.y,r->y);
+        IEQUAL(kitty_images(t,0),r->images);
+        unsigned count=0;
+        for (const NemoKittyPlacement *p=nemo_kitty_placements_first(term_kitty_placements(t,0));
+             p;p=nemo_kitty_placement_next(p)) {
+            NemoKittyView v;
+            IEQUAL(nemo_kitty_placement_view(p,10,20,&v),true);
+            if (count<r->layers) {
+                const NemoRaster *pixels=nemo_kitty_image_raster(v.image);
+                double actual[]={v.left,v.top,v.right,v.bottom,
+                    v.source_left/pixels->width,v.source_top/pixels->height,
+                    v.source_right/pixels->width,v.source_bottom/pixels->height,v.z};
+                for (unsigned j=0;j<lenof(actual);j++) kitty_near(mk,actual[j],r->boxes[count][j]);
+            }
+            count++;
+        }
+        IEQUAL(count,r->layers);
+        if (strstr(r->wire,"a=q")) IEQUAL(term_kitty_memory(t),memory);
+        kitty_check_budget(mk);
+    }
+    if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
+    puts("Kitty upstream feature queries: 84 cases, 176 states (22 explicit capability subsets)");
+}
+
 static void test_kitty_terminal(Mock *mk)
 {
     Terminal *t=mk->term;
@@ -177,6 +222,20 @@ static void test_kitty_terminal(Mock *mk)
     TermWinVtable vt=mock_termwin_vt;
     vt.kitty_graphics=true; vt.decode_image=kitty_mock_decode;
     mk->tw.vt=&vt;
+    kitty_reset(mk);
+    test_context(mk,"Kitty feature discovery keeps an empty owner empty and obeys product limits");
+    term_data_fragmented(t,"\033_Ga=q,i=31,e=T,s=8192,v=8193,S=2097152,c=8192,r=8193\033\\");
+    kitty_reply_is(mk,"\033_Gi=31,e=T,s=8192,S=2097152,c=8192;OK\033\\");
+    IEQUAL(term_kitty_cache(t,0)==NULL,true);
+    IEQUAL(term_kitty_placements(t,0)==NULL,true);
+    size_t query_memory=term_kitty_memory(t);
+    for (unsigned i=0;i<1000;i++) {
+        term_data_fragmented(t,"\033_Ga=q,i=31,e=T,S=2097153,C=1,U=1\033\\");
+        kitty_reply_is(mk,"\033_Gi=31,e=T,C=1;OK\033\\");
+        IEQUAL(term_kitty_memory(t),query_memory);
+    }
+    IEQUAL(term_kitty_cache(t,0)==NULL,true);
+    IEQUAL(term_kitty_placements(t,0)==NULL,true);
     kitty_reset(mk);
     test_context(mk,"Kitty streaming decode, placement and quiet replies");
     term_data_fragmented(t,"\033[2;3H\033_Ga=T,i=11,p=5,f=32,s=1,v=1,C=1;/wAA/w==\033\\");
@@ -198,7 +257,7 @@ static void test_kitty_terminal(Mock *mk)
     term_data_fragmented(t,"\033_Ga=T,i=3,f=24,s=2,v=1,m=1;/wAA\033\\");
     IEQUAL(term_kitty_pending(t),true); IEQUAL(kitty_images(t,0),0); kitty_reply_is(mk,"");
     term_data_fragmented(t,"\033_Ga=q,e=t,i=8\033\\");
-    kitty_reply_is(mk,"\033_Gi=8;ENOTSUP:feature query\033\\");
+    kitty_reply_is(mk,"\033_Gi=8,e=t;OK\033\\");
     IEQUAL(term_kitty_pending(t),true);
     term_data_fragmented(t,"\033_Gm=0;AP8A\033\\");
     kitty_reply_is(mk,"\033_Gi=3;OK\033\\");
@@ -285,4 +344,5 @@ static void test_kitty_terminal(Mock *mk)
     mk->tw.vt=&mock_termwin_vt;
     test_kitty_terminal_reference(mk);
     test_kitty_compression_reference(mk);
+    test_kitty_feature_reference(mk);
 }

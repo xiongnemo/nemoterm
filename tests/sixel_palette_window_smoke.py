@@ -124,7 +124,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,
                                 width=count, height=height, colour=colour)
 
-                def phase(name, sequence, regions, *, stable_seconds=0):
+                def phase(name, sequence, regions, *, stable_seconds=0, expected_reply=None):
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
                         barrier_sequence_hex=(CSI+'5n').encode().hex(), input_barrier=serial,
@@ -136,6 +136,9 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                                           v.get('input_barrier') == serial)
                     record['reply_hex'] = value['hex']
                     assert bytes.fromhex(value['hex']).endswith((CSI+'0n').encode()), value
+                    if expected_reply is not None:
+                        record['expected_reply_hex'] = (expected_reply+(CSI+'0n').encode()).hex()
+                        assert value['hex'] == record['expected_reply_hex'], record
                     assert [value['columns'], value['rows']] == [COLS, ROWS], value
                     # Later rectangles overwrite earlier ones, so a one-pixel
                     # foreground can be specified over a full background ROI.
