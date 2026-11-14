@@ -20,7 +20,178 @@
     "reference_states": 65
   },
   "application_acceptance": false,
-  "remote_ci": "pending",
+  "remote_ci": {
+    "run_id": 43628150590,
+    "source_commit": "c48af03bd03ce688531ac295d518003059a6deed",
+    "conclusion": "success",
+    "source_manifests_verified": {
+      "gcc": 18,
+      "clang": 18,
+      "msvc": 18
+    },
+    "retained": [
+      {
+        "file": "kitty-placement-evidence/c48af03-artifacts.json.gz",
+        "raw_sha256": "96ab1a22b0963893b2f402090d2762e78e7f262ebc164aa04f50ed1fe499a115",
+        "compressed_sha256": "748d1e16262f43bea43845ae8531f1743def4c3b63a3b56f3f8d3f97c4070823"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "compressed_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "compressed_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "compressed_sha256": "80e86502bbb97c95c72a54b9dd7adbdaa039a5450d5f7534ca880d3585455879"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "compressed_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "compressed_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "compressed_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "compressed_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-clang-c48af03bd03ce688531ac295d518003059a6deed--sources.sha256.gz",
+        "raw_sha256": "9eec500ff839dbb979c019a4f32613090d42118a77e424dc4b573d1db39d29bd",
+        "compressed_sha256": "789851977e7b56354d0ef876f7d29775fecc858de8ef3a55e7fabac133e43a6e"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "compressed_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "compressed_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "compressed_sha256": "27f07f4ec94cfc6c13536d2c12e3ff50b0d0757b7b242e57b302b3f1929fa0f9"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "compressed_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "compressed_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "compressed_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "compressed_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "compressed_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-gcc-c48af03bd03ce688531ac295d518003059a6deed--sources.sha256.gz",
+        "raw_sha256": "9eec500ff839dbb979c019a4f32613090d42118a77e424dc4b573d1db39d29bd",
+        "compressed_sha256": "789851977e7b56354d0ef876f7d29775fecc858de8ef3a55e7fabac133e43a6e"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--build.log.gz",
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+        "compressed_sha256": "350638a70109f856546b3428f046c80ace1410c0f43279d5b979b77eecac0761"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--cache-build.log.gz",
+        "raw_sha256": "5d6ad973ca5d01ed199b3dc6e2a4cc9d94e3847f0e54cef66071b9e8bd543122",
+        "compressed_sha256": "cdb6f7e65f28f9e6106333d62019b03d5b7baa6059d14949f22675b099dd3c4b"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--cache-test.log.gz",
+        "raw_sha256": "7ff81d4735388bc48a7966c7562b75858e9af07ce0131643527c3eef9bec1169",
+        "compressed_sha256": "3c408e870147124c0ce0f2d66dc1793fcd355961acb2b563ecc50a96f2cbc7b8"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--layout-build.log.gz",
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea",
+        "compressed_sha256": "c119388a0b112bfbc9cdd362ea8b53f205f60c75cde51aaa05c77f9b10c5f307"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--layout-test.log.gz",
+        "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+        "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--placements-build.log.gz",
+        "raw_sha256": "15264bc029a19c201b5f4962ab60039cf030f72b4455bf5617d3761cbefbed04",
+        "compressed_sha256": "b71d6679583ac2911891954913055c8d775e6aa0dcdac2a414e96103c0761e83"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--placements-test.log.gz",
+        "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+        "compressed_sha256": "f9fb981d5e56b5a9f18eda0fbdceacae1ef6091b46d762272888989a5c06c92d"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--sources.txt.gz",
+        "raw_sha256": "5456bddaf31da127e2f0381774cb67655ffd048784b64ed741ace8ad81af7e8d",
+        "compressed_sha256": "d9c66351e7a0744430a8789b3dfc8c0c0a15c673b85ffc108962af91cf2ebc74"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-kitty-transport-msvc-c48af03bd03ce688531ac295d518003059a6deed--test.log.gz",
+        "raw_sha256": "3f2e49cd63d0f5fd23217d4b1b1bc477d4330766d9ea013110077ec35c7f35f8",
+        "compressed_sha256": "17d28b5fcbe419c2040a743d17e08cfcdaf7c6964cb355a78f9e06a80c50cfd1"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-run.json.gz",
+        "raw_sha256": "a3826e28c48035110e92a1f14a9d4bcb63f831f5dbcfaf50408217f62cb4138e",
+        "compressed_sha256": "2b5fab17fca899d4724af25dc7f389bf000d82ca021c1abb73822514811263de"
+      },
+      {
+        "file": "kitty-placement-evidence/c48af03-workflow.log.gz",
+        "raw_sha256": "b928b309b917188c183e5f09444b77158144eb00f028fd5e222658398100e6a7",
+        "compressed_sha256": "19b4dc51d1c213fec1788231cab1ec70133601a2573b3b37fe4b5386e491076f"
+      }
+    ]
+  },
   "retained": [
     {
       "file": "kitty-placement-evidence/lifecycle-before-fix.log.gz",

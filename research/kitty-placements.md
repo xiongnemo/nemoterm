@@ -45,8 +45,14 @@ The corrected component passes 2,719 local checks, including all 65 literal
 states. Existing transport, cache and layout targets pass 2,111,776, 1,569 and
 153 checks respectively. The earlier compiler results below describe `f6f727e`,
 not these subsequent production changes. Updated source hashes and logs are in
-[the lifecycle correction record](kitty-placement-lifecycle-validation.json);
-remote verification of these changes remains pending.
+[the lifecycle correction record](kitty-placement-lifecycle-validation.json).
+The corrected [focused workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43628150590)
+passes GCC and Clang normal/ASan/UBSan checks and MSVC at
+`c48af03bd03ce688531ac295d518003059a6deed`. Each passes 2,719 placement checks;
+all 18 files in each compiler manifest match that commit. Its complete
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43628150628) and
+[single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43628150654)
+application workflows remain pending.
 
 Local strict C99 release tests pass 1,977 checks, including all 18 observed
 states. The CMake targets also pass: placements 1,977, existing cache 1,564 and
