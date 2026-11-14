@@ -95,7 +95,15 @@ over the previous image. The accepted executable's hash is unchanged.
 
 ## Remaining scope
 
-Full CI for this checkpoint is pending. These finite synthetic workloads do not establish
+Both complete workflows for `95d9693` pass:
+[core 43593250347](https://github.com/xiongnemo/nemoterm/actions/runs/43593250347)
+and [single-executable 43593250308](https://github.com/xiongnemo/nemoterm/actions/runs/43593250308).
+The downloaded product artifact 14113314865 is 4,465,664 bytes, SHA-256
+`2c3450df7a3c7a5b311736fda9d1673d17efc52128b778f44603957fbfe7e2d6`.
+This records completed CI and download identity; it does not promote that image
+or transfer the local candidate's memory measurements to a different binary.
+
+These finite synthetic workloads do not establish
 every real-agent workload or complete ISO 2022 conformance. The broader
 lower-level output matrix, extended legacy DEC checksums, all encoding and
 malformed-input combinations, the prior native tab-close crash and DirectX's

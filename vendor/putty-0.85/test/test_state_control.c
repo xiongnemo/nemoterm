@@ -12,6 +12,7 @@ typedef struct { const char *name, *setup, *reply; size_t length; } CharsetInput
 #include "../../../tests/charset_input_reference.h"
 #include "../../../tests/upss_input_reference.h"
 #include "../../../tests/upss_reference.h"
+#include "../../../tests/charset_checksum_reference.h"
 #include "../../../tests/alignment_oracle_cases.h"
 
 static void test_alignment(Mock *mk)
@@ -243,6 +244,60 @@ static void test_iso2022_parser(Mock *mk)
     mk->ucsdata->line_codepage = CP_UTF8;
     IEQUAL(lenof(charset_reference), lenof(charset_parser_reference));
     for (unsigned fragmented = 0; fragmented < 2; fragmented++) {
+        for (size_t i = 0; i < lenof(charset_checksum_reference); i++) {
+            reset(mk);
+            test_context(mk, "charset checksum %s / fragmented %u",
+                         charset_checksum_reference[i].name, fragmented);
+            strbuf *input = strbuf_new(), *expected = strbuf_new();
+            put_dataz(input, charset_checksum_reference[i].setup);
+            for (unsigned n = 0; n < 96; n++) {
+                put_fmt(input, "\033[%u;%uH", n/48+1, n%48+1);
+                put_byte(input, n+0x20+(charset_checksum_reference[i].right ? 0x80 : 0));
+            }
+            put_dataz(input, "\033[65;1\"p");
+            for (unsigned mode = 0; mode < 2; mode++) {
+                put_fmt(input, "\033[%u#y", mode ? 31 : 15);
+                for (unsigned n = 0; n < 96; n++) {
+                    unsigned row=n/48+1, col=n%48+1;
+                    put_fmt(input, "\033[%u;1;%u;%u;%u;%u*y", n+1,row,col,row,col);
+                    put_fmt(expected, "\033P%u!~%04X\033\\", n+1,
+                            charset_checksum_reference[i].sums[mode][n]);
+                }
+            }
+            put_dataz(input, "\033[?42l\033%G");
+            if (fragmented) term_data_fragmented(mk->term, input->s);
+            else term_data(mk->term, input->s, input->len);
+            SEQUAL(mk->to_backend->s, expected->s);
+            strbuf_free(input); strbuf_free(expected);
+        }
+        for (size_t i = 0; i < lenof(charset_checksum_lifetime); i++) {
+            reset(mk);
+            test_context(mk, "charset checksum lifetime %s / fragmented %u",
+                         charset_checksum_lifetime[i].name, fragmented);
+            if (fragmented) term_data_fragmented(mk->term, charset_checksum_lifetime[i].input);
+            else term_data(mk->term, charset_checksum_lifetime[i].input,
+                           strlen(charset_checksum_lifetime[i].input));
+            const char *expected = charset_checksum_lifetime[i].reply;
+            /* Preserve these four independently captured differences. XTerm
+             * leaves old charSets behind on ICH/DCH and plain ASCII overwrite.
+             * Our checksum follows the copied/overwritten glyph's own source.
+             * REP retains our existing last-glyph/cluster lifetime across CUP. */
+            static const struct { const char *name, *reply; } differences[] = {
+                {"repeat", "\033P1501!~005D\033\\\033P1502!~005D\033\\\033P1503!~005D\033\\"
+                    "\033P3101!~00DC\033\\\033P3102!~00DC\033\\\033P3103!~00DC\033\\"},
+                {"insert", "\033P1501!~005B\033\\\033P1502!~0020\033\\\033P1503!~005C\033\\\033P1504!~005D\033\\"
+                    "\033P3101!~00C4\033\\\033P3102!~0020\033\\\033P3103!~00D6\033\\\033P3104!~00DC\033\\"},
+                {"delete", "\033P1501!~005B\033\\\033P1502!~005D\033\\\033P1503!~0020\033\\\033P1504!~0020\033\\"
+                    "\033P3101!~00C4\033\\\033P3102!~00DC\033\\\033P3103!~0020\033\\\033P3104!~0020\033\\"},
+                {"byte-nrc-overwrite", "\033P1501!~0023\033\\\033P3101!~0023\033\\"},
+            };
+            for (size_t d = 0; d < lenof(differences); d++) {
+                if (strcmp(charset_checksum_lifetime[i].name, differences[d].name)) continue;
+                IEQUAL(strcmp(expected, differences[d].reply) != 0, true);
+                expected = differences[d].reply;
+            }
+            SEQUAL(mk->to_backend->s, expected);
+        }
         for (size_t i = 0; i < lenof(charset_reference); i++) {
             reset(mk);
             test_context(mk, "ISO 2022 parser %s / fragmented %u",
@@ -317,6 +372,30 @@ static void test_iso2022_parser(Mock *mk)
     int clipboard=CLIP_LOCAL+1;
     term_request_copy(mk->term,&clipboard,1);
     check_clipboard(mk,L"\x00c4\x00d6\x00dc");
+
+    reset(mk);
+    test_context(mk, "charset checksum metadata survives compressed history and reflow");
+    term_size(mk->term, 2, 8, 200);
+    term_data_fragmented(mk->term, "\033%G\033[?42h\033(K[\\]\r\nX\r\nY");
+    IEQUAL(count234(mk->term->scrollback) > 0, true);
+    for (unsigned pass = 0; pass < 2; pass++) {
+        unsigned seen = 0;
+        for (int y = -count234(mk->term->scrollback); y < mk->term->rows; y++) {
+            termline *line = term_get_line(mk->term, y);
+            for (int x = 0; x < line->cols; x++) {
+                const termchar *ch = &line->chars[x];
+                unsigned code = ch->chr == 0xc4 ? 0x5b : ch->chr == 0xd6 ? 0x5c : ch->chr == 0xdc ? 0x5d : 0;
+                if (!code) continue;
+                IEQUAL(!!(ch->truecolour.decoration & CELL_CHECKSUM_VALID), true);
+                IEQUAL((ch->truecolour.decoration & CELL_CHECKSUM_VALUE) >> CELL_CHECKSUM_SHIFT, code);
+                seen++;
+            }
+            term_release_line(line);
+        }
+        IEQUAL(seen, 3);
+        term_size(mk->term, 4, 2, 200);
+    }
+    term_size(mk->term, 24, 80, 200);
     conf_set_bool(mk->conf, CONF_nemo_allow_checksum, old_checksum);
     term_reconfig(mk->term, mk->conf);
     reset(mk);

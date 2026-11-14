@@ -196,6 +196,8 @@ static void swap_screen(Terminal *, int, bool, bool);
 static void update_sbar(Terminal *);
 static void deselect(Terminal *);
 static void term_print_finish(Terminal *);
+static uint32_t nemo_checksum_legacy(unsigned long ch);
+static bool nemo_charset_base_utf8(Terminal *term);
 static void scroll(Terminal *, int, int, int, bool);
 static void check_boundary(Terminal *, int, int);
 static bool nemo_in_lr(Terminal *term)
@@ -2658,12 +2660,30 @@ static unsigned long nemo_charset_graphic(Terminal *term, int attr, unsigned byt
     const NemoCharset *cs = nemo_charset_descriptor(attr);
     if (!cs || (byte == 0x7f && !((unsigned)-attr & 256))) return UCSINCOMPLETE;
     cs = nemo_charset_resolve(cs, term->upss_id, nemo_charset_level(term));
-    uint32_t value = nemo_charset_map(cs, byte, nemo_charset_level(term), term->nrc_mode);
+    uint32_t value = nemo_charset_map_mode(cs, byte, nemo_charset_level(term), term->nrc_mode,
+                                         !term->nrc_mode || nemo_charset_base_utf8(term));
     if (value == NEMO_CHARSET_NOCHAR) return UCSINCOMPLETE;
     /* Mapped codepoints are data, including DEL/C1 glyphs from 96 sets.
      * Existing direct-character tags prevent a second control interpretation. */
     if (value < 0x20 || (value >= 0x7f && value < 0xa0)) return value | CSET_ASCII;
     return value;
+}
+
+static uint64_t nemo_charset_checksum_metadata(Terminal *term, int attr,
+                                              unsigned byte)
+{
+    const NemoCharset *cs = nemo_charset_descriptor(attr);
+    if (!cs) {
+        const char *name = attr == CSET_LINEDRW ? "0" : attr == CSET_GBCHR ? "A" : "B";
+        cs = nemo_charset_designate(1, nemo_charset_level(term), term->nrc_mode, name, 1);
+    }
+    cs = nemo_charset_resolve(cs, term->upss_id, nemo_charset_level(term));
+    uint64_t result = CELL_CHECKSUM_VALID |
+        (uint64_t)nemo_charset_checksum(cs, byte) << CELL_CHECKSUM_SHIFT;
+    if (cs && !strcmp(cs->designation, "A") && term->nrc_mode &&
+        !nemo_charset_base_utf8(term) && (byte & 0x7f) == 0x23)
+        result |= CELL_CHECKSUM_BYTE_POUND;
+    return result;
 }
 
 static bool nemo_charset_escape(Terminal *term, unsigned char final)
@@ -5485,6 +5505,8 @@ static void nemo_fill_rectangle(Terminal *term)
         (ch >= 0xd800 && ch <= 0xdfff) || term_char_width(term, ch) <= 0) return;
     struct NemoRect r;
     if (!nemo_rectangle(term, 1, 4, &r)) return;
+    uint64_t checksum = ch < 128 ?
+        nemo_charset_checksum_metadata(term, term->cset_attr[term->cset], ch) : 0;
     /* DEC allows ASCII/Latin-1; xterm also accepts printable Unicode. Each
      * fill position is one cell, even for that Unicode extension. */
     if (ch < 128) {
@@ -5507,6 +5529,9 @@ static void nemo_fill_rectangle(Terminal *term)
         for (int x = r.left; x < r.right; x++) {
             termchar fill = {.chr=ch, .attr=term->curr_attr,
                              .truecolour=term->curr_truecolour};
+            if (checksum && ((checksum & CELL_CHECKSUM_BYTE_POUND) ||
+                (checksum & CELL_CHECKSUM_VALUE) >> CELL_CHECKSUM_SHIFT !=
+                nemo_checksum_legacy(ch))) fill.truecolour.decoration |= checksum;
             /* Like DECERA, default current colours retain the old cell's
              * colour. Protection comes from the current DECSCA setting. */
             if ((fill.attr & ATTR_FGMASK) == ATTR_DEFFG && !fill.truecolour.fg.enabled) {
@@ -6899,9 +6924,8 @@ static unsigned long nemo_grapheme_scalar(Terminal *term, unsigned long c)
     }
 }
 
-/* DEC's legacy checksum uses its character-set codes rather than Unicode.
- * No per-cell checksum cache is needed: read the retained glyphs, leaving
- * cursor, pending wrap, selection, scrollback and image state untouched. */
+/* Default legacy checksum for cells whose source code and charset did not
+ * change this value. Exceptional mappings retain a compact per-cell override. */
 static uint32_t nemo_checksum_legacy(unsigned long ch)
 {
     static const uint32_t graphics[] = {
@@ -6967,9 +6991,12 @@ static void nemo_checksum_rectangle(Terminal *term)
                     if (!(mode & (4 | 8))) continue;
                     value = ' ';
                 } else if (!(mode & 16)) {
-                    value = nemo_checksum_legacy(cell->chr);
+                    value = decoration & CELL_CHECKSUM_VALID ?
+                        (decoration & CELL_CHECKSUM_VALUE) >> CELL_CHECKSUM_SHIFT :
+                        nemo_checksum_legacy(cell->chr);
                 } else {
-                    value = nemo_checksum_unicode(cell->chr);
+                    value = decoration & CELL_CHECKSUM_BYTE_POUND ? 30 :
+                        nemo_checksum_unicode(cell->chr);
                     if (cell->chr == UCSWIDE || (value >= 0xfff0 && value <= 0xffff))
                         continue;
                 }
@@ -6986,7 +7013,7 @@ static void nemo_checksum_rectangle(Terminal *term)
                  * Bits 2/4 also gate its legacy combining-mark summation. */
                 bool styled = (attr & ~(ATTR_WIDE | ATTR_NARROW | DATTR_MASK)) != ATTR_DEFAULT ||
                     cell->truecolour.fg.enabled || cell->truecolour.bg.enabled ||
-                    (decoration & ~CELL_UNDRAWN);
+                    (decoration & ~(CELL_UNDRAWN | CELL_CHECKSUM_MASK));
                 if ((mode & 4) || first || value != ' ' || drawn || styled)
                     total += value;
                 if ((mode & (4 | 16)) == 4 && col < line->cols) {
@@ -7094,7 +7121,7 @@ static void nemo_grapheme_append(Terminal *term, unsigned long scalar,
     seen_disp_event(term);
 }
 
-static void term_display_graphic_char(Terminal *term, unsigned long c)
+static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t checksum)
 {
     if (((c & CSET_MASK) == CSET_ASCII ||
          (c & CSET_MASK) == 0) && term->logctx)
@@ -7222,6 +7249,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        cline->chars[term->curs.x].truecolour.decoration |= checksum;
         cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         term->curs.x++;
@@ -7249,6 +7277,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
         cline->chars[term->curs.x].attr = term->curr_attr;
         cline->chars[term->curs.x].truecolour =
             term->curr_truecolour;
+        cline->chars[term->curs.x].truecolour.decoration |= checksum;
         cline->chars[term->curs.x].hyperlink = term->curr_hyperlink;
 
         break;
@@ -7816,6 +7845,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
             continue;
         }
 
+        uint64_t checksum = 0;
+        /* Preserve the graphic byte before charset translation loses it. */
+        if (term->termstate == TOPLEVEL && !in_utf(term) && !term->sco_acs &&
+            c >= 0x20 && (c < 0x80 || c >= 0xa0)) {
+            unsigned bank = c >= 0xa0 ? term->cset_gr :
+                term->cset_ss ? term->cset_ss : term->cset;
+            checksum = nemo_charset_checksum_metadata(term, term->cset_attr[bank], c);
+        }
         /* Do character-set translation. */
         if (term->termstate == TOPLEVEL) {
             unsigned long t = term_translate(term, &term->utf8, c);
@@ -7835,6 +7872,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 break;
             }
         }
+        if (c == UCSERR) checksum = 0;
+        if (checksum && !(checksum & CELL_CHECKSUM_BYTE_POUND) &&
+            (checksum & CELL_CHECKSUM_VALUE) >> CELL_CHECKSUM_SHIFT ==
+            nemo_checksum_legacy(c)) checksum = 0;
 
         /*
          * How about C1 controls?
@@ -8044,8 +8085,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
               case TOPLEVEL:
                 /* Only graphic characters get this far;
                  * ctrls are stripped above */
-                term_display_graphic_char(term, c);
+                term_display_graphic_char(term, c, checksum);
                 term->last_graphic_char = c;
+                term->last_graphic_checksum = checksum;
                 break;
 
               case OSC_MAYBE_ST:
@@ -8480,13 +8522,13 @@ static void term_out(Terminal *term, bool called_from_term_data)
                                  * last_grapheme, so iterate a local snapshot. */
                                 term->grapheme_pending = false;
                                 for (unsigned j = 0; j < n; j++)
-                                    term_display_graphic_char(term, saved[j]);
+                                    term_display_graphic_char(term, saved[j], 0);
                             }
                         } else if (term->last_graphic_char) {
                             unsigned i;
                             for (i = 0; i < term->esc_args[0]; i++)
                                 term_display_graphic_char(
-                                    term, term->last_graphic_char);
+                                    term, term->last_graphic_char, term->last_graphic_checksum);
                         }
                         break;
                       case ANSI('c', '>'):      /* DA2: compatibility identity */
@@ -10539,6 +10581,8 @@ static void do_paint(Terminal *term)
                 (!term->xterm_256_colour && (tc.decoration & UNDER_INDEXED) &&
                  (tc.decoration & 255) >= 16))
                 tc.decoration &= ~UNDER_COLOUR_MASK;
+
+            tc.decoration &= ~CELL_CHECKSUM_MASK;
 
             if (term->attribute_colour_modes & 31)
                 nemo_paint_attribute_colours(term, attribute_colours,

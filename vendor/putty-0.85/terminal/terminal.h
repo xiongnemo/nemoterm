@@ -392,6 +392,7 @@ struct terminal_tag {
     struct unicode_data *ucsdata;
 
     unsigned long last_graphic_char;
+    uint64_t last_graphic_checksum;
     /* REP must survive cursor moves and erasure of the original cell. */
     uint32_t last_grapheme[CC_LIMIT + 1];
     unsigned last_grapheme_len;

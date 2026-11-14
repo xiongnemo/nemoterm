@@ -62,6 +62,26 @@ def generate(source,keys):
         output+='    {charset_'+name+', {'+','.join(f'0x{x:08x}' for x in masks['MAP'])+'}, {'
         output+=','.join(f'0x{x:08x}' for x in masks['UNI'])+'}},\n'
     output+='};\n'
+    # DEC internal checksum codes are not Unicode or reverse input mappings.
+    # Retain only explicit overrides; 0xffff selects the charset's default.
+    output+='\nstatic const struct { const uint16_t *mapping; uint16_t values[96]; }\n'
+    output+='charset_checksum_maps[] = {\n'
+    for name in TABLES:
+        start=next(i for i,l in enumerate(lines) if l.startswith('#define unmap_'+name+'('))
+        data=[0xffff]*96; seen=set()
+        if lines[start].endswith('\\'):
+            for line in lines[start+1:]:
+                if match:=re.search(r'\b(MAP|UNI|XXX)\((.*?)\)\s*(?:/\*|\\|$)',line):
+                    assert match[1]=='MAP',(name,line)
+                    left,right=map(str.strip,match[2].split(',',1));position=int(left,16)
+                    assert 0x20<=position<=0x7f and position not in seen,(name,line)
+                    seen.add(position);data[position-0x20]=int(right,0)&0xffff
+                if not line.endswith('\\'):break
+        if not seen:continue
+        output+='    {charset_'+name+', {\n'
+        for i in range(0,96,12):output+='        '+', '.join(f'0x{x:04x}' for x in data[i:i+12])+',\n'
+        output+='    }},\n'
+    output+='};\n'
     return output
 
 if __name__=='__main__':

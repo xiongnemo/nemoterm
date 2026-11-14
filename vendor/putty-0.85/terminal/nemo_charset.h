@@ -40,10 +40,16 @@ const NemoCharset *nemo_charset_resolve(const NemoCharset *charset,
  * perform those operations before calling it. No allocation or locale state. */
 uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,
                          unsigned level, bool national);
+uint32_t nemo_charset_map_mode(const NemoCharset *charset, unsigned byte,
+                              unsigned level, bool national, bool unicode_nrc);
 
 /* XTerm NRC selection-input conversion. It is always seven-bit, including
  * its fallback for unrepresentable characters. unicode_nrc enables UNI rules.
  * Keyboard layout/locale encoding is separate from selection conversion. */
 unsigned nemo_charset_input(const NemoCharset *charset, uint32_t scalar,
                             bool unicode_nrc);
+
+/* Legacy DEC checksum of the pre-translation graphic byte. The caller first
+ * resolves UPSS at write time. This is distinct from Unicode cell sums. */
+unsigned nemo_charset_checksum(const NemoCharset *charset, unsigned byte);
 #endif

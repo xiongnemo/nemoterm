@@ -1028,6 +1028,15 @@ typedef struct truecolour {
 #define CELL_PROTECTED UINT64_C(0x20000000)
 /* Occupancy for DEC stream-attribute operations, without growing a cell. */
 #define CELL_UNDRAWN UINT64_C(0x40000000)
+/* Retain a legacy checksum only when Unicode cannot recover it. Existing
+ * spare bits keep sizeof(termchar) unchanged; history already stores these. */
+#define CELL_CHECKSUM_SHIFT 40
+#define CELL_CHECKSUM_VALUE (UINT64_C(0xffff) << CELL_CHECKSUM_SHIFT)
+#define CELL_CHECKSUM_VALID (UINT64_C(1) << 56)
+/* XTerm byte NRC uses font slot 30 for pound, while we retain Unicode for
+ * rendering/copy. Its Unicode-checksum extension reports that legacy slot. */
+#define CELL_CHECKSUM_BYTE_POUND (UINT64_C(1) << 57)
+#define CELL_CHECKSUM_MASK (CELL_CHECKSUM_VALUE | CELL_CHECKSUM_VALID | CELL_CHECKSUM_BYTE_POUND)
 #define optionalrgb_equal(r1,r2) (                              \
         (r1).enabled==(r2).enabled &&                           \
         (r1).r==(r2).r && (r1).g==(r2).g && (r1).b==(r2).b)

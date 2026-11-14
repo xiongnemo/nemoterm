@@ -108,6 +108,12 @@ const NemoCharset *nemo_charset_resolve(const NemoCharset *charset,
 uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,
                          unsigned level, bool national)
 {
+    return nemo_charset_map_mode(charset, byte, level, national, true);
+}
+
+uint32_t nemo_charset_map_mode(const NemoCharset *charset, unsigned byte,
+                              unsigned level, bool national, bool unicode_nrc)
+{
     if (!charset || byte>255 || byte<0x20 || (byte>=0x80 && byte<0xa0))
         return NEMO_CHARSET_NOCHAR;
     unsigned seven=byte&0x7f;
@@ -117,11 +123,20 @@ uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,
     if (charset->kind==TABLE) {
         result=charset->mapping[seven-0x20];
         if (result==UINT16_MAX) result=byte;
+        else if (!unicode_nrc) {
+            for (size_t i=0;i<sizeof(charset_input_masks)/sizeof(*charset_input_masks);i++) {
+                if (charset_input_masks[i].mapping!=charset->mapping) continue;
+                unsigned p=seven-0x20;
+                if (!(charset_input_masks[i].direct[p/32] & (UINT32_C(1)<<(p%32)))) result=seven;
+                break;
+            }
+        }
     } else if (charset->kind==LINE) {
         result=seven>=0x60 && seven<=0x7e ? charset->mapping[seven-0x20] :
             byte==0x5f ? 0 : seven;
     }
-    else if (charset->kind==BRITISH && (national || level==1)) {
+    else if ((charset->kind==BRITISH || (charset->kind==DIRECT && charset->size96)) &&
+             (national || level==1)) {
         result=national ? seven : byte;
         if (result==0x23) result=0x00a3;
     }
@@ -152,4 +167,32 @@ unsigned nemo_charset_input(const NemoCharset *charset, uint32_t scalar,
         }
     }
     return scalar & 0x7f;
+}
+
+unsigned nemo_charset_checksum(const NemoCharset *charset, unsigned byte)
+{
+    if (byte < 0x20 || byte > 0xff) return 0x1b;
+    bool seven = !charset || !charset->size96;
+    if (seven) {
+        if (byte == 0xa0) return 0x1b;
+        if (byte == 0x20) return 0x20;
+        if (byte == 0x7f || byte == 0xff) return 0;
+    }
+    unsigned low = byte & 0x7f;
+    if (charset && charset->kind == BRITISH)
+        return low == 0x23 && charset->minimum_level == 1 ? 0xa3 : low;
+    if (charset && charset->mapping) {
+        for (size_t i=0; i<sizeof(charset_checksum_maps)/sizeof(*charset_checksum_maps); i++) {
+            if (charset_checksum_maps[i].mapping != charset->mapping) continue;
+            unsigned mapped = low >= 0x20 ? charset_checksum_maps[i].values[low-0x20] : 0xffff;
+            if (mapped != 0xffff) return mapped;
+            break;
+        }
+        if ((!charset->national && charset->minimum_level >= 3 &&
+             charset->mapping != charset_DEC_Cyrillic &&
+             charset->mapping != charset_JIS_Roman && charset->mapping != charset_JIS_Katakana) ||
+            charset->mapping == charset_DEC_Supp_Graphic)
+            return byte | 0x80;
+    }
+    return seven ? low : byte | 0x80;
 }

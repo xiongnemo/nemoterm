@@ -18,7 +18,9 @@ scenes=[('german', '\u00c4\u00d6\u00dc\u00df', CSI+'?42h\x1b(K[\\]~'),
         ('single-shift','\u00c4AA',CSI+'?42h\x1b*K\x1bN[AA'),
         ('upss-greek','\u0391\u0392\u0393','\x1b%@\x1b(<\x1bP1!uF\x1b\\ABC'),
         ('upss-reassign','\u0391\u0392\u0393ABC','\x1b%@\x1b(<\x1bP1!uF\x1b\\ABC\x1bP1!uA\x1b\\ABC'),
-        ('upss-cursor','\u0391\u0392\u0393','\x1b%@\x1b(<\x1bP1!uF\x1b\\\x1b7\x1bP1!uA\x1b\\\x1b8ABC')]
+        ('upss-cursor','\u0391\u0392\u0393','\x1b%@\x1b(<\x1bP1!uF\x1b\\\x1b7\x1bP1!uA\x1b\\\x1b8ABC'),
+        ('byte-nrc-greek','abc','\x1b%@'+CSI+'?42h\x1b(\">abc'),
+        ('byte-nrc-pound','\u00a3','\x1b%@'+CSI+'?42h\x1b(A#')]
 try:
     for requested,renderer in [(0,'GDI'),(1,'OpenGL'),(2,'DirectX')]:
         mode=dict(requested=renderer,completed=False,scenes={});result['modes'].append(mode)
@@ -80,6 +82,17 @@ try:
                         actual_sha256=hashlib.sha256(actual).hexdigest(),logical_text=text)
                     assert unicode_text in text,(name,text)
                     assert actual==expected,(name,'renderer pixels differ')
+                checksums=phase('checksum-source-and-copy',reset+CSI+'?42h\x1b(K[\\]~'+
+                    CSI+'15#y'+CSI+'1;1;2;2;2;5*y'+CSI+'31#y'+CSI+'2;1;2;2;2;5*y'+
+                    CSI+'2;2;2;5;1;3;2;1$v'+CSI+'15#y'+CSI+'3;1;3;2;3;5*y')
+                expected=b'\x1bP1!~0192\x1b\\\x1bP2!~0355\x1b\\\x1bP3!~0192\x1b\\'+marker
+                assert bytes.fromhex(checksums['hex'])==expected,checksums
+                mode['source_and_copy_checksum_hex']=checksums['hex']
+                pound=phase('checksum-byte-pound',reset+'\x1b%@'+CSI+'?42h\x1b(A#'+
+                    CSI+'15#y'+CSI+'1;1;2;2;2;2*y'+CSI+'31#y'+CSI+'2;1;2;2;2;2*y')
+                expected=b'\x1bP1!~00A3\x1b\\\x1bP2!~001E\x1b\\'+marker
+                assert bytes.fromhex(pound['hex'])==expected,pound
+                mode['byte_pound_checksum_hex']=pound['hex']
                 phase('paste-setup',reset+CSI+'?42h\x1b(K')
                 before=bytes.fromhex(read_snapshot(report)['hex'])
                 text='\u00c4\u00d6\u00dc\u00df'
