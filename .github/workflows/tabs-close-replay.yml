@@ -1,0 +1,81 @@
+name: Diagnose mixed-profile close from an explicit artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Full commit of the failed single-executable run
+        type: string
+        required: true
+      source_run:
+        description: Completed failed single-executable run
+        type: string
+        required: true
+      executable_sha256:
+        description: Exact SHA256 of the unverified executable
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostic:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      EXPECTED_SHA256: ${{ inputs.executable_sha256 }}
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify and isolate the exact failed image
+        shell: pwsh
+        run: |
+          if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:EXPECTED_SHA256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid source identity' }
+          $run = gh run view $env:SOURCE_RUN --json headSha,status,conclusion,workflowName | ConvertFrom-Json
+          if ($LASTEXITCODE -or $run.headSha -ne $env:SOURCE_COMMIT -or $run.status -ne 'completed' -or $run.conclusion -ne 'failure' -or $run.workflowName -ne 'Single executable from source') { throw 'Expected a completed failed single-image run of the selected source' }
+          git diff --quiet $env:SOURCE_COMMIT HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+          if ($LASTEXITCODE) { throw 'Production differs from the selected artifact' }
+          gh run download $env:SOURCE_RUN --name "unverified-single-exe-x64-$env:SOURCE_COMMIT" --dir build/close-replay-product
+          if ($LASTEXITCODE) { throw 'Artifact download failed' }
+          $exe = Get-Item build/close-replay-product/nemoterm.exe
+          $digest = (Get-FileHash $exe.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -cne $env:EXPECTED_SHA256) { throw 'Executable hash mismatch' }
+          New-Item -ItemType Directory -Force build/close-replay-evidence | Out-Null
+          "NEMOTERM_TEST_EXE=$($exe.FullName)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          [ordered]@{
+            source_commit = $env:SOURCE_COMMIT
+            source_run = $env:SOURCE_RUN
+            fixture_commit = (git rev-parse HEAD).Trim()
+            executable_sha256 = $digest
+            executable_bytes = $exe.Length
+            fixture_sha256 = (Get-FileHash tests/tabs_profiles_window_smoke.py -Algorithm SHA256).Hash.ToLowerInvariant()
+            unverified_product = $true
+            scope = 'Close diagnosis only; unchanged 15-second close threshold; no product acceptance'
+          } | ConvertTo-Json | Set-Content build/close-replay-evidence/identity.json
+      - name: Install fixture dependency
+        run: python -m pip install frida==17.24.3
+      - name: Observe three independently owned mixed-profile lifetimes
+        shell: pwsh
+        run: |
+          $failed = $false
+          foreach ($iteration in 1..3) {
+            python tests/tabs_profiles_window_smoke.py 2>&1 | Tee-Object "build/close-replay-evidence/replay-$iteration.log"
+            $code = $LASTEXITCODE
+            if (Test-Path research/tabs-profiles-observed.json) { Copy-Item research/tabs-profiles-observed.json "build/close-replay-evidence/replay-$iteration-observed.json" }
+            if ($code) { $failed = $true }
+          }
+          if ($failed) { throw 'At least one diagnostic replay failed; all completed observations retained' }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: tabs-close-diagnostic-${{ github.sha }}
+          path: build/close-replay-evidence/
+          retention-days: 30
+          if-no-files-found: error
