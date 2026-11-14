@@ -60,10 +60,25 @@ all 12 cases passed: 18 instrumented and 18 uninjected lifetimes, each ending
 naturally without terminating remaining owned processes. These passes support
 the revised test's operation; they do not prove the original failure's cause.
 
-`shutdown-observer-lifetime-validation.json` indexes 35 deterministic gzip records
+`shutdown-observer-lifetime-validation.json` indexes 48 deterministic gzip records
 with raw byte lengths and SHA256 hashes: the failed CI records, executable
 identity, all old/new local repetitions, and all three observer controls. The
 manual close-replay workflow can select `fixture=shutdown`, verify the unchanged
 product source and exact executable hash, and run the controls plus three fresh
 repetitions on a Windows runner. A successful diagnostic replay will still not
 constitute full product acceptance.
+
+[Diagnostic run 43646704719](https://github.com/xiongnemo/nemoterm/actions/runs/43646704719)
+used fixture commit `b3e03bb` and the exact failed executable, verified by source
+diff and SHA256. Strict MSVC compilation and all three observer sensitivity
+controls passed. Each of three repetitions passed all 12 lifetimes with natural
+owned-job cleanup. The runner's OpenGL profile fell back to GDI (renderer ID 1);
+DirectX was active (ID 3). The local repetitions above used actual GDI, OpenGL
+and DirectX (IDs 1, 2 and 3). Complete diagnostic logs and observations are included
+in the index; the helper EXE/object are excluded from committed evidence.
+
+The original timeout remains unexplained. The controlled observer change and
+uninjected controls justify proceeding to the full
+[single-image acceptance run 43646925393](https://github.com/xiongnemo/nemoterm/actions/runs/43646925393)
+of fixture commit `b3e03bb`, whose product source is unchanged from `48a0263`.
+That separate acceptance is pending.

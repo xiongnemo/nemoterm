@@ -187,6 +187,71 @@
       "path": "research/shutdown-observer-lifetime-evidence/local-controls-build--shutdown-probe-controls.log.gz",
       "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706",
       "raw_bytes": 147
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-artifacts.json.gz",
+      "raw_sha256": "5a5d4c2663520bc2a85559af18e3633eadee8761dfc412a16e58b296526c64d1",
+      "raw_bytes": 787
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--identity.json.gz",
+      "raw_sha256": "dd38b9f85d6395e157f63c49243f6214e717d76a7ce1c70002cdaf8a5741b879",
+      "raw_bytes": 990
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--probe-controls--build.log.gz",
+      "raw_sha256": "1d16904e24403b660ce7f6837d682668fba595fe7077d3200eecf5ea52fd9c01",
+      "raw_bytes": 26
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--probe-controls--shutdown-probe-controls-observed.json.gz",
+      "raw_sha256": "760672e339e872ca73547afaad3bf40da087f1b2b42c10677e8c7952f3cb926f",
+      "raw_bytes": 2787
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--probe-controls--test.log.gz",
+      "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706",
+      "raw_bytes": 147
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-1-observed.json.gz",
+      "raw_sha256": "83dcc7e204c8b9eb1c427473932bd01a0bc43b649e199818b74752a414d75a5d",
+      "raw_bytes": 15133
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-1.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-2-observed.json.gz",
+      "raw_sha256": "9e866cc711f46cabc7a7e03520161aa917c0f9acd29ad795a4f90a0397a77f9e",
+      "raw_bytes": 15123
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-2.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-3-observed.json.gz",
+      "raw_sha256": "bb8e0d0aff1febf20775d3b2d9c234a2ab3174bbfd8a74d90d323f605c863b51",
+      "raw_bytes": 15121
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-evidence--replay-3.log.gz",
+      "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8",
+      "raw_bytes": 10041
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-run.json.gz",
+      "raw_sha256": "7bc801d36639be8efd3f9947bc1e8a6d61936e6e419a4dfe09c4d5f5b13bffb7",
+      "raw_bytes": 2100
+    },
+    {
+      "path": "research/shutdown-observer-lifetime-evidence/ci-run.log.gz",
+      "raw_sha256": "5967c0f6729ee34e8318ebaecb7ebd66a0a94dc602bb16d4f0137ef17ce540dd",
+      "raw_bytes": 145489
     }
   ],
   "local_test_source_hashes": {
@@ -194,5 +259,15 @@
     "tests/shutdown_window_smoke.py": "8130ea7cd9ae555ddf9d900c2486e3c0a70d02161a21d7748eef9e2299c93ac3",
     "tests/shutdown_probe_controls.py": "4b445c85313a4b88dbc578dc5fddc26829f390440fe51dea2a96a78d851d29cb",
     "tests/shutdown_probe_fixture.c": "2cf18627f7d9504bcc5d8d3a9eda813c202e67d1ac22b9df0742d3c21b798a85"
-  }
+  },
+  "diagnostic_run": 43646704719,
+  "diagnostic_fixture_commit": "b3e03bb3a3a1f75e3403b7dd5a9e0d14065c46ac",
+  "diagnostic_conclusion": "success",
+  "diagnostic_repetitions": 3,
+  "diagnostic_active_renderer_ids": {
+    "gdi": 1,
+    "opengl": 1,
+    "directx": 3
+  },
+  "diagnostic_opengl_fallback": true
 }

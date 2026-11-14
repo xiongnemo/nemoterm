@@ -115,6 +115,13 @@ tests; its artifact is unverified. See [the retained failure and observer
 diagnosis](shutdown-observer-lifetime.md). Component success does not replace
 these gates.
 
+The completed full run's four job results, logs and all downloaded test evidence
+are retained in `kitty-compression-full-ci-validation.json` and four deterministic
+tar/gzip bundles (1,704 original files with per-file hashes). Portable binaries
+remain GitHub build artifacts. The runner's compressed-image memory grids were
+109 x 34 (GDI) and 88 x 35 (DirectX); these runner results do not substitute for
+the local 160 x 48 measurements below.
+
 ## Independent source-host single-file precheck
 
 The completed source-host job in full run `43644074575` supplied a separate
