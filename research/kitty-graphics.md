@@ -74,6 +74,10 @@ establish image display or process memory acceptance.
 
 ## Remaining implementation and acceptance
 
+The [image-data cache](kitty-image-cache.md) now has RGB/RGBA decoding and
+identity/quota/ownership code under development. It remains separate from
+placement and rendering, and does not make the runtime support claim true.
+
 1. Connect APC G/ST parsing, cancellation and exact quiet/error replies without
    changing unrelated APC, C1, OSC, Sixel or multipart iTerm behavior. A query
    must exercise the requested decoder/medium, and feature reports must describe

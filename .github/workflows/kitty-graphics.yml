@@ -1,17 +1,21 @@
-name: Kitty graphics transport
+name: Kitty graphics components
 
 on:
   workflow_dispatch:
   push:
     paths:
       - .github/workflows/kitty-graphics.yml
-      - vendor/putty-0.85/terminal/nemo_kitty.*
+      - vendor/putty-0.85/terminal/nemo_kitty*
       - tests/test_kitty_transport.c
+      - tests/test_kitty_cache.c
+      - vendor/putty-0.85/terminal/nemo_raster.*
   pull_request:
     paths:
       - .github/workflows/kitty-graphics.yml
-      - vendor/putty-0.85/terminal/nemo_kitty.*
+      - vendor/putty-0.85/terminal/nemo_kitty*
       - tests/test_kitty_transport.c
+      - tests/test_kitty_cache.c
+      - vendor/putty-0.85/terminal/nemo_raster.*
 
 permissions:
   contents: read
@@ -41,7 +45,21 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c -o kitty-transport-asan
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./kitty-transport-asan 2>&1 | tee sanitizers.log
-          sha256sum vendor/putty-0.85/terminal/nemo_kitty.* tests/test_kitty_transport.c > sources.sha256
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 \
+            -I vendor/putty-0.85/terminal tests/test_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c \
+            vendor/putty-0.85/terminal/nemo_raster.c -o kitty-cache
+          ./kitty-cache 2>&1 | tee cache-normal.log
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c \
+            vendor/putty-0.85/terminal/nemo_raster.c -o kitty-cache-asan
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./kitty-cache-asan 2>&1 | tee cache-sanitizers.log
+          sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c > sources.sha256
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -50,6 +68,8 @@ jobs:
             compiler.txt
             normal.log
             sanitizers.log
+            cache-normal.log
+            cache-sanitizers.log
             sources.sha256
           retention-days: 14
   msvc:
@@ -68,7 +88,11 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-transport.exe 2>&1 | Tee-Object test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty.c, vendor/putty-0.85/terminal/nemo_kitty.h, tests/test_kitty_transport.c -Algorithm SHA256 | Format-List | Out-File sources.txt
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-cache.exe 2>&1 | Tee-Object cache-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-cache.exe 2>&1 | Tee-Object cache-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c -Algorithm SHA256 | Format-List | Out-File sources.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -76,5 +100,7 @@ jobs:
           path: |
             build.log
             test.log
+            cache-build.log
+            cache-test.log
             sources.txt
           retention-days: 14

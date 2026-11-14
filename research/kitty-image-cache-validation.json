@@ -1,0 +1,27 @@
+{
+  "recorded_utc": "2026-11-14T15:45:03.507249+00:00",
+  "parent_commit": "586168eacecea91c9a60a0e87b9d67911b76a2fa",
+  "stage": "Image data/identity cache only; placement and terminal integration pending",
+  "reference_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+  "reference_sha256": {
+    "graphics-protocol.rst": "c51470cc0bd16c804ff2d1652507f6fc6966271ab1164359012b8bbdb0375dbb",
+    "graphics.c": "9fbd7344d125d619c60cd549885750fc393824c77a4253cc90d221556cdbe755",
+    "graphics.py": "3165dd00230af36dd19fdb837dcad2ae3e23e85e2cada054a5b7e03855b48e0a"
+  },
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.c": "1d9142613f04fb643312eddfcd5565505a46bcd2b0545fdf6f3e03214420b9cd",
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.h": "124e364067e2c60a7ab8ecd47309999e97ef12feabb1303ba1a070c0777dee88",
+    "tests/test_kitty_cache.c": "456666fd9ada9d59a413b610b9c2668f1db740b28891988009d34090654589af",
+    ".github/workflows/kitty-graphics.yml": "9053d714847933aa04f3b9e07e691b16163df057823c10ad54f5a4e101e26999"
+  },
+  "validation": {
+    "local_native_tests": "paused by user; none run",
+    "local_compile": "not run during pause",
+    "static_diff": "passed",
+    "remote_tests": "pending"
+  },
+  "png_evidence": "Injected callback and ownership tests only; no real PNG decoding claimed",
+  "runtime_graphics_support": false,
+  "memory_acceptance": false,
+  "accepted_executable_changed": false
+}
