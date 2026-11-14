@@ -54,8 +54,10 @@ DirectX. Pixel tolerances, resource allowances and deadlines were not relaxed.
 This run uses the independently validated API renderer capture and scoped
 preview pointer fixture; its uninstrumented memory phase is unchanged.
 
-The subsequent [animated-image workload](gif-memory.md) also passes locally;
-full CI and downloaded-artifact local verification remain outstanding.
+The subsequent [animated-image workload](gif-memory.md) also passes locally.
+Both full CI workflows for `a3eb24e` pass, but the exact downloaded image fails
+the local DirectX PNG memory gate at 25,202,688 bytes; see the retained
+[acceptance failure and storage experiment](image-pixel-storage.md).
 The separate earlier resource-return and hosted
 startup/close failures are not declared fixed by this staging change. The
 accepted default `dist/nemoterm.exe` has not been replaced.

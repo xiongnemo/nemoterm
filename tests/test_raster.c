@@ -5,7 +5,75 @@
 #include "nemo_raster.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+static void pixel_ownership(void)
+{
+    const size_t sizes[] = {4, 65532, 65536, 65540, 589824};
+    assert(!nemo_raster_pixels_allocate(0));
+    nemo_raster_pixels_free(NULL, 65536);
+    for (unsigned pass = 0; pass < 4; pass++) {
+        for (unsigned i = 0; i < sizeof(sizes)/sizeof(*sizes); i++) {
+            size_t bytes = sizes[i];
+            unsigned char *p = nemo_raster_pixels_allocate(bytes);
+            assert(p);
+            for (size_t n = 0; n < bytes; n++) p[n] = (unsigned char)(n+pass);
+            for (size_t n = 0; n < bytes; n++) assert(p[n] == (unsigned char)(n+pass));
+#ifdef _WIN32
+            MEMORY_BASIC_INFORMATION info;
+            uintptr_t address = (uintptr_t)p;
+            if (bytes >= 65536) {
+                assert(VirtualQuery(p, &info, sizeof(info)) == sizeof(info));
+                assert(info.AllocationBase == p && info.State == MEM_COMMIT &&
+                       info.Type == MEM_PRIVATE && info.RegionSize >= bytes);
+            }
+#endif
+            nemo_raster_pixels_free(p, bytes);
+#ifdef _WIN32
+            if (bytes >= 65536) {
+                assert(VirtualQuery((void *)address, &info, sizeof(info)) == sizeof(info));
+                assert(info.State == MEM_FREE);
+            }
+#endif
+        }
+    }
+    NemoRaster r;
+    size_t bytes = nemo_raster_storage(256,144,4);
+    assert(nemo_raster_allocate(&r,256,144,4,bytes));
+    assert(r.bytes == bytes && r.width == 256 && r.height == 144);
+    for (unsigned i = 0; i < 4; i++) {
+        memset(r.frames[i].pixels, (int)i, 256*144*4);
+        assert(r.frames[i].pixels[256*144-1] == i*0x01010101u);
+    }
+    nemo_raster_free(&r);
+    /* A partially initialized frame array owns the earlier allocations even
+     * when a later frame failed. Null entries must be safe to release. */
+    r = (NemoRaster){.width=256,.height=64,.frame_count=3,
+                    .frames=calloc(3,sizeof(NemoRasterFrame))};
+    assert(r.frames);
+    r.frames[0].pixels = nemo_raster_pixels_allocate(65536);
+    r.frames[1].pixels = nemo_raster_pixels_allocate(65536);
+    assert(r.frames[0].pixels && r.frames[1].pixels);
+#ifdef _WIN32
+    uintptr_t first = (uintptr_t)r.frames[0].pixels, second = (uintptr_t)r.frames[1].pixels;
+#endif
+    nemo_raster_free(&r);
+    assert(!r.frames && !r.pixels && !r.width && !r.bytes);
+#ifdef _WIN32
+    MEMORY_BASIC_INFORMATION info;
+    assert(VirtualQuery((void *)first,&info,sizeof(info)) == sizeof(info) && info.State == MEM_FREE);
+    assert(VirtualQuery((void *)second,&info,sizeof(info)) == sizeof(info) && info.State == MEM_FREE);
+#endif
+    r = (NemoRaster){.width=256,.height=64,.bytes=65536,
+                    .pixels=nemo_raster_pixels_allocate(65536)};
+    assert(r.pixels);
+    nemo_raster_free(&r);
+    nemo_raster_free(&r);
+}
 
 static void composition(void)
 {
@@ -123,6 +191,6 @@ static void composition_oracle(void)
 
 int main(void)
 {
-    composition();composition_oracle();timing();puts("Raster composition and animation suite passed");
+    pixel_ownership();composition();composition_oracle();timing();puts("Raster composition and animation suite passed");
     return 0;
 }

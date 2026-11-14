@@ -144,6 +144,7 @@ bool nemo_wic_decode(TermWin *win, const void *data, size_t length,
     UINT width = 0, height = 0, frames = 0;
     GUID format;
     uint32_t *pixels = NULL;
+    size_t bytes = 0;
     bool ok = false;
     (void)win;
     memset(out, 0, sizeof(*out));
@@ -173,9 +174,9 @@ bool nemo_wic_decode(TermWin *win, const void *data, size_t length,
     if (!width || !height || width > NEMO_SIXEL_MAX_DIMENSION ||
         height > NEMO_SIXEL_MAX_DIMENSION ||
         (uint64_t)width * height * 4 > NEMO_SIXEL_DEFAULT_BUDGET) goto done;
-    size_t bytes = (size_t)width * height * 4;
+    bytes = (size_t)width * height * 4;
     if (!admit(ctx, width, height, bytes)) goto done;
-    pixels = malloc(bytes);
+    pixels = nemo_raster_pixels_allocate(bytes);
     if (!pixels) goto done;
     TRY(IWICImagingFactory_CreateFormatConverter(factory, &converter));
     TRY(IWICFormatConverter_Initialize(converter, (IWICBitmapSource *)frame,
@@ -192,7 +193,7 @@ bool nemo_wic_decode(TermWin *win, const void *data, size_t length,
     pixels = NULL;
     ok = true;
 done:
-    free(pixels);
+    nemo_raster_pixels_free(pixels, bytes);
     if (converter) IWICFormatConverter_Release(converter);
     if (frame) IWICBitmapFrameDecode_Release(frame);
     if (decoder) IWICBitmapDecoder_Release(decoder);

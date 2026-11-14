@@ -11,7 +11,7 @@ typedef struct NemoRasterFrame {
     unsigned delay_ms;
 } NemoRasterFrame;
 
-/* Straight-alpha BGRA, top down. The decoder transfers malloc-owned pixels;
+/* Straight-alpha BGRA, top down. The decoder transfers raster-owned pixels;
  * nemo_raster_free releases either one static bitmap or the complete composed
  * frame cache, independently of PuTTY's allocator. */
 typedef struct NemoRaster {
@@ -25,6 +25,11 @@ typedef struct NemoRaster {
     uint64_t elapsed, duration;
     bool started, finished;
 } NemoRaster;
+/* Pixel ownership must use this pair with the same byte count. Large Windows
+ * buffers have independent reservations so replacing an image releases its
+ * storage instead of leaving that block inside the general-purpose heap. */
+void *nemo_raster_pixels_allocate(size_t bytes);
+void nemo_raster_pixels_free(void *, size_t bytes);
 /* Called after reading dimensions, before allocating or decoding pixels. */
 typedef bool (*NemoRasterAdmission)(void *, unsigned, unsigned, size_t);
 

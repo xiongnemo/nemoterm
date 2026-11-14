@@ -2,6 +2,35 @@
 #include "nemo_raster.h"
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#define PIXEL_RESERVATION_MIN (64u * 1024u)
+
+void *nemo_raster_pixels_allocate(size_t bytes)
+{
+    if (!bytes) return NULL;
+#ifdef _WIN32
+    if (bytes >= PIXEL_RESERVATION_MIN)
+        return VirtualAlloc(NULL, bytes, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+#endif
+    return malloc(bytes);
+}
+
+void nemo_raster_pixels_free(void *pixels, size_t bytes)
+{
+    if (!pixels) return;
+#ifdef _WIN32
+    if (bytes >= PIXEL_RESERVATION_MIN) {
+        VirtualFree(pixels, 0, MEM_RELEASE);
+        return;
+    }
+#else
+    (void)bytes;
+#endif
+    free(pixels);
+}
 
 size_t nemo_raster_storage(unsigned w, unsigned h, unsigned frames)
 {
@@ -19,23 +48,28 @@ bool nemo_raster_allocate(NemoRaster *r, unsigned w, unsigned h,
     if (!bytes || bytes > budget) return false;
     r->frames = calloc(frames, sizeof(*r->frames));
     if (!r->frames) return false;
+    /* Store dimensions before the first allocation: partial-failure cleanup
+     * must release already-allocated frames through the matching allocator. */
+    r->width = w; r->height = h;
     r->frame_count = frames;
     for (unsigned i = 0; i < frames; i++) {
-        r->frames[i].pixels = malloc((size_t)w * h * 4);
+        r->frames[i].pixels = nemo_raster_pixels_allocate((size_t)w * h * 4);
         if (!r->frames[i].pixels) { nemo_raster_free(r); return false; }
     }
     r->pixels = r->frames[0].pixels;
-    r->width = w; r->height = h; r->bytes = bytes; r->plays = 1;
+    r->bytes = bytes; r->plays = 1;
     return true;
 }
 
 void nemo_raster_free(NemoRaster *r)
 {
     if (!r) return;
+    size_t pixel_bytes = (size_t)r->width * r->height * 4;
     if (r->frames) {
-        for (unsigned i = 0; i < r->frame_count; i++) free(r->frames[i].pixels);
+        for (unsigned i = 0; i < r->frame_count; i++)
+            nemo_raster_pixels_free(r->frames[i].pixels, pixel_bytes);
         free(r->frames);
-    } else free(r->pixels);
+    } else nemo_raster_pixels_free(r->pixels, pixel_bytes);
     memset(r, 0, sizeof(*r));
 }
 

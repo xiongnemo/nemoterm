@@ -21,7 +21,7 @@ static bool inline_mock_decode(TermWin *win, const void *data, size_t length,
     size_t bytes = width * height * 4;
     if (!admit(ctx, width, height, bytes)) return false;
     *out = (NemoRaster){.width=width, .height=height, .bytes=bytes,
-        .pixels=malloc(bytes), .partial_alpha=true};
+        .pixels=nemo_raster_pixels_allocate(bytes), .partial_alpha=true};
     if (!out->pixels) return false;
     for (unsigned y = 0; y < height; y++)
         for (unsigned x = 0; x < width; x++)
