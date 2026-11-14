@@ -54,10 +54,9 @@ static bool nemo_debug_screen(WinGuiSeat *wgs,strbuf *out)
     }
     return true;
 }
-static bool nemo_debug_image(WinGuiSeat *wgs,strbuf *out)
+static bool nemo_debug_image(WinGuiSeat *wgs,strbuf *out,RECT rect)
 {
-    RECT rect;if (!GetClientRect(wgs->term_hwnd,&rect)) return false;
-    int width=rect.right,height=rect.bottom;
+    int width=rect.right-rect.left,height=rect.bottom-rect.top;
     if (width<=0 || height<=0 || width>8192 || height>8192 ||
         (size_t)width*height*4>NEMO_DEBUG_MAX_OUTPUT-54) return false;
     size_t bytes=(size_t)width*height*4;
@@ -72,10 +71,17 @@ static bool nemo_debug_image(WinGuiSeat *wgs,strbuf *out)
     bool ok=old && old!=HGDI_ERROR;
     if (ok) {
         memset(pixels,0,bytes);
-        if (wgs_active(wgs))
-            SendMessageW(wgs->term_hwnd,WM_PRINTCLIENT,(WPARAM)dc,PRF_CLIENT);
-        else {
-            ok=nemo_render_snapshot_band(dc,0,height,wgs);
+        ok=SetViewportOrgEx(dc,-rect.left,-rect.top,NULL)!=0;
+        /* Capture the same presentation as WM_PRINTCLIENT, but only read the
+         * requested rows. Keep synchronized snapshots immutable, including
+         * when their tab is inactive. The DIB clips columns without retaining
+         * a full-window capture allocation. */
+        if (ok && wgs->sync_snapshot && wgs->term->synchronized_update)
+            ok=nemo_snapshot_paint(wgs->sync_snapshot,dc,&rect,NULL);
+        else if (ok && wgs_active(wgs) && wgs->gpu)
+            ok=nemo_gpu_print_band(wgs->gpu,dc,rect.top,height);
+        else if (ok) {
+            ok=nemo_render_snapshot_band(dc,rect.top,height,wgs);
             term_invalidate(wgs->term);
         }
         GdiFlush();
@@ -97,7 +103,8 @@ static void nemo_debug_ui(NemoDebugRequest *r)
         if (r->session || r->input->len) {
             nemo_debug_error(r,1,"list expects no session or payload");return;
         }
-        put_fmt(r->output,"{\"version\":1,\"pid\":%lu,\"sessions\":[",GetCurrentProcessId());
+        put_fmt(r->output,"{\"version\":1,\"capabilities\":[\"image-rectangle\"],"
+            "\"pid\":%lu,\"sessions\":[",GetCurrentProcessId());
         bool first=true;
         for (struct WinGuiSeatListNode *n=wgslisthead.next;n!=&wgslisthead;n=n->next) {
             WinGuiSeat *wgs=container_of(n,WinGuiSeat,wgslistnode);
@@ -106,11 +113,13 @@ static void nemo_debug_ui(NemoDebugRequest *r)
                 nemo_debug_error(r,3,"session list exceeds size limit");return;
             }
             if (!first) put_byte(r->output,',');first=false;
+            RECT client={0};GetClientRect(wgs->term_hwnd,&client);
             put_fmt(r->output,"{\"id\":%llu,\"hwnd\":%llu,\"window\":%llu,"
-                "\"active\":%s,\"cols\":%d,\"rows\":%d,\"renderer\":%d,\"title\":",
+                "\"active\":%s,\"cols\":%d,\"rows\":%d,"
+                "\"client_width\":%ld,\"client_height\":%ld,\"renderer\":%d,\"title\":",
                 (unsigned long long)wgs->session_id,(unsigned long long)(UINT_PTR)wgs->term_hwnd,
                 (unsigned long long)(UINT_PTR)wgs_window(wgs),wgs_active(wgs)?"true":"false",
-                wgs->term->cols,wgs->term->rows,
+                wgs->term->cols,wgs->term->rows,client.right,client.bottom,
                 (int)(UINT_PTR)GetPropW(wgs->term_hwnd,L"NemotermRenderer")-1);
             wchar_t title[1024];GetWindowTextW(wgs->term_hwnd,title,lenof(title));
             char *utf8=dup_wc_to_mb(CP_UTF8,title,NULL);nemo_debug_json_string(r->output,utf8);sfree(utf8);
@@ -132,9 +141,33 @@ static void nemo_debug_ui(NemoDebugRequest *r)
     }
     if (!wgs) {nemo_debug_error(r,2,"session no longer exists");return;}
     if (r->op==NDBG_TEXT || r->op==NDBG_IMAGE) {
-        if (r->input->len) {nemo_debug_error(r,1,"capture expects no payload");return;}
+        RECT rect={0};
+        if (r->op==NDBG_TEXT && r->input->len) {
+            nemo_debug_error(r,1,"text capture expects no payload");return;
+        }
+        if (r->op==NDBG_IMAGE) {
+            if (r->input->len && r->input->len!=16) {
+                nemo_debug_error(r,1,"image expects no payload or x, y, width, height");return;
+            }
+            if (!GetClientRect(wgs->term_hwnd,&rect)) {
+                nemo_debug_error(r,3,"client rectangle unavailable");return;
+            }
+            if (r->input->len) {
+                unsigned x=GET_32BIT_LSB_FIRST(r->input->s),
+                    y=GET_32BIT_LSB_FIRST(r->input->s+4),
+                    width=GET_32BIT_LSB_FIRST(r->input->s+8),
+                    height=GET_32BIT_LSB_FIRST(r->input->s+12);
+                if (rect.right<=0 || rect.bottom<=0 ||
+                    x>=(unsigned)rect.right || y>=(unsigned)rect.bottom ||
+                    !width || !height || width>(unsigned)rect.right-x ||
+                    height>(unsigned)rect.bottom-y) {
+                    nemo_debug_error(r,1,"image rectangle is outside the client");return;
+                }
+                rect.left=x;rect.top=y;rect.right=x+width;rect.bottom=y+height;
+            }
+        }
         r->kind=r->op==NDBG_TEXT?3:2;
-        bool ok=r->op==NDBG_TEXT?nemo_debug_screen(wgs,r->output):nemo_debug_image(wgs,r->output);
+        bool ok=r->op==NDBG_TEXT?nemo_debug_screen(wgs,r->output):nemo_debug_image(wgs,r->output,rect);
         if (!ok) nemo_debug_error(r,3,"capture failed or exceeds size limit");
         return;
     }

@@ -289,6 +289,14 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/automation-gdi-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Compare full and rectangle captures across renderer and tab states
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          python tests/image_rectangle_window_smoke.py
+          $testExit = $LASTEXITCODE
+          Copy-Item research/image-rectangle-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test file drops and native clipboard formats
         timeout-minutes: 3
         shell: pwsh
