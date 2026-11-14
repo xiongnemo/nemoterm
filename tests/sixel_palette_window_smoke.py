@@ -41,11 +41,11 @@ def reset(private=True):
             CSI+'0m'+ESC+']11;rgb:0/0/0\x07'+CSI+'2J'+CSI+'3J'+CSI+'H')
 
 
-def main(background_exercise=None):
+def main(background_exercise=None, *, suite_name=None, font='Consolas'):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
     args = parser.parse_args()
-    suite = 'sixel-background' if background_exercise else 'sixel-palette'
+    suite = suite_name or ('sixel-background' if background_exercise else 'sixel-palette')
     colour_names = tuple(COLOURS) if background_exercise else ('red', 'green', 'blue')
     requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
@@ -72,7 +72,7 @@ def main(background_exercise=None):
             process, window = None, None
             try:
                 command = [str(exe), '-load', profile, '--automation',
-                    '--cols', str(COLS), '--rows', str(ROWS), '--font', 'Consolas',
+                    '--cols', str(COLS), '--rows', str(ROWS), '--font', font,
                     '-e', sys.executable, str(root/'tests/mouse_fixture.py'),
                     str(report), str(control), '180']
                 evidence['command'] = command

@@ -67,6 +67,7 @@ add_library(guiterminal STATIC
   $<TARGET_OBJECTS:logging>)
 
 add_executable(test_sixel ../../tests/test_sixel.c terminal/nemo_sixel.c)
+add_executable(test_iterm ../../tests/test_iterm.c terminal/nemo_iterm.c)
 add_executable(test_colour ../../tests/test_colour.c terminal/nemo_colour.c)
 add_executable(test_grapheme ../../tests/test_grapheme.c terminal/nemo_grapheme.c)
 

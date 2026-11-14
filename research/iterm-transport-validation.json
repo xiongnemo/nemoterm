@@ -1,0 +1,202 @@
+{
+  "base": "8ff214feb549c2b79bb57960467c1d6963eab47e",
+  "kind": "Local compiler and before-change native observations; not REA-server Evidence",
+  "sources": [
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_iterm.c",
+      "sha256": "1a3e7d33f04da9bd0ce432a00f42c7acf9cf3af2fd887840ccd37e6ba79fc60d"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/nemo_iterm.h",
+      "sha256": "8c6687a1e357762a327edddd0878cab250465d7f2a0821212f9de2a416f07668"
+    },
+    {
+      "path": "tests/test_iterm.c",
+      "sha256": "9ce8be73799523a53d74eb479beff1326438dd18f354a91244e83fcf49256ca9"
+    },
+    {
+      "path": "tests/iterm_image_window_smoke.py",
+      "sha256": "2fe7cdcc7cf7de497ace0c028d45072a5646c31de27141d1d7bc1c675309c0e4"
+    },
+    {
+      "path": "tests/sixel_palette_window_smoke.py",
+      "sha256": "50b51280fa579a5ae4578382e763e92602c65d65941cad21346ca49f5c1e4842"
+    }
+  ],
+  "records": [
+    {
+      "path": "build/iterm-before-native/controller.log",
+      "archive": "research/iterm-transport-records/000-controller.log.gz",
+      "bytes": 1756,
+      "sha256": "831e120d88505db36526839c697a9be3ab8c25ea6bba2b9e4cba877ab70c3041"
+    },
+    {
+      "path": "build/iterm-before-native/iterm_image.log",
+      "archive": "research/iterm-transport-records/001-iterm_image.log.gz",
+      "bytes": 1383,
+      "sha256": "f167ccef3aa61c7f1b414f6c1ce006c38e67c4a4a995fab8a08292c5b887d0bc"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-2f9106bb6aaf4ae9959bef1e525ae515/01-inline-intrinsic-png.bmp",
+      "archive": "research/iterm-transport-records/002-01-inline-intrinsic-png.bmp.gz",
+      "bytes": 311750,
+      "sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-2f9106bb6aaf4ae9959bef1e525ae515/01-inline-intrinsic-png.png",
+      "archive": "research/iterm-transport-records/003-01-inline-intrinsic-png.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-2f9106bb6aaf4ae9959bef1e525ae515/checks.json",
+      "archive": "research/iterm-transport-records/004-checks.json.gz",
+      "bytes": 2014,
+      "sha256": "cb0a78f9b1f05dd0f20a72b015e1c6a331eb2409cfb0b83e62103f802bf41dd6"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-2f9106bb6aaf4ae9959bef1e525ae515/child-control.json",
+      "archive": "research/iterm-transport-records/005-child-control.json.gz",
+      "bytes": 344,
+      "sha256": "2a5ec5f15ea43207d7deaa744ee0d469a0d0d705d92b6e1bd1c8901e393becf0"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-2f9106bb6aaf4ae9959bef1e525ae515/child-report.json",
+      "archive": "research/iterm-transport-records/006-child-report.json.gz",
+      "bytes": 162,
+      "sha256": "72bc38b1c56c1f6c6708a3156b48138ea35a06dae974e4e1a26660e742f6209c"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm-images-gdi-observed.json",
+      "archive": "research/iterm-transport-records/007-iterm-images-gdi-observed.json.gz",
+      "bytes": 5330,
+      "sha256": "8f7f3f8784a530d1e3f6504e689658cb673db74bee4cbd26b9471b2b470fedad"
+    },
+    {
+      "path": "build/iterm-before-native/research/iterm_image-controller.json",
+      "archive": "research/iterm-transport-records/008-iterm_image-controller.json.gz",
+      "bytes": 474,
+      "sha256": "cbc83e9f10f337da77d8534be25cdec9ca41d1fdc9f7343f04158239680971fb"
+    },
+    {
+      "path": "build/iterm-before-native/tests/iterm_image_window_smoke.py",
+      "archive": "research/iterm-transport-records/009-iterm_image_window_smoke.py.gz",
+      "bytes": 3572,
+      "sha256": "2fe7cdcc7cf7de497ace0c028d45072a5646c31de27141d1d7bc1c675309c0e4"
+    },
+    {
+      "path": "build/iterm-reference/sources.json",
+      "archive": "research/iterm-transport-records/010-sources.json.gz",
+      "bytes": 562,
+      "sha256": "14956ff79cfc03a88dbbb4c3af306e1959f0c06827d2c87a95c112691cf89725"
+    },
+    {
+      "path": "build/transport-check/commands.json",
+      "archive": "research/iterm-transport-records/011-commands.json.gz",
+      "bytes": 1906,
+      "sha256": "5606b657de6f2879a0925ce7de873eaa66674174f2df87f5a4f304d3d3dcca19"
+    },
+    {
+      "path": "build/transport-check/sanitizer-build.log",
+      "archive": "research/iterm-transport-records/012-sanitizer-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/transport-check/sanitizer-run.log",
+      "archive": "research/iterm-transport-records/013-sanitizer-run.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/transport-check/strict-build.log",
+      "archive": "research/iterm-transport-records/014-strict-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/transport-check/strict-run.log",
+      "archive": "research/iterm-transport-records/015-strict-run.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/transport-cmake/build.log",
+      "archive": "research/iterm-transport-records/016-build.log.gz",
+      "bytes": 256,
+      "sha256": "7e4cf7a9c483723c11bc9bc02532545082be4be8b233394e64fc2003b46249fb"
+    },
+    {
+      "path": "build/transport-cmake/commands.json",
+      "archive": "research/iterm-transport-records/017-commands.json.gz",
+      "bytes": 936,
+      "sha256": "e22c19467ab6061c5b47ae7ca75e5c9e814d33015646f721932afa3309caeb3a"
+    },
+    {
+      "path": "build/transport-cmake/configure.log",
+      "archive": "research/iterm-transport-records/018-configure.log.gz",
+      "bytes": 3232,
+      "sha256": "c06d9ada426b0beee3cd69cc9eb5a268d6c4b1975307cfb3ca92b753ffce798b"
+    },
+    {
+      "path": "build/transport-cmake/run.log",
+      "archive": "research/iterm-transport-records/019-run.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/transport-msvc/build.log",
+      "archive": "research/iterm-transport-records/020-build.log.gz",
+      "bytes": 48,
+      "sha256": "99ac049d24feb43cca03747167ea50250a5d0a2bc1dbb84997f185f547bc4cbb"
+    },
+    {
+      "path": "build/transport-msvc/test.log",
+      "archive": "research/iterm-transport-records/021-test.log.gz",
+      "bytes": 30,
+      "sha256": "f6c44ca396e0c2839871b225a584b1369025722993b65814299f74feda5a06df"
+    },
+    {
+      "path": "build/transport-msvc-release/build.log",
+      "archive": "research/iterm-transport-records/022-build.log.gz",
+      "bytes": 48,
+      "sha256": "99ac049d24feb43cca03747167ea50250a5d0a2bc1dbb84997f185f547bc4cbb"
+    },
+    {
+      "path": "build/transport-msvc-release/test.log",
+      "archive": "research/iterm-transport-records/023-test.log.gz",
+      "bytes": 30,
+      "sha256": "f6c44ca396e0c2839871b225a584b1369025722993b65814299f74feda5a06df"
+    },
+    {
+      "path": "build/transport-final-check/commands.json",
+      "archive": "research/iterm-transport-records/024-commands.json.gz",
+      "bytes": 1890,
+      "sha256": "654dc9e1268ad1bccabbbd28ed7f1183e43a8a51e28a6f87930b900bedae8643"
+    },
+    {
+      "path": "build/transport-final-check/sanitizer-build.log",
+      "archive": "research/iterm-transport-records/025-sanitizer-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/transport-final-check/sanitizer-run.log",
+      "archive": "research/iterm-transport-records/026-sanitizer-run.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    },
+    {
+      "path": "build/transport-final-check/strict-build.log",
+      "archive": "research/iterm-transport-records/027-strict-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/transport-final-check/strict-run.log",
+      "archive": "research/iterm-transport-records/028-strict-run.log.gz",
+      "bytes": 29,
+      "sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833"
+    }
+  ]
+}
