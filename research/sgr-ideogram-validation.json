@@ -1,0 +1,1152 @@
+{
+  "base": "9e7549bc051147b3048636503f2b4c0e5d800ac7",
+  "image": {
+    "bytes": 4511744,
+    "sha256": "7f3a9933200be5f50a25a7e8fe69683fb04db56621455ed5b57195308a6b06b8",
+    "inputs": [
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\NEMOTERM.LIB",
+        "bytes": 291224,
+        "sha256": "6517b2a0b5370dc51ed7c219a24f92670884f94cc5b1bae6763c7ebe6c8d50a1"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\GUITERMINAL.LIB",
+        "bytes": 1361886,
+        "sha256": "44dcd6e6f49983579cd6d89eb701ce3c5182ce1626272b59743f8933b835cc5f"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\GUIMISC.LIB",
+        "bytes": 6084,
+        "sha256": "45278ddb2164f8ed5c7bb52cdda2dbaa12f20a56456bced78e8bf2aedd98927b"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\EVENTLOOP.LIB",
+        "bytes": 43464,
+        "sha256": "a80ef645026d7fdf26b9c6a4dda13d8d3cc87b9f59dd5e918112a0cd62d26e9d"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\SETTINGS.LIB",
+        "bytes": 147030,
+        "sha256": "38ba84614f8cedec7ab38336aa1322e7ec2d4fe533671e6c9b8b138763807f95"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\NETWORK.LIB",
+        "bytes": 289418,
+        "sha256": "642de4d82cd8b26a7f4ec9d6c2ff492a332c984c3fdd3e6d7b9103c0b71700d5"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\sgr-ideogram-worktree\\build\\frontend-single\\UTILS.LIB",
+        "bytes": 818894,
+        "sha256": "fb3c5cd8b72f1edd27291ef39802825dd46f575ca119d8e95a8592967dd217ef"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\HOST.EXE.RES",
+        "bytes": 2738592,
+        "sha256": "d383c6ef34582063ffd8650b0cae9f95f41b817d58ecc6bed2dcb585cf67e1c4"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\PRECOMP.OBJ",
+        "bytes": 8045421,
+        "sha256": "30aef7ef27962bc9f48a4eab09ac52cc192dd057d4ba3a427356a4cd6650145f"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\CCONSOLEHANDOFF.OBJ",
+        "bytes": 158650,
+        "sha256": "0da8ae785862a45bdd3d71ed173c21311ce27c20d5b1099edeb73ef721acd636"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\EXEMAIN.OBJ",
+        "bytes": 109674,
+        "sha256": "dfd4b4a9fffb345814ffab358292bc849d93ac57d85c2307a1b929ea8e00b1fb"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\NEMO-ENTRY.OBJ",
+        "bytes": 559610,
+        "sha256": "5f5bc62f592e822f694f24faddf55b8d69fe01c009ad4392d770e3866387fc00"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONBUFFEROUT.LIB",
+        "bytes": 13113676,
+        "sha256": "c01873598e04db514ff8db2351e7c814ad955a9377125d325d827b4b5c77cb89"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\startup-worktree\\build\\host-visibility-02\\ConInteractivityBaseLib.lib",
+        "bytes": 16185082,
+        "sha256": "46c81ccf4b186173143b8ae925990d55629b3c7e34eacfa7a3068bf60f3e356a"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERATLAS.LIB",
+        "bytes": 13024296,
+        "sha256": "0534173e3185ed396eeb2607c603047a782b9f440fa88e53e9884520a98e98aa"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONINTERACTIVITYWIN32LIB.LIB",
+        "bytes": 11157264,
+        "sha256": "4533aa3c10b18a98b3ea9b707d0a48400c255991e2e02cdedd6e874805b9ef1f"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONINT.LIB",
+        "bytes": 7167278,
+        "sha256": "c59704ad2a4f670ccd34716bfed6842d46ca93e275d272e15f1668f9a4630a19"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONPROPS.LIB",
+        "bytes": 18657686,
+        "sha256": "aa4f33ed5132a8e59358b88184101181d31f5806e2d631e29ca67fbffab21f58"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERBASE.LIB",
+        "bytes": 9673788,
+        "sha256": "6762a50c0a5690e37a07bf4af991bc26daa8dc176871f573d87ce2ba3decdd68"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERGDI.LIB",
+        "bytes": 9530426,
+        "sha256": "98a921c3e9b9c4c9248032deb04b71d553a6bc1aa4653143ddb4dc9b4edae196"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\OPENCONSOLEPROXY.LIB",
+        "bytes": 1928,
+        "sha256": "2a8e71732ac44baf8c16ddf3e79aad52ebace96d89215194b9724895e0a80a4d"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONSERVER.LIB",
+        "bytes": 15637782,
+        "sha256": "71127797e92ef280850dc0c32fbd1b8a2e5e3cbc4880c87d5cf413254fab0767"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTYPES.LIB",
+        "bytes": 11855178,
+        "sha256": "35743cc9c3d2fc0a71925d14004cdae6e114a12f05900d24fab12634888f2711"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\TERMINALINPUT.LIB",
+        "bytes": 8070150,
+        "sha256": "4c109ee7ffdafb31c513447b9ad870cf8d2de0f3a67150fb0174efb9edeaea2c"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTERMADAPT.LIB",
+        "bytes": 13296880,
+        "sha256": "823bfe2209157f704595eae5a8cd6d75332ed58616e4038e9eb1599044b1eab5"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTERMPARSER.LIB",
+        "bytes": 8897080,
+        "sha256": "d3ee1783779d060e3eb8f725b1537e4c2ff4b918f2d970c16be78070b1859746"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTSF.LIB",
+        "bytes": 8029378,
+        "sha256": "89c5d88182a5531da9d9ea8e4ca141bbb5a037cf767d366916d29fc9dbe9f085"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\MIDIAUDIO.LIB",
+        "bytes": 7340502,
+        "sha256": "77799a4d3a90cba5a4da618e11c00a1c304aeb818d21f096a8dcf9bec30ab864"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONHOSTV2LIB.LIB",
+        "bytes": 18014406,
+        "sha256": "5cf8f13024c75d146f2e90d01ab7c0bac2ce3a78d248e48bf943f7ec7cd9cdaa"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONPTYLIB.LIB",
+        "bytes": 7763892,
+        "sha256": "b1facf4ec5818be8847e234a7d5fe3906c3a9bac2160c018c3f0f4b0c13d2c35"
+      }
+    ]
+  },
+  "kind": "Local native and compiler observations, not REA-server Evidence",
+  "sources": [
+    {
+      "path": "tests/renderer_window_smoke.py",
+      "sha256": "a07410f8ff8e720ccb1d9d82981634dc3ee63052129329babc017225cad000c0"
+    },
+    {
+      "path": "tests/sgr_stack_direct_cases.py",
+      "sha256": "c0f5fa9c9d17608cc7eceec66fcaeb183f9b714e627f063dbf0274fc01f5f49d"
+    },
+    {
+      "path": "tests/sgr_stack_oracle_cases.h",
+      "sha256": "2f49131d33fab99a30d07768026ecdf3411d98ba4570c0a582cbd575d12a8904"
+    },
+    {
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "3beea072868090b9dff8c8294f211078a5a59e739b25555ebabd02d9297db137"
+    },
+    {
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "41d21d494e83e9197ac913e97921f24ebecaa48e90f2d86250bfd82bac974013"
+    },
+    {
+      "path": "vendor/putty-0.85/test/test_sgr.c",
+      "sha256": "49c921714c8d4eb87e3b7a68f00891a0ae362cb34acbf585e195168eb5a9589b"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/window.c",
+      "sha256": "5fd733443bd112763fd8b0aed8ce5bdb8eede97fa09be39e597aca903c9cdc50"
+    }
+  ],
+  "records": [
+    {
+      "path": "build/check-ideogram-before-core.py",
+      "archive": "research/sgr-ideogram-records/000-check-ideogram-before-core.py.gz",
+      "bytes": 1069,
+      "sha256": "ab9860436a36f0bd6220a01d6c765a935b47e13b03241500b993b9bbec54c916"
+    },
+    {
+      "path": "build/check-ideogram-build.ps1",
+      "archive": "research/sgr-ideogram-records/001-check-ideogram-build.ps1.gz",
+      "bytes": 1504,
+      "sha256": "374d1ba4af9609dacbdad229712486ed8404ebc150f1864f479c7caf3bc78268"
+    },
+    {
+      "path": "build/check-ideogram-core.py",
+      "archive": "research/sgr-ideogram-records/002-check-ideogram-core.py.gz",
+      "bytes": 2101,
+      "sha256": "f7c96de564d02819a00985198d1cb548aa266f89efba59299fe521ed7f0a8d50"
+    },
+    {
+      "path": "build/check-ideogram-native.py",
+      "archive": "research/sgr-ideogram-records/003-check-ideogram-native.py.gz",
+      "bytes": 1646,
+      "sha256": "1b6a6c91ecad741f1b88e28be38e918add0d4e73158c497f9c9209b5e238826f"
+    },
+    {
+      "path": "build/ideogram-before-core/build.log",
+      "archive": "research/sgr-ideogram-records/004-build.log.gz",
+      "bytes": 12209,
+      "sha256": "4b7d13b6fbef40a8f7a1cd72681225650df31d6f82acda817e8389e489f0f628"
+    },
+    {
+      "path": "build/ideogram-before-core/commands.json",
+      "archive": "research/sgr-ideogram-records/005-commands.json.gz",
+      "bytes": 946,
+      "sha256": "aac7934e2412679c5eddcd6834a9196c7bad3f3de5a80230f57ebdfc68a67204"
+    },
+    {
+      "path": "build/ideogram-before-core/configure.log",
+      "archive": "research/sgr-ideogram-records/006-configure.log.gz",
+      "bytes": 3236,
+      "sha256": "05cb8ed147dbcfac39e7a05c9bf92d83e6d05156f6fd27bd40e7af0efd2d26bd"
+    },
+    {
+      "path": "build/ideogram-before-core/queries.log",
+      "archive": "research/sgr-ideogram-records/007-queries.log.gz",
+      "bytes": 3683,
+      "sha256": "607b865cfe7ad69c41d4818c4a824fc49a2fc6ad1676c7f21e257fe5efdbf3b0"
+    },
+    {
+      "path": "build/ideogram-before-native/controller.log",
+      "archive": "research/sgr-ideogram-records/008-controller.log.gz",
+      "bytes": 1060,
+      "sha256": "a38e7176783ca1c50e5c57e276f6443f78456801785ef70bf044d56dd8047633"
+    },
+    {
+      "path": "build/ideogram-before-native/renderer.log",
+      "archive": "research/sgr-ideogram-records/009-renderer.log.gz",
+      "bytes": 691,
+      "sha256": "32f5568fcb583cc17385d229ebade4b1ae55987cbf7bf74208acbf13fcc805c0"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-records/010-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-records/011-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-records/012-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-records/013-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-records/014-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-records/015-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-records/016-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-records/017-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-records/018-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-records/019-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-enclosures.png",
+      "archive": "research/sgr-ideogram-records/020-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-expose.png",
+      "archive": "research/sgr-ideogram-records/021-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-ideograms.png",
+      "archive": "research/sgr-ideogram-records/022-renderer-0-ideograms.png.gz",
+      "bytes": 2510,
+      "sha256": "90bfe57a290ffdeddf6af2a409ef7b68c699079eb8fe765b439178b3767d1caa"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-overline-double-size.png",
+      "archive": "research/sgr-ideogram-records/023-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-overline.png",
+      "archive": "research/sgr-ideogram-records/024-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-palette.png",
+      "archive": "research/sgr-ideogram-records/025-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-resize.png",
+      "archive": "research/sgr-ideogram-records/026-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-sixel.png",
+      "archive": "research/sgr-ideogram-records/027-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-sync-end.png",
+      "archive": "research/sgr-ideogram-records/028-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-sync-frozen.png",
+      "archive": "research/sgr-ideogram-records/029-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-0-text.png",
+      "archive": "research/sgr-ideogram-records/030-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-controller.json",
+      "archive": "research/sgr-ideogram-records/031-renderer-controller.json.gz",
+      "bytes": 470,
+      "sha256": "24c59ac3eda7ce8a7cddadf45900d5ddbfd261c938ebac995f0657cef7350afa"
+    },
+    {
+      "path": "build/ideogram-before-native/research/renderer-observed.json",
+      "archive": "research/sgr-ideogram-records/032-renderer-observed.json.gz",
+      "bytes": 1913,
+      "sha256": "69d257de368f48378ae8733155e1dab850540fe78e74f409ebffe57c922bff7d"
+    },
+    {
+      "path": "build/ideogram-before-native/tests/renderer_window_smoke.py",
+      "archive": "research/sgr-ideogram-records/033-renderer_window_smoke.py.gz",
+      "bytes": 20054,
+      "sha256": "a07410f8ff8e720ccb1d9d82981634dc3ee63052129329babc017225cad000c0"
+    },
+    {
+      "path": "build/ideogram-before-native/tests/sgr_stack_direct_cases.py",
+      "archive": "research/sgr-ideogram-records/034-sgr_stack_direct_cases.py.gz",
+      "bytes": 6137,
+      "sha256": "e1b986134ce0f98c571ea64e258b6118fb7d9583d86715e2dbd571dc30035a6c"
+    },
+    {
+      "path": "build/ideogram-before-native/tests/sgr_stack_oracle_cases.h",
+      "archive": "research/sgr-ideogram-records/035-sgr_stack_oracle_cases.h.gz",
+      "bytes": 166547,
+      "sha256": "e9b315d16494bc87e2f4608fef4429d27176d30bf864f3e004d80f726cbc2612"
+    },
+    {
+      "path": "build/ideogram-build/build.log",
+      "archive": "research/sgr-ideogram-records/036-build.log.gz",
+      "bytes": 20410,
+      "sha256": "c0fc851c2d879511c5e86d36faa994bc84e374faf895eb8a5e24c0bd3a5b276c"
+    },
+    {
+      "path": "build/ideogram-build/configure.log",
+      "archive": "research/sgr-ideogram-records/037-configure.log.gz",
+      "bytes": 3103,
+      "sha256": "28415bcf2f169a04a07472c8109040b744c8e20bc14fa125a0d80b89be43ecbf"
+    },
+    {
+      "path": "build/ideogram-build/test_queries.log",
+      "archive": "research/sgr-ideogram-records/038-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "build/ideogram-build/test_rectangle.log",
+      "archive": "research/sgr-ideogram-records/039-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "path": "build/ideogram-build/test_sgr.log",
+      "archive": "research/sgr-ideogram-records/040-test_sgr.log.gz",
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    {
+      "path": "build/ideogram-build/test_sixel.log",
+      "archive": "research/sgr-ideogram-records/041-test_sixel.log.gz",
+      "bytes": 75,
+      "sha256": "4afb222291fe779247a50d3aaca204ffc3bbe9c8bc6a7013270d17b7af859ae8"
+    },
+    {
+      "path": "build/ideogram-build/test_sixel_terminal.log",
+      "archive": "research/sgr-ideogram-records/042-test_sixel_terminal.log.gz",
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    {
+      "path": "build/ideogram-build/test_state_control.log",
+      "archive": "research/sgr-ideogram-records/043-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "path": "build/ideogram-core/commands.json",
+      "archive": "research/sgr-ideogram-records/044-commands.json.gz",
+      "bytes": 6392,
+      "sha256": "a0052f8ddb7b0b2bd4a94db91ffacf26b76121b1507717decd5576f305db1a1d"
+    },
+    {
+      "path": "build/ideogram-core/generated-sgr.log",
+      "archive": "research/sgr-ideogram-records/045-generated-sgr.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/ideogram-core/normal-build.log",
+      "archive": "research/sgr-ideogram-records/046-normal-build.log.gz",
+      "bytes": 9681,
+      "sha256": "ea60d8b4fa89f305d9413e7821586c6dda8f0c69e8f5d7be5ba175c689be75fb"
+    },
+    {
+      "path": "build/ideogram-core/normal-configure.log",
+      "archive": "research/sgr-ideogram-records/047-normal-configure.log.gz",
+      "bytes": 1063,
+      "sha256": "826746499b36e39a5e43625c9876e8a5b32a3c0b40444ffc7dc48627d5d9bef2"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_queries.log",
+      "archive": "research/sgr-ideogram-records/048-normal-test_queries.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_rectangle.log",
+      "archive": "research/sgr-ideogram-records/049-normal-test_rectangle.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_sgr.log",
+      "archive": "research/sgr-ideogram-records/050-normal-test_sgr.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_sixel.log",
+      "archive": "research/sgr-ideogram-records/051-normal-test_sixel.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_sixel_terminal.log",
+      "archive": "research/sgr-ideogram-records/052-normal-test_sixel_terminal.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/ideogram-core/normal-test_state_control.log",
+      "archive": "research/sgr-ideogram-records/053-normal-test_state_control.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/ideogram-core/resource-settle-unit.log",
+      "archive": "research/sgr-ideogram-records/054-resource-settle-unit.log.gz",
+      "bytes": 109,
+      "sha256": "59753171660350c6735ee4b12925f50e7f8606c102caf33752e5551608bad819"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-build.log",
+      "archive": "research/sgr-ideogram-records/055-sanitizer-build.log.gz",
+      "bytes": 15020,
+      "sha256": "07cfbbd61e1561113dc50e43218aa1a1f08ee2f34e1362e21039847b00d5e53c"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-configure.log",
+      "archive": "research/sgr-ideogram-records/056-sanitizer-configure.log.gz",
+      "bytes": 3239,
+      "sha256": "4ec3353ac6f4990df8bf25dd8e8fde94abadbda17fb67391f8392b6cf74cedf4"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_queries.log",
+      "archive": "research/sgr-ideogram-records/057-sanitizer-test_queries.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_rectangle.log",
+      "archive": "research/sgr-ideogram-records/058-sanitizer-test_rectangle.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_sgr.log",
+      "archive": "research/sgr-ideogram-records/059-sanitizer-test_sgr.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_sixel.log",
+      "archive": "research/sgr-ideogram-records/060-sanitizer-test_sixel.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_sixel_terminal.log",
+      "archive": "research/sgr-ideogram-records/061-sanitizer-test_sixel_terminal.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/ideogram-core/sanitizer-test_state_control.log",
+      "archive": "research/sgr-ideogram-records/062-sanitizer-test_state_control.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/ideogram-core/strict-build.log",
+      "archive": "research/sgr-ideogram-records/063-strict-build.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/ideogram-core/strict-sixel.log",
+      "archive": "research/sgr-ideogram-records/064-strict-sixel.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/controller.log",
+      "archive": "research/sgr-ideogram-records/065-controller.log.gz",
+      "bytes": 366,
+      "sha256": "ac864f8b957bf7ca04f3c2f9b694962bcafd55dadd8ef555643c5571eed288fa"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/research/tabs-controller.json",
+      "archive": "research/sgr-ideogram-records/066-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "512ee8466ec476b91e35a4880967be6d01db3f51a23a07c4961b77430c0c0d01"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sgr-ideogram-records/067-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1449487,
+      "sha256": "4bd2d485780027dd1177407b5ddca80bf4e9ee1a889b8a20a440379a0d884e58"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sgr-ideogram-records/068-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 183213,
+      "sha256": "4efdd923ad8fd87e07afddab2331c7795e54da23644c2c2b5ff7b1087a3234cc"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/sgr-ideogram-records/069-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ideogram-native/memory-directx/tabs.log",
+      "archive": "research/sgr-ideogram-records/070-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/controller.log",
+      "archive": "research/sgr-ideogram-records/071-controller.log.gz",
+      "bytes": 366,
+      "sha256": "492925601e41c903e6938bee552bbd8aa024b8d91560498611e0f7dd72ccb3ed"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/research/tabs-controller.json",
+      "archive": "research/sgr-ideogram-records/072-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "e70f513b1f74b7c7bbe938e3a1c84fafd5e1dcee95d4a71ea6cfff070a6d6621"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/sgr-ideogram-records/073-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/sgr-ideogram-records/074-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1485410,
+      "sha256": "5584f928f7c580f08a2141d13ef75fb6d3383d15a4f83137ca1e776e4ded0ac7"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/sgr-ideogram-records/075-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 176402,
+      "sha256": "cfd5ca7ca574df83e8fbc2be8704440546fa3fad9ec3f28839861fcc26ef6e72"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/sgr-ideogram-records/076-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/ideogram-native/memory-gdi/tabs.log",
+      "archive": "research/sgr-ideogram-records/077-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/ideogram-native/renderer/controller.log",
+      "archive": "research/sgr-ideogram-records/078-controller.log.gz",
+      "bytes": 370,
+      "sha256": "b3f661ff285bb194619529abd75e5a1489e5453bcffcf76e948d9ec9ed8ec4f2"
+    },
+    {
+      "path": "build/ideogram-native/renderer/renderer.log",
+      "archive": "research/sgr-ideogram-records/079-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "056702a607897976f86f8bf0daa020cc6de328943e888a1cde573c08c0a9c48f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-records/080-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-records/081-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-records/082-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-records/083-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-records/084-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-records/085-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-records/086-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-records/087-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-records/088-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-records/089-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-enclosures.png",
+      "archive": "research/sgr-ideogram-records/090-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-expose.png",
+      "archive": "research/sgr-ideogram-records/091-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-records/092-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-ideograms.png",
+      "archive": "research/sgr-ideogram-records/093-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/sgr-ideogram-records/094-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-overline.png",
+      "archive": "research/sgr-ideogram-records/095-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-palette.png",
+      "archive": "research/sgr-ideogram-records/096-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-resize.png",
+      "archive": "research/sgr-ideogram-records/097-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-sixel.png",
+      "archive": "research/sgr-ideogram-records/098-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-sync-end.png",
+      "archive": "research/sgr-ideogram-records/099-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/sgr-ideogram-records/100-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-0-text.png",
+      "archive": "research/sgr-ideogram-records/101-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-records/102-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-records/103-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-records/104-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-records/105-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-records/106-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-records/107-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-records/108-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-records/109-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-records/110-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-records/111-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-enclosures.png",
+      "archive": "research/sgr-ideogram-records/112-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-expose.png",
+      "archive": "research/sgr-ideogram-records/113-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-records/114-renderer-1-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-ideograms.png",
+      "archive": "research/sgr-ideogram-records/115-renderer-1-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-overline-double-size.png",
+      "archive": "research/sgr-ideogram-records/116-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-overline.png",
+      "archive": "research/sgr-ideogram-records/117-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-palette.png",
+      "archive": "research/sgr-ideogram-records/118-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-resize.png",
+      "archive": "research/sgr-ideogram-records/119-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-sixel.png",
+      "archive": "research/sgr-ideogram-records/120-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-sync-end.png",
+      "archive": "research/sgr-ideogram-records/121-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/sgr-ideogram-records/122-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-1-text.png",
+      "archive": "research/sgr-ideogram-records/123-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/sgr-ideogram-records/124-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/sgr-ideogram-records/125-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/sgr-ideogram-records/126-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-active-2.png",
+      "archive": "research/sgr-ideogram-records/127-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-active-4.png",
+      "archive": "research/sgr-ideogram-records/128-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-active-6.png",
+      "archive": "research/sgr-ideogram-records/129-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/sgr-ideogram-records/130-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/sgr-ideogram-records/131-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/sgr-ideogram-records/132-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-enclosures-double-size.png",
+      "archive": "research/sgr-ideogram-records/133-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-enclosures.png",
+      "archive": "research/sgr-ideogram-records/134-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-expose.png",
+      "archive": "research/sgr-ideogram-records/135-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-ideograms-double-size.png",
+      "archive": "research/sgr-ideogram-records/136-renderer-2-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-ideograms.png",
+      "archive": "research/sgr-ideogram-records/137-renderer-2-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-overline-double-size.png",
+      "archive": "research/sgr-ideogram-records/138-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-overline.png",
+      "archive": "research/sgr-ideogram-records/139-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-palette.png",
+      "archive": "research/sgr-ideogram-records/140-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-resize.png",
+      "archive": "research/sgr-ideogram-records/141-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-sixel.png",
+      "archive": "research/sgr-ideogram-records/142-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-sync-end.png",
+      "archive": "research/sgr-ideogram-records/143-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-sync-frozen.png",
+      "archive": "research/sgr-ideogram-records/144-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-2-text.png",
+      "archive": "research/sgr-ideogram-records/145-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-controller.json",
+      "archive": "research/sgr-ideogram-records/146-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "a3972af0441eba58fad5e8eb205dfd762b3f566faf91f4b54eff189842bebd62"
+    },
+    {
+      "path": "build/ideogram-native/renderer/research/renderer-observed.json",
+      "archive": "research/sgr-ideogram-records/147-renderer-observed.json.gz",
+      "bytes": 9119,
+      "sha256": "30892bc3ff9ab147caa874aa4d1c5e9d617ad73fbb4eacdfa5112bb7ab99bc87"
+    },
+    {
+      "path": "build/ideogram-native/results.json",
+      "archive": "research/sgr-ideogram-records/148-results.json.gz",
+      "bytes": 553,
+      "sha256": "7d3b3529a8ec0da6888d4c8fe16c6af21b46e44595e63460b85d4c0ad7ac198e"
+    },
+    {
+      "path": "build/ideogram-native/wire/controller.log",
+      "archive": "research/sgr-ideogram-records/149-controller.log.gz",
+      "bytes": 369,
+      "sha256": "e5171564a671ca963837970003eed0b6e45e8c314e75caf4cc97c5bc6b33a0d7"
+    },
+    {
+      "path": "build/ideogram-native/wire/research/sgr-stack-observed.json",
+      "archive": "research/sgr-ideogram-records/150-sgr-stack-observed.json.gz",
+      "bytes": 72295,
+      "sha256": "352b0fa605570b6f489246104f2ad95dea95913879daf2175a0ca822b623a612"
+    },
+    {
+      "path": "build/ideogram-native/wire/research/sgr-stack-window.png",
+      "archive": "research/sgr-ideogram-records/151-sgr-stack-window.png.gz",
+      "bytes": 3669,
+      "sha256": "ca6a83eb0432b7cef707e7692d0ccf7e31f0a31586174334c0e5f7a70c4bc63d"
+    },
+    {
+      "path": "build/ideogram-native/wire/research/sgr_stack-controller.json",
+      "archive": "research/sgr-ideogram-records/152-sgr_stack-controller.json.gz",
+      "bytes": 472,
+      "sha256": "05f5c898de16ce319fdea691923bca91b20147d8f234a2d1a512622784028b20"
+    },
+    {
+      "path": "build/ideogram-native/wire/sgr_stack.log",
+      "archive": "research/sgr-ideogram-records/153-sgr_stack.log.gz",
+      "bytes": 56,
+      "sha256": "3fc1927d9312fa700fd4a9aaa46fde3fc613012d6abc883c2220907ac1268417"
+    },
+    {
+      "path": "build/ideogram-reference/source.json",
+      "archive": "research/sgr-ideogram-records/154-source.json.gz",
+      "bytes": 204,
+      "sha256": "aa3b06e5c36afce4c8cbd6170084c32d9fdb80381865c2a99efa78582b450b6c"
+    },
+    {
+      "path": "build/ideogram-single/image.json",
+      "archive": "research/sgr-ideogram-records/155-image.json.gz",
+      "bytes": 8246,
+      "sha256": "d2c4429425a2ed7417f1b35144ed34dfec198007cbfe07d75be47671c525503d"
+    },
+    {
+      "path": "build/ideogram-single/link.log",
+      "archive": "research/sgr-ideogram-records/156-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/ideogram-single/link.rsp",
+      "archive": "research/sgr-ideogram-records/157-link.rsp.gz",
+      "bytes": 5502,
+      "sha256": "6e6493228016941954709a07c774bb2ca9ed697f3fdd558d7795afc962f7f9de"
+    },
+    {
+      "path": "build/link-ideogram-image.py",
+      "archive": "research/sgr-ideogram-records/158-link-ideogram-image.py.gz",
+      "bytes": 1359,
+      "sha256": "c86f4e6343f932eeffbce1fbd26d9012a7ac4097c3004a822f3201886cb7f70a"
+    },
+    {
+      "path": "build/retain-ideogram-evidence.py",
+      "archive": "research/sgr-ideogram-records/159-retain-ideogram-evidence.py.gz",
+      "bytes": 2252,
+      "sha256": "fc1b9fadb3840bbf8369467cb486fda22ef32efed9256202e7a83e2137502ef6"
+    }
+  ]
+}

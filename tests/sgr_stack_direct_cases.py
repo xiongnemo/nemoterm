@@ -2,7 +2,8 @@
 
 Overline SGR 53/55 is specified by ECMA-48, fifth edition, section 8.3.117.
 Enclosure SGR 51/52/54 is specified in the same section. Selective stack
-selectors 51, 52 and 53 are Nemoterm extensions for the individual aspects.
+selectors 51, 52, 53 and 60-64 are Nemoterm extensions for individual aspects.
+Ideogram SGR 60-65 follows the same ECMA-48 section.
 """
 CSI = '\x1b['
 RESET = CSI+'64;1"p'+(CSI+'#}')*64+'\x1bc'
@@ -60,6 +61,38 @@ for name,body,sgr in (
     ('overline-mixed',CSI+'53mA'+CSI+'55mB'+CSI+'1;1;1;2#|','0'),
 ):
     CASES.append((name,RESET+body,CSI+sgr+'m'))
+
+# ECMA-48 60-65 aspects. The selective stack and reply encoding are explicit
+# Nemoterm extensions; these are not additions to the captured XTerm oracle.
+for value in range(60,65):
+    code=str(value)
+    for name,body,sgr in (
+        ('current',CSI+code+'m','0;'+code),
+        ('invalid-subparameter',CSI+code+':1m','0'),
+        ('selective-stack',CSI+code+'m'+CSI+code+'#{'+CSI+'65m'+CSI+'#}','0;'+code),
+        ('selective-clear',CSI+code+'#{'+CSI+code+'m'+CSI+'#}','0'),
+    ):
+        CASES.append(('ideogram-'+code+'-'+name,RESET+body+RQ,'\x1bP1$r'+sgr+'m\x1b\\'))
+    CASES.append(('ideogram-'+code+'-common',RESET+CSI+code+'mAB'+CSI+'1;1;1;2#|',CSI+'0;'+code+'m'))
+    CASES.append(('ideogram-'+code+'-mixed',RESET+CSI+code+'mA'+CSI+'65mB'+CSI+'1;1;1;2#|',CSI+'0m'))
+IDEO='60;61;62;63;64'
+for name,body,sgr in (
+    ('combined',CSI+IDEO+'m','0;'+IDEO),
+    ('cancel',CSI+IDEO+'m'+CSI+'65m','0'),
+    ('reset',CSI+IDEO+'m'+CSI+'0m','0'),
+    ('soft-reset',CSI+IDEO+'m'+CSI+'!p','0'),
+    ('hard-reset',CSI+IDEO+'m\x1bc','0'),
+    ('invalid-cancel',CSI+IDEO+'m'+CSI+'65:1m','0;'+IDEO),
+    ('cursor-restore',CSI+IDEO+'m\x1b7'+CSI+'65m\x1b8','0;'+IDEO),
+    ('alternate-restore',CSI+IDEO+'m'+CSI+'?1049h'+CSI+'0m'+CSI+'?1049l','0;'+IDEO),
+    ('whole-stack',CSI+IDEO+'m'+CSI+'#{'+CSI+'65m'+CSI+'#}','0;'+IDEO),
+    ('stack-across-RIS',CSI+IDEO+'m'+CSI+'#{'+'\x1bc'+CSI+'#}','0;'+IDEO),
+    ('other-cancels-independent',CSI+IDEO+'m'+CSI+'24;54;55;59m','0;'+IDEO),
+    ('cancel-keeps-other-aspects',CSI+'4:3;21;51;52;53;58;5;7;'+IDEO+'m'+CSI+'65m','0;4:3;21;51;52;53;58;5;7'),
+    ('unselected-stack',CSI+'60;53m'+CSI+'53#{'+CSI+'65;55m'+CSI+'#}','0;53'),
+    ('cancelled-sequence','\x1b[60\x18','0'),
+):
+    CASES.append(('ideogram-'+name,RESET+body+RQ,'\x1bP1$r'+sgr+'m\x1b\\'))
 
 for name,body,sgr in (
     ('framed-current',CSI+'51m','0;51'),

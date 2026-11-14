@@ -4385,6 +4385,51 @@ static void nemo_draw_enclosures(WinGuiSeat *wgs, RECT box, int lattr,
     RestoreDC(wgs->wintw_hdc, saved);
 }
 
+/* Horizontal ECMA-48 ideogram policy: bottom/top strokes and a small square
+ * stress mark at the top of each logical cell. Use the text foreground, not
+ * the independently configured underline colour. Double-height halves clip
+ * the same logical decoration; stock objects keep this allocation-free. */
+static void nemo_draw_ideograms(WinGuiSeat *wgs, RECT box, int lattr,
+                                int cell_width, uint64_t decoration,
+                                COLORREF colour)
+{
+    int saved = SaveDC(wgs->wintw_hdc);
+    if (!saved) return;
+    IntersectClipRect(wgs->wintw_hdc, box.left, box.top, box.right, box.bottom);
+    HBRUSH brush = GetStockObject(DC_BRUSH);
+    SetDCBrushColor(wgs->wintw_hdc, colour);
+    int top = box.top, bottom = box.bottom;
+    if (lattr == LATTR_TOP) bottom += wgs->font_height;
+    else if (lattr == LATTR_BOT) top -= wgs->font_height;
+    int thick = max(1, wgs->font_height/16);
+    if (decoration & (DECOR_IDEO_UNDERLINE | DECOR_IDEO_DOUBLE_UNDERLINE)) {
+        RECT stroke = {box.left, bottom-thick, box.right, bottom};
+        FillRect(wgs->wintw_hdc, &stroke, brush);
+    }
+    if (decoration & DECOR_IDEO_DOUBLE_UNDERLINE) {
+        RECT stroke = {box.left, bottom-3*thick, box.right, bottom-2*thick};
+        FillRect(wgs->wintw_hdc, &stroke, brush);
+    }
+    if (decoration & (DECOR_IDEO_OVERLINE | DECOR_IDEO_DOUBLE_OVERLINE)) {
+        RECT stroke = {box.left, top, box.right, top+thick};
+        FillRect(wgs->wintw_hdc, &stroke, brush);
+    }
+    if (decoration & DECOR_IDEO_DOUBLE_OVERLINE) {
+        RECT stroke = {box.left, top+2*thick, box.right, top+3*thick};
+        FillRect(wgs->wintw_hdc, &stroke, brush);
+    }
+    if (decoration & DECOR_IDEO_STRESS) {
+        int size = min(2*thick, min(cell_width, bottom-top));
+        int y = min(top+thick, bottom-size);
+        for (int left = box.left; left < box.right; left += cell_width) {
+            int x = left+(cell_width-size)/2;
+            RECT mark = {x, y, x+size, y+size};
+            FillRect(wgs->wintw_hdc, &mark, brush);
+        }
+    }
+    RestoreDC(wgs->wintw_hdc, saved);
+}
+
 static void do_text_internal(
     WinGuiSeat *wgs, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
@@ -4810,6 +4855,9 @@ static void do_text_internal(
     }
 
   decorations:
+    if (!(attr & ATTR_CONCEAL) && (truecolour.decoration & DECOR_IDEOGRAMS))
+        nemo_draw_ideograms(wgs, line_box, lattr, char_width,
+                            truecolour.decoration, fg);
     if (!(attr & ATTR_CONCEAL) && (truecolour.decoration & DECOR_ENCLOSURES))
         nemo_draw_enclosures(wgs, line_box, lattr, char_width,
                              truecolour.decoration, fg);

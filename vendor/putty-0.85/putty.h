@@ -1014,6 +1014,14 @@ typedef struct truecolour {
 #define DECOR_FRAMED      UINT64_C(0x200000000)
 #define DECOR_ENCIRCLED   UINT64_C(0x400000000)
 #define DECOR_ENCLOSURES  (DECOR_FRAMED | DECOR_ENCIRCLED)
+#define DECOR_IDEO_UNDERLINE        (UINT64_C(1) << 35)
+#define DECOR_IDEO_DOUBLE_UNDERLINE (UINT64_C(1) << 36)
+#define DECOR_IDEO_OVERLINE         (UINT64_C(1) << 37)
+#define DECOR_IDEO_DOUBLE_OVERLINE  (UINT64_C(1) << 38)
+#define DECOR_IDEO_STRESS           (UINT64_C(1) << 39)
+#define DECOR_IDEOGRAMS (DECOR_IDEO_UNDERLINE | DECOR_IDEO_DOUBLE_UNDERLINE | \
+                        DECOR_IDEO_OVERLINE | DECOR_IDEO_DOUBLE_OVERLINE | \
+                        DECOR_IDEO_STRESS)
 #define UNDER_STYLE_RAW(tc) ((unsigned)(((tc).decoration & UNDER_STYLE_MASK) >> UNDER_STYLE_SHIFT))
 #define UNDER_STYLE(tc) (((tc).decoration & UNDER_DOUBLE_LEGACY) ? 2 : UNDER_STYLE_RAW(tc))
 /* Non-visual cell metadata shares an unused bit; no per-cell allocation. */

@@ -121,13 +121,14 @@ static void test_style_lifetime(Mock *mk)
     reset(mk); test_context(mk, "style colour survives compressed history");
     term_size(mk->term, 4, 20, 100);
     mk->ucsdata->line_codepage = CP_UTF8;
-    term_data_fragmented(mk->term, "\033[3;8;4:5;21;51;52;53;38:2::1:2:3;58:5:123m"
+    term_data_fragmented(mk->term, "\033[3;8;4:5;21;51;52;53;60;61;62;63;64;38:2::1:2:3;58:5:123m"
                                   "A\xe4\xb8\xad" "e\xcc\x81\033[0m");
     termchar original = get_termchar(mk->term, 0, 0);
     IEQUAL(UNDER_STYLE_RAW(original.truecolour), 5);
     IEQUAL(UNDER_STYLE(original.truecolour), 2);
     IEQUAL(!!(original.truecolour.decoration & UNDER_DOUBLE_LEGACY), true);
     IEQUAL(!!(original.truecolour.decoration & DECOR_OVERLINE), true);
+    IEQUAL((original.truecolour.decoration & DECOR_IDEOGRAMS) == DECOR_IDEOGRAMS, true);
     term_data_fragmented(mk->term, "\r\none\r\ntwo\r\nthree\r\nfour");
     IEQUAL(count234(mk->term->scrollback), 1);
     termchar history = get_termchar(mk->term, 0, -1);
@@ -239,6 +240,20 @@ static void test_enclosures(Mock *mk)
     IEQUAL(get_termchar(mk->term,0,0).truecolour.decoration==CELL_PROTECTED,true);
 }
 
+static void test_ideogram_cells(Mock *mk)
+{
+    reset(mk); test_context(mk, "ideograms retain wide and combining cell state");
+    mk->ucsdata->line_codepage = CP_UTF8;
+    term_data_fragmented(mk->term, "\033[60;61;62;63;64m\xe4\xb8\xad" "e\xcc\x81");
+    for (int x = 0; x < 3; x++)
+        IEQUAL((get_termchar(mk->term,x,0).truecolour.decoration & DECOR_IDEOGRAMS)
+               == DECOR_IDEOGRAMS, true);
+    term_data_fragmented(mk->term, "\033[1\"q\033[0mX");
+    IEQUAL(get_termchar(mk->term,3,0).truecolour.decoration == CELL_PROTECTED, true);
+    term_data_fragmented(mk->term, "\033[0\"q\033[60;64m\033[X");
+    IEQUAL(get_termchar(mk->term,4,0).truecolour.decoration & DECOR_IDEOGRAMS, 0);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -250,6 +265,7 @@ int main(void)
     test_style_lifetime(mk);
     test_overline(mk);
     test_enclosures(mk);
+    test_ideogram_cells(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "SGR suite FAILED" : "SGR suite passed");

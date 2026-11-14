@@ -27,6 +27,7 @@
 | 矩形复制/填充/属性：DECCRA `$v`、DECFRA `$x`、DECCARA `$r`、DECRARA `$t`、DECSACE `*x` | 已证（有限范围） | 共用有界坐标解析；一行临时存储处理重叠复制，保留组合字符/颜色/保护/链接；支持流式与矩形属性、Unicode填充、DECRQSS `*x`。独立XTerm单元/属性对照、ASan/UBSan、真实ConPTY像素/Shift复制/Sixel/缩放及3000次复制压力已测，见[矩形记录](../research/rectangle-editing.md)。页号按xterm处理为当前页；复制字符而不复制Sixel像素。DECSCA、DECSEL/DECSED、DECERA/DECSERA 见[擦除记录](../research/selective-erase.md)。 |
 | SGR基础、16/256色、`;` 形式 RGB：`38;5;n`、`48;5;n`、`38;2;r;g;b`、`48;2;r;g;b` | 颜色局部已证；样式部分源码已见 | `test_colour_and_alternate_screen` 覆盖FG/BG真彩色、索引色和0重置；T SGR有bold/dim/underline/blink/reverse/strike。渲染效果和每种重置仍需验证。 |
 | SGR冒号子参数：`38:2::r:g:b`、`48:2::r:g:b`、`4:0..5`；下划线色58/59；italic 3/23、conceal 8/28 | 已证（有限范围） | `test_sgr`验证冒号/分号RGB与索引颜色、样式/颜色独立复位、21双下划线、压缩历史、备用屏、resize、普通文本复制和CAN/SUB恢复；`sgr_window_smoke.py`经真实ConPTY检查五种下划线像素、反色不改显式下划线色、动态调色板、隐藏装饰、斜体及同步快照。每格新增4字节装饰字段；每CSI上限32主参数、每参数8子参数，溢出整条拒绝。隐藏仅影响呈现；RTF的扩展样式导出尚未补齐。 |
+| 表意文字装饰 SGR 60–64、取消65 | 已证（开发分支有限范围） | 五种独立属性保存在现有64位装饰字段；取消65不影响普通下划线、框线、上划线和颜色。水平顶/底线与居中方形着重号属于本项目绘制策略，不表示竖排或XTerm像素兼容。44个新协议用例、三渲染器像素、保存恢复/历史/缩放和GDI/DX完整160×48负载通过；完整CI与下载成品验收待完成，见[记录](../research/sgr-ideograms.md)。 |
 | 光标形状 `CSI Ps SP q`（DECSCUSR），DEC12闪烁 | 已证（有限范围） | 0/1闪烁方块、2常亮方块、3/4下划线、5/6竖线、7恢复配置；未知/溢出/子参数拒绝。查询反映当前形状与闪烁，25可见性独立；普通重配不覆盖应用样式，显式光标设置/RIS恢复配置。`test_queries`和真实窗口像素/闪烁/同步冻结测试通过。 |
 | 软复位 `CSI ! p`（DECSTR） | 已证（有限范围） | 重置SGR、origin/insert、边距、字符集、当前屏保存光标；按配置恢复wrap、应用光标/小键盘、光标样式和modifyOtherKeys。保留当前文字/历史/位置/待换行、另一屏保存光标、UTF-8、制表、鼠标/粘贴/kitty/9001、Sixel和2026冻结。核心与真实ConPTY像素、输入和屏切换测试通过；对照及差异见[状态记录](../research/state-control.md)。 |
 | 私有模式保存/恢复 `CSI ? Pm s/r`（XTSAVE/XTRESTORE），DECNKM66，DECOM/DECSC | 已证（有限范围） | 为现有22类模式建立88字节全局缓存；鼠标跟踪、坐标编码和备用屏别名按组保存，1048使用光标槽，未知模式忽略、本地禁用优先；初始缓存0、重复保存覆盖、RIS/DECSTR保留。补齐DECOM设置/清除归位、相对CPR和DECSC origin恢复。原生测试验证恢复1016后缩放和Shift复制；其余未实现模式仍不支持保存；支持的 G0–G3 designation 和 GL/GR 保存恢复已另通过 44 组独立对照及原生画面检查，见下方字符集记录。 |
@@ -100,7 +101,7 @@
 
 ## 下一轮实现和验收顺序
 
-1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及剩余SGR（如表意文字属性）；上划线53/55已有[完整CI与本机像素证据](../research/overline.md)。框线51、圈线52与取消54已通过独立分支的核心、三渲染器像素和ConPTY查询测试，[记录](../research/sgr-enclosures.md)保留原DX资源检查失败，独立分支[完整CI](../research/sgr-enclosure-ci.md)已通过；[整合版本机验证](../research/sixel-enclosure-integration.md)进一步通过GDI/DX完整负载，整合CI与下载成品验收仍待完成。继续完成Sixel像素和资源生命周期，增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
+1. **直接影响现代agent的缺口**：kitty键盘的真实应用/IME验收及SGR覆盖审计；表意文字60–65已有[开发分支本机验证](../research/sgr-ideograms.md)，完整CI及成品验收仍待完成；上划线53/55已有[完整CI与本机像素证据](../research/overline.md)。框线51、圈线52与取消54已通过独立分支的核心、三渲染器像素和ConPTY查询测试，[记录](../research/sgr-enclosures.md)保留原DX资源检查失败，独立分支[完整CI](../research/sgr-enclosure-ci.md)已通过；[整合版本机验证](../research/sixel-enclosure-integration.md)进一步通过GDI/DX完整负载，整合CI与下载成品验收仍待完成。继续完成Sixel像素和资源生命周期，增加断片输入/错误恢复/准确回复测试，不宣告尚未实现的能力。
 2. **交互和协商完整性**：剩余DECRQSS状态与XTGETTCAP名称、OSC52真实远程应用验收、1001边缘场景与物理设备验收、Windows输入模式、resize/DPI和大坐标、更多光标/边距/擦除行为；在真实Claude Code/Codex和shell里记录可复现输入及输出。
 3. **剩余现代及历史范围**：OSC133及剩余633/1337语义，kitty/iTerm图像扩展，完整xterm家族逐项拆解及测试。优先级表示先后次序，不是把后项从目标删除。
 
@@ -152,8 +153,8 @@ Unicode 组合字符存储、旧式字符校验和英国字符集存在已记录
 字段的空闲位，不增加字符单元大小。空参数保存所有样式，显式零
 保存空集合；RIS、软复位和备用屏切换不会清除该栈。
 
-本分支核心及真实 ConPTY 测试包含 193 条 XTerm 原始应答对照和 46 条
-明确扩展用例（下划线、上划线及框线/圈线），另检查缩放、原点模式、
+本分支核心及真实 ConPTY 测试包含 193 条 XTerm 原始应答对照和 90 条
+明确扩展用例（下划线、上划线、框线/圈线及表意文字属性），另检查缩放、原点模式、
 像素、滚动历史和资源释放。新增框线/圈线的完整验收仍见上述记录。
 来源、六条有意保留差异的原始用例及验收边界见
 [样式栈记录](../research/sgr-stack.md)。

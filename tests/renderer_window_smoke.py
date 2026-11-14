@@ -239,6 +239,51 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                 frame(1+column*2*cw,1+7*ch,2*cw,2*ch)
                 ellipse(1+column*2*cw,1+10*ch,2*cw,2*ch)
             mode['enclosure_pixels_checked']=True
+            # Horizontal ideogram decorations have a separate SGR lifetime and
+            # use foreground colour, even when SGR 58 selects another colour.
+            ideogram='\x1bc\x1b[?25l'+colours
+            for row,code in enumerate(range(60,65),1):
+                ideogram+=f'\x1b[{row};1H\x1b[{code}m   \x1b[65m  '
+            ideogram+=('\x1b[6;1H\x1b[60;61;62;63;64m   \x1b[65m'+
+                       '\x1b[7;1H   \x1b[8;1H\x1b[60;61;62;63;64;8m   \x1b[28;65m'+
+                       '\x1b[9;1H\x1b[60;7m   \x1b[27;65m'+
+                       '\x1b[10;1H\x1b[61m\u3000\x1b[65m'+
+                       '\x1b[11;1H\x1b[64m\u3000\x1b[65m')
+            render('ideograms',ideogram);pixels=compare('ideograms')
+            def ideogram_cell(left,top,width,height,aspects,foreground=ink,background=paper):
+                thickness=max(1,ch//16)
+                lower=set();upper=set()
+                if 60 in aspects or 61 in aspects:lower.update(range(height-thickness,height))
+                if 61 in aspects:lower.update(range(height-3*thickness,height-2*thickness))
+                if 62 in aspects or 63 in aspects:upper.update(range(thickness))
+                if 63 in aspects:upper.update(range(2*thickness,3*thickness))
+                size=min(2*thickness,width,height)
+                mark_x=(width-size)//2;mark_y=min(thickness,height-size)
+                for yy in range(height):
+                    for xx in range(width):
+                        marked=(64 in aspects and mark_x<=xx<mark_x+size and mark_y<=yy<mark_y+size)
+                        expected=foreground if yy in lower or yy in upper or marked else background
+                        assert pixel(left+xx,top+yy)==expected,(left,top,width,height,aspects,xx,yy)
+            for row,code in enumerate(range(60,65)):
+                for column in range(3):ideogram_cell(1+column*cw,1+row*ch,cw,ch,{code})
+                for column in (3,4):ideogram_cell(1+column*cw,1+row*ch,cw,ch,set())
+            for column in range(3):
+                ideogram_cell(1+column*cw,1+5*ch,cw,ch,set(range(60,65)))
+                ideogram_cell(1+column*cw,1+6*ch,cw,ch,set())
+                ideogram_cell(1+column*cw,1+7*ch,cw,ch,set())
+                ideogram_cell(1+column*cw,1+8*ch,cw,ch,{60},paper,ink)
+            ideogram_cell(1,1+9*ch,2*cw,ch,{61})
+            ideogram_cell(1,1+10*ch,2*cw,ch,{64})
+            double_ideogram=('\x1b[0m'+colours+'\x1b[60;64m\x1b[14;1H\x1b#6   '+
+                             '\x1b[65;61;62;64m\x1b[15;1H\x1b#3  \x1b[16;1H\x1b#4  '+
+                             '\x1b[65m\x1b[17;1H\x1b#3  \x1b[18;1H\x1b#4  '+
+                             '\x1b[19;1H\x1b[64me\u0301\x1b[65m')
+            render('ideograms-double-size',double_ideogram);pixels=compare('ideograms-double-size')
+            for column in range(3):ideogram_cell(1+column*2*cw,1+13*ch,2*cw,ch,{60,64})
+            for column in range(2):
+                ideogram_cell(1+column*2*cw,1+14*ch,2*cw,2*ch,{61,62,64})
+                ideogram_cell(1+column*2*cw,1+16*ch,2*cw,2*ch,set())
+            mode['ideogram_pixels_checked']=True
             mode['focus_observations']=focus_script.exports_sync.stats()
             assert not focus_errors,focus_errors
             assert int(u.GetPropW(hwnd,'NemotermRenderer'))==active,'Renderer failed during drawing'

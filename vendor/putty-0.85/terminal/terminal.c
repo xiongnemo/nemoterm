@@ -2428,6 +2428,10 @@ static void nemo_push_sgr(Terminal *term)
             if (selector == 53) {mask |= UINT32_C(1) << 31;continue;}
             if (selector == 51) {mask |= UINT64_C(1) << 32;continue;}
             if (selector == 52) {mask |= UINT64_C(1) << 33;continue;}
+            if (selector >= 60 && selector <= 64) {
+                mask |= UINT64_C(1) << (selector-26);
+                continue;
+            }
             if (selector > 0 && selector < 32)
                 mask |= UINT32_C(1) << (selector-1);
         }
@@ -2470,6 +2474,9 @@ static void nemo_pop_sgr(Terminal *term)
         if (mask & (UINT32_C(1) << 31)) decorations |= DECOR_OVERLINE;
         if (mask & (UINT64_C(1) << 32)) decorations |= DECOR_FRAMED;
         if (mask & (UINT64_C(1) << 33)) decorations |= DECOR_ENCIRCLED;
+        for (unsigned i = 0; i < 5; i++)
+            if (mask & (UINT64_C(1) << (34+i)))
+                decorations |= DECOR_IDEO_UNDERLINE << i;
         /* No-argument saves also preserve our modern underline colour. */
         if (mask == UINT64_MAX) decorations |= UNDER_COLOUR_MASK;
         term->curr_truecolour.decoration =
@@ -2541,6 +2548,9 @@ static void nemo_decrqss(Terminal *term)
         if (tc.decoration & DECOR_FRAMED) put_dataz(reply, ";51");
         if (tc.decoration & DECOR_ENCIRCLED) put_dataz(reply, ";52");
         if (tc.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
+        for (unsigned i = 0; i < 5; i++)
+            if (tc.decoration & (DECOR_IDEO_UNDERLINE << i))
+                put_fmt(reply, ";%u", 60+i);
         nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg, false);
         nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg, false);
         uint32_t colour = tc.decoration & UNDER_COLOUR_MASK;
@@ -5274,7 +5284,8 @@ static void nemo_report_rectangle_sgr(Terminal *term)
                     (cell.truecolour.decoration & UNDER_COLOUR_MASK))
                     common.truecolour.decoration &= ~UNDER_COLOUR_MASK;
                 common.truecolour.decoration &= cell.truecolour.decoration |
-                    ~(UNDER_DOUBLE_LEGACY | DECOR_OVERLINE | DECOR_ENCLOSURES);
+                    ~(UNDER_DOUBLE_LEGACY | DECOR_OVERLINE | DECOR_ENCLOSURES |
+                      DECOR_IDEOGRAMS);
             }
         }
     }
@@ -5296,6 +5307,9 @@ static void nemo_report_rectangle_sgr(Terminal *term)
     if (common.truecolour.decoration & DECOR_FRAMED) put_dataz(reply, ";51");
     if (common.truecolour.decoration & DECOR_ENCIRCLED) put_dataz(reply, ";52");
     if (common.truecolour.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
+    for (unsigned i = 0; i < 5; i++)
+        if (common.truecolour.decoration & (DECOR_IDEO_UNDERLINE << i))
+            put_fmt(reply, ";%u", 60+i);
     nemo_report_sgr_colour(reply, 38, (common.attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
                            common.truecolour.fg, true);
     nemo_report_sgr_colour(reply, 48, (common.attr & ATTR_BGMASK) >> ATTR_BGSHIFT,
@@ -8717,6 +8731,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 55:
                             term->curr_truecolour.decoration &= ~DECOR_OVERLINE;
+                            break;
+                          case 60: case 61: case 62: case 63: case 64:
+                            /* ECMA-48 ideogram aspects are independent. */
+                            term->curr_truecolour.decoration |=
+                                DECOR_IDEO_UNDERLINE << (term->esc_args[i]-60);
+                            break;
+                          case 65:
+                            term->curr_truecolour.decoration &= ~DECOR_IDEOGRAMS;
                             break;
                           case 30:
                           case 31:
