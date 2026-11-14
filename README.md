@@ -29,7 +29,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
 本整合分支已加入 OSC 1337 静态图片、GIF 动画与 ISO 2022 字符集修复，
-本机画面及 GDI 内存检查通过，DX 标签资源检查仍失败，完整 CI 尚待验证。
+本机画面及 GDI 内存检查通过，DX 标签资源检查仍失败。
+整合提交 `26f50c8` 的两条完整 CI 已通过，单文件检查共 119 组；
+CI 使用较小的 Consolas 窗口，不能替代本机 160×48 Sarasa 验收。
+本机实测目前暂停，下载产物的身份与限制见[整合记录](research/graphics-charsets-integration.md)。
 验证范围见[整合记录](research/graphics-charsets-integration.md)；下方已验收下载仍是此前版本。
 
 ## 下载

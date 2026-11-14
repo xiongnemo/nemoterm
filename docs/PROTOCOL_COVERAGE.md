@@ -13,7 +13,11 @@ A separate unmodified full-workload run passes nine functional groups and drains
 naturally, but reaches 30.63 MB private working set, above the 25 MB limit. Both
 failures are retained separately.
 The earlier sidecar reply-order issue was resolved by building the same host
-source and overlay for compiler comparison. Local testing has resumed.
+source and overlay for compiler comparison. Local native testing is currently
+paused at the user's request; remote CI continues. The later graphics/charset
+integration `26f50c8` passes both full workflows and 119 single-image groups;
+its smaller CI grids do not resolve local DirectX failures. See the
+[integration record](../research/graphics-charsets-integration.md).
 The preceding [overline checkpoint](../research/overline.md) includes local checks
 of its downloaded image under all three renderers; CI's OpenGL request used GDI fallback.
 

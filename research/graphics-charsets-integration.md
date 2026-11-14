@@ -77,5 +77,36 @@ full protocol/graphics scope and physical/long-session verification remain open.
 
 The [validation manifest](graphics-charsets-integration-validation.json) retains
 the build commands and failures, final regression results, image identity,
-native observations, raw memory samples and cleanup records. Full integrated
-CI and its exact downloadable executable still need separate verification.
+native observations, raw memory samples and cleanup records.
+
+## Remote integrated CI
+
+Source `26f50c8796b6ba4ee5e941490a1dbd63021383f4` passes the complete
+[core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43601787424)
+and [single-executable workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43601787330).
+The single-image manifest contains 119 passed groups, including the charset,
+static-image and animation fixtures and all six mandatory memory workloads.
+The [downloadable artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43601787330/artifacts/14117501693)
+contains one `nemoterm.exe`, 4,482,048 bytes, SHA-256
+`2bdb95280ded966c653c4c6b80d1ad0308e331fcc52a92fb09098b3b2284a0fa`.
+This is distinct from the local image tested above and has not been executed
+locally or promoted to the accepted download.
+
+| CI case | Private WS peak | Total WS peak | Private commit peak |
+| --- | ---: | ---: | ---: |
+| GDI baseline | 11,345,920 | 42,676,224 | 13,455,360 |
+| GDI PNG | 12,832,768 | 45,076,480 | 15,364,096 |
+| GDI GIF | 12,722,176 | 44,953,600 | 14,848,000 |
+| DirectX baseline | 15,446,016 | 52,322,304 | 18,178,048 |
+| DirectX PNG | 16,781,312 | 54,063,104 | 19,664,896 |
+| DirectX GIF | 16,633,856 | 53,809,152 | 19,800,064 |
+
+All values are bytes recomputed from the retained frontend samples. All six
+workloads pass nine groups and drain naturally. CI uses Consolas and smaller
+windows: its recorded grid is 109x34 for GDI and 88x35 for DirectX. These results
+cannot resolve the local 160x48 Sarasa DirectX failure, substitute for local
+validation of this downloaded EXE, or establish the approximate 50 MB total
+working-set target. No thresholds were changed and no local tests resumed.
+The [CI manifest](graphics-charsets-ci-validation.json) records workflow and
+artifact identities, recomputed peaks, cleanup, and hashes of 19 retained
+compressed logs/manifests/observations/sample files.
