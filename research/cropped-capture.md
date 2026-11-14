@@ -17,7 +17,8 @@ on each tab, after uninstrumented frontend memory sampling. It requests the
 same 8 by 8 interior patch when the capability exists, falling back to full
 images for older executables. PNG encoding and file writes now occur after
 observation. Recorded frame times denote completed image receipt. An 8 by 8
-BMP is 310 bytes, compared with approximately 4 MB for the original full client.
+BMP is 310 bytes, compared with 4,933,190 bytes for the retained 1282 by 962
+full-client frame.
 This improves the observation path; it does not retroactively resolve earlier
 failed GIF runs or identify their sole cause.
 
