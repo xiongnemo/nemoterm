@@ -1,0 +1,1126 @@
+{
+  "executable_sha256": "8e52b517787fb508937611b15eb48855ab0e73521978f579d853cf48d9748585",
+  "scope": "Capture-path failure and finite local replay; focus instrumentation retained",
+  "records": [
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\controller.log",
+      "archive": "research/renderer-capture-records/000-controller.log.gz",
+      "bytes": 1975,
+      "sha256": "ae33f84a17b2bb2fbb961bda0223a6fec6d5599cb0a3f7d6b279f1858e56a776"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\renderer.log",
+      "archive": "research/renderer-capture-records/001-renderer.log.gz",
+      "bytes": 1606,
+      "sha256": "3a8d22a6007ecaa9941d010e8fc48f6c7bf569570d8b0f41ec6b0575e532a0ea"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/002-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/003-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/004-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/005-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/006-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/007-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/008-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/009-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/010-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/011-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-enclosures.png",
+      "archive": "research/renderer-capture-records/012-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-expose.png",
+      "archive": "research/renderer-capture-records/013-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/014-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-ideograms.png",
+      "archive": "research/renderer-capture-records/015-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-overline-double-size.png",
+      "archive": "research/renderer-capture-records/016-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-overline.png",
+      "archive": "research/renderer-capture-records/017-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-palette.png",
+      "archive": "research/renderer-capture-records/018-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-resize.png",
+      "archive": "research/renderer-capture-records/019-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-sixel.png",
+      "archive": "research/renderer-capture-records/020-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-sync-end.png",
+      "archive": "research/renderer-capture-records/021-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-sync-frozen.png",
+      "archive": "research/renderer-capture-records/022-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-0-text.png",
+      "archive": "research/renderer-capture-records/023-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-1-expose.png",
+      "archive": "research/renderer-capture-records/024-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-1-sixel.png",
+      "archive": "research/renderer-capture-records/025-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-1-sync-end.png",
+      "archive": "research/renderer-capture-records/026-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-1-sync-frozen.png",
+      "archive": "research/renderer-capture-records/027-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-1-text.png",
+      "archive": "research/renderer-capture-records/028-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-controller.json",
+      "archive": "research/renderer-capture-records/029-renderer-controller.json.gz",
+      "bytes": 470,
+      "sha256": "02270496ea96c21ce40204c9da0c4cfc704614d10c44678d3cd3b619dea7028c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-final\\renderer\\research\\renderer-observed.json",
+      "archive": "research/renderer-capture-records/030-renderer-observed.json.gz",
+      "bytes": 3086,
+      "sha256": "8a066adb45308f455a9fcffb4f2fb88b239df10261baae443597de949c6228a1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\check-renderer-capture.py",
+      "archive": "research/renderer-capture-records/031-check-renderer-capture.py.gz",
+      "bytes": 1802,
+      "sha256": "60148fa1dc71c899bda301150dfe989fef1ca4043f22e98633344a6b9e3d5659"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\controller.log",
+      "archive": "research/renderer-capture-records/032-controller.log.gz",
+      "bytes": 370,
+      "sha256": "eace7d7b223cd119a1bae248947919d89d8a70a72c6cad0151531094d6c395b6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\renderer.log",
+      "archive": "research/renderer-capture-records/033-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "b478cd4eedadc44628be59cbaf881e97e5fa7ea19c6ac8c63a99eaf63ce2bd9b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/034-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/035-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/036-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/037-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/038-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/039-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/040-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/041-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/042-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/043-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-enclosures.png",
+      "archive": "research/renderer-capture-records/044-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-expose.png",
+      "archive": "research/renderer-capture-records/045-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/046-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-ideograms.png",
+      "archive": "research/renderer-capture-records/047-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-overline-double-size.png",
+      "archive": "research/renderer-capture-records/048-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-overline.png",
+      "archive": "research/renderer-capture-records/049-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-palette.png",
+      "archive": "research/renderer-capture-records/050-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-resize.png",
+      "archive": "research/renderer-capture-records/051-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-sixel.png",
+      "archive": "research/renderer-capture-records/052-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-sync-end.png",
+      "archive": "research/renderer-capture-records/053-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-sync-frozen.png",
+      "archive": "research/renderer-capture-records/054-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-0-text.png",
+      "archive": "research/renderer-capture-records/055-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/056-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/057-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/058-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/059-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/060-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/061-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/062-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/063-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/064-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/065-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-enclosures.png",
+      "archive": "research/renderer-capture-records/066-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-expose.png",
+      "archive": "research/renderer-capture-records/067-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/068-renderer-1-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-ideograms.png",
+      "archive": "research/renderer-capture-records/069-renderer-1-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-overline-double-size.png",
+      "archive": "research/renderer-capture-records/070-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-overline.png",
+      "archive": "research/renderer-capture-records/071-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-palette.png",
+      "archive": "research/renderer-capture-records/072-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-resize.png",
+      "archive": "research/renderer-capture-records/073-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-sixel.png",
+      "archive": "research/renderer-capture-records/074-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-sync-end.png",
+      "archive": "research/renderer-capture-records/075-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-sync-frozen.png",
+      "archive": "research/renderer-capture-records/076-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-1-text.png",
+      "archive": "research/renderer-capture-records/077-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/078-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/079-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/080-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/081-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/082-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/083-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/084-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/085-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/086-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/087-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-enclosures.png",
+      "archive": "research/renderer-capture-records/088-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-expose.png",
+      "archive": "research/renderer-capture-records/089-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/090-renderer-2-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-ideograms.png",
+      "archive": "research/renderer-capture-records/091-renderer-2-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-overline-double-size.png",
+      "archive": "research/renderer-capture-records/092-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-overline.png",
+      "archive": "research/renderer-capture-records/093-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-palette.png",
+      "archive": "research/renderer-capture-records/094-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-resize.png",
+      "archive": "research/renderer-capture-records/095-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-sixel.png",
+      "archive": "research/renderer-capture-records/096-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-sync-end.png",
+      "archive": "research/renderer-capture-records/097-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-sync-frozen.png",
+      "archive": "research/renderer-capture-records/098-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-2-text.png",
+      "archive": "research/renderer-capture-records/099-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-controller.json",
+      "archive": "research/renderer-capture-records/100-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "ea1591985d130695bdaf70ad47bd4a31a6272b467df74759a5bb0ef1f85a8234"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\api-capture\\research\\renderer-observed.json",
+      "archive": "research/renderer-capture-records/101-renderer-observed.json.gz",
+      "bytes": 9301,
+      "sha256": "6a931a81b003a06f109f890d0a21bbab3ead7c4e4e7ce6c17036016e8f467ffb"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\controller.log",
+      "archive": "research/renderer-capture-records/102-controller.log.gz",
+      "bytes": 369,
+      "sha256": "ac2ea2d6a3e8f2bafc48326c773dc5099e22e65637fdeab4e658171757c64517"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\renderer.log",
+      "archive": "research/renderer-capture-records/103-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "93846f95888a28df6c4428caaf766a384e19a406b8c1917a0135e7e8b0107713"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/104-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/105-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/106-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/107-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/108-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/109-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/110-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/111-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/112-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/113-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-enclosures.png",
+      "archive": "research/renderer-capture-records/114-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-expose.png",
+      "archive": "research/renderer-capture-records/115-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/116-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-ideograms.png",
+      "archive": "research/renderer-capture-records/117-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-overline-double-size.png",
+      "archive": "research/renderer-capture-records/118-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-overline.png",
+      "archive": "research/renderer-capture-records/119-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-palette.png",
+      "archive": "research/renderer-capture-records/120-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-resize.png",
+      "archive": "research/renderer-capture-records/121-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-sixel.png",
+      "archive": "research/renderer-capture-records/122-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-sync-end.png",
+      "archive": "research/renderer-capture-records/123-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-sync-frozen.png",
+      "archive": "research/renderer-capture-records/124-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-0-text.png",
+      "archive": "research/renderer-capture-records/125-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/126-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/127-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/128-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/129-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/130-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/131-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/132-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/133-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/134-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/135-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-enclosures.png",
+      "archive": "research/renderer-capture-records/136-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-expose.png",
+      "archive": "research/renderer-capture-records/137-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/138-renderer-1-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-ideograms.png",
+      "archive": "research/renderer-capture-records/139-renderer-1-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-overline-double-size.png",
+      "archive": "research/renderer-capture-records/140-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-overline.png",
+      "archive": "research/renderer-capture-records/141-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-palette.png",
+      "archive": "research/renderer-capture-records/142-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-resize.png",
+      "archive": "research/renderer-capture-records/143-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-sixel.png",
+      "archive": "research/renderer-capture-records/144-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-sync-end.png",
+      "archive": "research/renderer-capture-records/145-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-sync-frozen.png",
+      "archive": "research/renderer-capture-records/146-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-1-text.png",
+      "archive": "research/renderer-capture-records/147-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cache-eviction-0.png",
+      "archive": "research/renderer-capture-records/148-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cache-eviction-1.png",
+      "archive": "research/renderer-capture-records/149-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cache-eviction-2.png",
+      "archive": "research/renderer-capture-records/150-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-active-2.png",
+      "archive": "research/renderer-capture-records/151-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-active-4.png",
+      "archive": "research/renderer-capture-records/152-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-active-6.png",
+      "archive": "research/renderer-capture-records/153-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-inactive-2.png",
+      "archive": "research/renderer-capture-records/154-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-inactive-4.png",
+      "archive": "research/renderer-capture-records/155-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-cursor-inactive-6.png",
+      "archive": "research/renderer-capture-records/156-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-enclosures-double-size.png",
+      "archive": "research/renderer-capture-records/157-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-enclosures.png",
+      "archive": "research/renderer-capture-records/158-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-expose.png",
+      "archive": "research/renderer-capture-records/159-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-ideograms-double-size.png",
+      "archive": "research/renderer-capture-records/160-renderer-2-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-ideograms.png",
+      "archive": "research/renderer-capture-records/161-renderer-2-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-overline-double-size.png",
+      "archive": "research/renderer-capture-records/162-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-overline.png",
+      "archive": "research/renderer-capture-records/163-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-palette.png",
+      "archive": "research/renderer-capture-records/164-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-resize.png",
+      "archive": "research/renderer-capture-records/165-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-sixel.png",
+      "archive": "research/renderer-capture-records/166-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-sync-end.png",
+      "archive": "research/renderer-capture-records/167-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-sync-frozen.png",
+      "archive": "research/renderer-capture-records/168-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-2-text.png",
+      "archive": "research/renderer-capture-records/169-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-controller.json",
+      "archive": "research/renderer-capture-records/170-renderer-controller.json.gz",
+      "bytes": 472,
+      "sha256": "39fd6ad831c075b41b9e115d39301ad1b3456579119331e0cc7ad85689484e11"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\old-replay\\research\\renderer-observed.json",
+      "archive": "research/renderer-capture-records/171-renderer-observed.json.gz",
+      "bytes": 9120,
+      "sha256": "71ddf61582fa5ddec67be8dc7616b6f04d8ea20e1e51dd1738fd318fcf3245b2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\original-fixture.py",
+      "archive": "research/renderer-capture-records/172-original-fixture.py.gz",
+      "bytes": 20054,
+      "sha256": "a07410f8ff8e720ccb1d9d82981634dc3ee63052129329babc017225cad000c0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\renderer-capture-comparison\\results.json",
+      "archive": "research/renderer-capture-records/173-results.json.gz",
+      "bytes": 780,
+      "sha256": "af66808f389c215a1d88c599061f9a57acc509a71c736fa6691d64be1f9e2942"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\automation_capture.py",
+      "archive": "research/renderer-capture-records/174-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\gpu_capture.js",
+      "archive": "research/renderer-capture-records/175-gpu_capture.js.gz",
+      "bytes": 2742,
+      "sha256": "bf9232a8ba0b35650e351ed2db8e0a142cb450fb308c53c39b1ea464b22bfd2a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\gpu_capture.py",
+      "archive": "research/renderer-capture-records/176-gpu_capture.py.gz",
+      "bytes": 1626,
+      "sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\query_focus_probe.js",
+      "archive": "research/renderer-capture-records/177-query_focus_probe.js.gz",
+      "bytes": 2368,
+      "sha256": "71f2ba5bf1e7fdf93f665647b1e5eecae0eea6f679c5f34b03928a3b32444a79"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\renderer_window_smoke.py",
+      "archive": "research/renderer-capture-records/178-renderer_window_smoke.py.gz",
+      "bytes": 20166,
+      "sha256": "033bc275a74bcfdf434994a3ad7fc10cc990913b34470008cc5d64e51ebaf746"
+    }
+  ],
+  "results": [
+    {
+      "name": "old-replay",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": "GDI",
+          "checks": 20
+        },
+        {
+          "requested": 1,
+          "active": "OpenGL",
+          "checks": 20
+        },
+        {
+          "requested": 2,
+          "active": "DirectX",
+          "checks": 20
+        }
+      ]
+    },
+    {
+      "name": "api-capture",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": "GDI",
+          "checks": 20
+        },
+        {
+          "requested": 1,
+          "active": "OpenGL",
+          "checks": 20
+        },
+        {
+          "requested": 2,
+          "active": "DirectX",
+          "checks": 20
+        }
+      ]
+    }
+  ]
+}

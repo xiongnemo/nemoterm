@@ -1,0 +1,381 @@
+{
+  "scope": "Owned virtual pointer model with queued-interference canary; resource failures before hover remain failures",
+  "records": [
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-preview\\directx-images\\research\\inline-workload-tabs-directx-left-observed.json",
+      "archive": "research/hover-pointer-records/000-inline-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 177298,
+      "sha256": "424105adb638cedeeea64439fe5eef3859265833533d4763a0666d6512e9f7ac"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-preview\\directx-images\\tabs.log",
+      "archive": "research/hover-pointer-records/001-tabs.log.gz",
+      "bytes": 591,
+      "sha256": "678b90b013422e475d3865945da8b6ff5b45d0577c8f76eae2ecceebf8344654"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\iterm-images-worktree\\build\\iterm-ci-preview\\directx-images\\tests\\tabs_hover_probe.js",
+      "archive": "research/hover-pointer-records/002-tabs_hover_probe.js.gz",
+      "bytes": 1085,
+      "sha256": "e1f5232a891d1a8a43b728286f34f28cc59092d70af262a94141805b93218a7f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\check-hover-pointer-followup.py",
+      "archive": "research/hover-pointer-records/003-check-hover-pointer-followup.py.gz",
+      "bytes": 2781,
+      "sha256": "ef397410f0988c73b9b9d470b4ecf4c8fd45cfefcf83503d97260f207dd60bb7"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\check-hover-pointer.py",
+      "archive": "research/hover-pointer-records/004-check-hover-pointer.py.gz",
+      "bytes": 2753,
+      "sha256": "bb164d47f9819d82e3e181e72dd5aff4620bd60621ffd5d1aa4c00b5e307ba67"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\before\\controller.log",
+      "archive": "research/hover-pointer-records/005-controller.log.gz",
+      "bytes": 934,
+      "sha256": "90957e5d3d9b66f70521703cb11e3f8eda718e0cab8a45a208a5fe78a665bbbf"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\before\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/006-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "060f6e60e0b4afe3ccdb8d5285466ff1c937b19704d8952c46279bc41a1ffd73"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\before\\research\\tabs-directx-left-observed.json",
+      "archive": "research/hover-pointer-records/007-tabs-directx-left-observed.json.gz",
+      "bytes": 121047,
+      "sha256": "1bc0535e632f6b452da221ed6c3d0e54fd5f447e8ac41fc6bf6dd8faa24e20d2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\before\\tabs.log",
+      "archive": "research/hover-pointer-records/008-tabs.log.gz",
+      "bytes": 565,
+      "sha256": "787743acbce204164018ec2260393caca591405fa6db3e997a8746f30cbf7ef5"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\before\\tests\\tabs_hover_probe.js",
+      "archive": "research/hover-pointer-records/009-tabs_hover_probe.js.gz",
+      "bytes": 1912,
+      "sha256": "aacdbfa8684d496223c937c22c26112beec19999a8103553728edc90c7b1524a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\directx-left\\controller.log",
+      "archive": "research/hover-pointer-records/010-controller.log.gz",
+      "bytes": 366,
+      "sha256": "931e0ac54731abc6a59af007ef34f9216b70562037124103066a6e4e10b60d53"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\directx-left\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/011-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "141f6d0d8135e53eb63076765e6d9054737c156f6a4ef3ab003ddc5f65b893ea"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\directx-left\\research\\tabs-directx-left-observed.json",
+      "archive": "research/hover-pointer-records/012-tabs-directx-left-observed.json.gz",
+      "bytes": 127178,
+      "sha256": "4ec5713fe34878ec1e46d9d39b75dbf41593482c41b3e806a1d2987b1abc981a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\directx-left\\research\\tabs-directx-left-preview.png",
+      "archive": "research/hover-pointer-records/013-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\directx-left\\tabs.log",
+      "archive": "research/hover-pointer-records/014-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\controller.log",
+      "archive": "research/hover-pointer-records/015-controller.log.gz",
+      "bytes": 366,
+      "sha256": "5dfaaa4c2b73c3be9b7a7b2a174266c63b6b6c7b19dd8ff89a52846b405c408f"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/016-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "3b1578de1f1ce1e9156616ceaac52f28395e0515625c257de2e27b683ad08ee4"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\research\\tabs-gdi-top-host.png",
+      "archive": "research/hover-pointer-records/017-tabs-gdi-top-host.png.gz",
+      "bytes": 5774,
+      "sha256": "119f87989e2faf389805177b6e76ea438b9b8dd6f5aa6ebdd6c1c4cb803ae392"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\research\\tabs-gdi-top-observed.json",
+      "archive": "research/hover-pointer-records/018-tabs-gdi-top-observed.json.gz",
+      "bytes": 127777,
+      "sha256": "917c0365e1279c95801ea944c0a4fc19086c857708b5620320e6dcda70b0be9b"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\research\\tabs-gdi-top-preview.png",
+      "archive": "research/hover-pointer-records/019-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\gdi-top\\tabs.log",
+      "archive": "research/hover-pointer-records/020-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\opengl-bottom\\controller.log",
+      "archive": "research/hover-pointer-records/021-controller.log.gz",
+      "bytes": 986,
+      "sha256": "541589af78bb8bc72a354b7f7980b505215e6daac237cf5e4ebcb40d938ca503"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\opengl-bottom\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/022-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "ad18494e368b020d2a5a7532d4ee26c3c54d7f523f4a46569f1481e452b4d073"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\opengl-bottom\\research\\tabs-opengl-bottom-observed.json",
+      "archive": "research/hover-pointer-records/023-tabs-opengl-bottom-observed.json.gz",
+      "bytes": 48767,
+      "sha256": "c9e0bf7aaa9feb0a91ecbeb16529b8fcd84cb1d22eaa3355915cfe237873997e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\opengl-bottom\\tabs.log",
+      "archive": "research/hover-pointer-records/024-tabs.log.gz",
+      "bytes": 618,
+      "sha256": "f6228365393f7ae54689a6fe46c18f770943afa6e3fe246a575cae4de28d51f2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer\\results.json",
+      "archive": "research/hover-pointer-records/025-results.json.gz",
+      "bytes": 1987,
+      "sha256": "ba1da911e86c0f89b78f252d363963127e0f936a8d6bc668a7541a371f1ba78e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\directx-right\\controller.log",
+      "archive": "research/hover-pointer-records/026-controller.log.gz",
+      "bytes": 1003,
+      "sha256": "7b27f67ea54826cb1659cd42cefef767fb06d0f8355be7a46744759cd0b64ac2"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\directx-right\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/027-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "4357ed7c12eeb49d3d07424f84738df1006eb4c0ab505fb358ced7f639063ff6"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\directx-right\\research\\tabs-directx-right-observed.json",
+      "archive": "research/hover-pointer-records/028-tabs-directx-right-observed.json.gz",
+      "bytes": 49678,
+      "sha256": "9ed8c41ef0dc9bf5d390f63b8a7e779e9736c6b5b6aca1637775b4afb7470f61"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\directx-right\\tabs.log",
+      "archive": "research/hover-pointer-records/029-tabs.log.gz",
+      "bytes": 636,
+      "sha256": "c2fcd3a063b311d8891efb3e62bb22685dce5f089aa276a054cf2449b1ee7612"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\opengl-bottom\\controller.log",
+      "archive": "research/hover-pointer-records/030-controller.log.gz",
+      "bytes": 366,
+      "sha256": "0723526d65644aaad4f94c925b674d51399e19ad9f45cf69357873706331e00e"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\opengl-bottom\\research\\tabs-controller.json",
+      "archive": "research/hover-pointer-records/031-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "9e534187122e821fdc3b9cce0f76c66137585cc828c343a1a27d010cc7962a02"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\opengl-bottom\\research\\tabs-opengl-bottom-observed.json",
+      "archive": "research/hover-pointer-records/032-tabs-opengl-bottom-observed.json.gz",
+      "bytes": 126741,
+      "sha256": "521f05b15f46524ba3710397abd747f19f2a8fef41373c139d38c06ad60b12a9"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\opengl-bottom\\research\\tabs-opengl-bottom-preview.png",
+      "archive": "research/hover-pointer-records/033-tabs-opengl-bottom-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\opengl-bottom\\tabs.log",
+      "archive": "research/hover-pointer-records/034-tabs.log.gz",
+      "bytes": 37,
+      "sha256": "6c0ac1e47de565fd76faf37158f112828fb5e185fd7c191e4f7c3f6e54c40d47"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\build\\hover-pointer-followup\\results.json",
+      "archive": "research/hover-pointer-records/035-results.json.gz",
+      "bytes": 830,
+      "sha256": "d4f8139bd2d5e4e6ac7d714ac5c7281fe2f9bec49fdff1f1e30d6e3e14fc3883"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\tabs_hover_probe.js",
+      "archive": "research/hover-pointer-records/036-tabs_hover_probe.js.gz",
+      "bytes": 1877,
+      "sha256": "23694dc14a4dcf6db55ae6ac6b5331e4c05fdeef4d90550fa9fb84f75e4c2b37"
+    },
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tabs-close-worktree\\tests\\tabs_window_smoke.py",
+      "archive": "research/hover-pointer-records/037-tabs_window_smoke.py.gz",
+      "bytes": 27862,
+      "sha256": "db0c26ac814318a2fc4bd571fd8f2df7d620c3c417fe637b6f659fe1b9d7e126"
+    }
+  ],
+  "runs": [
+    [
+      {
+        "name": "before",
+        "exit_code": 1,
+        "completed": false,
+        "checks": 4,
+        "hover": {
+          "moves": 2,
+          "leaves": 0,
+          "ignored": 0,
+          "timers": 0,
+          "events": [
+            {
+              "msg": 512,
+              "flags": 1,
+              "lp": 917600,
+              "ignored": false
+            },
+            {
+              "msg": 512,
+              "flags": 0,
+              "lp": 2147450879,
+              "ignored": false
+            }
+          ]
+        },
+        "error": "AssertionError('Timed out waiting for native fixture')"
+      },
+      {
+        "name": "directx-left",
+        "exit_code": 0,
+        "completed": true,
+        "checks": 9,
+        "hover": {
+          "moves": 1,
+          "leaves": 1,
+          "ignored": 1,
+          "timers": 2,
+          "events": [
+            {
+              "msg": 512,
+              "flags": 1,
+              "lp": 917600,
+              "ignored": false
+            },
+            {
+              "msg": 512,
+              "flags": 0,
+              "lp": 2147450879,
+              "ignored": true
+            },
+            {
+              "msg": 675,
+              "flags": 1,
+              "lp": 0,
+              "ignored": false
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "name": "gdi-top",
+        "exit_code": 0,
+        "completed": true,
+        "checks": 9,
+        "hover": {
+          "moves": 1,
+          "leaves": 1,
+          "ignored": 1,
+          "timers": 2,
+          "events": [
+            {
+              "msg": 512,
+              "flags": 1,
+              "lp": 917524,
+              "ignored": false
+            },
+            {
+              "msg": 512,
+              "flags": 0,
+              "lp": 2147450879,
+              "ignored": true
+            },
+            {
+              "msg": 675,
+              "flags": 1,
+              "lp": 0,
+              "ignored": false
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "name": "opengl-bottom",
+        "exit_code": 1,
+        "completed": false,
+        "checks": 1,
+        "hover": null,
+        "error": "AssertionError('Closed-tab resources did not return to baseline')"
+      }
+    ],
+    [
+      {
+        "name": "opengl-bottom",
+        "exit_code": 0,
+        "completed": true,
+        "checks": 9,
+        "hover": {
+          "moves": 1,
+          "leaves": 1,
+          "ignored": 1,
+          "timers": 2,
+          "events": [
+            {
+              "msg": 512,
+              "flags": 1,
+              "lp": 63963156,
+              "ignored": false
+            },
+            {
+              "msg": 512,
+              "flags": 0,
+              "lp": 2147450879,
+              "ignored": true
+            },
+            {
+              "msg": 675,
+              "flags": 1,
+              "lp": 0,
+              "ignored": false
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "name": "directx-right",
+        "exit_code": 1,
+        "completed": false,
+        "checks": 1,
+        "hover": null,
+        "error": "AssertionError('Closed-tab resources did not return to baseline')"
+      }
+    ]
+  ]
+}
