@@ -50,3 +50,7 @@ source changes and reused-host development build independently.
 This artifact is suitable for the current accepted development download. It
 does not contain the subsequent SGR 60-65 branch, and does not establish full
 physical IME, multi-monitor, long real-agent or exhaustive protocol coverage.
+
+A subsequent main rebuild `57171fa` failed the binding fixture on a transient
+empty report read. Its [separate diagnosis and test fix](bindings-observation.md)
+preserve that failed run; the accepted artifact above is unchanged.
