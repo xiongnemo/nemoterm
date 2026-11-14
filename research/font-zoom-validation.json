@@ -1,0 +1,21 @@
+{
+  "failed_source_commit": "555934a1aff0dd0a0873026797dd7958ba3ff8f8",
+  "run_id": 43605518175,
+  "artifact_id": 14118695012,
+  "native_executable_sha256": "779be18fe7125cfdbd6f08c106f4d08be488036dff9889ee0c82c938846ec536",
+  "failure": "one-point zoom increases cell height from 19 to 20; bright glyph bounding box stays 7x7",
+  "resolution_status": "independent startup font pixel comparison added; pending remote execution",
+  "local_native_tests": "remain paused by user",
+  "retained": [
+    {
+      "file": "font-zoom-evidence/555934a-failed.log.gz",
+      "raw_sha256": "77a93c358faf68ee57190c161387126c247ef890089ab438e967aa8af7b32dfb",
+      "compressed_sha256": "f20c5dd198b653d178b9fec5c917b91f08b5a8beb1e02a3b1e89572c52f735a4"
+    },
+    {
+      "file": "font-zoom-evidence/555934a-font-zoom-observed.json.gz",
+      "raw_sha256": "c939ffa0b9ba9367c8adaee0dbb745cf938fa1bf9501b42b0f8daef30b907b43",
+      "compressed_sha256": "074aaada926b1d07efac314073c869ff72faa69a9d79fc75a5fe8004e488f052"
+    }
+  ]
+}

@@ -22,6 +22,58 @@ marker = b'\x1b[0n'
 scene = ('\x1b[?25l\x1b[0m\x1b]10;#ffffff\x07\x1b]11;#000000\x07\x1b[2J'
          '\x1b[H\x1b[48;2;17;201;83m  \x1b[0m\x1b[2;2HM')
 
+def glyph_cell(rgb,width,cw,ch):
+    """Locate cell origin from independent solid colour, then crop the M cell."""
+    green=[i//3 for i in range(0,len(rgb),3) if rgb[i:i+3]==b'\x11\xc9\x53']
+    assert len(green)==2*cw*ch
+    left,top=min(i%width for i in green),min(i//width for i in green)
+    assert max(i%width for i in green)-left+1==2*cw
+    assert max(i//width for i in green)-top+1==ch
+    return b''.join(rgb[((top+ch+y)*width+left+cw)*3:
+                        ((top+ch+y)*width+left+2*cw)*3] for y in range(ch))
+
+def reference_font(renderer,points):
+    """A separate process starts at the requested size and never invokes zoom."""
+    result=dict(requested_renderer=renderer,points=points)
+    evidence.setdefault('reference_fonts',[]).append(result)
+    profile=dict(NemoRenderer=renderer,NemoTabs=0,WarnOnClose=0,TrueColour=1,LockSize=0)
+    with saved_profile(profile) as args, tempfile.TemporaryDirectory(prefix='nemo-font-reference-') as tmp, OwnedJob() as job:
+        report,control=Path(tmp)/'report.json',Path(tmp)/'control.json'
+        process=job.spawn([str(exe),'--automation',*args,'--cols','80','--rows','24',
+            '--font',font,'--font-size',str(points),'-e',sys.executable,
+            str(root/'tests/mouse_fixture.py'),str(report),str(control),'60'],
+            env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1',
+                     NEMOTERM_TEST_UTF8_INPUT='1'),creationflags=subprocess.CREATE_NO_WINDOW)
+        capture=None
+        result['pid']=process.pid
+        try:
+            hwnd=wait_for(lambda:find_window(process.pid))
+            wait_for(lambda:read_snapshot(report))
+            write_snapshot(control,dict(phase='reference',sequence=scene+'\x1b[16t\x1b[5n'))
+            value=wait_snapshot(lambda:read_snapshot(report),lambda v:v.get('phase')=='reference' and
+                                bytes.fromhex(v.get('hex','')).endswith(marker))
+            match=re.fullmatch(rb'\x1b\[6;(\d+);(\d+)t\x1b\[0n',bytes.fromhex(value['hex']))
+            assert match,value
+            ch,cw=map(int,match.groups())
+            capture=OwnedAutomationCapture(process.pid,hwnd)
+            def ready():
+                rgb=capture.capture(return_pixels=True)
+                return rgb if sum(rgb[i:i+3]==b'\x11\xc9\x53' for i in range(0,len(rgb),3))==2*cw*ch else None
+            rgb=wait_for(ready)
+            r=w.RECT();assert u.GetClientRect(hwnd,c.byref(r))
+            result.update(cell=[cw,ch],actual_renderer=int(u.GetPropW(hwnd,'NemotermRenderer') or 0),
+                          glyph_cell_sha256=hashlib.sha256(glyph_cell(rgb,r.right,cw,ch)).hexdigest())
+            write_snapshot(control,dict(stop=True));assert process.wait(timeout=10)==0
+            result['cleanup']=job.finish(grace=5)
+            assert not result['cleanup']['terminated_remaining']
+            result['completed']=True
+        finally:
+            if sys.exc_info()[0]:result['error']=repr(sys.exc_info()[1])
+            result['last_snapshot']=read_snapshot(report)
+            if capture:capture.close()
+            result.setdefault('cleanup',job.finish(grace=0))
+    return result
+
 try:
     for renderer,zoom_modifier in ((0,2),(1,2),(2,2),(0,0)):
         mode = dict(requested_renderer=renderer, zoom_modifier=zoom_modifier, checks=[])
@@ -91,7 +143,8 @@ try:
                     assert white
                     xs,ys=[i%r.right for i in white],[i//r.right for i in white]
                     item=dict(name=name,cell=[cw,ch],grid=[cols,rows],outer=outer(),
-                              glyph=[max(xs)-min(xs)+1,max(ys)-min(ys)+1])
+                              glyph=[max(xs)-min(xs)+1,max(ys)-min(ys)+1],
+                              glyph_cell_sha256=hashlib.sha256(glyph_cell(rgb,r.right,cw,ch)).hexdigest())
                     mode['checks'].append(item)
                     return item
                 def wheel(delta,keys):
@@ -119,8 +172,18 @@ try:
                 assert metrics('half-unchanged')['cell']==initial['cell']
                 phase('second-half','');wheel(60,8);barrier(marker)
                 larger=metrics('larger')
-                assert larger['cell'][1]>initial['cell'][1] and larger['glyph'][1]>initial['glyph'][1]
+                assert larger['cell'][1]>initial['cell'][1]
                 assert larger['outer']==initial['outer'] and larger['grid'][1]<initial['grid'][1]
+                reference=reference_font(renderer,13)
+                mode['reference_font']=reference
+                assert reference['actual_renderer']==mode['actual_renderer']
+                assert larger['cell']==reference['cell']
+                assert larger['glyph_cell_sha256']==reference['glyph_cell_sha256']
+                # Hinting can keep a glyph's bright-pixel bounding box unchanged
+                # for one point. A larger zoom must visibly increase that box.
+                phase('larger-range','');wheel(360,8);barrier(marker)
+                enlarged=metrics('four-points-larger')
+                assert enlarged['glyph'][1]>initial['glyph'][1]
                 u.SendMessageW(hwnd,0x111,0x0960,0)
                 assert metrics('menu-reset')['cell']==initial['cell']
                 phase('app-mouse','\x1b[?1000;1006h');wheel(120,8)

@@ -54,6 +54,17 @@ local audible acceptance remain open.
 
 ## Verification
 
+The first full core CI on `555934a` passes sanitizer and MSVC renderer jobs but
+fails the new MinGW/native zoom fixture. Its GDI cell grows from 9x19 to 9x20
+while the bright-pixel bounding box of M remains 7x7. That is not sufficient
+to distinguish raster hinting from a stale glyph. The initial assertion that
+every one-point increase must enlarge that bounding box is replaced by an
+exact normalized glyph-cell comparison with a separate terminal started at
+13 points, which never invokes zoom. A separate four-point zoom must visibly
+enlarge the glyph. Cell-size, fixed-window, resized-grid, resource and input
+assertions remain mandatory. The original failure is retained; it is not a
+passing native run. The new reference comparison is pending remote execution.
+
 The native zoom fixture covers partial-wheel accumulation, application Ctrl
 wheel reports, forced Shift zoom, menu reset, custom bindings including key-up
 suppression in kitty event mode, current cell/glyph pixels, fixed outer bounds,
