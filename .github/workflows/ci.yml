@@ -147,6 +147,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_dec_status_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_c1_controls_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_checksum_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_sgr_stack_oracle.py --check

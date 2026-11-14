@@ -9,6 +9,7 @@
 #include "../../../tests/checksum_oracle_cases.h"
 #include "../../../tests/sgr_stack_oracle_cases.h"
 #include "../../../tests/presentation_state_oracle_cases.h"
+#include "../../../tests/c1_controls_oracle_cases.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -22,6 +23,61 @@ static void response(Mock *mk, const char *expected)
         putchar('\n');
     }
     strbuf_clear(mk->to_backend);
+}
+
+static void test_c1_controls(Mock *mk)
+{
+    mk->ucsdata->line_codepage = CP_UTF8;
+    for (size_t i = 0; i < lenof(c1_controls_oracle); i++) {
+        reset(mk);
+        test_context(mk, "C1 control bytes %s", c1_controls_oracle[i].name);
+        term_data_fragmented(mk->term, c1_controls_oracle[i].sequence);
+        response(mk, c1_controls_oracle[i].reply);
+    }
+    reset(mk);
+    test_context(mk, "8-bit framing preserves OSC colour data and terminator choice");
+    term_data_fragmented(mk->term, "\033[65;1\"p\033 G\033]4;1;#123456\007"
+        "\033]4;1;?\007\033]4;1;?\033\\");
+    response(mk, "\2354;1;rgb:1212/3434/5656\007\2354;1;rgb:1212/3434/5656\234");
+    test_context(mk, "legacy DOCS UTF-8 designation preserves C1 transmission");
+    term_data_fragmented(mk->term, "\033%@\033%8\033[5n");
+    IEQUAL(mk->term->utf, true); IEQUAL(mk->term->c1_8bit, true);
+    response(mk, "\2330n");
+    test_context(mk, "literal UTF-8 and raw keyinput are independent of protocol encoding");
+    char alt_bracket[] = "\033[", alt_o[] = "\033O";
+    IEQUAL(term_format_c1_key(mk->term, alt_bracket, 2), 2); SEQUAL(alt_bracket, "\033[");
+    IEQUAL(term_format_c1_key(mk->term, alt_o, 2), 2); SEQUAL(alt_o, "\033O");
+    term_keyinput(mk->term, -1, "\033[TEXT", 6); response(mk, "\033[TEXT");
+    term_keyinputw(mk->term, L"\x4e2d", 1); response(mk, "\344\270\255");
+    char key[64]; bool consumed = false; int n;
+    memcpy(key, "\033[Z", 3);
+    n = term_format_c1_key(mk->term, key, 3);
+    key[n] = 0; SEQUAL(key, "\233Z");
+    test_context(mk, "generated cursor and keypad keys use CSI and SS3 C1 forms");
+    term_data_fragmented(mk->term, "\033[?1l");
+    n = format_arrow_key(key, mk->term, 'A', false, false, false, &consumed);
+    key[n] = 0; SEQUAL(key, "\233A");
+    term_data_fragmented(mk->term, "\033[?1h\033=");
+    n = format_arrow_key(key, mk->term, 'A', false, false, false, &consumed);
+    key[n] = 0; SEQUAL(key, "\217A");
+    n = format_numeric_keypad_key(key, mk->term, '1', false, false);
+    key[n] = 0; SEQUAL(key, "\217q");
+    term_data_fragmented(mk->term, "\033 F");
+    n = format_arrow_key(key, mk->term, 'A', false, false, false, &consumed);
+    key[n] = 0; SEQUAL(key, "\033OA");
+    test_context(mk, "Unicode-only backend carries C1 scalars without replacing text");
+    BackendVtable utf8_backend = mock_backend_vt;
+    utf8_backend.flags |= BACKEND_UTF8_C1;
+    mk->backend.vt = &utf8_backend;
+    term_data_fragmented(mk->term, "\033 G\033[5n\033P$qm\033\\");
+    response(mk, "\302\2330n\302\2201$r0m\302\234");
+    n = format_arrow_key(key, mk->term, 'A', false, false, false, &consumed);
+    key[n] = 0; SEQUAL(key, "\302\217A");
+    term_keyinputw(mk->term, L"\x4e2d", 1); response(mk, "\344\270\255");
+    term_data_fragmented(mk->term, "\033[?9001;7n");
+    response(mk, "\033[?9001;7;1;1R");
+    mk->backend.vt = &mock_backend_vt;
+    reset(mk);
 }
 
 static void test_presentation_state(Mock *mk)
@@ -454,7 +510,7 @@ static void test_identity(Mock *mk)
 
     test_context(mk, "DA3 needs VT420; default mode restores modern query");
     term_data_fragmented(mk->term, "\033[41\"p\033[61\"p\033[=c"
-                         "\033[62\"p\033[=c\033[64\"p\033[=c");
+                         "\033[62;1\"p\033[=c\033[64;1\"p\033[=c");
     response(mk, "\033P!|00000000\033\\");
     term_data_fragmented(mk->term, "\033[41\"p\033[=c");
     response(mk, "\033P!|00000000\033\\");
@@ -508,7 +564,7 @@ static void test_state_strings(Mock *mk)
 static void test_dcs_recovery(Mock *mk)
 {
     reset(mk); test_context(mk, "bounded query, cancellation and parser recovery");
-    term_data_fragmented(mk->term, "\033P$q\033\\\033P$qunknown\033\\\033P$q\"p\033\\");
+    term_data_fragmented(mk->term, "\033P$q\033\\\033P$qunknown\033\\\033P$q\"unknown\033\\");
     response(mk, "\033P0$r\033\\\033P0$r\033\\\033P0$r\033\\");
     term_data_fragmented(mk->term, "\033P$q");
     for (int i = 0; i < 10000; i++) term_data(mk->term, "m", 1);
@@ -723,6 +779,7 @@ int main(void)
     test_checksums(mk);
     test_sgr_stack(mk);
     test_presentation_state(mk);
+    test_c1_controls(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Query suite FAILED" : "Query suite passed");

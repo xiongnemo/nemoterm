@@ -1,0 +1,36 @@
+{
+  "version": "XTerm(412)",
+  "executable_sha256": "089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c",
+  "cases": {
+    "switch-": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": "\u001b[0n\u001b[1;1R\u001bP1$r65;1\"p\u001b\\\u001bP1$r0m\u001b\\",
+      "reply_hex": "1b5b306e1b5b313b31521b5031247236353b3122701b5c1b50312472306d1b5c"
+    },
+    "switch-1b2046": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": "\u001b[0n\u001b[1;1R\u001bP1$r65;1\"p\u001b\\\u001bP1$r0m\u001b\\",
+      "reply_hex": "1b5b306e1b5b313b31521b5031247236353b3122701b5c1b50312472306d1b5c"
+    },
+    "switch-1b2047": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b G\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": null,
+      "reply_hex": "9b306e9b313b31529031247236353b3022709c90312472306d9c"
+    },
+    "switch-1b20471b2046": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b G\u001b F\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": "\u001b[0n\u001b[1;1R\u001bP1$r65;1\"p\u001b\\\u001bP1$r0m\u001b\\",
+      "reply_hex": "1b5b306e1b5b313b31521b5031247236353b3122701b5c1b50312472306d1b5c"
+    },
+    "switch-1b20461b2047": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": null,
+      "reply_hex": "9b306e9b313b31529031247236353b3022709c90312472306d9c"
+    },
+    "level-61--F": {
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b[61;\"p\u001b[5n\u001b[6n\u001bP$q\"p\u001b\\\u001bP$qm\u001b\\\u001b F",
+      "reply": "\u001b[0n\u001b[1;1R\u001bP1$r0m\u001b\\",
+      "reply_hex": "1b5b306e1b5b313b31521b50312472306d1b5c"
+    }
+  }
+}

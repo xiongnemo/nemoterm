@@ -204,7 +204,7 @@ static void send_event(WinGuiSeat *wgs, unsigned mode, const NemoKeyEvent *event
 {
     char encoded[NEMO_KEY_ENCODED_MAX];
     int n = nemo_keyboard_encode(mode, event, encoded, sizeof(encoded));
-    if (n > 0) term_keyinput(wgs->term, -1, encoded, n);
+    if (n > 0) term_keyinput(wgs->term, -1, encoded, term_format_c1_key(wgs->term, encoded, n));
     if (held) {
         NemoKeyEvent release = *event;
         release.type = 3;
@@ -272,6 +272,7 @@ static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
         int length = nemo_mok_encode(&wgs->term->modify_keys, &event, output+used, sizeof(output)-used);
         if (length < 0) return false;
         if (!length) return true;
+        length = term_format_c1_key(wgs->term, output+used, length);
         used += length;
     }
     ToUnicodeEx(vk, scan, state, wide, lenof(wide), 0, layout);
@@ -408,7 +409,7 @@ bool nemo_keyboard_text(WinGuiSeat *wgs, const wchar_t *text, size_t length)
                 NemoModifiedKey key = {.key=values[i], .type=1};
                 char encoded[NEMO_MOK_ENCODED_MAX];
                 int n = nemo_mok_encode(&wgs->term->modify_keys, &key, encoded, sizeof(encoded));
-                if (n > 0) term_keyinput(wgs->term, -1, encoded, n);
+                if (n > 0) term_keyinput(wgs->term, -1, encoded, term_format_c1_key(wgs->term, encoded, n));
             }
             text += take; length -= take;
         }

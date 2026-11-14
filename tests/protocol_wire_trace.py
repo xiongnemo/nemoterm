@@ -66,8 +66,9 @@ class ProtocolWireTrace:
             self.ready.set()
 
     def phase(self, name, sequence, expected):
+        expected_bytes = expected if isinstance(expected, bytes) else expected.encode() if expected is not None else None
         self.record(dict(kind='phase', name=name, sequence_hex=sequence.encode().hex(),
-                         expected_hex=expected.encode().hex() if expected is not None else None))
+                         expected_hex=expected_bytes.hex() if expected_bytes is not None else None))
 
     def close(self):
         if not self.closed:

@@ -59,7 +59,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC ( / ) / * / + with A/B/0/U | Partial | British/ASCII/DEC graphics/SCO designation in G0–G3; reported and restored by presentation-state controls. Other national and 96-character sets remain missing; PuTTY's UTF-8 British/codepage behavior is retained. |
 | ESC % G / ESC % @ | Partial | UTF-8 switching exists; not full ISO 2022 conformance. |
 | ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Single/locking GL shifts use the four supported banks; native G2/G3 line-drawing pixels and one-shot lifetime are tested. GR bank tracking and legacy line/UK remapping exist, but default GR still follows PuTTY's byte codepage and full ISO 2022 mappings remain open. |
-| ESC SP F/G (S7C1T/S8C1T) | Missing | No selectable 8-bit reply mode. |
+| ESC SP F/G (S7C1T/S8C1T) | Tested | Selectable generated reply/key framing; 141 exact XTerm streams, two native code-page variants, reset/level lifetimes. See [C1 transmission](../research/c1-controls.md). Input-parser conformance remains separate. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
 | ESC 6/9 (DECBI/DECFI) | Tested | `margins`, native `horizontal`: VT420 gate, inside/outside margins, edge scrolling and pending wrap. Text, full cell payloads, shell marks and Sixel pixels move together. |
 | ESC V/W (SPA/EPA) | Tested | ISO guarded writes, ordinary/DEC erasure, queries, reset and family transitions: 63 independent XTerm matches, core assertions and single-image native text/Sixel pixels. See [guarded areas](../research/guarded-areas.md) for the upstream sidecar limitation. Legacy raw C1 dispatch retains the configured codepage policy. |
@@ -98,7 +98,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ?n (DEC-specific DSR, including extended CPR) | Tested | `queries`, native `dec_status`: 5/6/15/25/26/55/56/62/63/75/85, level-dependent report formats, origin/margins/resize and explicit unavailable devices. UDK download, DEC locator and macros themselves remain missing. See `dec-status.md`. |
 | ?9001;id n (Nemoterm internal cursor synchronization) | Tested | Same-image host transaction IDs and viewport-absolute coordinates; separate from application CPR and Win32 input mode 9001. Native ordering, stale replies and console-API positions are checked. |
 | x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
-| "p (DECSCL) | Partial | Level 61–65 masks now distinguish VT300/VT400 reports, including RIS retention. PuTTY extensions remain; full reset semantics and the second parameter's 7/8-bit control selection are not implemented. |
+| "p (DECSCL) | Partial | Levels 61–65, soft-reset effects, Pc control selection and DECRQSS `"p` use the [C1 reference capture](../research/c1-controls.md). PuTTY extensions remain; exhaustive reset/charset interactions remain open. |
 | "q (DECSCA) | Tested | `selective_erase` checks independence from SGR resets. ISO/DEC transitions and the family-sensitive DECRQSS response pass the guarded-area reference/core/native matrix. |
 | $z / ${ (DECERA/DECSERA) | Tested | `selective_erase` rectangles, with ISO/combined-family distinctions covered by the guarded-area reference/core/native matrix. |
 | $x / $v (DECFRA/DECCRA) | Tested | `rectangle`, fill/copy, overlap, wide/combining characters and page handling. |
@@ -141,7 +141,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | Other DEC modes, including 1042/1043 bell focus | Missing | Not in the current mode handler; DECRQM returns unknown rather than advertising support. |
 | >m/>n/?m; >f/?g/>g (modifyOtherKeys family) | Partial | `mok`, native key tests and independent reference; supported resource is modifyOtherKeys, not all xterm key resources. |
 | ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |
-| DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
+| DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "p, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
 | DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key and rendition whitelist. `smul/rmul`, `sitm/ritm`, `smxx/rmxx`, `Smol/Rmol`, plus `us/ue/ZH/ZR` aliases. Development adds `Smulx`/`Setulc` programs with local ncurses expansion and native discovery/state checks; remote CI is pending. Not arbitrary terminfo access; `Su` and `Setulc1` remain unknown. See [underline query evidence](../research/underline-capabilities.md). |
 | DCS +p ... ST (XTSETTCAP), user-defined keys and full terminal-state restoration | Missing | Query-only termcap support; presentation-state restoration is listed separately. |
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |

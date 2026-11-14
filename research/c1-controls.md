@@ -1,0 +1,48 @@
+# C1 transmission and operating level
+
+S7C1T/S8C1T now select the framing of generated CSI, SS3, DCS, OSC and ST
+records. Defaults and RIS use seven-bit framing. Literal text, UTF-8 input,
+configured answerback and the private ConPTY 9001 transport remain separate.
+One boolean and stack buffers implement the conversion; it adds no cache or
+runtime dependency.
+
+DECSCL levels 61–65 perform the soft reset and select the operating level.
+At levels 62–65, Pc 0/2 selects eight-bit framing and Pc 1 selects seven-bit.
+Level 61 and invalid Pc values preserve the existing transmission selection;
+S7C1T/S8C1T are ignored at level 61. DECRQSS `"p` reports the current level and
+control selection above level 61. Existing PuTTY compatibility extensions remain.
+
+The independent capture uses XTerm 412, executable SHA-256
+`089de40f5a47b2ee07ddb778e7e031116673c7c20a55facbd9caf8d78978573c`.
+It retains 144 raw byte streams. The generated exact comparison covers 141;
+two default-palette observations and one title-policy observation are retained
+but excluded from equality because those resources differ. Deterministic colour
+set/query assertions separately verify OSC framing and BEL/ST termination.
+The oracle covers mode changes, omitted/invalid parameters, resets, save/restore,
+alternate screens, DOCS, representative replies and DECSCL state effects.
+
+ConPTY consumes UTF-8 characters, so its generated C1 controls are encoded as
+U+0080–U+009F on that pipe. Console clients read the resulting characters through
+their selected code page: ISO-8859-1 yields original C1 octets; UTF-8 yields
+two-byte encodings. Windows DOCS changes the console code page itself; the
+fixture checks this behavior explicitly. Other backends retain raw C1 octets.
+The fixture changes only its own console, restores its initial code page and
+sends messages only to its owned HWND.
+
+Development validation passes eight MinGW core suites and seven Linux
+ASan/UBSan suites with leak detection (the Linux build has no mouse target).
+Both native code-page variants pass all 141 queries plus CSI/SS3 keys,
+modifyOtherKeys, Kitty text and literal-text checks and exit naturally. Final
+CI and downloaded single-image validation are recorded separately when complete.
+
+Initial failures are retained: an oracle barrier that attempted S7C1T at level
+61; raw C1 rejection by the UTF-8 ConPTY pipe; DOCS changing the fixture's input
+code page; and a new modifyOtherKeys assertion missing its explicit `;1`
+modifier. The latter was corrected from the existing independent keyboard
+contract, not by relaxing equality. Review also caught the legacy `ESC % 8`
+alias adjacent to the new parser cases; a regression assertion preserves its
+UTF-8 designation without changing C1 transmission.
+
+This is bounded transmission coverage, not complete C0/C1 input-parser, VT52,
+charset, keyboard-layout or XTerm conformance. Renderer memory and lifetime
+acceptance remain independent.

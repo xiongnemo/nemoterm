@@ -32,6 +32,7 @@ try {
         'highlight', 'sixel', 'sixel_font', 'hyperlink', 'reflow', 'keyboard',
         'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'alignment', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'relative_cursor', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
+    $tests += 'c1_controls'
     foreach ($name in $tests) {
         Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
@@ -39,6 +40,11 @@ try {
         & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'c1_controls') {
+            & python "$Destination/tests/c1_controls_window_smoke.py" --input-cp 65001 2>&1 | Tee-Object "$Destination/logs/c1-controls-utf8.log"
+            if ($LASTEXITCODE) { throw 'Single-executable UTF-8 C1 transport test failed' }
+            $checks.Add('c1-controls-utf8')
+        }
         if ($name -eq 'grapheme') {
             & python "$Destination/tests/grapheme_window_smoke.py" --font-resize 2>&1 | Tee-Object "$Destination/logs/grapheme-font.log"
             if ($LASTEXITCODE) { throw 'Single-executable grapheme font resize test failed' }

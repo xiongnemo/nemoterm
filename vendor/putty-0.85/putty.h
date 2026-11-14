@@ -590,6 +590,7 @@ enum {
                                               CONF_ssh_nc_host */
 #define BACKEND_NOTIFIES_SESSION_START 0x08 /* Backend will call
                                                seat_notify_session_started */
+#define BACKEND_UTF8_C1             0x10 /* Protocol C1 uses Unicode transport */
 
 /* In (no)sshproxy.c */
 extern const bool ssh_proxy_supported;
@@ -2113,6 +2114,7 @@ typedef enum SmallKeypadKey {
 } SmallKeypadKey;
 int format_arrow_key(char *buf, Terminal *term, int xkey,
                      bool shift, bool ctrl, bool alt, bool *consumed_alt);
+int term_format_c1_key(Terminal *term, char *buf, int len);
 int format_function_key(char *buf, Terminal *term, int key_number,
                         bool shift, bool ctrl, bool alt, bool *consumed_alt);
 int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
@@ -2265,6 +2267,7 @@ Ldisc *ldisc_create(Conf *, Terminal *, Backend *, Seat *);
 void ldisc_configure(Ldisc *, Conf *);
 void ldisc_free(Ldisc *);
 void ldisc_send(Ldisc *, const void *buf, int len, bool interactive);
+int ldisc_format_c1(Ldisc *, char *buf, unsigned control);
 bool ldisc_send_queue_below(Ldisc *, size_t limit);
 void ldisc_echoedit_update(Ldisc *);
 void ldisc_provide_userpass_le(Ldisc *, TermLineEditor *);

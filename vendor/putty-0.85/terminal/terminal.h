@@ -179,6 +179,7 @@ struct terminal_tag {
     bool sixel_palette_valid;
 
     int compatibility_level;
+    bool c1_8bit;                  /* Generated protocol controls, not text. */
 
     tree234 *scrollback;               /* lines scrolled off top of screen */
     tree234 *screen;                   /* lines on primary screen */
