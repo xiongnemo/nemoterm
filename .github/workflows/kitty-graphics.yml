@@ -6,6 +6,13 @@ on:
     paths:
       - .github/workflows/kitty-graphics.yml
       - vendor/putty-0.85/terminal/nemo_kitty*
+      - vendor/putty-0.85/terminal/nemo_zlib.*
+      - vendor/putty-0.85/terminal/puff/**
+      - tests/test_zlib.c
+      - tests/zlib_reference.h
+      - vendor/putty-0.85/test/kitty_compression_reference.h
+      - scripts/generate-kitty-compression-reference.py
+      - research/kitty-compression-evidence/**
       - tests/test_kitty_transport.c
       - tests/test_kitty_cache.c
       - tests/test_kitty_layout.c
@@ -25,6 +32,13 @@ on:
     paths:
       - .github/workflows/kitty-graphics.yml
       - vendor/putty-0.85/terminal/nemo_kitty*
+      - vendor/putty-0.85/terminal/nemo_zlib.*
+      - vendor/putty-0.85/terminal/puff/**
+      - tests/test_zlib.c
+      - tests/zlib_reference.h
+      - vendor/putty-0.85/test/kitty_compression_reference.h
+      - scripts/generate-kitty-compression-reference.py
+      - research/kitty-compression-evidence/**
       - tests/test_kitty_transport.c
       - tests/test_kitty_cache.c
       - tests/test_kitty_layout.c
@@ -59,6 +73,11 @@ jobs:
         run: |
           set -o pipefail
           "$CC" --version | tee compiler.txt
+          python3 scripts/generate-kitty-compression-reference.py --check
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 -I vendor/putty-0.85/terminal tests/test_zlib.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c -o zlib-test
+          ./zlib-test 2>&1 | tee zlib-normal.log
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -I vendor/putty-0.85/terminal tests/test_zlib.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c -o zlib-sanitizers
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./zlib-sanitizers 2>&1 | tee zlib-sanitizers.log
           python3 scripts/generate-kitty-layout-reference.py --check
           python3 scripts/generate-kitty-placement-reference.py --check
           "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 \
@@ -74,6 +93,7 @@ jobs:
           "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 \
             -I vendor/putty-0.85/terminal tests/test_kitty_cache.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-cache
           ./kitty-cache 2>&1 | tee cache-normal.log
@@ -81,6 +101,7 @@ jobs:
             -fsanitize=address,undefined -fno-omit-frame-pointer \
             -I vendor/putty-0.85/terminal tests/test_kitty_cache.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-cache-asan
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
@@ -102,6 +123,7 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty_placements.c \
             vendor/putty-0.85/terminal/nemo_kitty_layout.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-normal
           ./kitty-placements-normal 2>&1 | tee placements-normal.log
@@ -110,10 +132,12 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty_placements.c \
             vendor/putty-0.85/terminal/nemo_kitty_layout.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-sanitizers
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers 2>&1 | tee placements-sanitizers.log
           python3 scripts/generate-kitty-terminal-reference.py --check
+          python3 scripts/generate-kitty-compression-reference.py --check
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja \
             -DCMAKE_C_COMPILER="$CC" -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
@@ -122,7 +146,7 @@ jobs:
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-terminal/test_sixel_terminal 2>&1 | tee terminal-sanitizers.log
           sha256sum vendor/putty-0.85/terminal/terminal.[ch] vendor/putty-0.85/putty.h vendor/putty-0.85/test/test_kitty_terminal.inc vendor/putty-0.85/test/kitty_terminal_reference.h scripts/generate-kitty-terminal-reference.py > terminal-sources.sha256
-          sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py tests/kitty_placement_reference.h scripts/generate-kitty-placement-reference.py > sources.sha256
+          sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py tests/kitty_placement_reference.h scripts/generate-kitty-placement-reference.py vendor/putty-0.85/terminal/nemo_zlib.* vendor/putty-0.85/terminal/puff/* tests/test_zlib.c tests/zlib_reference.h vendor/putty-0.85/test/kitty_compression_reference.h scripts/generate-kitty-compression-reference.py > sources.sha256
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -137,6 +161,7 @@ jobs:
             layout-sanitizers.log
             placements-normal.log
             placements-sanitizers.log
+            zlib-*.log
             sources.sha256
             terminal-sources.sha256
             terminal-configure.log
@@ -155,13 +180,19 @@ jobs:
           $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          python scripts/generate-kitty-compression-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_zlib.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c /Fe:zlib-test.exe 2>&1 | Tee-Object zlib-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./zlib-test.exe 2>&1 | Tee-Object zlib-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-layout-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_transport.c vendor/putty-0.85/terminal/nemo_kitty.c /Fe:kitty-transport.exe 2>&1 | Tee-Object build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-transport.exe 2>&1 | Tee-Object test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-cache.exe 2>&1 | Tee-Object cache-build.log
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-cache.exe 2>&1 | Tee-Object cache-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-cache.exe 2>&1 | Tee-Object cache-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -171,9 +202,11 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-placement-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /DNDEBUG /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_layout.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-placements.exe 2>&1 | Tee-Object placements-build.log
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /DNDEBUG /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_layout.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-placements.exe 2>&1 | Tee-Object placements-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements.exe 2>&1 | Tee-Object placements-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-kitty-compression-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-terminal-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -184,7 +217,7 @@ jobs:
           ./build-terminal/test_sixel_terminal.exe 2>&1 | Tee-Object terminal-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Get-FileHash vendor/putty-0.85/terminal/terminal.c, vendor/putty-0.85/terminal/terminal.h, vendor/putty-0.85/putty.h, vendor/putty-0.85/test/test_kitty_terminal.inc, vendor/putty-0.85/test/kitty_terminal_reference.h, scripts/generate-kitty-terminal-reference.py -Algorithm SHA256 | Format-List | Out-File terminal-sources.txt
-          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py, tests/kitty_placement_reference.h, scripts/generate-kitty-placement-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
+          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py, tests/kitty_placement_reference.h, scripts/generate-kitty-placement-reference.py, vendor/putty-0.85/terminal/nemo_zlib.*, vendor/putty-0.85/terminal/puff/*, tests/test_zlib.c, tests/zlib_reference.h, vendor/putty-0.85/test/kitty_compression_reference.h, scripts/generate-kitty-compression-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -198,6 +231,7 @@ jobs:
             layout-test.log
             placements-build.log
             placements-test.log
+            zlib-*.log
             sources.txt
             terminal-sources.txt
             terminal-configure.log

@@ -69,7 +69,7 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cmake -S vendor/putty-0.85 -B build-cluster -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io test_iso2022_charset test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster --parallel 4
+          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io test_iso2022_charset test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster --parallel 4
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_iso2022_charset.exe 2>&1 | Tee-Object charset-msvc.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -77,6 +77,10 @@ jobs:
           if ($LASTEXITCODE) { throw 'Inline transport tests failed' }
           ./build-cluster/test_kitty_transport.exe 2>&1 | Tee-Object kitty-transport-msvc.log
           if ($LASTEXITCODE) { throw 'Kitty transport tests failed' }
+          python scripts/generate-kitty-compression-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-cluster/test_zlib.exe 2>&1 | Tee-Object zlib-msvc.log
+          if ($LASTEXITCODE) { throw 'Bounded zlib tests failed' }
           ./build-cluster/test_kitty_cache.exe 2>&1 | Tee-Object kitty-cache-msvc.log
           if ($LASTEXITCODE) { throw 'Kitty cache tests failed' }
           python scripts/generate-kitty-layout-reference.py --check
@@ -228,12 +232,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
+          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -542,6 +546,16 @@ jobs:
             Copy-Item "research/kitty-image-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
+      - name: Test compressed Kitty images, PNG, chunks and recovery
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi','opengl','directx')) {
+            python tests/kitty_compression_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/kitty-compression-$renderer-native.log"
+            $code = $LASTEXITCODE
+            Copy-Item research/kitty-compression-$renderer-observed.json test-results/ -ErrorAction SilentlyContinue
+            Copy-Item research/kitty-compression-$renderer-* test-results/ -Recurse -ErrorAction SilentlyContinue
+            if ($code) { exit $code }
+          }
       - name: Test retained Kitty pixels through font zoom and window resize
         shell: pwsh
         run: |
@@ -790,6 +804,15 @@ jobs:
             Copy-Item research/kitty-workload-tabs-* test-results/ -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
+      - name: Test compressed Kitty PNG with mandatory tab memory limits
+        shell: pwsh
+        run: |
+          foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+            python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1] --workload-memory --kitty-images --kitty-compression 2>&1 | Tee-Object "test-results/compressed-kitty-workload-$($case[0]).log"
+            $code = $LASTEXITCODE
+            Copy-Item research/compressed-kitty-* test-results/ -ErrorAction SilentlyContinue
+            if ($code) { exit $code }
+          }
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -844,12 +867,19 @@ jobs:
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./test-kitty 2>&1 | tee terminal-kitty-transport-sanitizers.log
+      - name: Test bounded zlib with sanitizers
+        run: |
+          python3 scripts/generate-kitty-compression-reference.py --check
+          gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -I vendor/putty-0.85/terminal tests/test_zlib.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c -o test-zlib
+          set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-zlib 2>&1 | tee terminal-zlib-sanitizers.log
       - name: Test kitty image cache with sanitizers
         run: |
           gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
             -fsanitize=address,undefined -fno-omit-frame-pointer \
             -I vendor/putty-0.85/terminal tests/test_kitty_cache.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o test-kitty-cache
           set -o pipefail
@@ -875,6 +905,7 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty_placements.c \
             vendor/putty-0.85/terminal/nemo_kitty_layout.c \
             vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c \
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o test-kitty-placements
           set -o pipefail

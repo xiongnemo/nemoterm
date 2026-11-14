@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "nemo_kitty_cache.h"
+#include "nemo_zlib.h"
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
@@ -89,7 +90,7 @@ NemoKittyCache *nemo_kitty_cache_new(size_t budget, NemoKittyCacheAdmission admi
     return s;
 }
 
-static NemoKittyImage *find(NemoKittyCache *s, uint32_t id, uint32_t number)
+static NemoKittyImage *find(const NemoKittyCache *s, uint32_t id, uint32_t number)
 {
     if ((!id && !number) || (id && number)) return NULL;
     /* New images are prepended, so number lookup naturally finds the newest. */
@@ -104,6 +105,11 @@ NemoKittyImage *nemo_kitty_cache_find(NemoKittyCache *s, uint32_t id, uint32_t n
     NemoKittyImage *im = find(s, id, number);
     if (im) im->age = ++s->clock;
     return im;
+}
+
+const NemoKittyImage *nemo_kitty_cache_peek(const NemoKittyCache *s, uint32_t id, uint32_t number)
+{
+    return s && !s->busy ? find(s,id,number) : NULL;
 }
 
 bool nemo_kitty_image_reference(NemoKittyCache *s, NemoKittyImage *im, bool add)
@@ -197,8 +203,23 @@ static bool pixels_admit(void *ctx, unsigned width, unsigned height, size_t byte
         return false;
     }
     d->called = true; d->width = width; d->height = height; d->bytes = bytes;
-    s->temporary = bytes + metadata;
+    s->temporary += bytes + metadata;
     return true;
+}
+
+static NemoKittyImageStatus decode_png(DecodeContext *d, const void *data,
+                                       size_t length, NemoRaster *raster)
+{
+    static const unsigned char signature[8] = {137,80,78,71,13,10,26,10};
+    if (length < sizeof(signature) || memcmp(data, signature, sizeof(signature)))
+        return NEMO_KITTY_IMAGE_DECODE;
+    if (!d->cache->png) return NEMO_KITTY_IMAGE_UNSUPPORTED;
+    if (!d->cache->png(d->cache->ctx, data, length, raster, pixels_admit, d))
+        return d->failure ? d->failure : NEMO_KITTY_IMAGE_DECODE;
+    if (d->failure || !d->called || raster->width != d->width || raster->height != d->height ||
+        raster->bytes != d->bytes || !raster->pixels || raster->frame_count > 1)
+        return NEMO_KITTY_IMAGE_DECODE;
+    return NEMO_KITTY_IMAGE_OK;
 }
 
 static NemoKittyImageStatus decode(DecodeContext *d, const NemoKittyPacket *packet,
@@ -206,34 +227,46 @@ static NemoKittyImageStatus decode(DecodeContext *d, const NemoKittyPacket *pack
 {
     const NemoKittyCommand *cmd = &packet->command;
     unsigned format = nemo_kitty_get(cmd, 'f');
-    if (nemo_kitty_get(cmd, 't') != 'd' || nemo_kitty_get(cmd, 'o') ||
+    unsigned compression = nemo_kitty_get(cmd, 'o');
+    if (nemo_kitty_get(cmd, 't') != 'd' || (compression && compression != 'z') ||
         (format != 24 && format != 32 && format != 100)) return NEMO_KITTY_IMAGE_UNSUPPORTED;
     if (!packet->data || !packet->length) return NEMO_KITTY_IMAGE_INVALID;
     if (packet->length > NEMO_KITTY_DATA_MAX) return NEMO_KITTY_IMAGE_LIMIT;
     if (format == 100) {
-        static const unsigned char signature[8] = {137,80,78,71,13,10,26,10};
-        if (packet->length < sizeof(signature) || memcmp(packet->data, signature, sizeof(signature)))
-            return NEMO_KITTY_IMAGE_DECODE;
-        if (!d->cache->png) return NEMO_KITTY_IMAGE_UNSUPPORTED;
-        if (!d->cache->png(d->cache->ctx, packet->data, packet->length, raster, pixels_admit, d))
-            return d->failure ? d->failure : NEMO_KITTY_IMAGE_DECODE;
-        if (d->failure || !d->called || raster->width != d->width || raster->height != d->height ||
-            raster->bytes != d->bytes || !raster->pixels || raster->frame_count > 1)
-            return NEMO_KITTY_IMAGE_DECODE;
-        return NEMO_KITTY_IMAGE_OK;
+        if (!compression) return decode_png(d, packet->data, packet->length, raster);
+        size_t size = nemo_kitty_get(cmd, 'S');
+        if (!size) return NEMO_KITTY_IMAGE_INVALID;
+        if (size > NEMO_KITTY_DATA_MAX || !reserve(d->cache, size, d->protect, !d->query))
+            return NEMO_KITTY_IMAGE_LIMIT;
+        unsigned char *png = malloc(size);
+        if (!png) return NEMO_KITTY_IMAGE_NOMEM;
+        d->cache->temporary += size;
+        NemoKittyImageStatus status = NEMO_KITTY_IMAGE_DECODE;
+        if (nemo_zlib_decode(png, size, packet->data, packet->length))
+            status = decode_png(d, png, size, raster);
+        free(png);
+        d->cache->temporary -= size;
+        return status;
     }
     unsigned width = nemo_kitty_get(cmd, 's'), height = nemo_kitty_get(cmd, 'v');
     if (!width || !height || width > NEMO_KITTY_AXIS_MAX || height > NEMO_KITTY_AXIS_MAX)
         return NEMO_KITTY_IMAGE_INVALID;
     uint64_t count = (uint64_t)width * height;
     unsigned channels = format / 8;
-    if (count * channels != packet->length) return NEMO_KITTY_IMAGE_INVALID;
+    if (!compression && count * channels != packet->length) return NEMO_KITTY_IMAGE_INVALID;
     if (!pixels_admit(d, width, height, (size_t)count * 4)) return NEMO_KITTY_IMAGE_LIMIT;
     raster->pixels = malloc((size_t)count * 4);
     if (!raster->pixels) return NEMO_KITTY_IMAGE_NOMEM;
+    const unsigned char *source = packet->data;
+    if (compression) {
+        if (!nemo_zlib_decode(raster->pixels, (size_t)count * channels, packet->data, packet->length))
+            return NEMO_KITTY_IMAGE_DECODE;
+        source = (const unsigned char *)raster->pixels;
+    }
     raster->width = width; raster->height = height; raster->bytes = (size_t)count * 4;
-    for (size_t i = 0; i < (size_t)count; i++) {
-        const unsigned char *p = packet->data + i * channels;
+    /* Work backwards so packed RGB expands in the final four-byte raster. */
+    for (size_t i = (size_t)count; i-- > 0;) {
+        const unsigned char *p = source + i * channels;
         unsigned alpha = channels == 4 ? p[3] : 255;
         raster->pixels[i] = (uint32_t)alpha << 24 | (uint32_t)p[0] << 16 |
             (uint32_t)p[1] << 8 | p[2];

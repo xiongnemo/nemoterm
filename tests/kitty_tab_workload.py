@@ -4,11 +4,17 @@ from iterm_image_window_smoke import png
 from native_test_utils import root, sys, struct, hashlib, wait_for
 
 
-def workload_image():
+def workload_image(compressed=False):
     pixels=bytearray(bytes((255,0,0,128))*512*288)
     # An opaque blue marker makes an exact, font-independent post-resize probe.
     for y in range(8):pixels[y*512*4:y*512*4+8*4]=bytes((0,0,255,255))*8
-    return '\x1b[2;3H'+command('a=T,i=1,f=100,C=1',png(512,288,pixels))
+    encoded=png(512,288,pixels)
+    header='a=T,i=1,f=100,C=1'
+    if compressed:
+        import zlib
+        header+=f',o=z,S={len(encoded)}'
+        encoded=zlib.compress(encoded)
+    return '\x1b[2;3H'+command(header,encoded)
 
 
 def verify_images(pid,children,select,observations,prefix):

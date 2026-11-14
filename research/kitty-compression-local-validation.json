@@ -1,0 +1,1452 @@
+{
+  "scope": "development GCC frontend with sidecars after explicit truncation returns; not accepted single image or memory acceptance",
+  "executable_sha256": "6abf7efdc4b84f8d5b8d7e821ad1fc3fb75f645c89c264ad3da48635abbc8c72",
+  "source_base": "257015d2fa117f4438185ba1a0c45ff7b31dc3a7",
+  "production_source_sha256_lf": {
+    "CMakeLists.txt": "90de5faab75559f1e7ec63d01c1008147385c17cb9cf221e8c1f721c86f395f0",
+    "terminal/nemo_kitty.c": "2ad6fad43680951ad6e70b74859e0d71023439a0f2c0ebd2c4da58d7a37d86b0",
+    "terminal/nemo_kitty_cache.c": "aaac565cbf7347897432d0c1315c976e64f0f80d03edac167970849d18497870",
+    "terminal/nemo_kitty_cache.h": "18ee4780d020475fcff8f088c3724bd5f92e667a5a1afd2b115e8597ce05cbd0",
+    "terminal/nemo_zlib.c": "9d474a1c9daac795023731795f5c5c480820a37f668429edacf31b4af798aad4",
+    "terminal/nemo_zlib.h": "e8c8e1ea49f26bd66bb0c222ecb6d482a3c7ec61d4df1c0a5e48e436545bcfab",
+    "terminal/puff/puff.c": "88a2a34f2e3615c7aeaacb85e19df368a42fe8757c5a0e889e0d98f596cd487f",
+    "terminal/puff/puff.h": "e13cd31edac7330416b1655ed52e43f9c08cb4d1a6801f63752f1f81bec9a76a"
+  },
+  "bundles": [
+    {
+      "observation": "kitty-compression-directx-observed.json",
+      "checks": 29,
+      "requested": "directx",
+      "actual": 2,
+      "capture": "public automation API; active renderer BMP"
+    },
+    {
+      "observation": "kitty-compression-gdi-observed.json",
+      "checks": 29,
+      "requested": "gdi",
+      "actual": 0,
+      "capture": "public automation API; active renderer BMP"
+    },
+    {
+      "observation": "kitty-compression-opengl-observed.json",
+      "checks": 29,
+      "requested": "opengl",
+      "actual": 1,
+      "capture": "public automation API; active renderer BMP"
+    },
+    {
+      "observation": "kitty-compression-presented-gdi-observed.json",
+      "checks": 29,
+      "requested": "gdi",
+      "actual": 0,
+      "capture": "owned visible GDI client DC; no image API or WM_PRINTCLIENT"
+    }
+  ],
+  "records": [
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed.gz",
+      "raw_sha256": "ef364738326d5ebbbc6fcabf61d4604589ae2f5d212cd5807c44b13e850b605e",
+      "raw_bytes": 65951
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--01-rgba-fixed.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--01-rgba-fixed.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--02-rgb-stored.bmp.gz",
+      "raw_sha256": "2ea1a07d4c6b2f05e29c9067f0d56862bcda43658d5d6a18cb0cbd328fc16bb5",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--02-rgb-stored.png.gz",
+      "raw_sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--03-rgba-dynamic.bmp.gz",
+      "raw_sha256": "caccb38f7fc42ed3609143aa8912b4e3bc161066baadb444723db8b003c8edbf",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--03-rgba-dynamic.png.gz",
+      "raw_sha256": "131b0f09918288f8a2c7e92beceb6542e234b18a8c05b46576a8201d61710d56",
+      "raw_bytes": 495
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--04-png-native-codec.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--04-png-native-codec.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--05-chunk-first-padded.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--05-chunk-first-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--06-chunk-middle-padded.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--06-chunk-middle-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--07-chunk-final.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--07-chunk-final.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--08-empty-final-before.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--08-empty-final-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--09-empty-final-after.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--09-empty-final-after.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--10-query-has-no-picture.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--10-query-has-no-picture.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--11-checksum-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--11-checksum-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--12-checksum-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--12-checksum-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--13-truncated-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--13-truncated-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--14-truncated-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--14-truncated-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--15-raw-deflate-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--15-raw-deflate-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--16-raw-deflate-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--16-raw-deflate-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--17-png-size-short.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--17-png-size-short.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--18-png-size-short-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--18-png-size-short-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--19-png-size-long.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--19-png-size-long.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--20-png-size-long-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--20-png-size-long-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--21-png-size-missing.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--21-png-size-missing.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--22-png-size-missing-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--22-png-size-missing-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--23-trailing-bytes.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--23-trailing-bytes.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--24-concatenated-first-stream.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--24-concatenated-first-stream.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--25-compressed-alpha.bmp.gz",
+      "raw_sha256": "b67631e7f9dd995bd189a4a925b7abbd1e28d68701ff355edbed8d86ba98699d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--25-compressed-alpha.png.gz",
+      "raw_sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+      "raw_bytes": 332
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--26-delete-compressed-reveals-underlay.bmp.gz",
+      "raw_sha256": "01de16f4906bdd75392231ee328ae8a9ac9464712687186c735d68444a7afc74",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--26-delete-compressed-reveals-underlay.png.gz",
+      "raw_sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--27-cancel-incomplete-before.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--27-cancel-incomplete-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--28-cancel-incomplete-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--28-cancel-incomplete-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--29-reset-releases-compressed-image.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--29-reset-releases-compressed-image.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--checks.json.gz",
+      "raw_sha256": "38ebd5d68fbbfc9df34d6f025a99c0675c2dd402eac5773870ba89b0b0783e93",
+      "raw_bytes": 63595
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--child-control.json.gz",
+      "raw_sha256": "d7226b5b34b2433a93305e21de1cee58070d3afd416862101a697d4e941122d7",
+      "raw_bytes": 123
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-directx-observed--child-report.json.gz",
+      "raw_sha256": "d865d9fc3cdb06019eed84d60799682c69d8fbb3bc541289eecc44372d0ff975",
+      "raw_bytes": 174
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed.gz",
+      "raw_sha256": "7b1b481283b705035eefb4ef5b4c856c1c055d8ceacf3adae441ab93f527d3ed",
+      "raw_bytes": 65935
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--01-rgba-fixed.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--01-rgba-fixed.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--02-rgb-stored.bmp.gz",
+      "raw_sha256": "63457a4b13aab0ba222e97a2ef86745bf3147b16f93724e860b599446235f6c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--02-rgb-stored.png.gz",
+      "raw_sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--03-rgba-dynamic.bmp.gz",
+      "raw_sha256": "15fe5f8d89e46d04f031fe73007ad89c9094711ac2e404f02b1cfaad0af50c42",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--03-rgba-dynamic.png.gz",
+      "raw_sha256": "131b0f09918288f8a2c7e92beceb6542e234b18a8c05b46576a8201d61710d56",
+      "raw_bytes": 495
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--04-png-native-codec.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--04-png-native-codec.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--05-chunk-first-padded.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--05-chunk-first-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--06-chunk-middle-padded.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--06-chunk-middle-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--07-chunk-final.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--07-chunk-final.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--08-empty-final-before.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--08-empty-final-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--09-empty-final-after.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--09-empty-final-after.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--10-query-has-no-picture.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--10-query-has-no-picture.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--11-checksum-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--11-checksum-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--12-checksum-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--12-checksum-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--13-truncated-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--13-truncated-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--14-truncated-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--14-truncated-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--15-raw-deflate-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--15-raw-deflate-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--16-raw-deflate-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--16-raw-deflate-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--17-png-size-short.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--17-png-size-short.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--18-png-size-short-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--18-png-size-short-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--19-png-size-long.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--19-png-size-long.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--20-png-size-long-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--20-png-size-long-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--21-png-size-missing.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--21-png-size-missing.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--22-png-size-missing-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--22-png-size-missing-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--23-trailing-bytes.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--23-trailing-bytes.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--24-concatenated-first-stream.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--24-concatenated-first-stream.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--25-compressed-alpha.bmp.gz",
+      "raw_sha256": "e0f592a3d376d7effc31fc6f87d5c3df6b9f302b40000bf37606841c77883be6",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--25-compressed-alpha.png.gz",
+      "raw_sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+      "raw_bytes": 332
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--26-delete-compressed-reveals-underlay.bmp.gz",
+      "raw_sha256": "e896a6c917e0757088230b8bad8a4c7a6b356b67179d84a0b644d802fc7f2327",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--26-delete-compressed-reveals-underlay.png.gz",
+      "raw_sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--27-cancel-incomplete-before.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--27-cancel-incomplete-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--28-cancel-incomplete-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--28-cancel-incomplete-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--29-reset-releases-compressed-image.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--29-reset-releases-compressed-image.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--checks.json.gz",
+      "raw_sha256": "e3b4d0fecb9c1d15cafe643c388f78e3a391fd85f08a0ed4bed4ac7d5f54b220",
+      "raw_bytes": 63595
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--child-control.json.gz",
+      "raw_sha256": "d7226b5b34b2433a93305e21de1cee58070d3afd416862101a697d4e941122d7",
+      "raw_bytes": 123
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-gdi-observed--child-report.json.gz",
+      "raw_sha256": "d865d9fc3cdb06019eed84d60799682c69d8fbb3bc541289eecc44372d0ff975",
+      "raw_bytes": 174
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed.gz",
+      "raw_sha256": "b713b2196e3079ea5b172f74a344df9a5b1b09d4599676b3e79c72928c9f2f64",
+      "raw_bytes": 65934
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--01-rgba-fixed.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--01-rgba-fixed.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--02-rgb-stored.bmp.gz",
+      "raw_sha256": "2ea1a07d4c6b2f05e29c9067f0d56862bcda43658d5d6a18cb0cbd328fc16bb5",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--02-rgb-stored.png.gz",
+      "raw_sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--03-rgba-dynamic.bmp.gz",
+      "raw_sha256": "caccb38f7fc42ed3609143aa8912b4e3bc161066baadb444723db8b003c8edbf",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--03-rgba-dynamic.png.gz",
+      "raw_sha256": "131b0f09918288f8a2c7e92beceb6542e234b18a8c05b46576a8201d61710d56",
+      "raw_bytes": 495
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--04-png-native-codec.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--04-png-native-codec.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--05-chunk-first-padded.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--05-chunk-first-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--06-chunk-middle-padded.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--06-chunk-middle-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--07-chunk-final.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--07-chunk-final.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--08-empty-final-before.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--08-empty-final-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--09-empty-final-after.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--09-empty-final-after.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--10-query-has-no-picture.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--10-query-has-no-picture.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--11-checksum-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--11-checksum-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--12-checksum-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--12-checksum-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--13-truncated-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--13-truncated-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--14-truncated-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--14-truncated-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--15-raw-deflate-rejected.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--15-raw-deflate-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--16-raw-deflate-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--16-raw-deflate-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--17-png-size-short.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--17-png-size-short.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--18-png-size-short-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--18-png-size-short-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--19-png-size-long.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--19-png-size-long.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--20-png-size-long-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--20-png-size-long-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--21-png-size-missing.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--21-png-size-missing.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--22-png-size-missing-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--22-png-size-missing-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--23-trailing-bytes.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--23-trailing-bytes.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--24-concatenated-first-stream.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--24-concatenated-first-stream.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--25-compressed-alpha.bmp.gz",
+      "raw_sha256": "b67631e7f9dd995bd189a4a925b7abbd1e28d68701ff355edbed8d86ba98699d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--25-compressed-alpha.png.gz",
+      "raw_sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+      "raw_bytes": 332
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--26-delete-compressed-reveals-underlay.bmp.gz",
+      "raw_sha256": "01de16f4906bdd75392231ee328ae8a9ac9464712687186c735d68444a7afc74",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--26-delete-compressed-reveals-underlay.png.gz",
+      "raw_sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--27-cancel-incomplete-before.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--27-cancel-incomplete-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--28-cancel-incomplete-recovery.bmp.gz",
+      "raw_sha256": "8764dabbf4f3979b7f684ea0025c6b4b181e21cda72bfa2f5e2593ae8e3a58c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--28-cancel-incomplete-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--29-reset-releases-compressed-image.bmp.gz",
+      "raw_sha256": "13447ae7cce549d62a864990fc3afcf2f7dc3895512fc9fc03734e3dc4afd4e1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--29-reset-releases-compressed-image.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--checks.json.gz",
+      "raw_sha256": "3628b2c08a7123a29299b207ee733a8e36089a49e8c747b303680f24f0294cf9",
+      "raw_bytes": 63582
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--child-control.json.gz",
+      "raw_sha256": "d7226b5b34b2433a93305e21de1cee58070d3afd416862101a697d4e941122d7",
+      "raw_bytes": 123
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-opengl-observed--child-report.json.gz",
+      "raw_sha256": "d865d9fc3cdb06019eed84d60799682c69d8fbb3bc541289eecc44372d0ff975",
+      "raw_bytes": 174
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed.gz",
+      "raw_sha256": "1f44070ba573e1c788ec3b4a8c8b6c0660ff1237378332a55e3d03386440538f",
+      "raw_bytes": 66241
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--01-rgba-fixed.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--01-rgba-fixed.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--02-rgb-stored.bmp.gz",
+      "raw_sha256": "63457a4b13aab0ba222e97a2ef86745bf3147b16f93724e860b599446235f6c1",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--02-rgb-stored.png.gz",
+      "raw_sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--03-rgba-dynamic.bmp.gz",
+      "raw_sha256": "15fe5f8d89e46d04f031fe73007ad89c9094711ac2e404f02b1cfaad0af50c42",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--03-rgba-dynamic.png.gz",
+      "raw_sha256": "131b0f09918288f8a2c7e92beceb6542e234b18a8c05b46576a8201d61710d56",
+      "raw_bytes": 495
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--04-png-native-codec.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--04-png-native-codec.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--05-chunk-first-padded.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--05-chunk-first-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--06-chunk-middle-padded.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--06-chunk-middle-padded.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--07-chunk-final.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--07-chunk-final.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--08-empty-final-before.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--08-empty-final-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--09-empty-final-after.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--09-empty-final-after.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--10-query-has-no-picture.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--10-query-has-no-picture.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--11-checksum-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--11-checksum-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--12-checksum-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--12-checksum-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--13-truncated-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--13-truncated-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--14-truncated-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--14-truncated-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--15-raw-deflate-rejected.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--15-raw-deflate-rejected.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--16-raw-deflate-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--16-raw-deflate-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--17-png-size-short.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--17-png-size-short.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--18-png-size-short-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--18-png-size-short-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--19-png-size-long.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--19-png-size-long.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--20-png-size-long-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--20-png-size-long-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--21-png-size-missing.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--21-png-size-missing.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--22-png-size-missing-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--22-png-size-missing-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--23-trailing-bytes.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--23-trailing-bytes.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--24-concatenated-first-stream.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--24-concatenated-first-stream.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--25-compressed-alpha.bmp.gz",
+      "raw_sha256": "e0f592a3d376d7effc31fc6f87d5c3df6b9f302b40000bf37606841c77883be6",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--25-compressed-alpha.png.gz",
+      "raw_sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02",
+      "raw_bytes": 332
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--26-delete-compressed-reveals-underlay.bmp.gz",
+      "raw_sha256": "e896a6c917e0757088230b8bad8a4c7a6b356b67179d84a0b644d802fc7f2327",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--26-delete-compressed-reveals-underlay.png.gz",
+      "raw_sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--27-cancel-incomplete-before.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--27-cancel-incomplete-before.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--28-cancel-incomplete-recovery.bmp.gz",
+      "raw_sha256": "21f6f07cdc3eb7f85a7c633480dba85c8d2b19a42991f0dc9f400f1340c1f6a7",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--28-cancel-incomplete-recovery.png.gz",
+      "raw_sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca",
+      "raw_bytes": 326
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--29-reset-releases-compressed-image.bmp.gz",
+      "raw_sha256": "ad4ad10b43eb0f0bf3fc0944ebb056d04061f42d0b291188ad4c13c2e1b71d9d",
+      "raw_bytes": 311750
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--29-reset-releases-compressed-image.png.gz",
+      "raw_sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d",
+      "raw_bytes": 306
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--checks.json.gz",
+      "raw_sha256": "50a52abdbd2bb8063497c4d1d72611e8c7ce9ea38e1e770e35047f97e909eb40",
+      "raw_bytes": 63591
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--child-control.json.gz",
+      "raw_sha256": "d7226b5b34b2433a93305e21de1cee58070d3afd416862101a697d4e941122d7",
+      "raw_bytes": 123
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--kitty-compression-presented-gdi-observed--child-report.json.gz",
+      "raw_sha256": "d865d9fc3cdb06019eed84d60799682c69d8fbb3bc541289eecc44372d0ff975",
+      "raw_bytes": 174
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-build.log.gz",
+      "raw_sha256": "b9dfbbb1e25f28df1e05e8eda9666f78c3afe41885f22afbbbea49ae9d62a103",
+      "raw_bytes": 21961
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-ci-pwsh.json.gz",
+      "raw_sha256": "ce6d1a0fe0ba994985eeb392e84ef9b1ed1ad28415031fc4832c8a2b408f4bb5",
+      "raw_bytes": 32706
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-configure.log.gz",
+      "raw_sha256": "944adb3e8bbeb9e4c70d3539e67fed1354777c7fbad9519081e281b3254fc4e8",
+      "raw_bytes": 247
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-final-core-build.log.gz",
+      "raw_sha256": "b01f3f30f8e2c1537e6b0f1ec254bb167e8f04306921e22f30d70839a4620054",
+      "raw_bytes": 248
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-build.log.gz",
+      "raw_sha256": "19ca197d4f96b7636ed4b04d6aafc7332d5e7ae1a12a43abfd75a87c3f7f8118",
+      "raw_bytes": 723
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-native-directx.log.gz",
+      "raw_sha256": "70db1a1e2d91b1c08344e3a9f8dcc81d7c093e464f98bb013d264d047bf0744d",
+      "raw_bytes": 5221
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-native-gdi-presented.log.gz",
+      "raw_sha256": "1fa24524d22315091d8bf833ca6bd8db7de50cb51a814516cea56dfaf97fdf8e",
+      "raw_bytes": 5227
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-native-gdi.log.gz",
+      "raw_sha256": "e1c338be69a409d24bb925653077d7cff456fe634aa9b1ad54baa6be1f7a5f59",
+      "raw_bytes": 5217
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-native-opengl.log.gz",
+      "raw_sha256": "989df20d7b8f86b697df3ac8ab0a207fc66b108e5dde1e8cddee6f17899fb0f9",
+      "raw_bytes": 5220
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-test_kitty_cache.log.gz",
+      "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72",
+      "raw_bytes": 39
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-test_kitty_placements.log.gz",
+      "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+      "raw_bytes": 4856
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-test_kitty_transport.log.gz",
+      "raw_sha256": "c32a0bd557cb1e5651b7b717f51fadc2d95cf84941b6f3b4cbed2ee4eb813eb1",
+      "raw_bytes": 44
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-test_sixel_terminal.log.gz",
+      "raw_sha256": "6f0f565b9f5bd6d3980f31c89b68c6376a162ef21be99b43bcd8345307828b9f",
+      "raw_bytes": 196
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-fixed-test_zlib.log.gz",
+      "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+      "raw_bytes": 36
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-frontend-build.log.gz",
+      "raw_sha256": "49798604f809ec2c379e3aeea4cf28276faf1eee554d4fff11d7bb66b733e08f",
+      "raw_bytes": 600
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-native-directx.log.gz",
+      "raw_sha256": "70db1a1e2d91b1c08344e3a9f8dcc81d7c093e464f98bb013d264d047bf0744d",
+      "raw_bytes": 5221
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-native-gdi-presented.log.gz",
+      "raw_sha256": "1fa24524d22315091d8bf833ca6bd8db7de50cb51a814516cea56dfaf97fdf8e",
+      "raw_bytes": 5227
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-native-gdi.log.gz",
+      "raw_sha256": "e1c338be69a409d24bb925653077d7cff456fe634aa9b1ad54baa6be1f7a5f59",
+      "raw_bytes": 5217
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-native-opengl.log.gz",
+      "raw_sha256": "989df20d7b8f86b697df3ac8ab0a207fc66b108e5dde1e8cddee6f17899fb0f9",
+      "raw_bytes": 5220
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-terminal-test.log.gz",
+      "raw_sha256": "6f0f565b9f5bd6d3980f31c89b68c6376a162ef21be99b43bcd8345307828b9f",
+      "raw_bytes": 196
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test-build.log.gz",
+      "raw_sha256": "7cbaf44aaeaba78f39ddd923819f4daafb2e39a7b5b8b6ceacb1c9e2779e9df2",
+      "raw_bytes": 873
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test_kitty_cache.log.gz",
+      "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72",
+      "raw_bytes": 39
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test_kitty_placements.log.gz",
+      "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+      "raw_bytes": 4856
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test_kitty_transport.log.gz",
+      "raw_sha256": "c32a0bd557cb1e5651b7b717f51fadc2d95cf84941b6f3b4cbed2ee4eb813eb1",
+      "raw_bytes": 44
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test_sixel_terminal.log.gz",
+      "raw_sha256": "6f0f565b9f5bd6d3980f31c89b68c6376a162ef21be99b43bcd8345307828b9f",
+      "raw_bytes": 196
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-test_zlib.log.gz",
+      "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+      "raw_bytes": 36
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-truncation-failure.json.gz",
+      "raw_sha256": "e24c1f7c96f31bd9e459fbc12a5941711492ba0e6cadf554bd687237eda79271",
+      "raw_bytes": 822
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-fixed-o2-1.log.gz",
+      "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+      "raw_bytes": 36
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-fixed-o2-2.log.gz",
+      "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+      "raw_bytes": 36
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-fixed-o2-3.log.gz",
+      "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca",
+      "raw_bytes": 36
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-o2-gdb.log.gz",
+      "raw_sha256": "132b93e8e31058f8615b7a55a1e3e889c44f5c135e0f6af195e5525f2b07f089",
+      "raw_bytes": 225
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-o2-static.log.gz",
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0
+    },
+    {
+      "path": "research/kitty-compression-local-evidence/explicit-returns--build--compression-zlib-strict.log.gz",
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0
+    }
+  ]
+}

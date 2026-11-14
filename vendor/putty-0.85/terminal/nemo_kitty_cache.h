@@ -48,6 +48,8 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *, const NemoKittyPack
  * Returned image/raster pointers are borrowed until a mutating cache operation.
  * The placement owner must track removals through the callback above. */
 NemoKittyImage *nemo_kitty_cache_find(NemoKittyCache *, uint32_t id, uint32_t number);
+/* Inspection without changing LRU age; the same borrowing rules apply. */
+const NemoKittyImage *nemo_kitty_cache_peek(const NemoKittyCache *, uint32_t id, uint32_t number);
 uint32_t nemo_kitty_image_id(const NemoKittyImage *);
 uint32_t nemo_kitty_image_number(const NemoKittyImage *);
 /* Creation order, preserved across retransmission of a live named image. */

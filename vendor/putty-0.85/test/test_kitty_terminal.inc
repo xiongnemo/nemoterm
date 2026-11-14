@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Real byte parser, ldisc replies and lifecycle. The mock codec separates
  * terminal ownership/budget checks from native WIC and compositor validation. */
+#include "kitty_compression_reference.h"
 static void kitty_reset(Mock *mk)
 {
     reset(mk);
@@ -37,6 +38,16 @@ static bool kitty_mock_decode(TermWin *win, const void *data, size_t length,
                               NemoRaster *out, NemoRasterAdmission admit, void *ctx)
 {
     static const unsigned char signature[]={137,80,78,71,13,10,26,10,'A'};
+    if (length==sizeof(kitty_compression_png) && !memcmp(data,kitty_compression_png,length)) {
+        size_t bytes=sizeof(kitty_compression_png_pixels);
+        if (!admit(ctx,KITTY_COMPRESSION_PNG_WIDTH,KITTY_COMPRESSION_PNG_HEIGHT,bytes)) return false;
+        out->pixels=malloc(bytes);
+        if (!out->pixels) return false;
+        memcpy(out->pixels,kitty_compression_png_pixels,bytes);
+        out->width=KITTY_COMPRESSION_PNG_WIDTH; out->height=KITTY_COMPRESSION_PNG_HEIGHT;
+        out->bytes=bytes; out->partial_alpha=true;
+        return true;
+    }
     if (length!=sizeof(signature) || memcmp(data,signature,sizeof(signature)))
         return inline_mock_decode(win,data,length,out,admit,ctx);
     size_t bytes=512u*512u*4u;
@@ -115,6 +126,43 @@ static void test_kitty_terminal_reference(Mock *parent)
     }
     if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
     puts("Kitty upstream terminal replay: 101 states checked (6 APC inputs chunk-normalized)");
+}
+
+static void test_kitty_compression_reference(Mock *parent)
+{
+    Mock *mk=NULL;
+    TermWinVtable vt=mock_termwin_vt;
+    vt.kitty_graphics=true; vt.decode_image=kitty_mock_decode;
+    for (size_t i=0;i<lenof(kitty_compression_reference);i++) {
+        const KittyCompressionReference *r=&kitty_compression_reference[i];
+        if (r->first) {
+            if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
+            mk=mock_new(); mk->tw.vt=&vt;
+            mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
+            mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
+            term_size(mk->term,8,12,20); term_set_cell_size(mk->term,10,20);
+            term_set_trust_status(mk->term,false);
+        }
+        test_context(mk,"Kitty upstream compression replay: %s",r->name);
+        term_data_fragmented(mk->term,r->wire);
+        if (r->error_prefix) {
+            IEQUAL(strncmp(mk->to_backend->s,r->reply,strlen(r->reply)),0);
+            IEQUAL(strstr(mk->to_backend->s,"\033\\")!=NULL,true);
+            strbuf_clear(mk->to_backend);
+        } else kitty_reply_is(mk,r->reply);
+        IEQUAL(mk->term->curs.x,r->x); IEQUAL(mk->term->curs.y,r->y);
+        const NemoKittyImage *image=nemo_kitty_cache_peek(term_kitty_cache(mk->term,0),1,0);
+        IEQUAL(image!=NULL,r->pixels!=NULL);
+        if (image && r->pixels) {
+            const NemoRaster *pixels=nemo_kitty_image_raster(image);
+            IEQUAL(pixels->width,r->width); IEQUAL(pixels->height,r->height);
+            if (pixels->width==r->width && pixels->height==r->height)
+                IEQUAL(memcmp(pixels->pixels,r->pixels,(size_t)r->width*r->height*4),0);
+        }
+        kitty_check_budget(mk);
+    }
+    if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
+    puts("Kitty upstream compression replay: 26 cases, 36 states and decoded pixels checked");
 }
 
 static void test_kitty_terminal(Mock *mk)
@@ -236,4 +284,5 @@ static void test_kitty_terminal(Mock *mk)
     IEQUAL(term_kitty_memory(t)<8192,true);
     mk->tw.vt=&mock_termwin_vt;
     test_kitty_terminal_reference(mk);
+    test_kitty_compression_reference(mk);
 }

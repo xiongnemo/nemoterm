@@ -278,7 +278,9 @@ NemoKittyResult nemo_kitty_finish(NemoKitty *s, NemoKittyPacket *packet)
     if (s->status != NEMO_KITTY_OK) return NEMO_KITTY_ERROR;
     if (s->feature_query) return NEMO_KITTY_PACKET;
     if (nemo_kitty_get(&s->command, 'm')) {
-        if (s->quad_count || s->padded) {
+        /* Each APC is independently base64 encoded. Upstream Kitty accepts
+         * padding before m=0 (including a subsequent empty final chunk). */
+        if (s->quad_count) {
             fail(s, NEMO_KITTY_MALFORMED);
             return NEMO_KITTY_ERROR;
         }

@@ -35,6 +35,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG、�
 准确产物、内存样本与验证边界见[成品验证](research/kitty-windows-product.md)；
 实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
 
+开发分支正在补充 Kitty `o=z` 压缩传输：独立上游对照与本机三种渲染器的图片检查已通过，
+新的单文件构建及内存验收仍待完成；下方已验收下载尚不包含此功能。见[压缩实现记录](research/kitty-compression.md)。
+
 ## 下载
 
 已通过 CI 的开发快照：[下载 `97d6025` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43633479299/artifacts/14130247748)。
@@ -273,6 +276,7 @@ Nemoterm 自有代码采用 [MIT License](LICENSE)。第三方代码、字体与
 | 来源 | 用途与许可 |
 | --- | --- |
 | [PuTTY 0.85](vendor/putty-0.85/LICENCE) | pterm 终端核心与 Win32 基础，MIT |
+| [puff 2.3](vendor/putty-0.85/terminal/puff/puff.h) | zlib 上游的精简 DEFLATE 解码器，保留 zlib 许可；本项目修改和来源见 [清单](vendor/putty-0.85/terminal/puff/SOURCE.json) |
 | [Microsoft Terminal](https://github.com/microsoft/terminal/tree/f6de9e0618015def1c9dda5b82f9d3abf03eb799) | 固定版本的 OpenConsole / ConPTY，MIT 与第三方声明 |
 | [Nerd Fonts](vendor/nerd-fonts/README.md) | 内嵌图标字体，保留其许可与组件声明 |
 

@@ -69,15 +69,17 @@ class TabMemorySampler:
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 
 
-def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False):
+def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False, kitty_compression=False):
     """Keep two 2000-line histories while switching/repainting/resizing."""
     result = dict(history_lines_per_tab=4096, history_limit=2000,
                   redraw_frames=24, resize_transitions=24, inline_images=inline_images,
-                  animated_images=animated_images, kitty_images=kitty_images, samples=[])
+                  animated_images=animated_images, kitty_images=kitty_images,
+                  kitty_compression=kitty_compression, samples=[])
     assert sum((inline_images,animated_images,kitty_images))<=1
+    assert not kitty_compression or kitty_images
     if kitty_images:
         from kitty_tab_workload import workload_image
-        inline=workload_image()
+        inline=workload_image(compressed=kitty_compression)
     if inline_images:
         from iterm_image_window_smoke import png, transfer
         inline = transfer(png(512,288,bytes((255,0,0,128))*512*288))

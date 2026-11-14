@@ -28,6 +28,8 @@ images.add_argument('--animated-images',action='store_true',
                     help='add four-frame GIF images to --workload-memory')
 images.add_argument('--kitty-images',action='store_true',
                     help='add Kitty PNG images, cleanup and preview checks to --workload-memory')
+parser.add_argument('--kitty-compression',action='store_true',
+                    help='use zlib-compressed PNG for the Kitty memory workload')
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--resource-inventory',action='store_true',
                     help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
@@ -40,6 +42,8 @@ observation.add_argument('--virtual-memory-trace',action='store_true',
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
+if args.kitty_compression and not args.kitty_images:
+    parser.error('--kitty-compression requires --kitty-images')
 if (args.inline_images or args.animated_images or args.kitty_images) and not args.workload_memory:
     parser.error('Image workloads require --workload-memory')
 injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
@@ -54,6 +58,7 @@ prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_m
 if args.inline_images:prefix='inline-'+prefix
 if args.animated_images:prefix='animated-'+prefix
 if args.kitty_images:prefix='kitty-'+prefix
+if args.kitty_compression:prefix='compressed-'+prefix
 base_scene=scene
 if args.resource_inventory:prefix='inventory-tabs'
 dense_memory_phase=args.dense_clusters
@@ -305,7 +310,7 @@ try:
                     census_observer.start()
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene,
                                                      inline_images=args.inline_images,animated_images=args.animated_images,
-                                                     kitty_images=args.kitty_images)
+                                                     kitty_images=args.kitty_images,kitty_compression=args.kitty_compression)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
                 memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')

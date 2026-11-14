@@ -1414,3 +1414,15 @@ The [resize checkpoint](../research/window-resize.md) links exact CI artifacts,
 per-phase evidence, screenshots and measurement boundaries. DirectX frontend,
 four-sided tabs/previews, physical input/IME/DPI, full graphemes, axis window
 controls, live Claude Code and the remaining protocol ledger are still open.
+
+### Kitty compression development checkpoint
+
+Direct `o=z` RGB/RGBA/PNG is implemented on the compression branch, with independent
+26-case/36-state upstream replay and 29 local pixel stages on each actual renderer,
+plus presented GDI capture. The decoder stays within the existing graphics budgets;
+compressed PNG includes overlapping encoded/pixel storage in admission. This is a
+development frontend with sidecars, not the accepted `97d6025` single image. Full
+CI, new single-image pixels and both private-WS policies remain required. See
+[the implementation record](../research/kitty-compression.md) for raw evidence and
+remaining scope. No original protocol, physical input or real-application requirement
+is removed by this checkpoint.

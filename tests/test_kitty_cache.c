@@ -159,7 +159,7 @@ static void numbers_and_anonymous(void)
 static void malformed_and_codecs(void)
 {
     Fixture f; create(&f, BUDGET, true);
-    static const char *unsupported[] = {"f=8,s=1,v=1", "f=16,s=1,v=1", "f=24,s=1,v=1,o=z",
+    static const char *unsupported[] = {"f=8,s=1,v=1", "f=16,s=1,v=1", "f=24,s=1,v=1,o=x",
         "t=f,s=1,v=1", "t=t,s=1,v=1", "t=s,s=1,v=1", "a=f,i=1", "a=q,i=1,e=T"};
     for (size_t i = 0; i < sizeof(unsupported)/sizeof(*unsupported); i++)
         CHECK(load(&f, unsupported[i], "abc", 3).status == NEMO_KITTY_IMAGE_UNSUPPORTED);
@@ -257,9 +257,51 @@ static void limits_and_eviction(void)
     nemo_kitty_cache_free(f.cache);
 }
 
+static void compressed_budget_and_readonly_peek(void)
+{
+    static const unsigned char rgb[] = {120,156,75,76,74,6,0,2,77,1,39};
+    static const unsigned char png_z[] = {120,156,235,12,240,115,231,229,146,226,2,0,10,71,1,170};
+    Fixture f; create(&f, BUDGET, true);
+    size_t empty = nemo_kitty_cache_memory(f.cache);
+    NemoKittyImageResult a = load(&f, "i=1,f=24,s=1,v=1,o=z", rgb, sizeof(rgb));
+    CHECK(a.status == NEMO_KITTY_IMAGE_OK);
+    CHECK(nemo_kitty_image_raster(a.image)->pixels[0] == 0xff616263);
+    size_t cost = nemo_kitty_cache_memory(f.cache) - empty;
+    f.limit = empty + cost + 15; /* PNG encoding (8) and pixels (8) overlap. */
+    CHECK(load(&f, "a=q,i=2,f=100,o=z,S=8", png_z, sizeof(png_z)).status == NEMO_KITTY_IMAGE_LIMIT);
+    CHECK(nemo_kitty_cache_memory(f.cache) == empty + cost && !f.removed);
+    CHECK(nemo_kitty_cache_peek(f.cache, 1, 0) == a.image);
+    f.limit++;
+    CHECK(load(&f, "a=q,i=2,f=100,o=z,S=8", png_z, sizeof(png_z)).status == NEMO_KITTY_IMAGE_OK);
+    CHECK(nemo_kitty_cache_memory(f.cache) == empty + cost && !f.removed);
+    CHECK(f.peak == f.limit && nemo_kitty_cache_count(f.cache) == 1);
+    nemo_kitty_cache_clear(f.cache);
+    f.limit = empty + 8 + cost + 4; /* Encoded PNG, metadata, two RGBA pixels. */
+    f.png_mode = 3;
+    CHECK(load(&f, "i=1,f=100,o=z,S=8", png_z, sizeof(png_z)).status == NEMO_KITTY_IMAGE_DECODE);
+    CHECK(nemo_kitty_cache_memory(f.cache) == empty && !nemo_kitty_cache_count(f.cache));
+    f.png_mode = 0;
+    CHECK(load(&f, "i=1,f=100,o=z,S=8", png_z, sizeof(png_z)).status == NEMO_KITTY_IMAGE_OK);
+    CHECK(nemo_kitty_cache_memory(f.cache) == empty + cost + 4);
+    nemo_kitty_cache_free(f.cache);
+
+    create(&f, empty + 2*cost, true);
+    CHECK(load(&f, "i=1,f=24,s=1,v=1", "abc", 3).status == NEMO_KITTY_IMAGE_OK);
+    CHECK(load(&f, "i=2,f=24,s=1,v=1", "def", 3).status == NEMO_KITTY_IMAGE_OK);
+    uint64_t generation = nemo_kitty_cache_generation(f.cache);
+    CHECK(nemo_kitty_cache_peek(f.cache, 1, 0));
+    CHECK(nemo_kitty_cache_generation(f.cache) == generation);
+    CHECK(load(&f, "i=3,f=24,s=1,v=1", "ghi", 3).status == NEMO_KITTY_IMAGE_OK);
+    CHECK(f.last_removed_id == 1 && !nemo_kitty_cache_peek(f.cache, 1, 0));
+    CHECK(nemo_kitty_cache_peek(f.cache, 2, 0) && nemo_kitty_cache_peek(f.cache, 3, 0));
+    nemo_kitty_cache_free(f.cache);
+    CHECK(!nemo_kitty_cache_peek(NULL, 1, 0));
+}
+
 int main(void)
 {
     pixels_and_identity(); numbers_and_anonymous(); malformed_and_codecs(); limits_and_eviction();
+    compressed_budget_and_readonly_peek();
     CHECK(!nemo_kitty_cache_new(1, NULL, NULL, NULL, NULL));
     CHECK(!nemo_kitty_cache_memory(NULL) && !nemo_kitty_cache_count(NULL));
     CHECK(!nemo_kitty_cache_generation(NULL) && !nemo_kitty_image_raster(NULL));

@@ -141,6 +141,13 @@ static void chunks(NemoKitty *s)
     start(s, "i=8,m=1;"); more(s);
     start(s, "m=0;Zm9v"); packet(s, "foo", 3);
 
+    /* Captured native Kitty accepts independently padded intermediate APCs. */
+    start(s, "i=8,m=1;Zg=="); more(s);
+    start(s, "m=1;bw=="); more(s);
+    start(s, "m=0;bw=="); packet(s, "foo", 3);
+    start(s, "i=8,m=1;Zm8="); more(s);
+    start(s, "m=0;"); packet(s, "fo", 2);
+
     /* Feature queries neither append to, complete, nor discard a transmission. */
     start(s, "a=T,i=9,m=1;Zm9v"); more(s);
     size_t memory = nemo_kitty_memory(s);
@@ -186,7 +193,7 @@ static void invalid(NemoKitty *s)
     static const char *bad_base64[] = {
         ";A", ";=AAA", ";A=AA", ";AA=A", ";AA=", ";A===", ";====", ";Zh==",
         ";Zm9=", ";AB", ";AAB", ";Zm 9v", ";Zm9v\n", ";Zm9v-", ";Zg==AA==",
-        "m=1;Zg==", "m=1;Zg", "m=1;Zm8", ";Zg===="
+        "m=1;Zg==AA==", "m=1;Zg", "m=1;Zm8", ";Zg===="
     };
     for (size_t i = 0; i < sizeof(bad_base64)/sizeof(*bad_base64); i++)
         bad(s, bad_base64[i], NEMO_KITTY_MALFORMED);
