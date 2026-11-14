@@ -38,9 +38,22 @@ drain 10, 36, 15 and 20 processes naturally. Tests target only newly created
 processes. Session fault injection and shutdown probes are diagnostic checks;
 none of these small-window runs is full-grid memory acceptance.
 
-The [manifest](io-lifetime-validation.json) verifies 41 compressed evidence
+The [manifest](io-lifetime-validation.json) verifies 140 compressed evidence
 records. [Core/compiler CI](https://github.com/xiongnemo/nemoterm/actions/runs/43539455051)
-and [single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43539454999)
-are pending. The existing DirectX resource-growth failure remains a separate
-question until the original workload is repeated. The accepted local executable
-has not been replaced.
+passes all four jobs, including the new MinGW and MSVC lifetime tests.
+[Single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43539454999)
+passes 101 groups. Artifact 14092218719 contains a 4,450,816-byte EXE, SHA-256
+`b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50`.
+Its local automation check passes all ten groups, with identical reference/API
+pixels and natural cleanup.
+
+The downloaded image's unmodified local Sarasa 160x48 GDI workload fails early:
+361 handles at baseline become 407, with corresponding GDI/USER growth. A
+same-session comparison uses the identical fixture with the previous C1 image
+and this image. The C1 control completes all nine groups from a 405-handle
+baseline; this image again starts at 361 and fails at 407 on cycle index 1.
+Both failures are retained, with bounded cleanup of the five remaining inner
+processes and empty outer jobs. Neither failed run reaches full memory acceptance.
+The differing startup baselines need investigation; the comparison does not
+establish which initialization or source change causes them. This fix remains
+unmerged despite green CI. The accepted local executable has not been replaced.
