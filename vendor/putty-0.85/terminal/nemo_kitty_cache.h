@@ -54,4 +54,6 @@ const NemoRaster *nemo_kitty_image_raster(const NemoKittyImage *);
 unsigned nemo_kitty_image_references(const NemoKittyImage *);
 bool nemo_kitty_image_reference(NemoKittyCache *, NemoKittyImage *, bool add);
 bool nemo_kitty_cache_remove(NemoKittyCache *, NemoKittyImage *);
+/* Delete unreferenced named images in an inclusive client-id range. */
+unsigned nemo_kitty_cache_prune_range(NemoKittyCache *, uint32_t first, uint32_t last);
 #endif

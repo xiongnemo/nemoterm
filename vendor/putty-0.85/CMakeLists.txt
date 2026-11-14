@@ -65,6 +65,7 @@ add_library(guiterminal STATIC
   terminal/nemo_kitty.c
   terminal/nemo_kitty_cache.c
   terminal/nemo_kitty_layout.c
+  terminal/nemo_kitty_placements.c
   terminal/nemo_raster.c
   terminal/nemo_grapheme.c
   terminal/nemo_shell_marks.c
@@ -77,6 +78,7 @@ add_executable(test_iterm ../../tests/test_iterm.c terminal/nemo_iterm.c)
 add_executable(test_kitty_transport ../../tests/test_kitty_transport.c terminal/nemo_kitty.c)
 add_executable(test_kitty_cache ../../tests/test_kitty_cache.c terminal/nemo_kitty_cache.c terminal/nemo_kitty.c terminal/nemo_raster.c)
 add_executable(test_kitty_layout ../../tests/test_kitty_layout.c terminal/nemo_kitty_layout.c terminal/nemo_kitty.c)
+add_executable(test_kitty_placements ../../tests/test_kitty_placements.c terminal/nemo_kitty_placements.c terminal/nemo_kitty_layout.c terminal/nemo_kitty_cache.c terminal/nemo_kitty.c terminal/nemo_raster.c)
 add_executable(test_raster ../../tests/test_raster.c terminal/nemo_raster.c)
 add_executable(test_colour ../../tests/test_colour.c terminal/nemo_colour.c)
 add_executable(test_grapheme ../../tests/test_grapheme.c terminal/nemo_grapheme.c)

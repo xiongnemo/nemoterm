@@ -11,6 +11,9 @@ on:
       - tests/test_kitty_layout.c
       - tests/kitty_layout_reference.h
       - scripts/generate-kitty-layout-reference.py
+      - tests/test_kitty_placements.c
+      - tests/kitty_placement_reference.h
+      - scripts/generate-kitty-placement-reference.py
       - vendor/putty-0.85/terminal/nemo_raster.*
   pull_request:
     paths:
@@ -21,6 +24,9 @@ on:
       - tests/test_kitty_layout.c
       - tests/kitty_layout_reference.h
       - scripts/generate-kitty-layout-reference.py
+      - tests/test_kitty_placements.c
+      - tests/kitty_placement_reference.h
+      - scripts/generate-kitty-placement-reference.py
       - vendor/putty-0.85/terminal/nemo_raster.*
 
 permissions:
@@ -42,6 +48,7 @@ jobs:
           set -o pipefail
           "$CC" --version | tee compiler.txt
           python3 scripts/generate-kitty-layout-reference.py --check
+          python3 scripts/generate-kitty-placement-reference.py --check
           "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 \
             -I vendor/putty-0.85/terminal tests/test_kitty_transport.c \
             vendor/putty-0.85/terminal/nemo_kitty.c -o kitty-transport
@@ -78,7 +85,23 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c -o kitty-layout-asan
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./kitty-layout-asan 2>&1 | tee layout-sanitizers.log
-          sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py > sources.sha256
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG \
+            -I vendor/putty-0.85/terminal tests/test_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_layout.c \
+            vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c \
+            vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-normal
+          ./kitty-placements-normal 2>&1 | tee placements-normal.log
+          "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_layout.c \
+            vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c \
+            vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-sanitizers
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers 2>&1 | tee placements-sanitizers.log
+          sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py tests/kitty_placement_reference.h scripts/generate-kitty-placement-reference.py > sources.sha256
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -91,6 +114,8 @@ jobs:
             cache-sanitizers.log
             layout-normal.log
             layout-sanitizers.log
+            placements-normal.log
+            placements-sanitizers.log
             sources.sha256
           retention-days: 14
   msvc:
@@ -119,7 +144,13 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-layout.exe 2>&1 | Tee-Object layout-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
+          python scripts/generate-kitty-placement-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /DNDEBUG /D_CRT_SECURE_NO_WARNINGS /Ivendor/putty-0.85/terminal tests/test_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_placements.c vendor/putty-0.85/terminal/nemo_kitty_layout.c vendor/putty-0.85/terminal/nemo_kitty_cache.c vendor/putty-0.85/terminal/nemo_kitty.c vendor/putty-0.85/terminal/nemo_raster.c /Fe:kitty-placements.exe 2>&1 | Tee-Object placements-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-placements.exe 2>&1 | Tee-Object placements-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py, tests/kitty_placement_reference.h, scripts/generate-kitty-placement-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -131,5 +162,7 @@ jobs:
             cache-test.log
             layout-build.log
             layout-test.log
+            placements-build.log
+            placements-test.log
             sources.txt
           retention-days: 14

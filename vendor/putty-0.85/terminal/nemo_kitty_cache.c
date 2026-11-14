@@ -128,6 +128,21 @@ bool nemo_kitty_cache_remove(NemoKittyCache *s, NemoKittyImage *im)
     return true;
 }
 
+unsigned nemo_kitty_cache_prune_range(NemoKittyCache *s, uint32_t first, uint32_t last)
+{
+    if (!s || s->busy || first>last) return 0;
+    unsigned count=0;
+    s->busy=true;
+    NemoKittyImage **link=&s->images;
+    while (*link) {
+        NemoKittyImage *image=*link;
+        if (image->id && image->id>=first && image->id<=last && !image->references) {
+            remove_image(s,link);count++;
+        } else link=&image->next;
+    }
+    s->busy=false;return count;
+}
+
 static bool evict_one(NemoKittyCache *s, const NemoKittyImage *protect)
 {
     NemoKittyImage **oldest = NULL;

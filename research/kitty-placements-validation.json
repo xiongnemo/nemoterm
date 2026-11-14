@@ -1,0 +1,58 @@
+{
+  "scope": "Standalone placement ownership component; terminal runtime is not wired or advertised",
+  "base_commit": "59bc229be8c8783a8951c0d006fc66b5c26a33f6",
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.c": "cf0d469af737aacb49ca1a355aec34106e9842349ce19b3f182ce4fd1a61e88f",
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.h": "c680ef134680ec36fddb4a657f62cf78be2f186454d40e8dd8213bfaba53c957",
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.c": "663dca3e52b79fed4fc29140c5473f8936e5a1d12b9d67028434a7fdf3cfb304",
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.h": "f928dc35596230f2fd61817a0c8c1fd7fc370cb010d108e557fb2b25adc11dc0",
+    "tests/test_kitty_placements.c": "b4d5583de7283c0e9f2013f126c01574d6f5f78d6596869503c8c155fb8dd432",
+    "tests/kitty_placement_reference.h": "a04e85c9da5bbe79f70cda8de4b82fb48edc97235f7e294471a13cf9057aeaa5",
+    "scripts/generate-kitty-placement-reference.py": "959a7516504f84821996e38a31373d15632310e7775ae8b21722d0846fbe5837"
+  },
+  "local_tests": {
+    "placements": 1977,
+    "cache": 1564,
+    "layout": 153,
+    "reference_states": 18
+  },
+  "retained": [
+    {
+      "file": "kitty-placement-evidence/configure-implicit-clang-failed.log.gz",
+      "raw_sha256": "703f6b6ad322c38e5e85d6201c49db52ec768d09c4700383750a54cc8a73c0a3",
+      "compressed_sha256": "42bb442816dde125377e8410b034d1954c6f317d52862bf58f9b44dccab4df69"
+    },
+    {
+      "file": "kitty-placement-evidence/configure.log.gz",
+      "raw_sha256": "6b86253efd364443f0cf0d80915d61a13edba62de37c5b6d41bcf0a746b8e9d5",
+      "compressed_sha256": "69acbe3606afc6790405f5406b10c15c2af3d777406ef4a3ac0ec467d8f0ec43"
+    },
+    {
+      "file": "kitty-placement-evidence/build.log.gz",
+      "raw_sha256": "a809facd9fb041969839136f1974d7d9c954ddf48b896dadc73d9f8defabe19d",
+      "compressed_sha256": "febe997453045a337fa65b5a26d2311e30f554baa9625a66a02ab5e87795499b"
+    },
+    {
+      "file": "kitty-placement-evidence/test_kitty_cache.log.gz",
+      "raw_sha256": "6152e9377a4c9074cfbad1305167209373e073fa197a2cffd3cc9ae56875afae",
+      "compressed_sha256": "bc478eac4e874e222949b0767dbb958e8ad4da930b84d8a6a4561e82eb3b5ccd"
+    },
+    {
+      "file": "kitty-placement-evidence/test_kitty_layout.log.gz",
+      "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+      "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+    },
+    {
+      "file": "kitty-placement-evidence/test_kitty_placements.log.gz",
+      "raw_sha256": "5083378c2a5a2a7e2b2aecdb31f5591c8dab8c032decf34b120794f0a5fc2979",
+      "compressed_sha256": "ce4ca4b050a65cf833183069339c77c2430ec9ea89ad1b8cb6d6124aaed095c3"
+    },
+    {
+      "file": "kitty-placement-evidence/test-release.log.gz",
+      "raw_sha256": "5083378c2a5a2a7e2b2aecdb31f5591c8dab8c032decf34b120794f0a5fc2979",
+      "compressed_sha256": "ce4ca4b050a65cf833183069339c77c2430ec9ea89ad1b8cb6d6124aaed095c3"
+    }
+  ],
+  "application_acceptance": false,
+  "remote_ci": "pending"
+}

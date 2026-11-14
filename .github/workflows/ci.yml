@@ -69,7 +69,7 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           cmake -S vendor/putty-0.85 -B build-cluster -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io test_iso2022_charset test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_raster --parallel 4
+          cmake --build build-cluster --target pterm test_cluster_renderer test_gl_lifetime test_handle_io test_iso2022_charset test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster --parallel 4
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_iso2022_charset.exe 2>&1 | Tee-Object charset-msvc.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -83,6 +83,10 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_kitty_layout.exe 2>&1 | Tee-Object kitty-layout-msvc.log
           if ($LASTEXITCODE) { throw 'Kitty layout tests failed' }
+          python scripts/generate-kitty-placement-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-cluster/test_kitty_placements.exe 2>&1 | Tee-Object kitty-placements-msvc.log
+          if ($LASTEXITCODE) { throw 'Kitty placement tests failed' }
           ./build-cluster/test_raster.exe 2>&1 | Tee-Object raster-animation-msvc.log
           if ($LASTEXITCODE) { throw 'Raster animation tests failed' }
           ./build-cluster/test_handle_io.exe 2>&1 | Tee-Object handle-io-msvc.log
@@ -134,6 +138,7 @@ jobs:
             handle-io-msvc.log
             charset-msvc.log
             iterm-transport-msvc.log
+            kitty-*-msvc.log
             raster-animation-msvc.log
           retention-days: 14
       - name: Retain exact failed MSVC image for reproduction
@@ -223,12 +228,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
+          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -822,6 +827,20 @@ jobs:
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./test-kitty-layout 2>&1 | tee terminal-kitty-layout-sanitizers.log
+      - name: Test kitty placement ownership and scrolling with sanitizers
+        run: |
+          python3 scripts/generate-kitty-placement-reference.py --check
+          gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
+            -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I vendor/putty-0.85/terminal tests/test_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_placements.c \
+            vendor/putty-0.85/terminal/nemo_kitty_layout.c \
+            vendor/putty-0.85/terminal/nemo_kitty_cache.c \
+            vendor/putty-0.85/terminal/nemo_kitty.c \
+            vendor/putty-0.85/terminal/nemo_raster.c -o test-kitty-placements
+          set -o pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./test-kitty-placements 2>&1 | tee terminal-kitty-placements-sanitizers.log
       - name: Test raster composition and timing with sanitizers
         run: |
           gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 \
