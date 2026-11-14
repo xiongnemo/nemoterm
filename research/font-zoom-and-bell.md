@@ -134,8 +134,10 @@ and 88x35 for DirectX; these do not establish the local Sarasa 160x48 target.
 These are ordinary default-font workloads, not a dedicated memory stress test
 while zooming. Raw samples, private commit peaks, exact font/bell observations,
 source/artifact identities and the complete workflow log are retained in the
-validation record. The complete MinGW/core workflow remains in progress; its
-new font/bell step has passed. Physical high-resolution wheels,
+validation record. The [complete MinGW/core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43606924130)
+also passes, including sanitizer, MSVC diagnostics, and the corrected native
+font/bell and profile-isolation checks. Both full workflows for this checkpoint
+are now green. Physical high-resolution wheels,
 DPI transitions and local Sarasa rendering still require further verification.
 The accepted executable remains unchanged, and the prior integrated DirectX
 resource-cycle failure remains unresolved.
