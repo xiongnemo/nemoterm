@@ -53,3 +53,9 @@ original and updated fixtures, replay drivers, finite comparison results,
 screenshots and cleanup records. New CI must still validate the changed fixture
 on hosted runners. The original intermittent failure remains tracked rather
 than being relabeled as resolved by a successful rerun.
+
+The first single-image CI run of this change failed earlier in the separate
+RTL fixture, before reaching overflow navigation. See the
+[RTL capture follow-up](rtl-capture-observation.md) for that failure and the
+subsequent API capture comparison. Neither passing local replay establishes
+the cause of the intermittent close failures.

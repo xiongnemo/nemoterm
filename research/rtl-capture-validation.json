@@ -1,0 +1,956 @@
+{
+  "source_base": "d82d9aef2140533df0f04397c08c2ab14324d88e",
+  "scope": "Finite local comparison; no established cause for CI close timeout",
+  "records": [
+    {
+      "path": "build/check-rtl-capture.py",
+      "archive": "research/rtl-capture-records/000-check-rtl-capture.py.gz",
+      "bytes": 3363,
+      "sha256": "e73f088cf4dd093d19a23abe6bb681a77efe7a6134808b7aad73f3f8d3abc8c9"
+    },
+    {
+      "path": "build/ci-tabs-d82d9ae/single-artifacts.json",
+      "archive": "research/rtl-capture-records/001-single-artifacts.json.gz",
+      "bytes": 1551,
+      "sha256": "dc638c758d8fd3ace5264e0a41ee1cfd80e941619fbb6f4e84319a3a0f5850b0"
+    },
+    {
+      "path": "build/ci-tabs-d82d9ae/single-evidence/build/single-exe-check/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/002-rtl-window-observed.json.gz",
+      "bytes": 3763,
+      "sha256": "e0bda2b5135e9cbe1e707fb55b1b1caf106bf1d0af70f964e3261c236739c2c4"
+    },
+    {
+      "path": "build/ci-tabs-d82d9ae/single-run.json",
+      "archive": "research/rtl-capture-records/003-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "6002e7642653617f640cda1c4b21684912d3ff4f482adbc2f467a06bc8aa9171"
+    },
+    {
+      "path": "build/ci-tabs-d82d9ae/single-run.log",
+      "archive": "research/rtl-capture-records/004-single-run.log.gz",
+      "bytes": 247835,
+      "sha256": "b7b980446a73f4e2540fe2310c8abe76ea1ae9a77c475854aaefb7c0e0f98776"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/controller.log",
+      "archive": "research/rtl-capture-records/005-controller.log.gz",
+      "bytes": 363,
+      "sha256": "f82eb8e2ceb3f8a9ce16e33a9911dd264fe1b38a97ffdf38e63908609bf06ec9"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/006-rtl-0-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/007-rtl-0-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/008-rtl-0.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/009-rtl-1-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/010-rtl-1-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/011-rtl-1.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/012-rtl-2-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/013-rtl-2-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/014-rtl-2.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/015-rtl-controller.json.gz",
+      "bytes": 466,
+      "sha256": "929265e58edfb10c670fbf50411e4bdfb56d2dc671ea144d58dfc41fdb06d388"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/016-rtl-window-observed.json.gz",
+      "bytes": 4602,
+      "sha256": "e7c0c3172c334eb02e331dd8d1b8a3434e7b531d0ee840556ba4f9ee798c0adf"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-courier/rtl.log",
+      "archive": "research/rtl-capture-records/017-rtl.log.gz",
+      "bytes": 75,
+      "sha256": "e5ae144fbd3a13d05284d7e1801ac990571d1d345d825c5b19dc91a81b538ebd"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/controller.log",
+      "archive": "research/rtl-capture-records/018-controller.log.gz",
+      "bytes": 364,
+      "sha256": "9a85593194bf7330ee833bf604bdc2df4813ce2154969abfaaa25b226c66b76b"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/019-rtl-0-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/020-rtl-0-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/021-rtl-0.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/022-rtl-1-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/023-rtl-1-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/024-rtl-1.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/025-rtl-2-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/026-rtl-2-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/027-rtl-2.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/028-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "1dce7cf9e902b4d75c64c9ce237feef74c32b6c33fe76d2cb47d287d6559bae1"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/029-rtl-window-observed.json.gz",
+      "bytes": 4619,
+      "sha256": "2e5335e07e5edf24a5f5c810145ae7b72837c1e0b0a6e79564af7b041bd2ffc8"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-failed-ci-sarasa/rtl.log",
+      "archive": "research/rtl-capture-records/030-rtl.log.gz",
+      "bytes": 96,
+      "sha256": "a49c1848dc85352f86103e3415bf5e70e6412b222b948bc64e6ab5fbf287c3ed"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/controller.log",
+      "archive": "research/rtl-capture-records/031-controller.log.gz",
+      "bytes": 364,
+      "sha256": "f1621f10aadb06f37d9cb14cbf5972afdab4e8ead9f9eb149e87bfc036fee140"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/032-rtl-0-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/033-rtl-0-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/034-rtl-0.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/035-rtl-1-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/036-rtl-1-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/037-rtl-1.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/038-rtl-2-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/039-rtl-2-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/040-rtl-2.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/041-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "192b4710c2511f92150d7e60baede74dd313c60ddf159bdbd6a09b59ba9c98e6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/042-rtl-window-observed.json.gz",
+      "bytes": 4603,
+      "sha256": "8049b17dbb579df38af47c1e64d8d63a644f95dfb56de3c2215e28a1cffe132f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-courier/rtl.log",
+      "archive": "research/rtl-capture-records/043-rtl.log.gz",
+      "bytes": 75,
+      "sha256": "e5ae144fbd3a13d05284d7e1801ac990571d1d345d825c5b19dc91a81b538ebd"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/controller.log",
+      "archive": "research/rtl-capture-records/044-controller.log.gz",
+      "bytes": 364,
+      "sha256": "a7d4b82253f3dd09e219fca3e170f8f5b433d13e19fefc538519ba7134168ba3"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/045-rtl-0-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/046-rtl-0-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/047-rtl-0.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/048-rtl-1-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/049-rtl-1-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/050-rtl-1.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/051-rtl-2-last-reference.png.gz",
+      "bytes": 410,
+      "sha256": "ff8b7f28fbc1b4ba1f8630ee3198aee2782e004121b6a2971c6bbd2e10a9701f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/052-rtl-2-resized.png.gz",
+      "bytes": 818,
+      "sha256": "7dcc4bd441e8a930b5d3395fc31b3b0336dcf30ac70f52977ff78cbb449bf079"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/053-rtl-2.png.gz",
+      "bytes": 968,
+      "sha256": "57084152a6c8f92379ad631553cc773d619252dcf81ae1d41956a6d20b1482f6"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/054-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "6f7f126c1ec70d540a5af7139c50e58a70b291b2b7c8379535642d0c4a471720"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/055-rtl-window-observed.json.gz",
+      "bytes": 4621,
+      "sha256": "23fffe94598b0880f1833cf71a72ab3180a0a1c7664d500c40e38cf19a1a2c50"
+    },
+    {
+      "path": "build/rtl-capture-comparison/after-main-ci-sarasa/rtl.log",
+      "archive": "research/rtl-capture-records/056-rtl.log.gz",
+      "bytes": 96,
+      "sha256": "a49c1848dc85352f86103e3415bf5e70e6412b222b948bc64e6ab5fbf287c3ed"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/controller.log",
+      "archive": "research/rtl-capture-records/057-controller.log.gz",
+      "bytes": 364,
+      "sha256": "8718bcbed3f37a748fa6551d7071e3e6dd6c1bd857257747bb9102aedb1634a9"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/058-rtl-0-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/059-rtl-0-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/060-rtl-0.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/061-rtl-1-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/062-rtl-1-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/063-rtl-1.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/064-rtl-2-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/065-rtl-2-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/066-rtl-2.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/067-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "ba86356d166d9942bfc2575072afba2bcc560fc2cde57e382031ff9b058ff99f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/068-rtl-window-observed.json.gz",
+      "bytes": 4539,
+      "sha256": "c98ac748d9fbf775202d9b76cca0332c80665df416ff463f572a2f8104c66339"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-0/rtl.log",
+      "archive": "research/rtl-capture-records/069-rtl.log.gz",
+      "bytes": 75,
+      "sha256": "e5ae144fbd3a13d05284d7e1801ac990571d1d345d825c5b19dc91a81b538ebd"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/controller.log",
+      "archive": "research/rtl-capture-records/070-controller.log.gz",
+      "bytes": 364,
+      "sha256": "4b75b2f152b00cc5bed2043f764438dd1d56a963acbbb0f9e38a83e678bbb135"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-0-last-reference.png",
+      "archive": "research/rtl-capture-records/071-rtl-0-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-0-resized.png",
+      "archive": "research/rtl-capture-records/072-rtl-0-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-0.png",
+      "archive": "research/rtl-capture-records/073-rtl-0.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-1-last-reference.png",
+      "archive": "research/rtl-capture-records/074-rtl-1-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-1-resized.png",
+      "archive": "research/rtl-capture-records/075-rtl-1-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-1.png",
+      "archive": "research/rtl-capture-records/076-rtl-1.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-2-last-reference.png",
+      "archive": "research/rtl-capture-records/077-rtl-2-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-2-resized.png",
+      "archive": "research/rtl-capture-records/078-rtl-2-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-2.png",
+      "archive": "research/rtl-capture-records/079-rtl-2.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-controller.json",
+      "archive": "research/rtl-capture-records/080-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "3fd73e22ba1853550dd612929e82891c33c94d653ba9746f4a127b6b41d583a0"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/research/rtl-window-observed.json",
+      "archive": "research/rtl-capture-records/081-rtl-window-observed.json.gz",
+      "bytes": 4538,
+      "sha256": "983ae44f3c4816db48253ee4275d90b1d86dd5d6f51518628dea0e90d9234a74"
+    },
+    {
+      "path": "build/rtl-capture-comparison/before-1/rtl.log",
+      "archive": "research/rtl-capture-records/082-rtl.log.gz",
+      "bytes": 75,
+      "sha256": "e5ae144fbd3a13d05284d7e1801ac990571d1d345d825c5b19dc91a81b538ebd"
+    },
+    {
+      "path": "build/rtl-capture-comparison/original-fixture.py",
+      "archive": "research/rtl-capture-records/083-original-fixture.py.gz",
+      "bytes": 10481,
+      "sha256": "64ce323a906843f640059f6fab839e7db87df3a9c4b4b3cf3c9a8976d2cfb616"
+    },
+    {
+      "path": "build/rtl-capture-comparison/results.json",
+      "archive": "research/rtl-capture-records/084-results.json.gz",
+      "bytes": 9919,
+      "sha256": "0c22cca999730ae2202da49a7e098465cacf647465c09e58e5c0972bb9169607"
+    },
+    {
+      "path": "tests/automation_capture.py",
+      "archive": "research/rtl-capture-records/085-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "tests/rtl_window_smoke.py",
+      "archive": "research/rtl-capture-records/086-rtl_window_smoke.py.gz",
+      "bytes": 10507,
+      "sha256": "b8b6c59e2f4eb5cc431373f2bbb6b88566c912244ab3fd59f9deaeeb3ac472d3"
+    }
+  ],
+  "results": [
+    {
+      "name": "before-0",
+      "fixture": "old",
+      "image": "failed-ci",
+      "font": "Courier",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.059020600048825145,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.13745420007035136,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.06956709991209209,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "before-1",
+      "fixture": "old",
+      "image": "failed-ci",
+      "font": "Courier",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.05911420006304979,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.14058489981107414,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.07089309999719262,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "after-failed-ci-courier",
+      "fixture": "new",
+      "image": "failed-ci",
+      "font": "Courier",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.06455640005879104,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.12618010002188385,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.07120330003090203,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "after-failed-ci-sarasa",
+      "fixture": "new",
+      "image": "failed-ci",
+      "font": "SarasaTermSC Nerd Font Light",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.05806789989583194,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.1387445000000298,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.06943099992349744,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "after-main-ci-courier",
+      "fixture": "new",
+      "image": "main-ci",
+      "font": "Courier",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.059244300005957484,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.13616669992916286,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.07085200003348291,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "after-main-ci-sarasa",
+      "fixture": "new",
+      "image": "main-ci",
+      "font": "SarasaTermSC Nerd Font Light",
+      "exit_code": 0,
+      "completed": true,
+      "modes": [
+        {
+          "requested": 0,
+          "active": 1,
+          "checks": 7,
+          "close_seconds": 0.060283000115305185,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 1,
+          "active": 2,
+          "checks": 7,
+          "close_seconds": 0.13443659991025925,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "requested": 2,
+          "active": 3,
+          "checks": 7,
+          "close_seconds": 0.07034370000474155,
+          "cleanup": {
+            "before": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 3,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ],
+      "error": null
+    }
+  ]
+}
