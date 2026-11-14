@@ -2407,7 +2407,7 @@ static void nemo_report_sgr_colour(strbuf *reply, unsigned prefix,
 struct NemoSgrStack {
     uint64_t used;
     struct {
-        uint32_t mask;
+        uint64_t mask;
         unsigned long attr;
         truecolour tc;
     } frames[10];
@@ -2417,15 +2417,17 @@ struct NemoSgrStack {
  * counter, so their corresponding pops cannot prematurely restore a frame. */
 static void nemo_push_sgr(Terminal *term)
 {
-    uint32_t mask = 0;
+    uint64_t mask = 0;
     if (term->esc_nargs == 1 && !term->esc_arg_present) {
-        mask = UINT32_MAX;
+        mask = UINT64_MAX;
     } else {
         for (int i = 0; i < term->esc_nargs; i++) {
             unsigned selector = term->esc_args[i];
             if (selector == 10) selector = 30;
             if (selector == 11) selector = 31;
             if (selector == 53) {mask |= UINT32_C(1) << 31;continue;}
+            if (selector == 51) {mask |= UINT64_C(1) << 32;continue;}
+            if (selector == 52) {mask |= UINT64_C(1) << 33;continue;}
             if (selector > 0 && selector < 32)
                 mask |= UINT32_C(1) << (selector-1);
         }
@@ -2449,7 +2451,7 @@ static void nemo_pop_sgr(Terminal *term)
     if (!stack) return;
     assert(stack->used);
     if (--stack->used < lenof(stack->frames)) {
-        uint32_t mask = stack->frames[stack->used].mask;
+        uint64_t mask = stack->frames[stack->used].mask;
         unsigned long saved = stack->frames[stack->used].attr, attrs = 0;
         truecolour tc = stack->frames[stack->used].tc;
         static const struct { unsigned selector; unsigned long bits; } flags[] = {
@@ -2466,8 +2468,10 @@ static void nemo_pop_sgr(Terminal *term)
         if (mask & (UINT32_C(1) << 3)) decorations |= UNDER_STYLE_MASK;
         if (mask & (UINT32_C(1) << 20)) decorations |= UNDER_DOUBLE_LEGACY;
         if (mask & (UINT32_C(1) << 31)) decorations |= DECOR_OVERLINE;
+        if (mask & (UINT64_C(1) << 32)) decorations |= DECOR_FRAMED;
+        if (mask & (UINT64_C(1) << 33)) decorations |= DECOR_ENCIRCLED;
         /* No-argument saves also preserve our modern underline colour. */
-        if (mask == UINT32_MAX) decorations |= UNDER_COLOUR_MASK;
+        if (mask == UINT64_MAX) decorations |= UNDER_COLOUR_MASK;
         term->curr_truecolour.decoration =
             (term->curr_truecolour.decoration & ~decorations) | (tc.decoration & decorations);
         set_erase_char(term);
@@ -2534,6 +2538,8 @@ static void nemo_decrqss(Terminal *term)
             else put_fmt(reply, ";4:%u", style);
         }
         if (tc.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+        if (tc.decoration & DECOR_FRAMED) put_dataz(reply, ";51");
+        if (tc.decoration & DECOR_ENCIRCLED) put_dataz(reply, ";52");
         if (tc.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
         nemo_report_sgr_colour(reply, 38, (attr & ATTR_FGMASK) >> ATTR_FGSHIFT, tc.fg, false);
         nemo_report_sgr_colour(reply, 48, (attr & ATTR_BGMASK) >> ATTR_BGSHIFT, tc.bg, false);
@@ -5268,7 +5274,7 @@ static void nemo_report_rectangle_sgr(Terminal *term)
                     (cell.truecolour.decoration & UNDER_COLOUR_MASK))
                     common.truecolour.decoration &= ~UNDER_COLOUR_MASK;
                 common.truecolour.decoration &= cell.truecolour.decoration |
-                    ~(UNDER_DOUBLE_LEGACY | DECOR_OVERLINE);
+                    ~(UNDER_DOUBLE_LEGACY | DECOR_OVERLINE | DECOR_ENCLOSURES);
             }
         }
     }
@@ -5287,6 +5293,8 @@ static void nemo_report_rectangle_sgr(Terminal *term)
     for (size_t i = 0; i < lenof(flags); i++)
         if (common.attr & flags[i].bit) put_fmt(reply, ";%u", flags[i].sgr);
     if (common.truecolour.decoration & UNDER_DOUBLE_LEGACY) put_dataz(reply, ";21");
+    if (common.truecolour.decoration & DECOR_FRAMED) put_dataz(reply, ";51");
+    if (common.truecolour.decoration & DECOR_ENCIRCLED) put_dataz(reply, ";52");
     if (common.truecolour.decoration & DECOR_OVERLINE) put_dataz(reply, ";53");
     nemo_report_sgr_colour(reply, 38, (common.attr & ATTR_FGMASK) >> ATTR_FGSHIFT,
                            common.truecolour.fg, true);
@@ -8694,6 +8702,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             break;
                           case 29:      /* disable strikethrough */
                             term->curr_attr &= ~ATTR_STRIKE;
+                            break;
+                          case 51:      /* ECMA-48 framed */
+                            term->curr_truecolour.decoration |= DECOR_FRAMED;
+                            break;
+                          case 52:      /* ECMA-48 encircled */
+                            term->curr_truecolour.decoration |= DECOR_ENCIRCLED;
+                            break;
+                          case 54:
+                            term->curr_truecolour.decoration &= ~DECOR_ENCLOSURES;
                             break;
                           case 53:      /* ECMA-48 overline */
                             term->curr_truecolour.decoration |= DECOR_OVERLINE;

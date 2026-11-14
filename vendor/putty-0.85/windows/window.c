@@ -4359,6 +4359,32 @@ static void nemo_draw_underline(WinGuiSeat *wgs, RECT box, int lattr,
     RestoreDC(wgs->wintw_hdc, saved);
 }
 
+/* Each logical character cell/cluster has its own enclosure, independent of
+ * how shaping or paint invalidation divides an attribute run. Double-height
+ * halves clip one continuous enclosure rather than drawing two small ones. */
+static void nemo_draw_enclosures(WinGuiSeat *wgs, RECT box, int lattr,
+                                 int cell_width, uint64_t decoration,
+                                 COLORREF colour)
+{
+    int saved = SaveDC(wgs->wintw_hdc);
+    if (!saved) return;
+    IntersectClipRect(wgs->wintw_hdc, box.left, box.top, box.right, box.bottom);
+    SelectObject(wgs->wintw_hdc, GetStockObject(NULL_BRUSH));
+    SelectObject(wgs->wintw_hdc, GetStockObject(DC_PEN));
+    SetDCPenColor(wgs->wintw_hdc, colour);
+    int top = box.top, bottom = box.bottom;
+    if (lattr == LATTR_TOP) bottom += wgs->font_height;
+    else if (lattr == LATTR_BOT) top -= wgs->font_height;
+    for (int left = box.left; left < box.right; left += cell_width) {
+        int right = left + cell_width;
+        if (decoration & DECOR_FRAMED)
+            Rectangle(wgs->wintw_hdc, left, top, right, bottom);
+        if (decoration & DECOR_ENCIRCLED)
+            Ellipse(wgs->wintw_hdc, left, top, right, bottom);
+    }
+    RestoreDC(wgs->wintw_hdc, saved);
+}
+
 static void do_text_internal(
     WinGuiSeat *wgs, int x, int y, wchar_t *text, int len,
     unsigned long attr, int lattr, truecolour truecolour)
@@ -4784,6 +4810,9 @@ static void do_text_internal(
     }
 
   decorations:
+    if (!(attr & ATTR_CONCEAL) && (truecolour.decoration & DECOR_ENCLOSURES))
+        nemo_draw_enclosures(wgs, line_box, lattr, char_width,
+                             truecolour.decoration, fg);
     if (!(attr & ATTR_CONCEAL) && (force_manual_underline || (attr & ATTR_UNDER))) {
         uint32_t colour = truecolour.decoration & UNDER_COLOUR_MASK;
         COLORREF underline = fg;
