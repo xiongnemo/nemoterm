@@ -5,6 +5,9 @@
 #include "../../../tests/tabulation_oracle_cases.h"
 #include "../../../tests/double_size_oracle_cases.h"
 #include "../../../tests/cursor_charset_cases.h"
+#include "../../../tests/charset_reference.h"
+#include "../../../tests/charset_parser_reference.h"
+#include "../../../tests/charset_state_reference.h"
 #include "../../../tests/alignment_oracle_cases.h"
 
 static void test_alignment(Mock *mk)
@@ -204,8 +207,8 @@ static void test_cursor_charsets(Mock *mk)
 
     reset(mk);
     test_context(mk, "saved charset state obeys the current local prohibition");
-    term_data_fragmented(t, "\033(0\033)0\033*0\033+0\033n\033|"
-                         "\033[12m\033%G\0337\017\033}");
+    term_data_fragmented(t, "\033%G\033(0\033)0\033*0\033+0\033n\033|"
+                         "\033[12m\0337\017\033}");
     conf_set_bool(mk->conf, CONF_no_remote_charset, true);
     term_reconfig(t, mk->conf);
     term_data_fragmented(t, "\0338");
@@ -217,7 +220,8 @@ static void test_cursor_charsets(Mock *mk)
     term_reconfig(t, mk->conf);
     term_data_fragmented(t, "\0338");
     IEQUAL(t->cset, 2); IEQUAL(t->cset_gr, 3);
-    IEQUAL(t->utf, true); IEQUAL(t->sco_acs, 2);
+    /* Encoding is global, not part of DECSC. Reconfiguration revoked it. */
+    IEQUAL(t->utf, false); IEQUAL(t->sco_acs, 2);
     for (size_t i = 0; i < lenof(t->cset_attr); i++)
         IEQUAL(t->cset_attr[i], CSET_LINEDRW);
 
@@ -227,7 +231,75 @@ static void test_cursor_charsets(Mock *mk)
     reset(mk);
 }
 
+static void test_iso2022_parser(Mock *mk)
+{
+    bool old_checksum = conf_get_bool(mk->conf, CONF_nemo_allow_checksum);
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
+    term_reconfig(mk->term, mk->conf);
+    mk->ucsdata->line_codepage = CP_UTF8;
+    IEQUAL(lenof(charset_reference), lenof(charset_parser_reference));
+    for (unsigned fragmented = 0; fragmented < 2; fragmented++) {
+        for (size_t i = 0; i < lenof(charset_reference); i++) {
+            reset(mk);
+            test_context(mk, "ISO 2022 parser %s / fragmented %u",
+                         charset_reference[i].name, fragmented);
+            strbuf *input = strbuf_new(), *expected = strbuf_new();
+            put_dataz(input, charset_parser_reference[i].setup);
+            for (unsigned n = 0; n < 96; n++) {
+                put_fmt(input, "\033[%u;%uH", n/48+1, n%48+1);
+                put_byte(input, n+0x20+(charset_reference[i].right ? 0x80 : 0));
+            }
+            put_dataz(input, "\033[31#y");
+            for (unsigned n = 0; n < 96; n++) {
+                unsigned row=n/48+1, col=n%48+1;
+                put_fmt(input, "\033[%u;1;%u;%u;%u;%u*y", n+1, row,col,row,col);
+                put_fmt(expected, "\033P%u!~%04X\033\\", n+1, charset_reference[i].cells[n]);
+            }
+            put_dataz(input, "\033[1$w\033[?42$p\033[?42l\033%G");
+            put_dataz(expected, charset_parser_reference[i].tail);
+            if (fragmented) term_data_fragmented(mk->term, input->s);
+            else term_data(mk->term, input->s, input->len);
+            if (expected->len != mk->to_backend->len ||
+                memcmp(expected->s, mk->to_backend->s, expected->len)) {
+                size_t pos=0;
+                while (pos < expected->len && pos < mk->to_backend->len &&
+                       expected->s[pos] == mk->to_backend->s[pos]) pos++;
+                report_fail(mk, __FILE__, __LINE__,
+                    "reply differs at byte %zu, expected %.64s, actual %.64s (%zu/%zu bytes)",
+                    pos, expected->s+pos, mk->to_backend->s+pos,
+                    expected->len, mk->to_backend->len);
+            }
+            IEQUAL(mk->clipboard_writes, 0);
+            strbuf_free(input); strbuf_free(expected);
+        }
+        for (size_t i = 0; i < lenof(charset_state_reference); i++) {
+            reset(mk);
+            test_context(mk, "ISO 2022 transition %s / fragmented %u",
+                         charset_state_reference[i].name, fragmented);
+            if (fragmented) term_data_fragmented(mk->term, charset_state_reference[i].input);
+            else term_data(mk->term, charset_state_reference[i].input,
+                           strlen(charset_state_reference[i].input));
+            SEQUAL(mk->to_backend->s, charset_state_reference[i].reply);
+        }
+    }
+    reset(mk);
+    test_context(mk, "NRCS visible Unicode survives selection and rectangle fill");
+    term_data_fragmented(mk->term, "\033%G\033[?42h\033(K[\\]"
+                         "\033[91;2;1;2;3$x");
+    for (int col=0; col<3; col++) IEQUAL(get_termchar(mk->term,col,1).chr,0x00c4);
+    term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_CLICK, 0,0,true,false,false);
+    term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_DRAG, 2,0,true,false,false);
+    term_mouse(mk->term, MBT_LEFT, MBT_SELECT, MA_RELEASE, 2,0,false,false,false);
+    int clipboard=CLIP_LOCAL+1;
+    term_request_copy(mk->term,&clipboard,1);
+    check_clipboard(mk,L"\x00c4\x00d6\x00dc");
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, old_checksum);
+    term_reconfig(mk->term, mk->conf);
+    reset(mk);
+}
+
 static bool state_sync(TermWin *win, bool enabled) { return true; }
+static void state_bell(TermWin *win, int mode) { (void)win; (void)mode; }
 
 static void test_soft_state(Mock *mk)
 {
@@ -427,7 +499,7 @@ static void test_saved_extensions_and_recovery(Mock *mk)
     state_reply(mk,"\033[?1h\033[!\032p\033[?1$p\033[!1:2p\033[?1$p"
         "\033[123!p\033[?1$p","\033[?1;1$y\033[?1;1$y\033[?1;2$y");
     for (int i=0;i<20000;i++) term_data_fragmented(t,"\033[?4294967295;99999s\033[?4294967295;99999r");
-    IEQUAL(sizeof(t->saved_dec_modes),25*sizeof(int));
+    IEQUAL(sizeof(t->saved_dec_modes),26*sizeof(int));
     state_reply(mk,"\033[?1r\033[?1$p","\033[?1;1$y");
 }
 
@@ -436,6 +508,7 @@ int main(void)
     Mock *mk=mock_new();
     struct TermWinVtable vt=mock_termwin_vt;
     vt.set_synchronized_update=state_sync;
+    vt.bell=state_bell;
     mk->tw.vt=&vt;
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
@@ -445,6 +518,7 @@ int main(void)
     test_saved_modes(mk);
     test_cursor_aliases_and_origin(mk);
     test_cursor_charsets(mk);
+    test_iso2022_parser(mk);
     test_saved_extensions_and_recovery(mk);
     test_tabulation(mk);
     test_double_size(mk);

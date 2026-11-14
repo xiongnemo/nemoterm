@@ -13,6 +13,7 @@
 #include "putty.h"
 #include "terminal.h"
 #include "nemo_colour.h"
+#include "nemo_charset.h"
 
 static void term_bidi_cache_clear_line(Terminal *term, size_t line);
 static void nemo_reset_ansi_colours(Terminal *term);
@@ -2626,6 +2627,83 @@ static int nemo_charset_code(unsigned char c)
     }
 }
 
+static unsigned nemo_charset_level(Terminal *term)
+{
+    return has_compat(VT510) ? 5 : has_compat(VT420) ? 4 :
+        has_compat(VT320) ? 3 : has_compat(VT220) ? 2 : 1;
+}
+
+/* Negative values are immutable table handles, never cell/font tags. The
+ * 96-introducer bit is distinct from the descriptor's reported set size. */
+static const NemoCharset *nemo_charset_descriptor(int attr)
+{
+    return attr < 0 && attr > -512 ?
+        nemo_charset_by_id((unsigned)-attr & 255) : NULL;
+}
+
+static int nemo_charset_select(Terminal *term, bool size96,
+                               const char *name, size_t length)
+{
+    if (!size96 && length == 1) {
+        int legacy = nemo_charset_code((unsigned char)*name);
+        if (legacy >= 0) return legacy;
+    }
+    const NemoCharset *cs = nemo_charset_designate(size96 ? 3 : 1,
+        nemo_charset_level(term), term->nrc_mode, name, length);
+    return cs ? -(int)(nemo_charset_id(cs) | (size96 ? 256 : 0)) : CSET_ASCII;
+}
+
+static unsigned long nemo_charset_graphic(Terminal *term, int attr, unsigned byte)
+{
+    const NemoCharset *cs = nemo_charset_descriptor(attr);
+    if (!cs || (byte == 0x7f && !((unsigned)-attr & 256))) return UCSINCOMPLETE;
+    uint32_t value = nemo_charset_map(cs, byte, nemo_charset_level(term), term->nrc_mode);
+    if (value == NEMO_CHARSET_NOCHAR) return UCSINCOMPLETE;
+    /* Mapped codepoints are data, including DEL/C1 glyphs from 96 sets.
+     * Existing direct-character tags prevent a second control interpretation. */
+    if (value < 0x20 || (value >= 0x7f && value < 0xa0)) return value | CSET_ASCII;
+    return value;
+}
+
+static bool nemo_charset_escape(Terminal *term, unsigned char final)
+{
+    if (term->esc_query <= 0) return false;
+    unsigned intro = term->esc_query & 255;
+    bool size96 = intro >= '-' && intro <= '/';
+    if (!(intro >= '(' && intro <= '+') && !size96) return false;
+    if (term->no_remote_charset || !has_compat(VT100) ||
+        (size96 && !has_compat(VT320)) ||
+        ((intro == '*' || intro == '+') && !has_compat(VT220))) return true;
+    unsigned prefix = (unsigned)term->esc_query >> 8;
+    /* The SCS parser admits only registered finals after these intermediates.
+     * Other finals cancel the designation, preserving the previous bank. */
+    if (prefix && !(prefix == '%' ? strchr("02356=", final) != NULL :
+                    prefix == '&' ? strchr("45", final) != NULL :
+                    prefix == '"' ? strchr("4>?", final) != NULL : false)) return true;
+    char name[2] = { prefix ? (char)prefix : (char)final, (char)final };
+    int bank = size96 ? intro-'-'+1 : intro-'(';
+    if (final != 'U' || prefix || has_compat(OTHER))
+        term->cset_attr[bank] = nemo_charset_select(term, size96, name, prefix ? 2 : 1);
+    return true;
+}
+
+static void nemo_charset_docs(Terminal *term, bool utf8)
+{
+    if (term->no_remote_charset) return;
+    bool before = in_utf(term);
+    term->utf = utf8 ? 1 : -1;
+    term->utf8.state = 0;
+    if (before == in_utf(term)) return;
+    if (utf8) {
+        memcpy(term->ansi_csattr, term->cset_attr, sizeof(term->ansi_csattr));
+        for (size_t i=0; i<lenof(term->cset_attr); i++) term->cset_attr[i]=CSET_ASCII;
+        term->cset=term->cset_ss=0;
+        term->cset_gr=2;
+    } else {
+        memcpy(term->cset_attr, term->ansi_csattr, sizeof(term->cset_attr));
+    }
+}
+
 static void nemo_presentation_report(Terminal *term)
 {
     if (!term->ldisc || (term->esc_args[0] != 1 && term->esc_args[0] != 2)) return;
@@ -2640,13 +2718,21 @@ static void nemo_presentation_report(Terminal *term)
         unsigned flags = 0x40 | (term->dec_om ? 1 : 0) |
             (term->cset_ss == 2 ? 2 : term->cset_ss == 3 ? 4 : 0) |
             (term->wrapnext ? 8 : 0);
-        put_fmt(reply, "%d;%d;1;%c;%c;%c;%d;%d;@;", term->curs.y+1, term->curs.x+1,
+        unsigned sizes = 0x40;
+        for (size_t i = 0; i < lenof(term->cset_attr); i++) {
+            const NemoCharset *cs = nemo_charset_descriptor(term->cset_attr[i]);
+            if (cs && cs->size96) sizes |= 1u << i;
+        }
+        put_fmt(reply, "%d;%d;1;%c;%c;%c;%d;%d;%c;", term->curs.y+1, term->curs.x+1,
                 rendition, (term->protection_mode & NEMO_PROTECT_DEC) ? 'A' : '@', flags,
-                term->cset, term->cset_gr);
-        for (size_t i = 0; i < lenof(term->cset_attr); i++)
-            put_byte(reply, term->cset_attr[i] == CSET_GBCHR ? 'A' :
+                term->cset, term->cset_gr, sizes);
+        for (size_t i = 0; i < lenof(term->cset_attr); i++) {
+            const NemoCharset *cs = nemo_charset_descriptor(term->cset_attr[i]);
+            if (cs) put_dataz(reply, cs->designation);
+            else put_byte(reply, term->cset_attr[i] == CSET_GBCHR ? 'A' :
                      term->cset_attr[i] == CSET_LINEDRW ? '0' :
                      term->cset_attr[i] == CSET_SCOACS ? 'U' : 'B');
+        }
     } else {
         bool first = true;
         for (int col = 1; col < term->cols; col++) if (term->tabs[col]) {
@@ -2731,15 +2817,16 @@ static void nemo_restore_cursor_information(Terminal *term)
     value = nemo_presentation_char(&p);
     if (value < '0' || value > '3') return;
     if (!term->no_remote_charset) term->cset_gr = value-'0';
-    (void)nemo_presentation_char(&p);
+    unsigned sizes = nemo_presentation_char(&p);
+    if ((sizes & 0xf0) != 0x40) return;
     for (size_t i = 0; i < lenof(term->cset_attr) && *p; i++) {
-        if (*p == '%' || *p == '&' || *p == '"') {
-            p++; if (!*p) break; /* extended NRCS designators remain unsupported */
-        } else {
-            int charset = nemo_charset_code(*p);
-            if (charset >= 0 && !term->no_remote_charset) term->cset_attr[i] = charset;
-        }
-        p++;
+        size_t length = (*p == '%' || *p == '&' || *p == '"') ? 2 : 1;
+        if (length == 2 && !p[1]) break;
+        if (!term->no_remote_charset)
+            /* XTerm's restore_DECCIR validates but does not use the size field:
+             * ambiguous designations take the first 94-group table match. */
+            term->cset_attr[i] = nemo_charset_select(term, false, p, length);
+        p += length;
     }
 }
 
@@ -2872,6 +2959,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 static void power_on(Terminal *term, bool clear)
 {
     term->c1_8bit = false;
+    term->nrc_mode = false;
     nemo_reset_ansi_colours(term);
     nemo_presentation_cancel(term);
     term->protection_mode = NEMO_PROTECT_NONE;
@@ -2916,17 +3004,14 @@ static void power_on(Terminal *term, bool clear)
     term->alt_wrap = term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
     term->reverse_wrap = term->reverse_wrap_extended = false;
     term->alt_cset = term->cset = term->save_cset = term->alt_save_cset = 0;
-    term->alt_utf = false;
     term->utf = false;
-    term->save_utf = false;
-    term->alt_save_utf = false;
     term->utf8.state = 0;
     term->alt_sco_acs = term->sco_acs =
         term->save_sco_acs = term->alt_save_sco_acs = 0;
     term->save_cset_gr = term->alt_save_cset_gr = 2;
     for (size_t i = 0; i < lenof(term->cset_attr); i++)
         term->cset_attr[i] = term->save_csattr[i] =
-            term->alt_save_csattr[i] = CSET_ASCII;
+            term->alt_save_csattr[i] = term->ansi_csattr[i] = CSET_ASCII;
     nemo_set_reverse_video(term, false);
     term->in_vbell = false;
     term->cursor_on = true;
@@ -3432,6 +3517,7 @@ void term_reconfig(Terminal *term, Conf *conf)
         swap_screen(term, 0, false, false);
     if (conf_get_bool(term->conf, CONF_no_remote_charset)) {
         term->cset_attr[0] = term->cset_attr[1] = term->cset_attr[2] = term->cset_attr[3] = CSET_ASCII;
+        term->nrc_mode = false;
         term->sco_acs = term->alt_sco_acs = 0;
         term->utf = false;
     }
@@ -4546,9 +4632,6 @@ static void swap_screen(Terminal *term, int which,
         t = term->cset;
         if (!reset) term->cset = term->alt_cset;
         term->alt_cset = t;
-        bt = term->utf;
-        if (!reset) term->utf = term->alt_utf;
-        term->alt_utf = bt;
         t = term->sco_acs;
         if (!reset) term->sco_acs = term->alt_sco_acs;
         term->alt_sco_acs = t;
@@ -4583,10 +4666,6 @@ static void swap_screen(Terminal *term, int which,
         if (!reset)
             term->save_hyperlink = term->alt_save_hyperlink;
         term->alt_save_hyperlink = link;
-        bt = term->save_utf;
-        if (!reset)
-            term->save_utf = term->alt_save_utf;
-        term->alt_save_utf = bt;
         bt = term->save_wnext;
         if (!reset)
             term->save_wnext = term->alt_save_wnext;
@@ -4982,7 +5061,6 @@ static void save_cursor(Terminal *term, bool save)
         term->save_hyperlink = term->curr_hyperlink;
         term->save_cset = term->cset;
         term->save_cset_gr = term->cset_gr;
-        term->save_utf = term->utf;
         term->save_wnext = term->wrapnext;
         term->save_om = term->dec_om;
         memcpy(term->save_csattr, term->cset_attr, sizeof(term->save_csattr));
@@ -5010,7 +5088,6 @@ static void save_cursor(Terminal *term, bool save)
             term->cset = term->save_cset;
             term->cset_gr = term->save_cset_gr;
             memcpy(term->cset_attr, term->save_csattr, sizeof(term->cset_attr));
-            term->utf = term->save_utf;
             term->sco_acs = term->save_sco_acs;
         }
         term->wrapnext = term->save_wnext;
@@ -5345,7 +5422,12 @@ static void nemo_fill_rectangle(Terminal *term)
     /* DEC allows ASCII/Latin-1; xterm also accepts printable Unicode. Each
      * fill position is one cell, even for that Unicode extension. */
     if (ch < 128) {
-        if (term->cset_attr[term->cset] == CSET_GBCHR && ch == '#')
+        if (term->cset_attr[term->cset] < 0) {
+            unsigned long mapped = nemo_charset_graphic(term, term->cset_attr[term->cset], ch);
+            if (mapped == UCSINCOMPLETE) return;
+            ch = mapped;
+        } else if (term->cset_attr[term->cset] == CSET_GBCHR && ch == '#' &&
+                   (term->nrc_mode || nemo_charset_level(term) == 1))
             ch = CSET_LINEDRW | '}';
         else if (term->cset_attr[term->cset] != CSET_GBCHR)
             ch |= term->cset_attr[term->cset];
@@ -5828,6 +5910,12 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
             term->repeat_off = !state;
             break;
           case 45: term->reverse_wrap = state; break;
+          case 42:
+            if (!term->no_remote_charset && has_compat(VT220)) {
+                term->nrc_mode = state;
+                term->utf8.state = 0;
+            }
+            break;
           case 1045: term->reverse_wrap_extended = state; break;
           case 12:                     /* cursor blinking (att610/xterm) */
             term->blink_cur = state;
@@ -5986,6 +6074,10 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
           case 7: state = term->wrap; break;
           case 8: state = !term->repeat_off; break;
           case 45: state = term->reverse_wrap; break;
+          case 42:
+            if (!has_compat(VT220)) return 0;
+            if (term->no_remote_charset) return 4;
+            state = term->nrc_mode; break;
           case 1045: state = term->reverse_wrap_extended; break;
           case 12: state = term->blink_cur; break;
           case 25: state = term->cursor_on; break;
@@ -6041,7 +6133,7 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     }
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
-        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045
+        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045, 42
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;
@@ -7357,6 +7449,23 @@ unsigned long term_translate(
 
         return c | CSET_SCOACS;
     } else {
+        if (c >= 0xa0) charset = term->cset_attr[term->cset_gr];
+        if (charset < 0 && c >= 0x20 && (c < 0x80 || c >= 0xa0))
+            return nemo_charset_graphic(term, charset, c);
+        if (c == 0x7f) return UCSINCOMPLETE;
+        if ((charset == CSET_GBCHR || charset == CSET_LINEDRW) &&
+            c >= 0x20 && (c < 0x80 || c >= 0xa0)) {
+            const NemoCharset *cs = nemo_charset_designate(1, nemo_charset_level(term),
+                term->nrc_mode, charset == CSET_GBCHR ? "A" : "0", 1);
+            uint32_t value = nemo_charset_map(cs, c, nemo_charset_level(term), term->nrc_mode);
+            if (value == NEMO_CHARSET_NOCHAR) return UCSINCOMPLETE;
+            /* Preserve existing line-graphics rendering and DEC checksums. */
+            unsigned seven = c & 0x7f;
+            if (charset == CSET_LINEDRW &&
+                ((seven >= 0x60 && seven <= 0x7e) || c == 0x5f))
+                return seven | CSET_LINEDRW;
+            return value;
+        }
         /* GR remains byte-codepage based for the default set; explicitly
          * designated line/UK sets map the corresponding right-half positions. */
         if (c >= 0xa0 && term->cset_attr[term->cset_gr] != CSET_ASCII) {
@@ -7853,13 +7962,18 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* else fall through */
               case SEEN_ESC:
                 if (c >= ' ' && c <= '/') {
-                    if (term->esc_query)
+                    if (((term->esc_query >= '(' && term->esc_query <= '+') ||
+                         (term->esc_query >= '-' && term->esc_query <= '/')) &&
+                        (c == '%' || c == '&' || c == '"'))
+                        term->esc_query |= c << 8;
+                    else if (term->esc_query)
                         term->esc_query = -1;
                     else
                         term->esc_query = c;
                     break;
                 }
                 term->termstate = TOPLEVEL;
+                if (nemo_charset_escape(term, c)) break;
                 switch (ANSI(c, term->esc_query)) {
                   case '[':             /* enter CSI mode */
                     term->termstate = SEEN_CSI;
@@ -8142,13 +8256,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case ANSI('8', '%'):  /* Old Linux code */
                   case ANSI('G', '%'):
                     compatibility(OTHER);
-                    if (!term->no_remote_charset)
-                        term->utf = true;
+                    nemo_charset_docs(term, true);
                     break;
                   case ANSI('@', '%'):
                     compatibility(OTHER);
-                    if (!term->no_remote_charset)
-                        term->utf = false;
+                    nemo_charset_docs(term, false);
                     break;
                 }
                 break;

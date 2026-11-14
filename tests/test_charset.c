@@ -56,6 +56,14 @@ int main(void)
     CHECK(!nemo_charset_designate(3,5,true,"A",1)->size96);
     const NemoCharset *a=nemo_charset_designate(1,5,true,"C",1);
     const NemoCharset *b=nemo_charset_designate(1,5,true,"5",1);
+    CHECK(nemo_charset_by_id(nemo_charset_id(a))==a);
+    CHECK(nemo_charset_by_id(nemo_charset_id(b))==b);
+    CHECK(nemo_charset_id(NULL)==0);
+    NemoCharset external={0};
+    CHECK(nemo_charset_id(&external)==0);
+    CHECK(!nemo_charset_by_id(0));
+    CHECK(!nemo_charset_by_id(256));
+    CHECK(!nemo_charset_by_id(UINT32_MAX));
     CHECK(a && b && a!=b && a->mapping==b->mapping);
     CHECK(!strcmp(a->designation,"C") && !strcmp(b->designation,"5"));
     for (unsigned byte=0;byte<0x20;byte++) CHECK(nemo_charset_map(a,byte,5,true)==NEMO_CHARSET_NOCHAR);

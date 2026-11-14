@@ -1,5 +1,12 @@
 # ISO 2022 mapping component
 
+The subsequent [parser integration checkpoint](iso2022-parser.md) connects this
+component in the development branch. The component-only description below
+records commit `ade5b22`; its core and single-image CI runs both completed
+successfully ([core](https://github.com/xiongnemo/nemoterm/actions/runs/43586019540),
+[single image](https://github.com/xiongnemo/nemoterm/actions/runs/43586019521)).
+This does not promote the new parser to the accepted executable.
+
 The new `nemo_charset.c` component supplies immutable designation descriptors
 and Unicode mapping tables. **It is not yet connected to `terminal.c`: these
 character sets are not new runtime capabilities of the current EXE.** Parser

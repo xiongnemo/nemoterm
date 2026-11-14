@@ -41,6 +41,18 @@ static const NemoCharset charsets[] = {
 #undef NRC
 #undef ROW
 
+unsigned nemo_charset_id(const NemoCharset *charset)
+{
+    for (unsigned i=0; i<sizeof(charsets)/sizeof(*charsets); i++)
+        if (charset == &charsets[i]) return i+1;
+    return 0;
+}
+
+const NemoCharset *nemo_charset_by_id(unsigned id)
+{
+    return id && id<=sizeof(charsets)/sizeof(*charsets) ? &charsets[id-1] : NULL;
+}
+
 const NemoCharset *nemo_charset_designate(unsigned group, unsigned level,
     bool national, const char *designation, size_t length)
 {

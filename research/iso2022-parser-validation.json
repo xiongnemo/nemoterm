@@ -1,0 +1,677 @@
+{
+  "base_commit": "ade5b22d81143487530d5f0f10d7c6c2958075ee",
+  "state": "parser-development-checkpoint-not-promoted",
+  "independent_mapping_cells": 15360,
+  "mapping_streams": 160,
+  "isolated_state_streams": 25,
+  "transport_shapes": [
+    "whole",
+    "single-byte"
+  ],
+  "records": [
+    {
+      "source": "build\\charset-parser-linux\\normal-00.log",
+      "archive": "iso2022-parser-records/000-normal-00.log.gz",
+      "bytes": 1256,
+      "sha256": "ff598bfd00c9d4c03659028b75962b5681cb038ed2e8a66e4ce120c9fdae665a"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-01.log",
+      "archive": "iso2022-parser-records/001-normal-01.log.gz",
+      "bytes": 2015,
+      "sha256": "0591e2bf4c65bfc226e7a0b127b3aa59c13274f772f1e7349fb4306c5dd6021e"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-02.log",
+      "archive": "iso2022-parser-records/002-normal-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-03.log",
+      "archive": "iso2022-parser-records/003-normal-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-04.log",
+      "archive": "iso2022-parser-records/004-normal-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-05.log",
+      "archive": "iso2022-parser-records/005-normal-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-06.log",
+      "archive": "iso2022-parser-records/006-normal-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-07.log",
+      "archive": "iso2022-parser-records/007-normal-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-08.log",
+      "archive": "iso2022-parser-records/008-normal-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-parser-linux\\normal-09.log",
+      "archive": "iso2022-parser-records/009-normal-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\charset-parser-linux\\results.json",
+      "archive": "iso2022-parser-records/010-results.json.gz",
+      "bytes": 7753,
+      "sha256": "48ac5ada8fa12c9926317f1568574ab5373be9b3fde81341d45a74534b025d55"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-00.log",
+      "archive": "iso2022-parser-records/011-sanitizers-00.log.gz",
+      "bytes": 4367,
+      "sha256": "d4479cd01d3b5bd57ca564ee6a293197d85780529ab4ca4e7cbaf5094e946d50"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-01.log",
+      "archive": "iso2022-parser-records/012-sanitizers-01.log.gz",
+      "bytes": 16478,
+      "sha256": "dcd7b8164cecb4afc5a86e2b7d12e6afa3f5807c105a140c39839af3bd64982e"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-02.log",
+      "archive": "iso2022-parser-records/013-sanitizers-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-03.log",
+      "archive": "iso2022-parser-records/014-sanitizers-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-04.log",
+      "archive": "iso2022-parser-records/015-sanitizers-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-05.log",
+      "archive": "iso2022-parser-records/016-sanitizers-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-06.log",
+      "archive": "iso2022-parser-records/017-sanitizers-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-07.log",
+      "archive": "iso2022-parser-records/018-sanitizers-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-08.log",
+      "archive": "iso2022-parser-records/019-sanitizers-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-parser-linux\\sanitizers-09.log",
+      "archive": "iso2022-parser-records/020-sanitizers-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\check-charset-parser.py",
+      "archive": "iso2022-parser-records/021-check-charset-parser.py.gz",
+      "bytes": 1437,
+      "sha256": "d5cc369aa517cffbff8fff350b3a707582342136110858d5a0d96e4d453e4852"
+    },
+    {
+      "source": "build\\parser-asan-build.log",
+      "archive": "iso2022-parser-records/022-parser-asan-build.log.gz",
+      "bytes": 12516,
+      "sha256": "b1c5cae6722d594dbe6ca385e21ec99292dd1f7387a43aa2e49a8c028b351cb9"
+    },
+    {
+      "source": "build\\parser-asan-configure.log",
+      "archive": "iso2022-parser-records/023-parser-asan-configure.log.gz",
+      "bytes": 4476,
+      "sha256": "4fee5aa9e5d0c8c41327c9163df67a5af1f8c7945643333f1e3297042b6ee181"
+    },
+    {
+      "source": "build\\parser-asan-first.log",
+      "archive": "iso2022-parser-records/024-parser-asan-first.log.gz",
+      "bytes": 1265,
+      "sha256": "d01481651828ea4508c21718efff5d33a20ff1f96b40ad032b64a6432aeb1579"
+    },
+    {
+      "source": "build\\parser-build-fifth.log",
+      "archive": "iso2022-parser-records/025-parser-build-fifth.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\parser-build-first.log",
+      "archive": "iso2022-parser-records/026-parser-build-first.log.gz",
+      "bytes": 1354,
+      "sha256": "17e1840914bd7bac19a549f84e8d74f78c09c47a8b3d3dd7ec3441a9dab0f803"
+    },
+    {
+      "source": "build\\parser-build-fourth.log",
+      "archive": "iso2022-parser-records/027-parser-build-fourth.log.gz",
+      "bytes": 304,
+      "sha256": "29ec2acb4389f9af8bd761f47ef25b1ebbb6121524b0252e2752affd0e06ee95"
+    },
+    {
+      "source": "build\\parser-build-second.log",
+      "archive": "iso2022-parser-records/028-parser-build-second.log.gz",
+      "bytes": 13435,
+      "sha256": "c8c44c1958fe80a60980c3475d92e4cdd7f6d67de36f5e3957c57f80c8f61402"
+    },
+    {
+      "source": "build\\parser-build-seventh.log",
+      "archive": "iso2022-parser-records/029-parser-build-seventh.log.gz",
+      "bytes": 970,
+      "sha256": "0925dbd783bbcb450eace5d6e2af6a5586890cd391f2878ff9ad0c1678dff86d"
+    },
+    {
+      "source": "build\\parser-build-sixth.log",
+      "archive": "iso2022-parser-records/030-parser-build-sixth.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\parser-build-third.log",
+      "archive": "iso2022-parser-records/031-parser-build-third.log.gz",
+      "bytes": 401,
+      "sha256": "42d68d22a854e7a53ffb26d3e8c2fa9610286ab2a2cf1cd35b2734a67ed47a05"
+    },
+    {
+      "source": "build\\parser-fifth-test_state_control.log",
+      "archive": "iso2022-parser-records/032-parser-fifth-test_state_control.log.gz",
+      "bytes": 3560,
+      "sha256": "7388ba973df075cec40073ccce7d105fcbc4a549d0853e8488c7cfb8cbbd9a46"
+    },
+    {
+      "source": "build\\parser-final-linux-build.log",
+      "archive": "iso2022-parser-records/033-parser-final-linux-build.log.gz",
+      "bytes": 2334,
+      "sha256": "486ac6906cb5c4173c9f7282a15b80d9eccd0f674d946c23ec1087e4855fb6cd"
+    },
+    {
+      "source": "build\\parser-final-normal-build.log",
+      "archive": "iso2022-parser-records/034-parser-final-normal-build.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\parser-final-normal-test_iso2022_charset.log",
+      "archive": "iso2022-parser-records/035-parser-final-normal-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\parser-final-normal-test_state_control.log",
+      "archive": "iso2022-parser-records/036-parser-final-normal-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\parser-final-sanitizers-build.log",
+      "archive": "iso2022-parser-records/037-parser-final-sanitizers-build.log.gz",
+      "bytes": 436,
+      "sha256": "75388c334e2b892d6bb077d42324fc836cf0201ce02229b60317911f2c39f29a"
+    },
+    {
+      "source": "build\\parser-final-sanitizers-test_iso2022_charset.log",
+      "archive": "iso2022-parser-records/038-parser-final-sanitizers-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\parser-final-sanitizers-test_state_control.log",
+      "archive": "iso2022-parser-records/039-parser-final-sanitizers-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\parser-first-test_iso2022_charset.log",
+      "archive": "iso2022-parser-records/040-parser-first-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\parser-first-test_queries.log",
+      "archive": "iso2022-parser-records/041-parser-first-test_queries.log.gz",
+      "bytes": 245,
+      "sha256": "f599d2127b200e56239b2673d15439a30fa4e8eef2e01b4a331970b33585af05"
+    },
+    {
+      "source": "build\\parser-first-test_state_control.log",
+      "archive": "iso2022-parser-records/042-parser-first-test_state_control.log.gz",
+      "bytes": 80588,
+      "sha256": "f60efb756cff633421581b060f626d6e50259adf6720d9709a2fb3b665170aab"
+    },
+    {
+      "source": "build\\parser-fourth-linebuffered.log",
+      "archive": "iso2022-parser-records/043-parser-fourth-linebuffered.log.gz",
+      "bytes": 1444,
+      "sha256": "cacc38096c8fdaf2dc7f1bed2fd196a60009870aa2cc7f5a228223c0a0b3c29c"
+    },
+    {
+      "source": "build\\parser-fourth-test_state_control.log",
+      "archive": "iso2022-parser-records/044-parser-fourth-test_state_control.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "build\\parser-msvc-build-final.log",
+      "archive": "iso2022-parser-records/045-parser-msvc-build-final.log.gz",
+      "bytes": 450,
+      "sha256": "b69aa299393c5d7082ea97d1a439a6719af6d8fe41b0d53fec160104bda59d93"
+    },
+    {
+      "source": "build\\parser-msvc-build-second.log",
+      "archive": "iso2022-parser-records/046-parser-msvc-build-second.log.gz",
+      "bytes": 21630,
+      "sha256": "195b225401096774d478eb214c41d363617d2f9c8259f2761d69a5e39f48b432"
+    },
+    {
+      "source": "build\\parser-msvc-build.log",
+      "archive": "iso2022-parser-records/047-parser-msvc-build.log.gz",
+      "bytes": 2660,
+      "sha256": "e0f90aae17be223aee13aac593ec702c18b502f0cc1df91594d0cc2d73973536"
+    },
+    {
+      "source": "build\\parser-msvc-configure-second.log",
+      "archive": "iso2022-parser-records/048-parser-msvc-configure-second.log.gz",
+      "bytes": 228,
+      "sha256": "52f476535e01adebde78c1be7a78e7a2dae083af117bfed1ff5f0beb8855a673"
+    },
+    {
+      "source": "build\\parser-msvc-configure.log",
+      "archive": "iso2022-parser-records/049-parser-msvc-configure.log.gz",
+      "bytes": 2962,
+      "sha256": "914a730f9cf48f4c66d9f4353524cdd587f9334a5f50440585b34da655348889"
+    },
+    {
+      "source": "build\\parser-msvc-test_grapheme_terminal.log",
+      "archive": "iso2022-parser-records/050-parser-msvc-test_grapheme_terminal.log.gz",
+      "bytes": 32,
+      "sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+    },
+    {
+      "source": "build\\parser-msvc-test_iso2022_charset.log",
+      "archive": "iso2022-parser-records/051-parser-msvc-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\parser-msvc-test_queries.log",
+      "archive": "iso2022-parser-records/052-parser-msvc-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "source": "build\\parser-msvc-test_rectangle.log",
+      "archive": "iso2022-parser-records/053-parser-msvc-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "source": "build\\parser-msvc-test_reflow.log",
+      "archive": "iso2022-parser-records/054-parser-msvc-test_reflow.log.gz",
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    {
+      "source": "build\\parser-msvc-test_sixel_terminal.log",
+      "archive": "iso2022-parser-records/055-parser-msvc-test_sixel_terminal.log.gz",
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    {
+      "source": "build\\parser-msvc-test_state_control.log",
+      "archive": "iso2022-parser-records/056-parser-msvc-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\parser-msvc-test_terminal.log",
+      "archive": "iso2022-parser-records/057-parser-msvc-test_terminal.log.gz",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "source": "build\\parser-second-test_state_control.log",
+      "archive": "iso2022-parser-records/058-parser-second-test_state_control.log.gz",
+      "bytes": 18830,
+      "sha256": "422eb484cd477047ba64be3a96410269d73610c23b9e9c343978f319258ac3c9"
+    },
+    {
+      "source": "build\\parser-sixth-test_state_control.log",
+      "archive": "iso2022-parser-records/059-parser-sixth-test_state_control.log.gz",
+      "bytes": 1269,
+      "sha256": "b269972ee766a118f1cca78d9b2c0e4e3e4de5b600002ae3ffe048ad1c7d2c98"
+    },
+    {
+      "source": "build\\parser-third-test_queries.log",
+      "archive": "iso2022-parser-records/060-parser-third-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "source": "build\\parser-third-test_state_control.log",
+      "archive": "iso2022-parser-records/061-parser-third-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated.json",
+      "archive": "iso2022-parser-records/062-charset-state-isolated.json.gz",
+      "bytes": 17685,
+      "sha256": "4e475c915fb4c589ad341cd7980358485bef0a7f09cd91289778fc30fd2d4b38"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated.log",
+      "archive": "iso2022-parser-records/063-charset-state-isolated.log.gz",
+      "bytes": 3711,
+      "sha256": "9e8544573f30603435bfcddb4bedc9ee3bd6f217c68593fff4658fafdfffe27c"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\cancel-intermediate.json",
+      "archive": "iso2022-parser-records/064-cancel-intermediate.json.gz",
+      "bytes": 962,
+      "sha256": "e56ab0a6156b3f460bb169efb5e89f2a2d5b5800573a6a9e6b0fb08f2a3166c2"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\docs-byte-alternate.json",
+      "archive": "iso2022-parser-records/065-docs-byte-alternate.json.gz",
+      "bytes": 980,
+      "sha256": "9c6f9b7e6d40f45f36351b92c5986e7ff0eb629b5b93ee3b343114afc0af566c"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\docs-byte-cursor-save.json",
+      "archive": "iso2022-parser-records/066-docs-byte-cursor-save.json.gz",
+      "bytes": 958,
+      "sha256": "dc3cdb70f199c9fdccaac7013b6a1b8fe5b9ac3ce8a25bee0b30c46bb4d59e45"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\docs-byte-override.json",
+      "archive": "iso2022-parser-records/067-docs-byte-override.json.gz",
+      "bytes": 941,
+      "sha256": "e4f73612112fc091b12e5720ed325572560e5e8372407762c2fd05449283759c"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\docs-utf8-cursor-save.json",
+      "archive": "iso2022-parser-records/068-docs-utf8-cursor-save.json.gz",
+      "bytes": 958,
+      "sha256": "e4f64ed4a4140873ec3a78ebb6030df2567b9d48e6dcdda217f9a5292e0fd8a5"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\docs-utf8-override.json",
+      "archive": "iso2022-parser-records/069-docs-utf8-override.json.gz",
+      "bytes": 947,
+      "sha256": "03c2f8ca2a3f3dce782fcd256b0efed33cfa86a131cc37fceab48ac779822605"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\four-banks.json",
+      "archive": "iso2022-parser-records/070-four-banks.json.gz",
+      "bytes": 511,
+      "sha256": "0f977f244dd8caff44be15405bd6aeae896acc4b1cfeec7e7750f96ea26f27dd"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\g2-96.json",
+      "archive": "iso2022-parser-records/071-g2-96.json.gz",
+      "bytes": 938,
+      "sha256": "7987564943b142a08c656e82d539b9be4fdbb580d410f099d96fddf098249646"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\g3-96.json",
+      "archive": "iso2022-parser-records/072-g3-96.json.gz",
+      "bytes": 938,
+      "sha256": "cfcd3a49a6f8c6264f6fde6b679b0c6d643badf0361f9d080fae752deb2d7f3f"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\malformed-third-intermediate.json",
+      "archive": "iso2022-parser-records/073-malformed-third-intermediate.json.gz",
+      "bytes": 973,
+      "sha256": "8ca8d24f99586c24c8998e285b16858fe9c3fd3ac0a3e2b625c42d2f2609d7d7"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-duplicate-mode.json",
+      "archive": "iso2022-parser-records/074-nrc-duplicate-mode.json.gz",
+      "bytes": 965,
+      "sha256": "894b139337dd017a0e5d4b80b899b3dad03ccac8365ee65638566f280205b241"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-hard-reset.json",
+      "archive": "iso2022-parser-records/075-nrc-hard-reset.json.gz",
+      "bytes": 513,
+      "sha256": "5c9507e402f94f4a97ae4a7ed6c5419233a3cb2db3871d8684566a863e7adcc3"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-restores-utf8.json",
+      "archive": "iso2022-parser-records/076-nrc-restores-utf8.json.gz",
+      "bytes": 958,
+      "sha256": "a60e03508108365bc1e0262e7ce85ba57c2579a4c6afc457c28c5c9b914d717e"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-saved-mode.json",
+      "archive": "iso2022-parser-records/077-nrc-saved-mode.json.gz",
+      "bytes": 517,
+      "sha256": "e23f1f4fe2fef045cd60b282557aeb8b64f2f6fdf4d88abe10705ca4cee5c8d2"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-soft-reset.json",
+      "archive": "iso2022-parser-records/078-nrc-soft-reset.json.gz",
+      "bytes": 517,
+      "sha256": "09c301972c10df0a0771b739f1f1e10300b7182bb5d2f770b8ff58d9239e78a8"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\nrc-toggle-keeps-designation.json",
+      "archive": "iso2022-parser-records/079-nrc-toggle-keeps-designation.json.gz",
+      "bytes": 977,
+      "sha256": "4a90b291273dba851419fb802f241018e5ac6a140d71524b801d276d230cc0ec"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\restore-four-banks-1049.json",
+      "archive": "iso2022-parser-records/080-restore-four-banks-1049.json.gz",
+      "bytes": 580,
+      "sha256": "660632baf2f77bc29774b3a07f69f1499e5f2890ec9f58647e04293aea81dc24"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\restore-four-banks.json",
+      "archive": "iso2022-parser-records/081-restore-four-banks.json.gz",
+      "bytes": 551,
+      "sha256": "b2d80e2cba22a4fae61dcfe7b87e4364e5f608ebdf9802a08333b762c31b6e08"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\restore-information.json",
+      "archive": "iso2022-parser-records/082-restore-information.json.gz",
+      "bytes": 554,
+      "sha256": "604b8102bc5340ca7cffc07c3b9a5f640f2586672f750c1b95ba5face2e60c10"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\ss2-gr-then-gl.json",
+      "archive": "iso2022-parser-records/083-ss2-gr-then-gl.json.gz",
+      "bytes": 951,
+      "sha256": "ed01c9f5328cf770a704bec46a544e6bee466657568d2955f593c8a2a5c84318"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\ss2-through-controls.json",
+      "archive": "iso2022-parser-records/084-ss2-through-controls.json.gz",
+      "bytes": 963,
+      "sha256": "90efc83059f88523888e6117d53ce78310d9dd7f890c147c8f20f477b7165926"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\ss2.json",
+      "archive": "iso2022-parser-records/085-ss2.json.gz",
+      "bytes": 942,
+      "sha256": "d7056da209dd8379340c76d94d3dab71faacc2fcd200fc2c78d4d8523a9f010f"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\ss3-save-restore.json",
+      "archive": "iso2022-parser-records/086-ss3-save-restore.json.gz",
+      "bytes": 966,
+      "sha256": "6050608741dc3b4c1ad41898e7df1566c62e762cf5cf56e5d76ef1d9fa12e902"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\ss3.json",
+      "archive": "iso2022-parser-records/087-ss3.json.gz",
+      "bytes": 947,
+      "sha256": "b81b5409dc058053593d007505522870e992ca596b862cc07205885b0f12bf79"
+    },
+    {
+      "source": "build\\reference\\charset-state-isolated\\unknown-recovers-ascii.json",
+      "archive": "iso2022-parser-records/088-unknown-recovers-ascii.json.gz",
+      "bytes": 965,
+      "sha256": "6e46262729ad694228a8203bbdd86aefb39084d67ba124e8c7e0cef3d161cd5d"
+    },
+    {
+      "source": "build\\reference\\charset-state.json",
+      "archive": "iso2022-parser-records/089-charset-state.json.gz",
+      "bytes": 17684,
+      "sha256": "e03278ea30256d3c26c8258c696b69ed8e66fe4bb11d5cba679e0ccbe21e5657"
+    },
+    {
+      "source": "build\\reference\\charset-state.log",
+      "archive": "iso2022-parser-records/090-charset-state.log.gz",
+      "bytes": 3711,
+      "sha256": "3c3c1d6b5209fa5fe2b4df78f8a5abdb052763ea2f3ba00775504c7969276b9f"
+    },
+    {
+      "source": "build\\retain-parser.py",
+      "archive": "iso2022-parser-records/091-retain-parser.py.gz",
+      "bytes": 3151,
+      "sha256": "c1bf5f799b8aa7adf822b29694f0dceab468a2c6e961d131b80ab77bfc148b9f"
+    },
+    {
+      "source": "tests\\charset_parser_reference.h",
+      "archive": "iso2022-parser-records/092-charset_parser_reference.h.gz",
+      "bytes": 23265,
+      "sha256": "d337558422bbfd86cdd281094e1514096064849edbf7653187897186fc164949"
+    },
+    {
+      "source": "tests\\charset_reference.h",
+      "archive": "iso2022-parser-records/093-charset_reference.h.gz",
+      "bytes": 128365,
+      "sha256": "23a815d4c76a1d24d47789322c74ca1f196010ca0d8916384a5ae4933083dd70"
+    },
+    {
+      "source": "tests\\charset_state_reference.h",
+      "archive": "iso2022-parser-records/094-charset_state_reference.h.gz",
+      "bytes": 9097,
+      "sha256": "82f2866d3977ac39c88b03b27d44e8fdfcb889d9b65134b2689df9bf9bec2a4c"
+    },
+    {
+      "source": "tests\\test_charset.c",
+      "archive": "iso2022-parser-records/095-test_charset.c.gz",
+      "bytes": 3845,
+      "sha256": "c886facb9395ba696954b46b19f8d4f37e44a8096dd732c1854105b89046473e"
+    },
+    {
+      "source": "tests\\xterm_charset_state_oracle.py",
+      "archive": "iso2022-parser-records/096-xterm_charset_state_oracle.py.gz",
+      "bytes": 3714,
+      "sha256": "88d98de5096b8566ad9e1f6ace7bfaaab20165c6f1c3e79b18b8b98f291066e4"
+    },
+    {
+      "source": "tools\\generate_charset_parser_reference.py",
+      "archive": "iso2022-parser-records/097-generate_charset_parser_reference.py.gz",
+      "bytes": 1642,
+      "sha256": "6580c087fbd4960c0ff8a72e12258e871cb4c761ee80ad0325c11a25bb1f5e97"
+    },
+    {
+      "source": "tools\\generate_charset_state_reference.py",
+      "archive": "iso2022-parser-records/098-generate_charset_state_reference.py.gz",
+      "bytes": 1012,
+      "sha256": "d6ad67a07d6a6ca25bed68e06192e49b74d159ca1bca53efb40c839efff7495c"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.c",
+      "archive": "iso2022-parser-records/099-nemo_charset.c.gz",
+      "bytes": 3995,
+      "sha256": "6d32c91a1259c2be72f1a09a5c74538dd365e7a062c47603bbc91b05c077abd3"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.h",
+      "archive": "iso2022-parser-records/100-nemo_charset.h.gz",
+      "bytes": 1536,
+      "sha256": "1f22a373e3e19ff5c5a706522715b7b60439859e19c13930ea3dec10fa8d9101"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\terminal.c",
+      "archive": "iso2022-parser-records/101-terminal.c.gz",
+      "bytes": 514920,
+      "sha256": "4f494cebe6a95da83fcc60f0ce64f510c89e2691ac32926aad45ba9572e63095"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\terminal.h",
+      "archive": "iso2022-parser-records/102-terminal.h.gz",
+      "bytes": 28841,
+      "sha256": "ece9fa08609b93f0d288aa1067ea52f1314c6a80980e76dd2111f348a24523e1"
+    },
+    {
+      "source": "vendor\\putty-0.85\\test\\test_state_control.c",
+      "archive": "iso2022-parser-records/103-test_state_control.c.gz",
+      "bytes": 24789,
+      "sha256": "209054e76d8855f6db0f3c0a3e1aa66e74740978e1ba5ab72f43d3fcdd0c7673"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\misc.c",
+      "archive": "iso2022-parser-records/104-misc.c.gz",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\ptydata.c",
+      "archive": "iso2022-parser-records/105-ptydata.c.gz",
+      "bytes": 23945,
+      "sha256": "91775ba3126c07f3e680362c3e993cdd37e838a1f6b3ad54e170f11e6538bb82"
+    }
+  ],
+  "built_frontend": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\charset-worktree\\build\\parser-msvc\\nemoterm.exe",
+    "bytes": 3472896,
+    "sha256": "320775d55199ee51393627b857de3283a861fe87b2d17d5657fe42e36baaa447"
+  },
+  "initial_mock_crash_asan_binary": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\charset-worktree\\build\\parser-asan\\test_state_control",
+    "bytes": 9133112,
+    "sha256": "c2018b85838a51a8bb049ed24ed1c3ffb6ed95105f710902709b9c2ea6cdb8e1"
+  },
+  "accepted_unchanged": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+    "bytes": 4452864,
+    "sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26"
+  },
+  "validation": [
+    "8 Linux suites normal and ASan/UBSan/leak checks passed",
+    "modified mapping and state suites rechecked after handle/clipboard additions",
+    "Windows frontend built; 8 MSVC suites passed"
+  ],
+  "limitations": [
+    "no native renderer/memory acceptance for this parser",
+    "input reverse mapping pending",
+    "extended legacy checksum not implemented",
+    "UPSS reassignment pending",
+    "lower-level JIS/DEC supplemental runtime mapping pending",
+    "full parser commit CI pending"
+  ]
+}

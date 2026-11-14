@@ -234,7 +234,7 @@ struct terminal_tag {
     unsigned char protection_mode;     /* DEC/ISO bits; DECRSPS can combine them */
     int save_cset, save_cset_gr;       /* saved GL and GR bank selectors */
     int save_csattr[4];               /* all designations, including inactive banks */
-    bool save_utf, save_wnext;         /* saved with cursor position */
+    bool save_wnext;
     bool save_om;
     bool rvideo;                       /* global reverse video flag */
     unsigned long rvbell_startpoint;   /* for ESC[?5hESC[?5l vbell */
@@ -246,7 +246,8 @@ struct terminal_tag {
     bool blink_is_real;                /* Actually blink blinking text */
     int sco_acs, save_sco_acs;         /* CSI 10,11,12m -> OEM charset */
     bool vt52_bold;                    /* Force bold on non-bold colours */
-    bool utf;                          /* Are we in toggleable UTF-8 mode? */
+    int utf;                          /* -1: byte mode, 0: configured, 1: UTF-8 */
+    bool nrc_mode;                    /* DECNRCM temporarily selects byte decoding */
     term_utf8_decode utf8;             /* If so, here's our decoding state */
     bool printing, only_printing;      /* Are we doing ANSI printing? */
     int print_state;                   /* state of print-end-sequence scan */
@@ -258,7 +259,6 @@ struct terminal_tag {
     int alt_save_attr;
     truecolour alt_save_truecolour;
     int alt_save_cset, alt_save_cset_gr, alt_save_csattr[4];
-    bool alt_save_utf;
     bool alt_save_wnext;
     bool alt_save_om;
     int alt_save_sco_acs;
@@ -295,6 +295,7 @@ struct terminal_tag {
     bool no_bracketed_paste;           /* disabled in configuration */
 
     int cset_attr[4];
+    int ansi_csattr[4];               /* DOCS byte-set cache, separate from DECSC */
 
 /*
  * Saved settings on the alternate screen.
@@ -303,15 +304,14 @@ struct terminal_tag {
     bool alt_wnext, alt_ins;
     bool alt_om, alt_wrap;
     int alt_cset, alt_sco_acs;
-    bool alt_utf;
     int alt_which;
     NemoKeyboard keyboard[2];
     NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
     bool win32_input; /* DEC 9001 is global, including the alternate screen */
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse
-     * groups and alternate-screen aliases share entries (84 bytes total). */
-    int saved_dec_modes[25];
+     * groups and alternate-screen aliases share entries. */
+    int saved_dec_modes[26];
     uint32_t esc_arg_present;
     int alt_sblines; /* # of lines on alternate screen that should be used for scrollback. */
 
@@ -622,8 +622,8 @@ struct terminal_tag {
 
 static inline bool in_utf(Terminal *term)
 {
-    return (term->utf ||
-            term->ucsdata->line_codepage == CP_UTF8 ||
+    return ((!term->nrc_mode && (term->utf > 0 ||
+             (term->utf == 0 && term->ucsdata->line_codepage == CP_UTF8))) ||
             (term->userpass_state && term->userpass_utf8_override));
 }
 
