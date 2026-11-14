@@ -536,5 +536,338 @@
       "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
     }
   ],
-  "initial_fixture_failure": "New-tab launched the configured default PowerShell shell, which has no RECT_CHILD marker. Fixture now invokes Duplicate Session for its own command. No production or pixel assertion change; failed run retained."
+  "initial_fixture_failure": "New-tab launched the configured default PowerShell shell, which has no RECT_CHILD marker. Fixture now invokes Duplicate Session for its own command. No production or pixel assertion change; failed run retained.",
+  "mailbox_fix_and_ci": {
+    "recorded_utc": "2026-11-14T18:18:32.105588+00:00",
+    "source_commit": "f6b3d6412ef3f6fb6ad607b3c00968459fdc500b",
+    "fixture_commit": "72754a359874b998947b86b30becab47ac162e68",
+    "retained": [
+      {
+        "file": "cropped-capture-evidence/f6b3d64-core-run.json.gz",
+        "raw_sha256": "d0ce1f74929e08d2f7f5ab1cf05eef285dbb9c5e60c3b3a64dcad26e32c6df9e",
+        "compressed_sha256": "178ddd0ed55c5ae9ed5163524dd4944cba51e953151d3a410b88dd879cdb77c2"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-core-artifacts.json.gz",
+        "raw_sha256": "c33f7343aa80e1655228bb0fb6662e7f8f71d1fb9e3bed98d298f4b5dab7fc97",
+        "compressed_sha256": "f310c704e2138c6bb7deb3348e45c28eabedc4427d73878830921a310617f1aa"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-core-failed.log.gz",
+        "raw_sha256": "19c0933b79189a6ec3f0afb2259cd5f84c2893126eb8f494ec20a3ae60dbef93",
+        "compressed_sha256": "78024a01661654fdee4acb125e639b388e9d1d84deca52486a43a5da75b0f0bc"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-core-run.log.gz",
+        "raw_sha256": "20f156c52bcf55b5d3afb79a0245f56e748057388dc3e618b74905be73020a01",
+        "compressed_sha256": "e9d3884ce6c5dfbb5065db1b1750d3b9a87be83eeea2d97de32462921f65f23b"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-core-image-rectangle-observed.json.gz",
+        "raw_sha256": "c61f74a92830659497a03c6e1a7e48f393f109cde947de1d9f22f501b073c689",
+        "compressed_sha256": "a03128847868d1f261e5e309df4651c56fdfb0e7441765b5744f523f2c48893f"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-local-image-rectangle-observed.json.gz",
+        "raw_sha256": "a779e68ccf8d7bbaf44bb0f5b82174b4624b08b7241813e48d5f25e2091d8885",
+        "compressed_sha256": "9dbcf0f4fad611863482a72039c17ada8ccd80d9f390da9030a76d254dbbeeed"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-local-mailbox.log.gz",
+        "raw_sha256": "b2d609fac84689bf861043dc66209b64f21c31ba16fbd2d2ae7154b24674fdc5",
+        "compressed_sha256": "430549236abd54e980c35af3ab851cc59e7ac155664fa38f2a8a92fa4a6cd888"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-image_rectangle_window_smoke.py.gz",
+        "raw_sha256": "4f1aebbdd5264ed39b7d696c17dec4a55048ad0dcf028ea3702ac756720e540b",
+        "compressed_sha256": "65fca44f86d83584b4d88514b9d0accb2883daa5563130f1e8f98869dc105a5c"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-automation-directx-observed.json.gz",
+        "raw_sha256": "b7b6a75eea240a5930b51f6069f5c1a4d7a93fef6f999af9f3752a65c2b82e2c",
+        "compressed_sha256": "cbbbc41fd3a59e8129c8e2a203d1b466eac7a18e97e70d39d657799d5ede916a"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-automation-directx.log.gz",
+        "raw_sha256": "31c9d1f1d8cbe466ccec15e0f6ba8615e0e416652132d25570875622dfcd4ae0",
+        "compressed_sha256": "8bbc3b5abf4cf22059ff4fce728ec8615fade9292da54d209cceb63a92acb4ed"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-automation-gdi-observed.json.gz",
+        "raw_sha256": "778ca3f51e2fb7e4adf64cc26ad62ab8427f51671f41f3fed406c3f7f2029a19",
+        "compressed_sha256": "59b99cb36d8a9946dee2c2c2415a9d407f4d863953b7750a7c8ff647d3bbf1d9"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-automation-gdi.log.gz",
+        "raw_sha256": "a364b09cee5c4f246add960bf8d0fa96f236e7fa5a72a515f98b059e95e5ffa4",
+        "compressed_sha256": "d7b713c646e1bcc798f11911f17b4a36d8805866999572df12dd90e81ed796cd"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-identity.json.gz",
+        "raw_sha256": "d225291f0ecfe31cac5c3392ac90c878bfbc13ecbb4d0a9bf719941d07eb2ccf",
+        "compressed_sha256": "70bbf208ca27ab7344980ccb9a65a5e42b5b7c53d95c346422112c5ab2e84cc2"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-image-rectangle-observed.json.gz",
+        "raw_sha256": "b8c4f59846c1e11af5d02f0276be20315e706c4c24ec98758c9513173f14d958",
+        "compressed_sha256": "a7b7f81850809d71371dc60a773e38b893444df1a4aedf923e9c173df58ef0c1"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-rectangle.log.gz",
+        "raw_sha256": "5c7e118fa20abfeba4bf5e37a921293a09f2c679610860dbb312f2c81741e421",
+        "compressed_sha256": "842f954a2993b4264864c7148a669c62731f461481267c6a3c56e41db6978697"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-run.json.gz",
+        "raw_sha256": "a59eade947d44b474b75ba6b0060a58d3cb03ebc654268dbbece70c4e41fcf69",
+        "compressed_sha256": "ef6607b2e55108749d8e54617dcb07e7995ae80d05c49857a6efa6a727d38a07"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-artifacts.json.gz",
+        "raw_sha256": "f827e1b3b4d35b06aeb4b06cecd61ec223fa7361b77c5743397355460b5f1590",
+        "compressed_sha256": "cf801b2009e67d6d525f2d3a173145434e3fcaa7b3ca3b5f5b5ae0864558c885"
+      },
+      {
+        "file": "cropped-capture-evidence/72754a3-replay-workflow.log.gz",
+        "raw_sha256": "f6207906f7fedd51627db2ea824e561e45045bcb83a13d92c54b8a031be613cf",
+        "compressed_sha256": "7f7efe6d3d944cc81dbef368bf73cb67e4b87f325e20dd22e608fa00183deb86"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-run.json.gz",
+        "raw_sha256": "4a0ef2e35db42894650698a1e0df5e76b469491c12aec74fb477c37c48b4dedc",
+        "compressed_sha256": "174a96ea4c5ff92ceeb914d288d8beb1c666128e448309a41b56277794a68128"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-artifacts.json.gz",
+        "raw_sha256": "8b19dde8aa61e338f8e0666a685da130751f743f172ab37722de1ad1388e5329",
+        "compressed_sha256": "98969fd4964f28b3eb7751b99c79efe14a00508c46d9acf779dff69d3a101b09"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-run.log.gz",
+        "raw_sha256": "61ba003de95b2ab1424b62a73f6d62f8e39ec1d713d6c857f1acc6297a70240e",
+        "compressed_sha256": "2f1e5e1060c7dfbc90874a3f065c465463316b1b2fc220dd7dae926839df9c65"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-single-exe-validation.json.gz",
+        "raw_sha256": "19a3cffa939bceddbf5f8bf322ed0a153c79fc0303555871bebc6735cc07937d",
+        "compressed_sha256": "ce80cf233234ba55d4a85eb72bf04b77c95e6949e5ca5f8695ef45ae342b6976"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-image-rectangle-observed.json.gz",
+        "raw_sha256": "69babcc712d7883408426decc8ef7b33902d32833a7790f767800470aa65cf3e",
+        "compressed_sha256": "cc8f64914afaeee05ceeb4c9c12a91610efc69d4f6657591c7b9f3854b56c796"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-single-exe-observed.json.gz",
+        "raw_sha256": "4dc9b596bf3fd27f78aea833defa1c6c1f967d277a1fc09f98b9325caf318229",
+        "compressed_sha256": "d594165c5ecee4ad916daa1a4750c12138f06e87a32753adb3ab9a87e2789a39"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-renderer-observed.json.gz",
+        "raw_sha256": "1d278ec7305a609f5a93518db894c33188a0a671d7136b00257f90d61d381d33",
+        "compressed_sha256": "46b76afa0e7eff481cae8026db41809dff1807fe4740230cbed89e30bcdec746"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-font-zoom-observed.json.gz",
+        "raw_sha256": "c059117644cfd31a9d34563be72e2d00d9f219fd620481736e35013444784943",
+        "compressed_sha256": "2db35fd7c1452425304f6af14f3618230d32848f54c94b4cfc44062018b7fe11"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-visual-bell-observed.json.gz",
+        "raw_sha256": "4ef2b0764638fc85056f0bdb387e7a01e7ca1c8a088ddfb64bcdb9854b209904",
+        "compressed_sha256": "e85287500af0ad2640fa484cad7f6e5cbff29777ca2ed339a417137f77581028"
+      },
+      {
+        "file": "cropped-capture-evidence/f6b3d64-single-tabs-profiles-observed.json.gz",
+        "raw_sha256": "ba8ccf37faf56a3eb67d9ec1c8814b25d087b5c3094df13e09a1a64708d1b93a",
+        "compressed_sha256": "e0dfcf6faff40982845aab744bc13db9e7173aa3f63e1cf5c0d3af9d8cc8ca54"
+      }
+    ],
+    "core_failure": {
+      "run_id": 43622372607,
+      "executable_sha256": "cd2a26a54afd89d8bbd52568e5afa7f4ab31197585ffc3a7324ec40ab4c106a0",
+      "cause": "Report PID.json and command PID.control shared PID.tmp through with_suffix; concurrent writers collided during stop command. Corrected command uses PID-control.json.",
+      "forced_cleanup": true,
+      "pixel_comparisons_before_failure": 48
+    },
+    "corrected_local": {
+      "executable_sha256": "54883c9c8d10b62bab8f998e5b1a1ffbcb2ee5d33d967f44a7374349de4f31f5",
+      "actual_renderers": [
+        0,
+        1,
+        2
+      ],
+      "comparisons_per_mode": 24,
+      "natural_cleanup": true
+    },
+    "corrected_replay": {
+      "run_id": 43624369253,
+      "identity": {
+        "source_commit": "f6b3d6412ef3f6fb6ad607b3c00968459fdc500b",
+        "fixture_commit": "72754a359874b998947b86b30becab47ac162e68",
+        "source_run": "43622372607",
+        "executable_sha256": "bdc2cb95528fbeae999da672c0c9d655df5bae92c7668020fff717eafb3cbb44",
+        "executable_bytes": 4487168,
+        "execution_directory_files": [
+          "nemoterm.exe"
+        ],
+        "scope": "Corrected mailbox fixture against unchanged production; not memory acceptance"
+      },
+      "executable_sha256": "bdc2cb95528fbeae999da672c0c9d655df5bae92c7668020fff717eafb3cbb44",
+      "actual_renderers": [
+        0,
+        0,
+        2
+      ],
+      "comparisons_per_mode": 24,
+      "natural_cleanup": true,
+      "scope": "MSVC source-host executable from f6b3d64; not the failed MinGW core executable. OpenGL request falls back to GDI."
+    },
+    "original_full_single": {
+      "run_id": 43622372605,
+      "validation": {
+        "executable_sha256": "820f36f4e455d43bdce5403be503c160d5610eb141d8b46f9c84d2410072541b",
+        "executable_bytes": 4487168,
+        "passed_checks": [
+          "automation-gdi",
+          "drop-gdi",
+          "automation-directx",
+          "drop-directx",
+          "single_exe",
+          "shutdown",
+          "startup_size",
+          "renderer",
+          "grapheme",
+          "grapheme-font",
+          "rtl",
+          "rtl-courier",
+          "bindings",
+          "input_method",
+          "unicode_input",
+          "console_unicode",
+          "mouse",
+          "selection",
+          "selection-directx",
+          "sync",
+          "sgr",
+          "font_resize",
+          "font_fallback",
+          "font-fallback-courier",
+          "query",
+          "highlight",
+          "sixel",
+          "sixel_font",
+          "sixel_palette",
+          "sixel_palette-opengl",
+          "sixel_palette-directx",
+          "sixel_background",
+          "sixel_background-opengl",
+          "sixel_background-directx",
+          "iterm_image",
+          "iterm_image-opengl",
+          "iterm_image-directx",
+          "gif_animation",
+          "gif_animation-opengl",
+          "gif_animation-directx",
+          "hyperlink",
+          "reflow",
+          "keyboard",
+          "keyboard-courier",
+          "osc52",
+          "mok",
+          "mok-courier",
+          "win32_input",
+          "state_control",
+          "iso2022",
+          "tabulation",
+          "double_size",
+          "alignment",
+          "alignment-opengl",
+          "alignment-directx",
+          "graphics_query",
+          "dec_status",
+          "checksum",
+          "sgr_stack",
+          "palette_stack",
+          "palette_stack-opengl",
+          "palette_stack-directx",
+          "reset_palette",
+          "reset_palette-opengl",
+          "reset_palette-directx",
+          "selection_colour",
+          "selection_colour-opengl",
+          "selection_colour-directx",
+          "selection-colour-gdi-configured",
+          "attribute_colour",
+          "attribute_colour-opengl",
+          "attribute_colour-directx",
+          "attribute-colour-gdi-configured",
+          "presentation_state",
+          "horizontal",
+          "reverse_wrap",
+          "relative_cursor",
+          "relative_cursor-opengl",
+          "relative_cursor-directx",
+          "selective_erase",
+          "guarded_area",
+          "rectangle",
+          "margins",
+          "cwd",
+          "shell_marks",
+          "shell",
+          "powershell_environment",
+          "delegated_console",
+          "caret_startup",
+          "session",
+          "session-opengl",
+          "session-directx",
+          "session_restart",
+          "titles",
+          "title-modes",
+          "geometry",
+          "window_resize",
+          "gpu_lifecycle",
+          "c1_controls",
+          "c1-controls-utf8",
+          "startup_visibility",
+          "iterm_reports",
+          "font_zoom",
+          "bell",
+          "bell_visual",
+          "image_rectangle",
+          "tabs-gdi-top",
+          "tabs-gdi-bottom",
+          "tabs-directx-left",
+          "tabs-opengl-right",
+          "tabs-regressions",
+          "settings",
+          "tabs-settings",
+          "codex-image-paste",
+          "codex-default",
+          "codex-inline",
+          "codex-tabs-default",
+          "codex-tabs-inline",
+          "workload-tabs-gdi-top",
+          "workload-tabs-directx-left",
+          "inline-workload-tabs-gdi-top",
+          "inline-workload-tabs-directx-left",
+          "animated-workload-tabs-gdi-top",
+          "animated-workload-tabs-directx-left"
+        ],
+        "executable_directory_files": [
+          "nemoterm.exe"
+        ],
+        "recorded_utc": "2026-11-14T18:13:55.1953559Z"
+      },
+      "executable_sha256": "820f36f4e455d43bdce5403be503c160d5610eb141d8b46f9c84d2410072541b",
+      "actual_renderers": [
+        0,
+        0,
+        2
+      ],
+      "comparisons_per_mode": 24,
+      "natural_cleanup": true,
+      "scope": "Original mailbox fixture passed here; does not erase the concurrent core failure. No local memory acceptance for this EXE."
+    }
+  }
 }

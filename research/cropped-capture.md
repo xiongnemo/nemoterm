@@ -44,6 +44,29 @@ and cleanup is natural. These separately hosted results do not establish memory
 acceptance of a future single executable. Raw logs, manifests, observations,
 screenshots and source hashes are in [the validation record](cropped-capture-validation.json).
 
-Complete [core](https://github.com/xiongnemo/nemoterm/actions/runs/43622372607)
-and [single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43622372605)
-CI are pending. The new rectangle fixture is mandatory in both workflows.
+The original [core run](https://github.com/xiongnemo/nemoterm/actions/runs/43622372607)
+failed after 48 successful pixel comparisons: the child report `PID.json` and
+parent command `PID.control` both used `PID.tmp` for atomic replacement. Their
+writers collided during the final stop command. The failed MinGW image hash,
+log and forced cleanup are retained. Fixture `72754a3` gives commands a distinct
+stem (`PID-control.json`), with no production or pixel assertion changes.
+
+The corrected fixture passes all 72 comparisons and natural cleanup on the
+same local development EXE. A separate
+[focused replay](https://github.com/xiongnemo/nemoterm/actions/runs/43624369253)
+passes rectangle and existing GDI/DirectX automation checks against the original
+source-built MSVC host, SHA-256
+`bdc2cb95528fbeae999da672c0c9d655df5bae92c7668020fff717eafb3cbb44`.
+This is the same production source, not the failed MinGW executable. On the
+runner, the OpenGL request falls back to GDI; actual local OpenGL passed above.
+
+The original [single-image run](https://github.com/xiongnemo/nemoterm/actions/runs/43622372605)
+passes all 124 mandatory checks, including the original rectangle fixture.
+Its downloaded 4,487,168-byte EXE has SHA-256
+`820f36f4e455d43bdce5403be503c160d5610eb141d8b46f9c84d2410072541b`,
+matching its validation and rectangle records. That success does not erase the
+core fixture race or establish local memory acceptance for this single image.
+Complete corrected-fixture
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43624369125) and
+[single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43624369106)
+workflows remain pending. The accepted executable remains unchanged.
