@@ -729,5 +729,50 @@
     "physical_input": false,
     "memory_acceptance": false,
     "dpi_transition_acceptance": false
+  },
+  "physical_ui_attempt": {
+    "recorded_utc": "2026-11-14T16:39:36.194115+00:00",
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "memory_acceptance": false,
+    "checks": [],
+    "pid": 31260,
+    "cleanup": {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    "natural_exit": true,
+    "requested_input_method": "Sky scoped SendInput",
+    "input_actions": 0,
+    "completed": false,
+    "reason": "Computer Use native pipe is unavailable: failed to connect native pipe: The system cannot find the file specified. (os error 2)",
+    "connection_attempts": 3,
+    "kernel_reset_attempted": true,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-observed.json.gz",
+        "raw_sha256": "89eb15a7e197eb31319e3dcfa0b6fb2b72188aff3af09686e9b206bd73ca1d41",
+        "compressed_sha256": "fff94d318f73e30a1bcdcb51b467c21cfbd528f8dcaf550da243aab940f3b71d"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-physical-zoom.log.gz",
+        "raw_sha256": "2d8494e81410fb7cced08519d22ae7dcebb23a355f0d66b4f436e7a87f16f63e",
+        "compressed_sha256": "44ffea2c3bba0a5fad731dca451ecb9de0e3313791f3f0d550c96e48e2503ab8"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-physical-physical_zoom_session.py.gz",
+        "raw_sha256": "9607e6ecbf3ed3a40b4d681a8b621d19c74aa66883b0f2e0b2f8e2cdea7b862a",
+        "compressed_sha256": "851cea8e973c56df8969f8f789c413b082039b02b665bede9920342aea2a5d08"
+      }
+    ]
   }
 }
