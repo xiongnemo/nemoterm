@@ -121,7 +121,7 @@ static void test_style_lifetime(Mock *mk)
     reset(mk); test_context(mk, "style colour survives compressed history");
     term_size(mk->term, 4, 20, 100);
     mk->ucsdata->line_codepage = CP_UTF8;
-    term_data_fragmented(mk->term, "\033[3;8;4:5;21;53;38:2::1:2:3;58:5:123m"
+    term_data_fragmented(mk->term, "\033[3;8;4:5;21;51;52;53;38:2::1:2:3;58:5:123m"
                                   "A\xe4\xb8\xad" "e\xcc\x81\033[0m");
     termchar original = get_termchar(mk->term, 0, 0);
     IEQUAL(UNDER_STYLE_RAW(original.truecolour), 5);
@@ -207,6 +207,38 @@ static void test_overline(Mock *mk)
         IEQUAL(!!(get_termchar(mk->term,x,0).truecolour.decoration & DECOR_OVERLINE),x==1 || x==2);
 }
 
+static void test_enclosures(Mock *mk)
+{
+    reset(mk);test_context(mk,"framed and encircled report, independent cancellation");
+    term_data_fragmented(mk->term,"\033[51;52;53;4:3mAB\033P$qm\033\\\033[1;1;1;2#|");
+    SEQUAL(mk->to_backend->s,"\033P1$r0;4:3;51;52;53m\033\\\033[0;4:3;51;52;53m");
+    strbuf_clear(mk->to_backend);
+    term_data_fragmented(mk->term,"\033[54mC\033P$qm\033\\\033[1;1;1;3#|");
+    SEQUAL(mk->to_backend->s,"\033P1$r0;4:3;53m\033\\\033[0;4:3;53m");
+
+    reset(mk);test_context(mk,"enclosure selective and complete rendition stack");
+    term_data_fragmented(mk->term,"\033[51;53m\033[51#{\033[54;52;55m\033[#}\033P$qm\033\\");
+    SEQUAL(mk->to_backend->s,"\033P1$r0;51;52m\033\\");
+    strbuf_clear(mk->to_backend);
+    term_data_fragmented(mk->term,"\033[52#{\033[54m\033[#}\033[#{\033[0m\033[#}\033P$qm\033\\");
+    SEQUAL(mk->to_backend->s,"\033P1$r0;52m\033\\");
+
+    reset(mk);test_context(mk,"enclosure cursor, alternate screen and resets");
+    term_data_fragmented(mk->term,"\033[51;52m\0337\033[54m\0338A\033[?1049h\033[0m\033[?1049lB\033P$qm\033\\");
+    SEQUAL(mk->to_backend->s,"\033P1$r0;51;52m\033\\");
+    truecolour saved=get_termchar(mk->term,0,0).truecolour;
+    IEQUAL(truecolour_equal(saved,get_termchar(mk->term,1,0).truecolour),true);
+    strbuf_clear(mk->to_backend);
+    term_data_fragmented(mk->term,"\033[!p\033P$qm\033\\\033[51;52m\033c\033P$qm\033\\");
+    SEQUAL(mk->to_backend->s,"\033P1$r0m\033\\\033P1$r0m\033\\");
+
+    reset(mk);test_context(mk,"enclosure malformed groups and protected metadata");
+    term_data_fragmented(mk->term,"\033[51:1;52:1m\033P$qm\033\\\033[51m\033[52:1;54:1m\033P$qm\033\\");
+    SEQUAL(mk->to_backend->s,"\033P1$r0m\033\\\033P1$r0;51m\033\\");
+    term_data_fragmented(mk->term,"\033[1\"q\033[52;53m\033[0mX");
+    IEQUAL(get_termchar(mk->term,0,0).truecolour.decoration==CELL_PROTECTED,true);
+}
+
 int main(void)
 {
     Mock *mk = mock_new();
@@ -217,6 +249,7 @@ int main(void)
     test_invalid_groups(mk);
     test_style_lifetime(mk);
     test_overline(mk);
+    test_enclosures(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "SGR suite FAILED" : "SGR suite passed");
