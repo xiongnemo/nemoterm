@@ -604,6 +604,74 @@
       "font": "SarasaTermSC Nerd Font Light",
       "post_memory_image_checks": 4,
       "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73"
+    },
+    {
+      "renderer": "opengl",
+      "actual_renderer": 2,
+      "record": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-observed.json.gz",
+        "raw_sha256": "2a4a48404c23b5754469460f7a6a63c77c4beb7f7a8810a9e9a2b22386e0e7f7",
+        "raw_bytes": 183824,
+        "gzip_sha256": "83d9404af10b9c4dd199eb5ba659f29c33d463c76b6a67740ada4b4c5de7e069"
+      },
+      "full_samples": {
+        "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-memory.json.gz",
+        "raw_sha256": "cc7cc80f1cf25ac94230bcdff6b43ccde630577f46c389632d2176a3d1455585",
+        "raw_bytes": 1225260,
+        "gzip_sha256": "30b5f8922f95b3f0095c2bc74c4a82514a0c5314d64bcb94c0d05b16424d0c89"
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-preview.png",
+          "sha256": "7a158b6078ee0b9e7c10523a563d463873878c26444563700994765abb583024"
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-tab-0-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-tab-0-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-tab-1-active.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/kitty-workload-tabs-opengl-right-tab-1-inactive.png",
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        }
+      ],
+      "memory_limit_required": false,
+      "memory_limit_passed": null,
+      "memory_samples": 446,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 63442944,
+        "total_ws": 96227328,
+        "private_commit": 175091712
+      },
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "executable_sha256": "9cfc95d85343fd481903c143ce9c801213494ad9be35cdbc11a25238fef6da73",
+      "post_memory_image_checks": 4
     }
   ],
   "records": [
@@ -641,6 +709,12 @@
       "path": "research/kitty-windows-evidence/kitty-tabs-directx.log",
       "sha256": "58456be8cd68451642da6d005a8e0694106c5e1a91cf4595bca5129face46809",
       "bytes": 1726
+    },
+    {
+      "path": "research/kitty-windows-evidence/kitty-tabs-opengl.log.gz",
+      "raw_sha256": "2bb26ba6fcb5399bd5c645cb3f9adbb24af06f36740a438c01d19a61847e05d4",
+      "raw_bytes": 37,
+      "gzip_sha256": "d56e3194fec909ac863c403958611c857b07fb8b906018e4c7a194f896256863"
     }
   ],
   "sources": [
@@ -701,5 +775,275 @@
     "commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
     "path": "kitty/shaders.c",
     "sha256": "21707111331ba7467eea27a13ab1d195a520f8ef761666c8b43b2b75b3f0532f"
+  },
+  "source_commit": "97d60254e3bae94fbba9803ff15e1abfce5373f8",
+  "ci": {
+    "source_commit": "97d60254e3bae94fbba9803ff15e1abfce5373f8",
+    "focused_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43633479290",
+    "focused_conclusion": "success",
+    "linux_terminal_source_manifests_verified": true,
+    "retained": [
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38,
+        "gzip_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38,
+        "gzip_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "raw_bytes": 122,
+        "gzip_sha256": "80e86502bbb97c95c72a54b9dd7adbdaa039a5450d5f7534ca880d3585455879"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686,
+        "gzip_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686,
+        "gzip_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43,
+        "gzip_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790,
+        "gzip_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790,
+        "gzip_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43,
+        "gzip_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-sources.sha256.gz",
+        "raw_sha256": "8f11e44f43a09475daa441070617e16ecbc37fd96e9d7b7a6a38887c5251f0ca",
+        "raw_bytes": 2019,
+        "gzip_sha256": "c023e5e719b9c6c755ca6b735bee703e185fd9c7d6e69cde67dd867697450133"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-terminal-build.log.gz",
+        "raw_sha256": "b62b90acee6f26e36ecc45d0d51fdfa2f132fc530d264712fdb87faf925eb522",
+        "raw_bytes": 12852,
+        "gzip_sha256": "b2b849cc41dfbd12e3512c4d615814b3b7b570c1a8201d4e5e6a8926c5d25c35"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-terminal-configure.log.gz",
+        "raw_sha256": "0e459e7100529f0702710ea76b4ed3f73280cef21631de935fb9c185f41e9e23",
+        "raw_bytes": 4317,
+        "gzip_sha256": "e7df4c73f2d637c6f963ed0ad4016ceeb393500cbcfdfa58fb8f988bd5f4e20d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-terminal-sanitizers.log.gz",
+        "raw_sha256": "b2b29c7c81d54d0ad30fe706f0e328476742666f7109bc3d54a352788b923bf3",
+        "raw_bytes": 111,
+        "gzip_sha256": "2c30ccb8cd4932eae4f309861ace457b09171c8db9089e2fb50e168cd9faf0ca"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-clang-terminal-sources.sha256.gz",
+        "raw_sha256": "b9d592150b8218cce5bc3c3f56ea1066482d9cdc63bcc66a9c7115de6b0838ec",
+        "raw_bytes": 640,
+        "gzip_sha256": "9c18be4d6c596b1d8fe5586e1084fc134c4fd5a0af0495b73e37c6f23c5f8b1e"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38,
+        "gzip_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38,
+        "gzip_sha256": "641bcecf856561f115adb01fe547c75d8b8b7c62c75a27d69b8517f78d37cb00"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "raw_bytes": 239,
+        "gzip_sha256": "27f07f4ec94cfc6c13536d2c12e3ff50b0d0757b7b242e57b302b3f1929fa0f9"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686,
+        "gzip_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686,
+        "gzip_sha256": "6067b6bbd553cede42ff19b790310a695472e5be3c079bf653ac33a14da70fc7"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43,
+        "gzip_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790,
+        "gzip_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790,
+        "gzip_sha256": "38dedace239b6c02890f9b977962a3c19f0bcf48d65441cd670dea157f60f55d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43,
+        "gzip_sha256": "addb3b7af104f6990fb7f537a33f5e77dd0334129a702ebd584882147b7bf5c9"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-sources.sha256.gz",
+        "raw_sha256": "8f11e44f43a09475daa441070617e16ecbc37fd96e9d7b7a6a38887c5251f0ca",
+        "raw_bytes": 2019,
+        "gzip_sha256": "c023e5e719b9c6c755ca6b735bee703e185fd9c7d6e69cde67dd867697450133"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-terminal-build.log.gz",
+        "raw_sha256": "d6c52130ee128ac958776cb20f1ff0c80cd64213dc1af7429a4a267232612cc1",
+        "raw_bytes": 14507,
+        "gzip_sha256": "3d52e4f240430ea282fbf80914bbf850b5a8f3e2959e77fad2d39d7741775520"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-terminal-configure.log.gz",
+        "raw_sha256": "f5b69567de66091c090e1d3dbe657de22a794b43a39f50a3e4dc5efeb08f8196",
+        "raw_bytes": 4312,
+        "gzip_sha256": "5e35f11649e11a44b0a45f44c97caf68f7f28ce230b7365563f809ded0617466"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-terminal-sanitizers.log.gz",
+        "raw_sha256": "b2b29c7c81d54d0ad30fe706f0e328476742666f7109bc3d54a352788b923bf3",
+        "raw_bytes": 111,
+        "gzip_sha256": "2c30ccb8cd4932eae4f309861ace457b09171c8db9089e2fb50e168cd9faf0ca"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-gcc-terminal-sources.sha256.gz",
+        "raw_sha256": "b9d592150b8218cce5bc3c3f56ea1066482d9cdc63bcc66a9c7115de6b0838ec",
+        "raw_bytes": 640,
+        "gzip_sha256": "9c18be4d6c596b1d8fe5586e1084fc134c4fd5a0af0495b73e37c6f23c5f8b1e"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-build.log.gz",
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+        "raw_bytes": 58,
+        "gzip_sha256": "350638a70109f856546b3428f046c80ace1410c0f43279d5b979b77eecac0761"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-cache-build.log.gz",
+        "raw_sha256": "5d6ad973ca5d01ed199b3dc6e2a4cc9d94e3847f0e54cef66071b9e8bd543122",
+        "raw_bytes": 89,
+        "gzip_sha256": "cdb6f7e65f28f9e6106333d62019b03d5b7baa6059d14949f22675b099dd3c4b"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-cache-test.log.gz",
+        "raw_sha256": "7ff81d4735388bc48a7966c7562b75858e9af07ce0131643527c3eef9bec1169",
+        "raw_bytes": 39,
+        "gzip_sha256": "3c408e870147124c0ce0f2d66dc1793fcd355961acb2b563ecc50a96f2cbc7b8"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-layout-build.log.gz",
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea",
+        "raw_bytes": 76,
+        "gzip_sha256": "c119388a0b112bfbc9cdd362ea8b53f205f60c75cde51aaa05c77f9b10c5f307"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-layout-test.log.gz",
+        "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+        "raw_bytes": 700,
+        "gzip_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-placements-build.log.gz",
+        "raw_sha256": "15264bc029a19c201b5f4962ab60039cf030f72b4455bf5617d3761cbefbed04",
+        "raw_bytes": 140,
+        "gzip_sha256": "b71d6679583ac2911891954913055c8d775e6aa0dcdac2a414e96103c0761e83"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-placements-test.log.gz",
+        "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+        "raw_bytes": 4856,
+        "gzip_sha256": "f9fb981d5e56b5a9f18eda0fbdceacae1ef6091b46d762272888989a5c06c92d"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-sources.txt.gz",
+        "raw_sha256": "fd78f69e105ed3181e65eef3d27b7f509df99b5b0a4d39e4f8bc596cd9558a46",
+        "raw_bytes": 3351,
+        "gzip_sha256": "fa251c226d7295814e82a3813c8a99dd5f4fce87b73f3ecb1e31802d486a6e91"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-terminal-build.log.gz",
+        "raw_sha256": "e383b7da9a19a8869b9398bab1ed8602ffd3a58976e082cbb8b35911dd4a45b5",
+        "raw_bytes": 16401,
+        "gzip_sha256": "89f6477be8f81c2173cda206209f63a764dc958d97bcef8030a15c4506891cf2"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-terminal-configure.log.gz",
+        "raw_sha256": "771ae3c0b6df68929101f1f3021fa359f32fa607c1ce70d2c99a036590c72786",
+        "raw_bytes": 2886,
+        "gzip_sha256": "60e442355ec88fb015ab3198ecc7e9142550d1efb28a9d5dccbd9cf874664878"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-terminal-sources.txt.gz",
+        "raw_sha256": "b9330b164ed79b34df6f723837bfa6c433a84f46b10d7cfbcb238c98c3154727",
+        "raw_bytes": 1062,
+        "gzip_sha256": "b8f7d2f2dc45b12fc342350eb0fa2b2ff42f3b63cd05dcb4513a1ca56ff81d04"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-terminal-test.log.gz",
+        "raw_sha256": "66e38af35bcd9e4bdb97db3b31638b12d651899962b234a0cc3e196b30521ce5",
+        "raw_bytes": 113,
+        "gzip_sha256": "7515c21c1ec4e852245eaf2931d219d6c5b8d8322eb73fe19f4583d11bc1995c"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-msvc-test.log.gz",
+        "raw_sha256": "3f2e49cd63d0f5fd23217d4b1b1bc477d4330766d9ea013110077ec35c7f35f8",
+        "raw_bytes": 44,
+        "gzip_sha256": "17d28b5fcbe419c2040a743d17e08cfcdaf7c6964cb355a78f9e06a80c50cfd1"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-run.json.gz",
+        "raw_sha256": "ee651972e1fdc07eb56ab40f5a285c71e4a7b70a78ba858e90b379b7e872b136",
+        "raw_bytes": 4297,
+        "gzip_sha256": "8652965a0301ccca757a2cb4228d9f13d715ef2d8fe8c8d00f2c6b5299fb6114"
+      },
+      {
+        "path": "research/kitty-windows-evidence/focused-artifacts.json.gz",
+        "raw_sha256": "2242fa71b10c3cb5c703265dcae74c114d346a9e1d9f724f49b543748f5394bf",
+        "raw_bytes": 2314,
+        "gzip_sha256": "d9f8373ff2add80bee20eb7a5491b57b0beec0f560705b48e34eb736bc6a9984"
+      }
+    ],
+    "core_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43633479250",
+    "single_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43633479299",
+    "full_status": "pending"
   }
 }

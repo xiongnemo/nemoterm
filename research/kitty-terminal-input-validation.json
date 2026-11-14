@@ -60,7 +60,7 @@
     "linux_terminal_source_manifest_verified": true,
     "full_core_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967264",
     "full_single_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967242",
-    "full_status": "pending",
+    "full_status": "success",
     "retained": [
       {
         "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts.json.gz",
@@ -372,5 +372,71 @@
       "raw_sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6",
       "raw_bytes": 74
     }
-  ]
+  ],
+  "full_ci_completed": {
+    "source_commit": "4b21bce590b17d35fcb36d391ab000670b1ea715",
+    "core": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967264",
+    "single": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967242",
+    "conclusion": "success",
+    "single_executable_sha256": "7201278c7bc6711f5c50b612a54cd061168c354540801a69b6100489d4901c87",
+    "single_executable_bytes": 4505088,
+    "passed_checks": 124,
+    "local_native_acceptance_of_this_binary": false,
+    "retained": [
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-core-run.json.gz",
+        "raw_sha256": "996d4db6bd12d8ab5ef9a4a3a12bf16e0b3fa6f39587ee38b6dd53892cdbd654",
+        "raw_bytes": 21495,
+        "gzip_sha256": "6662d59f7d9a64c5d39a5a7ed6dfdb3b3b81d110c0eddc951c1fad40e2d5e9f5"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-core-run.log.gz",
+        "raw_sha256": "5d28b89854583dfce2669ada0655bb099df3c2d59f7b97599780b839e507fc82",
+        "raw_bytes": 1186803,
+        "gzip_sha256": "a34f45d740278797a58b14c8d2339f8ea6bf360ca5b1b4e7fe7041cd9ca2346a"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-core-artifacts.json.gz",
+        "raw_sha256": "51423446d95b79ff61da4299ee0b404934bcd93275d929465a38a01f125b4d81",
+        "raw_bytes": 3838,
+        "gzip_sha256": "338739260959da335eb95f3db70b0bd488581287abe347d0f0ba52dcab14efb6"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-core-observed-at.txt.gz",
+        "raw_sha256": "cd2c8b8138700a35bddca5c7bcb587ab35fa798f9e5c92c800c3003b8bec7a13",
+        "raw_bytes": 32,
+        "gzip_sha256": "6cc2f2e6b1e56803cae137c99a8ee89d284e479a7669a38ead66fdbd54c5aac3"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-single-run.json.gz",
+        "raw_sha256": "6e40f7433f2f8deb032eb6dd096f46f4245005943dac48aaf3bb1d99a9fabd3a",
+        "raw_bytes": 3011,
+        "gzip_sha256": "6683ed7266cc911c9c06a65766ed4f11855ca0233f3297754d19ee559e8351d0"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-single-run.log.gz",
+        "raw_sha256": "b2dc3447786462b7a86104cee2c0d8b32cc8a50c681f45f4eecc00b38aefed8e",
+        "raw_bytes": 524722,
+        "gzip_sha256": "fe4a6c2896a4c0bf8752550ccbfd403fe146d0fae706718dccaa6cc651e3fb2c"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-single-artifacts.json.gz",
+        "raw_sha256": "12a2c352521fedc36a39b7954d7d642da49997542dcee4cfc784e3a0c83a0e08",
+        "raw_bytes": 1553,
+        "gzip_sha256": "904c88409d8430018400f808cafa89eaf90ec83268554f7a0b16549c467bf31e"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-single-observed-at.txt.gz",
+        "raw_sha256": "633975f2aea03770818ec2a8392864dde66b40ce495664a01bc24ef28deea683",
+        "raw_bytes": 32,
+        "gzip_sha256": "c2ad0af34cba851afbf4a63b0d443359ecf0db3577e6e5738ec794c141b2f184"
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-full-single-exe-validation.json.gz",
+        "raw_sha256": "3ee966864dbacef6d4839c5eaed833f908911209b7a44e19ed16dcc3a7211856",
+        "raw_bytes": 3138,
+        "gzip_sha256": "30b1dbac277f24b7a85d6c2647356062265b2c1259b1da6b4137455e7cd184df"
+      }
+    ]
+  }
 }

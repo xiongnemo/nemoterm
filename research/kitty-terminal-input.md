@@ -60,8 +60,13 @@ and MSVC in CI. The exact source `4b21bce590b17d35fcb36d391ab000670b1ea715`
 passes the [GCC/Clang/MSVC matrix](https://github.com/xiongnemo/nemoterm/actions/runs/43630967146),
 including full terminal replay under both Linux sanitizers. The source manifests
 and all 44 compiler/test/artifact records are retained in
-[validation records](kitty-terminal-input-validation.json). The complete product
-workflows for that source remain pending.
-The remaining work is the Windows GDI/GL/DX layer composition, real PNG decoding
-through this path, synchronized/native pixel validation and exact-EXE memory
-acceptance before enabling the frontend capability.
+[validation records](kitty-terminal-input-validation.json). Both complete product
+workflows also passed: [core](https://github.com/xiongnemo/nemoterm/actions/runs/43630967264)
+and [single executable](https://github.com/xiongnemo/nemoterm/actions/runs/43630967242).
+The latter passed 124 checks and produced a 4,505,088-byte EXE with SHA-256
+`7201278c7bc6711f5c50b612a54cd061168c354540801a69b6100489d4901c87`,
+[artifact 14128968285](https://github.com/xiongnemo/nemoterm/actions/runs/43630967242/artifacts/14128968285).
+That exact EXE has not received a separate local native/memory acceptance run;
+it still predates the enabled Windows painter. The later
+[compositor checkpoint](kitty-windows-compositor.md) covers native drawing,
+PNG decoding and layered pixels, with its own artifact acceptance tracked separately.

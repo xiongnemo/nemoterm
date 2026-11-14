@@ -1,5 +1,7 @@
 # Kitty Windows compositor checkpoint
 
+Production source: `97d60254e3bae94fbba9803ff15e1abfce5373f8`.
+
 The development branch enables direct Kitty graphics in the Windows frontend.
 It adds native drawing to the previously tested terminal parser, image cache
 and placement lifecycle. The root accepted executable is unchanged. This is
@@ -43,6 +45,12 @@ text/combining/CJK clusters, same-z ordering, deletion, repeated alpha presentat
 synchronized output, alternate screens, scrolling, vertical margins, ED2 and RIS.
 The terminal-core suite also passed, including the pinned 43-case/101-state replay.
 
+The [GCC/Clang/MSVC workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43633479290)
+passed on that exact production commit, including the full terminal replay under
+Linux ASan/UBSan and leak detection. Its complete compiler logs, artifact metadata
+and source manifests are retained with the native evidence; the Linux terminal
+source hashes match the committed files after LF normalization.
+
 The GDI pixel run used REA/Frida to observe `GdiAlphaBlend`. Evidence
 `ev_cffca0605178da8640a2c424bb96f45a96d8394b9dd6a1db4c761286d4699255`
 retained 3794 calls and zero failed returns at the last periodic observation.
@@ -79,9 +87,18 @@ All 56 owned processes exited naturally, and all four active/inactive image
 patches plus the hidden image preview passed. The private working-set target
 passes; the approximately 50 MB total-working-set goal is still outstanding.
 
+The optional OpenGL run also passed the tab, image, preview and resource checks:
+446 samples, private working-set peak 63,442,944 bytes, total working-set peak
+96,227,328 bytes and private commit peak 175,091,712 bytes. All 56 owned processes
+exited naturally. As previously authorized, no GDI/DX memory threshold is applied
+to OpenGL; this result must not be described as a 20/25 MB pass.
+
 The full product workflows now run the Kitty pixels across all three renderers,
 and the new GDI/DX workload with the unchanged mandatory memory thresholds:
-GDI strictly below 20,000,000 bytes and DX at most 25,000,000 bytes. Formal CI
+GDI strictly below 20,000,000 bytes and DX at most 25,000,000 bytes. The full
+[core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43633479250) and
+[single-EXE workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43633479299)
+are running on that production source. Formal CI
 artifacts and exact-artifact local memory acceptance are still pending at this
 checkpoint; OpenGL is allowed to exceed the GDI memory cap.
 
