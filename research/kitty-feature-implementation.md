@@ -59,8 +59,12 @@ single-image or complete terminal-protocol acceptance. The original remaining
 graphics and real-application requirements remain open.
 
 The full/component CI workflows now check the generated fixtures; ordinary and
-single-image native suites include the new query replay. Their results are
-pending for this implementation. A separate integration run on unchanged
+single-image native suites include the new query replay.
+[Component CI 43653882971](https://github.com/xiongnemo/nemoterm/actions/runs/43653882971)
+passes all three strict GCC/Clang/MSVC jobs at `6e05bd1`, including real-core replay
+and GCC/Clang ASan/UBSan. Its original logs and artifact identities are retained
+in the validation manifest. Full ordinary/single-image CI is still running.
+A separate integration run on unchanged
 compression product source (`2f478e7`, run `43652684756`) recorded an MSVC native
 tab-fixture access violation after hover-probe detachment; that failure remains
 under investigation and is not erased by these query passes.

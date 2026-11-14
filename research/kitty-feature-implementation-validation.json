@@ -7618,6 +7618,283 @@
           "raw_sha256": "a6ed60eb8decdbe0ccfdbf1d5b3d420b1d923dfefb97191d838ffffad806d79c"
         }
       ]
+    },
+    {
+      "path": "research/kitty-feature-implementation-evidence/components-ci.tar.gz",
+      "archive_bytes": 60897,
+      "archive_sha256": "0c180f8c57fe4391c1eb0c6d1fd8955ef9437f14ab80d48f0ee90e3dab29ca24",
+      "records": [
+        {
+          "path": "components-artifacts.json",
+          "raw_bytes": 2305,
+          "raw_sha256": "7bdbdbd0bece9b70774247d1033765bf1a409dc9e1a44d7f0c506878019f29cf"
+        },
+        {
+          "path": "components-run.json",
+          "raw_bytes": 4272,
+          "raw_sha256": "49c6cd320647e2ceaf21cf5d30975076a0960148e7ed207fd7093465e1b0ddd5"
+        },
+        {
+          "path": "components-run.log",
+          "raw_bytes": 332043,
+          "raw_sha256": "20222dffc9e8cc45e44d6ab7b00282e0db5160ba41f303a0e7c133cb2bc25e64"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/cache-normal.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/cache-sanitizers.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/compiler.txt",
+          "raw_bytes": 122,
+          "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/layout-normal.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/layout-sanitizers.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/normal.log",
+          "raw_bytes": 43,
+          "raw_sha256": "e3418f5d696ea4b7d09ec4a718dd04c4d7756ca8ef88ba7b316fb09f7e65b351"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/placements-normal.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/placements-sanitizers.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/sanitizers.log",
+          "raw_bytes": 43,
+          "raw_sha256": "e3418f5d696ea4b7d09ec4a718dd04c4d7756ca8ef88ba7b316fb09f7e65b351"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/sources.sha256",
+          "raw_bytes": 2955,
+          "raw_sha256": "e7a28f3a54bad64cc906b85fea99a4557d7bd87a7f7a44cd196ca6970b59b5ea"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-build.log",
+          "raw_bytes": 13008,
+          "raw_sha256": "86e50c4c79129a43eff1711e375626961d893c78bab480414c3b8b259c745124"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-configure.log",
+          "raw_bytes": 4317,
+          "raw_sha256": "4b3a1d1defd054426a06fdcafc60caa445ec98fa9cb6af108822400360aae358"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-sanitizers.log",
+          "raw_bytes": 279,
+          "raw_sha256": "4c518e3171f05c9189d186102e3580d56a1b6811a3bd417475b8d5743c23a37c"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-sources.sha256",
+          "raw_bytes": 640,
+          "raw_sha256": "21d50b84274bfe783e416154ee0e3659b4090e027fd462d3eb96d68923a2b0b7"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-normal.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-clang-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-sanitizers.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/cache-normal.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/cache-sanitizers.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/compiler.txt",
+          "raw_bytes": 239,
+          "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/layout-normal.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/layout-sanitizers.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/normal.log",
+          "raw_bytes": 43,
+          "raw_sha256": "e3418f5d696ea4b7d09ec4a718dd04c4d7756ca8ef88ba7b316fb09f7e65b351"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/placements-normal.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/placements-sanitizers.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/sanitizers.log",
+          "raw_bytes": 43,
+          "raw_sha256": "e3418f5d696ea4b7d09ec4a718dd04c4d7756ca8ef88ba7b316fb09f7e65b351"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/sources.sha256",
+          "raw_bytes": 2955,
+          "raw_sha256": "e7a28f3a54bad64cc906b85fea99a4557d7bd87a7f7a44cd196ca6970b59b5ea"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-build.log",
+          "raw_bytes": 14663,
+          "raw_sha256": "c32863b8578a2ea6e3513071a236379f9e646ee3a54620efd885aa58e467e737"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-configure.log",
+          "raw_bytes": 4312,
+          "raw_sha256": "b5fa8e8eb560f287c9527e6acfb950bea960fef57c55ed158abf51b0376a9d23"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-sanitizers.log",
+          "raw_bytes": 279,
+          "raw_sha256": "4c518e3171f05c9189d186102e3580d56a1b6811a3bd417475b8d5743c23a37c"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-sources.sha256",
+          "raw_bytes": 640,
+          "raw_sha256": "21d50b84274bfe783e416154ee0e3659b4090e027fd462d3eb96d68923a2b0b7"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-normal.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-gcc-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-sanitizers.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/build.log",
+          "raw_bytes": 58,
+          "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/cache-build.log",
+          "raw_bytes": 110,
+          "raw_sha256": "ca7396e8e14e52a83395bd252a539b9b7f02e26e31c523ea185086025b6a8a21"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/cache-test.log",
+          "raw_bytes": 39,
+          "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/layout-build.log",
+          "raw_bytes": 76,
+          "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/layout-test.log",
+          "raw_bytes": 700,
+          "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/placements-build.log",
+          "raw_bytes": 161,
+          "raw_sha256": "92079f571f84af0851a4456242ae469f75ab4378e06e65959965c303953b4deb"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/placements-test.log",
+          "raw_bytes": 4856,
+          "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/sources.txt",
+          "raw_bytes": 4917,
+          "raw_sha256": "12a71e76c1a885c677edade195e1dc389c1b36e757b14e2ac9bb3d5143927037"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-build.log",
+          "raw_bytes": 16563,
+          "raw_sha256": "0ced0f02fefdbaff8235425accaf49476b96a5e052aa57aab44b410be8a71ecf"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-configure.log",
+          "raw_bytes": 2886,
+          "raw_sha256": "2b09849ab6ae5e4b7c19998ceba1d8aaeb40a963476f3f1ec2a48d10ec78d5d4"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-sources.txt",
+          "raw_bytes": 1062,
+          "raw_sha256": "6ab4c5f58a9075f79cf6bc8af24d4bfc87c350b9572f99437de3cbeb3ffc531e"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/terminal-test.log",
+          "raw_bytes": 283,
+          "raw_sha256": "4a518d0cbbcf7983ab40dbd88c9f7aeda2967c22046d60107ffbfc8ec24d1e92"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/test.log",
+          "raw_bytes": 44,
+          "raw_sha256": "713490d8bcd179251dbf1ef5415c62ed98418997a09ece80369e90888837eeac"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-build.log",
+          "raw_bytes": 54,
+          "raw_sha256": "a4439b8448eb1798560e9c8163383872f611513884d3426c3ebaa035ab0273b5"
+        },
+        {
+          "path": "components/kitty-transport-msvc-6e05bd1a70515ede970323eb633563021d80ac3e/zlib-test.log",
+          "raw_bytes": 36,
+          "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca"
+        }
+      ]
     }
-  ]
+  ],
+  "component_ci": {
+    "run": 43653882971,
+    "source_commit": "6e05bd1a70515ede970323eb633563021d80ac3e",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "unix (gcc)",
+        "conclusion": "success"
+      },
+      {
+        "name": "msvc",
+        "conclusion": "success"
+      },
+      {
+        "name": "unix (clang)",
+        "conclusion": "success"
+      }
+    ],
+    "scope": "Strict GCC/Clang/MSVC components and real-core replay; GCC/Clang ASan/UBSan; no single-image acceptance"
+  }
 }
