@@ -1,6 +1,36 @@
 # Nemoterm requirements and evidence ledger
 
-## Current integration checkpoint (2026-11-14 Sydney)
+## Current source and accepted executable (2026-11-14 Sydney)
+
+Main source is `8a41ad7`; the accepted local single EXE remains source `8ff214f`,
+SHA-256 `c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`,
+4,452,864 bytes. The intervening changes update observation fixtures and records,
+not product sources. See [the accepted artifact](../research/sgr-ideogram-ci.md).
+
+The opt-in [automation interface](AUTOMATION.md) is implemented on main and in
+that accepted EXE: local discovery, stable session IDs, directed text/paste/key
+input and text/renderer snapshots. Tests now use it for several GPU observations.
+It does not provide an output subscription or enable itself in existing windows.
+
+Both full branch workflows passed at `8a41ad7`. Its subsequent main run passes
+[single-file CI](https://github.com/xiongnemo/nemoterm/actions/runs/43581417881),
+but [core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43581417880)
+fails the fifth MSVC tab-lifetime repetition: the sibling window disappears and
+cleanup records frontend exit 0xC0000005. The exact MSVC image was not retained
+by that workflow. Passing earlier runs do not resolve this failure.
+
+Static inline PNG/JPEG/BMP/GIF and animated GIF development remains off main.
+Complete experimental CI can pass while exact-artifact local memory acceptance
+fails: the `a3eb24e` image reaches 25,202,688 private-working-set bytes in DirectX.
+No experimental image replaces the accepted local binary. GDI's strict
+20,000,000-byte and DX's inclusive 25,000,000-byte gates remain unchanged.
+DX total working set still exceeds the approximate 50 MB target in recorded runs.
+
+Full protocol coverage, sustained real-agent memory, physical IME and
+multi-monitor acceptance remain open. Local runtime tests are authorized again;
+older pause statements below describe their historical checkpoints only.
+
+## Earlier integration checkpoint (2026-11-14 Sydney)
 
 Main includes bounded Direct3D 11 composition, I/O worker cleanup, initial
 visibility preservation, input-pipe-close/output-drain handling and Sixel

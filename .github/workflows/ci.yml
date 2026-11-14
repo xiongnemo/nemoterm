@@ -119,6 +119,16 @@ jobs:
             gl-lifetime-msvc.log
             handle-io-msvc.log
           retention-days: 14
+      - name: Retain exact failed MSVC image for reproduction
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unverified-msvc-renderer-${{ github.sha }}
+          path: |
+            dist/nemoterm.exe
+            dist/OpenConsole.exe
+            dist/conpty.dll
+          retention-days: 14
   windows:
     name: Windows x64 tests and portable build
     needs: source-host
