@@ -2,19 +2,22 @@
 
 ## Current accepted artifact (2026-11-15 Sydney)
 
-The local distribution still contains only the accepted `nemoterm.exe` from
-source `8ff214feb549c2b79bb57960467c1d6963eab47e`: 4,452,864 bytes, SHA-256
-`c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`.
-Its [exact-image checkpoint](../research/sgr-ideogram-ci.md) records both full
-CI workflows, 108 native check groups and local renderer/protocol checks.
-The root file's hash was rechecked when this ledger was corrected.
+The local distribution contains only the accepted `nemoterm.exe` from
+source `97d60254e3bae94fbba9803ff15e1abfce5373f8`: 4,509,184 bytes, SHA-256
+`07c8d279c526b13eb75586afe1a2b980d21253adf125e3d11f68574572e8e9d6`.
+Its [exact-image checkpoint](../research/kitty-windows-product.md) records both
+full CI workflows, 129 single-image check groups, 312 local API pixel stages,
+104 direct GDI-client stages and six local memory workloads. The fixture-only
+follow-up passes 132 CI groups but produces a different image; it does not
+replace this exact-image identity.
 
-That image's actual 160x48 Sarasa two-tab workloads passed all nine groups:
-GDI private working set peaked at 16,093,184 bytes and DirectX at 23,494,656.
-Total working set was 42,897,408 and 63,029,248 respectively, so the approximate
-50 MB total target remains unmet for DX. Both jobs drained naturally. Later
-candidate builds and diagnostic passes do not replace this accepted artifact
-or resolve the retained intermittent resource/shutdown failures.
+Actual 160x48 Sarasa two-tab Kitty, PNG and GIF workloads pass the private-WS
+gates. Across those six runs, GDI peaks at 17,145,856 bytes and DirectX at
+24,207,360. Total WS peaks are 39,907,328 and 59,817,984 respectively, so the
+approximate 50 MB total target remains unmet for DX. Each workload drains 56
+owned processes naturally. The earlier `8ff214f` acceptance and intermittent
+resource/shutdown failures remain preserved; these passes do not prove the
+historical intermittent failures resolved.
 
 The original full protocol, graphics, real-application, physical-input and
 long-session scope remains open. The following sections describe historical

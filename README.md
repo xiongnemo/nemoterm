@@ -25,26 +25,22 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **文件与图片输入**：拖入文件/文件夹粘贴转义路径；纯图片剪贴板交给支持图片的终端应用读取。
 - **本机调试接口**：按需开启实例发现、标签页寻址、输入，以及文字和 PNG 画面快照。
 - **可切换渲染**：默认 GDI，可选 OpenGL 或 DirectX / Direct3D 11 合成；GPU 初始化或绘制失败时回退 GDI。
-- **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
-- **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
+- **终端能力**：UTF-8、真彩色、Sixel、OSC 1337 图片与 GIF、Kitty 图片的直接传输子集、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
+- **字体与设置**：原生设置窗口、当前标签字号缩放、声音或视觉响铃，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
-图形开发分支已加入 OSC 1337 图片／GIF 动画、字体缓存优化与裁剪截图接口。
-裁剪截图修正提交 `72754a3` 的两条完整 CI 通过，单文件检查共 124 组。
-此前 `f6b3d64` 的正式单 EXE 产物在本机 160×48 Sarasa 动画负载中，
-私有工作集峰值为 GDI 16.7 MB、DX 24.1 MB；DX 总工作集约 60.4 MB，仍需优化。
-这两项是不同提交／产物的验证，准确身份及保留的失败记录见[裁剪截图验证](research/cropped-capture.md)。
-Kitty 图片协议的开发分支已接入 Windows 三层绘制，GDI、OpenGL、DirectX 各通过
-24 项本机像素检查；支持直接 RGB/RGBA/PNG、裁剪缩放、透明度、查询、放置和删除。
+Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG、裁剪缩放、透明度、查询、放置和删除。
+下方单 EXE 在本机 GDI、OpenGL、DirectX 共通过 312 个 Kitty、缩放、静态图片和 GIF 检查，
+另通过 104 个直接读取 GDI 窗口客户区的检查。
 共享内存、文件传输、压缩、动画及 Unicode 占位等扩展尚未实现。
-当前开发构建和正式单 EXE 的验证分别记录在[绘制接入记录](research/kitty-windows-compositor.md)。
-下方已验收下载仍是此前版本。
+准确产物、内存样本与验证边界见[成品验证](research/kitty-windows-product.md)；
+实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `8ff214f` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43565551266/artifacts/14103002979)。
-两条完整工作流通过，单文件 CI 共 108 组检查；包含本机自动化接口、文件/图片输入、
-Direct3D 11 合成，窗口启动和终端退出流程修复，以及 Sixel 调色板/背景、SGR 框线/圈线、表意文字装饰和标签菜单生命周期修复。EXE 为 **4,452,864 字节**。
-产物预计于 **2026-12-14（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/sgr-ideogram-ci.md)。
+已通过 CI 的开发快照：[下载 `97d6025` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43633479299/artifacts/14130247748)。
+两条完整工作流通过，单文件 CI 共 129 组检查；包含本机自动化接口、文件/图片输入、
+三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 图片子集、字号缩放与响铃。EXE 为 **4,509,184 字节**。
+产物预计于 **2026-12-14 20:12 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-windows-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
@@ -132,14 +128,14 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
 Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配置标签位置与预览。
 
-字号缩放开发分支增加 `Ctrl+滚轮`：应用接管鼠标时，加 `Shift` 才强制缩放。
+字号缩放使用 `Ctrl+滚轮`：应用接管鼠标时，加 `Shift` 才强制缩放。
 缩放只改变当前终端，保持窗口外框大小；菜单可恢复默认字号，
 Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
 键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
-字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过远程专项回归，
-新单 EXE 的 122 项检查与完整 MinGW 核心流程均已通过。本机恢复测试后，
-Sarasa 字体在实际 GDI、OpenGL、DirectX 下的字号回归，以及标签隔离与响铃 API 检查也已通过；
-物理滚轮、跨屏 DPI 和实际听感仍需单独验证。
+字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过专项回归与完整 CI。
+Sarasa 字体在本机 GDI、OpenGL、DirectX 下的字号回归也已通过；
+此前 `69cd5a4` 本机测试的 Windows 提示音已获实际听感确认。物理滚轮和跨屏 DPI 仍需单独验证，
+此前的听感确认不算作新产物的一次听感测试。
 详见[字号与响铃记录](research/font-zoom-and-bell.md)。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
@@ -166,10 +162,11 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `8ff214f` 在本机 Sarasa、实际 160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.09 MB**，DX 为 **23.49 MB**，各通过 9 组功能检查。
-GDI 总工作集为 **42.90 MB**，DX 为 **63.03 MB**；DX 仍高于约 50 MB 的总工作集目标。
+下载的 `97d6025` 在本机 Sarasa、实际 160×48、双标签的 Kitty、PNG、GIF 六组负载中，
+GDI 私有工作集最高 **17.15 MB**，DX 最高 **24.21 MB**，每组通过 9 或 10 组功能检查。
+GDI 总工作集最高 **39.91 MB**，DX 最高 **59.82 MB**；DX 仍高于约 50 MB 的总工作集目标。
 测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
-两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/sgr-ideogram-ci.md)；前一版本的故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
+两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-windows-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、

@@ -45,8 +45,11 @@ def reset(private=True):
 def main(background_exercise=None, *, suite_name=None, font='Consolas', before_exercise=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx'), default='gdi')
+    parser.add_argument('--presented-gdi', action='store_true', help='read the owned visible client DC; requires an interactive desktop')
     args = parser.parse_args()
+    if args.presented_gdi and args.renderer != 'gdi':parser.error('--presented-gdi requires --renderer gdi')
     suite = suite_name or ('sixel-background' if background_exercise else 'sixel-palette')
+    if args.presented_gdi:suite+='-presented'
     colour_names = tuple(COLOURS) if background_exercise else ('red', 'green', 'blue')
     requested = {'gdi': 0, 'opengl': 1, 'directx': 2}[args.renderer]
     exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
@@ -70,7 +73,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     ScrollBarFullScreen=0, FontHeight=12).items():
                 winreg.SetValueEx(key, name, 0, winreg.REG_DWORD, value)
         with OwnedJob() as job:
-            process, window = None, None
+            process, window, presented = None, None, None
             try:
                 command = [str(exe), '-load', profile, '--automation',
                     '--cols', str(COLS), '--rows', str(ROWS), '--font', font,
@@ -92,6 +95,13 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                 actual = session['renderer']
                 evidence.update(endpoint=endpoint, session=session, actual_renderer=actual)
                 assert actual in (0, requested), (requested, actual)
+                if args.presented_gdi:
+                    assert actual==0
+                    from presented_window_capture import PresentedWindowCapture
+                    presented=PresentedWindowCapture(process.pid,session['hwnd'])
+                    evidence['capture']='owned visible GDI client DC; no image API or WM_PRINTCLIENT'
+                def capture_image():
+                    return presented.capture() if presented else api.request(endpoint, 'image', seat)
                 if requested == 1 and os.environ.get('NEMOTERM_REQUIRE_OPENGL') == '1':
                     assert actual == 1, 'OpenGL fell back'
                 if requested == 2 and os.environ.get('NEMOTERM_REQUIRE_DIRECTX') == '1':
@@ -103,7 +113,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     return value
 
                 wait_snapshot(current, lambda v: v.get('columns') == COLS and v.get('rows') == ROWS)
-                width, height, _ = bitmap(api.request(endpoint, 'image', seat))
+                width, height, _ = bitmap(capture_image())
                 cw, ch = (width-2*BORDER)//COLS, (height-2*BORDER)//ROWS
                 assert cw > 0 and ch >= 6 and width == COLS*cw+2*BORDER and height == ROWS*ch+2*BORDER
                 evidence.update(image_size=[width, height], cell_pixels=[cw, ch])
@@ -146,7 +156,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
 
                     def matches():
                         nonlocal last, stable_since
-                        last = api.request(endpoint, 'image', seat)
+                        last = capture_image()
                         image_width, image_height, pixels = bitmap(last)
                         assert (image_width, image_height) == (width, height)
                         observed = {colour: set() for colour in colour_names}
@@ -228,6 +238,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                 assert final['pid'] == process.pid and len(final['sessions']) == 1
                 assert final['sessions'][0]['id'] == seat and final['sessions'][0]['active']
                 assert final['sessions'][0]['renderer'] == actual, final
+                if presented:evidence['presented_capture']=presented.close()
                 assert u.PostMessageW(window, 0x10, 0, 0)  # WM_CLOSE, this owned window only.
                 assert process.wait(timeout=15) == 0
                 assert api.discover(process.pid) == []
@@ -235,6 +246,7 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                 assert not evidence['cleanup']['terminated_remaining'], evidence['cleanup']
                 evidence['completed'] = True
             finally:
+                if presented:evidence['presented_capture']=presented.close()
                 evidence['last_snapshot'] = read_snapshot(report)
                 if process is not None and process.poll() is None and window:
                     owner = w.DWORD()

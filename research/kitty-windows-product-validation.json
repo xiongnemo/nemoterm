@@ -1,0 +1,4041 @@
+{
+  "source_commit": "97d60254e3bae94fbba9803ff15e1abfce5373f8",
+  "executable_sha256": "07c8d279c526b13eb75586afe1a2b980d21253adf125e3d11f68574572e8e9d6",
+  "executable_bytes": 4509184,
+  "distribution_files": [
+    "nemoterm.exe"
+  ],
+  "product_ci": {
+    "source_commit": "97d60254e3bae94fbba9803ff15e1abfce5373f8",
+    "workflows": [
+      {
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43633479250",
+        "run": 43633479250,
+        "conclusion": "success"
+      },
+      {
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43633479299",
+        "run": 43633479299,
+        "conclusion": "success"
+      }
+    ],
+    "executable_sha256": "07c8d279c526b13eb75586afe1a2b980d21253adf125e3d11f68574572e8e9d6",
+    "executable_bytes": 4509184,
+    "check_groups": 129,
+    "artifact": {
+      "id": 14130247748,
+      "node_id": "MDg6QXJ0aWZhY3QxNDEzMDI0Nzc0OA==",
+      "name": "nemoterm-single-exe-x64-97d60254e3bae94fbba9803ff15e1abfce5373f8",
+      "size_in_bytes": 2577845,
+      "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14130247748",
+      "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14130247748/zip",
+      "expired": false,
+      "digest": "sha256:d2cc6b3275e094e2f41c6a5ecdc1ddfd4f2faa844335d248fa10c9338d1df654",
+      "created_at": "2026-11-14T20:12:12Z",
+      "updated_at": "2026-11-14T20:12:12Z",
+      "expires_at": "2026-12-14T20:12:10Z",
+      "workflow_run": {
+        "id": 43633479299,
+        "repository_id": 1454119146,
+        "head_repository_id": 1454119146,
+        "head_branch": "feature/kitty-windows-compositor-20261115",
+        "head_sha": "97d60254e3bae94fbba9803ff15e1abfce5373f8"
+      }
+    },
+    "single_validation": {
+      "path": "research/kitty-windows-evidence/product-ci-97d6025-single-validation.json.gz",
+      "raw_bytes": 3290,
+      "raw_sha256": "7acdf7abf83380490841ab3cc125c8c9053ccd36d5f91f8cda8860be21fe6ace",
+      "gzip_sha256": "b5ffcdc83516807a0ef77adafe779c0fa08b0237e4de60082287efd536b5db7b"
+    },
+    "metadata": [
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-artifacts.json.gz",
+        "raw_bytes": 3858,
+        "raw_sha256": "4ae7b31f6f0646019c62e22991b52429d4cd93a8057b52662c46ed66db72134c",
+        "gzip_sha256": "a6896f9a1fb04dd380b58cda549d3983161bfe2ae6feab9c3fbdbe064de7b803"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-evidence-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "76199dd76837371478bde9483e7319ad49403e1a1d499c206b66f0cd5d182cbc",
+        "gzip_sha256": "21af0371e765871749d9d81f214c553c211bb564196e8051743bcdcf0bae0ee5"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-observed-at.txt.gz",
+        "raw_bytes": 32,
+        "raw_sha256": "8b18a38fec41c3f749a6c3614652cb216d06970c009896052e4d1e91042d0cb7",
+        "gzip_sha256": "88fac3a18dba6ba9d665f58e282862cfaf5c335a2c52dbc2b91ab648a5c5b8f2"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-run.json.gz",
+        "raw_bytes": 21882,
+        "raw_sha256": "0334ec847a852eeb063a1f3ce8a43579b0bbdf8bafb9a69b043aa4ab3c6f17fe",
+        "gzip_sha256": "e04551790d074388bc8c8a3eecf9de729a47d90ba3b0e6857e87bd3cd0aa37dc"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-run.log.gz",
+        "raw_bytes": 1207529,
+        "raw_sha256": "76a185db3abb5064021f506bb41378491167d628e05ab08244f9b9fda72d7b8e",
+        "gzip_sha256": "72dcff10db0e085db0e038c9e0f427b05bf413d24c8a12c5b86ac7b4c4114010"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-msvc-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "6f79ecbef3755ce4860bd30831fb2211f3acc7ff340dc2f31edccbe11ac372fa",
+        "gzip_sha256": "e9590b59c974e26a9dc5e23775254928c38c3fb696d7951b26c5e23d7f1eef45"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-portable-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "6d7ec9b70c6badefa42fea60ee8bd2658013e28b2a2b1d359e90d219418acfd0",
+        "gzip_sha256": "7e9e48920c8b6edd6e6e056488e49db1539407fed20ea3e70728467c59a62ac2"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-product-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "340f2f038d624b81b08f71af0c09b4027fa6ab75c2c7bcda76f22adb5666c7a0",
+        "gzip_sha256": "ee4ca7e43497108168db2526fff0c5d06c845ab4f74888b635f2783e42789c2c"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-sanitizers-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "293da8888d2500d5bd20dacdf360c558c210f2d25388d117a9af52d7cb7d8b81",
+        "gzip_sha256": "0f37da6e9660c6f750f82dd492e75205fd27a34ace0b16fb9c5c949f0b27693c"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-artifacts.json.gz",
+        "raw_bytes": 1561,
+        "raw_sha256": "857fe7e32c2a1e271fe2a7a974562e09c29522b1346aa95d027a45bf5e93ed05",
+        "gzip_sha256": "94cf2097fcec0912a501a2635fd9d669755ef049a9ef735e7c58a10c4ed6a951"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-evidence-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "92a54aed1b2440c84d826331ea11bf826b5ffc4308a11ff0fc8a5d216c40a296",
+        "gzip_sha256": "1b5c5a15433366b561861f7f795e2082268899e94be3a30fa25d2b1dd01c62ab"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-observed-at.txt.gz",
+        "raw_bytes": 32,
+        "raw_sha256": "e417760b3da6c832d91f87c643615bc3b300203071cd9c54f206fc7e9f0d1c33",
+        "gzip_sha256": "6285b6c96592364567e7ede007d022f939d0ad4410249794c9571909f8b00272"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-run.json.gz",
+        "raw_bytes": 3011,
+        "raw_sha256": "d83b7e59db1741bdad1c21f5363074f978a667cf1406298f598885704bcb59bb",
+        "gzip_sha256": "451a0f70af14a5900df03d0ca0cdf528b4df0db7b2b8825c2e9e98ac2469d05e"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-run.log.gz",
+        "raw_bytes": 546693,
+        "raw_sha256": "ad1d55f5b7854818cdf03d867ca3abee9f71887babd10315c4ff23344f964c5b",
+        "gzip_sha256": "e748dc8075f4e5268c09f39e52a71a748c616f12a35feca1a6ae26630365732a"
+      }
+    ],
+    "evidence_bundles": {
+      "core-evidence": {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-core-evidence.tar.gz",
+        "sha256": "f91f6c925c34de68afc7c86e5d56c2a04e85a760e60bfabc3a397a42620f6a7a",
+        "bytes": 2094235,
+        "file_count": 1376,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-ci-97d6025-core-evidence-inventory.json.gz",
+          "raw_bytes": 271413,
+          "raw_sha256": "d3a66c8848fbc9912be2f0bca0ff7cf5aee8632075a4875ca6d8b6575385f4fd",
+          "gzip_sha256": "aef3a2f693d41cc182ce894c530cf1d6903e016122242f768c9a9139709f17b9"
+        }
+      },
+      "single-evidence": {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-single-evidence.tar.gz",
+        "sha256": "cd721263eb2c9f3a950f7b9cde3760060c987cfde374dc9d3718351a733948ae",
+        "bytes": 3439934,
+        "file_count": 1442,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-ci-97d6025-single-evidence-inventory.json.gz",
+          "raw_bytes": 308274,
+          "raw_sha256": "0b8ed6cfc947e5d0a8bfa6a8ed19dc09ae3d3c08188c5c2a2e4e400900b6aeab",
+          "gzip_sha256": "d3d2597477cc04d830bee9a9542f8adb1244d8f08daa4727dfca5aad1b989ad7"
+        }
+      },
+      "sanitizers": {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-sanitizers.tar.gz",
+        "sha256": "8db8b27811d4df4ff4604b8fa1342c403bc8c053e00d99b446812cc3d98a89a8",
+        "bytes": 8574,
+        "file_count": 29,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-ci-97d6025-sanitizers-inventory.json.gz",
+          "raw_bytes": 4552,
+          "raw_sha256": "e82f1adc982d067d3db23f3ce23dc2664fbf7b3b7181383dff80a6ac40c8de33",
+          "gzip_sha256": "7df599e05edc961f7d6cca9a168eaff16d67f5830a82acdfaea996f4f3c1bd1a"
+        }
+      },
+      "msvc": {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-msvc.tar.gz",
+        "sha256": "ca5bef09d0dafa2c5a88b687f1ae5d17c7c79e350b448c987226ee059ccec8db",
+        "bytes": 95859,
+        "file_count": 30,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-ci-97d6025-msvc-inventory.json.gz",
+          "raw_bytes": 4649,
+          "raw_sha256": "93c220ec7fc720a554e84cdbb70e08543dad7e4d8ee70b98e65c65728fb07106",
+          "gzip_sha256": "f06d17f56a9f7f49bf9ec9ad53b44db7652f9fd353d28ce0d4e62276f7bc2da9"
+        }
+      },
+      "portable": {
+        "path": "research/kitty-windows-evidence/product-ci-97d6025-portable.tar.gz",
+        "sha256": "68cbb212bcdeabb0ba8a7657213fdd303e03a22a97ba6814c2ec90777730208f",
+        "bytes": 4811265,
+        "file_count": 14,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-ci-97d6025-portable-inventory.json.gz",
+          "raw_bytes": 2003,
+          "raw_sha256": "3ae54e8b0b0782476b16fb39b18c1b33a9ddc6f0646341ea274a02f0f160b6d8",
+          "gzip_sha256": "3fc325e9b0912bc49141409b7a0f5a618fd81b7c2e3973e6dfe7751524e65c6a"
+        }
+      }
+    }
+  },
+  "fixture_followup_ci": {
+    "source_commit": "d8d8854e6842d4d0afea70ff036ff2f5800bb79d",
+    "workflows": [
+      {
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43634649279",
+        "run": 43634649279,
+        "conclusion": "success"
+      },
+      {
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43634649253",
+        "run": 43634649253,
+        "conclusion": "success"
+      }
+    ],
+    "executable_sha256": "7985c90a8e8490d1d44c1ffb3b34068b478be2a12b3fe7fd7e4cd48fae3e9ade",
+    "executable_bytes": 4509184,
+    "check_groups": 132,
+    "artifact": {
+      "id": 14131226026,
+      "node_id": "MDg6QXJ0aWZhY3QxNDEzMTIyNjAyNg==",
+      "name": "nemoterm-single-exe-x64-d8d8854e6842d4d0afea70ff036ff2f5800bb79d",
+      "size_in_bytes": 2577843,
+      "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14131226026",
+      "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14131226026/zip",
+      "expired": false,
+      "digest": "sha256:21c2875c030ae5878ed869b8371570930fe7ac27c64cecb04ee4814a2d6db2dd",
+      "created_at": "2026-11-14T20:30:36Z",
+      "updated_at": "2026-11-14T20:30:36Z",
+      "expires_at": "2026-12-14T20:30:35Z",
+      "workflow_run": {
+        "id": 43634649253,
+        "repository_id": 1454119146,
+        "head_repository_id": 1454119146,
+        "head_branch": "test/kitty-native-geometry-20261115",
+        "head_sha": "d8d8854e6842d4d0afea70ff036ff2f5800bb79d"
+      }
+    },
+    "single_validation": {
+      "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-validation.json.gz",
+      "raw_bytes": 3374,
+      "raw_sha256": "d945bc9dee5ea433a3575ff872a5336dae72fd67ae15360b4dde698edef58df2",
+      "gzip_sha256": "df96a2fe618021e6c6de2b6ada70508bfaeebe92e06cbac08f0a1ef447fba6ed"
+    },
+    "metadata": [
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-artifacts.json.gz",
+        "raw_bytes": 3827,
+        "raw_sha256": "449fcbe2fd225a2cd1c2d9dc1996550caefb92123daa7e0d4b7ba60a0dbf61d4",
+        "gzip_sha256": "1298acc6287eee9f0cf7e5a692a4ba1e481e8afd782f37a71bb12513bb080163"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-evidence-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "234c20f27f989f8746133e48bd8d210b08bd24a56443db168056c1a2492fac7d",
+        "gzip_sha256": "7d5a16434bfdd8da00a3595515870fe1c90ac727e420e300272272345f2a89f8"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-observed-at.txt.gz",
+        "raw_bytes": 32,
+        "raw_sha256": "f29526dfffb2551f617caffef180ea28fbea7432a200403f78b035d8703929e9",
+        "gzip_sha256": "10804df7ababda42b370c3ead728c237557fddad6431db960b931616caad6995"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-run.json.gz",
+        "raw_bytes": 22084,
+        "raw_sha256": "1cee75c10f5fa31c35d6c09dba82554359e327d11ac4363429d6a4ff6e3f486c",
+        "gzip_sha256": "58ec017f70a2ca46066145608b2a881558fd43ee0662b28a1da83b0206567b0b"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-run.log.gz",
+        "raw_bytes": 1214817,
+        "raw_sha256": "84041f4860a746cdfbcd684cfdcd6bf6a83639c096e4525bb950d4a50dec0e39",
+        "gzip_sha256": "d37692d64006804b9658e5f3c991dcc04627bbdf57609bb0891382265f13e865"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-msvc-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "6a95e842577a0561572099a04c8bbf931a2caf3fbc6ad5028d08dae934dc2afe",
+        "gzip_sha256": "2dd93015fededc95ffb7729c99e61aa09e54fb6f38ae822c569423210d9cf784"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-portable-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "1544f83d0f721e515ec5a0e6a7b7c45f3dbd651d6599f6c66c12f4ac9d1f9bc6",
+        "gzip_sha256": "c184691a1121d898bc1bf8c701455b3c5705c69acf0025855fbd0344d8aa8c30"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-product-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "954777b3af0300a02637be4b703ce94e47a733b7e6c9b462898c107288d72366",
+        "gzip_sha256": "5876e37f4712a044b169c7568b3c88917967c47ccb6d8d192f6603e9377bf109"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-sanitizers-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "33b65580c3ec12b9c301b8ee962c7c9075b67bc08dc536ae67c9ae7dcc3ea2ae",
+        "gzip_sha256": "ee33f130b0d82fea33d7fee20a0323a13a64945b5a348d277ccc70f3a8914347"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-artifacts.json.gz",
+        "raw_bytes": 1549,
+        "raw_sha256": "376af969985085b63fd85ac75a358cbde0b48ceb77eed9e511cc090b2ce3e290",
+        "gzip_sha256": "e065bd7f1efeeaa082b7d440bcc6bd0ee31d3e449197c100a63838ec28ac4ab7"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-evidence-download.json.gz",
+        "raw_bytes": 82,
+        "raw_sha256": "cd119e1d7c78c1d67454e2e4e1236ad54e20377a3a316261ec0b7f10b484ce6d",
+        "gzip_sha256": "7b613c5de05c3d069412f5a32b2ec9e65f3873b5f73c639e22ae4ca05afb4342"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-observed-at.txt.gz",
+        "raw_bytes": 32,
+        "raw_sha256": "224964fb25a3b3200911b9026d478ecd117d672bc661688b92e192dfaf05ee2e",
+        "gzip_sha256": "af400dc941584b8cab40c69e5eb0055e90806b13a3d1aaf1bfb9751f3e08ed1a"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-run.json.gz",
+        "raw_bytes": 3011,
+        "raw_sha256": "a23e330ae34cc126744c0d449f7f837f9d9858d812187f65f42c569a1ae1dddf",
+        "gzip_sha256": "f36c3ae477c22ebd8867184cbed51790bff57b7fb426e51f2546bfb933685fcf"
+      },
+      {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-run.log.gz",
+        "raw_bytes": 550300,
+        "raw_sha256": "c3bae38567794c179238d05271279882e8a05a97b0c8e524b90a053ef67e4720",
+        "gzip_sha256": "8cc46352afb6e98d4574c1539aaf29706ebc920be98e5225d4b782ef0ebbb387"
+      }
+    ],
+    "evidence_bundles": {
+      "core-evidence": {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-evidence.tar.gz",
+        "sha256": "aaa51fcc153101778e15e4b2f1f8110ca4ac0b85d6dbfc751a2334510d3d95ce",
+        "bytes": 2099694,
+        "file_count": 1428,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-core-evidence-inventory.json.gz",
+          "raw_bytes": 282078,
+          "raw_sha256": "591ff639af22839f06b3198fc91b674a5d7f811aebe8c199fce5e4c41e39e39f",
+          "gzip_sha256": "cf8624f4b451580c14fdc064fcdd5b0847c7968b868832a72d3abac61845ef6d"
+        }
+      },
+      "single-evidence": {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-evidence.tar.gz",
+        "sha256": "26915a90deea909ff103fae4a2cc6a5dd2fc293ef60c698704895fe06ea53b4c",
+        "bytes": 3505625,
+        "file_count": 1492,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-single-evidence-inventory.json.gz",
+          "raw_bytes": 319456,
+          "raw_sha256": "77a5586ef208de9fa588942aa1c2ba66b90b5ccbfb1605cd6d978883e71f8601",
+          "gzip_sha256": "103bf2598ae6392b8bf88dfa6eeb8bcd3bec16a19e0f2a6e130ea29ae1dcbe2e"
+        }
+      },
+      "sanitizers": {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-sanitizers.tar.gz",
+        "sha256": "8db8b27811d4df4ff4604b8fa1342c403bc8c053e00d99b446812cc3d98a89a8",
+        "bytes": 8574,
+        "file_count": 29,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-sanitizers-inventory.json.gz",
+          "raw_bytes": 4552,
+          "raw_sha256": "e82f1adc982d067d3db23f3ce23dc2664fbf7b3b7181383dff80a6ac40c8de33",
+          "gzip_sha256": "7df599e05edc961f7d6cca9a168eaff16d67f5830a82acdfaea996f4f3c1bd1a"
+        }
+      },
+      "msvc": {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-msvc.tar.gz",
+        "sha256": "a0a8509ccfeb45f9af6219cdf6f7b9ee13f5a73dcc75dacf8d8857869758ecd4",
+        "bytes": 95534,
+        "file_count": 30,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-msvc-inventory.json.gz",
+          "raw_bytes": 4649,
+          "raw_sha256": "b23a27a25740cd1f1e082abfc44d4c00d17e65ee899633245eb877bb6fdba4cf",
+          "gzip_sha256": "c4c6fa0489eff1ede54b6da1cc13a8a91cf60f8962b079b0c822a25bd0d1fc59"
+        }
+      },
+      "portable": {
+        "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-portable.tar.gz",
+        "sha256": "45f0411a2b7da620428dfcc37b037406cfcf68b45cd7d1b56a586604be653f99",
+        "bytes": 4811266,
+        "file_count": 14,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/geometry-ci-d8d8854-portable-inventory.json.gz",
+          "raw_bytes": 2003,
+          "raw_sha256": "9fa3127e299f8927399f5eca139a10b3fa15b18ba620cc30332c280231ed4d07",
+          "gzip_sha256": "d23cf084dafe91d794ddb25a061bf8b4f83f26097f96c2e34f0eeadb3b226a3b"
+        }
+      }
+    },
+    "locally_accepted_binary": false,
+    "same_production_sources_as_accepted_image": true
+  },
+  "provenance": {
+    "path": "research/kitty-windows-evidence/product-PRODUCT-CI.json.gz",
+    "raw_bytes": 309,
+    "raw_sha256": "7a76d34228ea63cf1cc7c7d7ec194a51d3f8765ff78dc42b634e484e79f97347",
+    "gzip_sha256": "00ae92e7be31ecc501cde8c9285780cf3a9640a9364483d802d329403c4ca1cb"
+  },
+  "fixture_identity": {
+    "base_commit": "66484580063ba46fad35f6c8f3b2c8f2cbf1f55f",
+    "files": {
+      "path": "research/kitty-windows-evidence/product-fixtures.json.gz",
+      "raw_bytes": 30597,
+      "raw_sha256": "c46aec8f54e90e84eab22ba56d89b09b366fd3fc0ef5026435cefeb29660e03b",
+      "gzip_sha256": "2fc595f2c3763a308d329b84d0213b2eebbeaeeb5bbfc417c69df587464b3f1b"
+    }
+  },
+  "pixel_runs": [
+    {
+      "suite": "kitty-image",
+      "renderer": "gdi",
+      "stages": 24,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-gdi-observed.json.gz",
+        "raw_bytes": 56502,
+        "raw_sha256": "574dd6a513b0f3af9eee4a5efbed7fbd35212bd29c2e3a9cacd414562b914bfd",
+        "gzip_sha256": "e535ffe834c2e75960cbe5cda7c69ec8813432ca0fc5995362d06187d9f44108"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-gdi-captures.tar.gz",
+        "sha256": "6c2edaf1a4ccbbb0b55bc804ab1cd5dc4db8e18ec6179036395598b1c84f6001",
+        "bytes": 20070,
+        "file_count": 51,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-captures-inventory.json.gz",
+          "raw_bytes": 7731,
+          "raw_sha256": "d931c16d44230629846b0e2eff0ff88d321255bc69d38ab608480269e367016b",
+          "gzip_sha256": "5a2b2b0b102641965099c152611ff4358c5ebac74b6719077b74184d3be14393"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-01-rgba-intrinsic.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-02-rgb-intrinsic.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-03-png-native-codec.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-04-scaled-cells.png",
+          "bytes": 391,
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-05-crop-scale-transparent.png",
+          "bytes": 352,
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-06-negative-above-coloured-background.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-07-below-background.png",
+          "bytes": 359,
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-08-layer-boundary.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-09-negative-under-text-and-clusters.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-10-positive-over-text.png",
+          "bytes": 352,
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-11-delete-reveals-text.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-12-same-z-creation-order.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-13-alpha-positive-over-negative.png",
+          "bytes": 332,
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-14-alpha-repeated-presentation.png",
+          "bytes": 378,
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-15-sync-before.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-16-sync-frozen-image.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-17-sync-committed-image.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-18-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-19-alternate-owned-image.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-20-alternate-restores.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-21-scroll-one-row.png",
+          "bytes": 326,
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-22-screen-erase-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-23-margin-source-clipping.png",
+          "bytes": 351,
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-gdi-24-hard-reset-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-gdi.log.gz",
+        "raw_bytes": 4359,
+        "raw_sha256": "39b946874244091f0f80e528ddd445ad938fe8719c81c0a4522280082568fe1c",
+        "gzip_sha256": "7dbcec070c0abbbb65ceeb9bd7569a257d06b927689bff165e3ad295bd148d3c"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-geometry",
+      "renderer": "gdi",
+      "stages": 12,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-observed.json.gz",
+        "raw_bytes": 6883,
+        "raw_sha256": "eeb209f9f98e6e4d212f953c011584644eb21035f5e4bf6e104ce47fdbbcceab",
+        "gzip_sha256": "60edfd9d103579166600a2568f980793bde60acd7d3939c6ca1cc9bbcfac6fca"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-captures.tar.gz",
+        "sha256": "204e2d57375725be3328010af64266c216f3c304394bf477375db00778019347",
+        "bytes": 2567,
+        "file_count": 15,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-captures-inventory.json.gz",
+          "raw_bytes": 2142,
+          "raw_sha256": "5d2cf0ddaa3637fb4dec85c5327a89ac06dc4ef3db881d14609fa977f85a985a",
+          "gzip_sha256": "536de9a08062a9c8726adb16bc45edd1fe1d5910124ea5d587fcd5bbe44bf594"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-01-initial.png",
+          "bytes": 449,
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-02-smaller-1.png",
+          "bytes": 441,
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-03-smaller-2.png",
+          "bytes": 451,
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-04-smaller-3.png",
+          "bytes": 419,
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-05-reset-offsets-clamped.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-06-larger-1.png",
+          "bytes": 459,
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-07-larger-2.png",
+          "bytes": 482,
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-08-reset-larger.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-09-wider-taller.png",
+          "bytes": 590,
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-10-original-size.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-11-frozen-image-before-zoom.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi-12-zoom-ends-freeze.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-gdi.log.gz",
+        "raw_bytes": 51,
+        "raw_sha256": "2b87ca97b4b0ed2c7b7bdeb00d35c1cad0f2ba36102cd00f815b8c240210671d",
+        "gzip_sha256": "8c494664c88fba898ef6648653250d22c066b3c24d3e4c237f1926883785353a"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "iterm-images",
+      "renderer": "gdi",
+      "stages": 32,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-gdi-observed.json.gz",
+        "raw_bytes": 103192,
+        "raw_sha256": "db2f91cd166fa29c7834c9348fb7e9e8410ddd512f14150e9d48510d4f938862",
+        "gzip_sha256": "a8cc2fab6d7cdebaa8b194f13f30d38cf79384281b123b4f926a8c45835cdf04"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-gdi-captures.tar.gz",
+        "sha256": "0066ba734d572edb3fafc64064264b335a82f19678fff670ace8b9111ecb25b5",
+        "bytes": 26861,
+        "file_count": 67,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-captures-inventory.json.gz",
+          "raw_bytes": 9931,
+          "raw_sha256": "428c6c46654c22e28f6bdd6211f59daa1f895a2e693ebf7e74b1dc342d488502",
+          "gzip_sha256": "70b09cdec99a36e102b258577b014435c622162e58cb4d686d2bca5b689850a6"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-01-inline-intrinsic-png.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-02-inline-BEL.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-03-inline-bmp.png",
+          "bytes": 312,
+          "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-04-inline-jpeg.png",
+          "bytes": 907,
+          "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-05-inline-static-gif.png",
+          "bytes": 313,
+          "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-06-multipart-1.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-07-multipart-3.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-08-multipart-200.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-09-pixel-dimensions.png",
+          "bytes": 326,
+          "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-10-aspect-preserved.png",
+          "bytes": 321,
+          "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-11-cell-dimensions.png",
+          "bytes": 352,
+          "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-12-percentage-dimensions.png",
+          "bytes": 429,
+          "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-13-partial-alpha-black.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-14-partial-alpha-repaint.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-15-partial-alpha-background-change.png",
+          "bytes": 910,
+          "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-16-partial-alpha-over-image.png",
+          "bytes": 322,
+          "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-17-png-multiple-scanlines.png",
+          "bytes": 972,
+          "sha256": "e67fa65888e8ea123e77e440dfdbecfb40c09f7f5d71c65370f905652606eaac"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-18-reset-clears.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-19-erase-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-20-erase-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-21-alternate-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-22-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-23-alternate-own-image.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-24-alternate-restores.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-25-scroll-before.png",
+          "bytes": 351,
+          "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-26-scroll-up.png",
+          "bytes": 351,
+          "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-27-scroll-down.png",
+          "bytes": 351,
+          "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-28-malformed-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-29-cancel-recovers.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-30-codec-reject-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-31-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-gdi-32-decoded-budget-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-gdi.log.gz",
+        "raw_bytes": 5636,
+        "raw_sha256": "21b3f190d7ff153e3c95ff03f3698c8b0556e217846328af1258b292280080e3",
+        "gzip_sha256": "25e8858f806d9cdbbfed7172896ad75f8a4c428b59dc5bbfd728a4dd3d2ed400"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "gif-animation",
+      "renderer": "gdi",
+      "stages": 36,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-gdi-observed.json.gz",
+        "raw_bytes": 3346567,
+        "raw_sha256": "f492bd7ee288bdf0bd039c3138c2a18ce17e393301929feddd39d8d8d78fe97a",
+        "gzip_sha256": "c6861de56194f80be1e05fc3d5b99cd948ee9fae8f9164292f451e5fc6a3756d"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-gdi-captures.tar.gz",
+        "sha256": "ed73d25b03c3eb967115489495f0c60002d11cf755091d14d077c4e70d3af842",
+        "bytes": 44559,
+        "file_count": 75,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-captures-inventory.json.gz",
+          "raw_bytes": 11219,
+          "raw_sha256": "9fc2282633f9e259df34655802a953ae329644a6eb633b0ae867cbaf70226a02",
+          "gzip_sha256": "bac07724cb8a63f17b65fc0765fe84db2db559b013160108596783e3d0c24962"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-01-infinite-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-02-infinite-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-03-infinite-red-again.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-04-infinite-blue-again.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-05-one-pass-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-06-finite-first-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-07-finite-first-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-08-finite-second-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-09-finite-final-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-10-zero-intermediate.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-11-all-zero-stops-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-12-disposal-0.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-13-disposal-1.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-14-disposal-2.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-15-disposal-3.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-16-previous-after-clear.png",
+          "bytes": 313,
+          "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-17-transparent-over-previous.png",
+          "bytes": 314,
+          "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-18-transparent-clear-exposes-grid.png",
+          "bytes": 905,
+          "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-19-logical-canvas-background.png",
+          "bytes": 321,
+          "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-20-interlaced-rows.png",
+          "bytes": 333,
+          "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-21-local-palette.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-22-erase-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-23-erase-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-24-reset-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-25-reset-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-26-alternate-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-27-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-28-alternate-restores.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-29-alternate-restored-ticks.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-30-scaled-animation.png",
+          "bytes": 311,
+          "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-31-mask-across-frames.png",
+          "bytes": 310,
+          "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-32-mask-across-frames-red.png",
+          "bytes": 311,
+          "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-33-frame-count-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-34-composed-cache-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-35-logical-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-gdi-36-recover-after-limits.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-gdi.log.gz",
+        "raw_bytes": 6372,
+        "raw_sha256": "d52270da1e5f72964ab56ab8ae941c2ccf39ba776a4af62ce641970a0794f135",
+        "gzip_sha256": "37765cdca45815554102035bb3bec949dbf1c6776f4ab269ef5ce514e0de6bb7"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-image",
+      "renderer": "opengl",
+      "stages": 24,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-opengl-observed.json.gz",
+        "raw_bytes": 56511,
+        "raw_sha256": "21c847766ad6d9a3c1bc1a80fd14730610023bcbd6c71b37e9fbd067c141893f",
+        "gzip_sha256": "5beb9c73790e4d71f7d4241998e61684c4c1fd169bc929803f854516ec620bf1"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-opengl-captures.tar.gz",
+        "sha256": "1a56bb3852e32d987c231674f1019ef1d5aaf0a431f0a2ef8b9f3ad23d202129",
+        "bytes": 32165,
+        "file_count": 51,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-captures-inventory.json.gz",
+          "raw_bytes": 7731,
+          "raw_sha256": "2d038ecbeee596dbb6476303f74c012b54efbf027818e35c4050c07aa4553680",
+          "gzip_sha256": "dd7a12c80036d8f71e2927ea2237c2015abdf4d963d0c62ee0f477acba6821d4"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-01-rgba-intrinsic.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-02-rgb-intrinsic.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-03-png-native-codec.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-04-scaled-cells.png",
+          "bytes": 391,
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-05-crop-scale-transparent.png",
+          "bytes": 352,
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-06-negative-above-coloured-background.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-07-below-background.png",
+          "bytes": 359,
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-08-layer-boundary.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-09-negative-under-text-and-clusters.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-10-positive-over-text.png",
+          "bytes": 352,
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-11-delete-reveals-text.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-12-same-z-creation-order.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-13-alpha-positive-over-negative.png",
+          "bytes": 332,
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-14-alpha-repeated-presentation.png",
+          "bytes": 378,
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-15-sync-before.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-16-sync-frozen-image.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-17-sync-committed-image.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-18-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-19-alternate-owned-image.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-20-alternate-restores.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-21-scroll-one-row.png",
+          "bytes": 326,
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-22-screen-erase-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-23-margin-source-clipping.png",
+          "bytes": 351,
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-opengl-24-hard-reset-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-opengl.log.gz",
+        "raw_bytes": 4362,
+        "raw_sha256": "d951c2aae3d7b8e0d94a2f70506bf1e1627be46df160f3c7ae078f6cabe3f3b5",
+        "gzip_sha256": "42dfa6cd84ca90810f48357ea5dc5e4076fa2f8a5bf8562cd87cce6c732c5020"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-geometry",
+      "renderer": "opengl",
+      "stages": 12,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-observed.json.gz",
+        "raw_bytes": 6884,
+        "raw_sha256": "5a1364de3ec95dc0c060cb1ecb710afafab98864e228bc46e34218069724af78",
+        "gzip_sha256": "38ebc91d7b458e4ba3fe2c3a9a00a620cc1d6f65161f96fe917db267fcdefa05"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-captures.tar.gz",
+        "sha256": "0dc0f10db924a4a798b60ff1f936ba87fb8e591774e855fd516b21dbd34134d7",
+        "bytes": 2516,
+        "file_count": 15,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-captures-inventory.json.gz",
+          "raw_bytes": 2142,
+          "raw_sha256": "fcd567014bb779da194ed256d960d0ba7d90f26b518ddc2aee098a1116b76dc2",
+          "gzip_sha256": "4514a508da2bb430cf03f1a022546e28d17d313a964b1a34e99a48b675ea06cf"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-01-initial.png",
+          "bytes": 449,
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-02-smaller-1.png",
+          "bytes": 441,
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-03-smaller-2.png",
+          "bytes": 451,
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-04-smaller-3.png",
+          "bytes": 419,
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-05-reset-offsets-clamped.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-06-larger-1.png",
+          "bytes": 459,
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-07-larger-2.png",
+          "bytes": 482,
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-08-reset-larger.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-09-wider-taller.png",
+          "bytes": 590,
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-10-original-size.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-11-frozen-image-before-zoom.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl-12-zoom-ends-freeze.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-opengl.log.gz",
+        "raw_bytes": 54,
+        "raw_sha256": "0ad0f254c0176a01be4b6f634c80900ad55a45436d40a2cae7abf7d264bbe061",
+        "gzip_sha256": "488d6fb933388768bfd797ffd19b76650156856155ba6ce133ed44e38822a9f0"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "iterm-images",
+      "renderer": "opengl",
+      "stages": 32,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-opengl-observed.json.gz",
+        "raw_bytes": 103208,
+        "raw_sha256": "e7f7284bb6fe4c8b54aca333814758a5fc298566a26e4605fc2cbac54da994a4",
+        "gzip_sha256": "fb05fbf95f74cbf5506be919796b610f85eeb3871a598eca9fd51b07306bc230"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-opengl-captures.tar.gz",
+        "sha256": "2a5701a89fe8cf6fcf4880e99f2ed216659ce6da19ae2dcbbe2ed1d280c09c8c",
+        "bytes": 43458,
+        "file_count": 67,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-captures-inventory.json.gz",
+          "raw_bytes": 9931,
+          "raw_sha256": "868e4451df94dfc8d5849a775324d473fc285e238e48ba7b54c188f88773575a",
+          "gzip_sha256": "283504199ebe13390b9ceb09f344c2748ab0ac072ae421923df47d126b88dfcd"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-01-inline-intrinsic-png.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-02-inline-BEL.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-03-inline-bmp.png",
+          "bytes": 312,
+          "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-04-inline-jpeg.png",
+          "bytes": 907,
+          "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-05-inline-static-gif.png",
+          "bytes": 313,
+          "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-06-multipart-1.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-07-multipart-3.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-08-multipart-200.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-09-pixel-dimensions.png",
+          "bytes": 326,
+          "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-10-aspect-preserved.png",
+          "bytes": 321,
+          "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-11-cell-dimensions.png",
+          "bytes": 352,
+          "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-12-percentage-dimensions.png",
+          "bytes": 429,
+          "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-13-partial-alpha-black.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-14-partial-alpha-repaint.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-15-partial-alpha-background-change.png",
+          "bytes": 910,
+          "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-16-partial-alpha-over-image.png",
+          "bytes": 322,
+          "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-17-png-multiple-scanlines.png",
+          "bytes": 972,
+          "sha256": "e67fa65888e8ea123e77e440dfdbecfb40c09f7f5d71c65370f905652606eaac"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-18-reset-clears.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-19-erase-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-20-erase-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-21-alternate-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-22-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-23-alternate-own-image.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-24-alternate-restores.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-25-scroll-before.png",
+          "bytes": 351,
+          "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-26-scroll-up.png",
+          "bytes": 351,
+          "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-27-scroll-down.png",
+          "bytes": 351,
+          "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-28-malformed-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-29-cancel-recovers.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-30-codec-reject-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-31-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-opengl-32-decoded-budget-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-opengl.log.gz",
+        "raw_bytes": 5639,
+        "raw_sha256": "d75f93d723821727437dd0d4a73e6fba87eaa4dcd4b4a02615a54922e414ea4b",
+        "gzip_sha256": "529600b0c0fa1143f40220e73f04b473d7ea90d11ea32de1f75319096b24855d"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "gif-animation",
+      "renderer": "opengl",
+      "stages": 36,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-opengl-observed.json.gz",
+        "raw_bytes": 3346577,
+        "raw_sha256": "d531ed3a132a1a7d5ccf39d0216a211449e62e7fe0fd30fe27bc9de01229cbb9",
+        "gzip_sha256": "3d36bc5424b0b406c7f72fb869893b6feeba2b70bda59d8a298c63bde80af534"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-opengl-captures.tar.gz",
+        "sha256": "5b176b39c8e8bb885b9eabda2c795881c8a18d471f1f9c00ecf414bcd56736b6",
+        "bytes": 63686,
+        "file_count": 75,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-captures-inventory.json.gz",
+          "raw_bytes": 11219,
+          "raw_sha256": "1a5c575e44d3766d1aad3ef07217382c9bad5bce3eb5daf4824295d6f297072c",
+          "gzip_sha256": "180beea7be4ce3d4cc16ce7da98dae1da0d9d0a712fd61ca35ddf0a79dedcb42"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-01-infinite-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-02-infinite-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-03-infinite-red-again.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-04-infinite-blue-again.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-05-one-pass-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-06-finite-first-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-07-finite-first-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-08-finite-second-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-09-finite-final-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-10-zero-intermediate.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-11-all-zero-stops-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-12-disposal-0.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-13-disposal-1.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-14-disposal-2.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-15-disposal-3.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-16-previous-after-clear.png",
+          "bytes": 313,
+          "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-17-transparent-over-previous.png",
+          "bytes": 314,
+          "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-18-transparent-clear-exposes-grid.png",
+          "bytes": 905,
+          "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-19-logical-canvas-background.png",
+          "bytes": 321,
+          "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-20-interlaced-rows.png",
+          "bytes": 333,
+          "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-21-local-palette.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-22-erase-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-23-erase-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-24-reset-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-25-reset-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-26-alternate-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-27-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-28-alternate-restores.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-29-alternate-restored-ticks.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-30-scaled-animation.png",
+          "bytes": 311,
+          "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-31-mask-across-frames.png",
+          "bytes": 310,
+          "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-32-mask-across-frames-red.png",
+          "bytes": 311,
+          "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-33-frame-count-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-34-composed-cache-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-35-logical-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-opengl-36-recover-after-limits.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-opengl.log.gz",
+        "raw_bytes": 6375,
+        "raw_sha256": "312724b8aa5f4b741da41f51db1ea5d4583d273fee8da92fea63c5da31b150d5",
+        "gzip_sha256": "ed40585a7fbac074e9ca616d9a9552a6a3e3abca98961a8487261feeb14a549e"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-image",
+      "renderer": "directx",
+      "stages": 24,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-directx-observed.json.gz",
+        "raw_bytes": 56507,
+        "raw_sha256": "ddb6b0ab747ba080abb93bc9ee1f080c0e805e58c7f9f31352deb76cfa2e5403",
+        "gzip_sha256": "642894f0584aa19a73d96e004ac3ec0a761528ff43d1018ea4921383ec4a5ce6"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-directx-captures.tar.gz",
+        "sha256": "8d6504613d06162be20a9b480346bf7ddf1697b05973ceffd408a8b9ae9a9b14",
+        "bytes": 32160,
+        "file_count": 51,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-captures-inventory.json.gz",
+          "raw_bytes": 7731,
+          "raw_sha256": "cf8d074795e5c94c7450b2512b31562e678843669ed33e69137cfca39341b60f",
+          "gzip_sha256": "d6d87e69c205f7ff480eb9651cb7dc17d5667303b5ffed3d6d192d448359db4a"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-01-rgba-intrinsic.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-02-rgb-intrinsic.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-03-png-native-codec.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-04-scaled-cells.png",
+          "bytes": 391,
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-05-crop-scale-transparent.png",
+          "bytes": 352,
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-06-negative-above-coloured-background.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-07-below-background.png",
+          "bytes": 359,
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-08-layer-boundary.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-09-negative-under-text-and-clusters.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-10-positive-over-text.png",
+          "bytes": 352,
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-11-delete-reveals-text.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-12-same-z-creation-order.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-13-alpha-positive-over-negative.png",
+          "bytes": 332,
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-14-alpha-repeated-presentation.png",
+          "bytes": 378,
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-15-sync-before.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-16-sync-frozen-image.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-17-sync-committed-image.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-18-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-19-alternate-owned-image.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-20-alternate-restores.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-21-scroll-one-row.png",
+          "bytes": 326,
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-22-screen-erase-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-23-margin-source-clipping.png",
+          "bytes": 351,
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-directx-24-hard-reset-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-directx.log.gz",
+        "raw_bytes": 4363,
+        "raw_sha256": "9e3c453d0daffbbf0e96adc99be2c490047c0063a61f0ecd41c2714401b01db5",
+        "gzip_sha256": "a0bc235e001b72f38a17882769d7e7824cdd92209ea0e33891c077c0372487d9"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-geometry",
+      "renderer": "directx",
+      "stages": 12,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-observed.json.gz",
+        "raw_bytes": 6887,
+        "raw_sha256": "17b3ea860a15a45bed10a9e50cc1f29936e9513bde6e76a59111c909744d61b3",
+        "gzip_sha256": "1acde326227218e549110acfb7728e3539d459e2e38e79e9f2602a4032413964"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-captures.tar.gz",
+        "sha256": "f45f4236815457c03790c951ec1d00141982424eb09c4cab3157226163902cd7",
+        "bytes": 2517,
+        "file_count": 15,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-captures-inventory.json.gz",
+          "raw_bytes": 2142,
+          "raw_sha256": "e7b8600f2d344a4ddfb34917f9ae709332a79353aba6b0f2cc99f8569ca8127b",
+          "gzip_sha256": "5412bba1669930364d6f80dc4f32c464df8f89f7e0bc6e1225b8cce29eecee0c"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-01-initial.png",
+          "bytes": 449,
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-02-smaller-1.png",
+          "bytes": 441,
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-03-smaller-2.png",
+          "bytes": 451,
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-04-smaller-3.png",
+          "bytes": 419,
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-05-reset-offsets-clamped.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-06-larger-1.png",
+          "bytes": 459,
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-07-larger-2.png",
+          "bytes": 482,
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-08-reset-larger.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-09-wider-taller.png",
+          "bytes": 590,
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-10-original-size.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-11-frozen-image-before-zoom.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-directx-12-zoom-ends-freeze.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-directx.log.gz",
+        "raw_bytes": 55,
+        "raw_sha256": "a2f5ade02f3a203bcb5719e4dad4c9f19e0d268824eeadb7867d221975dc7b11",
+        "gzip_sha256": "2e2af7cb64f41d5a67219d284401ae511eb1ff8d163cf9305dc04bc57e6628a1"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "iterm-images",
+      "renderer": "directx",
+      "stages": 32,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-directx-observed.json.gz",
+        "raw_bytes": 103210,
+        "raw_sha256": "16340e85e5da36b643328962b8e2c381def1cec02a88a6609cb0885194d1eb55",
+        "gzip_sha256": "6556f9e379ef5fdec8516a690ef4a3c75703486e825921f2ad9a09b59ac22593"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-directx-captures.tar.gz",
+        "sha256": "ebc6cefe861eeb8b2a5213952b71a00c512e44a7a3b5e122510023d775e534af",
+        "bytes": 43447,
+        "file_count": 67,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-captures-inventory.json.gz",
+          "raw_bytes": 9931,
+          "raw_sha256": "b78fcc95b40080b507620b233709bd6cfc93558faefe812233197f794e427e16",
+          "gzip_sha256": "917928b5e586a7612cf882633472b7be20a969fd39b9637a4c99d606ac814bba"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-01-inline-intrinsic-png.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-02-inline-BEL.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-03-inline-bmp.png",
+          "bytes": 312,
+          "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-04-inline-jpeg.png",
+          "bytes": 907,
+          "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-05-inline-static-gif.png",
+          "bytes": 313,
+          "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-06-multipart-1.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-07-multipart-3.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-08-multipart-200.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-09-pixel-dimensions.png",
+          "bytes": 326,
+          "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-10-aspect-preserved.png",
+          "bytes": 321,
+          "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-11-cell-dimensions.png",
+          "bytes": 352,
+          "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-12-percentage-dimensions.png",
+          "bytes": 429,
+          "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-13-partial-alpha-black.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-14-partial-alpha-repaint.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-15-partial-alpha-background-change.png",
+          "bytes": 910,
+          "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-16-partial-alpha-over-image.png",
+          "bytes": 322,
+          "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-17-png-multiple-scanlines.png",
+          "bytes": 972,
+          "sha256": "e67fa65888e8ea123e77e440dfdbecfb40c09f7f5d71c65370f905652606eaac"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-18-reset-clears.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-19-erase-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-20-erase-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-21-alternate-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-22-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-23-alternate-own-image.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-24-alternate-restores.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-25-scroll-before.png",
+          "bytes": 351,
+          "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-26-scroll-up.png",
+          "bytes": 351,
+          "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-27-scroll-down.png",
+          "bytes": 351,
+          "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-28-malformed-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-29-cancel-recovers.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-30-codec-reject-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-31-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-directx-32-decoded-budget-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-directx.log.gz",
+        "raw_bytes": 5640,
+        "raw_sha256": "e6b5539d9dbe1ef4bf925a1f94bc87b18248730be2dff83bd0da67cd719563f1",
+        "gzip_sha256": "df4dbc732c3adef594331af7f1bc8c33a14468dc8e95d72a8b6f8101b1f33c69"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "gif-animation",
+      "renderer": "directx",
+      "stages": 36,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-directx-observed.json.gz",
+        "raw_bytes": 3346577,
+        "raw_sha256": "716baf6535b3d349a508946e8e1e2ae4f1ff1d228a1b5a44ebf433bd942f866c",
+        "gzip_sha256": "8563e1ccd67f6a3d40e026438434abd5edd6f7d013a84fa2d2ced94ba4075ed4"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-directx-captures.tar.gz",
+        "sha256": "134b4a328c5268114e4df6c41a24b75607158f31ea7193f7f939d3d5e6a4dcae",
+        "bytes": 63703,
+        "file_count": 75,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-captures-inventory.json.gz",
+          "raw_bytes": 11219,
+          "raw_sha256": "ab41217f36e6cf4ddd8828fe31b9456d9ae33bbc898049b51db3bcecc7f802a7",
+          "gzip_sha256": "e65ca43214c2767ec95f41aef653c40d7a982b2c39860a17ff726724f0db62f5"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-01-infinite-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-02-infinite-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-03-infinite-red-again.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-04-infinite-blue-again.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-05-one-pass-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-06-finite-first-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-07-finite-first-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-08-finite-second-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-09-finite-final-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-10-zero-intermediate.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-11-all-zero-stops-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-12-disposal-0.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-13-disposal-1.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-14-disposal-2.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-15-disposal-3.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-16-previous-after-clear.png",
+          "bytes": 313,
+          "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-17-transparent-over-previous.png",
+          "bytes": 314,
+          "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-18-transparent-clear-exposes-grid.png",
+          "bytes": 905,
+          "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-19-logical-canvas-background.png",
+          "bytes": 321,
+          "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-20-interlaced-rows.png",
+          "bytes": 333,
+          "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-21-local-palette.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-22-erase-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-23-erase-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-24-reset-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-25-reset-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-26-alternate-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-27-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-28-alternate-restores.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-29-alternate-restored-ticks.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-30-scaled-animation.png",
+          "bytes": 311,
+          "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-31-mask-across-frames.png",
+          "bytes": 310,
+          "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-32-mask-across-frames-red.png",
+          "bytes": 311,
+          "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-33-frame-count-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-34-composed-cache-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-35-logical-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-directx-36-recover-after-limits.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-directx.log.gz",
+        "raw_bytes": 6376,
+        "raw_sha256": "a6630adaf7877a5d86da15eed19fee484808040159a51e67c7cfb3ed7cf4537e",
+        "gzip_sha256": "a44bc5f7a0e4c35606dad08eac40a10b9467d26d23a5d2823965a1d168e4e8d3"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "workloads": [
+    {
+      "suite": "kitty",
+      "renderer": "gdi",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-observed.json.gz",
+        "raw_bytes": 182363,
+        "raw_sha256": "29704dbf24237d85ba3d77f8ffa8f5e6adddcdd9ef0ce90461b98d004cbbdf10",
+        "gzip_sha256": "21beff97a845343deede4076cb82db6f4caf0ecce16cac38a0d8d1660fd5aa1d"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-memory.json.gz",
+        "raw_bytes": 1737148,
+        "raw_sha256": "0491531c5d48aff68d311c7a79df0f112acbea0e6679f2e3a5d113bc2a9b627b",
+        "gzip_sha256": "e986a28514cb5c0f6c8e219a422c369ef9036499a1e2b6df8e110cc61424d6dd"
+      },
+      "sample_count": 617,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 16384000,
+        "total_ws": 38801408,
+        "private_commit": 19496960
+      },
+      "check_groups": 10,
+      "memory_limit_bytes": 20000000,
+      "memory_limit_inclusive": false,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-host.png",
+          "bytes": 4287,
+          "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-preview.png",
+          "bytes": 881,
+          "sha256": "7a158b6078ee0b9e7c10523a563d463873878c26444563700994765abb583024"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-tab-0-active.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-tab-0-inactive.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-tab-1-active.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-gdi-kitty-workload-tabs-gdi-top-tab-1-inactive.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-gdi.log.gz",
+        "raw_bytes": 1778,
+        "raw_sha256": "0c3f15d738b9ace568c93b374ba995815c7c8684fa6ed956cc94dc787d75d65b",
+        "gzip_sha256": "bf29ec64692a134bbf8efd358e3803045b027de1f5d3c69f1c1690d476181f8a"
+      }
+    },
+    {
+      "suite": "kitty",
+      "renderer": "directx",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-directx-observed.json.gz",
+        "raw_bytes": 182269,
+        "raw_sha256": "16a718fec1f984dac34c96b7442316ebd6697c1bdf7a0c08603f4ea78140d5a4",
+        "gzip_sha256": "6ee0f42f099ade97ac9d9085543b612f0ebb7d95367ee4608b323bd787f66656"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-directx-memory.json.gz",
+        "raw_bytes": 1853845,
+        "raw_sha256": "f0747685f139c5067c98361bcdd67c01db8e0595a39dda06941eccaf7fcc91f9",
+        "gzip_sha256": "8120c660c50e9588e14cea011842a2e678ac9db3f882974f010ab54c81a77b4d"
+      },
+      "sample_count": 660,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 23416832,
+        "total_ws": 59056128,
+        "private_commit": 86372352
+      },
+      "check_groups": 10,
+      "memory_limit_bytes": 25000000,
+      "memory_limit_inclusive": true,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-directx-kitty-workload-tabs-directx-left-preview.png",
+          "bytes": 881,
+          "sha256": "7a158b6078ee0b9e7c10523a563d463873878c26444563700994765abb583024"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-directx-kitty-workload-tabs-directx-left-tab-0-active.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-directx-kitty-workload-tabs-directx-left-tab-0-inactive.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-directx-kitty-workload-tabs-directx-left-tab-1-active.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-workload-directx-kitty-workload-tabs-directx-left-tab-1-inactive.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-workload-directx.log.gz",
+        "raw_bytes": 1767,
+        "raw_sha256": "179fbf36a18e939ff83c84982e3955ff3490e3e0a439a9a1b33cd9a9340063b7",
+        "gzip_sha256": "1c066e2ce50caf698bcedbeeca5540b2ec51b157c48138fe92c66787d39b908b"
+      }
+    },
+    {
+      "suite": "inline",
+      "renderer": "gdi",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-gdi-observed.json.gz",
+        "raw_bytes": 176207,
+        "raw_sha256": "ebb355f495fecebf0011e4335d503b01fddae8f72420106dace3ccb3789bb294",
+        "gzip_sha256": "569aeed296b9ab60af52a3a734088be90850d3cba6b998613ae5f6c7d77695e7"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-gdi-memory.json.gz",
+        "raw_bytes": 1434944,
+        "raw_sha256": "751a87ea815b9e98e348e94001d36aacf02ee5956e65fd13bd0071bfd7a65864",
+        "gzip_sha256": "82b47f33d42cd908e72e283aa038171f5786e6ccfea222445df26e44c5ef1e29"
+      },
+      "sample_count": 514,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 16744448,
+        "total_ws": 39448576,
+        "private_commit": 19054592
+      },
+      "check_groups": 9,
+      "memory_limit_bytes": 20000000,
+      "memory_limit_inclusive": false,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-inline-workload-gdi-inline-workload-tabs-gdi-top-host.png",
+          "bytes": 4287,
+          "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-inline-workload-gdi-inline-workload-tabs-gdi-top-preview.png",
+          "bytes": 1051,
+          "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-gdi.log.gz",
+        "raw_bytes": 31,
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50",
+        "gzip_sha256": "00beec0c93134c8aebddde968d76eebc76768eb422005d9f940833f6c98fc7d4"
+      }
+    },
+    {
+      "suite": "inline",
+      "renderer": "directx",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-directx-observed.json.gz",
+        "raw_bytes": 174119,
+        "raw_sha256": "dbcf17bf3685f2638410230014c4a5d3153149c011ed2e73e6a24a53fef67dcd",
+        "gzip_sha256": "a88b82f9f92b23a93a1e3b3b6e00ace38c85aa98e884cfddc44aba2b166bfda2"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-directx-memory.json.gz",
+        "raw_bytes": 1576922,
+        "raw_sha256": "0e5046a9d26281a53e4c0defe192c1752d231ebb515f868a6a243965dd2dea67",
+        "gzip_sha256": "6e828061441cb5150c6914396dcbd1077bcf596814ae309725b91a8583b76d9f"
+      },
+      "sample_count": 567,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 23818240,
+        "total_ws": 59379712,
+        "private_commit": 88260608
+      },
+      "check_groups": 9,
+      "memory_limit_bytes": 25000000,
+      "memory_limit_inclusive": true,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-inline-workload-directx-inline-workload-tabs-directx-left-preview.png",
+          "bytes": 1051,
+          "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-inline-workload-directx.log.gz",
+        "raw_bytes": 1929,
+        "raw_sha256": "eae03d5d689c3685b109151057662bda37351592c0329f78089343f96e5e951a",
+        "gzip_sha256": "8e2cc4eb62fbecc1c9a1ba8ee596f35cfbb768204493b1b27161dd456a6546df"
+      }
+    },
+    {
+      "suite": "animated",
+      "renderer": "gdi",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-gdi-observed.json.gz",
+        "raw_bytes": 181719,
+        "raw_sha256": "57c44f0ff5d94ec1669deed3811d40fd96610b65579c6af2094fa9861320a245",
+        "gzip_sha256": "a0ec4a899065e29f7834992088e750a7fedded1b62bd3e1712c29d56f1cdc440"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-gdi-memory.json.gz",
+        "raw_bytes": 1418455,
+        "raw_sha256": "d7668fda585893d436eef04d494de19205518d1be5e194ff9adbb52a76aa6d53",
+        "gzip_sha256": "927301fcdfd0568225813c672a4346724241f6e71f76dc7de003b7e25b232d6c"
+      },
+      "sample_count": 509,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 17145856,
+        "total_ws": 39907328,
+        "private_commit": 19898368
+      },
+      "check_groups": 9,
+      "memory_limit_bytes": 20000000,
+      "memory_limit_inclusive": false,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-host.png",
+          "bytes": 4287,
+          "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-preview.png",
+          "bytes": 1051,
+          "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-0-blue.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-0-green.png",
+          "bytes": 73,
+          "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-0-red.png",
+          "bytes": 75,
+          "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-1-blue.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-1-green.png",
+          "bytes": 73,
+          "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-gdi-animated-workload-tabs-gdi-top-tab-1-red.png",
+          "bytes": 75,
+          "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-gdi.log.gz",
+        "raw_bytes": 931,
+        "raw_sha256": "adac0b87031260ced3869e0a420889617ce30b703e52e6f3bf480d1a1c085754",
+        "gzip_sha256": "ae9100a7dbcddcee6f01f8377bd8926445455d4e4fd5338733ae117111221d20"
+      }
+    },
+    {
+      "suite": "animated",
+      "renderer": "directx",
+      "grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "record": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-directx-observed.json.gz",
+        "raw_bytes": 180439,
+        "raw_sha256": "3f5066b604b1c7d48cfbb8dfcf1861a5d0157f81d5724b4d1ea5b98eb56f34fd",
+        "gzip_sha256": "2eab2b75f85be13927b6ec7c4435d44835b9ec0aecd517ea07fc9265f763bbbf"
+      },
+      "samples": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-directx-memory.json.gz",
+        "raw_bytes": 1444856,
+        "raw_sha256": "0e08c33be7151d632394e0cec88bd0c8a1adf18f13baa7608410e70baba7f5fb",
+        "gzip_sha256": "eb15c4413ffecd025979fa0ad7cd24dc01b8e9df74774c9379e849c5a55053f7"
+      },
+      "sample_count": 520,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 24207360,
+        "total_ws": 59817984,
+        "private_commit": 92307456
+      },
+      "check_groups": 9,
+      "memory_limit_bytes": 25000000,
+      "memory_limit_inclusive": true,
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-preview.png",
+          "bytes": 1051,
+          "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-0-blue.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-0-green.png",
+          "bytes": 73,
+          "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-0-red.png",
+          "bytes": 75,
+          "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-1-blue.png",
+          "bytes": 73,
+          "sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-1-green.png",
+          "bytes": 73,
+          "sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-animated-workload-directx-animated-workload-tabs-directx-left-tab-1-red.png",
+          "bytes": 75,
+          "sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+        }
+      ],
+      "cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "log": {
+        "path": "research/kitty-windows-evidence/product-animated-workload-directx.log.gz",
+        "raw_bytes": 1088,
+        "raw_sha256": "71796795b0b0c4cdb95323321d75e41fa78a41e1fce0089e7cbee4655423e868",
+        "gzip_sha256": "6e44584e16d00dc3b34c3a59540ef9575e63b119c069254bd8cf186cf3874ab6"
+      }
+    }
+  ],
+  "presented_gdi_runs": [
+    {
+      "suite": "kitty-image-presented",
+      "renderer": "gdi",
+      "stages": 24,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-observed.json.gz",
+        "raw_bytes": 56872,
+        "raw_sha256": "961c2ed77840541c445a9068a47b17aacce702bcfc1bcddbd462ddd447c0a762",
+        "gzip_sha256": "3a3e6ff231163bf6828bdf51817657bb9a1357359abbce6d3785d6dfb084a7a1"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-captures.tar.gz",
+        "sha256": "7b4495f340f493bab699688cfe618c26aad1817ba99ea66d337c13fdd9e95ca2",
+        "bytes": 20017,
+        "file_count": 51,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-captures-inventory.json.gz",
+          "raw_bytes": 7731,
+          "raw_sha256": "9735ae9e7398365e25f11a1fe8b206f2733674962f44fe5cd85f871cc8dbd0c8",
+          "gzip_sha256": "a23b96adb7ac2d7f5625546418e5e14df8e3209cd667f7e503a0e967fd9d4625"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-01-rgba-intrinsic.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-02-rgb-intrinsic.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-03-png-native-codec.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-04-scaled-cells.png",
+          "bytes": 391,
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-05-crop-scale-transparent.png",
+          "bytes": 352,
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-06-negative-above-coloured-background.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-07-below-background.png",
+          "bytes": 359,
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-08-layer-boundary.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-09-negative-under-text-and-clusters.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-10-positive-over-text.png",
+          "bytes": 352,
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-11-delete-reveals-text.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-12-same-z-creation-order.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-13-alpha-positive-over-negative.png",
+          "bytes": 332,
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-14-alpha-repeated-presentation.png",
+          "bytes": 378,
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-15-sync-before.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-16-sync-frozen-image.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-17-sync-committed-image.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-18-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-19-alternate-owned-image.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-20-alternate-restores.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-21-scroll-one-row.png",
+          "bytes": 326,
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-22-screen-erase-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-23-margin-source-clipping.png",
+          "bytes": 351,
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi-24-hard-reset-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-presented-gdi.log.gz",
+        "raw_bytes": 4369,
+        "raw_sha256": "30b811fd87d1fcb5262a556e573eb572f473285cefc43018233074a63b5e0230",
+        "gzip_sha256": "43217f8f7bc7f713f50b44dd48b39aa3c95d5ce7a7fad17898bb8254223f10c1"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "presented_capture": {
+        "method": "GetDC(owned HWND) + BitBlt",
+        "pid": 4704,
+        "hwnd": 74779634,
+        "desktop_dc": false,
+        "wm_print": false,
+        "activation": false,
+        "captures": 142,
+        "temporarily_topmost": true,
+        "topmost_restored": true,
+        "closed": true
+      }
+    },
+    {
+      "suite": "kitty-geometry-presented",
+      "renderer": "gdi",
+      "stages": 12,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-observed.json.gz",
+        "raw_bytes": 7155,
+        "raw_sha256": "2ea97454075eb2a218d09350a7ed4dd321a40e087ea28d23f382f52217a7e14c",
+        "gzip_sha256": "a35dbbce46b0c185ecef78353d92a9ce58345c21b8053055393f6700e42defbc"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-captures.tar.gz",
+        "sha256": "6242febbb6f145cf1bf1d1a13457dfa79abd15f4517e6f5bda98194120168c17",
+        "bytes": 2521,
+        "file_count": 15,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-captures-inventory.json.gz",
+          "raw_bytes": 2142,
+          "raw_sha256": "56690d51e8558ea4d8979c51b54f5c0db47c8cc7f65a124644e17327504c5a7f",
+          "gzip_sha256": "bdcf432d7a3896d0ab6362d6105bee79795b29a57398a061dd04eaf2c42a5850"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-01-initial.png",
+          "bytes": 449,
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-02-smaller-1.png",
+          "bytes": 441,
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-03-smaller-2.png",
+          "bytes": 451,
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-04-smaller-3.png",
+          "bytes": 419,
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-05-reset-offsets-clamped.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-06-larger-1.png",
+          "bytes": 459,
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-07-larger-2.png",
+          "bytes": 482,
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-08-reset-larger.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-09-wider-taller.png",
+          "bytes": 590,
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-10-original-size.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-11-frozen-image-before-zoom.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi-12-zoom-ends-freeze.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-presented-gdi.log.gz",
+        "raw_bytes": 51,
+        "raw_sha256": "2b87ca97b4b0ed2c7b7bdeb00d35c1cad0f2ba36102cd00f815b8c240210671d",
+        "gzip_sha256": "8c494664c88fba898ef6648653250d22c066b3c24d3e4c237f1926883785353a"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "presented_capture": {
+        "method": "GetDC(owned HWND) + BitBlt",
+        "pid": 50880,
+        "hwnd": 216010102,
+        "desktop_dc": false,
+        "wm_print": false,
+        "activation": false,
+        "captures": 12,
+        "temporarily_topmost": true,
+        "topmost_restored": true,
+        "closed": true
+      }
+    },
+    {
+      "suite": "iterm-images-presented",
+      "renderer": "gdi",
+      "stages": 32,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-observed.json.gz",
+        "raw_bytes": 103563,
+        "raw_sha256": "682b78113e1e1c5d72a3f51888cb3f206213be85ba66e8dd1e6ba51bc75162c8",
+        "gzip_sha256": "46e4660cb5bd22b41fad50c7cf801973e0f62aa72e87fbebbf48cc6b19f932c5"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-captures.tar.gz",
+        "sha256": "460e04d9b873a6cf4103c4e0b174de4616be787da1a332a7dbde267f5c6d9ef7",
+        "bytes": 26858,
+        "file_count": 67,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-captures-inventory.json.gz",
+          "raw_bytes": 9931,
+          "raw_sha256": "51b1c6d01ebbafd5dcbf130f4c9fa4b16a57b6dfb9c0f820035415501ad9eb37",
+          "gzip_sha256": "ea628d2f9e3e808d8163a1aa287187e2107f78d3c0a681f2e60d308f6cba89bc"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-01-inline-intrinsic-png.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-02-inline-BEL.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-03-inline-bmp.png",
+          "bytes": 312,
+          "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-04-inline-jpeg.png",
+          "bytes": 907,
+          "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-05-inline-static-gif.png",
+          "bytes": 313,
+          "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-06-multipart-1.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-07-multipart-3.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-08-multipart-200.png",
+          "bytes": 317,
+          "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-09-pixel-dimensions.png",
+          "bytes": 326,
+          "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-10-aspect-preserved.png",
+          "bytes": 321,
+          "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-11-cell-dimensions.png",
+          "bytes": 352,
+          "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-12-percentage-dimensions.png",
+          "bytes": 429,
+          "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-13-partial-alpha-black.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-14-partial-alpha-repaint.png",
+          "bytes": 313,
+          "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-15-partial-alpha-background-change.png",
+          "bytes": 910,
+          "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-16-partial-alpha-over-image.png",
+          "bytes": 322,
+          "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-17-png-multiple-scanlines.png",
+          "bytes": 972,
+          "sha256": "e67fa65888e8ea123e77e440dfdbecfb40c09f7f5d71c65370f905652606eaac"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-18-reset-clears.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-19-erase-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-20-erase-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-21-alternate-before.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-22-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-23-alternate-own-image.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-24-alternate-restores.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-25-scroll-before.png",
+          "bytes": 351,
+          "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-26-scroll-up.png",
+          "bytes": 351,
+          "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-27-scroll-down.png",
+          "bytes": 351,
+          "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-28-malformed-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-29-cancel-recovers.png",
+          "bytes": 317,
+          "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-30-codec-reject-recovers.png",
+          "bytes": 317,
+          "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-31-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi-32-decoded-budget-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-iterm-images-presented-gdi.log.gz",
+        "raw_bytes": 5646,
+        "raw_sha256": "120193d903fc9ee89fa3d1c5d85582bad54967672718b36d9e691743331d5173",
+        "gzip_sha256": "5599b5d146fdda60e1b200b93fe325f3277de00a645994d3f55962ddfc9d8c6e"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "presented_capture": {
+        "method": "GetDC(owned HWND) + BitBlt",
+        "pid": 18320,
+        "hwnd": 2229368,
+        "desktop_dc": false,
+        "wm_print": false,
+        "activation": false,
+        "captures": 33,
+        "temporarily_topmost": true,
+        "topmost_restored": true,
+        "closed": true
+      }
+    },
+    {
+      "suite": "gif-animation-presented",
+      "renderer": "gdi",
+      "stages": 36,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-observed.json.gz",
+        "raw_bytes": 3346937,
+        "raw_sha256": "1bff96f8872313f3eafd7f34e19ee1134571b7dfba142278a4f275d8af6c2b4f",
+        "gzip_sha256": "f5711db08b47a80c98a041f429b3960c49596d5d4f98f9df017fb0d95833b326"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-captures.tar.gz",
+        "sha256": "7653728b608912a161a20d2e667daf7d243d83590147bba2fd176c8ec462e59c",
+        "bytes": 44548,
+        "file_count": 75,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-captures-inventory.json.gz",
+          "raw_bytes": 11219,
+          "raw_sha256": "d6409ef0f3c6d59b4abdab9a7ebfd0780b5549f0306e6d5525817fda6902d85b",
+          "gzip_sha256": "029ee0a98ce99ae2e4128ebf3bd3e5c1a7601d0b576370025fe11e73098cf637"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-01-infinite-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-02-infinite-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-03-infinite-red-again.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-04-infinite-blue-again.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-05-one-pass-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-06-finite-first-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-07-finite-first-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-08-finite-second-red.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-09-finite-final-blue.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-10-zero-intermediate.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-11-all-zero-stops-final.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-12-disposal-0.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-13-disposal-1.png",
+          "bytes": 312,
+          "sha256": "d1fc940aa66ea4b095f2909c5f4145e15ba33798b8531de577ad44b5dea151fc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-14-disposal-2.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-15-disposal-3.png",
+          "bytes": 311,
+          "sha256": "61c5f0255f99b80e04667984877977de25633d2f04191186c985a872b266d32f"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-16-previous-after-clear.png",
+          "bytes": 313,
+          "sha256": "8903acd044082bf4ad02a341ac869a0cf57a96fac34999c61e4067b6197d47f8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-17-transparent-over-previous.png",
+          "bytes": 314,
+          "sha256": "77340335e76a83dfc131198ddb8d50dfc133fbd227ab522e9b642fbbe264ca04"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-18-transparent-clear-exposes-grid.png",
+          "bytes": 905,
+          "sha256": "9c059a7a85de8ed33eb14e5a6b41076ceb40f2824210186abbca3b2146c36fc3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-19-logical-canvas-background.png",
+          "bytes": 321,
+          "sha256": "9f5720f1cc6098222d610beb7499e237110952a2f8e917ff0d484ce8d03973b8"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-20-interlaced-rows.png",
+          "bytes": 333,
+          "sha256": "c92d00c42ecc12e88ec91dacefe652e27dfde58b88fa2b34b2371ca703be8696"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-21-local-palette.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-22-erase-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-23-erase-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-24-reset-animated-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-25-reset-animated.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-26-alternate-before.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-27-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-28-alternate-restores.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-29-alternate-restored-ticks.png",
+          "bytes": 312,
+          "sha256": "2d11366c22620f89fc76d9e3f1be853da1f7602ef08f4af17b9b070cf0c14ea0"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-30-scaled-animation.png",
+          "bytes": 311,
+          "sha256": "35d1d4b929c7d2a8c09ba1040950af9f02f7e068a20a76f9c3fc9a9c5886e239"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-31-mask-across-frames.png",
+          "bytes": 310,
+          "sha256": "d18290b878b3f4664bd9081c75927b898df86a9f990cee65b0982727b4414c40"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-32-mask-across-frames-red.png",
+          "bytes": 311,
+          "sha256": "cf83c5aeea758cee9e4989e0ba4ca42679720f3af1215f87eaeda440c27c6b54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-33-frame-count-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-34-composed-cache-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-35-logical-dimension-limit.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi-36-recover-after-limits.png",
+          "bytes": 312,
+          "sha256": "93e17d213b16f8dfafcc0c5255db3a0052a33179dbf60b0f08d02c055d668cb3"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-gif-animation-presented-gdi.log.gz",
+        "raw_bytes": 6382,
+        "raw_sha256": "669a7ea3d3de97993b3062958671523995e750741116bf790b60103cf0289c88",
+        "gzip_sha256": "cc2f4d0cf8c1c59c0a4bb94df32f2bd6eee0e39995d13ce2605d0b27b6b5fa58"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "presented_capture": {
+        "method": "GetDC(owned HWND) + BitBlt",
+        "pid": 17612,
+        "hwnd": 42799652,
+        "desktop_dc": false,
+        "wm_print": false,
+        "activation": false,
+        "captures": 313,
+        "temporarily_topmost": true,
+        "topmost_restored": true,
+        "closed": true
+      }
+    }
+  ],
+  "api_compatibility_runs": [
+    {
+      "suite": "kitty-image",
+      "renderer": "gdi",
+      "stages": 24,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-observed.json.gz",
+        "raw_bytes": 56563,
+        "raw_sha256": "2749b1f91c8390bfcc8f37385f93025e476e371be3d3e8afb47746c2456a10bd",
+        "gzip_sha256": "fb2a45e400b15a0c4d02e9ee168079defe4959b091427b8802709832818d1bd4"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-captures.tar.gz",
+        "sha256": "5ea39e2e6815058921c2d0c720b0c91df731410bb3f17b7d70fd31186ff4ccd0",
+        "bytes": 20070,
+        "file_count": 51,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-captures-inventory.json.gz",
+          "raw_bytes": 7731,
+          "raw_sha256": "0b4ae901acaa568818491cf2300cad58bd1d6f2a38fdd5b66c2bb7ca5e55e748",
+          "gzip_sha256": "307f990bb261b6d2b9dba47df3d32e8278c9a782dc202b737f30a06d2db667f5"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-01-rgba-intrinsic.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-02-rgb-intrinsic.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-03-png-native-codec.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-04-scaled-cells.png",
+          "bytes": 391,
+          "sha256": "d0a3340818df9cc4756eecc1e53b274d0d8ecc14012378bbfa053d5364529575"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-05-crop-scale-transparent.png",
+          "bytes": 352,
+          "sha256": "0b49a4f898ef84fdf1169b783c4822d95a208d07ae3d5de96f05714667c8763a"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-06-negative-above-coloured-background.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-07-below-background.png",
+          "bytes": 359,
+          "sha256": "c1291c0175d40cca06bb749648205ecf04173ab5e16e31cc1a274b4e3ce11ed7"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-08-layer-boundary.png",
+          "bytes": 352,
+          "sha256": "c5cfdd3474934e718dac1d3b5ad9fc6635d1016d3329a431c093a392ca888eba"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-09-negative-under-text-and-clusters.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-10-positive-over-text.png",
+          "bytes": 352,
+          "sha256": "43ed351a29b3b0b6705474c0773ffc194ea95394d093991001fbdcb0a7fed45e"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-11-delete-reveals-text.png",
+          "bytes": 561,
+          "sha256": "60be322f1d4842945c6612ec58c9b4b66ba37a972accb3f43a7fc687dfb34d51"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-12-same-z-creation-order.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-13-alpha-positive-over-negative.png",
+          "bytes": 332,
+          "sha256": "752d06f44ca28737e2ff0db29ae8ef041874e135283606f981dda0a1bb43ba02"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-14-alpha-repeated-presentation.png",
+          "bytes": 378,
+          "sha256": "3822289152dd0041334ce38c0411e0fe9320c2d89199775acad5eb13a9e76a3c"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-15-sync-before.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-16-sync-frozen-image.png",
+          "bytes": 326,
+          "sha256": "13c9f1f3f68208d601a80178787cffc39aadb52aeb3625aacba49913e5992a16"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-17-sync-committed-image.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-18-alternate-hides.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-19-alternate-owned-image.png",
+          "bytes": 326,
+          "sha256": "703aac13e114ad7c0baa813663e3ff668581cb5e0e886accaa392eccb591cec4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-20-alternate-restores.png",
+          "bytes": 326,
+          "sha256": "ef894d0e2df436e1e4f239c9f3956f3e41a4fa083e4abd6dc0cd0c60100ee8ca"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-21-scroll-one-row.png",
+          "bytes": 326,
+          "sha256": "b0b6414f4511d3ae7f02069e510e35d6014d195059ece8deb08574a88421db48"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-22-screen-erase-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-23-margin-source-clipping.png",
+          "bytes": 351,
+          "sha256": "da6c3f57ab2498a068d0658f52abf71e4c1a5a1121ef4cccea6c41cb244159fa"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi-24-hard-reset-removes-image.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-image-api-compat-gdi.log.gz",
+        "raw_bytes": 4359,
+        "raw_sha256": "39b946874244091f0f80e528ddd445ad938fe8719c81c0a4522280082568fe1c",
+        "gzip_sha256": "7dbcec070c0abbbb65ceeb9bd7569a257d06b927689bff165e3ad295bd148d3c"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "suite": "kitty-geometry",
+      "renderer": "gdi",
+      "stages": 12,
+      "record": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-observed.json.gz",
+        "raw_bytes": 6893,
+        "raw_sha256": "63fa56a4ae8f165e0f3aa249e58e073952c5f10415e616cb19bede9387c1b87f",
+        "gzip_sha256": "efeaea2959d81c27763f79f428fa233d046205a497f18c417787b358cff12bb3"
+      },
+      "raw_capture_bundle": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-captures.tar.gz",
+        "sha256": "d9d47664db06d3fc498ad174215b40e6b7edacbd1819c4207b01c3d9a5f940e1",
+        "bytes": 2567,
+        "file_count": 15,
+        "inventory": {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-captures-inventory.json.gz",
+          "raw_bytes": 2142,
+          "raw_sha256": "90bd151446d30471d0360f68fd1d0ac958ac9ee3a68376d45532e8ebde3ffb3d",
+          "gzip_sha256": "40cef6b0264a8f5418dcaa5e3af8fa2b9b13aea61c466cf2d49c3c8bdaeca9b4"
+        }
+      },
+      "screenshots": [
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-01-initial.png",
+          "bytes": 449,
+          "sha256": "f01d94acf799eba0a68e05e186061e51c7219c7b60138ff81abe0becd35bc142"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-02-smaller-1.png",
+          "bytes": 441,
+          "sha256": "673ab9d3b700300a29827bf239ce5cc3bcee10c0414981458dacfb5d9c63c6bc"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-03-smaller-2.png",
+          "bytes": 451,
+          "sha256": "486dc6685af607f145e4e0f9b0a0e3f2578964539892e6544e7c83ffa8dd33c4"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-04-smaller-3.png",
+          "bytes": 419,
+          "sha256": "6366863754101122dece306ddede7a0e86c3be1ebb4a10b3ff5144a315343fa3"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-05-reset-offsets-clamped.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-06-larger-1.png",
+          "bytes": 459,
+          "sha256": "d9629f016c78c09c1630adeaf9d332e4c6b85f0baf4aa17195778d03cd8006de"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-07-larger-2.png",
+          "bytes": 482,
+          "sha256": "dbc2b0f94369b469174bfcc14bc821feaab8b140ea6203f0f82c57ce7c3d1774"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-08-reset-larger.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-09-wider-taller.png",
+          "bytes": 590,
+          "sha256": "9db0d70c70847c1833cb610df6c31be486aa7366e7e87c8fba7d2c052a676a54"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-10-original-size.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-11-frozen-image-before-zoom.png",
+          "bytes": 459,
+          "sha256": "ccbe565456d4962dde9a3608ef1d52c729728a2e6ce63a7e97e69bb0cef70307"
+        },
+        {
+          "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi-12-zoom-ends-freeze.png",
+          "bytes": 306,
+          "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+        }
+      ],
+      "log": {
+        "path": "research/kitty-windows-evidence/product-kitty-geometry-api-compat-gdi.log.gz",
+        "raw_bytes": 51,
+        "raw_sha256": "2b87ca97b4b0ed2c7b7bdeb00d35c1cad0f2ba36102cd00f815b8c240210671d",
+        "gzip_sha256": "8c494664c88fba898ef6648653250d22c066b3c24d3e4c237f1926883785353a"
+      },
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "presented_fixture_identity": {
+    "base_commit": "66484580063ba46fad35f6c8f3b2c8f2cbf1f55f",
+    "files": {
+      "path": "research/kitty-windows-evidence/product-presented-fixtures.json.gz",
+      "raw_bytes": 30739,
+      "raw_sha256": "ae65c5bd9a1a5da94e06c571c7132e0bb5b915fbb7cdf5d768799fff57840db4",
+      "gzip_sha256": "ee322e584632e2a91c968663d7da89914b2d525ede92bcffadaed21ca92b136a"
+    },
+    "uncommitted_additions_at_execution": [
+      {
+        "path": "research/kitty-windows-evidence/product-presented-fixture-presented_window_capture.py.gz",
+        "raw_bytes": 3117,
+        "raw_sha256": "cc0b111d885221e47ed541ab41db4ebeb37d47f4d738295c2724ded9a4135e14",
+        "gzip_sha256": "4c02075a45dc49785eaa2094109899fcb8137d171c4a02ac793befd8d6723fe4"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-presented-fixture-sixel_palette_window_smoke.py.gz",
+        "raw_bytes": 16837,
+        "raw_sha256": "27ec93dd9661b1e70c4023f3524713c7ef5c2952d318ab1cf599e8a5737dcf80",
+        "gzip_sha256": "a2d0360c4fafe5755cb3f7240e95f5036b9d627e86eb2bd23f2c922cb13c0b70"
+      },
+      {
+        "path": "research/kitty-windows-evidence/product-presented-fixture-kitty_geometry_window_smoke.py.gz",
+        "raw_bytes": 10977,
+        "raw_sha256": "0d52fcfd29cb21dce4fef2f2de1c442ec666f7c2d5936b8d47ca22cd58161a25",
+        "gzip_sha256": "c4d5e5da81909ec6d4d36288f5ea0caa8fc0a73633e6c21593d98bc077103900"
+      }
+    ]
+  },
+  "audible_bell": {
+    "user_confirmation": "heard the Windows prompt sound",
+    "tested_source": "69cd5a4",
+    "reference": "research/font-zoom-and-bell.md",
+    "applies_to_current_binary": false
+  },
+  "limitations": [
+    "Synthetic bounded workloads do not establish sustained real-agent or physical input acceptance.",
+    "DX total working set remains above the approximate 50 MB target.",
+    "Presented GDI reads only the owned client DC, not the complete physical desktop compositor.",
+    "The API GDI capture reconstructs pixels; the separate client-DC runs provide presentation evidence.",
+    "Kitty file/shared memory/compression/animation/relative placement/Unicode placeholders remain unsupported.",
+    "Historical intermittent resource and shutdown failures remain retained, not proven resolved by these passes."
+  ]
+}

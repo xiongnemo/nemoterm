@@ -2,10 +2,12 @@
 
 Production source: `97d60254e3bae94fbba9803ff15e1abfce5373f8`.
 
-The development branch enables direct Kitty graphics in the Windows frontend.
+This implementation enables direct Kitty graphics in the Windows frontend.
 It adds native drawing to the previously tested terminal parser, image cache
-and placement lifecycle. The root accepted executable is unchanged. This is
-an implementation checkpoint, not a claim of complete Kitty compatibility.
+and placement lifecycle. The records below describe the initial implementation
+and developer prechecks. Subsequent full CI and exact-product local acceptance
+are recorded in [the single-executable checkpoint](kitty-windows-product.md).
+This is not a claim of complete Kitty compatibility.
 
 ## Drawing and ownership
 
@@ -109,9 +111,10 @@ and the new GDI/DX workload with the unchanged mandatory memory thresholds:
 GDI strictly below 20,000,000 bytes and DX at most 25,000,000 bytes. The full
 [core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43633479250) and
 [single-EXE workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43633479299)
-are running on that production source. Formal CI
-artifacts and exact-artifact local memory acceptance are still pending at this
-checkpoint; OpenGL is allowed to exceed the GDI memory cap.
+have both passed on that production source. The formal artifact subsequently
+passed exact-image local graphics and memory checks in
+[the product checkpoint](kitty-windows-product.md); OpenGL is allowed to
+exceed the GDI memory cap.
 
 ## Same-source single-image precheck
 
@@ -138,9 +141,10 @@ and cleanup records are in the [precheck manifest](kitty-single-image-precheck.j
 The private working-set limits pass for this image; the total DX working set remains above the desired
 approximately 50 MB.
 
-This artifact came from the independent build job. Its identity still needs
-comparison with the final single-EXE product artifact after the complete CI run;
-the precheck does not establish product-CI completion or replace that check.
+This artifact came from the independent build job. Its bytes differ from the
+final product (`07c8d279`); the formal image was independently retested. Four
+additional PNG/GIF workloads also pass on the precheck image and are retained
+in its manifest. Those prechecks do not substitute for product acceptance.
 
 File/shared-memory transport, compression, animation, relative placement and
 Unicode placeholders remain unsupported. The four-MiB shared raster budget,

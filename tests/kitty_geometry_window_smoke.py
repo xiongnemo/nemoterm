@@ -21,11 +21,14 @@ u.PostMessageW.argtypes,u.PostMessageW.restype=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer',choices=('gdi','opengl','directx'),default='gdi')
+    parser.add_argument('--presented-gdi',action='store_true',help='read the owned visible GDI client surface')
     args=parser.parse_args()
+    if args.presented_gdi and args.renderer!='gdi':parser.error('--presented-gdi requires --renderer gdi')
     renderer={'gdi':0,'opengl':1,'directx':2}[args.renderer]
     exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
     font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
-    folder=root/'research'/f'kitty-geometry-{args.renderer}-{uuid.uuid4().hex}'
+    suite='kitty-geometry'+('-presented' if args.presented_gdi else '')
+    folder=root/'research'/f'{suite}-{args.renderer}-{uuid.uuid4().hex}'
     folder.mkdir(parents=True)
     report,control=folder/'child-report.json',folder/'child-control.json'
     evidence=dict(completed=False,executable=str(exe),executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -35,7 +38,7 @@ def main():
                  FontHeight=12,LockSize=0,MouseAutocopy=0)
     try:
         with saved_profile(profile) as profile_args,OwnedJob() as job:
-            process=None;window=None;handle=None
+            process=None;window=None;handle=None;presented=None
             try:
                 process=job.spawn([str(exe),*profile_args,'--automation','--cols','40','--rows','12',
                     '--font',font,'-e',sys.executable,str(root/'tests/mouse_fixture.py'),str(report),str(control),'180'],
@@ -51,6 +54,11 @@ def main():
                 actual=target['renderer'];assert actual in (0,renderer)
                 if os.environ.get('NEMOTERM_REQUIRE_'+args.renderer.upper())=='1':assert actual==renderer
                 evidence.update(endpoint=endpoint,actual_renderer=actual)
+                if args.presented_gdi:
+                    assert actual==0
+                    from presented_window_capture import PresentedWindowCapture
+                    presented=PresentedWindowCapture(process.pid,window)
+                    evidence['capture']='owned visible GDI client DC; no image API or WM_PRINTCLIENT'
                 handle=k.OpenProcess(0x410,False,process.pid);assert handle
                 def current():
                     value=read_snapshot(report)
@@ -99,7 +107,7 @@ def main():
                     last=None
                     def matches():
                         nonlocal last
-                        last=api.request(endpoint,'image',seat)
+                        last=presented.capture() if presented else api.request(endpoint,'image',seat)
                         width,height,pixels=bitmap(last)
                         assert (width,height)==(geom['width'],geom['height'])
                         observed={'red':set(),'blue':set()}
@@ -138,11 +146,13 @@ def main():
                 check('frozen-image-before-zoom',geom)
                 u.SendMessageW(window,0x111,0x940,0);geom=send('zoom-ends-freeze')
                 check('zoom-ends-freeze',geom,False)
+                if presented:evidence['presented_capture']=presented.close()
                 assert u.PostMessageW(window,0x10,0,0)
                 assert process.wait(timeout=15)==0
                 evidence['cleanup']=job.finish();assert not evidence['cleanup']['terminated_remaining']
                 evidence['completed']=True
             finally:
+                if presented:evidence['presented_capture']=presented.close()
                 if process and process.poll() is None and window:
                     owner=w.DWORD();u.GetWindowThreadProcessId(window,c.byref(owner))
                     if owner.value==process.pid:u.PostMessageW(window,0x10,0,0)
@@ -151,7 +161,7 @@ def main():
     except BaseException:
         evidence['error']=traceback.format_exc();raise
     finally:
-        write_snapshot(root/'research'/f'kitty-geometry-{args.renderer}-observed.json',evidence)
+        write_snapshot(root/'research'/f'{suite}-{args.renderer}-observed.json',evidence)
     print('Kitty native geometry passed:',args.renderer,len(evidence['phases']),'pixel stages')
 
 
