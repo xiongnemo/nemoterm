@@ -1,0 +1,1187 @@
+{
+  "source": "3187ec51acb703adebf006fd637c1ad80fba8b43",
+  "executable": {
+    "sha256": "8e52b517787fb508937611b15eb48855ab0e73521978f579d853cf48d9748585",
+    "bytes": 4459520
+  },
+  "promoted": false,
+  "reason": "Local inline-image DirectX private working set exceeded 25,000,000 bytes; fixture failures also retained",
+  "records": [
+    {
+      "path": "build/check-iterm-ci-final.py",
+      "archive": "research/iterm-inline-ci-records/000-check-iterm-ci-final.py.gz",
+      "bytes": 1853,
+      "sha256": "956b3cbe64bd64ce051ac2fb104629d0643079b9f631870e6bb0c91e55029af3"
+    },
+    {
+      "path": "build/check-iterm-ci-followup.py",
+      "archive": "research/iterm-inline-ci-records/001-check-iterm-ci-followup.py.gz",
+      "bytes": 1874,
+      "sha256": "c1ff3630b82b263f00d6fae8c2dde635d8bac15b9e896ae871ae00b5b1b8aab0"
+    },
+    {
+      "path": "build/check-iterm-preview.py",
+      "archive": "research/iterm-inline-ci-records/002-check-iterm-preview.py.gz",
+      "bytes": 2882,
+      "sha256": "611d4b77da66879d585a4fc0607115499737f32e0cdc4d5c46231144296cf0b5"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/core-artifacts.json",
+      "archive": "research/iterm-inline-ci-records/003-core-artifacts.json.gz",
+      "bytes": 3797,
+      "sha256": "001ff5142da9419200231635ac8d233f212ef4c42b2429e228a504cab4986d84"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/core-run.json",
+      "archive": "research/iterm-inline-ci-records/004-core-run.json.gz",
+      "bytes": 18985,
+      "sha256": "4dd05548f0eb82e89a0c4eea89e38bd559ff9b23b356d47ca42fd352ce76c8cc"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/core-run.log",
+      "archive": "research/iterm-inline-ci-records/005-core-run.log.gz",
+      "bytes": 1057917,
+      "sha256": "9506105b57d2a087780683dcf4d0d3110c14c549c12a4c81a56daf4edcf725b2"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/single-artifacts.json",
+      "archive": "research/iterm-inline-ci-records/006-single-artifacts.json.gz",
+      "bytes": 1537,
+      "sha256": "aa010271e13cbee799d3412c1b891d958398272cf19774d61752c17d2b944fd8"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/single-evidence/build/single-exe-check/research/single-exe-validation.json",
+      "archive": "research/iterm-inline-ci-records/007-single-exe-validation.json.gz",
+      "bytes": 2861,
+      "sha256": "f3c570d3bef889f2898983bdc10c1c24fc1326599518ace14ae809ab98ab5751"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/single-run.json",
+      "archive": "research/iterm-inline-ci-records/008-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "429d86f01789f2d780172cd656394e02c05b440dab3721ea1b3200c2e9c59118"
+    },
+    {
+      "path": "build/ci-iterm-3187ec5/single-run.log",
+      "archive": "research/iterm-inline-ci-records/009-single-run.log.gz",
+      "bytes": 490251,
+      "sha256": "c165b4b9080ae2901f852adcac486231e17fb7065099845d46b777230d0e9bcd"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/controller.log",
+      "archive": "research/iterm-inline-ci-records/010-controller.log.gz",
+      "bytes": 370,
+      "sha256": "9761f8381ce446f047ec9d3bfb5d1dded21238803cb673e398c8517c3ac8bb8d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/iterm_image.log",
+      "archive": "research/iterm-inline-ci-records/011-iterm_image.log.gz",
+      "bytes": 5460,
+      "sha256": "f710e0931826b713acacb186758ed17ff6bccecbb1ed9c1e9b9098236283e878"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/01-inline-intrinsic-png.png",
+      "archive": "research/iterm-inline-ci-records/012-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/02-inline-BEL.png",
+      "archive": "research/iterm-inline-ci-records/013-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/03-inline-bmp.png",
+      "archive": "research/iterm-inline-ci-records/014-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/04-inline-jpeg.png",
+      "archive": "research/iterm-inline-ci-records/015-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/05-inline-static-gif.png",
+      "archive": "research/iterm-inline-ci-records/016-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/06-multipart-1.png",
+      "archive": "research/iterm-inline-ci-records/017-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/07-multipart-3.png",
+      "archive": "research/iterm-inline-ci-records/018-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/08-multipart-200.png",
+      "archive": "research/iterm-inline-ci-records/019-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/09-pixel-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/020-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/10-aspect-preserved.png",
+      "archive": "research/iterm-inline-ci-records/021-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/11-cell-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/022-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/12-percentage-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/023-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/13-partial-alpha-black.png",
+      "archive": "research/iterm-inline-ci-records/024-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/14-partial-alpha-repaint.png",
+      "archive": "research/iterm-inline-ci-records/025-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/15-partial-alpha-background-change.png",
+      "archive": "research/iterm-inline-ci-records/026-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/16-partial-alpha-over-image.png",
+      "archive": "research/iterm-inline-ci-records/027-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/17-reset-clears.png",
+      "archive": "research/iterm-inline-ci-records/028-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/18-erase-before.png",
+      "archive": "research/iterm-inline-ci-records/029-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/19-erase-image.png",
+      "archive": "research/iterm-inline-ci-records/030-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/20-alternate-before.png",
+      "archive": "research/iterm-inline-ci-records/031-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/21-alternate-hides.png",
+      "archive": "research/iterm-inline-ci-records/032-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/22-alternate-own-image.png",
+      "archive": "research/iterm-inline-ci-records/033-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/23-alternate-restores.png",
+      "archive": "research/iterm-inline-ci-records/034-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/24-scroll-before.png",
+      "archive": "research/iterm-inline-ci-records/035-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/25-scroll-up.png",
+      "archive": "research/iterm-inline-ci-records/036-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/26-scroll-down.png",
+      "archive": "research/iterm-inline-ci-records/037-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/27-malformed-recovers.png",
+      "archive": "research/iterm-inline-ci-records/038-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/28-cancel-recovers.png",
+      "archive": "research/iterm-inline-ci-records/039-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/29-codec-reject-recovers.png",
+      "archive": "research/iterm-inline-ci-records/040-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/30-dimension-limit.png",
+      "archive": "research/iterm-inline-ci-records/041-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/31-decoded-budget-limit.png",
+      "archive": "research/iterm-inline-ci-records/042-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/checks.json",
+      "archive": "research/iterm-inline-ci-records/043-checks.json.gz",
+      "bytes": 92633,
+      "sha256": "a735fe7c35a0d36c421533cecfc3ab9a4ef4ad113a50bbaecd6c90c53cfd61b9"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/child-control.json",
+      "archive": "research/iterm-inline-ci-records/044-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-e4c4ded44aca4363a909872aee11fb99/child-report.json",
+      "archive": "research/iterm-inline-ci-records/045-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm-images-directx-observed.json",
+      "archive": "research/iterm-inline-ci-records/046-iterm-images-directx-observed.json.gz",
+      "bytes": 94909,
+      "sha256": "f82e11cd2ce2621af453c7969009de720111f2e6c4385ffc77a02d12914339c6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-directx/research/iterm_image-controller.json",
+      "archive": "research/iterm-inline-ci-records/047-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "409e488dc26e47d193e5c3b22411cdb3cb627555c4bbc2c55f147fba605a846f"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/controller.log",
+      "archive": "research/iterm-inline-ci-records/048-controller.log.gz",
+      "bytes": 370,
+      "sha256": "240648b0d81bfa990d6400af256d62adca85b8f49b99b45cf7847d4523f8bf25"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/iterm_image.log",
+      "archive": "research/iterm-inline-ci-records/049-iterm_image.log.gz",
+      "bytes": 5456,
+      "sha256": "5a42d52d7a5c40561cf184a1f267745628d4d6ac232242078ab7d5c1bf82b907"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/01-inline-intrinsic-png.png",
+      "archive": "research/iterm-inline-ci-records/050-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/02-inline-BEL.png",
+      "archive": "research/iterm-inline-ci-records/051-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/03-inline-bmp.png",
+      "archive": "research/iterm-inline-ci-records/052-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/04-inline-jpeg.png",
+      "archive": "research/iterm-inline-ci-records/053-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/05-inline-static-gif.png",
+      "archive": "research/iterm-inline-ci-records/054-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/06-multipart-1.png",
+      "archive": "research/iterm-inline-ci-records/055-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/07-multipart-3.png",
+      "archive": "research/iterm-inline-ci-records/056-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/08-multipart-200.png",
+      "archive": "research/iterm-inline-ci-records/057-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/09-pixel-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/058-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/10-aspect-preserved.png",
+      "archive": "research/iterm-inline-ci-records/059-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/11-cell-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/060-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/12-percentage-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/061-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/13-partial-alpha-black.png",
+      "archive": "research/iterm-inline-ci-records/062-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/14-partial-alpha-repaint.png",
+      "archive": "research/iterm-inline-ci-records/063-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/15-partial-alpha-background-change.png",
+      "archive": "research/iterm-inline-ci-records/064-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/16-partial-alpha-over-image.png",
+      "archive": "research/iterm-inline-ci-records/065-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/17-reset-clears.png",
+      "archive": "research/iterm-inline-ci-records/066-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/18-erase-before.png",
+      "archive": "research/iterm-inline-ci-records/067-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/19-erase-image.png",
+      "archive": "research/iterm-inline-ci-records/068-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/20-alternate-before.png",
+      "archive": "research/iterm-inline-ci-records/069-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/21-alternate-hides.png",
+      "archive": "research/iterm-inline-ci-records/070-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/22-alternate-own-image.png",
+      "archive": "research/iterm-inline-ci-records/071-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/23-alternate-restores.png",
+      "archive": "research/iterm-inline-ci-records/072-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/24-scroll-before.png",
+      "archive": "research/iterm-inline-ci-records/073-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/25-scroll-up.png",
+      "archive": "research/iterm-inline-ci-records/074-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/26-scroll-down.png",
+      "archive": "research/iterm-inline-ci-records/075-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/27-malformed-recovers.png",
+      "archive": "research/iterm-inline-ci-records/076-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/28-cancel-recovers.png",
+      "archive": "research/iterm-inline-ci-records/077-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/29-codec-reject-recovers.png",
+      "archive": "research/iterm-inline-ci-records/078-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/30-dimension-limit.png",
+      "archive": "research/iterm-inline-ci-records/079-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/31-decoded-budget-limit.png",
+      "archive": "research/iterm-inline-ci-records/080-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/checks.json",
+      "archive": "research/iterm-inline-ci-records/081-checks.json.gz",
+      "bytes": 92633,
+      "sha256": "b085883aeb3f114cea9a4492617467c850dbc7446c999dac48af5b51f232b4d0"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/child-control.json",
+      "archive": "research/iterm-inline-ci-records/082-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-13d850e3d32e49ef85cc6ff9d23e4652/child-report.json",
+      "archive": "research/iterm-inline-ci-records/083-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm-images-gdi-observed.json",
+      "archive": "research/iterm-inline-ci-records/084-iterm-images-gdi-observed.json.gz",
+      "bytes": 94867,
+      "sha256": "e5190bc57ec8fb33c00ba2a9483465cfcd36652b5f8821a99aa6dde14229d521"
+    },
+    {
+      "path": "build/iterm-ci-final/images-gdi/research/iterm_image-controller.json",
+      "archive": "research/iterm-inline-ci-records/085-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "417e72d79e83b712e47f5451de4d3704a62a1b588b80c9a8372f17d8f9686e86"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/controller.log",
+      "archive": "research/iterm-inline-ci-records/086-controller.log.gz",
+      "bytes": 370,
+      "sha256": "76f8319da9280f021bdcb05a1fc2a0ccbf3fba683eea8562bde1754807f275ed"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/iterm_image.log",
+      "archive": "research/iterm-inline-ci-records/087-iterm_image.log.gz",
+      "bytes": 5459,
+      "sha256": "b6397fef5c64b883276466c0c544e37574e838ab18bdf681354fe7765e4ee346"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/01-inline-intrinsic-png.png",
+      "archive": "research/iterm-inline-ci-records/088-01-inline-intrinsic-png.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/02-inline-BEL.png",
+      "archive": "research/iterm-inline-ci-records/089-02-inline-BEL.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/03-inline-bmp.png",
+      "archive": "research/iterm-inline-ci-records/090-03-inline-bmp.png.gz",
+      "bytes": 312,
+      "sha256": "1da6a2e28f2eee3fbaaf947013082274fa799b2c86e118b87c9b7630fd3fe55c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/04-inline-jpeg.png",
+      "archive": "research/iterm-inline-ci-records/091-04-inline-jpeg.png.gz",
+      "bytes": 907,
+      "sha256": "fc031cb64485af18d4de59ca929e97a61e9e35fb3d6072a2eaeca121ad92e2ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/05-inline-static-gif.png",
+      "archive": "research/iterm-inline-ci-records/092-05-inline-static-gif.png.gz",
+      "bytes": 313,
+      "sha256": "f81ced9c6ec061c938c7458f4b651b8b290384e1271c5bf4e60d32cc94b476d6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/06-multipart-1.png",
+      "archive": "research/iterm-inline-ci-records/093-06-multipart-1.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/07-multipart-3.png",
+      "archive": "research/iterm-inline-ci-records/094-07-multipart-3.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/08-multipart-200.png",
+      "archive": "research/iterm-inline-ci-records/095-08-multipart-200.png.gz",
+      "bytes": 317,
+      "sha256": "9e4220a01ff469d03bcb193ba876d7845a9f712216dabedc80afdb3099d7b7e8"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/09-pixel-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/096-09-pixel-dimensions.png.gz",
+      "bytes": 326,
+      "sha256": "219c7ebc98a9bd7da2f58d12569a4f45ac4ad9f3f52dc418594bdf1dbfd1a06d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/10-aspect-preserved.png",
+      "archive": "research/iterm-inline-ci-records/097-10-aspect-preserved.png.gz",
+      "bytes": 321,
+      "sha256": "e973df3e81bd32dc8cc5dfbd46685a32ad13892165eca8bef7711fe5518d73b1"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/11-cell-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/098-11-cell-dimensions.png.gz",
+      "bytes": 352,
+      "sha256": "69034ee2df3c171a187ede42453749aca529590ad10a7f35e16aff803510e597"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/12-percentage-dimensions.png",
+      "archive": "research/iterm-inline-ci-records/099-12-percentage-dimensions.png.gz",
+      "bytes": 429,
+      "sha256": "4555f5c5b436fb7ab6ddcf890721acc955d1ab2b1e6339b50673e1064585b5a9"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/13-partial-alpha-black.png",
+      "archive": "research/iterm-inline-ci-records/100-13-partial-alpha-black.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/14-partial-alpha-repaint.png",
+      "archive": "research/iterm-inline-ci-records/101-14-partial-alpha-repaint.png.gz",
+      "bytes": 313,
+      "sha256": "dd0e0d42d7ed9cfcad1b17243394010bd2143e69653eff9e42a4316583cbebaf"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/15-partial-alpha-background-change.png",
+      "archive": "research/iterm-inline-ci-records/102-15-partial-alpha-background-change.png.gz",
+      "bytes": 910,
+      "sha256": "0d2d9ac4c45ece548f638470dcc0fd2fd78f1d6452ba8af5cf03c77d9d0b1d6f"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/16-partial-alpha-over-image.png",
+      "archive": "research/iterm-inline-ci-records/103-16-partial-alpha-over-image.png.gz",
+      "bytes": 322,
+      "sha256": "5874133e30f9acefe880d81548a1a64cca7559eae10ec606c0023f58af446c1a"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/17-reset-clears.png",
+      "archive": "research/iterm-inline-ci-records/104-17-reset-clears.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/18-erase-before.png",
+      "archive": "research/iterm-inline-ci-records/105-18-erase-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/19-erase-image.png",
+      "archive": "research/iterm-inline-ci-records/106-19-erase-image.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/20-alternate-before.png",
+      "archive": "research/iterm-inline-ci-records/107-20-alternate-before.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/21-alternate-hides.png",
+      "archive": "research/iterm-inline-ci-records/108-21-alternate-hides.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/22-alternate-own-image.png",
+      "archive": "research/iterm-inline-ci-records/109-22-alternate-own-image.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/23-alternate-restores.png",
+      "archive": "research/iterm-inline-ci-records/110-23-alternate-restores.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/24-scroll-before.png",
+      "archive": "research/iterm-inline-ci-records/111-24-scroll-before.png.gz",
+      "bytes": 351,
+      "sha256": "84b21a382039253f14a6ab07c76ef89e332fc7970ae9d30583852d69bc4fc0ff"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/25-scroll-up.png",
+      "archive": "research/iterm-inline-ci-records/112-25-scroll-up.png.gz",
+      "bytes": 351,
+      "sha256": "9ef621b14dc4d13b94fb689a6893bda779117c268aeab48edd0b7ca733df700c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/26-scroll-down.png",
+      "archive": "research/iterm-inline-ci-records/113-26-scroll-down.png.gz",
+      "bytes": 351,
+      "sha256": "22a272c92ded31dd2b3803b95de5fa757567759a7894532df8e3103fd855067c"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/27-malformed-recovers.png",
+      "archive": "research/iterm-inline-ci-records/114-27-malformed-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/28-cancel-recovers.png",
+      "archive": "research/iterm-inline-ci-records/115-28-cancel-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "26808eb7f0bbff36df5843cb7d5c44fae6a4092fd6540388c4e9ffe002c9c1bb"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/29-codec-reject-recovers.png",
+      "archive": "research/iterm-inline-ci-records/116-29-codec-reject-recovers.png.gz",
+      "bytes": 317,
+      "sha256": "94908f3b1278850dbc2e5b0769ccfdb4556e7105df9bc0e81e7d636ccba0e1ca"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/30-dimension-limit.png",
+      "archive": "research/iterm-inline-ci-records/117-30-dimension-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/31-decoded-budget-limit.png",
+      "archive": "research/iterm-inline-ci-records/118-31-decoded-budget-limit.png.gz",
+      "bytes": 306,
+      "sha256": "520e9f350c3cfaf3b0090f0563edc219a3c4d63becf6e0b6ab379f4708fb355d"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/checks.json",
+      "archive": "research/iterm-inline-ci-records/119-checks.json.gz",
+      "bytes": 92633,
+      "sha256": "a735fe7c35a0d36c421533cecfc3ab9a4ef4ad113a50bbaecd6c90c53cfd61b9"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/child-control.json",
+      "archive": "research/iterm-inline-ci-records/120-child-control.json.gz",
+      "bytes": 8909,
+      "sha256": "bb893358687e7846fa8aa45957b1f8b72e1e94ea02574979870f9d47d75e95e6"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-01595d3e09254896816cd882b94f7412/child-report.json",
+      "archive": "research/iterm-inline-ci-records/121-child-report.json.gz",
+      "bytes": 163,
+      "sha256": "4d530dcb3fd31fcde01f0011550cbe97c6983878a6f4746a5dc73ee8a99792ee"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm-images-opengl-observed.json",
+      "archive": "research/iterm-inline-ci-records/122-iterm-images-opengl-observed.json.gz",
+      "bytes": 94897,
+      "sha256": "a96cfbec846183263cdc0b0e16e053f8d933494957c5bc2d25a2b03b85604a94"
+    },
+    {
+      "path": "build/iterm-ci-final/images-opengl/research/iterm_image-controller.json",
+      "archive": "research/iterm-inline-ci-records/123-iterm_image-controller.json.gz",
+      "bytes": 473,
+      "sha256": "9d10166463abe9eb71b967fe8e5f640f418f139a76d0332b742fac6de3b022c4"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/controller.log",
+      "archive": "research/iterm-inline-ci-records/124-controller.log.gz",
+      "bytes": 1975,
+      "sha256": "ae33f84a17b2bb2fbb961bda0223a6fec6d5599cb0a3f7d6b279f1858e56a776"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/renderer.log",
+      "archive": "research/iterm-inline-ci-records/125-renderer.log.gz",
+      "bytes": 1606,
+      "sha256": "3a8d22a6007ecaa9941d010e8fc48f6c7bf569570d8b0f41ec6b0575e532a0ea"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/iterm-inline-ci-records/126-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/iterm-inline-ci-records/127-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/iterm-inline-ci-records/128-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/iterm-inline-ci-records/129-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/iterm-inline-ci-records/130-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/iterm-inline-ci-records/131-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/iterm-inline-ci-records/132-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/iterm-inline-ci-records/133-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/iterm-inline-ci-records/134-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/iterm-inline-ci-records/135-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-enclosures.png",
+      "archive": "research/iterm-inline-ci-records/136-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-expose.png",
+      "archive": "research/iterm-inline-ci-records/137-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-ideograms-double-size.png",
+      "archive": "research/iterm-inline-ci-records/138-renderer-0-ideograms-double-size.png.gz",
+      "bytes": 2858,
+      "sha256": "7e0dd79fa68b741c093e0618b7679ec9f6ed43b545dae4a3becd64be69d0c308"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-ideograms.png",
+      "archive": "research/iterm-inline-ci-records/139-renderer-0-ideograms.png.gz",
+      "bytes": 2583,
+      "sha256": "11a4874a0fce5ba65122cb48ed6d1b062c2cbadbea1116d69c0ae3e704c7da54"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/iterm-inline-ci-records/140-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-overline.png",
+      "archive": "research/iterm-inline-ci-records/141-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-palette.png",
+      "archive": "research/iterm-inline-ci-records/142-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-resize.png",
+      "archive": "research/iterm-inline-ci-records/143-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-sixel.png",
+      "archive": "research/iterm-inline-ci-records/144-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-sync-end.png",
+      "archive": "research/iterm-inline-ci-records/145-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/iterm-inline-ci-records/146-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-0-text.png",
+      "archive": "research/iterm-inline-ci-records/147-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-1-expose.png",
+      "archive": "research/iterm-inline-ci-records/148-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-1-sixel.png",
+      "archive": "research/iterm-inline-ci-records/149-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-1-sync-end.png",
+      "archive": "research/iterm-inline-ci-records/150-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/iterm-inline-ci-records/151-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-1-text.png",
+      "archive": "research/iterm-inline-ci-records/152-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-controller.json",
+      "archive": "research/iterm-inline-ci-records/153-renderer-controller.json.gz",
+      "bytes": 470,
+      "sha256": "02270496ea96c21ce40204c9da0c4cfc704614d10c44678d3cd3b619dea7028c"
+    },
+    {
+      "path": "build/iterm-ci-final/renderer/research/renderer-observed.json",
+      "archive": "research/iterm-inline-ci-records/154-renderer-observed.json.gz",
+      "bytes": 3086,
+      "sha256": "8a066adb45308f455a9fcffb4f2fb88b239df10261baae443597de949c6228a1"
+    },
+    {
+      "path": "build/iterm-ci-final/results.json",
+      "archive": "research/iterm-inline-ci-records/155-results.json.gz",
+      "bytes": 246,
+      "sha256": "d5608327038d5b5ff7a57b36d585ca6d48fabb87074a307da9cf13c345a94945"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-directx/controller.log",
+      "archive": "research/iterm-inline-ci-records/156-controller.log.gz",
+      "bytes": 962,
+      "sha256": "d007bd7cbc39d40ed9cb0c7b86ff2d0b4d4893543292e39f5afe02cf8912768d"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-directx/research/tabs-controller.json",
+      "archive": "research/iterm-inline-ci-records/157-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "91c79acc509b6a82e0ece2bf3459e33f7842468ba5624349fb8a573fd54bf77a"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/iterm-inline-ci-records/158-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1470312,
+      "sha256": "8e4db5eab5dcdbf0d3b3795888c0a43a9eb1bb8388e40c4a83a9fb51ca1adfa2"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/iterm-inline-ci-records/159-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 172242,
+      "sha256": "026e8f7b671e978e2532f9aa98b569479be7b4d7cb04e9c3cb97eedb18ee983d"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-directx/tabs.log",
+      "archive": "research/iterm-inline-ci-records/160-tabs.log.gz",
+      "bytes": 593,
+      "sha256": "e45f39234d863aa53694adf4491004200e83671a29200626034950058c45f8be"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/controller.log",
+      "archive": "research/iterm-inline-ci-records/161-controller.log.gz",
+      "bytes": 365,
+      "sha256": "6f0898e2a6afc1511884cfe6809e8a2169601e8ab2abda8fa0e5462c85970fa2"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/research/tabs-controller.json",
+      "archive": "research/iterm-inline-ci-records/162-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "ccd4c8ce6a04d1591b4636576ae524555a3e68ac641490c83e1f3f05b2850f4f"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/iterm-inline-ci-records/163-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/iterm-inline-ci-records/164-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1627526,
+      "sha256": "160e5cdaf6c7d13c127c899058a4c4b8d45788e0d7e81847e69c187b58daa1c6"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/iterm-inline-ci-records/165-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 176046,
+      "sha256": "37e39409752f2b6f8f89ed5846a42feb56237a5a025f2f1868b4da7bfd0caa7f"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/iterm-inline-ci-records/166-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi/tabs.log",
+      "archive": "research/iterm-inline-ci-records/167-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/controller.log",
+      "archive": "research/iterm-inline-ci-records/168-controller.log.gz",
+      "bytes": 366,
+      "sha256": "8c61cd65da8046ff0aaa313066794479b7abd461a0c4f5e95c876660602d0ac7"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/research/inline-workload-tabs-gdi-top-memory.json",
+      "archive": "research/iterm-inline-ci-records/169-inline-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1845480,
+      "sha256": "e1126218e9cee75e2d6772bd7ba8cca187dec562cc15ce2e7faf1f3180acba3e"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/research/inline-workload-tabs-gdi-top-observed.json",
+      "archive": "research/iterm-inline-ci-records/170-inline-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 179162,
+      "sha256": "25d71c8026d8b7b366e57e7188ea17ce428bef57aa428d2a3066da239d4e4622"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/research/inline-workload-tabs-gdi-top-preview.png",
+      "archive": "research/iterm-inline-ci-records/171-inline-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/research/tabs-controller.json",
+      "archive": "research/iterm-inline-ci-records/172-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "b0f39ede412b63195207e7bb38842d71756b8c23768c1c53deaae86dbf05b715"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/research/tabs-gdi-top-host.png",
+      "archive": "research/iterm-inline-ci-records/173-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/iterm-ci-followup/memory-gdi-images/tabs.log",
+      "archive": "research/iterm-inline-ci-records/174-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/iterm-ci-followup/results.json",
+      "archive": "research/iterm-inline-ci-records/175-results.json.gz",
+      "bytes": 721,
+      "sha256": "6a773f9b24fac32276840c76424150e87da2d2d011d5382348deb89a65f8a2c3"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/controller.log",
+      "archive": "research/iterm-inline-ci-records/176-controller.log.gz",
+      "bytes": 362,
+      "sha256": "ee87e3546a787ecd0edab0629485ad2adef690c053313cd39624ad2a91a2a574"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/research/sixel-controller.json",
+      "archive": "research/iterm-inline-ci-records/177-sixel-controller.json.gz",
+      "bytes": 465,
+      "sha256": "c7986d029355bcce71e6104c766215da52c6a732613a0127802db83e13aa3862"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/research/sixel-partial-scroll.png",
+      "archive": "research/iterm-inline-ci-records/178-sixel-partial-scroll.png.gz",
+      "bytes": 673,
+      "sha256": "39cac33bf0f3517174ae302e0e2fea7a808418213a527e23d801f13cdc3c24c9"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/research/sixel-resize-retained.png",
+      "archive": "research/iterm-inline-ci-records/179-sixel-resize-retained.png.gz",
+      "bytes": 772,
+      "sha256": "d2b39d9a0e8fecb11945ad89cb7bcf9faf14d9843c5a7b3b040c4a28fbfb42e0"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/research/sixel-window-observed.json",
+      "archive": "research/iterm-inline-ci-records/180-sixel-window-observed.json.gz",
+      "bytes": 4519,
+      "sha256": "8ac5ecedfd8a7618a6b07e954bcf1a14b1eaf2d486ecdffaf016e931d150e69f"
+    },
+    {
+      "path": "build/iterm-ci-followup/sixel/sixel.log",
+      "archive": "research/iterm-inline-ci-records/181-sixel.log.gz",
+      "bytes": 2832,
+      "sha256": "23030192a0c2ae9df4eef901c2a58dbcf97ae50d6b1faa71769978266d8a673d"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/controller.log",
+      "archive": "research/iterm-inline-ci-records/182-controller.log.gz",
+      "bytes": 366,
+      "sha256": "7dadfc72de7fc4c7a87c324ce653e5a88c2117eb530a7ee062591b6a92a46b02"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/research/tabs-controller.json",
+      "archive": "research/iterm-inline-ci-records/183-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "b15290ce83e8b4fc40529463d8fa5ff2adbb9314e68f1703edb11085af2e9534"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/iterm-inline-ci-records/184-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1435286,
+      "sha256": "1796b3bde15ec53fc66db378ab80e42ee1302fd7106e7dc38425c7d6541ad0de"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/iterm-inline-ci-records/185-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 177823,
+      "sha256": "0c4a5177d043b2ec5afc4dc4329e69edcd5f31e7b1e16c20f2f44d90fbc5670e"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/iterm-inline-ci-records/186-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx/tabs.log",
+      "archive": "research/iterm-inline-ci-records/187-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/controller.log",
+      "archive": "research/iterm-inline-ci-records/188-controller.log.gz",
+      "bytes": 960,
+      "sha256": "fedbd0fdb282a4d5c9d1bbb8ee9b1a37a7efb3f32188f747361122fa7219dd40"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/research/inline-workload-tabs-directx-left-memory.json",
+      "archive": "research/iterm-inline-ci-records/189-inline-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1869409,
+      "sha256": "b324c72603d2f59ded92385bec4ef28ef8d04013eeb9bc133bf7c6cd6910eeec"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/research/inline-workload-tabs-directx-left-observed.json",
+      "archive": "research/iterm-inline-ci-records/190-inline-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 177298,
+      "sha256": "424105adb638cedeeea64439fe5eef3859265833533d4763a0666d6512e9f7ac"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/research/tabs-controller.json",
+      "archive": "research/iterm-inline-ci-records/191-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "5c3189545e0572081e67d4c24a21521755680d457bade5eb9936c6278f1c024c"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/tabs.log",
+      "archive": "research/iterm-inline-ci-records/192-tabs.log.gz",
+      "bytes": 591,
+      "sha256": "678b90b013422e475d3865945da8b6ff5b45d0577c8f76eae2ecceebf8344654"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/tests/tabs_hover_probe.js",
+      "archive": "research/iterm-inline-ci-records/193-tabs_hover_probe.js.gz",
+      "bytes": 1085,
+      "sha256": "e1f5232a891d1a8a43b728286f34f28cc59092d70af262a94141805b93218a7f"
+    },
+    {
+      "path": "build/iterm-ci-preview/directx-images/tests/tabs_window_smoke.py",
+      "archive": "research/iterm-inline-ci-records/194-tabs_window_smoke.py.gz",
+      "bytes": 28274,
+      "sha256": "51f6364198fe480df0a17bb255193e60209d3393b10157c10ead19de7cd0a250"
+    },
+    {
+      "path": "build/iterm-ci-preview/results.json",
+      "archive": "research/iterm-inline-ci-records/195-results.json.gz",
+      "bytes": 7177,
+      "sha256": "baa119a93abf18ceac24f71736e3d8b15cf2ef8ccd0e6ff33bcd16602b354846"
+    }
+  ]
+}

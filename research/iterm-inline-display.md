@@ -117,7 +117,10 @@ Main `8264b27` has subsequently passed both
 that successful run does not establish the cause of the intermittent close failure.
 
 The new 31-scene image fixture is registered for all three renderers in core
-and single-EXE CI. Full CI for this new source is still required. Animated GIF
-is explicitly rejected pending a bounded frame scheduler. macOS-specific image
+and single-EXE CI. Source `3187ec5` subsequently passed both full workflows, but
+the downloaded artifact exceeded the local DirectX image-workload memory limit;
+see the [CI artifact checkpoint](iterm-inline-ci.md). It remains unpromoted.
+Animated GIF is explicitly rejected in this static checkpoint pending a bounded
+frame scheduler. macOS-specific image
 formats, feature reporting, file downloads, multiplexer passthrough, newer
 iTerm image options and kitty graphics remain separate unfinished work.
