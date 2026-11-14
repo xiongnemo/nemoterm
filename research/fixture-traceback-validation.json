@@ -1,0 +1,155 @@
+{
+  "kind": "local subprocess observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/python312-observer/check.py",
+      "archive": "research/fixture-traceback-records/000-check.py.gz",
+      "bytes": 486,
+      "sha256": "53993c0fd74360d44b881e6cf0a67b30156bfaa88d74b4e107c7701472bf679b"
+    },
+    {
+      "path": "build/python312-observer/reproduce-fixed.py",
+      "archive": "research/fixture-traceback-records/001-reproduce-fixed.py.gz",
+      "bytes": 479,
+      "sha256": "7e267d2e5236167d039554b9957b65234554994de801a5f8b0d7e87c814e6d59"
+    },
+    {
+      "path": "build/python312-observer/reproduce.py",
+      "archive": "research/fixture-traceback-records/002-reproduce.py.gz",
+      "bytes": 362,
+      "sha256": "71676c19854a3853064725a11e52178325007a03211b413c154518ec178dba04"
+    },
+    {
+      "path": "build/python312-observer/fixed-results.json",
+      "archive": "research/fixture-traceback-records/003-fixed-results.json.gz",
+      "bytes": 387,
+      "sha256": "67f115f933d2684e310a888568f384fc8fac805369cfbb8ee0fb84e41bf8c83e"
+    },
+    {
+      "path": "build/python312-observer/old-results.json",
+      "archive": "research/fixture-traceback-records/004-old-results.json.gz",
+      "bytes": 459,
+      "sha256": "7889505d37dce06d54032c516cd5c783cbaa596c83aa9e77186302685126062b"
+    },
+    {
+      "path": "build/python312-observer/source.json",
+      "archive": "research/fixture-traceback-records/005-source.json.gz",
+      "bytes": 192,
+      "sha256": "bf0d5748f8d713e61bcd5ce733df5749220c3910cb3593171441333822c3dbe7"
+    },
+    {
+      "path": "build/python312-observer/fixed-0.log",
+      "archive": "research/fixture-traceback-records/006-fixed-0.log.gz",
+      "bytes": 135044,
+      "sha256": "e9ba7b7f68c63101b50d16c15206ea61958016f772c29f31bfa0c6a6135543ea"
+    },
+    {
+      "path": "build/python312-observer/fixed-1.log",
+      "archive": "research/fixture-traceback-records/007-fixed-1.log.gz",
+      "bytes": 135134,
+      "sha256": "c731661b038e2c5273843e0fa6f1ef9bcf4ce687714ccc7309a4c02c599e1e44"
+    },
+    {
+      "path": "build/python312-observer/fixed-2.log",
+      "archive": "research/fixture-traceback-records/008-fixed-2.log.gz",
+      "bytes": 134927,
+      "sha256": "a2aab5384f18c81f43b241f041744f0e96e5cdfc81dad074d2c5eb051be5887d"
+    },
+    {
+      "path": "build/python312-observer/fixed-3.log",
+      "archive": "research/fixture-traceback-records/009-fixed-3.log.gz",
+      "bytes": 135056,
+      "sha256": "b2ab50cee9701eb1475719dc6a324f4695833ad7499f768f8331a0d583453093"
+    },
+    {
+      "path": "build/python312-observer/fixed-4.log",
+      "archive": "research/fixture-traceback-records/010-fixed-4.log.gz",
+      "bytes": 135563,
+      "sha256": "f5185766c64813367ba44b07f4c90764d88c78b06f83087b8aa663dda6e1c618"
+    },
+    {
+      "path": "build/python312-observer/fixed-5.log",
+      "archive": "research/fixture-traceback-records/011-fixed-5.log.gz",
+      "bytes": 134537,
+      "sha256": "9e91242ca8d81f7ea45f443a2f3af089502bee05176e8f3bcfe2bebf82582c5e"
+    },
+    {
+      "path": "build/python312-observer/fixed-6.log",
+      "archive": "research/fixture-traceback-records/012-fixed-6.log.gz",
+      "bytes": 134459,
+      "sha256": "9a5de620f9ce2c228dfe8b8bbf916b90ff6288e769cf50bdff189ada03fc6480"
+    },
+    {
+      "path": "build/python312-observer/fixed-7.log",
+      "archive": "research/fixture-traceback-records/013-fixed-7.log.gz",
+      "bytes": 135602,
+      "sha256": "ea37b9974e8c7b536b2854f03ccc597dfde8da64c8e1951e279f30098fc03f8a"
+    },
+    {
+      "path": "build/python312-observer/old-0.log",
+      "archive": "research/fixture-traceback-records/014-old-0.log.gz",
+      "bytes": 4398,
+      "sha256": "1f2a283572b6e838f354c01ba8c19e77a5750dd05b85ac76e04b411155430752"
+    },
+    {
+      "path": "build/python312-observer/old-1.log",
+      "archive": "research/fixture-traceback-records/015-old-1.log.gz",
+      "bytes": 496,
+      "sha256": "8b21c208c0a982d29c7f9d1a768f7761e76d8f91a719edeea7e7a36b04255124"
+    },
+    {
+      "path": "build/python312-observer/old-2.log",
+      "archive": "research/fixture-traceback-records/016-old-2.log.gz",
+      "bytes": 528,
+      "sha256": "8499c1c6943091b3887a525267a7dd178daa8d6b1220aabb352bc0b18122f408"
+    },
+    {
+      "path": "build/python312-observer/old-3.log",
+      "archive": "research/fixture-traceback-records/017-old-3.log.gz",
+      "bytes": 1330,
+      "sha256": "c592695e1a69727064f5862bff344115ef43f60293ce901443a37612332da12c"
+    },
+    {
+      "path": "build/python312-observer/old-4.log",
+      "archive": "research/fixture-traceback-records/018-old-4.log.gz",
+      "bytes": 496,
+      "sha256": "e6e8664bf6325d9807a8dc2f7f682a1d4035b0489ad1c07a1ca244bb4ad4bebc"
+    },
+    {
+      "path": "build/python312-observer/old-5.log",
+      "archive": "research/fixture-traceback-records/019-old-5.log.gz",
+      "bytes": 3146,
+      "sha256": "e5abebed15e38c1f3d58cf11c85cbaeda5298a3d0cbf4d6aed7d4ef89cc8e711"
+    },
+    {
+      "path": "build/python312-observer/old-6.log",
+      "archive": "research/fixture-traceback-records/020-old-6.log.gz",
+      "bytes": 4231,
+      "sha256": "c77b4f38122342799549f528d3a1c900cf96abe4c319897876aa9a7f93a77c39"
+    },
+    {
+      "path": "build/python312-observer/old-7.log",
+      "archive": "research/fixture-traceback-records/021-old-7.log.gz",
+      "bytes": 4724,
+      "sha256": "3f01c31fa0e739ac2725886b5133fa74b40780e0784a627551696230bb0f4d2d"
+    },
+    {
+      "path": "tests/fixture_traceback.py",
+      "archive": "research/fixture-traceback-records/022-fixture_traceback.py.gz",
+      "bytes": 1138,
+      "sha256": "03d114fc96a33655d0d1cfd97d0cc742422c5a970df1727cbbabcf76de1982a2"
+    },
+    {
+      "path": "tests/fixture_traceback_test.py",
+      "archive": "research/fixture-traceback-records/023-fixture_traceback_test.py.gz",
+      "bytes": 1389,
+      "sha256": "902c429ccb6b07bc98c9447205a7fab991d50019d47df08f847ff3384816fc0a"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/single-run.json",
+      "archive": "research/fixture-traceback-records/024-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "f42f56e9f47874f04bf3d0f863f16b51bed5a9dd4eaa8f1890cf3dcca1331f6e"
+    }
+  ]
+}
