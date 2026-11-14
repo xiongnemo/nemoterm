@@ -30,7 +30,7 @@ try {
     }
     $tests = @('single_exe', 'shutdown', 'startup_size', 'renderer', 'grapheme', 'rtl', 'bindings', 'input_method', 'unicode_input', 'console_unicode', 'mouse', 'selection', 'sync', 'sgr', 'font_resize', 'font_fallback', 'query',
         'highlight', 'sixel', 'sixel_font', 'sixel_palette', 'sixel_background', 'hyperlink', 'reflow', 'keyboard',
-        'osc52', 'mok', 'win32_input', 'state_control', 'tabulation', 'double_size', 'alignment', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'relative_cursor', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
+        'osc52', 'mok', 'win32_input', 'state_control', 'iso2022', 'tabulation', 'double_size', 'alignment', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'relative_cursor', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     $tests += 'c1_controls', 'startup_visibility'
     foreach ($name in $tests) {

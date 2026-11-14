@@ -77,7 +77,10 @@ remain in the [evidence manifest](iso2022-parser-validation.json).
   information or an independently validated equivalent. Only the Unicode
   checksum mode is used for the new mapping acceptance.
 
-Full CI for this parser commit is pending. The previous mapping-only commit's
-core and single-image CI passed; that result does not validate this new parser.
+Full CI for parser commit `9abf339` has since passed:
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43588399701) and
+[single image](https://github.com/xiongnemo/nemoterm/actions/runs/43588399714).
+Subsequent input, native rendering and memory work is recorded separately in the
+[input checkpoint](iso2022-input.md); the original archive above is unchanged.
 The accepted root `dist/nemoterm.exe` remains source `8ff214f`, SHA-256
 `c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`.

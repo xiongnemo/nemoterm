@@ -8,6 +8,7 @@
 #include "../../../tests/charset_reference.h"
 #include "../../../tests/charset_parser_reference.h"
 #include "../../../tests/charset_state_reference.h"
+#include "../../../tests/charset_input_reference.h"
 #include "../../../tests/alignment_oracle_cases.h"
 
 static void test_alignment(Mock *mk)
@@ -301,6 +302,55 @@ static void test_iso2022_parser(Mock *mk)
 static bool state_sync(TermWin *win, bool enabled) { return true; }
 static void state_bell(TermWin *win, int mode) { (void)win; (void)mode; }
 
+static void test_iso2022_paste(Mock *mk)
+{
+    wchar_t text[2*lenof(charset_input_text)];
+    size_t length=0;
+    strbuf *utf8=strbuf_new();
+    for (size_t i=0;i<lenof(charset_input_text);i++) {
+        uint32_t scalar=charset_input_text[i];
+        put_utf8_char(utf8,scalar);
+#ifdef PLATFORM_IS_UTF16
+        if (scalar>0xffff) {
+            text[length++]=0xd800+((scalar-0x10000)>>10);
+            text[length++]=0xdc00+((scalar-0x10000)&1023);
+        } else
+#endif
+            text[length++]=scalar;
+    }
+    mk->ucsdata->line_codepage=CP_UTF8;
+    for (size_t i=0;i<lenof(charset_input_reference);i++) {
+        reset(mk);
+        test_context(mk,"ISO 2022 independent selection input: %s",charset_input_reference[i].name);
+        term_data_fragmented(mk->term,charset_input_reference[i].setup);
+        term_do_paste(mk->term,text,length);
+        unsigned callbacks=0;
+        while (mk->term->paste_len && callbacks++<10) run_toplevel_callbacks();
+        IEQUAL(mk->term->paste_len,0);
+        IEQUAL(mk->to_backend->len,charset_input_reference[i].length);
+        size_t common=min(mk->to_backend->len,charset_input_reference[i].length);
+        for (size_t n=0;n<common;n++) if (mk->to_backend->s[n]!=charset_input_reference[i].reply[n]) {
+            report_fail(mk,__FILE__,__LINE__,"selection byte %zu: %02x != %02x",n,
+                (unsigned char)mk->to_backend->s[n],(unsigned char)charset_input_reference[i].reply[n]);
+            break;
+        }
+        strbuf_clear(mk->to_backend);
+        /* NRC selection conversion must not replace configured Unicode typing. */
+        term_keyinputw(mk->term,text,length);
+        IEQUAL(mk->to_backend->len,utf8->len);
+        IEQUAL(mk->to_backend->len==utf8->len && !memcmp(mk->to_backend->s,utf8->s,utf8->len),true);
+    }
+    strbuf_free(utf8);
+    reset(mk);
+    test_context(mk,"configured byte keyboard input observes temporary UTF-8 override");
+    mk->ucsdata->line_codepage=CP_ISO8859_1;
+    term_data_fragmented(mk->term,"\033%G");
+    term_keyinput(mk->term,CP_ISO8859_1,"\243",1);
+    SEQUAL(mk->to_backend->s,"\302\243");
+    mk->ucsdata->line_codepage=CP_UTF8;
+    reset(mk);
+}
+
 static void test_soft_state(Mock *mk)
 {
     reset(mk);
@@ -512,6 +562,9 @@ int main(void)
     mk->tw.vt=&vt;
     mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
+    /* This fixture runs the event loop; the synchronous parser matrices below
+     * intentionally accumulate update callbacks until mock_free. */
+    test_iso2022_paste(mk);
     test_soft_state(mk);
     test_soft_preservation(mk);
     test_soft_policy_and_palette(mk);

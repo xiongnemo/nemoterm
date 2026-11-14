@@ -7239,11 +7239,36 @@ static void term_display_graphic_char(Terminal *term, unsigned long c)
 }
 
 static strbuf *term_input_data_from_unicode(
-    Terminal *term, const wchar_t *widebuf, size_t len)
+    Terminal *term, const wchar_t *widebuf, size_t len, bool paste)
 {
     strbuf *buf = strbuf_new();
 
-    if (in_utf(term)) {
+    if (paste && term->nrc_mode) {
+        const NemoCharset *sets[2];
+        int banks[2] = {term->cset, term->cset_gr};
+        for (unsigned n=0; n<2; n++) {
+            int attr=term->cset_attr[banks[n]];
+            sets[n]=nemo_charset_descriptor(attr);
+            if (!sets[n]) sets[n]=nemo_charset_designate(1, nemo_charset_level(term), true,
+                attr==CSET_GBCHR ? "A" : attr==CSET_LINEDRW ? "0" : "B", 1);
+        }
+        bool unicode_nrc = term->utf > 0 ||
+            (term->utf == 0 && term->ucsdata->line_codepage == CP_UTF8);
+        for (size_t i=0; i<len; i++) {
+            uint32_t ch=widebuf[i];
+            if (IS_SURROGATE(ch)) {
+#ifdef PLATFORM_IS_UTF16
+                if (i+1<len && IS_SURROGATE_PAIR(ch,widebuf[i+1])) {
+                    ch=FROM_SURROGATES(ch,widebuf[i+1]); i++;
+                } else
+#endif
+                    ch='.';
+            }
+            unsigned gl=nemo_charset_input(sets[0],ch,unicode_nrc);
+            unsigned out=gl!=ch ? gl : nemo_charset_input(sets[1],ch,unicode_nrc);
+            put_byte(buf,out);
+        }
+    } else if (in_utf(term)) {
         /*
          * Translate input wide characters into UTF-8 to go in the
          * terminal's input data queue.
@@ -7281,6 +7306,16 @@ static strbuf *term_input_data_from_unicode(
          * wc_to_mb will write.)
          */
         put_wc_to_mb(buf, term->ucsdata->line_codepage, widebuf, len, "");
+        /* In byte-output mode XTerm filters C1 bytes in selection data after
+         * locale conversion. This is separate from Unicode keyboard input. */
+        if (paste && !conf_get_bool(term->conf, CONF_paste_controls)) {
+            size_t used=0;
+            for (size_t i=0; i<buf->len; i++) {
+                unsigned char byte=buf->s[i];
+                if (byte<0x80 || byte>=0xa0) buf->s[used++]=byte;
+            }
+            strbuf_shrink_to(buf,used);
+        }
     }
 
     return buf;
@@ -7297,7 +7332,7 @@ static strbuf *term_input_data_from_charset(
         strbuf *wide = strbuf_new();
         put_mb_to_wc(wide, codepage, str, len);
         strbuf *buf = term_input_data_from_unicode(
-            term, (const wchar_t *)wide->s, wide->len / sizeof(wchar_t));
+            term, (const wchar_t *)wide->s, wide->len / sizeof(wchar_t), false);
         strbuf_free(wide);
         return buf;
     }
@@ -11462,7 +11497,7 @@ static void term_paste_callback(void *vterm)
         }
         if (term->ldisc) {
             strbuf *buf = term_input_data_from_unicode(
-                term, term->paste_buffer + term->paste_pos, n);
+                term, term->paste_buffer + term->paste_pos, n, true);
             term_keyinput_internal(term, buf->s, buf->len, false);
             strbuf_free(buf);
         }
@@ -11563,7 +11598,7 @@ void term_do_paste(Terminal *term, const wchar_t *data, size_t len)
     if (term->paste_len < 256) {
         if (term->ldisc) {
             strbuf *buf = term_input_data_from_unicode(
-                term, term->paste_buffer, term->paste_len);
+                term, term->paste_buffer, term->paste_len, true);
             assert(buf->len <= INT_MAX); /* because paste_len was also small */
             term_keyinput_internal(term, buf->s, buf->len, false);
             strbuf_free(buf);
@@ -12455,7 +12490,7 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
 
 void term_keyinputw(Terminal *term, const wchar_t *widebuf, int len)
 {
-    strbuf *buf = term_input_data_from_unicode(term, widebuf, len);
+    strbuf *buf = term_input_data_from_unicode(term, widebuf, len, false);
     if (buf->len)
         term_keyinput_internal(term, buf->s, buf->len, true);
     strbuf_free(buf);
@@ -12463,7 +12498,8 @@ void term_keyinputw(Terminal *term, const wchar_t *widebuf, int len)
 
 void term_keyinput(Terminal *term, int codepage, const void *str, int len)
 {
-    if (codepage < 0 || codepage == term->ucsdata->line_codepage) {
+    if (codepage < 0 || codepage ==
+        (in_utf(term) ? CP_UTF8 : term->ucsdata->line_codepage)) {
         /*
          * This text needs no translation, either because it's already
          * in the right character set, or because we got the special

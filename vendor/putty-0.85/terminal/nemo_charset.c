@@ -92,3 +92,27 @@ uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,
     if (byte>=0x80 && result>0x20 && result<0x80) result|=0x80;
     return result;
 }
+
+unsigned nemo_charset_input(const NemoCharset *charset, uint32_t scalar,
+                            bool unicode_nrc)
+{
+    if (charset) {
+        if (charset->kind==BRITISH && charset->minimum_level==1 && scalar==0xa3)
+            return 0x23;
+        /* French-Canadian alias 9 and DEC line graphics have no reverse
+         * conversion in XTerm; the latter is not a national input layout. */
+        if (charset->kind==TABLE && strcmp(charset->designation,"9")) {
+            for (size_t i=0;i<sizeof(charset_input_masks)/sizeof(*charset_input_masks);i++) {
+                if (charset_input_masks[i].mapping!=charset->mapping) continue;
+                for (unsigned p=0;p<96;p++) {
+                    uint32_t bits=charset_input_masks[i].direct[p/32] |
+                        (unicode_nrc ? charset_input_masks[i].unicode[p/32] : 0);
+                    if ((bits & (UINT32_C(1)<<(p%32))) && charset->mapping[p]==scalar)
+                        return p+0x20;
+                }
+                break;
+            }
+        }
+    }
+    return scalar & 0x7f;
+}

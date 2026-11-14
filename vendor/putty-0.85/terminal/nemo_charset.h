@@ -32,4 +32,10 @@ const NemoCharset *nemo_charset_by_id(unsigned id);
  * perform those operations before calling it. No allocation or locale state. */
 uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,
                          unsigned level, bool national);
+
+/* XTerm NRC selection-input conversion. It is always seven-bit, including
+ * its fallback for unrepresentable characters. unicode_nrc enables UNI rules.
+ * Keyboard layout/locale encoding is separate from selection conversion. */
+unsigned nemo_charset_input(const NemoCharset *charset, uint32_t scalar,
+                            bool unicode_nrc);
 #endif

@@ -299,6 +299,14 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/renderer-* test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test ISO 2022 renderer pixels and ConPTY selection input
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          python tests/iso2022_window_smoke.py 2>&1 | Tee-Object test-results/iso2022-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/iso2022-observed.json, research/iso2022-*.png test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test native grapheme widths, shapes, rectangles and font changes
         shell: pwsh
         run: |

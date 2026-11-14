@@ -1,0 +1,1664 @@
+{
+  "base_commit": "9abf3396520b858e637d521de4616a6c664c68ca",
+  "state": "input-native-development-checkpoint-not-promoted",
+  "records": [
+    {
+      "source": ".github\\workflows\\ci.yml",
+      "archive": "iso2022-input-records-02/000-ci.yml.gz",
+      "bytes": 45503,
+      "sha256": "c7ad45dbea144d7ebb1f021e8d1ecfcc747fdf2d99a625f305afe1b81b5adfed"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-00.log",
+      "archive": "iso2022-input-records-02/001-normal-00.log.gz",
+      "bytes": 4362,
+      "sha256": "4f8bdca42c4145abb3c98a91ff503d91c6a0e3e90c0ade49339a7d70e0535fdc"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-01.log",
+      "archive": "iso2022-input-records-02/002-normal-01.log.gz",
+      "bytes": 16478,
+      "sha256": "82de0c2ff1c75b56abf4be9eeaa69a31fa0541da532a6bcbbb05e3c92c5d31ba"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-02.log",
+      "archive": "iso2022-input-records-02/003-normal-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-03.log",
+      "archive": "iso2022-input-records-02/004-normal-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-04.log",
+      "archive": "iso2022-input-records-02/005-normal-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-05.log",
+      "archive": "iso2022-input-records-02/006-normal-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-06.log",
+      "archive": "iso2022-input-records-02/007-normal-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-07.log",
+      "archive": "iso2022-input-records-02/008-normal-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-08.log",
+      "archive": "iso2022-input-records-02/009-normal-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-input-linux\\normal-09.log",
+      "archive": "iso2022-input-records-02/010-normal-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\charset-input-linux\\results.json",
+      "archive": "iso2022-input-records-02/011-results.json.gz",
+      "bytes": 7713,
+      "sha256": "89bdf4bb20dcecb1d7d8113604a89f6aa7cf301f8c7e3f70f061108eceddd82b"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-00.log",
+      "archive": "iso2022-input-records-02/012-sanitizers-00.log.gz",
+      "bytes": 4366,
+      "sha256": "882e3f7baa825e10476696394a5b12afe5bf78b8fa34731c213f0209840d8592"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-01.log",
+      "archive": "iso2022-input-records-02/013-sanitizers-01.log.gz",
+      "bytes": 16478,
+      "sha256": "32afb189a0412c76df2ff78d04a576c8f345caa6e199dcfe92ebc5a10932a7cf"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-02.log",
+      "archive": "iso2022-input-records-02/014-sanitizers-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-03.log",
+      "archive": "iso2022-input-records-02/015-sanitizers-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-04.log",
+      "archive": "iso2022-input-records-02/016-sanitizers-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-05.log",
+      "archive": "iso2022-input-records-02/017-sanitizers-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-06.log",
+      "archive": "iso2022-input-records-02/018-sanitizers-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-07.log",
+      "archive": "iso2022-input-records-02/019-sanitizers-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-08.log",
+      "archive": "iso2022-input-records-02/020-sanitizers-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-input-linux\\sanitizers-09.log",
+      "archive": "iso2022-input-records-02/021-sanitizers-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\charset-input-single-01\\link.log",
+      "archive": "iso2022-input-records-02/022-link.log.gz",
+      "bytes": 160,
+      "sha256": "d21a2328ccebaa761e98fdea3798eab4f97d987bc9071e60821f1d69e06f0c5f"
+    },
+    {
+      "source": "build\\charset-input-single-02\\image.json",
+      "archive": "iso2022-input-records-02/023-image.json.gz",
+      "bytes": 8253,
+      "sha256": "b3f926e8f911183d2ca8c75e84ea3e8c420a19b7fe2e402ab6af8f8831d37af3"
+    },
+    {
+      "source": "build\\charset-input-single-02\\link.log",
+      "archive": "iso2022-input-records-02/024-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "source": "build\\charset-input-single-02\\link.rsp",
+      "archive": "iso2022-input-records-02/025-link.rsp.gz",
+      "bytes": 5518,
+      "sha256": "78fdba22cbb03dd7952588db7b7e657f6b4411e90ae1b787e922f235d2dd8dfa"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\controller.log",
+      "archive": "iso2022-input-records-02/026-controller.log.gz",
+      "bytes": 366,
+      "sha256": "e7f861f501489b7c02be7053a42516ee4cffdab81a389d7fc2425848cce35921"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\research\\tabs-controller.json",
+      "archive": "iso2022-input-records-02/027-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "e462903e733ab1e604742260eb0e3450acfb8b4fc1b7478325446a1feedaeb27"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\research\\workload-tabs-directx-left-memory.json",
+      "archive": "iso2022-input-records-02/028-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1475559,
+      "sha256": "8c7c4af31cdd1a68a8b9aeff2e9535cfab29d07f1fd2f2eca1521c754054a3ec"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\research\\workload-tabs-directx-left-observed.json",
+      "archive": "iso2022-input-records-02/029-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 187045,
+      "sha256": "02883a8fd12c9c436ea152189fb32ce5cc39f96d86ba432e467f5eba2096265e"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\research\\workload-tabs-directx-left-preview.png",
+      "archive": "iso2022-input-records-02/030-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tabs.log",
+      "archive": "iso2022-input-records-02/031-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\automation_capture.py",
+      "archive": "iso2022-input-records-02/032-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\fixture_io.py",
+      "archive": "iso2022-input-records-02/033-fixture_io.py.gz",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\frida_test_utils.py",
+      "archive": "iso2022-input-records-02/034-frida_test_utils.py.gz",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\memory_limits.py",
+      "archive": "iso2022-input-records-02/035-memory_limits.py.gz",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\native_test_utils.py",
+      "archive": "iso2022-input-records-02/036-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\owned_failure_state.py",
+      "archive": "iso2022-input-records-02/037-owned_failure_state.py.gz",
+      "bytes": 2238,
+      "sha256": "c2875722eb3543051143651c67831af75a15f2d97a844b84d04fa37a2fd30fa7"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\owned_job.py",
+      "archive": "iso2022-input-records-02/038-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\resource_settle.py",
+      "archive": "iso2022-input-records-02/039-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\tab_menu_checks.py",
+      "archive": "iso2022-input-records-02/040-tab_menu_checks.py.gz",
+      "bytes": 3075,
+      "sha256": "18525b44d512a75de42a50d670475cb824bdf672c05b90d9ff72efeb39fa4043"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\tab_workload_memory.py",
+      "archive": "iso2022-input-records-02/041-tab_workload_memory.py.gz",
+      "bytes": 6122,
+      "sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\tabs_window_smoke.py",
+      "archive": "iso2022-input-records-02/042-tabs_window_smoke.py.gz",
+      "bytes": 29857,
+      "sha256": "0ede5f4994144dfb044a58cd93417dfe48450601cdce8e89f0395b0a9c5df3d6"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-directx\\tests\\thread_snapshot.py",
+      "archive": "iso2022-input-records-02/043-thread_snapshot.py.gz",
+      "bytes": 7972,
+      "sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\controller.log",
+      "archive": "iso2022-input-records-02/044-controller.log.gz",
+      "bytes": 365,
+      "sha256": "a3e902c5080e8c30f1173bd136baa75143edbd951f4349c54584ccd1b0176f1d"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\research\\tabs-controller.json",
+      "archive": "iso2022-input-records-02/045-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "dd0dc4c3ddec2daf9e1d641f62deb9a8917bec3b8f7f248161d3d0356192330e"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\research\\tabs-gdi-top-host.png",
+      "archive": "iso2022-input-records-02/046-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\research\\workload-tabs-gdi-top-memory.json",
+      "archive": "iso2022-input-records-02/047-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1449033,
+      "sha256": "6d830970d482b6478fd2e8a461e2651574f446e978b3a83f1bfaf5902507e7f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\research\\workload-tabs-gdi-top-observed.json",
+      "archive": "iso2022-input-records-02/048-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 171908,
+      "sha256": "5598c30a1ea563b61f50db4bcb703a149d72f4476b91a8838c49d8de51fdc6cc"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\research\\workload-tabs-gdi-top-preview.png",
+      "archive": "iso2022-input-records-02/049-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\after-gdi\\tabs.log",
+      "archive": "iso2022-input-records-02/050-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\controller.log",
+      "archive": "iso2022-input-records-02/051-controller.log.gz",
+      "bytes": 366,
+      "sha256": "0fdcbcf6caa8a7c682b0ef7f16ffba41e10cfcde2d2597a4eddb6701eea82859"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\research\\tabs-controller.json",
+      "archive": "iso2022-input-records-02/052-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "5e89bcac68c5582d4323009daac927b9d25fdae6409548b7bf4844c383694194"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\research\\workload-tabs-directx-left-memory.json",
+      "archive": "iso2022-input-records-02/053-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1415505,
+      "sha256": "049331687da3f80127546be7fa2055b5762e49b3aa293461b3695031cd0fc5c9"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\research\\workload-tabs-directx-left-observed.json",
+      "archive": "iso2022-input-records-02/054-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 171316,
+      "sha256": "6158198b8862f1a9b1cb5099d6dc7e21ee2973225067a127e957e4148ca58029"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\research\\workload-tabs-directx-left-preview.png",
+      "archive": "iso2022-input-records-02/055-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-directx\\tabs.log",
+      "archive": "iso2022-input-records-02/056-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\controller.log",
+      "archive": "iso2022-input-records-02/057-controller.log.gz",
+      "bytes": 365,
+      "sha256": "8c46b94c476ec1b0c7cc239f29d6bda9db099332128265cb21d08a05b65ad8f1"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\research\\tabs-controller.json",
+      "archive": "iso2022-input-records-02/058-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "fba4e954af6a429dd80c1d7ce9e4a2976e83390e1bcaf8dce99197975d736e18"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\research\\tabs-gdi-top-host.png",
+      "archive": "iso2022-input-records-02/059-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\research\\workload-tabs-gdi-top-memory.json",
+      "archive": "iso2022-input-records-02/060-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1480556,
+      "sha256": "9930f62e8105f6ca4b3633fa8720da630d64f49c562aeb235455400ab78758d8"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\research\\workload-tabs-gdi-top-observed.json",
+      "archive": "iso2022-input-records-02/061-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 172586,
+      "sha256": "6563bd1207bd1aabf2d36408a38c381bac08ade3d61a3fc0b20b5fcb9ac7a859"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\research\\workload-tabs-gdi-top-preview.png",
+      "archive": "iso2022-input-records-02/062-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\charset-memory-01\\before-gdi\\tabs.log",
+      "archive": "iso2022-input-records-02/063-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "source": "build\\charset-memory-01\\results.json",
+      "archive": "iso2022-input-records-02/064-results.json.gz",
+      "bytes": 3349,
+      "sha256": "f16e068a3062bd086c10e7fb7b531cb3ceb5ec59d0e971a081be5e34af968b43"
+    },
+    {
+      "source": "build\\charset-native-01\\iso2022.log",
+      "archive": "iso2022-input-records-02/065-iso2022.log.gz",
+      "bytes": 157,
+      "sha256": "10c0453e3b95100ff8ca63ea4135759614160e965c657b5716168d7a56f0d57a"
+    },
+    {
+      "source": "build\\charset-native-01\\outer.log",
+      "archive": "iso2022-input-records-02/066-outer.log.gz",
+      "bytes": 369,
+      "sha256": "73aa2913a83e54130f35c585985dc901fbefa3ee332d04aa2d0b1d48e566b80f"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-german-designated.png",
+      "archive": "iso2022-input-records-02/067-iso2022-0-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-german-unicode.png",
+      "archive": "iso2022-input-records-02/068-iso2022-0-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/069-iso2022-0-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/070-iso2022-0-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/071-iso2022-0-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/072-iso2022-0-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/073-iso2022-0-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-0-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/074-iso2022-0-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-german-designated.png",
+      "archive": "iso2022-input-records-02/075-iso2022-1-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-german-unicode.png",
+      "archive": "iso2022-input-records-02/076-iso2022-1-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/077-iso2022-1-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/078-iso2022-1-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/079-iso2022-1-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/080-iso2022-1-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/081-iso2022-1-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-1-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/082-iso2022-1-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-german-designated.png",
+      "archive": "iso2022-input-records-02/083-iso2022-2-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-german-unicode.png",
+      "archive": "iso2022-input-records-02/084-iso2022-2-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/085-iso2022-2-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/086-iso2022-2-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/087-iso2022-2-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/088-iso2022-2-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/089-iso2022-2-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-2-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/090-iso2022-2-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-controller.json",
+      "archive": "iso2022-input-records-02/091-iso2022-controller.json.gz",
+      "bytes": 472,
+      "sha256": "19df943cc7da3f04ae42a84701b0cca838fc10bb7e2a5a529dc60e4529e7ce73"
+    },
+    {
+      "source": "build\\charset-native-01\\research\\iso2022-observed.json",
+      "archive": "iso2022-input-records-02/092-iso2022-observed.json.gz",
+      "bytes": 99457,
+      "sha256": "679038571e51b3e3e403fb3752f6f046f83196ee10b8a3e0da4fb93e6c1c28f0"
+    },
+    {
+      "source": "build\\charset-native-01\\tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-input-records-02/093-iso2022_window_smoke.py.gz",
+      "bytes": 5831,
+      "sha256": "1e0fc55f6ab8e4114580058ce86758f587955521174dcdba395a9093648f6dcb"
+    },
+    {
+      "source": "build\\charset-native-02\\iso2022.log",
+      "archive": "iso2022-input-records-02/094-iso2022.log.gz",
+      "bytes": 157,
+      "sha256": "10c0453e3b95100ff8ca63ea4135759614160e965c657b5716168d7a56f0d57a"
+    },
+    {
+      "source": "build\\charset-native-02\\outer.log",
+      "archive": "iso2022-input-records-02/095-outer.log.gz",
+      "bytes": 369,
+      "sha256": "7b4904b72ad8f4bae6aaba50a0f412fa57af30920ff4840336d96229dc52ca45"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-blank.png",
+      "archive": "iso2022-input-records-02/096-iso2022-0-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-german-designated.png",
+      "archive": "iso2022-input-records-02/097-iso2022-0-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-german-unicode.png",
+      "archive": "iso2022-input-records-02/098-iso2022-0-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/099-iso2022-0-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/100-iso2022-0-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/101-iso2022-0-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/102-iso2022-0-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/103-iso2022-0-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-0-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/104-iso2022-0-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-blank.png",
+      "archive": "iso2022-input-records-02/105-iso2022-1-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-german-designated.png",
+      "archive": "iso2022-input-records-02/106-iso2022-1-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-german-unicode.png",
+      "archive": "iso2022-input-records-02/107-iso2022-1-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/108-iso2022-1-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/109-iso2022-1-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/110-iso2022-1-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/111-iso2022-1-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/112-iso2022-1-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-1-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/113-iso2022-1-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-blank.png",
+      "archive": "iso2022-input-records-02/114-iso2022-2-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-german-designated.png",
+      "archive": "iso2022-input-records-02/115-iso2022-2-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-german-unicode.png",
+      "archive": "iso2022-input-records-02/116-iso2022-2-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/117-iso2022-2-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/118-iso2022-2-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/119-iso2022-2-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/120-iso2022-2-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/121-iso2022-2-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-2-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/122-iso2022-2-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-controller.json",
+      "archive": "iso2022-input-records-02/123-iso2022-controller.json.gz",
+      "bytes": 472,
+      "sha256": "ef6bda2546bb45259f32052741e99590f55409bc58060b0d540fe5309a10c860"
+    },
+    {
+      "source": "build\\charset-native-02\\research\\iso2022-observed.json",
+      "archive": "iso2022-input-records-02/124-iso2022-observed.json.gz",
+      "bytes": 99730,
+      "sha256": "c22bd1d73a556bb9be12cd253a135f4468ce8ed8290afdd5125a3c2ddb4e75d6"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\automation_capture.py",
+      "archive": "iso2022-input-records-02/125-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\fixture_io.py",
+      "archive": "iso2022-input-records-02/126-fixture_io.py.gz",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-input-records-02/127-iso2022_window_smoke.py.gz",
+      "bytes": 6065,
+      "sha256": "c549b43acb7d8d3c4b4316bcd0c5cc0994857ae394b88d2e19a07fd5ceca788b"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\mouse_fixture.py",
+      "archive": "iso2022-input-records-02/128-mouse_fixture.py.gz",
+      "bytes": 5665,
+      "sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\native_test_utils.py",
+      "archive": "iso2022-input-records-02/129-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\owned_job.py",
+      "archive": "iso2022-input-records-02/130-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "source": "build\\charset-native-02\\tests\\protocol_oracle_window.py",
+      "archive": "iso2022-input-records-02/131-protocol_oracle_window.py.gz",
+      "bytes": 6603,
+      "sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+    },
+    {
+      "source": "build\\charset-native-02\\tools\\nemoterm_debug.py",
+      "archive": "iso2022-input-records-02/132-nemoterm_debug.py.gz",
+      "bytes": 9528,
+      "sha256": "1a63181cc9acc34d3349464e9179942be2472feaeec1867dd5af87d8a9294522"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\iso2022.log",
+      "archive": "iso2022-input-records-02/133-iso2022.log.gz",
+      "bytes": 390,
+      "sha256": "f18db3ce9a4d7145bc801cd5f322af2d9283fde5a0fd2091e0e62b8634987152"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\outer.log",
+      "archive": "iso2022-input-records-02/134-outer.log.gz",
+      "bytes": 759,
+      "sha256": "1e3f9f04e9245e1ab6738215af296861870e690683fbc23cb9bced69d686c1cf"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-blank.png",
+      "archive": "iso2022-input-records-02/135-iso2022-0-blank.png.gz",
+      "bytes": 1041,
+      "sha256": "e8d284313acfe9391b497569a541f26a04f2936e5c64e1b7dcc8babd79debdc2"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-german-designated.png",
+      "archive": "iso2022-input-records-02/136-iso2022-0-german-designated.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-german-unicode.png",
+      "archive": "iso2022-input-records-02/137-iso2022-0-german-unicode.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/138-iso2022-0-greek-96-designated.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/139-iso2022-0-greek-96-unicode.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/140-iso2022-0-portuguese-designated.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/141-iso2022-0-portuguese-unicode.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/142-iso2022-0-single-shift-designated.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-0-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/143-iso2022-0-single-shift-unicode.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-controller.json",
+      "archive": "iso2022-input-records-02/144-iso2022-controller.json.gz",
+      "bytes": 470,
+      "sha256": "f9044d52d9da0a7acdb604de776b1cfaaf0842f0545c9cb954a6b129ad1dc239"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\research\\iso2022-observed.json",
+      "archive": "iso2022-input-records-02/145-iso2022-observed.json.gz",
+      "bytes": 10165,
+      "sha256": "a2218f657c847c0c88eaeb00e2be9dbcf357cc12dcbbbf0b5fa194b1e48b6109"
+    },
+    {
+      "source": "build\\charset-native-ci-01\\tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-input-records-02/146-iso2022_window_smoke.py.gz",
+      "bytes": 6717,
+      "sha256": "950a2c23b18d40aa1e60bf803f3fa37bda7ea13202c0ca1c2bec2ace90710b43"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\iso2022.log",
+      "archive": "iso2022-input-records-02/147-iso2022.log.gz",
+      "bytes": 203,
+      "sha256": "6f65fec98cc0729598496427fee068d1a3f15f998de0939b05cb1e19b6c77c1d"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\outer.log",
+      "archive": "iso2022-input-records-02/148-outer.log.gz",
+      "bytes": 367,
+      "sha256": "557007bed5f8071225c3225333857ca06f9802b8914da8d323f3a95e8ae644f9"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-blank.png",
+      "archive": "iso2022-input-records-02/149-iso2022-0-blank.png.gz",
+      "bytes": 1041,
+      "sha256": "e8d284313acfe9391b497569a541f26a04f2936e5c64e1b7dcc8babd79debdc2"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-german-designated.png",
+      "archive": "iso2022-input-records-02/150-iso2022-0-german-designated.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-german-unicode.png",
+      "archive": "iso2022-input-records-02/151-iso2022-0-german-unicode.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/152-iso2022-0-greek-96-designated.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/153-iso2022-0-greek-96-unicode.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/154-iso2022-0-portuguese-designated.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/155-iso2022-0-portuguese-unicode.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/156-iso2022-0-single-shift-designated.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-0-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/157-iso2022-0-single-shift-unicode.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-blank.png",
+      "archive": "iso2022-input-records-02/158-iso2022-1-blank.png.gz",
+      "bytes": 1041,
+      "sha256": "e8d284313acfe9391b497569a541f26a04f2936e5c64e1b7dcc8babd79debdc2"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-german-designated.png",
+      "archive": "iso2022-input-records-02/159-iso2022-1-german-designated.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-german-unicode.png",
+      "archive": "iso2022-input-records-02/160-iso2022-1-german-unicode.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/161-iso2022-1-greek-96-designated.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/162-iso2022-1-greek-96-unicode.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/163-iso2022-1-portuguese-designated.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/164-iso2022-1-portuguese-unicode.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/165-iso2022-1-single-shift-designated.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-1-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/166-iso2022-1-single-shift-unicode.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-blank.png",
+      "archive": "iso2022-input-records-02/167-iso2022-2-blank.png.gz",
+      "bytes": 1041,
+      "sha256": "e8d284313acfe9391b497569a541f26a04f2936e5c64e1b7dcc8babd79debdc2"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-german-designated.png",
+      "archive": "iso2022-input-records-02/168-iso2022-2-german-designated.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-german-unicode.png",
+      "archive": "iso2022-input-records-02/169-iso2022-2-german-unicode.png.gz",
+      "bytes": 1265,
+      "sha256": "a939ab35eac7b5dc349f844664269eedb665642e78244e8fad5c1a21890088bc"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-greek-96-designated.png",
+      "archive": "iso2022-input-records-02/170-iso2022-2-greek-96-designated.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-greek-96-unicode.png",
+      "archive": "iso2022-input-records-02/171-iso2022-2-greek-96-unicode.png.gz",
+      "bytes": 1177,
+      "sha256": "019b491285a1440b3ed56ac28e2b01fdf3d9a835cd1aa3bc3608820d3f7e096e"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-portuguese-designated.png",
+      "archive": "iso2022-input-records-02/172-iso2022-2-portuguese-designated.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-portuguese-unicode.png",
+      "archive": "iso2022-input-records-02/173-iso2022-2-portuguese-unicode.png.gz",
+      "bytes": 1247,
+      "sha256": "cb8cad91e6b723b82bf4c5be2dbd05d9c4061743f49a4ced56036179827fcc9a"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-single-shift-designated.png",
+      "archive": "iso2022-input-records-02/174-iso2022-2-single-shift-designated.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-2-single-shift-unicode.png",
+      "archive": "iso2022-input-records-02/175-iso2022-2-single-shift-unicode.png.gz",
+      "bytes": 1168,
+      "sha256": "411f51c94e75084d70bc23429a2f108317d1f8d4340d1b1860d6b1aa8962cd99"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-controller.json",
+      "archive": "iso2022-input-records-02/176-iso2022-controller.json.gz",
+      "bytes": 470,
+      "sha256": "f33edad8ff19ccf9b15f3b0e2d6623d3c6725f128647e0c993abd5d39cb4e3ba"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\research\\iso2022-observed.json",
+      "archive": "iso2022-input-records-02/177-iso2022-observed.json.gz",
+      "bytes": 30085,
+      "sha256": "285f64912f7177a693521624d01ad5f47c8a9e44a4b800cb5a5da7767742124c"
+    },
+    {
+      "source": "build\\charset-native-ci-02\\tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-input-records-02/178-iso2022_window_smoke.py.gz",
+      "bytes": 6717,
+      "sha256": "49e44f34fb485ec58ff98f50d4b7c420528915e2c29a78b4bf0f1fdcbf5c4412"
+    },
+    {
+      "source": "build\\check-charset-ci-native.py",
+      "archive": "iso2022-input-records-02/179-check-charset-ci-native.py.gz",
+      "bytes": 927,
+      "sha256": "abc329e534c394a374d1e5ff6790e54292a98fcfcd4041c13fb42fc29bd08543"
+    },
+    {
+      "source": "build\\check-charset-input.py",
+      "archive": "iso2022-input-records-02/180-check-charset-input.py.gz",
+      "bytes": 1438,
+      "sha256": "06ea92215798d40be301302ec574b27f919fbe7677bb41b74c67a18026eb8e89"
+    },
+    {
+      "source": "build\\check-charset-memory.py",
+      "archive": "iso2022-input-records-02/181-check-charset-memory.py.gz",
+      "bytes": 3043,
+      "sha256": "7f612442d09d41e66b4f9497e331ca1aae4683a87cf8aceeb2df0d509c8d2512"
+    },
+    {
+      "source": "build\\input-build-first.log",
+      "archive": "iso2022-input-records-02/182-input-build-first.log.gz",
+      "bytes": 1144,
+      "sha256": "f4419ca4cb1da8f9d2861c2d20973615ae939e7643de083733643c70435575c7"
+    },
+    {
+      "source": "build\\input-build-fourth.log",
+      "archive": "iso2022-input-records-02/183-input-build-fourth.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\input-build-second.log",
+      "archive": "iso2022-input-records-02/184-input-build-second.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\input-build-third.log",
+      "archive": "iso2022-input-records-02/185-input-build-third.log.gz",
+      "bytes": 235,
+      "sha256": "bb523e06fd98bf7f31dd60c32dfa16a2f5f0fe2f97e1f262c834ff0c4901c9bf"
+    },
+    {
+      "source": "build\\input-first-test_state_control.log",
+      "archive": "iso2022-input-records-02/186-input-first-test_state_control.log.gz",
+      "bytes": 9375,
+      "sha256": "48f60e78160e07b5346eb0929359efb45461c84a9d94c6823b168d3a2cb2a14a"
+    },
+    {
+      "source": "build\\input-msvc-build.log",
+      "archive": "iso2022-input-records-02/187-input-msvc-build.log.gz",
+      "bytes": 2792,
+      "sha256": "3e047292bc4af108b01f20b458080e478e669d4f2386e036f853d7aed53f91fb"
+    },
+    {
+      "source": "build\\input-msvc-test_grapheme_terminal.log",
+      "archive": "iso2022-input-records-02/188-input-msvc-test_grapheme_terminal.log.gz",
+      "bytes": 32,
+      "sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+    },
+    {
+      "source": "build\\input-msvc-test_iso2022_charset.log",
+      "archive": "iso2022-input-records-02/189-input-msvc-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\input-msvc-test_queries.log",
+      "archive": "iso2022-input-records-02/190-input-msvc-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "source": "build\\input-msvc-test_rectangle.log",
+      "archive": "iso2022-input-records-02/191-input-msvc-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "source": "build\\input-msvc-test_reflow.log",
+      "archive": "iso2022-input-records-02/192-input-msvc-test_reflow.log.gz",
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    {
+      "source": "build\\input-msvc-test_sixel_terminal.log",
+      "archive": "iso2022-input-records-02/193-input-msvc-test_sixel_terminal.log.gz",
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    {
+      "source": "build\\input-msvc-test_state_control.log",
+      "archive": "iso2022-input-records-02/194-input-msvc-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\input-msvc-test_terminal.log",
+      "archive": "iso2022-input-records-02/195-input-msvc-test_terminal.log.gz",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "source": "build\\input-second-test_state_control.log",
+      "archive": "iso2022-input-records-02/196-input-second-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\input-single-build-second.log",
+      "archive": "iso2022-input-records-02/197-input-single-build-second.log.gz",
+      "bytes": 183,
+      "sha256": "fa43d1164da92457a369265191d8c731ec6e2d1de9da0b870c2f3fc2ebcecd86"
+    },
+    {
+      "source": "build\\input-single-build.log",
+      "archive": "iso2022-input-records-02/198-input-single-build.log.gz",
+      "bytes": 17672,
+      "sha256": "8f31d210457f164a5272b268e0b8dff025e755d6a65e01348fbce2b61f586fb6"
+    },
+    {
+      "source": "build\\input-single-configure-second.log",
+      "archive": "iso2022-input-records-02/199-input-single-configure-second.log.gz",
+      "bytes": 238,
+      "sha256": "ffe6b404de87d0fe8805ee6ecebae18cf877fe2cd261e6a422d2649856e15778"
+    },
+    {
+      "source": "build\\input-single-configure.log",
+      "archive": "iso2022-input-records-02/200-input-single-configure.log.gz",
+      "bytes": 2972,
+      "sha256": "52b945cd1f6ac6505e80e3f0bb33fd03bd3b4091b1f9f64e2c6de88b16a1fa6f"
+    },
+    {
+      "source": "build\\input-strict-build.log",
+      "archive": "iso2022-input-records-02/201-input-strict-build.log.gz",
+      "bytes": 52,
+      "sha256": "68f433b0472aec54703fb7580b28abc3ee62bf2c8291ffbb229b5de4e2e4c32c"
+    },
+    {
+      "source": "build\\input-strict-test.log",
+      "archive": "iso2022-input-records-02/202-input-strict-test.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\input-third-test_state_control.log",
+      "archive": "iso2022-input-records-02/203-input-third-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\link-charset-input.py",
+      "archive": "iso2022-input-records-02/204-link-charset-input.py.gz",
+      "bytes": 1360,
+      "sha256": "74916a2dc99d07c1470b33b33605f8262916cc9008dff5521526835bacdaafa9"
+    },
+    {
+      "source": "build\\make-charset-input-union.py",
+      "archive": "iso2022-input-records-02/205-make-charset-input-union.py.gz",
+      "bytes": 769,
+      "sha256": "1b0644941291009f036d71f19bf8b9bdea32c0b4fd4ffdc54a083da9d170ed92"
+    },
+    {
+      "source": "build\\reference\\charset-input-first.log",
+      "archive": "iso2022-input-records-02/206-charset-input-first.log.gz",
+      "bytes": 15,
+      "sha256": "9e04588ea1bf5d75c554c2ef6df81eabf7dd6e79045baeed706ef0687b0bcc81"
+    },
+    {
+      "source": "build\\reference\\charset-input-levels.json",
+      "archive": "iso2022-input-records-02/207-charset-input-levels.json.gz",
+      "bytes": 75857,
+      "sha256": "153b3763cd43fb6241878da3ba6178496845622c11e6be179d6911df6f1748d2"
+    },
+    {
+      "source": "build\\reference\\charset-input-levels.log",
+      "archive": "iso2022-input-records-02/208-charset-input-levels.log.gz",
+      "bytes": 70585,
+      "sha256": "54147ec69d096f857762344dd1d702531f3973387ed682909986e718b5970c29"
+    },
+    {
+      "source": "build\\reference\\charset-input-matrix.json",
+      "archive": "iso2022-input-records-02/209-charset-input-matrix.json.gz",
+      "bytes": 64309,
+      "sha256": "615d75bb7f20e1b1f7d6804a3a45d57c5e9571389513860039d4da2bb05fa42d"
+    },
+    {
+      "source": "build\\reference\\charset-input-matrix.log",
+      "archive": "iso2022-input-records-02/210-charset-input-matrix.log.gz",
+      "bytes": 59535,
+      "sha256": "29e46a15d7bf1301c73c3eef8a5f2c89abe1ac48980c1602e8ca76b9e37145a0"
+    },
+    {
+      "source": "build\\reference\\charset-input-second.json",
+      "archive": "iso2022-input-records-02/211-charset-input-second.json.gz",
+      "bytes": 3727,
+      "sha256": "61e1e7631fd16688576202666f2b1db110b29e9eccdf34fa2fc68bdee45599db"
+    },
+    {
+      "source": "build\\reference\\charset-input-second.log",
+      "archive": "iso2022-input-records-02/212-charset-input-second.log.gz",
+      "bytes": 2326,
+      "sha256": "6631279dbb429a26b24bfcd0804747aaf7146022c71bd1e1a9d402df63b18cb7"
+    },
+    {
+      "source": "build\\reference\\charset-input-union.json",
+      "archive": "iso2022-input-records-02/213-charset-input-union.json.gz",
+      "bytes": 6745,
+      "sha256": "80677076a998a376a8391b5f06a7601684b0bd1097b4e440a5e33ca90b6dd921"
+    },
+    {
+      "source": "build\\reference\\charset-input-union.txt",
+      "archive": "iso2022-input-records-02/214-charset-input-union.txt.gz",
+      "bytes": 1217,
+      "sha256": "670efde052ffcd65c75a5a931c8cf01e611b946e0a02f8cb498e7ccc563e16f1"
+    },
+    {
+      "source": "build\\reference\\charset-paste-only.json",
+      "archive": "iso2022-input-records-02/215-charset-paste-only.json.gz",
+      "bytes": 1618,
+      "sha256": "2c7c02f04fbb90ba363149cc9abca4fde0f25bc48852cdea8ca083c0cab0e28a"
+    },
+    {
+      "source": "build\\reference\\charset-paste-only.log",
+      "archive": "iso2022-input-records-02/216-charset-paste-only.log.gz",
+      "bytes": 968,
+      "sha256": "e012ea0bcdda7c844138d5976a048370e02c333caa6c37c67dd82cba70f5766c"
+    },
+    {
+      "source": "build\\reference\\xclip-install.log",
+      "archive": "iso2022-input-records-02/217-xclip-install.log.gz",
+      "bytes": 1226,
+      "sha256": "384e3514c444050ab42cca1b291687dcbc6d7b55ffc07a34cdde200fbda5bb83"
+    },
+    {
+      "source": "build\\retain-input.py",
+      "archive": "iso2022-input-records-02/218-retain-input.py.gz",
+      "bytes": 6025,
+      "sha256": "19f57c4fbb1a8bba68e9f5850d2614749d4db6e5074025a758c9936d2e040817"
+    },
+    {
+      "source": "build\\run-charset-native.py",
+      "archive": "iso2022-input-records-02/219-run-charset-native.py.gz",
+      "bytes": 883,
+      "sha256": "4a63845facaaa9bc43ab3e62e156bd4eca33c14834a161d647978c2dfff8303e"
+    },
+    {
+      "source": "scripts\\test-single-exe.ps1",
+      "archive": "iso2022-input-records-02/220-test-single-exe.ps1.gz",
+      "bytes": 11992,
+      "sha256": "38337b7f2c052e9aa9cfbe44016640c265c24ba7831fcb6b0ba2d94fa8442f9b"
+    },
+    {
+      "source": "tests\\charset_input_reference.h",
+      "archive": "iso2022-input-records-02/221-charset_input_reference.h.gz",
+      "bytes": 72929,
+      "sha256": "d9b12164a9b19959275f576132c82d4c1040636da8156a9049da43f84b710d84"
+    },
+    {
+      "source": "tests\\charset_parser_reference.h",
+      "archive": "iso2022-input-records-02/222-charset_parser_reference.h.gz",
+      "bytes": 23265,
+      "sha256": "d337558422bbfd86cdd281094e1514096064849edbf7653187897186fc164949"
+    },
+    {
+      "source": "tests\\charset_reference.h",
+      "archive": "iso2022-input-records-02/223-charset_reference.h.gz",
+      "bytes": 128365,
+      "sha256": "23a815d4c76a1d24d47789322c74ca1f196010ca0d8916384a5ae4933083dd70"
+    },
+    {
+      "source": "tests\\charset_state_reference.h",
+      "archive": "iso2022-input-records-02/224-charset_state_reference.h.gz",
+      "bytes": 9097,
+      "sha256": "82f2866d3977ac39c88b03b27d44e8fdfcb889d9b65134b2689df9bf9bec2a4c"
+    },
+    {
+      "source": "tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-input-records-02/225-iso2022_window_smoke.py.gz",
+      "bytes": 6717,
+      "sha256": "49e44f34fb485ec58ff98f50d4b7c420528915e2c29a78b4bf0f1fdcbf5c4412"
+    },
+    {
+      "source": "tests\\test_charset.c",
+      "archive": "iso2022-input-records-02/226-test_charset.c.gz",
+      "bytes": 3845,
+      "sha256": "c886facb9395ba696954b46b19f8d4f37e44a8096dd732c1854105b89046473e"
+    },
+    {
+      "source": "tests\\xterm_charset_input_oracle.py",
+      "archive": "iso2022-input-records-02/227-xterm_charset_input_oracle.py.gz",
+      "bytes": 6312,
+      "sha256": "fb15fbc1c6c67b755d5a4a716e80642a48e82e02fd2a8628b06f48c87cc651c3"
+    },
+    {
+      "source": "tools\\generate_charset_input_reference.py",
+      "archive": "iso2022-input-records-02/228-generate_charset_input_reference.py.gz",
+      "bytes": 1329,
+      "sha256": "5e6af82579733aab635081ae83332fa40f31e1b53e566c35c85ee47c96a11d89"
+    },
+    {
+      "source": "tools\\generate_charset_tables.py",
+      "archive": "iso2022-input-records-02/229-generate_charset_tables.py.gz",
+      "bytes": 4308,
+      "sha256": "70cbf22525a394b0fc9652b93df78e88a5d36a401159aba9386bdf8473fca1c8"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.c",
+      "archive": "iso2022-input-records-02/230-nemo_charset.c.gz",
+      "bytes": 5064,
+      "sha256": "45867b1f658d03ef9c20e6e4161513c9b6c2deaa5a82ae3abafd0312f6f30756"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.h",
+      "archive": "iso2022-input-records-02/231-nemo_charset.h.gz",
+      "bytes": 1888,
+      "sha256": "e0ec5394fd6316e63919f29e1d66ae4bc3187869eb3d4c9f268d4d078fcfc514"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset_data.h",
+      "archive": "iso2022-input-records-02/232-nemo_charset_data.h.gz",
+      "bytes": 30531,
+      "sha256": "3aa891c178b2c9869d996d4bb322016e6990151884b4eb32fbfac661dd0dae3d"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\terminal.c",
+      "archive": "iso2022-input-records-02/233-terminal.c.gz",
+      "bytes": 516568,
+      "sha256": "a2ffe2e244fd1375d9e1b1024c54f038e8a5e52ac2468dbe676cba68f9aef58f"
+    },
+    {
+      "source": "vendor\\putty-0.85\\test\\test_state_control.c",
+      "archive": "iso2022-input-records-02/234-test_state_control.c.gz",
+      "bytes": 27180,
+      "sha256": "c099e53425ca910c14ffdf62e043523018b7e9bd07ef951d990a790534cc3a5a"
+    },
+    {
+      "source": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-charsets-parser-9abf339\\core-artifacts.json",
+      "archive": "iso2022-input-records-02/235-core-artifacts.json.gz",
+      "bytes": 3817,
+      "sha256": "56ec5d68f57546707e12d6ab5eca42c003c1c287b3554c768ca616c1a7bba914"
+    },
+    {
+      "source": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-charsets-parser-9abf339\\core-run.json",
+      "archive": "iso2022-input-records-02/236-core-run.json.gz",
+      "bytes": 18584,
+      "sha256": "749e3cadb4fbdbb939c46dc0b39577aed41f5ba06fb43881d643bda2a98f6e0f"
+    },
+    {
+      "source": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-charsets-parser-9abf339\\single-artifacts.json",
+      "archive": "iso2022-input-records-02/237-single-artifacts.json.gz",
+      "bytes": 1545,
+      "sha256": "e8af6d9e9ab0ff73dda2e4a46d5005bda08084618b5f911cd071fd9b36df0aed"
+    },
+    {
+      "source": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-charsets-parser-9abf339\\single-run.json",
+      "archive": "iso2022-input-records-02/238-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "c6ebb1dc31121f7f2e8b74a56f7e7b8d5cf5049d53f8bb2f1b24a52d1e743b57"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\button.c",
+      "archive": "iso2022-input-records-02/239-button.c.gz",
+      "bytes": 162495,
+      "sha256": "a14b0dd0b177d54a1a339b5be13050c346178b065295195bf1b9763f82d714ec"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\charsets.c",
+      "archive": "iso2022-input-records-02/240-charsets.c.gz",
+      "bytes": 18292,
+      "sha256": "87f1bb0b23c7078ffa983a81ff230abf2bfc1cea9d3f26a9b721556ae9d7056b"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\charsets.h",
+      "archive": "iso2022-input-records-02/241-charsets.h.gz",
+      "bytes": 124637,
+      "sha256": "a6c3be7bb162c771a73108a57522ea7af33e7539d1474384ddc5cd6204dc10b6"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\input.c",
+      "archive": "iso2022-input-records-02/242-input.c.gz",
+      "bytes": 62876,
+      "sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+    }
+  ],
+  "input_reference": {
+    "selections": 53,
+    "unicode_codepoints": 586,
+    "keyboard_reference_accepted": false
+  },
+  "built_single": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\charset-worktree\\build\\charset-input-single-02\\nemoterm.exe",
+    "bytes": 4524544,
+    "sha256": "7563afb9d23fbd44cffe7543da950a51c970693848dbbcbbb47d8fd69c1e3f24"
+  },
+  "accepted_unchanged": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+    "bytes": 4452864,
+    "sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26"
+  },
+  "parent_ci": [
+    {
+      "kind": "core",
+      "id": 43588399701,
+      "head": "9abf3396520b858e637d521de4616a6c664c68ca",
+      "conclusion": "success",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43588399701"
+    },
+    {
+      "kind": "single",
+      "id": 43588399714,
+      "head": "9abf3396520b858e637d521de4616a6c664c68ca",
+      "conclusion": "success",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43588399714"
+    }
+  ],
+  "parent_ci_image": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-charsets-parser-9abf339\\product\\nemoterm.exe",
+    "bytes": 4462080,
+    "sha256": "61fec626888d159e936a638072aff7234f33931709243ada884b9ef011ef9243"
+  },
+  "local_native_runs": [
+    "charset-native-01",
+    "charset-native-02",
+    "charset-native-ci-02"
+  ],
+  "failed_native_runs": [
+    "charset-native-ci-01"
+  ],
+  "memory_runs": [
+    {
+      "name": "before-gdi",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 1,
+      "phase": "complete",
+      "error": null,
+      "seconds": 60.89,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 531,
+      "peaks": {
+        "count": 1,
+        "private_ws": 16478208,
+        "total_ws": 43184128,
+        "private_commit": 19378176
+      },
+      "injected": false
+    },
+    {
+      "name": "after-gdi",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "7563afb9d23fbd44cffe7543da950a51c970693848dbbcbbb47d8fd69c1e3f24",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 1,
+      "phase": "complete",
+      "error": null,
+      "seconds": 59.66,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 521,
+      "peaks": {
+        "count": 1,
+        "private_ws": 16293888,
+        "total_ws": 42930176,
+        "private_commit": 19017728
+      },
+      "injected": false
+    },
+    {
+      "name": "before-directx",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 3,
+      "phase": "complete",
+      "error": null,
+      "seconds": 58.326,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 504,
+      "peaks": {
+        "count": 1,
+        "private_ws": 23863296,
+        "total_ws": 63275008,
+        "private_commit": 87756800
+      },
+      "injected": false
+    },
+    {
+      "name": "after-directx",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "7563afb9d23fbd44cffe7543da950a51c970693848dbbcbbb47d8fd69c1e3f24",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 3,
+      "phase": "complete",
+      "error": null,
+      "seconds": 60.792,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 528,
+      "peaks": {
+        "count": 1,
+        "private_ws": 24195072,
+        "total_ws": 63713280,
+        "private_commit": 87257088
+      },
+      "injected": false
+    }
+  ],
+  "validation": [
+    "8 Linux suites normal and ASan/UBSan/leak checks passed",
+    "Windows frontend and 8 MSVC suites passed",
+    "MSVC W4 WX standalone mapping build and 15360 output reference cells passed",
+    "Actual GDI/OpenGL/DirectX pixels, logical text, API paste and input passed",
+    "Unchanged finite-workload memory/resource gates passed for accepted and candidate images"
+  ],
+  "limitations": [
+    "new input commit full CI pending",
+    "UPSS reassignment pending",
+    "lower-level output matrix pending",
+    "extended legacy checksums pending",
+    "no independent keyboard parity claim",
+    "no system clipboard acceptance in these new native tests",
+    "no all-agent memory acceptance",
+    "DirectX total working set still above approximately 50 MB",
+    "prior native tab-close crash unresolved"
+  ]
+}
