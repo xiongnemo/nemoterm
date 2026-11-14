@@ -2,6 +2,7 @@
 from native_test_utils import *
 from owned_job import OwnedJob
 from gpu_capture import OwnedGPUCapture
+from owned_failure_state import record_owned_failure
 import re
 import uuid
 import winreg
@@ -174,12 +175,19 @@ try:
             evidence['checks'].append('frozen pixels survive destroying and recreating the shared renderer')
             for helper in captures:helper.close()
             captures=[];session.detach();session=None
-            u.PostMessageW(host,0x10,0,0)
+            owner=w.DWORD();host_thread=u.GetWindowThreadProcessId(host,c.byref(owner))
+            evidence['close_request']=dict(hwnd=host,thread=host_thread,pid=owner.value)
+            assert host_thread and owner.value==process.pid,'Tab host ownership changed before close'
+            evidence['close_request']['posted']=bool(u.PostMessageW(host,0x10,0,0))
+            assert evidence['close_request']['posted'],'WM_CLOSE could not be posted to the owned tab host'
             evidence['frontend_exit']=process.wait(timeout=15)
             assert evidence['frontend_exit']==0,evidence['frontend_exit']
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['completed']=True
+        except BaseException:
+            record_owned_failure(process,job,evidence,'mixed-profile-failure')
+            raise
         finally:
             if session:session.detach()
             for helper in captures:helper.close()

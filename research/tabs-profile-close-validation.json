@@ -1,0 +1,78 @@
+{
+  "source_commit": "683f8c3b5a42d01ed4d0202466aff5b06267d579",
+  "single_run": 43638850751,
+  "core_run": 43638850813,
+  "status": "unresolved runner close timeout; three exact-image local passes",
+  "records": [
+    {
+      "path": "research/tabs-profile-close-evidence/ci-core-run.json.gz",
+      "raw_sha256": "7214737b4d234200b07ef5d1475bfbe278770b2e1504cadf5c4782b722db9efe",
+      "raw_bytes": 22084
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/ci-single-run.json.gz",
+      "raw_sha256": "94554e38931e4f94f6c8aed3c5ccfde3d62c68f0611a126678d81de0ce84c977",
+      "raw_bytes": 3011
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/ci-single-run.log.gz",
+      "raw_sha256": "e6f4cedfeae836932f279cde0098b66caf45c68d56d5640a9d0931ee40191a0b",
+      "raw_bytes": 518800
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/ci-single-failed-steps.log.gz",
+      "raw_sha256": "a9d911ac590c65cd7f4dcff01cfbd033ed5df590fdc693e670e235b74a173d89",
+      "raw_bytes": 363084
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/ci-single-artifacts.json.gz",
+      "raw_sha256": "3971bd44e562e887de818dc49780b357ebcc6f839413890de7fd1b88a65b5da1",
+      "raw_bytes": 1489
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/ci-tabs-profiles-observed.json.gz",
+      "raw_sha256": "1f8172484171784755efabd07f84daa101a36ed19d1e834974c974a13555ac9f",
+      "raw_bytes": 4338
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-IDENTITY.json.gz",
+      "raw_sha256": "6538d9590882b77e91138fa9f7196139a7adbd017c075c68403854e636156297",
+      "raw_bytes": 416
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-1-observed.json.gz",
+      "raw_sha256": "bdf7e86a6a1c17900820c0ca42794208ffcbd8d8e6479ba47ac0fca1ec218a09",
+      "raw_bytes": 3197
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-1.log.gz",
+      "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+      "raw_bytes": 37
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-2-observed.json.gz",
+      "raw_sha256": "61b1a3654f6ff2a21471ff39bb378308257a595c659c91246d89d65e7cdd85c5",
+      "raw_bytes": 3198
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-2.log.gz",
+      "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+      "raw_bytes": 37
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-3-observed.json.gz",
+      "raw_sha256": "97ceec19e6671eb7b4e7663163fe87c675915f11bcaa774e945ad2f2879e6c92",
+      "raw_bytes": 3198
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-replay-3.log.gz",
+      "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+      "raw_bytes": 37
+    },
+    {
+      "path": "research/tabs-profile-close-evidence/local-results.json.gz",
+      "raw_sha256": "57c313546047592fc11d44b9f34183a63f06eb313451be7b9975dbc40f7b9389",
+      "raw_bytes": 1535
+    }
+  ]
+}
