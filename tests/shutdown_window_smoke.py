@@ -8,6 +8,8 @@ import winreg
 from native_test_utils import (root, u, w, hashlib, json, os, subprocess, sys,
     tempfile, Path, time, wait_for, find_window, read_snapshot, write_snapshot)
 from owned_job import OwnedJob
+from owned_failure_state import record_owned_failure
+from frida_test_utils import detach_session
 
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
 
@@ -95,17 +97,27 @@ try:
                 except BaseException as error:
                     case['error'] = repr(error)
                     case['failed_phase'] = case['phase']
+                    record_owned_failure(process, job, case, 'shutdown-'+case['failed_phase'])
+                    case['child_report'] = read_snapshot(report)
                     write_snapshot(evidence_path, evidence)
                     raise
                 finally:
-                    if session:
-                        checkpoint(case, 'frida-detach')
-                        try: session.detach()
-                        except frida.InvalidOperationError: pass
-                    checkpoint(case, 'drain-owned-job')
-                    job.finish(grace=0)
-                    process.wait(timeout=5)
-                    checkpoint(case, 'cleanup-complete')
+                    primary_failure = sys.exc_info()[0] is not None
+                    try:
+                        if session:
+                            checkpoint(case, 'frida-detach')
+                            detach_session(session)
+                    except Exception as error:
+                        case['observer_cleanup_error'] = repr(error)
+                        if not primary_failure:
+                            raise
+                    finally:
+                        checkpoint(case, 'drain-owned-job')
+                        case['cleanup'] = job.finish(grace=0 if primary_failure else 5)
+                        process.wait(timeout=5)
+                        checkpoint(case, 'cleanup-complete')
+                    if not primary_failure:
+                        assert not case['cleanup']['terminated_remaining'], case['cleanup']
     evidence['completed'] = True
 finally:
     try:

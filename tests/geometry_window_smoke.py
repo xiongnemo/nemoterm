@@ -5,9 +5,10 @@ import uuid
 import winreg
 from native_test_utils import (root, c, w, u, k, hashlib, json, os, subprocess,
     sys, tempfile, Path, wait_for, read_snapshot, write_snapshot, wait_snapshot,
-    find_window, memory_sample, capture, terminal_host)
+    find_window, memory_sample, capture, terminal_host, time)
 from owned_job import OwnedJob
-from gpu_capture import OwnedGPUCapture
+from automation_capture import OwnedAutomationCapture
+from owned_failure_state import record_owned_failure
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--font', default=os.environ.get('NEMOTERM_TEST_FONT',
@@ -54,11 +55,12 @@ try:
         try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-geometry-') as tmp, OwnedJob() as job:
                 report, control = Path(tmp)/'report', Path(tmp)/'control'
-                process = job.spawn([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load', profile, '--cols', '80', '--rows', '24',
+                process = job.spawn([str(exe), '--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load', profile, '--cols', '80', '--rows', '24',
                     '--font-size', '12', '--font', args.font, '-e', sys.executable,
                     str(root/'tests/mouse_fixture.py'), str(report), str(control)],
                     env=dict(os.environ, NEMOTERM_CONPTY='bundled', NEMOTERM_TEST_UTF8_INPUT='1',
                              NEMOTERM_TEST_EXACT_OUTPUT='1'), creationflags=subprocess.CREATE_NO_WINDOW)
+                mode['pid'] = process.pid
                 handle = k.OpenProcess(0x410, False, process.pid)
                 observer = None
                 gl_capture = None
@@ -74,9 +76,10 @@ try:
                         assert mode['active_renderer'] == 3, 'DirectX fell back'
                     mode['memory_before_instrumentation'] = memory_sample(handle)
                     if mode['active_renderer'] in (2, 3):
-                        gl_capture = OwnedGPUCapture(process.pid, hwnd)
-                    mode['capture_method'] = 'owned-process-retained-frame' if gl_capture else 'PrintWindow'
-                    mode['memory_instrumented'] = bool(gl_capture or args.observe)
+                        gl_capture = OwnedAutomationCapture(process.pid, hwnd)
+                    mode['capture_method'] = 'owned-automation-retained-frame' if gl_capture else 'PrintWindow'
+                    mode['capture_instrumented'] = False
+                    mode['memory_instrumented'] = bool(args.observe)
                     if args.observe:
                         import frida
                         observer = frida.attach(process.pid)
@@ -182,15 +185,36 @@ try:
                     if mode['active_renderer'] == 1 and not mode['memory_instrumented']:
                         assert max(v['memory']['private_ws'] for v in mode['checks']) < 20_000_000
                     write_snapshot(control, dict(stop=True))
-                    assert process.wait(timeout=10) == 0
+                    close_started = time.monotonic()
+                    try:
+                        mode['exit_code'] = process.wait(timeout=10)
+                    finally:
+                        mode['close_seconds'] = time.monotonic()-close_started
+                    assert mode['exit_code'] == 0, mode['exit_code']
+                    mode['cleanup'] = job.finish(grace=5)
+                    assert not mode['cleanup']['terminated_remaining'], mode['cleanup']
+                except BaseException as error:
+                    mode['error'] = repr(error)
+                    record_owned_failure(process, job, mode, 'geometry-failure')
+                    raise
                 finally:
-                    if gl_capture:
-                        gl_capture.close()
-                    if observer:
-                        observer.detach()
-                    job.finish(grace=0)
-                    process.wait(timeout=5)
-                    k.CloseHandle(handle)
+                    primary_failure = sys.exc_info()[0] is not None
+                    try:
+                        if gl_capture:
+                            gl_capture.close()
+                        if observer:
+                            from frida_test_utils import detach_session
+                            detach_session(observer)
+                    except Exception as error:
+                        mode['observer_cleanup_error'] = repr(error)
+                        if not primary_failure:
+                            raise
+                    finally:
+                        try:
+                            mode['cleanup'] = job.finish(grace=0)
+                            process.wait(timeout=5)
+                        finally:
+                            k.CloseHandle(handle)
         finally:
             winreg.DeleteKey(winreg.HKEY_CURRENT_USER, keypath)
     evidence['completed'] = True
