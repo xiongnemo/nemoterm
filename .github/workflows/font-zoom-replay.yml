@@ -1,0 +1,85 @@
+name: Font zoom and bell artifact replay
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/font-zoom-replay.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  focused-replay:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: 555934a1aff0dd0a0873026797dd7958ba3ff8f8
+      SOURCE_RUN: '43605518175'
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+      NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Verify source identity and isolate the previously built image
+        shell: pwsh
+        run: |
+          # This workflow diagnoses fixture changes only. Refuse to reuse an
+          # old image if any production source or build recipe has changed.
+          git diff --exit-code $env:SOURCE_COMMIT HEAD -- vendor/putty-0.85 native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
+          if ($LASTEXITCODE) { throw 'Production differs from the selected artifact' }
+          gh run download $env:SOURCE_RUN --name "source-console-host-x64-$env:SOURCE_COMMIT" --dir build/source-artifact
+          if ($LASTEXITCODE) { throw 'Artifact download failed' }
+          $record = Get-Content build/source-artifact/SOURCE-HOST.json -Raw | ConvertFrom-Json
+          if ($record.SourceCommit -ne $env:SOURCE_COMMIT) { throw 'Source commit mismatch' }
+          $image = Get-Item build/source-artifact/nemoterm.exe
+          $digest = (Get-FileHash $image.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($record.Executable.SHA256 -ne $digest -or $record.Executable.Bytes -ne $image.Length) { throw 'Image identity mismatch' }
+          New-Item -ItemType Directory -Force build/focused-product, build/focused-evidence | Out-Null
+          Copy-Item $image.FullName build/focused-product/nemoterm.exe
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path build/focused-product/nemoterm.exe).Path
+          "NEMOTERM_TEST_EXE=$env:NEMOTERM_TEST_EXE" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          [ordered]@{
+            source_commit = $env:SOURCE_COMMIT
+            fixture_commit = (git rev-parse HEAD).Trim()
+            source_run = $env:SOURCE_RUN
+            executable_sha256 = $digest
+            executable_bytes = $image.Length
+            execution_directory_files = @(Get-ChildItem build/focused-product -File | ForEach-Object Name)
+            scope = 'Fixture replay against unchanged production; not a build or memory acceptance'
+          } | ConvertTo-Json | Set-Content build/focused-evidence/identity.json -Encoding utf8
+      - name: Install test dependencies
+        run: python -m pip install frida
+      - name: Compare zoom pixels and application input
+        shell: pwsh
+        run: |
+          python tests/font_zoom_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/font-zoom.log
+          exit $LASTEXITCODE
+      - name: Check sibling tabs and saved font settings
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        shell: pwsh
+        run: |
+          python tests/tabs_profiles_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/tabs-profiles.log
+          exit $LASTEXITCODE
+      - name: Observe real bell API dispatch
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        shell: pwsh
+        run: |
+          python tests/bell_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/bell.log
+          exit $LASTEXITCODE
+      - name: Retain complete observations
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force build/focused-evidence | Out-Null
+          Copy-Item research/font-zoom-observed.json, research/tabs-profiles-observed.json, research/bell-mode-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: font-zoom-replay-${{ github.sha }}
+          path: build/focused-evidence/
+          retention-days: 14
+          if-no-files-found: error
