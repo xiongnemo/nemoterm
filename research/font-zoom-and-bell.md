@@ -107,8 +107,35 @@ mode, and zero calls for disabled and visual modes. All owned process trees
 exit naturally. These are instrumented functional results, not memory or
 audible-output acceptance.
 
-Fresh full MinGW/core and MSVC/single-executable workflows for the corrected
-fixtures remain in progress. Physical high-resolution wheels,
+The fresh [single-executable workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43606924121)
+passes all 122 checks at `04d31a7292788460990c8463685c30be2fc16393`, including
+font zoom, bell and the mixed-tab checks. Product artifact `14119299452` contains
+the 4,486,144-byte executable with SHA-256
+`bfc0278320055794f89f9f8d0f1d4cabb494ee3e1e8ba0b7a5b5a0026563cc34`.
+The downloaded file matches the validation manifest, which lists only
+`nemoterm.exe` in the test execution directory. It was not run locally.
+Its independent startup-font comparison passes on actual GDI and DirectX;
+the OpenGL request again falls back to GDI.
+
+All six mandatory memory workloads finish nine functional/resource groups and
+exit naturally. Their complete, uninstrumented frontend samples were independently
+recomputed without dropping peaks. CI uses Consolas and grids of 109x34 for GDI
+and 88x35 for DirectX; these do not establish the local Sarasa 160x48 target.
+
+| CI workload | Private working set peak, bytes | Total working set peak, bytes |
+| --- | ---: | ---: |
+| GDI baseline | 11,632,640 | 43,102,208 |
+| GDI inline PNG | 12,627,968 | 44,896,256 |
+| GDI GIF | 12,992,512 | 45,232,128 |
+| DirectX baseline | 15,421,440 | 51,978,240 |
+| DirectX inline PNG | 17,006,592 | 53,936,128 |
+| DirectX GIF | 16,928,768 | 54,140,928 |
+
+These are ordinary default-font workloads, not a dedicated memory stress test
+while zooming. Raw samples, private commit peaks, exact font/bell observations,
+source/artifact identities and the complete workflow log are retained in the
+validation record. The complete MinGW/core workflow remains in progress; its
+new font/bell step has passed. Physical high-resolution wheels,
 DPI transitions and local Sarasa rendering still require further verification.
 The accepted executable remains unchanged, and the prior integrated DirectX
 resource-cycle failure remains unresolved.

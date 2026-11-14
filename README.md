@@ -132,8 +132,9 @@ Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配
 缩放只改变当前终端，保持窗口外框大小；菜单可恢复默认字号，
 Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
 键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
-字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过远程专项回归；
-完整流程仍在运行，本机实测暂停，详见[字号与响铃记录](research/font-zoom-and-bell.md)。
+字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过远程专项回归，
+新单 EXE 已通过 122 项完整检查；MinGW 核心流程仍在运行，本机实测暂停，
+详见[字号与响铃记录](research/font-zoom-and-bell.md)。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 
