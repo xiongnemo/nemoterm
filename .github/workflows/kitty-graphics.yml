@@ -14,6 +14,12 @@ on:
       - tests/test_kitty_placements.c
       - tests/kitty_placement_reference.h
       - scripts/generate-kitty-placement-reference.py
+      - scripts/generate-kitty-terminal-reference.py
+      - vendor/putty-0.85/test/test_kitty_terminal.inc
+      - vendor/putty-0.85/test/kitty_terminal_reference.h
+      - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/terminal/terminal.h
+      - vendor/putty-0.85/putty.h
       - vendor/putty-0.85/terminal/nemo_raster.*
   pull_request:
     paths:
@@ -27,6 +33,12 @@ on:
       - tests/test_kitty_placements.c
       - tests/kitty_placement_reference.h
       - scripts/generate-kitty-placement-reference.py
+      - scripts/generate-kitty-terminal-reference.py
+      - vendor/putty-0.85/test/test_kitty_terminal.inc
+      - vendor/putty-0.85/test/kitty_terminal_reference.h
+      - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/terminal/terminal.h
+      - vendor/putty-0.85/putty.h
       - vendor/putty-0.85/terminal/nemo_raster.*
 
 permissions:
@@ -35,7 +47,7 @@ permissions:
 jobs:
   unix:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     strategy:
       matrix:
         compiler: [gcc, clang]
@@ -101,6 +113,15 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-sanitizers
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers 2>&1 | tee placements-sanitizers.log
+          python3 scripts/generate-kitty-terminal-reference.py --check
+          cmake -S vendor/putty-0.85 -B build-terminal -G Ninja \
+            -DCMAKE_C_COMPILER="$CC" -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
+            '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee terminal-configure.log
+          cmake --build build-terminal --target test_sixel_terminal --parallel 4 2>&1 | tee terminal-build.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-terminal/test_sixel_terminal 2>&1 | tee terminal-sanitizers.log
+          sha256sum vendor/putty-0.85/terminal/terminal.[ch] vendor/putty-0.85/putty.h vendor/putty-0.85/test/test_kitty_terminal.inc vendor/putty-0.85/test/kitty_terminal_reference.h scripts/generate-kitty-terminal-reference.py > terminal-sources.sha256
           sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py tests/kitty_placement_reference.h scripts/generate-kitty-placement-reference.py > sources.sha256
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -117,10 +138,14 @@ jobs:
             placements-normal.log
             placements-sanitizers.log
             sources.sha256
+            terminal-sources.sha256
+            terminal-configure.log
+            terminal-build.log
+            terminal-sanitizers.log
           retention-days: 14
   msvc:
     runs-on: windows-2025
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Compile and execute Windows transport checks
@@ -150,6 +175,15 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements.exe 2>&1 | Tee-Object placements-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-kitty-terminal-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cmake -S vendor/putty-0.85 -B build-terminal -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1' -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object terminal-configure.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cmake --build build-terminal --target test_sixel_terminal --parallel 4 2>&1 | Tee-Object terminal-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-terminal/test_sixel_terminal.exe 2>&1 | Tee-Object terminal-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-FileHash vendor/putty-0.85/terminal/terminal.c, vendor/putty-0.85/terminal/terminal.h, vendor/putty-0.85/putty.h, vendor/putty-0.85/test/test_kitty_terminal.inc, vendor/putty-0.85/test/kitty_terminal_reference.h, scripts/generate-kitty-terminal-reference.py -Algorithm SHA256 | Format-List | Out-File terminal-sources.txt
           Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py, tests/kitty_placement_reference.h, scripts/generate-kitty-placement-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -165,4 +199,8 @@ jobs:
             placements-build.log
             placements-test.log
             sources.txt
+            terminal-sources.txt
+            terminal-configure.log
+            terminal-build.log
+            terminal-test.log
           retention-days: 14

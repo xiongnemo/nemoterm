@@ -55,4 +55,11 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
  * This does not implement terminal parsing, cursor movement or text erasure. */
 void nemo_kitty_placements_scroll(NemoKittyPlacements *, int32_t top, int32_t bottom,
     int32_t lines, bool margins, uint32_t history_rows, uint32_t cw, uint32_t ch);
+/* Font changes permanently clamp offsets; growing the font does not restore
+ * an offset discarded by a previous shrink. */
+void nemo_kitty_placements_rescale(NemoKittyPlacements *, uint32_t cw, uint32_t ch);
+/* Shift all anchors, including history (window growth can pull history back).
+ * Remove only footprints wholly before first; below-window views stay owned. */
+void nemo_kitty_placements_rows(NemoKittyPlacements *, int32_t delta,
+                                int32_t first, uint32_t cw, uint32_t ch);
 #endif

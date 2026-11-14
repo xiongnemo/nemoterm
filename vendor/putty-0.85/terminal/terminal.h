@@ -9,6 +9,7 @@
 #include "tree234.h"
 #include "nemo_sixel.h"
 #include "nemo_iterm.h"
+#include "nemo_kitty_placements.h"
 #include "nemo_tcap.h"
 #include "nemo_hyperlink.h"
 #include "nemo_cwd.h"
@@ -164,6 +165,12 @@ enum NemoProtectionMode {
     NEMO_PROTECT_NONE = 0, NEMO_PROTECT_DEC = 1, NEMO_PROTECT_ISO = 2
 };
 
+typedef struct NemoTermKitty NemoTermKitty;
+size_t term_kitty_memory(const Terminal *);
+bool term_kitty_pending(const Terminal *);
+const NemoKittyCache *term_kitty_cache(const Terminal *, int screen);
+const NemoKittyPlacements *term_kitty_placements(const Terminal *, int screen);
+
 struct terminal_tag {
 
     /* Oldest first, owned by the terminal. Coordinates are screen cell
@@ -174,6 +181,8 @@ struct terminal_tag {
     int cell_width, cell_height;
     NemoSixel *sixel_pending;
     NemoIterm *iterm_pending;
+    NemoTermKitty *kitty;
+    bool kitty_apc;
     bool iterm_osc;
     unsigned sixel_header[3], sixel_header_index;
     bool dcs_header_params, dcs_query_active, dcs_query_invalid;
@@ -369,6 +378,8 @@ struct terminal_tag {
         VT52_Y2,
         VT52_FG,
         VT52_BG,
+        NEMO_APC_START, NEMO_APC_DATA, NEMO_APC_DROP,
+        NEMO_APC_MAYBE_ST, NEMO_APC_MAYBE_ST_UTF8,
         NEMO_DCS_HEADER, NEMO_DCS_SIXEL, NEMO_DCS_QUERY_PREFIX,
         NEMO_DCS_QUERY, NEMO_DCS_DROP,
         NEMO_DCS_MAYBE_ST, NEMO_DCS_MAYBE_ST_UTF8

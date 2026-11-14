@@ -1,0 +1,142 @@
+{
+  "recorded_utc": "2026-11-14T19:13:54.688534+00:00",
+  "scope": "Terminal input and lifetime, Windows frontend capability remains disabled",
+  "source_branch": "feature/kitty-terminal-input-20261115",
+  "tested_working_tree_base": "b18bc83c6df363216351be21f0b24f8f4c21cebd",
+  "source_files_sha256": {
+    "vendor/putty-0.85/terminal/terminal.c": "bd7c9ffd9dc47dfafcd9e8ce8f4ac85c728a781cf78de8ffc2e3afbf72043be3",
+    "vendor/putty-0.85/terminal/terminal.h": "fcc04789f404e5ec27a7c47c3bae354eae766bf8ab9a884b1022779da3e0c2b1",
+    "vendor/putty-0.85/putty.h": "460b36811487b202c568e32881e5232e13d67b529a31c2a1c0bd49156c9dfed7",
+    "vendor/putty-0.85/terminal/nemo_kitty_terminal.inc": "188da20bbdcd70cc27a53f3e372e8dd265d9707d6d728afb6484cc3a6ee39b16",
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.c": "74747930d0cf9c08da1a9273b7eb5517393dd82257fdabfc615bb49a17a0bba3",
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.h": "b25dfe1a68ed6d5ef9fcf3e407c4959960f191a236e1e3c63a9cced444594f6f",
+    "vendor/putty-0.85/test/test_sixel_terminal.c": "0f89890d396e2d4c24e7f9590791f16fdb3e6616c0268ca99c32fb7655c63164",
+    "vendor/putty-0.85/test/test_kitty_terminal.inc": "57046de28b6e4c23371b27c0390db77cfb7338a1de7211577347f813c734cb31",
+    "vendor/putty-0.85/test/kitty_terminal_reference.h": "2c704b2060210166c010d64bc60b782f35fa290bd46671299975e785813ef91b",
+    "scripts/generate-kitty-terminal-reference.py": "f44892da776c0096831f7d57e06bc35ce3a69594e6db6cfdac3685660969dbd4"
+  },
+  "source_hash_normalization": "LF",
+  "compiler": "gcc (x86_64-posix-seh-rev1, Built by MinGW-Builds project) 16.2.0",
+  "build_type": "MinSizeRel, -Os -ffunction-sections -fdata-sections; assertions enabled",
+  "upstream_reference": {
+    "commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+    "capture_sha256": "139b42639c4bba3be07dbeee02c0863374af1e0e1fd5d2a193828b0c934a8efd",
+    "cases": 43,
+    "states": 101,
+    "chunk_normalized_inputs": 6,
+    "changes_to_expected_states": 0
+  },
+  "local_results": {
+    "full_graphics_lifecycle": "passed",
+    "terminal": "passed",
+    "reflow": "passed",
+    "state_control": "passed",
+    "queries": "passed",
+    "synchronized_updates": "passed",
+    "iso2022_charset": "passed",
+    "kitty_placements_checks": 2719,
+    "frontend_build": "passed; not launched"
+  },
+  "retained_failures": [
+    {
+      "log": "kitty-terminal-reference-test.log.gz",
+      "cause": "Fixture used trusted PuTTY output and reserved sigil columns; corrected to application-output mode without changing reference expectations"
+    },
+    {
+      "log": "kitty-terminal-line-edit-before-fix.log.gz",
+      "cause": "IL/DL incorrectly moved Kitty overlays through the shared scrolling hook; page scrolling and line editing separated"
+    }
+  ],
+  "ci": {
+    "status": "pending publication and exact-commit runs"
+  },
+  "native_acceptance_claimed": false,
+  "accepted_executable_replaced": false,
+  "records": [
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-final.log.gz",
+      "raw_sha256": "66e38af35bcd9e4bdb97db3b31638b12d651899962b234a0cc3e196b30521ce5",
+      "raw_bytes": 113
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-reference-test.log.gz",
+      "raw_sha256": "076658b22ade5fc1df78bec3cf7bbc06373b6f94f6dae1047e2d9c8cdf1e7874",
+      "raw_bytes": 362
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-reference-corrected.log.gz",
+      "raw_sha256": "66e38af35bcd9e4bdb97db3b31638b12d651899962b234a0cc3e196b30521ce5",
+      "raw_bytes": 113
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-line-edit-before-fix.log.gz",
+      "raw_sha256": "89ae3a9c4c4d23f23528fe4bd530719c7d4f785e54f4aec4ad5620df550dcca7",
+      "raw_bytes": 242
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-placements.log.gz",
+      "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+      "raw_bytes": 4856
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-regression.log.gz",
+      "raw_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb",
+      "raw_bytes": 19
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-reflow.log.gz",
+      "raw_sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7",
+      "raw_bytes": 21
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-configure.log.gz",
+      "raw_sha256": "10a7f4bfb4fad2541d3f42f155d0fc79907f6f883a93d184eed0a075110e7ae7",
+      "raw_bytes": 241
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-build-final.log.gz",
+      "raw_sha256": "dc85cd11c74209313ba78fe8633285feb90ec37d2f844b4861aff7637b3927d7",
+      "raw_bytes": 2642
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-terminal-extra-build.log.gz",
+      "raw_sha256": "05d0144462cc954039f5b976d30c1d89b8ec9a46833b02cc5f732c3930964792",
+      "raw_bytes": 1781
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_sixel_terminal.log.gz",
+      "raw_sha256": "66e38af35bcd9e4bdb97db3b31638b12d651899962b234a0cc3e196b30521ce5",
+      "raw_bytes": 113
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_terminal.log.gz",
+      "raw_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb",
+      "raw_bytes": 19
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_reflow.log.gz",
+      "raw_sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7",
+      "raw_bytes": 21
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_state_control.log.gz",
+      "raw_sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6",
+      "raw_bytes": 28
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_queries.log.gz",
+      "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1",
+      "raw_bytes": 20
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_sync.log.gz",
+      "raw_sha256": "775314ae84994666444c822e8e751a0b8fdd8e79d62ed4ac55d4240e27e6badf",
+      "raw_bytes": 39
+    },
+    {
+      "path": "research/kitty-terminal-input-evidence/kitty-input-test_iso2022_charset.log.gz",
+      "raw_sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6",
+      "raw_bytes": 74
+    }
+  ]
+}

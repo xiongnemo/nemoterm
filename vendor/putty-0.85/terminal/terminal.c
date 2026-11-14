@@ -199,6 +199,7 @@ static void term_print_finish(Terminal *);
 static uint32_t nemo_checksum_legacy(unsigned long ch);
 static bool nemo_charset_base_utf8(Terminal *term);
 static void scroll(Terminal *, int, int, int, bool);
+static void nemo_scroll_page(Terminal *, int, int, int, bool);
 static void check_boundary(Terminal *, int, int);
 static bool nemo_in_lr(Terminal *term)
 {
@@ -215,7 +216,7 @@ static int nemo_right(Terminal *term)
 static void nemo_linefeed(Terminal *term)
 {
     if (term->curs.y == term->marg_b) {
-        if (nemo_in_lr(term)) scroll(term, term->marg_t, term->marg_b, 1, true);
+        if (nemo_in_lr(term)) nemo_scroll_page(term, term->marg_t, term->marg_b, 1, true);
     } else if (term->curs.y < term->rows-1) term->curs.y++;
 }
 static void term_added_data(Terminal *term, bool);
@@ -1611,6 +1612,8 @@ static void term_schedule_vbell(Terminal *term, bool already_started,
 #define NEMO_IMAGE_MASK_ROWS 32
 
 static void nemo_images_tick(Terminal *term, uint32_t now);
+static void nemo_kitty_cancel_input(Terminal *term);
+static void nemo_kitty_rescale(Terminal *term);
 static void nemo_image_timer(void *ctx, unsigned long now)
 {
     NemoImageTimer *timer = ctx;
@@ -1698,20 +1701,21 @@ static bool nemo_image_live(Terminal *term, NemoTermImage *image);
 static size_t nemo_image_pending(Terminal *term)
 {
     return nemo_sixel_stats(term->sixel_pending).allocated_bytes +
-        nemo_iterm_memory(term->iterm_pending);
+        nemo_iterm_memory(term->iterm_pending) + term_kitty_memory(term);
 }
 
 static bool nemo_sixel_admit(void *ctx, size_t current, size_t extra)
 {
     Terminal *term = ctx;
-    return nemo_image_admit(term, current + nemo_iterm_memory(term->iterm_pending), extra);
+    return nemo_image_admit(term, current + nemo_iterm_memory(term->iterm_pending) +
+        term_kitty_memory(term), extra);
 }
 
 static bool nemo_inline_admit(void *ctx, size_t current, size_t extra)
 {
     Terminal *term = ctx;
     return nemo_image_admit(term, current +
-        nemo_sixel_stats(term->sixel_pending).allocated_bytes, extra);
+        nemo_sixel_stats(term->sixel_pending).allocated_bytes + term_kitty_memory(term), extra);
 }
 
 void term_set_cell_size(Terminal *term, int width, int height)
@@ -1725,6 +1729,7 @@ void term_set_cell_size(Terminal *term, int width, int height)
     term->cell_width = width;
     nemo_inline_cancel(term);
     term->cell_height = height;
+    nemo_kitty_rescale(term);
     for (NemoTermImage *image = term->images; image; image = image->next)
         nemo_image_live(term, image);
     term_invalidate(term);
@@ -2457,7 +2462,7 @@ static void nemo_sixel_complete(Terminal *term)
             target_y++;
         }
         while (target_y > term->marg_b) {
-            scroll(term, term->marg_t, term->marg_b, 1, true);
+            nemo_scroll_page(term, term->marg_t, term->marg_b, 1, true);
             target_y--;
         }
         term->curs.y = min(target_y, term->rows-1);
@@ -2522,7 +2527,7 @@ static void nemo_inline_display(Terminal *term, const NemoItermPacket *packet)
     term->wrapnext = false;
     int target = image->last_y;
     while (target > term->marg_b) {
-        scroll(term, term->marg_t, term->marg_b, 1, true);
+        nemo_scroll_page(term, term->marg_t, term->marg_b, 1, true);
         target--;
     }
     term->curs.y = min(target, term->rows-1);
@@ -2575,6 +2580,8 @@ static bool nemo_inline_finish(Terminal *term)
     }
     return true;
 }
+
+#include "nemo_kitty_terminal.inc"
 
 static void set_erase_char(Terminal *term);
 
@@ -3232,6 +3239,9 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     nemo_highlight_cancel(term, false);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
+    nemo_kitty_cancel_input(term);
+    nemo_kitty_clear_screen(term, 0, false);
+    nemo_kitty_clear_screen(term, 1, true);
     term->sixel_display_mode = term->sixel_scrolls_right = false;
     term->sixel_private_palette = true;
     term->sixel_palette_valid = false;
@@ -3829,6 +3839,7 @@ void term_clrsb(Terminal *term)
 {
     nemo_shell_marks_rows(&term->shell_marks, 0, term->rows-1, 0);
     nemo_images_rows(term, 0, 0, INT_MAX, 0);
+    nemo_kitty_rows(term, 0, 0, 0);
     unsigned char *line;
     int i;
 
@@ -4224,6 +4235,7 @@ void term_free(Terminal *term)
     sfree(term->sgr_stack);
     term_end_synchronized_update(term);
     nemo_images_clear(term);
+    nemo_kitty_free_terminal(term);
     nemo_hyperlink_free(term->hyperlinks);
     nemo_cwd_clear(&term->working_directory);
     nemo_shell_marks_clear(&term->shell_marks);
@@ -4594,6 +4606,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
      * follow text-row moves, without splitting raster rows or copying tiles. */
     nemo_sixel_cancel(term);
     nemo_inline_cancel(term);
+    nemo_kitty_cancel_input(term);
 
     /* Behave sensibly if we're given zero (or negative) rows/cols */
 
@@ -4653,6 +4666,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->curs.y += 1;
             term->savecurs.y += 1;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, 1);
+            nemo_kitty_rows(term, 0, 1, INT_MIN);
             nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, 1);
         } else {
             /* Add a new blank line at the bottom of the screen. */
@@ -4677,6 +4691,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
             term->curs.y -= 1;
             term->savecurs.y -= 1;
             nemo_images_rows(term, 0, INT_MIN+1, INT_MAX, -1);
+            nemo_kitty_rows(term, 0, -1, INT_MIN);
             nemo_shell_marks_rows(&term->shell_marks, INT_MIN+1, INT_MAX, -1);
         }
         term->rows -= 1;
@@ -4697,6 +4712,7 @@ void term_size(Terminal *term, int newrows, int newcols, int newsavelines)
     term->disptop = reflow ? max(term->disptop, -sblen) : 0;
 
     nemo_images_rows(term, 0, -sblen, newrows-1, 0);
+    nemo_kitty_rows(term, 0, 0, -sblen);
     nemo_shell_marks_rows(&term->shell_marks, -sblen, newrows-1, 0);
     nemo_images_rows(term, 1, 0, newrows-1, 0);
 
@@ -4850,6 +4866,8 @@ static void swap_screen(Terminal *term, int which,
     if (!which)
         reset = false;                 /* do no weird resetting if which==0 */
 
+    if (which != term->alt_which || reset) nemo_kitty_cancel_input(term);
+    if (which && reset) nemo_kitty_clear_screen(term, 1, true);
     if (which != term->alt_which) {
         if (term->erase_to_scrollback && term->alt_screen &&
             term->alt_which && term->disptop < 0) {
@@ -5824,6 +5842,8 @@ static void erase_lots(Terminal *term,
     pos start, end;
     bool erase_lattr;
     bool erasing_lines_from_top = false;
+    if (!line_only && from_begin && to_end)
+        nemo_kitty_clear_screen(term, term->alt_which, false);
 
     if (line_only) {
         start.y = term->curs.y;
@@ -7562,7 +7582,7 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                  * wrap straight away. */
                 cline->lattr |= LATTR_WRAPPED;
                 if (term->curs.y == term->marg_b)
-                    scroll(term, term->marg_t, term->marg_b, 1, true);
+                    nemo_scroll_page(term, term->marg_t, term->marg_b, 1, true);
                 else if (term->curs.y < term->rows - 1)
                     term->curs.y++;
                 term->curs.x = 0;
@@ -8076,6 +8096,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
             }
         }
 
+        if (term->termstate >= NEMO_APC_START && term->termstate <= NEMO_APC_MAYBE_ST_UTF8 &&
+            nemo_kitty_apc_byte(term, (unsigned char)c))
+            continue;
+
         /* Sixel payload is byte-oriented and never enters UTF-8 decoding. */
         if (term->termstate >= NEMO_DCS_HEADER &&
             nemo_dcs_byte(term, (unsigned char)c))
@@ -8397,15 +8421,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->dcs_query[0] = '\0';
                     term->termstate = NEMO_DCS_HEADER;
                     break;
+                  case '_':             /* APC: streamed graphics or ignored string */
+                    compatibility(OTHER);
+                    term->kitty_apc = false;
+                    term->termstate = NEMO_APC_START;
+                    break;
                   case 'X':             /* SOS: Start of String */
                   case '^':             /* PM: privacy message */
-                  case '_':             /* APC: application program command */
-                    /* DCS, SOS, PM, and APC sequences are just a string, terminated
-                     * by ST or (I've observed in practice for APC) ^G. That
-                     * is, they have the same termination convention as OSC. So
-                     * we handle them by going straight into OSC_STRING state
-                     * and setting a flag indicating that it's not really an
-                     * OSC. */
+                    /* Ignore SOS/PM through the legacy bounded string parser.
+                     * DCS and APC have their own streaming framing above. */
                     compatibility(OTHER);
                     term->termstate = SEEN_OSC;
                     term->osc_type = (c == 'P' ? OSCLIKE_DCS :
@@ -8461,7 +8485,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case 'M':            /* RI: reverse index - backwards LF */
                     compatibility(VT100);
                     if (term->curs.y == term->marg_t) {
-                        if (nemo_in_lr(term)) scroll(term, term->marg_t, term->marg_b, -1, true);
+                        if (nemo_in_lr(term)) nemo_scroll_page(term, term->marg_t, term->marg_b, -1, true);
                     }
                     else if (term->curs.y > 0)
                         term->curs.y--;
@@ -8861,8 +8885,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         if (i == 3) {
                             /* Erase Saved Lines (xterm)
                              * This follows Thomas Dickey's xterm. */
-                            if (!term->no_remote_clearscroll)
+                            if (!term->no_remote_clearscroll) {
+                                nemo_kitty_clear_screen(term, term->alt_which, true);
                                 term_clrsb(term);
+                            }
                         } else if (i <= 2) {
                             if (term->protection_mode & NEMO_PROTECT_ISO)
                                 nemo_selective_erase(term, false, i);
@@ -9501,7 +9527,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case 'S':         /* SU: Scroll up */
                         CLAMP(term->esc_args[0], term->rows);
                         compatibility(SCOANSI);
-                        scroll(term, term->marg_t, term->marg_b,
+                        nemo_scroll_page(term, term->marg_t, term->marg_b,
                                def(term->esc_args[0], 1), true);
                         break;
                       case '^':         /* SD alias, no mouse handshake */
@@ -9513,7 +9539,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         }
                         CLAMP(term->esc_args[0], term->rows);
                         compatibility(SCOANSI);
-                        scroll(term, term->marg_t, term->marg_b,
+                        nemo_scroll_page(term, term->marg_t, term->marg_b,
                                -def(term->esc_args[0], 1), true);
                         break;
                       case ANSI('|', '*'): /* DECSNLS */
@@ -10116,7 +10142,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'I':
                     if (term->curs.y == 0) {
-                        scroll(term, 0, term->rows - 1, -1, true);
+                        nemo_scroll_page(term, 0, term->rows - 1, -1, true);
                     } else if (term->curs.y > 0) {
                         term->curs.y--;
                         seen_disp_event(term);

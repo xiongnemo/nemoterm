@@ -28,12 +28,13 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **终端能力**：UTF-8、真彩色、Sixel 图片、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
-本整合分支已加入 OSC 1337 静态图片、GIF 动画与 ISO 2022 字符集修复，
-本机画面及 GDI 内存检查通过，DX 标签资源检查仍失败。
-整合提交 `26f50c8` 的两条完整 CI 已通过，单文件检查共 119 组；
-CI 使用较小的 Consolas 窗口，不能替代本机 160×48 Sarasa 验收。
-本机实测目前暂停，下载产物的身份与限制见[整合记录](research/graphics-charsets-integration.md)。
-验证范围见[整合记录](research/graphics-charsets-integration.md)；下方已验收下载仍是此前版本。
+图形开发分支已加入 OSC 1337 图片／GIF 动画、字体缓存优化与裁剪截图接口。
+裁剪截图修正提交 `72754a3` 的两条完整 CI 通过，单文件检查共 124 组。
+此前 `f6b3d64` 的正式单 EXE 产物在本机 160×48 Sarasa 动画负载中，
+私有工作集峰值为 GDI 16.7 MB、DX 24.1 MB；DX 总工作集约 60.4 MB，仍需优化。
+这两项是不同提交／产物的验证，准确身份及保留的失败记录见[裁剪截图验证](research/cropped-capture.md)。
+Kitty 图片协议正在接入，当前已加入终端输入与生命周期测试，Windows 绘制能力仍关闭；
+进度见[接入记录](research/kitty-terminal-input.md)。下方已验收下载仍是此前版本。
 
 ## 下载
 

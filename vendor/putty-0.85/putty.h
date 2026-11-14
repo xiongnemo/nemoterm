@@ -1661,6 +1661,8 @@ typedef struct TermWindowGeometry {
 
 #include "terminal/nemo_raster.h"
 struct TermWinVtable {
+    /* Enable APC graphics only when the frontend implements all three layers. */
+    bool kitty_graphics;
     /* Optional synchronous, bounded native image decoder. */
     bool (*decode_image)(TermWin *, const void *, size_t, NemoRaster *,
                          NemoRasterAdmission, void *);

@@ -255,3 +255,36 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
         s->generation++; link=&p->next;
     }
 }
+
+void nemo_kitty_placements_rescale(NemoKittyPlacements *s, uint32_t cw, uint32_t ch)
+{
+    if (!s || !cw || !ch || cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return;
+    for (NemoKittyPlacement *p=s->first; p; p=p->next) {
+        if (p->offset_x>=cw) p->offset_x=cw-1;
+        if (p->offset_y>=ch) p->offset_y=ch-1;
+    }
+    s->generation++;
+}
+
+void nemo_kitty_placements_rows(NemoKittyPlacements *s, int32_t delta,
+                                int32_t first, uint32_t cw, uint32_t ch)
+{
+    if (!s || !cw || !ch || cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return;
+    NemoKittyPlacement **link=&s->first;
+    while (*link) {
+        NemoKittyPlacement *p=*link;
+        uint32_t cols,rows;
+        int64_t row=(int64_t)p->row+delta;
+        if (!footprint(p,cw,ch,&cols,&rows) || row<INT32_MIN || row>INT32_MAX ||
+            row+rows<=first) {
+            NemoKittyImage *image=p->image;
+            remove_view(s,link,false);
+            if (!nemo_kitty_image_id(image) && !nemo_kitty_image_references(image))
+                nemo_kitty_cache_remove(s->cache,image);
+        } else {
+            p->row=(int32_t)row;
+            if (delta) s->generation++;
+            link=&p->next;
+        }
+    }
+}
