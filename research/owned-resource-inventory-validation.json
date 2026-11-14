@@ -1,0 +1,264 @@
+{
+  "fixture_base": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+  "executable_source": "82e1beffe9b630619385b5afb88f5d9fb04ac911",
+  "executable_sha256": "9f224f62babece3cbaf225d9a9bbce38c15256a2c4a1385846e7b6479fd5aa90",
+  "memory_acceptance": false,
+  "records": [
+    {
+      "label": "canary-01",
+      "path": "research/owned-resource-inventory-evidence/canary-01.gz",
+      "bytes": 4400,
+      "sha256": "b4094d668fc98def481163e52db46a4c8b2e8f4f46aa941ed6464d757bf8b171",
+      "compressed_bytes": 569,
+      "compressed_sha256": "33604da353fb082582326f67d98af2b04b65903796cca46d71644a42366f4eb9"
+    },
+    {
+      "label": "canary-02",
+      "path": "research/owned-resource-inventory-evidence/canary-02.gz",
+      "bytes": 4403,
+      "sha256": "aae281efcc2b77b8bc235dbeb1e6d3f11d949af43ccb2db9cf2f57974507d9c6",
+      "compressed_bytes": 576,
+      "compressed_sha256": "9081ebfcf999924cf9428c5d763a64bfa10c764269e331824bdfc5111e9d9067"
+    },
+    {
+      "label": "inventory-driver",
+      "path": "research/owned-resource-inventory-evidence/inventory-driver.gz",
+      "bytes": 4214,
+      "sha256": "066de8b89b7685d0071ab1a7ccad4c08fffc58b8b4a99f3254053ecc96f03118",
+      "compressed_bytes": 1843,
+      "compressed_sha256": "9d4bc8ad19ea86192260e0b9eb3ed32caeea1793de23c57b73a086ec53f89dcb"
+    },
+    {
+      "label": "inventory-summary-script",
+      "path": "research/owned-resource-inventory-evidence/inventory-summary-script.gz",
+      "bytes": 1394,
+      "sha256": "4145e7f4f78a35011035e4e6bd274725f6d9982f150313f1c8a9e633b5adebe3",
+      "compressed_bytes": 645,
+      "compressed_sha256": "2d27eb6ef674b36ea5fbd9df58e0fb6a4c1dcfba3ef1b609505783ad00af6b58"
+    },
+    {
+      "label": "trace-stage-script",
+      "path": "research/owned-resource-inventory-evidence/trace-stage-script.gz",
+      "bytes": 2688,
+      "sha256": "a4f5294fcada2a748beb412241fbc0daf50836a1239e76a0394fe4386a561fb5",
+      "compressed_bytes": 1203,
+      "compressed_sha256": "5267da1115a8feab197a16e7a140466e943c44782b0efe9fbf6e82a1cc8e0211"
+    },
+    {
+      "label": "trace-driver",
+      "path": "research/owned-resource-inventory-evidence/trace-driver.gz",
+      "bytes": 1369,
+      "sha256": "c86d6bec15233490c9a12589aaa695c5b9e3e32f7b122aa8cee47ad646ab2083",
+      "compressed_bytes": 762,
+      "compressed_sha256": "3e1c8ecbc65d090d2b3e5b735d9ccbf3b60776347a0144e562f342c3e54a9eef"
+    },
+    {
+      "label": "trace-summary-script",
+      "path": "research/owned-resource-inventory-evidence/trace-summary-script.gz",
+      "bytes": 3297,
+      "sha256": "7e29979582dbb22b264a0aba417e8253ecf61c947976dacb974736315acf20bd",
+      "compressed_bytes": 1363,
+      "compressed_sha256": "863a86ac37ab638ae1d65ddb2ddf6e67b37f734e15436deb5e3267813a6226db"
+    },
+    {
+      "label": "inventory-controller.json",
+      "path": "research/owned-resource-inventory-evidence/inventory-controller.json.gz",
+      "bytes": 7600,
+      "sha256": "6e1afad3645677bc53c395265b23ea97ae18258fc1cea2c156d327ecb1dd60d9",
+      "compressed_bytes": 1206,
+      "compressed_sha256": "daa38fb427785b0253be0a4ca4e35d90d7362b90169ab994c87eca35dab70431"
+    },
+    {
+      "label": "inventory-thread-deltas.json",
+      "path": "research/owned-resource-inventory-evidence/inventory-thread-deltas.json.gz",
+      "bytes": 1760,
+      "sha256": "1889c87eef8298cbbef5b6d40b9fdab389f85ceb75d8148d28a5cf9343d87cb8",
+      "compressed_bytes": 167,
+      "compressed_sha256": "7a4b185e61b17ab844969e22ecc769c3525af3a4a31f717f8f75b5881ae49662"
+    },
+    {
+      "label": "inventory-fixture.patch",
+      "path": "research/owned-resource-inventory-evidence/inventory-fixture.patch.gz",
+      "bytes": 6059,
+      "sha256": "b81cf4830a6e638e34556941667420053fc2f111b460c78c5914f0638dde0972",
+      "compressed_bytes": 2070,
+      "compressed_sha256": "0b7c31589334dcf6852bd6c101266402fcc62bb7883b196851b8b722759074ea"
+    },
+    {
+      "label": "inventory-tabs.log",
+      "path": "research/owned-resource-inventory-evidence/inventory-tabs.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressed_bytes": 20,
+      "compressed_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "label": "inventory-research-inventory-tabs-directx-left-observed.json",
+      "path": "research/owned-resource-inventory-evidence/inventory-research-inventory-tabs-directx-left-observed.json.gz",
+      "bytes": 2228297,
+      "sha256": "1e37279403760d75e7ca4c840cae49a63989ae3d5d5119d247c4ea0bd1c6f3df",
+      "compressed_bytes": 95910,
+      "compressed_sha256": "45781bbbb4f8a9ef449f9559e52541422ee1c0579829c85a6e04b1eeb8465088"
+    },
+    {
+      "label": "inventory-research-inventory-tabs-directx-left-memory.json",
+      "path": "research/owned-resource-inventory-evidence/inventory-research-inventory-tabs-directx-left-memory.json.gz",
+      "bytes": 1456506,
+      "sha256": "e4f38d609aaaae43d71deebfa0386ac889d3aceeb24757acda4a469f1acbf09b",
+      "compressed_bytes": 29209,
+      "compressed_sha256": "27a46f05fb1f97684cbc5babd8f1d5017a7416e45aa46253fdfaf515acdb6c7e"
+    },
+    {
+      "label": "inventory-tests-tabs_window_smoke.py",
+      "path": "research/owned-resource-inventory-evidence/inventory-tests-tabs_window_smoke.py.gz",
+      "bytes": 31310,
+      "sha256": "21695f6879c4d26fd8d6446c4117ade27c6df36b86fe9b66267ab5f6b2607bbe",
+      "compressed_bytes": 8468,
+      "compressed_sha256": "40036578b523a1421df75a682013a0611e927d164a8bbdd421b1aede104d22ad"
+    },
+    {
+      "label": "inventory-tests-window_snapshot.py",
+      "path": "research/owned-resource-inventory-evidence/inventory-tests-window_snapshot.py.gz",
+      "bytes": 3723,
+      "sha256": "f330beb668d8d3f7b226736eda183bb5950228c3425ce05f7f5dced4925261d7",
+      "compressed_bytes": 1374,
+      "compressed_sha256": "942e7b8499b4a902ddfc4f40820e7ebe1a7428e9316023c6925502d105a9bd38"
+    },
+    {
+      "label": "trace-controller.json",
+      "path": "research/owned-resource-inventory-evidence/trace-controller.json.gz",
+      "bytes": 482,
+      "sha256": "0ba105342dd1e75c59ec0839dfebe126eac3ded85953197c5c706ad95abd9198",
+      "compressed_bytes": 260,
+      "compressed_sha256": "30f56574e4ba5435631bfb202a02f697803f2f38494df252f92249fec6cc6ce4"
+    },
+    {
+      "label": "trace-tabs.log",
+      "path": "research/owned-resource-inventory-evidence/trace-tabs.log.gz",
+      "bytes": 692,
+      "sha256": "671f18be085fda771079210279102e726fec43e67527a5badf25ebded30ca8ef",
+      "compressed_bytes": 316,
+      "compressed_sha256": "be783ddadd2bea536f6fa0c9f388471ba068611bc5b0c6b7f3af555c2e2e7f15"
+    },
+    {
+      "label": "trace-trace-phase.json",
+      "path": "research/owned-resource-inventory-evidence/trace-trace-phase.json.gz",
+      "bytes": 171,
+      "sha256": "b6f1775f174bfb584f5775c1e32962ee121a39d6ab5789ff01046e7a93888c64",
+      "compressed_bytes": 153,
+      "compressed_sha256": "391cd5558a4f935a0d9a6ec2de212085beb2258dddae0a47c4ee9c63700fcf72"
+    },
+    {
+      "label": "trace-trace-release.json",
+      "path": "research/owned-resource-inventory-evidence/trace-trace-release.json.gz",
+      "bytes": 26,
+      "sha256": "efe3061a33a03b64af8407d3ce127fb039f38824da838afc292e4bcad486c7e3",
+      "compressed_bytes": 46,
+      "compressed_sha256": "2fd569cf8b8421bc2f61b11c79433cf4a22f89f938ece2175b78ce35943cd1a3"
+    },
+    {
+      "label": "trace-observer.js",
+      "path": "research/owned-resource-inventory-evidence/trace-observer.js.gz",
+      "bytes": 3524,
+      "sha256": "90a4568363d2030399ef668fc5409970df96256c06ca88bf3e3ddb0528c7b295",
+      "compressed_bytes": 1481,
+      "compressed_sha256": "5db351a57bdd0c5075316c54ba5ba2f531f5bdc56e7070e98b9bf928bdc299e1"
+    },
+    {
+      "label": "trace-trace-summary.json",
+      "path": "research/owned-resource-inventory-evidence/trace-trace-summary.json.gz",
+      "bytes": 73423,
+      "sha256": "de569929aaea33c2d260d82991cc5bc47e06072ef38b9a11dd739502242e073f",
+      "compressed_bytes": 3342,
+      "compressed_sha256": "42c5d7ddcfdd6a3a7ed6ab32c38db7aee4d45b95b186cbabedfb28a07db560eb"
+    },
+    {
+      "label": "trace-resolved-events.json",
+      "path": "research/owned-resource-inventory-evidence/trace-resolved-events.json.gz",
+      "bytes": 116083,
+      "sha256": "5e1ea8f0ed47eff7145a945efd5a9b2bf2232fdfd794718eb997880e9eca0850",
+      "compressed_bytes": 4491,
+      "compressed_sha256": "3a2d997da3daa24470aea7434951dfb02b48e2b49eb90b59ba908709757a38a3"
+    },
+    {
+      "label": "trace-selected-rea-evidence.json",
+      "path": "research/owned-resource-inventory-evidence/trace-selected-rea-evidence.json.gz",
+      "bytes": 152194,
+      "sha256": "d4bc4aa5ca45bfa7d1d481ef5888482879d035c4e5857d83ba2586230c46ad01",
+      "compressed_bytes": 8265,
+      "compressed_sha256": "cf41b7a71f1f5cf32041296eb2ae6f88f6fc71b8104563f30c7e90e1eec9c919"
+    },
+    {
+      "label": "trace-research-inventory-tabs-directx-left-observed.json",
+      "path": "research/owned-resource-inventory-evidence/trace-research-inventory-tabs-directx-left-observed.json.gz",
+      "bytes": 837002,
+      "sha256": "cb449c8287d58f7bee75e676729f46f5aed68851d7f1fa71c96a5f468d382f4a",
+      "compressed_bytes": 29364,
+      "compressed_sha256": "5c289dd365966fa8bab3b2594baf1388cebbc551ad3578637074ac8d06f4532f"
+    },
+    {
+      "label": "trace-research-inventory-tabs-directx-left-memory.json",
+      "path": "research/owned-resource-inventory-evidence/trace-research-inventory-tabs-directx-left-memory.json.gz",
+      "bytes": 1112226,
+      "sha256": "e5e3a2a2d1560949ff66092c5cde785a40e2c2589b5f77faddcbad5e8d45cb5b",
+      "compressed_bytes": 12570,
+      "compressed_sha256": "717fd365cb4107d61589b7db59e6ce24831446be5f133fd77f49c7470ea7c190"
+    },
+    {
+      "label": "trace-tests-tabs_window_smoke.py",
+      "path": "research/owned-resource-inventory-evidence/trace-tests-tabs_window_smoke.py.gz",
+      "bytes": 33072,
+      "sha256": "e838a96df97911e893360517a8943feef0a8d9e03c9c74997949364a35f01d4c",
+      "compressed_bytes": 8778,
+      "compressed_sha256": "cd7a897f8136f46f3f00ecc97ea2bef145eaeaea45a46180088727b7b2d4c936"
+    },
+    {
+      "label": "trace-tests-window_snapshot.py",
+      "path": "research/owned-resource-inventory-evidence/trace-tests-window_snapshot.py.gz",
+      "bytes": 3928,
+      "sha256": "ede46a681db2a0f7515821c615bebd21383aefe23622412552a8dd44e1bddaa3",
+      "compressed_bytes": 1409,
+      "compressed_sha256": "1c284568184f607f37322e58b7bfc58594f09ff33dbf380dd9c820ee5894d48f"
+    },
+    {
+      "label": "original-failed-controller.log",
+      "path": "research/owned-resource-inventory-evidence/original-failed-controller.log.gz",
+      "bytes": 997,
+      "sha256": "8d7a6b4c74fe82554900cdda4efcd109087fb0df22eaa94cfafa1456f5e4101a",
+      "compressed_bytes": 508,
+      "compressed_sha256": "0848d1d1ff908d202ab9c15f2bb7fef89d88486c7c461d3f1b007e9a275026ef"
+    },
+    {
+      "label": "original-failed-tabs.log",
+      "path": "research/owned-resource-inventory-evidence/original-failed-tabs.log.gz",
+      "bytes": 630,
+      "sha256": "ad3cc5b9755bf3473be58f983492f72629b18dc04d9a3537b16e3b5507796117",
+      "compressed_bytes": 315,
+      "compressed_sha256": "8c8b6528c6e0b27fd48795f35ef478fd2a58c5d2f79c938dac8049525876c8a8"
+    },
+    {
+      "label": "original-failed-research-tabs-controller.json",
+      "path": "research/owned-resource-inventory-evidence/original-failed-research-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "e717e80e45b6f8052d08d9b87e8540bb51c091e57d8b37bb20534381a4b360b4",
+      "compressed_bytes": 249,
+      "compressed_sha256": "92836e5c3d96b681d4a9996d96adbd77c562dcbd38b38108b0c01db790916051"
+    },
+    {
+      "label": "original-failed-research-workload-tabs-directx-left-observed.json",
+      "path": "research/owned-resource-inventory-evidence/original-failed-research-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 125754,
+      "sha256": "635965210b457478adc22622fd16397b720773707e61860de374713039cff804",
+      "compressed_bytes": 10309,
+      "compressed_sha256": "c4b4834948aef05675b9e8095c00ba0955708706835ec7077a2c40c83f8bf9b7"
+    },
+    {
+      "label": "original-failed-research-workload-tabs-directx-left-memory.json",
+      "path": "research/owned-resource-inventory-evidence/original-failed-research-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 616416,
+      "sha256": "f40e463b66cfb3933b0e8bce7211a7b6378afc505db34d4cd7b35e8270a7cea2",
+      "compressed_bytes": 13726,
+      "compressed_sha256": "d03530c76e2eff36b8250781cd2c4dc1953b481533bc986890e8edb4ef63679a"
+    }
+  ]
+}

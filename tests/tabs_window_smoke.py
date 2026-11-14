@@ -22,6 +22,8 @@ parser.add_argument('--dense-clusters',action='store_true')
 parser.add_argument('--workload-memory',action='store_true',
                     help='sample the full process tree during dense history and resize before instrumentation')
 observation=parser.add_mutually_exclusive_group()
+observation.add_argument('--resource-inventory',action='store_true',
+                    help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
 observation.add_argument('--allocation-census',action='store_true',
                     help='CI-only injected diagnostic; requires --workload-memory and exits 2, never acceptance')
 observation.add_argument('--local-heap-census',action='store_true',
@@ -41,6 +43,7 @@ if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
 prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
 base_scene=scene
+if args.resource_inventory:prefix='inventory-tabs'
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
     result=base_scene(text,colour)
@@ -80,6 +83,8 @@ evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),ren
               completed=False,checks=[],memory_instrumented=injected_observer,
               automation_enabled=True,phase='startup')
 if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False)
+if args.resource_inventory:
+    evidence.update(diagnostic_completed=False,memory_acceptance=False,resource_inventory=[])
 if args.etw_memory_trace:evidence['kernel_etw_recording']=True
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
@@ -97,6 +102,16 @@ try:
         handle=k.OpenProcess(0x410,False,process.pid)
         try:
             thread_observer=OwnedThreadSnapshot(process,job)
+            window_observer=None
+            if args.resource_inventory:
+                from window_snapshot import OwnedWindowSnapshot
+                window_observer=OwnedWindowSnapshot(thread_observer.owner)
+            def inventory(label):
+                if not window_observer:return
+                record=dict(label=label);evidence['resource_inventory'].append(record)
+                for kind,observer in [('handles',thread_observer.owner),('threads',thread_observer)]:
+                    try:record[kind]=observer.snapshot(label)
+                    except Exception as error:record[kind+'_error']=repr(error)
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
                 memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
@@ -183,8 +198,10 @@ try:
                     if phase in ('history-0','history-1','frame-0','frame-23','settled'):
                         from working_set_regions import private_regions
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
-                return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
-                            injected=injected_observer,**memory_sample(handle))
+                value=dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
+                           injected=injected_observer,**memory_sample(handle))
+                if window_observer:value['window_snapshot']=window_observer.snapshot(evidence['phase'])
+                return value
             def resource_observer():
                 # Preserve the original repaint at the first observation.
                 # Further polls must not restart the GUI timers being observed.
@@ -231,6 +248,7 @@ try:
             evidence['startup_resources']=[];evidence['resource_return']=[]
             baseline=resource_startup(resource_observer(),evidence['startup_resources'])
             evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
+            inventory('resource-baseline')
             for i in range(12):
                 child=duplicate(second,track_workers=True);output(child,scene('TEMPORARY','60;10;60'))
                 if args.dense_clusters:evidence['live_temporary_tabs'].append(resources())
@@ -240,7 +258,8 @@ try:
                 wait_for(lambda:job.accounting()['active']==5)
                 wait_for_tab_workers(child)
                 returned=[];evidence['resource_return'].append(returned)
-                sample=resource_after_close(resource_observer(),baseline,returned)
+                try:sample=resource_after_close(resource_observer(),baseline,returned)
+                finally:inventory('closed-cycle-'+str(i+1))
                 evidence['cycles'].append(sample)
                 if surface_class:assert windows(process.pid,surface_class,host)==surface
                 assert sample['handles']<=baseline['handles']+6,(baseline,sample)
@@ -416,6 +435,10 @@ try:
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             evidence['completed']=True
             evidence['phase']='complete'
+            if args.resource_inventory:
+                assert all(not any(k.endswith('_error') for k in row) for row in evidence['resource_inventory'])
+                evidence['diagnostic_completed']=True
+                raise SystemExit(2)
         except BaseException as failure:
             if not (evidence.get('diagnostic_completed') and isinstance(failure,SystemExit) and failure.code==2):
                 record_owned_failure(process,job,evidence,'tabs-'+evidence['phase'])
