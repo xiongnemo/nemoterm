@@ -96,6 +96,17 @@ and retain the original failed sample for assertion. No global input-method
 setting changes, global input, existing-session attachment or target injection
 are added. A deterministic lifecycle baseline still needs separate validation.
 
+The first full core CI at `8431e82` fails its generated-fixture consistency
+check: the new Python direct cases had not been regenerated into
+`tests/sgr_stack_oracle_cases.h`. Its sanitizer and MSVC diagnostic jobs pass,
+but that does not make the core workflow successful. The 17 missing generated
+entries are now added using the existing generator, which passes `--check`.
+`test_queries` with the regenerated entries passes ordinary Linux,
+ASan/UBSan/LSan and MSVC builds. The unchanged XTerm capture is not regenerated
+or edited, and the product image is unaffected by this test-data correction.
+The original [failed run](https://github.com/xiongnemo/nemoterm/actions/runs/43556854787)
+is retained; the corrected commit still requires full CI.
+
 The [evidence manifest](sgr-enclosures-validation.json) retains original logs,
 pixels, sent/replied wire records, image provenance, resource failures and
 cleanup records with decompressed SHA-256 checks. These are local observations,

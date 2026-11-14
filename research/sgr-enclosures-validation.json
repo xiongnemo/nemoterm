@@ -938,6 +938,66 @@
       "archive": "research/sgr-enclosures-records/155-retain-enclosure-evidence.py.gz",
       "bytes": 2348,
       "sha256": "498e9c1a7d1ba803f443d08eb4526247dd8446d679967a1c1c5f7b23b3543dcb"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-artifacts.json",
+      "archive": "research/sgr-enclosures-records/156-core-artifacts.json.gz",
+      "bytes": 3045,
+      "sha256": "a9bfeaf75cf1be9d7fd6a9f5d7d727ae4833d3ca9e6828ba06a4ef3ff78e4e63"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-run.json",
+      "archive": "research/sgr-enclosures-records/157-core-run.json.gz",
+      "bytes": 17989,
+      "sha256": "c393500732dd65eacf428891fe8a69c7fb87d8fb7fc3cbc891be0570c142014c"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-run.log",
+      "archive": "research/sgr-enclosures-records/158-core-run.log.gz",
+      "bytes": 468710,
+      "sha256": "f7fc66d8b3452adc7b55b190cd36b8df06665622e7dee47d1cdfcf1bf8959198"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-0.log",
+      "archive": "research/sgr-enclosures-records/159-generated-fixture-0.log.gz",
+      "bytes": 212,
+      "sha256": "91cd6e7d2dd7fb5513fe7446efc0d0a207c07abd57b316b4697afcd4c7e498e1"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-1.log",
+      "archive": "research/sgr-enclosures-records/160-generated-fixture-1.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-2.log",
+      "archive": "research/sgr-enclosures-records/161-generated-fixture-2.log.gz",
+      "bytes": 212,
+      "sha256": "91cd6e7d2dd7fb5513fe7446efc0d0a207c07abd57b316b4697afcd4c7e498e1"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-3.log",
+      "archive": "research/sgr-enclosures-records/162-generated-fixture-3.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture.json",
+      "archive": "research/sgr-enclosures-records/163-generated-fixture.json.gz",
+      "bytes": 751,
+      "sha256": "a186ff76d84ba9f2793c19c7149aed2e7eef56e2f5551d9c9b788d72ff1ff41b"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-generated-build.log",
+      "archive": "research/sgr-enclosures-records/164-windows-generated-build.log.gz",
+      "bytes": 227,
+      "sha256": "be5a5409ef1a0087ec52d7f6d3e07a1b4d7100bc0d2b206dd0feb4c55ed30454"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-generated-test_queries.log",
+      "archive": "research/sgr-enclosures-records/165-windows-generated-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
     }
   ]
 }
