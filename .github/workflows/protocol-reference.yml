@@ -16,6 +16,7 @@ on:
           - reset-palette
           - x11-colour
           - sidecar-wire
+          - kitty-graphics
           - all
   push:
     paths:
@@ -29,7 +30,7 @@ permissions:
 
 jobs:
   xterm-reference:
-    if: inputs.family != 'sidecar-wire'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -82,6 +83,107 @@ jobs:
           name: protocol-reference-${{ inputs.family || 'identity' }}-${{ github.sha }}
           path: build/protocol-reference/
           if-no-files-found: error
+
+  kitty-graphics-reference:
+    if: github.event_name == 'workflow_dispatch' && inputs.family == 'kitty-graphics'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      KITTY_SANITIZE: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Fetch the pinned unmodified upstream source
+        run: |
+          mkdir -p build/kitty-reference
+          git init "$RUNNER_TEMP/kitty-reference"
+          git -C "$RUNNER_TEMP/kitty-reference" remote add origin https://github.com/kovidgoyal/kitty.git
+          git -C "$RUNNER_TEMP/kitty-reference" fetch --depth 1 origin 8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f
+          git -C "$RUNNER_TEMP/kitty-reference" checkout --detach FETCH_HEAD
+          git -C "$RUNNER_TEMP/kitty-reference" rev-parse HEAD > build/kitty-reference/upstream-commit.txt
+          git rev-parse HEAD > build/kitty-reference/fixture-commit.txt
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: ${{ runner.temp }}/kitty-reference/go.mod
+          cache: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Build upstream with its own CI recipe
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/kitty-reference"
+          python .github/workflows/ci.py build 2>&1 | tee "$GITHUB_WORKSPACE/build/kitty-reference/upstream-build.log"
+      - name: Install the pinned REA process recorder on this disposable runner
+        run: |
+          npm install --prefix "$RUNNER_TEMP/kitty-rea" --no-audit --no-fund rea-agents@6.8.0
+          cp "$RUNNER_TEMP/kitty-rea/package-lock.json" build/kitty-reference/rea-package-lock.json
+      - name: Declare and capture the bounded reference process
+        timeout-minutes: 3
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          base = Path('build/kitty-reference').resolve()
+          source = Path(os.environ['RUNNER_TEMP']) / 'kitty-reference'
+          fixture = Path('tests/kitty_graphics_oracle.py').resolve()
+          output = base / 'observations.json'
+          output.write_text('{"status":"not-started"}\n')
+          scenario = dict(
+              executable=str(source / 'kitty/launcher/kitty'),
+              arguments=['+runpy', 'import runpy; runpy.run_path(' + repr(str(fixture)) + ', run_name="__main__")'],
+              working_directory=str(source),
+              environment=dict(NEMOTERM_KITTY_REFERENCE_OUTPUT=str(output),
+                               NEMOTERM_KITTY_REFERENCE_SOURCE=str(source), CI='true',
+                               SLANGC='/tmp/slang/bin/slangc'),
+              filesystem_observation_paths=[str(output)], events=[],
+              terminal=dict(columns=120, rows=40, scrollback=100),
+              timeout_ms=60000, idle_timeout_ms=20000, finalization_ms=2000,
+              limits=dict(output_bytes=262144, file_bytes=262144, files=10,
+                          filesystem_depth=1, processes=16))
+          (base / 'scenario.json').write_text(json.dumps(scenario, indent=2) + '\n')
+          PY
+          "$RUNNER_TEMP/kitty-rea/node_modules/.bin/rea" capture-process build/kitty-reference/scenario.json --json > build/kitty-reference/rea-evidence.json 2> build/kitty-reference/rea-progress.jsonl
+      - name: Verify capture completion and preserve its identity
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          base = Path('build/kitty-reference')
+          evidence = json.loads((base / 'rea-evidence.json').read_text())
+          if 'evidence_id' not in evidence:
+              evidence = evidence.get('result', evidence.get('data', evidence))
+          assert evidence.get('evidence_id'), evidence
+          capture = evidence['normalized_result']
+          assert capture['exit']['reason'] == 'exited' and capture['exit']['code'] == 0, capture['exit']
+          assert capture['cleanup']['owned_process_group'] == 'verified', capture['cleanup']
+          assert capture['cleanup']['temporary_root'] == 'removed', capture['cleanup']
+          assert not capture['cleanup'].get('unverified_processes'), capture['cleanup']
+          assert not capture['truncated'], capture['truncated']
+          observed = json.loads((base / 'observations.json').read_text())
+          assert observed['status'] == 'complete' and observed['case_count'] == 29, observed.get('status')
+          digest = hashlib.sha256((base / 'observations.json').read_bytes()).hexdigest()
+          assert any(x.get('sha256') == digest for x in capture['files_after']), 'Observation digest missing from REA snapshot'
+          summary = dict(evidence_id=evidence['evidence_id'],
+                         provider=evidence['provider'], exit=capture['exit'],
+                         cleanup=capture['cleanup'], limitations=evidence['limitations'],
+                         observations_sha256=digest, case_count=observed['case_count'],
+                         state_count=observed['state_count'])
+          (base / 'rea-summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps(summary, indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: kitty-graphics-reference-${{ github.sha }}
+          path: build/kitty-reference/
+          if-no-files-found: error
+          retention-days: 14
 
   sidecar-build:
     if: github.event_name == 'workflow_dispatch' && inputs.family == 'sidecar-wire'
