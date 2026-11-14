@@ -1,0 +1,125 @@
+{
+  "kind": "local Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/input-close-startup/research/startup-visibility-observed.json",
+      "archive": "research/d3d11-input-close-records/000-startup-visibility-observed.json.gz",
+      "bytes": 8932,
+      "sha256": "d548601b475c6c2db277a2ab2714eb5228627206c23de27ff969145c79176a19"
+    },
+    {
+      "path": "build/input-close-startup/research/startup_visibility-controller.json",
+      "archive": "research/d3d11-input-close-records/001-startup_visibility-controller.json.gz",
+      "bytes": 482,
+      "sha256": "220f5dbf8a8813d3dd5f08bdd491693f21629554603ce33bfeb9e262efc1c434"
+    },
+    {
+      "path": "build/input-close-startup/controller.log",
+      "archive": "research/d3d11-input-close-records/002-controller.log.gz",
+      "bytes": 379,
+      "sha256": "4e753e061bd9ff1b2a564f53ebf57bf08fca4ecd3e2f3f9723578bab1785fd03"
+    },
+    {
+      "path": "build/input-close-startup/startup_visibility.log",
+      "archive": "research/d3d11-input-close-records/003-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "fe5f016d969fbee5f4af76f67e41039558606bf054dec87a79cb5b264797230b"
+    },
+    {
+      "path": "build/input-close-automation/research/automation-controller.json",
+      "archive": "research/d3d11-input-close-records/004-automation-controller.json.gz",
+      "bytes": 474,
+      "sha256": "93abc8673d5982d4410e5299ca03b780f36ccfa6e46a6bb5aceb4765a9349be1"
+    },
+    {
+      "path": "build/input-close-automation/research/automation-directx-observed.json",
+      "archive": "research/d3d11-input-close-records/005-automation-directx-observed.json.gz",
+      "bytes": 1893,
+      "sha256": "bdaea77e355a08ac2de79129eae49ee26a8953acf605de151b60ea1e726b6365"
+    },
+    {
+      "path": "build/input-close-automation/automation.log",
+      "archive": "research/d3d11-input-close-records/006-automation.log.gz",
+      "bytes": 2868,
+      "sha256": "da01e8af25ff550009dbfc1596bea247c567c26ade4ac17dc9015f80686fb422"
+    },
+    {
+      "path": "build/input-close-automation/controller.log",
+      "archive": "research/d3d11-input-close-records/007-controller.log.gz",
+      "bytes": 371,
+      "sha256": "b74b7ed4b7d670c8487d26b664070687f94d933b4482c3616289dd8fd3a33154"
+    },
+    {
+      "path": "build/input-close-workload/research/tabs-controller.json",
+      "archive": "research/d3d11-input-close-records/008-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "ff7e4732bd60c07109c95ba3b0f2bec3fac56e803ac67a3e03e762cd65b002d5"
+    },
+    {
+      "path": "build/input-close-workload/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-input-close-records/009-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1256465,
+      "sha256": "17fc8cc96de1a923c2f54a852f35dbd4a716c9c5271a2f1ff3eb11a8ac7a6545"
+    },
+    {
+      "path": "build/input-close-workload/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-input-close-records/010-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25719,
+      "sha256": "10253d59246a9e8ac485ab3ea73562a440269e6619c301ac551c563081eb79f5"
+    },
+    {
+      "path": "build/input-close-workload/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-input-close-records/011-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/input-close-workload/controller.log",
+      "archive": "research/d3d11-input-close-records/012-controller.log.gz",
+      "bytes": 365,
+      "sha256": "74691b9ffcb05972eda1723c3ad6b4667f9bad382b946f3a5808ca45cd356da8"
+    },
+    {
+      "path": "build/input-close-workload/tabs.log",
+      "archive": "research/d3d11-input-close-records/013-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/check-integrated-input-close.py",
+      "archive": "research/d3d11-input-close-records/014-check-integrated-input-close.py.gz",
+      "bytes": 1251,
+      "sha256": "82a98767d9711d94c8c0a3aa39288a9777866d5986ff76e8fc284e71904ee622"
+    },
+    {
+      "path": "build/link-integrated-input-close.py",
+      "archive": "research/d3d11-input-close-records/015-link-integrated-input-close.py.gz",
+      "bytes": 1371,
+      "sha256": "0d97b42ac74f3abccf4d5c2fb66b58378d881126195f068a929a39221786c5df"
+    },
+    {
+      "path": "build/input-close-results.json",
+      "archive": "research/d3d11-input-close-records/016-input-close-results.json.gz",
+      "bytes": 177,
+      "sha256": "d66882b8cdf0a877cd4cc4fe6855455c31a1fb309f7ab052387adf06a671edfc"
+    },
+    {
+      "path": "build/integrated-input-close/image.json",
+      "archive": "research/d3d11-input-close-records/017-image.json.gz",
+      "bytes": 8260,
+      "sha256": "ef954ce84264ae47c6315009cc2cff2baf311ced94b4bba202d1c746b1f6408f"
+    },
+    {
+      "path": "build/integrated-input-close/link.rsp",
+      "archive": "research/d3d11-input-close-records/018-link.rsp.gz",
+      "bytes": 5543,
+      "sha256": "e3a2fdc3b68007ad10aa6ddcd4efb987256441df4f0898d8400666aa69097506"
+    },
+    {
+      "path": "build/integrated-input-close/link.log",
+      "archive": "research/d3d11-input-close-records/019-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    }
+  ]
+}

@@ -152,6 +152,8 @@ CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收�
 [首次初始化与 Direct3D 9Ex 探针](research/graphics-initialization.md) 补充了驱动分配证据；独立小程序的差异尚不能证明终端达标。
 [Direct3D 11 复制呈现实验](research/d3d11-copy.md) 的完整诊断降至 26.06 MB，但仍超预算且句柄检查失败；候选代码仅保留在实验分支。
 [句柄生命周期调查](research/handle-lifetime.md) 已定位 6 个短暂句柄的创建与关闭路径；另有一对持续句柄来源未明，原失败记录保留。
+新的 [Direct3D 11 组合候选](research/d3d11-integration.md) 在相同大窗口完整负载下已达到 **23.68 MB** 私有工作集，但总工作集仍为 **63.27 MB**。
+候选也包含 [退出时输入管道关闭的修复](research/conpty-input-close.md)；完整 CI 与下载产物复核仍在进行，尚未替换主分支产品和本机已验收 EXE。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。

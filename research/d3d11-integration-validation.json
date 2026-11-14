@@ -1,0 +1,665 @@
+{
+  "kind": "local Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/workload-directx/research/tabs-controller.json",
+      "archive": "research/d3d11-integration-records/000-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "80972812093c4a042d3fec36f0066deaee56001f2336a00a9e5ee3e8f9006567"
+    },
+    {
+      "path": "build/workload-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/d3d11-integration-records/001-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1246422,
+      "sha256": "0f5f57d2fa79f3fe4742b67a619f8836754ae7d5b765551e1171c4db85631fc8"
+    },
+    {
+      "path": "build/workload-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/d3d11-integration-records/002-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25726,
+      "sha256": "d28ca33c9c84c6b0a415d4b61a99cddbf5f501e7beadce28750684743fd40127"
+    },
+    {
+      "path": "build/workload-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/d3d11-integration-records/003-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/workload-directx/controller.log",
+      "archive": "research/d3d11-integration-records/004-controller.log.gz",
+      "bytes": 366,
+      "sha256": "b009723c9aae646e781bd37b122a98534bd720ad8501699277e8bbb9417bafe1"
+    },
+    {
+      "path": "build/workload-directx/tabs.log",
+      "archive": "research/d3d11-integration-records/005-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/workload-gdi/research/tabs-controller.json",
+      "archive": "research/d3d11-integration-records/006-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "adcd266c4a4fd824320066eb9d1bed90a111636f799a79e94854757c3597ff22"
+    },
+    {
+      "path": "build/workload-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/d3d11-integration-records/007-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/workload-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/d3d11-integration-records/008-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1294104,
+      "sha256": "d76a186af4a5cb2a65009527f5945032f7cd5a08f4fab47ff0c96e00f04efefe"
+    },
+    {
+      "path": "build/workload-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/d3d11-integration-records/009-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 25725,
+      "sha256": "4cc613beb7d782220eca15cbbed290bab4ccdb70c8f99f7c4ad822104b09ffde"
+    },
+    {
+      "path": "build/workload-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/d3d11-integration-records/010-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/workload-gdi/controller.log",
+      "archive": "research/d3d11-integration-records/011-controller.log.gz",
+      "bytes": 366,
+      "sha256": "6da1f93a67e50e04cbf9168c47dc1cd07ba84a1ac810ed6df73e4426821d0f04"
+    },
+    {
+      "path": "build/workload-gdi/tabs.log",
+      "archive": "research/d3d11-integration-records/012-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/native-recovery/research/gpu-lifecycle-observed.json",
+      "archive": "research/d3d11-integration-records/013-gpu-lifecycle-observed.json.gz",
+      "bytes": 1999,
+      "sha256": "0b78d1a3fbde72a2d6ff71a79acc195fe8ac38cc629230ed5659c38c19ac51fa"
+    },
+    {
+      "path": "build/native-recovery/research/gpu_lifecycle-controller.json",
+      "archive": "research/d3d11-integration-records/014-gpu_lifecycle-controller.json.gz",
+      "bytes": 476,
+      "sha256": "132303e5b0d2a612569d9035cf2a89c83e099b8d851d5fc9db8e28639b6727f1"
+    },
+    {
+      "path": "build/native-recovery/controller.log",
+      "archive": "research/d3d11-integration-records/015-controller.log.gz",
+      "bytes": 635,
+      "sha256": "7fefe8b387453f98a8b889f3e4b916e8b238967784ffbd038b02dec7af510f29"
+    },
+    {
+      "path": "build/native-recovery/gpu_lifecycle.log",
+      "archive": "research/d3d11-integration-records/016-gpu_lifecycle.log.gz",
+      "bytes": 260,
+      "sha256": "728adca1e9a1d06de97a082336e9efb0b84341c81a7c016a93dc3bc8ee829830"
+    },
+    {
+      "path": "build/native-recovery-02/research/gpu-lifecycle-observed.json",
+      "archive": "research/d3d11-integration-records/017-gpu-lifecycle-observed.json.gz",
+      "bytes": 2484,
+      "sha256": "ac702ce7e7f1a805e4f04a014974212c3425fc4da3fee84dc09c626bf030bcdb"
+    },
+    {
+      "path": "build/native-recovery-02/research/gpu_lifecycle-controller.json",
+      "archive": "research/d3d11-integration-records/018-gpu_lifecycle-controller.json.gz",
+      "bytes": 476,
+      "sha256": "2c486b853cbbc8fc2a6cd42eef46a07d8dc89c8b955945d16b6ef655dae54ec4"
+    },
+    {
+      "path": "build/native-recovery-02/controller.log",
+      "archive": "research/d3d11-integration-records/019-controller.log.gz",
+      "bytes": 638,
+      "sha256": "6552c5933fe42025d8e945fb80994baa79970c3507576061abc6fe493af389c9"
+    },
+    {
+      "path": "build/native-recovery-02/gpu_lifecycle.log",
+      "archive": "research/d3d11-integration-records/020-gpu_lifecycle.log.gz",
+      "bytes": 263,
+      "sha256": "923e7fb120cf33003915272fc14c8659200afba1e4a38e20bf3dfdb082c4bd8d"
+    },
+    {
+      "path": "build/native-recovery-03/research/gpu-lifecycle-directx.png",
+      "archive": "research/d3d11-integration-records/021-gpu-lifecycle-directx.png.gz",
+      "bytes": 1235,
+      "sha256": "5ca991afe84c10cacfe03adc7aa212a6dc70029b4ec59ee01cb3af5894e590db"
+    },
+    {
+      "path": "build/native-recovery-03/research/gpu-lifecycle-observed.json",
+      "archive": "research/d3d11-integration-records/022-gpu-lifecycle-observed.json.gz",
+      "bytes": 20924,
+      "sha256": "f23ae6aa320753be1c7a7a623f0526cf97e515197bfbb492d0ab6deb79602a87"
+    },
+    {
+      "path": "build/native-recovery-03/research/gpu_lifecycle-controller.json",
+      "archive": "research/d3d11-integration-records/023-gpu_lifecycle-controller.json.gz",
+      "bytes": 474,
+      "sha256": "a9294f89d76abf55ea4342c7454d4200a37685742184b13adf1a9d76212c9a14"
+    },
+    {
+      "path": "build/native-recovery-03/controller.log",
+      "archive": "research/d3d11-integration-records/024-controller.log.gz",
+      "bytes": 371,
+      "sha256": "54f4c6bc20785623f6a6747e98a02253f3ba02e673438f2e82bbe31e541173c3"
+    },
+    {
+      "path": "build/native-recovery-03/gpu_lifecycle.log",
+      "archive": "research/d3d11-integration-records/025-gpu_lifecycle.log.gz",
+      "bytes": 11720,
+      "sha256": "9fc8594c1084cc1756729bc6cad44cf3e7f3cb08b26bdf66f4c05e6cad2f8253"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/d3d11-integration-records/026-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/d3d11-integration-records/027-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/d3d11-integration-records/028-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-active-2.png",
+      "archive": "research/d3d11-integration-records/029-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-active-4.png",
+      "archive": "research/d3d11-integration-records/030-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-active-6.png",
+      "archive": "research/d3d11-integration-records/031-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/d3d11-integration-records/032-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/d3d11-integration-records/033-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/d3d11-integration-records/034-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-expose.png",
+      "archive": "research/d3d11-integration-records/035-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-overline-double-size.png",
+      "archive": "research/d3d11-integration-records/036-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-overline.png",
+      "archive": "research/d3d11-integration-records/037-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-palette.png",
+      "archive": "research/d3d11-integration-records/038-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-resize.png",
+      "archive": "research/d3d11-integration-records/039-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-sixel.png",
+      "archive": "research/d3d11-integration-records/040-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-sync-end.png",
+      "archive": "research/d3d11-integration-records/041-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-sync-frozen.png",
+      "archive": "research/d3d11-integration-records/042-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-0-text.png",
+      "archive": "research/d3d11-integration-records/043-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/d3d11-integration-records/044-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/d3d11-integration-records/045-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/d3d11-integration-records/046-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-active-2.png",
+      "archive": "research/d3d11-integration-records/047-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-active-4.png",
+      "archive": "research/d3d11-integration-records/048-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-active-6.png",
+      "archive": "research/d3d11-integration-records/049-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/d3d11-integration-records/050-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/d3d11-integration-records/051-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/d3d11-integration-records/052-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-expose.png",
+      "archive": "research/d3d11-integration-records/053-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-overline-double-size.png",
+      "archive": "research/d3d11-integration-records/054-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-overline.png",
+      "archive": "research/d3d11-integration-records/055-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-palette.png",
+      "archive": "research/d3d11-integration-records/056-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-resize.png",
+      "archive": "research/d3d11-integration-records/057-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-sixel.png",
+      "archive": "research/d3d11-integration-records/058-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-sync-end.png",
+      "archive": "research/d3d11-integration-records/059-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-sync-frozen.png",
+      "archive": "research/d3d11-integration-records/060-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-1-text.png",
+      "archive": "research/d3d11-integration-records/061-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/d3d11-integration-records/062-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/d3d11-integration-records/063-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/d3d11-integration-records/064-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-active-2.png",
+      "archive": "research/d3d11-integration-records/065-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-active-4.png",
+      "archive": "research/d3d11-integration-records/066-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-active-6.png",
+      "archive": "research/d3d11-integration-records/067-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/d3d11-integration-records/068-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/d3d11-integration-records/069-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/d3d11-integration-records/070-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-expose.png",
+      "archive": "research/d3d11-integration-records/071-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-overline-double-size.png",
+      "archive": "research/d3d11-integration-records/072-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-overline.png",
+      "archive": "research/d3d11-integration-records/073-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-palette.png",
+      "archive": "research/d3d11-integration-records/074-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-resize.png",
+      "archive": "research/d3d11-integration-records/075-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-sixel.png",
+      "archive": "research/d3d11-integration-records/076-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-sync-end.png",
+      "archive": "research/d3d11-integration-records/077-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-sync-frozen.png",
+      "archive": "research/d3d11-integration-records/078-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-2-text.png",
+      "archive": "research/d3d11-integration-records/079-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-controller.json",
+      "archive": "research/d3d11-integration-records/080-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "18e916d7dd1bceb5bcb7bcbfdaa37bc5cea6551b99101d8c48ba6115acde1720"
+    },
+    {
+      "path": "build/native-pixels/research/renderer-observed.json",
+      "archive": "research/d3d11-integration-records/081-renderer-observed.json.gz",
+      "bytes": 7585,
+      "sha256": "531afa9f18ed4d295025541bd7d0773afb4fb71fe253c9a089dc5a33f4e05281"
+    },
+    {
+      "path": "build/native-pixels/controller.log",
+      "archive": "research/d3d11-integration-records/082-controller.log.gz",
+      "bytes": 370,
+      "sha256": "64189b7c04d2be4372361b39ae8582a48424b5a9a1f496a19978f1585973db42"
+    },
+    {
+      "path": "build/native-pixels/renderer.log",
+      "archive": "research/d3d11-integration-records/083-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "5d804a90abc28c069f28de4640504d316c4844b7dcf5b4a1a7a377d8e0e76da5"
+    },
+    {
+      "path": "build/native-automation-dx/research/automation-controller.json",
+      "archive": "research/d3d11-integration-records/084-automation-controller.json.gz",
+      "bytes": 474,
+      "sha256": "d723c71762de1b7cc6d7ee5482c016ec3a9551a3933db6115fea2193b5956fb1"
+    },
+    {
+      "path": "build/native-automation-dx/research/automation-directx-observed.json",
+      "archive": "research/d3d11-integration-records/085-automation-directx-observed.json.gz",
+      "bytes": 1891,
+      "sha256": "309d972c6280c9b2486a92f91b690ab040e935a893ad03956a169a9ecf2ac740"
+    },
+    {
+      "path": "build/native-automation-dx/automation.log",
+      "archive": "research/d3d11-integration-records/086-automation.log.gz",
+      "bytes": 2866,
+      "sha256": "e1dc64ef97e37764cbaa07711d05a3fc295980dee2fd1e677c8061f49fab5389"
+    },
+    {
+      "path": "build/native-automation-dx/controller.log",
+      "archive": "research/d3d11-integration-records/087-controller.log.gz",
+      "bytes": 371,
+      "sha256": "ea02a6245682b592ef3f3aa68fcd18c3b13aa45ec9d6fb2799c0f626c8b43155"
+    },
+    {
+      "path": "build/native-startup/research/startup-visibility-observed.json",
+      "archive": "research/d3d11-integration-records/088-startup-visibility-observed.json.gz",
+      "bytes": 4492,
+      "sha256": "ce078d702faeea686183356388f90cd8be720f953c9edd9d6580cad686d9fbf8"
+    },
+    {
+      "path": "build/native-startup/research/startup_visibility-controller.json",
+      "archive": "research/d3d11-integration-records/089-startup_visibility-controller.json.gz",
+      "bytes": 482,
+      "sha256": "ce37bffa5d6d49db2f14e9bf8b0761a50d3e1d572bb69350d43a17582ec60d29"
+    },
+    {
+      "path": "build/native-startup/controller.log",
+      "archive": "research/d3d11-integration-records/090-controller.log.gz",
+      "bytes": 379,
+      "sha256": "e0e00f3c532cbef61d27b29fb10f6f295ed1bc86847d45ba664f48d82033b515"
+    },
+    {
+      "path": "build/native-startup/startup_visibility.log",
+      "archive": "research/d3d11-integration-records/091-startup_visibility.log.gz",
+      "bytes": 37,
+      "sha256": "6e08fe59e74206d7ce87c84c87ad0ad4493aa11ebd08fa8482fdf83778dcab62"
+    },
+    {
+      "path": "build/check-integrated-native.py",
+      "archive": "research/d3d11-integration-records/092-check-integrated-native.py.gz",
+      "bytes": 1194,
+      "sha256": "1ea628c9da9d0f37bca8ed0600f21c4e6565f8eab2c691191a675b7f1e7bd6dc"
+    },
+    {
+      "path": "build/check-integrated-remaining.py",
+      "archive": "research/d3d11-integration-records/093-check-integrated-remaining.py.gz",
+      "bytes": 1188,
+      "sha256": "06dd64a81584a9e6432ded2428b0be921617e1ef38d6e7e8f8fecd9c26021304"
+    },
+    {
+      "path": "build/check-integrated-workloads.py",
+      "archive": "research/d3d11-integration-records/094-check-integrated-workloads.py.gz",
+      "bytes": 1114,
+      "sha256": "357f907114c026035f9fedec8545e21f3e4d1310b0ba15924aeb024177c6a9c0"
+    },
+    {
+      "path": "build/check-recovery-02.py",
+      "archive": "research/d3d11-integration-records/095-check-recovery-02.py.gz",
+      "bytes": 1102,
+      "sha256": "a1db7b1292cce923d9de284f426163ab843b616af9553bef212b240716668965"
+    },
+    {
+      "path": "build/check-recovery-03.py",
+      "archive": "research/d3d11-integration-records/096-check-recovery-03.py.gz",
+      "bytes": 1102,
+      "sha256": "bba644dd044fc54f1907c582c74e20d72fe39e0fefd702d67065768bb3d70cc4"
+    },
+    {
+      "path": "build/link-integrated-image.py",
+      "archive": "research/d3d11-integration-records/097-link-integrated-image.py.gz",
+      "bytes": 1348,
+      "sha256": "a1703a241c6ff399d33b36d9957c4494598c6ce5f991d7e94e872302803b3c29"
+    },
+    {
+      "path": "build/integrated-single/image.json",
+      "archive": "research/d3d11-integration-records/098-image.json.gz",
+      "bytes": 8260,
+      "sha256": "5e18402972634911ea7fec2b4826775a4a51f60372ae88c065bdda77e3a7019b"
+    },
+    {
+      "path": "build/integrated-single/link.rsp",
+      "archive": "research/d3d11-integration-records/099-link.rsp.gz",
+      "bytes": 5528,
+      "sha256": "af58122f854efbe107298859ebae7d451e877e74b82a6d651bd6b57bbd75ab99"
+    },
+    {
+      "path": "build/integrated-single/link.log",
+      "archive": "research/d3d11-integration-records/100-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/d3d11-abi.json",
+      "archive": "research/d3d11-integration-records/101-d3d11-abi.json.gz",
+      "bytes": 2038,
+      "sha256": "3715174354aea019677666f92d4f77ce0763f91e21997a01347ca312ffc76f5e"
+    },
+    {
+      "path": "build/verify-dxgi-layout.c",
+      "archive": "research/d3d11-integration-records/102-verify-dxgi-layout.c.gz",
+      "bytes": 288,
+      "sha256": "edaf44cac2577800eeae46b6ce81c6a96dae90e51d51ba6375312e0fd87d10e1"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_d3d11.c",
+      "archive": "research/d3d11-integration-records/103-nemo_d3d11.c.gz",
+      "bytes": 15499,
+      "sha256": "b1db546b3cc9cb274f9b4c940a655fe3111314e4c22573cdaa6310bd19ab479a"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_d3d11.h",
+      "archive": "research/d3d11-integration-records/104-nemo_d3d11.h.gz",
+      "bytes": 915,
+      "sha256": "b513678c9719ce55002886d683923f26634773ac95137f876d31aa5618a04d4c"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_gpu.c",
+      "archive": "research/d3d11-integration-records/105-nemo_gpu.c.gz",
+      "bytes": 2018,
+      "sha256": "afed9b8a1714083753884c3284585225620c7588675628c91cb6f155e01883e4"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/CMakeLists.txt",
+      "archive": "research/d3d11-integration-records/106-CMakeLists.txt.gz",
+      "bytes": 16255,
+      "sha256": "5dde00505b18187313290a572276e02f76741e0c7ef31de6abd702dbcab8455a"
+    },
+    {
+      "path": "tests/gpu_faults.js",
+      "archive": "research/d3d11-integration-records/107-gpu_faults.js.gz",
+      "bytes": 5651,
+      "sha256": "b00f248377fcba3825aec5417fc2496231670bea58083dd247edb00673a479bd"
+    },
+    {
+      "path": "tests/gpu_lifecycle_window_smoke.py",
+      "archive": "research/d3d11-integration-records/108-gpu_lifecycle_window_smoke.py.gz",
+      "bytes": 7753,
+      "sha256": "e4cbd8e4d9127cda37f74d336965967707d175e0f97b8f967be2c4926d59f397"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "archive": "research/d3d11-integration-records/109-tabs_window_smoke.py.gz",
+      "bytes": 26394,
+      "sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87"
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "kind": "local Win32 observations, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/downloaded-visibility-startup/research/startup-visibility-observed.json",
+      "archive": "research/conpty-input-close-records/000-startup-visibility-observed.json.gz",
+      "bytes": 4346,
+      "sha256": "8ff9303679084b7ac8ba8ecc5300f7ad4442b04b3c3b776193f678951aa6ffc1"
+    },
+    {
+      "path": "build/downloaded-visibility-startup/research/startup_visibility-controller.json",
+      "archive": "research/conpty-input-close-records/001-startup_visibility-controller.json.gz",
+      "bytes": 483,
+      "sha256": "b174e3228702aaf975d650f65ee99a6c4b87b30174f2d54c7ee2731562fede84"
+    },
+    {
+      "path": "build/downloaded-visibility-startup/controller.log",
+      "archive": "research/conpty-input-close-records/002-controller.log.gz",
+      "bytes": 2584,
+      "sha256": "220d160baa5f29aa6f951cd86c74173a84376856c4a22ede0383ac789ba33535"
+    },
+    {
+      "path": "build/downloaded-visibility-startup/startup_visibility.log",
+      "archive": "research/conpty-input-close-records/003-startup_visibility.log.gz",
+      "bytes": 2192,
+      "sha256": "5322b4cc00c492813f56059f0545ccc69e2714fd7adf6366dce7cf647e986853"
+    },
+    {
+      "path": "build/downloaded-visibility-relative/research/relative-cursor-gdi-observed.json",
+      "archive": "research/conpty-input-close-records/004-relative-cursor-gdi-observed.json.gz",
+      "bytes": 188407,
+      "sha256": "bdbe3b7df2c7601d33c885548b30b210acb756eda1dab3dfe3aa9e948517cd2d"
+    },
+    {
+      "path": "build/downloaded-visibility-relative/research/relative-cursor-gdi-window.png",
+      "archive": "research/conpty-input-close-records/005-relative-cursor-gdi-window.png.gz",
+      "bytes": 1413,
+      "sha256": "fa4e71fcd2a7c190a54a8994f36b2935081c7d5b87a89702595d733f7eee9d78"
+    },
+    {
+      "path": "build/downloaded-visibility-relative/research/relative_cursor-controller.json",
+      "archive": "research/conpty-input-close-records/006-relative_cursor-controller.json.gz",
+      "bytes": 478,
+      "sha256": "0fec5c969ae21e377101f0c47fc71f8c63a0acd2249adf167b3292fdc51266dd"
+    },
+    {
+      "path": "build/downloaded-visibility-relative/controller.log",
+      "archive": "research/conpty-input-close-records/007-controller.log.gz",
+      "bytes": 375,
+      "sha256": "15fbe47dd876875c9705972ee15090d1259c01b73012fa40b424cac99c62e905"
+    },
+    {
+      "path": "build/downloaded-visibility-relative/relative_cursor.log",
+      "archive": "research/conpty-input-close-records/008-relative_cursor.log.gz",
+      "bytes": 16823,
+      "sha256": "b06495ef4170bafba35df4b82b7260624c19f1616be2f7df99be0f7c09cc2559"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/research/tabs-controller.json",
+      "archive": "research/conpty-input-close-records/009-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "220cf364936c3cdeaf55deb963033351c90696d0dce48aa0cc5d60bc9e751fc2"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/conpty-input-close-records/010-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/conpty-input-close-records/011-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1240166,
+      "sha256": "28e486f5128a6982ed50fd93fe8020ce24d2a1bbc88ba2c084fa784bd0d0f927"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/conpty-input-close-records/012-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 16015,
+      "sha256": "789d066098a4012d1958f974aead200fe78e71b46cfdd50cf6fa5119c3c45b13"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/conpty-input-close-records/013-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/controller.log",
+      "archive": "research/conpty-input-close-records/014-controller.log.gz",
+      "bytes": 366,
+      "sha256": "c2f77f22d9c5c5cead685b7696c6dd42de6669adba60c7bbe424a7b3258b9189"
+    },
+    {
+      "path": "build/downloaded-visibility-gdi/tabs.log",
+      "archive": "research/conpty-input-close-records/015-tabs.log.gz",
+      "bytes": 16297,
+      "sha256": "2abec6776e9be90350947589e4d4d9b3b32687f061c72f29b1cc640011c527b0"
+    },
+    {
+      "path": "build/startup-shutdown-diagnostic/research/startup-visibility-observed.json",
+      "archive": "research/conpty-input-close-records/016-startup-visibility-observed.json.gz",
+      "bytes": 4792,
+      "sha256": "666997995866a307c9eca75bc0b3bfaf8934aae7787a041cc55b8445674ab302"
+    },
+    {
+      "path": "build/startup-shutdown-diagnostic/research/startup_visibility-controller.json",
+      "archive": "research/conpty-input-close-records/017-startup_visibility-controller.json.gz",
+      "bytes": 481,
+      "sha256": "fdc364d0313c05fdf8186522a5f4f96add45a276e693a709c0b63903b651ef2a"
+    },
+    {
+      "path": "build/startup-shutdown-diagnostic/controller.log",
+      "archive": "research/conpty-input-close-records/018-controller.log.gz",
+      "bytes": 1581,
+      "sha256": "29055158b013dc705879eb79d8781e4718c1879cfc0bddf9ab4bd15978389f00"
+    },
+    {
+      "path": "build/startup-shutdown-diagnostic/startup_visibility.log",
+      "archive": "research/conpty-input-close-records/019-startup_visibility.log.gz",
+      "bytes": 1201,
+      "sha256": "083d8e255e15a0bc2c745ecf5b9530ce56ad272dcc849935e6ad9a38bb40acf4"
+    },
+    {
+      "path": "build/startup-shutdown-write-diagnostic/research/startup-visibility-observed.json",
+      "archive": "research/conpty-input-close-records/020-startup-visibility-observed.json.gz",
+      "bytes": 13545,
+      "sha256": "ee1ba6e61bfd8f4ae649658d99237233a3f7ddf8af707306e6af672f93085bc9"
+    },
+    {
+      "path": "build/startup-shutdown-write-diagnostic/research/startup_visibility-controller.json",
+      "archive": "research/conpty-input-close-records/021-startup_visibility-controller.json.gz",
+      "bytes": 482,
+      "sha256": "2ccdcc3033fa73aa5f34f5c6ca78ea4ef663a079aa6f9002fe19bcfd2025cbc4"
+    },
+    {
+      "path": "build/startup-shutdown-write-diagnostic/controller.log",
+      "archive": "research/conpty-input-close-records/022-controller.log.gz",
+      "bytes": 379,
+      "sha256": "026fa293a8c725516409d562bafe802f667e38c06fdeef4f0a64142add3bd818"
+    },
+    {
+      "path": "build/startup-shutdown-write-diagnostic/startup_visibility.log",
+      "archive": "research/conpty-input-close-records/023-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "15e89d6b22ce397f99361f57be2fc87a078a39c630b551ec8f619a06b3943710"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/research/startup-visibility-observed.json",
+      "archive": "research/conpty-input-close-records/024-startup-visibility-observed.json.gz",
+      "bytes": 14206,
+      "sha256": "0b47c79838b75467f38bbde80f7567c3bb12da362276728384697a7b6c9d4432"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/research/startup_visibility-controller.json",
+      "archive": "research/conpty-input-close-records/025-startup_visibility-controller.json.gz",
+      "bytes": 482,
+      "sha256": "3ed4c004f9b795e6ac76d9f00a34e63b6bfd787c3563d8e1eeea54cc2e7c0287"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/controller.log",
+      "archive": "research/conpty-input-close-records/026-controller.log.gz",
+      "bytes": 379,
+      "sha256": "2823a0af8d6def91caa54412e23dac498b7f8a08c0d364349ce3e8b5be08725e"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/startup_visibility.log",
+      "archive": "research/conpty-input-close-records/027-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "15e89d6b22ce397f99361f57be2fc87a078a39c630b551ec8f619a06b3943710"
+    },
+    {
+      "path": "build/input-close-startup/research/startup-visibility-observed.json",
+      "archive": "research/conpty-input-close-records/028-startup-visibility-observed.json.gz",
+      "bytes": 8932,
+      "sha256": "d47587e4d553c5bbd65aebc0043ed67a3dd04293500d885c8a871cebad293905"
+    },
+    {
+      "path": "build/input-close-startup/research/startup_visibility-controller.json",
+      "archive": "research/conpty-input-close-records/029-startup_visibility-controller.json.gz",
+      "bytes": 481,
+      "sha256": "01052bf2aa825ffca63ed328bcc36081a0e86c2adef1ffc714a30f70061d710e"
+    },
+    {
+      "path": "build/input-close-startup/controller.log",
+      "archive": "research/conpty-input-close-records/030-controller.log.gz",
+      "bytes": 378,
+      "sha256": "ede1e8121f1d92bf5a1585dd348a55c226aa0e5b8a46e6d187a86a8b0d3d9dcd"
+    },
+    {
+      "path": "build/input-close-startup/startup_visibility.log",
+      "archive": "research/conpty-input-close-records/031-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "fe5f016d969fbee5f4af76f67e41039558606bf054dec87a79cb5b264797230b"
+    },
+    {
+      "path": "build/input-close-delegated/research/delegated-console-observed.json",
+      "archive": "research/conpty-input-close-records/032-delegated-console-observed.json.gz",
+      "bytes": 922,
+      "sha256": "f84e88257a9d2ca746ca1527b270f3bb15e264e6a8fb301f9e1c9817aa9b4377"
+    },
+    {
+      "path": "build/input-close-delegated/research/delegated_console-controller.json",
+      "archive": "research/conpty-input-close-records/033-delegated_console-controller.json.gz",
+      "bytes": 479,
+      "sha256": "28fe4da267f65fc8dde36b6b87d95831fa4db5e856e7885013c36d89ba3fa1a8"
+    },
+    {
+      "path": "build/input-close-delegated/controller.log",
+      "archive": "research/conpty-input-close-records/034-controller.log.gz",
+      "bytes": 376,
+      "sha256": "654a9bf6a9c54e7a9ec2411b504466cfdf47b471275c78ad904b7eaac38bc4ee"
+    },
+    {
+      "path": "build/input-close-delegated/delegated_console.log",
+      "archive": "research/conpty-input-close-records/035-delegated_console.log.gz",
+      "bytes": 60,
+      "sha256": "71ba2c8365a7d3c37c60f24f12ce145a3ace01498ce023190acf6af66b557619"
+    },
+    {
+      "path": "build/input-close-shutdown/research/shutdown-controller.json",
+      "archive": "research/conpty-input-close-records/036-shutdown-controller.json.gz",
+      "bytes": 472,
+      "sha256": "bc58d246740b529f3235bccd09dc72b2fc5026b706c533f1848969f19a646908"
+    },
+    {
+      "path": "build/input-close-shutdown/research/shutdown-window-observed.json",
+      "archive": "research/conpty-input-close-records/037-shutdown-window-observed.json.gz",
+      "bytes": 8524,
+      "sha256": "b64ee395ee3991ef8d4c040dae5de4de51427748438316e701e1df7754ebfb8a"
+    },
+    {
+      "path": "build/input-close-shutdown/controller.log",
+      "archive": "research/conpty-input-close-records/038-controller.log.gz",
+      "bytes": 369,
+      "sha256": "34d5dc071307bb3d65b6239d13ccb841c359182a5a459c48d0023a0a79247df9"
+    },
+    {
+      "path": "build/input-close-shutdown/shutdown.log",
+      "archive": "research/conpty-input-close-records/039-shutdown.log.gz",
+      "bytes": 6958,
+      "sha256": "b6c722af03009d304e55edb72d9861bf36201954b98172a186ec707a3fcdaa1b"
+    },
+    {
+      "path": "build/input-close-gdi/research/tabs-controller.json",
+      "archive": "research/conpty-input-close-records/040-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "8549dbdf42a80f7624bc470b23afed9045cefdaa54bfe2db36bf8298c1c25aa4"
+    },
+    {
+      "path": "build/input-close-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/conpty-input-close-records/041-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/input-close-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/conpty-input-close-records/042-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1217783,
+      "sha256": "f213c4e566bea0a6268e166edb07d939b8d649efb4f280b54e2923aa6aa68025"
+    },
+    {
+      "path": "build/input-close-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/conpty-input-close-records/043-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 16016,
+      "sha256": "f5cc22be8a6ed010ddb51944be1a69b1ac8fa9111e7c24117d31b54f82939431"
+    },
+    {
+      "path": "build/input-close-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/conpty-input-close-records/044-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/input-close-gdi/controller.log",
+      "archive": "research/conpty-input-close-records/045-controller.log.gz",
+      "bytes": 366,
+      "sha256": "dd028a96f44c43df59c3649d01506ffb5023b2503a4a101c8831e307cdb5e720"
+    },
+    {
+      "path": "build/input-close-gdi/tabs.log",
+      "archive": "research/conpty-input-close-records/046-tabs.log.gz",
+      "bytes": 15498,
+      "sha256": "1d8a1ece2f350a1cb2b461c5a51c947f22423ff4e48a0cb22856daf87e893f41"
+    },
+    {
+      "path": "build/input-close-profiles/research/tabs-profiles-observed.json",
+      "archive": "research/conpty-input-close-records/047-tabs-profiles-observed.json.gz",
+      "bytes": 2849,
+      "sha256": "ff358e5cb56398a9dc7788f77f96eeb580f0038be26bc6b00da8bc16e086e6a9"
+    },
+    {
+      "path": "build/input-close-profiles/research/tabs_profiles-controller.json",
+      "archive": "research/conpty-input-close-records/048-tabs_profiles-controller.json.gz",
+      "bytes": 475,
+      "sha256": "b3094375d7bcaebc1d82f3984fbafe134d50e4036b035ed30285a9f35f91d78e"
+    },
+    {
+      "path": "build/input-close-profiles/controller.log",
+      "archive": "research/conpty-input-close-records/049-controller.log.gz",
+      "bytes": 372,
+      "sha256": "af8e2bca0f6244b2f71140f9e292afb8bb41a4b5ee6a3ac0e1e6325e5c9b1d56"
+    },
+    {
+      "path": "build/input-close-profiles/tabs_profiles.log",
+      "archive": "research/conpty-input-close-records/050-tabs_profiles.log.gz",
+      "bytes": 1491,
+      "sha256": "c779e5ca9d7aef20fd73ff37733f325b82db4ef01ebeddf9a91bd3f6cd4a1422"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-0-last-reference.png",
+      "archive": "research/conpty-input-close-records/051-rtl-0-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-0-resized.png",
+      "archive": "research/conpty-input-close-records/052-rtl-0-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-0.png",
+      "archive": "research/conpty-input-close-records/053-rtl-0.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-1-last-reference.png",
+      "archive": "research/conpty-input-close-records/054-rtl-1-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-1-resized.png",
+      "archive": "research/conpty-input-close-records/055-rtl-1-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-1.png",
+      "archive": "research/conpty-input-close-records/056-rtl-1.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-2-last-reference.png",
+      "archive": "research/conpty-input-close-records/057-rtl-2-last-reference.png.gz",
+      "bytes": 380,
+      "sha256": "9298dc41f75163c757a4e3d09d072b7fec597c67e16c0a95b6642a943d8769c4"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-2-resized.png",
+      "archive": "research/conpty-input-close-records/058-rtl-2-resized.png.gz",
+      "bytes": 718,
+      "sha256": "dc30e3b99203802b0944c199fc83d0a37b98d00fb6bdd83f01993616624c0e8f"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-2.png",
+      "archive": "research/conpty-input-close-records/059-rtl-2.png.gz",
+      "bytes": 875,
+      "sha256": "c01c58b5d58479161b6d112bac13c82896d21bb3c8f72744ef5900d76ae88d2c"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-controller.json",
+      "archive": "research/conpty-input-close-records/060-rtl-controller.json.gz",
+      "bytes": 467,
+      "sha256": "4e6567708225a19e858e65244096566ed34f5e4ff0a9a45995a382b5325a774c"
+    },
+    {
+      "path": "build/input-close-rtl/research/rtl-window-observed.json",
+      "archive": "research/conpty-input-close-records/061-rtl-window-observed.json.gz",
+      "bytes": 4230,
+      "sha256": "9669b91d3120ca68c1b316fe383069b9eba2151d2f93ce1dd75e7fa42419c4d9"
+    },
+    {
+      "path": "build/input-close-rtl/controller.log",
+      "archive": "research/conpty-input-close-records/062-controller.log.gz",
+      "bytes": 364,
+      "sha256": "ba765175f98ca498b9fb77916f030d591aa5df08ca1484ae150f1e9cb976dc60"
+    },
+    {
+      "path": "build/input-close-rtl/rtl.log",
+      "archive": "research/conpty-input-close-records/063-rtl.log.gz",
+      "bytes": 1335,
+      "sha256": "3ef82a74a406191003d4f9d09d1d84451983078430ca7adc425c4947bb5623b0"
+    },
+    {
+      "path": "build/check-downloaded-visibility.py",
+      "archive": "research/conpty-input-close-records/064-check-downloaded-visibility.py.gz",
+      "bytes": 1274,
+      "sha256": "fb4e22c7fb944dddee7198b706110533b6e6a85b8dc81597627e7739d6d90d62"
+    },
+    {
+      "path": "build/check-downloaded-remaining.py",
+      "archive": "research/conpty-input-close-records/065-check-downloaded-remaining.py.gz",
+      "bytes": 1266,
+      "sha256": "cac586c48f16bbca76c0e4beb0633dd09e9c4e363d648262d6751306bbe1d00f"
+    },
+    {
+      "path": "build/check-startup-shutdown-diagnostic.py",
+      "archive": "research/conpty-input-close-records/066-check-startup-shutdown-diagnostic.py.gz",
+      "bytes": 2958,
+      "sha256": "e8244d81798e615262451236db95671c943e93b3523ca9b3a7913a5d482f3a59"
+    },
+    {
+      "path": "build/check-startup-write-errors.py",
+      "archive": "research/conpty-input-close-records/067-check-startup-write-errors.py.gz",
+      "bytes": 4295,
+      "sha256": "b7b90513c7c86e3fb7835ee3851b9f7587f3d2d51e4890e65adffeb8e1168fd1"
+    },
+    {
+      "path": "build/check-startup-write-burst.py",
+      "archive": "research/conpty-input-close-records/068-check-startup-write-burst.py.gz",
+      "bytes": 4504,
+      "sha256": "fef936d597dacabe9edb0abb7059bc7c6e3b08b64507078f829d8d500e42a3e8"
+    },
+    {
+      "path": "build/check-input-close.py",
+      "archive": "research/conpty-input-close-records/069-check-input-close.py.gz",
+      "bytes": 1279,
+      "sha256": "07f9ef5cf3e0331c46db40140a1835e36593211fcb0c6f6f831f6a0fca3d07e6"
+    },
+    {
+      "path": "build/check-input-close-extra.py",
+      "archive": "research/conpty-input-close-records/070-check-input-close-extra.py.gz",
+      "bytes": 1126,
+      "sha256": "b8f8c484f484f5a45c9b8e852da4abf9343bbbb56a01fdb44ec154e288564402"
+    },
+    {
+      "path": "build/link-input-close.py",
+      "archive": "research/conpty-input-close-records/071-link-input-close.py.gz",
+      "bytes": 1199,
+      "sha256": "542c73544a7784129f44bb8d1036dcbbd30a32adcfb27cfd2fd70d4e3684e61b"
+    },
+    {
+      "path": "build/input-close-single/image.json",
+      "archive": "research/conpty-input-close-records/072-image.json.gz",
+      "bytes": 8211,
+      "sha256": "9a3066c6efc349b6722103fcf630c94627671d39986d15dd97ceed05bc4df192"
+    },
+    {
+      "path": "build/input-close-single/link.rsp",
+      "archive": "research/conpty-input-close-records/073-link.rsp.gz",
+      "bytes": 5461,
+      "sha256": "452c6c5a0fbbb4da0762c8946860717b558d0073318d4a1efa826fd63e94cb84"
+    },
+    {
+      "path": "build/input-close-single/link.log",
+      "archive": "research/conpty-input-close-records/074-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "tests/native_test_utils.py",
+      "archive": "research/conpty-input-close-records/075-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "path": "tests/fixture_traceback.py",
+      "archive": "research/conpty-input-close-records/076-fixture_traceback.py.gz",
+      "bytes": 1138,
+      "sha256": "03d114fc96a33655d0d1cfd97d0cc742422c5a970df1727cbbabcf76de1982a2"
+    },
+    {
+      "path": "tests/startup_visibility_window_smoke.py",
+      "archive": "research/conpty-input-close-records/077-startup_visibility_window_smoke.py.gz",
+      "bytes": 4597,
+      "sha256": "daf70bbeec8dd5c550189f72bc71fd82d92a2da7bd3a799b9ab920622817ad94"
+    },
+    {
+      "path": "tests/startup_visibility_fixture.py",
+      "archive": "research/conpty-input-close-records/078-startup_visibility_fixture.py.gz",
+      "bytes": 2200,
+      "sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940"
+    },
+    {
+      "path": "tests/tabs_profiles_window_smoke.py",
+      "archive": "research/conpty-input-close-records/079-tabs_profiles_window_smoke.py.gz",
+      "bytes": 10101,
+      "sha256": "2d8cea448827da34bf1ec17032dcc2e4c771b02a4048e8d7c0c43415723c8780"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/conpty.c",
+      "archive": "research/conpty-input-close-records/080-conpty.c.gz",
+      "bytes": 22599,
+      "sha256": "3fab33df96cef2b91fc7c3128a6df9d4d042ac8ea2a718d00f5782292088f3a0"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/core-run.json",
+      "archive": "research/conpty-input-close-records/081-core-run.json.gz",
+      "bytes": 17989,
+      "sha256": "27303022e8c998c31c715fb10de3145345b2b4d7f24cfc823fc0b6a05e8a264b"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/core-run.log",
+      "archive": "research/conpty-input-close-records/082-core-run.log.gz",
+      "bytes": 939893,
+      "sha256": "d08a856726ab235d44ab861232cc46b130d59aff2a4040c695a3ae7c25f3fb48"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/single-run.json",
+      "archive": "research/conpty-input-close-records/083-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "f42f56e9f47874f04bf3d0f863f16b51bed5a9dd4eaa8f1890cf3dcca1331f6e"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/single-run.log",
+      "archive": "research/conpty-input-close-records/084-single-run.log.gz",
+      "bytes": 363870,
+      "sha256": "93c0a444867b96af91308f54c12e1f08f5eec0098aa12e00f31887e971ea2da0"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/core-artifacts.json",
+      "archive": "research/conpty-input-close-records/085-core-artifacts.json.gz",
+      "bytes": 3832,
+      "sha256": "0fa44cb0fccb4ca657dbfe49134378b4d2446ad29038de0f750b69de3f17ec89"
+    },
+    {
+      "path": "build/ci-visibility-c2606cd/single-artifacts.json",
+      "archive": "research/conpty-input-close-records/086-single-artifacts.json.gz",
+      "bytes": 1553,
+      "sha256": "e23b011053ae94a7f4da6a4a92a56eb7800ef427887930be1a1842c4149abb95"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-run.json",
+      "archive": "research/conpty-input-close-records/087-core-run.json.gz",
+      "bytes": 17989,
+      "sha256": "f5f30ba45be3b2d09b38ae03cc7a7832645a2bc018be5d3b16df65a5e351c1fc"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-run.log",
+      "archive": "research/conpty-input-close-records/088-core-run.log.gz",
+      "bytes": 736922,
+      "sha256": "f9811b5b0924751b0034ae73a4ec7986796c14e529a1afbcb209ed49d8ddd235"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/single-run.json",
+      "archive": "research/conpty-input-close-records/089-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "503794f6bd3613fd11e38627d13e6027406136185b46374dbdb89b0aaaa848be"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/single-run.log",
+      "archive": "research/conpty-input-close-records/090-single-run.log.gz",
+      "bytes": 246038,
+      "sha256": "0f93fd46438bdbabd7800ec663a03bed85dbd91511eb746fa072c9f68e3acb5a"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-artifacts.json",
+      "archive": "research/conpty-input-close-records/091-core-artifacts.json.gz",
+      "bytes": 3073,
+      "sha256": "b7579e1bf6ac48098a79fb53cbd7141cf5ea5fef720061c9500ba1834924a66a"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/single-artifacts.json",
+      "archive": "research/conpty-input-close-records/092-single-artifacts.json.gz",
+      "bytes": 1553,
+      "sha256": "b2e4999a70ef67e87f5c27afe721550d9cf5ddf1463696b0743d4482e6d78e16"
+    },
+    {
+      "path": "build/startup-shutdown-diagnostic/tests/startup_visibility_window_smoke.py",
+      "archive": "research/conpty-input-close-records/093-startup_visibility_window_smoke.py.gz",
+      "bytes": 6329,
+      "sha256": "82bed894d48414c0189ecc803b8d38d7ecb8a1a2c320e1d1d225e706186cb9ec"
+    },
+    {
+      "path": "build/startup-shutdown-write-diagnostic/tests/startup_visibility_window_smoke.py",
+      "archive": "research/conpty-input-close-records/094-startup_visibility_window_smoke.py.gz",
+      "bytes": 7384,
+      "sha256": "0a2598f71a07ebe6b2ddd6bc12de8d64d25982b892733089cfc7b9fee7fbbade"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/tests/startup_visibility_window_smoke.py",
+      "archive": "research/conpty-input-close-records/095-startup_visibility_window_smoke.py.gz",
+      "bytes": 7384,
+      "sha256": "0a2598f71a07ebe6b2ddd6bc12de8d64d25982b892733089cfc7b9fee7fbbade"
+    },
+    {
+      "path": "build/startup-shutdown-write-burst/tests/startup_visibility_fixture.py",
+      "archive": "research/conpty-input-close-records/096-startup_visibility_fixture.py.gz",
+      "bytes": 2305,
+      "sha256": "63463a2e7b1bd92972c1a33835da2449368e05dc0d98252d9acc5bd7c7c15203"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/single-evidence/build/native-crashes/application-errors.json",
+      "archive": "research/conpty-input-close-records/097-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/single-evidence/build/single-exe-check/research/rtl-window-observed.json",
+      "archive": "research/conpty-input-close-records/098-rtl-window-observed.json.gz",
+      "bytes": 2361,
+      "sha256": "3a5b93095a22484761bca2aa6beee4bd9db19e89486ee83744713e8261a5af59"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/msvc/build/native-crashes/application-errors.json",
+      "archive": "research/conpty-input-close-records/099-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-evidence/test-results/rtl-window-observed.json",
+      "archive": "research/conpty-input-close-records/100-rtl-window-observed.json.gz",
+      "bytes": 4393,
+      "sha256": "aacf76a546fd10650f964e5fbae8ae5e205b0adcad83a14fd39c239e62abe02d"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-evidence/test-results/tabs-profiles-observed.json",
+      "archive": "research/conpty-input-close-records/101-tabs-profiles-observed.json.gz",
+      "bytes": 3108,
+      "sha256": "76f86c761db9869c6a2d6d065eb3bc3253d377cf84c4247f8b5ced88b3e3355a"
+    },
+    {
+      "path": "build/ci-visibility-9f96fb0/core-evidence/build/native-crashes/application-errors.json",
+      "archive": "research/conpty-input-close-records/102-application-errors.json.gz",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    }
+  ]
+}
