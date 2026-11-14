@@ -37,18 +37,20 @@ static void nemo_host_detach_menu(void)
     WinGuiSeat *w=tab_host.active;
     if (!w) return;
     HMENU m=w->popup_menus[SYSMENU].menu;
-    /* All custom items use IDs below SC_SIZE. Remove, never destroy: their
-     * submenus are also owned by the seat's context menu. */
-    for (int i=GetMenuItemCount(m)-1;i>=0;i--) {
-        UINT id=GetMenuItemID(m,i);
-        if (id<0xF000 || id==(UINT)-1) RemoveMenu(m,i,MF_BYPOSITION);
-    }
+    /* Preserve the native prefix, including its ID-zero separators. All seat
+     * items were appended after it; Restart/Specials may change their count.
+     * Remove, never destroy: their submenus belong to the context menu too. */
+    for (int i=GetMenuItemCount(m)-1;i>=tab_host.system_menu_items;i--)
+        RemoveMenu(m,i,MF_BYPOSITION);
     w->popup_menus[SYSMENU]=(struct PopupMenu){0};
-    GetSystemMenu(tab_host.hwnd,TRUE);
+    tab_host.system_menu_items=0;
 }
 static void nemo_host_attach_menu(WinGuiSeat *w)
 {
     HMENU m=GetSystemMenu(tab_host.hwnd,FALSE), source=w->popup_menus[CTXMENU].menu;
+    int count=GetMenuItemCount(m);
+    if (!m || count<0) return;
+    tab_host.system_menu_items=count;
     for (int i=0;i<GetMenuItemCount(source);i++) {
         wchar_t label[256];
         MENUITEMINFOW mi={0};mi.cbSize=sizeof(mi);
@@ -60,6 +62,7 @@ static void nemo_host_attach_menu(WinGuiSeat *w)
     w->popup_menus[SYSMENU].menu=m;
     w->popup_menus[SYSMENU].shell_menu=w->popup_menus[CTXMENU].shell_menu;
     CheckMenuItem(m,IDM_FULLSCREEN,tab_host.fullscreen?MF_CHECKED:MF_UNCHECKED);
+    DrawMenuBar(tab_host.hwnd);
 }
 static void nemo_host_font(void)
 {
@@ -464,6 +467,10 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
       }
       case WM_DESTROY:
         tab_host.destroying=true;nemo_host_hide_preview();
+        /* Parent WM_DESTROY precedes child destruction. Release borrowed
+         * submenus before child WM_DESTROY can free their owning menus.
+         * Keep active until seat cleanup retires the shared GPU device. */
+        nemo_host_detach_menu();
         for (int i=nemo_host_count()-1;i>=0;i--) wgs_request_close(nemo_host_item(i));
         return 0;
     }

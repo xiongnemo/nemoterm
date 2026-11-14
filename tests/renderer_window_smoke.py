@@ -189,6 +189,56 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-renderer-') as tmp:
                 assert pixel(1+column,1+5*ch)==bytes((10,20,30))
                 assert pixel(1+column,2+5*ch)==bytes((81,177,221))
             mode['overline_pixels_checked']=True
+            # Enclosures must survive attribute-run splitting and distinguish
+            # a frame from an unfilled ellipse. Solid-color blank cells give
+            # independent geometry assertions, beyond renderer agreement.
+            colours='\x1b[38;2;81;177;221;48;2;10;20;30;58;2;255;0;0m'
+            enclosure=('\x1bc\x1b[?25l'+colours+'\x1b[51m'+' '*3+
+                       '\x1b[54m'+' '*2+'\x1b[52m'+' '*3+'\x1b[54m'+' '*2+
+                       '\x1b[2;1H\x1b[51;52m '+'\x1b[54m'+
+                       '\x1b[3;1H\x1b[51;8m'+' '*3+'\x1b[28;54m'+
+                       '\x1b[4;1H\x1b[51;7m  \x1b[27;54m'+
+                       '\x1b[5;1H\x1b[51m\u3000\x1b[54m'+
+                       '\x1b[6;1H\x1b[51me\u0301\x1b[54m')
+            render('enclosures',enclosure);pixels=compare('enclosures')
+            ink, paper=bytes((81,177,221)),bytes((10,20,30))
+            def frame(left,top,width,height,foreground=ink,background=paper,blank=True):
+                for yy in range(height):
+                    for xx in range(width):
+                        edge=xx in (0,width-1) or yy in (0,height-1)
+                        if edge or blank:
+                            assert pixel(left+xx,top+yy)==(foreground if edge else background),(left,top,xx,yy)
+            def ellipse(left,top,width,height):
+                border=[pixel(left+x,top+y) for x,y in
+                        ((0,0),(width-1,0),(0,height-1),(width-1,height-1))]
+                assert all(v==paper for v in border)
+                assert pixel(left+width//2,top+height//2)==paper
+                assert ink in [pixel(left+x,top) for x in range(width)]
+                assert ink in [pixel(left+x,top+height-1) for x in range(width)]
+                assert ink in [pixel(left,top+y) for y in range(height)]
+                assert ink in [pixel(left+width-1,top+y) for y in range(height)]
+                assert all(pixel(left+x,top+y) in (ink,paper)
+                           for y in range(height) for x in range(width))
+            for column in range(3):frame(1+column*cw,1,cw,ch)
+            for column in (3,4,8,9):
+                assert all(pixel(1+column*cw+x,1+y)==paper for y in range(ch) for x in range(cw))
+            for column in range(5,8):ellipse(1+column*cw,1,cw,ch)
+            frame(1,1+ch,cw,ch,blank=False)
+            assert any(pixel(1+x,1+ch+y)==ink for y in range(1,ch-1) for x in range(1,cw-1))
+            assert all(pixel(1+x,1+2*ch+y)==paper for y in range(ch) for x in range(3*cw))
+            for column in range(2):frame(1+column*cw,1+3*ch,cw,ch,paper,ink)
+            frame(1,1+4*ch,2*cw,ch)
+            frame(1,1+5*ch,cw,ch,blank=False)
+            double_enclosure=(colours+'\x1b[51m\x1b[7;1H\x1b#6   '+
+                              '\x1b[8;1H\x1b#3  \x1b[9;1H\x1b#4  '+
+                              '\x1b[54;52m\x1b[11;1H\x1b#3  '+
+                              '\x1b[12;1H\x1b#4  \x1b[54m')
+            render('enclosures-double-size',double_enclosure);pixels=compare('enclosures-double-size')
+            for column in range(3):frame(1+column*2*cw,1+6*ch,2*cw,ch)
+            for column in range(2):
+                frame(1+column*2*cw,1+7*ch,2*cw,2*ch)
+                ellipse(1+column*2*cw,1+10*ch,2*cw,2*ch)
+            mode['enclosure_pixels_checked']=True
             mode['focus_observations']=focus_script.exports_sync.stats()
             assert not focus_errors,focus_errors
             assert int(u.GetPropW(hwnd,'NemotermRenderer'))==active,'Renderer failed during drawing'

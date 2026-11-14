@@ -969,6 +969,82 @@ static void test_sixel_palette_fragments(Mock *mk)
     check_image_accounting(mk);
 }
 
+static void background_pixel(Mock *mk, NemoTermImage *image,
+                             unsigned x, unsigned y, uint32_t colour)
+{
+    uint32_t pixel = 0;
+    IEQUAL(image != NULL, true);
+    if (!image) return;
+    IEQUAL(term_image_read_row(image, y, x, &pixel, 1), 1);
+    IEQUAL(pixel, colour);
+}
+
+static void test_sixel_implicit_background(Mock *mk)
+{
+    const uint32_t green = UINT32_C(0xff33cc33), black = UINT32_C(0xff000000);
+    const uint32_t red = UINT32_C(0xffff0000), blue = UINT32_C(0xff0000ff);
+    Terminal *t = mk->term;
+    reset(mk);
+    test_context(mk, "Sixel P2 background and default register ignore text colours");
+    term_data_fragmented(t, "\033]11;#ff00ff\007\033[31m");
+    for (unsigned p2 = 0; p2 < 3; p2++) {
+        char *sequence = dupprintf("\033[%u;1H\033P9;%uq\"1;1;8;6@\033\\", 1+3*p2, p2);
+        term_data_fragmented(t, sequence); sfree(sequence);
+    }
+    IEQUAL(image_count(t), 3);
+    unsigned p2 = 0;
+    for (NemoTermImage *im = t->images; im; im = im->next, p2++) {
+        background_pixel(mk, im, 0, 0, green);
+        background_pixel(mk, im, 7, 5, p2 == 1 ? 0 : black);
+    }
+    check_image_accounting(mk);
+
+    reset(mk);
+    test_context(mk, "Sixel raster-only is invisible until a zero-bit sixel activates fill");
+    term_data_fragmented(t, "\033P9;1q\"1;1;8;6#1;2;100;0;0!8~\033\\");
+    size_t bytes = t->image_bytes;
+    term_data_fragmented(t, "\033[H\033P9;0q\"1;1;8;6\033\\");
+    IEQUAL(image_count(t), 1); IEQUAL(t->image_bytes, bytes);
+    background_pixel(mk, t->images, 7, 5, red);
+    term_data_fragmented(t, "\033[H\033P9;0q\"1;1;8;6?\033\\");
+    IEQUAL(image_count(t), 2);
+    if (t->images && t->images->next) {
+        background_pixel(mk, t->images->next, 0, 0, black);
+        background_pixel(mk, t->images->next, 7, 5, black);
+        IEQUAL(nemo_sixel_stats(t->images->next->source->bitmap).allocated_bytes < 4096, true);
+    }
+    check_image_accounting(mk);
+
+    reset(mk);
+    test_context(mk, "Sixel implicit foreground and fill retain shared/private identity across CAN and reset");
+    term_data_fragmented(t, "\033[?1070l\033P9;0q\"1;1;8;6@\033\\"
+        "\033[?1070h\033[4;1H\033P9;0q\"1;1;8;6@\033\\");
+    IEQUAL(image_count(t), 2);
+    if (!t->images || !t->images->next) return;
+    NemoTermImage *shared = t->images, *private = shared->next;
+    bytes = t->image_bytes;
+    t->disptext[0]->chars[0].attr &= ~ATTR_INVALID;
+    term_data_fragmented(t, "\033[?1070l\033P9;1q#0;2;0;0;100#3;2;100;0;0?\030");
+    IEQUAL(!!(t->disptext[0]->chars[0].attr & ATTR_INVALID), true);
+    IEQUAL(image_count(t), 2); IEQUAL(t->image_bytes, bytes);
+    background_pixel(mk, shared, 0, 0, red);
+    background_pixel(mk, shared, 7, 5, blue);
+    background_pixel(mk, private, 0, 0, green);
+    background_pixel(mk, private, 7, 5, black);
+    term_data_fragmented(t, "\033[!p\033P9;1q#0;2;100;0;0#3;2;0;0;100?\030");
+    background_pixel(mk, shared, 0, 0, blue);
+    background_pixel(mk, shared, 7, 5, red);
+    background_pixel(mk, private, 0, 0, green);
+    background_pixel(mk, private, 7, 5, black);
+    IEQUAL(t->image_bytes, bytes);
+    term_data_fragmented(t, "\033c");
+    IEQUAL(image_count(t), 0); IEQUAL(t->image_bytes, 0);
+    term_data_fragmented(t, "\033[?1070l\033P9;0q\"1;1;8;6@\033\\");
+    background_pixel(mk, t->images, 0, 0, green);
+    background_pixel(mk, t->images, 7, 5, black);
+    check_image_accounting(mk);
+}
+
 int main(void)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -991,6 +1067,7 @@ int main(void)
     test_graphics_registers(mk);
     test_sixel_palette_lifetime(mk);
     test_sixel_palette_fragments(mk);
+    test_sixel_implicit_background(mk);
     test_alignment_images(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

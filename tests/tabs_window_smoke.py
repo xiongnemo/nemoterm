@@ -3,6 +3,8 @@ from native_test_utils import *
 from memory_limits import private_ws_policy, private_ws_passes
 from owned_job import OwnedJob
 from thread_snapshot import OwnedThreadSnapshot
+from tab_menu_checks import TabMenuChecks
+from resource_settle import startup as resource_startup, after_close as resource_after_close
 from collections import Counter
 import argparse
 import uuid
@@ -84,7 +86,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
-        worker_leases=[];evidence['worker_closes']=[]
+        worker_leases=[];evidence['worker_closes']=[];menu_checks=None
         process=job.spawn([str(exe),'-load',profile,'--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
@@ -110,6 +112,7 @@ try:
                 assert child['parent']==process.pid
                 assert u.GetParent(child['hwnd'])==host
                 wait_for(lambda:u.IsWindowVisible(child['hwnd']))
+                if menu_checks:menu_checks.observe(child['hwnd'])
                 return child
             def output(child,sequence):
                 global serial
@@ -152,6 +155,7 @@ try:
                     observation['seconds']=time.monotonic()-started
                     assert observation['all_signalled'],observation
                 finally:lease.close()
+                menu_checks.retired(child['hwnd'])
             def position(index):
                 cr=w.RECT();u.GetClientRect(host,c.byref(cr))
                 # Same DIP metrics as the pure geometry test, for a native hit.
@@ -165,9 +169,11 @@ try:
                 x,y=position(index);u.SendMessageW(host,0x201,1,x|(y<<16))
                 wait_for(lambda:u.IsWindowVisible(child['hwnd']))
                 assert windows(process.pid,'Nemoterm',host,True)==[child['hwnd']]
-            def resources():
-                for visible_hwnd in windows(process.pid,'Nemoterm',host,True):
-                    u.RedrawWindow(visible_hwnd,None,None,0x185)
+                if menu_checks:menu_checks.observe(child['hwnd'])
+            def resources(redraw=True):
+                if redraw:
+                    for visible_hwnd in windows(process.pid,'Nemoterm',host,True):
+                        u.RedrawWindow(visible_hwnd,None,None,0x185)
                 count=w.DWORD();assert k.GetProcessHandleCount(handle,c.byref(count))
                 if memory_sampler and os.environ.get('NEMOTERM_TEST_MEMORY_REGIONS')=='1':
                     phase=memory_sampler.phase
@@ -176,7 +182,17 @@ try:
                         evidence.setdefault('memory_regions',{})[phase]=private_regions(handle)
                 return dict(handles=count.value,gdi=u.GetGuiResources(handle,0),user=u.GetGuiResources(handle,1),
                             injected=injected_observer,**memory_sample(handle))
+            def resource_observer():
+                # Preserve the original repaint at the first observation.
+                # Further polls must not restart the GUI timers being observed.
+                first=True
+                def observe():
+                    nonlocal first
+                    value=resources(redraw=first);first=False
+                    return value
+                return observe
             first=new_child([])
+            menu_checks=TabMenuChecks(host,evidence);menu_checks.observe(first['hwnd'])
             size=read_snapshot(first['report']);evidence['actual_grid']=[size['columns'],size['rows']]
             output(first,'\x1b]0;First terminal\x07'+scene('TAB ONE','80;20;20'))
             actual=int(u.GetPropW(first['hwnd'],'NemotermRenderer') or 0)
@@ -207,7 +223,9 @@ try:
                 select(second,1);wait_for(lambda:job.accounting()['active']==5)
                 wait_for_tab_workers(child)
                 evidence['warmup']=resources()
-            baseline=resources();evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
+            evidence['startup_resources']=[];evidence['resource_return']=[]
+            baseline=resource_startup(resource_observer(),evidence['startup_resources'])
+            evidence['initial']=initial;evidence['two_tabs']=baseline;evidence['cycles']=[]
             for i in range(12):
                 child=duplicate(second,track_workers=True);output(child,scene('TEMPORARY','60;10;60'))
                 if args.dense_clusters:evidence['live_temporary_tabs'].append(resources())
@@ -216,13 +234,17 @@ try:
                 select(second,1)
                 wait_for(lambda:job.accounting()['active']==5)
                 wait_for_tab_workers(child)
-                sample=resources();evidence['cycles'].append(sample)
+                returned=[];evidence['resource_return'].append(returned)
+                sample=resource_after_close(resource_observer(),baseline,returned)
+                evidence['cycles'].append(sample)
                 if surface_class:assert windows(process.pid,surface_class,host)==surface
                 assert sample['handles']<=baseline['handles']+6,(baseline,sample)
                 assert sample['gdi']<=baseline['gdi']+3,(baseline,sample)
                 assert sample['user']<=baseline['user']+2,(baseline,sample)
-            evidence['checks'].append('12 create/close cycles retain one shared renderer without handle growth')
+            evidence['checks'].append('12 create/close cycles retain one shared renderer with bounded resource return')
             memory_observations=[initial,baseline]+evidence['cycles']+evidence['live_temporary_tabs']
+            memory_observations += [r['sample'] for r in evidence['startup_resources']]
+            memory_observations += [r['sample'] for history in evidence['resource_return'] for r in history]
             evidence['peak_private_ws']=max(v['private_ws'] for v in memory_observations)
             if not args.workload_memory and evidence['memory_limit_required']:
                 evidence['memory_limit_passed']=private_ws_passes(actual,evidence['peak_private_ws'])

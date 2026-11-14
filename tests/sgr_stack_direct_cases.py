@@ -1,7 +1,8 @@
-"""Modern underline/overline expectations, separate from unchanged XTerm replies.
+"""Modern decoration expectations, separate from unchanged XTerm replies.
 
 Overline SGR 53/55 is specified by ECMA-48, fifth edition, section 8.3.117.
-Its selective SGR-stack selector 53 is a Nemoterm extension.
+Enclosure SGR 51/52/54 is specified in the same section. Selective stack
+selectors 51, 52 and 53 are Nemoterm extensions for the individual aspects.
 """
 CSI = '\x1b['
 RESET = CSI+'64;1"p'+(CSI+'#}')*64+'\x1bc'
@@ -57,5 +58,29 @@ for name,body,sgr in (
 for name,body,sgr in (
     ('overline-common',CSI+'53mAB'+CSI+'1;1;1;2#|','0;53'),
     ('overline-mixed',CSI+'53mA'+CSI+'55mB'+CSI+'1;1;1;2#|','0'),
+):
+    CASES.append((name,RESET+body,CSI+sgr+'m'))
+
+for name,body,sgr in (
+    ('framed-current',CSI+'51m','0;51'),
+    ('encircled-current',CSI+'52m','0;52'),
+    ('enclosures-combined',CSI+'51;52m','0;51;52'),
+    ('enclosures-cancel-preserves-other-styles',CSI+'4:3;51;52;53m'+CSI+'54m','0;4:3;53'),
+    ('enclosures-reset',CSI+'51;52m'+CSI+'0m','0'),
+    ('enclosures-soft-reset',CSI+'51;52m'+CSI+'!p','0'),
+    ('enclosures-cursor-restore',CSI+'51;52m\x1b7'+CSI+'54m\x1b8','0;51;52'),
+    ('enclosures-alternate-restore',CSI+'51;52m'+CSI+'?1049h'+CSI+'0m'+CSI+'?1049l','0;51;52'),
+    ('framed-selective-stack',CSI+'51;53m'+CSI+'51#{'+CSI+'54;52;55m'+CSI+'#}','0;51;52'),
+    ('encircled-selective-stack',CSI+'52m'+CSI+'52#{'+CSI+'54;51m'+CSI+'#}','0;51;52'),
+    ('enclosures-full-stack',CSI+'51;52m'+CSI+'#{'+CSI+'0m'+CSI+'#}','0;51;52'),
+    ('enclosures-unselected-stack',CSI+'51;52;53m'+CSI+'53#{'+CSI+'54;55m'+CSI+'#}','0;53'),
+    ('enclosures-invalid-set',CSI+'51:1;52:1m','0'),
+    ('enclosures-invalid-cancel',CSI+'51;52m'+CSI+'54:1m','0;51;52'),
+):
+    CASES.append((name,RESET+body+RQ,'\x1bP1$r'+sgr+'m\x1b\\'))
+for name,body,sgr in (
+    ('enclosures-common',CSI+'51;52mAB'+CSI+'1;1;1;2#|','0;51;52'),
+    ('enclosures-mixed',CSI+'51mA'+CSI+'54;52mB'+CSI+'1;1;1;2#|','0'),
+    ('enclosures-common-frame',CSI+'51mA'+CSI+'52mB'+CSI+'1;1;1;2#|','0;51'),
 ):
     CASES.append((name,RESET+body,CSI+sgr+'m'))

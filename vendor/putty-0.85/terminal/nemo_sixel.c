@@ -7,7 +7,8 @@
  * Width/height include declared raster extents and actually set pixels.
  * Raster extents are not a clipping rectangle (DEC chapter 14).
  * Register-selected pixels retain their indices; readback resolves the live
- * private or shared palette. Direct foreground/background pixels stay RGB.
+ * private or shared palette. Register-0 fill is restricted to the declared
+ * rectangle activated by the first Sixel byte; other unset pixels are holes.
  */
 #include "nemo_sixel.h"
 
@@ -36,11 +37,12 @@ struct NemoSixel {
     uint32_t *shared_palette;
     NemoSixelPaletteChanged palette_changed;
     void *palette_context;
-    uint32_t foreground, background, params[PARAM_COUNT];
+    uint32_t foreground, params[PARAM_COUNT];
     unsigned x, y, width, height, aspect_vertical, aspect_horizontal;
+    unsigned background_width, background_height;
     unsigned param_index, register_count;
     unsigned char command;
-    bool parameter_overflow, seen_pixels, finished;
+    bool parameter_overflow, seen_pixels, finished, transparent;
     size_t allocated_bytes, budget_bytes;
     NemoSixelStatus status;
 };
@@ -99,8 +101,7 @@ void nemo_sixel_free(NemoSixel *s)
     free(s);
 }
 
-void nemo_sixel_reset(NemoSixel *s, uint32_t foreground,
-                      uint32_t background, bool transparent)
+void nemo_sixel_reset(NemoSixel *s, bool transparent)
 {
     unsigned i;
     size_t limit;
@@ -117,15 +118,14 @@ void nemo_sixel_reset(NemoSixel *s, uint32_t foreground,
     memset(s, 0, sizeof(*s));
     s->budget_bytes = limit;
     s->allocated_bytes = sizeof(*s);
-    s->foreground = foreground | UINT32_C(0xff000000);
-    s->background = transparent ? 0 : background | UINT32_C(0xff000000);
+    s->foreground = REGISTER_PIXEL | 3;
+    s->transparent = transparent;
     s->aspect_vertical = s->aspect_horizontal = 1;
     s->register_count = NEMO_SIXEL_PALETTE_SIZE;
     default_palette(s);
 }
 
-NemoSixel *nemo_sixel_init(size_t budget_bytes, uint32_t foreground,
-                         uint32_t background, bool transparent)
+NemoSixel *nemo_sixel_init(size_t budget_bytes, bool transparent)
 {
     NemoSixel *s;
     if (!budget_bytes) budget_bytes = NEMO_SIXEL_DEFAULT_BUDGET;
@@ -133,7 +133,7 @@ NemoSixel *nemo_sixel_init(size_t budget_bytes, uint32_t foreground,
     s = calloc(1, sizeof(*s));
     if (!s) return NULL;
     s->budget_bytes = budget_bytes;
-    nemo_sixel_reset(s, foreground, background, transparent);
+    nemo_sixel_reset(s, transparent);
     return s;
 }
 
@@ -159,7 +159,7 @@ static bool grow_extent(NemoSixel *s, unsigned width, unsigned height)
 
 static SixelTile *find_tile(NemoSixel *s, unsigned tx, unsigned ty)
 {
-    unsigned hash = bucket(tx, ty), i;
+    unsigned hash = bucket(tx, ty);
     SixelTile *t;
     for (t = s->buckets[hash]; t; t = t->next)
         if (t->tx == tx && t->ty == ty) return t;
@@ -180,7 +180,7 @@ static SixelTile *find_tile(NemoSixel *s, unsigned tx, unsigned ty)
     s->allocated_bytes += sizeof(*t);
     t->tx = tx;
     t->ty = ty;
-    for (i = 0; i < TILE_SIDE * TILE_SIDE; i++) t->pixels[i] = s->background;
+    memset(t->pixels, 0, sizeof(t->pixels));
     t->next = s->buckets[hash];
     s->buckets[hash] = t;
     return t;
@@ -193,7 +193,15 @@ static bool draw_sixel(NemoSixel *s, unsigned bits, uint32_t repeat)
     if (repeat > NEMO_SIXEL_MAX_DIMENSION - s->x)
         return fail(s, NEMO_SIXEL_LIMIT);
     end = s->x + repeat;
-    s->seen_pixels = true;
+    if (!s->seen_pixels) {
+        /* Freeze the declared rectangle before set bits can grow the actual
+         * extent. Zero-bit sixels activate this fill too, without any tiles. */
+        if (!s->transparent) {
+            s->background_width = s->width;
+            s->background_height = s->height;
+        }
+        s->seen_pixels = true;
+    }
     if (!bits) {
         s->x = end;
         return true;
@@ -374,6 +382,7 @@ NemoSixelStats nemo_sixel_stats(const NemoSixel *s)
     out.budget_bytes = s->budget_bytes;
     out.status = s->status;
     out.finished = s->finished;
+    out.has_sixels = s->seen_pixels;
     return out;
 }
 
@@ -391,16 +400,12 @@ size_t nemo_sixel_read_row(const NemoSixel *s, unsigned y, unsigned x,
         if (n > count - written) n = count - written;
         for (t = s->buckets[bucket(tx, ty)]; t; t = t->next)
             if (t->tx == tx && t->ty == ty) break;
-        if (t) {
-            const uint32_t *pixels =
-                &t->pixels[(y % TILE_SIDE) * TILE_SIDE + x % TILE_SIDE];
-            for (j = 0; j < n; j++) {
-                uint32_t value = pixels[j];
-                bgra[written + j] = (value & UINT32_C(0xffffff00)) == REGISTER_PIXEL ?
-                    palette[value & 255] : value;
-            }
-        } else {
-            for (j = 0; j < n; j++) bgra[written + j] = s->background;
+        const uint32_t *pixels = t ?
+            &t->pixels[(y % TILE_SIDE) * TILE_SIDE + x % TILE_SIDE] : NULL;
+        for (j = 0; j < n; j++) {
+            uint32_t value = pixels ? pixels[j] : 0;
+            bgra[written + j] = value ? palette[value & 255] :
+                y < s->background_height && x+j < s->background_width ? palette[0] : 0;
         }
         x += (unsigned)n;
         written += n;

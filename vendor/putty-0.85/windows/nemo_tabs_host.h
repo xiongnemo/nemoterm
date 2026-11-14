@@ -7,7 +7,7 @@ typedef struct NemoTabHost {
     WinGuiSeat *active, *hover;
     NemoTabLayout layout;
     NemoGPU *gpu;
-    int gpu_kind, side, sidebar, first, dpi;
+    int gpu_kind, side, sidebar, first, dpi, system_menu_items;
     bool moving, destroying;
     bool fullscreen;
     WINDOWPLACEMENT placement;

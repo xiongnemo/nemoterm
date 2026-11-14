@@ -1,0 +1,1003 @@
+{
+  "kind": "Local owned Win32 and Linux observations, not REA-server Evidence",
+  "product_commit": "58985daf95afd05e0b2fef9c4586306ed8a4062a",
+  "image_sha256": "2f65d99323df10e1f381662a652782d8033c5938d6c3b4eefcb77a3d83bb8c9a",
+  "records": [
+    {
+      "path": "reference/source.json",
+      "archive": "research/sgr-enclosures-records/000-source.json.gz",
+      "bytes": 204,
+      "sha256": "aa3b06e5c36afce4c8cbd6170084c32d9fdb80381865c2a99efa78582b450b6c"
+    },
+    {
+      "path": "build/check-enclosure-memory.py",
+      "archive": "research/sgr-enclosures-records/001-check-enclosure-memory.py.gz",
+      "bytes": 1392,
+      "sha256": "3d7ddd86c620207ea77429ed6b50988d3da78ce1e2e509a27698423ec8d4616e"
+    },
+    {
+      "path": "build/check-enclosure-native.py",
+      "archive": "research/sgr-enclosures-records/002-check-enclosure-native.py.gz",
+      "bytes": 1748,
+      "sha256": "761de365cdc0b92d4e7484b322dcecb9888f33ec782816e8c9c42379c9407431"
+    },
+    {
+      "path": "build/check-enclosure-resources.py",
+      "archive": "research/sgr-enclosures-records/003-check-enclosure-resources.py.gz",
+      "bytes": 4242,
+      "sha256": "69c9d451fc4eff8cdbb7779744b3cdfee89e6d844f1f9ed68d395609bdae9b21"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-0.log",
+      "archive": "research/sgr-enclosures-records/004-asan-0.log.gz",
+      "bytes": 4298,
+      "sha256": "338199fe94a6aef36928878ae604c9ed58d49bad2069dfeea8496bca81c9c857"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-1.log",
+      "archive": "research/sgr-enclosures-records/005-asan-1.log.gz",
+      "bytes": 14078,
+      "sha256": "21779b123e94bcc486a3da47ed74aa0848eac4682cef5a55a8e919e3d177b901"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-2.log",
+      "archive": "research/sgr-enclosures-records/006-asan-2.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-3.log",
+      "archive": "research/sgr-enclosures-records/007-asan-3.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-4.log",
+      "archive": "research/sgr-enclosures-records/008-asan-4.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/enclosure-evidence/asan-5.log",
+      "archive": "research/sgr-enclosures-records/009-asan-5.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "path": "build/enclosure-evidence/asan.json",
+      "archive": "research/sgr-enclosures-records/010-asan.json.gz",
+      "bytes": 1611,
+      "sha256": "842a68b980d67dc74fab04f0a85a8297ce26b97e03d802c3320df80e64ba34ea"
+    },
+    {
+      "path": "build/enclosure-evidence/baseline-0.log",
+      "archive": "research/sgr-enclosures-records/011-baseline-0.log.gz",
+      "bytes": 4299,
+      "sha256": "edb3708f44a2a4d65918407b4d429b70ca759b6acf75ab775898822c89eedf70"
+    },
+    {
+      "path": "build/enclosure-evidence/baseline-1.log",
+      "archive": "research/sgr-enclosures-records/012-baseline-1.log.gz",
+      "bytes": 12173,
+      "sha256": "1b31e957cbbcc6bce5bf48886cbd9239c5d6dd450f580528d1dbcd02a54c1894"
+    },
+    {
+      "path": "build/enclosure-evidence/baseline-2.log",
+      "archive": "research/sgr-enclosures-records/013-baseline-2.log.gz",
+      "bytes": 634,
+      "sha256": "612e5bf72b57ccc4c415e8cff9af5462bfadff79631d1f985fddee6b9ae2c4fd"
+    },
+    {
+      "path": "build/enclosure-evidence/baseline.json",
+      "archive": "research/sgr-enclosures-records/014-baseline.json.gz",
+      "bytes": 666,
+      "sha256": "fcba59cd126e7d683802cbc432025b0ba4009cb6951422a2edaea69203aa3d40"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed-0.log",
+      "archive": "research/sgr-enclosures-records/015-fixed-0.log.gz",
+      "bytes": 8739,
+      "sha256": "591a66b9732c8e7a84d07ebf56671b3d5d8c70533c537eb72077627c3c0c6be2"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed-1.log",
+      "archive": "research/sgr-enclosures-records/016-fixed-1.log.gz",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed-2.log",
+      "archive": "research/sgr-enclosures-records/017-fixed-2.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed-3.log",
+      "archive": "research/sgr-enclosures-records/018-fixed-3.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed-4.log",
+      "archive": "research/sgr-enclosures-records/019-fixed-4.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "path": "build/enclosure-evidence/fixed.json",
+      "archive": "research/sgr-enclosures-records/020-fixed.json.gz",
+      "bytes": 758,
+      "sha256": "302b1277d677f4c2fbd714ef3ed40c14545aa45dd432ee072da2049db7529e97"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-build.log",
+      "archive": "research/sgr-enclosures-records/021-windows-build.log.gz",
+      "bytes": 19592,
+      "sha256": "a2152bc467df3e1f9ce0b65bd0801cf781681c855f89516d3201c5f6bfece825"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-configure.log",
+      "archive": "research/sgr-enclosures-records/022-windows-configure.log.gz",
+      "bytes": 3104,
+      "sha256": "9b658810c1065c64648397650c8552291c294dd80020164a04c56b54a8b41b98"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-test_queries.log",
+      "archive": "research/sgr-enclosures-records/023-windows-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-test_rectangle.log",
+      "archive": "research/sgr-enclosures-records/024-windows-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-test_sgr.log",
+      "archive": "research/sgr-enclosures-records/025-windows-test_sgr.log.gz",
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-test_state_control.log",
+      "archive": "research/sgr-enclosures-records/026-windows-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "path": "build/enclosure-memory-directx/controller.log",
+      "archive": "research/sgr-enclosures-records/027-controller.log.gz",
+      "bytes": 976,
+      "sha256": "1b9bd835146ba7721a10d50ed172f03d8e82a632cd7b200d915a5cba29efd9ae"
+    },
+    {
+      "path": "build/enclosure-memory-directx/research/tabs-controller.json",
+      "archive": "research/sgr-enclosures-records/028-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "09fe8d59bed173d0315d517927295502d2380f286af19486b15146521e77393e"
+    },
+    {
+      "path": "build/enclosure-memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sgr-enclosures-records/029-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 163097,
+      "sha256": "9129387b4347bb8feabb4a9c8eb470ed47e5cf7ad9a1bb0990edbb4bf393e084"
+    },
+    {
+      "path": "build/enclosure-memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sgr-enclosures-records/030-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 5964,
+      "sha256": "ec0a4fd6d3cff746509faeb6cda2e82e8ba5343247122fc69ff771fb1e60e953"
+    },
+    {
+      "path": "build/enclosure-memory-directx/tabs.log",
+      "archive": "research/sgr-enclosures-records/031-tabs.log.gz",
+      "bytes": 608,
+      "sha256": "a18a7f1189df8c5dcdce90d76fbf9b97e3aea2d1b550116feb084a499a0b6b3b"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/controller.log",
+      "archive": "research/sgr-enclosures-records/032-controller.log.gz",
+      "bytes": 366,
+      "sha256": "0819aac56a3ac263efc36d7c72f27b124f00b60299715fb65973794d6842d361"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/research/tabs-controller.json",
+      "archive": "research/sgr-enclosures-records/033-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "22fa419efa885c2589dd2e025f4d57f02a4467c9ec5a94f3f1b1ef840e1d8b8f"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/sgr-enclosures-records/034-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/sgr-enclosures-records/035-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1295857,
+      "sha256": "cf29d503bb1d8a9c0a53d1c1d60e0c7e4311d822609133130e1f17245f63665e"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/sgr-enclosures-records/036-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 25724,
+      "sha256": "6077148387dbd5e7bd47fac6c3be042631ac79bab411ca8455117af74c3a2cf5"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/sgr-enclosures-records/037-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/enclosure-memory-gdi/tabs.log",
+      "archive": "research/sgr-enclosures-records/038-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/enclosure-memory-results.json",
+      "archive": "research/sgr-enclosures-records/039-enclosure-memory-results.json.gz",
+      "bytes": 428,
+      "sha256": "7b0092b15c9ab429c716e3f53b5998c95eebe69c6f02b3d603f45a2113d996e0"
+    },
+    {
+      "path": "build/enclosure-native/after/controller.log",
+      "archive": "research/sgr-enclosures-records/040-controller.log.gz",
+      "bytes": 370,
+      "sha256": "383469304e5475d2c3f37c497dd5c48a3caf36095ac1030ef5c34452884cfe4f"
+    },
+    {
+      "path": "build/enclosure-native/after/renderer.log",
+      "archive": "research/sgr-enclosures-records/041-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "1a0ecdd60601ce477f5b5bb14d0d9d356bca0ceb56697e15e49a768e1267cf30"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sgr-enclosures-records/042-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sgr-enclosures-records/043-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sgr-enclosures-records/044-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sgr-enclosures-records/045-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sgr-enclosures-records/046-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sgr-enclosures-records/047-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sgr-enclosures-records/048-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sgr-enclosures-records/049-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sgr-enclosures-records/050-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-enclosures-double-size.png",
+      "archive": "research/sgr-enclosures-records/051-renderer-0-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-enclosures.png",
+      "archive": "research/sgr-enclosures-records/052-renderer-0-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-expose.png",
+      "archive": "research/sgr-enclosures-records/053-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-overline-double-size.png",
+      "archive": "research/sgr-enclosures-records/054-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-overline.png",
+      "archive": "research/sgr-enclosures-records/055-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-palette.png",
+      "archive": "research/sgr-enclosures-records/056-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-resize.png",
+      "archive": "research/sgr-enclosures-records/057-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-sixel.png",
+      "archive": "research/sgr-enclosures-records/058-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-sync-end.png",
+      "archive": "research/sgr-enclosures-records/059-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-sync-frozen.png",
+      "archive": "research/sgr-enclosures-records/060-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-0-text.png",
+      "archive": "research/sgr-enclosures-records/061-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/sgr-enclosures-records/062-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/sgr-enclosures-records/063-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/sgr-enclosures-records/064-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-active-2.png",
+      "archive": "research/sgr-enclosures-records/065-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-active-4.png",
+      "archive": "research/sgr-enclosures-records/066-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-active-6.png",
+      "archive": "research/sgr-enclosures-records/067-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/sgr-enclosures-records/068-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/sgr-enclosures-records/069-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/sgr-enclosures-records/070-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-enclosures-double-size.png",
+      "archive": "research/sgr-enclosures-records/071-renderer-1-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-enclosures.png",
+      "archive": "research/sgr-enclosures-records/072-renderer-1-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-expose.png",
+      "archive": "research/sgr-enclosures-records/073-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-overline-double-size.png",
+      "archive": "research/sgr-enclosures-records/074-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-overline.png",
+      "archive": "research/sgr-enclosures-records/075-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-palette.png",
+      "archive": "research/sgr-enclosures-records/076-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-resize.png",
+      "archive": "research/sgr-enclosures-records/077-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-sixel.png",
+      "archive": "research/sgr-enclosures-records/078-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-sync-end.png",
+      "archive": "research/sgr-enclosures-records/079-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-sync-frozen.png",
+      "archive": "research/sgr-enclosures-records/080-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-1-text.png",
+      "archive": "research/sgr-enclosures-records/081-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/sgr-enclosures-records/082-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/sgr-enclosures-records/083-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/sgr-enclosures-records/084-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-active-2.png",
+      "archive": "research/sgr-enclosures-records/085-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-active-4.png",
+      "archive": "research/sgr-enclosures-records/086-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-active-6.png",
+      "archive": "research/sgr-enclosures-records/087-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/sgr-enclosures-records/088-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/sgr-enclosures-records/089-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/sgr-enclosures-records/090-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-enclosures-double-size.png",
+      "archive": "research/sgr-enclosures-records/091-renderer-2-enclosures-double-size.png.gz",
+      "bytes": 3013,
+      "sha256": "109a9a4a1076b5031073786c133861da6880f71ce44d61ecd9b25f7474642d86"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-enclosures.png",
+      "archive": "research/sgr-enclosures-records/092-renderer-2-enclosures.png.gz",
+      "bytes": 2847,
+      "sha256": "614413cf7b633e1ae4d5f7ec581b2470876688e6f9f552099ffcef26f5e6b921"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-expose.png",
+      "archive": "research/sgr-enclosures-records/093-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-overline-double-size.png",
+      "archive": "research/sgr-enclosures-records/094-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-overline.png",
+      "archive": "research/sgr-enclosures-records/095-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-palette.png",
+      "archive": "research/sgr-enclosures-records/096-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-resize.png",
+      "archive": "research/sgr-enclosures-records/097-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-sixel.png",
+      "archive": "research/sgr-enclosures-records/098-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-sync-end.png",
+      "archive": "research/sgr-enclosures-records/099-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-sync-frozen.png",
+      "archive": "research/sgr-enclosures-records/100-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-2-text.png",
+      "archive": "research/sgr-enclosures-records/101-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-controller.json",
+      "archive": "research/sgr-enclosures-records/102-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "a2a0cc2258fc9848204fee9994c5c88184e00e63527e06d0661fc4745bab7e5f"
+    },
+    {
+      "path": "build/enclosure-native/after/research/renderer-observed.json",
+      "archive": "research/sgr-enclosures-records/103-renderer-observed.json.gz",
+      "bytes": 8356,
+      "sha256": "2f8274032dc327b23d5326116378abeff737ff3fe34d1737e31c9dfcafbebf85"
+    },
+    {
+      "path": "build/enclosure-native/before/controller.log",
+      "archive": "research/sgr-enclosures-records/104-controller.log.gz",
+      "bytes": 1034,
+      "sha256": "3aaa1d9c06c500cb8ea9dd2b6e3ab7ad9b6583d4feff03e2e69432a65370d6ed"
+    },
+    {
+      "path": "build/enclosure-native/before/renderer.log",
+      "archive": "research/sgr-enclosures-records/105-renderer.log.gz",
+      "bytes": 664,
+      "sha256": "8583a1cadbc68ab45e93104af8e443f4e7eccb0e804ce24f389f58eb5a2512db"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sgr-enclosures-records/106-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sgr-enclosures-records/107-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sgr-enclosures-records/108-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sgr-enclosures-records/109-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sgr-enclosures-records/110-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sgr-enclosures-records/111-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sgr-enclosures-records/112-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sgr-enclosures-records/113-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sgr-enclosures-records/114-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-enclosures.png",
+      "archive": "research/sgr-enclosures-records/115-renderer-0-enclosures.png.gz",
+      "bytes": 2720,
+      "sha256": "2af456b48396db0ef06047423cb78c4c49777e91cb1645000bc59e7a5d5a013e"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-expose.png",
+      "archive": "research/sgr-enclosures-records/116-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-overline-double-size.png",
+      "archive": "research/sgr-enclosures-records/117-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-overline.png",
+      "archive": "research/sgr-enclosures-records/118-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-palette.png",
+      "archive": "research/sgr-enclosures-records/119-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-resize.png",
+      "archive": "research/sgr-enclosures-records/120-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-sixel.png",
+      "archive": "research/sgr-enclosures-records/121-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-sync-end.png",
+      "archive": "research/sgr-enclosures-records/122-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-sync-frozen.png",
+      "archive": "research/sgr-enclosures-records/123-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-0-text.png",
+      "archive": "research/sgr-enclosures-records/124-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-controller.json",
+      "archive": "research/sgr-enclosures-records/125-renderer-controller.json.gz",
+      "bytes": 471,
+      "sha256": "dd8a13918fea28aac16f22efdbbff4ef7c2e510e22713703d756ca12ee2143c2"
+    },
+    {
+      "path": "build/enclosure-native/before/research/renderer-observed.json",
+      "archive": "research/sgr-enclosures-records/126-renderer-observed.json.gz",
+      "bytes": 1749,
+      "sha256": "4157933d6f5c2c8f28e84baeef2983bfa04d6fe47fe31e3dbc5f1d9ac7c904ec"
+    },
+    {
+      "path": "build/enclosure-native/results.json",
+      "archive": "research/sgr-enclosures-records/127-results.json.gz",
+      "bytes": 656,
+      "sha256": "232d8344cadb854998fe8b840e888a6011ae0922a7d9aa3bceab87988784eaf8"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/controller.log",
+      "archive": "research/sgr-enclosures-records/128-controller.log.gz",
+      "bytes": 366,
+      "sha256": "e3f3773d57424a111fcaef6ef8f8357f363e2c9fa6a9fd45d06f5246b02984e9"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/diagnostic-fixture.json",
+      "archive": "research/sgr-enclosures-records/129-diagnostic-fixture.json.gz",
+      "bytes": 464,
+      "sha256": "5d0da9f57d0b4b1c9a16e277ccfef5564ef477c8e27bba0402fbca06bdc68e3a"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/research/tabs-controller.json",
+      "archive": "research/sgr-enclosures-records/130-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "2301fb9bee06b0d54b2f36ea24bfae007d419a5e8b4d1a65e8e29097ada701a0"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sgr-enclosures-records/131-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1339223,
+      "sha256": "d8c5de43cef05a1c123f740db353fa11d1d621114b22f7c5c1af207eb982f775"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sgr-enclosures-records/132-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 7430136,
+      "sha256": "d716e853f58bfe128b6ab6c47682b14a9d2c698b0835e1b965d8ce458addd59c"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/sgr-enclosures-records/133-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/tabs.log",
+      "archive": "research/sgr-enclosures-records/134-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/tests/dll_window_catalogue.py",
+      "archive": "research/sgr-enclosures-records/135-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/enclosure-resources/accepted/tests/tabs_window_smoke.py",
+      "archive": "research/sgr-enclosures-records/136-tabs_window_smoke.py.gz",
+      "bytes": 27428,
+      "sha256": "67cf694dbdf6bbadac46d5a485dd604dcb45b468567a70686a429ef0f2226f17"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/controller.log",
+      "archive": "research/sgr-enclosures-records/137-controller.log.gz",
+      "bytes": 983,
+      "sha256": "b8c0248351fe2ca27503df14ef825a102f0d30ff8ca97abb22fb427026882171"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/diagnostic-fixture.json",
+      "archive": "research/sgr-enclosures-records/138-diagnostic-fixture.json.gz",
+      "bytes": 464,
+      "sha256": "98882c17bf1b54e628357305eb8067616223817173d6c827c65dba354587ac15"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/research/tabs-controller.json",
+      "archive": "research/sgr-enclosures-records/139-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "51656643832c67ea4754aeeb1041f9436a26c26d1009cc5f200532234fc1cad5"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sgr-enclosures-records/140-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 260429,
+      "sha256": "e38506916e30a719694c9b008f58643e501743ffd5fc963abd831d8694c552b1"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sgr-enclosures-records/141-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 3710428,
+      "sha256": "1c4a8030751eaa927cba0fdad67ff2035c566fdb1dfdd96e238233aa5f35f236"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/tabs.log",
+      "archive": "research/sgr-enclosures-records/142-tabs.log.gz",
+      "bytes": 614,
+      "sha256": "b4ec3a5f37d381c82eb6dacca42f34591617d2098bfc2c9a9bdbe07191642bd7"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/tests/dll_window_catalogue.py",
+      "archive": "research/sgr-enclosures-records/143-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/enclosure-resources/enclosures/tests/tabs_window_smoke.py",
+      "archive": "research/sgr-enclosures-records/144-tabs_window_smoke.py.gz",
+      "bytes": 27428,
+      "sha256": "67cf694dbdf6bbadac46d5a485dd604dcb45b468567a70686a429ef0f2226f17"
+    },
+    {
+      "path": "build/enclosure-resources/results.json",
+      "archive": "research/sgr-enclosures-records/145-results.json.gz",
+      "bytes": 173,
+      "sha256": "eec233fa6d786de682ffd45e48e2e6539dba3c541960e22e99844fbdbf1d3eb5"
+    },
+    {
+      "path": "build/enclosure-single/image.json",
+      "archive": "research/sgr-enclosures-records/146-image.json.gz",
+      "bytes": 8253,
+      "sha256": "9c1c80bf3d245dc0cf4f6d706f566be65ac82125b2d0690a9f4d2264ca797905"
+    },
+    {
+      "path": "build/enclosure-single/link.log",
+      "archive": "research/sgr-enclosures-records/147-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/enclosure-single/link.rsp",
+      "archive": "research/sgr-enclosures-records/148-link.rsp.gz",
+      "bytes": 5515,
+      "sha256": "ae045bfd9369e5a1b4c17e58d5a35c238f299ebe5cc2a564bb1861fee722ac5a"
+    },
+    {
+      "path": "build/enclosure-wire/controller.log",
+      "archive": "research/sgr-enclosures-records/149-controller.log.gz",
+      "bytes": 368,
+      "sha256": "534751e07694d9eb6b59d1d61a2ad6c8a7fc3c7cc9bab9d94d23962437e68f48"
+    },
+    {
+      "path": "build/enclosure-wire/research/sgr-stack-observed.json",
+      "archive": "research/sgr-enclosures-records/150-sgr-stack-observed.json.gz",
+      "bytes": 61585,
+      "sha256": "3bc81e238bf5291827bcf8845a58f0a1c3d0e07483e85be1699035967f46b9a7"
+    },
+    {
+      "path": "build/enclosure-wire/research/sgr-stack-window.png",
+      "archive": "research/sgr-enclosures-records/151-sgr-stack-window.png.gz",
+      "bytes": 3669,
+      "sha256": "ca6a83eb0432b7cef707e7692d0ccf7e31f0a31586174334c0e5f7a70c4bc63d"
+    },
+    {
+      "path": "build/enclosure-wire/research/sgr_stack-controller.json",
+      "archive": "research/sgr-enclosures-records/152-sgr_stack-controller.json.gz",
+      "bytes": 471,
+      "sha256": "d205c25412a5ceb670471441ebf5ed30b007451b59b61a08baa866bc8e112c16"
+    },
+    {
+      "path": "build/enclosure-wire/sgr_stack.log",
+      "archive": "research/sgr-enclosures-records/153-sgr_stack.log.gz",
+      "bytes": 56,
+      "sha256": "0251ecbbd59f7528851e2d668187c9ebf8424853316d196ff2697f70c4186bb2"
+    },
+    {
+      "path": "build/link-enclosure-image.py",
+      "archive": "research/sgr-enclosures-records/154-link-enclosure-image.py.gz",
+      "bytes": 1360,
+      "sha256": "677c12085bd994bcb052eb89a1a59ae3e9110bbec4658d56ac8fa66ebdb01364"
+    },
+    {
+      "path": "build/retain-enclosure-evidence.py",
+      "archive": "research/sgr-enclosures-records/155-retain-enclosure-evidence.py.gz",
+      "bytes": 2348,
+      "sha256": "498e9c1a7d1ba803f443d08eb4526247dd8446d679967a1c1c5f7b23b3543dcb"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-artifacts.json",
+      "archive": "research/sgr-enclosures-records/156-core-artifacts.json.gz",
+      "bytes": 3045,
+      "sha256": "a9bfeaf75cf1be9d7fd6a9f5d7d727ae4833d3ca9e6828ba06a4ef3ff78e4e63"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-run.json",
+      "archive": "research/sgr-enclosures-records/157-core-run.json.gz",
+      "bytes": 17989,
+      "sha256": "c393500732dd65eacf428891fe8a69c7fb87d8fb7fc3cbc891be0570c142014c"
+    },
+    {
+      "path": "build/ci-sgr-enclosure-8431e82/core-run.log",
+      "archive": "research/sgr-enclosures-records/158-core-run.log.gz",
+      "bytes": 468710,
+      "sha256": "f7fc66d8b3452adc7b55b190cd36b8df06665622e7dee47d1cdfcf1bf8959198"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-0.log",
+      "archive": "research/sgr-enclosures-records/159-generated-fixture-0.log.gz",
+      "bytes": 212,
+      "sha256": "91cd6e7d2dd7fb5513fe7446efc0d0a207c07abd57b316b4697afcd4c7e498e1"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-1.log",
+      "archive": "research/sgr-enclosures-records/160-generated-fixture-1.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-2.log",
+      "archive": "research/sgr-enclosures-records/161-generated-fixture-2.log.gz",
+      "bytes": 212,
+      "sha256": "91cd6e7d2dd7fb5513fe7446efc0d0a207c07abd57b316b4697afcd4c7e498e1"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture-3.log",
+      "archive": "research/sgr-enclosures-records/162-generated-fixture-3.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "build/enclosure-evidence/generated-fixture.json",
+      "archive": "research/sgr-enclosures-records/163-generated-fixture.json.gz",
+      "bytes": 751,
+      "sha256": "a186ff76d84ba9f2793c19c7149aed2e7eef56e2f5551d9c9b788d72ff1ff41b"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-generated-build.log",
+      "archive": "research/sgr-enclosures-records/164-windows-generated-build.log.gz",
+      "bytes": 227,
+      "sha256": "be5a5409ef1a0087ec52d7f6d3e07a1b4d7100bc0d2b206dd0feb4c55ed30454"
+    },
+    {
+      "path": "build/enclosure-evidence/windows-generated-test_queries.log",
+      "archive": "research/sgr-enclosures-records/165-windows-generated-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    }
+  ]
+}

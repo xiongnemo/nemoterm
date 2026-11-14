@@ -253,6 +253,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/memory_limits_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/resource_settle_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
@@ -441,6 +443,15 @@ jobs:
             python tests/sixel_palette_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/sixel-palette-$renderer-native.log"
             $testExit = $LASTEXITCODE
             Copy-Item "research/sixel-palette-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
+      - name: Test Sixel implicit foreground and declared opaque backgrounds
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/sixel_background_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/sixel-background-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/sixel-background-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
       - name: Test native hyperlink hover, activation and mouse interaction

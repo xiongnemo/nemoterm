@@ -30,10 +30,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `e436ecd` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43554488270/artifacts/14097908470)。
-两条完整工作流通过，单文件 CI 共 105 组检查；包含本机自动化接口、文件/图片输入、
-Direct3D 11 合成，窗口启动和终端退出流程修复，以及 Sixel 调色板重定义与共享图片重染。EXE 为 **4,451,328 字节**。
-产物预计于 **2026-12-14（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/sixel-palette-ci.md)。
+已通过 CI 的开发快照：[下载 `9e7549b` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43563686361/artifacts/14101679444)。
+两条完整工作流通过，单文件 CI 共 108 组检查；包含本机自动化接口、文件/图片输入、
+Direct3D 11 合成，窗口启动和终端退出流程修复，以及 Sixel 调色板/背景、SGR 框线/圈线和标签菜单生命周期修复。EXE 为 **4,451,840 字节**。
+产物预计于 **2026-12-14（UTC）** 过期，SHA-256 与完整范围见 [验证记录](research/sixel-enclosure-integration-ci.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
@@ -144,15 +144,15 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `e436ecd` 在本机 Sarasa、实际 160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.57 MB**，DX 为 **22.82 MB**，各通过 9 组功能检查。
-GDI 总工作集为 **43.40 MB**，DX 为 **58.47 MB**；DX 仍高于约 50 MB 的总工作集目标。
-测试在关闭临时标签后等待该标签的两条 I/O 工作线程实际退出，再按原来的句柄和窗口资源限额检查；没有裁剪工作集或提高数值门槛。
-两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/sixel-palette-ci.md)；前一版本的故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
+下载的 `9e7549b` 在本机 Sarasa、实际 160×48、双标签完整负载下，GDI 私有工作集峰值为 **16.06 MB**，DX 为 **23.81 MB**，各通过 9 组功能检查。
+GDI 总工作集为 **42.84 MB**，DX 为 **63.26 MB**；DX 仍高于约 50 MB 的总工作集目标。
+测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
+两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/sixel-enclosure-integration-ci.md)；前一版本的故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
 [Direct3D 11 实验](research/d3d11-copy.md) 和 [句柄调查](research/handle-lifetime.md) 保留了改动依据与未解决问题。
-[按需加载实验](research/delay-load.md) 收益不足，未合入；其中出现的初始化和 USER 对象计数失败仍保留为待查问题。
+[按需加载实验](research/delay-load.md) 收益不足，未合入；其中出现的初始化和 USER 对象计数失败仍保留，后续计时器观测与检查方法见 [资源回落记录](research/resource-settle.md)。
 切回 GDI 后，驱动保留的内存可能需要关闭窗口才能释放。
 
 “单 EXE”指一个分发文件：程序仍会启动同一个 EXE 的隐藏控制台宿主进程，并运行所选 shell。

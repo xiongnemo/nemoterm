@@ -1,0 +1,558 @@
+{
+  "base": "c5535a69ab9ca95d9cfbccc7df5d057fd756faa7",
+  "kind": "Local owned Win32 observations and deterministic unit tests, not REA-server Evidence",
+  "records": [
+    {
+      "path": "build/check-resource-settle-diagnostic.py",
+      "archive": "research/resource-settle-records/000-check-resource-settle-diagnostic.py.gz",
+      "bytes": 5755,
+      "sha256": "e1f64a99d0dba48a7d09a03627aedfd5bc95be8f3359a414e01c7676ba703f17"
+    },
+    {
+      "path": "build/check-resource-settle-native.py",
+      "archive": "research/resource-settle-records/001-check-resource-settle-native.py.gz",
+      "bytes": 1999,
+      "sha256": "9d04814b2a449f262ec0b288e86ed9fa26ab6eb25730009943030b9fb4d7b8bb"
+    },
+    {
+      "path": "build/check-resource-settle-passive-diagnostic.py",
+      "archive": "research/resource-settle-records/002-check-resource-settle-passive-diagnostic.py.gz",
+      "bytes": 7029,
+      "sha256": "4dbb65d3a98929161e0512272b5281f5358e47e91c9dc4326c46c47e25fd0a1f"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/controller.log",
+      "archive": "research/resource-settle-records/003-controller.log.gz",
+      "bytes": 984,
+      "sha256": "777eebab079ca16a0451484b4caa26a32d5b91d6d9d85191426164b1b83f11ca"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/004-diagnostic-fixture.json.gz",
+      "bytes": 328,
+      "sha256": "73e7bf695e1c8e95263accef34b6cf9657c4133a9d276de109e2dc9ecc779704"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/005-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "713b0ac6685abcea0305b69f31dfbb2b434299d2d1e16b8fa64b28648c19cd90"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/resource-settle-records/006-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 334386,
+      "sha256": "60bd6ba03aa9b4dde0d13bc52144b95692d15e03960b03362fc3f13591d2d4ad"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/007-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25213,
+      "sha256": "c08f801941b8bf90407ebed7c0c2e49252f44f4aa4854dc8dd02357a3e81dc64"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/tabs.log",
+      "archive": "research/resource-settle-records/008-tabs.log.gz",
+      "bytes": 617,
+      "sha256": "aaec3c8ba3a3901ca66583d68403c4015e3697d9656076a88f0cc6bf66480832"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/009-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/accepted/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/010-tabs_window_smoke.py.gz",
+      "bytes": 27330,
+      "sha256": "d18cbc01547d3edb37bd8d304e3ead5fa7bad153d127a73ff28e51b876ecaa29"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/controller.log",
+      "archive": "research/resource-settle-records/011-controller.log.gz",
+      "bytes": 992,
+      "sha256": "8a2a403deff198ce48286efd3f4f66f927f2be76bda5135fc51f31a56ccdd543"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/012-diagnostic-fixture.json.gz",
+      "bytes": 327,
+      "sha256": "881d1a9cec5ae95a9934ba3c3273089d5fd00fe98569c4eeacedf8c8b4aafad8"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/013-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "625b6ab4fcb66f58cd2a6d0b072fdfa83f17b0454f30119b2e3dae3a7d34511a"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/resource-settle-records/014-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 333371,
+      "sha256": "94eee35913aa13ff47c3b348cbaebbe3cecc9bdfb296f4e3f7b6c5f72abbbe3d"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/015-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25504,
+      "sha256": "f97781a4427e3a2eb639b340a27b0fd10a86189516a04c4ee5b2bf8ba2258e61"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/tabs.log",
+      "archive": "research/resource-settle-records/016-tabs.log.gz",
+      "bytes": 625,
+      "sha256": "9d0f5247a293ef63f3b327c67806f34a1199bf5c1d2fedb4eb92e913c1722342"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/017-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/held-session/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/018-tabs_window_smoke.py.gz",
+      "bytes": 28405,
+      "sha256": "0f58d7bfc324be140146a2ad1b3b8410f2d31872e3e258d17f2c823deeb8c51e"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/controller.log",
+      "archive": "research/resource-settle-records/019-controller.log.gz",
+      "bytes": 976,
+      "sha256": "afb5f6c4d591bde21ffcce81f976e60353a3075e79f793bd03a8fc89e93adb68"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/020-diagnostic-fixture.json.gz",
+      "bytes": 328,
+      "sha256": "6c3f96a7b42a6b14e553eceba573e842e359381dbfc15d1e6aa7920df6f87875"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/021-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "d46bae95841e763c33eb253ce5f8e3bfb4eaa99f4323288d19d37be3a7a9fafc"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/resource-settle-records/022-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 330537,
+      "sha256": "a4ffac09916677b1edea6cb888a46c290d050f29c4e7093528f5eac6ff640c3f"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/023-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25722,
+      "sha256": "cf7ffb3c1c0a44067b697d23b5657fac74361163b25ed09e5a23d0233ef11b79"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/tabs.log",
+      "archive": "research/resource-settle-records/024-tabs.log.gz",
+      "bytes": 609,
+      "sha256": "9e0d30fcab6e12ce87908a66c09f25935f121d3c519c60bab0222b9e2fe73aa0"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/025-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/menu/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/026-tabs_window_smoke.py.gz",
+      "bytes": 27330,
+      "sha256": "d18cbc01547d3edb37bd8d304e3ead5fa7bad153d127a73ff28e51b876ecaa29"
+    },
+    {
+      "path": "build/resource-settle-diagnostic/results.json",
+      "archive": "research/resource-settle-records/027-results.json.gz",
+      "bytes": 4527,
+      "sha256": "c010894cc585f0a413f96e26d502716b876c0aab04e5760a0112c74cf838574a"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/controller.log",
+      "archive": "research/resource-settle-records/028-controller.log.gz",
+      "bytes": 366,
+      "sha256": "354f54e2124d60ab95cfc4dd514cf6929885bd283b8f72d70fd9d305c71e23c1"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/029-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "718b15b459f7c0daff3a605ed2d2b5c0faa357977a7c44484f55249997172a68"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/resource-settle-records/030-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1423187,
+      "sha256": "ac70db264b094ec69ff236319f5ec1c4cd051ec8ae9a7d56165cf8c352864401"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/031-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 171942,
+      "sha256": "09b0c1787b82660cb157098b6a4e59548cfcb992fdd1e793d00afe24d049c36b"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/resource-settle-records/032-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/tabs.log",
+      "archive": "research/resource-settle-records/033-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/034-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-native/directx-left/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/035-tabs_window_smoke.py.gz",
+      "bytes": 27371,
+      "sha256": "68a50c67ecde255fb6b688eeac5d19cdfa9183b6d499e6ded7f1c7e431950d7f"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/controller.log",
+      "archive": "research/resource-settle-records/036-controller.log.gz",
+      "bytes": 365,
+      "sha256": "0700c242b1a6595810eeca486d88b707d167933ba09dfa102f4a76ede610cc30"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/037-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "7e627f2347c98fe442ffd8ffd5c22a06d7667ee19cf9906d61632d98b131fb40"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/research/tabs-gdi-right-host.png",
+      "archive": "research/resource-settle-records/038-tabs-gdi-right-host.png.gz",
+      "bytes": 10547,
+      "sha256": "34a834777fe052a50c87caebfb9de218de909ca5da02bae6309ff1e4a1058e62"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/research/tabs-gdi-right-observed.json",
+      "archive": "research/resource-settle-records/039-tabs-gdi-right-observed.json.gz",
+      "bytes": 127370,
+      "sha256": "f16eb77fee401c2de5913cdec3047586e7243c8b7320c6f93b5fcfed4932ac2e"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/research/tabs-gdi-right-preview.png",
+      "archive": "research/resource-settle-records/040-tabs-gdi-right-preview.png.gz",
+      "bytes": 2044,
+      "sha256": "1295828fc9a32901c2c8716790f6640119ef6eb952bc86c4de06f5e65f2dd295"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/tabs.log",
+      "archive": "research/resource-settle-records/041-tabs.log.gz",
+      "bytes": 33,
+      "sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/042-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-right/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/043-tabs_window_smoke.py.gz",
+      "bytes": 27371,
+      "sha256": "68a50c67ecde255fb6b688eeac5d19cdfa9183b6d499e6ded7f1c7e431950d7f"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/controller.log",
+      "archive": "research/resource-settle-records/044-controller.log.gz",
+      "bytes": 366,
+      "sha256": "d89713ef8d60b07da1e249f8b982bd727d0c226bfecc8d061dea0d7df92a4cd5"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/045-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "8a1188cd38de0c96126b5d925080091419d002ecdbba03347625f42da9dd1468"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/research/tabs-gdi-top-host.png",
+      "archive": "research/resource-settle-records/046-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/resource-settle-records/047-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1488223,
+      "sha256": "96bb2d0a723be41ef2e2f0d5e962ddd5dc572a7a34c420f1930b2c331ebe3d17"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/resource-settle-records/048-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 176774,
+      "sha256": "3dc3a4485a382ad35e721eab1b0effd4614baa2940e021adf59b20a9d3bb0a9a"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/resource-settle-records/049-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/tabs.log",
+      "archive": "research/resource-settle-records/050-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/051-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-native/gdi-top/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/052-tabs_window_smoke.py.gz",
+      "bytes": 27371,
+      "sha256": "68a50c67ecde255fb6b688eeac5d19cdfa9183b6d499e6ded7f1c7e431950d7f"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/controller.log",
+      "archive": "research/resource-settle-records/053-controller.log.gz",
+      "bytes": 365,
+      "sha256": "27acfc6042695b45bb5a185a441feabfb8abe2041716ec49e28f19eb6cbbffdd"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/054-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "d7767ff61e50fab14ae9e5c5db236a5daffea1f6ff7a0b7624438b0d8831d78a"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/research/tabs-opengl-bottom-observed.json",
+      "archive": "research/resource-settle-records/055-tabs-opengl-bottom-observed.json.gz",
+      "bytes": 122448,
+      "sha256": "5dbf5479ac6111565829525d25301a109228b6e718514805fdd90605eeee192a"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/research/tabs-opengl-bottom-preview.png",
+      "archive": "research/resource-settle-records/056-tabs-opengl-bottom-preview.png.gz",
+      "bytes": 2044,
+      "sha256": "1295828fc9a32901c2c8716790f6640119ef6eb952bc86c4de06f5e65f2dd295"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/tabs.log",
+      "archive": "research/resource-settle-records/057-tabs.log.gz",
+      "bytes": 37,
+      "sha256": "6c0ac1e47de565fd76faf37158f112828fb5e185fd7c191e4f7c3f6e54c40d47"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/058-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-native/opengl-bottom/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/059-tabs_window_smoke.py.gz",
+      "bytes": 27371,
+      "sha256": "68a50c67ecde255fb6b688eeac5d19cdfa9183b6d499e6ded7f1c7e431950d7f"
+    },
+    {
+      "path": "build/resource-settle-native/results.json",
+      "archive": "research/resource-settle-records/060-results.json.gz",
+      "bytes": 2265,
+      "sha256": "eb973ad8ebb798c9f876d7c5737919c396304c51651bd2b0a4b6295ce5b61ce4"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/controller.log",
+      "archive": "research/resource-settle-records/061-controller.log.gz",
+      "bytes": 369,
+      "sha256": "a72b906b56299dc7afae51e669a5bed4ee4a58af3e0ce0e563a83884a3175442"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/062-diagnostic-fixture.json.gz",
+      "bytes": 328,
+      "sha256": "5508fb3d153e162cce00e3bae4810e9573e61946352f45345e762a43be48f5d8"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/research/resource-diagnostic-memory.json",
+      "archive": "research/resource-settle-records/063-resource-diagnostic-memory.json.gz",
+      "bytes": 201696,
+      "sha256": "fb6ea4956d34e6ca894255df9ee6d8c8e457b999dcb7929fc6c69a59f31fa705"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/064-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "1e828ff44c78a4b86587b2fbc19f0191df9d1a497c65c1d232cc9837114a8241"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/065-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 30943,
+      "sha256": "a385dc74bb4c9502eabfa6c574cf62675c58afac93f353a43f14be51f22dd607"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/tabs.log",
+      "archive": "research/resource-settle-records/066-tabs.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/067-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/accepted/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/068-tabs_window_smoke.py.gz",
+      "bytes": 27660,
+      "sha256": "82b1f2c85fb1c41704443aa0f371a4d6a9967734fce8f61b16ae5a9d0916348d"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/controller.log",
+      "archive": "research/resource-settle-records/069-controller.log.gz",
+      "bytes": 369,
+      "sha256": "0ee7b5359931f561c4222f2b3adabcb34ff750ecb4681122841f457affbd99f2"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/070-diagnostic-fixture.json.gz",
+      "bytes": 327,
+      "sha256": "654f870652167dc96d1756de846d8e287319a4b901db609421fa056a097158ae"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/research/resource-diagnostic-memory.json",
+      "archive": "research/resource-settle-records/071-resource-diagnostic-memory.json.gz",
+      "bytes": 188138,
+      "sha256": "4eab1f6e718e513abcca0b4951cfa73f99852da409876a6c5b24bd6ff6f1a5b2"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/072-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "d33ceb62c5eaaee42ecac42f9dc98ae8029063a5e2fda293b340bfd2bd0c4e1b"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/073-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 39588,
+      "sha256": "3a573a343ece216a7cf350d18dc63b4f05d6b0ca24e986d73d0dccd6e4281994"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/tabs.log",
+      "archive": "research/resource-settle-records/074-tabs.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/075-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/held-session/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/076-tabs_window_smoke.py.gz",
+      "bytes": 28755,
+      "sha256": "040b5ae8ba2a65bc1dc1f6d4229476b66ff7e94b8c7433dccb201161a8fce0a6"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/controller.log",
+      "archive": "research/resource-settle-records/077-controller.log.gz",
+      "bytes": 369,
+      "sha256": "f4748fe1ba6f143d84037764ef4ddfda06ff5ef7524c9d9998139c1ec362c63b"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/diagnostic-fixture.json",
+      "archive": "research/resource-settle-records/078-diagnostic-fixture.json.gz",
+      "bytes": 328,
+      "sha256": "9739119cc1c346665508273d60fe3dfd6b9f17abfdd9b18fd89f6e7f0bbf4e0c"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/research/resource-diagnostic-memory.json",
+      "archive": "research/resource-settle-records/079-resource-diagnostic-memory.json.gz",
+      "bytes": 207300,
+      "sha256": "17152bac453512c1056c1e3515b00f106cd60523ffe49249b690304de0513dbb"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/research/tabs-controller.json",
+      "archive": "research/resource-settle-records/080-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "f751a24159a8067b58cbd37259a718f4c1a9da81f5605353fddb73d6cdf1bb3a"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/resource-settle-records/081-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 35392,
+      "sha256": "ad1c7fe15c51d82f7153fb51d2c92dd62736e3a70fac9acf8d83ef8f97da1e5d"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/tabs.log",
+      "archive": "research/resource-settle-records/082-tabs.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/tests/resource_settle.py",
+      "archive": "research/resource-settle-records/083-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/menu/tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/084-tabs_window_smoke.py.gz",
+      "bytes": 27660,
+      "sha256": "82b1f2c85fb1c41704443aa0f371a4d6a9967734fce8f61b16ae5a9d0916348d"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/results.json",
+      "archive": "research/resource-settle-records/085-results.json.gz",
+      "bytes": 3214,
+      "sha256": "3abac82dddba63fbfb89c0e5e9fd625aebe4808e53e59623af9c4c1e90dc547c"
+    },
+    {
+      "path": "build/resource-settle-passive-diagnostic/reviewed-results.json",
+      "archive": "research/resource-settle-records/086-reviewed-results.json.gz",
+      "bytes": 3731,
+      "sha256": "d919fdf2e0aad2d4431253693e9bfff7cd93747c3715a2d80c76b542500ba51b"
+    },
+    {
+      "path": "build/resource-settle-unit.log",
+      "archive": "research/resource-settle-records/087-resource-settle-unit.log.gz",
+      "bytes": 109,
+      "sha256": "59753171660350c6735ee4b12925f50e7f8606c102caf33752e5551608bad819"
+    },
+    {
+      "path": "build/retain-resource-settle-evidence.py",
+      "archive": "research/resource-settle-records/088-retain-resource-settle-evidence.py.gz",
+      "bytes": 1944,
+      "sha256": "7c85b9faca73b96a26f97e87ce20bfb937ea63bbec59bcd4163e4c60aed98ec2"
+    },
+    {
+      "path": "tests/resource_settle.py",
+      "archive": "research/resource-settle-records/089-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "tests/resource_settle_test.py",
+      "archive": "research/resource-settle-records/090-resource_settle_test.py.gz",
+      "bytes": 3327,
+      "sha256": "3735a3d9daf7cd7fd85e90101a20c9251bfbb8c4ea0535b9476bd02a4471310b"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "archive": "research/resource-settle-records/091-tabs_window_smoke.py.gz",
+      "bytes": 27371,
+      "sha256": "68a50c67ecde255fb6b688eeac5d19cdfa9183b6d499e6ded7f1c7e431950d7f"
+    }
+  ]
+}

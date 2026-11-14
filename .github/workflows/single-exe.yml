@@ -44,6 +44,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/memory_limits_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/resource_settle_test.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/fixture_traceback_test.py
