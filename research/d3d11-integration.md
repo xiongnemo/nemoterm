@@ -1,5 +1,23 @@
 # Direct3D 11 integration checkpoint
 
+## Input-close correction, subsequent image
+
+The follow-up `1bc1a26` adds the [input-pipe close correction](conpty-input-close.md)
+without changing the compositor. The new local image is 4,509,696 bytes,
+SHA-256 `8092e3e89ef243bd19726d91966def8f907b9394e638db53d033a50b7e59b00a`.
+It passed the expanded 16-group startup/visibility check and all ten DX automation
+groups (zero differing screenshot channels). The full uninjected Sarasa 160x48
+DX workload passed nine groups and all 13 exact worker waits: **23,678,976 bytes
+private working set**, **63,270,912 total**, **87,498,752 private commit**,
+448 samples over 48.448 seconds. Both its inner 56-process and outer 58-process
+jobs exited naturally. This keeps the private target satisfied on this machine;
+the approximate total target remains exceeded. The
+[additional manifest](d3d11-input-close-validation.json) retains this image's
+link inputs, tests and samples separately from the earlier image below.
+Full CI and downloaded-artifact validation are still pending.
+
+## Earlier combined image
+
 This branch combines the I/O worker-lifetime fix `7a3b95e`, the initial
 pseudo-window visibility guard `c2606cd`, the exact worker-wait fixture
 (`13d12f2`, from `5fbc4fc`), and the D3D11 copy compositor from `0382062` /
