@@ -1,0 +1,486 @@
+{
+  "kind": "Static PE REA Evidence plus explicitly separate local Win32 diagnostic observations",
+  "adopted": false,
+  "records": [
+    {
+      "path": "build/dx-integration-worktree/build/check-delay-catalogue.py",
+      "archive": "research/delay-load-records/000-check-delay-catalogue.py.gz",
+      "bytes": 5194,
+      "sha256": "71404e1e79a956da4d1f0b6e21faff921feff470203f14dc274d71486dfe9c74"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/check-delay-dx-catalogue.py",
+      "archive": "research/delay-load-records/001-check-delay-dx-catalogue.py.gz",
+      "bytes": 5160,
+      "sha256": "fa15e3ea62716b39441786eb1f0c988edee297e60e079033daac65243af8103f"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/check-delayed-image.py",
+      "archive": "research/delay-load-records/002-check-delayed-image.py.gz",
+      "bytes": 1992,
+      "sha256": "f87602942686a55d9c26a39ee21a08f5bc8763cd9c43be27a863812858cf3120"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/check-user-retirement.py",
+      "archive": "research/delay-load-records/003-check-user-retirement.py.gz",
+      "bytes": 1992,
+      "sha256": "dff8c314a8ce8d7851b35fefb9c74902b06446f8da621fb60757281b183a067e"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/controller.log",
+      "archive": "research/delay-load-records/004-controller.log.gz",
+      "bytes": 366,
+      "sha256": "0cda5f6d462198b9f0536d5ce16dde1a9dc7f722480bdde6be7d47592b236783"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/diagnostic-fixture.json",
+      "archive": "research/delay-load-records/005-diagnostic-fixture.json.gz",
+      "bytes": 418,
+      "sha256": "e8bdfd226cd15944163f4de820822b47ce25f22fd928fdea8b78d3eb3b1751d7"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/research/tabs-controller.json",
+      "archive": "research/delay-load-records/006-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "b6b4593c2fadb88cff780e053aef7f76ca95f9b40d83516b8e3c2ec098fd6661"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/delay-load-records/007-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1303955,
+      "sha256": "4e674b316cbd90ca78591d0328fb9ddc9a6e520a026c7181f1531c42be3f0e37"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/delay-load-records/008-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 434593,
+      "sha256": "bec052567d6c0c02ac9b7d3f081c005613e0b092953088a3fa4f1eaed02b02af"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/delay-load-records/009-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/tabs.log",
+      "archive": "research/delay-load-records/010-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/tests/dll_window_catalogue.py",
+      "archive": "research/delay-load-records/011-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/baseline-directx/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/012-tabs_window_smoke.py.gz",
+      "bytes": 26776,
+      "sha256": "85c85aba764a3192d0e35b18a4ae5f9e5a8b580bd464e179f7c85066024d7d33"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/controller.log",
+      "archive": "research/delay-load-records/013-controller.log.gz",
+      "bytes": 366,
+      "sha256": "df4f607a147836420c238978cec77dfb815ad5e496a7c2c190845f7ea23f6b67"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/diagnostic-fixture.json",
+      "archive": "research/delay-load-records/014-diagnostic-fixture.json.gz",
+      "bytes": 418,
+      "sha256": "87b46d13ab5c2363bd536cb700ec0b2b7aa293018f1695cacadce07c9bc83240"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/research/tabs-controller.json",
+      "archive": "research/delay-load-records/015-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "2e16720b6442c248535364a2e4c3efa4ef3ec2c88be9e633f4a1b37aa257c5e4"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/delay-load-records/016-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1272176,
+      "sha256": "f12a133b5362f4eec7f7941df0390f244e55900144357f78e81450867a8de248"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/delay-load-records/017-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 428988,
+      "sha256": "1853eca9e8d246e3e97cbbb5620f3016019ba73322154d6326d65c3bafbc4e50"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/delay-load-records/018-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/tabs.log",
+      "archive": "research/delay-load-records/019-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/tests/dll_window_catalogue.py",
+      "archive": "research/delay-load-records/020-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/delayed-directx/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/021-tabs_window_smoke.py.gz",
+      "bytes": 26776,
+      "sha256": "85c85aba764a3192d0e35b18a4ae5f9e5a8b580bd464e179f7c85066024d7d33"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-dx-catalogue/results.json",
+      "archive": "research/delay-load-records/022-results.json.gz",
+      "bytes": 502,
+      "sha256": "98f8ab30de31a0761ab07155e626f9f7a705ee73fca3e05559c4bd16601e90e8"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/controller.log",
+      "archive": "research/delay-load-records/023-controller.log.gz",
+      "bytes": 366,
+      "sha256": "fb666402e5dc8524980c42b8b91a8098fa57d9e64494bfc3f8a3db20eb37508d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/diagnostic-fixture.json",
+      "archive": "research/delay-load-records/024-diagnostic-fixture.json.gz",
+      "bytes": 418,
+      "sha256": "e8bdfd226cd15944163f4de820822b47ce25f22fd928fdea8b78d3eb3b1751d7"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/research/tabs-controller.json",
+      "archive": "research/delay-load-records/025-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "df39da1d036e281795e8214aebfe534e089ed3aa14577d6de37d25d5a960cd8c"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/delay-load-records/026-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/delay-load-records/027-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1351103,
+      "sha256": "117f2b140a20c27e4af48c6adf19b26e310490a75ab0e67e2fffed52bb8a1093"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/delay-load-records/028-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 364412,
+      "sha256": "cd347d0d949c8317cde0c43d5536f12a05276031ccaae29e283ccf95a7b4bc32"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/delay-load-records/029-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/tabs.log",
+      "archive": "research/delay-load-records/030-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/tests/dll_window_catalogue.py",
+      "archive": "research/delay-load-records/031-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/baseline-gdi/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/032-tabs_window_smoke.py.gz",
+      "bytes": 26776,
+      "sha256": "85c85aba764a3192d0e35b18a4ae5f9e5a8b580bd464e179f7c85066024d7d33"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/controller.log",
+      "archive": "research/delay-load-records/033-controller.log.gz",
+      "bytes": 972,
+      "sha256": "6582353370890522a2a24329324ff81c457b41d274a4f35341f783b8258210b8"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/diagnostic-fixture.json",
+      "archive": "research/delay-load-records/034-diagnostic-fixture.json.gz",
+      "bytes": 418,
+      "sha256": "87b46d13ab5c2363bd536cb700ec0b2b7aa293018f1695cacadce07c9bc83240"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/research/tabs-controller.json",
+      "archive": "research/delay-load-records/035-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "6b5da4eb7436de6eacf2ca32e2a73fccf5b221ab1c3174cc6f7d8d831e14110d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/delay-load-records/036-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 130527,
+      "sha256": "95a4a4fb76293490debda5831e02954b65cb1bb913f9282f86dab2e42bcd8c1b"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/delay-load-records/037-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 36545,
+      "sha256": "d605782608ad34c5fc3da0d79549eef357c6f792748f4b16e74f8f339f9ca8e3"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/tabs.log",
+      "archive": "research/delay-load-records/038-tabs.log.gz",
+      "bytes": 604,
+      "sha256": "6a7501331af568fbb0851b38dc9fd2bd3717e4cc218453fc4f6505fdb474b771"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/tests/dll_window_catalogue.py",
+      "archive": "research/delay-load-records/039-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/delayed-gdi/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/040-tabs_window_smoke.py.gz",
+      "bytes": 26776,
+      "sha256": "85c85aba764a3192d0e35b18a4ae5f9e5a8b580bd464e179f7c85066024d7d33"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-catalogue/results.json",
+      "archive": "research/delay-load-records/041-results.json.gz",
+      "bytes": 493,
+      "sha256": "c0e89dbdc8c3d82877bfda20ac8c2fc8474374b06dc71cde4ddf3706927d607b"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/automation.log",
+      "archive": "research/delay-load-records/042-automation.log.gz",
+      "bytes": 2874,
+      "sha256": "600fcc57d3823130a9af22621b595a0f3fd1cdb2146879a47db4877233fae281"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/build/automation-pxhh3v9c/api.png",
+      "archive": "research/delay-load-records/043-api.png.gz",
+      "bytes": 2223,
+      "sha256": "0d65f3a83ee326954ff0d9ee858173357d6dc935ccadb1514d84eceda68409df"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/build/automation-pxhh3v9c/child-29540.json",
+      "archive": "research/delay-load-records/044-child-29540.json.gz",
+      "bytes": 21,
+      "sha256": "ce6ea2d1df8e14b6dce9a974f5c6d6137c2a2850325873eef438660305a98c04"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/build/automation-pxhh3v9c/child-49056.json",
+      "archive": "research/delay-load-records/045-child-49056.json.gz",
+      "bytes": 21,
+      "sha256": "ce6ea2d1df8e14b6dce9a974f5c6d6137c2a2850325873eef438660305a98c04"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/build/automation-pxhh3v9c/child-8920.json",
+      "archive": "research/delay-load-records/046-child-8920.json.gz",
+      "bytes": 89,
+      "sha256": "674d363d797ecf02d66fcd1af157aa4759d5fe22543c020a7c64b1da94cbbfaf"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/build/automation-pxhh3v9c/reference.png",
+      "archive": "research/delay-load-records/047-reference.png.gz",
+      "bytes": 2223,
+      "sha256": "0d65f3a83ee326954ff0d9ee858173357d6dc935ccadb1514d84eceda68409df"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/controller.log",
+      "archive": "research/delay-load-records/048-controller.log.gz",
+      "bytes": 371,
+      "sha256": "b4bca72c2cff0fe69f2c46b117929b30a743344323337def555897d6d3d7d136"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/research/automation-controller.json",
+      "archive": "research/delay-load-records/049-automation-controller.json.gz",
+      "bytes": 474,
+      "sha256": "3913616710d7170925c2f870475c190a34958461bd008649c44a1c203051d423"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/research/automation-directx-observed.json",
+      "archive": "research/delay-load-records/050-automation-directx-observed.json.gz",
+      "bytes": 1899,
+      "sha256": "eb9c04891ff3197724ef782968951de68c86b61162a4be61e35d3cf5d551cb51"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/automation/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/051-tabs_window_smoke.py.gz",
+      "bytes": 26394,
+      "sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/controller.log",
+      "archive": "research/delay-load-records/052-controller.log.gz",
+      "bytes": 982,
+      "sha256": "f8a7800f401920295b854e91261770a68506db2034613d0a063a995daa7f393d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/research/tabs-controller.json",
+      "archive": "research/delay-load-records/053-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "0d29c1fdfbf6fb66dfe16a0b8cbec9f1f744bfeee66b3238a8dcd12df4fd0909"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/delay-load-records/054-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 125559,
+      "sha256": "e0c982caea579b641390c675cc72297b50f2ac61bd245e732b8966c44c719ba7"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/delay-load-records/055-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 4842,
+      "sha256": "8b3901a485cd6157de226bf45cfefdd0f716c73c82d2a46f6bf9d336c1c21015"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/tabs.log",
+      "archive": "research/delay-load-records/056-tabs.log.gz",
+      "bytes": 614,
+      "sha256": "254c93f47e20d7cecb0a412afa68cf36fdf799800cf70fe3fbd4a816cded1b8d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/baseline-gdi/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/057-tabs_window_smoke.py.gz",
+      "bytes": 26394,
+      "sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/image/image.json",
+      "archive": "research/delay-load-records/058-image.json.gz",
+      "bytes": 8260,
+      "sha256": "d1989e9cbfd1c5f56c59e79c9c3422e29b994548a586064600016a448b0650fa"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/image/link.log",
+      "archive": "research/delay-load-records/059-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/image/link.rsp",
+      "archive": "research/delay-load-records/060-link.rsp.gz",
+      "bytes": 5659,
+      "sha256": "91a065db53e3c4cab091aab06fddc8e2238be6ad510614bd86f9513fc798a88f"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/pe-imports-after.json",
+      "archive": "research/delay-load-records/061-pe-imports-after.json.gz",
+      "bytes": 173994,
+      "sha256": "2f70b11876479264ea8cba31f8213788398e3ad1aaec7cdf31c85c1e8d5bfd41"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/pe-imports-before.json",
+      "archive": "research/delay-load-records/062-pe-imports-before.json.gz",
+      "bytes": 173402,
+      "sha256": "8db58c87181f651287cbc61a4894e9df562f3a4cd8bdcc2b5b2d0dda84c2f67e"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/results.json",
+      "archive": "research/delay-load-records/063-results.json.gz",
+      "bytes": 338,
+      "sha256": "2ead93413ac4607ec4cf0b85980d89e0fe51e7e5a7c8d78be1dd3ee96659d993"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/startup/controller.log",
+      "archive": "research/delay-load-records/064-controller.log.gz",
+      "bytes": 379,
+      "sha256": "9022da3d7f1a05b599a54e9c96def3c086a9881b74f9ec0dc5af424dabbd641a"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/startup/research/startup-visibility-observed.json",
+      "archive": "research/delay-load-records/065-startup-visibility-observed.json.gz",
+      "bytes": 8932,
+      "sha256": "aabb0db3c072c61f7ed178b85ff2c9c4bb94d5988e2cfa74bf24903ad133e49f"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/startup/research/startup_visibility-controller.json",
+      "archive": "research/delay-load-records/066-startup_visibility-controller.json.gz",
+      "bytes": 482,
+      "sha256": "28ebc66db29557f5abacf950767242729906a34cee9035986ff7f1618b24ca42"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/startup/startup_visibility.log",
+      "archive": "research/delay-load-records/067-startup_visibility.log.gz",
+      "bytes": 38,
+      "sha256": "fe5f016d969fbee5f4af76f67e41039558606bf054dec87a79cb5b264797230b"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/delay-load-probe/startup/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/068-tabs_window_smoke.py.gz",
+      "bytes": 26394,
+      "sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/link-delayed-image.py",
+      "archive": "research/delay-load-records/069-link-delayed-image.py.gz",
+      "bytes": 1301,
+      "sha256": "7090ff84f35be00a78831c88564057a43f88ecebca4ad7da28feb86943ecc54f"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/controller.log",
+      "archive": "research/delay-load-records/070-controller.log.gz",
+      "bytes": 366,
+      "sha256": "5483199cadaa30becc13b174fd3876d124ffe3f490e72cd705381f07a3e89ba8"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/diagnostic-fixture.json",
+      "archive": "research/delay-load-records/071-diagnostic-fixture.json.gz",
+      "bytes": 140,
+      "sha256": "06dba9e0d60e7af911dbf16bd2492ea5cb3375183af5ae09280b566a149b8f2d"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/research/tabs-controller.json",
+      "archive": "research/delay-load-records/072-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "b962f1986d1be7a464626354008e5ce60fa63c1c9d7286ec9b4a4914d85ff1d4"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/research/tabs-gdi-top-host.png",
+      "archive": "research/delay-load-records/073-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/delay-load-records/074-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1320148,
+      "sha256": "a4d5682661a904010b61c7f93122f58364d978abd932dfe0c70a630c9dd5a692"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/delay-load-records/075-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 353637,
+      "sha256": "c34cdee3176c9a0d26fd54cfcdf83d789ff9c3c88a987c3ecf1f52ddc8b3b480"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/delay-load-records/076-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/tabs.log",
+      "archive": "research/delay-load-records/077-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/tests/dll_window_catalogue.py",
+      "archive": "research/delay-load-records/078-dll_window_catalogue.py.gz",
+      "bytes": 1364,
+      "sha256": "08884d851cb16b2046a3a663d9b8b27027f5ee00b65906de540bdef4dba192cb"
+    },
+    {
+      "path": "build/dx-integration-worktree/build/user-retirement-probe/tests/tabs_window_smoke.py",
+      "archive": "research/delay-load-records/079-tabs_window_smoke.py.gz",
+      "bytes": 27387,
+      "sha256": "5f4b57df0d66cab2d9632444c801e36115695784a192c98a5d707b915f57c9cd"
+    }
+  ]
+}
