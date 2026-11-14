@@ -48,7 +48,241 @@
     }
   ],
   "ci": {
-    "status": "pending publication and exact-commit runs"
+    "source_commit": "4b21bce590b17d35fcb36d391ab000670b1ea715",
+    "focused_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967146",
+    "focused_conclusion": "success",
+    "compilers": [
+      "GCC with ASan/UBSan and leak detection",
+      "Clang with ASan/UBSan and leak detection",
+      "MSVC"
+    ],
+    "upstream_terminal_states_per_compiler": 101,
+    "linux_terminal_source_manifest_verified": true,
+    "full_core_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967264",
+    "full_single_run": "https://github.com/xiongnemo/nemoterm/actions/runs/43630967242",
+    "full_status": "pending",
+    "retained": [
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts.json.gz",
+        "raw_sha256": "3cd29525a4d75e5dfddbe8c39edfbb90a46ba2a9dd8e5c8c5a61900bc850ebe8",
+        "raw_bytes": 2302
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-run.json.gz",
+        "raw_sha256": "39b58f36fe4e5c46665171e2ee5f7d6b1a70069b1214c50ca1d92783ba91aede",
+        "raw_bytes": 4273
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-run.log.gz",
+        "raw_sha256": "c466124fc04d8d5ee666549919e85841e58ff92b2861528811cb84dccc62cc6d",
+        "raw_bytes": 322781
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--compiler.txt.gz",
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5",
+        "raw_bytes": 122
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--sources.sha256.gz",
+        "raw_sha256": "8f11e44f43a09475daa441070617e16ecbc37fd96e9d7b7a6a38887c5251f0ca",
+        "raw_bytes": 2019
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-build.log.gz",
+        "raw_sha256": "4f4923210e117cb828ad024e5908d8ed5e511177c9bada28550528c8bded1d03",
+        "raw_bytes": 12852
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-configure.log.gz",
+        "raw_sha256": "10b621417dd161576b54f5de5eec56d703abdc19f47b942f94299e3f0dc49f8a",
+        "raw_bytes": 4317
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-sanitizers.log.gz",
+        "raw_sha256": "b2b29c7c81d54d0ad30fe706f0e328476742666f7109bc3d54a352788b923bf3",
+        "raw_bytes": 111
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-clang-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-sources.sha256.gz",
+        "raw_sha256": "2050edd5e839a7ca07a92732f835305e4f71248509eb675e3365f129896ccaa6",
+        "raw_bytes": 640
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-normal.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--compiler.txt.gz",
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+        "raw_bytes": 239
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-normal.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--normal.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-normal.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--sources.sha256.gz",
+        "raw_sha256": "8f11e44f43a09475daa441070617e16ecbc37fd96e9d7b7a6a38887c5251f0ca",
+        "raw_bytes": 2019
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-build.log.gz",
+        "raw_sha256": "21a6b1d79cb168b2928b2bf5130cb9d0b8ba45d2520addb555e99a28f1db9e8b",
+        "raw_bytes": 14507
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-configure.log.gz",
+        "raw_sha256": "f9f31d10923cb25a14576cbe7c2eee08c299666db01c57140c4c3d9884a43413",
+        "raw_bytes": 4312
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-sanitizers.log.gz",
+        "raw_sha256": "b2b29c7c81d54d0ad30fe706f0e328476742666f7109bc3d54a352788b923bf3",
+        "raw_bytes": 111
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-gcc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-sources.sha256.gz",
+        "raw_sha256": "2050edd5e839a7ca07a92732f835305e4f71248509eb675e3365f129896ccaa6",
+        "raw_bytes": 640
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--build.log.gz",
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed",
+        "raw_bytes": 58
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-build.log.gz",
+        "raw_sha256": "5d6ad973ca5d01ed199b3dc6e2a4cc9d94e3847f0e54cef66071b9e8bd543122",
+        "raw_bytes": 89
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--cache-test.log.gz",
+        "raw_sha256": "7ff81d4735388bc48a7966c7562b75858e9af07ce0131643527c3eef9bec1169",
+        "raw_bytes": 39
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-build.log.gz",
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea",
+        "raw_bytes": 76
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--layout-test.log.gz",
+        "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+        "raw_bytes": 700
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-build.log.gz",
+        "raw_sha256": "15264bc029a19c201b5f4962ab60039cf030f72b4455bf5617d3761cbefbed04",
+        "raw_bytes": 140
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--placements-test.log.gz",
+        "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+        "raw_bytes": 4856
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--sources.txt.gz",
+        "raw_sha256": "fd78f69e105ed3181e65eef3d27b7f509df99b5b0a4d39e4f8bc596cd9558a46",
+        "raw_bytes": 3351
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-build.log.gz",
+        "raw_sha256": "f729c925e39c789d54cc798a6056659073f94d6335fab4819943484024f1d1cb",
+        "raw_bytes": 16314
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-configure.log.gz",
+        "raw_sha256": "0a581240a5488933c6cb2a66dd9debf0cd2a09d17d7726a9e30eaa92484afbe6",
+        "raw_bytes": 2886
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-sources.txt.gz",
+        "raw_sha256": "bcc43e408ea173dac81c2fa683ca8c168c5c48d3bc9064cabf506e4943167ceb",
+        "raw_bytes": 1062
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--terminal-test.log.gz",
+        "raw_sha256": "66e38af35bcd9e4bdb97db3b31638b12d651899962b234a0cc3e196b30521ce5",
+        "raw_bytes": 113
+      },
+      {
+        "path": "research/kitty-terminal-input-evidence/4b21bce-focused-artifacts--kitty-transport-msvc-4b21bce590b17d35fcb36d391ab000670b1ea715--test.log.gz",
+        "raw_sha256": "3f2e49cd63d0f5fd23217d4b1b1bc477d4330766d9ea013110077ec35c7f35f8",
+        "raw_bytes": 44
+      }
+    ]
   },
   "native_acceptance_claimed": false,
   "accepted_executable_replaced": false,

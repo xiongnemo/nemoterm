@@ -55,7 +55,12 @@ Additional tests cover capability gating, cancellation, quiet replies, forbidden
 transport, interleaved feature queries, screen isolation, resize, permanent font
 offset clamping, oversized geometry and shared-budget pressure. The existing
 graphics lifecycle target runs these on MinGW locally and on GCC/Clang sanitizers
-and MSVC in CI. See [validation records](kitty-terminal-input-validation.json).
+and MSVC in CI. The exact source `4b21bce590b17d35fcb36d391ab000670b1ea715`
+passes the [GCC/Clang/MSVC matrix](https://github.com/xiongnemo/nemoterm/actions/runs/43630967146),
+including full terminal replay under both Linux sanitizers. The source manifests
+and all 44 compiler/test/artifact records are retained in
+[validation records](kitty-terminal-input-validation.json). The complete product
+workflows for that source remain pending.
 The remaining work is the Windows GDI/GL/DX layer composition, real PNG decoding
 through this path, synchronized/native pixel validation and exact-EXE memory
 acceptance before enabling the frontend capability.

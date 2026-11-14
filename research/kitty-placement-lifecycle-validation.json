@@ -229,5 +229,212 @@
       "compressed_sha256": "f9fb981d5e56b5a9f18eda0fbdceacae1ef6091b46d762272888989a5c06c92d"
     }
   ],
-  "before_fix_failure": "Expanded literal replay re-exposes a below-viewport placement after all-visible deletion; implementation at bf03e11, new fixture retained in this commit."
+  "before_fix_failure": "Expanded literal replay re-exposes a below-viewport placement after all-visible deletion; implementation at bf03e11, new fixture retained in this commit.",
+  "full_ci_completed": {
+    "source_commit": "c48af03bd03ce688531ac295d518003059a6deed",
+    "core": "https://github.com/xiongnemo/nemoterm/actions/runs/43628150628",
+    "single": "https://github.com/xiongnemo/nemoterm/actions/runs/43628150654",
+    "conclusion": "success",
+    "single_executable_sha256": "4bb0fdba100901d93da5bb54bc11298731c6a624a6ae2490a9a57cf9a85679da",
+    "single_executable_bytes": 4487168,
+    "passed_checks": 124,
+    "local_native_acceptance_of_this_binary": false,
+    "retained": [
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-core-run.json.gz",
+        "raw_sha256": "d67343245ddf00268509d6a627070d748c8631adcc095540062d7db958c4e83a",
+        "raw_bytes": 21495
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-core-run.log.gz",
+        "raw_sha256": "bce0e5b4ed1f2a87812c0067bc465355b23dcb9244f9959941021eb50c1b4c28",
+        "raw_bytes": 1183841
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-core-artifacts.json.gz",
+        "raw_sha256": "79f843b5fd4cfb1041904f4f506d14e4d62f81266a1c92c049740f5eeb774c7e",
+        "raw_bytes": 3843
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-core-observed-at.txt.gz",
+        "raw_sha256": "d4f52f789d45c90ad8d88b09462dd4d68aa7cf42eb168cfd22dd22e35eb3fc67",
+        "raw_bytes": 32
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-run.json.gz",
+        "raw_sha256": "67b9db2f0b1bb2d3366d1aff0aeee9c593b0bee58504621dd8624b836d45dfbb",
+        "raw_bytes": 3011
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-run.log.gz",
+        "raw_sha256": "9d24c91b2d4bc110cf0f970df40b7b00d9c7c62297374a63a65292e0f54b8d97",
+        "raw_bytes": 528379
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-artifacts.json.gz",
+        "raw_sha256": "33f2c2fe3c836e575ccd0dcf12052e4b64435bdcfacb8fecccb6f7da0ea6046b",
+        "raw_bytes": 1555
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-observed-at.txt.gz",
+        "raw_sha256": "235153b0540d5a440f410337ac471d71d2e9373533a1ca37a7302d198ca9e1f8",
+        "raw_bytes": 32
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-charset-sanitizers.log.gz",
+        "raw_sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea",
+        "raw_bytes": 73
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-cwd-sanitizers.log.gz",
+        "raw_sha256": "fc9ea46fc4d4839fc0f5f81236a59d480bf20c8577037f644bcbb69b2c0629b0",
+        "raw_bytes": 32
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-grapheme-cells-sanitizers.log.gz",
+        "raw_sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162",
+        "raw_bytes": 31
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-grapheme-sanitizers.log.gz",
+        "raw_sha256": "9cd3a0a3329bd7b24db00adb835682690a0298a9a74d741b5654242c3a5b25ac",
+        "raw_bytes": 110
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-hyperlink-sanitizers.log.gz",
+        "raw_sha256": "a58b0dbedc1464792e429e360a7dd67a6b4c8a94d2198d3a9478565e058fa740",
+        "raw_bytes": 28
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-image-sanitizers.log.gz",
+        "raw_sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc",
+        "raw_bytes": 28
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-iterm-transport-sanitizers.log.gz",
+        "raw_sha256": "08bd03724b17532b011de7a1c9efb190a26e956ac3ecb673b2b73068bd6d7833",
+        "raw_bytes": 29
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-keyboard-sanitizers.log.gz",
+        "raw_sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5",
+        "raw_bytes": 31
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-kitty-cache-sanitizers.log.gz",
+        "raw_sha256": "f010aedd040291059d6a745ae1cd1d38f3fa7c63b35b9984e6f0436a6b1d27e8",
+        "raw_bytes": 38
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-kitty-layout-sanitizers.log.gz",
+        "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439",
+        "raw_bytes": 686
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-kitty-placements-sanitizers.log.gz",
+        "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6",
+        "raw_bytes": 4790
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-kitty-transport-sanitizers.log.gz",
+        "raw_sha256": "f69f8f5a76945fa99aab8ca097c38821eab2e1aa0ed257eeb09dccb8732955df",
+        "raw_bytes": 43
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-margins-sanitizers.log.gz",
+        "raw_sha256": "af51874d376db1a9ed01e41bd9834a7b59aeb949569acd7ec1a704f59528b6c4",
+        "raw_bytes": 20
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-mok-sanitizers.log.gz",
+        "raw_sha256": "dcbb73e02ce6d7ab0c3ec2ed7e7158a04049de38a14b50d7d13e742308177d62",
+        "raw_bytes": 27
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-osc52-sanitizers.log.gz",
+        "raw_sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633",
+        "raw_bytes": 20
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-palette-sanitizers.log.gz",
+        "raw_sha256": "910cafca6fb0539b049f3b2ce14366a7797e932eb9863ae9e466afed8ecec43c",
+        "raw_bytes": 24
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-queries-sanitizers.log.gz",
+        "raw_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe",
+        "raw_bytes": 19
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-raster-animation-sanitizers.log.gz",
+        "raw_sha256": "578eb92f098038f07598534fef24476ed1be9ccba39a259fa3d2807ce078c3bd",
+        "raw_bytes": 46
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-rectangle-sanitizers.log.gz",
+        "raw_sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e",
+        "raw_bytes": 60
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-reflow-sanitizers.log.gz",
+        "raw_sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c",
+        "raw_bytes": 20
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-selective-erase-sanitizers.log.gz",
+        "raw_sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2",
+        "raw_bytes": 29
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-sgr-sanitizers.log.gz",
+        "raw_sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33",
+        "raw_bytes": 17
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-shell-marks-sanitizers.log.gz",
+        "raw_sha256": "6127b1adf352035535d287aa96231b7745161521df12602f4ba423993b694a06",
+        "raw_bytes": 24
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-state-control-sanitizers.log.gz",
+        "raw_sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835",
+        "raw_bytes": 27
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-tcap-ncurses-sanitizers.log.gz",
+        "raw_sha256": "d0f3d79f1f8ad12cb10ffa46ec5a114a562579470d81b97830d8b7181205dd71",
+        "raw_bytes": 56
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-tcap-sanitizers.log.gz",
+        "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4",
+        "raw_bytes": 33
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-titles-sanitizers.log.gz",
+        "raw_sha256": "5855200953a47b62cc6b1d4e0846196cc8f2507c9a2f4afbda0cb530fb17daf1",
+        "raw_bytes": 19
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-terminal-win32-input-sanitizers.log.gz",
+        "raw_sha256": "1c49f9bf08624d22cd82ae4b09b4dee3a972e26ce538e62a18a674933387e456",
+        "raw_bytes": 25
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-sanitizers-underline-capabilities-ncurses.json.gz",
+        "raw_sha256": "0c0e3843c8b4fbf794ae9e283da881bac7f145169e64de7f2e0e0ccfefcc35cc",
+        "raw_bytes": 98113
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-evidence-single-exe-observed.json.gz",
+        "raw_sha256": "d52e814577dfabc61aa09d520408ef689b382cafa764720b3f5c75473fc2de85",
+        "raw_bytes": 871
+      },
+      {
+        "path": "research/kitty-placement-evidence/c48af03-full-single-evidence-single-exe-validation.json.gz",
+        "raw_sha256": "051f48a67bc9e009449208b878086af8c543acc99f9f0ac9a923f8a71c7ec691",
+        "raw_bytes": 3138
+      }
+    ]
+  }
 }

@@ -67,13 +67,17 @@ compiler manifests match the committed sources. Their logs and manifests are
 retained. Complete application
 [core](https://github.com/xiongnemo/nemoterm/actions/runs/43625661617) and
 [single-image](https://github.com/xiongnemo/nemoterm/actions/runs/43625661585)
-workflows are still pending.
+workflows have completed successfully (122 single-image checks). Their exact
+executable hash and logs are retained in the validation record. The corrected
+lifecycle source `c48af03` also passes both full workflows (124 checks); see
+[its validation record](kitty-placement-lifecycle-validation.json). Neither
+binary has been substituted for the locally accepted executable.
 
-Remaining integration includes per-screen ownership, APC dispatch and replies,
-PNG decoding, shared budgets with Sixel/iTerm images, synchronized presentation,
-cursor application, history pull on resize, and three-layer rendering. The
-remaining font/DPI rescale handling must also clamp retained pixel offsets when
-cells shrink. Additional lifetime scenarios need comparison before claiming
-protocol equivalence.
+The subsequent [terminal input integration](kitty-terminal-input.md) connects
+APC dispatch, replies, separate screen ownership, shared budgets, cursor movement,
+resize history and permanent font-offset clamping. It replays all 101 captured
+states through the real terminal parser. Windows composition, native decoder
+validation, synchronized pixels and application acceptance remain outstanding;
+the frontend capability is still disabled.
 No accepted executable has been replaced and no application memory acceptance
 is claimed by these component tests.
