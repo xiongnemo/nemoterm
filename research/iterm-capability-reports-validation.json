@@ -5,7 +5,7 @@
     "local_native_tests": "paused by user; none run",
     "static_python_parse": "passed for two changed Python fixtures",
     "git_diff_check": "passed",
-    "remote_behavioral_tests": "pending submission"
+    "remote_behavioral_tests": "1f4a23a sanitizer fixture failure retained; corrected fixture pending"
   },
   "reference_kind": "official specification and pinned source inspection; no iTerm runtime capture",
   "references": {
@@ -37,5 +37,16 @@
     "tests/iterm_reports_window_smoke.py": "15bb8dd719ee3b307e866839841111532520c7a2e3c4c6000ffb7166c75ba400",
     "vendor/putty-0.85/test/test_iterm_reports.inc": "881d6c17b0c698cd592fbf5cfb8473b688cfdfcfc9614ba0378e29537df69248"
   },
-  "accepted_executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26"
+  "accepted_executable_sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26",
+  "first_remote_failure": {
+    "source_commit": "1f4a23a75ec0fb8a834d4d9524edb42572658867",
+    "run_id": 43603526148,
+    "artifact_id": 14117411111,
+    "case": "query fixture cancellation followed by ordinary BEL",
+    "cause": "mock TermWin had no bell callback",
+    "file": "iterm-capability-reports-evidence/1f4a23a-queries-asan-failure.log.gz",
+    "raw_sha256": "06092a69db5d0caf7d09cfc3d509fc7a6fcf289e1822756e4a0f2328b0cb6ac4",
+    "compressed_sha256": "57f588c47844fa2b914dac9a4d075082375585507387b1f9c952969dac06b1f8"
+  },
+  "corrected_fixture_sha256": "5264936fb768dbaccd72852d55be01804947f39532667ab080a275a105566a99"
 }

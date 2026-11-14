@@ -1,6 +1,11 @@
 /* SPDX-License-Identifier: MIT
  * Real parser, bounded framing and live preferences; no native I/O. */
 static unsigned iterm_report_callbacks;
+static unsigned iterm_report_bells;
+static void iterm_bell_stub(TermWin *tw, int mode)
+{
+    iterm_report_bells++;
+}
 static bool iterm_clipboard_stub(TermWin *tw, const char *data, size_t len)
 {
     iterm_report_callbacks++;
@@ -19,6 +24,7 @@ static void test_iterm_reports(Mock *mk)
     vt.get_geometry = mock_geometry;
     vt.osc52_write = iterm_clipboard_stub;
     vt.set_synchronized_update = iterm_sync_stub;
+    vt.bell = iterm_bell_stub;
     mk->tw.vt = &vt;
     conf_set_bool(mk->conf, CONF_true_colour, true);
     conf_set_bool(mk->conf, CONF_no_mouse_rep, false);
@@ -30,6 +36,7 @@ static void test_iterm_reports(Mock *mk)
     term_reconfig(mk->term, mk->conf);
     reset(mk);
     iterm_report_callbacks = 0;
+    iterm_report_bells = 0;
     const char *caps = "\033]1337;Capabilities=T1LrMSc3UTs3BGsGoSyHSx\033\\";
     test_context(mk, "iTerm reports: exact spec codes and no ambiguous F");
     term_data_fragmented(mk->term, "\033%G\033]1337;Capabilities\007");
@@ -88,6 +95,9 @@ static void test_iterm_reports(Mock *mk)
         term_data_fragmented(mk->term, sequence);
         response(mk, "\033[0n");
     }
+    /* CAN and SUB end the OSC. The following BEL is then an ordinary bell,
+     * not a terminator. A query-only mock still needs that native callback. */
+    IEQUAL(iterm_report_bells, 2);
     term_data_fragmented(mk->term, "\033]1337;Capabilities");
     char excess[NEMO_CWD_OSC_MAX + 1]; memset(excess, 'X', sizeof(excess));
     term_data(mk->term, excess, sizeof(excess));

@@ -80,8 +80,12 @@ Pending multipart images remain independent of query handling.
   minimize/restore and synchronized-update phases. Both full workflows include
   it; requested OpenGL may use GDI fallback on CI and must be reported as such.
 
-Static Python parsing and `git diff --check` passed before submission. All newly
-added behavioral checks are **pending remote execution**. No native process,
+Static Python parsing and `git diff --check` passed before submission. The first
+remote sanitizer run on `1f4a23a` failed in the new fixture: CAN/SUB ends an OSC,
+so its trailing BEL is a normal bell, but the mock had no bell callback. The
+follow-up supplies that mock callback and asserts two bells; production code is
+unchanged. The original log is retained, not classified as a passing run.
+The corrected behavioral checks are **pending remote execution**. No native process,
 clipboard operation, input injection, renderer or memory workload was run
 locally for this checkpoint. The earlier integrated DX close-cycle failure and
 unrun DX PNG/GIF memory cases remain unresolved; green protocol CI would not
