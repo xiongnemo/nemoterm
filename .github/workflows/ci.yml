@@ -120,7 +120,9 @@ jobs:
     name: Windows x64 tests and portable build
     needs: source-host
     runs-on: windows-latest
-    timeout-minutes: 20
+    # The native oracle suites plus both unchanged memory workloads can exceed
+    # 20 minutes on hosted runners. Keep their individual checks and limits.
+    timeout-minutes: 30
     defaults:
       run:
         shell: msys2 {0}
@@ -146,6 +148,8 @@ jobs:
           python tests/generate_graphics_query_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_dec_status_oracle.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/generate_c1_controls_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_checksum_oracle.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

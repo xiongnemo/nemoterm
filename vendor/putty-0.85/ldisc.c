@@ -304,6 +304,20 @@ void ldisc_send(Ldisc *ldisc, const void *vbuf, int len, bool interactive)
     ldisc_input_queue_callback(ldisc);
 }
 
+int ldisc_format_c1(Ldisc *ldisc, char *buf, unsigned control)
+{
+    assert(control >= 0x80 && control <= 0x9f);
+    if (ldisc && (ldisc->backend->vt->flags & BACKEND_UTF8_C1)) {
+        /* ConPTY accepts a UTF-8 character stream. Its console clients then
+         * read Unicode or bytes in their selected input code page. */
+        buf[0] = (char)0xc2;
+        buf[1] = (char)control;
+        return 2;
+    }
+    buf[0] = (char)control;
+    return 1;
+}
+
 bool ldisc_send_queue_below(Ldisc *ldisc, size_t limit)
 {
     size_t queued = bufchain_size(&ldisc->input_queue);

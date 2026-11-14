@@ -5490,7 +5490,7 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
             *p++ = 0x1B;
             *p++ = '[';
             *p++ = 'Z';
-            return p - output;
+            return term_format_c1_key(wgs->term, (char *)output, p - output);
         }
         if (wParam == VK_SPACE && shift_state == 2) {   /* Ctrl-Space */
             *p++ = 0;

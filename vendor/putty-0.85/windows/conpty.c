@@ -630,4 +630,5 @@ const BackendVtable conpty_backend = {
     .displayname_tc = "ConPTY",
     .displayname_lc = "ConPTY", /* proper name, so capitalise it anyway */
     .protocol = -1,
+    .flags = BACKEND_UTF8_C1,
 };

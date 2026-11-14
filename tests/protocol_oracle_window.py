@@ -58,22 +58,26 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
             if os.environ.get('NEMOTERM_PROTOCOL_WIRE_TRACE') == '1':
                 from protocol_wire_trace import ProtocolWireTrace
                 wire_trace = ProtocolWireTrace(process, exe, root/'research'/f'{name}-wire.jsonl')
-            def phase(phase_name, sequence, expected):
+            def phase(phase_name, sequence, expected, phase_barrier=None):
+                active_barrier,active_marker = phase_barrier or (barrier_sequence,marker)
+                expected_bytes = expected if isinstance(expected, bytes) else expected.encode() if expected is not None else None
                 if wire_trace:
-                    wire_trace.phase(phase_name, sequence+barrier_sequence,
-                                     expected+marker.decode() if expected is not None else None)
+                    wire_trace.phase(phase_name, sequence+active_barrier,
+                                     expected_bytes+active_marker if expected_bytes is not None else None)
                 write_snapshot(control, dict(phase=phase_name, preserve_mouse=True, report_cursor=report_cursor,
-                    sequence=sequence+barrier_sequence))
+                    sequence=sequence+active_barrier))
                 def received():
                     value = current()
                     return value if value.get('phase') == phase_name and \
-                        bytes.fromhex(value['hex']).endswith(marker) else None
+                        bytes.fromhex(value['hex']).endswith(active_marker) else None
                 value = wait_for(received)
                 wire = bytes.fromhex(value['hex'])
                 evidence['cases'][phase_name] = wire.hex()
+                evidence.setdefault('case_metadata',{})[phase_name] = dict(
+                    input_cp=value.get('input_cp'),input_api=value.get('input_api'))
                 if expected is not None:
-                    assert wire == expected.encode()+marker, (phase_name, wire, expected)
-                return wire[:-len(marker)]
+                    assert wire == expected_bytes+active_marker, (phase_name, wire, expected)
+                return wire[:-len(active_marker)]
             for phase_name, sequence, expected in tuple(cases)+tuple(extra_cases):
                 phase(phase_name, sequence, expected)
             if exercise is not None:
@@ -91,6 +95,7 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                 assert not evidence['wire_observer']['errors'], evidence['wire_observer']
                 assert not evidence['wire_observer']['truncated'], evidence['wire_observer']
             evidence['cleanup'] = job.finish()
+            assert not evidence['cleanup']['terminated_remaining'], evidence['cleanup']
             evidence['completed'] = True
             print(f'Native {name}: {len(cases)} XTerm and {len(extra_cases)} direct cases passed')
         finally:
@@ -105,4 +110,5 @@ def run(name, cases, scene=None, extra_cases=(), exercise=None, barrier=None, re
                     evidence['cleanup'] = job.finish()
                     evidence['wire_observer'] = wire_trace.close()
             finally:
+                evidence.setdefault('cleanup',job.finish(grace=0))
                 (root/'research'/f'{name}-observed.json').write_text(json.dumps(evidence, indent=2))

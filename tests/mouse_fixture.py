@@ -43,7 +43,11 @@ if exact_output:
             stdout, old_output.value | 0x4 | 0x8):
         raise c.WinError()
 old_input_cp = k.GetConsoleCP()
-if os.environ.get("NEMOTERM_TEST_UTF8_INPUT") == "1":
+if os.environ.get('NEMOTERM_TEST_INPUT_CP'):
+    requested_cp = int(os.environ['NEMOTERM_TEST_INPUT_CP'])
+    assert requested_cp in (65001, 28591)
+    assert k.SetConsoleCP(requested_cp)
+elif os.environ.get("NEMOTERM_TEST_UTF8_INPUT") == "1":
     assert k.SetConsoleCP(65001)
 old = w.DWORD()
 if not k.GetConsoleMode(stdin, c.byref(old)) or not k.SetConsoleMode(stdin, 0x280):
@@ -77,6 +81,8 @@ try:
             break
         if request.get('phase') != phase:
             phase = request.get('phase')
+            if os.environ.get('NEMOTERM_TEST_INPUT_CP'):
+                assert k.SetConsoleCP(requested_cp)
             data.clear()
             responded.clear()
             barrier_sent = barrier_ack = None

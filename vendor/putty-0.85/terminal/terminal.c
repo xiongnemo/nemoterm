@@ -64,6 +64,45 @@ static void nemo_set_reverse_video(Terminal *term, bool state);
 
 static const char *const EMPTY_WINDOW_TITLE = "";
 
+/* Only call this for generated protocol records. Payload bytes are not scanned:
+ * text, UTF-8, clipboard data and configured answerback are never transcoded.
+ * Framing may arrive as separate DCS/OSC header, payload and ST writes. */
+static void nemo_protocol_send(Terminal *term, const void *data, int len)
+{
+    const unsigned char *p = data;
+    if (!term->ldisc || len <= 0) return;
+    bool prefix = term->c1_8bit && len >= 2 && p[0] == 0x1b &&
+        (p[1] == '[' || p[1] == 'P' || p[1] == ']' || p[1] == '\\');
+    bool suffix = prefix && (p[1] == 'P' || p[1] == ']') && len >= 4 &&
+        p[len-2] == 0x1b && p[len-1] == '\\';
+    if (prefix) {
+        char c1[2];
+        int size = ldisc_format_c1(term->ldisc, c1, p[1] + 0x40);
+        ldisc_send(term->ldisc, c1, size, false);
+        p += 2; len -= 2;
+    }
+    if (suffix) len -= 2;
+    if (len) ldisc_send(term->ldisc, p, len, false);
+    if (suffix) {
+        char st[2];
+        int size = ldisc_format_c1(term->ldisc, st, 0x9c);
+        ldisc_send(term->ldisc, st, size, false);
+    }
+}
+
+int term_format_c1_key(Terminal *term, char *buf, int len)
+{
+    if (term->c1_8bit && !term->vt52_mode && len >= 3 && buf[0] == 0x1b &&
+        (buf[1] == '[' || buf[1] == 'O')) {
+        char c1[2];
+        int size = ldisc_format_c1(term->ldisc, c1, (unsigned char)buf[1] + 0x40);
+        memmove(buf+size, buf+2, len-2);
+        memcpy(buf, c1, size);
+        return len-2+size;
+    }
+    return len;
+}
+
 /* XTerm shares ten slots between stack and indexed title operations. Allocate
  * only on the first push. Bound both depth and saved strings independently of
  * any locally configured title, and retain each string's original encoding. */
@@ -2201,13 +2240,15 @@ static void nemo_status_query(Terminal *term, bool private)
         break;
       case 9001:
         /* Same-image ConPTY synchronization, separate from application CPR.
-         * Absolute viewport coordinates are required even under DECOM. */
+         * Absolute viewport coordinates are required even under DECOM.
+         * Its internal UTF-8 transport always uses 7-bit framing. */
         if (term->esc_nargs == 2 && term->esc_args[1] > 0 && term->esc_args[1] <= 65535)
             n = sprintf(reply, "\033[?9001;%u;%d;%dR", term->esc_args[1],
                         term->curs.y + 1, term->curs.x + 1);
-        break;
+        if (n) ldisc_send(term->ldisc, reply, n, false);
+        return;
     }
-    if (n) ldisc_send(term->ldisc, reply, n, false);
+    if (n) nemo_protocol_send(term, reply, n);
 }
 
 static void nemo_graphics_query(Terminal *term)
@@ -2251,7 +2292,7 @@ static void nemo_graphics_query(Terminal *term)
         int n = status ? sprintf(reply, "\033[?%u;%uS", item, status) :
             item == 1 ? sprintf(reply, "\033[?1;0;%uS", value) :
             sprintf(reply, "\033[?2;0;%u;%uS", value, height);
-        ldisc_send(term->ldisc, reply, n, false);
+        nemo_protocol_send(term, reply, n);
     }
 }
 
@@ -2460,7 +2501,7 @@ static void nemo_modify_keys_query(Terminal *term, bool format)
         unsigned value = format ? term->modify_keys.format :
             term->modify_keys.level < 0 ? 65535 : term->modify_keys.level;
         int n = sprintf(reply, "\033[>4;%u%c", value, format ? 'f' : 'm');
-        ldisc_send(term->ldisc, reply, n, false);
+        nemo_protocol_send(term, reply, n);
     }
 }
 
@@ -2470,6 +2511,8 @@ static void nemo_decrqss(Terminal *term)
 {
     if (!term->ldisc) return;
     const char *query = term->dcs_query;
+    if (!term->dcs_query_invalid && !strcmp(query, "\"p") && !has_compat(VT220))
+        return;
     strbuf *reply = strbuf_new();
     bool valid = !term->dcs_query_invalid;
     if (valid && !strcmp(query, "m")) {
@@ -2499,6 +2542,10 @@ static void nemo_decrqss(Terminal *term)
         else if (colour & UNDER_INDEXED)
             put_fmt(reply, ";58;5;%u", colour & 255);
         put_byte(reply, 'm');
+    } else if (valid && !strcmp(query, "\"p")) {
+        unsigned level = has_compat(VT510) ? 65 : has_compat(VT420) ? 64 :
+            has_compat(VT320) ? 63 : 62;
+        put_fmt(reply, "%u;%u\"p", level, term->c1_8bit ? 0 : 1);
     } else if (valid && !strcmp(query, "r")) {
         put_fmt(reply, "%d;%dr", term->marg_t+1, term->marg_b+1);
     } else if (valid && !strcmp(query, "s")) {
@@ -2544,9 +2591,9 @@ static void nemo_decrqss(Terminal *term)
     } else {
         valid = false;
     }
-    ldisc_send(term->ldisc, valid ? "\033P1$r" : "\033P0$r", 5, false);
-    if (valid) ldisc_send(term->ldisc, reply->s, reply->len, false);
-    ldisc_send(term->ldisc, "\033\\", 2, false);
+    nemo_protocol_send(term, valid ? "\033P1$r" : "\033P0$r", 5);
+    if (valid) nemo_protocol_send(term, reply->s, reply->len);
+    nemo_protocol_send(term, "\033\\", 2);
     strbuf_free(reply);
 }
 
@@ -2591,7 +2638,7 @@ static void nemo_presentation_report(Terminal *term)
         }
     }
     put_dataz(reply, "\033\\");
-    ldisc_send(term->ldisc, reply->s, reply->len, false);
+    nemo_protocol_send(term, reply->s, reply->len);
     strbuf_free(reply);
 }
 
@@ -2727,7 +2774,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             } else if (term->ldisc) {
                 strbuf *reply = nemo_tcap_reply(term, term->dcs_query,
                                                term->dcs_query_invalid);
-                ldisc_send(term->ldisc, reply->s, reply->len, false);
+                nemo_protocol_send(term, reply->s, reply->len);
                 strbuf_free(reply);
             }
         }
@@ -2806,6 +2853,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 
 static void power_on(Terminal *term, bool clear)
 {
+    term->c1_8bit = false;
     nemo_reset_ansi_colours(term);
     nemo_presentation_cancel(term);
     term->protection_mode = NEMO_PROTECT_NONE;
@@ -3652,7 +3700,7 @@ static void nemo_report_palette_stack(Terminal *term)
     char reply[40];
     int n = sprintf(reply, "\033[?%u;%u#Q", stack ? stack->used : 0,
                     stack ? stack->last : 0);
-    ldisc_send(term->ldisc, reply, n, false);
+    nemo_protocol_send(term, reply, n);
 }
 
 /*
@@ -5247,7 +5295,7 @@ static void nemo_report_rectangle_sgr(Terminal *term)
         put_fmt(reply, ";58:2::%u:%u:%u", (colour >> 16) & 255, (colour >> 8) & 255, colour & 255);
     else if (colour & UNDER_INDEXED) put_fmt(reply, ";58:5:%u", colour & 255);
     put_byte(reply, 'm');
-    ldisc_send(term->ldisc, reply->s, reply->len, false);
+    nemo_protocol_send(term, reply->s, reply->len);
     strbuf_free(reply);
 }
 
@@ -6033,7 +6081,7 @@ static void osc_colour_reply(Terminal *term, unsigned command, unsigned index,
     int len = sprintf(response, "\033]%s;rgb:%04x/%04x/%04x%s", prefix,
                       colour.r * 0x0101, colour.g * 0x0101,
                       colour.b * 0x0101, bel ? "\007" : "\033\\");
-    ldisc_send(term->ldisc, response, len, false);
+    nemo_protocol_send(term, response, len);
 }
 
 static void osc_colour(Terminal *term, unsigned command, unsigned index,
@@ -6196,18 +6244,18 @@ static void osc52_reply(Terminal *term, char target, const char *text, size_t le
         length > NEMO_OSC52_TEXT_MAX || !ldisc_send_queue_below(term->ldisc, 512*1024)) return;
     char header[] = "\033]52;c;", buffer[4096];
     header[5] = target == 's' ? 'c' : target;
-    ldisc_send(term->ldisc, header, sizeof(header)-1, false);
+    nemo_protocol_send(term, header, sizeof(header)-1);
     size_t used = 0;
     while (length) {
         int take = min(length, 3);
         base64_encode_atom((const unsigned char *)text, take, buffer+used);
         used += 4; text += take; length -= take;
         if (used == sizeof(buffer) || !length) {
-            ldisc_send(term->ldisc, buffer, used, false); used = 0;
+            nemo_protocol_send(term, buffer, used); used = 0;
         }
     }
     const char *end = term->osc52_query_bel ? "\007" : "\033\\";
-    ldisc_send(term->ldisc, end, strlen(end), false);
+    nemo_protocol_send(term, end, strlen(end));
 }
 
 static char *osc52_primary(Terminal *term, size_t *length)
@@ -6424,7 +6472,7 @@ static void nemo_query_title(Terminal *term, bool icon)
         }
     } else put_data(reply, clean->s, clean->len);
     put_dataz(reply, "\033\\");
-    ldisc_send(term->ldisc, reply->s, reply->len, false);
+    nemo_protocol_send(term, reply->s, reply->len);
     strbuf_free(reply); strbuf_free(clean);
 }
 
@@ -6480,7 +6528,7 @@ static void nemo_query_geometry(Terminal *term, unsigned command)
                         g.screen_width / g.cell_width);
         break;
     }
-    if (n) ldisc_send(term->ldisc, reply, n, false);
+    if (n) nemo_protocol_send(term, reply, n);
 }
 
 static void nemo_title_stack_op(Terminal *term, bool push)
@@ -6774,7 +6822,7 @@ static void nemo_checksum_rectangle(Terminal *term)
     char reply[32];
     int length = sprintf(reply, "\033P%u!~%04X\033\\",
                          min(term->esc_args[0], 65535u), (unsigned)(total & 0xffff));
-    ldisc_send(term->ldisc, reply, length, false);
+    nemo_protocol_send(term, reply, length);
 }
 
 static void nemo_grapheme_remember(Terminal *term, pos anchor, unsigned cells,
@@ -7144,7 +7192,7 @@ static inline void term_bracketed_paste_start(Terminal *term)
 {
     ptrlen seq = PTRLEN_LITERAL("\033[200~");
     if (term->ldisc)
-        ldisc_send(term->ldisc, seq.ptr, seq.len, false);
+        nemo_protocol_send(term, seq.ptr, seq.len);
     term->bracketed_paste_active = true;
 }
 
@@ -7155,7 +7203,7 @@ static inline void term_bracketed_paste_stop(Terminal *term)
 
     ptrlen seq = PTRLEN_LITERAL("\033[201~");
     if (term->ldisc)
-        ldisc_send(term->ldisc, seq.ptr, seq.len, false);
+        nemo_protocol_send(term, seq.ptr, seq.len);
     term->bracketed_paste_active = false;
 }
 
@@ -7894,8 +7942,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case 'Z':            /* DECID: terminal type query */
                     compatibility(VT100);
                     if (term->ldisc)
-                        ldisc_send(term->ldisc, term->id_string,
-                                   strlen(term->id_string), false);
+                        nemo_protocol_send(term, term->id_string,
+                                   strlen(term->id_string));
                     break;
                   case 'c':            /* RIS: restore power-on settings */
                     compatibility(VT100);
@@ -8061,6 +8109,11 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     if (!term->no_remote_charset)
                         term->cset_attr[1] = CSET_SCOACS;
                     break;
+                  case ANSI('F', ' '): /* S7C1T */
+                  case ANSI('G', ' '): /* S8C1T */
+                    compatibility(VT220);
+                    term->c1_8bit = c == 'G';
+                    break;
                   /* DOCS: Designate other coding system */
                   case ANSI('8', '%'):  /* Old Linux code */
                   case ANSI('G', '%'):
@@ -8149,7 +8202,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             int len = sprintf(response, "\033[%s%u;%u$y",
                                               dec ? "?" : "", mode,
                                               term_mode_status(term, mode, dec));
-                            ldisc_send(term->ldisc, response, len, false);
+                            nemo_protocol_send(term, response, len);
                         }
                         break;
                       }
@@ -8203,8 +8256,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                            use the drag messages from the mouse reporting */
                         if (term->ldisc &&
                             (term->esc_has_subargs || term->esc_args[0] == 0))
-                            ldisc_send(term->ldisc, "\033[>0;136;0c", 11,
-                                       false);
+                            nemo_protocol_send(term, "\033[>0;136;0c", 11);
                         break;
                       case ANSI('q', '>'): {    /* XTVERSION */
                         compatibility(OTHER);
@@ -8212,8 +8264,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             "\033P>|Nemoterm(PuTTY 0.85)\033\\";
                         if (term->ldisc &&
                             (term->esc_has_subargs || term->esc_args[0] == 0))
-                            ldisc_send(term->ldisc, reply, sizeof(reply)-1,
-                                       false);
+                            nemo_protocol_send(term, reply, sizeof(reply)-1);
                         break;
                       }
                       case 'a':         /* HPR: move right N cols */
@@ -8357,7 +8408,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             int n = sprintf(reply, "\033[%u;%u#S",
                                 term->title_stack ? term->title_stack->depth : 0,
                                 TITLE_STACK_SLOTS);
-                            ldisc_send(term->ldisc, reply, n, false);
+                            nemo_protocol_send(term, reply, n);
                         }
                         break;
                       case ANSI('w', '$'): /* DECRQPSR */
@@ -8368,7 +8419,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         if (term->ldisc) {
                             char reply[80];
                             int len = sprintf(reply, "\033[%d;%d;1;1;1\"w", term->rows, term->cols);
-                            ldisc_send(term->ldisc, reply, len, false);
+                            nemo_protocol_send(term, reply, len);
                         }
                         break;
                       case ANSI('q', '"'): /* DECSCA, independent of SGR */
@@ -8426,8 +8477,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         /* Report the configured identity only for a request. */
                         if (term->ldisc &&
                             (term->esc_has_subargs || term->esc_args[0] == 0))
-                            ldisc_send(term->ldisc, term->id_string,
-                                       strlen(term->id_string), false);
+                            nemo_protocol_send(term, term->id_string,
+                                       strlen(term->id_string));
                         break;
                       case 'n':       /* DSR / CPR */
                       case ANSI_QUE('n'): /* DEC-specific DSR / DECXCPR */
@@ -8788,7 +8839,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             char reply[24];
                             int n = sprintf(reply, "\033[?%uu", nemo_keyboard_flags(
                                 &term->keyboard[term->alt_which != 0]));
-                            ldisc_send(term->ldisc, reply, n, false);
+                            nemo_protocol_send(term, reply, n);
                         }
                         break;
                       case ANSI('u', '='):
@@ -8994,7 +9045,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             if (i == 0 || i == 1) {
                                 strcpy(buf, "\033[2;1;1;112;112;1;0x");
                                 buf[2] += i;
-                                ldisc_send(term->ldisc, buf, 20, false);
+                                nemo_protocol_send(term, buf, 20);
                             }
                         }
                         break;
@@ -9012,8 +9063,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             static const char reply[] = "\033P!|00000000\033\\";
                             if (term->ldisc &&
                                 (term->esc_has_subargs || term->esc_args[0] == 0))
-                                ldisc_send(term->ldisc, reply, sizeof(reply)-1,
-                                           false);
+                                nemo_protocol_send(term, reply, sizeof(reply)-1);
                             break;
                         }
                         compatibility(SCOANSI);
@@ -9096,8 +9146,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         set_erase_char(term);
                         break;
                       case ANSI('p', '"'): /* DECSCL: set compat level */
-                        if (term->esc_args[0] >= 61 && term->esc_args[0] <= 65)
-                            term->checksum_flags = 0;
+                        if (term->esc_args[0] >= 61 && term->esc_args[0] <= 65) {
+                            nemo_soft_reset(term);
+                            /* Level 1 preserves transmission mode. Invalid Pc
+                             * preserves it too, even when the level changes. */
+                            unsigned pc = term->esc_nargs > 1 ? term->esc_args[1] : 0;
+                            if (term->esc_args[0] > 61 && pc <= 2)
+                                term->c1_8bit = pc != 1;
+                        }
                         /*
                          * Allow the host to make this emulator a
                          * 'perfect' VT102. This first appeared in
@@ -9105,7 +9161,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                          * PuTTY mode so I won't check it.
                          *
                          * The arg in 40..42,50 are a PuTTY extension.
-                         * The 2nd arg, 8bit vs 7bit is not checked.
+                         * The 2nd arg selects protocol transmission above.
                          *
                          * Setting VT102 mode should also change
                          * the Fkeys to generate PF* codes as a
@@ -9134,10 +9190,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                             term->compatibility_level |= TM_VT420;
                             break;
 
+                          case 65:
+                            term->compatibility_level |= TM_VTXXX;
+                            break;
                           default:
-                            if (term->esc_args[0] > 60 &&
-                                term->esc_args[0] < 70)
-                                term->compatibility_level |= TM_VTXXX;
                             break;
 
                           case 40:
@@ -9535,7 +9591,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'Z':
                     if (term->ldisc)
-                        ldisc_send(term->ldisc, "\033/Z", 3, false);
+                        nemo_protocol_send(term, "\033/Z", 3);
                     break;
                   case '=':
                     term->app_keypad_keys = true;
@@ -11455,7 +11511,7 @@ static bool mouse_report(Terminal *term, Mouse_Button button, Mouse_Action a,
             }
         }
     }
-    ldisc_send(term->ldisc, response, len, false);
+    nemo_protocol_send(term, response, len);
     if (!wheel && term->xterm_mouse != -1) {
         if (a == MA_CLICK) term->mouse_buttons |= bit;
         if (a == MA_RELEASE) term->mouse_buttons &= ~bit;
@@ -11587,7 +11643,7 @@ static void nemo_highlight_emit(Terminal *term)
         }
     }
     if (decimal) reply[len++] = final;
-    ldisc_send(term->ldisc, reply, len, false);
+    nemo_protocol_send(term, reply, len);
 }
 
 static void nemo_highlight_cancel(Terminal *term, bool report)
@@ -12022,7 +12078,7 @@ int format_arrow_key(char *buf, Terminal *term, int xkey,
             p += sprintf(p, "\x1B[%c", xkey);
     }
 
-    return p - buf;
+    return term_format_c1_key(term, buf, p - buf);
 }
 
 int format_function_key(char *buf, Terminal *term, int key_number,
@@ -12095,7 +12151,7 @@ int format_function_key(char *buf, Terminal *term, int key_number,
             p += sprintf(p, "\x1B[%d~", code);
     }
 
-    return p - buf;
+    return term_format_c1_key(term, buf, p - buf);
 }
 
 int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
@@ -12154,7 +12210,7 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
         }
     }
 
-    return p - buf;
+    return term_format_c1_key(term, buf, p - buf);
 }
 
 int format_numeric_keypad_key(char *buf, Terminal *term, char key,
@@ -12241,7 +12297,7 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
         }
     }
 
-    return p - buf;
+    return term_format_c1_key(term, buf, p - buf);
 }
 
 void term_keyinputw(Terminal *term, const wchar_t *widebuf, int len)
@@ -12331,7 +12387,7 @@ void term_set_focus(Terminal *term, bool has_focus)
     if (!has_focus) term_mouse_cancel(term);
     term->has_focus = has_focus;
     if (term->mouse_focus_reporting && !term->no_mouse_rep && term->ldisc)
-        ldisc_send(term->ldisc, has_focus ? "\033[I" : "\033[O", 3, false);
+        nemo_protocol_send(term, has_focus ? "\033[I" : "\033[O", 3);
     term_schedule_cblink(term);
 }
 
