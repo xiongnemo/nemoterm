@@ -1,0 +1,978 @@
+{
+  "base": "420363b297d059f62ebf59504449ceebf2de1cab",
+  "image": {
+    "bytes": 4509696,
+    "sha256": "18d20efbc85257fb8a04822debf2bc8a0a9a49d6a8e7c86a6871c10eb10eae6c",
+    "inputs": [
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\NEMOTERM.LIB",
+        "bytes": 288884,
+        "sha256": "d40b02f98a7fbc1fa79f07a657021862516c5456973cb3e7765e995b0ffd0a62"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\GUITERMINAL.LIB",
+        "bytes": 1361450,
+        "sha256": "ab2e17ea262d74024571f5e4f8b45e5d3e70020a4750cb787f82b1f8e75be307"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\GUIMISC.LIB",
+        "bytes": 6094,
+        "sha256": "2513c69cfc66bff5f512508eb4b149aa674d084425b52062b941d9cd0e0b01a8"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\EVENTLOOP.LIB",
+        "bytes": 43498,
+        "sha256": "8e1a8c36444e0181c2ef4cf85ab87133d9380c66d21b7de9b181357e9df7fed8"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\SETTINGS.LIB",
+        "bytes": 147054,
+        "sha256": "82ce4768f62ad623802865e1f1546c6ac1c99f77fd4c52654da65b51abd242dc"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\NETWORK.LIB",
+        "bytes": 289516,
+        "sha256": "1979bee56d54d6e57fd5b5307a23545f22b723a0359c244e884e129e7619c21b"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\tab-system-menu-worktree\\build\\frontend-single\\UTILS.LIB",
+        "bytes": 819466,
+        "sha256": "eb7b702a4014f11581e2905e48f6619e3920a35af08b6fbd7239302d8ca78313"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\HOST.EXE.RES",
+        "bytes": 2738592,
+        "sha256": "d383c6ef34582063ffd8650b0cae9f95f41b817d58ecc6bed2dcb585cf67e1c4"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\PRECOMP.OBJ",
+        "bytes": 8045421,
+        "sha256": "30aef7ef27962bc9f48a4eab09ac52cc192dd057d4ba3a427356a4cd6650145f"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\CCONSOLEHANDOFF.OBJ",
+        "bytes": 158650,
+        "sha256": "0da8ae785862a45bdd3d71ed173c21311ce27c20d5b1099edeb73ef721acd636"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\EXEMAIN.OBJ",
+        "bytes": 109674,
+        "sha256": "dfd4b4a9fffb345814ffab358292bc849d93ac57d85c2307a1b929ea8e00b1fb"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\OBJ\\X64\\RELEASE\\HOST.EXE\\NEMO-ENTRY.OBJ",
+        "bytes": 559610,
+        "sha256": "5f5bc62f592e822f694f24faddf55b8d69fe01c009ad4392d770e3866387fc00"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONBUFFEROUT.LIB",
+        "bytes": 13113676,
+        "sha256": "c01873598e04db514ff8db2351e7c814ad955a9377125d325d827b4b5c77cb89"
+      },
+      {
+        "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\startup-worktree\\build\\host-visibility-02\\ConInteractivityBaseLib.lib",
+        "bytes": 16185082,
+        "sha256": "46c81ccf4b186173143b8ae925990d55629b3c7e34eacfa7a3068bf60f3e356a"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERATLAS.LIB",
+        "bytes": 13024296,
+        "sha256": "0534173e3185ed396eeb2607c603047a782b9f440fa88e53e9884520a98e98aa"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONINTERACTIVITYWIN32LIB.LIB",
+        "bytes": 11157264,
+        "sha256": "4533aa3c10b18a98b3ea9b707d0a48400c255991e2e02cdedd6e874805b9ef1f"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONINT.LIB",
+        "bytes": 7167278,
+        "sha256": "c59704ad2a4f670ccd34716bfed6842d46ca93e275d272e15f1668f9a4630a19"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONPROPS.LIB",
+        "bytes": 18657686,
+        "sha256": "aa4f33ed5132a8e59358b88184101181d31f5806e2d631e29ca67fbffab21f58"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERBASE.LIB",
+        "bytes": 9673788,
+        "sha256": "6762a50c0a5690e37a07bf4af991bc26daa8dc176871f573d87ce2ba3decdd68"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONRENDERGDI.LIB",
+        "bytes": 9530426,
+        "sha256": "98a921c3e9b9c4c9248032deb04b71d553a6bc1aa4653143ddb4dc9b4edae196"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\OPENCONSOLEPROXY.LIB",
+        "bytes": 1928,
+        "sha256": "2a8e71732ac44baf8c16ddf3e79aad52ebace96d89215194b9724895e0a80a4d"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONSERVER.LIB",
+        "bytes": 15637782,
+        "sha256": "71127797e92ef280850dc0c32fbd1b8a2e5e3cbc4880c87d5cf413254fab0767"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTYPES.LIB",
+        "bytes": 11855178,
+        "sha256": "35743cc9c3d2fc0a71925d14004cdae6e114a12f05900d24fab12634888f2711"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\TERMINALINPUT.LIB",
+        "bytes": 8070150,
+        "sha256": "4c109ee7ffdafb31c513447b9ad870cf8d2de0f3a67150fb0174efb9edeaea2c"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTERMADAPT.LIB",
+        "bytes": 13296880,
+        "sha256": "823bfe2209157f704595eae5a8cd6d75332ed58616e4038e9eb1599044b1eab5"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTERMPARSER.LIB",
+        "bytes": 8897080,
+        "sha256": "d3ee1783779d060e3eb8f725b1537e4c2ff4b918f2d970c16be78070b1859746"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONTSF.LIB",
+        "bytes": 8029378,
+        "sha256": "89c5d88182a5531da9d9ea8e4ca141bbb5a037cf767d366916d29fc9dbe9f085"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\MIDIAUDIO.LIB",
+        "bytes": 7340502,
+        "sha256": "77799a4d3a90cba5a4da618e11c00a1c304aeb818d21f096a8dcf9bec30ab864"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONHOSTV2LIB.LIB",
+        "bytes": 18014406,
+        "sha256": "5cf8f13024c75d146f2e90d01ab7c0bac2ce3a78d248e48bf943f7ec7cd9cdaa"
+      },
+      {
+        "path": "C:\\USERS\\NEMO\\DOCUMENTS\\PROJECTS\\NEMOTERM\\BUILD\\RTL-WORKTREE\\BUILD\\OPENCONSOLE-SINGLE\\BIN\\X64\\RELEASE\\CONPTYLIB.LIB",
+        "bytes": 7763892,
+        "sha256": "b1facf4ec5818be8847e234a7d5fe3906c3a9bac2160c018c3f0f4b0c13d2c35"
+      }
+    ]
+  },
+  "scope": "Menu reuse candidate, failed resource checks, local diagnostics and complete REA wrappers; not accepted or merged",
+  "records": [
+    {
+      "path": "../sgr-enclosure-worktree/build/check-enclosure-quiescence.py",
+      "archive": "research/tab-menu-records/000-check-enclosure-quiescence.py.gz",
+      "bytes": 5415,
+      "sha256": "e3baa70e56848d98808042fdeb9f8977d581537823bf8f7e06b95df3ca93278d"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/controller.log",
+      "archive": "research/tab-menu-records/001-controller.log.gz",
+      "bytes": 970,
+      "sha256": "95c3760411c862264148854a0a161b29b83831928b9fc09fcce9f78e408571bc"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/002-diagnostic-fixture.json.gz",
+      "bytes": 491,
+      "sha256": "0a41ab5d40db91f943598f25710e5cc6fac6a38c8d3316339cdd38d8efd35f75"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/003-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "862aa82d1a10c296f24b57798a25142613d2cb7cb4712ce0246963096c0b5b38"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/004-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 309257,
+      "sha256": "26bda338073d7ac34a955580d92a8f7ec5b929039060f58b94a58f5a98549873"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/005-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 5803508,
+      "sha256": "61dab4b1dcf31b064d026911b5158826487db514298558f9b58bd29ca47931fe"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/accepted/tabs.log",
+      "archive": "research/tab-menu-records/006-tabs.log.gz",
+      "bytes": 601,
+      "sha256": "55dc19a44a0c7aaacfcc50f005da154adb9f7c663829bb10e469a6f1d1cdb994"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/controller.log",
+      "archive": "research/tab-menu-records/007-controller.log.gz",
+      "bytes": 972,
+      "sha256": "1f7594e20699cb7a450a491d1cbda0781da753807f3cda602e493e2a6f428722"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/008-diagnostic-fixture.json.gz",
+      "bytes": 491,
+      "sha256": "ced8cc5443422874d3e9447d60e880ea6985e9ddbd4f0c12233934addc3b236c"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/009-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "992f138bf15a75ba5eb9af5e6b75be7ed81c3914a2dc8843fcd242d9edb565ea"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/010-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 426881,
+      "sha256": "f961cdca8e5bf042e006cc092446809b4178fe8c9086e29bb5d0c897f09b7a5c"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/011-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 8905264,
+      "sha256": "7edaeae41a6e0c06d2e78f13e79ec71b03f6bf50dd4cd23b0e80cc05588722ed"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/enclosures/tabs.log",
+      "archive": "research/tab-menu-records/012-tabs.log.gz",
+      "bytes": 603,
+      "sha256": "58e9092f26f3c65914d667461c63ea8b1e675d7c71f6173a684cffdae7145fff"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/enclosure-quiescence/results.json",
+      "archive": "research/tab-menu-records/013-results.json.gz",
+      "bytes": 173,
+      "sha256": "af85b775b8d159f28e39748f9ae3b7372964bba73929c44dc430941ac14a094f"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/run-user-object-count-trace.py",
+      "archive": "research/tab-menu-records/014-run-user-object-count-trace.py.gz",
+      "bytes": 3332,
+      "sha256": "9579cd171a5c5ce52c30ef577138ae973d7c2cd8e8f7fc7f0a4ef58f31c81b2e"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/run-user-object-trace.py",
+      "archive": "research/tab-menu-records/015-run-user-object-trace.py.gz",
+      "bytes": 3198,
+      "sha256": "76f83992220ab1939b98a25b2ce556446248ed39ba29f443f3c08676922db27e"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-probe.js",
+      "archive": "research/tab-menu-records/016-user-object-count-probe.js.gz",
+      "bytes": 2184,
+      "sha256": "660e6f1bbe566d76d0d7d0723a160273e6bb89222e89958425bcfeb27cd06ae5"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/controller.log",
+      "archive": "research/tab-menu-records/017-controller.log.gz",
+      "bytes": 1035,
+      "sha256": "300caf3aafb074fe01ed4ad3b35e58c5d84f7dbc114f8ef5ed2d866027fde532"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/018-diagnostic-fixture.json.gz",
+      "bytes": 325,
+      "sha256": "359bfa71ef3b5ebe5532372f9735b26fe446b3dac6c5281f08f4f1ec55a92c60"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/rea-close.json",
+      "archive": "research/tab-menu-records/019-rea-close.json.gz",
+      "bytes": 164,
+      "sha256": "b53d8b7832810f75d86584dbc495295037f01103e868dcf359d1be54012afdc5"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/rea-load.json",
+      "archive": "research/tab-menu-records/020-rea-load.json.gz",
+      "bytes": 7063,
+      "sha256": "a8381f65e5298a183e32a94c8f45334085d4119090b1002e3304f056e08297fb"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/rea-start.json",
+      "archive": "research/tab-menu-records/021-rea-start.json.gz",
+      "bytes": 466,
+      "sha256": "bf9c9c20d014b0e4cfcd2f3f71cd9b488418cbe460d2a4ca604fda86f1177284"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/rea-status.json",
+      "archive": "research/tab-menu-records/022-rea-status.json.gz",
+      "bytes": 113960,
+      "sha256": "2beb9309ca77d354daac83b4e10854a5974e2462155b359d068d83274962c6a2"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/research/attach-ready.json",
+      "archive": "research/tab-menu-records/023-attach-ready.json.gz",
+      "bytes": 238,
+      "sha256": "af75f40c1e0edabf40c6ca3a70020709c99feded117bb9e8ff574f98ff1d572a"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/024-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "ebeb91c0682ca90243bbe667444c20960911efa35e11c301ffdda398d513104c"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/research/trace-done.json",
+      "archive": "research/tab-menu-records/025-trace-done.json.gz",
+      "bytes": 398,
+      "sha256": "350437ab338b2bc8bca0d7b2da7101cd366d3829d6ab4c78d2dbc50e1156bb57"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/026-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 846998,
+      "sha256": "02da016b8269da84713a13125ce4a1870d0140f5871642fcb2c397fe5e9d2b32"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/027-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 6549568,
+      "sha256": "fea9ca776e52b9a3c06b1482a2c2aa0521343d144f71350e81c8b1c0b993087c"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-count-trace/tabs.log",
+      "archive": "research/tab-menu-records/028-tabs.log.gz",
+      "bytes": 667,
+      "sha256": "4c14e96d755910a849d2d007b45446226c3df5d833c5d56ef5395dba5cb6118d"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/controller.log",
+      "archive": "research/tab-menu-records/029-controller.log.gz",
+      "bytes": 1646,
+      "sha256": "0826fb91d05f9d10fe1cea7c7cb034fbc58bd6701ea2703a77729e16d681e28f"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/030-diagnostic-fixture.json.gz",
+      "bytes": 325,
+      "sha256": "e7e2b4b7cf5e5ee1d13d258311d20498b3db6ae75d1ebffb2ec0a6d50985faac"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/rea-close.json",
+      "archive": "research/tab-menu-records/031-rea-close.json.gz",
+      "bytes": 164,
+      "sha256": "b53d8b7832810f75d86584dbc495295037f01103e868dcf359d1be54012afdc5"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/rea-load.json",
+      "archive": "research/tab-menu-records/032-rea-load.json.gz",
+      "bytes": 5751,
+      "sha256": "a93ad1ce48ea0af7d5abaeb5df358927f6b4c0aff7ea1d57c6fa7b02df3504df"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/rea-start.json",
+      "archive": "research/tab-menu-records/033-rea-start.json.gz",
+      "bytes": 470,
+      "sha256": "4238a2871527999cda98cd8bed94b5394d14a4452de9bab162573d2595319de6"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/rea-status.json",
+      "archive": "research/tab-menu-records/034-rea-status.json.gz",
+      "bytes": 39518,
+      "sha256": "ec1317eb62b15ad58a17392190de0fce0a1018905e4cbadc8224f912cd9fde46"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/research/attach-ready.json",
+      "archive": "research/tab-menu-records/035-attach-ready.json.gz",
+      "bytes": 233,
+      "sha256": "bd42d3453bb3beb27a792c6b821ef7cff07c3896cfbbbe10513ec7b052891559"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/036-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "3e572248483f6c7fd3d270725d311075f639f8d5deff241116087aed65167387"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/research/trace-done.json",
+      "archive": "research/tab-menu-records/037-trace-done.json.gz",
+      "bytes": 329,
+      "sha256": "79ab3d3588a0d5d76320b28701432c9e74ea753d98408755bbfafcf4945661d6"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/038-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 6862133,
+      "sha256": "5ca6a3e9ecd32246f1f679a8427a59a97a6f6a611c7121f8b77e01c487774141"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace/tabs.log",
+      "archive": "research/tab-menu-records/039-tabs.log.gz",
+      "bytes": 1278,
+      "sha256": "b7b842e555c425f4a6dabe09758e0f03ab66c063e28da7cce70c3c2889db803a"
+    },
+    {
+      "path": "../sgr-enclosure-worktree/build/user-object-trace-probe.js",
+      "archive": "research/tab-menu-records/040-user-object-trace-probe.js.gz",
+      "bytes": 1823,
+      "sha256": "fc6df62caf370c450a5360f57a150dec8551fd1a97b8918beaea163b2729c355"
+    },
+    {
+      "path": "build/check-menu-after.py",
+      "archive": "research/tab-menu-records/041-check-menu-after.py.gz",
+      "bytes": 1719,
+      "sha256": "13216a87b71b8e4c7aec48f26af7fea6638bd3a5855c4ff5487b8e37fb75222d"
+    },
+    {
+      "path": "build/check-menu-before.py",
+      "archive": "research/tab-menu-records/042-check-menu-before.py.gz",
+      "bytes": 1157,
+      "sha256": "7828e4878df6cdac91c68252456a062e2d76ba07112390e02dd624ba0254cc47"
+    },
+    {
+      "path": "build/check-menu-remaining.py",
+      "archive": "research/tab-menu-records/043-check-menu-remaining.py.gz",
+      "bytes": 1704,
+      "sha256": "51b415763f1f90d4247b122d8da34dc6c77d5f94e0d31d9f20f30c2f0146bc17"
+    },
+    {
+      "path": "build/link-menu-image.py",
+      "archive": "research/tab-menu-records/044-link-menu-image.py.gz",
+      "bytes": 1355,
+      "sha256": "31b436d01ee4e8730fddd0535aaf3d9eac350e926a798e8a5395011c181df968"
+    },
+    {
+      "path": "build/menu-after/directx-left/controller.log",
+      "archive": "research/tab-menu-records/045-controller.log.gz",
+      "bytes": 977,
+      "sha256": "082dca92fb3696fb744bdd893f9b0d2cdda9f761e83666806c7b9612686cc0e6"
+    },
+    {
+      "path": "build/menu-after/directx-left/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/046-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "ea503abb713927a5d3e8ee16e58e1f8736f2893438d7d4f576a3c36e3cef7163"
+    },
+    {
+      "path": "build/menu-after/directx-left/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/047-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 161292,
+      "sha256": "5fce5360ac3b54fccd0114f035c75a9ea41cc06915d900653a0ba8fc002522a2"
+    },
+    {
+      "path": "build/menu-after/directx-left/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/048-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 20039,
+      "sha256": "6c2b76acc17585b8565caea213c55b871eb2e9cf454bbc2292d0897b16c4ecd6"
+    },
+    {
+      "path": "build/menu-after/directx-left/tabs.log",
+      "archive": "research/tab-menu-records/049-tabs.log.gz",
+      "bytes": 609,
+      "sha256": "33260c64d9aa7a0a4aae425656832169c115dff66ac0f2e7fc83ddf8341b17ce"
+    },
+    {
+      "path": "build/menu-after/gdi-top/controller.log",
+      "archive": "research/tab-menu-records/050-controller.log.gz",
+      "bytes": 366,
+      "sha256": "6d9af7603716acca0b730f11dd51d1041c1ede0769133480d0c9bb09b821d52f"
+    },
+    {
+      "path": "build/menu-after/gdi-top/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/051-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "7b739df475a3238fc2a9d8349d8028cc56572c516407e91edfd7a9a2ef14b452"
+    },
+    {
+      "path": "build/menu-after/gdi-top/research/tabs-gdi-top-host.png",
+      "archive": "research/tab-menu-records/052-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/menu-after/gdi-top/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/tab-menu-records/053-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1299290,
+      "sha256": "f297135cbc3572944077412259e0b95084b7324887fbae074abd3f80944e49c1"
+    },
+    {
+      "path": "build/menu-after/gdi-top/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/tab-menu-records/054-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 126682,
+      "sha256": "29a9cab404e4239c4e1608da841051f53aa0fa2cc261af7661e181f960b71620"
+    },
+    {
+      "path": "build/menu-after/gdi-top/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/tab-menu-records/055-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/menu-after/gdi-top/tabs.log",
+      "archive": "research/tab-menu-records/056-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/menu-after/results.json",
+      "archive": "research/tab-menu-records/057-results.json.gz",
+      "bytes": 437,
+      "sha256": "e3ed61b415fba8fda35c85e65331f4343a4f9ed3a5ffab60d70a3ace46a75fcf"
+    },
+    {
+      "path": "build/menu-before/before/controller.log",
+      "archive": "research/tab-menu-records/058-controller.log.gz",
+      "bytes": 1507,
+      "sha256": "79a16e65bdfbb76d5bc2f3d7e4459558934499f711124779f9d5a24223749e03"
+    },
+    {
+      "path": "build/menu-before/before/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/059-tabs-controller.json.gz",
+      "bytes": 467,
+      "sha256": "00bfe36653160f09180d31275bdca1cb397abf56440da99c8d60eaeddbdb999f"
+    },
+    {
+      "path": "build/menu-before/before/research/tabs-gdi-top-observed.json",
+      "archive": "research/tab-menu-records/060-tabs-gdi-top-observed.json.gz",
+      "bytes": 4547,
+      "sha256": "348f7b919ceb97beda50c6ecd3e3bf595dde05d696bc112e5d9a44146cdaeca9"
+    },
+    {
+      "path": "build/menu-before/before/tabs.log",
+      "archive": "research/tab-menu-records/061-tabs.log.gz",
+      "bytes": 1141,
+      "sha256": "6bee77a854b704e0a621389f82029b977ba2e2dda12b48f36639a5eba3e5ea86"
+    },
+    {
+      "path": "build/menu-evidence/build.log",
+      "archive": "research/tab-menu-records/062-build.log.gz",
+      "bytes": 17588,
+      "sha256": "8f5f16aa18c9dd913a8a87291c07e439ad1439c62357a66fc52fe6a2e0c00e33"
+    },
+    {
+      "path": "build/menu-evidence/configure.log",
+      "archive": "research/tab-menu-records/063-configure.log.gz",
+      "bytes": 3105,
+      "sha256": "29a63365648e14ffb23faf23d341e95493c8b79f8961ea5a642fae92903a9497"
+    },
+    {
+      "path": "build/menu-hook-probe.js",
+      "archive": "research/tab-menu-records/064-menu-hook-probe.js.gz",
+      "bytes": 2292,
+      "sha256": "2591ec48fef59024ea5671cf2ee1105c7f26651704ca37e8173bf92aa99f8221"
+    },
+    {
+      "path": "build/menu-hook-trace/controller.log",
+      "archive": "research/tab-menu-records/065-controller.log.gz",
+      "bytes": 1030,
+      "sha256": "c796e6bca6dd772e3b461ab6cd34945cf71377ca113397a0707ef48f33ef8b4e"
+    },
+    {
+      "path": "build/menu-hook-trace/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/066-diagnostic-fixture.json.gz",
+      "bytes": 325,
+      "sha256": "dcc2a7ee6c3982db93b0e234c951278ba0a4243e224c5beb4eccc99b3e7320f5"
+    },
+    {
+      "path": "build/menu-hook-trace/rea-close.json",
+      "archive": "research/tab-menu-records/067-rea-close.json.gz",
+      "bytes": 164,
+      "sha256": "b53d8b7832810f75d86584dbc495295037f01103e868dcf359d1be54012afdc5"
+    },
+    {
+      "path": "build/menu-hook-trace/rea-load.json",
+      "archive": "research/tab-menu-records/068-rea-load.json.gz",
+      "bytes": 11473,
+      "sha256": "15a979c6e95ec8d5fde519c9db32c7eea390c71fb375d41a23243ab6407944cc"
+    },
+    {
+      "path": "build/menu-hook-trace/rea-start.json",
+      "archive": "research/tab-menu-records/069-rea-start.json.gz",
+      "bytes": 470,
+      "sha256": "8ef2bb7eb0a2cb09712194afc96a9d5fb352b624c3afd7be0724c244d4df3585"
+    },
+    {
+      "path": "build/menu-hook-trace/rea-status.json",
+      "archive": "research/tab-menu-records/070-rea-status.json.gz",
+      "bytes": 319614,
+      "sha256": "b5a432ea52e832fa2a950c59213775626757fa28a054d3bf48638878e0e77d6e"
+    },
+    {
+      "path": "build/menu-hook-trace/research/attach-ready.json",
+      "archive": "research/tab-menu-records/071-attach-ready.json.gz",
+      "bytes": 233,
+      "sha256": "d966cbb946da722d49632e28d4530a21c8a5a32af0e0d0dde7de5bfb29c47c7a"
+    },
+    {
+      "path": "build/menu-hook-trace/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/072-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "5dafe25f49fda22b165f9a2fc65d2c1f369a28a8aee21c2c32e3055c55143b9e"
+    },
+    {
+      "path": "build/menu-hook-trace/research/trace-done.json",
+      "archive": "research/tab-menu-records/073-trace-done.json.gz",
+      "bytes": 399,
+      "sha256": "b6776b1a0468b79142ac998894faf13b797c6848be470df6bca57e3135ab82ac"
+    },
+    {
+      "path": "build/menu-hook-trace/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/074-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 834679,
+      "sha256": "2224131bd54b8808000a027521efa4ab32ab8899a3563f8cca975c53389b3dd9"
+    },
+    {
+      "path": "build/menu-hook-trace/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/075-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 7763305,
+      "sha256": "0b4eed0629192a31693b71f97905a1f4c9c1d8e042cfedddb372da3aba6b812c"
+    },
+    {
+      "path": "build/menu-hook-trace/tabs.log",
+      "archive": "research/tab-menu-records/076-tabs.log.gz",
+      "bytes": 661,
+      "sha256": "5f17b7edbc34da2f0286e6bf8e70971102960c00ba25dbe99add973c9e306f56"
+    },
+    {
+      "path": "build/menu-quiescence/controller.log",
+      "archive": "research/tab-menu-records/077-controller.log.gz",
+      "bytes": 957,
+      "sha256": "540c86f6b78477c83a655cf6dea6160346abce4c4be819ffb366f8a65090d4d4"
+    },
+    {
+      "path": "build/menu-quiescence/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/078-diagnostic-fixture.json.gz",
+      "bytes": 470,
+      "sha256": "bd6a31fccf146662007ca98859f35fbefdbbfc5b44bf4973803710342c366679"
+    },
+    {
+      "path": "build/menu-quiescence/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/079-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "d5ecd93c0e95c1b12ef9f7001542bd5c2d439df7ae6ccd0b3d89e8e8999c5c09"
+    },
+    {
+      "path": "build/menu-quiescence/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/080-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 405453,
+      "sha256": "1a22c4eed36a32fd082e3aa8344fb1c23f26a7a98a18256a2dfbf82c2ab69aaf"
+    },
+    {
+      "path": "build/menu-quiescence/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/081-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 8768663,
+      "sha256": "ad4451cde05113aad9fd4d07122d6b126bede27980575d4354c0e15cf193bb52"
+    },
+    {
+      "path": "build/menu-quiescence/tabs.log",
+      "archive": "research/tab-menu-records/082-tabs.log.gz",
+      "bytes": 589,
+      "sha256": "168410e073e69838095ecdb96917600afcf29e5522d8fb6e6683c85ae379ffc1"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/controller.log",
+      "archive": "research/tab-menu-records/083-controller.log.gz",
+      "bytes": 365,
+      "sha256": "501b05edbfe67067acb10633de554677f24a4f2d3282afa51f87787b7de3048f"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/084-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "d24814796cd82b6557cb21e2f77ef994ae48d0397b92ca418155262bb581f71a"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/research/tabs-gdi-right-host.png",
+      "archive": "research/tab-menu-records/085-tabs-gdi-right-host.png.gz",
+      "bytes": 10547,
+      "sha256": "34a834777fe052a50c87caebfb9de218de909ca5da02bae6309ff1e4a1058e62"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/research/tabs-gdi-right-observed.json",
+      "archive": "research/tab-menu-records/086-tabs-gdi-right-observed.json.gz",
+      "bytes": 78107,
+      "sha256": "32d2297b04cf11d9ce43e7d7db28f1c236579aacf5b2b37936211d1614435a8d"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/research/tabs-gdi-right-preview.png",
+      "archive": "research/tab-menu-records/087-tabs-gdi-right-preview.png.gz",
+      "bytes": 2044,
+      "sha256": "1295828fc9a32901c2c8716790f6640119ef6eb952bc86c4de06f5e65f2dd295"
+    },
+    {
+      "path": "build/menu-remaining/gdi-right/tabs.log",
+      "archive": "research/tab-menu-records/088-tabs.log.gz",
+      "bytes": 33,
+      "sha256": "66ff96a6c1eafa61b7ebaa371296fe0f5a0a988c9b0d9c284d8206e0e629c9aa"
+    },
+    {
+      "path": "build/menu-remaining/opengl-bottom/controller.log",
+      "archive": "research/tab-menu-records/089-controller.log.gz",
+      "bytes": 365,
+      "sha256": "753392f46052beff47bced503e5d1a73aaaea4b5e0e0b38edbd55153bc797b57"
+    },
+    {
+      "path": "build/menu-remaining/opengl-bottom/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/090-tabs-controller.json.gz",
+      "bytes": 468,
+      "sha256": "ac7a9efbd54195ba362e7f019ebea0105c9a876258e217a5071fa8d4b654adf0"
+    },
+    {
+      "path": "build/menu-remaining/opengl-bottom/research/tabs-opengl-bottom-observed.json",
+      "archive": "research/tab-menu-records/091-tabs-opengl-bottom-observed.json.gz",
+      "bytes": 77946,
+      "sha256": "3eb5540a5b5bec8852194f16fa71a00f9267e66b500ffd189fc0d63695258f54"
+    },
+    {
+      "path": "build/menu-remaining/opengl-bottom/research/tabs-opengl-bottom-preview.png",
+      "archive": "research/tab-menu-records/092-tabs-opengl-bottom-preview.png.gz",
+      "bytes": 2044,
+      "sha256": "1295828fc9a32901c2c8716790f6640119ef6eb952bc86c4de06f5e65f2dd295"
+    },
+    {
+      "path": "build/menu-remaining/opengl-bottom/tabs.log",
+      "archive": "research/tab-menu-records/093-tabs.log.gz",
+      "bytes": 37,
+      "sha256": "6c0ac1e47de565fd76faf37158f112828fb5e185fd7c191e4f7c3f6e54c40d47"
+    },
+    {
+      "path": "build/menu-remaining/profiles/controller.log",
+      "archive": "research/tab-menu-records/094-controller.log.gz",
+      "bytes": 371,
+      "sha256": "8f086ec507db767a196fbe57dc3047fb614dce2a2c88e6d25b802d8f50b28dc9"
+    },
+    {
+      "path": "build/menu-remaining/profiles/research/tabs-profiles-observed.json",
+      "archive": "research/tab-menu-records/095-tabs-profiles-observed.json.gz",
+      "bytes": 2849,
+      "sha256": "02d3b7691728b6c94e6b65f1a5850f250a903b58c7541757edde53281a9e941b"
+    },
+    {
+      "path": "build/menu-remaining/profiles/research/tabs_profiles-controller.json",
+      "archive": "research/tab-menu-records/096-tabs_profiles-controller.json.gz",
+      "bytes": 474,
+      "sha256": "66cc7ead280cdd413910d8b534a835f69452851433b06d1b54dd76697ef81bf4"
+    },
+    {
+      "path": "build/menu-remaining/profiles/tabs_profiles.log",
+      "archive": "research/tab-menu-records/097-tabs_profiles.log.gz",
+      "bytes": 37,
+      "sha256": "8c310a061d477ec8bbe85f95d040b482a29575ed20a3889b408b876bf0aa154b"
+    },
+    {
+      "path": "build/menu-remaining/results.json",
+      "archive": "research/tab-menu-records/098-results.json.gz",
+      "bytes": 182,
+      "sha256": "49e6de6eb24f3b0ef5c290993fc02f9e583999b708404d81df6edd36d6243371"
+    },
+    {
+      "path": "build/menu-resource-probe.js",
+      "archive": "research/tab-menu-records/099-menu-resource-probe.js.gz",
+      "bytes": 2288,
+      "sha256": "ab95ae29e4f4320253e779119dad5f8bfc22bb838e077345f77a7ac13c3a0875"
+    },
+    {
+      "path": "build/menu-resource-trace/controller.log",
+      "archive": "research/tab-menu-records/100-controller.log.gz",
+      "bytes": 1033,
+      "sha256": "75286cbf0b3406fe18191ad49f616679f66cb4a7e8ba063a18326c05bd0ff8f8"
+    },
+    {
+      "path": "build/menu-resource-trace/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/101-diagnostic-fixture.json.gz",
+      "bytes": 325,
+      "sha256": "dcc2a7ee6c3982db93b0e234c951278ba0a4243e224c5beb4eccc99b3e7320f5"
+    },
+    {
+      "path": "build/menu-resource-trace/rea-close.json",
+      "archive": "research/tab-menu-records/102-rea-close.json.gz",
+      "bytes": 165,
+      "sha256": "b882e17a87b5ac917b986c7b92db97680ea78cd72110a444a96381afea2db091"
+    },
+    {
+      "path": "build/menu-resource-trace/rea-load.json",
+      "archive": "research/tab-menu-records/103-rea-load.json.gz",
+      "bytes": 7768,
+      "sha256": "d2e3ba0299b686f124a84956c28ce63e8982a85772749e20529c73229cc9597c"
+    },
+    {
+      "path": "build/menu-resource-trace/rea-start.json",
+      "archive": "research/tab-menu-records/104-rea-start.json.gz",
+      "bytes": 471,
+      "sha256": "9a8d9a1c330ecc79b670c8e3844cc48aac26b2ea65c8afc9a5819925d93f67ab"
+    },
+    {
+      "path": "build/menu-resource-trace/rea-status.json",
+      "archive": "research/tab-menu-records/105-rea-status.json.gz",
+      "bytes": 271212,
+      "sha256": "b6d98e47f67ae72a0d5a095ca5a0fec9c75b24de6f1312b21bf2b27fe272ae3d"
+    },
+    {
+      "path": "build/menu-resource-trace/research/attach-ready.json",
+      "archive": "research/tab-menu-records/106-attach-ready.json.gz",
+      "bytes": 237,
+      "sha256": "74733aabe73188c9f1b34a04764ea7aa2de24bd3d2b46f90edc5c32d4966d6d4"
+    },
+    {
+      "path": "build/menu-resource-trace/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/107-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "6e2e7b61c99b8da59de21a2241d3d7763916d77a34d1b916d382f87020db4717"
+    },
+    {
+      "path": "build/menu-resource-trace/research/trace-done.json",
+      "archive": "research/tab-menu-records/108-trace-done.json.gz",
+      "bytes": 399,
+      "sha256": "5ec651d2d335797b449f5f1ae9556da4e9fe3b1bb18ac0786d1dab3d0ae19114"
+    },
+    {
+      "path": "build/menu-resource-trace/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/109-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 999709,
+      "sha256": "53d6957958c58f64bd611b68c155e19703456c0853e052155df86a191aa9cee9"
+    },
+    {
+      "path": "build/menu-resource-trace/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/110-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 7170871,
+      "sha256": "ae895147a260ef5af9904741fa808e67229dd5f548d9c4d00c76fed16497cf10"
+    },
+    {
+      "path": "build/menu-resource-trace/tabs.log",
+      "archive": "research/tab-menu-records/111-tabs.log.gz",
+      "bytes": 665,
+      "sha256": "d88d78603eb7029f1c765917107802fbac7bf72ac57dede83232799132b1383d"
+    },
+    {
+      "path": "build/menu-single/image.json",
+      "archive": "research/tab-menu-records/112-image.json.gz",
+      "bytes": 8267,
+      "sha256": "cf9afbd8f92c2b8c9bfb85f140bf187bd21501fdc19c98f6a1797cdccf405d89"
+    },
+    {
+      "path": "build/menu-single/link.log",
+      "archive": "research/tab-menu-records/113-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/menu-single/link.rsp",
+      "archive": "research/tab-menu-records/114-link.rsp.gz",
+      "bytes": 5520,
+      "sha256": "a95af6e6c71be85dc72e1e143eec2ffb4502e971803cf3e6007ed8d66e9ac189"
+    },
+    {
+      "path": "build/menu-timer-probe.js",
+      "archive": "research/tab-menu-records/115-menu-timer-probe.js.gz",
+      "bytes": 2315,
+      "sha256": "ffdd846a0b4a7bbb89e348a9c6715c915a65a3d690c10f78737b733abfa66dd3"
+    },
+    {
+      "path": "build/menu-timer-trace/controller.log",
+      "archive": "research/tab-menu-records/116-controller.log.gz",
+      "bytes": 1031,
+      "sha256": "5eee15045fd65d7f93177ec2045df14461e21e0a9ac4874208df09aeb8f68036"
+    },
+    {
+      "path": "build/menu-timer-trace/diagnostic-fixture.json",
+      "archive": "research/tab-menu-records/117-diagnostic-fixture.json.gz",
+      "bytes": 325,
+      "sha256": "dcc2a7ee6c3982db93b0e234c951278ba0a4243e224c5beb4eccc99b3e7320f5"
+    },
+    {
+      "path": "build/menu-timer-trace/rea-close.json",
+      "archive": "research/tab-menu-records/118-rea-close.json.gz",
+      "bytes": 164,
+      "sha256": "b53d8b7832810f75d86584dbc495295037f01103e868dcf359d1be54012afdc5"
+    },
+    {
+      "path": "build/menu-timer-trace/rea-load.json",
+      "archive": "research/tab-menu-records/119-rea-load.json.gz",
+      "bytes": 12421,
+      "sha256": "47409646dc1c9be70b5c38e4a0abedd6a396fcff8d2cd8ce491ab3ba9b56acbf"
+    },
+    {
+      "path": "build/menu-timer-trace/rea-start.json",
+      "archive": "research/tab-menu-records/120-rea-start.json.gz",
+      "bytes": 470,
+      "sha256": "1f1e13c15492a379f1f64792d25972ee763e39d2215aafcdc68a0cd9ac2e7b39"
+    },
+    {
+      "path": "build/menu-timer-trace/rea-status.json",
+      "archive": "research/tab-menu-records/121-rea-status.json.gz",
+      "bytes": 1024736,
+      "sha256": "8332b4ebde7a4d4d54542981b992d2468fbfd560854b74e501065b2ef320a569"
+    },
+    {
+      "path": "build/menu-timer-trace/research/attach-ready.json",
+      "archive": "research/tab-menu-records/122-attach-ready.json.gz",
+      "bytes": 234,
+      "sha256": "e96c5793822e5df7716870784932cb494b1f46e65ce364ddb8d52d3cc0a1b973"
+    },
+    {
+      "path": "build/menu-timer-trace/research/tabs-controller.json",
+      "archive": "research/tab-menu-records/123-tabs-controller.json.gz",
+      "bytes": 470,
+      "sha256": "0956e95ec66d275e96eb2179fc71519cf0b7ed148e26b8136ed6064d78dc07c8"
+    },
+    {
+      "path": "build/menu-timer-trace/research/trace-done.json",
+      "archive": "research/tab-menu-records/124-trace-done.json.gz",
+      "bytes": 399,
+      "sha256": "e22de9cf8729afd9f157afbafd4d36dd6c89689cf178209ad5097f0f98670768"
+    },
+    {
+      "path": "build/menu-timer-trace/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/tab-menu-records/125-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 861945,
+      "sha256": "400ebc22d3389105e6a9ef5301576f1964131be05ce336d0669ab38b082d3aec"
+    },
+    {
+      "path": "build/menu-timer-trace/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/tab-menu-records/126-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 7174784,
+      "sha256": "4b62e85f4553cb88b1a937ca905fd5e5fb08808caca5cb558136adc8b717da72"
+    },
+    {
+      "path": "build/menu-timer-trace/tabs.log",
+      "archive": "research/tab-menu-records/127-tabs.log.gz",
+      "bytes": 662,
+      "sha256": "61ed18fcaf71b4c058a6222a2beb301933cdb27e1a350a953cfd545298827819"
+    },
+    {
+      "path": "build/retain-menu-evidence.py",
+      "archive": "research/tab-menu-records/128-retain-menu-evidence.py.gz",
+      "bytes": 2517,
+      "sha256": "1a97a5d1b4bd51994bd7ba4049e138033b326de03c173de4508ef81577343424"
+    },
+    {
+      "path": "build/run-menu-hook-trace.py",
+      "archive": "research/tab-menu-records/129-run-menu-hook-trace.py.gz",
+      "bytes": 3356,
+      "sha256": "91b02c61ae998115fbd2e42c524f91f9689abd72e046bb1514daa4087910d398"
+    },
+    {
+      "path": "build/run-menu-resource-trace.py",
+      "archive": "research/tab-menu-records/130-run-menu-resource-trace.py.gz",
+      "bytes": 3360,
+      "sha256": "64be09717d06daf6f7828d96a5df892f8dac780a18c074cfadeea30cbae7d009"
+    },
+    {
+      "path": "build/run-menu-timer-trace.py",
+      "archive": "research/tab-menu-records/131-run-menu-timer-trace.py.gz",
+      "bytes": 3357,
+      "sha256": "36e456f904214469a32315d15fcd064782c8347a3cf281d723b6b5a6a1397349"
+    },
+    {
+      "path": "tests/tab_menu_checks.py",
+      "archive": "research/tab-menu-records/132-tab_menu_checks.py.gz",
+      "bytes": 3075,
+      "sha256": "18525b44d512a75de42a50d670475cb824bdf672c05b90d9ff72efeb39fa4043"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "archive": "research/tab-menu-records/133-tabs_window_smoke.py.gz",
+      "bytes": 26337,
+      "sha256": "3701da5d374aa16c548ad7fef81912053c22cc8a5d6f1ceb992bf59dc3f42c49"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_tabs_host.h",
+      "archive": "research/tab-menu-records/134-nemo_tabs_host.h.gz",
+      "bytes": 1444,
+      "sha256": "5269b869dd520b7989d51d0bdab7a7084cd816cb73cc8714a16fbfca03e67958"
+    },
+    {
+      "path": "vendor/putty-0.85/windows/nemo_tabs_host.inc",
+      "archive": "research/tab-menu-records/135-nemo_tabs_host.inc.gz",
+      "bytes": 24673,
+      "sha256": "8f1d009e56c27889ae667295a25cf011d32bc120d3a615342e7441f6e650972d"
+    }
+  ]
+}
