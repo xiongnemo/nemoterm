@@ -49,8 +49,8 @@ ordinary bells, visual state, overload suppression and 10,000 bells with no
 retained accounting nodes when accounting is disabled. A remote native fixture
 observes actual MessageBeep calls without replacing the function or its return
 value; disabled and visual modes must not call it. This establishes API dispatch,
-not audible speaker output. Visual pixels, custom WAV/PC-speaker operation and
-local audible acceptance remain open.
+not audible speaker output. The resumed local visual-pixel result is recorded
+below; custom WAV/PC-speaker operation and local audible acceptance remain open.
 
 ## Verification
 
@@ -174,3 +174,25 @@ behavior are not established by this fixture. Nine raw local logs/manifests and
 observations are retained in `local_native` in the validation record. These tests
 send events to fixture-owned UI threads and do not establish physical-wheel or
 cross-monitor DPI acceptance.
+
+
+## Resumed local visual bell pixels
+
+The exact downloaded `69cd5a4` image passes a further pixel fixture on actual
+GDI, OpenGL and DirectX. A single ordinary BEL in visual mode swaps the default
+background/foreground colour in an empty interior patch, then restores the
+original colour. Each phase samples for 0.8 seconds; the three renderers retain
+13, 4 and 13 flashed samples respectively. OSC's BEL terminator and disabled
+bell mode never flash. All four owned process groups exit naturally.
+
+This uses the opted-in renderer image API without target injection, timing
+patches or global input. It captures the retained renderer surface, not the
+physical desktop compositor, and does not measure memory. Six original
+normal/flash PNGs and the raw observations are retained in the validation
+record. The fixture is added to regular core/single-image CI and focused replay;
+remote verification of the new fixture remains pending.
+
+A separate attempt to exercise physical keyboard/wheel input through the
+computer-use helper made zero input actions: all three connection attempts,
+including a kernel reset, reported that the native pipe was unavailable. The
+owned fixture closed naturally. This attempt is not a passed input test.

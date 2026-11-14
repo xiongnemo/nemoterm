@@ -774,5 +774,65 @@
         "compressed_sha256": "851cea8e973c56df8969f8f789c413b082039b02b665bede9920342aea2a5d08"
       }
     ]
+  },
+  "local_visual_bell": {
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "requested_renderers": [
+      0,
+      1,
+      2,
+      0
+    ],
+    "actual_renderers_api_ids": [
+      0,
+      1,
+      2,
+      0
+    ],
+    "completed": true,
+    "input_injection": false,
+    "physical_desktop_capture": false,
+    "memory_acceptance": false,
+    "retained": [
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-observed.json.gz",
+        "raw_sha256": "4780f3992c564c6d46ae01613d4ae9db0419af8f688f9fe4381cdbf882aaa7b9",
+        "compressed_sha256": "a5e7b9c96317867fdd7ed9400db9b48ccd63b3902021d735816db49e9d715f56"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell.log.gz",
+        "raw_sha256": "c78d090c2ada7326facff30c677069b0afa65f5d83df7d2aa2b8aa398c529b14",
+        "compressed_sha256": "93ab0c3ca607137f478c06ef46a6e346e6b3ba0896c931313653b675fd0ba138"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-bell_visual_window_smoke.py.gz",
+        "raw_sha256": "450d91a10f0c509d2cdaf2cae2eaa19b966c32637f6926ee77a8a2065bacc5cf",
+        "compressed_sha256": "00f65d423b6ce3c33e962ee142a50351a8a4a857c43827d058de92d7899d1b62"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-0-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-0-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-1-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-1-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-2-flash.png",
+        "sha256": "7441b80ee7dfb38ce775c015dd06227523cd55de25794e33f1d4b75fa92644fe"
+      },
+      {
+        "file": "font-zoom-evidence/local-69cd5a4-visual-bell-2-normal.png",
+        "sha256": "4325624848eb5911a673809ade6850c11cb8433f0bd987f27dbdda09332033ab"
+      }
+    ]
   }
 }

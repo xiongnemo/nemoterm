@@ -16,8 +16,8 @@ jobs:
     timeout-minutes: 15
     env:
       GH_TOKEN: ${{ github.token }}
-      SOURCE_COMMIT: 555934a1aff0dd0a0873026797dd7958ba3ff8f8
-      SOURCE_RUN: '43605518175'
+      SOURCE_COMMIT: 9bef90786e2bc1ccb8edbc180ac369b00c98ea4b
+      SOURCE_RUN: '43615872418'
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
@@ -52,7 +52,7 @@ jobs:
             scope = 'Fixture replay against unchanged production; not a build or memory acceptance'
           } | ConvertTo-Json | Set-Content build/focused-evidence/identity.json -Encoding utf8
       - name: Install test dependencies
-        run: python -m pip install frida
+        run: python -m pip install frida==17.24.3
       - name: Compare zoom pixels and application input
         shell: pwsh
         run: |
@@ -70,12 +70,19 @@ jobs:
         run: |
           python tests/bell_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/bell.log
           exit $LASTEXITCODE
+      - name: Verify visual bell pixels and restoration
+        if: ${{ !cancelled() && env.NEMOTERM_TEST_EXE != '' }}
+        shell: pwsh
+        run: |
+          python tests/bell_visual_window_smoke.py 2>&1 | Tee-Object build/focused-evidence/visual-bell.log
+          exit $LASTEXITCODE
       - name: Retain complete observations
         if: always()
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force build/focused-evidence | Out-Null
           Copy-Item research/font-zoom-observed.json, research/tabs-profiles-observed.json, research/bell-mode-*-observed.json build/focused-evidence/ -ErrorAction SilentlyContinue
+          Copy-Item research/visual-bell-observed.json, research/visual-bell-*.png build/focused-evidence/ -ErrorAction SilentlyContinue
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
