@@ -97,3 +97,6 @@ these fixture fixes.
 Parser commit `9abf339` passed [core CI](https://github.com/xiongnemo/nemoterm/actions/runs/43588399701)
 and [single-executable CI](https://github.com/xiongnemo/nemoterm/actions/runs/43588399714).
 Those runs predate this input change. Full CI for the input checkpoint is pending.
+
+Subsequent UPSS assignment, invocation and state-lifetime work is recorded in the
+[UPSS checkpoint](iso2022-upss.md); this input checkpoint's original evidence is unchanged.

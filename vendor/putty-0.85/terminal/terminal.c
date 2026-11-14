@@ -2657,6 +2657,7 @@ static unsigned long nemo_charset_graphic(Terminal *term, int attr, unsigned byt
 {
     const NemoCharset *cs = nemo_charset_descriptor(attr);
     if (!cs || (byte == 0x7f && !((unsigned)-attr & 256))) return UCSINCOMPLETE;
+    cs = nemo_charset_resolve(cs, term->upss_id, nemo_charset_level(term));
     uint32_t value = nemo_charset_map(cs, byte, nemo_charset_level(term), term->nrc_mode);
     if (value == NEMO_CHARSET_NOCHAR) return UCSINCOMPLETE;
     /* Mapped codepoints are data, including DEL/C1 glyphs from 96 sets.
@@ -2687,6 +2688,42 @@ static bool nemo_charset_escape(Terminal *term, unsigned char final)
     return true;
 }
 
+static bool nemo_charset_base_utf8(Terminal *term)
+{
+    return term->utf > 0 ||
+        (term->utf == 0 && term->ucsdata->line_codepage == CP_UTF8);
+}
+
+static void nemo_charset_reset(Terminal *term)
+{
+    bool latin1 = !nemo_charset_base_utf8(term) &&
+        !term->no_remote_charset && nemo_charset_level(term) >= 2;
+    const NemoCharset *cs = nemo_charset_designate(latin1 ? 3 : 1, 5,
+                                                  false, latin1 ? "A" : "B", 1);
+    term->upss_id = nemo_charset_id(cs);
+    for (size_t i=0; i<lenof(term->cset_attr); i++) term->cset_attr[i]=CSET_ASCII;
+    if (latin1) term->cset_attr[2] = term->cset_attr[3] = -(int)(term->upss_id | 256);
+}
+
+static void nemo_charset_assign_preferred(Terminal *term)
+{
+    if (term->no_remote_charset || in_utf(term) || term->dcs_query_invalid ||
+        !term->dcs_upss_header_valid) return;
+    const NemoCharset *cs = nemo_charset_preferred(term->sixel_header[0],
+        term->dcs_query, term->dcs_query_len);
+    if (cs) term->upss_id = nemo_charset_id(cs);
+}
+
+static void nemo_charset_report_preferred(Terminal *term)
+{
+    const NemoCharset *cs = nemo_charset_by_id(term->upss_id);
+    if (!cs || !term->ldisc) return;
+    char reply[16];
+    int length = snprintf(reply, sizeof(reply), "\033P%d!u%s\033\\",
+                          cs->size96 ? 1 : 0, cs->designation);
+    nemo_protocol_send(term, reply, length);
+}
+
 static void nemo_charset_docs(Terminal *term, bool utf8)
 {
     if (term->no_remote_charset) return;
@@ -2696,11 +2733,14 @@ static void nemo_charset_docs(Terminal *term, bool utf8)
     if (before == in_utf(term)) return;
     if (utf8) {
         memcpy(term->ansi_csattr, term->cset_attr, sizeof(term->ansi_csattr));
+        term->ansi_upss_id = term->upss_id;
+        term->upss_id = nemo_charset_id(nemo_charset_designate(1,5,false,"B",1));
         for (size_t i=0; i<lenof(term->cset_attr); i++) term->cset_attr[i]=CSET_ASCII;
         term->cset=term->cset_ss=0;
         term->cset_gr=2;
     } else {
         memcpy(term->cset_attr, term->ansi_csattr, sizeof(term->cset_attr));
+        term->upss_id = term->ansi_upss_id;
     }
 }
 
@@ -2869,7 +2909,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
     }
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
         if (term->dcs_query_active) {
-            if (term->dcs_query_type == '$') nemo_decrqss(term);
+            if (term->dcs_query_type == 'U') nemo_charset_assign_preferred(term);
+            else if (term->dcs_query_type == '$') nemo_decrqss(term);
             else if (term->dcs_query_type == '1') nemo_restore_cursor_information(term);
             else if (term->dcs_query_type == '2') {
                 if (!term->dcs_tab_stopped) nemo_presentation_tab_stop(term);
@@ -2899,11 +2940,18 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         term->dcs_query_invalid = true;
         nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
     }
+    if (term->termstate == NEMO_DCS_QUERY && term->dcs_query_type == 'U') {
+        /* UPSS designators are seven-bit string data. C0 bytes make the
+         * designator invalid; they must not silently join its two halves. */
+        if (c >= 0xa0) c &= 0x7f;
+        if (c < ' ' && c != 0x1b) term->dcs_query_invalid = true;
+    }
     if (c == 0x1b) { term->termstate = NEMO_DCS_MAYBE_ST; return true; }
     if (c == 0xc2) { term->termstate = NEMO_DCS_MAYBE_ST_UTF8; return true; }
     if (term->termstate == NEMO_DCS_HEADER) {
+        if (c <= ' ') term->dcs_upss_header_valid = false;
         if (c >= '0' && c <= '9') {
-            term->dcs_query_type = !term->dcs_header_params && (c == '1' || c == '2') ? c : 0;
+            term->dcs_query_type = !term->dcs_header_params && (c >= '0' && c <= '2') ? c : 0;
             term->dcs_header_params = true;
             unsigned *p = &term->sixel_header[term->sixel_header_index];
             if (*p > (UINT_MAX - (c-'0')) / 10) term->termstate = NEMO_DCS_DROP;
@@ -2916,12 +2964,16 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                    (c == '$' && (term->dcs_query_type == '1' || term->dcs_query_type == '2'))) {
             if (!term->dcs_header_params) term->dcs_query_type = c;
             term->termstate = NEMO_DCS_QUERY_PREFIX;
+        } else if (c == '!' && (term->dcs_query_type == '0' || term->dcs_query_type == '1')) {
+            term->dcs_query_type = 'U';
+            term->termstate = NEMO_DCS_QUERY_PREFIX;
         } else if (c == 'q') {
             nemo_sixel_begin(term);
             term->termstate = term->sixel_pending ? NEMO_DCS_SIXEL : NEMO_DCS_DROP;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
-        if ((c == 'q' && (term->dcs_query_type == '$' || term->dcs_query_type == '+')) ||
+        if ((c == 'u' && term->dcs_query_type == 'U' && has_compat(VT320)) ||
+            (c == 'q' && (term->dcs_query_type == '$' || term->dcs_query_type == '+')) ||
             (c == 't' && has_compat(VT320) &&
              (term->dcs_query_type == '1' || term->dcs_query_type == '2'))) {
             term->dcs_query_active = true;
@@ -2940,7 +2992,8 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                 nemo_presentation_tab_byte(term, c);
                 return true;
             }
-            unsigned limit = term->dcs_query_type == '$' ? 63 : NEMO_DCS_QUERY_SIZE-1;
+            unsigned limit = term->dcs_query_type == 'U' ? 2 :
+                term->dcs_query_type == '$' ? 63 : NEMO_DCS_QUERY_SIZE-1;
             if (c > '~' || term->dcs_query_len >= limit)
                 term->dcs_query_invalid = true;
             else {
@@ -2956,7 +3009,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
     return true;
 }
 
-static void power_on(Terminal *term, bool clear)
+static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
     term->c1_8bit = false;
     term->nrc_mode = false;
@@ -3004,14 +3057,22 @@ static void power_on(Terminal *term, bool clear)
     term->alt_wrap = term->wrap = conf_get_bool(term->conf, CONF_wrap_mode);
     term->reverse_wrap = term->reverse_wrap_extended = false;
     term->alt_cset = term->cset = term->save_cset = term->alt_save_cset = 0;
-    term->utf = false;
+    if (!keep_encoding) term->utf = 0;
     term->utf8.state = 0;
     term->alt_sco_acs = term->sco_acs =
         term->save_sco_acs = term->alt_save_sco_acs = 0;
     term->save_cset_gr = term->alt_save_cset_gr = 2;
     for (size_t i = 0; i < lenof(term->cset_attr); i++)
         term->cset_attr[i] = term->save_csattr[i] =
-            term->alt_save_csattr[i] = term->ansi_csattr[i] = CSET_ASCII;
+            term->alt_save_csattr[i] = CSET_ASCII;
+    nemo_charset_reset(term);
+    memcpy(term->save_csattr, term->cset_attr, sizeof(term->save_csattr));
+    memcpy(term->alt_save_csattr, term->cset_attr, sizeof(term->alt_save_csattr));
+    term->save_upss_id = term->alt_save_upss_id = term->upss_id;
+    if (!keep_encoding) {
+        for (size_t i=0; i<lenof(term->ansi_csattr); i++) term->ansi_csattr[i]=CSET_ASCII;
+        term->ansi_upss_id = nemo_charset_id(nemo_charset_designate(1,5,false,"B",1));
+    }
     nemo_set_reverse_video(term, false);
     term->in_vbell = false;
     term->cursor_on = true;
@@ -3202,7 +3263,7 @@ void term_seen_key_event(Terminal *term)
  */
 void term_pwron(Terminal *term, bool clear)
 {
-    power_on(term, clear);
+    power_on(term, clear, false);
     if (term->ldisc)                   /* cause ldisc to notice changes */
         ldisc_echoedit_update(term->ldisc);
     term->disptop = 0;
@@ -3914,7 +3975,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
         term->conf, CONF_nemo_attribute_modes, 63);
     deselect(term);
     term->rows = term->cols = -1;
-    power_on(term, true);
+    power_on(term, true, false);
     /* This is a startup preference, not a replacement for mode 2027's
      * specified reset state: subsequent RIS/DECSTR must still disable it. */
     term_set_grapheme_clustering(term,
@@ -4654,6 +4715,9 @@ static void swap_screen(Terminal *term, int which,
                 term->save_csattr[i] = term->alt_save_csattr[i];
             term->alt_save_csattr[i] = t;
         }
+        unsigned upss = term->save_upss_id;
+        if (!reset) term->save_upss_id = term->alt_save_upss_id;
+        term->alt_save_upss_id = upss;
         t = term->save_attr;
         if (!reset)
             term->save_attr = term->alt_save_attr;
@@ -5064,6 +5128,7 @@ static void save_cursor(Terminal *term, bool save)
         term->save_wnext = term->wrapnext;
         term->save_om = term->dec_om;
         memcpy(term->save_csattr, term->cset_attr, sizeof(term->save_csattr));
+        term->save_upss_id = term->upss_id;
         term->save_sco_acs = term->sco_acs;
     } else {
         term->curs = term->savecurs;
@@ -5088,6 +5153,7 @@ static void save_cursor(Terminal *term, bool save)
             term->cset = term->save_cset;
             term->cset_gr = term->save_cset_gr;
             memcpy(term->cset_attr, term->save_csattr, sizeof(term->cset_attr));
+            term->upss_id = term->save_upss_id;
             term->sco_acs = term->save_sco_acs;
         }
         term->wrapnext = term->save_wnext;
@@ -5126,7 +5192,7 @@ static void nemo_soft_reset(Terminal *term)
     nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
                    conf_get_int(term->conf, CONF_nemo_format_other_keys));
     term->cset = term->sco_acs = 0;
-    term->cset_attr[0] = term->cset_attr[1] = term->cset_attr[2] = term->cset_attr[3] = CSET_ASCII;
+    nemo_charset_reset(term);
     term->default_attr = term->curr_attr = ATTR_DEFAULT;
     term->curr_truecolour.fg = term->curr_truecolour.bg = optionalrgb_none;
     term->curr_truecolour.decoration = 0;
@@ -7251,9 +7317,9 @@ static strbuf *term_input_data_from_unicode(
             sets[n]=nemo_charset_descriptor(attr);
             if (!sets[n]) sets[n]=nemo_charset_designate(1, nemo_charset_level(term), true,
                 attr==CSET_GBCHR ? "A" : attr==CSET_LINEDRW ? "0" : "B", 1);
+            sets[n]=nemo_charset_resolve(sets[n],term->upss_id,nemo_charset_level(term));
         }
-        bool unicode_nrc = term->utf > 0 ||
-            (term->utf == 0 && term->ucsdata->line_codepage == CP_UTF8);
+        bool unicode_nrc = nemo_charset_base_utf8(term);
         for (size_t i=0; i<len; i++) {
             uint32_t ch=widebuf[i];
             if (IS_SURROGATE(ch)) {
@@ -8037,6 +8103,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     memset(term->sixel_header, 0, sizeof(term->sixel_header));
                     term->sixel_header_index = 0;
                     term->dcs_header_params = term->dcs_query_active = term->dcs_query_invalid = false;
+                    term->dcs_upss_header_valid = true;
+                    term->dcs_query_type = 0;
                     term->dcs_query_len = 0;
                     term->dcs_query[0] = '\0';
                     term->termstate = NEMO_DCS_HEADER;
@@ -8120,7 +8188,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'c':            /* RIS: restore power-on settings */
                     compatibility(VT100);
-                    power_on(term, true);
+                    power_on(term, true, true);
                     if (term->ldisc)   /* cause ldisc to notice changes */
                         ldisc_echoedit_update(term->ldisc);
                     if (term->reset_132) {
@@ -8999,6 +9067,10 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case ANSI_QUE('r'): /* XTRESTORE */
                         for (int i = 0; i < term->esc_nargs; i++)
                             nemo_saved_dec_mode(term, term->esc_args[i], c == 's');
+                        break;
+                      case ANSI('u', '&'): /* DECRQUPSS */
+                        compatibility(VT320);
+                        nemo_charset_report_preferred(term);
                         break;
                       case 'u':       /* restore cursor */
                         save_cursor(term, false);

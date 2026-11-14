@@ -42,9 +42,18 @@ def main():
     parser.add_argument('--text',default=TEXT)
     parser.add_argument('--text-file',type=Path)
     parser.add_argument('--all-sets',action='store_true')
+    parser.add_argument('--upss-only',action='store_true')
     args=parser.parse_args()
     if args.text_file:args.text=args.text_file.read_text()
     modes=dict(MODES)
+    if args.upss_only:
+        assert not args.all_sets
+        from xterm_upss_oracle import ASSIGNMENTS
+        modes={}
+        for level in (3,5):
+            for size,designation in ASSIGNMENTS:
+                modes[f'upss-{level}-{size}-{designation.encode().hex()}']=(
+                    f'\x1b[{60+level};1"p\x1b%G\x1b[?42h\x1bP{size}!u{designation}\x1b\\\x1b(<')
     if args.all_sets:
         from xterm_charsets_oracle import SETS_94,SETS_96
         for designation in SETS_94:

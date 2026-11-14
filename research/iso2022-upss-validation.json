@@ -1,0 +1,3173 @@
+{
+  "base_commit": "90370d65abfce374a237916788c065b028226e8d",
+  "state": "upss-development-checkpoint-not-promoted",
+  "records": [
+    {
+      "source": "build\\charset-upss-linux\\normal-00.log",
+      "archive": "iso2022-upss-records/000-normal-00.log.gz",
+      "bytes": 4361,
+      "sha256": "6f7a589db3a4436a22803270f852663a86e927791996edb20650ac1dfd23ded4"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-01.log",
+      "archive": "iso2022-upss-records/001-normal-01.log.gz",
+      "bytes": 16478,
+      "sha256": "6b6caed7ee1913a807da99059c3472e171f3eba179dd098e1d95b23cc14f450d"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-02.log",
+      "archive": "iso2022-upss-records/002-normal-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-03.log",
+      "archive": "iso2022-upss-records/003-normal-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-04.log",
+      "archive": "iso2022-upss-records/004-normal-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-05.log",
+      "archive": "iso2022-upss-records/005-normal-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-06.log",
+      "archive": "iso2022-upss-records/006-normal-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-07.log",
+      "archive": "iso2022-upss-records/007-normal-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-08.log",
+      "archive": "iso2022-upss-records/008-normal-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-upss-linux\\normal-09.log",
+      "archive": "iso2022-upss-records/009-normal-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\charset-upss-linux\\results.json",
+      "archive": "iso2022-upss-records/010-results.json.gz",
+      "bytes": 7673,
+      "sha256": "e5d812573f5f7d91eccde51a64c99eb00bb819160b71fc21922f6c85da69cc30"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-00.log",
+      "archive": "iso2022-upss-records/011-sanitizers-00.log.gz",
+      "bytes": 4365,
+      "sha256": "81b501e31eec73134ad9415f60c91b09fb53fd9b432a3b7afbbea1e921f8fca6"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-01.log",
+      "archive": "iso2022-upss-records/012-sanitizers-01.log.gz",
+      "bytes": 16478,
+      "sha256": "941d05bee21a16f80d6bf1c83f434c11745c233166b721cff51d0f1e6a28b79e"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-02.log",
+      "archive": "iso2022-upss-records/013-sanitizers-02.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-03.log",
+      "archive": "iso2022-upss-records/014-sanitizers-03.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-04.log",
+      "archive": "iso2022-upss-records/015-sanitizers-04.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-05.log",
+      "archive": "iso2022-upss-records/016-sanitizers-05.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-06.log",
+      "archive": "iso2022-upss-records/017-sanitizers-06.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-07.log",
+      "archive": "iso2022-upss-records/018-sanitizers-07.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-08.log",
+      "archive": "iso2022-upss-records/019-sanitizers-08.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\charset-upss-linux\\sanitizers-09.log",
+      "archive": "iso2022-upss-records/020-sanitizers-09.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\charset-upss-single-01\\image.json",
+      "archive": "iso2022-upss-records/021-image.json.gz",
+      "bytes": 8253,
+      "sha256": "18de2cdb67450e50b8c136f5961443c311fda83cd36c98f4c2250a868b3c76ca"
+    },
+    {
+      "source": "build\\charset-upss-single-01\\link.log",
+      "archive": "iso2022-upss-records/022-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "source": "build\\charset-upss-single-01\\link.rsp",
+      "archive": "iso2022-upss-records/023-link.rsp.gz",
+      "bytes": 5515,
+      "sha256": "fa1a94ee2b295e979e19330cd020714cbfc25d2a90b0da8ec8d5d766be68d0c6"
+    },
+    {
+      "source": "build\\charset-upss-single-02\\image.json",
+      "archive": "iso2022-upss-records/024-image.json.gz",
+      "bytes": 8253,
+      "sha256": "ef8dc4d1df467e7e6d6ca1a1b40326d230ffe817c3fe96c340874722c824f7a9"
+    },
+    {
+      "source": "build\\charset-upss-single-02\\link.log",
+      "archive": "iso2022-upss-records/025-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "source": "build\\charset-upss-single-02\\link.rsp",
+      "archive": "iso2022-upss-records/026-link.rsp.gz",
+      "bytes": 5515,
+      "sha256": "03fd7587d27fb52bb130584978cec78a9bf7623a217aa5deea05f7659603c56e"
+    },
+    {
+      "source": "build\\check-charset-upss.py",
+      "archive": "iso2022-upss-records/027-check-charset-upss.py.gz",
+      "bytes": 1439,
+      "sha256": "739dc4f29bdebd3837badf5fed8a5b7fa69d593cb52b97c98694d28da8b08905"
+    },
+    {
+      "source": "build\\check-upss-final-linux.py",
+      "archive": "iso2022-upss-records/028-check-upss-final-linux.py.gz",
+      "bytes": 1198,
+      "sha256": "6ce22776aa27e215608ee69ef6e92ea14d95082322ee60d261619904c775c6a6"
+    },
+    {
+      "source": "build\\check-upss-memory.py",
+      "archive": "iso2022-upss-records/029-check-upss-memory.py.gz",
+      "bytes": 3025,
+      "sha256": "f65b913cb674035c2b364326295702fbd537f98b18165739930f4fe4cb403d68"
+    },
+    {
+      "source": "build\\link-charset-upss-final.py",
+      "archive": "iso2022-upss-records/030-link-charset-upss-final.py.gz",
+      "bytes": 1363,
+      "sha256": "c2c579a92479739c635c2a2bb4ecc0350eaaad395a6c654e28224d205b464721"
+    },
+    {
+      "source": "build\\link-charset-upss.py",
+      "archive": "iso2022-upss-records/031-link-charset-upss.py.gz",
+      "bytes": 1361,
+      "sha256": "fcc9f58d7d5be09ce2b9f7d90522e64a28eaa16ee53a39cb0d38600db42ac300"
+    },
+    {
+      "source": "build\\reference\\upss-first.json",
+      "archive": "iso2022-upss-records/032-upss-first.json.gz",
+      "bytes": 436225,
+      "sha256": "25633d68c0e341bc3dfdda10e57b3b661401f11aef0db99197feac6e2e5216c6"
+    },
+    {
+      "source": "build\\reference\\upss-first.log",
+      "archive": "iso2022-upss-records/033-upss-first.log.gz",
+      "bytes": 57867,
+      "sha256": "39bdc65bbb7892b896cb14a6dde91927a1e8a590aa780c0dc480a76245fba352"
+    },
+    {
+      "source": "build\\reference\\upss-first\\alternate-save.json",
+      "archive": "iso2022-upss-records/034-alternate-save.json.gz",
+      "bytes": 536,
+      "sha256": "ea003215470709965b5e5a18eaf1c996d48face040470dfda0d0ab3c7e4a2d29"
+    },
+    {
+      "source": "build\\reference\\upss-first\\cancel.json",
+      "archive": "iso2022-upss-records/035-cancel.json.gz",
+      "bytes": 494,
+      "sha256": "7ff73973a88347c0280109ff4b5efc28d156bc180248a2bd0146ecf23b6466e6"
+    },
+    {
+      "source": "build\\reference\\upss-first\\cursor-save.json",
+      "archive": "iso2022-upss-records/036-cursor-save.json.gz",
+      "bytes": 509,
+      "sha256": "cb8e7cffc5385753e5feab5b1d8f0a95fe4c9c07848ee390fe592daf9e35a804"
+    },
+    {
+      "source": "build\\reference\\upss-first\\default-byte.json",
+      "archive": "iso2022-upss-records/037-default-byte.json.gz",
+      "bytes": 470,
+      "sha256": "07d39e410dfde493b677a3c5c20beb9fe91088d6ec6b63fb15ce99d3455d26a7"
+    },
+    {
+      "source": "build\\reference\\upss-first\\default-utf8.json",
+      "archive": "iso2022-upss-records/038-default-utf8.json.gz",
+      "bytes": 464,
+      "sha256": "8c7de49767be266f276361faf744d61b9f072eb38f88820fb480ab7ff52ea7ff"
+    },
+    {
+      "source": "build\\reference\\upss-first\\docs-cache.json",
+      "archive": "iso2022-upss-records/039-docs-cache.json.gz",
+      "bytes": 539,
+      "sha256": "4cd59da46eaca6a0b487975f3f868c521cf1748fcd8218e7e2237acd5a17e980"
+    },
+    {
+      "source": "build\\reference\\upss-first\\docs-cursor.json",
+      "archive": "iso2022-upss-records/040-docs-cursor.json.gz",
+      "bytes": 499,
+      "sha256": "094953717179a32bd0ac5f3a981becebbd66c8898dbf1c7c652f997e3a499eac"
+    },
+    {
+      "source": "build\\reference\\upss-first\\docs-duplicate-byte.json",
+      "archive": "iso2022-upss-records/041-docs-duplicate-byte.json.gz",
+      "bytes": 499,
+      "sha256": "00c79feb63555ede3c308180a7b3c36dccf94f65a7a604f9cd8cc203e2151452"
+    },
+    {
+      "source": "build\\reference\\upss-first\\docs-duplicate-utf8.json",
+      "archive": "iso2022-upss-records/042-docs-duplicate-utf8.json.gz",
+      "bytes": 511,
+      "sha256": "720f51d30081144cbf9d43e7fb8c5bf533f3529252c02e86a8c844811c4d2782"
+    },
+    {
+      "source": "build\\reference\\upss-first\\escape-cancel.json",
+      "archive": "iso2022-upss-records/043-escape-cancel.json.gz",
+      "bytes": 530,
+      "sha256": "34a9a1546f01fa2004847077b199fc247744962fc7d894d68848513dcb54233b"
+    },
+    {
+      "source": "build\\reference\\upss-first\\hard-reset-byte.json",
+      "archive": "iso2022-upss-records/044-hard-reset-byte.json.gz",
+      "bytes": 493,
+      "sha256": "fc7b6ab74ec2cfb7348e8c9a5879fa620935bfb1f518616e058911ce801f693f"
+    },
+    {
+      "source": "build\\reference\\upss-first\\level-1.json",
+      "archive": "iso2022-upss-records/045-level-1.json.gz",
+      "bytes": 364,
+      "sha256": "2ff36924b4c9953452cc5b6b2458291bdaa64749dc184397716469ec1fd8d27d"
+    },
+    {
+      "source": "build\\reference\\upss-first\\level-2.json",
+      "archive": "iso2022-upss-records/046-level-2.json.gz",
+      "bytes": 364,
+      "sha256": "65b507b49a9bc0cc0eb09e70286c4022831ea7f59c323db37f9e6be71f1343be"
+    },
+    {
+      "source": "build\\reference\\upss-first\\level-3.json",
+      "archive": "iso2022-upss-records/047-level-3.json.gz",
+      "bytes": 497,
+      "sha256": "f069ed3be5ee043a88bb1fa6f8cf21816eaa4afe31a757d7306fd70ee88de676"
+    },
+    {
+      "source": "build\\reference\\upss-first\\level-4.json",
+      "archive": "iso2022-upss-records/048-level-4.json.gz",
+      "bytes": 497,
+      "sha256": "3525bc72989edddbd37bbdc4c4da399202db8569f98091356e101a4126fb45c8"
+    },
+    {
+      "source": "build\\reference\\upss-first\\level-5.json",
+      "archive": "iso2022-upss-records/049-level-5.json.gz",
+      "bytes": 497,
+      "sha256": "8e4a644baecf5054fa6a4a8276c29ce02a7dc635bb59b6da1af85d5535301894"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2234-l3-gl.json",
+      "archive": "iso2022-upss-records/050-map-0-2234-l3-gl.json.gz",
+      "bytes": 5401,
+      "sha256": "9fc832fa12283e9fb6afe53a22937cd4cff661bd0f3bb80e9f3ce6b47e3857f4"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2234-l3-gr.json",
+      "archive": "iso2022-upss-records/051-map-0-2234-l3-gr.json.gz",
+      "bytes": 5403,
+      "sha256": "f945e8bec2efccf274d0330953b50dfbdb1f2fbcd54dce76916e6a0a596a0b8c"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2234-l5-gl.json",
+      "archive": "iso2022-upss-records/052-map-0-2234-l5-gl.json.gz",
+      "bytes": 9886,
+      "sha256": "eeaca0ec840939cb27e94034194ab368eabbfb7ff9958fae67faf495efc5b8f6"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2234-l5-gr.json",
+      "archive": "iso2022-upss-records/053-map-0-2234-l5-gr.json.gz",
+      "bytes": 9888,
+      "sha256": "8c138d39281cf3c0c9e99a1ad2d6a388fa36db3602e6d02966301995a7496fcf"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-223f-l3-gl.json",
+      "archive": "iso2022-upss-records/054-map-0-223f-l3-gl.json.gz",
+      "bytes": 5401,
+      "sha256": "5810adea814954fe53ff58a2d8cc674bceb832103165dbea768e5df3950c3077"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-223f-l3-gr.json",
+      "archive": "iso2022-upss-records/055-map-0-223f-l3-gr.json.gz",
+      "bytes": 5403,
+      "sha256": "3a3289737c977c90622fb5165f9ca6a2dcbbabea3df4c7795e3b1e8222b562fe"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-223f-l5-gl.json",
+      "archive": "iso2022-upss-records/056-map-0-223f-l5-gl.json.gz",
+      "bytes": 9886,
+      "sha256": "fb7860ca8f861215c0df3c85fcb3e4324d351d90905539cd09f3b989abd4650a"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-223f-l5-gr.json",
+      "archive": "iso2022-upss-records/057-map-0-223f-l5-gr.json.gz",
+      "bytes": 9888,
+      "sha256": "b95e7d19734494f6fa6a2e314cb988729d671f0efab3c06bbb7896b5c026ba53"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2530-l3-gl.json",
+      "archive": "iso2022-upss-records/058-map-0-2530-l3-gl.json.gz",
+      "bytes": 5400,
+      "sha256": "e650b92c622cec11190b59298b935b1709bf602c35ffc73386f44f9d35637690"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2530-l3-gr.json",
+      "archive": "iso2022-upss-records/059-map-0-2530-l3-gr.json.gz",
+      "bytes": 5402,
+      "sha256": "72f928aad54c704b0bf21e10c8b5efd6c4d2bfab5b7a7067cf29e27af754cf1c"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2530-l5-gl.json",
+      "archive": "iso2022-upss-records/060-map-0-2530-l5-gl.json.gz",
+      "bytes": 9885,
+      "sha256": "e9c87fb14d190c12394b5921f71d0bba45132c5a9010ea1c5b58ede09ca05d1e"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2530-l5-gr.json",
+      "archive": "iso2022-upss-records/061-map-0-2530-l5-gr.json.gz",
+      "bytes": 9887,
+      "sha256": "a2b019edf83e2e7ada860bf0f64b1544202657b75943b15e14f416052918fa35"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2535-l3-gl.json",
+      "archive": "iso2022-upss-records/062-map-0-2535-l3-gl.json.gz",
+      "bytes": 5400,
+      "sha256": "b137dc3601b0776bfca4d35a620f270e526eb9a009b72281de82c6c204b09dcd"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2535-l3-gr.json",
+      "archive": "iso2022-upss-records/063-map-0-2535-l3-gr.json.gz",
+      "bytes": 5402,
+      "sha256": "ea04ebb96f917a947c3c16c22075f9fb09f1011bcc227b55fa6615e5938fe100"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2535-l5-gl.json",
+      "archive": "iso2022-upss-records/064-map-0-2535-l5-gl.json.gz",
+      "bytes": 9885,
+      "sha256": "0364377989b82ba83e075a38e424356b4bc128029c43ef240163a3daa7d83856"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2535-l5-gr.json",
+      "archive": "iso2022-upss-records/065-map-0-2535-l5-gr.json.gz",
+      "bytes": 9887,
+      "sha256": "f596b086585766a575ede7713cdaa8da24429eba2aab2a5b7c37d7b9296884c2"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2634-l3-gl.json",
+      "archive": "iso2022-upss-records/066-map-0-2634-l3-gl.json.gz",
+      "bytes": 5400,
+      "sha256": "19ae67aa5707a929ca439b1b6b6736417d62486a7b061b496be9fb4c97aa4195"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2634-l3-gr.json",
+      "archive": "iso2022-upss-records/067-map-0-2634-l3-gr.json.gz",
+      "bytes": 5402,
+      "sha256": "be27b1e7a2d3d097511ea7eef214831d150f4a00c1138e58e353d60a0344d14b"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2634-l5-gl.json",
+      "archive": "iso2022-upss-records/068-map-0-2634-l5-gl.json.gz",
+      "bytes": 9885,
+      "sha256": "bb1ed0b244c48fc46426ba58a5bf01601797686b74cc4949a6d6ee97b84d231e"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-2634-l5-gr.json",
+      "archive": "iso2022-upss-records/069-map-0-2634-l5-gr.json.gz",
+      "bytes": 9887,
+      "sha256": "2a4931ac7402c3622316db38b7126911e4075a76936bfb458379e0841cf17201"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-30-l3-gl.json",
+      "archive": "iso2022-upss-records/070-map-0-30-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "9c98afc68ca6030d3c4be9d98b4e9c343684e0407b5c544a8704ec9ef004265c"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-30-l3-gr.json",
+      "archive": "iso2022-upss-records/071-map-0-30-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "7fe2f8696ba39e00564af5c6fa7fc9f7b669b007f10aa3f2ae98b50f41609c4d"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-30-l5-gl.json",
+      "archive": "iso2022-upss-records/072-map-0-30-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "31f022e42c3e1758215c3fedc5a593b06a3571e80d05003a3aa62ff84ba9fdfe"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-30-l5-gr.json",
+      "archive": "iso2022-upss-records/073-map-0-30-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "29f30ee21ea6793cc4bbedf22ddc9454c28b4f2eab618126b4735182c5bbf1b7"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-3e-l3-gl.json",
+      "archive": "iso2022-upss-records/074-map-0-3e-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "ed4ff22bed5139b272e96c4799f4cfeb3de2a77ab8ba82fee17edf516cd78a9f"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-3e-l3-gr.json",
+      "archive": "iso2022-upss-records/075-map-0-3e-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "e140d9af9426d8f7d00335688d1e3dbb5622d558cc20b61a7290117054dec5c1"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-3e-l5-gl.json",
+      "archive": "iso2022-upss-records/076-map-0-3e-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "86dc5ff72f20ecaeca4da93975316905b70c0972a4bf544a4e48dfbadaf847af"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-3e-l5-gr.json",
+      "archive": "iso2022-upss-records/077-map-0-3e-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "c7f3bad219467b98b5d4d22bfce7b27ac9290a7af71812e380acfe1be5d477ba"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-41-l3-gl.json",
+      "archive": "iso2022-upss-records/078-map-0-41-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "22c2e980160ad73cbc5cca89185bbdae47bc5d4e7b2602987b8febeefc508753"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-41-l3-gr.json",
+      "archive": "iso2022-upss-records/079-map-0-41-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "6b8edb5be6c835d09fff7ebd79c991fddf1115b59851ebf65f8a1fdf7b9be408"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-41-l5-gl.json",
+      "archive": "iso2022-upss-records/080-map-0-41-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "2b6b7554977d50b48719d35702bf80fa4d87b6567251b6f5d39e133462409e84"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-0-41-l5-gr.json",
+      "archive": "iso2022-upss-records/081-map-0-41-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "687f4ba04d5f92f0e358a985c1c190ff685bfb8e4f616d74f17efdaf44c41d06"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-41-l3-gl.json",
+      "archive": "iso2022-upss-records/082-map-1-41-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "85bc12258a08fdd590e1222fa763d577ff023d56c169d86cf6e340bc22c6e257"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-41-l3-gr.json",
+      "archive": "iso2022-upss-records/083-map-1-41-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "a3e88c99f55a5ccb68d7a0d0b2d962277e4655fd2cfb0e3ea2e3362ca5e9c867"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-41-l5-gl.json",
+      "archive": "iso2022-upss-records/084-map-1-41-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "1da47f4c36800f663ed7176575c28ba502bfd687930733b6bd112045bfa757e8"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-41-l5-gr.json",
+      "archive": "iso2022-upss-records/085-map-1-41-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "3968e06be48b2b564d5e20f764d3a92df909bf80eef121a8f688337c4eeda614"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-42-l3-gl.json",
+      "archive": "iso2022-upss-records/086-map-1-42-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "9b18181795c72ee14f4eb9cae4c23fa0925c038f6060a749f4395fb035e69d2e"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-42-l3-gr.json",
+      "archive": "iso2022-upss-records/087-map-1-42-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "5d04ada3fb8ee43cd4189b32b9d32e77b598f2e023ac1abc19c6d98f1bc66d7f"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-42-l5-gl.json",
+      "archive": "iso2022-upss-records/088-map-1-42-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "5b09314a302b7e3fee4872761232480b5b0d9f0fba12fad194bbf263188837e9"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-42-l5-gr.json",
+      "archive": "iso2022-upss-records/089-map-1-42-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "14d34ce1c03d160642e39c512306edfbb0e4afe48e1e57dfa28c49ee37cc2729"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-46-l3-gl.json",
+      "archive": "iso2022-upss-records/090-map-1-46-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "e7926fe72c3e0414d912d559bd6377e757097a8552ea16f72678ae29921d5f34"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-46-l3-gr.json",
+      "archive": "iso2022-upss-records/091-map-1-46-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "9d7d50b6764ec28bdc33e69184dff68f3da032214ca912c60e8bed58fd318122"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-46-l5-gl.json",
+      "archive": "iso2022-upss-records/092-map-1-46-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "39758c2c824411cfa2c910eb14cf36b7b2c30df26c02ffa4357777dfcf168360"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-46-l5-gr.json",
+      "archive": "iso2022-upss-records/093-map-1-46-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "11c204e7e85b85af45a1235b2778688de761fc2048af8d43065c15061bc074f2"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-48-l3-gl.json",
+      "archive": "iso2022-upss-records/094-map-1-48-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "413c3b7014b28284b7fe848a074345355d209629586b199b38a01dc1c66c41fc"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-48-l3-gr.json",
+      "archive": "iso2022-upss-records/095-map-1-48-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "85083af85a7918a0d6149d60d5654c9c0441e2da76bd2d1f7d6a55f0b22e0119"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-48-l5-gl.json",
+      "archive": "iso2022-upss-records/096-map-1-48-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "6cc423ef69dcfc118840260e4c3017a7bf7d612ceb469bb73d16548388509cf0"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-48-l5-gr.json",
+      "archive": "iso2022-upss-records/097-map-1-48-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "78e5b1a19e28dc5b1798fca94999ff74d3b43bc4e2908d5f27863f3f4f29a241"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4c-l3-gl.json",
+      "archive": "iso2022-upss-records/098-map-1-4c-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "fb467d3d8bd6ba453a80e3d7ea4595dbb21d207dedabe47788abb789436a0879"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4c-l3-gr.json",
+      "archive": "iso2022-upss-records/099-map-1-4c-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "1ef532fb7058ebb87f5a5f04cb777d4790b9244bf25951a6fe9b96dfaef2f247"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4c-l5-gl.json",
+      "archive": "iso2022-upss-records/100-map-1-4c-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "e029a691b6c7b41f6f653985d2251853e1e6d368339fdf879aee4d223a159abc"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4c-l5-gr.json",
+      "archive": "iso2022-upss-records/101-map-1-4c-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "570b366b439ee40eb3122eaf9b4a053d78d8d2268cdc696e4739fafcd24e8ca0"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4d-l3-gl.json",
+      "archive": "iso2022-upss-records/102-map-1-4d-l3-gl.json.gz",
+      "bytes": 5393,
+      "sha256": "1c78b99b07ed8aeb958d06438a84f536e112ebe088956111570cd18ee0c4e487"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4d-l3-gr.json",
+      "archive": "iso2022-upss-records/103-map-1-4d-l3-gr.json.gz",
+      "bytes": 5395,
+      "sha256": "5ea65158309ee20728fe8a44df88d52a665bbdac761c3c82875d0677e327aea8"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4d-l5-gl.json",
+      "archive": "iso2022-upss-records/104-map-1-4d-l5-gl.json.gz",
+      "bytes": 9878,
+      "sha256": "09c24205cb9b2a2ffb010d7e15f7dacb0a5fd18d3c1979422c5d25f1fff54b58"
+    },
+    {
+      "source": "build\\reference\\upss-first\\map-1-4d-l5-gr.json",
+      "archive": "iso2022-upss-records/105-map-1-4d-l5-gr.json.gz",
+      "bytes": 9880,
+      "sha256": "16ebbac2284d224955d2cd67995172c0e8026a9d9b1b345d85482e53572e7338"
+    },
+    {
+      "source": "build\\reference\\upss-first\\nrc-accepts.json",
+      "archive": "iso2022-upss-records/106-nrc-accepts.json.gz",
+      "bytes": 491,
+      "sha256": "ec57e6f82bd6381cccd163be279d002380b6d5759793d711c559c2d0ca2a05d8"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-.json",
+      "archive": "iso2022-upss-records/107-prefix-.json.gz",
+      "bytes": 495,
+      "sha256": "2737fe1b4a41a2f51274a1d3fe44bafe7d05aea97fdb20c317df26d2522158d9"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-2031.json",
+      "archive": "iso2022-upss-records/108-prefix-2031.json.gz",
+      "bytes": 503,
+      "sha256": "101ded1ca21974be8c45a7772b66eafadf229fd28734bcfe5be310bcf92bc8b8"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-3030.json",
+      "archive": "iso2022-upss-records/109-prefix-3030.json.gz",
+      "bytes": 503,
+      "sha256": "2281be450cb5e01d1966e7331f6de11b2fd25d411c935bb24e6ef51073084b89"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-3031.json",
+      "archive": "iso2022-upss-records/110-prefix-3031.json.gz",
+      "bytes": 503,
+      "sha256": "9149988e7fa0b9c3ad1ad04e31ab92b3a5dae6c839bff3765f908625f5bd6a3d"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-3130.json",
+      "archive": "iso2022-upss-records/111-prefix-3130.json.gz",
+      "bytes": 503,
+      "sha256": "99758ec522e83e00f005ee3e2367ea88afd3de6ccfe75f15d1cb72088fe3cdda"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-313a30.json",
+      "archive": "iso2022-upss-records/112-prefix-313a30.json.gz",
+      "bytes": 507,
+      "sha256": "0264205fd8c11205856a5cca74795a785680212cb46a536d04c40be72d3812c0"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-313b30.json",
+      "archive": "iso2022-upss-records/113-prefix-313b30.json.gz",
+      "bytes": 507,
+      "sha256": "fa806d3f09f9e604505e7c72fd1e0164386c14ee4b1a55989336918dd74a2a53"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-32.json",
+      "archive": "iso2022-upss-records/114-prefix-32.json.gz",
+      "bytes": 499,
+      "sha256": "81aee314d1b69fa867beeb2446bcf422a08f57090fe8caca97b753b3f01bc996"
+    },
+    {
+      "source": "build\\reference\\upss-first\\prefix-393939393939393939393939393939393939393939393939393939.json",
+      "archive": "iso2022-upss-records/115-prefix-393939393939393939393939393939393939393939393939393939.json.gz",
+      "bytes": 603,
+      "sha256": "024422e7058c8cea7081b41fbf0d44bde061123bd992c11d9b0f1bf5d761dbcd"
+    },
+    {
+      "source": "build\\reference\\upss-first\\query-c1.json",
+      "archive": "iso2022-upss-records/116-query-c1.json.gz",
+      "bytes": 365,
+      "sha256": "a0256d546175560d7b176586481008ac4cf86d3e1e65d49b11818546ad1c761a"
+    },
+    {
+      "source": "build\\reference\\upss-first\\query-extra-params.json",
+      "archive": "iso2022-upss-records/117-query-extra-params.json.gz",
+      "bytes": 390,
+      "sha256": "d5cfe43489558ed822f73f590e3f135d8f804ed749e1e32f714e99039373fefd"
+    },
+    {
+      "source": "build\\reference\\upss-first\\soft-reset-byte.json",
+      "archive": "iso2022-upss-records/118-soft-reset-byte.json.gz",
+      "bytes": 497,
+      "sha256": "fbf51700ffb0775b0650d8c8b0207f311882b655307ef57a4d628c8d4c71ca62"
+    },
+    {
+      "source": "build\\reference\\upss-first\\soft-reset-nrc.json",
+      "archive": "iso2022-upss-records/119-soft-reset-nrc.json.gz",
+      "bytes": 502,
+      "sha256": "00b00a0366352506e6ffe52ee28821fe9f41ffe550978699d553aa51820c62a3"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-.json",
+      "archive": "iso2022-upss-records/120-suffix-.json.gz",
+      "bytes": 495,
+      "sha256": "add347c851d3dfebb3683132c40316c46ff8db81c1cfd0322821ee10c41e7bd1"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-0146.json",
+      "archive": "iso2022-upss-records/121-suffix-0146.json.gz",
+      "bytes": 503,
+      "sha256": "449dacf8b7ac34106ab9cbeac2a9aac31e58ec0a2c7b1d074bb9ac22f5947fb2"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-0a46.json",
+      "archive": "iso2022-upss-records/122-suffix-0a46.json.gz",
+      "bytes": 503,
+      "sha256": "8a5048334de1d888def72d1e4c740af57dc55682191b5975d9b8dd29e436d9d1"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-2046.json",
+      "archive": "iso2022-upss-records/123-suffix-2046.json.gz",
+      "bytes": 503,
+      "sha256": "f34ae4639a55d8020560394500855b4eaa59aae4c757768aa6774869525fb748"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-2546.json",
+      "archive": "iso2022-upss-records/124-suffix-2546.json.gz",
+      "bytes": 503,
+      "sha256": "fc86c597eed8ce218a55e6d532c76e36098be553ad853e9a3d90a7fcc3a72f8a"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-34.json",
+      "archive": "iso2022-upss-records/125-suffix-34.json.gz",
+      "bytes": 503,
+      "sha256": "1cc89f621e3dffe9438343daa7457712206be0871dbbdef9d984f26067dd31e3"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-35.json",
+      "archive": "iso2022-upss-records/126-suffix-35.json.gz",
+      "bytes": 502,
+      "sha256": "156c9fcc44f9b2eb0e546a35c73c396f50a19745084136873436daf07340c13e"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-3c.json",
+      "archive": "iso2022-upss-records/127-suffix-3c.json.gz",
+      "bytes": 499,
+      "sha256": "6e286479cf151d1d8b50172292de24d862053c2f3e5790fe8829c0def5ce6f70"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-3f.json",
+      "archive": "iso2022-upss-records/128-suffix-3f.json.gz",
+      "bytes": 503,
+      "sha256": "822d22aa80fdf4448e03afb7bd6cf5721fa479fc3ca387ea17f4b9024d15f3c1"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-42.json",
+      "archive": "iso2022-upss-records/129-suffix-42.json.gz",
+      "bytes": 499,
+      "sha256": "b9c5b230475286bc8ef99681b6a6d66c8b94a889fa7c7d73762bdf978fd7d3f7"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-4620.json",
+      "archive": "iso2022-upss-records/130-suffix-4620.json.gz",
+      "bytes": 503,
+      "sha256": "0750acc9c50d23e6b43304b67ba1bf2cdade75aff552a4b71ba65d1783e6cd23"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-4646.json",
+      "archive": "iso2022-upss-records/131-suffix-4646.json.gz",
+      "bytes": 503,
+      "sha256": "8d699bc50592db186bc71617df4b964f0294de847076588dbda56f9c4bf70573"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-4b.json",
+      "archive": "iso2022-upss-records/132-suffix-4b.json.gz",
+      "bytes": 499,
+      "sha256": "4111efdc0c7bf808891e83cd180c4fb1d227823f41e3172decdbd382e27e50cc"
+    },
+    {
+      "source": "build\\reference\\upss-first\\suffix-7f46.json",
+      "archive": "iso2022-upss-records/133-suffix-7f46.json.gz",
+      "bytes": 503,
+      "sha256": "fbb15a04c92f2923df24607112a7d68b0fa5e35040f6fbcbe91caa6a2cb5b067"
+    },
+    {
+      "source": "build\\reference\\upss-first\\utf8-ignored.json",
+      "archive": "iso2022-upss-records/134-utf8-ignored.json.gz",
+      "bytes": 480,
+      "sha256": "c5d789b37329180b37cdee3a77b6f3bc4c5ee77ddac15d89ff35ad20cfb42dc6"
+    },
+    {
+      "source": "build\\reference\\upss-input.json",
+      "archive": "iso2022-upss-records/135-upss-input.json.gz",
+      "bytes": 40342,
+      "sha256": "1668a3ffea29e1febeb995a1cad7e5f8e18fb1fe2eb4a9a3a56b517e3870d3c7"
+    },
+    {
+      "source": "build\\reference\\upss-input.log",
+      "archive": "iso2022-upss-records/136-upss-input.log.gz",
+      "bytes": 35814,
+      "sha256": "ad661ebc5366daa9a50c3cd6b0d47e2b8ddbd043b776448846ad28517efa6089"
+    },
+    {
+      "source": "build\\reference\\upss-second.json",
+      "archive": "iso2022-upss-records/137-upss-second.json.gz",
+      "bytes": 563436,
+      "sha256": "04ccd0758e371ae828c660d5e9a176ce4d3f0e880af0d35dd60c2949120031d4"
+    },
+    {
+      "source": "build\\reference\\upss-second.log",
+      "archive": "iso2022-upss-records/138-upss-second.log.gz",
+      "bytes": 108836,
+      "sha256": "e0aed222bc4cdecdb9057dcc3e79bebbd1f0c40fc72aca15bbae81f3420bf965"
+    },
+    {
+      "source": "build\\reference\\upss-second\\alternate-save.json",
+      "archive": "iso2022-upss-records/139-alternate-save.json.gz",
+      "bytes": 536,
+      "sha256": "ea003215470709965b5e5a18eaf1c996d48face040470dfda0d0ab3c7e4a2d29"
+    },
+    {
+      "source": "build\\reference\\upss-second\\cancel.json",
+      "archive": "iso2022-upss-records/140-cancel.json.gz",
+      "bytes": 494,
+      "sha256": "7ff73973a88347c0280109ff4b5efc28d156bc180248a2bd0146ecf23b6466e6"
+    },
+    {
+      "source": "build\\reference\\upss-second\\cursor-save.json",
+      "archive": "iso2022-upss-records/141-cursor-save.json.gz",
+      "bytes": 509,
+      "sha256": "cb8e7cffc5385753e5feab5b1d8f0a95fe4c9c07848ee390fe592daf9e35a804"
+    },
+    {
+      "source": "build\\reference\\upss-second\\default-byte.json",
+      "archive": "iso2022-upss-records/142-default-byte.json.gz",
+      "bytes": 470,
+      "sha256": "07d39e410dfde493b677a3c5c20beb9fe91088d6ec6b63fb15ce99d3455d26a7"
+    },
+    {
+      "source": "build\\reference\\upss-second\\default-utf8.json",
+      "archive": "iso2022-upss-records/143-default-utf8.json.gz",
+      "bytes": 464,
+      "sha256": "8c7de49767be266f276361faf744d61b9f072eb38f88820fb480ab7ff52ea7ff"
+    },
+    {
+      "source": "build\\reference\\upss-second\\docs-cache.json",
+      "archive": "iso2022-upss-records/144-docs-cache.json.gz",
+      "bytes": 539,
+      "sha256": "4cd59da46eaca6a0b487975f3f868c521cf1748fcd8218e7e2237acd5a17e980"
+    },
+    {
+      "source": "build\\reference\\upss-second\\docs-cursor.json",
+      "archive": "iso2022-upss-records/145-docs-cursor.json.gz",
+      "bytes": 499,
+      "sha256": "094953717179a32bd0ac5f3a981becebbd66c8898dbf1c7c652f997e3a499eac"
+    },
+    {
+      "source": "build\\reference\\upss-second\\docs-duplicate-byte.json",
+      "archive": "iso2022-upss-records/146-docs-duplicate-byte.json.gz",
+      "bytes": 499,
+      "sha256": "00c79feb63555ede3c308180a7b3c36dccf94f65a7a604f9cd8cc203e2151452"
+    },
+    {
+      "source": "build\\reference\\upss-second\\docs-duplicate-utf8.json",
+      "archive": "iso2022-upss-records/147-docs-duplicate-utf8.json.gz",
+      "bytes": 511,
+      "sha256": "720f51d30081144cbf9d43e7fb8c5bf533f3529252c02e86a8c844811c4d2782"
+    },
+    {
+      "source": "build\\reference\\upss-second\\escape-cancel.json",
+      "archive": "iso2022-upss-records/148-escape-cancel.json.gz",
+      "bytes": 530,
+      "sha256": "34a9a1546f01fa2004847077b199fc247744962fc7d894d68848513dcb54233b"
+    },
+    {
+      "source": "build\\reference\\upss-second\\hard-reset-byte.json",
+      "archive": "iso2022-upss-records/149-hard-reset-byte.json.gz",
+      "bytes": 493,
+      "sha256": "fc7b6ab74ec2cfb7348e8c9a5879fa620935bfb1f518616e058911ce801f693f"
+    },
+    {
+      "source": "build\\reference\\upss-second\\hard-reset-docs-cache.json",
+      "archive": "iso2022-upss-records/150-hard-reset-docs-cache.json.gz",
+      "bytes": 511,
+      "sha256": "9803119778046728b163a76239957fd555d832c737a7933f2de0828d2c8928d7"
+    },
+    {
+      "source": "build\\reference\\upss-second\\hard-reset-nrc.json",
+      "archive": "iso2022-upss-records/151-hard-reset-nrc.json.gz",
+      "bytes": 498,
+      "sha256": "173ee1dba4bb5ec71cbc0b68d5da2cadea634ba7693dca6cee6891c8ac43b00c"
+    },
+    {
+      "source": "build\\reference\\upss-second\\level-1.json",
+      "archive": "iso2022-upss-records/152-level-1.json.gz",
+      "bytes": 364,
+      "sha256": "2ff36924b4c9953452cc5b6b2458291bdaa64749dc184397716469ec1fd8d27d"
+    },
+    {
+      "source": "build\\reference\\upss-second\\level-2.json",
+      "archive": "iso2022-upss-records/153-level-2.json.gz",
+      "bytes": 364,
+      "sha256": "65b507b49a9bc0cc0eb09e70286c4022831ea7f59c323db37f9e6be71f1343be"
+    },
+    {
+      "source": "build\\reference\\upss-second\\level-3.json",
+      "archive": "iso2022-upss-records/154-level-3.json.gz",
+      "bytes": 497,
+      "sha256": "f069ed3be5ee043a88bb1fa6f8cf21816eaa4afe31a757d7306fd70ee88de676"
+    },
+    {
+      "source": "build\\reference\\upss-second\\level-4.json",
+      "archive": "iso2022-upss-records/155-level-4.json.gz",
+      "bytes": 497,
+      "sha256": "3525bc72989edddbd37bbdc4c4da399202db8569f98091356e101a4126fb45c8"
+    },
+    {
+      "source": "build\\reference\\upss-second\\level-5.json",
+      "archive": "iso2022-upss-records/156-level-5.json.gz",
+      "bytes": 497,
+      "sha256": "8e4a644baecf5054fa6a4a8276c29ce02a7dc635bb59b6da1af85d5535301894"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2234-l3-gl.json",
+      "archive": "iso2022-upss-records/157-map-0-2234-l3-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "34e460d4843d7ebf631b493797d739610fd41069642ba5f2ee4251f269afeae0"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2234-l3-gr.json",
+      "archive": "iso2022-upss-records/158-map-0-2234-l3-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "a41959ccc44de2dbd4b1b1272aeda24a16c27f28360093c9d09c1c4dd9ca81b3"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2234-l5-gl.json",
+      "archive": "iso2022-upss-records/159-map-0-2234-l5-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "7d56f6edf3762fa8a6bcda551cd8f2027b805b7742b6b622ab3cabdd2c178344"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2234-l5-gr.json",
+      "archive": "iso2022-upss-records/160-map-0-2234-l5-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "4f8b471722eb354023102687848a0066a9f4f57073a1f6207957666aa97378eb"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-223f-l3-gl.json",
+      "archive": "iso2022-upss-records/161-map-0-223f-l3-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "0fe757074a777bb92d6b78ad911d89e101a66e318fe3231f8555e739bcb97cf6"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-223f-l3-gr.json",
+      "archive": "iso2022-upss-records/162-map-0-223f-l3-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "2b7ff6ee2b789bca1e3a2a050fc656b276b752c6669b3b8798d5867e8113944a"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-223f-l5-gl.json",
+      "archive": "iso2022-upss-records/163-map-0-223f-l5-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "cd56607c9252301a0d39eb821a6d7dadb2b063fdb104a06320c339ef2b9b9092"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-223f-l5-gr.json",
+      "archive": "iso2022-upss-records/164-map-0-223f-l5-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "2e1bd688726af349a21eec7806114352d5b9a262184d8e69d6a56f9981d4f88e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2530-l3-gl.json",
+      "archive": "iso2022-upss-records/165-map-0-2530-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "dda687c87156ac6f111640dcfaccf986360717f160c65bdc54ec155eb240cbc3"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2530-l3-gr.json",
+      "archive": "iso2022-upss-records/166-map-0-2530-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "5fea69eef9310f857c385a3300e05bdf453e94b68721c216e431452192160983"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2530-l5-gl.json",
+      "archive": "iso2022-upss-records/167-map-0-2530-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "7e083d6216e63f2037f4bfe3cf64c50f73e6b03cae95f58794815c4bd0064a30"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2530-l5-gr.json",
+      "archive": "iso2022-upss-records/168-map-0-2530-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "1074ef197c618ee1b09344d9e11f555af31893c6db2938e7d000ca1f5db663a6"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2535-l3-gl.json",
+      "archive": "iso2022-upss-records/169-map-0-2535-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "836b7c33ef98c0d02283b0c67d96d3148b7382d2b4244f5558efefea9c3767be"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2535-l3-gr.json",
+      "archive": "iso2022-upss-records/170-map-0-2535-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "45b694abffdbd89d58c140e92f6365fc4df97005acc6d2f5668bc36f492be8ab"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2535-l5-gl.json",
+      "archive": "iso2022-upss-records/171-map-0-2535-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "dd05ad07ebf4ac68477bb625c29432368fc33c0e329305950337f62dd4f0f01d"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2535-l5-gr.json",
+      "archive": "iso2022-upss-records/172-map-0-2535-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "45f0ffcaefbe9c450ad2b3569f66dd7aa05c5b96b4d773aaecd23b436e587d4b"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2634-l3-gl.json",
+      "archive": "iso2022-upss-records/173-map-0-2634-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "29bef719213b0569f3bb020c9f931bc10b4de177a7ae404713a2cd08cb4a8ee5"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2634-l3-gr.json",
+      "archive": "iso2022-upss-records/174-map-0-2634-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "e800721c120d3672b9813cd9e1805d545a1a0d4a4c3bf111b21083d1fb0faedd"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2634-l5-gl.json",
+      "archive": "iso2022-upss-records/175-map-0-2634-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "1d29f225806ff423ffe5e9d9cdd1dc1daed6199b8da3f09f08f0b3a82c81ac80"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-2634-l5-gr.json",
+      "archive": "iso2022-upss-records/176-map-0-2634-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "08b1c84d7c8cdc6dac36b985f7dade8ff42ed0a8681abf64ea9e1c8aab91e609"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-30-l3-gl.json",
+      "archive": "iso2022-upss-records/177-map-0-30-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "5e496123e369704bc0acf01a134705e3d0376a49391af3b3251f2315339b7e70"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-30-l3-gr.json",
+      "archive": "iso2022-upss-records/178-map-0-30-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "b0507598d6322149030002318996d187593407db38e4676bac1369de73c4ad5b"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-30-l5-gl.json",
+      "archive": "iso2022-upss-records/179-map-0-30-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "f1d9a55f2a1d0d7a5f5beb306854f2f7e8f3674b39eb9c96483562dbfb4f1588"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-30-l5-gr.json",
+      "archive": "iso2022-upss-records/180-map-0-30-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "36c9f208b05a3284c772d31d64df79ce2ff1e40b0331485d3634e8dc103269c4"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-3e-l3-gl.json",
+      "archive": "iso2022-upss-records/181-map-0-3e-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "13fef7bd1f6df325ded606ebdc35d1c7bb2bff1cd18d128a547e0df57612d1d6"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-3e-l3-gr.json",
+      "archive": "iso2022-upss-records/182-map-0-3e-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "c412c75043758c94d59500f0c19685f4cdf2931b199616043752c19cfcd9ac0f"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-3e-l5-gl.json",
+      "archive": "iso2022-upss-records/183-map-0-3e-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "cce1d277db1cccf8d0cae093ebd321b67206b3b9c395328b43930608331ba0a3"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-3e-l5-gr.json",
+      "archive": "iso2022-upss-records/184-map-0-3e-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "126d458fbffa35d02aa0e5f8dc87957b043ac07602db496e362506a5c60f131d"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-41-l3-gl.json",
+      "archive": "iso2022-upss-records/185-map-0-41-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "107534902a714f16e1036a9e71cf5fed2b61e0190088bb92499c406a51ad9df2"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-41-l3-gr.json",
+      "archive": "iso2022-upss-records/186-map-0-41-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "7d8109d616634105e8de40ba626042a4b2aa9842916988aa7568642b3f6b0e3a"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-41-l5-gl.json",
+      "archive": "iso2022-upss-records/187-map-0-41-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "99c1bdbfb6efdd22216c031bd7d742ee2157945c9fc60a94f92a8cf411d366a1"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-0-41-l5-gr.json",
+      "archive": "iso2022-upss-records/188-map-0-41-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "16a4bb59507b9391ab468eb71c26d90d9d9201704577e341904a096519139f68"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-41-l3-gl.json",
+      "archive": "iso2022-upss-records/189-map-1-41-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "5d2e317594665f12b9424019c5abddb1ba35f5f7bf1fb14b86f43b9f404d5faf"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-41-l3-gr.json",
+      "archive": "iso2022-upss-records/190-map-1-41-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "70b25f818fde67216ff75cc8d9bb99c76842b9fc833dd17391c3fa5936eaf098"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-41-l5-gl.json",
+      "archive": "iso2022-upss-records/191-map-1-41-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "9b2830ad761b70b59b61f747028ad7d862ef1ed0d89ab87abcd13dccea772d73"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-41-l5-gr.json",
+      "archive": "iso2022-upss-records/192-map-1-41-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "3f96b54a6c70f0cc90da2ff9a2d9c05e8c1753edebe882bf3a3a87b997b34523"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-42-l3-gl.json",
+      "archive": "iso2022-upss-records/193-map-1-42-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "468ad3558f1d3f2ee30e7ec9b80a2b0288a94ea770107270316671fbae396b79"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-42-l3-gr.json",
+      "archive": "iso2022-upss-records/194-map-1-42-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "82cdbe176249740e2cdeee7f3d237b8fd6d805e300b7ac3ee31d72fb8acea8ae"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-42-l5-gl.json",
+      "archive": "iso2022-upss-records/195-map-1-42-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "3b23b028b69b13f877fc15e14e4aa13e9eb4c3ebf84abb4c893ea1fb85f85392"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-42-l5-gr.json",
+      "archive": "iso2022-upss-records/196-map-1-42-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "1f9a59aac7368f51703dddc30b3773e4e12b309b29fbc313fcf3a9506eb1989c"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-46-l3-gl.json",
+      "archive": "iso2022-upss-records/197-map-1-46-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "afff9c3485928d0da795456f42cc082969f076c032fe6a90d7750f4c5bb3b8f9"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-46-l3-gr.json",
+      "archive": "iso2022-upss-records/198-map-1-46-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "d85a861e4f39c7a6919ebedac32bdbb53e4fbf46848bf2a812cd639dcf2ced19"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-46-l5-gl.json",
+      "archive": "iso2022-upss-records/199-map-1-46-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "016758aef29ba4ea899bae35c6c3f4d6249e6a037bd8c4135e5bd624008985f8"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-46-l5-gr.json",
+      "archive": "iso2022-upss-records/200-map-1-46-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "18814f80028a8920c925e2e8fcbe30910c01a0ba8fe2ec87f03bf6cd913cd59e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-48-l3-gl.json",
+      "archive": "iso2022-upss-records/201-map-1-48-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "8348742bf79b4fee3f46d62fdd46e73807ee98555b2305d6de3a01c2fe57832f"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-48-l3-gr.json",
+      "archive": "iso2022-upss-records/202-map-1-48-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "9da3df0f81287afc31ceeb4594c2b1cc5c7f84d0e55a694f33edb53459708c4b"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-48-l5-gl.json",
+      "archive": "iso2022-upss-records/203-map-1-48-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "f7b0eee693b5404edbcdd079360617840429b37b351bb47b2f4e9e7806e3622e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-48-l5-gr.json",
+      "archive": "iso2022-upss-records/204-map-1-48-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "49f0a35274da75ff9fae771b3dc38b6e73d58c2b82a51953ccd0f653ea00ed7e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4c-l3-gl.json",
+      "archive": "iso2022-upss-records/205-map-1-4c-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "fc06bf59fbe5aae393bc33a72b4c1e4771632c25ae57114b0fbf38c55ccd2082"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4c-l3-gr.json",
+      "archive": "iso2022-upss-records/206-map-1-4c-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "fda343082c0ccaa002863ae0208f003c6f31ac8cb62eb9b840dbfb9a234be732"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4c-l5-gl.json",
+      "archive": "iso2022-upss-records/207-map-1-4c-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "00ecf83f1da273bbc9825c0ea885e5998bf6dbe63f519b437a6401cac19dfb5a"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4c-l5-gr.json",
+      "archive": "iso2022-upss-records/208-map-1-4c-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "ee2079d35b7a3cacbbeef72e60b570f702b0e290755d2cebf3797de9a839e51e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4d-l3-gl.json",
+      "archive": "iso2022-upss-records/209-map-1-4d-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "638086af5c20fa0375db739263a203ea272b2081f6af0861f7f5fe6c5bb80de5"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4d-l3-gr.json",
+      "archive": "iso2022-upss-records/210-map-1-4d-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "88f855f698130317c9f0607a30d7b6537bccb833b72d7d796bc52b3089955e56"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4d-l5-gl.json",
+      "archive": "iso2022-upss-records/211-map-1-4d-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "ddb8f8292b48e3c28bad54ace5e3dc28815019d9f79f0a1175e5928edea02b38"
+    },
+    {
+      "source": "build\\reference\\upss-second\\map-1-4d-l5-gr.json",
+      "archive": "iso2022-upss-records/212-map-1-4d-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "383c3a9b44a638d96706840e38cec792696084ff76e2c9b7ddec6b6d192da390"
+    },
+    {
+      "source": "build\\reference\\upss-second\\nrc-accepts.json",
+      "archive": "iso2022-upss-records/213-nrc-accepts.json.gz",
+      "bytes": 491,
+      "sha256": "ec57e6f82bd6381cccd163be279d002380b6d5759793d711c559c2d0ca2a05d8"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-.json",
+      "archive": "iso2022-upss-records/214-prefix-.json.gz",
+      "bytes": 495,
+      "sha256": "2737fe1b4a41a2f51274a1d3fe44bafe7d05aea97fdb20c317df26d2522158d9"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-2031.json",
+      "archive": "iso2022-upss-records/215-prefix-2031.json.gz",
+      "bytes": 503,
+      "sha256": "101ded1ca21974be8c45a7772b66eafadf229fd28734bcfe5be310bcf92bc8b8"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-3030.json",
+      "archive": "iso2022-upss-records/216-prefix-3030.json.gz",
+      "bytes": 503,
+      "sha256": "2281be450cb5e01d1966e7331f6de11b2fd25d411c935bb24e6ef51073084b89"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-3031.json",
+      "archive": "iso2022-upss-records/217-prefix-3031.json.gz",
+      "bytes": 503,
+      "sha256": "9149988e7fa0b9c3ad1ad04e31ab92b3a5dae6c839bff3765f908625f5bd6a3d"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-3130.json",
+      "archive": "iso2022-upss-records/218-prefix-3130.json.gz",
+      "bytes": 503,
+      "sha256": "99758ec522e83e00f005ee3e2367ea88afd3de6ccfe75f15d1cb72088fe3cdda"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-313a30.json",
+      "archive": "iso2022-upss-records/219-prefix-313a30.json.gz",
+      "bytes": 507,
+      "sha256": "0264205fd8c11205856a5cca74795a785680212cb46a536d04c40be72d3812c0"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-313b30.json",
+      "archive": "iso2022-upss-records/220-prefix-313b30.json.gz",
+      "bytes": 507,
+      "sha256": "fa806d3f09f9e604505e7c72fd1e0164386c14ee4b1a55989336918dd74a2a53"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-32.json",
+      "archive": "iso2022-upss-records/221-prefix-32.json.gz",
+      "bytes": 499,
+      "sha256": "81aee314d1b69fa867beeb2446bcf422a08f57090fe8caca97b753b3f01bc996"
+    },
+    {
+      "source": "build\\reference\\upss-second\\prefix-393939393939393939393939393939393939393939393939393939.json",
+      "archive": "iso2022-upss-records/222-prefix-393939393939393939393939393939393939393939393939393939.json.gz",
+      "bytes": 603,
+      "sha256": "024422e7058c8cea7081b41fbf0d44bde061123bd992c11d9b0f1bf5d761dbcd"
+    },
+    {
+      "source": "build\\reference\\upss-second\\query-c1.json",
+      "archive": "iso2022-upss-records/223-query-c1.json.gz",
+      "bytes": 365,
+      "sha256": "a0256d546175560d7b176586481008ac4cf86d3e1e65d49b11818546ad1c761a"
+    },
+    {
+      "source": "build\\reference\\upss-second\\query-extra-params.json",
+      "archive": "iso2022-upss-records/224-query-extra-params.json.gz",
+      "bytes": 390,
+      "sha256": "d5cfe43489558ed822f73f590e3f135d8f804ed749e1e32f714e99039373fefd"
+    },
+    {
+      "source": "build\\reference\\upss-second\\soft-reset-byte.json",
+      "archive": "iso2022-upss-records/225-soft-reset-byte.json.gz",
+      "bytes": 497,
+      "sha256": "fbf51700ffb0775b0650d8c8b0207f311882b655307ef57a4d628c8d4c71ca62"
+    },
+    {
+      "source": "build\\reference\\upss-second\\soft-reset-nrc.json",
+      "archive": "iso2022-upss-records/226-soft-reset-nrc.json.gz",
+      "bytes": 502,
+      "sha256": "00b00a0366352506e6ffe52ee28821fe9f41ffe550978699d553aa51820c62a3"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-.json",
+      "archive": "iso2022-upss-records/227-suffix-.json.gz",
+      "bytes": 495,
+      "sha256": "add347c851d3dfebb3683132c40316c46ff8db81c1cfd0322821ee10c41e7bd1"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-0146.json",
+      "archive": "iso2022-upss-records/228-suffix-0146.json.gz",
+      "bytes": 503,
+      "sha256": "449dacf8b7ac34106ab9cbeac2a9aac31e58ec0a2c7b1d074bb9ac22f5947fb2"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-0a46.json",
+      "archive": "iso2022-upss-records/229-suffix-0a46.json.gz",
+      "bytes": 503,
+      "sha256": "8a5048334de1d888def72d1e4c740af57dc55682191b5975d9b8dd29e436d9d1"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-2046.json",
+      "archive": "iso2022-upss-records/230-suffix-2046.json.gz",
+      "bytes": 503,
+      "sha256": "f34ae4639a55d8020560394500855b4eaa59aae4c757768aa6774869525fb748"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-2546.json",
+      "archive": "iso2022-upss-records/231-suffix-2546.json.gz",
+      "bytes": 503,
+      "sha256": "fc86c597eed8ce218a55e6d532c76e36098be553ad853e9a3d90a7fcc3a72f8a"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-34.json",
+      "archive": "iso2022-upss-records/232-suffix-34.json.gz",
+      "bytes": 503,
+      "sha256": "1cc89f621e3dffe9438343daa7457712206be0871dbbdef9d984f26067dd31e3"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-35.json",
+      "archive": "iso2022-upss-records/233-suffix-35.json.gz",
+      "bytes": 502,
+      "sha256": "156c9fcc44f9b2eb0e546a35c73c396f50a19745084136873436daf07340c13e"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-3c.json",
+      "archive": "iso2022-upss-records/234-suffix-3c.json.gz",
+      "bytes": 499,
+      "sha256": "6e286479cf151d1d8b50172292de24d862053c2f3e5790fe8829c0def5ce6f70"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-3f.json",
+      "archive": "iso2022-upss-records/235-suffix-3f.json.gz",
+      "bytes": 503,
+      "sha256": "822d22aa80fdf4448e03afb7bd6cf5721fa479fc3ca387ea17f4b9024d15f3c1"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-42.json",
+      "archive": "iso2022-upss-records/236-suffix-42.json.gz",
+      "bytes": 499,
+      "sha256": "b9c5b230475286bc8ef99681b6a6d66c8b94a889fa7c7d73762bdf978fd7d3f7"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-4620.json",
+      "archive": "iso2022-upss-records/237-suffix-4620.json.gz",
+      "bytes": 503,
+      "sha256": "0750acc9c50d23e6b43304b67ba1bf2cdade75aff552a4b71ba65d1783e6cd23"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-4646.json",
+      "archive": "iso2022-upss-records/238-suffix-4646.json.gz",
+      "bytes": 503,
+      "sha256": "8d699bc50592db186bc71617df4b964f0294de847076588dbda56f9c4bf70573"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-4b.json",
+      "archive": "iso2022-upss-records/239-suffix-4b.json.gz",
+      "bytes": 499,
+      "sha256": "4111efdc0c7bf808891e83cd180c4fb1d227823f41e3172decdbd382e27e50cc"
+    },
+    {
+      "source": "build\\reference\\upss-second\\suffix-7f46.json",
+      "archive": "iso2022-upss-records/240-suffix-7f46.json.gz",
+      "bytes": 503,
+      "sha256": "fbb15a04c92f2923df24607112a7d68b0fa5e35040f6fbcbe91caa6a2cb5b067"
+    },
+    {
+      "source": "build\\reference\\upss-second\\utf8-ignored.json",
+      "archive": "iso2022-upss-records/241-utf8-ignored.json.gz",
+      "bytes": 480,
+      "sha256": "c5d789b37329180b37cdee3a77b6f3bc4c5ee77ddac15d89ff35ad20cfb42dc6"
+    },
+    {
+      "source": "build\\reference\\upss-third.json",
+      "archive": "iso2022-upss-records/242-upss-third.json.gz",
+      "bytes": 566742,
+      "sha256": "97943b6b8d5fe89f2e65a089f0b6373c93c5d1b807a1ec785430d155e6147cf3"
+    },
+    {
+      "source": "build\\reference\\upss-third.log",
+      "archive": "iso2022-upss-records/243-upss-third.log.gz",
+      "bytes": 109462,
+      "sha256": "7de37f6589e788939558341b2909416cfcab68bd72160e543c8d34588b72ca65"
+    },
+    {
+      "source": "build\\reference\\upss-third\\alternate-save.json",
+      "archive": "iso2022-upss-records/244-alternate-save.json.gz",
+      "bytes": 536,
+      "sha256": "ea003215470709965b5e5a18eaf1c996d48face040470dfda0d0ab3c7e4a2d29"
+    },
+    {
+      "source": "build\\reference\\upss-third\\cancel.json",
+      "archive": "iso2022-upss-records/245-cancel.json.gz",
+      "bytes": 494,
+      "sha256": "7ff73973a88347c0280109ff4b5efc28d156bc180248a2bd0146ecf23b6466e6"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-0146.json",
+      "archive": "iso2022-upss-records/246-controls-0146.json.gz",
+      "bytes": 505,
+      "sha256": "6df995a2c2c5d0b2a8080d95267f2a16278574460e42664d5895d0d7efcc468c"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-0a46.json",
+      "archive": "iso2022-upss-records/247-controls-0a46.json.gz",
+      "bytes": 505,
+      "sha256": "a47ac3ef6171d6a9ef60387044b26f7b6b5ce053d2b8560c73d8be2466b38bb1"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-4601.json",
+      "archive": "iso2022-upss-records/248-controls-4601.json.gz",
+      "bytes": 505,
+      "sha256": "fd92685c6bc05da0eabf2905edfd9373654c4fdbd1036d6e37881eeafe525a2b"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-460a.json",
+      "archive": "iso2022-upss-records/249-controls-460a.json.gz",
+      "bytes": 505,
+      "sha256": "7057f7e5bf09b92bee38215b0e3267675d1623b1bbff5c3580fb744718b5fdc3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-467f.json",
+      "archive": "iso2022-upss-records/250-controls-467f.json.gz",
+      "bytes": 505,
+      "sha256": "66f3fc2f3965e6ce74cb63861445862d2274e1f3bdc71ccc85437fd0bbe31934"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-7f46.json",
+      "archive": "iso2022-upss-records/251-controls-7f46.json.gz",
+      "bytes": 505,
+      "sha256": "294afa674d4e61856da846cc589a7df4ae12f268fece83f25cf05dd594838e43"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-c286.json",
+      "archive": "iso2022-upss-records/252-controls-c286.json.gz",
+      "bytes": 505,
+      "sha256": "7ac632b0c878b3f75d97412b6f973863d6a1c6643d19f73146ebd4071b13decf"
+    },
+    {
+      "source": "build\\reference\\upss-third\\controls-c6.json",
+      "archive": "iso2022-upss-records/253-controls-c6.json.gz",
+      "bytes": 501,
+      "sha256": "3cb446591f0c829331da1b8aaf33962c9867394163040b6843dbf06718451b81"
+    },
+    {
+      "source": "build\\reference\\upss-third\\cursor-save.json",
+      "archive": "iso2022-upss-records/254-cursor-save.json.gz",
+      "bytes": 509,
+      "sha256": "cb8e7cffc5385753e5feab5b1d8f0a95fe4c9c07848ee390fe592daf9e35a804"
+    },
+    {
+      "source": "build\\reference\\upss-third\\default-byte.json",
+      "archive": "iso2022-upss-records/255-default-byte.json.gz",
+      "bytes": 470,
+      "sha256": "07d39e410dfde493b677a3c5c20beb9fe91088d6ec6b63fb15ce99d3455d26a7"
+    },
+    {
+      "source": "build\\reference\\upss-third\\default-utf8.json",
+      "archive": "iso2022-upss-records/256-default-utf8.json.gz",
+      "bytes": 464,
+      "sha256": "8c7de49767be266f276361faf744d61b9f072eb38f88820fb480ab7ff52ea7ff"
+    },
+    {
+      "source": "build\\reference\\upss-third\\docs-cache.json",
+      "archive": "iso2022-upss-records/257-docs-cache.json.gz",
+      "bytes": 539,
+      "sha256": "4cd59da46eaca6a0b487975f3f868c521cf1748fcd8218e7e2237acd5a17e980"
+    },
+    {
+      "source": "build\\reference\\upss-third\\docs-cursor.json",
+      "archive": "iso2022-upss-records/258-docs-cursor.json.gz",
+      "bytes": 499,
+      "sha256": "094953717179a32bd0ac5f3a981becebbd66c8898dbf1c7c652f997e3a499eac"
+    },
+    {
+      "source": "build\\reference\\upss-third\\docs-duplicate-byte.json",
+      "archive": "iso2022-upss-records/259-docs-duplicate-byte.json.gz",
+      "bytes": 499,
+      "sha256": "00c79feb63555ede3c308180a7b3c36dccf94f65a7a604f9cd8cc203e2151452"
+    },
+    {
+      "source": "build\\reference\\upss-third\\docs-duplicate-utf8.json",
+      "archive": "iso2022-upss-records/260-docs-duplicate-utf8.json.gz",
+      "bytes": 511,
+      "sha256": "720f51d30081144cbf9d43e7fb8c5bf533f3529252c02e86a8c844811c4d2782"
+    },
+    {
+      "source": "build\\reference\\upss-third\\escape-cancel.json",
+      "archive": "iso2022-upss-records/261-escape-cancel.json.gz",
+      "bytes": 530,
+      "sha256": "34a9a1546f01fa2004847077b199fc247744962fc7d894d68848513dcb54233b"
+    },
+    {
+      "source": "build\\reference\\upss-third\\hard-reset-byte.json",
+      "archive": "iso2022-upss-records/262-hard-reset-byte.json.gz",
+      "bytes": 493,
+      "sha256": "fc7b6ab74ec2cfb7348e8c9a5879fa620935bfb1f518616e058911ce801f693f"
+    },
+    {
+      "source": "build\\reference\\upss-third\\hard-reset-docs-cache.json",
+      "archive": "iso2022-upss-records/263-hard-reset-docs-cache.json.gz",
+      "bytes": 511,
+      "sha256": "9803119778046728b163a76239957fd555d832c737a7933f2de0828d2c8928d7"
+    },
+    {
+      "source": "build\\reference\\upss-third\\hard-reset-nrc.json",
+      "archive": "iso2022-upss-records/264-hard-reset-nrc.json.gz",
+      "bytes": 498,
+      "sha256": "173ee1dba4bb5ec71cbc0b68d5da2cadea634ba7693dca6cee6891c8ac43b00c"
+    },
+    {
+      "source": "build\\reference\\upss-third\\level-1.json",
+      "archive": "iso2022-upss-records/265-level-1.json.gz",
+      "bytes": 364,
+      "sha256": "2ff36924b4c9953452cc5b6b2458291bdaa64749dc184397716469ec1fd8d27d"
+    },
+    {
+      "source": "build\\reference\\upss-third\\level-2.json",
+      "archive": "iso2022-upss-records/266-level-2.json.gz",
+      "bytes": 364,
+      "sha256": "65b507b49a9bc0cc0eb09e70286c4022831ea7f59c323db37f9e6be71f1343be"
+    },
+    {
+      "source": "build\\reference\\upss-third\\level-3.json",
+      "archive": "iso2022-upss-records/267-level-3.json.gz",
+      "bytes": 497,
+      "sha256": "f069ed3be5ee043a88bb1fa6f8cf21816eaa4afe31a757d7306fd70ee88de676"
+    },
+    {
+      "source": "build\\reference\\upss-third\\level-4.json",
+      "archive": "iso2022-upss-records/268-level-4.json.gz",
+      "bytes": 497,
+      "sha256": "3525bc72989edddbd37bbdc4c4da399202db8569f98091356e101a4126fb45c8"
+    },
+    {
+      "source": "build\\reference\\upss-third\\level-5.json",
+      "archive": "iso2022-upss-records/269-level-5.json.gz",
+      "bytes": 497,
+      "sha256": "8e4a644baecf5054fa6a4a8276c29ce02a7dc635bb59b6da1af85d5535301894"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2234-l3-gl.json",
+      "archive": "iso2022-upss-records/270-map-0-2234-l3-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "34e460d4843d7ebf631b493797d739610fd41069642ba5f2ee4251f269afeae0"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2234-l3-gr.json",
+      "archive": "iso2022-upss-records/271-map-0-2234-l3-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "a41959ccc44de2dbd4b1b1272aeda24a16c27f28360093c9d09c1c4dd9ca81b3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2234-l5-gl.json",
+      "archive": "iso2022-upss-records/272-map-0-2234-l5-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "7d56f6edf3762fa8a6bcda551cd8f2027b805b7742b6b622ab3cabdd2c178344"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2234-l5-gr.json",
+      "archive": "iso2022-upss-records/273-map-0-2234-l5-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "4f8b471722eb354023102687848a0066a9f4f57073a1f6207957666aa97378eb"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-223f-l3-gl.json",
+      "archive": "iso2022-upss-records/274-map-0-223f-l3-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "0fe757074a777bb92d6b78ad911d89e101a66e318fe3231f8555e739bcb97cf6"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-223f-l3-gr.json",
+      "archive": "iso2022-upss-records/275-map-0-223f-l3-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "2b7ff6ee2b789bca1e3a2a050fc656b276b752c6669b3b8798d5867e8113944a"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-223f-l5-gl.json",
+      "archive": "iso2022-upss-records/276-map-0-223f-l5-gl.json.gz",
+      "bytes": 9902,
+      "sha256": "cd56607c9252301a0d39eb821a6d7dadb2b063fdb104a06320c339ef2b9b9092"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-223f-l5-gr.json",
+      "archive": "iso2022-upss-records/277-map-0-223f-l5-gr.json.gz",
+      "bytes": 9904,
+      "sha256": "2e1bd688726af349a21eec7806114352d5b9a262184d8e69d6a56f9981d4f88e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2530-l3-gl.json",
+      "archive": "iso2022-upss-records/278-map-0-2530-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "dda687c87156ac6f111640dcfaccf986360717f160c65bdc54ec155eb240cbc3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2530-l3-gr.json",
+      "archive": "iso2022-upss-records/279-map-0-2530-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "5fea69eef9310f857c385a3300e05bdf453e94b68721c216e431452192160983"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2530-l5-gl.json",
+      "archive": "iso2022-upss-records/280-map-0-2530-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "7e083d6216e63f2037f4bfe3cf64c50f73e6b03cae95f58794815c4bd0064a30"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2530-l5-gr.json",
+      "archive": "iso2022-upss-records/281-map-0-2530-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "1074ef197c618ee1b09344d9e11f555af31893c6db2938e7d000ca1f5db663a6"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2535-l3-gl.json",
+      "archive": "iso2022-upss-records/282-map-0-2535-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "836b7c33ef98c0d02283b0c67d96d3148b7382d2b4244f5558efefea9c3767be"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2535-l3-gr.json",
+      "archive": "iso2022-upss-records/283-map-0-2535-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "45b694abffdbd89d58c140e92f6365fc4df97005acc6d2f5668bc36f492be8ab"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2535-l5-gl.json",
+      "archive": "iso2022-upss-records/284-map-0-2535-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "dd05ad07ebf4ac68477bb625c29432368fc33c0e329305950337f62dd4f0f01d"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2535-l5-gr.json",
+      "archive": "iso2022-upss-records/285-map-0-2535-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "45f0ffcaefbe9c450ad2b3569f66dd7aa05c5b96b4d773aaecd23b436e587d4b"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2634-l3-gl.json",
+      "archive": "iso2022-upss-records/286-map-0-2634-l3-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "29bef719213b0569f3bb020c9f931bc10b4de177a7ae404713a2cd08cb4a8ee5"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2634-l3-gr.json",
+      "archive": "iso2022-upss-records/287-map-0-2634-l3-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "e800721c120d3672b9813cd9e1805d545a1a0d4a4c3bf111b21083d1fb0faedd"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2634-l5-gl.json",
+      "archive": "iso2022-upss-records/288-map-0-2634-l5-gl.json.gz",
+      "bytes": 9901,
+      "sha256": "1d29f225806ff423ffe5e9d9cdd1dc1daed6199b8da3f09f08f0b3a82c81ac80"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-2634-l5-gr.json",
+      "archive": "iso2022-upss-records/289-map-0-2634-l5-gr.json.gz",
+      "bytes": 9903,
+      "sha256": "08b1c84d7c8cdc6dac36b985f7dade8ff42ed0a8681abf64ea9e1c8aab91e609"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-30-l3-gl.json",
+      "archive": "iso2022-upss-records/290-map-0-30-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "5e496123e369704bc0acf01a134705e3d0376a49391af3b3251f2315339b7e70"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-30-l3-gr.json",
+      "archive": "iso2022-upss-records/291-map-0-30-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "b0507598d6322149030002318996d187593407db38e4676bac1369de73c4ad5b"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-30-l5-gl.json",
+      "archive": "iso2022-upss-records/292-map-0-30-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "f1d9a55f2a1d0d7a5f5beb306854f2f7e8f3674b39eb9c96483562dbfb4f1588"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-30-l5-gr.json",
+      "archive": "iso2022-upss-records/293-map-0-30-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "36c9f208b05a3284c772d31d64df79ce2ff1e40b0331485d3634e8dc103269c4"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-3e-l3-gl.json",
+      "archive": "iso2022-upss-records/294-map-0-3e-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "13fef7bd1f6df325ded606ebdc35d1c7bb2bff1cd18d128a547e0df57612d1d6"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-3e-l3-gr.json",
+      "archive": "iso2022-upss-records/295-map-0-3e-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "c412c75043758c94d59500f0c19685f4cdf2931b199616043752c19cfcd9ac0f"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-3e-l5-gl.json",
+      "archive": "iso2022-upss-records/296-map-0-3e-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "cce1d277db1cccf8d0cae093ebd321b67206b3b9c395328b43930608331ba0a3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-3e-l5-gr.json",
+      "archive": "iso2022-upss-records/297-map-0-3e-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "126d458fbffa35d02aa0e5f8dc87957b043ac07602db496e362506a5c60f131d"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-41-l3-gl.json",
+      "archive": "iso2022-upss-records/298-map-0-41-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "107534902a714f16e1036a9e71cf5fed2b61e0190088bb92499c406a51ad9df2"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-41-l3-gr.json",
+      "archive": "iso2022-upss-records/299-map-0-41-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "7d8109d616634105e8de40ba626042a4b2aa9842916988aa7568642b3f6b0e3a"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-41-l5-gl.json",
+      "archive": "iso2022-upss-records/300-map-0-41-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "99c1bdbfb6efdd22216c031bd7d742ee2157945c9fc60a94f92a8cf411d366a1"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-0-41-l5-gr.json",
+      "archive": "iso2022-upss-records/301-map-0-41-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "16a4bb59507b9391ab468eb71c26d90d9d9201704577e341904a096519139f68"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-41-l3-gl.json",
+      "archive": "iso2022-upss-records/302-map-1-41-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "5d2e317594665f12b9424019c5abddb1ba35f5f7bf1fb14b86f43b9f404d5faf"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-41-l3-gr.json",
+      "archive": "iso2022-upss-records/303-map-1-41-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "70b25f818fde67216ff75cc8d9bb99c76842b9fc833dd17391c3fa5936eaf098"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-41-l5-gl.json",
+      "archive": "iso2022-upss-records/304-map-1-41-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "9b2830ad761b70b59b61f747028ad7d862ef1ed0d89ab87abcd13dccea772d73"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-41-l5-gr.json",
+      "archive": "iso2022-upss-records/305-map-1-41-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "3f96b54a6c70f0cc90da2ff9a2d9c05e8c1753edebe882bf3a3a87b997b34523"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-42-l3-gl.json",
+      "archive": "iso2022-upss-records/306-map-1-42-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "468ad3558f1d3f2ee30e7ec9b80a2b0288a94ea770107270316671fbae396b79"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-42-l3-gr.json",
+      "archive": "iso2022-upss-records/307-map-1-42-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "82cdbe176249740e2cdeee7f3d237b8fd6d805e300b7ac3ee31d72fb8acea8ae"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-42-l5-gl.json",
+      "archive": "iso2022-upss-records/308-map-1-42-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "3b23b028b69b13f877fc15e14e4aa13e9eb4c3ebf84abb4c893ea1fb85f85392"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-42-l5-gr.json",
+      "archive": "iso2022-upss-records/309-map-1-42-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "1f9a59aac7368f51703dddc30b3773e4e12b309b29fbc313fcf3a9506eb1989c"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-46-l3-gl.json",
+      "archive": "iso2022-upss-records/310-map-1-46-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "afff9c3485928d0da795456f42cc082969f076c032fe6a90d7750f4c5bb3b8f9"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-46-l3-gr.json",
+      "archive": "iso2022-upss-records/311-map-1-46-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "d85a861e4f39c7a6919ebedac32bdbb53e4fbf46848bf2a812cd639dcf2ced19"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-46-l5-gl.json",
+      "archive": "iso2022-upss-records/312-map-1-46-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "016758aef29ba4ea899bae35c6c3f4d6249e6a037bd8c4135e5bd624008985f8"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-46-l5-gr.json",
+      "archive": "iso2022-upss-records/313-map-1-46-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "18814f80028a8920c925e2e8fcbe30910c01a0ba8fe2ec87f03bf6cd913cd59e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-48-l3-gl.json",
+      "archive": "iso2022-upss-records/314-map-1-48-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "8348742bf79b4fee3f46d62fdd46e73807ee98555b2305d6de3a01c2fe57832f"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-48-l3-gr.json",
+      "archive": "iso2022-upss-records/315-map-1-48-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "9da3df0f81287afc31ceeb4594c2b1cc5c7f84d0e55a694f33edb53459708c4b"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-48-l5-gl.json",
+      "archive": "iso2022-upss-records/316-map-1-48-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "f7b0eee693b5404edbcdd079360617840429b37b351bb47b2f4e9e7806e3622e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-48-l5-gr.json",
+      "archive": "iso2022-upss-records/317-map-1-48-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "49f0a35274da75ff9fae771b3dc38b6e73d58c2b82a51953ccd0f653ea00ed7e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4c-l3-gl.json",
+      "archive": "iso2022-upss-records/318-map-1-4c-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "fc06bf59fbe5aae393bc33a72b4c1e4771632c25ae57114b0fbf38c55ccd2082"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4c-l3-gr.json",
+      "archive": "iso2022-upss-records/319-map-1-4c-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "fda343082c0ccaa002863ae0208f003c6f31ac8cb62eb9b840dbfb9a234be732"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4c-l5-gl.json",
+      "archive": "iso2022-upss-records/320-map-1-4c-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "00ecf83f1da273bbc9825c0ea885e5998bf6dbe63f519b437a6401cac19dfb5a"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4c-l5-gr.json",
+      "archive": "iso2022-upss-records/321-map-1-4c-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "ee2079d35b7a3cacbbeef72e60b570f702b0e290755d2cebf3797de9a839e51e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4d-l3-gl.json",
+      "archive": "iso2022-upss-records/322-map-1-4d-l3-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "638086af5c20fa0375db739263a203ea272b2081f6af0861f7f5fe6c5bb80de5"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4d-l3-gr.json",
+      "archive": "iso2022-upss-records/323-map-1-4d-l3-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "88f855f698130317c9f0607a30d7b6537bccb833b72d7d796bc52b3089955e56"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4d-l5-gl.json",
+      "archive": "iso2022-upss-records/324-map-1-4d-l5-gl.json.gz",
+      "bytes": 9894,
+      "sha256": "ddb8f8292b48e3c28bad54ace5e3dc28815019d9f79f0a1175e5928edea02b38"
+    },
+    {
+      "source": "build\\reference\\upss-third\\map-1-4d-l5-gr.json",
+      "archive": "iso2022-upss-records/325-map-1-4d-l5-gr.json.gz",
+      "bytes": 9896,
+      "sha256": "383c3a9b44a638d96706840e38cec792696084ff76e2c9b7ddec6b6d192da390"
+    },
+    {
+      "source": "build\\reference\\upss-third\\nrc-accepts.json",
+      "archive": "iso2022-upss-records/326-nrc-accepts.json.gz",
+      "bytes": 491,
+      "sha256": "ec57e6f82bd6381cccd163be279d002380b6d5759793d711c559c2d0ca2a05d8"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-.json",
+      "archive": "iso2022-upss-records/327-prefix-.json.gz",
+      "bytes": 495,
+      "sha256": "2737fe1b4a41a2f51274a1d3fe44bafe7d05aea97fdb20c317df26d2522158d9"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-2031.json",
+      "archive": "iso2022-upss-records/328-prefix-2031.json.gz",
+      "bytes": 503,
+      "sha256": "101ded1ca21974be8c45a7772b66eafadf229fd28734bcfe5be310bcf92bc8b8"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-3030.json",
+      "archive": "iso2022-upss-records/329-prefix-3030.json.gz",
+      "bytes": 503,
+      "sha256": "2281be450cb5e01d1966e7331f6de11b2fd25d411c935bb24e6ef51073084b89"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-3031.json",
+      "archive": "iso2022-upss-records/330-prefix-3031.json.gz",
+      "bytes": 503,
+      "sha256": "9149988e7fa0b9c3ad1ad04e31ab92b3a5dae6c839bff3765f908625f5bd6a3d"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-3120.json",
+      "archive": "iso2022-upss-records/331-prefix-3120.json.gz",
+      "bytes": 503,
+      "sha256": "aeb8b0797ee1e35ce9a693824d83b4fa1f380a65fd263ed09de56b12b26ffcda"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-3130.json",
+      "archive": "iso2022-upss-records/332-prefix-3130.json.gz",
+      "bytes": 503,
+      "sha256": "99758ec522e83e00f005ee3e2367ea88afd3de6ccfe75f15d1cb72088fe3cdda"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-313a30.json",
+      "archive": "iso2022-upss-records/333-prefix-313a30.json.gz",
+      "bytes": 507,
+      "sha256": "0264205fd8c11205856a5cca74795a785680212cb46a536d04c40be72d3812c0"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-313b30.json",
+      "archive": "iso2022-upss-records/334-prefix-313b30.json.gz",
+      "bytes": 507,
+      "sha256": "fa806d3f09f9e604505e7c72fd1e0164386c14ee4b1a55989336918dd74a2a53"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-32.json",
+      "archive": "iso2022-upss-records/335-prefix-32.json.gz",
+      "bytes": 499,
+      "sha256": "81aee314d1b69fa867beeb2446bcf422a08f57090fe8caca97b753b3f01bc996"
+    },
+    {
+      "source": "build\\reference\\upss-third\\prefix-393939393939393939393939393939393939393939393939393939.json",
+      "archive": "iso2022-upss-records/336-prefix-393939393939393939393939393939393939393939393939393939.json.gz",
+      "bytes": 603,
+      "sha256": "024422e7058c8cea7081b41fbf0d44bde061123bd992c11d9b0f1bf5d761dbcd"
+    },
+    {
+      "source": "build\\reference\\upss-third\\query-c1.json",
+      "archive": "iso2022-upss-records/337-query-c1.json.gz",
+      "bytes": 365,
+      "sha256": "a0256d546175560d7b176586481008ac4cf86d3e1e65d49b11818546ad1c761a"
+    },
+    {
+      "source": "build\\reference\\upss-third\\query-extra-params.json",
+      "archive": "iso2022-upss-records/338-query-extra-params.json.gz",
+      "bytes": 390,
+      "sha256": "d5cfe43489558ed822f73f590e3f135d8f804ed749e1e32f714e99039373fefd"
+    },
+    {
+      "source": "build\\reference\\upss-third\\soft-reset-byte.json",
+      "archive": "iso2022-upss-records/339-soft-reset-byte.json.gz",
+      "bytes": 497,
+      "sha256": "fbf51700ffb0775b0650d8c8b0207f311882b655307ef57a4d628c8d4c71ca62"
+    },
+    {
+      "source": "build\\reference\\upss-third\\soft-reset-nrc.json",
+      "archive": "iso2022-upss-records/340-soft-reset-nrc.json.gz",
+      "bytes": 502,
+      "sha256": "00b00a0366352506e6ffe52ee28821fe9f41ffe550978699d553aa51820c62a3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-.json",
+      "archive": "iso2022-upss-records/341-suffix-.json.gz",
+      "bytes": 495,
+      "sha256": "add347c851d3dfebb3683132c40316c46ff8db81c1cfd0322821ee10c41e7bd1"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-0146.json",
+      "archive": "iso2022-upss-records/342-suffix-0146.json.gz",
+      "bytes": 503,
+      "sha256": "449dacf8b7ac34106ab9cbeac2a9aac31e58ec0a2c7b1d074bb9ac22f5947fb2"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-0a46.json",
+      "archive": "iso2022-upss-records/343-suffix-0a46.json.gz",
+      "bytes": 503,
+      "sha256": "8a5048334de1d888def72d1e4c740af57dc55682191b5975d9b8dd29e436d9d1"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-2046.json",
+      "archive": "iso2022-upss-records/344-suffix-2046.json.gz",
+      "bytes": 503,
+      "sha256": "f34ae4639a55d8020560394500855b4eaa59aae4c757768aa6774869525fb748"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-2546.json",
+      "archive": "iso2022-upss-records/345-suffix-2546.json.gz",
+      "bytes": 503,
+      "sha256": "fc86c597eed8ce218a55e6d532c76e36098be553ad853e9a3d90a7fcc3a72f8a"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-34.json",
+      "archive": "iso2022-upss-records/346-suffix-34.json.gz",
+      "bytes": 503,
+      "sha256": "1cc89f621e3dffe9438343daa7457712206be0871dbbdef9d984f26067dd31e3"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-35.json",
+      "archive": "iso2022-upss-records/347-suffix-35.json.gz",
+      "bytes": 502,
+      "sha256": "156c9fcc44f9b2eb0e546a35c73c396f50a19745084136873436daf07340c13e"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-3c.json",
+      "archive": "iso2022-upss-records/348-suffix-3c.json.gz",
+      "bytes": 499,
+      "sha256": "6e286479cf151d1d8b50172292de24d862053c2f3e5790fe8829c0def5ce6f70"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-3f.json",
+      "archive": "iso2022-upss-records/349-suffix-3f.json.gz",
+      "bytes": 503,
+      "sha256": "822d22aa80fdf4448e03afb7bd6cf5721fa479fc3ca387ea17f4b9024d15f3c1"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-42.json",
+      "archive": "iso2022-upss-records/350-suffix-42.json.gz",
+      "bytes": 499,
+      "sha256": "b9c5b230475286bc8ef99681b6a6d66c8b94a889fa7c7d73762bdf978fd7d3f7"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-4620.json",
+      "archive": "iso2022-upss-records/351-suffix-4620.json.gz",
+      "bytes": 503,
+      "sha256": "0750acc9c50d23e6b43304b67ba1bf2cdade75aff552a4b71ba65d1783e6cd23"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-4646.json",
+      "archive": "iso2022-upss-records/352-suffix-4646.json.gz",
+      "bytes": 503,
+      "sha256": "8d699bc50592db186bc71617df4b964f0294de847076588dbda56f9c4bf70573"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-4b.json",
+      "archive": "iso2022-upss-records/353-suffix-4b.json.gz",
+      "bytes": 499,
+      "sha256": "4111efdc0c7bf808891e83cd180c4fb1d227823f41e3172decdbd382e27e50cc"
+    },
+    {
+      "source": "build\\reference\\upss-third\\suffix-7f46.json",
+      "archive": "iso2022-upss-records/354-suffix-7f46.json.gz",
+      "bytes": 503,
+      "sha256": "fbb15a04c92f2923df24607112a7d68b0fa5e35040f6fbcbe91caa6a2cb5b067"
+    },
+    {
+      "source": "build\\reference\\upss-third\\utf8-ignored.json",
+      "archive": "iso2022-upss-records/355-utf8-ignored.json.gz",
+      "bytes": 480,
+      "sha256": "c5d789b37329180b37cdee3a77b6f3bc4c5ee77ddac15d89ff35ad20cfb42dc6"
+    },
+    {
+      "source": "build\\retain-upss.py",
+      "archive": "iso2022-upss-records/356-retain-upss.py.gz",
+      "bytes": 5501,
+      "sha256": "75443f34bfb5a84520fd6913598be99fc54d642b6b1117da87bc22e71e02be69"
+    },
+    {
+      "source": "build\\run-upss-native.py",
+      "archive": "iso2022-upss-records/357-run-upss-native.py.gz",
+      "bytes": 881,
+      "sha256": "36d2eb01115b07f445a336d3a2459895565b6bf09cfee71851cd51ca1ad0082d"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-00.log",
+      "archive": "iso2022-upss-records/358-normal-00.log.gz",
+      "bytes": 351,
+      "sha256": "3c9e40071251c221aae914fa9df932d122d3e79dadc9580052c329b4ba161e1b"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-01.log",
+      "archive": "iso2022-upss-records/359-normal-01.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-02.log",
+      "archive": "iso2022-upss-records/360-normal-02.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-03.log",
+      "archive": "iso2022-upss-records/361-normal-03.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-04.log",
+      "archive": "iso2022-upss-records/362-normal-04.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-05.log",
+      "archive": "iso2022-upss-records/363-normal-05.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-06.log",
+      "archive": "iso2022-upss-records/364-normal-06.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-07.log",
+      "archive": "iso2022-upss-records/365-normal-07.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\upss-final-linux\\normal-08.log",
+      "archive": "iso2022-upss-records/366-normal-08.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\upss-final-linux\\results.json",
+      "archive": "iso2022-upss-records/367-results.json.gz",
+      "bytes": 6419,
+      "sha256": "aa35d6967aa70eb22183d86941017d642704365c1a9324bd71db1aae3fe657b4"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-00.log",
+      "archive": "iso2022-upss-records/368-sanitizers-00.log.gz",
+      "bytes": 351,
+      "sha256": "3c9e40071251c221aae914fa9df932d122d3e79dadc9580052c329b4ba161e1b"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-01.log",
+      "archive": "iso2022-upss-records/369-sanitizers-01.log.gz",
+      "bytes": 73,
+      "sha256": "71dc3fb339e8a0d112b683371de0deae1d60a1856693870bbaf77d2b06e813ea"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-02.log",
+      "archive": "iso2022-upss-records/370-sanitizers-02.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-03.log",
+      "archive": "iso2022-upss-records/371-sanitizers-03.log.gz",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-04.log",
+      "archive": "iso2022-upss-records/372-sanitizers-04.log.gz",
+      "bytes": 60,
+      "sha256": "dfe65908fcd212c68d7403b9cf5503a40c490f849c003fb0c2f452c2f56e319e"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-05.log",
+      "archive": "iso2022-upss-records/373-sanitizers-05.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-06.log",
+      "archive": "iso2022-upss-records/374-sanitizers-06.log.gz",
+      "bytes": 20,
+      "sha256": "85320acf2963bbe5ec6b47ba5af1dc8fc4b6f187757527af79b8a71b15fd135c"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-07.log",
+      "archive": "iso2022-upss-records/375-sanitizers-07.log.gz",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "source": "build\\upss-final-linux\\sanitizers-08.log",
+      "archive": "iso2022-upss-records/376-sanitizers-08.log.gz",
+      "bytes": 31,
+      "sha256": "07358c1d0d8a6378b8b045bfedf8b5145988e9b7ee9c0924eff5c4fbcf919162"
+    },
+    {
+      "source": "build\\upss-final-msvc-build.log",
+      "archive": "iso2022-upss-records/377-upss-final-msvc-build.log.gz",
+      "bytes": 734,
+      "sha256": "d87104db1df31702efd7623f224cc9538436da99e2cf0815d16cd63f3c893584"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_grapheme_terminal.log",
+      "archive": "iso2022-upss-records/378-upss-final-msvc-test_grapheme_terminal.log.gz",
+      "bytes": 32,
+      "sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_iso2022_charset.log",
+      "archive": "iso2022-upss-records/379-upss-final-msvc-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_queries.log",
+      "archive": "iso2022-upss-records/380-upss-final-msvc-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_rectangle.log",
+      "archive": "iso2022-upss-records/381-upss-final-msvc-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_reflow.log",
+      "archive": "iso2022-upss-records/382-upss-final-msvc-test_reflow.log.gz",
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_sixel_terminal.log",
+      "archive": "iso2022-upss-records/383-upss-final-msvc-test_sixel_terminal.log.gz",
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_state_control.log",
+      "archive": "iso2022-upss-records/384-upss-final-msvc-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\upss-final-msvc-test_terminal.log",
+      "archive": "iso2022-upss-records/385-upss-final-msvc-test_terminal.log.gz",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "source": "build\\upss-final-normal-build.log",
+      "archive": "iso2022-upss-records/386-upss-final-normal-build.log.gz",
+      "bytes": 351,
+      "sha256": "2f8f8e2f9656721fc51a962c41c9813b741ff4610a6bb2c88faefb1245a7973b"
+    },
+    {
+      "source": "build\\upss-final-normal-test.log",
+      "archive": "iso2022-upss-records/387-upss-final-normal-test.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\upss-final-sanitizers-build.log",
+      "archive": "iso2022-upss-records/388-upss-final-sanitizers-build.log.gz",
+      "bytes": 351,
+      "sha256": "2f8f8e2f9656721fc51a962c41c9813b741ff4610a6bb2c88faefb1245a7973b"
+    },
+    {
+      "source": "build\\upss-final-sanitizers-test.log",
+      "archive": "iso2022-upss-records/389-upss-final-sanitizers-test.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "source": "build\\upss-final-single-build.log",
+      "archive": "iso2022-upss-records/390-upss-final-single-build.log.gz",
+      "bytes": 218,
+      "sha256": "a11f4c66cd5646e18213650e16668522d521c7c9be219bc6c657f8d51c2fb223"
+    },
+    {
+      "source": "build\\upss-first-build.log",
+      "archive": "iso2022-upss-records/391-upss-first-build.log.gz",
+      "bytes": 850,
+      "sha256": "872036cc8847da8d1dd6ddeeacb3a57bcb2f8488dea309a2aeda3ebf51702ecb"
+    },
+    {
+      "source": "build\\upss-first-state.log",
+      "archive": "iso2022-upss-records/392-upss-first-state.log.gz",
+      "bytes": 340,
+      "sha256": "8d6599516aae997f51f6961bfe1b51711cf47bb2adec5cac3e5d0ab8276c12c4"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\controller.log",
+      "archive": "iso2022-upss-records/393-controller.log.gz",
+      "bytes": 366,
+      "sha256": "32da575cbbcc7ffdf8f6471d65f1897bdc0ac7e5ce97b5973b858141f181bde0"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\research\\tabs-controller.json",
+      "archive": "iso2022-upss-records/394-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "704d08d276a2b15b7e7a066b0fa24cb0b7491335e0af697500cf57c0e5aa383c"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\research\\workload-tabs-directx-left-memory.json",
+      "archive": "iso2022-upss-records/395-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1449896,
+      "sha256": "66df67e6df4f36db42c849af5f41e2d6b6aba4039e81a1345ee8a2a251634ce6"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\research\\workload-tabs-directx-left-observed.json",
+      "archive": "iso2022-upss-records/396-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 183662,
+      "sha256": "feeea37ba0022c6d625547b41b8eb922ff1e7948f79559f9d29e6fedab114822"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\research\\workload-tabs-directx-left-preview.png",
+      "archive": "iso2022-upss-records/397-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tabs.log",
+      "archive": "iso2022-upss-records/398-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\automation_capture.py",
+      "archive": "iso2022-upss-records/399-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\fixture_io.py",
+      "archive": "iso2022-upss-records/400-fixture_io.py.gz",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\memory_limits.py",
+      "archive": "iso2022-upss-records/401-memory_limits.py.gz",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\native_test_utils.py",
+      "archive": "iso2022-upss-records/402-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\owned_job.py",
+      "archive": "iso2022-upss-records/403-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\resource_settle.py",
+      "archive": "iso2022-upss-records/404-resource_settle.py.gz",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\tab_workload_memory.py",
+      "archive": "iso2022-upss-records/405-tab_workload_memory.py.gz",
+      "bytes": 6122,
+      "sha256": "f0cdf052fe91479ce3efe7cd2f39f58095942fcecf7bc08e1927cead2d0d9b7a"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-directx\\tests\\tabs_window_smoke.py",
+      "archive": "iso2022-upss-records/406-tabs_window_smoke.py.gz",
+      "bytes": 29857,
+      "sha256": "0ede5f4994144dfb044a58cd93417dfe48450601cdce8e89f0395b0a9c5df3d6"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\controller.log",
+      "archive": "iso2022-upss-records/407-controller.log.gz",
+      "bytes": 366,
+      "sha256": "f0aa7221cdf0312b38f62f172b026162337b1b8e4aad7bf16eb6a27bd2149df3"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\research\\tabs-controller.json",
+      "archive": "iso2022-upss-records/408-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "731365e8eb1dc7d06032a561a1b26c97f4e38208635585eecbff4988a01b443f"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\research\\tabs-gdi-top-host.png",
+      "archive": "iso2022-upss-records/409-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\research\\workload-tabs-gdi-top-memory.json",
+      "archive": "iso2022-upss-records/410-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1466345,
+      "sha256": "85145615b48361839c8ba92df4bae07c7cbf90c496e96814282016bd5644fb35"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\research\\workload-tabs-gdi-top-observed.json",
+      "archive": "iso2022-upss-records/411-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 176910,
+      "sha256": "a542e2d3f5c4fce3898a31c22e37b4a65f97e128d2b14d30cf212bb4cd184fba"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\research\\workload-tabs-gdi-top-preview.png",
+      "archive": "iso2022-upss-records/412-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "source": "build\\upss-memory-01\\candidate-gdi\\tabs.log",
+      "archive": "iso2022-upss-records/413-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "source": "build\\upss-memory-01\\results.json",
+      "archive": "iso2022-upss-records/414-results.json.gz",
+      "bytes": 1685,
+      "sha256": "2d5039b662ba32f27709be2db07531a603b1ef716e8b83d78d00bfac6bfe3be5"
+    },
+    {
+      "source": "build\\upss-msvc-build.log",
+      "archive": "iso2022-upss-records/415-upss-msvc-build.log.gz",
+      "bytes": 2792,
+      "sha256": "0eed43a27dc475fecc95766d75090c13a435fffc2dd0b02eca3850fa1b6f17bb"
+    },
+    {
+      "source": "build\\upss-msvc-test_grapheme_terminal.log",
+      "archive": "iso2022-upss-records/416-upss-msvc-test_grapheme_terminal.log.gz",
+      "bytes": 32,
+      "sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+    },
+    {
+      "source": "build\\upss-msvc-test_iso2022_charset.log",
+      "archive": "iso2022-upss-records/417-upss-msvc-test_iso2022_charset.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\upss-msvc-test_queries.log",
+      "archive": "iso2022-upss-records/418-upss-msvc-test_queries.log.gz",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "source": "build\\upss-msvc-test_rectangle.log",
+      "archive": "iso2022-upss-records/419-upss-msvc-test_rectangle.log.gz",
+      "bytes": 61,
+      "sha256": "d25e2b2953e0bece4a4f758ceb81004cc426c0e2bc41a29a1c9abbfc16cc680f"
+    },
+    {
+      "source": "build\\upss-msvc-test_reflow.log",
+      "archive": "iso2022-upss-records/420-upss-msvc-test_reflow.log.gz",
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    {
+      "source": "build\\upss-msvc-test_sixel_terminal.log",
+      "archive": "iso2022-upss-records/421-upss-msvc-test_sixel_terminal.log.gz",
+      "bytes": 29,
+      "sha256": "45adbf690f359661b546f595e70493a7f4d0f31eb8ff5b2b7a4c0a1cf6c0c742"
+    },
+    {
+      "source": "build\\upss-msvc-test_state_control.log",
+      "archive": "iso2022-upss-records/422-upss-msvc-test_state_control.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "build\\upss-msvc-test_terminal.log",
+      "archive": "iso2022-upss-records/423-upss-msvc-test_terminal.log.gz",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "source": "build\\upss-native-01\\iso2022.log",
+      "archive": "iso2022-upss-records/424-iso2022.log.gz",
+      "bytes": 203,
+      "sha256": "e7adfff8752dd90707c6907b343080348604ab80bbb222da211d2676b6ef0675"
+    },
+    {
+      "source": "build\\upss-native-01\\outer.log",
+      "archive": "iso2022-upss-records/425-outer.log.gz",
+      "bytes": 369,
+      "sha256": "58d781c061a2140adb684b43159400f91d808dae639085e6aa67c0f619f7aa0a"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-blank.png",
+      "archive": "iso2022-upss-records/426-iso2022-0-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-german-designated.png",
+      "archive": "iso2022-upss-records/427-iso2022-0-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-german-unicode.png",
+      "archive": "iso2022-upss-records/428-iso2022-0-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-greek-96-designated.png",
+      "archive": "iso2022-upss-records/429-iso2022-0-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-greek-96-unicode.png",
+      "archive": "iso2022-upss-records/430-iso2022-0-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-portuguese-designated.png",
+      "archive": "iso2022-upss-records/431-iso2022-0-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-portuguese-unicode.png",
+      "archive": "iso2022-upss-records/432-iso2022-0-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-single-shift-designated.png",
+      "archive": "iso2022-upss-records/433-iso2022-0-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-single-shift-unicode.png",
+      "archive": "iso2022-upss-records/434-iso2022-0-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-cursor-designated.png",
+      "archive": "iso2022-upss-records/435-iso2022-0-upss-cursor-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-cursor-unicode.png",
+      "archive": "iso2022-upss-records/436-iso2022-0-upss-cursor-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-greek-designated.png",
+      "archive": "iso2022-upss-records/437-iso2022-0-upss-greek-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-greek-unicode.png",
+      "archive": "iso2022-upss-records/438-iso2022-0-upss-greek-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-reassign-designated.png",
+      "archive": "iso2022-upss-records/439-iso2022-0-upss-reassign-designated.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-0-upss-reassign-unicode.png",
+      "archive": "iso2022-upss-records/440-iso2022-0-upss-reassign-unicode.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-blank.png",
+      "archive": "iso2022-upss-records/441-iso2022-1-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-german-designated.png",
+      "archive": "iso2022-upss-records/442-iso2022-1-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-german-unicode.png",
+      "archive": "iso2022-upss-records/443-iso2022-1-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-greek-96-designated.png",
+      "archive": "iso2022-upss-records/444-iso2022-1-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-greek-96-unicode.png",
+      "archive": "iso2022-upss-records/445-iso2022-1-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-portuguese-designated.png",
+      "archive": "iso2022-upss-records/446-iso2022-1-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-portuguese-unicode.png",
+      "archive": "iso2022-upss-records/447-iso2022-1-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-single-shift-designated.png",
+      "archive": "iso2022-upss-records/448-iso2022-1-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-single-shift-unicode.png",
+      "archive": "iso2022-upss-records/449-iso2022-1-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-cursor-designated.png",
+      "archive": "iso2022-upss-records/450-iso2022-1-upss-cursor-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-cursor-unicode.png",
+      "archive": "iso2022-upss-records/451-iso2022-1-upss-cursor-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-greek-designated.png",
+      "archive": "iso2022-upss-records/452-iso2022-1-upss-greek-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-greek-unicode.png",
+      "archive": "iso2022-upss-records/453-iso2022-1-upss-greek-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-reassign-designated.png",
+      "archive": "iso2022-upss-records/454-iso2022-1-upss-reassign-designated.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-1-upss-reassign-unicode.png",
+      "archive": "iso2022-upss-records/455-iso2022-1-upss-reassign-unicode.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-blank.png",
+      "archive": "iso2022-upss-records/456-iso2022-2-blank.png.gz",
+      "bytes": 3666,
+      "sha256": "102f2ff5aa7f222ffde4b387884fd2e78af0d0c6892595fa3e1f4f57fb4c1a33"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-german-designated.png",
+      "archive": "iso2022-upss-records/457-iso2022-2-german-designated.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-german-unicode.png",
+      "archive": "iso2022-upss-records/458-iso2022-2-german-unicode.png.gz",
+      "bytes": 3938,
+      "sha256": "ec53fbc257c2974a61ba4e88b7264f922a1f8c200dc9c9f87855f73eb5f5fe9c"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-greek-96-designated.png",
+      "archive": "iso2022-upss-records/459-iso2022-2-greek-96-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-greek-96-unicode.png",
+      "archive": "iso2022-upss-records/460-iso2022-2-greek-96-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-portuguese-designated.png",
+      "archive": "iso2022-upss-records/461-iso2022-2-portuguese-designated.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-portuguese-unicode.png",
+      "archive": "iso2022-upss-records/462-iso2022-2-portuguese-unicode.png.gz",
+      "bytes": 3903,
+      "sha256": "df8bd1e3c45b14af0ecab77ab9e8b963d8999f2993bcef36f0195490d16987eb"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-single-shift-designated.png",
+      "archive": "iso2022-upss-records/463-iso2022-2-single-shift-designated.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-single-shift-unicode.png",
+      "archive": "iso2022-upss-records/464-iso2022-2-single-shift-unicode.png.gz",
+      "bytes": 3809,
+      "sha256": "b9174e0dfca0d58ad3b27f54da28b2b3dee927ae9cce7221e4f409aac7efce62"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-cursor-designated.png",
+      "archive": "iso2022-upss-records/465-iso2022-2-upss-cursor-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-cursor-unicode.png",
+      "archive": "iso2022-upss-records/466-iso2022-2-upss-cursor-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-greek-designated.png",
+      "archive": "iso2022-upss-records/467-iso2022-2-upss-greek-designated.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-greek-unicode.png",
+      "archive": "iso2022-upss-records/468-iso2022-2-upss-greek-unicode.png.gz",
+      "bytes": 3851,
+      "sha256": "6ce8f8b896e791012c5bc2262d3cde92e4cd845727e98088b554cebae4c8b85d"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-reassign-designated.png",
+      "archive": "iso2022-upss-records/469-iso2022-2-upss-reassign-designated.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-2-upss-reassign-unicode.png",
+      "archive": "iso2022-upss-records/470-iso2022-2-upss-reassign-unicode.png.gz",
+      "bytes": 3940,
+      "sha256": "6efb4544f5f92cfcf1ba05ce9a6892072d87acf4061ede7bbbc13fc4822e8130"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-controller.json",
+      "archive": "iso2022-upss-records/471-iso2022-controller.json.gz",
+      "bytes": 472,
+      "sha256": "f2ff86daec60c25d6d71fb9617096e1ab9fe88fc036e9cd15f9ec91550f817b7"
+    },
+    {
+      "source": "build\\upss-native-01\\research\\iso2022-observed.json",
+      "archive": "iso2022-upss-records/472-iso2022-observed.json.gz",
+      "bytes": 172402,
+      "sha256": "649cea4f75295c5ea7061ab64779aed1bf17d46d008d9212078867fde156a621"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\automation_capture.py",
+      "archive": "iso2022-upss-records/473-automation_capture.py.gz",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\fixture_io.py",
+      "archive": "iso2022-upss-records/474-fixture_io.py.gz",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\mouse_fixture.py",
+      "archive": "iso2022-upss-records/475-mouse_fixture.py.gz",
+      "bytes": 5665,
+      "sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\native_test_utils.py",
+      "archive": "iso2022-upss-records/476-native_test_utils.py.gz",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\owned_job.py",
+      "archive": "iso2022-upss-records/477-owned_job.py.gz",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "source": "build\\upss-native-01\\tests\\protocol_oracle_window.py",
+      "archive": "iso2022-upss-records/478-protocol_oracle_window.py.gz",
+      "bytes": 6603,
+      "sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+    },
+    {
+      "source": "build\\upss-native-01\\tools\\nemoterm_debug.py",
+      "archive": "iso2022-upss-records/479-nemoterm_debug.py.gz",
+      "bytes": 9528,
+      "sha256": "1a63181cc9acc34d3349464e9179942be2472feaeec1867dd5af87d8a9294522"
+    },
+    {
+      "source": "build\\upss-second-build.log",
+      "archive": "iso2022-upss-records/480-upss-second-build.log.gz",
+      "bytes": 770,
+      "sha256": "de01ca0d47b6d2cf24163fd9fc8a24d48fc4c39213dd93b64a2088ee074fc822"
+    },
+    {
+      "source": "build\\upss-second-state.log",
+      "archive": "iso2022-upss-records/481-upss-second-state.log.gz",
+      "bytes": 1604,
+      "sha256": "67f0d53444117f2e4c1ff3a294ce1316e6cfb6e5ca2ebe3153ee683b07c21f15"
+    },
+    {
+      "source": "build\\upss-single-build.log",
+      "archive": "iso2022-upss-records/482-upss-single-build.log.gz",
+      "bytes": 1449,
+      "sha256": "33af3f53af033143ba664f50c4296870054f5f425fc4ab8ee665bb0103f3b72d"
+    },
+    {
+      "source": "build\\upss-strict-build.log",
+      "archive": "iso2022-upss-records/483-upss-strict-build.log.gz",
+      "bytes": 52,
+      "sha256": "68f433b0472aec54703fb7580b28abc3ee62bf2c8291ffbb229b5de4e2e4c32c"
+    },
+    {
+      "source": "build\\upss-strict-test.log",
+      "archive": "iso2022-upss-records/484-upss-strict-test.log.gz",
+      "bytes": 74,
+      "sha256": "7ebed3e115b25fdf5f619d1632791b6588cb2329b0e8ced464fe6d44b5234bb6"
+    },
+    {
+      "source": "build\\upss-third-build.log",
+      "archive": "iso2022-upss-records/485-upss-third-build.log.gz",
+      "bytes": 263,
+      "sha256": "da9f24457c8bcd06ea896c3f1ce9a31c3272a9742079044c47fb82207aa65b35"
+    },
+    {
+      "source": "build\\upss-third-state.log",
+      "archive": "iso2022-upss-records/486-upss-third-state.log.gz",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "source": "tests\\charset_input_reference.h",
+      "archive": "iso2022-upss-records/487-charset_input_reference.h.gz",
+      "bytes": 72886,
+      "sha256": "698bf6a795de3d4c84f4ccdba65249009e519e9a3db02686d14509becfdf6643"
+    },
+    {
+      "source": "tests\\iso2022_window_smoke.py",
+      "archive": "iso2022-upss-records/488-iso2022_window_smoke.py.gz",
+      "bytes": 7462,
+      "sha256": "936d1dbdc471df59389ed10bc0a35242a8cb19cf3d79e3d72eb72e1a7f1c042a"
+    },
+    {
+      "source": "tests\\upss_input_reference.h",
+      "archive": "iso2022-upss-records/489-upss_input_reference.h.gz",
+      "bytes": 34438,
+      "sha256": "ad7c406715652d9d034a01baab89009433f203817c7d2072a4e71745e576c8d5"
+    },
+    {
+      "source": "tests\\upss_reference.h",
+      "archive": "iso2022-upss-records/490-upss_reference.h.gz",
+      "bytes": 312128,
+      "sha256": "51cf7155efa1d72f1b0efede4eaa871e41d800d78ad39ca6860f96e6d633628f"
+    },
+    {
+      "source": "tests\\xterm_charset_input_oracle.py",
+      "archive": "iso2022-upss-records/491-xterm_charset_input_oracle.py.gz",
+      "bytes": 6745,
+      "sha256": "1c9c7dde0f3d0a18872f567d1ea3ea31210b646d9d3255fb554c677aa64c387a"
+    },
+    {
+      "source": "tests\\xterm_upss_oracle.py",
+      "archive": "iso2022-upss-records/492-xterm_upss_oracle.py.gz",
+      "bytes": 4356,
+      "sha256": "b064b9cc2ac1f160d6e9738e026f1051ab421ff2e25f152785c7e4f652ef89c1"
+    },
+    {
+      "source": "tools\\generate_charset_input_reference.py",
+      "archive": "iso2022-upss-records/493-generate_charset_input_reference.py.gz",
+      "bytes": 1384,
+      "sha256": "89c93e857fbb4147c8b9ae14386edd962341670e7d6a862edb267831ab9f2c97"
+    },
+    {
+      "source": "tools\\generate_upss_reference.py",
+      "archive": "iso2022-upss-records/494-generate_upss_reference.py.gz",
+      "bytes": 1291,
+      "sha256": "3122f32b6f1dd1d77401cc7853ab07be20d43d1399923ad19cf3b269ea818a5b"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.c",
+      "archive": "iso2022-upss-records/495-nemo_charset.c.gz",
+      "bytes": 6649,
+      "sha256": "9bbfd8afb002aac33bcf1e5a5987629031371c59ab517132777c9c8250c4dc1d"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\nemo_charset.h",
+      "archive": "iso2022-upss-records/496-nemo_charset.h.gz",
+      "bytes": 2333,
+      "sha256": "c7fc81d500e165b2cffe2575ada350a74eafd8e4047364de3ae82972df648de1"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\terminal.c",
+      "archive": "iso2022-upss-records/497-terminal.c.gz",
+      "bytes": 520007,
+      "sha256": "6ba3c991a4b85cf1938001e609be82dc8594f5908a85ea3b3a7b31e3afdf7df7"
+    },
+    {
+      "source": "vendor\\putty-0.85\\terminal\\terminal.h",
+      "archive": "iso2022-upss-records/498-terminal.h.gz",
+      "bytes": 28932,
+      "sha256": "0b5be02affc85709bbf035d4da3702138712af67117a5fab9a7fecf2c0bfb4bc"
+    },
+    {
+      "source": "vendor\\putty-0.85\\test\\test_state_control.c",
+      "archive": "iso2022-upss-records/499-test_state_control.c.gz",
+      "bytes": 28751,
+      "sha256": "4a554431b0b9f51e5f42334abb38a3833c68c27e0c0739cbe5c81eba854e4c0c"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\charproc.c",
+      "archive": "iso2022-upss-records/500-charproc.c.gz",
+      "bytes": 413168,
+      "sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\charsets.c",
+      "archive": "iso2022-upss-records/501-charsets.c.gz",
+      "bytes": 18292,
+      "sha256": "87f1bb0b23c7078ffa983a81ff230abf2bfc1cea9d3f26a9b721556ae9d7056b"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\charsets.h",
+      "archive": "iso2022-upss-records/502-charsets.h.gz",
+      "bytes": 124637,
+      "sha256": "a6c3be7bb162c771a73108a57522ea7af33e7539d1474384ddc5cd6204dc10b6"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\ctlseqs.txt",
+      "archive": "iso2022-upss-records/503-ctlseqs.txt.gz",
+      "bytes": 164037,
+      "sha256": "364c1c1987c85b1c1135e57a93e9008054f46d09a338de8dcc66ea9a7c613709"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\cursor.c",
+      "archive": "iso2022-upss-records/504-cursor.c.gz",
+      "bytes": 15889,
+      "sha256": "3caf38bdfb855243a79ceabd0203be078e1eedacde37d29b646b20702eddfbb8"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\misc.c",
+      "archive": "iso2022-upss-records/505-misc.c.gz",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "source": "\\\\wsl.localhost\\Debian\\tmp\\nemoterm-xterm-reference\\ptydata.c",
+      "archive": "iso2022-upss-records/506-ptydata.c.gz",
+      "bytes": 23945,
+      "sha256": "91775ba3126c07f3e680362c3e993cdd37e838a1f6b3ad54e170f11e6538bb82"
+    }
+  ],
+  "reference": {
+    "streams": 112,
+    "mapping_streams": 56,
+    "cells": 5376,
+    "transport_shapes": [
+      "whole",
+      "single-byte"
+    ],
+    "paste_cases": 28,
+    "paste_codepoints": 586
+  },
+  "built_single": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\charset-worktree\\build\\charset-upss-single-02\\nemoterm.exe",
+    "bytes": 4526592,
+    "sha256": "5e5a76d851be6e96d1dd89e06ba8e09fd8b654836356fdf56904c84db9b86e17"
+  },
+  "first_single_before_final_header_guard": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\charset-worktree\\build\\charset-upss-single-01\\nemoterm.exe",
+    "bytes": 4526592,
+    "sha256": "f30f7e0d900828e449eda65ccce2d3a4d137eb817b2d678701d4cb0ba1010f70"
+  },
+  "accepted_unchanged": {
+    "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\dist\\nemoterm.exe",
+    "bytes": 4452864,
+    "sha256": "c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26"
+  },
+  "memory_runs": [
+    {
+      "name": "candidate-gdi",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "5e5a76d851be6e96d1dd89e06ba8e09fd8b654836356fdf56904c84db9b86e17",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 1,
+      "phase": "complete",
+      "error": null,
+      "seconds": 60.294,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 525,
+      "peaks": {
+        "count": 1,
+        "private_ws": 16654336,
+        "total_ws": 43372544,
+        "private_commit": 19550208
+      },
+      "injected": false
+    },
+    {
+      "name": "candidate-directx",
+      "fixture_revision": "6ab186d687e48ac977e82e87b9acd11ad2b2bf8b",
+      "executable_sha256": "5e5a76d851be6e96d1dd89e06ba8e09fd8b654836356fdf56904c84db9b86e17",
+      "exit_code": 0,
+      "checks": 9,
+      "actual": 3,
+      "phase": "complete",
+      "error": null,
+      "seconds": 59.774,
+      "memory_limit_passed": true,
+      "cleanup": {
+        "before": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 58,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "samples": 517,
+      "peaks": {
+        "count": 1,
+        "private_ws": 24182784,
+        "total_ws": 63537152,
+        "private_commit": 86700032
+      },
+      "injected": false
+    }
+  ],
+  "native": {
+    "renderers": [
+      0,
+      1,
+      2
+    ],
+    "scenes_per_renderer": 7,
+    "requested_grid": [
+      160,
+      48
+    ],
+    "font": "SarasaTermSC Nerd Font Light",
+    "capture": "public automation API"
+  },
+  "validation": [
+    "8 final Linux suites normal and ASan/UBSan/leak checks passed",
+    "8 final MSVC suites passed; frontend and integrated single image built",
+    "W4 WX standalone mapper and 15360 prior reference cells passed",
+    "actual GDI/OpenGL/DirectX pixels, UPSS query and ConPTY paste passed",
+    "unchanged GDI and DirectX finite-workload memory/resource gates passed"
+  ],
+  "limitations": [
+    "full CI for new checkpoint pending",
+    "no all-agent memory acceptance",
+    "DirectX total working set still above approximately 50 MB",
+    "prior native tab-close crash unresolved",
+    "broader lower-level output matrix and extended legacy checksums pending",
+    "not every encoding or malformed-input combination tested"
+  ]
+}

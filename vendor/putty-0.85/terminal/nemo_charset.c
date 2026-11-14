@@ -21,7 +21,7 @@ static const NemoCharset charsets[] = {
     NRC("K",German,2), NRC("Y",Italian,2), NRC("E",Norwegian_Danish,2),
     NRC("6",Norwegian_Danish,2), NRC("Z",Spanish,2), NRC("7",Swedish,2),
     NRC("H",Swedish,2), NRC("=",Swiss,2),
-    /* UPSS is initially Latin-1; assigning another UPSS belongs to the parser. */
+    /* The parser owns UPSS and resolves this placeholder at invocation. */
     ROW("<",NULL,3,5,false,true,UPSS),
     ROW("A",NULL,3,5,true,false,BRITISH),
     DEC("%5",Supp_Graphic,3), DEC(">",Technical,3),
@@ -66,6 +66,43 @@ const NemoCharset *nemo_charset_designate(unsigned group, unsigned level,
             return entry;
     }
     return NULL;
+}
+
+const NemoCharset *nemo_charset_preferred(unsigned parameter,
+    const char *designation, size_t length)
+{
+    static const struct { unsigned parameter; const char *input, *output; } allowed[] = {
+        {0,"%5","%5"}, {0,"A","B"}, {0,"0","0"}, {0,">",">"},
+        {0,"\"?","\"?"}, {0,"\"4","\"4"}, {0,"%0","%0"}, {0,"&4","&4"},
+        {1,"A","A"}, {1,"B","B"}, {1,"F","F"}, {1,"H","H"},
+        {1,"M","M"}, {1,"L","L"},
+    };
+    if (!designation || !length || length>2) return NULL;
+    for (size_t i=0;i<sizeof(allowed)/sizeof(*allowed);i++) {
+        const char *name=allowed[i].input;
+        size_t n=strlen(name);
+        /* XTerm also accepts the final alone, first match winning. */
+        if (parameter==allowed[i].parameter &&
+            (length==1 ? designation[0]==name[n-1] :
+             n==length && !memcmp(name,designation,length)))
+            return nemo_charset_designate(parameter ? 3 : 1,5,false,
+                allowed[i].output,strlen(allowed[i].output));
+    }
+    return NULL;
+}
+
+const NemoCharset *nemo_charset_resolve(const NemoCharset *charset,
+    unsigned preferred_id, unsigned level)
+{
+    if (!charset || charset->kind!=UPSS) return charset;
+    const NemoCharset *preferred=nemo_charset_by_id(preferred_id);
+    if (level<2 || !preferred || preferred->kind==UPSS)
+        return nemo_charset_designate(1,5,false,"B",1);
+    if (level>=3 && level<5 &&
+        !(preferred->kind==TABLE && preferred->minimum_level==2 &&
+          !strcmp(preferred->designation,"<")))
+        return nemo_charset_designate(3,5,false,"A",1);
+    return preferred;
 }
 
 uint32_t nemo_charset_map(const NemoCharset *charset, unsigned byte,

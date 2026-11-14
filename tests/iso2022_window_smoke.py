@@ -15,7 +15,10 @@ barrier=CSI+'>q';marker=b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'
 scenes=[('german', '\u00c4\u00d6\u00dc\u00df', CSI+'?42h\x1b(K[\\]~'),
         ('portuguese','\u00c3\u00c7\u00d5',CSI+'?42h\x1b(%6[\\]'),
         ('greek-96','\u0391\u0392\u0393','\x1b%@\x1b-F\x0eABC'),
-        ('single-shift','\u00c4AA',CSI+'?42h\x1b*K\x1bN[AA')]
+        ('single-shift','\u00c4AA',CSI+'?42h\x1b*K\x1bN[AA'),
+        ('upss-greek','\u0391\u0392\u0393','\x1b%@\x1b(<\x1bP1!uF\x1b\\ABC'),
+        ('upss-reassign','\u0391\u0392\u0393ABC','\x1b%@\x1b(<\x1bP1!uF\x1b\\ABC\x1bP1!uA\x1b\\ABC'),
+        ('upss-cursor','\u0391\u0392\u0393','\x1b%@\x1b(<\x1bP1!uF\x1b\\\x1b7\x1bP1!uA\x1b\\\x1b8ABC')]
 try:
     for requested,renderer in [(0,'GDI'),(1,'OpenGL'),(2,'DirectX')]:
         mode=dict(requested=renderer,completed=False,scenes={});result['modes'].append(mode)
@@ -89,12 +92,18 @@ try:
                 expected+=text.encode()
                 wait_for(lambda:read_snapshot(report).get('hex')==expected.hex())
                 mode['typing_hex']=text.encode().hex()
+                upss=phase('upss-paste-setup',reset+CSI+'?42h\x1b(<\x1bP1!uF\x1b\\'+CSI+'&u')
+                before=bytes.fromhex(upss['hex'])
+                assert before==b'\x1bP1!uF\x1b\\'+marker,before
+                api.request(instance['endpoint'],'paste',session['id'],'\u0391\u0392\u0393'.encode())
+                wait_for(lambda:read_snapshot(report).get('hex')==(before+b'ABC').hex())
+                mode['upss_paste_hex']=b'ABC'.hex()
                 write_snapshot(control,dict(stop=True));process.wait(timeout=10)
                 assert process.returncode==0,process.returncode
                 mode['cleanup']=job.finish();assert not mode['cleanup']['terminated_remaining']
                 mode['completed']=True
                 print(renderer,'(actual '+['GDI','OpenGL','DirectX'][active]+')',
-                    '4 pixel/text scenes, paste and typing passed',flush=True)
+                    len(scenes),'pixel/text scenes, paste and typing passed',flush=True)
             finally:
                 mode['last_snapshot']=read_snapshot(report)
                 if observer:observer.close()

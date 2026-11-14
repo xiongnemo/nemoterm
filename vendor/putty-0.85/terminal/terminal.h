@@ -171,7 +171,7 @@ struct terminal_tag {
     unsigned char *dcs_tabs_pending;
     size_t dcs_tabs_bytes;
     unsigned dcs_tab_value;
-    bool dcs_tab_stopped;
+    bool dcs_tab_stopped, dcs_upss_header_valid;
     int sixel_x, sixel_y, sixel_screen;
     bool sixel_display_mode, sixel_scrolls_right, sixel_private_palette;
     unsigned sixel_register_count;
@@ -296,6 +296,7 @@ struct terminal_tag {
 
     int cset_attr[4];
     int ansi_csattr[4];               /* DOCS byte-set cache, separate from DECSC */
+    unsigned upss_id, ansi_upss_id, save_upss_id, alt_save_upss_id;
 
 /*
  * Saved settings on the alternate screen.

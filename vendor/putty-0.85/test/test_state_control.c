@@ -8,7 +8,10 @@
 #include "../../../tests/charset_reference.h"
 #include "../../../tests/charset_parser_reference.h"
 #include "../../../tests/charset_state_reference.h"
+typedef struct { const char *name, *setup, *reply; size_t length; } CharsetInputCase;
 #include "../../../tests/charset_input_reference.h"
+#include "../../../tests/upss_input_reference.h"
+#include "../../../tests/upss_reference.h"
 #include "../../../tests/alignment_oracle_cases.h"
 
 static void test_alignment(Mock *mk)
@@ -282,7 +285,27 @@ static void test_iso2022_parser(Mock *mk)
                            strlen(charset_state_reference[i].input));
             SEQUAL(mk->to_backend->s, charset_state_reference[i].reply);
         }
+        for (size_t i = 0; i < lenof(upss_reference); i++) {
+            reset(mk);
+            test_context(mk, "UPSS %s / fragmented %u", upss_reference[i].name, fragmented);
+            if (fragmented) term_data_fragmented(mk->term, upss_reference[i].input);
+            else term_data(mk->term, upss_reference[i].input, strlen(upss_reference[i].input));
+            SEQUAL(mk->to_backend->s, upss_reference[i].reply);
+        }
     }
+    reset(mk);
+    test_context(mk, "UPSS requires its own explicit size after another DCS");
+    term_data_fragmented(mk->term, "\033%G\033%@\033P1!uA\033\\"
+        "\033P1$t1;1;1;@;@;@;0;2;@;BBBB\033\\\033P!uF\033\\\033[&u");
+    SEQUAL(mk->to_backend->s, "\033P1!uA\033\\");
+    test_context(mk, "local character-set policy blocks UPSS assignments");
+    conf_set_bool(mk->conf, CONF_no_remote_charset, true);
+    term_reconfig(mk->term, mk->conf);
+    unsigned blocked_upss = mk->term->upss_id;
+    term_data_fragmented(mk->term, "\033%@\033P1!uF\033\\");
+    IEQUAL(mk->term->upss_id, blocked_upss);
+    conf_set_bool(mk->conf, CONF_no_remote_charset, false);
+    term_reconfig(mk->term, mk->conf);
     reset(mk);
     test_context(mk, "NRCS visible Unicode survives selection and rectangle fill");
     term_data_fragmented(mk->term, "\033%G\033[?42h\033(K[\\]"
@@ -319,19 +342,24 @@ static void test_iso2022_paste(Mock *mk)
             text[length++]=scalar;
     }
     mk->ucsdata->line_codepage=CP_UTF8;
-    for (size_t i=0;i<lenof(charset_input_reference);i++) {
+    IEQUAL(sizeof(upss_input_text),sizeof(charset_input_text));
+    IEQUAL(!memcmp(upss_input_text,charset_input_text,sizeof(charset_input_text)),true);
+    for (unsigned suite=0;suite<2;suite++) {
+      const CharsetInputCase *cases=suite ? upss_input_reference : charset_input_reference;
+      size_t count=suite ? lenof(upss_input_reference) : lenof(charset_input_reference);
+      for (size_t i=0;i<count;i++) {
         reset(mk);
-        test_context(mk,"ISO 2022 independent selection input: %s",charset_input_reference[i].name);
-        term_data_fragmented(mk->term,charset_input_reference[i].setup);
+        test_context(mk,"ISO 2022 independent selection input: %s",cases[i].name);
+        term_data_fragmented(mk->term,cases[i].setup);
         term_do_paste(mk->term,text,length);
         unsigned callbacks=0;
         while (mk->term->paste_len && callbacks++<10) run_toplevel_callbacks();
         IEQUAL(mk->term->paste_len,0);
-        IEQUAL(mk->to_backend->len,charset_input_reference[i].length);
-        size_t common=min(mk->to_backend->len,charset_input_reference[i].length);
-        for (size_t n=0;n<common;n++) if (mk->to_backend->s[n]!=charset_input_reference[i].reply[n]) {
+        IEQUAL(mk->to_backend->len,cases[i].length);
+        size_t common=min(mk->to_backend->len,cases[i].length);
+        for (size_t n=0;n<common;n++) if (mk->to_backend->s[n]!=cases[i].reply[n]) {
             report_fail(mk,__FILE__,__LINE__,"selection byte %zu: %02x != %02x",n,
-                (unsigned char)mk->to_backend->s[n],(unsigned char)charset_input_reference[i].reply[n]);
+                (unsigned char)mk->to_backend->s[n],(unsigned char)cases[i].reply[n]);
             break;
         }
         strbuf_clear(mk->to_backend);
@@ -339,6 +367,7 @@ static void test_iso2022_paste(Mock *mk)
         term_keyinputw(mk->term,text,length);
         IEQUAL(mk->to_backend->len,utf8->len);
         IEQUAL(mk->to_backend->len==utf8->len && !memcmp(mk->to_backend->s,utf8->s,utf8->len),true);
+      }
     }
     strbuf_free(utf8);
     reset(mk);

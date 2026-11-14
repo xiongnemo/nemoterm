@@ -26,6 +26,14 @@ const NemoCharset *nemo_charset_designate(unsigned group, unsigned level,
 unsigned nemo_charset_id(const NemoCharset *charset);
 const NemoCharset *nemo_charset_by_id(unsigned id);
 
+/* DECAUPSS accepts a smaller repertoire than SCS. Return the selected set,
+ * or NULL for an invalid parameter/designation. Resolve an UPSS placeholder
+ * at invocation time, including XTerm's level-3/4 Latin-1 behavior. */
+const NemoCharset *nemo_charset_preferred(unsigned parameter,
+    const char *designation, size_t length);
+const NemoCharset *nemo_charset_resolve(const NemoCharset *charset,
+    unsigned preferred_id, unsigned level);
+
 #define NEMO_CHARSET_NOCHAR UINT32_MAX
 /* Maps one graphic byte, including explicit GR invocation. This does not parse
  * UTF-8, C0/C1 controls, or change GL/GR/SS/cursor state. The terminal parser must
