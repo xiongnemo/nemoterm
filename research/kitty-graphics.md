@@ -67,8 +67,17 @@ are retained in [the validation record](kitty-graphics-validation.json).
 The reported assertion count includes a separate check of each byte in the
 2 MiB payload; it is not a count of distinct protocol cases.
 
-Only source/static review and artifact verification ran locally. Complete
-application CI workflows remain in progress. These component tests are
+The complete [core](https://github.com/xiongnemo/nemoterm/actions/runs/43609279192)
+and [single-executable](https://github.com/xiongnemo/nemoterm/actions/runs/43609279193)
+workflows also passed at that exact source commit. The downloaded single image
+is 4,486,144 bytes with SHA-256
+`e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6`.
+Its 122 mandatory checks passed; the single-image, font zoom, bell and tab-profile
+observations agree with the downloaded hash. Fourteen additional raw records are
+retained in the validation record. This candidate has not replaced the accepted
+local executable.
+
+Only source/static review and artifact verification ran locally. These component tests are
 specification assertions, not independent kitty runtime evidence, and do not
 establish image display or process memory acceptance.
 

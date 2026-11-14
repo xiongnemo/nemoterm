@@ -17,7 +17,7 @@
     "local_native_tests": "paused by user; none run",
     "local_compile": "not run during pause",
     "static_diff": "passed",
-    "remote_tests": "Focused GCC, Clang and MSVC workflow passed; complete application workflows remain in progress"
+    "remote_tests": "Focused GCC, Clang and MSVC plus complete core and single-executable workflows passed"
   },
   "memory_acceptance": false,
   "accepted_executable_changed": false,
@@ -139,5 +139,127 @@
         "compressed_sha256": "79c034d7d99997d2251174ede38fc1201aece42078bafccf11063dfe99c16fda"
       }
     ]
+  },
+  "full_application_ci": {
+    "source_commit": "69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac",
+    "core": {
+      "run_id": 43609279192,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43609279192",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14121045100,
+          "name": "nemoterm-windows-x64-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        },
+        {
+          "id": 14120162693,
+          "name": "test-results-windows-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        },
+        {
+          "id": 14119795874,
+          "name": "cluster-msvc-diagnostics-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        },
+        {
+          "id": 14119721490,
+          "name": "source-console-host-x64-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        },
+        {
+          "id": 14118509241,
+          "name": "test-results-sanitizers-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        }
+      ]
+    },
+    "single": {
+      "run_id": 43609279193,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43609279193",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14121125045,
+          "name": "nemoterm-single-exe-x64-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        },
+        {
+          "id": 14120084623,
+          "name": "single-exe-evidence-69cd5a49ecae36c8f2b2bb82ecef58f4fe0976ac"
+        }
+      ]
+    },
+    "executable_sha256": "e9251226d91972e137db9e84ad74bf3ead4fa5564fd38298ca6152525012eba6",
+    "executable_bytes": 4486144,
+    "passed_checks": 122,
+    "retained": [
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-core-run.json.gz",
+        "raw_sha256": "f01c688d04fbad415edfcb164221efdf07f91f0d9137327008bd24980ba808b4",
+        "compressed_sha256": "05d60107f17a44468a32afbffd09b99970e1f2f971cfe4ba6c439901dcfb4275"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-core-run.log.gz",
+        "raw_sha256": "672695137319a7147ee930f999aa4a76869a096b2e4c3b08f9936860aa7aa77f",
+        "compressed_sha256": "844da1ca593f3acdccd9e35c1f968067eab1ba8bf7655094518cd599c88be52f"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-core-artifacts.json.gz",
+        "raw_sha256": "84c733fcd1a007c28709bc350792d8ba92c13394a8e64eeda343acd57394b04c",
+        "compressed_sha256": "5de52a14da1aa8e2f344af5b89ea03288b039c4b590cfe5f086171443623fc51"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-single-run.json.gz",
+        "raw_sha256": "cdda173d77314fa44ef21039a04317bf2cab3fbb0bd98bc980d375b53cf90304",
+        "compressed_sha256": "580549ec3da336851179bf54a7dca4006d73dab213a60052b952d661ec361b8a"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-single-run.log.gz",
+        "raw_sha256": "a2b7483d01715d4d25063e4a73c64b1e29855ad17553cc78fd8ea04fc9d68f99",
+        "compressed_sha256": "be97b907bb2608d979acdbf93d29759e321bf99d1dddd2237312a78ce8d0933a"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-single-artifacts.json.gz",
+        "raw_sha256": "4e0fb752abea690d2aef176ab6eaeb692e43b03184fcec18ee17d0214b4b5426",
+        "compressed_sha256": "8d99ac47cda4fa39e2bd5ca6ab1b5a38d81b566530c33f8b1a8660efbaf7bf68"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-single-exe-validation.json.gz",
+        "raw_sha256": "7d73fb03f0a377aefab26f78b4c27444b91698f9bb98e0609402e07e0f884b5d",
+        "compressed_sha256": "67a2547fa25d34a989cacfc24470a699a650de38ffd54eed4d0d5cbd920bb2e4"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-single-exe-observed.json.gz",
+        "raw_sha256": "b9bf898d94c3f563264fd8014a6a759b4ae2740c6822c6628fa38b36fb43399e",
+        "compressed_sha256": "e360012b88f43478090257136e3b842105218b355586d71d11a199ea008f4701"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-font-zoom-observed.json.gz",
+        "raw_sha256": "b4db3c5b72ad63003ff41b6802e4a324542bfa376454ee74307942c0dbe42664",
+        "compressed_sha256": "45f6801175e967bea3d32c9a98a0066807852b9fe264e667e02edde827715b32"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-tabs-profiles-observed.json.gz",
+        "raw_sha256": "6f38cca43ceded2828bbfa67c5fb7a8ef013ae1ded2af5562b6f581d8b37a016",
+        "compressed_sha256": "c879b5b1220b9a7b32cf50e7130d51033bac7b10f25dd301d392f26dfa339894"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-bell-mode-0-observed.json.gz",
+        "raw_sha256": "9ad6a55914ba0688a38ffee5ed927e4680787c93379c33ce3b65cfa3bb416c24",
+        "compressed_sha256": "4dbebfc384c6597321c6583f7d1110f9b4d924d5f27f0c52c68bedb7dfba5906"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-bell-mode-1-observed.json.gz",
+        "raw_sha256": "842b7b7045dc5d98b8d20b2101055aba723df1693ce24806df7235f56f03de4d",
+        "compressed_sha256": "64bcadfe8fa86df0e931878cc99d9a0e7c946a71006bcbaa28b1232da16f0c93"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-bell-mode-2-observed.json.gz",
+        "raw_sha256": "9773d78320b05ef3eebe3b1872c7e4645065c392953f29b82bd76f1c030e508a",
+        "compressed_sha256": "aea99a45a40c10eea93eedc24e7848f8d3f99e3b71c5e4084f5a946ccc2b1eb2"
+      },
+      {
+        "file": "kitty-graphics-evidence/69cd5a4-full-terminal-kitty-transport-sanitizers.log.gz",
+        "raw_sha256": "e3cfe29471a6b3ae28f74222ab8547760652e90ddab9a071f092eeaba0e6535c",
+        "compressed_sha256": "80e5d8e59fbcd7bab11ecc099f13ab03df3d24b0a928b2b0c2125d13c8630870"
+      }
+    ],
+    "accepted_executable_changed": false,
+    "local_memory_acceptance": false
   }
 }
