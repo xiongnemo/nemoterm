@@ -1,0 +1,479 @@
+{
+  "base": "8264b27a748c39e4dfb460fc66e0b50547db6983",
+  "kind": "Local finite native test comparison; no cause established for the original CI timeout",
+  "records": [
+    {
+      "path": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\check-tabs-close-before.py",
+      "archive": "research/tabs-close-observation-records/000-check-tabs-close-before.py.gz",
+      "bytes": 2502,
+      "sha256": "a11eb6f8b3bebd0a7ad2da0300bce40a80bd49080e31401198d47bd36b4f2fd3"
+    },
+    {
+      "path": "build/after/failed-ci-bottom/controller.log",
+      "archive": "research/tabs-close-observation-records/001-controller.log.gz",
+      "bytes": 374,
+      "sha256": "1d90399a206813249a02a159f2f6f97abaa97f7400cc3242228acc803038e430"
+    },
+    {
+      "path": "build/after/failed-ci-bottom/research/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/002-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 1096,
+      "sha256": "a43c5a7f3ea36c6f140eabc2f6160908fef8bf3533ba3bc86d1cf685a55066cf"
+    },
+    {
+      "path": "build/after/failed-ci-bottom/research/tabs-overflow-bottom.png",
+      "archive": "research/tabs-close-observation-records/003-tabs-overflow-bottom.png.gz",
+      "bytes": 2530,
+      "sha256": "53150bf77383f8a932816ea6a1be3b09a2fa858218f25b15ca749e7619c9eab1"
+    },
+    {
+      "path": "build/after/failed-ci-bottom/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/004-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "a0d17658f28ad2bbfc3147831b6266757b927b551f97eadfe8d0d441985a565a"
+    },
+    {
+      "path": "build/after/failed-ci-bottom/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/005-tabs_overflow.log.gz",
+      "bytes": 41,
+      "sha256": "5e09a291716d4318d2254882ca41f37db834db80bfe0b9ff24071d28bc5c3ff5"
+    },
+    {
+      "path": "build/after/failed-ci-left/controller.log",
+      "archive": "research/tabs-close-observation-records/006-controller.log.gz",
+      "bytes": 373,
+      "sha256": "a9469fe675f4d99fd8f23826ec28e46aa99e665d122a6522fdb6b6f6281650cd"
+    },
+    {
+      "path": "build/after/failed-ci-left/research/tabs-overflow-left-observed.json",
+      "archive": "research/tabs-close-observation-records/007-tabs-overflow-left-observed.json.gz",
+      "bytes": 1094,
+      "sha256": "45071830b79b09fc07713cdb8462e88ef2bd91e2615da03995b1891d2e18d11d"
+    },
+    {
+      "path": "build/after/failed-ci-left/research/tabs-overflow-left.png",
+      "archive": "research/tabs-close-observation-records/008-tabs-overflow-left.png.gz",
+      "bytes": 3672,
+      "sha256": "f18f3fdcc9bab705b30a1486087548ad4666a9b34a951ce0fa28c3da735cd9cd"
+    },
+    {
+      "path": "build/after/failed-ci-left/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/009-tabs_overflow-controller.json.gz",
+      "bytes": 476,
+      "sha256": "e35b55d75321ea95cef927594cfaa7ac69d7e3f0e1666b521d4af3e9b281a875"
+    },
+    {
+      "path": "build/after/failed-ci-left/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/010-tabs_overflow.log.gz",
+      "bytes": 39,
+      "sha256": "cb2900e4a215543a64cd583cf3be6d356439342df0d426fd49b0b384714572ea"
+    },
+    {
+      "path": "build/after/failed-ci-right/controller.log",
+      "archive": "research/tabs-close-observation-records/011-controller.log.gz",
+      "bytes": 373,
+      "sha256": "4dca63fc8f118554f0f9a0a36ee04059658d3d22a69fe44e282abd99bdf1f373"
+    },
+    {
+      "path": "build/after/failed-ci-right/research/tabs-overflow-right-observed.json",
+      "archive": "research/tabs-close-observation-records/012-tabs-overflow-right-observed.json.gz",
+      "bytes": 1095,
+      "sha256": "a7b6ce4e40f583957355716a8af22256bb2de4cb9a9dbf1b5df7a2408e6c0619"
+    },
+    {
+      "path": "build/after/failed-ci-right/research/tabs-overflow-right.png",
+      "archive": "research/tabs-close-observation-records/013-tabs-overflow-right.png.gz",
+      "bytes": 3669,
+      "sha256": "754c25009e58df405061adf9cc99b86178c1a6950ada3432774d45a0318a2c95"
+    },
+    {
+      "path": "build/after/failed-ci-right/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/014-tabs_overflow-controller.json.gz",
+      "bytes": 476,
+      "sha256": "15bfa547ef368b77cf947f139c18bf6c68aaae68b8ecef09d0beaf95f6239542"
+    },
+    {
+      "path": "build/after/failed-ci-right/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/015-tabs_overflow.log.gz",
+      "bytes": 40,
+      "sha256": "b79dede78668806197ea65997f9402dc80676fa3c0650e2f2a20ebfd94adc0a9"
+    },
+    {
+      "path": "build/after/failed-ci-top/controller.log",
+      "archive": "research/tabs-close-observation-records/016-controller.log.gz",
+      "bytes": 374,
+      "sha256": "c65a4e378d35297212e571d5426bfa15cdd33e04e1895b7dbbbc2f9b27d1d9d6"
+    },
+    {
+      "path": "build/after/failed-ci-top/research/tabs-overflow-top-observed.json",
+      "archive": "research/tabs-close-observation-records/017-tabs-overflow-top-observed.json.gz",
+      "bytes": 1093,
+      "sha256": "f244a3dd396a51f75d9a015e6c4314d9b7fddb2c72d4204e7e1fc24d16d38e34"
+    },
+    {
+      "path": "build/after/failed-ci-top/research/tabs-overflow-top.png",
+      "archive": "research/tabs-close-observation-records/018-tabs-overflow-top.png.gz",
+      "bytes": 2538,
+      "sha256": "7058b1e7b7a146ccd38540f0ca41963760357f567cdadacf08b62d281e660f6c"
+    },
+    {
+      "path": "build/after/failed-ci-top/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/019-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "8447ac33caff52752a97ad5abd63f7c9e88a00cd5a10a195a2b7d475df85b5db"
+    },
+    {
+      "path": "build/after/failed-ci-top/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/020-tabs_overflow.log.gz",
+      "bytes": 38,
+      "sha256": "edd4a8016abc7682a81cd1c75adce1e5facfc7056e155efc903d30451896feea"
+    },
+    {
+      "path": "build/after/main-ci-bottom/controller.log",
+      "archive": "research/tabs-close-observation-records/021-controller.log.gz",
+      "bytes": 374,
+      "sha256": "1da65c91e4414fba04f7cbc043da66abb5acde9c031029fc798a9fa96f264df1"
+    },
+    {
+      "path": "build/after/main-ci-bottom/research/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/022-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 1094,
+      "sha256": "34c7b5e6e2a9bdcb3cd932048af92565184e1928622140efc2786816392cc8e6"
+    },
+    {
+      "path": "build/after/main-ci-bottom/research/tabs-overflow-bottom.png",
+      "archive": "research/tabs-close-observation-records/023-tabs-overflow-bottom.png.gz",
+      "bytes": 2530,
+      "sha256": "53150bf77383f8a932816ea6a1be3b09a2fa858218f25b15ca749e7619c9eab1"
+    },
+    {
+      "path": "build/after/main-ci-bottom/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/024-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "781a482217e120aea7fbbc0a0e367306a8b9f17133eabe39ddbb871da56d4221"
+    },
+    {
+      "path": "build/after/main-ci-bottom/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/025-tabs_overflow.log.gz",
+      "bytes": 41,
+      "sha256": "5e09a291716d4318d2254882ca41f37db834db80bfe0b9ff24071d28bc5c3ff5"
+    },
+    {
+      "path": "build/after/main-ci-left/controller.log",
+      "archive": "research/tabs-close-observation-records/026-controller.log.gz",
+      "bytes": 373,
+      "sha256": "469ae78fb3ff1e516369c05f20b14a9ca58c1e45c2269e5e8a4e39f244dc1df3"
+    },
+    {
+      "path": "build/after/main-ci-left/research/tabs-overflow-left-observed.json",
+      "archive": "research/tabs-close-observation-records/027-tabs-overflow-left-observed.json.gz",
+      "bytes": 1092,
+      "sha256": "dfbbbfe52149155523853303f778b8d81622613281f5894fdfc70f026d8a5e00"
+    },
+    {
+      "path": "build/after/main-ci-left/research/tabs-overflow-left.png",
+      "archive": "research/tabs-close-observation-records/028-tabs-overflow-left.png.gz",
+      "bytes": 3672,
+      "sha256": "f18f3fdcc9bab705b30a1486087548ad4666a9b34a951ce0fa28c3da735cd9cd"
+    },
+    {
+      "path": "build/after/main-ci-left/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/029-tabs_overflow-controller.json.gz",
+      "bytes": 476,
+      "sha256": "02733836f3cd9e75ff1678e12500cd1f3f47309075e1575672df5e748ad4320c"
+    },
+    {
+      "path": "build/after/main-ci-left/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/030-tabs_overflow.log.gz",
+      "bytes": 39,
+      "sha256": "cb2900e4a215543a64cd583cf3be6d356439342df0d426fd49b0b384714572ea"
+    },
+    {
+      "path": "build/after/main-ci-right/controller.log",
+      "archive": "research/tabs-close-observation-records/031-controller.log.gz",
+      "bytes": 374,
+      "sha256": "3a83a7dbd40baa7bb4057b125d39a7480fe9afd7d3389bfbeebf80442b29a395"
+    },
+    {
+      "path": "build/after/main-ci-right/research/tabs-overflow-right-observed.json",
+      "archive": "research/tabs-close-observation-records/032-tabs-overflow-right-observed.json.gz",
+      "bytes": 1095,
+      "sha256": "85ab2d6c58367aaadedb8baf89e7153a897e18728b666c5f6ab46ffc1c1e6d33"
+    },
+    {
+      "path": "build/after/main-ci-right/research/tabs-overflow-right.png",
+      "archive": "research/tabs-close-observation-records/033-tabs-overflow-right.png.gz",
+      "bytes": 3669,
+      "sha256": "754c25009e58df405061adf9cc99b86178c1a6950ada3432774d45a0318a2c95"
+    },
+    {
+      "path": "build/after/main-ci-right/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/034-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "215d8f5a6039a0b38716233dc9e6c6f9a1956a1ede8bbc80e322beab4770e83b"
+    },
+    {
+      "path": "build/after/main-ci-right/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/035-tabs_overflow.log.gz",
+      "bytes": 40,
+      "sha256": "b79dede78668806197ea65997f9402dc80676fa3c0650e2f2a20ebfd94adc0a9"
+    },
+    {
+      "path": "build/after/main-ci-top/controller.log",
+      "archive": "research/tabs-close-observation-records/036-controller.log.gz",
+      "bytes": 374,
+      "sha256": "9e76edf1dbef9b82a8e7dee1ad6ee7660848a595304aaf73452a5a19570651dd"
+    },
+    {
+      "path": "build/after/main-ci-top/research/tabs-overflow-top-observed.json",
+      "archive": "research/tabs-close-observation-records/037-tabs-overflow-top-observed.json.gz",
+      "bytes": 1092,
+      "sha256": "d32ddb23857b959bd6bfaaf8f2aef0349eecc3a26c4d0f6db94027d2aa17c3c4"
+    },
+    {
+      "path": "build/after/main-ci-top/research/tabs-overflow-top.png",
+      "archive": "research/tabs-close-observation-records/038-tabs-overflow-top.png.gz",
+      "bytes": 2538,
+      "sha256": "7058b1e7b7a146ccd38540f0ca41963760357f567cdadacf08b62d281e660f6c"
+    },
+    {
+      "path": "build/after/main-ci-top/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/039-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "55bcbab0829cd1f7503b995655639ee9fdd7d1613b5813b732264698c5351dba"
+    },
+    {
+      "path": "build/after/main-ci-top/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/040-tabs_overflow.log.gz",
+      "bytes": 38,
+      "sha256": "edd4a8016abc7682a81cd1c75adce1e5facfc7056e155efc903d30451896feea"
+    },
+    {
+      "path": "build/after/results.json",
+      "archive": "research/tabs-close-observation-records/041-results.json.gz",
+      "bytes": 1326,
+      "sha256": "44f217397c717e0df87a153355694a89748bed3b8a9df74c43846b9bcc962d90"
+    },
+    {
+      "path": "build/before/original-fixture.py",
+      "archive": "research/tabs-close-observation-records/042-original-fixture.py.gz",
+      "bytes": 6972,
+      "sha256": "e055a70ca73fa126b1f2af5ac5f7ec986bc3037f8bc3b421a993f511893481f0"
+    },
+    {
+      "path": "build/before/results.json",
+      "archive": "research/tabs-close-observation-records/043-results.json.gz",
+      "bytes": 402,
+      "sha256": "ab95cde37cfa88fb6d5fc88641ff40f5705d9428e878ccdbe7a5527ecd3a1b26"
+    },
+    {
+      "path": "build/before/run-1/controller.log",
+      "archive": "research/tabs-close-observation-records/044-controller.log.gz",
+      "bytes": 374,
+      "sha256": "aef6806b095b5c7b55dfe9e48653ff8bbdd4fcbc10a6009472e7af937983b401"
+    },
+    {
+      "path": "build/before/run-1/research/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/045-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 816,
+      "sha256": "63b5180d59b5976e156eff7a14332464d61576f7c2814d51dea11fd6d8a21094"
+    },
+    {
+      "path": "build/before/run-1/research/tabs-overflow-bottom.png",
+      "archive": "research/tabs-close-observation-records/046-tabs-overflow-bottom.png.gz",
+      "bytes": 2530,
+      "sha256": "53150bf77383f8a932816ea6a1be3b09a2fa858218f25b15ca749e7619c9eab1"
+    },
+    {
+      "path": "build/before/run-1/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/047-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "d2f048a8c8f3f37bd9c382b52a481b9482a5679ad00db1a06dd13838c4a1a03d"
+    },
+    {
+      "path": "build/before/run-1/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/048-tabs_overflow.log.gz",
+      "bytes": 41,
+      "sha256": "5e09a291716d4318d2254882ca41f37db834db80bfe0b9ff24071d28bc5c3ff5"
+    },
+    {
+      "path": "build/before/run-2/controller.log",
+      "archive": "research/tabs-close-observation-records/049-controller.log.gz",
+      "bytes": 374,
+      "sha256": "b32cba5b7e1467a994072c5fa12c7d8733afbd9e14ccd7040cf5e1ee34a5afb3"
+    },
+    {
+      "path": "build/before/run-2/research/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/050-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 816,
+      "sha256": "1112d17e2b5901885d73c1900e8169e917505ce70cf62ebe39cc971ee80e5e53"
+    },
+    {
+      "path": "build/before/run-2/research/tabs-overflow-bottom.png",
+      "archive": "research/tabs-close-observation-records/051-tabs-overflow-bottom.png.gz",
+      "bytes": 2530,
+      "sha256": "53150bf77383f8a932816ea6a1be3b09a2fa858218f25b15ca749e7619c9eab1"
+    },
+    {
+      "path": "build/before/run-2/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/052-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "c1801c612876093506794785b2e59052c6cc9a00c93537225edba80dc31d4f42"
+    },
+    {
+      "path": "build/before/run-2/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/053-tabs_overflow.log.gz",
+      "bytes": 41,
+      "sha256": "5e09a291716d4318d2254882ca41f37db834db80bfe0b9ff24071d28bc5c3ff5"
+    },
+    {
+      "path": "build/before/run-3/controller.log",
+      "archive": "research/tabs-close-observation-records/054-controller.log.gz",
+      "bytes": 374,
+      "sha256": "0ee44d0a57af9e86a3a058e4c98713de308661c8714231effa159bc2b90f8832"
+    },
+    {
+      "path": "build/before/run-3/research/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/055-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 816,
+      "sha256": "253e32d2d6ff1600653b0f3af1185fcc80ed1b9e7c98bf76a9c2920e74a7a215"
+    },
+    {
+      "path": "build/before/run-3/research/tabs-overflow-bottom.png",
+      "archive": "research/tabs-close-observation-records/056-tabs-overflow-bottom.png.gz",
+      "bytes": 2530,
+      "sha256": "53150bf77383f8a932816ea6a1be3b09a2fa858218f25b15ca749e7619c9eab1"
+    },
+    {
+      "path": "build/before/run-3/research/tabs_overflow-controller.json",
+      "archive": "research/tabs-close-observation-records/057-tabs_overflow-controller.json.gz",
+      "bytes": 477,
+      "sha256": "84205aabc05b2c580fb7b179c59c77682568cd96695bab548ef26530fa9aad02"
+    },
+    {
+      "path": "build/before/run-3/tabs_overflow.log",
+      "archive": "research/tabs-close-observation-records/058-tabs_overflow.log.gz",
+      "bytes": 41,
+      "sha256": "5e09a291716d4318d2254882ca41f37db834db80bfe0b9ff24071d28bc5c3ff5"
+    },
+    {
+      "path": "build/check-tabs-close-after.py",
+      "archive": "research/tabs-close-observation-records/059-check-tabs-close-after.py.gz",
+      "bytes": 1753,
+      "sha256": "4107c4c62f73a08c9487aadf5f4ea0d7d27aadcfa3b33ffcef538c5b231d7ba0"
+    },
+    {
+      "path": "build/original-ci/single-run.json",
+      "archive": "research/tabs-close-observation-records/060-single-run.json.gz",
+      "bytes": 3011,
+      "sha256": "a0218c10d7671d5211b96feb35ebdf7040abc6040d3729c815d3283b6bb8f0a8"
+    },
+    {
+      "path": "build/original-ci/single-run.log",
+      "archive": "research/tabs-close-observation-records/061-single-run.log.gz",
+      "bytes": 440632,
+      "sha256": "2a20dc7a01b2512e14172cbc653ccd59c83cac37e63c0a073d5090ca676abfbd"
+    },
+    {
+      "path": "build/original-ci/tabs-overflow-bottom-observed.json",
+      "archive": "research/tabs-close-observation-records/062-tabs-overflow-bottom-observed.json.gz",
+      "bytes": 1452,
+      "sha256": "f76176d9018e9100582d6cf960bef88e73f5ee29e192d41f8a148836067a49f1"
+    },
+    {
+      "path": "tests/tabs_overflow_window_smoke.py",
+      "archive": "research/tabs-close-observation-records/063-tabs_overflow_window_smoke.py.gz",
+      "bytes": 8230,
+      "sha256": "0e9160a7ea1b42911118b66ec1be7d68c7718ccf6ba9d958a7b791467df8e310"
+    }
+  ],
+  "before": [
+    {
+      "run": 1,
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.09012350020930171,
+      "error": null
+    },
+    {
+      "run": 2,
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08358630002476275,
+      "error": null
+    },
+    {
+      "run": 3,
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08694280008785427,
+      "error": null
+    }
+  ],
+  "after": [
+    {
+      "image": "failed-ci",
+      "side": "top",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.09411820000968874,
+      "error": null
+    },
+    {
+      "image": "failed-ci",
+      "side": "bottom",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08640100015327334,
+      "error": null
+    },
+    {
+      "image": "failed-ci",
+      "side": "left",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08024569996632636,
+      "error": null
+    },
+    {
+      "image": "failed-ci",
+      "side": "right",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08462470001541078,
+      "error": null
+    },
+    {
+      "image": "main-ci",
+      "side": "top",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.0990369999781251,
+      "error": null
+    },
+    {
+      "image": "main-ci",
+      "side": "bottom",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08330460009165108,
+      "error": null
+    },
+    {
+      "image": "main-ci",
+      "side": "left",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.09462869982235134,
+      "error": null
+    },
+    {
+      "image": "main-ci",
+      "side": "right",
+      "exit_code": 0,
+      "completed": true,
+      "close_seconds": 0.08648520009592175,
+      "error": null
+    }
+  ]
+}
