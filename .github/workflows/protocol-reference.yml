@@ -166,7 +166,7 @@ jobs:
           assert not capture['cleanup'].get('unverified_processes'), capture['cleanup']
           assert not capture['truncated'], capture['truncated']
           observed = json.loads((base / 'observations.json').read_text())
-          assert observed['status'] == 'complete' and observed['case_count'] == 29, observed.get('status')
+          assert observed['status'] == 'complete' and observed['case_count'] == 43, observed.get('status')
           digest = hashlib.sha256((base / 'observations.json').read_bytes()).hexdigest()
           assert any(x.get('sha256') == digest for x in capture['files_after']), 'Observation digest missing from REA snapshot'
           summary = dict(evidence_id=evidence['evidence_id'],

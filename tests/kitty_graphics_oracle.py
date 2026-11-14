@@ -51,7 +51,7 @@ def main():
     def save():
         output.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
 
-    def capture(name, steps, start=(0, 0)):
+    def capture(name, steps, start=(0, 0), layer_scrollback=None):
         helper = BaseTest()
         s = helper.create_screen(COLS, ROWS, scrollback=20, cell_width=CW, cell_height=CH)
         s.cursor.x, s.cursor.y = start
@@ -61,8 +61,9 @@ def main():
             for label, data in steps:
                 s.callbacks.clear()
                 parse_bytes(s, data)
+                observed_scroll = s.scrolled_by if layer_scrollback is None else layer_scrollback
                 layers = s.grman.update_layers(
-                    s.scrolled_by, -1, 1, 2 / s.columns, 2 / s.lines,
+                    observed_scroll, -1, 1, 2 / s.columns, 2 / s.lines,
                     s.columns, s.lines, CW, CH)
                 # Retain raw normalized coordinates as well as a reversible
                 # conversion to cell pixels; no expected layout is substituted.
@@ -79,7 +80,8 @@ def main():
                     "label": label, "input_base64": base64.b64encode(data).decode("ascii"),
                     "reply_base64": base64.b64encode(s.callbacks.wtcbuf).decode("ascii"),
                     "cursor": [s.cursor.x, s.cursor.y], "image_count": s.grman.image_count,
-                    "scrolled_by": s.scrolled_by, "layers": layers, "pixel_boxes": boxes,
+                    "scrolled_by": s.scrolled_by, "layer_scrollback": observed_scroll,
+                    "layers": layers, "pixel_boxes": boxes,
                 })
                 save()
             print(f"Captured {name}: {len(steps)} states", flush=True)
@@ -159,7 +161,7 @@ def main():
             ("positive", picture(i=3, z=1, C=1)),
             ("negative", picture(i=2, z=-1, C=1)),
             ("below-background", picture(i=1, z=-1073741825, C=1)),
-            ("same-z-lower-id", picture(i=4, z=1, C=1)),
+            ("same-z-higher-id", picture(i=4, z=1, C=1)),
         ])
         for name, row, height in (("inside-scroll-region", 1, 40),
                                   ("overlap-top-scroll-region", 0, 40),
@@ -168,6 +170,60 @@ def main():
                 ("set-margins-and-place", b"\x1b[2;5r" + f"\x1b[{row+1};1H".encode() + picture(10, height, C=1)),
                 ("scroll-one-row", b"\x1b[5;1H\n"),
                 ("reverse-one-row", b"\x1b[2;1H\x1bM"),
+            ])
+
+        # Additional owner-state inputs isolate gaps in the first capture.
+        # These retain raw outcomes without asserting Nemoterm's answers.
+        for selector in ("a", "A"):
+            capture("delete-below-viewport-" + selector, [
+                ("place-at-bottom", b"\x1b[8;1H" + picture(10, 20, C=1)),
+                ("reverse-scroll-below", b"\x1b[H\x1bM"),
+                ("delete", command("a=d,d=" + selector)),
+                ("scroll-back-into-view", b"\x1b[8;1H\n"),
+            ])
+        capture("delete-visible-preserves-history", [
+            ("place-at-top", picture(10, 20, C=1)),
+            ("scroll-into-history", b"\x1b[8;1H\n"),
+            ("place-visible", b"\x1b[H" + picture(10, 20, i=2, C=1)),
+            ("delete-visible-and-data", command("a=d,d=A")),
+        ], layer_scrollback=1)
+        capture("same-z-reversed-client-ids", [
+            ("higher-id-first", picture(10, 20, i=9, z=1, C=1)),
+            ("lower-id-second", b"\x1b[3;4H" + picture(10, 20, i=2, z=1, C=1)),
+        ])
+        for selector, arguments in (("p", "x=2,y=2"), ("q", "x=2,y=2,z=7"),
+                                    ("x", "x=2"), ("y", "y=2"), ("z", "z=7")):
+            capture("delete-cell-footprint-" + selector, [
+                ("offset-positive-layer", picture(10, 20, i=1, X=5, Y=10, z=7, C=1)),
+                ("offset-negative-layer", picture(10, 20, i=2, X=5, Y=10, z=-1, C=1)),
+                ("delete", command("a=d,d=" + selector + "," + arguments)),
+            ], start=(1, 1))
+        capture("delete-range-unplaced", [
+            ("load-first", picture(10, 20, a="t", i=3)),
+            ("load-second", picture(10, 20, a="t", i=5)),
+            ("delete-first-range", command("a=d,d=R,x=2,y=4")),
+            ("delete-second-range", command("a=d,d=R,x=5,y=6")),
+        ])
+        capture("delete-newest-number", [
+            ("number-first", picture(10, 20, i=0, I=77, C=1)),
+            ("number-second", b"\x1b[3;4H" + picture(10, 20, i=0, I=77, C=1)),
+            ("delete-newest", command("a=d,d=N,I=77")),
+            ("delete-older", command("a=d,d=N,I=77")),
+        ])
+        capture("retransmission-drops-placements", [
+            ("first-image", picture(10, 20, i=1, p=7, C=1)),
+            ("second-placement", b"\x1b[3;4H" + command("a=p,i=1,p=8,C=1")),
+            ("reload-data", picture(20, 40, a="t", i=1)),
+            ("place-reloaded-data", command("a=p,i=1,p=7,C=1")),
+        ])
+        for direction in ("up", "down"):
+            row=1 if direction=="up" else 3
+            scroll=b"\x1b[5;1H\n" if direction=="up" else b"\x1b[2;1H\x1bM"
+            capture("scaled-offset-clip-" + direction, [
+                ("place", b"\x1b[2;5r" + f"\x1b[{row+1};2H".encode() +
+                 picture(40, 80, c=2, r=2, X=3, Y=5, C=1)),
+                ("clip-one-row", scroll),
+                ("remove-last-row", scroll),
             ])
 
     record["status"] = "complete"
