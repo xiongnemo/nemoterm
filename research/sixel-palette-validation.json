@@ -1,0 +1,2420 @@
+{
+  "kind": "Pinned source and local owned Xvfb/Win32 observations, not REA-server Evidence",
+  "product_change": "8c3807280b8cd5fad0fd90765bc6f426175ccb11",
+  "native_fixture": "5daf6e23fa2b1495b5619f5b74920dd0df17fe93",
+  "image_sha256": "a991a5173ead454dfa0271b8684bce95a8c9553e8d847a32771c3bb797bde5b7",
+  "records": [
+    {
+      "path": "reference/artifact-sha256.json",
+      "archive": "research/sixel-palette-records/000-artifact-sha256.json.gz",
+      "bytes": 15023,
+      "sha256": "82dcde5036a57471e29912fcb497072eaf366e261d0a04a6962c2ca8184fceec"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-after-expose.ppm",
+      "archive": "research/sixel-palette-records/001-cancel-private-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-after-expose.ximage",
+      "archive": "research/sixel-palette-records/002-cancel-private-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-after.ppm",
+      "archive": "research/sixel-palette-records/003-cancel-private-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-after.ximage",
+      "archive": "research/sixel-palette-records/004-cancel-private-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-before.ppm",
+      "archive": "research/sixel-palette-records/005-cancel-private-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/cancel-private-before.ximage",
+      "archive": "research/sixel-palette-records/006-cancel-private-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-after-expose.ppm",
+      "archive": "research/sixel-palette-records/007-cancel-shared-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "9c9affaa9bedaac6488554eab2f4f0980dee22ad6928daa3f2b9e59f10b2d9f0"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-after-expose.ximage",
+      "archive": "research/sixel-palette-records/008-cancel-shared-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "8c056d603f7ece233dbae8d6dd0d367d150e4616e7214fbd171cdaa33b227711"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-after.ppm",
+      "archive": "research/sixel-palette-records/009-cancel-shared-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-after.ximage",
+      "archive": "research/sixel-palette-records/010-cancel-shared-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-before.ppm",
+      "archive": "research/sixel-palette-records/011-cancel-shared-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/cancel-shared-before.ximage",
+      "archive": "research/sixel-palette-records/012-cancel-shared-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/child-control.json",
+      "archive": "research/sixel-palette-records/013-child-control.json.gz",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "reference/boundaries/child-report.json",
+      "archive": "research/sixel-palette-records/014-child-report.json.gz",
+      "bytes": 48,
+      "sha256": "d3411672fa42460b6763764874809cd7d6b10579dc333de45227ad9e0bfa5071"
+    },
+    {
+      "path": "reference/boundaries/hard-reset-after-expose.ppm",
+      "archive": "research/sixel-palette-records/015-hard-reset-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "12c810bd25efe1a7484387cd3d5a8503ce7cc341d61768b99a85c39a0ecca884"
+    },
+    {
+      "path": "reference/boundaries/hard-reset-after-expose.ximage",
+      "archive": "research/sixel-palette-records/016-hard-reset-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "7818f5542a0404157573be6cffc0e0c8e68ce3c0f5d17d07ccdd9313fb700baf"
+    },
+    {
+      "path": "reference/boundaries/hard-reset-after.ppm",
+      "archive": "research/sixel-palette-records/017-hard-reset-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "12c810bd25efe1a7484387cd3d5a8503ce7cc341d61768b99a85c39a0ecca884"
+    },
+    {
+      "path": "reference/boundaries/hard-reset-after.ximage",
+      "archive": "research/sixel-palette-records/018-hard-reset-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "7818f5542a0404157573be6cffc0e0c8e68ce3c0f5d17d07ccdd9313fb700baf"
+    },
+    {
+      "path": "reference/boundaries/observations.json",
+      "archive": "research/sixel-palette-records/019-observations.json.gz",
+      "bytes": 17334,
+      "sha256": "3f3658e8cc191117a63fedff7cd335d24c5a97eeb81cbf569776a4db324e456c"
+    },
+    {
+      "path": "reference/boundaries/overwrite-with-other-register-expose.ppm",
+      "archive": "research/sixel-palette-records/020-overwrite-with-other-register-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "1890ca6b8a5a9ca1698d02f55e596f4d8d07184fa6ca0bdc2660a6a5dbae50c3"
+    },
+    {
+      "path": "reference/boundaries/overwrite-with-other-register-expose.ximage",
+      "archive": "research/sixel-palette-records/021-overwrite-with-other-register-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "d94a887c2cc8416ba3f7122523b6698c9e13cd1cb041ddd926f655165b69887d"
+    },
+    {
+      "path": "reference/boundaries/overwrite-with-other-register.ppm",
+      "archive": "research/sixel-palette-records/022-overwrite-with-other-register.ppm.gz",
+      "bytes": 230415,
+      "sha256": "1890ca6b8a5a9ca1698d02f55e596f4d8d07184fa6ca0bdc2660a6a5dbae50c3"
+    },
+    {
+      "path": "reference/boundaries/overwrite-with-other-register.ximage",
+      "archive": "research/sixel-palette-records/023-overwrite-with-other-register.ximage.gz",
+      "bytes": 307200,
+      "sha256": "d94a887c2cc8416ba3f7122523b6698c9e13cd1cb041ddd926f655165b69887d"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-after-expose.ppm",
+      "archive": "research/sixel-palette-records/024-soft-reset-shared-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "7504902bd6653f6f97eea46aa008ffe8c65fbc3f118cc8321c7db598ab1ea7d8"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-after-expose.ximage",
+      "archive": "research/sixel-palette-records/025-soft-reset-shared-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "f2e3d6d24b08c7f2ccc3e37321adfda6611b6506ef8f0f76c5e739ad5f0831c5"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-after.ppm",
+      "archive": "research/sixel-palette-records/026-soft-reset-shared-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "7504902bd6653f6f97eea46aa008ffe8c65fbc3f118cc8321c7db598ab1ea7d8"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-after.ximage",
+      "archive": "research/sixel-palette-records/027-soft-reset-shared-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "f2e3d6d24b08c7f2ccc3e37321adfda6611b6506ef8f0f76c5e739ad5f0831c5"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-before.ppm",
+      "archive": "research/sixel-palette-records/028-soft-reset-shared-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-before.ximage",
+      "archive": "research/sixel-palette-records/029-soft-reset-shared-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-redefine-expose.ppm",
+      "archive": "research/sixel-palette-records/030-soft-reset-shared-redefine-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "79ae0227ac75da334e34a2998082b6bd66ef6b184ec83b74a4e69cd196ff0e0b"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-redefine-expose.ximage",
+      "archive": "research/sixel-palette-records/031-soft-reset-shared-redefine-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "af8b25a760ac1557d08b2255d24e54986f222cd731b981b1e73b9d5140c78a99"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-redefine.ppm",
+      "archive": "research/sixel-palette-records/032-soft-reset-shared-redefine.ppm.gz",
+      "bytes": 230415,
+      "sha256": "58c8bf0ab2770bfd75170597b6ea92decda509a8ae4676bc6c2fece7752578bb"
+    },
+    {
+      "path": "reference/boundaries/soft-reset-shared-redefine.ximage",
+      "archive": "research/sixel-palette-records/033-soft-reset-shared-redefine.ximage.gz",
+      "bytes": 307200,
+      "sha256": "dc38c0a7e04af819d9a17afab8872db6a9325cb4ed7720cb85c0ffccf7034dd2"
+    },
+    {
+      "path": "reference/boundaries/xterm-stderr.txt",
+      "archive": "research/sixel-palette-records/034-xterm-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/boundaries/xterm-stdout.txt",
+      "archive": "research/sixel-palette-records/035-xterm-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/boundaries/xvfb-stderr.txt",
+      "archive": "research/sixel-palette-records/036-xvfb-stderr.txt.gz",
+      "bytes": 64,
+      "sha256": "87e9572cf030493a1f7ba83d385129046b224374ca1414911674b30fc44276d7"
+    },
+    {
+      "path": "reference/boundaries/xvfb-stdout.txt",
+      "archive": "research/sixel-palette-records/037-xvfb-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/boundary_oracle.py",
+      "archive": "research/sixel-palette-records/038-boundary_oracle.py.gz",
+      "bytes": 9671,
+      "sha256": "ddb71984e5d93b18c904322dfd372b9606416b3a04aa2327a57faf81ed0c2da0"
+    },
+    {
+      "path": "reference/child-control.json",
+      "archive": "research/sixel-palette-records/039-child-control.json.gz",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "reference/child-report.json",
+      "archive": "research/sixel-palette-records/040-child-report.json.gz",
+      "bytes": 68,
+      "sha256": "64cc8e4c46df257956c521b80aeade49745c0516bfdcefe01c2c4fec73774f99"
+    },
+    {
+      "path": "reference/decoder-compile.txt",
+      "archive": "research/sixel-palette-records/041-decoder-compile.txt.gz",
+      "bytes": 569,
+      "sha256": "fe5876ee7b8508acff78863745fc3f906397a343ba15e0082233538b179630d9"
+    },
+    {
+      "path": "reference/decoder-observations.txt",
+      "archive": "research/sixel-palette-records/042-decoder-observations.txt.gz",
+      "bytes": 818,
+      "sha256": "7262fbdde747bf2aca5dfbc86c0e9e861bffe18bc38219ecc82a9b73075c2c04"
+    },
+    {
+      "path": "reference/decoder-probe-identity.json",
+      "archive": "research/sixel-palette-records/043-decoder-probe-identity.json.gz",
+      "bytes": 123,
+      "sha256": "4573612fc04328e832aba4b8258f3c719c91f75e04b509bd74128089162b28f7"
+    },
+    {
+      "path": "reference/decoder-source-manifest.json",
+      "archive": "research/sixel-palette-records/044-decoder-source-manifest.json.gz",
+      "bytes": 379,
+      "sha256": "b4fba3948433e1ce7b76f4b566d5e4598b436695385e3ed98978e5f3e5cadb97"
+    },
+    {
+      "path": "reference/decoder_probe",
+      "archive": "research/sixel-palette-records/045-decoder_probe.gz",
+      "bytes": 21080,
+      "sha256": "cc5c19a387ec1eed49786e78f83ba720481b4da3e4b1ee156612d58083691d56"
+    },
+    {
+      "path": "reference/decoder_probe.c",
+      "archive": "research/sixel-palette-records/046-decoder_probe.c.gz",
+      "bytes": 1382,
+      "sha256": "156c46302ccaaa5628034e1282083853ad6e7c881faa9e5b731dcd6a96a8c86a"
+    },
+    {
+      "path": "reference/environment.json",
+      "archive": "research/sixel-palette-records/047-environment.json.gz",
+      "bytes": 873,
+      "sha256": "35037be914537f84b8bd330ff9078ce7e67a302b3a16b79bdaeb7e6e802b1585"
+    },
+    {
+      "path": "reference/graphics.c",
+      "archive": "research/sixel-palette-records/048-graphics.c.gz",
+      "bytes": 51357,
+      "sha256": "e2c758da0d4b91463b1241575e6abf7f7c7792070d0f159824a6ae9b86dd8a7c"
+    },
+    {
+      "path": "reference/graphics.h",
+      "archive": "research/sixel-palette-records/049-graphics.h.gz",
+      "bytes": 6829,
+      "sha256": "fb586d4867cb3b14bff9b5243b96dba426e2454e65c1df76cd77252108dfe178"
+    },
+    {
+      "path": "reference/graphics_sixel.c",
+      "archive": "research/sixel-palette-records/050-graphics_sixel.c.gz",
+      "bytes": 27474,
+      "sha256": "3f6234e71ded3d816d6b2e7792b3a4860ecaf8c3c104d2284f0a44f31c726c96"
+    },
+    {
+      "path": "reference/identity_oracle.py",
+      "archive": "research/sixel-palette-records/051-identity_oracle.py.gz",
+      "bytes": 9096,
+      "sha256": "6aa6ad15bee87def373aa5d9280a89f230d008c5266572e6b3d5a532a1bd1cf4"
+    },
+    {
+      "path": "reference/nemo_sixel.c",
+      "archive": "research/sixel-palette-records/052-nemo_sixel.c.gz",
+      "bytes": 13511,
+      "sha256": "418bbf24f04020d1e3347922c749b6c07b80c2a283bfc5bf44025a5d6d014f18"
+    },
+    {
+      "path": "reference/nemo_sixel.h",
+      "archive": "research/sixel-palette-records/053-nemo_sixel.h.gz",
+      "bytes": 3555,
+      "sha256": "cdd9c8f54f7812c64be3fab2c3c7f5596f513a68f5890266ce1908a737bc8d66"
+    },
+    {
+      "path": "reference/observations.json",
+      "archive": "research/sixel-palette-records/054-observations.json.gz",
+      "bytes": 24381,
+      "sha256": "125641c6e18dca34c69a11a54947d6733e82088ea2dd7687d6eb465b85bb283e"
+    },
+    {
+      "path": "reference/palette_oracle.py",
+      "archive": "research/sixel-palette-records/055-palette_oracle.py.gz",
+      "bytes": 9529,
+      "sha256": "4b06b2d3f183506be76bbbd6119fa1ea92afdcd6e56e4b0a21423de38847b4f5"
+    },
+    {
+      "path": "reference/private-cross-image-after-expose.ppm",
+      "archive": "research/sixel-palette-records/056-private-cross-image-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/private-cross-image-after-expose.ximage",
+      "archive": "research/sixel-palette-records/057-private-cross-image-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/private-cross-image-after.ppm",
+      "archive": "research/sixel-palette-records/058-private-cross-image-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/private-cross-image-after.ximage",
+      "archive": "research/sixel-palette-records/059-private-cross-image-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/private-cross-image-before.ppm",
+      "archive": "research/sixel-palette-records/060-private-cross-image-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/private-cross-image-before.ximage",
+      "archive": "research/sixel-palette-records/061-private-cross-image-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/private-old-shared-new-after-expose.ppm",
+      "archive": "research/sixel-palette-records/062-private-old-shared-new-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/private-old-shared-new-after-expose.ximage",
+      "archive": "research/sixel-palette-records/063-private-old-shared-new-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/private-old-shared-new-after.ppm",
+      "archive": "research/sixel-palette-records/064-private-old-shared-new-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/private-old-shared-new-after.ximage",
+      "archive": "research/sixel-palette-records/065-private-old-shared-new-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/private-old-shared-new-before.ppm",
+      "archive": "research/sixel-palette-records/066-private-old-shared-new-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/private-old-shared-new-before.ximage",
+      "archive": "research/sixel-palette-records/067-private-old-shared-new-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/private-same-dcs-after-expose.ppm",
+      "archive": "research/sixel-palette-records/068-private-same-dcs-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "9c9affaa9bedaac6488554eab2f4f0980dee22ad6928daa3f2b9e59f10b2d9f0"
+    },
+    {
+      "path": "reference/private-same-dcs-after-expose.ximage",
+      "archive": "research/sixel-palette-records/069-private-same-dcs-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "8c056d603f7ece233dbae8d6dd0d367d150e4616e7214fbd171cdaa33b227711"
+    },
+    {
+      "path": "reference/private-same-dcs-after.ppm",
+      "archive": "research/sixel-palette-records/070-private-same-dcs-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "9c9affaa9bedaac6488554eab2f4f0980dee22ad6928daa3f2b9e59f10b2d9f0"
+    },
+    {
+      "path": "reference/private-same-dcs-after.ximage",
+      "archive": "research/sixel-palette-records/071-private-same-dcs-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "8c056d603f7ece233dbae8d6dd0d367d150e4616e7214fbd171cdaa33b227711"
+    },
+    {
+      "path": "reference/private-same-dcs-before.ppm",
+      "archive": "research/sixel-palette-records/072-private-same-dcs-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/private-same-dcs-before.ximage",
+      "archive": "research/sixel-palette-records/073-private-same-dcs-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/ptyx.h",
+      "archive": "research/sixel-palette-records/074-ptyx.h.gz",
+      "bytes": 120334,
+      "sha256": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+    },
+    {
+      "path": "reference/register-identity/child-control.json",
+      "archive": "research/sixel-palette-records/075-child-control.json.gz",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "reference/register-identity/child-report.json",
+      "archive": "research/sixel-palette-records/076-child-report.json.gz",
+      "bytes": 60,
+      "sha256": "72efd64b0302e1bf0c9053ba8a0baae4cad8b46324c468dbda27a2bfd0cf36a8"
+    },
+    {
+      "path": "reference/register-identity/equal-RGB-distinct-registers-expose.ppm",
+      "archive": "research/sixel-palette-records/077-equal-RGB-distinct-registers-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "fc9236888f957a1a718a095e173c5d81404209ce43313db040cffdcbc8f339cb"
+    },
+    {
+      "path": "reference/register-identity/equal-RGB-distinct-registers-expose.ximage",
+      "archive": "research/sixel-palette-records/078-equal-RGB-distinct-registers-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "b9b25ef7cac55c00952a9b8fb9d62e6ca2c6324dba647acbc582106faa46d63f"
+    },
+    {
+      "path": "reference/register-identity/equal-RGB-distinct-registers.ppm",
+      "archive": "research/sixel-palette-records/079-equal-RGB-distinct-registers.ppm.gz",
+      "bytes": 230415,
+      "sha256": "fc9236888f957a1a718a095e173c5d81404209ce43313db040cffdcbc8f339cb"
+    },
+    {
+      "path": "reference/register-identity/equal-RGB-distinct-registers.ximage",
+      "archive": "research/sixel-palette-records/080-equal-RGB-distinct-registers.ximage.gz",
+      "bytes": 307200,
+      "sha256": "b9b25ef7cac55c00952a9b8fb9d62e6ca2c6324dba647acbc582106faa46d63f"
+    },
+    {
+      "path": "reference/register-identity/observations.json",
+      "archive": "research/sixel-palette-records/081-observations.json.gz",
+      "bytes": 3775,
+      "sha256": "5610a3980f20861da0e2b691ae70e1fe58a04cdd642b6e0f8d2878cd07ff539d"
+    },
+    {
+      "path": "reference/register-identity/xterm-stderr.txt",
+      "archive": "research/sixel-palette-records/082-xterm-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/register-identity/xterm-stdout.txt",
+      "archive": "research/sixel-palette-records/083-xterm-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/register-identity/xvfb-stderr.txt",
+      "archive": "research/sixel-palette-records/084-xvfb-stderr.txt.gz",
+      "bytes": 64,
+      "sha256": "87e9572cf030493a1f7ba83d385129046b224374ca1414911674b30fc44276d7"
+    },
+    {
+      "path": "reference/register-identity/xvfb-stdout.txt",
+      "archive": "research/sixel-palette-records/085-xvfb-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/REPORT.md",
+      "archive": "research/sixel-palette-records/086-REPORT.md.gz",
+      "bytes": 10435,
+      "sha256": "8a1f0b5a6eb07a755edb06abe90a0433fc9251935fdd5342f8341a2d983f08ac"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/child-control.json",
+      "archive": "research/sixel-palette-records/087-child-control.json.gz",
+      "bytes": 14,
+      "sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/child-report.json",
+      "archive": "research/sixel-palette-records/088-child-report.json.gz",
+      "bytes": 60,
+      "sha256": "dc964bf95852db982f2ec188673ea8d4cc6f62e52b295b583e4e270a5b2a94d7"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/hard-reset-after-hide-cursor-expose.ppm",
+      "archive": "research/sixel-palette-records/089-hard-reset-after-hide-cursor-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "12c810bd25efe1a7484387cd3d5a8503ce7cc341d61768b99a85c39a0ecca884"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/hard-reset-after-hide-cursor-expose.ximage",
+      "archive": "research/sixel-palette-records/090-hard-reset-after-hide-cursor-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "7818f5542a0404157573be6cffc0e0c8e68ce3c0f5d17d07ccdd9313fb700baf"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/hard-reset-after-hide-cursor.ppm",
+      "archive": "research/sixel-palette-records/091-hard-reset-after-hide-cursor.ppm.gz",
+      "bytes": 230415,
+      "sha256": "12c810bd25efe1a7484387cd3d5a8503ce7cc341d61768b99a85c39a0ecca884"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/hard-reset-after-hide-cursor.ximage",
+      "archive": "research/sixel-palette-records/092-hard-reset-after-hide-cursor.ximage.gz",
+      "bytes": 307200,
+      "sha256": "7818f5542a0404157573be6cffc0e0c8e68ce3c0f5d17d07ccdd9313fb700baf"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/observations.json",
+      "archive": "research/sixel-palette-records/093-observations.json.gz",
+      "bytes": 8597,
+      "sha256": "16394638c9dcdcf10778c16b6d939cdadfd3be6ad7a1c9b4c6d0644aa89c0026"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-after-hide-cursor-expose.ppm",
+      "archive": "research/sixel-palette-records/094-soft-reset-after-hide-cursor-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-after-hide-cursor-expose.ximage",
+      "archive": "research/sixel-palette-records/095-soft-reset-after-hide-cursor-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-after-hide-cursor.ppm",
+      "archive": "research/sixel-palette-records/096-soft-reset-after-hide-cursor.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-after-hide-cursor.ximage",
+      "archive": "research/sixel-palette-records/097-soft-reset-after-hide-cursor.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-before.ppm",
+      "archive": "research/sixel-palette-records/098-soft-reset-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-before.ximage",
+      "archive": "research/sixel-palette-records/099-soft-reset-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-shared-redefine-expose.ppm",
+      "archive": "research/sixel-palette-records/100-soft-reset-shared-redefine-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "22fd809a7714c5c4793c8a54ebe980df6d6e07176a3240f871a1d2d4c0046673"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-shared-redefine-expose.ximage",
+      "archive": "research/sixel-palette-records/101-soft-reset-shared-redefine-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "210088e87da7a2ea689f4d8f1151d83302389b9a9c7e834e637c182c312f624a"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-shared-redefine.ppm",
+      "archive": "research/sixel-palette-records/102-soft-reset-shared-redefine.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/soft-reset-shared-redefine.ximage",
+      "archive": "research/sixel-palette-records/103-soft-reset-shared-redefine.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/xterm-stderr.txt",
+      "archive": "research/sixel-palette-records/104-xterm-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/xterm-stdout.txt",
+      "archive": "research/sixel-palette-records/105-xterm-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/xvfb-stderr.txt",
+      "archive": "research/sixel-palette-records/106-xvfb-stderr.txt.gz",
+      "bytes": 64,
+      "sha256": "87e9572cf030493a1f7ba83d385129046b224374ca1414911674b30fc44276d7"
+    },
+    {
+      "path": "reference/reset-cursor-hidden/xvfb-stdout.txt",
+      "archive": "research/sixel-palette-records/107-xvfb-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/reset_oracle.py",
+      "archive": "research/sixel-palette-records/108-reset_oracle.py.gz",
+      "bytes": 9271,
+      "sha256": "d0a32a0455bbeeb1dece0b44ba43921061cc39d3058b0d67ccbd20c3d996bdb2"
+    },
+    {
+      "path": "reference/shared-cross-image-after-expose.ppm",
+      "archive": "research/sixel-palette-records/109-shared-cross-image-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "22fd809a7714c5c4793c8a54ebe980df6d6e07176a3240f871a1d2d4c0046673"
+    },
+    {
+      "path": "reference/shared-cross-image-after-expose.ximage",
+      "archive": "research/sixel-palette-records/110-shared-cross-image-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "210088e87da7a2ea689f4d8f1151d83302389b9a9c7e834e637c182c312f624a"
+    },
+    {
+      "path": "reference/shared-cross-image-after.ppm",
+      "archive": "research/sixel-palette-records/111-shared-cross-image-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/shared-cross-image-after.ximage",
+      "archive": "research/sixel-palette-records/112-shared-cross-image-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/shared-cross-image-before.ppm",
+      "archive": "research/sixel-palette-records/113-shared-cross-image-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/shared-cross-image-before.ximage",
+      "archive": "research/sixel-palette-records/114-shared-cross-image-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/shared-old-private-middle-shared-new-expose.ppm",
+      "archive": "research/sixel-palette-records/115-shared-old-private-middle-shared-new-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "65efc813b6327443dcfafe4366fa413214230e1bacfa54af84854ff22246519f"
+    },
+    {
+      "path": "reference/shared-old-private-middle-shared-new-expose.ximage",
+      "archive": "research/sixel-palette-records/116-shared-old-private-middle-shared-new-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "d5d19c80911a0ce091a6d49cf7e341a8361ebb79f55df9664757f887044b715e"
+    },
+    {
+      "path": "reference/shared-old-private-middle-shared-new.ppm",
+      "archive": "research/sixel-palette-records/117-shared-old-private-middle-shared-new.ppm.gz",
+      "bytes": 230415,
+      "sha256": "4010f59de85e3b0f9c9d35c834e5f96c00f02f075c2973db222b89c93235d27d"
+    },
+    {
+      "path": "reference/shared-old-private-middle-shared-new.ximage",
+      "archive": "research/sixel-palette-records/118-shared-old-private-middle-shared-new.ximage.gz",
+      "bytes": 307200,
+      "sha256": "90b1733118678cb472385c694faf5971ed3993280ff46456e06ebae543cb82f4"
+    },
+    {
+      "path": "reference/shared-old-private-new-after-expose.ppm",
+      "archive": "research/sixel-palette-records/119-shared-old-private-new-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/shared-old-private-new-after-expose.ximage",
+      "archive": "research/sixel-palette-records/120-shared-old-private-new-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/shared-old-private-new-after.ppm",
+      "archive": "research/sixel-palette-records/121-shared-old-private-new-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "60ff952aeae0a00a88fa2c241d77219ea4302d73a0908f8083de14926ab6e6e7"
+    },
+    {
+      "path": "reference/shared-old-private-new-after.ximage",
+      "archive": "research/sixel-palette-records/122-shared-old-private-new-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "25d0b72d976f3b98403e81f31cabe0fec3bfff606eb2151c71ab1a9fde039bb9"
+    },
+    {
+      "path": "reference/shared-old-private-new-before.ppm",
+      "archive": "research/sixel-palette-records/123-shared-old-private-new-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/shared-old-private-new-before.ximage",
+      "archive": "research/sixel-palette-records/124-shared-old-private-new-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/shared-same-dcs-after-expose.ppm",
+      "archive": "research/sixel-palette-records/125-shared-same-dcs-after-expose.ppm.gz",
+      "bytes": 230415,
+      "sha256": "9c9affaa9bedaac6488554eab2f4f0980dee22ad6928daa3f2b9e59f10b2d9f0"
+    },
+    {
+      "path": "reference/shared-same-dcs-after-expose.ximage",
+      "archive": "research/sixel-palette-records/126-shared-same-dcs-after-expose.ximage.gz",
+      "bytes": 307200,
+      "sha256": "8c056d603f7ece233dbae8d6dd0d367d150e4616e7214fbd171cdaa33b227711"
+    },
+    {
+      "path": "reference/shared-same-dcs-after.ppm",
+      "archive": "research/sixel-palette-records/127-shared-same-dcs-after.ppm.gz",
+      "bytes": 230415,
+      "sha256": "9c9affaa9bedaac6488554eab2f4f0980dee22ad6928daa3f2b9e59f10b2d9f0"
+    },
+    {
+      "path": "reference/shared-same-dcs-after.ximage",
+      "archive": "research/sixel-palette-records/128-shared-same-dcs-after.ximage.gz",
+      "bytes": 307200,
+      "sha256": "8c056d603f7ece233dbae8d6dd0d367d150e4616e7214fbd171cdaa33b227711"
+    },
+    {
+      "path": "reference/shared-same-dcs-before.ppm",
+      "archive": "research/sixel-palette-records/129-shared-same-dcs-before.ppm.gz",
+      "bytes": 230415,
+      "sha256": "13c601501392c177dc61c3753dd37f33c494cbc49483caf5cd1dd68a2a644f72"
+    },
+    {
+      "path": "reference/shared-same-dcs-before.ximage",
+      "archive": "research/sixel-palette-records/130-shared-same-dcs-before.ximage.gz",
+      "bytes": 307200,
+      "sha256": "cdb3e8d7454605923328b2bcbbfb34467e24cf9c9694be7ad695f207c0dff571"
+    },
+    {
+      "path": "reference/source-manifest.json",
+      "archive": "research/sixel-palette-records/131-source-manifest.json.gz",
+      "bytes": 1074,
+      "sha256": "8430ef9c8d0729572f2ccfdada2a5dbdda43725c0ca56f21e2908d309890644d"
+    },
+    {
+      "path": "reference/terminal-sixel-excerpt.txt",
+      "archive": "research/sixel-palette-records/132-terminal-sixel-excerpt.txt.gz",
+      "bytes": 4059,
+      "sha256": "c87ddac95f88def186b353bf652985afa82b0a37ff50c9f6d3ca2dbd1b4a8ce7"
+    },
+    {
+      "path": "reference/terminal-source-identity.json",
+      "archive": "research/sixel-palette-records/133-terminal-source-identity.json.gz",
+      "bytes": 141,
+      "sha256": "5d51f9842509c1457ca137b64dc70f91316782b45ecdc5b32e84d45c9a2ed145"
+    },
+    {
+      "path": "reference/xterm-stderr.txt",
+      "archive": "research/sixel-palette-records/134-xterm-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/xterm-stdout.txt",
+      "archive": "research/sixel-palette-records/135-xterm-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/xvfb-stderr.txt",
+      "archive": "research/sixel-palette-records/136-xvfb-stderr.txt.gz",
+      "bytes": 64,
+      "sha256": "87e9572cf030493a1f7ba83d385129046b224374ca1414911674b30fc44276d7"
+    },
+    {
+      "path": "reference/xvfb-stdout.txt",
+      "archive": "research/sixel-palette-records/137-xvfb-stdout.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/check-palette-existing.py",
+      "archive": "research/sixel-palette-records/138-check-palette-existing.py.gz",
+      "bytes": 1029,
+      "sha256": "436eb681e05e6d1e747f92005611ca5213b4af74474c6996fa7f8d3082cfbfb5"
+    },
+    {
+      "path": "build/check-palette-memory.py",
+      "archive": "research/sixel-palette-records/139-check-palette-memory.py.gz",
+      "bytes": 1365,
+      "sha256": "e897d7e4b8c26e6323ac7c666ee325e9dff7a178d6da6c2e30c061c6ab5d72bd"
+    },
+    {
+      "path": "build/check-palette-native.py",
+      "archive": "research/sixel-palette-records/140-check-palette-native.py.gz",
+      "bytes": 2048,
+      "sha256": "743ac77172d3154ec0261a42b218c1690ae610e473cb0e902ba2f6c5c77bbe31"
+    },
+    {
+      "path": "build/link-palette-image.py",
+      "archive": "research/sixel-palette-records/141-link-palette-image.py.gz",
+      "bytes": 1340,
+      "sha256": "bea75712b8cc74435a147d44dd26166fd8ccadf8259f41df9bb59eab3491db5e"
+    },
+    {
+      "path": "build/palette-evidence/asan-0.log",
+      "archive": "research/sixel-palette-records/142-asan-0.log.gz",
+      "bytes": 4307,
+      "sha256": "e1db13d698fcb11d9ddab57c9a79a2317ecf0bfb897476125fd75ebad2519789"
+    },
+    {
+      "path": "build/palette-evidence/asan-1.log",
+      "archive": "research/sixel-palette-records/143-asan-1.log.gz",
+      "bytes": 13206,
+      "sha256": "b930372da8e8692415021d2461b41b376116ee76112cbb4d670547c73c80df9b"
+    },
+    {
+      "path": "build/palette-evidence/asan-2.log",
+      "archive": "research/sixel-palette-records/144-asan-2.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/palette-evidence/asan-3.log",
+      "archive": "research/sixel-palette-records/145-asan-3.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/palette-evidence/asan-4.log",
+      "archive": "research/sixel-palette-records/146-asan-4.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/palette-evidence/asan.json",
+      "archive": "research/sixel-palette-records/147-asan.json.gz",
+      "bytes": 1787,
+      "sha256": "861e5a4da148a07548207b543c5b820522ce0755c3d837fb8b8793a28aa62295"
+    },
+    {
+      "path": "build/palette-evidence/asan.py",
+      "archive": "research/sixel-palette-records/148-asan.py.gz",
+      "bytes": 1348,
+      "sha256": "ea4999400b4b9811ff5fb5e129722680cb0f4ccd9b9754cc9d32a5bce47e1696"
+    },
+    {
+      "path": "build/palette-evidence/baseline-0.log",
+      "archive": "research/sixel-palette-records/149-baseline-0.log.gz",
+      "bytes": 4308,
+      "sha256": "b7bff48a66634b3d32154835c6c3a4c0c112103c2d41dc0435f11f89972e3cfb"
+    },
+    {
+      "path": "build/palette-evidence/baseline-1.log",
+      "archive": "research/sixel-palette-records/150-baseline-1.log.gz",
+      "bytes": 12541,
+      "sha256": "55521618feef9c54fcc0f40db57925e3294cf63d89e9927dc363318a543e31a4"
+    },
+    {
+      "path": "build/palette-evidence/baseline-2.log",
+      "archive": "research/sixel-palette-records/151-baseline-2.log.gz",
+      "bytes": 200,
+      "sha256": "e2ee5315d22c084e0c7006b7982b6699ba003c128fced4b08ec372329662c179"
+    },
+    {
+      "path": "build/palette-evidence/baseline-3.log",
+      "archive": "research/sixel-palette-records/152-baseline-3.log.gz",
+      "bytes": 11494,
+      "sha256": "9bc9235f53a0ae1316f128fc5c6ad85bcc4d94a549d1129d564c1f8cf94039af"
+    },
+    {
+      "path": "build/palette-evidence/baseline.json",
+      "archive": "research/sixel-palette-records/153-baseline.json.gz",
+      "bytes": 1107,
+      "sha256": "bdba8ec3a711eb7c5cdfae8a66f29c631361a18ce131911afbfd728aa5b1a8ce"
+    },
+    {
+      "path": "build/palette-evidence/baseline.py",
+      "archive": "research/sixel-palette-records/154-baseline.py.gz",
+      "bytes": 1049,
+      "sha256": "fe442652b49e708e77883bddd57c5414a7093e0b33d0400ab3f70e68aa8f8ab6"
+    },
+    {
+      "path": "build/palette-evidence/decoder-after.c",
+      "archive": "research/sixel-palette-records/155-decoder-after.c.gz",
+      "bytes": 15053,
+      "sha256": "f976f72829250b935d5c00313f7a980f2f1bd7bf87b12f3fc33a1f1444ab64cf"
+    },
+    {
+      "path": "build/palette-evidence/decoder-before.c",
+      "archive": "research/sixel-palette-records/156-decoder-before.c.gz",
+      "bytes": 13511,
+      "sha256": "418bbf24f04020d1e3347922c749b6c07b80c2a283bfc5bf44025a5d6d014f18"
+    },
+    {
+      "path": "build/palette-evidence/fixed-first-0.log",
+      "archive": "research/sixel-palette-records/157-fixed-first-0.log.gz",
+      "bytes": 68,
+      "sha256": "bc41aa7fc4abb0fc28d07f5fe6a1f6a53b3e6fbbb3aecd8b0bf8ce4ad2fa4752"
+    },
+    {
+      "path": "build/palette-evidence/fixed-first.json",
+      "archive": "research/sixel-palette-records/158-fixed-first.json.gz",
+      "bytes": 355,
+      "sha256": "877574eb950c1cec4945550273708fbc9e795f740ac8e5efcaf388cb6ca4ee8a"
+    },
+    {
+      "path": "build/palette-evidence/fixed-first.py",
+      "archive": "research/sixel-palette-records/159-fixed-first.py.gz",
+      "bytes": 929,
+      "sha256": "546a63a6a4a51d49a88a5fd3dc0c65d577c741374f6ccb62374a0c136e38a8b6"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second-0.log",
+      "archive": "research/sixel-palette-records/160-fixed-second-0.log.gz",
+      "bytes": 1750,
+      "sha256": "3b0f874e1e86983b1029de1f003088043356ea541fef4f53f96596b400e05498"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second-1.log",
+      "archive": "research/sixel-palette-records/161-fixed-second-1.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second-2.log",
+      "archive": "research/sixel-palette-records/162-fixed-second-2.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second-3.log",
+      "archive": "research/sixel-palette-records/163-fixed-second-3.log.gz",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second.json",
+      "archive": "research/sixel-palette-records/164-fixed-second.json.gz",
+      "bytes": 910,
+      "sha256": "c62fc945f104ff43e91399d1d8786a0f72291f635e2e0b779199ef7aa46accd7"
+    },
+    {
+      "path": "build/palette-evidence/fixed-second.py",
+      "archive": "research/sixel-palette-records/165-fixed-second.py.gz",
+      "bytes": 905,
+      "sha256": "408316227fb0b04b92b1c68add854c0532b045dcd33b8c554b001ee7131fce7a"
+    },
+    {
+      "path": "build/palette-evidence/HANDOFF.md",
+      "archive": "research/sixel-palette-records/166-HANDOFF.md.gz",
+      "bytes": 6384,
+      "sha256": "ad1e077f029e7b7c1ee2891e34389fa11a4590997bf204be8ea57268acb42ad8"
+    },
+    {
+      "path": "build/palette-evidence/implementation.patch",
+      "archive": "research/sixel-palette-records/167-implementation.patch.gz",
+      "bytes": 22370,
+      "sha256": "b393954e0a5938af0aad29253de0b2c37925d0e40d048e5744cc7239d2c32a70"
+    },
+    {
+      "path": "build/palette-evidence/manifest.json",
+      "archive": "research/sixel-palette-records/168-manifest.json.gz",
+      "bytes": 4821,
+      "sha256": "47530fd7d831dcc80583f9a7999d48f4bf63d015d18a5bc30bdbe129f1d8057a"
+    },
+    {
+      "path": "build/palette-evidence/native-fixture-static.json",
+      "archive": "research/sixel-palette-records/169-native-fixture-static.json.gz",
+      "bytes": 654,
+      "sha256": "7f8c4fe038b0815ca9d94afe55afa6b262644a08a97bc3b3fa7672b85c73e8ee"
+    },
+    {
+      "path": "build/palette-evidence/review-0.log",
+      "archive": "research/sixel-palette-records/170-review-0.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/palette-evidence/review-1.log",
+      "archive": "research/sixel-palette-records/171-review-1.log.gz",
+      "bytes": 23,
+      "sha256": "57be1e65b83d0e05f7a53e1c1ac1d9d413e0576217070330ed01f73b53d6a50b"
+    },
+    {
+      "path": "build/palette-evidence/review-2.log",
+      "archive": "research/sixel-palette-records/172-review-2.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/palette-evidence/review-3.log",
+      "archive": "research/sixel-palette-records/173-review-3.log.gz",
+      "bytes": 23,
+      "sha256": "374efb4745c6c97dcf992bff74653d8726ac0307d5c05d70b2a3fd69b9eddb5f"
+    },
+    {
+      "path": "build/palette-evidence/review-4.log",
+      "archive": "research/sixel-palette-records/174-review-4.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/palette-evidence/review-5.log",
+      "archive": "research/sixel-palette-records/175-review-5.log.gz",
+      "bytes": 74,
+      "sha256": "5d0a13e3a69be8d6e8e743fd0c9d24c02117a07a4499071015e5d6c67ce42511"
+    },
+    {
+      "path": "build/palette-evidence/review-6.log",
+      "archive": "research/sixel-palette-records/176-review-6.log.gz",
+      "bytes": 233,
+      "sha256": "eed2b756cdae2e53aee6f84432c291080f02171ca78925a1058fa3de1b0b71ed"
+    },
+    {
+      "path": "build/palette-evidence/review-7.log",
+      "archive": "research/sixel-palette-records/177-review-7.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/palette-evidence/review-8.log",
+      "archive": "research/sixel-palette-records/178-review-8.log.gz",
+      "bytes": 233,
+      "sha256": "eed2b756cdae2e53aee6f84432c291080f02171ca78925a1058fa3de1b0b71ed"
+    },
+    {
+      "path": "build/palette-evidence/review-9.log",
+      "archive": "research/sixel-palette-records/179-review-9.log.gz",
+      "bytes": 28,
+      "sha256": "841498e43e46a82bb61b33157d077b98c761675eb81654e54015a7594a7820dc"
+    },
+    {
+      "path": "build/palette-evidence/review.json",
+      "archive": "research/sixel-palette-records/180-review.json.gz",
+      "bytes": 3472,
+      "sha256": "23be9d81e9bec9f0151e4c6549341c3a2d16596678d1e562914da8788eb6c5da"
+    },
+    {
+      "path": "build/palette-evidence/review.py",
+      "archive": "research/sixel-palette-records/181-review.py.gz",
+      "bytes": 1463,
+      "sha256": "19c3a126edbf0b6828d24d52b01e26358c99e736193ca733c2501412c7368e8d"
+    },
+    {
+      "path": "build/palette-evidence/size-after-win-build.log",
+      "archive": "research/sixel-palette-records/182-size-after-win-build.log.gz",
+      "bytes": 14,
+      "sha256": "2ec75694e462f49815a5feffb1211285d7671845e090ac1094fa423873deac4c"
+    },
+    {
+      "path": "build/palette-evidence/size-after-win.log",
+      "archive": "research/sixel-palette-records/183-size-after-win.log.gz",
+      "bytes": 24,
+      "sha256": "1c629e636284d7ffe2c9b3fc15d4bd19e0cf8b48ae23599e8132c460dd463e4d"
+    },
+    {
+      "path": "build/palette-evidence/size-after.c",
+      "archive": "research/sixel-palette-records/184-size-after.c.gz",
+      "bytes": 148,
+      "sha256": "c4fa5c6f9964865f20333c2259b81ae1cccd0639897835ca593a7353a218e47e"
+    },
+    {
+      "path": "build/palette-evidence/size-before-win-build.log",
+      "archive": "research/sixel-palette-records/185-size-before-win-build.log.gz",
+      "bytes": 15,
+      "sha256": "ed93a22402c5bb49c8699ba750bd19168ec2995e969f73ea57f21d891c4c3604"
+    },
+    {
+      "path": "build/palette-evidence/size-before-win.log",
+      "archive": "research/sixel-palette-records/186-size-before-win.log.gz",
+      "bytes": 24,
+      "sha256": "0d6c498a7d19df2338f51deaa2dcf1659b3e978c0bbe198893e8b791ad143cec"
+    },
+    {
+      "path": "build/palette-evidence/size-before.c",
+      "archive": "research/sixel-palette-records/187-size-before.c.gz",
+      "bytes": 149,
+      "sha256": "598548c9ec2869a001adfe849c5aade3cbd10e494f7425fc921b9e24d4d5b868"
+    },
+    {
+      "path": "build/palette-evidence/windows-build.log",
+      "archive": "research/sixel-palette-records/188-windows-build.log.gz",
+      "bytes": 17584,
+      "sha256": "b10ec209aba48186f8fe909b5e76f452f8041f8b70912606e5043128e8e8bd05"
+    },
+    {
+      "path": "build/palette-evidence/windows-configure.log",
+      "archive": "research/sixel-palette-records/189-windows-configure.log.gz",
+      "bytes": 3103,
+      "sha256": "8d3075601a599fbf4aa42106035034dc486d9f5a8426bb5656caa831cd83129f"
+    },
+    {
+      "path": "build/palette-existing-results.json",
+      "archive": "research/sixel-palette-records/190-palette-existing-results.json.gz",
+      "bytes": 116,
+      "sha256": "e44934627b87ccb2c05a5fc661532ce40876b84139a58cb3baa08205933d28d2"
+    },
+    {
+      "path": "build/palette-memory-directx/controller.log",
+      "archive": "research/sixel-palette-records/191-controller.log.gz",
+      "bytes": 366,
+      "sha256": "6467d021ab5387abf6736a77eb9aaf01be2282a6eaf5de4a237537fed1db7531"
+    },
+    {
+      "path": "build/palette-memory-directx/research/tabs-controller.json",
+      "archive": "research/sixel-palette-records/192-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "a80b767a40e6193b3e94d1415860afe71c2077988bb27251b6bfa9e37db641eb"
+    },
+    {
+      "path": "build/palette-memory-directx/research/workload-tabs-directx-left-memory.json",
+      "archive": "research/sixel-palette-records/193-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 1244476,
+      "sha256": "56a19bfc3279410c43754d5760f82e56fc0ded1b95b6fcc0864b4442f6661c78"
+    },
+    {
+      "path": "build/palette-memory-directx/research/workload-tabs-directx-left-observed.json",
+      "archive": "research/sixel-palette-records/194-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 25726,
+      "sha256": "791ab98385d963acf663ccd016a2ab9c76fa6a603a354fc64b853ae9382f2b0f"
+    },
+    {
+      "path": "build/palette-memory-directx/research/workload-tabs-directx-left-preview.png",
+      "archive": "research/sixel-palette-records/195-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/palette-memory-directx/tabs.log",
+      "archive": "research/sixel-palette-records/196-tabs.log.gz",
+      "bytes": 36,
+      "sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+    },
+    {
+      "path": "build/palette-memory-gdi/controller.log",
+      "archive": "research/sixel-palette-records/197-controller.log.gz",
+      "bytes": 366,
+      "sha256": "e6db9d2a22a102d2a610b4cd7cb555e0083638be4daf987ff0d5c067e45e04f7"
+    },
+    {
+      "path": "build/palette-memory-gdi/research/tabs-controller.json",
+      "archive": "research/sixel-palette-records/198-tabs-controller.json.gz",
+      "bytes": 469,
+      "sha256": "f476c60a049012ac99b7d2f26b73e28fcc460c5125e0b5158929e5dd68843530"
+    },
+    {
+      "path": "build/palette-memory-gdi/research/tabs-gdi-top-host.png",
+      "archive": "research/sixel-palette-records/199-tabs-gdi-top-host.png.gz",
+      "bytes": 4287,
+      "sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0"
+    },
+    {
+      "path": "build/palette-memory-gdi/research/workload-tabs-gdi-top-memory.json",
+      "archive": "research/sixel-palette-records/200-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 1299471,
+      "sha256": "e0f266ebd9501278ec6efdd70834f4d7c29851ce44ef97e4712702e1207fd6cf"
+    },
+    {
+      "path": "build/palette-memory-gdi/research/workload-tabs-gdi-top-observed.json",
+      "archive": "research/sixel-palette-records/201-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 25724,
+      "sha256": "954eb556bb4204c90f003eefa71b76e35f607d052af47dd30c1ada4d41dd9845"
+    },
+    {
+      "path": "build/palette-memory-gdi/research/workload-tabs-gdi-top-preview.png",
+      "archive": "research/sixel-palette-records/202-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 1051,
+      "sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0"
+    },
+    {
+      "path": "build/palette-memory-gdi/tabs.log",
+      "archive": "research/sixel-palette-records/203-tabs.log.gz",
+      "bytes": 31,
+      "sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+    },
+    {
+      "path": "build/palette-memory-results.json",
+      "archive": "research/sixel-palette-records/204-palette-memory-results.json.gz",
+      "bytes": 429,
+      "sha256": "c041f736e90b1457eb1a4fada394980ab6955b8b28efbafe05ef4b55ab297a7b"
+    },
+    {
+      "path": "build/palette-native/after-directx/controller.log",
+      "archive": "research/sixel-palette-records/205-controller.log.gz",
+      "bytes": 372,
+      "sha256": "577332a1490e2d346d0bbf73bd136f47eb057dfbac439be5eb956873cc1df0a0"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-palette-records/206-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/01-private-same-dcs-before.png",
+      "archive": "research/sixel-palette-records/207-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-palette-records/208-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/02-private-same-dcs-after.png",
+      "archive": "research/sixel-palette-records/209-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-palette-records/210-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/03-shared-same-dcs.png",
+      "archive": "research/sixel-palette-records/211-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/04-private-cross-before.bmp",
+      "archive": "research/sixel-palette-records/212-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/04-private-cross-before.png",
+      "archive": "research/sixel-palette-records/213-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/05-private-cross-after.bmp",
+      "archive": "research/sixel-palette-records/214-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0141442f22c22ebba9994b4cda7c83bd9c6f0f33d5b4a775af641341d7ad03b9"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/05-private-cross-after.png",
+      "archive": "research/sixel-palette-records/215-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-palette-records/216-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6c793643296ad72ed2aadc4a8e9fdbc5ce98579824da24c53f5645803b5156ff"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-palette-records/217-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-palette-records/218-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "d3d545c0531af857df7d974e15b6281b1ca247c4749aebd65c3674c3c8187a14"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/07-overwrite-register-identity.png",
+      "archive": "research/sixel-palette-records/219-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/08-shared-cross-before.bmp",
+      "archive": "research/sixel-palette-records/220-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/08-shared-cross-before.png",
+      "archive": "research/sixel-palette-records/221-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/09-shared-cross-after.bmp",
+      "archive": "research/sixel-palette-records/222-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3fa1b531245882036168f58d199f2cb73a0837ebad2248dc2e039e2f75f6472d"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/09-shared-cross-after.png",
+      "archive": "research/sixel-palette-records/223-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/10-shared-cancel.bmp",
+      "archive": "research/sixel-palette-records/224-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/10-shared-cancel.png",
+      "archive": "research/sixel-palette-records/225-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/11-private-cancel.bmp",
+      "archive": "research/sixel-palette-records/226-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/11-private-cancel.png",
+      "archive": "research/sixel-palette-records/227-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-palette-records/228-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-palette-records/229-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-palette-records/230-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/13-shared-mode-restored.png",
+      "archive": "research/sixel-palette-records/231-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-palette-records/232-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-palette-records/233-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-palette-records/234-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-palette-records/235-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-palette-records/236-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "24a1d50ccaa822c44c60160725a20a9608a13df1e4e30ed3ff550b59609d2e90"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-palette-records/237-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/checks.json",
+      "archive": "research/sixel-palette-records/238-checks.json.gz",
+      "bytes": 14955,
+      "sha256": "1dbfcf4e53325794bcbe83ec1e09023bc9c6ca474eae73a0ca4b266d52c930e3"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/child-control.json",
+      "archive": "research/sixel-palette-records/239-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-737840e9cfab46bdb95dd69f91218a83/child-report.json",
+      "archive": "research/sixel-palette-records/240-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel-palette-directx-observed.json",
+      "archive": "research/sixel-palette-records/241-sixel-palette-directx-observed.json.gz",
+      "bytes": 17218,
+      "sha256": "2e791717a11e9b83394c85a6dc4ce5bf5627f81de137f1d15194e85e2aab3955"
+    },
+    {
+      "path": "build/palette-native/after-directx/research/sixel_palette-controller.json",
+      "archive": "research/sixel-palette-records/242-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "6ba05343781241b289b21944d238391b6140b38af55b409fcf0dea208cf22ff0"
+    },
+    {
+      "path": "build/palette-native/after-directx/sixel_palette.log",
+      "archive": "research/sixel-palette-records/243-sixel_palette.log.gz",
+      "bytes": 1006,
+      "sha256": "a8e7c61aea349c4f7f21fd86a691961491eeecb4fd0002735d2bb3a9a33f18e5"
+    },
+    {
+      "path": "build/palette-native/after-gdi/controller.log",
+      "archive": "research/sixel-palette-records/244-controller.log.gz",
+      "bytes": 372,
+      "sha256": "e00db4154f7593b2b5ce4bf94721ab64c3a4b3909afe736e27491e39913d6953"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-palette-records/245-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/01-private-same-dcs-before.png",
+      "archive": "research/sixel-palette-records/246-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-palette-records/247-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c85a35e52ced365fa419681fe9fe4981a9c26aaad08e79dfc298ba83dde2346c"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/02-private-same-dcs-after.png",
+      "archive": "research/sixel-palette-records/248-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-palette-records/249-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c85a35e52ced365fa419681fe9fe4981a9c26aaad08e79dfc298ba83dde2346c"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/03-shared-same-dcs.png",
+      "archive": "research/sixel-palette-records/250-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/04-private-cross-before.bmp",
+      "archive": "research/sixel-palette-records/251-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/04-private-cross-before.png",
+      "archive": "research/sixel-palette-records/252-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/05-private-cross-after.bmp",
+      "archive": "research/sixel-palette-records/253-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "4fb9b523498e507249b52a13953de97a9030171a9480392c6759161350d39191"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/05-private-cross-after.png",
+      "archive": "research/sixel-palette-records/254-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-palette-records/255-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0d0419e0117a02b72d749e4b72fc80cf91138690e6efff49fc6aeac95be67dff"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-palette-records/256-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-palette-records/257-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "5845211c6d8bd0f4578fbf14897e5041894fdd7fb0c7cf099653831615386907"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/07-overwrite-register-identity.png",
+      "archive": "research/sixel-palette-records/258-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/08-shared-cross-before.bmp",
+      "archive": "research/sixel-palette-records/259-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/08-shared-cross-before.png",
+      "archive": "research/sixel-palette-records/260-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/09-shared-cross-after.bmp",
+      "archive": "research/sixel-palette-records/261-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "c56d9d30c44109c114404582e4069d5294aec3df09959ecbe5a828b183c00f50"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/09-shared-cross-after.png",
+      "archive": "research/sixel-palette-records/262-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/10-shared-cancel.bmp",
+      "archive": "research/sixel-palette-records/263-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0a3d3f0f15c03c7cf2f65e302be7795530ab8e8c2dc5f1efaa6cb375a7cc15a9"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/10-shared-cancel.png",
+      "archive": "research/sixel-palette-records/264-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/11-private-cancel.bmp",
+      "archive": "research/sixel-palette-records/265-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0a3d3f0f15c03c7cf2f65e302be7795530ab8e8c2dc5f1efaa6cb375a7cc15a9"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/11-private-cancel.png",
+      "archive": "research/sixel-palette-records/266-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-palette-records/267-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a917e686d4846437f662218203dfa0cfbbe63bff75cabb681c636d796eb2e7dd"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-palette-records/268-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-palette-records/269-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "21896b2f2eb1d12f5825283e8db5f98d93dfaaf5ae642760fa91a72c74c921e3"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/13-shared-mode-restored.png",
+      "archive": "research/sixel-palette-records/270-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-palette-records/271-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "21896b2f2eb1d12f5825283e8db5f98d93dfaaf5ae642760fa91a72c74c921e3"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-palette-records/272-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-palette-records/273-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "a917e686d4846437f662218203dfa0cfbbe63bff75cabb681c636d796eb2e7dd"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-palette-records/274-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-palette-records/275-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "77eb875544ba7627342926c1112234d5c5e90ff7cca4f9fa9b44d40a67bf4189"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-palette-records/276-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/checks.json",
+      "archive": "research/sixel-palette-records/277-checks.json.gz",
+      "bytes": 14955,
+      "sha256": "3214567b4b7f56fff5a6779ac723237ae9f6c7c3d511c8ab66d1468bcb6f9ab8"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/child-control.json",
+      "archive": "research/sixel-palette-records/278-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-343b7e36ba8f4f9c94a1f597379e6fc4/child-report.json",
+      "archive": "research/sixel-palette-records/279-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel-palette-gdi-observed.json",
+      "archive": "research/sixel-palette-records/280-sixel-palette-gdi-observed.json.gz",
+      "bytes": 17178,
+      "sha256": "2af1edd9a3d27c9d8592bdf1154b875b9f665c40db72b05093ecc0784c009ba1"
+    },
+    {
+      "path": "build/palette-native/after-gdi/research/sixel_palette-controller.json",
+      "archive": "research/sixel-palette-records/281-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "3ce0fe413a3bafba3d736b073e6c29bfb88115982eeffa48ef8f24e0abde2b90"
+    },
+    {
+      "path": "build/palette-native/after-gdi/sixel_palette.log",
+      "archive": "research/sixel-palette-records/282-sixel_palette.log.gz",
+      "bytes": 1002,
+      "sha256": "88f7cbe0593b1766a81bfa1d487f1df3f2b6d8b2d927b03ed2c0e82855a22d71"
+    },
+    {
+      "path": "build/palette-native/after-opengl/controller.log",
+      "archive": "research/sixel-palette-records/283-controller.log.gz",
+      "bytes": 372,
+      "sha256": "2b58c3c3a6d62e722c630b297c387add8f762f2753fef4a36e3e8066a7da93f2"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-palette-records/284-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/01-private-same-dcs-before.png",
+      "archive": "research/sixel-palette-records/285-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-palette-records/286-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/02-private-same-dcs-after.png",
+      "archive": "research/sixel-palette-records/287-02-private-same-dcs-after.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/03-shared-same-dcs.bmp",
+      "archive": "research/sixel-palette-records/288-03-shared-same-dcs.bmp.gz",
+      "bytes": 333094,
+      "sha256": "38c69c0be7cd556b4403afa13024a216a839e086b53725856b595c5c7a04363d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/03-shared-same-dcs.png",
+      "archive": "research/sixel-palette-records/289-03-shared-same-dcs.png.gz",
+      "bytes": 342,
+      "sha256": "03bb174d7a28284a935c7b0b86522da3f50bb41e12e4b49742f5f7396def8e63"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/04-private-cross-before.bmp",
+      "archive": "research/sixel-palette-records/290-04-private-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/04-private-cross-before.png",
+      "archive": "research/sixel-palette-records/291-04-private-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/05-private-cross-after.bmp",
+      "archive": "research/sixel-palette-records/292-05-private-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "0141442f22c22ebba9994b4cda7c83bd9c6f0f33d5b4a775af641341d7ad03b9"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/05-private-cross-after.png",
+      "archive": "research/sixel-palette-records/293-05-private-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "592cb8fe84df66c3bcb18c879193295a5bba65dc532dd8bdc7f5411055a0b153"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/06-equal-rgb-distinct-registers.bmp",
+      "archive": "research/sixel-palette-records/294-06-equal-rgb-distinct-registers.bmp.gz",
+      "bytes": 333094,
+      "sha256": "6c793643296ad72ed2aadc4a8e9fdbc5ce98579824da24c53f5645803b5156ff"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/06-equal-rgb-distinct-registers.png",
+      "archive": "research/sixel-palette-records/295-06-equal-rgb-distinct-registers.png.gz",
+      "bytes": 345,
+      "sha256": "81563c257781fbaf3a338022f22fd3dd2d17794f6c864e2de5bd4b3305966981"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/07-overwrite-register-identity.bmp",
+      "archive": "research/sixel-palette-records/296-07-overwrite-register-identity.bmp.gz",
+      "bytes": 333094,
+      "sha256": "d3d545c0531af857df7d974e15b6281b1ca247c4749aebd65c3674c3c8187a14"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/07-overwrite-register-identity.png",
+      "archive": "research/sixel-palette-records/297-07-overwrite-register-identity.png.gz",
+      "bytes": 345,
+      "sha256": "1c15fa52aeb6e44d1301f2f80a1bd9e55c7e6a8f17563f01d80ba5d9a882ae12"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/08-shared-cross-before.bmp",
+      "archive": "research/sixel-palette-records/298-08-shared-cross-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "eb5d68f2e7f2bee4250e64830eb6e1eedcbea5b79495d85cffd5a7a9542a85f7"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/08-shared-cross-before.png",
+      "archive": "research/sixel-palette-records/299-08-shared-cross-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/09-shared-cross-after.bmp",
+      "archive": "research/sixel-palette-records/300-09-shared-cross-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "3fa1b531245882036168f58d199f2cb73a0837ebad2248dc2e039e2f75f6472d"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/09-shared-cross-after.png",
+      "archive": "research/sixel-palette-records/301-09-shared-cross-after.png.gz",
+      "bytes": 356,
+      "sha256": "479ac48ee83f3c3ff2781488597c4b8af7e84220d2ae87714312a59a516e4a6e"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/10-shared-cancel.bmp",
+      "archive": "research/sixel-palette-records/302-10-shared-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/10-shared-cancel.png",
+      "archive": "research/sixel-palette-records/303-10-shared-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/11-private-cancel.bmp",
+      "archive": "research/sixel-palette-records/304-11-private-cancel.bmp.gz",
+      "bytes": 333094,
+      "sha256": "e589536ec134dc89389e9edb67be51e737b710bf3d87c50a6fe4c95cab374bbe"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/11-private-cancel.png",
+      "archive": "research/sixel-palette-records/305-11-private-cancel.png.gz",
+      "bytes": 356,
+      "sha256": "b37ffcbc1964b7c2886a07e358c7a743c4ce2425d363c135d256843256df1155"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/12-private-image-after-mode-toggle.bmp",
+      "archive": "research/sixel-palette-records/306-12-private-image-after-mode-toggle.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/12-private-image-after-mode-toggle.png",
+      "archive": "research/sixel-palette-records/307-12-private-image-after-mode-toggle.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/13-shared-mode-restored.bmp",
+      "archive": "research/sixel-palette-records/308-13-shared-mode-restored.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/13-shared-mode-restored.png",
+      "archive": "research/sixel-palette-records/309-13-shared-mode-restored.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/14-soft-reset-retains-images.bmp",
+      "archive": "research/sixel-palette-records/310-14-soft-reset-retains-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "763d5beeecc95846bc2a32ec153713ce7a8e98e2049561dfb00feb8b2c1e02be"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/14-soft-reset-retains-images.png",
+      "archive": "research/sixel-palette-records/311-14-soft-reset-retains-images.png.gz",
+      "bytes": 368,
+      "sha256": "938306cfd2b2efa297059f1938a98258dd67bf06e6b1fb88e8c1ae5257073220"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/15-shared-after-soft-reset.bmp",
+      "archive": "research/sixel-palette-records/312-15-shared-after-soft-reset.bmp.gz",
+      "bytes": 333094,
+      "sha256": "fd2a1bf1534816488254d17e968dc4e6630c7cd1c6eed5ab66e68caa6e6821e6"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/15-shared-after-soft-reset.png",
+      "archive": "research/sixel-palette-records/313-15-shared-after-soft-reset.png.gz",
+      "bytes": 368,
+      "sha256": "65872485e259567d47ab57aaf7363f6056005243f0143ed830f65b1e51f953d5"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/16-hard-reset-clears-images.bmp",
+      "archive": "research/sixel-palette-records/314-16-hard-reset-clears-images.bmp.gz",
+      "bytes": 333094,
+      "sha256": "24a1d50ccaa822c44c60160725a20a9608a13df1e4e30ed3ff550b59609d2e90"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/16-hard-reset-clears-images.png",
+      "archive": "research/sixel-palette-records/315-16-hard-reset-clears-images.png.gz",
+      "bytes": 322,
+      "sha256": "277cec205f412aae3e415fb1a4e1bc24e69c6d840e696969d25af97cd759e798"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/checks.json",
+      "archive": "research/sixel-palette-records/316-checks.json.gz",
+      "bytes": 14955,
+      "sha256": "1dbfcf4e53325794bcbe83ec1e09023bc9c6ca474eae73a0ca4b266d52c930e3"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/child-control.json",
+      "archive": "research/sixel-palette-records/317-child-control.json.gz",
+      "bytes": 116,
+      "sha256": "6846c173c9b1389160edc51cfe9fe7418d586051d33c2d0100880ed0ae3c49a0"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-1e3792450fe940e889d00c2e9879bd4f/child-report.json",
+      "archive": "research/sixel-palette-records/318-child-report.json.gz",
+      "bytes": 167,
+      "sha256": "fd1d776ef9326d3d89bc37c4fc5502e37700c09087c849c47d7bfa5558c9da50"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel-palette-opengl-observed.json",
+      "archive": "research/sixel-palette-records/319-sixel-palette-opengl-observed.json.gz",
+      "bytes": 17208,
+      "sha256": "375e412bb46d359cbd3662054e77e194409a6c60c608352ed36e25800b8b0198"
+    },
+    {
+      "path": "build/palette-native/after-opengl/research/sixel_palette-controller.json",
+      "archive": "research/sixel-palette-records/320-sixel_palette-controller.json.gz",
+      "bytes": 475,
+      "sha256": "afd43b96d85dbb79a5d68234635c30b6b09b31973f82b4e5f9594f0d9d5f5b31"
+    },
+    {
+      "path": "build/palette-native/after-opengl/sixel_palette.log",
+      "archive": "research/sixel-palette-records/321-sixel_palette.log.gz",
+      "bytes": 1005,
+      "sha256": "16bab8a8d03b2be76794a555b44f918992af504dea2cf22ece5b59f32756b8bc"
+    },
+    {
+      "path": "build/palette-native/before-gdi/controller.log",
+      "archive": "research/sixel-palette-records/322-controller.log.gz",
+      "bytes": 1499,
+      "sha256": "87280bbe09021c4c03ef176f9b559fc0f1168c2da4d199ae61f5c840578e167b"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/01-private-same-dcs-before.bmp",
+      "archive": "research/sixel-palette-records/323-01-private-same-dcs-before.bmp.gz",
+      "bytes": 333094,
+      "sha256": "87c831bc041c4346c43929f0acb2aaeccc9411a5a0c088b4dfb927d49725f9a8"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/01-private-same-dcs-before.png",
+      "archive": "research/sixel-palette-records/324-01-private-same-dcs-before.png.gz",
+      "bytes": 342,
+      "sha256": "945d99e54796cebf918d60bbfd3c765d54d1e9f532dc6e2e1dbfccba8ee8ae0d"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/02-private-same-dcs-after.bmp",
+      "archive": "research/sixel-palette-records/325-02-private-same-dcs-after.bmp.gz",
+      "bytes": 333094,
+      "sha256": "be0ccd50a812e17b730813f0afe6b3ba8998d86694062baa9f5088e8286da4ca"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/02-private-same-dcs-after.png",
+      "archive": "research/sixel-palette-records/326-02-private-same-dcs-after.png.gz",
+      "bytes": 344,
+      "sha256": "e3b1ae4381524e066d7ac0b42ecc047d3f2df47581cae50eee920f49fcfb8ef6"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/checks.json",
+      "archive": "research/sixel-palette-records/327-checks.json.gz",
+      "bytes": 2213,
+      "sha256": "9e363eeaf0a3ff51e8b0cfbc91d319582eb40902231f27982cec647c4eeb27f2"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/child-control.json",
+      "archive": "research/sixel-palette-records/328-child-control.json.gz",
+      "bytes": 267,
+      "sha256": "c6d23c1cd6f44b4f71c085d7253d813b749f00e68c92db2e4eae1159f0c1c632"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-cb2a28d3f8d64f0cb118d6177507efcc/child-report.json",
+      "archive": "research/sixel-palette-records/329-child-report.json.gz",
+      "bytes": 164,
+      "sha256": "7d9d1fc8afab37c55fd33e9174e981ecdfa1474e003c3518163ee8abc12720c5"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel-palette-gdi-observed.json",
+      "archive": "research/sixel-palette-records/330-sixel-palette-gdi-observed.json.gz",
+      "bytes": 5363,
+      "sha256": "12f1e55a9b211f81443583aa5b78511234a65a96864587b8c7bf93c725a29af0"
+    },
+    {
+      "path": "build/palette-native/before-gdi/research/sixel_palette-controller.json",
+      "archive": "research/sixel-palette-records/331-sixel_palette-controller.json.gz",
+      "bytes": 476,
+      "sha256": "e2a0262176f5d6dc0dc5c7bb45af7f67a8544325ca134737b749ea0532b7c1e2"
+    },
+    {
+      "path": "build/palette-native/before-gdi/sixel_palette.log",
+      "archive": "research/sixel-palette-records/332-sixel_palette.log.gz",
+      "bytes": 1124,
+      "sha256": "df778ce08d67d26825fbba2d25781e01f9fa1aa0793dd97311b35a228eea56d2"
+    },
+    {
+      "path": "build/palette-native/results.json",
+      "archive": "research/sixel-palette-records/333-results.json.gz",
+      "bytes": 616,
+      "sha256": "28d883b9e9b206ce142cf382a12488d5742177b527f8e5d796c721ea3b95362e"
+    },
+    {
+      "path": "build/palette-renderer/controller.log",
+      "archive": "research/sixel-palette-records/334-controller.log.gz",
+      "bytes": 370,
+      "sha256": "6c7e8b2269057b2e780cde6d455fd0ac8dfe3c6584d99601759a9399737a7cbc"
+    },
+    {
+      "path": "build/palette-renderer/renderer.log",
+      "archive": "research/sixel-palette-records/335-renderer.log.gz",
+      "bytes": 357,
+      "sha256": "a75535989d33f38f038e35173e98495c60137e7f1c2070c4faa08159cf2e9d5a"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cache-eviction-0.png",
+      "archive": "research/sixel-palette-records/336-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cache-eviction-1.png",
+      "archive": "research/sixel-palette-records/337-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cache-eviction-2.png",
+      "archive": "research/sixel-palette-records/338-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-active-2.png",
+      "archive": "research/sixel-palette-records/339-renderer-0-cursor-active-2.png.gz",
+      "bytes": 13576,
+      "sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-active-4.png",
+      "archive": "research/sixel-palette-records/340-renderer-0-cursor-active-4.png.gz",
+      "bytes": 13588,
+      "sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-active-6.png",
+      "archive": "research/sixel-palette-records/341-renderer-0-cursor-active-6.png.gz",
+      "bytes": 13599,
+      "sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-inactive-2.png",
+      "archive": "research/sixel-palette-records/342-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 13625,
+      "sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-inactive-4.png",
+      "archive": "research/sixel-palette-records/343-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 13588,
+      "sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-cursor-inactive-6.png",
+      "archive": "research/sixel-palette-records/344-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 13605,
+      "sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-expose.png",
+      "archive": "research/sixel-palette-records/345-renderer-0-expose.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-overline-double-size.png",
+      "archive": "research/sixel-palette-records/346-renderer-0-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-overline.png",
+      "archive": "research/sixel-palette-records/347-renderer-0-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-palette.png",
+      "archive": "research/sixel-palette-records/348-renderer-0-palette.png.gz",
+      "bytes": 13582,
+      "sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-resize.png",
+      "archive": "research/sixel-palette-records/349-renderer-0-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-sixel.png",
+      "archive": "research/sixel-palette-records/350-renderer-0-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-sync-end.png",
+      "archive": "research/sixel-palette-records/351-renderer-0-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-sync-frozen.png",
+      "archive": "research/sixel-palette-records/352-renderer-0-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-0-text.png",
+      "archive": "research/sixel-palette-records/353-renderer-0-text.png.gz",
+      "bytes": 10981,
+      "sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cache-eviction-0.png",
+      "archive": "research/sixel-palette-records/354-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cache-eviction-1.png",
+      "archive": "research/sixel-palette-records/355-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cache-eviction-2.png",
+      "archive": "research/sixel-palette-records/356-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-active-2.png",
+      "archive": "research/sixel-palette-records/357-renderer-1-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-active-4.png",
+      "archive": "research/sixel-palette-records/358-renderer-1-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-active-6.png",
+      "archive": "research/sixel-palette-records/359-renderer-1-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-inactive-2.png",
+      "archive": "research/sixel-palette-records/360-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-inactive-4.png",
+      "archive": "research/sixel-palette-records/361-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-cursor-inactive-6.png",
+      "archive": "research/sixel-palette-records/362-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-expose.png",
+      "archive": "research/sixel-palette-records/363-renderer-1-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-overline-double-size.png",
+      "archive": "research/sixel-palette-records/364-renderer-1-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-overline.png",
+      "archive": "research/sixel-palette-records/365-renderer-1-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-palette.png",
+      "archive": "research/sixel-palette-records/366-renderer-1-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-resize.png",
+      "archive": "research/sixel-palette-records/367-renderer-1-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-sixel.png",
+      "archive": "research/sixel-palette-records/368-renderer-1-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-sync-end.png",
+      "archive": "research/sixel-palette-records/369-renderer-1-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-sync-frozen.png",
+      "archive": "research/sixel-palette-records/370-renderer-1-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-1-text.png",
+      "archive": "research/sixel-palette-records/371-renderer-1-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cache-eviction-0.png",
+      "archive": "research/sixel-palette-records/372-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cache-eviction-1.png",
+      "archive": "research/sixel-palette-records/373-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 140533,
+      "sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cache-eviction-2.png",
+      "archive": "research/sixel-palette-records/374-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 119677,
+      "sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-active-2.png",
+      "archive": "research/sixel-palette-records/375-renderer-2-cursor-active-2.png.gz",
+      "bytes": 13549,
+      "sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-active-4.png",
+      "archive": "research/sixel-palette-records/376-renderer-2-cursor-active-4.png.gz",
+      "bytes": 13552,
+      "sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-active-6.png",
+      "archive": "research/sixel-palette-records/377-renderer-2-cursor-active-6.png.gz",
+      "bytes": 13564,
+      "sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-inactive-2.png",
+      "archive": "research/sixel-palette-records/378-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 13592,
+      "sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-inactive-4.png",
+      "archive": "research/sixel-palette-records/379-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 13552,
+      "sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-cursor-inactive-6.png",
+      "archive": "research/sixel-palette-records/380-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 13569,
+      "sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-expose.png",
+      "archive": "research/sixel-palette-records/381-renderer-2-expose.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-overline-double-size.png",
+      "archive": "research/sixel-palette-records/382-renderer-2-overline-double-size.png.gz",
+      "bytes": 2765,
+      "sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-overline.png",
+      "archive": "research/sixel-palette-records/383-renderer-2-overline.png.gz",
+      "bytes": 2563,
+      "sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-palette.png",
+      "archive": "research/sixel-palette-records/384-renderer-2-palette.png.gz",
+      "bytes": 13547,
+      "sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-resize.png",
+      "archive": "research/sixel-palette-records/385-renderer-2-resize.png.gz",
+      "bytes": 5721,
+      "sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-sixel.png",
+      "archive": "research/sixel-palette-records/386-renderer-2-sixel.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-sync-end.png",
+      "archive": "research/sixel-palette-records/387-renderer-2-sync-end.png.gz",
+      "bytes": 3103,
+      "sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-sync-frozen.png",
+      "archive": "research/sixel-palette-records/388-renderer-2-sync-frozen.png.gz",
+      "bytes": 2898,
+      "sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-2-text.png",
+      "archive": "research/sixel-palette-records/389-renderer-2-text.png.gz",
+      "bytes": 10967,
+      "sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-controller.json",
+      "archive": "research/sixel-palette-records/390-renderer-controller.json.gz",
+      "bytes": 473,
+      "sha256": "74751f4c1c4bee051f175ae2706ba040cccd796eebf666ea08edf1c11d05b7a7"
+    },
+    {
+      "path": "build/palette-renderer/research/renderer-observed.json",
+      "archive": "research/sixel-palette-records/391-renderer-observed.json.gz",
+      "bytes": 7585,
+      "sha256": "100b5a95d50bbe4621e7b278a2b035c2fe750f2b9613d300cf27f19a82f7c349"
+    },
+    {
+      "path": "build/palette-single/image.json",
+      "archive": "research/sixel-palette-records/392-image.json.gz",
+      "bytes": 8253,
+      "sha256": "7e90a01b4c6fe58178f6e989081206023ead4b0c72c995892d4e0149a1ffcc07"
+    },
+    {
+      "path": "build/palette-single/link.log",
+      "archive": "research/sixel-palette-records/393-link.log.gz",
+      "bytes": 43,
+      "sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692"
+    },
+    {
+      "path": "build/palette-single/link.rsp",
+      "archive": "research/sixel-palette-records/394-link.rsp.gz",
+      "bytes": 5509,
+      "sha256": "d5facf25dac2dcb6d18235876b72f960ac916d5183781f27ca50977bf0b47037"
+    },
+    {
+      "path": "build/palette-sixel/controller.log",
+      "archive": "research/sixel-palette-records/395-controller.log.gz",
+      "bytes": 364,
+      "sha256": "690af3be24012fc97a5a1c2f52683f65cf33197fa43c5211ee860b0795365457"
+    },
+    {
+      "path": "build/palette-sixel/research/sixel-controller.json",
+      "archive": "research/sixel-palette-records/396-sixel-controller.json.gz",
+      "bytes": 467,
+      "sha256": "f1115faef5290a013e9687e9b020abbc633b0e69c405ce8a519c824b0ae3e318"
+    },
+    {
+      "path": "build/palette-sixel/research/sixel-partial-scroll.png",
+      "archive": "research/sixel-palette-records/397-sixel-partial-scroll.png.gz",
+      "bytes": 673,
+      "sha256": "39cac33bf0f3517174ae302e0e2fea7a808418213a527e23d801f13cdc3c24c9"
+    },
+    {
+      "path": "build/palette-sixel/research/sixel-resize-retained.png",
+      "archive": "research/sixel-palette-records/398-sixel-resize-retained.png.gz",
+      "bytes": 772,
+      "sha256": "d2b39d9a0e8fecb11945ad89cb7bcf9faf14d9843c5a7b3b040c4a28fbfb42e0"
+    },
+    {
+      "path": "build/palette-sixel/research/sixel-window-observed.json",
+      "archive": "research/sixel-palette-records/399-sixel-window-observed.json.gz",
+      "bytes": 4519,
+      "sha256": "44009e31b4a82d4d01988c47c0a35f449fff96ba23590fc7a270743f3b2c487f"
+    },
+    {
+      "path": "build/palette-sixel/sixel.log",
+      "archive": "research/sixel-palette-records/400-sixel.log.gz",
+      "bytes": 2832,
+      "sha256": "65a1e8191a422535aee7bb03e2e528f31f291f01cbfa67e3745bf3884165d54e"
+    },
+    {
+      "path": "build/retain-palette-evidence.py",
+      "archive": "research/sixel-palette-records/401-retain-palette-evidence.py.gz",
+      "bytes": 2577,
+      "sha256": "03721addd81b30e5282807abffab7632387d6f3088dd48e9992626b0047c67e0"
+    }
+  ]
+}
