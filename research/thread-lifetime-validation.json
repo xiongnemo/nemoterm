@@ -1,0 +1,2056 @@
+{
+  "recorded_utc": "2026-11-14T01:56:13.253773+00:00",
+  "source_commit": "5fbc4fc12d883bd58f2f20121f22222706df348c",
+  "files": [
+    {
+      "path": "research/thread-lifetime-evidence/thread-adapter-01.json.gz",
+      "bytes": 2045,
+      "sha256": "8a502cfc7449d136a8eb4c128f66832162b0eaf325797e7406ab96f047474c2e",
+      "raw_bytes": 30753,
+      "raw_sha256": "56736b47f5c30f89749177109c9dd0715021075f49b38fc40856f15d8cd43be0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-adapter-02.json.gz",
+      "bytes": 2136,
+      "sha256": "6d70c2df77a1cea212b8c618d78742e8b35b15bf75a1c6cfb2e25afb22a0a84c",
+      "raw_bytes": 30957,
+      "raw_sha256": "b2ebc8286c684239ea9994e80bf5d2cf6a00000135149c312be1313b08e990d9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/check-terminal-threads.py.gz",
+      "bytes": 1251,
+      "sha256": "1f34af2bde7144873fa081c84909babe61aa62309e6335c401dd331655f5dd82",
+      "raw_bytes": 3011,
+      "raw_sha256": "bf13ac52904cf7583016069c95bb8a1f74e3d409fd90a1f9211b8d84914d99c8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/check-retained-terminal-threads.py.gz",
+      "bytes": 1831,
+      "sha256": "4699e5440c81bb3ae37a94e68cf7b6b0b4f07693e27d6ad73890a5f1eff5fd34",
+      "raw_bytes": 5028,
+      "raw_sha256": "19d510e3bc62c9aac1cec5b81a5fc31127749986a1d960d98a94fc52817f69c8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/check-worker-completion.py.gz",
+      "bytes": 702,
+      "sha256": "e04ef9360ba3ac010c06439dc944dade794c57bcafa3786e23ae8a22fe7a22e4",
+      "raw_bytes": 1343,
+      "raw_sha256": "c8330b8b7366af36473cdb98b9da6ba5ffb83e04f134664c0ea9c9dd22bed418",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/check-gdi-startup-resources.py.gz",
+      "bytes": 1631,
+      "sha256": "fa595c0ee8b7ca30a7fff3c95c1e2018d2f6ce5689bfa438e7fb931266aa23b5",
+      "raw_bytes": 4084,
+      "raw_sha256": "6b1d4b28eee94ee511c0fc205010ca3be9870ba3e9828d7c1e6e55b0b279aedb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/io-thread-symbols.txt.gz",
+      "bytes": 135,
+      "sha256": "95ea9598482d0b645de2ae5abff500015f82285658d1cdbdf6c79994a68c0074",
+      "raw_bytes": 155,
+      "raw_sha256": "a0b418d56092b192146ebec89c2e03ee785a3d5b2e3cb7efb411fa64f72a21f9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-constructor-publics.txt.gz",
+      "bytes": 347,
+      "sha256": "5f863b6b5e74215d6d02a9ca259dc093b22c9a51d1ce62893a47c1a25629f11f",
+      "raw_bytes": 710,
+      "raw_sha256": "945b04ab81aadcb08c12cf3824d95f79b88a1c9fd6a98ab722bc8a9d26ada70b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/input-constructor-disassembly.txt.gz",
+      "bytes": 1721,
+      "sha256": "c110bc07ea2be107b885da9664768888d96762bb4da3598ee77cdddbcd463739",
+      "raw_bytes": 6979,
+      "raw_sha256": "c832427de07f33f9aaf7f20a50bf88fd6e1f04d39c62f64cdf1340752e0a170e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/output-constructor-disassembly.txt.gz",
+      "bytes": 1706,
+      "sha256": "e2ef545925e7620eda0464d021399bafd8fa12ee35e9e83c395c28e45c1e4c79",
+      "raw_bytes": 7194,
+      "raw_sha256": "1faf6d64fb42ed6956dd239d7bce23073181fd8ad4ed9e3daecd2728001a7a8b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/retain-thread-lifetime.py.gz",
+      "bytes": 1788,
+      "sha256": "6602268a38f589ef2f15045baee70b708192a01875495b8102226c374e4d78de",
+      "raw_bytes": 4425,
+      "raw_sha256": "00b97a3242655fa7f08d3cc071cc308d3142058311eff15c141f498380d1f788",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-run.json.gz",
+      "bytes": 630,
+      "sha256": "dc0977815d8097225abc98b833346f5c3134fdb513ec9c0048d6a594bb4c0140",
+      "raw_bytes": 3641,
+      "raw_sha256": "e624a849d8dceee68a416f49d61d2760e34fa3bb2a972e857800de3aa4a21e3f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-artifacts.json.gz",
+      "bytes": 558,
+      "sha256": "a6286afb203403db3ae2ef5a3d0e4283826b3ddfbdeada3a1901287cf773105a",
+      "raw_bytes": 1555,
+      "raw_sha256": "aed4046b19cf2d00ef06d4491c84059324d168b58374a30b66c20815ea7727df",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-run.log.gz",
+      "bytes": 6604,
+      "sha256": "e99051701b89e0bd3736a9f69dfafdb0f19ecbf572fdd3829589c5bb9f4167d8",
+      "raw_bytes": 56694,
+      "raw_sha256": "73a528fb0b5d2ed5a76974ed4866f4b9675ce1ad4154dce46b402b5de69a2e65",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_handle-snapshot-native.json.gz",
+      "bytes": 2720,
+      "sha256": "e4e13996a7c9859356d45602d1f68bb22c1ba41aefeaab746ad0bcabf163ed2e",
+      "raw_bytes": 69653,
+      "raw_sha256": "1ed3127a482efb154d2189510a5acb9fb267a21e84fcc09f0a0107071e256332",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_handle-trace-native.json.gz",
+      "bytes": 1179,
+      "sha256": "f29ceed1a278de3371ef438f081c9e289b8f02d9c98d895231ea730cd49dec55",
+      "raw_bytes": 17547,
+      "raw_sha256": "b3ac0ed9edfc26b43208d2c509d1d803888eeafaea733324c94a678efecc54c4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_thread-snapshot-native.json.gz",
+      "bytes": 1973,
+      "sha256": "f36575991d04f6c95ba94bf33f9df835e5d3a74620edd1424c630c33e50fd3ba",
+      "raw_bytes": 29228,
+      "raw_sha256": "25ebf4821cc10ec0531e2817648c9a88577472e894d41609f3ff5fe9187e1cbe",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_trace.json.gz",
+      "bytes": 6016,
+      "sha256": "2b071b6e4bc6491a7a61ff3b070dd30fa188831ff68212f5582efb1aab289d78",
+      "raw_bytes": 206435,
+      "raw_sha256": "01bca172fd5e4237e436365699d41810bc185e4360ba1a91a0b33529f22fde7d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_snapshot_native_test.py.gz",
+      "bytes": 2610,
+      "sha256": "9f2a6a30f2e6615b80915e3bbeaab94da486fb86fd7bf3e24e9d2456e57dcb33",
+      "raw_bytes": 8020,
+      "raw_sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace.js.gz",
+      "bytes": 1902,
+      "sha256": "0ba0fe67f2946a29f2c7d1acfa4f4bbd7f6d2e255b6976b3a9fe7a6aaa588a57",
+      "raw_bytes": 5899,
+      "raw_sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace.py.gz",
+      "bytes": 923,
+      "sha256": "08c756c53c30166134b6ad53189abf1635a46cbb5f72549a7ee403cdfb725139",
+      "raw_bytes": 2515,
+      "raw_sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace_native_test.py.gz",
+      "bytes": 2459,
+      "sha256": "2bb928a909bef7197924a4a2b46cd56a0d9454ccdce83f2bf008d26d45350c90",
+      "raw_bytes": 7393,
+      "raw_sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_thread_snapshot.py.gz",
+      "bytes": 2074,
+      "sha256": "4e04f99e7ef4a73cfb8ba81b46bd5e1b3359d94d1b9e490548ba7ae4477c8e35",
+      "raw_bytes": 5813,
+      "raw_sha256": "ac04305b9bf447a9865347c01659cd9bb1775d533a6524c57e7a563655239e97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_thread_snapshot_native_test.py.gz",
+      "bytes": 2503,
+      "sha256": "204d39fb9674a48da05de27d033be9a7c4e8a11b4c3d01ff720d1aec347bc186",
+      "raw_bytes": 7534,
+      "raw_sha256": "c25dead5f45b49d27223d5c343f13f67b17b516bef20e2e4912eaad5616ff8c7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_handle-snapshot-native.json.gz",
+      "bytes": 2832,
+      "sha256": "bf7a50562b439acd6d91f24a0ac4b995f0dd60598254e14359c3d4bd7604e037",
+      "raw_bytes": 73331,
+      "raw_sha256": "90651551548d029b886e080c66e46dcd0eaa6ae6f66ca73c355b14735065ba08",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_handle-trace-native.json.gz",
+      "bytes": 1200,
+      "sha256": "11296a2ff6ffce772e72dae3ffc9816f292ca4b258b19d5b57700650855b942d",
+      "raw_bytes": 17547,
+      "raw_sha256": "4eaca3a0713ce6520d08c031d7905914afdfb32cd66a6c114afe44493f05f0c0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_thread-snapshot-native.json.gz",
+      "bytes": 1966,
+      "sha256": "e9901721d15a13b4f9ef84a09788aa493882abc94989a95e554c93f8f75a1be9",
+      "raw_bytes": 29214,
+      "raw_sha256": "ee9ab21b41b0d3bfe7de1bc8a3e62ac28d60cfa1c3a490b7532f0755a6f26966",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-research_trace.json.gz",
+      "bytes": 6222,
+      "sha256": "da03ab6fa4b175cafff3b2dd5bb4dda8aa31384f67e4657a3665f07d6a88f1a5",
+      "raw_bytes": 206640,
+      "raw_sha256": "4aefbb3495ff69893acfe2caaa534e88db6dfce8addd20799d378a2459583639",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_snapshot_native_test.py.gz",
+      "bytes": 2610,
+      "sha256": "9f2a6a30f2e6615b80915e3bbeaab94da486fb86fd7bf3e24e9d2456e57dcb33",
+      "raw_bytes": 8020,
+      "raw_sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace.js.gz",
+      "bytes": 1902,
+      "sha256": "0ba0fe67f2946a29f2c7d1acfa4f4bbd7f6d2e255b6976b3a9fe7a6aaa588a57",
+      "raw_bytes": 5899,
+      "raw_sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace.py.gz",
+      "bytes": 923,
+      "sha256": "08c756c53c30166134b6ad53189abf1635a46cbb5f72549a7ee403cdfb725139",
+      "raw_bytes": 2515,
+      "raw_sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_handle_trace_native_test.py.gz",
+      "bytes": 2459,
+      "sha256": "2bb928a909bef7197924a4a2b46cd56a0d9454ccdce83f2bf008d26d45350c90",
+      "raw_bytes": 7393,
+      "raw_sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_thread_snapshot.py.gz",
+      "bytes": 2074,
+      "sha256": "4e04f99e7ef4a73cfb8ba81b46bd5e1b3359d94d1b9e490548ba7ae4477c8e35",
+      "raw_bytes": 5813,
+      "raw_sha256": "ac04305b9bf447a9865347c01659cd9bb1775d533a6524c57e7a563655239e97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43540854013-handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f-tests_thread_snapshot_native_test.py.gz",
+      "bytes": 2503,
+      "sha256": "204d39fb9674a48da05de27d033be9a7c4e8a11b4c3d01ff720d1aec347bc186",
+      "raw_bytes": 7534,
+      "raw_sha256": "c25dead5f45b49d27223d5c343f13f67b17b516bef20e2e4912eaad5616ff8c7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-run.json.gz",
+      "bytes": 636,
+      "sha256": "e5f1034e85618815bfb9633fdb0f1659412d2a58586c61b1a88d3bc340b8a390",
+      "raw_bytes": 3641,
+      "raw_sha256": "ff233c9f9d6c92c27771c20f13730087c4b4dfea8c6f8a056f52a61c02229980",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-artifacts.json.gz",
+      "bytes": 562,
+      "sha256": "65701e1435c0a9e0bd595ca9c8e7343ec23288a7f72c7a5620f00dc5d4a3c031",
+      "raw_bytes": 1555,
+      "raw_sha256": "1ba61cbf697a972593062bcc80000750baba174c11993cf0a1592f9ee734ae5d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-run.log.gz",
+      "bytes": 6840,
+      "sha256": "099609560a142ba10459430c00a5167ad40647478c55442a3c50bd80c127d878",
+      "raw_bytes": 58882,
+      "raw_sha256": "be52a1277feac674b94b3285da7635e7e75492144cec83aa94df84e40cb77d4f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_handle-snapshot-native.json.gz",
+      "bytes": 2712,
+      "sha256": "9fe09dd77dc865a7c314abb4f62f4df2b11c991723401215176b7a3df6e0c406",
+      "raw_bytes": 69653,
+      "raw_sha256": "d76f1251dc817e5fdc1a6237e23050cc0beaae36a357db674362aa59dfef50a7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_handle-trace-native.json.gz",
+      "bytes": 1213,
+      "sha256": "69a99a9776c8e45488d96c006551e896ec7a3d8cebc4e6ac4d5509fa90d1dd00",
+      "raw_bytes": 17547,
+      "raw_sha256": "32328f25a636e8224a20496a5a0fe91c449480da1b0497ab3e9814603dadaffe",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_thread-snapshot-native.json.gz",
+      "bytes": 2053,
+      "sha256": "f2b39c881cce9d27e7c561ee03292aa12153b173233b37517bc94837c1d495fb",
+      "raw_bytes": 29412,
+      "raw_sha256": "d134765a7f8de5933a09e267764d36baeb29e652f1a07bc52793229d6e534db8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_trace.json.gz",
+      "bytes": 6060,
+      "sha256": "6f0a3ca3489674126dfa5df9e129397c587708ac66103af70ffecf55015ffe93",
+      "raw_bytes": 206467,
+      "raw_sha256": "546b141f5de091c9f131f957ab2baae06713075239728e926f2f13d877aabb80",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_snapshot_native_test.py.gz",
+      "bytes": 2610,
+      "sha256": "9f2a6a30f2e6615b80915e3bbeaab94da486fb86fd7bf3e24e9d2456e57dcb33",
+      "raw_bytes": 8020,
+      "raw_sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace.js.gz",
+      "bytes": 1902,
+      "sha256": "0ba0fe67f2946a29f2c7d1acfa4f4bbd7f6d2e255b6976b3a9fe7a6aaa588a57",
+      "raw_bytes": 5899,
+      "raw_sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace.py.gz",
+      "bytes": 923,
+      "sha256": "08c756c53c30166134b6ad53189abf1635a46cbb5f72549a7ee403cdfb725139",
+      "raw_bytes": 2515,
+      "raw_sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace_native_test.py.gz",
+      "bytes": 2459,
+      "sha256": "2bb928a909bef7197924a4a2b46cd56a0d9454ccdce83f2bf008d26d45350c90",
+      "raw_bytes": 7393,
+      "raw_sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_thread_snapshot_native_test.py.gz",
+      "bytes": 2771,
+      "sha256": "2dc0daad87471e11d5d1190e8fdfae1ddfd2885cf43bd19b75be6fa8d6dbd637",
+      "raw_bytes": 8849,
+      "raw_sha256": "a3db634cb96a5ad4b0a63ea3f75f6003d830b3c12748b4e52811a88a8d719d4b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_handle-snapshot-native.json.gz",
+      "bytes": 2835,
+      "sha256": "db619414850224d30d91464cbed887bae9c4551fb181d2948eac939e6842a544",
+      "raw_bytes": 73331,
+      "raw_sha256": "2a9d764b0c8f9d6e5b1f1af325d1113c4a74a5b27bf481317e442d20f50335ea",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_handle-trace-native.json.gz",
+      "bytes": 1160,
+      "sha256": "b7fa68874148f321f10d07d13063cae9d9ef4a43a1605cb3a30b6fde27ee8b4a",
+      "raw_bytes": 17547,
+      "raw_sha256": "21ea871b0106fc91cc42f8e39c7ab181934c3c06482f1b1320d9f7467d222a9e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_thread-snapshot-native.json.gz",
+      "bytes": 2078,
+      "sha256": "3be4e59e6250e4931b4643e64b4825d533803467b14bb908a95551b40f1c8ecf",
+      "raw_bytes": 29458,
+      "raw_sha256": "e04aa13bbee0bbe9ced2bb72689db889a400d0b25ba0400462603fa0329947a3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-research_trace.json.gz",
+      "bytes": 6186,
+      "sha256": "5fc53f6ca01515ac874a3ddd3b42ea03a1c330878015b1cf2072edef0d6b28d7",
+      "raw_bytes": 206726,
+      "raw_sha256": "f7ca42828d2e19dcbb04a0a759ea1b94fde0139019d576f7d0c31bafbb7af4eb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_snapshot_native_test.py.gz",
+      "bytes": 2610,
+      "sha256": "9f2a6a30f2e6615b80915e3bbeaab94da486fb86fd7bf3e24e9d2456e57dcb33",
+      "raw_bytes": 8020,
+      "raw_sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace.js.gz",
+      "bytes": 1902,
+      "sha256": "0ba0fe67f2946a29f2c7d1acfa4f4bbd7f6d2e255b6976b3a9fe7a6aaa588a57",
+      "raw_bytes": 5899,
+      "raw_sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace.py.gz",
+      "bytes": 923,
+      "sha256": "08c756c53c30166134b6ad53189abf1635a46cbb5f72549a7ee403cdfb725139",
+      "raw_bytes": 2515,
+      "raw_sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_handle_trace_native_test.py.gz",
+      "bytes": 2459,
+      "sha256": "2bb928a909bef7197924a4a2b46cd56a0d9454ccdce83f2bf008d26d45350c90",
+      "raw_bytes": 7393,
+      "raw_sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/ci-thread-43541843784-handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79-tests_thread_snapshot_native_test.py.gz",
+      "bytes": 2771,
+      "sha256": "2dc0daad87471e11d5d1190e8fdfae1ddfd2885cf43bd19b75be6fa8d6dbd637",
+      "raw_bytes": 8849,
+      "raw_sha256": "a3db634cb96a5ad4b0a63ea3f75f6003d830b3c12748b4e52811a88a8d719d4b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 289,
+      "sha256": "42ff6a13eafb9260f5a19fd10aa142b06aefdd6005025c261c80fcda4ec13b2d",
+      "raw_bytes": 411,
+      "raw_sha256": "0e7dae80edd62649958009a4d76e48575546170b924ed686333a5f484f0786be",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-tabs-controller.json.gz",
+      "bytes": 255,
+      "sha256": "08130445069ae63bfa22784350153fb294fc8831508ddac31dde4b2259200e78",
+      "raw_bytes": 470,
+      "raw_sha256": "c8bd5c05371d01ae51246b5e1be70bc824b4d3558a607ce224bb23d0c49d983b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 13652,
+      "sha256": "18ea6bdfe92e197c513db7fd996f1702142346a5a08aed95a738223b6cf69bc1",
+      "raw_bytes": 500865,
+      "raw_sha256": "c459a30e5aced1acc6a8d11fc83294882233cd2acab5876359591e36b4dd5e34",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 6753,
+      "sha256": "658598dac02c3b83f72ac90c339a5cc17b63e6f9759763aad2d14f82418ecd4d",
+      "raw_bytes": 143742,
+      "raw_sha256": "0e284e18367283f21dd5ff5d7df2aed71fb884a182ff3a434bafbcee45cd8d8c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-tabs.log.gz",
+      "bytes": 353,
+      "sha256": "91655b61a9a25b44f54e871539a0a608365fb93626c323aeb344290e08759c85",
+      "raw_bytes": 611,
+      "raw_sha256": "d9811cae1356f9a339bb0d4d38861f93277bcff76394cc67d47fd01c2ce4e7ce",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-controller.log.gz",
+      "bytes": 543,
+      "sha256": "4012a83b0dafeeae8b829df1fc28a51dcfbe98809b713a0e5ddb73d358768a0b",
+      "raw_bytes": 980,
+      "raw_sha256": "f6bc828225ac9b3ce988c74af9b6fc19b1ca9bb00b35260ca4869282111207a8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7050,
+      "sha256": "9707a82351aa84f810023212d7257fcab625157a30040ea53fbd86981ff8074b",
+      "raw_bytes": 25130,
+      "raw_sha256": "2424634c88b7dbccca773ee99604390624d22841e05ca59a1820e478728ce430",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-tests_thread_snapshot.py.gz",
+      "bytes": 2074,
+      "sha256": "4e04f99e7ef4a73cfb8ba81b46bd5e1b3359d94d1b9e490548ba7ae4477c8e35",
+      "raw_bytes": 5813,
+      "raw_sha256": "ac04305b9bf447a9865347c01659cd9bb1775d533a6524c57e7a563655239e97",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-failure-diagnostic-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 306,
+      "sha256": "ab2951893c43832346a579d256d786621870f6d2654856abe935465e3c08f854",
+      "raw_bytes": 433,
+      "raw_sha256": "daf3d08b45d4af7870d2825e7c76c2f07b0091f2f1580aa8127eade6ca4328be",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-tabs-controller.json.gz",
+      "bytes": 253,
+      "sha256": "c01eb67a1c58dcf4e7fc7d60b6b720ffe1785570f0d8988f43bd1cebde70f030",
+      "raw_bytes": 469,
+      "raw_sha256": "88ea798ec9e76e81ccf930c3d00e490eef4467ad63a91476fd2db6f48ff91b68",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 14102,
+      "sha256": "a359386ada41333049f49870cd0a4bbb120018e2834183c6fc91cf25246381ef",
+      "raw_bytes": 525386,
+      "raw_sha256": "63729c3ff9e6fe62afbaef5cdefd52fae4c09b22ed9851f7e5d50c2dc3d7fc4f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 14090,
+      "sha256": "f8f261d7718efa58adf29b8515182ba9b0a15fa4f9f91ac22a7b0a3e4e6d7064",
+      "raw_bytes": 624651,
+      "raw_sha256": "16cdf6970dffe4374bf7a2a939987c3e667c1bedac20f303e48d060f144d96d9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-tabs.log.gz",
+      "bytes": 410,
+      "sha256": "05aa3f0567988792dbfcacaeb216580e0267e8b67912983512a76959f1f08d0c",
+      "raw_bytes": 772,
+      "raw_sha256": "e644ee7ecc72e0a4c803dded124e06c22e6387fb417760c34ff6fcf887e481c9",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-controller.log.gz",
+      "bytes": 597,
+      "sha256": "311ea172d4dbf3d5520cdaa0fba75a745450e34ff1dc1df4d7d19006f9b091e8",
+      "raw_bytes": 1140,
+      "raw_sha256": "c6272b15d69aaaac971f6c2295d350f07033c267c56d3e4669e5957ff789f3d4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7359,
+      "sha256": "edc2fa89e1ab5edeee26569f45dbf85d59416b1d36822ef897cfed39981cf588",
+      "raw_bytes": 26207,
+      "raw_sha256": "7424993dbd96d976ace72bed1e88c6d7e09643894a981acf79bcba93b46903fd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/thread-retained-diagnostic-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-tabs-controller.json.gz",
+      "bytes": 259,
+      "sha256": "64dc8084ddbf051ddb9927cfe94ec14e54ca693c64fa155f63f103b0b8bf740b",
+      "raw_bytes": 469,
+      "raw_sha256": "3019c4e12b7e9438f5881f92e5ddf3d6841ff0e4493ab4d5b35398ddd558b0c5",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 30369,
+      "sha256": "3871c9c3c530a63909685b7d25e552de065aeaf4147f9f79638986c4c291bb02",
+      "raw_bytes": 1267805,
+      "raw_sha256": "eb3cdb2a8f829ba79b6e51f13fc07b9a58ffdd0545eddab796ff7ad58485814f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 3358,
+      "sha256": "dd560b6992eb8185271997c61869dbff5d7f02c62bb7a671505f449b676097e0",
+      "raw_bytes": 25729,
+      "raw_sha256": "083ce2dc961aca6510a2c411198175d2872c6ecd6d8a476130835b0ce0925303",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-workload-tabs-directx-left-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-tabs.log.gz",
+      "bytes": 56,
+      "sha256": "4e4c1e3947c700cc593361c74bc547534d17bf492be771e43d549680814d0fc1",
+      "raw_bytes": 36,
+      "raw_sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-controller.log.gz",
+      "bytes": 239,
+      "sha256": "c1e880d68f96df6e84de345009eba4266d2d1bd17a7ecef92989ee63bf6363cb",
+      "raw_bytes": 366,
+      "raw_sha256": "361e1b42bc6c1068654e9c62cb9dec3062dc2ed2e92dd05668a5fa0165257455",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-tests_tabs_window_smoke.py.gz",
+      "bytes": 7437,
+      "sha256": "b275cedc413215f3539c094f99c959029f5e61d8f23f7ee4afe56db2ecf3944e",
+      "raw_bytes": 26394,
+      "raw_sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-directx-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-tabs-controller.json.gz",
+      "bytes": 252,
+      "sha256": "720162da29e3a022496e153b12b0d0aa9512091f313238203b3ae535fcfa5320",
+      "raw_bytes": 468,
+      "raw_sha256": "ac49662909e457ede527360845a5540bab39a6c3ec62dcac69733b6584dd490f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 4514,
+      "sha256": "3c4ddeab58779d885d270c700a651e607d00b5eead69adfde0e09a70ca894610",
+      "raw_bytes": 122230,
+      "raw_sha256": "c321ea04ff3ae5d8c6925e2b56ee976e315d7cf2f7a989bec458c3cd9f86fda1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 1197,
+      "sha256": "7e9c95d00c3c0c375ef4b86e9799caa9008373d2b0b6ba442e5cc2e658d532aa",
+      "raw_bytes": 4819,
+      "raw_sha256": "907bf113b85847dec85777913e50c3fbb57f33fe338d619fc5fd49f0460c22ab",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-tabs.log.gz",
+      "bytes": 348,
+      "sha256": "a3b39901c149ebdc0dc96ef6c19d2aaa6a79a232dad6fa750fc5accac922405d",
+      "raw_bytes": 595,
+      "raw_sha256": "2604dd18f22250feebaa750fcd6f405f76d6f627cb339fba0ec4d1a7a8f0fc71",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-controller.log.gz",
+      "bytes": 533,
+      "sha256": "2052aa1bcf721028595ff53f2b1e5f20c446f0b57dc38bfcc41a62d2e85569f5",
+      "raw_bytes": 962,
+      "raw_sha256": "100826533d255a2fb55a79612015acc84f6e55ae5cbe5f237059a34b9b145d6a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-tests_tabs_window_smoke.py.gz",
+      "bytes": 7437,
+      "sha256": "b275cedc413215f3539c094f99c959029f5e61d8f23f7ee4afe56db2ecf3944e",
+      "raw_bytes": 26394,
+      "raw_sha256": "186bce30e069a24bc28543c36195d83ee319c23deb7e1cdd7a2fd2c474988f87",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/worker-completion-gdi-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-diagnostic-fixture.json.gz",
+      "bytes": 284,
+      "sha256": "8f586ee84c57e8577aee6130932581a84499ac8c9032f95e0a5041627f837d59",
+      "raw_bytes": 391,
+      "raw_sha256": "896e890f6dbbe27c69f68c728d7df59d27da551bb1270738109354ee715888fc",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tabs-controller.json.gz",
+      "bytes": 258,
+      "sha256": "24bb1a09e16b8839fd662a88405416f518c506e0ea5221a9fa90bb6f7144595e",
+      "raw_bytes": 470,
+      "raw_sha256": "20e3878b06de40522edad6cf4dc1783387f463c925e7d8102980007e06106e36",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tabs-gdi-top-host.png.gz",
+      "bytes": 2163,
+      "sha256": "11f23279f11bec14e60a80dbe698fadbdda76710c6161a73e79ffb65dc790a0e",
+      "raw_bytes": 4287,
+      "raw_sha256": "116b3889fb3ea580e7c660ac28318ce69578a28ed2addded0c0e09fff97f56f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-workload-tabs-gdi-top-memory.json.gz",
+      "bytes": 29832,
+      "sha256": "2663c4c863b9dbbbb75170175e694f0df7e407dc9f3f72ced4404a1f9a7a84fb",
+      "raw_bytes": 1267051,
+      "raw_sha256": "4e04c7611b04e8940e07b17edcf4be08f16110a44625870015704458172d4040",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-workload-tabs-gdi-top-observed.json.gz",
+      "bytes": 8785,
+      "sha256": "00a6a46842dd208288e24cef66662b27e11816949530ef18b2b762afcc738486",
+      "raw_bytes": 113866,
+      "raw_sha256": "8a823f5d3d189d69c9b1c2a4b9868913af94d9def428ddb66ea69347678d39dd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-workload-tabs-gdi-top-preview.png.gz",
+      "bytes": 976,
+      "sha256": "fdccb87f835a0d09fca3fceebe5af2633adda0963b44345a5f6234f7a1a7397c",
+      "raw_bytes": 1051,
+      "raw_sha256": "a0ce953b31f6fc56ae7dc349ae7bf254787ed03d518637e535e3466ccb1b10f0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tabs.log.gz",
+      "bytes": 20,
+      "sha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-controller.log.gz",
+      "bytes": 243,
+      "sha256": "c0fea0c46d0ba2974a4b474dedc499e0b5b42a7969905da2ad5d2285bbb84c8d",
+      "raw_bytes": 369,
+      "raw_sha256": "cb5a6f6c65db17c79a7d240850d59e1456282d825d6733e2f8b54243cf442382",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tests_tabs_window_smoke.py.gz",
+      "bytes": 7275,
+      "sha256": "8558d19858fb53ff13b44005707fea0c99205e1828b17223bad5436f8d87c808",
+      "raw_bytes": 26178,
+      "raw_sha256": "cee53c90e87e97c529976efaf9418587834c1c042b6095e4ef09a9d9cede9edb",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/gdi-startup-diagnostic-tests_handle_snapshot.py.gz",
+      "bytes": 2514,
+      "sha256": "f987376abc08ea550b1f86e9bbf3a7fd79fc7c1c292e54ec25f941fcb04f35e6",
+      "raw_bytes": 7089,
+      "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/source-tests_thread_snapshot.py.gz",
+      "bytes": 2577,
+      "sha256": "f99970d11ee6f94f78f6b177786bc662f0ef568c86bb2a8ae4537222df959d0c",
+      "raw_bytes": 7972,
+      "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/source-tests_thread_snapshot_native_test.py.gz",
+      "bytes": 2771,
+      "sha256": "2dc0daad87471e11d5d1190e8fdfae1ddfd2885cf43bd19b75be6fa8d6dbd637",
+      "raw_bytes": 8849,
+      "raw_sha256": "a3db634cb96a5ad4b0a63ea3f75f6003d830b3c12748b4e52811a88a8d719d4b",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/source-tests_tabs_window_smoke.py.gz",
+      "bytes": 7403,
+      "sha256": "9fb597ce8c1066e3a67aa59be4509181962e653554d308d19a76eadcb85c3abf",
+      "raw_bytes": 26005,
+      "raw_sha256": "4e222668b6d117f6fe0dfcecd907c1e86fcf51719dd00fe41bdd16a692fe8e6a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/thread-lifetime-evidence/source-.github_workflows_handle-snapshot.yml.gz",
+      "bytes": 826,
+      "sha256": "56ba9ca32f5c44e6d06d1d11cac2c7dc7b575171c84663925611a7296facdf42",
+      "raw_bytes": 2692,
+      "raw_sha256": "ed90fba2a3aabd52495b4f7d86c55729902820b3fd404edad678bddb83611875",
+      "encoding": "gzip"
+    }
+  ],
+  "ci": [
+    {
+      "run": 43540854013,
+      "source_commit": "8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43540854013",
+      "checks": 6,
+      "results": [
+        {
+          "artifact": "handle-snapshot-windows-2022-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f",
+          "checks": [
+            "Wrong-job process rejected before thread observation",
+            "Two native threads have exact independent IDs, creation times and start addresses",
+            "Ten snapshots add no observer or target handles and preserve stable thread identities",
+            "Signalled-and-joined thread disappears while its sibling remains alive",
+            "Both controlled thread lifetimes return to the exact baseline identities",
+            "Exited retained process rejected"
+          ],
+          "cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "artifact": "handle-snapshot-windows-2025-8ffebe7fe739329a9b6b6a3ee41aab13a9752d1f",
+          "checks": [
+            "Wrong-job process rejected before thread observation",
+            "Two native threads have exact independent IDs, creation times and start addresses",
+            "Ten snapshots add no observer or target handles and preserve stable thread identities",
+            "Signalled-and-joined thread disappears while its sibling remains alive",
+            "Both controlled thread lifetimes return to the exact baseline identities",
+            "Exited retained process rejected"
+          ],
+          "cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ]
+    },
+    {
+      "run": 43541843784,
+      "source_commit": "7ef34dde8d5e864ff05d60cf70aab69661d81e79",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43541843784",
+      "checks": 8,
+      "results": [
+        {
+          "artifact": "handle-snapshot-windows-2022-7ef34dde8d5e864ff05d60cf70aab69661d81e79",
+          "checks": [
+            "Wrong-job process rejected before thread observation",
+            "Two native threads have exact independent IDs, creation times and start addresses",
+            "Retained thread handles reject mismatched generations without leaking partial acquisitions",
+            "Ten snapshots add no observer or target handles and preserve stable thread identities",
+            "Signalled-and-joined thread disappears while its sibling remains alive",
+            "Bounded wait proves both retained thread objects signalled and releases all observer handles",
+            "Both controlled thread lifetimes return to the exact baseline identities",
+            "Exited retained process rejected"
+          ],
+          "cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        },
+        {
+          "artifact": "handle-snapshot-windows-2025-7ef34dde8d5e864ff05d60cf70aab69661d81e79",
+          "checks": [
+            "Wrong-job process rejected before thread observation",
+            "Two native threads have exact independent IDs, creation times and start addresses",
+            "Retained thread handles reject mismatched generations without leaking partial acquisitions",
+            "Ten snapshots add no observer or target handles and preserve stable thread identities",
+            "Signalled-and-joined thread disappears while its sibling remains alive",
+            "Bounded wait proves both retained thread objects signalled and releases all observer handles",
+            "Both controlled thread lifetimes return to the exact baseline identities",
+            "Exited retained process rejected"
+          ],
+          "cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          }
+        }
+      ]
+    }
+  ],
+  "cases": {
+    "thread-failure-diagnostic": {
+      "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+      "controller": {
+        "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 17448,
+        "cleanup": {
+          "before": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 18.823
+      },
+      "completed": false,
+      "diagnostic_completed": false,
+      "memory_acceptance": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "checks": [
+        "one host with independent child terminals and native tab hit testing"
+      ],
+      "baseline": {
+        "handles": 540,
+        "gdi": 39,
+        "user": 54,
+        "injected": false,
+        "private_ws": 18366464,
+        "total_ws": 57638912,
+        "private_commit": 71512064
+      },
+      "cycles": [
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18391040,
+          "total_ws": 57696256,
+          "private_commit": 71135232
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18325504,
+          "total_ws": 57655296,
+          "private_commit": 70860800
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18186240,
+          "total_ws": 57532416,
+          "private_commit": 70897664
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18190336,
+          "total_ws": 57544704,
+          "private_commit": 70901760
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18194432,
+          "total_ws": 57561088,
+          "private_commit": 71159808
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18198528,
+          "total_ws": 57602048,
+          "private_commit": 70971392
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18206720,
+          "total_ws": 57634816,
+          "private_commit": 71041024
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18227200,
+          "total_ws": 57659392,
+          "private_commit": 70914048
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18219008,
+          "total_ws": 57667584,
+          "private_commit": 71098368
+        },
+        {
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18300928,
+          "total_ws": 57769984,
+          "private_commit": 70979584
+        },
+        {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18391040,
+          "total_ws": 57880576,
+          "private_commit": 71114752
+        }
+      ],
+      "error": "AssertionError(({'handles': 540, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18366464, 'total_ws': 57638912, 'private_commit': 71512064}, {'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18391040, 'total_ws': 57880576, 'private_commit': 71114752}))",
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 19206144,
+          "total_ws": 58560512,
+          "private_commit": 71680000
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 6057984,
+          "total_ws": 33837056,
+          "private_commit": 8609792
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27062272,
+          "total_ws": 53915648,
+          "private_commit": 33488896
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 52056064,
+          "total_ws": 146055168,
+          "private_commit": 113594368
+        }
+      },
+      "samples": 171,
+      "seconds": 18.49,
+      "inner_cleanup": {
+        "before": {
+          "total": 29,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 29,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 12476,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-failure-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 48412,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-failure-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 29940,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 11384,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-failure-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 49544,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      }
+    },
+    "thread-retained-diagnostic": {
+      "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+      "controller": {
+        "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 3208,
+        "cleanup": {
+          "before": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 19.683
+      },
+      "completed": false,
+      "diagnostic_completed": false,
+      "memory_acceptance": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "checks": [
+        "one host with independent child terminals and native tab hit testing"
+      ],
+      "baseline": {
+        "worker_states": null,
+        "handles_after_states": 540,
+        "thread_check_ns": 500,
+        "handles": 540,
+        "gdi": 39,
+        "user": 54,
+        "injected": false,
+        "private_ws": 18407424,
+        "total_ws": 57663488,
+        "private_commit": 71319552
+      },
+      "cycles": [
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 14500,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18456576,
+          "total_ws": 57757696,
+          "private_commit": 71278592
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 16400,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18468864,
+          "total_ws": 57806848,
+          "private_commit": 71503872
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 14700,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18055168,
+          "total_ws": 57409536,
+          "private_commit": 70930432
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 18600,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18210816,
+          "total_ws": 57585664,
+          "private_commit": 71401472
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 18600,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18157568,
+          "total_ws": 57556992,
+          "private_commit": 70742016
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 21000,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18341888,
+          "total_ws": 57753600,
+          "private_commit": 71430144
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 19000,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18395136,
+          "total_ws": 57819136,
+          "private_commit": 71565312
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 17600,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18333696,
+          "total_ws": 57765888,
+          "private_commit": 71688192
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 15200,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18264064,
+          "total_ws": 57700352,
+          "private_commit": 71176192
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 546,
+          "thread_check_ns": 20800,
+          "handles": 546,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18284544,
+          "total_ws": 57733120,
+          "private_commit": 71237632
+        },
+        {
+          "worker_states": [
+            258,
+            258
+          ],
+          "handles_after_states": 548,
+          "thread_check_ns": 12800,
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18501632,
+          "total_ws": 57958400,
+          "private_commit": 71421952
+        }
+      ],
+      "error": "AssertionError(({'worker_states': None, 'handles_after_states': 540, 'thread_check_ns': 500, 'handles': 540, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18407424, 'total_ws': 57663488, 'private_commit': 71319552}, {'worker_states': [258, 258], 'handles_after_states': 548, 'thread_check_ns': 12800, 'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18501632, 'total_ws': 57958400, 'private_commit': 71421952}))",
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 19288064,
+          "total_ws": 58740736,
+          "private_commit": 72052736
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 6057984,
+          "total_ws": 34361344,
+          "private_commit": 8638464
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 26955776,
+          "total_ws": 53805056,
+          "private_commit": 33419264
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 52187136,
+          "total_ws": 146235392,
+          "private_commit": 113963008
+        }
+      },
+      "samples": 179,
+      "seconds": 19.32,
+      "inner_cleanup": {
+        "before": {
+          "total": 29,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 29,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 19608,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-retained-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 46096,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-retained-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 26512,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 44824,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\thread-retained-diagnostic\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 30644,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      }
+    },
+    "worker-completion-directx": {
+      "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+      "controller": {
+        "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+        "name": "tabs",
+        "completed": true,
+        "exit_code": 0,
+        "controller_pid": 38832,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 52.201
+      },
+      "completed": true,
+      "diagnostic_completed": false,
+      "memory_acceptance": true,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "baseline": {
+        "handles": 540,
+        "gdi": 39,
+        "user": 54,
+        "injected": false,
+        "private_ws": 19021824,
+        "total_ws": 58392576,
+        "private_commit": 73613312
+      },
+      "cycles": [
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 19066880,
+          "total_ws": 58482688,
+          "private_commit": 73773056
+        },
+        {
+          "handles": 541,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 19017728,
+          "total_ws": 58470400,
+          "private_commit": 73633792
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18788352,
+          "total_ws": 58273792,
+          "private_commit": 73404416
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18780160,
+          "total_ws": 58286080,
+          "private_commit": 73400320
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18817024,
+          "total_ws": 58339328,
+          "private_commit": 73252864
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18583552,
+          "total_ws": 58126336,
+          "private_commit": 72732672
+        },
+        {
+          "handles": 540,
+          "gdi": 40,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18636800,
+          "total_ws": 58191872,
+          "private_commit": 72908800
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18636800,
+          "total_ws": 58212352,
+          "private_commit": 72925184
+        },
+        {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18632704,
+          "total_ws": 58224640,
+          "private_commit": 72773632
+        },
+        {
+          "handles": 542,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18714624,
+          "total_ws": 58318848,
+          "private_commit": 73003008
+        },
+        {
+          "handles": 542,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18706432,
+          "total_ws": 58322944,
+          "private_commit": 72663040
+        },
+        {
+          "handles": 542,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18710528,
+          "total_ws": 58335232,
+          "private_commit": 72814592
+        }
+      ],
+      "error": null,
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 23482368,
+          "total_ws": 63127552,
+          "private_commit": 92254208
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 6746112,
+          "total_ws": 33558528,
+          "private_commit": 9400320
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27058176,
+          "total_ws": 53911552,
+          "private_commit": 33361920
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 52744192,
+          "total_ws": 146808832,
+          "private_commit": 123359232
+        }
+      },
+      "samples": 450,
+      "seconds": 48.525,
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    "worker-completion-gdi": {
+      "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+      "controller": {
+        "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 1,
+        "controller_pid": 36896,
+        "cleanup": {
+          "before": {
+            "total": 11,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 11,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 4.99
+      },
+      "completed": false,
+      "diagnostic_completed": false,
+      "memory_acceptance": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "checks": [
+        "one host with independent child terminals and native tab hit testing"
+      ],
+      "baseline": {
+        "handles": 361,
+        "gdi": 36,
+        "user": 36,
+        "injected": false,
+        "private_ws": 10166272,
+        "total_ws": 34480128,
+        "private_commit": 12681216
+      },
+      "cycles": [
+        {
+          "handles": 361,
+          "gdi": 36,
+          "user": 39,
+          "injected": false,
+          "private_ws": 10293248,
+          "total_ws": 34668544,
+          "private_commit": 12812288
+        }
+      ],
+      "error": "AssertionError(({'handles': 361, 'gdi': 36, 'user': 36, 'injected': False, 'private_ws': 10166272, 'total_ws': 34480128, 'private_commit': 12681216}, {'handles': 361, 'gdi': 36, 'user': 39, 'injected': False, 'private_ws': 10293248, 'total_ws': 34668544, 'private_commit': 12812288}))",
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 11296768,
+          "total_ws": 35663872,
+          "private_commit": 13631488
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 5570560,
+          "total_ws": 33206272,
+          "private_commit": 8577024
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27381760,
+          "total_ws": 54239232,
+          "private_commit": 33300480
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44093440,
+          "total_ws": 122953728,
+          "private_commit": 55373824
+        }
+      },
+      "samples": 44,
+      "seconds": 4.674,
+      "inner_cleanup": {
+        "before": {
+          "total": 9,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 9,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 53104,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\worker-completion-gdi\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 20448,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\worker-completion-gdi\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 48596,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 49616,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\thread-lifetime-worktree\\build\\worker-completion-gdi\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 51532,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      }
+    },
+    "gdi-startup-diagnostic": {
+      "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+      "controller": {
+        "executable_sha256": "b1a1f25ca3014714b03de2559ce695281b3ef26bc3c2b450f8ca3e85cdceec50",
+        "name": "tabs",
+        "completed": false,
+        "exit_code": 2,
+        "controller_pid": 47656,
+        "cleanup": {
+          "before": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 58,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "seconds": 52.251
+      },
+      "completed": false,
+      "diagnostic_completed": true,
+      "memory_acceptance": false,
+      "actual_grid": [
+        160,
+        48
+      ],
+      "font": "SarasaTermSC Nerd Font Light",
+      "checks": [
+        "one host with independent child terminals and native tab hit testing",
+        "12 create/close cycles retain one shared renderer without handle growth",
+        "new, close, next and previous shortcuts act through the terminal input thread",
+        "failed child process or content window creation preserves active tab and renderer",
+        "bounded hover preview refreshes background output without selecting it",
+        "synchronized pixels survive device transfer between tabs",
+        "fullscreen returns the host to its original rectangle",
+        "host resize updates both terminal grids",
+        "closing original tab preserves sibling; host close drains all processes"
+      ],
+      "baseline": {
+        "handles": 405,
+        "gdi": 38,
+        "user": 50,
+        "injected": false,
+        "private_ws": 10158080,
+        "total_ws": 36732928,
+        "private_commit": 13594624
+      },
+      "cycles": [
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10203136,
+          "total_ws": 36859904,
+          "private_commit": 13438976
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10309632,
+          "total_ws": 36999168,
+          "private_commit": 13205504
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 9965568,
+          "total_ws": 36716544,
+          "private_commit": 12926976
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10248192,
+          "total_ws": 37036032,
+          "private_commit": 12595200
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10354688,
+          "total_ws": 37158912,
+          "private_commit": 13258752
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10350592,
+          "total_ws": 37171200,
+          "private_commit": 12808192
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10276864,
+          "total_ws": 37105664,
+          "private_commit": 12615680
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10317824,
+          "total_ws": 37158912,
+          "private_commit": 12808192
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10276864,
+          "total_ws": 37117952,
+          "private_commit": 13103104
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10297344,
+          "total_ws": 37150720,
+          "private_commit": 12615680
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10309632,
+          "total_ws": 37171200,
+          "private_commit": 12726272
+        },
+        {
+          "handles": 407,
+          "gdi": 38,
+          "user": 52,
+          "injected": false,
+          "private_ws": 10272768,
+          "total_ws": 37134336,
+          "private_commit": 12615680
+        }
+      ],
+      "error": null,
+      "peaks": {
+        "frontend": {
+          "count": 1,
+          "private_ws": 16195584,
+          "total_ws": 43110400,
+          "private_commit": 18821120
+        },
+        "hosts": {
+          "count": 3,
+          "private_ws": 6803456,
+          "total_ws": 33869824,
+          "private_commit": 9768960
+        },
+        "clients": {
+          "count": 3,
+          "private_ws": 27070464,
+          "total_ws": 53927936,
+          "private_commit": 33583104
+        },
+        "all": {
+          "count": 7,
+          "private_ws": 44232704,
+          "total_ws": 125513728,
+          "private_commit": 55914496
+        }
+      },
+      "samples": 454,
+      "seconds": 49.091,
+      "inner_cleanup": {
+        "before": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 56,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  },
+  "full_goal_complete": false,
+  "fixture_promotion": "pending GDI resource investigation"
+}
