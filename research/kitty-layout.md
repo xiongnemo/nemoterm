@@ -36,8 +36,17 @@ The corrected [focused workflow](https://github.com/xiongnemo/nemoterm/actions/r
 passes at `077733e0e6d23f8af71b58c9dceedcce0aaf4b34`: GCC and Clang normal and
 ASan/UBSan runs, plus MSVC, each pass 153 checks including all 13 observations.
 The downloaded compiler manifests match the committed source/header/generator
-hashes. Fourteen additional raw records are retained. Full application workflows
-remain pending. The raw local log and source hashes are in
+hashes. Fourteen additional raw records are retained. Complete application
+[core](https://github.com/xiongnemo/nemoterm/actions/runs/43617754914) and
+[single-executable](https://github.com/xiongnemo/nemoterm/actions/runs/43617754826)
+workflows also pass at `077733e`, including 122 mandatory single-image checks.
+The downloaded 4,486,144-byte EXE has SHA-256
+`fc0897329676ac777d28396efcb3f5de67de8bd548a0a961fcaab3af51bb8c74`;
+the validation manifest and retained renderer, zoom, tab-profile and bell records
+match that exact image. The earlier `ebb346c` complete workflows also passed,
+independently of its retained focused MSVC failure. Both sets of workflow logs,
+artifact identities and single-image evidence are retained. Neither image has
+replaced the accepted executable. The raw local log and source hashes are in
 [the validation record](kitty-layout-validation.json).
 
 The first focused run at `ebb346c` failed MSVC's warnings-as-errors rule for a
