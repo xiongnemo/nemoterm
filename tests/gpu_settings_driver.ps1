@@ -51,7 +51,7 @@ try {
   if ($request.stop) {break}
   if ($request.id -and $request.id -ne $last) {
    $last=$request.id
-   $names=@('GDI (low memory)','OpenGL (GPU composition)','DirectX (Direct2D composition)')
+   $names=@('GDI (low memory)','OpenGL (GPU composition)','DirectX (GPU composition)')
    if ($request.mode -notin 0,1,2) {throw 'Invalid renderer'}
    if (![GpuFixtureNative]::PostMessageW($window,0x111,[IntPtr]0x50,[IntPtr]::Zero)) {throw 'Reconfigure failed'}
    $dialog=Wait-Value {[System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Children,$condition)}

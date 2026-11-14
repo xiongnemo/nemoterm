@@ -183,7 +183,7 @@ try:
             evidence['actual_renderer']=actual
             evidence.update(private_ws_policy(actual))
             if args.renderer=='directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX')=='1':assert actual==3
-            surface_class={2:'NemotermOpenGL',3:'NemotermDirect2D'}.get(actual)
+            surface_class={2:'NemotermOpenGL',3:'NemotermDirect3D11'}.get(actual)
             surface=windows(process.pid,surface_class,host) if surface_class else []
             assert len(surface)==(1 if actual>1 else 0)
             initial=resources();second=duplicate(first);output(second,'\x1b]0;Second terminal\x07'+scene('TAB TWO','20;70;20'))
