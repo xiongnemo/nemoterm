@@ -5,7 +5,8 @@ consumed without a graphics handler; no successful support reply is advertised.
 This development checkpoint adds a bounded transport component and its compiler
 and sanitizer checks. It is one stage toward image decoding, placement and full
 lifecycle support, not a substitute for that functionality or its acceptance.
-Local native testing remains paused at the user's request.
+The user has resumed local native testing. Results for this exact candidate are
+tracked in [the resumed local acceptance record](local-69cd5a4-acceptance.md).
 
 ## Reference
 
@@ -77,7 +78,7 @@ observations agree with the downloaded hash. Fourteen additional raw records are
 retained in the validation record. This candidate has not replaced the accepted
 local executable.
 
-Only source/static review and artifact verification ran locally. These component tests are
+The transport component tests are
 specification assertions, not independent kitty runtime evidence, and do not
 establish image display or process memory acceptance.
 
@@ -111,5 +112,5 @@ placement and rendering, and does not make the runtime support claim true.
    lifetimes. Exercise real applications and all three actual renderers; a CI
    OpenGL fallback is not OpenGL acceptance. Then validate the exact downloaded
    single executable under the Sarasa 160x48 functional/resource/memory workloads
-   when the user resumes local testing. Preserve the already observed DirectX
+   during resumed local testing. Preserve the already observed DirectX
    failure and all remaining original-goal requirements.

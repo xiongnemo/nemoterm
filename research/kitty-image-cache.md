@@ -2,7 +2,7 @@
 
 This component follows the bounded transport checkpoint. It is not yet connected
 to the terminal's APC handler or renderer, so the terminal still does not report
-kitty graphics support. Local native testing remains paused.
+kitty graphics support. The user has resumed local native testing.
 
 `nemo_kitty_cache.c` owns immutable decoded image data separately from future
 placements. It implements actual RGB/RGBA-to-straight-BGRA conversion, an admitted
@@ -43,8 +43,15 @@ at `400486d02ed9d181ceeb63e0641673b0d197757a` passed GCC, Clang and MSVC.
 Each run passes 1,564 cache assertions, with additional ASan/UBSan runs on both
 Linux compilers. All three source manifests match this checkout. Twenty raw
 logs/manifests are retained with hashes in the [validation record](kitty-image-cache-validation.json).
-The full application workflows are still pending; no local executable or native
-fixture has run, and this does not establish runtime graphics or memory acceptance.
+The complete [core](https://github.com/xiongnemo/nemoterm/actions/runs/43611847687)
+and [single-executable](https://github.com/xiongnemo/nemoterm/actions/runs/43611847731)
+workflows also passed at this exact source. The single image is 4,486,144 bytes,
+SHA-256 `5a22c46d3b7a86050aa7c808ff12f81acac789579df8b357d12f19acf91ce74e`.
+All 122 mandatory application checks passed; the downloaded executable hash
+matches the manifest and the single-image, zoom, bell and tab-profile records.
+Fourteen additional raw records are retained in the validation record. This
+candidate has not replaced the accepted local executable. These checks do not
+establish runtime kitty graphics or local memory acceptance.
 
 ## Layout questions found during source inspection
 
@@ -72,5 +79,5 @@ placements, unlike the existing Sixel cell-mask path.
 Remaining work includes placement identity/deletion, crop/offset/scale/cursor and
 scroll lifetimes, rendering order around text/backgrounds, terminal framing and
 replies, real PNG decoding, indexed/compressed formats, relative/Unicode placements,
-animation, independent reference evidence and full local acceptance after the
-user resumes testing. The complete modern-terminal objective remains open.
+animation, independent pixel reference evidence and full local acceptance.
+The complete modern-terminal objective remains open.
