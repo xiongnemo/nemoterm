@@ -62,9 +62,10 @@ These observations come from kitty commit
 `8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f`,
 [`graphics.c`](https://github.com/kovidgoyal/kitty/blob/8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f/kitty/graphics.c)
 and [`graphics.py`](https://github.com/kovidgoyal/kitty/blob/8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f/kitty_tests/graphics.py).
-They are source observations, not an independent runtime capture or a decision
-to discard either requirement. Capture the actual reference behavior before
-claiming layout compatibility. Also preserve the explicit distinction between
+The subsequent [independent native-model capture](kitty-graphics-reference.md)
+confirms rows-minus-one cursor advancement and stretching when both axes are
+specified, for this pinned ordinary-placement path. It captures actual compiled
+upstream model output, not visible GPU pixels. Also preserve the explicit distinction between
 clearing the screen and other text erases: the latter must not erase kitty
 placements, unlike the existing Sixel cell-mask path.
 
