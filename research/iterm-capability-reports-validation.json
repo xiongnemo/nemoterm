@@ -5,7 +5,7 @@
     "local_native_tests": "paused by user; none run",
     "static_python_parse": "passed for two changed Python fixtures",
     "git_diff_check": "passed",
-    "remote_behavioral_tests": "1f4a23a sanitizer fixture failure retained; corrected fixture pending"
+    "remote_behavioral_tests": "Corrected 5b2e6f1 full core and single executable workflows passed; first failure retained."
   },
   "reference_kind": "official specification and pinned source inspection; no iTerm runtime capture",
   "references": {
@@ -48,5 +48,148 @@
     "raw_sha256": "06092a69db5d0caf7d09cfc3d509fc7a6fcf289e1822756e4a0f2328b0cb6ac4",
     "compressed_sha256": "57f588c47844fa2b914dac9a4d075082375585507387b1f9c952969dac06b1f8"
   },
-  "corrected_fixture_sha256": "5264936fb768dbaccd72852d55be01804947f39532667ab080a275a105566a99"
+  "corrected_fixture_sha256": "5264936fb768dbaccd72852d55be01804947f39532667ab080a275a105566a99",
+  "remote_ci": {
+    "recorded_utc": "2026-11-14T14:59:01.983796+00:00",
+    "source_commit": "5b2e6f1263ba5b63ea861ea34ec78eb97b243e4a",
+    "runs": {
+      "core": {
+        "id": 43603908690,
+        "conclusion": "success"
+      },
+      "single": {
+        "id": 43603908678,
+        "conclusion": "success"
+      }
+    },
+    "product_artifact_id": 14118393944,
+    "evidence_artifact_id": 14118755659,
+    "executable_sha256": "255ac4108310319d8a9a6205c89ba50aa01529fad55a9f96fdeaffef6fc88d17",
+    "executable_bytes": 4483584,
+    "executable_directory_files": [
+      "nemoterm.exe"
+    ],
+    "passed_checks": 120,
+    "capability_cases": 13,
+    "geometry": [
+      {
+        "tab_host": false,
+        "requested_renderer": 0,
+        "actual_renderer": 1,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      },
+      {
+        "tab_host": false,
+        "requested_renderer": 1,
+        "actual_renderer": 1,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      },
+      {
+        "tab_host": false,
+        "requested_renderer": 2,
+        "actual_renderer": 3,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      },
+      {
+        "tab_host": true,
+        "requested_renderer": 0,
+        "actual_renderer": 1,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      },
+      {
+        "tab_host": true,
+        "requested_renderer": 1,
+        "actual_renderer": 1,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      },
+      {
+        "tab_host": true,
+        "requested_renderer": 2,
+        "actual_renderer": 3,
+        "checks": 7,
+        "native_dpi": [
+          96
+        ]
+      }
+    ],
+    "memory_acceptance": false,
+    "limitations": [
+      "Runtime geometry tested only at 96 DPI on CI; high-DPI arithmetic covered in core tests",
+      "Requested OpenGL fell back to GDI",
+      "No local native execution or change to accepted executable",
+      "Earlier local DirectX resource-cycle failure remains unresolved"
+    ],
+    "retained": [
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-core-run.json.gz",
+        "raw_sha256": "f8e381434c857e85cd6e82f642a1499cff540bf35362d5f5386855947eed83c8",
+        "compressed_sha256": "757dbabd15b38532b26370033d0ce03e2316d1a079efa5f7d90ec0789e31e972"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-core-run.log.gz",
+        "raw_sha256": "db9a4bc0a056b5e2144ba191e569a2dfc2a43b67a50d74ef9f9acae2a5d6667c",
+        "compressed_sha256": "e7485b644a4cdc51fdd6bd41292edf6673646d1f33d9e816e7fd58b3cfa0877e"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-core-artifacts.json.gz",
+        "raw_sha256": "c91235e2160b472352fb730248d8c7be70e49157ec12f3d7767a288813879de7",
+        "compressed_sha256": "b213d734004da6bb292ee8a86fd016df2ef1cf23c6aa9fe0da91e96b1947ef81"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-single-run.json.gz",
+        "raw_sha256": "a50adb3efd5f4c81b16131c850d979a980cdf8e12f8bdf99abbb060db8f2f9f8",
+        "compressed_sha256": "a2e130927ff5ae7e750e8d2bfe2777b4b169ec84d70e7a44f0cc612916b2aeff"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-single-run.log.gz",
+        "raw_sha256": "b7b040d60264088f6c0db3b7645d7cc3b06d4efe272a2a1088b897ebcdad4953",
+        "compressed_sha256": "a428fe03c31a501837351171751c1296e25c32bc5ee78f15720334d9f8e76d45"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-single-artifacts.json.gz",
+        "raw_sha256": "3c6eade40b193d0d4cca8d0939491bb86888fb36f56826dd479560a0cdf8221f",
+        "compressed_sha256": "7e2939b30f39c7fc98a30bad4656b9b0925bfd361303ce29965ad9b8dc4be060"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-single-exe-validation.json.gz",
+        "raw_sha256": "d167fdcecbbe24e64bb56c84ca5b9d105eecb76f1480f9e22906a8774ca0a358",
+        "compressed_sha256": "b5bba68e3848084b362115ea9091a66f64588f6a0a1f7eb73c30fe4dc761e8ab"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-iterm-reports-observed.json.gz",
+        "raw_sha256": "060b44d14563b42770bb7d473be89efe080676ba035a1d4b9dcaf899237f1383",
+        "compressed_sha256": "fed1d38f1261ba59416c0711879e7d939ec2db4005f91f32e76f74b63627153e"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-iterm-reports-restricted-observed.json.gz",
+        "raw_sha256": "4dd3e61e053620da4d2043750786b61abebad21834bfa53c7f35e073e8f04a10",
+        "compressed_sha256": "e38f584c82a28dd6ff5725038fc3d496237dd31f1e9ba92dfc1e926d9ebdeb6e"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-geometry-window-observed.json.gz",
+        "raw_sha256": "0a6fb1363a75b779728a37ba3586d8278b5fd057065c55026b77d9ed4f3e68c8",
+        "compressed_sha256": "11b63750255518aa8b97deb5ffa6ce0e2f85fc8b1f2a3bf3f62e40c459f76ae5"
+      },
+      {
+        "file": "iterm-capability-reports-evidence/5b2e6f1-tabs-geometry-window-observed.json.gz",
+        "raw_sha256": "8969106478f572864737ed4d3213dbd21cb1de7e5982ed255ad5ba4bcfc59dee",
+        "compressed_sha256": "9515ed3dfb9b072e2c839f4bdfa63e584ddc4f5d853153b0382b4272e38ca58f"
+      }
+    ]
+  }
 }

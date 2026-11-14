@@ -122,6 +122,7 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 | 关闭鼠标下的标签 | 鼠标中键 |
 | 打开 OSC 8 链接 | `Ctrl+左键单击` |
 | 本地回滚 | `Shift+PageUp` / `Shift+PageDown` |
+| 当前标签字号放大 / 缩小 | `Ctrl+滚轮上 / 下`；应用接管鼠标时加 `Shift` |
 
 右键已选中的文本默认只复制；可在 Window / Selection 改为复制并粘贴，
 或使用 `--right-click copy-paste` 启动；`--right-click copy` 恢复仅复制。
@@ -131,7 +132,8 @@ Window / Bindings 可修改快捷键和矩形选择修饰键；Window / Tabs 配
 缩放只改变当前终端，保持窗口外框大小；菜单可恢复默认字号，
 Window / Bindings / Font 可修改滚轮修饰键及放大、缩小、恢复快捷键。
 键盘快捷键默认关闭。Terminal / Bell 可选择系统声音、视觉闪烁或关闭响铃。
-这些新增检查正在远程 CI 验证，本机实测暂停，详见[字号与响铃记录](research/font-zoom-and-bell.md)。
+字号像素、应用鼠标输入、标签隔离和真实响铃 API 已通过远程专项回归；
+完整流程仍在运行，本机实测暂停，详见[字号与响铃记录](research/font-zoom-and-bell.md)。
 多标签启动使用 `--tabs`，或保存对应设置。`--tab-side` 接受 `top`、`bottom`、`left`、`right`；
 例如 `--tabs --tab-side left` 将标签栏放在左侧，悬停标签可预览对应终端。
 

@@ -4,7 +4,7 @@
   "artifact_id": 14118695012,
   "native_executable_sha256": "779be18fe7125cfdbd6f08c106f4d08be488036dff9889ee0c82c938846ec536",
   "failure": "one-point zoom increases cell height from 19 to 20; bright glyph bounding box stays 7x7",
-  "resolution_status": "independent startup font pixel comparison added; pending remote execution",
+  "resolution_status": "Independent startup pixel reference and four-point growth passed in remote artifact replay; original failed run retained.",
   "local_native_tests": "remain paused by user",
   "retained": [
     {
@@ -17,5 +17,230 @@
       "raw_sha256": "c939ffa0b9ba9367c8adaee0dbb745cf938fa1bf9501b42b0f8daef30b907b43",
       "compressed_sha256": "074aaada926b1d07efac314073c869ff72faa69a9d79fc75a5fe8004e488f052"
     }
-  ]
+  ],
+  "replay": {
+    "recorded_utc": "2026-11-14T14:59:01.983796+00:00",
+    "run_id": 43607132722,
+    "artifact_id": 14119425511,
+    "conclusion": "success",
+    "source_artifact_id": 14118232957,
+    "source_commit": "555934a1aff0dd0a0873026797dd7958ba3ff8f8",
+    "fixture_commit": "ea91559e4a5de5538d5234eed1ef762bf0677c55",
+    "source_run": "43605518175",
+    "executable_sha256": "84d51046b7a4a77f33f571de910d4733e5e5d6dda172b23e8f74b77c1951864f",
+    "executable_bytes": 4486144,
+    "execution_directory_files": [
+      "nemoterm.exe"
+    ],
+    "scope": "Fixture replay against unchanged production; not a build or memory acceptance",
+    "font": "Consolas",
+    "modes": [
+      {
+        "requested_renderer": 0,
+        "actual_renderer": 1,
+        "zoom_modifier": 2,
+        "checks": 22,
+        "gdi_resources": [
+          22,
+          22
+        ],
+        "independent_startup_pixels_equal": true,
+        "one_point_cell": [
+          9,
+          20
+        ],
+        "four_point_glyph": [
+          10,
+          13
+        ]
+      },
+      {
+        "requested_renderer": 1,
+        "actual_renderer": 1,
+        "zoom_modifier": 2,
+        "checks": 22,
+        "gdi_resources": [
+          27,
+          27
+        ],
+        "independent_startup_pixels_equal": true,
+        "one_point_cell": [
+          9,
+          20
+        ],
+        "four_point_glyph": [
+          10,
+          13
+        ]
+      },
+      {
+        "requested_renderer": 2,
+        "actual_renderer": 3,
+        "zoom_modifier": 2,
+        "checks": 22,
+        "gdi_resources": [
+          28,
+          28
+        ],
+        "independent_startup_pixels_equal": true,
+        "one_point_cell": [
+          9,
+          20
+        ],
+        "four_point_glyph": [
+          10,
+          13
+        ]
+      },
+      {
+        "requested_renderer": 0,
+        "actual_renderer": 1,
+        "zoom_modifier": 0,
+        "checks": 3
+      }
+    ],
+    "tabs": {
+      "active_tab": 2,
+      "zoomed_cell": [
+        23,
+        11
+      ],
+      "siblings_unchanged": true,
+      "saved_profiles_unchanged": true
+    },
+    "bell_modes": [
+      {
+        "mode": 0,
+        "api_events": []
+      },
+      {
+        "mode": 1,
+        "api_events": [
+          {
+            "api": "MessageBeep",
+            "kind": 0,
+            "result": 1
+          }
+        ]
+      },
+      {
+        "mode": 2,
+        "api_events": []
+      }
+    ],
+    "all_owned_processes_exited_naturally": true,
+    "limitations": [
+      "CI Consolas at 96 DPI; actual GDI and DirectX only",
+      "OpenGL request fell back to GDI",
+      "API invocation is not audible speaker verification",
+      "Instrumented functional test, not memory acceptance",
+      "No local native execution; accepted executable unchanged"
+    ],
+    "retained": [
+      {
+        "file": "font-zoom-evidence/ea91559-bell-mode-0-observed.json.gz",
+        "raw_sha256": "c75e55a950205fbfab011ec881656326b64aa237caa588486feb69f035ffce95",
+        "compressed_sha256": "6bdd04c58d21e123cd4342f3c47c2adce8920a93fb6aad8047a6bb191b2709e1"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-bell-mode-1-observed.json.gz",
+        "raw_sha256": "5e7d3b413af0150039bb33e058e4bb09bc1ae09f2a6db4e8ac94a64b83af0777",
+        "compressed_sha256": "fb3adafcdd89cb98c5beb2cf6d2fd2ab5979f04c3b9d84c3bc97dd2fc35c53b8"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-bell-mode-2-observed.json.gz",
+        "raw_sha256": "35669862952827276e315cad0ba17a659b76b9adfdfa74793988689d34747d9f",
+        "compressed_sha256": "7163d24938d0dc92fc911681492cb2869173316f5c52fc4632c64cc6e590bdcd"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-bell.log.gz",
+        "raw_sha256": "c2ac7536f53d3a2438964a577f524f2a0951ad2237f50581e32fe5f875568a8b",
+        "compressed_sha256": "69e0b9a6f2035761a9a55df1333fc08daeb2c4850afff6f3e15e5c4fc4f77756"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-font-zoom-observed.json.gz",
+        "raw_sha256": "47793a657f5928af10dfb0a461b9991cd799ba2b10e6e77e38961710b3f2fc63",
+        "compressed_sha256": "e3d28cb9d464d7c2c8a59ca8830035005deac2a7338b533571dc032e59f83c40"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-font-zoom.log.gz",
+        "raw_sha256": "51637c6f25c28c4ef6e51f4a69fd5d033fe59051c56c585bab6a8257ff9b00f4",
+        "compressed_sha256": "299e6a61a71e1faf56ef21e01a8f06ed5e2d9f91a13e200451b21495f5f9cf5e"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-identity.json.gz",
+        "raw_sha256": "135d49891dfbe4460515605d9759d6e22d744e11bf8e9726383c3240eb41cd30",
+        "compressed_sha256": "60353c0eb09e3754abb6df82ee1a42e616c8b66313240fdf9d78ae6be7139b63"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-run.json.gz",
+        "raw_sha256": "6abd8ac162a1a70b9691eaa02cef9f487a0e8702af8b14c110515563bb9a1e42",
+        "compressed_sha256": "fa4bb3b2c70a8de8e529c7ad7d1144f59a95cfc6e7b2cddf67edda956d6646b6"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-tabs-profiles-observed.json.gz",
+        "raw_sha256": "86919d7bbe02c8cec1e778d89668cadf9652e0de8f454d27e44d19fa479a6d8b",
+        "compressed_sha256": "9748d0e86fdb3bcb7e9cdedc35f7e523950caacd4dd82bf7da3ae5cea524805d"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-tabs-profiles.log.gz",
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e",
+        "compressed_sha256": "c59fc7e1826c6f37462e51122aeb368094f98ea2e66cf84e17ac28c25755d31a"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-workflow.log.gz",
+        "raw_sha256": "95514a71955c7228370a576b4595fb7dcdc04a02fff6b5de873f702f423369bd",
+        "compressed_sha256": "c6370b078d646b3e6de3c1efb511f6ef5062f202245258749bac4c318f6f8721"
+      },
+      {
+        "file": "font-zoom-evidence/ea91559-SOURCE-HOST.json.gz",
+        "raw_sha256": "a8b72690dd03b1ef5ba353632937b5719deefc2684414275ef2322a4daf4e624",
+        "compressed_sha256": "a21c1de47921ac11271ab642f69d87206f7dc1648d5a8f9eca539af6d40af85d"
+      }
+    ]
+  },
+  "other_original_fixture_failures": {
+    "single": {
+      "source_commit": "555934a1aff0dd0a0873026797dd7958ba3ff8f8",
+      "run_id": 43605517985,
+      "evidence_artifact_id": 14119355987,
+      "unverified_product_artifact_id": 14119166326,
+      "executable_sha256": "519b9d5d19563367a215c49ebc660be01f1f4e2ea803b60e37b27762b49fbe8d",
+      "executable_bytes": 4486144,
+      "conclusion": "failure"
+    },
+    "isolation_core": {
+      "source_commit": "884317c7bc7d35941e20eff5c3c2a2332cc5855a",
+      "run_id": 43606553606,
+      "conclusion": "failure"
+    },
+    "cause": "Same original one-point glyph bounding-box assertion, before independent pixel reference correction",
+    "retained": [
+      {
+        "file": "font-zoom-evidence/555934a-single-run.log.gz",
+        "raw_sha256": "9280347ffd8668568ee97fba3e26c9583f5528f30021176c6bc5fe7fa1163dff",
+        "compressed_sha256": "35f0b905d182321a247377e0c3d1ab1d7aadc9fe60b527b3efb0da3ea5b7231b"
+      },
+      {
+        "file": "font-zoom-evidence/555934a-single-run.json.gz",
+        "raw_sha256": "b1922826db901a2550da87a8b1a7daf61e608fb408ed8480b7a42aa970b9eb79",
+        "compressed_sha256": "08e23ac064d368599cfd2a0cd315741f5cf389c3b987fa1222731c8d5c72401a"
+      },
+      {
+        "file": "font-zoom-evidence/555934a-single-font-zoom-observed.json.gz",
+        "raw_sha256": "77ffbf64d9df16c4c381dd10d956d04c305943265078ae971189a198a21dae6f",
+        "compressed_sha256": "cee312db28eb17f2822d82eac5210b5462b34abfa61f82644a62ae989d7eba62"
+      },
+      {
+        "file": "font-zoom-evidence/884317c-core-failed.log.gz",
+        "raw_sha256": "5734f903339b99492228150d81ed005b4677597136b8e885d60b68e602047ebe",
+        "compressed_sha256": "b5f409492fbb25607cec5c1fd3ec609b795f62f4c61d0d68e1219412192647dd"
+      },
+      {
+        "file": "font-zoom-evidence/884317c-core-run.json.gz",
+        "raw_sha256": "12fd265677a3de6df976421798bb42f7eb00fa25f6d62c7e3582f2c46b62e5ff",
+        "compressed_sha256": "c05fad2c96cb437f9205831795bd8365629a0c247b3609fa8ace1c87d1c28652"
+      }
+    ]
+  }
 }

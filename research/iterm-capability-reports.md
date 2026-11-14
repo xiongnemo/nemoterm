@@ -2,8 +2,8 @@
 
 Development branch based on `26f50c8796b6ba4ee5e941490a1dbd63021383f4`.
 Local native testing remains paused at the user's request. This checkpoint
-contains implementation and fixtures, not a claim that those fixtures passed.
-Remote CI status is recorded separately. The accepted `dist/nemoterm.exe`
+contains implementation and fixtures verified by the remote workflows below.
+This does not establish local native acceptance. The accepted `dist/nemoterm.exe`
 remains source `8ff214feb549c2b79bb57960467c1d6963eab47e`, SHA-256
 `c110843b1fd5a551d654df094fa716c1ea1c48383d90e642b964d7dfb3d15e26`.
 
@@ -85,8 +85,23 @@ remote sanitizer run on `1f4a23a` failed in the new fixture: CAN/SUB ends an OSC
 so its trailing BEL is a normal bell, but the mock had no bell callback. The
 follow-up supplies that mock callback and asserts two bells; production code is
 unchanged. The original log is retained, not classified as a passing run.
-The corrected behavioral checks are **pending remote execution**. No native process,
-clipboard operation, input injection, renderer or memory workload was run
-locally for this checkpoint. The earlier integrated DX close-cycle failure and
+The corrected commit `5b2e6f1263ba5b63ea861ea34ec78eb97b243e4a` passes the
+[full core workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43603908690)
+and [single-executable workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43603908678).
+This includes sanitizer tests, MinGW native tests, MSVC renderer diagnostics
+and 120 single-image checks. The downloaded product is 4,483,584 bytes with
+SHA-256 `255ac4108310319d8a9a6205c89ba50aa01529fad55a9f96fdeaffef6fc88d17`;
+its validation manifest lists only `nemoterm.exe` in the execution directory.
+
+Both query profiles complete all 13 cases, and 42 geometry phases cover standalone
+and tabbed GDI/DirectX windows. Reported logical sizes and scale agree with
+independently measured cell pixels and native DPI. Runtime DPI is 96 throughout;
+other DPI values have core arithmetic coverage, not a physical monitor-transition
+test. The requested OpenGL renderer falls back to GDI. All these owned processes
+exit naturally. Exact replies, geometry, manifests and complete workflow logs
+are retained in [the validation record](iterm-capability-reports-validation.json).
+
+No native process, clipboard operation, input injection, renderer or memory
+workload was run locally for this checkpoint. The earlier integrated DX close-cycle failure and
 unrun DX PNG/GIF memory cases remain unresolved; green protocol CI would not
 resolve them or justify replacing the accepted executable.

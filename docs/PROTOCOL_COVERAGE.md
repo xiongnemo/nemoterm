@@ -47,7 +47,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 | Wire function | Status | Evidence or limitation |
 | --- | --- | --- |
-| C0 BEL | Source only | Bell callback and local policies; audible/visual behavior needs dedicated acceptance. |
+| C0 BEL | Partial; core and remote API checks | Sound/disabled/visual policy, OSC terminator distinction and bounded overload accounting pass core tests. Remote native checks observe real MessageBeep dispatch for sound and no calls for disabled/visual modes. Audible speaker output, visual pixels and custom WAV/PC-speaker modes remain unverified. See [bell evidence](../research/font-zoom-and-bell.md). |
 | C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; BS follows explicit reverse-wrap modes 45/1045, with physical-cell counting and pending-wrap cases. Default BS stays on the current line. |
 | C0 HT; ESC H (HTS) | Tested | `state_control`, 108 tabulation oracle comparisons and native ConPTY replies. |
 | C0 ENQ | Source only | Configured answerback path. |
@@ -154,7 +154,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |
 | APC G (kitty graphics) | Missing | APC is consumed; no kitty graphics transport or placement implementation. |
 | OSC 1337 inline images: File / MultipartFile / FilePart / FileEnd | Partial; integration candidate | PNG/JPEG/BMP and animated GIF use streaming transport, Windows WIC and the shared bounded raster lifetime. This candidate passes 32 static and 36 animation scenes on each actual GDI/OpenGL/DirectX backend. File downloading and full iTerm parity remain open; the accepted download is unchanged. See [integration evidence](../research/graphics-charsets-integration.md). |
-| OSC 1337 Capabilities / ReportCellSize | Source only; CI pending | Live preference-aware feature codes and current DPI-scaled cell size. The ambiguous focus/file `F` and uncertified `Uw` codes are omitted; no `TERM_FEATURES` environment publication. Core, console-host and independent native geometry assertions are added; local native testing is paused. See [report policy and validation](../research/iterm-capability-reports.md). |
+| OSC 1337 Capabilities / ReportCellSize | Tested; remote CI | Live preference-aware feature codes and current DPI-scaled cell size. The ambiguous focus/file `F` and uncertified `Uw` codes are omitted; no `TERM_FEATURES` environment publication. Both full workflows pass at `5b2e6f1`, including 13 capability cases and 42 native geometry phases at 96 DPI; local native testing is paused. See [report policy and validation](../research/iterm-capability-reports.md). |
 
 ## OSC and modern shell metadata
 

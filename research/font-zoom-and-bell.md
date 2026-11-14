@@ -63,7 +63,8 @@ exact normalized glyph-cell comparison with a separate terminal started at
 13 points, which never invokes zoom. A separate four-point zoom must visibly
 enlarge the glyph. Cell-size, fixed-window, resized-grid, resource and input
 assertions remain mandatory. The original failure is retained; it is not a
-passing native run. The new reference comparison is pending remote execution.
+passing native run. The new reference comparison passed in the remote artifact
+replay described below.
 
 The native zoom fixture covers partial-wheel accumulation, application Ctrl
 wheel reports, forced Shift zoom, menu reset, custom bindings including key-up
@@ -80,8 +81,34 @@ and restoration of the original active-tab frame after reset.
 A separate profile disables wheel zoom and verifies both unchanged font size
 and the application's Ctrl-wheel report.
 
-Static source checks passed before submission; behavioral and compilation
-results are pending remote CI. Physical high-resolution wheels,
+The [focused replay](https://github.com/xiongnemo/nemoterm/actions/runs/43607132722)
+at fixture commit `ea91559e4a5de5538d5234eed1ef762bf0677c55` passed all three
+fixtures. It first checks that production source and build recipes are unchanged
+from `555934a`, then isolates that commit's source-built single executable:
+4,486,144 bytes, SHA-256
+`84d51046b7a4a77f33f571de910d4733e5e5d6dda172b23e8f74b77c1951864f`.
+The artifact was downloaded and its source manifest, size and hash independently
+verified without executing it locally. Full observations and run logs are retained
+with hashes in [the validation record](font-zoom-validation.json).
+
+With CI Consolas at 96 DPI, the actual GDI and DirectX paths both match the
+separate 13-point startup reference exactly. The one-point cell changes from
+9x19 to 9x20 while the bright M bounding box stays 7x7; four points produce a
+12x24 cell and a 10x13 glyph box. The independent pixel comparison supports
+font rasterization quantization in this case, rather than a stale glyph.
+The requested OpenGL path fell back to GDI and does not establish OpenGL zoom.
+Six repeated zoom/reset cycles retain the same GDI object counts (22, 27 and
+28 for the three enabled profiles). The disabled-wheel profile passes too.
+
+The three-profile tab fixture passes active-tab isolation, unchanged saved
+FontHeight values, frame restoration and 36 subsequent switches. The bell
+fixture observes one real `MessageBeep(MB_OK)` call returning success for sound
+mode, and zero calls for disabled and visual modes. All owned process trees
+exit naturally. These are instrumented functional results, not memory or
+audible-output acceptance.
+
+Fresh full MinGW/core and MSVC/single-executable workflows for the corrected
+fixtures remain in progress. Physical high-resolution wheels,
 DPI transitions and local Sarasa rendering still require further verification.
 The accepted executable remains unchanged, and the prior integrated DirectX
 resource-cycle failure remains unresolved.
