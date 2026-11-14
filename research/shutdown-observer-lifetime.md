@@ -81,4 +81,10 @@ The original timeout remains unexplained. The controlled observer change and
 uninjected controls justify proceeding to the full
 [single-image acceptance run 43646925393](https://github.com/xiongnemo/nemoterm/actions/runs/43646925393)
 of fixture commit `b3e03bb`, whose product source is unchanged from `48a0263`.
-That separate acceptance is pending.
+That separate CI acceptance passed all 137 check groups, including all 12
+shutdown lifetimes with natural cleanup. Its independently linked formal image
+is SHA256 `65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`;
+this is a different executable from the original diagnostic `7f3979db` image.
+The successful full-run records are retained in
+`kitty-compression-single-ci-validation.json`. These passes do not retroactively
+establish the original timeout's cause.

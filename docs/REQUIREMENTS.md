@@ -1428,8 +1428,10 @@ stages and the compressed-image private-WS policies at 160 x 48 (GDI 16,396,288 
 DirectX 23,707,648 B). The formal single-image run failed an early shutdown
 observation. Its exact artifact passed local and runner diagnosis after bounding
 the observer lifetime and adding uninjected controls; the root cause remains
-unproven. Full single-image acceptance is running at `b3e03bb` with unchanged
-production source. New downloaded-product pixels and memory acceptance remain
+unproven. Full single-image CI passed all 137 check groups at `b3e03bb` with unchanged
+production source. Its 4,515,328-byte image has SHA256
+`65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
+New downloaded-product pixels and memory acceptance remain
 required. See
 [the implementation record](../research/kitty-compression.md) for raw evidence and
 remaining scope. No original protocol, physical input or real-application requirement

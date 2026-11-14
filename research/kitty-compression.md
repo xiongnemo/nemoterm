@@ -147,3 +147,21 @@ working-set cap for DirectX. `kitty-compression-product-precheck.json` indexes
 272 original records, including pixels, memory observations and identity files.
 The accepted local executable remains unchanged while formal acceptance is
 outstanding.
+
+## Formal single-image CI after the observer correction
+
+[Run 43646925393](https://github.com/xiongnemo/nemoterm/actions/runs/43646925393)
+at `b3e03bb` passed all 137 check groups. Product source remains identical to
+`48a0263`; the intervening change corrects the shutdown observer lifecycle and
+adds sensitivity/uninjected controls. The formal image is 4,515,328 bytes, SHA256
+`65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
+Artifact `14135728448` contains only `nemoterm.exe` and expires
+`2026-12-14T22:51:47Z`.
+
+All compression renderer profiles, real-client checks and mandatory memory groups
+passed. The compressed-PNG frontend peaks on this runner were 12,488,704 B private
+working set for GDI and 16,457,728 B for DirectX, at 109 x 34 and 88 x 35 respectively.
+The new local 160 x 48 acceptance is a separate gate. Complete CI observations,
+frames, logs and identities are indexed by `kitty-compression-single-ci-validation.json`
+in two deterministic tar/gzip bundles containing 1,707 original files; helper
+binaries/objects and the product executable are not committed in those bundles.
