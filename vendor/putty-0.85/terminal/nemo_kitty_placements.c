@@ -10,13 +10,14 @@ struct NemoKittyPlacement {
     int32_t column, row, z;
     uint32_t id, columns, rows, offset_x, offset_y;
     double source_x, source_y, source_width, source_height;
+    uint64_t sequence;
 };
 struct NemoKittyPlacements {
     NemoKittyCache *cache;
     NemoKittyPlacement *first;
     size_t budget, used;
     unsigned count;
-    uint64_t generation;
+    uint64_t generation, sequence;
     NemoKittyPlacementAdmission admit;
     void *ctx;
 };
@@ -105,10 +106,12 @@ static void insert(NemoKittyPlacements *s, NemoKittyPlacement *p)
 {
     NemoKittyPlacement **link=&s->first;
     int32_t z=p->z;
-    uint32_t id=nemo_kitty_image_id(p->image);
+    uint64_t order=nemo_kitty_image_sequence(p->image);
     while (*link) {
         int32_t other=(*link)->z;
-        if (other>z || (other==z && nemo_kitty_image_id((*link)->image)>id)) break;
+        uint64_t other_order=nemo_kitty_image_sequence((*link)->image);
+        if (other>z || (other==z && (other_order>order ||
+            (other_order==order && (*link)->sequence>p->sequence)))) break;
         link=&(*link)->next;
     }
     p->next=*link; *link=p;
@@ -130,6 +133,7 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     NemoKittyPlacement **link=&s->first;
     while (*link && (!id || (*link)->image!=image || (*link)->id!=id)) link=&(*link)->next;
     NemoKittyPlacement *p=*link;
+    uint64_t sequence=p ? p->sequence : 0;
     if (p) *link=p->next;
     else {
         if (s->count>=NEMO_KITTY_PLACEMENT_MAX || sizeof(*p)>s->budget-s->used ||
@@ -138,15 +142,14 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
         if (!p) return NEMO_KITTY_PLACE_NOMEM;
         if (!nemo_kitty_image_reference(s->cache,image,true)) { free(p); return NEMO_KITTY_PLACE_NOT_FOUND; }
         s->used+=sizeof(*p); s->count++;
+        sequence=++s->sequence;
     }
     *p=(NemoKittyPlacement){NULL,image,column,row,g.z,id,
         nemo_kitty_get(command,'c'),nemo_kitty_get(command,'r'),g.offset_x,g.offset_y,
-        g.source_x,g.source_y,g.source_width,g.source_height};
+        g.source_x,g.source_y,g.source_width,g.source_height,sequence};
     insert(s,p); s->generation++; *out=g;
     return NEMO_KITTY_PLACE_OK;
 }
-
-static bool overlaps(double a, double b, double start, double end) { return a<end && b>start; }
 
 NemoKittyPlacementStatus nemo_kitty_placements_delete(
     NemoKittyPlacements *s, const NemoKittyCommand *c, int32_t cursor_column,
@@ -155,7 +158,7 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
 {
     if (!s || !c || !deleted || !columns || !rows || !cw || !ch ||
         cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX ||
-        (nemo_kitty_has(c,'i') && nemo_kitty_has(c,'I'))) return NEMO_KITTY_PLACE_INVALID;
+        (nemo_kitty_get(c,'i') && nemo_kitty_get(c,'I'))) return NEMO_KITTY_PLACE_INVALID;
     uint32_t action=nemo_kitty_get(c,'d');
     bool release=action>='A' && action<='Z';
     if (release) action+='a'-'A';
@@ -180,8 +183,9 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
             bool inx=px>=p->column && px<(double)p->column+cell_columns;
             bool iny=py>=p->row && py<(double)p->row+cell_rows;
             switch (action) {
-              case 'a': match=overlaps(v.left,v.right,0,(double)columns*cw) &&
-                            overlaps(v.top,v.bottom,0,(double)rows*ch); break;
+              /* The pinned model clears all non-history placements, including
+               * those currently below or to the right of the viewport. */
+              case 'a': match=(int64_t)p->row+cell_rows>0; break;
               case 'i': case 'n': match=p->image==target && (!id || p->id==id); break;
               case 'c': case 'p': match=inx && iny; break;
               case 'q': match=inx && iny && v.z==nemo_kitty_signed(c,'z'); break;

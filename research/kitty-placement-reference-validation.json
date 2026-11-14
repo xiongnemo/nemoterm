@@ -1,0 +1,118 @@
+{
+  "fixture_commit": "bf03e11e86afda0a4747451fc2c26c96fb1efca6",
+  "run_id": 43627120044,
+  "conclusion": "success",
+  "upstream_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
+  "fixture_sha256": "e75e5719ccf501841c7161e88bc34e4a5c5799f4c78117b449b8597d1bbd10c3",
+  "source_sha256": {
+    "kitty/graphics.c": "9fbd7344d125d619c60cd549885750fc393824c77a4253cc90d221556cdbe755",
+    "kitty_tests/graphics.py": "3165dd00230af36dd19fdb837dcad2ae3e23e85e2cada054a5b7e03855b48e0a",
+    "docs/graphics-protocol.rst": "c51470cc0bd16c804ff2d1652507f6fc6966271ab1164359012b8bbdb0375dbb"
+  },
+  "compiled_sha256": {
+    "kitty/launcher/kitty": "b83dae9a4d917be8c57fec5ab9cec312f3fd41dd847254c66c014809e1e9ce47",
+    "kitty/launcher/../../kitty/fast_data_types.so": "342c6760a8e865bfd644d0e3afa357994a47dfb15c5bdb40e77cbd4903ce8ee8"
+  },
+  "upstream_tests": {
+    "names": [
+      "test_image_put",
+      "test_graphics_put_with_pixel_offsets",
+      "test_image_layer_grouping",
+      "test_gr_scroll"
+    ],
+    "run": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "successful": true
+  },
+  "rea": {
+    "evidence_id": "ev_3bbc9d14f2358a1cb63804fa1dd44e20cd183678de10da4f60e1c3a6b7b62688",
+    "provider": {
+      "id": "rea-process",
+      "name": "REA process capture",
+      "version": "3"
+    },
+    "exit": {
+      "code": 0,
+      "signal": 0,
+      "reason": "exited"
+    },
+    "cleanup": {
+      "owned_process_group": "verified",
+      "temporary_root": "removed"
+    },
+    "limitations": [
+      "Artifact identity is unavailable for this observation.",
+      "The executable digest is a prelaunch file sample; matching path metadata immediately after spawn does not prove an atomic operating-system image binding.",
+      "Process trees are sampled and may omit short-lived descendants.",
+      "Filesystem observations are before/after snapshots, not syscall traces.",
+      "Inherited host environment variables are not recorded and may affect results."
+    ],
+    "observations_sha256": "139b42639c4bba3be07dbeee02c0863374af1e0e1fd5d2a193828b0c934a8efd",
+    "case_count": 43,
+    "state_count": 101
+  },
+  "retained": [
+    {
+      "file": "kitty-reference-evidence/bf03e11-fixture-commit.txt.gz",
+      "raw_sha256": "8fb7e4508f277a6c8b6e099e493d37ce3ff829959aca057558cde81d1f011d9c",
+      "compressed_sha256": "5e9e3bc59aae76be69fb54e300ec79c66dd0cef0e77173dd76dc7dd051ebd23b"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-observations.json.gz",
+      "raw_sha256": "139b42639c4bba3be07dbeee02c0863374af1e0e1fd5d2a193828b0c934a8efd",
+      "compressed_sha256": "1a991bf97092a7e6e2d0b51e0d81d74493c28cd6470f4963f85de052b434c8dd"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-rea-evidence.json.gz",
+      "raw_sha256": "2709ac0a8e900fad6b5242341490a734ef3acad041f9be069851980245b2e9ca",
+      "compressed_sha256": "95e8cef304082739575de429e35a61e8f0ad7a46e7b8fc7885c0207318f09e2f"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-rea-package-lock.json.gz",
+      "raw_sha256": "e2c5a08c23c6f8da5276253e6fe55a14778761c6d4cb74d65cffdcb20c7a18b7",
+      "compressed_sha256": "ee655213b702129a2cff1cd47f0a3104897a5059a1a909e4149e3c87d977cabd"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-rea-progress.jsonl.gz",
+      "raw_sha256": "4005bd94bcd1346001deff25cc1191ddc5808b7eee531ab1573ba2eb94c0d5f4",
+      "compressed_sha256": "900408026fc86d809ed4eb749ac7f5e4f64186d205370bd105dfc4ac7eff5495"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-rea-summary.json.gz",
+      "raw_sha256": "0eda378c9c44e01bae1f9e9fdedb0cfe77424ed593cb10761c71bbf4cfac711d",
+      "compressed_sha256": "5d2917f9de5687890b398cacfbcb2be1feda65d589981a4aac0bcdfe3a2326ec"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-scenario.json.gz",
+      "raw_sha256": "eeeac6d2e4bc4e7599b8a89ec3041f6456c6980d03448272ee8d1de024ac9cc4",
+      "compressed_sha256": "92e4d445ae89f6e671445c7186f746c2e0a26ae92653231b20bf2a8be7fc6b1f"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-upstream-build.log.gz",
+      "raw_sha256": "95c1275f475d70ee909b4b893d29b08675d96e1832e1a28d564480265cfc2d5e",
+      "compressed_sha256": "e2559aa92064d1f12100de810ac09818f3059f51bf8ad22c589f28ed62a8fb88"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-upstream-commit.txt.gz",
+      "raw_sha256": "481f17e8511c69b76f6d27d4ecb643ab087abc15b7a7dd9dc8e1e84d711f8d00",
+      "compressed_sha256": "8d073ea7cbdae62db818e59bb3ad32fce368ee96cbc69b2fab11fff35551ca70"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-reference-artifacts.json.gz",
+      "raw_sha256": "9311b0a19aa41587fa2306e4b81f732e9d6dfba640de35c751f72ff8e9b2680e",
+      "compressed_sha256": "a3b555395d773ed45f890d225066d0144fbeefbdad21c7d8422cc5b121cad151"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-reference-run.json.gz",
+      "raw_sha256": "1773d61f0be268ac352764fd3f43a1271ebc42c965d2cbf6d03687684b162203",
+      "compressed_sha256": "dd552c6676d0b146efd9b2ce8358d1b51c3cd3ef23881942df4f9752e3840f95"
+    },
+    {
+      "file": "kitty-reference-evidence/bf03e11-reference-run.log.gz",
+      "raw_sha256": "d6446c9e387a58a3117d9bb59aa7eff9f98bc093b5279e1191bc6768373d1bbb",
+      "compressed_sha256": "9a5ea2be75b6d40d498e86743090a75c1d075720642dee8106a98bac43a564b5"
+    }
+  ]
+}

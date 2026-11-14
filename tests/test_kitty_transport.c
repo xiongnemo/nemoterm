@@ -111,6 +111,13 @@ static void commands(NemoKitty *s)
     p = packet(s, NULL, 0);
     CHECK(nemo_kitty_get(&p.command, 'i') == 2 && nemo_kitty_get(&p.command, 'j') == 18);
     CHECK(!nemo_kitty_has(&p.command, '!') && !nemo_kitty_get(&p.command, '!'));
+    start(s, "i=0,I=77;YWJj");
+    p=packet(s, "abc", 3);
+    CHECK(!nemo_kitty_get(&p.command,'i') && nemo_kitty_get(&p.command,'I')==77);
+    start(s, "i=7,I=0;YWJj");
+    p=packet(s, "abc", 3);
+    CHECK(nemo_kitty_get(&p.command,'i')==7 && !nemo_kitty_get(&p.command,'I'));
+    start(s, "i=0,I=0;YWJj");packet(s, "abc", 3);
 }
 
 static void chunks(NemoKitty *s)
@@ -171,7 +178,7 @@ static void invalid(NemoKitty *s)
         "a", "aa=p", "a=", "a=pp", ",a=p", "a=p,", "a=p,,i=1", "i =1", "i= 1",
         "i=+1", "i=-1", "i=4294967296", "i=9999999999999999999999999999999999999",
         "z=2147483648", "z=-2147483649", "z=--1", "H=-", "V=NaN", "x=1.5",
-        "q=3", "m=2", "i=1,I=1", "i=0,I=0", "a=p,m=1", "t=f,m=1",
+        "q=3", "m=2", "i=1,I=1", "a=p,m=1", "t=f,m=1",
         "e=T", "a=q,e=T", "a=q,i=0,e=T", "a=q,i=1,e=T,m=1", "a=p,i=1;AAAA"
     };
     for (size_t i = 0; i < sizeof(bad_headers)/sizeof(*bad_headers); i++)

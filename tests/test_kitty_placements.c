@@ -16,7 +16,8 @@ typedef struct Fixture {
 typedef struct Reference {
     const char *name,*header;
     unsigned reset,operation,width,height,column,row,images,placements;
-    double layers[2][8];
+    unsigned top,bottom,margins,scrollback;
+    double layers[2][9];
 } Reference;
 #include "kitty_placement_reference.h"
 
@@ -92,25 +93,51 @@ int main(void)
     for (unsigned i=0;i<sizeof(states)/sizeof(*states);i++) {
         const Reference *r=states+i;
         if (r->reset) nemo_kitty_cache_clear(f.cache);
-        if (r->operation==1 || r->operation==2) {
+        if (r->operation==1 || r->operation==2 || r->operation==6) {
             NemoKittyCommand c=parse(r->header);NemoKittyLayout g;
-            NemoKittyImage *image=r->operation==1 ? load(&f,c,r->width,r->height) :
-                nemo_kitty_cache_find(f.cache,nemo_kitty_get(&c,'i'),0);
-            CHECK(nemo_kitty_placements_put(f.places,image,&c,r->column,r->row,10,20,&g)==NEMO_KITTY_PLACE_OK);
+            NemoKittyImage *image=r->operation!=2 ? load(&f,c,r->width,r->height) :
+                nemo_kitty_cache_find(f.cache,nemo_kitty_get(&c,'i'),nemo_kitty_get(&c,'I'));
+            if (r->operation!=6) CHECK(nemo_kitty_placements_put(f.places,image,&c,r->column,r->row,10,20,&g)==NEMO_KITTY_PLACE_OK);
         } else if (r->operation==3) delete(&f,r->header);
-        else nemo_kitty_placements_scroll(f.places,1,4,r->operation==4?1:-1,true,0,10,20);
+        else nemo_kitty_placements_scroll(f.places,r->top,r->bottom,r->operation==4?1:-1,r->margins!=0,20,10,20);
         CHECK(nemo_kitty_cache_count(f.cache)==r->images);
-        CHECK(nemo_kitty_placements_count(f.places)==r->placements);
-        const NemoKittyPlacement *p=nemo_kitty_placements_first(f.places);
-        for (unsigned j=0;j<r->placements;j++,p=nemo_kitty_placement_next(p)) {
+        unsigned visible=0;
+        for (const NemoKittyPlacement *p=nemo_kitty_placements_first(f.places);p;p=nemo_kitty_placement_next(p)) {
             NemoKittyView v;CHECK(nemo_kitty_placement_view(p,10,20,&v));
-            double actual[]={v.left,v.top,v.right,v.bottom,v.source_left/r->width,v.source_top/r->height,
-                             v.source_right/r->width,v.source_bottom/r->height};
-            for (unsigned k=0;k<8;k++) CHECK(near(actual[k],r->layers[j][k]));
+            v.top+=r->scrollback*20;v.bottom+=r->scrollback*20;
+            if (v.left>=120 || v.right<=0 || v.top>=160 || v.bottom<=0) continue;
+            CHECK(visible<r->placements);
+            const NemoRaster *raster=nemo_kitty_image_raster(v.image);
+            double actual[]={v.left,v.top,v.right,v.bottom,v.source_left/raster->width,v.source_top/raster->height,
+                             v.source_right/raster->width,v.source_bottom/raster->height,v.z};
+            for (unsigned k=0;k<9;k++) {
+                if (!near(actual[k],r->layers[visible][k])) fprintf(stderr,"Reference mismatch %s layer %u field %u: %.9f != %.9f\n",r->name,visible,k,actual[k],r->layers[visible][k]);
+                CHECK(near(actual[k],r->layers[visible][k]));
+            }
+            visible++;
         }
-        CHECK(!p);printf("Pinned kitty placement matched: %s\n",r->name);
+        CHECK(visible==r->placements);printf("Pinned kitty placement matched: %s\n",r->name);
     }
     nemo_kitty_cache_clear(f.cache);CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    /* Internal image/ref identity survives named movement and retransmission;
+     * client identifiers and lookup recency cannot reorder an overlap. */
+    NemoKittyImage *older=load(&f,parse("a=t,i=9,f=24,s=10,v=20"),10,20);
+    put(&f,older,"a=p,p=20",0,0);
+    NemoKittyImage *newer=load(&f,parse("a=t,i=2,f=24,s=10,v=20"),10,20);
+    put(&f,newer,"a=p,p=1",5,0);put(&f,older,"a=p,p=10",2,0);
+    CHECK(nemo_kitty_cache_find(f.cache,9,0)==older);
+    put(&f,older,"a=p,p=20",3,0);
+    CHECK(first(&f).id==9 && first(&f).placement==20 && first(&f).left==30);
+    const NemoKittyPlacement *second=nemo_kitty_placement_next(nemo_kitty_placements_first(f.places));
+    NemoKittyView ordered;CHECK(nemo_kitty_placement_view(second,10,20,&ordered));
+    CHECK(ordered.id==9 && ordered.placement==10);
+    uint64_t original_sequence=nemo_kitty_image_sequence(older);
+    older=load(&f,parse("a=t,i=9,f=24,s=20,v=20"),20,20);
+    CHECK(nemo_kitty_image_sequence(older)==original_sequence);
+    CHECK(nemo_kitty_placements_count(f.places)==1 && first(&f).id==2);
+    put(&f,older,"a=p,p=30",1,0);
+    CHECK(first(&f).id==9 && first(&f).left==10);
+    nemo_kitty_cache_clear(f.cache);
     /* A clipped natural image keeps its source pixels and new cell anchor
      * when the font changes. Keeping a fraction of the old destination would
      * incorrectly move its top into the middle of the preceding text row. */
@@ -174,7 +201,7 @@ int main(void)
     image=load(&f,parse("a=t,i=1,f=24,s=10,v=20"),10,20);put(&f,image,"a=p,z=-2",0,-1);
     CHECK(first(&f).id==1 && first(&f).z==-2);
     NemoKittyView v;CHECK(nemo_kitty_placement_view(nemo_kitty_placement_next(nemo_kitty_placements_first(f.places)),10,20,&v));
-    CHECK(v.id==2);
+    CHECK(v.id==3);
     CHECK(delete(&f,"a=d,d=p,x=1,y=3")==0); /* touching left border is not overlap */
     CHECK(delete(&f,"a=d,d=q,x=2,y=3,z=1")==0);
     CHECK(delete(&f,"a=d,d=c")==2);

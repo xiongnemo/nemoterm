@@ -106,6 +106,8 @@ static void pixels_and_identity(void)
     CHECK(nemo_kitty_image_reference(f.cache, r.image, true));
     CHECK(nemo_kitty_image_reference(f.cache, r.image, true));
     NemoKittyImage *original = r.image;
+    uint64_t sequence = nemo_kitty_image_sequence(original);
+    CHECK(sequence != 0);
     size_t memory = nemo_kitty_cache_memory(f.cache);
     uint64_t generation = nemo_kitty_cache_generation(f.cache);
     const unsigned char rgba[] = {10,20,30,128, 1,2,3,0};
@@ -114,11 +116,13 @@ static void pixels_and_identity(void)
     CHECK(r.width == 2 && r.height == 1 && f.readonly);
     CHECK(nemo_kitty_cache_generation(f.cache) == generation && nemo_kitty_cache_memory(f.cache) == memory);
     CHECK(nemo_kitty_cache_find(f.cache, 7, 0) == original && !f.removed);
+    CHECK(nemo_kitty_image_sequence(original) == sequence);
     r = load(&f, "i=7,f=32,s=2,v=2", rgba, sizeof(rgba));
     CHECK(r.status == NEMO_KITTY_IMAGE_INVALID && !r.changed);
     CHECK(nemo_kitty_cache_find(f.cache, 7, 0) == original && !f.removed);
     r = load(&f, "i=7,f=32,s=2,v=1", rgba, sizeof(rgba));
     CHECK(r.status == NEMO_KITTY_IMAGE_OK && r.changed && r.image != original);
+    CHECK(nemo_kitty_image_sequence(r.image) == sequence);
     CHECK(f.removed == 1 && f.last_removed_id == 7 && f.last_removed_references == 2);
     pixels = nemo_kitty_image_raster(r.image);
     CHECK(pixels->pixels[0] == 0x800a141e && pixels->pixels[1] == 0x00010203 && pixels->partial_alpha);
@@ -141,8 +145,9 @@ static void numbers_and_anonymous(void)
     CHECK(nemo_kitty_cache_remove(f.cache, b.image));
     CHECK(nemo_kitty_cache_find(f.cache, 0, 17) == a.image);
     a = load(&f, "a=T,f=24,s=1,v=1", "abc", 3);
-    b = load(&f, "a=T,f=24,s=1,v=1", "def", 3);
+    b = load(&f, "a=T,i=0,I=0,f=24,s=1,v=1", "def", 3);
     CHECK(a.image && b.image && a.image != b.image && !a.id && !b.id);
+    CHECK(nemo_kitty_image_sequence(a.image) < nemo_kitty_image_sequence(b.image));
     CHECK(nemo_kitty_cache_count(f.cache) == 3 && !nemo_kitty_cache_find(f.cache, 0, 0));
     CHECK(!nemo_kitty_cache_find(f.cache, 1, 17));
     NemoKittyImageResult high = load(&f, "i=4294967295,f=24,s=1,v=1", "xyz", 3);
@@ -258,6 +263,7 @@ int main(void)
     CHECK(!nemo_kitty_cache_new(1, NULL, NULL, NULL, NULL));
     CHECK(!nemo_kitty_cache_memory(NULL) && !nemo_kitty_cache_count(NULL));
     CHECK(!nemo_kitty_cache_generation(NULL) && !nemo_kitty_image_raster(NULL));
+    CHECK(!nemo_kitty_image_sequence(NULL));
     nemo_kitty_cache_clear(NULL); nemo_kitty_cache_free(NULL);
     printf("Kitty image cache: %u checks passed\n", checks);
     return 0;

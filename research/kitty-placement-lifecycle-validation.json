@@ -1,0 +1,62 @@
+{
+  "base_commit": "bf03e11e86afda0a4747451fc2c26c96fb1efca6",
+  "source_sha256": {
+    "vendor/putty-0.85/terminal/nemo_kitty.c": "b85cece3e5661e649d557ed859a48c7c8d61d14cf45b305c07065ccdc1f71412",
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.c": "f89e7f3b848a223814499d69418756592a7ce86d59e5d8674433088d29ca3ad3",
+    "vendor/putty-0.85/terminal/nemo_kitty_cache.h": "8775de37336a248c9c6ffd78a1aabc57f4f8bd73b79cd67419a69debdcd8742a",
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.c": "e714da282777b09b05b91ba087d10b668eec415bec7a1e5184676093c3288cdc",
+    "vendor/putty-0.85/terminal/nemo_kitty_placements.h": "023f1ef2f5e4fe82d1586626340aafd2ac1cfef6fa5466df8dd9800ef14ecd8e",
+    "tests/test_kitty_placements.c": "cac83d91fd786c652af06a3ce37a9160f1032d8fe110c3595e9454fe22a329bb",
+    "tests/test_kitty_cache.c": "ac13e02fa5fff7e3258760667dc6f4f31d86540eeb482ed82ca8b6506a8d3329",
+    "tests/test_kitty_transport.c": "cae53e2f33dbbadcc5abad07d192aea0ee173047061ff2f737f138362f3f0dc5",
+    "tests/kitty_placement_reference.h": "71a9979164beee5e3da8fd5a077ea2a8e7193d3f7af3a717f63dfc82c36e449b",
+    "scripts/generate-kitty-placement-reference.py": "ceacc80f9d494c22a13e507d298f7e3409fd21ff49e95700856015dcad0118b0"
+  },
+  "local_checks": {
+    "placements": 2719,
+    "cache": 1569,
+    "transport": 2111776,
+    "layout": 153,
+    "reference_states": 65
+  },
+  "application_acceptance": false,
+  "remote_ci": "pending",
+  "retained": [
+    {
+      "file": "kitty-placement-evidence/lifecycle-before-fix.log.gz",
+      "raw_sha256": "2b02b9f5167e563c6768279fbc3608d5670334f8bf8a2890f39c5fc2d12a3110",
+      "compressed_sha256": "81d2473444fb1d90f2ea9803116dfdf0464d66d26c3015ea07dbc9a667baa1a8"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-build.log.gz",
+      "raw_sha256": "5aa7503237daa4c02eee95b9f794959a56c3f0d5e9245db19d586df5f23a0a95",
+      "compressed_sha256": "042760da2c8540625be06633aa77ee3baad73562d3ff524da135ddc3f7aac7ab"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-release.log.gz",
+      "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+      "compressed_sha256": "f9fb981d5e56b5a9f18eda0fbdceacae1ef6091b46d762272888989a5c06c92d"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-test_kitty_transport.log.gz",
+      "raw_sha256": "3f2e49cd63d0f5fd23217d4b1b1bc477d4330766d9ea013110077ec35c7f35f8",
+      "compressed_sha256": "17d28b5fcbe419c2040a743d17e08cfcdaf7c6964cb355a78f9e06a80c50cfd1"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-test_kitty_cache.log.gz",
+      "raw_sha256": "7ff81d4735388bc48a7966c7562b75858e9af07ce0131643527c3eef9bec1169",
+      "compressed_sha256": "3c408e870147124c0ce0f2d66dc1793fcd355961acb2b563ecc50a96f2cbc7b8"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-test_kitty_layout.log.gz",
+      "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc",
+      "compressed_sha256": "f26bbece28a11a1031e875b9dd93f4bb5ad8c4f11df21e25724b25913b48d9ee"
+    },
+    {
+      "file": "kitty-placement-evidence/lifecycle-test_kitty_placements.log.gz",
+      "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422",
+      "compressed_sha256": "f9fb981d5e56b5a9f18eda0fbdceacae1ef6091b46d762272888989a5c06c92d"
+    }
+  ],
+  "before_fix_failure": "Expanded literal replay re-exposes a below-viewport placement after all-visible deletion; implementation at bf03e11, new fixture retained in this commit."
+}

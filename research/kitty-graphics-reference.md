@@ -19,6 +19,23 @@ The captured model has no OS window; it does **not** establish GPU pixels or
 an end-to-end visible application result. Raw model values are the observations;
 the fixture does not implement a second layout algorithm to produce answers.
 
+The [expanded run](https://github.com/xiongnemo/nemoterm/actions/runs/43627120044)
+at fixture `bf03e11e86afda0a4747451fc2c26c96fb1efca6` passes the same four upstream
+tests and captures 43 scenarios / 101 states. Source hashes match the first
+capture. REA records natural exit, verified cleanup and an untruncated 272,171-byte
+observation file; the declared file bound is 512 KiB for the larger input set.
+Twelve raw records and identity checks are in
+[the expanded validation](kitty-placement-reference-validation.json).
+
+The additional cases show that ordinary `a/A` deletion removes placements below
+the viewport while retaining placements wholly in history. Equal-z ordering
+follows internal image creation order in the reversed client-id case. Deletion
+selectors use the cell footprint even with pixel offsets; uppercase range
+deletion releases unplaced data, and image-number deletion selects the newest
+image. Explicit `i=0,I=77` is accepted. Retransmission drops existing placements.
+Scaled offset images retain the observed source crop when clipped at either
+scroll-region edge. These observations drive the placement component fixes.
+
 Success requires every upstream test to pass without skips, all observations
 to finish, natural process exit, verified ownership cleanup, no truncated capture,
 and an observation-file digest matching REA's after snapshot.
@@ -56,10 +73,11 @@ record rather than being silently rounded into an exact compatibility claim.
 These captures resolve the two documentation/source differences for the pinned
 ordinary-placement path. The future adapter should follow these observed values
 and retain the discrepancy in its compatibility notes. Unicode placeholder
-fitting is a separate path and has not been measured here. Layer records are
-sorted by the observed z values, but this fixture does not isolate the client-id
+fitting is a separate path and has not been measured here. The first capture's
+layers are sorted by observed z values, but it did not isolate the client-id
 tie-breaker: its `same-z-lower-id` label actually sends id 4 after id 3. Do not
-treat that label as evidence of lower-id ordering.
+treat that label as evidence of lower-id ordering. The expanded fixture corrects
+that label and adds a separate reversed-id case as described above.
 
 REA also reports sampling and identity limits: the executable hash is a
 prelaunch sample, process trees may omit short-lived descendants, file snapshots

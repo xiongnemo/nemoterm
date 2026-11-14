@@ -9,14 +9,14 @@ struct NemoKittyImage {
     NemoRaster raster;
     uint32_t id, number;
     unsigned references;
-    uint64_t age;
+    uint64_t age, sequence;
 };
 struct NemoKittyCache {
     NemoKittyImage *images;
     size_t budget, used, temporary;
     unsigned count;
     uint32_t next_id;
-    uint64_t clock, generation;
+    uint64_t clock, generation, sequence;
     bool busy;
     NemoKittyCacheAdmission admit;
     NemoKittyPngDecode png;
@@ -34,6 +34,8 @@ uint32_t nemo_kitty_image_id(const NemoKittyImage *im)
 { return im ? im->id : 0; }
 uint32_t nemo_kitty_image_number(const NemoKittyImage *im)
 { return im ? im->number : 0; }
+uint64_t nemo_kitty_image_sequence(const NemoKittyImage *im)
+{ return im ? im->sequence : 0; }
 const NemoRaster *nemo_kitty_image_raster(const NemoKittyImage *im)
 { return im ? &im->raster : NULL; }
 unsigned nemo_kitty_image_references(const NemoKittyImage *im)
@@ -263,7 +265,7 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *s, const NemoKittyPac
     if (nemo_kitty_has(c, 'e') || (action != 'q' && action != 't' && action != 'T')) {
         result.status = NEMO_KITTY_IMAGE_UNSUPPORTED; return result;
     }
-    if ((nemo_kitty_has(c, 'i') && nemo_kitty_has(c, 'I')) ||
+    if ((result.id && result.number) ||
         nemo_kitty_get(c, 'm') || (result.query && !result.id)) return result;
     s->busy = true;
     uint64_t generation = s->generation;
@@ -289,6 +291,8 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *s, const NemoKittyPac
         s->next_id = result.id + 1;
         if (!s->next_id) s->next_id = 1;
     }
+    /* Retransmission keeps the internal image identity used for draw order. */
+    im->sequence = old ? old->sequence : ++s->sequence;
     if (old) remove_image(s, locate(s, old));
     im->id = result.id; im->number = result.number;
     im->raster = raster; memset(&raster, 0, sizeof(raster));

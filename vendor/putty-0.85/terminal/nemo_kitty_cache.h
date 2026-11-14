@@ -50,6 +50,8 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *, const NemoKittyPack
 NemoKittyImage *nemo_kitty_cache_find(NemoKittyCache *, uint32_t id, uint32_t number);
 uint32_t nemo_kitty_image_id(const NemoKittyImage *);
 uint32_t nemo_kitty_image_number(const NemoKittyImage *);
+/* Creation order, preserved across retransmission of a live named image. */
+uint64_t nemo_kitty_image_sequence(const NemoKittyImage *);
 const NemoRaster *nemo_kitty_image_raster(const NemoKittyImage *);
 unsigned nemo_kitty_image_references(const NemoKittyImage *);
 bool nemo_kitty_image_reference(NemoKittyCache *, NemoKittyImage *, bool add);

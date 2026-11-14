@@ -156,7 +156,7 @@ static bool parse_header(NemoKitty *s)
     }
     NemoKittyCommand *c = &s->command;
     if (nemo_kitty_get(c, 'm') > 1 || nemo_kitty_get(c, 'q') > 2 ||
-        (nemo_kitty_has(c, 'i') && nemo_kitty_has(c, 'I')))
+        (nemo_kitty_get(c, 'i') && nemo_kitty_get(c, 'I')))
         return fail(s, NEMO_KITTY_MALFORMED);
     uint32_t action = nemo_kitty_get(c, 'a');
     if (nemo_kitty_has(c, 'e')) {

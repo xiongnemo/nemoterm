@@ -39,8 +39,8 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     NemoKittyPlacements *, NemoKittyImage *, const NemoKittyCommand *,
     int32_t column, int32_t row, uint32_t cell_width, uint32_t cell_height,
     NemoKittyLayout *out);
-/* Read-only drawing order: ascending z then image id. Equal keys retain
- * insertion order. Iterator/view pointers expire at any store mutation. */
+/* Read-only drawing order: ascending z, image creation order, then placement
+ * creation order. Replacement preserves identity. Pointers expire on mutation. */
 const NemoKittyPlacement *nemo_kitty_placements_first(const NemoKittyPlacements *);
 const NemoKittyPlacement *nemo_kitty_placement_next(const NemoKittyPlacement *);
 bool nemo_kitty_placement_view(const NemoKittyPlacement *, uint32_t cw, uint32_t ch,
