@@ -869,5 +869,368 @@
       "natural_cleanup": true,
       "scope": "Original mailbox fixture passed here; does not erase the concurrent core failure. No local memory acceptance for this EXE."
     }
+  },
+  "local_formal_single": {
+    "manifest": {
+      "source_commit": "f6b3d6412ef3f6fb6ad607b3c00968459fdc500b",
+      "fixture_commit": "b95c4068054b6182abd054c5b9d54a0b26dfea62",
+      "executable_sha256": "820f36f4e455d43bdce5403be503c160d5610eb141d8b46f9c84d2410072541b",
+      "executable_bytes": 4487168,
+      "run_id": 43622372605,
+      "artifact_id": 14125474002,
+      "accepted_executable_changed": false,
+      "execution_directory_files": [
+        "nemoterm.exe"
+      ],
+      "recorded_utc": "2026-11-14T18:21:53.524819+00:00",
+      "scope": "Full single-image CI artifact with corrected mailbox fixture; core failure retained separately"
+    },
+    "recorded_utc": "2026-11-14T18:32:39.150082+00:00",
+    "workloads": [
+      {
+        "renderer": "directx",
+        "checks": 9,
+        "samples": 528,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 24080384,
+          "total_ws": 60387328,
+          "private_commit": 92676096
+        },
+        "animation": [
+          {
+            "session": 1,
+            "hwnd": 12321534,
+            "renderer": 2,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 11,
+            "frames": [
+              {
+                "colour": "blue",
+                "seconds": 0.30585780018009245,
+                "image": "animated-workload-tabs-directx-left-tab-0-blue.png",
+                "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "red",
+                "seconds": 0.48751330003142357,
+                "image": "animated-workload-tabs-directx-left-tab-0-red.png",
+                "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 0.9949160001706332,
+                "image": "animated-workload-tabs-directx-left-tab-0-green.png",
+                "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "capture_scope": "rectangle",
+            "seconds": 1.0203047001268715
+          },
+          {
+            "session": 2,
+            "hwnd": 6819148,
+            "renderer": 2,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 8,
+            "frames": [
+              {
+                "colour": "blue",
+                "seconds": 0.00737700005993247,
+                "image": "animated-workload-tabs-directx-left-tab-1-blue.png",
+                "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 0.22765889996662736,
+                "image": "animated-workload-tabs-directx-left-tab-1-green.png",
+                "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "red",
+                "seconds": 0.49084109999239445,
+                "image": "animated-workload-tabs-directx-left-tab-1-red.png",
+                "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "capture_scope": "rectangle",
+            "seconds": 0.5163519999478012
+          }
+        ],
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "renderer": "gdi",
+        "checks": 9,
+        "samples": 512,
+        "frontend_peaks": {
+          "count": 1,
+          "private_ws": 16719872,
+          "total_ws": 39428096,
+          "private_commit": 19558400
+        },
+        "animation": [
+          {
+            "session": 1,
+            "hwnd": 54399366,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 5,
+            "frames": [
+              {
+                "colour": "red",
+                "seconds": 0.3354994000401348,
+                "image": "animated-workload-tabs-gdi-top-tab-0-red.png",
+                "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 0.49852690007537603,
+                "image": "animated-workload-tabs-gdi-top-tab-0-blue.png",
+                "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 0.827846699859947,
+                "image": "animated-workload-tabs-gdi-top-tab-0-green.png",
+                "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "capture_scope": "rectangle",
+            "seconds": 0.8535015999805182
+          },
+          {
+            "session": 2,
+            "hwnd": 18286758,
+            "renderer": 0,
+            "injected": false,
+            "after_memory_sampling": true,
+            "captures": 3,
+            "frames": [
+              {
+                "colour": "red",
+                "seconds": 0.11478199996054173,
+                "image": "animated-workload-tabs-gdi-top-tab-1-red.png",
+                "bmp_sha256": "30b46da7a85c4bb90df982dc74938e0e417115891af31a2636eb11cc6d6b235d",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "green",
+                "seconds": 0.22591129993088543,
+                "image": "animated-workload-tabs-gdi-top-tab-1-green.png",
+                "bmp_sha256": "fa64142e020b50279017f6763877668fb27a5fe39d7de18595a180a72ddf23d8",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              },
+              {
+                "colour": "blue",
+                "seconds": 0.3371540999505669,
+                "image": "animated-workload-tabs-gdi-top-tab-1-blue.png",
+                "bmp_sha256": "238dcf0e75c1bda451681f3dd5257781ef47f6b815e1ed1b0fc04fe6d21d5c19",
+                "patch": [
+                  273,
+                  165,
+                  8,
+                  8
+                ]
+              }
+            ],
+            "capture_scope": "rectangle",
+            "seconds": 0.3627565000206232
+          }
+        ],
+        "cleanup": {
+          "before": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 56,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "retained": [
+      {
+        "file": "cropped-capture-evidence/local-820f36f-manifest.json.gz",
+        "raw_sha256": "ac8dbc716477deb5fcccebe8c808c3cfa2a5224799d9e1d0515885b2b7598b50",
+        "retained_sha256": "6a7eedb33ac9a8466aee634dadfc53bb5e3ba01769fbc1d7540b5c577ef55092"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-observed.json.gz",
+        "raw_sha256": "ad738852886f4ebd4fad29203e9f6c8e3d8843142c33c4cc5b048dd436c6b887",
+        "retained_sha256": "04d0a419f3dbac4e7ac14dab7782c9cc9e5e35135fe6cb8f7f82cb6aa30a8abc"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-memory.json.gz",
+        "raw_sha256": "9d2ea3f2eac57132cb2c215734b0ffe716ef948fb32bcc1b24b124cdd0a6d6d7",
+        "retained_sha256": "67cc7713e0d8455b40854ab7abda34398b1641570f421b8776707455553f98c8"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-dx-gif.log.gz",
+        "raw_sha256": "2fb898e8a0fbef5f958432dad5bc9c61d1ac80a410fede13e5978394034cc143",
+        "retained_sha256": "93370e3872e1bfd944e5b16e60103f9f7ef282d0382242c12fcafb01688a189a"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-0-blue.png",
+        "raw_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+        "retained_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-0-green.png",
+        "raw_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe",
+        "retained_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-0-red.png",
+        "raw_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921",
+        "retained_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-1-blue.png",
+        "raw_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+        "retained_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-1-green.png",
+        "raw_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe",
+        "retained_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-directx-left-tab-1-red.png",
+        "raw_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921",
+        "retained_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-observed.json.gz",
+        "raw_sha256": "b2a6098ddbade7a6d4a8130a06674dd609989bafd6854c64c9012369ff60f89e",
+        "retained_sha256": "cd6f04c95fe95dd0a01031fd8a2e67598cdd69b8652d159576b1cb6786d7f580"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-memory.json.gz",
+        "raw_sha256": "82dd5fd717b1d65173cf5d043aad6a2a55a1850722efcf9ba68302f3f83b25e8",
+        "retained_sha256": "5ac1b0e126f07f1190b21ef5a9852b42999bd3d5ec065c944ea90a17a2ecb7ab"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-gdi-gif.log.gz",
+        "raw_sha256": "6e02e95054a08f63f922b22ca692f064cedd7cb570fd1ca50b29761af4d8b3d0",
+        "retained_sha256": "a2accec248ca9c6d8a6808404cca1e0851647d72217110cd07e9f51f7e5d9361"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-0-blue.png",
+        "raw_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+        "retained_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-0-green.png",
+        "raw_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe",
+        "retained_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-0-red.png",
+        "raw_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921",
+        "retained_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-1-blue.png",
+        "raw_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25",
+        "retained_sha256": "5c1940856c064a85f1f158cd8926524a4b4710f3afc189817da17a18fa084b25"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-1-green.png",
+        "raw_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe",
+        "retained_sha256": "0c36f4f8a6b6438ca79882def5e8b70e37aab7db0a8d097f4604a61fcd6a3bfe"
+      },
+      {
+        "file": "cropped-capture-evidence/local-820f36f-animated-workload-tabs-gdi-top-tab-1-red.png",
+        "raw_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921",
+        "retained_sha256": "57cda64cead0869cd5f90dfebb024f4bd9a922aaea91d513de6fa3e949d88921"
+      }
+    ],
+    "overall_application_acceptance": false
   }
 }
