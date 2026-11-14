@@ -73,6 +73,17 @@ def exercise(phase, block):
           [rect(2,'half-red-cyan',1,1)])
     phase('partial-alpha-over-image',reset()+transfer(red)+transfer(png(1,1,[0,0,255,128])),
           [rect(2,'blue-over-red',1,1),rect(2,'red',1,1,left=1)])
+    # Odd width and separated source rows exercise complete decoder output,
+    # independently of whether WIC is requested to copy a frame or scanlines.
+    pattern=bytearray()
+    for y in range(129):
+        for x in range(257):
+            rgb=((255,0,0),(0,255,0),(0,0,255))[(x+y)%3]
+            pattern.extend((*rgb,128 if (x,y)==(128,64) else 255))
+    phase('png-multiple-scanlines',reset()+transfer(png(257,129,pattern)),
+          [rect(2,'red',1,1),rect(2,'green',1,1,left=256),
+           rect(2,'blue',1,1,top=128),rect(2,'red',1,1,left=256,top=128),
+           rect(2,'half-red',1,1,left=128,top=64)])
     phase('reset-clears',reset(),[rect(2,'black')])
     phase('erase-before',transfer(red),[rect(2,'red')])
     phase('erase-image',CSI+'2J',[rect(2,'black')])
