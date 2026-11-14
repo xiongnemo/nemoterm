@@ -2,9 +2,10 @@
 
 The independent `fix/sixel-background-20261114` branch corrects the implicit
 Sixel foreground and opaque fill against pinned XTerm behavior. Local portable,
-sanitizer, Windows core and actual GDI/OpenGL/DirectX checks pass. Full CI and
-downloaded-image verification remain pending; the accepted `e436ecd` image
-does not contain this additional fix.
+sanitizer, Windows core and actual GDI/OpenGL/DirectX checks pass. Both full CI
+workflows and the downloaded image's pixel/GDI workload checks also pass;
+[DirectX resource acceptance remains incomplete](sixel-background-ci.md).
+The accepted `e436ecd` image does not contain this additional fix.
 
 ## Reference and scope
 
