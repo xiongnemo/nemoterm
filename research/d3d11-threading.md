@@ -55,3 +55,35 @@ handle pair and asynchronous handle cleanup remain separate questions.
 Renderer recovery, complete integration/CI and final unmodified acceptance are
 still open. This experiment is not merged into the product; the accepted local
 executable is unchanged. The manifest verifies 133 compressed evidence records.
+
+## I/O shutdown fix follow-up
+
+The independent [pipe-shutdown fix](https://github.com/xiongnemo/nemoterm/blob/ea381ac/research/io-lifetime.md)
+was applied to this experimental branch at `ab6e678`. Its seven-case MSVC
+lifetime regression passes; the relinked single image is 4,508,160 bytes,
+SHA-256 `00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49`.
+The original renderer suite again passes all 16 groups for each actual renderer,
+with 11 owned processes exiting naturally.
+
+The original full-grid workload still fails at zero-based cycle 10, with 540
+handles at baseline and 548 at failure. Only the experimental child-window class
+name is adapted in the copied fixture; its numerical checks, sequencing and
+resource samples are unchanged. It stops before the full memory workload and
+forces five remaining inner processes. The outer 31-process job then drains.
+This does not establish that the earlier growth was caused by the I/O bug.
+
+A separate diagnostic enables the public automation API and reads its counters
+only after the original resource comparison has already failed. It retains that
+pre-query sample and still executes the original failing assertion afterwards.
+Its baseline is 547 handles and pre-query failure is 555. Four subsequent
+snapshots, 0.130 through 1.001 seconds later, report two input and two output
+contexts, zero closing contexts, 28 creations and 24 destructions. Post-query
+OS handle samples remain 551. These observations confirm no retired stream
+context remains at the query times, but do not reveal the exact state at the
+earlier failing sample or identify the remaining OS handles. Request processing
+can change scheduling; this diagnostic is not memory or resource acceptance.
+Its five remaining inner processes require cleanup; the outer job drains.
+
+The manifest now verifies 217 records and preserves both original failures and
+this follow-up. The experimental renderer remains unmerged and the accepted
+local executable remains unchanged.

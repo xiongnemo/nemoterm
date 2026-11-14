@@ -2290,6 +2290,989 @@
       "raw_bytes": 933,
       "raw_sha256": "90aef533fcc2691a4690bcf72b2abcf029b4f1b972b7f3458608cde81ad04f45",
       "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-active-2.png.gz",
+      "bytes": 11941,
+      "sha256": "1a7247362b3338189c9f4037e17321cdf35bcb928c7e53960562ad583a58093c",
+      "raw_bytes": 13576,
+      "raw_sha256": "ba2b274a7ad041f547eb28c6e9f083d6075932023de6ef655a52ad3a35fd2cb7",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-active-4.png.gz",
+      "bytes": 12001,
+      "sha256": "25fd790b7d22127f5267629497cb7901c0e19f2f855f01aaa62f58025c54f273",
+      "raw_bytes": 13588,
+      "raw_sha256": "88d4087404d791de3e06ec5cde1a547bb52600cf6251e1dc03267abad3983210",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-active-6.png.gz",
+      "bytes": 11976,
+      "sha256": "95daa3828b653ae959a1942abec1842401577552b8534650d8117153111a1620",
+      "raw_bytes": 13599,
+      "raw_sha256": "ae0ff3dbddb75a529dfc54ab666cc33fd5618865a82ce02e470e6302dcff606f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-inactive-2.png.gz",
+      "bytes": 11919,
+      "sha256": "42f8f94980207ad5df0e33a349cdfd38da017c4cdb72189b9e2ded555ba05174",
+      "raw_bytes": 13625,
+      "raw_sha256": "54203e23fb15eca2c2fcf875b981de379eacd26d53fbdec110f35a6e6e388e26",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-inactive-4.png.gz",
+      "bytes": 11979,
+      "sha256": "e46e8fa88c1ab666219f133bb27fac263975896a7feae03bfd1fd8a2fb9c39fa",
+      "raw_bytes": 13588,
+      "raw_sha256": "42a21dcdf408568d7906b9f733528266067b194db3f0234fd9dba5984c7f2376",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-cursor-inactive-6.png.gz",
+      "bytes": 11920,
+      "sha256": "a1aae6959b1c1871e542f1d26f1eafb1283bf5c3aadbbedadb7082c85bef5a47",
+      "raw_bytes": 13605,
+      "raw_sha256": "31ec5ef740e1257387019421c819a1712efd4f6e0fe7e98c69cd17a724142e15",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-expose.png.gz",
+      "bytes": 10243,
+      "sha256": "a948b0fe25a3463f8e4377b9fb38359308f2e42404b78867a4c04a209c57aa1a",
+      "raw_bytes": 10981,
+      "raw_sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-palette.png.gz",
+      "bytes": 11904,
+      "sha256": "783c5b652994cff5814c320cac68e805bb152b915a64133f071638041904d1cc",
+      "raw_bytes": 13582,
+      "raw_sha256": "ba0d9523c8188fa84d533c500375a9af54eb06e7152bb736f9b0e0a37abc445e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-0-text.png.gz",
+      "bytes": 10243,
+      "sha256": "a948b0fe25a3463f8e4377b9fb38359308f2e42404b78867a4c04a209c57aa1a",
+      "raw_bytes": 10981,
+      "raw_sha256": "d98372aa7e956e25e786a50148a0f385be8565d9b5d496579de92244fa3aa6a6",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-active-2.png.gz",
+      "bytes": 11951,
+      "sha256": "c8c87079508699c1fe4441293bbff6603f1f04a36e121318056f092d4afdbcd2",
+      "raw_bytes": 13549,
+      "raw_sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-active-4.png.gz",
+      "bytes": 11973,
+      "sha256": "29553e43947b9adc155fc056bb09734e384b15f2daa120ca7109089463b92fe8",
+      "raw_bytes": 13552,
+      "raw_sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-active-6.png.gz",
+      "bytes": 12003,
+      "sha256": "961e16c797f0035fdaa13d50390e24d4068557b97db7f1ace4184054701b9e55",
+      "raw_bytes": 13564,
+      "raw_sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-inactive-2.png.gz",
+      "bytes": 11907,
+      "sha256": "610e36381daa94d3ad0e2a4f0035ae3a5115c52af61c6c8c91d03ecb7e8a7de8",
+      "raw_bytes": 13592,
+      "raw_sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-inactive-4.png.gz",
+      "bytes": 11945,
+      "sha256": "1cb6185a8f7f40b0e9d8bcdcb5c30ffecf7b417b4807829c3739c364711821cf",
+      "raw_bytes": 13552,
+      "raw_sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-cursor-inactive-6.png.gz",
+      "bytes": 11903,
+      "sha256": "f6424cf4c679e60ad512483af8df65d01ea0573c256070e06d8ce4d9f53c6a56",
+      "raw_bytes": 13569,
+      "raw_sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-expose.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-palette.png.gz",
+      "bytes": 11857,
+      "sha256": "9ed143ca292fb19f68a327638bdb6d7caf65fc2f4bdedb9e55bf4bb6b1cf4dd1",
+      "raw_bytes": 13547,
+      "raw_sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-1-text.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cache-eviction-0.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cache-eviction-1.png.gz",
+      "bytes": 77084,
+      "sha256": "71dfdfb97513b26337f4c6c9b3394e17639af4189d4c056537ce530bf2047ae6",
+      "raw_bytes": 140533,
+      "raw_sha256": "1bcb6d270edf50ae488368f00d465c1971e2651c96ef7fca0e8ec488ee3064cf",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cache-eviction-2.png.gz",
+      "bytes": 58371,
+      "sha256": "2ced04c78dc9353080d1d17e11e14936fb7cac84463e65cef8821b33febe0766",
+      "raw_bytes": 119677,
+      "raw_sha256": "659e71413b154691ea3b2cbc70f98f1cb1e6a3e87e0ff15f5dd86ff0b9c549ed",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-active-2.png.gz",
+      "bytes": 11951,
+      "sha256": "c8c87079508699c1fe4441293bbff6603f1f04a36e121318056f092d4afdbcd2",
+      "raw_bytes": 13549,
+      "raw_sha256": "1b664d4316a518d028aeca1df8f8dbd4ddd8fa3c62b0b9fa44c9afe7d542cecd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-active-4.png.gz",
+      "bytes": 11973,
+      "sha256": "29553e43947b9adc155fc056bb09734e384b15f2daa120ca7109089463b92fe8",
+      "raw_bytes": 13552,
+      "raw_sha256": "c79abc382e90d4c37e047135ebff41a5f4e732bc7df0b9b0e5feb5d4f4a6c024",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-active-6.png.gz",
+      "bytes": 12003,
+      "sha256": "961e16c797f0035fdaa13d50390e24d4068557b97db7f1ace4184054701b9e55",
+      "raw_bytes": 13564,
+      "raw_sha256": "63d8db2c832f30375d383833c866be9c404357ed070030db4b9f20df967d417c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-inactive-2.png.gz",
+      "bytes": 11907,
+      "sha256": "610e36381daa94d3ad0e2a4f0035ae3a5115c52af61c6c8c91d03ecb7e8a7de8",
+      "raw_bytes": 13592,
+      "raw_sha256": "67815ce254c090f6448f7f75d8e40b6f20f06f1d7b8e9defb5833f888452f921",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-inactive-4.png.gz",
+      "bytes": 11945,
+      "sha256": "1cb6185a8f7f40b0e9d8bcdcb5c30ffecf7b417b4807829c3739c364711821cf",
+      "raw_bytes": 13552,
+      "raw_sha256": "073a1437ede463694e3bc4c33730f2f6156f5756a24e450be243507cb5bd1bc1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-cursor-inactive-6.png.gz",
+      "bytes": 11903,
+      "sha256": "f6424cf4c679e60ad512483af8df65d01ea0573c256070e06d8ce4d9f53c6a56",
+      "raw_bytes": 13569,
+      "raw_sha256": "9d95496ede7ffcf86d7dac9e995c0f3372208380126f23895f44d77bb9265f5c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-expose.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-overline-double-size.png.gz",
+      "bytes": 296,
+      "sha256": "c07db0bad761521ed138f4a127bdbb5980982889d78e028a660ed2052dacc1d4",
+      "raw_bytes": 2765,
+      "raw_sha256": "14bb0685db68c18b36988f8b4c34c936987329b242c45b2c446b847a4ebc17ef",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-overline.png.gz",
+      "bytes": 238,
+      "sha256": "3d6f1b2736728165de1d9e774cffb07fb264a676a1cec026b31c996413e0ee4e",
+      "raw_bytes": 2563,
+      "raw_sha256": "becad3ab46d60c82eaa47d7d8d9f1606da478c82cdb5dbfb15fc9f9248422ec2",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-palette.png.gz",
+      "bytes": 11857,
+      "sha256": "9ed143ca292fb19f68a327638bdb6d7caf65fc2f4bdedb9e55bf4bb6b1cf4dd1",
+      "raw_bytes": 13547,
+      "raw_sha256": "fa5f164ac49225518630978326b181e29a988d3f1d5591a8f13d96ca4c38de50",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-resize.png.gz",
+      "bytes": 4520,
+      "sha256": "16fde66694f112ffe032a4c30e45b0e6bf673228a18638338fa404ad0cd780c8",
+      "raw_bytes": 5721,
+      "raw_sha256": "b0e72563da914094407d89874e20e99a8d9a3f0f26a6f8071d96b64745027c83",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-sixel.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-sync-end.png.gz",
+      "bytes": 2099,
+      "sha256": "df2d7c493e748ff1f8abc12707803660ae85ae820badef2eb1c87a31e3df8959",
+      "raw_bytes": 3103,
+      "raw_sha256": "62016b02810bf7452ce7a039f0716e4085585725e85b6c80cb82dfdf05e5d0e3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-sync-frozen.png.gz",
+      "bytes": 1819,
+      "sha256": "58612c722ad9ef84be7bf00fe4272db8d0a28ea8522d795458bfb00c3b01b8aa",
+      "raw_bytes": 2898,
+      "raw_sha256": "b5c61747910b5ee72bf35218a5ee3a99798e7e52af057c4658fc5a9c863db9b8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-2-text.png.gz",
+      "bytes": 10118,
+      "sha256": "58555730e28583e6004bdaf592b75aca3f954b28d286ffe0822f22303fde2300",
+      "raw_bytes": 10967,
+      "raw_sha256": "be31a83358a06730393155b1436c2e1599e841b58a53721d9d25f2adf42a067f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-controller.json.gz",
+      "bytes": 261,
+      "sha256": "43b1482a20c24c5a0e7bc7a8c6fd7ee30be8a86a6f743108ecccddec1dc184e6",
+      "raw_bytes": 473,
+      "raw_sha256": "196ae81fc0da2af780901acda0ef05b270abb3e82701a8982b83a4a6f125148c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer-observed.json.gz",
+      "bytes": 911,
+      "sha256": "069c2a67beb13452e57e5fbe8bba62b72d60292c2336d8c5f2ef5567bf6cf937",
+      "raw_bytes": 7585,
+      "raw_sha256": "93685b0650cbe6235ab954d6cdee9dcc3d09b17b3400bfdaab921caf43a5a2b3",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-renderer.log.gz",
+      "bytes": 234,
+      "sha256": "5ac2ee5d09e3f09083b6447d6038f8bdc180aa000b45fb549c7e1c5dad13afc1",
+      "raw_bytes": 357,
+      "raw_sha256": "a3fb1e3b8edd71fc9e8dc2453181ccf145df35672c2df190f5848695959d725d",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-controller.log.gz",
+      "bytes": 241,
+      "sha256": "e0b0724e1a6726b8dfea93b17a8863dacd29c7d96609ecb40faa8817b42ea5a4",
+      "raw_bytes": 370,
+      "raw_sha256": "379f85167769ba2d901943583ebeaaf0d613466ea1eb7f08865098c68f93b1b0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-tests_tabs_window_smoke.py.gz",
+      "bytes": 6839,
+      "sha256": "9c7f6c2841adc37aca63c05e2a0257011e4780d0e109390f6e8ea729db8a4daa",
+      "raw_bytes": 24147,
+      "raw_sha256": "9713e65bd5591f297a9862118514f1346eabbb17703a619df4d6dd655ea203d1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-pixels-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-tabs-controller.json.gz",
+      "bytes": 253,
+      "sha256": "43e5aeeb69f9ae0a487844fd3f77b78e1fa68607de0ba5cad7cd57545bc23423",
+      "raw_bytes": 469,
+      "raw_sha256": "9de05a7c688a2e7a5cef9510cc2de037c8d33b1456af4a362447e501f058504a",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 13224,
+      "sha256": "52df0aecce95178b4057bf8ec69deecc6be6630f42b470f9e387f72210675f24",
+      "raw_bytes": 473149,
+      "raw_sha256": "f13211ef007ec9ed03b754e105e21c855442dd03c219a112bdb60f108d46ae57",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1318,
+      "sha256": "62f43366649149ded1f60be755299cacfc9e5fdffd4a93df02e4824a26748ec0",
+      "raw_bytes": 7164,
+      "raw_sha256": "3afc9b25a59224b17b3cd7510c3d50bb4253f51beba83b290046c0cdfcaec60f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-tabs.log.gz",
+      "bytes": 347,
+      "sha256": "8ac1810ba1206a5ac475e96b49c95534fdb05eb0da087d84e485acb067bb38cb",
+      "raw_bytes": 591,
+      "raw_sha256": "3582492b5a729581988ee6c768f146062f752bb1241ce7c62c171b0fd8b117f4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-controller.log.gz",
+      "bytes": 535,
+      "sha256": "7c9f975cc9f830ba6228d1ec8b117bb1660e867c097a02f7471967d0ee602388",
+      "raw_bytes": 959,
+      "raw_sha256": "55e65efadb9dd379ee4ba61b173ec07e0f2dfc2f350d7e1325ab653042b42bb1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-tests_tabs_window_smoke.py.gz",
+      "bytes": 6839,
+      "sha256": "9c7f6c2841adc37aca63c05e2a0257011e4780d0e109390f6e8ea729db8a4daa",
+      "raw_bytes": 24147,
+      "raw_sha256": "9713e65bd5591f297a9862118514f1346eabbb17703a619df4d6dd655ea203d1",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-workload-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-diagnostic-fixture.json.gz",
+      "bytes": 264,
+      "sha256": "a2db9ad45a121918e38fd29f211c3c52f69506a858eae0867cfa02444f3c4c10",
+      "raw_bytes": 343,
+      "raw_sha256": "e124d2db1c0fa3bccd2cbbdb19dc541aa6ae7170e266c66af358d13ef4027dc4",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-tabs-controller.json.gz",
+      "bytes": 255,
+      "sha256": "a4e1dd25c229a6c0b71313e8d2d52594990ab0bf3504a37b33f5df2f9750317c",
+      "raw_bytes": 470,
+      "raw_sha256": "99ecccbde2fc8bd2a5bb1854421aefb5c03b1e6e2add10e6f7faa17a64fc1c7f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-workload-tabs-directx-left-memory.json.gz",
+      "bytes": 13579,
+      "sha256": "28e619678e7f31efd0032baf08274a23f1633f68bd9e6e98dd28207cf299392a",
+      "raw_bytes": 489873,
+      "raw_sha256": "57f76ae782c61bc6e2603d6ea543fb9057e7577da5f1be72db2b32bfaccc4184",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-workload-tabs-directx-left-observed.json.gz",
+      "bytes": 1547,
+      "sha256": "1b68b38c9ed191e38e290f947642a5e47ada51b1ec5f2e436bec4a8b2ba911b0",
+      "raw_bytes": 9375,
+      "raw_sha256": "5dcbf905e08f84013dda3234c280f7f0e6f8282817e596c0c202853a00e25fba",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-tabs.log.gz",
+      "bytes": 348,
+      "sha256": "1e38bac225d712974c402b7be586e1603255dfcb77edf47524a9c214815b767e",
+      "raw_bytes": 595,
+      "raw_sha256": "7b807d6a859219726b29c6c5eca8ebd5ee72d26d083f4588ad40396b0be30fa8",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-controller.log.gz",
+      "bytes": 540,
+      "sha256": "ac0bcf9732b20eba439e5fb25cc520611d88f87adfc5db31c58c8f043b490b60",
+      "raw_bytes": 964,
+      "raw_sha256": "686059f7e20f65f00f4acc1ea298802a6f0fc109cf9b15cd1a5e5448569b2d86",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-tests_tabs_window_smoke.py.gz",
+      "bytes": 7180,
+      "sha256": "fd9d46fabfab58e859d387701900fa6ff5946a54c24a1443e51cf6e578a1eedd",
+      "raw_bytes": 25451,
+      "raw_sha256": "9c8de54420db1d059dfdc8ebe53e70178b6cfa36d925b740dd8943964d3fca64",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-failure-observer-tests_renderer_window_smoke.py.gz",
+      "bytes": 4912,
+      "sha256": "8795fd56eabbb74ba4adae1cfcb866b872768ab60f822a193ee7af1a943e1e70",
+      "raw_bytes": 13652,
+      "raw_sha256": "adfbb793612148fc484a0edf127b04631a3d318b47d2d7fbb4f43ad418bc542e",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-frontend.log.gz",
+      "bytes": 2308,
+      "sha256": "7bb33de0c2e770b47add5a9a90fc248c4ee474cb2f171fedc25aa1b1d9414997",
+      "raw_bytes": 13102,
+      "raw_sha256": "c013813633020f489e1e05de576950bffb49e6cf281cae95a519caf68b6eb72c",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-handle-test.log.gz",
+      "bytes": 70,
+      "sha256": "a217e9f71329fdad1d403283d35e7d5f1fa40e81007c187ffbaf9a5cf2b19646",
+      "raw_bytes": 54,
+      "raw_sha256": "16db0af4cbaf7525bdde133b05fc2ed8f5c950025dfb08fc6c66f4676abff276",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-io-fix-checks.py.gz",
+      "bytes": 815,
+      "sha256": "4d52062c6ecea84dee349b775d8f36c679f1c1917995a1879a27ce5ab37e284e",
+      "raw_bytes": 1740,
+      "raw_sha256": "da273a2a3cb5f41eb06a7bc0960fc1f35dcfbda4d678964d552586a4d4d445a0",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/run-io-failure-observer.py.gz",
+      "bytes": 1281,
+      "sha256": "7bebf9e53581141b4c70a0514d9497106ca235e0dc45ef05d50af521524b1e90",
+      "raw_bytes": 3077,
+      "raw_sha256": "48e4ddee83b126cf7af60b521f212f4e17c87f68355f0593744ee594cf999ade",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/retain-io-followup.py.gz",
+      "bytes": 1496,
+      "sha256": "49739c566562d623a8507c46172df70c6a0018aad7caf216f4bf0b0df2d1be70",
+      "raw_bytes": 3254,
+      "raw_sha256": "16144cf049ced6d199b998fce76f83863b6e80b8252f1c9956ead0a466147820",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-link-image.json.gz",
+      "bytes": 109,
+      "sha256": "d9945453e796f19981c329ce27fc1fc8b450edfa8c1f506bdf3bc49860553ac2",
+      "raw_bytes": 107,
+      "raw_sha256": "5133f46de6e184faed82a2d70e9b0cc08920c08436ed6405d453b0646a699afd",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-link-link-inputs.json.gz",
+      "bytes": 1885,
+      "sha256": "4e9cfb685e1e1e061840fbcb83c63e21da1a78e0f005e79334ed1a96911b1290",
+      "raw_bytes": 7789,
+      "raw_sha256": "c4a97e297dda8bb3d7f9493272b068b8376fd027af1f8abc139537e2c5a0099f",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-link-link.log.gz",
+      "bytes": 49,
+      "sha256": "329bdaf0eb9447cdde5f4d12d9c6cb72f8b141262e077c1df19e54db76c2c30f",
+      "raw_bytes": 43,
+      "raw_sha256": "b5d0a9659d7404b3aeaf06fc77bb1f9e5b4136da55f29f846e85bbc804d7e692",
+      "encoding": "gzip"
+    },
+    {
+      "path": "research/d3d11-threading-evidence/io-fix-link-link.rsp.gz",
+      "bytes": 960,
+      "sha256": "79e62c331c46455a49e0c2d89e28684394d1c56c2cdab37defb1ea3e56d73cfe",
+      "raw_bytes": 5438,
+      "raw_sha256": "623c81bdce3a2dffd253934e4f78ad53e60ab10bae319ecdd65461ac70bfe6f4",
+      "encoding": "gzip"
     }
-  ]
+  ],
+  "io_lifetime_followup": {
+    "source_commit": "ab6e678daf56e1623a09c93bf16c8aa86936111e",
+    "recorded_utc": "2026-11-14T01:22:10.654992+00:00",
+    "image": {
+      "bytes": 4508160,
+      "sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49"
+    },
+    "memory_acceptance": false,
+    "cases": {
+      "io-fix-pixels": {
+        "controller": {
+          "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+          "name": "renderer",
+          "completed": true,
+          "exit_code": 0,
+          "controller_pid": 29120,
+          "cleanup": {
+            "before": {
+              "total": 11,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 11,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "seconds": 10.578
+        },
+        "memory_acceptance": false,
+        "modes": [
+          {
+            "active": "GDI",
+            "checks": 16
+          },
+          {
+            "active": "OpenGL",
+            "checks": 16
+          },
+          {
+            "active": "DirectX",
+            "checks": 16
+          }
+        ]
+      },
+      "io-fix-workload": {
+        "controller": {
+          "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+          "name": "tabs",
+          "completed": false,
+          "exit_code": 1,
+          "controller_pid": 3160,
+          "cleanup": {
+            "before": {
+              "total": 31,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 31,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "seconds": 18.051
+        },
+        "memory_acceptance": false,
+        "baseline": {
+          "handles": 540,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18239488,
+          "total_ws": 57475072,
+          "private_commit": 72716288
+        },
+        "last_cycle": {
+          "handles": 548,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18063360,
+          "total_ws": 57581568,
+          "private_commit": 72658944
+        },
+        "cycles": 11,
+        "io_diagnostic": null,
+        "error": "AssertionError(({'handles': 540, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18239488, 'total_ws': 57475072, 'private_commit': 72716288}, {'handles': 548, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18063360, 'total_ws': 57581568, 'private_commit': 72658944}))",
+        "inner_cleanup": {
+          "before": {
+            "total": 29,
+            "active": 5,
+            "terminated": 0
+          },
+          "after": {
+            "total": 29,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": true,
+          "remaining_processes": [
+            {
+              "pid": 31768,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-fix-workload\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 25288,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-fix-workload\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 33636,
+              "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 50660,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-fix-workload\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 40872,
+              "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+              "exit_code": 259
+            }
+          ]
+        }
+      },
+      "io-failure-observer": {
+        "controller": {
+          "executable_sha256": "00f9a30d6a4660efc020cfebef5bddc51146a460ebd0308a15b6ee50cc26fe49",
+          "name": "tabs",
+          "completed": false,
+          "exit_code": 1,
+          "controller_pid": 16476,
+          "cleanup": {
+            "before": {
+              "total": 31,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 31,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "seconds": 18.738
+        },
+        "memory_acceptance": false,
+        "baseline": {
+          "handles": 547,
+          "gdi": 39,
+          "user": 54,
+          "injected": false,
+          "private_ws": 18169856,
+          "total_ws": 57417728,
+          "private_commit": 71442432
+        },
+        "last_cycle": {
+          "handles": 555,
+          "gdi": 39,
+          "user": 55,
+          "injected": false,
+          "private_ws": 18071552,
+          "total_ws": 57540608,
+          "private_commit": 71102464
+        },
+        "cycles": 11,
+        "io_diagnostic": {
+          "cycle": 10,
+          "pre_query_resources": {
+            "handles": 555,
+            "gdi": 39,
+            "user": 55,
+            "injected": false,
+            "private_ws": 18071552,
+            "total_ws": 57540608,
+            "private_commit": 71102464
+          },
+          "snapshots": [
+            {
+              "seconds": 0.13004170008935034,
+              "io": {
+                "input": 2,
+                "output": 2,
+                "closing": 0,
+                "created": 28,
+                "destroyed": 24
+              },
+              "post_query_resources": {
+                "handles": 551,
+                "gdi": 39,
+                "user": 56,
+                "injected": false,
+                "private_ws": 18046976,
+                "total_ws": 57528320,
+                "private_commit": 71102464
+              }
+            },
+            {
+              "seconds": 0.26636669994331896,
+              "io": {
+                "input": 2,
+                "output": 2,
+                "closing": 0,
+                "created": 28,
+                "destroyed": 24
+              },
+              "post_query_resources": {
+                "handles": 551,
+                "gdi": 39,
+                "user": 56,
+                "injected": false,
+                "private_ws": 18046976,
+                "total_ws": 57528320,
+                "private_commit": 71102464
+              }
+            },
+            {
+              "seconds": 0.4028632000554353,
+              "io": {
+                "input": 2,
+                "output": 2,
+                "closing": 0,
+                "created": 28,
+                "destroyed": 24
+              },
+              "post_query_resources": {
+                "handles": 551,
+                "gdi": 39,
+                "user": 52,
+                "injected": false,
+                "private_ws": 18046976,
+                "total_ws": 57528320,
+                "private_commit": 71102464
+              }
+            },
+            {
+              "seconds": 1.0011138000991195,
+              "io": {
+                "input": 2,
+                "output": 2,
+                "closing": 0,
+                "created": 28,
+                "destroyed": 24
+              },
+              "post_query_resources": {
+                "handles": 551,
+                "gdi": 39,
+                "user": 52,
+                "injected": false,
+                "private_ws": 18046976,
+                "total_ws": 57528320,
+                "private_commit": 71102464
+              }
+            }
+          ]
+        },
+        "error": "AssertionError(({'handles': 547, 'gdi': 39, 'user': 54, 'injected': False, 'private_ws': 18169856, 'total_ws': 57417728, 'private_commit': 71442432}, {'handles': 555, 'gdi': 39, 'user': 55, 'injected': False, 'private_ws': 18071552, 'total_ws': 57540608, 'private_commit': 71102464}))",
+        "inner_cleanup": {
+          "before": {
+            "total": 29,
+            "active": 5,
+            "terminated": 0
+          },
+          "after": {
+            "total": 29,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": true,
+          "remaining_processes": [
+            {
+              "pid": 52520,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-failure-observer\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 29240,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-failure-observer\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 20544,
+              "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 50756,
+              "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\d3d11-worktree\\build\\io-failure-observer\\dist\\nemoterm.exe",
+              "exit_code": 259
+            },
+            {
+              "pid": 39776,
+              "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+              "exit_code": 259
+            }
+          ]
+        }
+      }
+    }
+  }
 }
