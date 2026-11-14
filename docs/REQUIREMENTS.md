@@ -3,19 +3,19 @@
 ## Current accepted artifact (2026-11-15 Sydney)
 
 The local distribution contains only the accepted `nemoterm.exe` from
-source `97d60254e3bae94fbba9803ff15e1abfce5373f8`: 4,509,184 bytes, SHA-256
-`07c8d279c526b13eb75586afe1a2b980d21253adf125e3d11f68574572e8e9d6`.
-Its [exact-image checkpoint](../research/kitty-windows-product.md) records both
-full CI workflows, 129 single-image check groups, 312 local API pixel stages,
-104 direct GDI-client stages and six local memory workloads. The fixture-only
-follow-up passes 132 CI groups but produces a different image; it does not
-replace this exact-image identity.
+source `b3e03bb3a3a1f75e3403b7dd5a9e0d14065c46ac`: 4,515,328 bytes, SHA-256
+`65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
+Its [exact-image checkpoint](../research/kitty-compression-product.md) records
+full ordinary CI at identical product source `48a0263`, 137 single-image CI
+check groups, 399 local API pixel stages, 133 direct GDI-client stages, 12
+shutdown cases and ten local memory workloads. The runtime directory contains
+only this executable; the previous `97d6025` image is retained as a local backup.
 
-Actual 160x48 Sarasa two-tab Kitty, PNG and GIF workloads pass the private-WS
-gates. Across those six runs, GDI peaks at 17,145,856 bytes and DirectX at
-24,207,360. Total WS peaks are 39,907,328 and 59,817,984 respectively, so the
-approximate 50 MB total target remains unmet for DX. Each workload drains 56
-owned processes naturally. The earlier `8ff214f` acceptance and intermittent
+Actual 160x48 Sarasa two-tab Sixel, PNG, GIF, Kitty and compressed Kitty workloads
+pass the private-WS gates. Across those ten runs, GDI peaks at 16,822,272 bytes
+and DirectX at 24,248,320. Total WS peaks are 39,485,440 and 59,813,888 respectively,
+so the approximate 50 MB total target remains unmet for DX. All owned process
+groups exit naturally. The earlier `97d6025` / `8ff214f` acceptance and intermittent
 resource/shutdown failures remain preserved; these passes do not prove the
 historical intermittent failures resolved.
 
@@ -1415,13 +1415,13 @@ per-phase evidence, screenshots and measurement boundaries. DirectX frontend,
 four-sided tabs/previews, physical input/IME/DPI, full graphemes, axis window
 controls, live Claude Code and the remaining protocol ledger are still open.
 
-### Kitty compression development checkpoint
+### Kitty compression implementation and accepted-product checkpoint
 
 Direct `o=z` RGB/RGBA/PNG is implemented on the compression branch, with independent
 26-case/36-state upstream replay and 29 local pixel stages on each actual renderer,
 plus presented GDI capture. The decoder stays within the existing graphics budgets;
-compressed PNG includes overlapping encoded/pixel storage in admission. This is a
-development work, not part of the accepted `97d6025` single image. Component CI
+compressed PNG includes overlapping encoded/pixel storage in admission. The
+earlier `97d6025` image predates this implementation. Component CI
 passed GCC, Clang and strict MSVC; full ordinary CI passed all four jobs at
 `48a0263`. A separate source-host single-file precheck passed 116 local pixel
 stages and the compressed-image private-WS policies at 160 x 48 (GDI 16,396,288 B;
@@ -1431,8 +1431,12 @@ the observer lifetime and adding uninjected controls; the root cause remains
 unproven. Full single-image CI passed all 137 check groups at `b3e03bb` with unchanged
 production source. Its 4,515,328-byte image has SHA256
 `65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
-New downloaded-product pixels and memory acceptance remain
-required. See
+That exact downloaded image now passes 31 local groups, including 399 API and
+133 presented-GDI pixel stages, 12 shutdown cases and ten uninjected Sarasa
+160 x 48 memory workloads, and has replaced the local `dist/nemoterm.exe`.
+Private working-set peaks are GDI 16,822,272 B and DirectX 24,248,320 B;
+DX total working set still peaks above 50 MB. See the
+[accepted-product record](../research/kitty-compression-product.md) and
 [the implementation record](../research/kitty-compression.md) for raw evidence and
 remaining scope. No original protocol, physical input or real-application requirement
 is removed by this checkpoint.

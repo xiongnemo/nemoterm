@@ -1,9 +1,10 @@
 # Bounded Kitty zlib compression: implementation checkpoint
 
-The compression branch implements `o=z` for direct RGB, RGBA and PNG images.
-The accepted downloadable `97d6025` executable predates this work. A new single
-executable, full CI and GDI/DirectX memory acceptance are still required before
-replacing it. This record does not claim those checks have passed.
+Direct `o=z` for RGB, RGBA and PNG is now included in the accepted `b3e03bb`
+single executable. Full CI and exact-image local graphics, shutdown and memory
+acceptance have passed; see the [product record](kitty-compression-product.md).
+The sections below preserve the implementation sequence, including earlier
+failed runs and separate executable identities.
 
 ## Independent behavior
 
@@ -145,8 +146,8 @@ Every owned job exited naturally. Total working set and private commit are
 reported separately; the private working-set pass does not assert a 50 MB total
 working-set cap for DirectX. `kitty-compression-product-precheck.json` indexes
 272 original records, including pixels, memory observations and identity files.
-The accepted local executable remains unchanged while formal acceptance is
-outstanding.
+At this precheck checkpoint the accepted local executable remained unchanged;
+the later formal-image acceptance below supersedes that pending status.
 
 ## Formal single-image CI after the observer correction
 
@@ -165,3 +166,19 @@ The new local 160 x 48 acceptance is a separate gate. Complete CI observations,
 frames, logs and identities are indexed by `kitty-compression-single-ci-validation.json`
 in two deterministic tar/gzip bundles containing 1,707 original files; helper
 binaries/objects and the product executable are not committed in those bundles.
+
+## Exact downloaded-product acceptance
+
+The formal `b3e03bb` image above passed 31 local groups: 20 image suites,
+12 shutdown cases in one group and ten memory workloads. Actual GDI/OpenGL/DirectX
+backends passed 399 API pixel stages; separate presented GDI capture passed 133.
+All ten uninjected, actual 160 x 48 Sarasa two-tab workloads passed unchanged
+private-working-set policies. Peak GDI private WS was 16,822,272 B and DirectX
+24,248,320 B. DirectX total WS still reached 59,813,888 B.
+
+The local `dist/nemoterm.exe` now contains that exact 4,515,328-byte artifact;
+the preceding `97d6025` executable is backed up. All 1,200 original local records
+and the promotion receipt are indexed by `kitty-compression-product-validation.json`.
+The [product record](kitty-compression-product.md) contains per-workload values,
+backend requirements and remaining physical-input/application scope. This does
+not attribute the old intermittent shutdown failures to a proven root cause.

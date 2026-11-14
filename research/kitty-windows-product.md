@@ -1,6 +1,10 @@
-# Kitty compositor: accepted single-executable checkpoint
+# Kitty compositor: historical accepted single-executable checkpoint
 
-The accepted executable comes from production source
+This `97d6025` checkpoint has been superseded by the
+[accepted compressed-image product](kitty-compression-product.md). All measurements
+below remain attributed to their original executable.
+
+The executable accepted at this checkpoint comes from production source
 `97d60254e3bae94fbba9803ff15e1abfce5373f8`. It is **4,509,184 bytes**, SHA-256
 `07c8d279c526b13eb75586afe1a2b980d21253adf125e3d11f68574572e8e9d6`.
 The distribution contains only `nemoterm.exe`; its hidden console host uses

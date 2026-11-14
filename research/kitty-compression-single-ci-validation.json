@@ -146,7 +146,7 @@
   ],
   "product_artifact_id": 14135728448,
   "product_expires_at": "2026-12-14T22:51:47Z",
-  "scope": "Formal single-image CI; separate local acceptance still required",
+  "scope": "Formal single-image CI; exact-image local acceptance recorded separately",
   "bundles": [
     {
       "path": "research/kitty-compression-single-ci-evidence/run-records.tar.gz",
@@ -8697,5 +8697,6 @@
         }
       ]
     }
-  ]
+  ],
+  "local_acceptance_record": "research/kitty-compression-product-validation.json"
 }

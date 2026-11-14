@@ -28,22 +28,22 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **终端能力**：UTF-8、真彩色、Sixel、OSC 1337 图片与 GIF、Kitty 图片的直接传输子集、OSC 8 超链接、括号粘贴、同步输出，以及 kitty 键盘和 xterm modifyOtherKeys 的已实现子集。
 - **字体与设置**：原生设置窗口、当前标签字号缩放、声音或视觉响铃，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
-Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG、裁剪缩放、透明度、查询、放置和删除。
-下方单 EXE 在本机 GDI、OpenGL、DirectX 共通过 312 个 Kitty、缩放、静态图片和 GIF 检查，
-另通过 104 个直接读取 GDI 窗口客户区的检查。
-共享内存、文件传输、压缩、动画及 Unicode 占位等扩展尚未实现。
-准确产物、内存样本与验证边界见[成品验证](research/kitty-windows-product.md)；
+Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及 `o=z` 压缩传输、裁剪缩放、透明度、查询、放置和删除。
+下方单 EXE 在本机 GDI、OpenGL、DirectX 共通过 399 个 Kitty、缩放、静态图片和 GIF 检查，
+另通过 133 个直接读取 GDI 窗口客户区的检查。
+共享内存、文件传输、Kitty 动画、相对放置及 Unicode 占位等扩展尚未实现。
+准确产物、内存样本与验证边界见[成品验证](research/kitty-compression-product.md)；
 实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
 
-开发分支正在补充 Kitty `o=z` 压缩传输：独立上游对照与本机三种渲染器的图片检查已通过，
-新的单文件构建及内存验收仍待完成；下方已验收下载尚不包含此功能。见[压缩实现记录](research/kitty-compression.md)。
+压缩传输已通过独立上游对照、严格 GCC/Clang/MSVC 检查、完整 CI 与下载成品的本机验收，
+沿用原有图像内存限额，不增加分发文件。见[压缩实现记录](research/kitty-compression.md)。
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `97d6025` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43633479299/artifacts/14130247748)。
-两条完整工作流通过，单文件 CI 共 129 组检查；包含本机自动化接口、文件/图片输入、
-三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 图片子集、字号缩放与响铃。EXE 为 **4,509,184 字节**。
-产物预计于 **2026-12-14 20:12 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-windows-product.md)。
+已通过 CI 的开发快照：[下载 `b3e03bb` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43646925393/artifacts/14135728448)。
+常规 CI 与单文件 CI 已通过，单文件 CI 共 137 组检查；包含本机自动化接口、文件/图片输入、
+三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 压缩图片子集、字号缩放与响铃。EXE 为 **4,515,328 字节**。
+产物预计于 **2026-12-14 22:51 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-compression-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
 查找后续开发构建：
@@ -165,11 +165,11 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `97d6025` 在本机 Sarasa、实际 160×48、双标签的 Kitty、PNG、GIF 六组负载中，
-GDI 私有工作集最高 **17.15 MB**，DX 最高 **24.21 MB**，每组通过 9 或 10 组功能检查。
-GDI 总工作集最高 **39.91 MB**，DX 最高 **59.82 MB**；DX 仍高于约 50 MB 的总工作集目标。
+下载的 `b3e03bb` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
+GDI 私有工作集最高 **16.82 MB**，DX 最高 **24.25 MB**。
+GDI 总工作集最高 **39.49 MB**，DX 最高 **59.81 MB**；DX 仍高于约 50 MB 的总工作集目标。
 测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
-两条完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-windows-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
+完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-compression-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、
