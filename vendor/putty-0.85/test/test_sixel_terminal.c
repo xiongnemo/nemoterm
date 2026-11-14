@@ -845,6 +845,130 @@ static void test_graphics_registers(Mock *mk)
     check_image_accounting(mk);
 }
 
+static void palette_pixels(Mock *mk, NemoTermImage *image,
+                           unsigned x, unsigned count, uint32_t colour)
+{
+    uint32_t pixels[16];
+    IEQUAL(image != NULL, true);
+    if (!image) return;
+    assert(count <= lenof(pixels));
+    size_t n = term_image_read_row(image, 0, x, pixels, count);
+    IEQUAL(n, count);
+    if (n != count) return;
+    for (unsigned i = 0; i < count; i++) IEQUAL(pixels[i], colour);
+}
+
+static void test_sixel_palette_lifetime(Mock *mk)
+{
+    const uint32_t red = UINT32_C(0xffff0000), green = UINT32_C(0xff00ff00);
+    const uint32_t blue = UINT32_C(0xff0000ff);
+    Terminal *t = mk->term;
+    reset(mk);
+    test_context(mk, "Sixel within-DCS palette identity and overwritten pixels");
+    term_data_fragmented(t,
+        "\033P0;1q#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0\033\\");
+    IEQUAL(image_count(t), 1);
+    palette_pixels(mk, t->images, 0, 8, green);
+    palette_pixels(mk, t->images, 8, 8, red);
+    term_data_fragmented(t,
+        "\033[4;1H\033P0;1q#1;2;100;0;0!16~$#2;2;0;0;100!8~"
+        "#1;2;0;100;0\033\\");
+    IEQUAL(image_count(t), 2);
+    if (!t->images || !t->images->next) return;
+    palette_pixels(mk, t->images->next, 0, 8, blue);
+    palette_pixels(mk, t->images->next, 8, 8, green);
+    palette_pixels(mk, t->images, 0, 8, green);
+    palette_pixels(mk, t->images, 8, 8, red);
+    check_image_accounting(mk);
+
+    reset(mk);
+    test_context(mk, "Sixel retained private/shared palettes survive mode toggles");
+    term_data_fragmented(t,
+        "\033[?1070l\033P0;1q#1;2;100;0;0!16~\033\\"
+        "\033[?1070h\033[4;1H\033P0;1q#1;2;0;100;0!16~\033\\");
+    IEQUAL(image_count(t), 2);
+    if (!t->images || !t->images->next) return;
+    NemoTermImage *shared = t->images, *private = shared->next;
+    palette_pixels(mk, shared, 0, 16, red);
+    palette_pixels(mk, private, 0, 16, green);
+    term_data_fragmented(t,
+        "\033[?1070l\033[7;1H\033P0;1q#1;2;0;0;100!16~\033\\");
+    IEQUAL(image_count(t), 3);
+    if (!private->next) return;
+    palette_pixels(mk, shared, 0, 16, blue);
+    palette_pixels(mk, private, 0, 16, green);
+    palette_pixels(mk, private->next, 0, 16, blue);
+    check_image_accounting(mk);
+
+    test_context(mk, "Sixel completed shared definition survives canceled DCS and redraws old images");
+    size_t bytes = t->image_bytes;
+    t->disptext[0]->chars[0].attr &= ~ATTR_INVALID;
+    term_data_fragmented(t, "\033P0;1q#1;2;100;0;0?");
+    IEQUAL(t->sixel_pending != NULL, true);
+    /* The mutation is visible before ST or cancellation, without a new image. */
+    palette_pixels(mk, shared, 0, 16, red);
+    IEQUAL(!!(t->disptext[0]->chars[0].attr & ATTR_INVALID), true);
+    term_data_fragmented(t, "\030");
+    IEQUAL(t->sixel_pending == NULL, true);
+    IEQUAL(image_count(t), 3); IEQUAL(t->image_bytes, bytes);
+    palette_pixels(mk, shared, 0, 16, red);
+    palette_pixels(mk, private, 0, 16, green);
+    palette_pixels(mk, private->next, 0, 16, red);
+    /* A canceled private definition cannot mutate either retained palette. */
+    term_data_fragmented(t, "\033[?1070h\033P0;1q#1;2;0;0;100?\030");
+    palette_pixels(mk, shared, 0, 16, red);
+    palette_pixels(mk, private, 0, 16, green);
+    IEQUAL(t->image_bytes, bytes);
+
+    test_context(mk, "Sixel soft reset retains palette ownership; hard reset clears it");
+    term_data_fragmented(t, "\033[!p");
+    IEQUAL(image_count(t), 3); IEQUAL(t->image_bytes, bytes);
+    term_data_fragmented(t, "\033[?1070l\033P0;1q#1;2;0;0;100?\030");
+    palette_pixels(mk, shared, 0, 16, blue);
+    palette_pixels(mk, private, 0, 16, green);
+    palette_pixels(mk, private->next, 0, 16, blue);
+    check_image_accounting(mk);
+    term_data_fragmented(t, "\033c");
+    IEQUAL(image_count(t), 0); IEQUAL(t->image_bytes, 0);
+    IEQUAL(t->sixel_palette_valid, false);
+    term_data_fragmented(t, "\033[?1070l\033P0;1q#1~\033\\");
+    /* New shared storage starts from the default palette, not pre-RIS blue. */
+    palette_pixels(mk, t->images, 0, 1, UINT32_C(0xff3333cc));
+    check_image_accounting(mk);
+}
+
+static void test_sixel_palette_fragments(Mock *mk)
+{
+    reset(mk);
+    test_context(mk, "Sixel split sources share palette without copied pixels");
+    Terminal *t = mk->term;
+    term_set_cell_size(t, 8, 16);
+    term_data_fragmented(t, "\033[?1070l\033P0;1q#1;2;100;0;0!16~\033\\");
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    NemoImageSource *source = t->images->source;
+    size_t source_bytes = source->memory_bytes;
+    term_scroll_images(t, 1, 2, 0, 2, -1, false);
+    IEQUAL(image_count(t), 2);
+    IEQUAL(source->references, 2);
+    term_data_fragmented(t, "\033P0;1q#1;2;0;0;100?\030");
+    for (NemoTermImage *image = t->images; image; image = image->next) {
+        IEQUAL(image->source == source, true);
+        palette_pixels(mk, image, 0, 8, UINT32_C(0xff0000ff));
+    }
+    IEQUAL(source->memory_bytes, source_bytes);
+    check_image_accounting(mk);
+    /* Release one fragment; the surviving source still follows its palette. */
+    term_data_fragmented(t, "\033[1;1H\033[X");
+    IEQUAL(image_count(t), 1);
+    if (!t->images) return;
+    IEQUAL(t->images->source == source, true);
+    IEQUAL(source->references, 1);
+    term_data_fragmented(t, "\033P0;1q#1;2;0;100;0?\030");
+    palette_pixels(mk, t->images, 0, 8, UINT32_C(0xff00ff00));
+    check_image_accounting(mk);
+}
+
 int main(void)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -865,6 +989,8 @@ int main(void)
     test_sixel_column_budget(mk);
     test_sixel_horizontal(mk);
     test_graphics_registers(mk);
+    test_sixel_palette_lifetime(mk);
+    test_sixel_palette_fragments(mk);
     test_alignment_images(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

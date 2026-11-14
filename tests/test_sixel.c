@@ -81,8 +81,86 @@ static void color_and_overlay(void)
     assert(pixel(s, 1, 1) == 0);
     nemo_sixel_reset(s, WHITE, BLACK, false);
     feed(s, "#1;2;100;0;0@#1;2;0;100;0@");
-    assert(pixel(s, 0, 0) == RED && pixel(s, 1, 0) == GREEN);
+    /* Register redefinition recolors the earlier pixels in the same DCS. */
+    assert(pixel(s, 0, 0) == GREEN && pixel(s, 1, 0) == GREEN);
     nemo_sixel_free(s);
+}
+
+static void palette_identity(void)
+{
+    NemoSixel *s = fresh(true);
+    /* Equal RGB values do not merge the identities of two registers. */
+    feed(s, "#1;2;100;0;0!8~#2;2;100;0;0!8~#1;2;0;100;0");
+    for (unsigned y = 0; y < 6; y++)
+        for (unsigned x = 0; x < 16; x++)
+            assert(pixel(s, x, y) == (x < 8 ? GREEN : RED));
+    nemo_sixel_reset(s, WHITE, BLACK, true);
+    /* An overwritten pixel follows its new register, not its old one. */
+    feed(s, "#1;2;100;0;0!16~$#2;2;0;0;100!8~#1;2;0;100;0");
+    for (unsigned y = 0; y < 6; y++)
+        for (unsigned x = 0; x < 16; x++)
+            assert(pixel(s, x, y) == (x < 8 ? BLUE : GREEN));
+    nemo_sixel_reset(s, RED, RED, false);
+    /* Direct foreground and background RGB remain independent of registers,
+     * including unallocated background tiles and register zero. */
+    feed(s, "\"1;1;64;6@#0;2;100;0;0@#0;1;240;50;100");
+    assert(pixel(s, 0, 0) == RED);
+    assert(pixel(s, 1, 0) == GREEN);
+    assert(pixel(s, 1, 1) == RED && pixel(s, 63, 5) == RED);
+    uint32_t palette[256];
+    nemo_sixel_get_palette(s, palette);
+    palette[0] = BLUE;
+    size_t bytes = nemo_sixel_stats(s).allocated_bytes;
+    nemo_sixel_set_palette(s, palette);
+    assert(pixel(s, 1, 0) == BLUE && pixel(s, 0, 0) == RED);
+    assert(nemo_sixel_stats(s).allocated_bytes == bytes);
+    nemo_sixel_free(s);
+}
+
+static void palette_notification(void *ctx)
+{
+    unsigned *notifications = ctx;
+    (*notifications)++;
+}
+
+static void shared_palette_lifetime(void)
+{
+    NemoSixel *first = fresh(true), *next = fresh(true), *private = fresh(true);
+    uint32_t shared[256], copy[256];
+    unsigned notifications = 0;
+    nemo_sixel_get_palette(first, shared);
+    assert(nemo_sixel_share_palette(first, shared, palette_notification, &notifications));
+    assert(nemo_sixel_share_palette(next, shared, palette_notification, &notifications));
+    feed(first, "#1;2;100;0;0~");
+    feed(private, "#1;2;100;0;0~");
+    assert(notifications == 1);
+    assert(!nemo_sixel_share_palette(first, shared, NULL, NULL));
+    const char *definition = "#1;2;0;100;0";
+    for (size_t i = 0; i < strlen(definition); i++)
+        assert(nemo_sixel_feed(next, definition+i, 1));
+    assert(pixel(first, 0, 0) == RED && notifications == 1);
+    size_t retained_bytes = nemo_sixel_stats(first).allocated_bytes;
+    assert(nemo_sixel_feed(next, "?", 1));
+    /* A completed definition is live before image finish, and freeing the
+     * pending decoder (DCS cancellation) does not roll it back. */
+    assert(notifications == 2 && shared[1] == GREEN);
+    nemo_sixel_free(next);
+    assert(pixel(first, 0, 0) == GREEN && pixel(private, 0, 0) == RED);
+    nemo_sixel_get_palette(first, copy);
+    assert(copy[1] == GREEN);
+    copy[1] = BLUE;
+    nemo_sixel_set_palette(first, copy);
+    assert(notifications == 3 && shared[1] == BLUE);
+    assert(pixel(first, 0, 0) == BLUE);
+    assert(nemo_sixel_stats(first).allocated_bytes == retained_bytes);
+    nemo_sixel_set_palette(first, copy);
+    assert(notifications == 3); /* unchanged definitions need no redraw */
+    nemo_sixel_reset(first, WHITE, BLACK, true);
+    feed(first, "#1;2;100;0;0~");
+    assert(pixel(first, 0, 0) == RED && shared[1] == BLUE);
+    assert(notifications == 3); /* reset detached the borrowed palette */
+    nemo_sixel_free(first);
+    nemo_sixel_free(private);
 }
 
 static void extents_and_repeat(void)
@@ -132,7 +210,7 @@ static void arbitrary_chunk_boundaries(void)
     nemo_sixel_reset(s, WHITE, BLACK, true);
     for (i = 0; i < len; i++) assert(nemo_sixel_feed(s, payload + i, 1));
     assert(nemo_sixel_finish(s) && fingerprint(s) == expected);
-    assert(!nemo_sixel_feed(s, "~", 1)); /* finished object is immutable */
+    assert(!nemo_sixel_feed(s, "~", 1)); /* finished pixels reject more input */
     nemo_sixel_free(s);
 }
 
@@ -265,6 +343,8 @@ int main(void)
 {
     basic_pixels();
     color_and_overlay();
+    palette_identity();
+    shared_palette_lifetime();
     extents_and_repeat();
     arbitrary_chunk_boundaries();
     rejected_inputs();
