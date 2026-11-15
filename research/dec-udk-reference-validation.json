@@ -1,0 +1,1920 @@
+{
+  "canonical": {
+    "source": "9b798e25007929ea7d7bda957cd163d3eb654661",
+    "run": 43716642922,
+    "cases": 91,
+    "steps": 238,
+    "raw_sha256": "b6917d91165d635fc7d202be432028faa27104fc62e947ddc4d48c046c2dada3",
+    "literal_controls": 3,
+    "natural_exits": 91,
+    "earlier_unchanged_cases": 16,
+    "keyboard_mapping": {
+      "F13": {
+        "keycode": 248,
+        "keysym": 65482
+      },
+      "F14": {
+        "keycode": 230,
+        "keysym": 65483
+      },
+      "F15": {
+        "keycode": 222,
+        "keysym": 65484
+      },
+      "F16": {
+        "keycode": 219,
+        "keysym": 65485
+      },
+      "F17": {
+        "keycode": 217,
+        "keysym": 65486
+      },
+      "F18": {
+        "keycode": 202,
+        "keysym": 65487
+      },
+      "F19": {
+        "keycode": 197,
+        "keysym": 65488
+      },
+      "F20": {
+        "keycode": 184,
+        "keysym": 65489
+      }
+    }
+  },
+  "runs": [
+    {
+      "source": "f743c91a2d976b62904ac420117dc934c8dcc4f8",
+      "run": 43716161735,
+      "conclusion": "failure",
+      "artifact_id": 14163000436,
+      "expires": "2027-02-13T12:53:48Z"
+    },
+    {
+      "source": "9b798e25007929ea7d7bda957cd163d3eb654661",
+      "run": 43716642922,
+      "conclusion": "success",
+      "artifact_id": 14162888058,
+      "expires": "2027-02-13T12:59:43Z"
+    }
+  ],
+  "scope": "Independent pinned-XTerm observations only. Nemoterm UDK implementation and acceptance remain pending. Original missing-keymap harness failure retained unchanged.",
+  "bundle": {
+    "path": "research/dec-udk-reference.tar.gz",
+    "bytes": 668087,
+    "sha256": "9898d3bee90f748fb784ff262c013f65a8a0fba83575e8ee1b5cf7b9ab9c39ae",
+    "records": [
+      {
+        "path": "9b798e2/reference-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "a5ef7b33e593fc767d1eb340a33068efaa9d29ead49a6a60df95f9e2538f74b0"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm.json",
+        "raw_bytes": 232057,
+        "raw_sha256": "b6917d91165d635fc7d202be432028faa27104fc62e947ddc4d48c046c2dada3"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-0-7f94d575/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-0-7f94d575/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-0-7f94d575/observed.json",
+        "raw_bytes": 2663,
+        "raw_sha256": "1a64d249dedb96b7845ca36404bfb9f593d25aa488295d897bd844c0856b8ba4"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-1-be8864a7/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-1-be8864a7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-1-be8864a7/observed.json",
+        "raw_bytes": 2647,
+        "raw_sha256": "2b8b724604c3200ea16f3bc1e95f0d7e715d98cc102996c66d0b8d80784a82cc"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-2-5e8d156a/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-2-5e8d156a/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-2-5e8d156a/observed.json",
+        "raw_bytes": 2647,
+        "raw_sha256": "e1b5ae890b2c8996df048e74b392327ba9b26eb1fcac8061a0b3f01bba732a4f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-65535-fae30bff/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-65535-fae30bff/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-65535-fae30bff/observed.json",
+        "raw_bytes": 2659,
+        "raw_sha256": "1c1a55f0ef689639414a1cbd3e917e7af49ec3ae3974499ce2e5748deeba526b"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-9-121a6017/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-9-121a6017/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-9-121a6017/observed.json",
+        "raw_bytes": 2647,
+        "raw_sha256": "4fdf68fd0283623b217bfb95a7427cd486c4fec5c37a460d91466837b6fa8175"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-default-27738afd/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-default-27738afd/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/clear-default-27738afd/observed.json",
+        "raw_bytes": 2667,
+        "raw_sha256": "160cc5849d9f8e9289c375df71c1f60e8b49d6478e6d79d20656e61f172a64bc"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-1-48c15b30/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "7aa02469f0ab35070456031f224c75429571ce80e915b41cf5e4137a291abcf3"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-1-48c15b30/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-1-48c15b30/observed.json",
+        "raw_bytes": 1481,
+        "raw_sha256": "e81fcd460d888f7d2dd358d147a0d7908e073ba63131333011b51119457d45ee"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-2-33866381/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-2-33866381/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-2-33866381/observed.json",
+        "raw_bytes": 1489,
+        "raw_sha256": "0425cb49b3352bdee4f5e1586ad529bd19b7a5507c2f1594df61461db770ad87"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-3-7b1cf224/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-3-7b1cf224/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-3-7b1cf224/observed.json",
+        "raw_bytes": 1489,
+        "raw_sha256": "b81f2ca1c9daa677edbf8d486dc42598eb9e7136cfe002d83cce0c50e2934e1e"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-4-35db81d9/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-4-35db81d9/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-4-35db81d9/observed.json",
+        "raw_bytes": 1489,
+        "raw_sha256": "36c4b159be68fd53eadf1bf86c29ff299f71d1aa7cc2c3c812cc91c0f1d96d66"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-5-85ba175f/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-5-85ba175f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/dec-level-5-85ba175f/observed.json",
+        "raw_bytes": 1489,
+        "raw_sha256": "53459c7e4852d6b96adeca2b00bb7986e585393b6b3c1ff4d9c23deb9958f863"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/default-profile-11895305/child.json",
+        "raw_bytes": 77,
+        "raw_sha256": "8b33a0f7b38c3487f2c8ac0ccf3627bcb7b1951cc90a32f0c36bdbda55c19d4f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/default-profile-11895305/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/default-profile-11895305/observed.json",
+        "raw_bytes": 1353,
+        "raw_sha256": "2e5aee1f0be8c2cfdd20f598bb75c8204681caefac6d5bb01e0f7b96577cfc87"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/eight-bit-dcs-553274a1/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/eight-bit-dcs-553274a1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/eight-bit-dcs-553274a1/observed.json",
+        "raw_bytes": 1477,
+        "raw_sha256": "95af38488b74dcf1ab67161a4fead588f852d8255a54c634a58b2c5b76e53e0d"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F1-78766475/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "8040f74267efd4929aff6d54eaf4243d76779db85607652f0b21d7f193c3e792"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F1-78766475/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F1-78766475/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "906183dac29d3c73c68703f92360a0dc33704dfa1553732c7210b10997b6d1cb"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F10-440a8de6/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "4b287959ed2041eb81fa9f4bbdbce0ce3fde33d866d7da12907887613c062f96"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F10-440a8de6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F10-440a8de6/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "f968204628db1d04e696cfac10ff8f9c6bc88c83f3f8638423f439495de3f25a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F11-eef5da36/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "04b1af0592d6f5e8cd5180c9599033ca2e3afe19d5b43680cb3f4c68ee4a9cc9"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F11-eef5da36/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F11-eef5da36/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "f504ec6b0301d0292fabafba234b3bfb2e4d1fe759598642619b63480ba1b7dd"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F12-524c5d12/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "0316bc6a471d46679615b26587f825b448ce824a1f5a8650fd06cf51634b0bd8"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F12-524c5d12/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F12-524c5d12/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "468e6b37c2dac088545de9d6e6c07d424d84e34bfa86a4bf18f759381cfc2cd5"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F13-fa8b5f34/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "9a9dbe1858e4f009e0d883c1a6376140a20205a5d2dc8df2d6c8bc8567ceb146"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F13-fa8b5f34/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F13-fa8b5f34/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "c10e61002037a1ec9e4d071216c0326e180bd9a8420d10e525aadc6a7094979c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F14-e42791cf/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "722707ea34f5c8c3bad7cea8b4baa4c62f339b7b405df2d5281dc3d6e509e8a8"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F14-e42791cf/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F14-e42791cf/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "e77a20cf1f0b5ba331ad4d2979c28c01869bc3c6fbd8b5899a89778b8162041a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F15-2ca500d7/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "88e7bfa1af27ab1cb185448a78130e33776a1914b99f83fb4efed8859c8ad932"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F15-2ca500d7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F15-2ca500d7/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "fb7979d084a599742b32747215e3f52df7c52663c401bdf1356cbb3e11e6dcaa"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F16-41b6e68b/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "fed6de9f158d4a1d489d0b6b34d355b0328429727c1cc89b066c8b5e57b0d015"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F16-41b6e68b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F16-41b6e68b/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "89a986b482209ac1ad8aaf02f4212f5114bba3929acf6d02d128a2a8af0b4bfb"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F17-8bb6c811/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7bd09848d4c42d3f4a076698341a0f03f20adcfedb1833674ceee07eacf4d7b9"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F17-8bb6c811/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F17-8bb6c811/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "547fcd8ce683227cff2c2e0a02a679962f4fb0d5e78faaa8baf887e542e2fdcc"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F18-8dd3c8e9/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "8793811e4a09348f045002ced2d4c36d8c9050371aca8d44839c719ad1363751"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F18-8dd3c8e9/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F18-8dd3c8e9/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "f03c738dca310bf875598dbc516c85de71dcde75446d2ffdc18bb0598ab07521"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F19-fa67f498/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7dc372013a61ca9ca17c61412da4187de95bf259f519692a78da89e0f5df7b2b"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F19-fa67f498/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F19-fa67f498/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "6804556bb7b13b36b947c7ab60e6f94c4f4f4bb46e54c358802f2e6ca13cb511"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F2-f45a45c5/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "be02fc5e7005fa2e0ab6ba5251cb21cb8d194a757c632c4f3a83e1efe6cdae4b"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F2-f45a45c5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F2-f45a45c5/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "3e05c98c698240f22c1fd19421872de8794ab6492d4da4e09c4439b2d5c0f99b"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F20-f4d7b66b/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "0f21416d7c9b12072cccab3b0467791af5fb8fd49e922c3162ebeeb8bbe3c3b6"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F20-f4d7b66b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F20-f4d7b66b/observed.json",
+        "raw_bytes": 1334,
+        "raw_sha256": "0e758b819e563c88c36185740404b677f62ef84fba1d0390e1ebec44d9edb894"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F3-5c15e5e6/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "2ff4c0637af749c93a3775489377208f359726b472b0ae215b6421dfc2e0fbda"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F3-5c15e5e6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F3-5c15e5e6/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "d4a43c1471b77337651db897738c028bd784a14040b2fa83dec965eac11e73f0"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F4-34e276a3/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "9f6ee6e921485bd8da4b91ddd6c3a156d4ee6fd05d753770eb2edb4cd7dd4e87"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F4-34e276a3/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F4-34e276a3/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "187acd7784fd2a8b5b4fc42eb2a0bd70a102d40c65ebf97db4146e682d5457ff"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F5-84d61ee7/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7532488c45f5c76de308ccc1b2fe310b1cc6f0439174338580d32d8f0274a40e"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F5-84d61ee7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F5-84d61ee7/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "fe5ec72f60cfcaa252eeb9127173c0eac3f6e8ff9512e7eee01f6bb3b7105fa7"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F6-8e5fb0ab/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7d45e566d122e8d70b54e728dabd58e0a6c470256280503aec7b4539f8507188"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F6-8e5fb0ab/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F6-8e5fb0ab/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "6953cd7b4f9142ba49c249940d00b62cde56b62780a2e70e52f30566d17e7611"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F7-3d558e8f/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "aa1f31d4aae99d61d1ff608fb13e1932ba0a9578616a46ed0f5b12a4b325c18d"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F7-3d558e8f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F7-3d558e8f/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "8a6959f556d6747b8154e8064d12961052320050ab71bf5cc4c3bc5ca3c63c2e"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F8-f67e5238/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "8470edbd900ffdd2cfda4e775bc2d8eeb388a33e9e60050ecb28c76204e6317f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F8-f67e5238/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F8-f67e5238/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "9b894688617e09ea0f2e9be83ac1a003ebc4082ce5cba363f5d64662991a5e55"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F9-9bc5d351/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "84438d86b8371d95f4d572d729471b1ccdb54880d72662c5a28761b6bd967b77"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F9-9bc5d351/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/function-F9-9bc5d351/observed.json",
+        "raw_bytes": 1329,
+        "raw_sha256": "4aabbc19871e7b3077602e7c381d3724e35b4c28d62036330882dd60623d4e0a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3124-a1598056/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "3f74620dbe60144d1db7741c99b410bda9961f748471be2b91765fbcb6cc7662"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3124-a1598056/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3124-a1598056/observed.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "3aa5978a42bb60c60c629b0c8804b0cdbb20779cfe46733db54094516f6416a1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313a31-3975a274/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "3f74620dbe60144d1db7741c99b410bda9961f748471be2b91765fbcb6cc7662"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313a31-3975a274/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313a31-3975a274/observed.json",
+        "raw_bytes": 1465,
+        "raw_sha256": "fd27a6c1bd45273f5ec4a21b06a34e59fd4db2fd7efc35179e0c993213e9357c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313b313b31-030c1f0c/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "885c97353ddd08aee03d14c81c0f7bab29dfe3fbd5d06194eb4744551ba4f7e8"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313b313b31-030c1f0c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-313b313b31-030c1f0c/observed.json",
+        "raw_bytes": 1473,
+        "raw_sha256": "ddcfbefbedbe8330002b15ab36bb3f047ed39ceaea0fe9a1807d1baf0836a4b6"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3b31-80ec9378/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "885c97353ddd08aee03d14c81c0f7bab29dfe3fbd5d06194eb4744551ba4f7e8"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3b31-80ec9378/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3b31-80ec9378/observed.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "f16cefa6ed70cf6a594d4f2cf0507b46f1a395fc8c71370ad67847d9531719fe"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3e313b31-956de974/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "3f74620dbe60144d1db7741c99b410bda9961f748471be2b91765fbcb6cc7662"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3e313b31-956de974/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3e313b31-956de974/observed.json",
+        "raw_bytes": 1469,
+        "raw_sha256": "d4b9a94e7464a48723058ffed30b422abc407c712286c80f95adeffc3249909c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3f313b31-1f51ac67/child.json",
+        "raw_bytes": 65,
+        "raw_sha256": "3f74620dbe60144d1db7741c99b410bda9961f748471be2b91765fbcb6cc7662"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3f313b31-1f51ac67/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/header-3f313b31-1f51ac67/observed.json",
+        "raw_bytes": 1469,
+        "raw_sha256": "10b1487f2f8834d0de470eeb32067fd8e3a82ea6a721850477fb02adbb26011a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-07-02645f8f/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-07-02645f8f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-07-02645f8f/observed.json",
+        "raw_bytes": 1626,
+        "raw_sha256": "9637f26b3dd20900fbe0dfc928e5534fd4ee45ebafdfdee2973aab8aa0715d75"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-18-1fb44180/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-18-1fb44180/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-18-1fb44180/observed.json",
+        "raw_bytes": 1626,
+        "raw_sha256": "dff3ae5b2870364cbb2e163b6170f8837c65c4341e816fd77bf48e66f0828fd2"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1a-2c701572/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1a-2c701572/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1a-2c701572/observed.json",
+        "raw_bytes": 1626,
+        "raw_sha256": "c922a2d569bb759e3bcdc38781b19fd3e17662fc471c4c7fb68d0594e9725e76"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1b5b306d-dbd0a041/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1b5b306d-dbd0a041/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/interrupt-1b5b306d-dbd0a041/observed.json",
+        "raw_bytes": 1638,
+        "raw_sha256": "83580549a143caabf7c208b0a12c12aa78265c168a663794a85fa518b062105a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1-267c7c00/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1-267c7c00/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1-267c7c00/observed.json",
+        "raw_bytes": 1470,
+        "raw_sha256": "e038f925c752838405b25dd1e1a1e6b14e4e0b1a0356a4ef0754ceea48f04182"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1024-bd6c6292/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1024-bd6c6292/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-1024-bd6c6292/observed.json",
+        "raw_bytes": 9657,
+        "raw_sha256": "df430d4d178cc89f76b7d492d1aa158b8bfa6901774f9d33aae070044795ffcc"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-255-56e3c25c/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-255-56e3c25c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-255-56e3c25c/observed.json",
+        "raw_bytes": 3504,
+        "raw_sha256": "d7f90181584ba3bc2590becd6f2e1d764442432127f4f9ae4b8263bf12ea9cf2"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-256-c82eca3c/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-256-c82eca3c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-256-c82eca3c/observed.json",
+        "raw_bytes": 3512,
+        "raw_sha256": "9c280a5c5a3b3592aac159f4ff6287c93f1dfacc5ba7df9f8d172dbbeeadae90"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-4096-0f2b97b6/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-4096-0f2b97b6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/length-4096-0f2b97b6/observed.json",
+        "raw_bytes": 34233,
+        "raw_sha256": "eafbb1571c01bce896f43cb14671d1cd2a89a97c679e77e0a05e34f214f34bf4"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-ab347304/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-ab347304/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-ab347304/observed.json",
+        "raw_bytes": 2062,
+        "raw_sha256": "1cb2b055f6f1fd25a7a145cfe53976b7a3b621d728aaddeaa342cd8534d318ba"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-roundtrip-c6fdbb28/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-roundtrip-c6fdbb28/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-alt-roundtrip-c6fdbb28/observed.json",
+        "raw_bytes": 2088,
+        "raw_sha256": "216cc662e39ecc7c68231fa1de4bc27f4e181c01b44ce83c2fb08bec9ba020fb"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-level-86701906/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-level-86701906/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-level-86701906/observed.json",
+        "raw_bytes": 2064,
+        "raw_sha256": "f66ab665b5d9a18f2f6a9f0a98873e6c1215b99db0f2f0cf45ab43868e78165c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-ris-e9b2925f/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-ris-e9b2925f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-ris-e9b2925f/observed.json",
+        "raw_bytes": 2066,
+        "raw_sha256": "6c68c6929ee87975373e30b3cdd214624f2364ba3089d253b18aa496d50dbabe"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-soft-6579e81c/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "035bf75147b114901eaa961c6cd647931007a4456ae61dac665bcd3050df6d59"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-soft-6579e81c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lifetime-soft-6579e81c/observed.json",
+        "raw_bytes": 2055,
+        "raw_sha256": "e198c68d7bb06ad678312286432091ab2431ed847212590dfe39d53d17d1c01e"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-definition-6e414e75/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-definition-6e414e75/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-definition-6e414e75/observed.json",
+        "raw_bytes": 1496,
+        "raw_sha256": "b7a8d031938ea26ce1c28d1bd540e83fa2d57acd5f526059771c9989750b9501"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-status-299787ad/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "a519c5dcb27e30e22362e6f66b54fc8b80cccba69aae173cda55700e49d15baf"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-status-299787ad/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-status-299787ad/observed.json",
+        "raw_bytes": 878,
+        "raw_sha256": "746f705779f4c669d83487ebf5257ffc3414969c55b15aabc08f370376a2058c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-unshifted-1b74e71e/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "9e95d502b28a9f400a3d41db8449a8037377b61102898513d7c242a323457d6a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-unshifted-1b74e71e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/literal-unshifted-1b74e71e/observed.json",
+        "raw_bytes": 1109,
+        "raw_sha256": "8efe61b9b0887fa435a14721bdf084fc0c5d3f6014f33fc833c32366e139e99b"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-0-161b7b6e/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-0-161b7b6e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-0-161b7b6e/observed.json",
+        "raw_bytes": 2226,
+        "raw_sha256": "dd9f1886d513547dc0a1735474d68e93ed43387908a5d3a7014be3b2db72e259"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-1-3de4ec6d/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-1-3de4ec6d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-1-3de4ec6d/observed.json",
+        "raw_bytes": 2226,
+        "raw_sha256": "1871acec4c5c5a39baec922892a71458cbdc0169bd0831ddf49597fe5d7822f3"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-2-3c74922e/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-2-3c74922e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-2-3c74922e/observed.json",
+        "raw_bytes": 2226,
+        "raw_sha256": "5d07de1ce3734a69db3db45f9e4e8e8837343bacfa9ba24455479e1c9c00027a"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-65535-a581c977/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-65535-a581c977/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-65535-a581c977/observed.json",
+        "raw_bytes": 2238,
+        "raw_sha256": "532059bdec8a3a31b3059813eb57345256500eb603b31d1b141ff23fe393a5e4"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-9-f0bbc2bd/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-9-f0bbc2bd/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-9-f0bbc2bd/observed.json",
+        "raw_bytes": 2226,
+        "raw_sha256": "c5bf001b34faf4682a6f378e68259a52373335d1f99e2b7fb1e3a491b2a412c3"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-default-414938a1/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-default-414938a1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/lock-default-414938a1/observed.json",
+        "raw_bytes": 2230,
+        "raw_sha256": "c601d534e3c5345a1641412306a97e773b4a8468eaef5722a938ba1f8711cd94"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Alt_L-153c490b/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Alt_L-153c490b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Alt_L-153c490b/observed.json",
+        "raw_bytes": 1497,
+        "raw_sha256": "841432008f233b9bf3352a965e3d94514df47bec4420772d97645b7af1a42b00"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Control_L-ee481ff5/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Control_L-ee481ff5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Control_L-ee481ff5/observed.json",
+        "raw_bytes": 1517,
+        "raw_sha256": "eaa9ef5c47bbce27ade3b19d730e27a8ce4277b6495415c5d1dee4697ae153f5"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Alt_L-d87d9b16/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Alt_L-d87d9b16/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Alt_L-d87d9b16/observed.json",
+        "raw_bytes": 1723,
+        "raw_sha256": "ebd869aa72bb1a18a2d54b53cff920521ee0338224a5888bd03a9cce90cb784c"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-3282e828/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-3282e828/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-3282e828/observed.json",
+        "raw_bytes": 1743,
+        "raw_sha256": "37921e6257415af04487e03490793ca0d6e1d7d59f842a7cb4b3ec679a37b815"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-Alt_L-3488deba/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-Alt_L-3488deba/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-Shift_L-Control_L-Alt_L-3488deba/observed.json",
+        "raw_bytes": 1978,
+        "raw_sha256": "1ce91b53b2dde3d7e013cc5bd926ad17f0edbebdcc75c911af3ac944afab4b18"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-none-dfed2c54/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-none-dfed2c54/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/modifiers-none-dfed2c54/observed.json",
+        "raw_bytes": 1270,
+        "raw_sha256": "15eb2c39e1c4d3ce6476ab9f236dfe45d001eca501ef05a38f8a868716cbffcf"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-binary-4905834a/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-binary-4905834a/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-binary-4905834a/observed.json",
+        "raw_bytes": 2250,
+        "raw_sha256": "f665f6da2fcc076ed23439292fce6376d2054c3ab9f613f0ee987ca3294c2dcf"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-commas-882995bf/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-commas-882995bf/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-commas-882995bf/observed.json",
+        "raw_bytes": 2224,
+        "raw_sha256": "e19ac8718efd79eba5c89f7ba2cb63040d475c87c76a7229f765529ec2bd6537"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-0824c8e5/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-0824c8e5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-0824c8e5/observed.json",
+        "raw_bytes": 2225,
+        "raw_sha256": "0d1bb88885af44081fcd37bb735f58cff1124043c2b719a30d90ef981a734b38"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-empty-next-13c6c1c8/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-empty-next-13c6c1c8/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-duplicate-empty-next-13c6c1c8/observed.json",
+        "raw_bytes": 2244,
+        "raw_sha256": "ccf25c27b07dc46c4a377e1cb173b4d8befa022a5c90b5471dec348e883a1932"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-122574d1/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-122574d1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-122574d1/observed.json",
+        "raw_bytes": 2199,
+        "raw_sha256": "cc527341a8d886174d2c5a647ca729b6a5806220a45faccad09334ba6c323461"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-first-192fc149/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-first-192fc149/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-first-192fc149/observed.json",
+        "raw_bytes": 2217,
+        "raw_sha256": "42338c7d6750ae47166fcad6155af19ad17ff6ec3bc09779dcd6878a38c9bfcb"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-middle-dfd69f35/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-middle-dfd69f35/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-middle-dfd69f35/observed.json",
+        "raw_bytes": 2230,
+        "raw_sha256": "e399aa5747558c9c56061729bd2837c1a9b572e4a415e448e8d884cdb6943ddc"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-overwrite-e81b80ff/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-overwrite-e81b80ff/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-overwrite-e81b80ff/observed.json",
+        "raw_bytes": 2227,
+        "raw_sha256": "f1bcd3099049d5041c881faab0265be5f870c9ba1debd344d3f475156bee07fa"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-value-ffb6da8d/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-value-ffb6da8d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-empty-value-ffb6da8d/observed.json",
+        "raw_bytes": 2211,
+        "raw_sha256": "2aa0e5f0fa7811c4e9901f8af1adf02113298f27a7c7073a2d61e38a5a714801"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-escape-data-5dcce176/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-escape-data-5dcce176/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-escape-data-5dcce176/observed.json",
+        "raw_bytes": 2247,
+        "raw_sha256": "e94e459f0afbf7d74168c104563a355fd41e86df074677f60e9e5c97c71b4892"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-invalid-only-63fad5d2/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-invalid-only-63fad5d2/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-invalid-only-63fad5d2/observed.json",
+        "raw_bytes": 2218,
+        "raw_sha256": "9d7a4ac3b87aad63ce62be9802be77c75397bd1d3f40210fe930acf56b474584"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-junk-787af4dd/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-junk-787af4dd/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-junk-787af4dd/observed.json",
+        "raw_bytes": 2222,
+        "raw_sha256": "00158bfcd7f34c59ef27200d50f6171463bb5214a492f46f469cbf44bbeef850"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-junk-prefix-99f9828e/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-junk-prefix-99f9828e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-junk-prefix-99f9828e/observed.json",
+        "raw_bytes": 2233,
+        "raw_sha256": "773023fe8b255cd4e85d763d617dc1a4241784c05931e9b0f455cce0e59a9115"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-leading-zeros-e3e62390/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-leading-zeros-e3e62390/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-leading-zeros-e3e62390/observed.json",
+        "raw_bytes": 2227,
+        "raw_sha256": "4af09eb4ff1e7cea33940a1625052955cbbd89d7a622228c1dff02457be79dd8"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-zero-9c912bc0/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-zero-9c912bc0/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-key-zero-9c912bc0/observed.json",
+        "raw_bytes": 2222,
+        "raw_sha256": "7cf442eb524b490d1d64a0fb511ce896de285a6e57da9652b9e23ff71f8112c5"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-lowercase-a6664ad5/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-lowercase-a6664ad5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-lowercase-a6664ad5/observed.json",
+        "raw_bytes": 2221,
+        "raw_sha256": "3a3c582c4e4183f9b6648d5c0e616f4def4db4f007b1a3a9293f30ed19216bf5"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-missing-slash-36518cf7/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-missing-slash-36518cf7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-missing-slash-36518cf7/observed.json",
+        "raw_bytes": 2223,
+        "raw_sha256": "eff4a70f9637792895c54e94c83391952b863fb79f6e975fbd09e96f37d7b6c1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-before-next-0ad4ec4a/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-before-next-0ad4ec4a/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-before-next-0ad4ec4a/observed.json",
+        "raw_bytes": 2229,
+        "raw_sha256": "7f880622c17b99b4ae451b3e29eefd6245bc342656121be7ce11401aa2d42f40"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-nibbles-cb17bd23/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-nibbles-cb17bd23/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-odd-nibbles-cb17bd23/observed.json",
+        "raw_bytes": 2217,
+        "raw_sha256": "23f43c5738697c501abeccc5b738b75080ac5a4cc97dddf403cdab86c6c5ecdb"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-one-nibble-acd289dc/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-one-nibble-acd289dc/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-one-nibble-acd289dc/observed.json",
+        "raw_bytes": 2212,
+        "raw_sha256": "e3778058cfc9184e3a105eb3f7ff8d600a0b6019e2ba8cbec3623740816bf557"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-spaces-ef7d17d9/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-spaces-ef7d17d9/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-spaces-ef7d17d9/observed.json",
+        "raw_bytes": 2224,
+        "raw_sha256": "575b99e820c3eb6a1c9ea16f906e81b37a742b30c5de5cee7e953ff647a45880"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-trailing-junk-c16ad094/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-trailing-junk-c16ad094/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-trailing-junk-c16ad094/observed.json",
+        "raw_bytes": 2223,
+        "raw_sha256": "f007292be49d8095471ebf1e4a11018d12200ed66e4edc70f5f326a4b1da124f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-unknown-key-ba32aa37/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "277abd59875fd4187fcd6d5c0a74400f113aa68dd8dc2b328c36a3f91001def1"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-unknown-key-ba32aa37/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "9b798e2/reference/dec-udk-xterm/payload-unknown-key-ba32aa37/observed.json",
+        "raw_bytes": 2227,
+        "raw_sha256": "5ea67d15acb58b9db928a3f410e162d76505f39adbb2436cbcb64327c7cfa51a"
+      },
+      {
+        "path": "9b798e2/reference/executable-sha256.txt",
+        "raw_bytes": 102,
+        "raw_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd"
+      },
+      {
+        "path": "9b798e2/reference/fixture-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "32036b409f3a29975e0aebf2ea5dc3f5d82914e8f2caed6a39bbe1621a0634f2"
+      },
+      {
+        "path": "9b798e2/reference/udk-source-sha256.txt",
+        "raw_bytes": 782,
+        "raw_sha256": "480706b129084b31f3dbdc6c95c3549bf634b4e4f8b035f361a93bbeae39382a"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/VTPrsTbl.c",
+        "raw_bytes": 221587,
+        "raw_sha256": "36169b1c9ef40cd35a46ffc2549d1a002d488847d72b35aa2d810c71f692940d"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/charproc.c",
+        "raw_bytes": 413168,
+        "raw_sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/configure.in",
+        "raw_bytes": 41812,
+        "raw_sha256": "1c760575fd4da544e6c7daa5042be4dcf0d93d62aee540eb505d6ed05ee8ae31"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/ctlseqs.ms",
+        "raw_bytes": 167851,
+        "raw_sha256": "69773380309da4c8b5d4ec9646eec703c47bc41db29a8efa5b94c30798c72349"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/input.c",
+        "raw_bytes": 62876,
+        "raw_sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/misc.c",
+        "raw_bytes": 204947,
+        "raw_sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+      },
+      {
+        "path": "9b798e2/reference/udk-source/ptyx.h",
+        "raw_bytes": 120334,
+        "raw_sha256": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+      },
+      {
+        "path": "9b798e2/reference/upstream-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+      },
+      {
+        "path": "9b798e2/reference/version.txt",
+        "raw_bytes": 11,
+        "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+      },
+      {
+        "path": "9b798e2/reference/x11-packages.txt",
+        "raw_bytes": 77,
+        "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+      },
+      {
+        "path": "9b798e2/reference/xtermcfg.h",
+        "raw_bytes": 13727,
+        "raw_sha256": "e81cf6d96830432c9cdd309958a42ede3f81f18524d533fc152460e3cbe66adf"
+      },
+      {
+        "path": "9b798e2/source/.github/workflows/protocol-reference.yml",
+        "raw_bytes": 23662,
+        "raw_sha256": "f521cc21550a52a60882b8204b13583364046ac2159cb06c576a5caadaefe602"
+      },
+      {
+        "path": "9b798e2/source/tests/xterm_locator_oracle.py",
+        "raw_bytes": 16791,
+        "raw_sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+      },
+      {
+        "path": "9b798e2/source/tests/xterm_udk_oracle.py",
+        "raw_bytes": 12413,
+        "raw_sha256": "87db712e93a89d11ef4af63c9c4577dcaea90a215bba46e60e2b7cb78d53616a"
+      },
+      {
+        "path": "9b798e2/udk-artifacts.json",
+        "raw_bytes": 780,
+        "raw_sha256": "75090206cf88e42525f486c7a01c78398f54868ad3a9ddbdebb0a154baaa74c6"
+      },
+      {
+        "path": "9b798e2/udk-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "b627ebb2153ef201bcb5d13b8b8b83aaf9db87e81ae82b43e69a25654d3b61d6"
+      },
+      {
+        "path": "9b798e2/udk-run.json",
+        "raw_bytes": 5658,
+        "raw_sha256": "df6df01a119e7240bb98078d9544d8f2dff813e0bed4856774fcb9bd42cdb094"
+      },
+      {
+        "path": "9b798e2/udk-run.log",
+        "raw_bytes": 137334,
+        "raw_sha256": "ea3b913ff52ae6c863434d5b2a2fb0b5ca8fa68128fbd34ebebb05f043697461"
+      },
+      {
+        "path": "f743c91/reference-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "1b516c84edb0707e5a9d3eb403a09875a46f2dd69f9a7ccc5b632b1a9e4143a6"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm.json",
+        "raw_bytes": 16970,
+        "raw_sha256": "a2d93785b8408e336450699d688cb5f37ee59ba4999309f3b3ce1a9995b61ddf"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/default-profile-11895305/child.json",
+        "raw_bytes": 77,
+        "raw_sha256": "8b33a0f7b38c3487f2c8ac0ccf3627bcb7b1951cc90a32f0c36bdbda55c19d4f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/default-profile-11895305/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/default-profile-11895305/observed.json",
+        "raw_bytes": 1075,
+        "raw_sha256": "1eb5208828a4efc79740a9ec31362834df5826b8e6208803748c6959c5d2eacb"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F1-78766475/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "8040f74267efd4929aff6d54eaf4243d76779db85607652f0b21d7f193c3e792"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F1-78766475/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F1-78766475/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "138d5d8af49871e521023ed29930db84b929d70918a94f12384139782c8904e4"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F10-440a8de6/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "4b287959ed2041eb81fa9f4bbdbce0ce3fde33d866d7da12907887613c062f96"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F10-440a8de6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F10-440a8de6/observed.json",
+        "raw_bytes": 1056,
+        "raw_sha256": "12978b0733fb7d55a4ea39686ca4c94aadc36af660146ba9b83a51b87d2852ef"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F11-eef5da36/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "04b1af0592d6f5e8cd5180c9599033ca2e3afe19d5b43680cb3f4c68ee4a9cc9"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F11-eef5da36/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F11-eef5da36/observed.json",
+        "raw_bytes": 1056,
+        "raw_sha256": "96125c7368780d7498bacec729ea743bcbd5605a49740a334a74d693e8bbb544"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F12-524c5d12/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "0316bc6a471d46679615b26587f825b448ce824a1f5a8650fd06cf51634b0bd8"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F12-524c5d12/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F12-524c5d12/observed.json",
+        "raw_bytes": 1056,
+        "raw_sha256": "033210ffe48d4971df439502b1be9064ccd1804799f17a0336973a62fa8f820f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F13-fa8b5f34/child.json",
+        "raw_bytes": 55,
+        "raw_sha256": "23bb7e7ca438dd33bd23ad1ec33348fa4ef2f68fa5cdf8e98985416d414b22fb"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F13-fa8b5f34/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F13-fa8b5f34/observed.json",
+        "raw_bytes": 441,
+        "raw_sha256": "f5b475bb3407eef26bca381f394e8874563e028f8f8a55b4b578b764010077a2"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F2-f45a45c5/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "be02fc5e7005fa2e0ab6ba5251cb21cb8d194a757c632c4f3a83e1efe6cdae4b"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F2-f45a45c5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F2-f45a45c5/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "0940384386ccf87f18c3dcb00b5b5689f037b8d5d5f32a40a9e11f0b14ffb889"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F3-5c15e5e6/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "2ff4c0637af749c93a3775489377208f359726b472b0ae215b6421dfc2e0fbda"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F3-5c15e5e6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F3-5c15e5e6/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "5dd19c6cb238e98b626371d6c3a1b095cbfdfa6299047298880fab91ebe129e2"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F4-34e276a3/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "9f6ee6e921485bd8da4b91ddd6c3a156d4ee6fd05d753770eb2edb4cd7dd4e87"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F4-34e276a3/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F4-34e276a3/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "4028f221b05bc132aab56d794d249914594bfe29d730f669689d059cb728cb23"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F5-84d61ee7/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7532488c45f5c76de308ccc1b2fe310b1cc6f0439174338580d32d8f0274a40e"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F5-84d61ee7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F5-84d61ee7/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "e698aa3eb373a85c7af134bcfbb709610c3cca99ce5ac82ff62677a3501d1266"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F6-8e5fb0ab/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "7d45e566d122e8d70b54e728dabd58e0a6c470256280503aec7b4539f8507188"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F6-8e5fb0ab/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F6-8e5fb0ab/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "3b36d8676b24d00067a0cf6aa7135c25653867563cc14fc56ddd79524747a8ae"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F7-3d558e8f/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "aa1f31d4aae99d61d1ff608fb13e1932ba0a9578616a46ed0f5b12a4b325c18d"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F7-3d558e8f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F7-3d558e8f/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "ee67ed15d5762edab3e2e2fc5233060d8031ab432d9714a1fb01a42780862867"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F8-f67e5238/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "8470edbd900ffdd2cfda4e775bc2d8eeb388a33e9e60050ecb28c76204e6317f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F8-f67e5238/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F8-f67e5238/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "98053faca3f202504d9ae769b1f3574db4ca1320e69c4266481cfa810618a472"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F9-9bc5d351/child.json",
+        "raw_bytes": 69,
+        "raw_sha256": "84438d86b8371d95f4d572d729471b1ccdb54880d72662c5a28761b6bd967b77"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F9-9bc5d351/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/function-F9-9bc5d351/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "f3f03efee804416d3c03e3bfe6ed594f7a64455a611320327774ec7ae07ace7e"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-definition-6e414e75/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "26a0fb8abe8dcd4e360c2ddb88e89c22a2b0bc39df1501e4d3812c28dec87454"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-definition-6e414e75/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-definition-6e414e75/observed.json",
+        "raw_bytes": 1218,
+        "raw_sha256": "41edf0fa9962ad180e6baa7d249388e15d37d78475ab0a18575c39d31bb32afe"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-status-299787ad/child.json",
+        "raw_bytes": 75,
+        "raw_sha256": "a519c5dcb27e30e22362e6f66b54fc8b80cccba69aae173cda55700e49d15baf"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-status-299787ad/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-status-299787ad/observed.json",
+        "raw_bytes": 600,
+        "raw_sha256": "ff38dff8fe06276c01bb3f7eb260a789e2a240e5a66e93e64242257306f448c6"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-unshifted-1b74e71e/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "9e95d502b28a9f400a3d41db8449a8037377b61102898513d7c242a323457d6a"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-unshifted-1b74e71e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "f743c91/reference/dec-udk-xterm/literal-unshifted-1b74e71e/observed.json",
+        "raw_bytes": 831,
+        "raw_sha256": "896cffd88254719c47b6673212d72ef504553d9e26cd381289bb2186d59c8715"
+      },
+      {
+        "path": "f743c91/reference/executable-sha256.txt",
+        "raw_bytes": 102,
+        "raw_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd"
+      },
+      {
+        "path": "f743c91/reference/fixture-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "2ec34bc5b2d1e56daad8bae8770fb2168c1c827625bbdeaf00dc5127a6885d1a"
+      },
+      {
+        "path": "f743c91/reference/udk-source-sha256.txt",
+        "raw_bytes": 782,
+        "raw_sha256": "480706b129084b31f3dbdc6c95c3549bf634b4e4f8b035f361a93bbeae39382a"
+      },
+      {
+        "path": "f743c91/reference/udk-source/VTPrsTbl.c",
+        "raw_bytes": 221587,
+        "raw_sha256": "36169b1c9ef40cd35a46ffc2549d1a002d488847d72b35aa2d810c71f692940d"
+      },
+      {
+        "path": "f743c91/reference/udk-source/charproc.c",
+        "raw_bytes": 413168,
+        "raw_sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+      },
+      {
+        "path": "f743c91/reference/udk-source/configure.in",
+        "raw_bytes": 41812,
+        "raw_sha256": "1c760575fd4da544e6c7daa5042be4dcf0d93d62aee540eb505d6ed05ee8ae31"
+      },
+      {
+        "path": "f743c91/reference/udk-source/ctlseqs.ms",
+        "raw_bytes": 167851,
+        "raw_sha256": "69773380309da4c8b5d4ec9646eec703c47bc41db29a8efa5b94c30798c72349"
+      },
+      {
+        "path": "f743c91/reference/udk-source/input.c",
+        "raw_bytes": 62876,
+        "raw_sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+      },
+      {
+        "path": "f743c91/reference/udk-source/misc.c",
+        "raw_bytes": 204947,
+        "raw_sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+      },
+      {
+        "path": "f743c91/reference/udk-source/ptyx.h",
+        "raw_bytes": 120334,
+        "raw_sha256": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+      },
+      {
+        "path": "f743c91/reference/upstream-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+      },
+      {
+        "path": "f743c91/reference/version.txt",
+        "raw_bytes": 11,
+        "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+      },
+      {
+        "path": "f743c91/reference/x11-packages.txt",
+        "raw_bytes": 77,
+        "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+      },
+      {
+        "path": "f743c91/reference/xtermcfg.h",
+        "raw_bytes": 13727,
+        "raw_sha256": "e81cf6d96830432c9cdd309958a42ede3f81f18524d533fc152460e3cbe66adf"
+      },
+      {
+        "path": "f743c91/source/.github/workflows/protocol-reference.yml",
+        "raw_bytes": 23662,
+        "raw_sha256": "f521cc21550a52a60882b8204b13583364046ac2159cb06c576a5caadaefe602"
+      },
+      {
+        "path": "f743c91/source/tests/xterm_locator_oracle.py",
+        "raw_bytes": 16791,
+        "raw_sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+      },
+      {
+        "path": "f743c91/source/tests/xterm_udk_oracle.py",
+        "raw_bytes": 10097,
+        "raw_sha256": "9f3129ebb05021e300ce326fa2f4c2e9a5e5dff8210b4eb1c0a60dd6372beaaa"
+      },
+      {
+        "path": "f743c91/udk-artifacts.json",
+        "raw_bytes": 780,
+        "raw_sha256": "99832bc267c060fed79e26694c5adbca8eca4b26a9c09449c4eca772c1e5e822"
+      },
+      {
+        "path": "f743c91/udk-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "df8a2851aa5c4d65f7de10b65e1eb38c3b0d8877384b583ba07e0a04b48d8340"
+      },
+      {
+        "path": "f743c91/udk-run.json",
+        "raw_bytes": 5658,
+        "raw_sha256": "bdc746d896098d93f0158e69345e5893e182f9f6fcf524c04cf551c3ea7134e6"
+      },
+      {
+        "path": "f743c91/udk-run.log",
+        "raw_bytes": 129461,
+        "raw_sha256": "751598e440ed73d5d11e100a61d80160e60a19d0fcff88d411c14c09c9ab4e93"
+      }
+    ]
+  }
+}

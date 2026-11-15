@@ -13,6 +13,17 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. Local interactive desktop testing remains paused until the user resumes it.
 
+## DEC user-defined key reference (2026-11-16 Sydney)
+
+The [independent UDK reference](../research/dec-udk.md) passes 91 cases and
+238 steps against pinned XTerm in cloud CI. It retains original physical key
+events, binary replies, reset/cancellation behavior and a default-profile
+comparison. The first virtual-keyboard mapping failure is retained separately;
+its 16 complete cases are unchanged after adding missing F13-F20 mappings only
+on the owned Xvfb display. This is reference evidence, not an implemented
+Nemoterm feature. Bounded storage, explicit keyboard profile, core replay and
+native integration remain pending. No memory/rendering policy changes are made.
+
 ## ANSI charset conformance development (2026-11-15 Sydney)
 
 `ESC SP L/M/N` now sets separate ANSI charset conformance state, with no new
