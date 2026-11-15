@@ -2,7 +2,6 @@
 import os
 assert os.environ.get('GITHUB_ACTIONS') == 'true', 'Requires disposable CI desktop'
 import frida
-import struct
 from native_test_utils import (root,c,w,u,hashlib,json,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_for,find_window,terminal_host)
 from owned_job import OwnedJob
@@ -53,7 +52,9 @@ try:
                 wait_for(lambda:read_snapshot(item['report']).get('columns')==80)
                 children.append(item);return item
             first_child=child()
-            api.request(endpoint,'key',first['id'],struct.pack('<II',ord('T'),3))
+            # Duplicate the fixture command. New-tab intentionally launches the
+            # configured shell, which would not create our second VT mailbox.
+            u.SendMessageW(first['hwnd'],0x111,0x30,0) # WM_COMMAND / IDM_DUPSESS
             sessions=wait_for(lambda:(s if len(s:=api.request(endpoint)['sessions'])==2 else None))
             second=next(s for s in sessions if s['id']!=first['id'])
             second_child=child()
