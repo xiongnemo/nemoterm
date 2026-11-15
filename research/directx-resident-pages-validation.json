@@ -1,0 +1,197 @@
+{
+  "product_source": "6e05bd1a70515ede970323eb633563021d80ac3e",
+  "fixture_source": "752f3be71f8a0dce6e24d46af7dcf3d6d87c70a2",
+  "executable_sha256": "dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab",
+  "windows": [
+    "10",
+    "10.0.19044",
+    "SP0",
+    "Multiprocessor Free"
+  ],
+  "diagnostic_only": true,
+  "scope": "Idle single-view 160x48 comparison; not workload or peak acceptance; frontend only",
+  "completed": true,
+  "source_sha256": {
+    "tests/owned_job.py": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+    "tests/native_test_utils.py": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675",
+    "tests/handle_snapshot.py": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e",
+    "tests/thread_snapshot.py": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde",
+    "tests/working_set_regions.py": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610",
+    "tests/mouse_fixture.py": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c",
+    "vendor/putty-0.85/windows/nemo_d3d11.c": "c41be3ac26c601420dd04d384ee332142241c34954a8e63b67c42401e2f958c0"
+  },
+  "cases": [
+    {
+      "renderer": "gdi",
+      "actual_renderer": 1,
+      "grid": [
+        160,
+        48
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "snapshots": [
+        {
+          "label": "ready",
+          "seconds": 0.013378100004047155,
+          "pages": 5786,
+          "totals": {
+            "private_ws": 4358144,
+            "shareable_ws": 19341312,
+            "shareable_one_process": 0,
+            "total_ws": 23699456
+          },
+          "unavailable": [],
+          "scope": "One QueryWorkingSet list followed by VirtualQueryEx/module metadata; sequential, not atomic. Shared bit means sharable, not exclusive ownership. No page contents, target calls, injection, suspension or trimming."
+        },
+        {
+          "label": "idle-after-two-seconds",
+          "seconds": 0.013157099951058626,
+          "pages": 5786,
+          "totals": {
+            "private_ws": 4358144,
+            "shareable_ws": 19341312,
+            "shareable_one_process": 0,
+            "total_ws": 23699456
+          },
+          "unavailable": [],
+          "scope": "One QueryWorkingSet list followed by VirtualQueryEx/module metadata; sequential, not atomic. Shared bit means sharable, not exclusive ownership. No page contents, target calls, injection, suspension or trimming."
+        }
+      ]
+    },
+    {
+      "renderer": "directx",
+      "actual_renderer": 3,
+      "grid": [
+        160,
+        48
+      ],
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      },
+      "snapshots": [
+        {
+          "label": "ready",
+          "seconds": 0.021910199895501137,
+          "pages": 10483,
+          "totals": {
+            "private_ws": 11653120,
+            "shareable_ws": 31285248,
+            "shareable_one_process": 0,
+            "total_ws": 42938368
+          },
+          "unavailable": [],
+          "scope": "One QueryWorkingSet list followed by VirtualQueryEx/module metadata; sequential, not atomic. Shared bit means sharable, not exclusive ownership. No page contents, target calls, injection, suspension or trimming."
+        },
+        {
+          "label": "idle-after-two-seconds",
+          "seconds": 0.02092929999344051,
+          "pages": 10483,
+          "totals": {
+            "private_ws": 11653120,
+            "shareable_ws": 31285248,
+            "shareable_one_process": 0,
+            "total_ws": 42938368
+          },
+          "unavailable": [],
+          "scope": "One QueryWorkingSet list followed by VirtualQueryEx/module metadata; sequential, not atomic. Shared bit means sharable, not exclusive ownership. No page contents, target calls, injection, suspension or trimming."
+        }
+      ]
+    }
+  ],
+  "bundle": {
+    "path": "research/directx-resident-pages-evidence/idle-snapshots.tar.gz",
+    "archive_bytes": 201469,
+    "archive_sha256": "700192de27129f3fa4fee7905818c13e94ae1a84ebb0a4c8ddfae562dd9f6815",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 6398,
+        "raw_sha256": "cc4dc767cf53c979ba674e7a7795bdf7a2a0fbef3efa5cf5de5857bef205071c"
+      },
+      {
+        "path": "directx/child-control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "directx/child-report.json",
+        "raw_bytes": 117,
+        "raw_sha256": "ac982c616067202b78503f7a83e559a558594bf2a2ba87c4d46101367523aa88"
+      },
+      {
+        "path": "gdi/child-control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "gdi/child-report.json",
+        "raw_bytes": 117,
+        "raw_sha256": "ac982c616067202b78503f7a83e559a558594bf2a2ba87c4d46101367523aa88"
+      },
+      {
+        "path": "results.json",
+        "raw_bytes": 1383940,
+        "raw_sha256": "7d10df1922c1df1565fc293e9829e6d8bc2880ee9d8d8332d065a1d180299aa9"
+      },
+      {
+        "path": "source/tests/handle_snapshot.py",
+        "raw_bytes": 7089,
+        "raw_sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e"
+      },
+      {
+        "path": "source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "source/tests/thread_snapshot.py",
+        "raw_bytes": 7972,
+        "raw_sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+      },
+      {
+        "path": "source/tests/working_set_regions.py",
+        "raw_bytes": 5065,
+        "raw_sha256": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610"
+      },
+      {
+        "path": "source/vendor/putty-0.85/windows/nemo_d3d11.c",
+        "raw_bytes": 15499,
+        "raw_sha256": "c41be3ac26c601420dd04d384ee332142241c34954a8e63b67c42401e2f958c0"
+      }
+    ]
+  }
+}
