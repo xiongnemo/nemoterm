@@ -33,6 +33,8 @@ parser.add_argument('--kitty-compression',action='store_true',
                     help='use zlib-compressed PNG for the Kitty memory workload')
 parser.add_argument('--probe-boundaries',action='store_true',
                     help='retain read-only owned procedure-entry/liveness snapshots around test probes')
+parser.add_argument('--exception-observer',type=Path,
+                    help='test-only external debugger executable; diagnostic only, not memory acceptance')
 observation=parser.add_mutually_exclusive_group()
 observation.add_argument('--resource-inventory',action='store_true',
                     help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
@@ -55,6 +57,8 @@ if diagnostic and not args.workload_memory:
     parser.error('Memory observers require --workload-memory')
 if diagnostic and not args.local_heap_census and os.environ.get('CI')!='true':
     parser.error('Memory observers require --workload-memory on a dedicated CI runner')
+if args.exception_observer and (args.workload_memory or args.dense_clusters or diagnostic or args.resource_inventory):
+    parser.error('Exception diagnosis must run separately from resource and memory observations')
 if diagnostic:faulthandler.dump_traceback_later(180,exit=True)
 if args.workload_memory:args.dense_clusters=True
 prefix='local-heap-tabs' if args.local_heap_census else 'etw-tabs' if args.etw_memory_trace else 'virtual-tabs' if args.virtual_memory_trace else 'allocation-tabs' if args.allocation_census else 'workload-tabs' if args.workload_memory else 'cluster-tabs' if args.dense_clusters else 'tabs'
@@ -64,6 +68,7 @@ if args.kitty_images:prefix='kitty-'+prefix
 if args.kitty_compression:prefix='compressed-'+prefix
 base_scene=scene
 if args.resource_inventory:prefix='inventory-tabs'
+if args.exception_observer:prefix='exception-tabs'
 dense_memory_phase=args.dense_clusters
 def scene(text,colour):
     result=base_scene(text,colour)
@@ -110,6 +115,7 @@ if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False
 if args.resource_inventory:
     evidence.update(diagnostic_completed=False,memory_acceptance=False,resource_inventory=[])
 if args.etw_memory_trace:evidence['kernel_etw_recording']=True
+if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoRenderer=
             {'gdi':0,'opengl':1,'directx':2}[args.renderer]).items():
@@ -118,7 +124,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
-        worker_leases=[];evidence['worker_closes']=[];menu_checks=None
+        worker_leases=[];evidence['worker_closes']=[];menu_checks=None;exception_observer=None
         process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
@@ -141,6 +147,10 @@ try:
                 memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
                                                kernel_etw_recording=args.etw_memory_trace)
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
+            if args.exception_observer:
+                from native_exception_observer import NativeExceptionObserver
+                exception_observer=NativeExceptionObserver(args.exception_observer,process,job,
+                    root/'research'/f'{prefix}-{args.renderer}-{args.side}-{profile}')
             def new_child(before):
                 def launch():
                     for path in tmp.glob('*.launch.json'):
@@ -487,6 +497,8 @@ try:
             finally:
                 evidence['host_close']=dict(exit_code=process.poll(),seconds=time.monotonic()-close_started)
             assert process.returncode==0,process.returncode
+            if exception_observer:
+                exception_observer.helper.wait(timeout=10)
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['checks'].append('closing original tab preserves sibling; host close drains all processes')
@@ -523,6 +535,10 @@ try:
                 for capture_helper in captures:capture_helper.close()
                 for lease in worker_leases:lease.close()
                 if handle:k.CloseHandle(handle)
+                if exception_observer:
+                    evidence['exception_observer']=exception_observer.close()
+                    if evidence['exception_observer'].get('exit_code')!=0:
+                        cleanup_failure=RuntimeError('External exception observer failed; inspect its retained log')
                 evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
                 if cleanup_failure is not None and primary_failure is None:raise cleanup_failure
 finally:
