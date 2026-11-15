@@ -151,6 +151,71 @@ static void unicode_lifetime_boundaries(void)
     destroy(&f);
 }
 
+static void check_cell_order(Fixture *f,unsigned first_row)
+{
+    unsigned seen=0,hidden=0;
+    for (const NemoKittyPlacement *p=nemo_kitty_placements_first(f->places);p;
+         p=nemo_kitty_placement_next(p)) {
+        NemoKittyView v;
+        if (!nemo_kitty_placement_view(p,10,20,&v)) { hidden++;continue; }
+        unsigned image=seen/4,row=first_row+seen%4;
+        CHECK(v.id==100+image && v.z==-1 && !v.placement);
+        CHECK(v.left==image*10 && v.right==(image+1)*10 && v.top==row*20 && v.bottom==(row+1)*20);
+        seen++;
+    }
+    CHECK(seen==4*NEMO_KITTY_IMAGE_MAX && hidden==NEMO_KITTY_PLACEMENT_MAX);
+}
+
+static void unicode_index_lifetime(void)
+{
+    Fixture f;create(&f);
+    size_t baseline=nemo_kitty_placements_memory(f.places);
+    NemoKittyImage *images[NEMO_KITTY_IMAGE_MAX];
+    CHECK(NEMO_KITTY_PLACEMENT_MAX==4*NEMO_KITTY_IMAGE_MAX);
+    for (unsigned i=0;i<NEMO_KITTY_IMAGE_MAX;i++) {
+        char header[64];
+        int n=snprintf(header,sizeof(header),"i=%u,f=24,s=10,v=20",100+i);
+        CHECK(n>0 && (size_t)n<sizeof(header));
+        images[i]=load(&f,parse(header),10,20);
+        put(&f,images[i],"a=p,p=7,U=1,c=1,r=1,z=2",0,0);
+        put(&f,images[i],"a=p,p=8,U=1,c=1,r=1,z=1",0,0);
+        put(&f,images[i],"a=p,p=9,U=1,c=1,r=1,z=0",0,0);
+        put(&f,images[i],"a=p,p=10,U=1,c=1,r=1,z=-2",0,0);
+    }
+    NemoKittyCommand command=parse("a=p,p=11,U=1,c=1,r=1");NemoKittyLayout out;
+    CHECK(nemo_kitty_placements_put(f.places,images[0],&command,0,0,10,20,&out)==NEMO_KITTY_PLACE_LIMIT);
+    /* Alternate image order between passes. Each image must still be sorted
+     * by creation order, with its own cells in placement-creation order. */
+    for (unsigned row=0;row<4;row++)
+        for (unsigned i=0;i<NEMO_KITTY_IMAGE_MAX;i++) {
+            unsigned index=row%2 ? i : NEMO_KITTY_IMAGE_MAX-1-i;
+            CHECK(nemo_kitty_placements_cell(f.places,100+index,0,0,0,1,(int32_t)index,(int32_t)row,10,20));
+        }
+    check_cell_order(&f,0);
+    /* Replacement changes sorting without changing the prototype identity. */
+    put(&f,images[0],"a=p,p=7,U=1,c=1,r=1,z=-3",0,0);
+    check_cell_order(&f,0);
+    /* An ordinary replacement must disappear from the prototype index. */
+    put(&f,images[0],"a=p,p=7,c=1,r=1",0,0);
+    put(&f,images[0],"a=p,p=7,U=1,c=1,r=1,z=2",0,0);
+    check_cell_order(&f,0);
+    nemo_kitty_placements_remove_cells(f.places,0,0);
+    for (unsigned i=NEMO_KITTY_IMAGE_MAX;i--;)
+        CHECK(nemo_kitty_placements_cell(f.places,100+i,7,0,0,1,(int32_t)i,4,10,20));
+    check_cell_order(&f,1);
+    CHECK(delete(&f,"a=d,d=I,i=100,p=7")==1);
+    /* Reusing a client ID creates a new identity; stale cells stay hidden. */
+    put(&f,images[0],"a=p,p=7,U=1,c=1,r=1",0,0);
+    CHECK(nemo_kitty_placements_cell(f.places,100,7,0,0,1,0,5,10,20));
+    nemo_kitty_placements_remove_cells(f.places,INT32_MIN,INT32_MAX);
+    CHECK(nemo_kitty_placements_count(f.places)==NEMO_KITTY_PLACEMENT_MAX);
+    for (unsigned i=0;i<NEMO_KITTY_IMAGE_MAX;i++) CHECK(nemo_kitty_image_references(images[i])==4);
+    nemo_kitty_cache_clear(f.cache);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    CHECK(!nemo_kitty_placements_have_cells(f.places));
+    CHECK(f.peak<=BUDGET);destroy(&f);
+}
+
 static void relative_lifetime_boundaries(void)
 {
     /* Retiring an anonymous image must not call back in the middle of a
@@ -274,6 +339,7 @@ int main(int argc,char **argv)
     if (argc==2 && !strcmp(argv[1],"--benchmark-cells")) return benchmark_cells();
     CHECK(argc==1);
     unicode_lifetime_boundaries();
+    unicode_index_lifetime();
     relative_lifetime_boundaries();
     Fixture f; create(&f);
     size_t baseline=nemo_kitty_placements_memory(f.places);

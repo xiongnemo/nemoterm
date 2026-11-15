@@ -378,8 +378,11 @@ desktop or passed its new remote memory gate.
 
 At `4095697`, [ordinary CI 43681119193](https://github.com/xiongnemo/nemoterm/actions/runs/43681119193)
 passes all four jobs and [single-image CI 43681119198](https://github.com/xiongnemo/nemoterm/actions/runs/43681119198)
-passes 149 isolated groups. Both exercise 153 Unicode cell/geometry stages over
-GDI, OpenGL and DirectX, as well as ten uninjected two-tab memory workloads each.
+passes 149 isolated groups. Both exercise 153 Unicode cell/geometry stages with
+GDI, OpenGL and DirectX requested, as well as ten uninjected two-tab memory
+workloads each. The remote OpenGL requests fall back to actual GDI; these runs
+prove GDI and DirectX pixels, not actual OpenGL execution. The earlier local
+development observations identify actual OpenGL separately.
 Those remote workloads used Consolas at the actual screen-clamped grids
 109x34 (top tabs) and 88x35 (left tabs). They passed their existing private-WS
 limits; they are not local 160x48 Sarasa or dense Unicode-cell memory acceptance.
@@ -391,5 +394,8 @@ Its digest and sole-file directory match the isolated validation manifest.
 `full-ci-4095697.tar.gz` retains 66 original workflow, memory and native-result
 records with per-file hashes. This checkpoint predates the newer capability
 advertisement, native clipboard fixture and dense Unicode memory fixture.
-It has not replaced the accepted `752f3be` executable. Those newer checks are
-running remotely at `eae8968`; local desktop testing remains paused.
+It has not replaced the accepted `752f3be` executable. At `eae8968`, ordinary
+CI fails `tabs_profiles_window_smoke.py` at the final zero-exit assertion:
+all seven functional checks complete, then the frontend exits `0xC0000005`.
+The graphics/memory gates later in that job were not reached. Its independent
+single-image workflow is still running. Local desktop testing remains paused.

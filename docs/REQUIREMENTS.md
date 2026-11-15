@@ -1,5 +1,27 @@
 # Nemoterm requirements and evidence ledger
 
+## Relative and Unicode image development (2026-11-15 Sydney)
+
+The development branch implements Kitty relative placements and Unicode image
+cells without adding storage to every terminal character. All 238 relative
+states and 728 Unicode states pass; eight Unicode text-policy differences are
+explicitly checked against an independent XTerm reference. Capability queries
+now advertise implemented `U/P/Q/H/V` fields. The
+[implementation record](../research/kitty-unicode-placeholders.md) links the
+original failures, source identities, independent references, core copies,
+native clipboard/pixel results and later corrections.
+
+At `4095697`, all four ordinary CI jobs and 149 single-file groups pass. Remote
+OpenGL requests use GDI fallback; actual OpenGL is covered by the separately
+identified earlier local development runs. The ten remote memory groups per
+workflow used Consolas at 109x34 or 88x35. The newer capability advertisement
+passes GCC, Clang and MSVC at `3ac5a6b`. Ordinary CI at `eae8968` fails mixed-profile
+close with exit `0xC0000005` after seven functional checks, before reaching the
+new dense-memory fixture; its separate single-image workflow is still running.
+This is not acceptance of
+the new exact product at local 160x48 Sarasa. Local interactive testing is
+currently paused at the user's request. The accepted artifact below is unchanged.
+
 ## Current accepted artifact (2026-11-15 Sydney)
 
 The sole distribution file is `nemoterm.exe` from `752f3be71f8a0dce6e24d46af7dcf3d6d87c70a2`,

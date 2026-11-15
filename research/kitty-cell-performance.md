@@ -22,6 +22,28 @@ raw values are comparable only within matched compiler/runtime environments.
 It does not measure parsing, raster painting, GPU presentation, process working
 set or interactive latency, and has no arbitrary timing pass threshold.
 
-No production optimization has been made yet. The first remote baseline is
-pending; local native testing remains paused by the user. Full native CI at
-`eae8968` continues independently, including the new dense-cell memory fixture.
+The first [remote baseline](https://github.com/xiongnemo/nemoterm/actions/runs/43684451421)
+passes all three compilers at `a7e40bd`. With 7,268 cells and one template, median
+creation/view-pass times are 104.403/93.878 ms for GCC, 98.770/88.172 ms for Clang
+and 183/231.25 ms for MSVC. At 8,192 cells, the corresponding values are
+131.562/118.992, 124.386/112.311 and 235/310.25 ms. These are distinct hosted
+machines/runtimes and are not a compiler ranking. Sixteen-template samples and
+all three raw repetitions are retained in the component artifacts.
+
+The proposed optimization keeps a sequence-sorted prototype index and per-image
+cell insertion hints in the placement owner. Unlinking or replacing a placement
+invalidates the hints before a borrowed pointer can expire. Template replacement
+preserves identity; removing or converting a template updates the index.
+Character and placement object sizes are unchanged. The fixed owner tables
+remain charged to the shared 4 MiB image budget (roughly 5 KiB extra per owner
+on x64); no run count or image cap is raised.
+
+The component workflow compiles the original placement source from full commit
+`a7e40bdc698dfa268b2bebe8c426d82e7a2d9130` beside the candidate, with identical
+current tests and compiler flags, then measures both on the same runner. The
+baseline placement source SHA256 is
+`1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0`.
+Additional correctness cases fill all 512 templates across 128 images, alternate
+image insertion order, replace/convert templates and remove/recreate cell runs.
+The candidate's remote validation is still pending; no runtime test has been
+run on the paused local desktop.

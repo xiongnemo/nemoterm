@@ -1,5 +1,11 @@
 # Kitty relative placements: reference and partial implementation
 
+This record describes the original `656fed4` checkpoint and retains its five
+Unicode failures. The later [Unicode implementation](kitty-unicode-placeholders.md)
+resolves those cases: all 238 relative states pass, alongside the broader
+728-state Unicode comparison. Native and full-CI scope, the eight explicit
+xterm text policies, and pending product acceptance are recorded there.
+
 Ordinary relative placements now match the retained upstream cases. The full
 replay still fails five Unicode-placeholder states, so this branch is not a
 product acceptance. The accepted 752f3be single executable remains unchanged.
