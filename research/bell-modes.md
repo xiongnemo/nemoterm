@@ -249,9 +249,21 @@ cleanup. Its manifest independently checks the original XTerm byte streams,
 window invariants and both renderers' closure/reactivation reports.
 
 Full ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
-and single-image [43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
-are running at `4154bac`. These remain unaccepted until their actual results are
-checked. The single-image job retains the 60-minute total budget; fixture and
+at `4154bac` is still running. Single-image
+[43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
+failed in the shell-mark fixture after all 19 selection/reflow checks passed:
+its final one-shot mailbox read returned an empty snapshot during a concurrent
+Windows file replacement. The cleanup snapshot contains the expected unchanged
+DSR bytes (`1b5b306e`) in the correct `clipped-history` phase. This is not a full
+suite pass. `bell-single-mailbox-failure.tar.gz` retains a diagnostic subset of
+11 records / 5,419,849 bytes: run metadata/log, shell-mark observations and
+screenshots, and the unverified executable with its artifact receipt. The
+original CI evidence artifact retains the other partial-suite results.
+
+Both one-shot assertions now wait for a readable snapshot and assert on that
+same value; a readable but incorrect reply still fails immediately. The fix
+changes only the fixture. The replacement single-image job retains the
+60-minute total budget; fixture and
 shutdown deadlines are unchanged. No local execution, physical taskbar or
 speaker acceptance, or accepted-image promotion is inferred from the narrow
 native pass.

@@ -121,7 +121,8 @@ try:
             copy_selected(output1, 'saved select-output binding and combining Unicode')
             action(0x28, 0x50)
             menu(0x930, output2, 'saved next-prompt binding')
-            assert read_snapshot(report)['hex'] == '1b5b306e', read_snapshot(report)
+            snapshot = wait_snapshot(lambda: read_snapshot(report))
+            assert snapshot['hex'] == '1b5b306e', snapshot
 
             # Resize the owned window only. Reflow must preserve the selected record.
             for cols in (20, 100, 32, 80):
@@ -179,7 +180,11 @@ try:
             observed['samples'].append(memory_sample(handle))
             observed['private_ws_sampled_peak'] = max(s['private_ws'] for s in observed['samples'])
             assert observed['private_ws_sampled_peak'] < 20_000_000, observed['samples']
-            assert read_snapshot(report)['hex'] == '1b5b306e', read_snapshot(report)
+            # A concurrent atomic replacement may temporarily deny a read on
+            # Windows. Wait only for a readable snapshot; unexpected bytes
+            # must still fail immediately, rather than be retried away.
+            snapshot = wait_snapshot(lambda: read_snapshot(report))
+            assert snapshot['hex'] == '1b5b306e', snapshot
         finally:
             stop.set()
             if sampler: sampler.join(timeout=2)
