@@ -249,11 +249,23 @@ cleanup. Its manifest independently checks the original XTerm byte streams,
 window invariants and both renderers' closure/reactivation reports.
 
 Full ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
-at `4154bac` is still running. Single-image
+at `4154bac` passes all four jobs. Its retained observations include all 192
+bell replies, 38 GDI/DirectX window states, 232 UDK streams, 27 Locator checks,
+413 earlier ANSI/cancellation streams and 12 memory workloads. The owned-window
+caption fallback was used twice and achieved the verified foreground target.
+All required cleanup checks pass. Remote Consolas peaks were 14,340,096 bytes
+private / 43,311,104 total for GDI and 17,199,104 private / 51,761,152 total for
+DirectX; these are not local Sarasa or single-image measurements.
+`bell-modes-ordinary.tar.gz` retains 4,614 records (639,871,325 raw bytes;
+9,559,674 compressed) with original images, replies, source host identity and
+artifact receipts. Its manifest checks the complete recorded invariants.
+
+Single-image
 [43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
 failed in the shell-mark fixture after all 19 selection/reflow checks passed:
-its final one-shot mailbox read returned an empty snapshot during a concurrent
-Windows file replacement. The cleanup snapshot contains the expected unchanged
+its final one-shot mailbox read returned an empty snapshot. The reader maps
+transient file-read errors to an empty object; the precise caught exception was
+not logged. The cleanup snapshot contains the expected unchanged
 DSR bytes (`1b5b306e`) in the correct `clipped-history` phase. This is not a full
 suite pass. `bell-single-mailbox-failure.tar.gz` retains a diagnostic subset of
 11 records / 5,419,849 bytes: run metadata/log, shell-mark observations and
@@ -262,8 +274,9 @@ original CI evidence artifact retains the other partial-suite results.
 
 Both one-shot assertions now wait for a readable snapshot and assert on that
 same value; a readable but incorrect reply still fails immediately. The fix
-changes only the fixture. The replacement single-image job retains the
-60-minute total budget; fixture and
+changes only the fixture. Replacement single-image
+[43729769426](https://github.com/xiongnemo/nemoterm/actions/runs/43729769426)
+at `9d636e9` is still running and retains the 60-minute total budget; fixture and
 shutdown deadlines are unchanged. No local execution, physical taskbar or
 speaker acceptance, or accepted-image promotion is inferred from the narrow
 native pass.
