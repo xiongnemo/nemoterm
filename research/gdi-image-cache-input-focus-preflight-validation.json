@@ -1,0 +1,148 @@
+{
+  "source": "12ee33baa970363ddde687b3e612f9154e386356",
+  "executable_sha256": "64195969a8f2e6653f854d598f169810107ee808d66eaa1088cf9e3ced6b259f",
+  "completed": false,
+  "scope": "Two failed preparations; neither establishes actual foreground or an input pass. No caption click was sent. First cleanup was not recorded; second forcibly drains its owned job.",
+  "finding": "Helper accepted the transient Nemoterm view instead of waiting for the NemotermHost outer window. Corrected helper remains untested.",
+  "attempts": [
+    {
+      "number": "01",
+      "completed": false,
+      "window_class": "Nemoterm",
+      "set_foreground_result": false,
+      "caption_click": false,
+      "cleanup": null,
+      "error": "Traceback (most recent call last):\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\replay-gdi-single-focused-input.py\", line 80, in <module>\n    assert time.monotonic()<deadline,'Windows refused foreground preparation; no click or lock-policy workaround attempted'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Windows refused foreground preparation; no click or lock-policy workaround attempted\n"
+    },
+    {
+      "number": "02",
+      "completed": false,
+      "window_class": "Nemoterm",
+      "set_foreground_result": false,
+      "caption_click": false,
+      "cleanup": {
+        "before": {
+          "total": 5,
+          "active": 5,
+          "terminated": 0
+        },
+        "after": {
+          "total": 5,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 46504,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 76776,
+            "image": "C:\\Windows\\System32\\conhost.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 42096,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-gdi-single-ime-byte-focused-12ee33b-02\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 74416,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-gdi-single-ime-byte-focused-12ee33b-02\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 46092,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      },
+      "error": "Traceback (most recent call last):\n  File \"C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\replay-gdi-single-focused-input.py\", line 107, in <module>\n    assert clicked_point is not None,'No unobscured owned caption'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: No unobscured owned caption\n"
+    }
+  ],
+  "archive": {
+    "path": "gdi-image-cache-input-focus-preflight.tar.gz",
+    "bytes": 21754,
+    "sha256": "da2e9e8b955adbe4af84b3b2893490689d961fb94f7bb10e57cbdbad1536b538"
+  },
+  "records": [
+    {
+      "path": "attempt-01/IDENTITY.json",
+      "bytes": 767,
+      "sha256": "5d1e3f196e655738303e99c3416b61415a2216e6e5865d624fee6ab3a1d06d2c"
+    },
+    {
+      "path": "attempt-01/build/input-method-failure.json",
+      "bytes": 6542,
+      "sha256": "2c14c4180c5fa016922fbd0ba2f48ee8d6bf3bf93c4d5266039eb305015f62aa"
+    },
+    {
+      "path": "attempt-01/focus-controller.py",
+      "bytes": 6134,
+      "sha256": "23968c07fd35334935d8fa110996ad8b8f67dd9db104aa55c2b9b3b37a2d2aee"
+    },
+    {
+      "path": "attempt-01/logs/input.log",
+      "bytes": 377,
+      "sha256": "bdeef864d5d529b6f65e774c829640dc530c9a0496eecf46d86238845feeab8b"
+    },
+    {
+      "path": "attempt-01/research/focused-input-controller.json",
+      "bytes": 1443,
+      "sha256": "560c53d50e59bcc854a7ce5a813224b9c01b50b492f0fec44ec6cf8584dcdc47"
+    },
+    {
+      "path": "attempt-01/tests/input_method_probe.js",
+      "bytes": 3874,
+      "sha256": "64127a568507b7bde12c96d794684baf295dc1dd0e3c93ed3fac908c1e7afbb9"
+    },
+    {
+      "path": "attempt-01/tests/input_method_window_smoke.py",
+      "bytes": 9066,
+      "sha256": "fa42df3279d65a91fa16fd2ec27f300850c3e18750a4184dc39d640053b8e7be"
+    },
+    {
+      "path": "attempt-01/tests/owned_job.py",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "attempt-02/IDENTITY.json",
+      "bytes": 767,
+      "sha256": "5d1e3f196e655738303e99c3416b61415a2216e6e5865d624fee6ab3a1d06d2c"
+    },
+    {
+      "path": "attempt-02/focus-controller.py",
+      "bytes": 9158,
+      "sha256": "e8d9aac6e29a43129994cd00078ac4137788e36878dab196540ddbe29e6cd932"
+    },
+    {
+      "path": "attempt-02/logs/input.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt-02/research/focused-input-controller.json",
+      "bytes": 2474,
+      "sha256": "6a7cd635741082a09eceec4c7dc4f481ce310aa8a9030b36428b8eb792d9c73f"
+    },
+    {
+      "path": "attempt-02/tests/input_method_probe.js",
+      "bytes": 3874,
+      "sha256": "64127a568507b7bde12c96d794684baf295dc1dd0e3c93ed3fac908c1e7afbb9"
+    },
+    {
+      "path": "attempt-02/tests/input_method_window_smoke.py",
+      "bytes": 9066,
+      "sha256": "fa42df3279d65a91fa16fd2ec27f300850c3e18750a4184dc39d640053b8e7be"
+    },
+    {
+      "path": "attempt-02/tests/owned_job.py",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    }
+  ]
+}

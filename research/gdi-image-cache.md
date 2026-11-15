@@ -120,11 +120,38 @@ accepted policy. `gdi-image-cache-ordinary.tar.gz` retains 4,634 records;
 `gdi-image-cache-single.tar.gz` retains 4,605. Their manifests verify artifact
 receipts, source identities, archived record hashes and all listed assertions.
 
-The exact downloaded single image has started a separate **39-command** local
-acceptance run. Shutdown and startup-size groups pass; the 160x48 Sarasa dense
-GDI workload is running. The remaining groups cover all available shells, tab
-positions and previews, session lifetime, font zoom, input translation, local
-automation, native image pixels, twelve memory workloads, bindings and file/
-clipboard input. Each command preserves its own observations before shared
-filenames can be reused. Clipboard access remains an outstanding local concern.
-No accepted executable or main-branch promotion has occurred.
+The exact downloaded single image passes its complete **160x48 Sarasa dense
+GDI workload** at **19,226,624 bytes private WS**, **42,024,960 total WS** and
+**22,753,280 private commit**. All 3,876 uninjected samples over 421.709 seconds
+are retained. All 29,072 image-cell comparisons, ten tab/lifecycle checks and
+12 retained pixel strips pass. All 56 owned processes exit naturally. The
+independently reviewed checkpoint, including shutdown and startup-size groups,
+is retained in `gdi-image-cache-product-gdi.tar.gz` and its validation manifest.
+
+Fourteen initial groups of the **39-command** local acceptance pass, including
+all six installed shells, session restart, four tab positions, font zoom and
+GDI/DirectX automation. The next byte-input group fails with a missing
+`compositionWindow` field at synthetic DPI 144. Sixteen earlier input checks
+pass, including Chinese, emoji, combining text and installed Chinese IMM API
+submission. No DPI step has passed in this failed run. Its original failure,
+messages, fixtures and exact source are retained in
+`gdi-image-cache-input-initial.tar.gz`, with a separate failure manifest.
+
+The input probe sends synthetic focus messages; current product code requires
+the actual foreground host before updating the composition position. This is
+a suspected test-precondition mismatch, not yet an empirically established
+cause. Two external preparation attempts fail before establishing foreground;
+the second forcibly cleans up its owned job. Inspection finds that the helper
+selected the transient `Nemoterm` view instead of waiting for `NemotermHost`.
+The corrected helper must still be exercised before claiming focused input
+acceptance. Product focus behavior and the original fixture remain unchanged.
+Both unsuccessful preparations, including their original controllers, are
+retained in `gdi-image-cache-input-focus-preflight.tar.gz`; no caption click
+was sent in either attempt, and the first controller did not record cleanup.
+
+A fresh continuation preserves all fourteen initial passes and the original
+failure, defers both unresolved IME cases, and runs the remaining 23 independent
+cases. Each command preserves its own research observations and build failure
+diagnostics before shared filenames can be reused. Clipboard access remains an
+outstanding local concern. No accepted executable or main-branch promotion has
+occurred.

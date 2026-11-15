@@ -36,11 +36,17 @@ local workload at **18,481,152 private WS / 39,968,768 total WS bytes**, with al
 185 native pixel stages pass across actual GDI/OpenGL/DirectX, including a
 presented GDI capture and resize/font/history checks. Both complete CI workflows
 for this fix now pass, including 160 single-image groups and twelve uninjected
-memory workloads per workflow. The exact 4,544,000-byte single image has started
-39 local acceptance commands; shutdown and startup sizes pass, while the dense
-GDI workload and remaining local groups are in progress. A separate local
-selection fixture is blocked before its first copy assertion by Windows
-clipboard access denied; the original failure is retained separately.
+memory workloads per workflow. The exact 4,544,000-byte single image passes the
+complete dense GDI workload at **19,226,624 private WS / 42,024,960 total WS
+bytes**, with 3,876 uninjected samples, all 29,072 image cells, ten lifecycle
+checks and natural cleanup. Fourteen initial local groups pass, including all
+six installed shells, four tab positions and font zoom. The next byte-input
+group fails at the synthetic DPI composition-window assertion after sixteen
+input checks pass, including installed Chinese IMM API submission. Actual
+foreground preparation has not yet succeeded; this is not an IME acceptance.
+The failed run remains intact while a separate continuation runs independent
+remaining groups. Clipboard access also remains an outstanding local concern.
+No accepted executable has been replaced.
 
 ## Bell attention modes (2026-11-16 Sydney)
 

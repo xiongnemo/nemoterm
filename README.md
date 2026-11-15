@@ -43,7 +43,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 本机实测已恢复：启动尺寸与屏幕裁剪通过。160×48 Sarasa 密集图片负载曾超过 GDI
 内存目标；修复重复的显示缓存后，开发用 MinGW 版本完整通过，私有工作集峰值
 **18.48 MB**、总工作集 **39.97 MB**，29,072 个图片单元和十项标签/关闭检查全部通过。
-三种实际渲染器另通过 185 项像素检查。最终单文件产物仍需验收，尚未替换上述版本；
+三种实际渲染器另通过 185 项像素检查。准确的 CI 单文件产物也已通过该 GDI 重负载：
+私有工作集峰值 **19.23 MB**、总工作集 **42.02 MB**，全部图片单元和生命周期检查通过。
+其本机输入法 DPI 检查尚未通过，其余验收继续进行，尚未替换上述版本；
 见[修复与本机证据](research/gdi-image-cache.md)及[原始失败记录](research/feature-policy-sarasa.md)。
 进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
 [密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
