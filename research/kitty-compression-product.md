@@ -1,6 +1,9 @@
-# Accepted compressed-image single executable
+# Earlier accepted compressed-image single executable
 
-The accepted local `dist/nemoterm.exe` comes from
+This is a historical checkpoint, superseded by the accepted [feature-query
+product](kitty-feature-product.md). Its measurements and failures remain unchanged.
+
+The then-accepted local `dist/nemoterm.exe` comes from
 `b3e03bb3a3a1f75e3403b7dd5a9e0d14065c46ac`: **4,515,328 bytes**, SHA256
 `65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.
 The runtime directory contains only this file; the console host uses the same

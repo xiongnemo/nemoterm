@@ -27,11 +27,18 @@ suites and ten memory workloads. Individual fixture deadlines, resource checks,
 private-working-set limits and exact pixel/reply assertions are unchanged. The
 MSVC diagnostics retain opt-in procedure-entry/liveness snapshots around the
 existing probes; that observation does not claim to fix the original crash.
-The updated complete ordinary workflow still needs to finish successfully.
+The updated complete ordinary workflow passes all four jobs in
+[run 43655788430](https://github.com/xiongnemo/nemoterm/actions/runs/43655788430)
+at `bb7f3aa`, with product source unchanged from `2f478e7`. Its Windows job takes
+26 minutes 16 seconds. This successful run validates the complete suite with the
+new outer budget; it does not explain the historical access violation.
 
 `compression-main-integration-validation.json` indexes **3,395 original files**
 in five deterministic tar/gzip archives, including run logs, artifact identities,
 the timeout annotation, complete single-image evidence and incomplete ordinary
 evidence. Every encoded record was verified against its raw SHA256. Helper and
-product binaries remain CI artifacts. The accepted local `b3e03bb` hash, its
-measured memory results and the original full-goal scope remain unchanged.
+product binaries remain CI artifacts. Four additional `budget-rerun-*` archives
+retain the successful `bb7f3aa` run separately from the original failed evidence.
+The earlier `b3e03bb` acceptance remains a historical record; the later accepted
+[feature-query product](kitty-feature-product.md) has its own complete CI and
+local validation. The original full-goal scope remains open.

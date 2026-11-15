@@ -2,6 +2,29 @@
 
 ## Current accepted artifact (2026-11-15 Sydney)
 
+The sole local distribution file is the accepted `nemoterm.exe` from
+`6e05bd1a70515ede970323eb633563021d80ac3e`, 4,515,840 bytes, SHA256
+`dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab`. The [exact-product record](../research/kitty-feature-product.md)
+links all four successful ordinary CI jobs, 140 single-image CI groups, 35 local
+groups, 927 API stages, 309 presented GDI stages and ten uninjected memory runs.
+The prior compression image remains backed up locally.
+
+Actual 160x48 Sarasa two-tab Sixel/PNG/GIF/Kitty/compressed-Kitty workloads peak at
+16,838,656 private-WS bytes for GDI and 24,236,032 for DirectX,
+passing the strict 20 MB / inclusive 25 MB gates. Total WS peaks are
+39,571,456 and 59,822,080; DX still exceeds the approximate 50 MB goal.
+All owned jobs drain naturally. Feature queries report the bounded implemented
+subset without allocating image owners or disturbing pending uploads.
+
+An [optional external exception observer](../research/native-exception-observer.md)
+passes its four native controls on MinGW/MSVC and captures unhandled fault context
+and dumps. Three hosted exact-image replays pass while it is attached. It is not
+used in these product memory runs; the historical tab access violation and
+shutdown/resource incidents remain unresolved. The full protocol, graphics,
+physical-input, real-application and long-session scope remains open.
+
+## Earlier compression artifact (2026-11-15 Sydney)
+
 The local distribution contains only the accepted `nemoterm.exe` from
 source `b3e03bb3a3a1f75e3403b7dd5a9e0d14065c46ac`: 4,515,328 bytes, SHA-256
 `65145ffb30d8a75199161f526b690794b66f6d593deab6f88cfd078ce5a795a0`.

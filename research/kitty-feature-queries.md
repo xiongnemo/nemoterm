@@ -2,7 +2,8 @@
 
 At the reference-only checkpoint, terminal dispatch still replied
 `ENOTSUP:feature query`. The subsequent [development implementation](kitty-feature-implementation.md)
-now passes core/native replay; the accepted `b3e03bb` product still predates it.
+passes core/native replay. The accepted `6e05bd1` single image has a separate
+[product checkpoint](kitty-feature-product.md).
 The independent source capture below remains unchanged.
 
 Kitty's [feature-query specification](https://sw.kovidgoyal.net/kitty/graphics-protocol/#querying-support-for-protocol-features)

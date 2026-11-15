@@ -1,9 +1,10 @@
 # Kitty feature-query implementation checkpoint
 
-The development branch now answers `a=q,e=<action>` without loading an image,
-changing placements or advancing the cursor. The accepted `b3e03bb` single EXE
-still predates this change and remains in `dist`; new single-image CI and local
-product acceptance are required before replacing it.
+The implementation answers `a=q,e=<action>` without loading an image, changing
+placements or advancing the cursor. The formal `6e05bd1` single EXE now passes
+full CI and downloaded-product local acceptance, and replaces the earlier
+compression image in `dist`. See [the exact product record](kitty-feature-product.md).
+The development-sidecar observations below remain a separate earlier checkpoint.
 
 Replies describe existing Nemoterm behavior: direct RGB/RGBA/PNG, zlib compression,
 ordinary placement and the implemented deletion selectors. Unsupported actions
@@ -63,8 +64,14 @@ single-image native suites include the new query replay.
 [Component CI 43653882971](https://github.com/xiongnemo/nemoterm/actions/runs/43653882971)
 passes all three strict GCC/Clang/MSVC jobs at `6e05bd1`, including real-core replay
 and GCC/Clang ASan/UBSan. Its original logs and artifact identities are retained
-in the validation manifest. Full ordinary/single-image CI is still running.
+in the validation manifest. Full ordinary/single-image CI now passes all four
+ordinary jobs and 140 single-image groups; their raw records and subsequent
+local acceptance are retained in [the product checkpoint](kitty-feature-product.md).
 A separate integration run on unchanged
 compression product source (`2f478e7`, run `43652684756`) recorded an MSVC native
 tab-fixture access violation after hover-probe detachment; that failure remains
 under investigation and is not erased by these query passes.
+
+The 84-case reference does not exhaust header-field permutations or parser-error
+positions during a pending upload. Those are follow-up compatibility checks;
+the recorded valid-query replay does not establish every malformed-input order.
