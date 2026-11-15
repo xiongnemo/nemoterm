@@ -80,9 +80,22 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
     assert not kitty_unicode or (kitty_images and not kitty_compression)
     if kitty_unicode:
         from kitty_unicode_tab_workload import workload_image as unicode_image
+        from native_test_utils import root
+        from fixture_io import write_snapshot
         import hashlib
         result['unicode_inputs']=[]
         result['unicode_scope']='Dense independent image cells; their text overwrites the preceding Sixel area, exercising image disposal as well as admission'
+        progress_path=root/'research'/f'unicode-kitty-workload-progress-{sampler.pid}.json'
+        image_sha256=hashlib.sha256(Path(sampler.executable).read_bytes()).hexdigest()
+        def checkpoint(operation):
+            # Persist external-controller progress before a synchronous native
+            # call can stall. This is incomplete evidence, never a pass marker.
+            write_snapshot(progress_path,dict(pid=sampler.pid,executable_sha256=image_sha256,
+                phase=sampler.phase,operation=operation,complete=False,
+                seconds=time.monotonic()-sampler.started,sample_count=len(sampler.samples),
+                last_sample=sampler.samples[-1] if sampler.samples else None,
+                last_input=result['unicode_inputs'][-1] if result['unicode_inputs'] else None))
+            print('Unicode workload:',sampler.phase,operation,flush=True)
         def add_unicode(child):
             grid=output(child,'\x1b[18t')
             columns,rows=grid['columns'],grid['rows']
@@ -92,6 +105,7 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
                 input_sha256=hashlib.sha256(wire.encode()).hexdigest()))
             output(child,wire)
             return [columns,rows]
+        checkpoint('start')
     elif kitty_images:
         from kitty_tab_workload import workload_image
         inline=workload_image(compressed=kitty_compression)
@@ -139,7 +153,9 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
         elif inline_images or animated_images or kitty_images:
             output(child,inline)
         target = (max(400,width-160),max(300,height-100)) if frame%2 == 0 else (width,height)
+        if kitty_unicode:checkpoint('before-window-resize')
         assert u.MoveWindow(host,original.left,original.top,*target,True)
+        if kitty_unicode:checkpoint('after-window-resize')
         for other in (first,second):
             output(other,'\x1b[18t')
         result['samples'].append(dict(phase=sampler.phase, **resources()))
@@ -156,6 +172,7 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
     sampler.phase = 'settled'
     time.sleep(.5)
     result['samples'].append(dict(phase='settled', **resources()))
+    if kitty_unicode:checkpoint('sampling-workload-finished')
     return result
 
 
