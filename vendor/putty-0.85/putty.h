@@ -1728,6 +1728,9 @@ struct TermWinVtable {
     void (*set_scrollbar)(TermWin *, int total, int start, int page);
 
     void (*bell)(TermWin *, int mode);
+    /* Optional window attention, independent of audible/visual bell policy.
+     * Raising must not activate the window or change the selected tab. */
+    void (*bell_attention)(TermWin *, bool urgent, bool raise);
 
     void (*clip_write)(TermWin *, int clipboard, wchar_t *text, int *attrs,
                        truecolour *colours, int len, bool must_deselect);

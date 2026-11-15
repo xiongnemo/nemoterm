@@ -1,0 +1,1818 @@
+{
+  "source": "fd5d1605ada039a1c64b66fab1bdd040b4d10a1f",
+  "run": 43719391640,
+  "artifact_id": 14163772996,
+  "cases": 112,
+  "steps": 192,
+  "literal_controls": 3,
+  "natural_exits": 112,
+  "raw_sha256": "c5a87d9f9ee75d637293e3a6767d86102be622271720e8ee4b704e5727c9b6b4",
+  "scope": "Independent XTerm observations, including raw urgency/focus/stacking; does not certify Windows behavior.",
+  "bundle": {
+    "path": "research/bell-modes-reference.tar.gz",
+    "bytes": 339272,
+    "sha256": "3b2a34e50ae8b8d3a6ef2497bde201c214bda17a4125fd145b8bee20fc620cc4",
+    "records": [
+      {
+        "path": "bell-artifacts.json",
+        "raw_bytes": 786,
+        "raw_sha256": "c8763694bbf50a9ace1b59a17c65b202203afbd1e7a9e4405354ac217e8f6aba"
+      },
+      {
+        "path": "bell-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "57a70c566f564bc653078fa259916b85d83aaafe0c495189bc905690fe66362f"
+      },
+      {
+        "path": "bell-run.json",
+        "raw_bytes": 5865,
+        "raw_sha256": "22fdbf0fb573b0401febe39196901cb44cef1f41505f463431905c2967cda93a"
+      },
+      {
+        "path": "bell-run.log",
+        "raw_bytes": 147768,
+        "raw_sha256": "9240593ec2719bb3a593eeefe614b5089510c093b72bd86694c9f82ec97bbebd"
+      },
+      {
+        "path": "reference-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "7cd823d2e899f988939d63195a90577a4f4b8f7a1c25ca1a0e502c410ba5c51c"
+      },
+      {
+        "path": "reference/bell-modes-xterm.json",
+        "raw_bytes": 161028,
+        "raw_sha256": "c5a87d9f9ee75d637293e3a6767d86102be622271720e8ee4b704e5727c9b6b4"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-off/observed.json",
+        "raw_bytes": 1599,
+        "raw_sha256": "790239ec31df9f6d3ba2aa80738452968579ea7c9b5f61dea0c2675a579178c1"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-save-on/observed.json",
+        "raw_bytes": 1599,
+        "raw_sha256": "a8e79985fe748d24ffee728cf2cd1df46a7fd927f420d8d637e066507ac181fd"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-toggle/observed.json",
+        "raw_bytes": 1567,
+        "raw_sha256": "bcd51a17d4e7223f0818fbff87f7159ab1bca0cdf6255015278949b46bb9c16c"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1042-unsaved/observed.json",
+        "raw_bytes": 1045,
+        "raw_sha256": "9f3da51a4ffa978db6b21cbe15848c83f0d10cceea90ff1a831f727ea4fd2a22"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-off/observed.json",
+        "raw_bytes": 1599,
+        "raw_sha256": "3fbce7056028638fc3a83f995f5ae5ff13045a226a779a2852d33e5d59b8c9e5"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-save-on/observed.json",
+        "raw_bytes": 1599,
+        "raw_sha256": "9ec6ff2a8635809f2d546e2557e4e27a52b2d8b07b2640abc4522a8494e2fbb0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-toggle/observed.json",
+        "raw_bytes": 1567,
+        "raw_sha256": "3268a6d04fe30383622c9dd18ed502ee5887f0261ff4038a1715b162b4e141c1"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-1043-unsaved/observed.json",
+        "raw_bytes": 1045,
+        "raw_sha256": "ab4e0b540935fa4ba7022f43f615b3872ddcef52e0b5cf598ed268ea7e2a83f2"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-dcs-bel/child.json",
+        "raw_bytes": 108,
+        "raw_sha256": "ce763282ef7312664ffe3a5447d4ac284f53fc707d514b734f8060bf5277fa67"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-dcs-bel/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-dcs-bel/observed.json",
+        "raw_bytes": 1096,
+        "raw_sha256": "a5c129eb7779c9faf76e6dcf11238b94eae6223ccca2bf403f18db1c584ed4cb"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-disable-before-focus/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "2ccd508e4e0e13f2a8a605a2761719211f4de7dc515be2b40be52cddabb07ffb"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-disable-before-focus/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-disable-before-focus/observed.json",
+        "raw_bytes": 1881,
+        "raw_sha256": "2896d1307892b8765ceeed9cf81da72968c43ad82e45c8573699fb824155cce4"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-focused-bell/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-focused-bell/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-focused-bell/observed.json",
+        "raw_bytes": 1051,
+        "raw_sha256": "77e3e535e696a5c22f4abfa0ed7885daea06b167317e5392c4524be17bc39785"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-initial/observed.json",
+        "raw_bytes": 1013,
+        "raw_sha256": "2649d36cfd48f98ecd2de7548fcc7ebc48872b02dbf278e29791ba6acb9dd615"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt-roundtrip/observed.json",
+        "raw_bytes": 1593,
+        "raw_sha256": "63b4c87d36f1c3b4a52c77b1f07942ea2fe08d2fa883112613d84b7341a44966"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-alt/observed.json",
+        "raw_bytes": 1577,
+        "raw_sha256": "b36fe1190050223fce0f2ea994130eeaa93a9456aa1ec2fd6b8a7b651fb78328"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-level/observed.json",
+        "raw_bytes": 1577,
+        "raw_sha256": "67fce4a3a485da5556bc342d67beee367c6f1c851d87c97b0bd0e4fc1416b285"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-ris/observed.json",
+        "raw_bytes": 1564,
+        "raw_sha256": "b00dafeee17f0b0f141d11750fd18f513e91f39d3b4d3f6c86ec7ec483685888"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-lifetime-soft/observed.json",
+        "raw_bytes": 1569,
+        "raw_sha256": "56290dac333be19fb6cab85fca3fd939c141bfe39483e4e02fc4f5590a6e9907"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-osc-terminator/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-osc-terminator/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-osc-terminator/observed.json",
+        "raw_bytes": 1091,
+        "raw_sha256": "ea42e0b263269944632da23626c06225948ad82cdd87020c921164031c79da42"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-initial/observed.json",
+        "raw_bytes": 1029,
+        "raw_sha256": "2d70a3249331eae3d021c78d0c0884fdc773e595745bab4e969d8d71bfbd1f06"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-off/observed.json",
+        "raw_bytes": 1055,
+        "raw_sha256": "2107e1d8cfcfe09a79786f9717d0e403f4802455ac4862aa14ffa60bfa9eba89"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-physical-on/observed.json",
+        "raw_bytes": 1586,
+        "raw_sha256": "e9dd6023482a2da85ea96fd23b3720c998cf48878659c6832a3e2228987e791f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-raise-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-raise-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-raise-only/observed.json",
+        "raw_bytes": 1060,
+        "raw_sha256": "824a16e560bf24b0b3d11ae0568cbc04b991927f1b553d6a7daae6b6f3fc6d9b"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt-roundtrip/observed.json",
+        "raw_bytes": 1547,
+        "raw_sha256": "cffb09321e05151102db26b9f14cf9f2bb1c0ed83112543017fbbcff8c4bb2ea"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-alt/observed.json",
+        "raw_bytes": 1531,
+        "raw_sha256": "56b135aebd13a4d9366f7c3264471bfccb213af6aee65a5e7c0fa5c1f174a732"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-level/observed.json",
+        "raw_bytes": 1531,
+        "raw_sha256": "d9f92468a4e7f259efc1cf97a33b5ea3c72caf454999c5415b0bd4cdd9ebc015"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-ris/observed.json",
+        "raw_bytes": 1519,
+        "raw_sha256": "184f3286fa365ea614545ac6cba1a8ac2cf5129c8c7f5643105fc24885338759"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-saved-soft/observed.json",
+        "raw_bytes": 1523,
+        "raw_sha256": "60b8f87ae835728c47efd1f44a3875d476a87783d966f0515e67ad9874537ace"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-urgent-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-urgent-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/00-urgent-only/observed.json",
+        "raw_bytes": 1595,
+        "raw_sha256": "51dcc896f0cbaf3bb038db167af1b71a6530826b2b373cfdca761ed563e9bde0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-off/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "3d693ec641f6f7c723d9c2235d29ddf51e251643a7830cf196c0fa017be91e26"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-save-on/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "71eb7dbf809e785c5428edbde93b8f3f97025b522c299ac73791613215d1669d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-toggle/observed.json",
+        "raw_bytes": 1566,
+        "raw_sha256": "6f7d94de9e50f3ff7f8e59fdb1ace80bb1856796985d360e29acb4fbf310b1ff"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1042-unsaved/observed.json",
+        "raw_bytes": 1044,
+        "raw_sha256": "4caf875c6d466bb356b2b6426484f9c6e0fe64a0b3b26f7f5c93c94eef77108c"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-off/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "0cfbf41020e3991b8b4fb141f00f36d16f9576591637efdf5878de5d90aa7fa9"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-save-on/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "b996fe607d158876fa7d8801f5d35a972841ccf45200b751c81d9b4a36785e27"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-toggle/observed.json",
+        "raw_bytes": 1566,
+        "raw_sha256": "81d36524d35fe54ce4f9f0715f8713b0ffc47db605d776f4a99e6567d0806eb5"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-1043-unsaved/observed.json",
+        "raw_bytes": 1044,
+        "raw_sha256": "0936b1854098fa9f9bf380f581130cd9ca53ab1347db1351a26dfc52a669a222"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-dcs-bel/child.json",
+        "raw_bytes": 108,
+        "raw_sha256": "ce763282ef7312664ffe3a5447d4ac284f53fc707d514b734f8060bf5277fa67"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-dcs-bel/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-dcs-bel/observed.json",
+        "raw_bytes": 1095,
+        "raw_sha256": "73da8077c12b89540054d35e75b1a500222f84fa51a6f4d8aec5b218a810b3d3"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-disable-before-focus/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "5e176cafff84aa5abd8e980dd3dd6bf95344128751ffc7873a369e8ccc22459d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-disable-before-focus/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-disable-before-focus/observed.json",
+        "raw_bytes": 1875,
+        "raw_sha256": "2fd29da4a1d0481e7172ff0afdb4a1d041b1bb6a4a82a0b53d2aeb147bb705e8"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-focused-bell/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-focused-bell/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-focused-bell/observed.json",
+        "raw_bytes": 1050,
+        "raw_sha256": "0de1ec2ff2f878b35ce6b30bd59acbf7e5095064aee849ab081a320487f4c604"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-initial/observed.json",
+        "raw_bytes": 1012,
+        "raw_sha256": "78a7263b98671435754a1c01daeee3e71fde03016c764db858e5258cde04862a"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt-roundtrip/observed.json",
+        "raw_bytes": 1592,
+        "raw_sha256": "a40cd630fb4ac981f03c086a7c76f4e23a6fcf65e19f43eadfe898ade091748d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-alt/observed.json",
+        "raw_bytes": 1576,
+        "raw_sha256": "23e0d45bdaae598365ba76b2b0efc2493b035b21d350044f65169b7f46e22826"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-level/observed.json",
+        "raw_bytes": 1576,
+        "raw_sha256": "246f44f9e531617ff0042a95983a5b958a7031ec345ade50100d075d4c8bfc5d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-ris/observed.json",
+        "raw_bytes": 1563,
+        "raw_sha256": "11c4e3487a4d8cd204e5b7b147d67d5f16690439736386fec2d7541764f017c9"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-lifetime-soft/observed.json",
+        "raw_bytes": 1568,
+        "raw_sha256": "5cf4a718915d64b167a8786d4eb0a30038ca228f0ab62db8d42f5d5d72664090"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-osc-terminator/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-osc-terminator/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-osc-terminator/observed.json",
+        "raw_bytes": 1090,
+        "raw_sha256": "80b8283c631472f20124be7cd3de04cae76f653af0abfb6acc22c09601d9a1bc"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-initial/observed.json",
+        "raw_bytes": 1027,
+        "raw_sha256": "59eb57c3093acfc89300b6b23c8ebbc6853eeb68b8af1668ebf41bba2b2c2bd9"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-off/observed.json",
+        "raw_bytes": 1054,
+        "raw_sha256": "bbd1d2f34e9d9ec1695aa35676c7d2a203618a0f744fc13b9673e0cc7047b6a8"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-physical-on/observed.json",
+        "raw_bytes": 1585,
+        "raw_sha256": "09694de300a0fe776f0cb0cc6adbed43be5dad7ca65831c625eb5a33ea16e660"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-raise-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-raise-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-raise-only/observed.json",
+        "raw_bytes": 1059,
+        "raw_sha256": "8262dea639e030ea06b14cdece808d80c20ee78f63343818e94c173fa1470eb4"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt-roundtrip/observed.json",
+        "raw_bytes": 1546,
+        "raw_sha256": "ce42952e40b220c0b804c47a17de2980039f26389edec0f512e487b2681fb3e6"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-alt/observed.json",
+        "raw_bytes": 1530,
+        "raw_sha256": "6100c4ec81ea376c15db63c8f7fda96c6a688705537b12643ade73b92df48186"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-level/observed.json",
+        "raw_bytes": 1530,
+        "raw_sha256": "6c5cb62a112d6c7d9cd7bac85ba3d427cca28c2c87d1042d95c10ab5993ab1b2"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-ris/observed.json",
+        "raw_bytes": 1518,
+        "raw_sha256": "499f160d75880a978b653e67bb0c763ed84fc59dbdbc75e468f90998904a143f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-saved-soft/observed.json",
+        "raw_bytes": 1522,
+        "raw_sha256": "2da02b8d042d3224271ed5d8df79f9a25d8aa9734eade7cd2a8e44760391805c"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-urgent-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-urgent-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/01-urgent-only/observed.json",
+        "raw_bytes": 1594,
+        "raw_sha256": "1880770ebd6db2303e730f35e3531fd22e9e921a376fa97d53a06fca957c5873"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-off/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "0cdbe8de8258bea0524b6f3a3a6a256f5c77da70834d1b14c5ac6c35d718c0d2"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-save-on/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "4c3d06f907f5ad4fb865cfa0310f089f8eb4dc193d6ddfc2c033aeb691d39c24"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c5637978e4bfb9a0e33b53c78945213dba94fdb9f11d33df9f23084587bf079e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-toggle/observed.json",
+        "raw_bytes": 1566,
+        "raw_sha256": "6f3cc4f8887575600a54aeb3a9e0fdc31f02a5de7528fcfdb79ab7654326b737"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1042-unsaved/observed.json",
+        "raw_bytes": 1044,
+        "raw_sha256": "574077199b0a5f79a4d3eec7f9231070238aa1cca81291cfb9c2d9025ec3c379"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-off/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "d52b0cbe596749383da4d9407dd96814ea464f035d97f8533cf6033c7ed4b63e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-save-on/observed.json",
+        "raw_bytes": 1598,
+        "raw_sha256": "de43130fa7c4037f50791deaa46684ab48f454b525fe83cffcf93d940ad87c03"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-toggle/observed.json",
+        "raw_bytes": 1566,
+        "raw_sha256": "2fd8bb4c242404b8d479acd39b3c15a6f8065a555d1ef7c9b64bbeb298c608ff"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c64261a8a03db28715393c9fae0161ad05b293c9e25839657ed0c4d337236f00"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-1043-unsaved/observed.json",
+        "raw_bytes": 1044,
+        "raw_sha256": "545be919784d529c17cbb8a83e164e57c08200675c15f9eac4e7f4eae254a177"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-dcs-bel/child.json",
+        "raw_bytes": 108,
+        "raw_sha256": "ce763282ef7312664ffe3a5447d4ac284f53fc707d514b734f8060bf5277fa67"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-dcs-bel/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-dcs-bel/observed.json",
+        "raw_bytes": 1095,
+        "raw_sha256": "e8ed13bbe07b44ae670784b228969690a1d17dd341a922eb575fa4a842366ee4"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-disable-before-focus/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "2ccd508e4e0e13f2a8a605a2761719211f4de7dc515be2b40be52cddabb07ffb"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-disable-before-focus/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-disable-before-focus/observed.json",
+        "raw_bytes": 1880,
+        "raw_sha256": "28cc080d0e05f3a36453cd999398a63c52836fa8ebdacac167ec678ff866f00f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-focused-bell/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-focused-bell/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-focused-bell/observed.json",
+        "raw_bytes": 1050,
+        "raw_sha256": "491ab80d8c92d5c157049d14713eab474f524ca1e448b017b1e48153ad529a0e"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c64261a8a03db28715393c9fae0161ad05b293c9e25839657ed0c4d337236f00"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-initial/observed.json",
+        "raw_bytes": 1012,
+        "raw_sha256": "312be7e11a73fd0339fc10074f252152e0f235d07f35f7bde3604b5de9f95557"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt-roundtrip/observed.json",
+        "raw_bytes": 1592,
+        "raw_sha256": "e3ab7bcba53c4de014cc2357a154a828e53f6200ebdbd034d74a0e929a828cfd"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-alt/observed.json",
+        "raw_bytes": 1576,
+        "raw_sha256": "fb6f7ea88cd29c408508dcfa54f88e805336fdc95afd747516607eb7c4b4a36c"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-level/observed.json",
+        "raw_bytes": 1576,
+        "raw_sha256": "048ad9b58a80285eb4f0b16bcb2500f2f3f217bf51c49601399d64e4462fb8ab"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-ris/observed.json",
+        "raw_bytes": 1563,
+        "raw_sha256": "bbfc59fc06dc3cb1109d38024e59862cd5b8be61b45e5a01ed77c8beabcdfe0d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-lifetime-soft/observed.json",
+        "raw_bytes": 1568,
+        "raw_sha256": "51a96b6d9ad1abba261f84bf91d02efcc8432f95a7d6e2053259effc052712ea"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-osc-terminator/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-osc-terminator/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-osc-terminator/observed.json",
+        "raw_bytes": 1090,
+        "raw_sha256": "c82ae600e1a90953dba42a517b54a581d64324617422a4284183feb717ee4dd4"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c64261a8a03db28715393c9fae0161ad05b293c9e25839657ed0c4d337236f00"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-initial/observed.json",
+        "raw_bytes": 1028,
+        "raw_sha256": "d8491951688d9b90a20d1a9ee7a5fd8699210cc5f4b9907cd93d943016c226c5"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-off/observed.json",
+        "raw_bytes": 1054,
+        "raw_sha256": "d9bd7b0b5efdc7104d42472ed82de6893e5ff29fa3108a98ddd4b9156eb20d1b"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-physical-on/observed.json",
+        "raw_bytes": 1585,
+        "raw_sha256": "7303ee0904eac97cd6d0337f5cd9346d696cd6cb4b007797e6cdc626b05e2b33"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-raise-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-raise-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-raise-only/observed.json",
+        "raw_bytes": 1059,
+        "raw_sha256": "262acf85f6f0259b269a2e8133e2718437e5a3248533b5e09239b93ace3191ef"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt-roundtrip/observed.json",
+        "raw_bytes": 1546,
+        "raw_sha256": "f496c6677c1aa5d0086a3a25bc3c5e57b2eb4173c88979f803cb2d1ce23374c7"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-alt/observed.json",
+        "raw_bytes": 1530,
+        "raw_sha256": "9160b73fa8099fd591c5b7359fbf21a7acae97a808feeb6d7c05883362bd4873"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-level/observed.json",
+        "raw_bytes": 1530,
+        "raw_sha256": "a10d4f668ae6241207442173deb5efb6466251605cf957cace09f9f625ae5d9f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-ris/observed.json",
+        "raw_bytes": 1518,
+        "raw_sha256": "8c6e2a3947755e6b9edb0f9e834ea4099e34baf5b8c89209156cfc9142fbcd19"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-saved-soft/observed.json",
+        "raw_bytes": 1522,
+        "raw_sha256": "969ca5e85cba6f4a1ad1cc1fdd7aa4ca59b112a68326fec33738b5aa0468aafe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-urgent-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-urgent-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/10-urgent-only/observed.json",
+        "raw_bytes": 1594,
+        "raw_sha256": "84b1f45ce2483cc0f8289b28375107c9585951fb63094dc7b184cbb5365a13db"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-off/observed.json",
+        "raw_bytes": 1597,
+        "raw_sha256": "f070db8f90ea3ba19f934bd58e8aee6cf924f8d77d4928550e79446ca1e2d820"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-save-on/observed.json",
+        "raw_bytes": 1597,
+        "raw_sha256": "c44e9609293b1679eab4ccd902a0c0945e62d390e35be930fb2c19b2f4b8543b"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "18860d286ed1fb88578e9a8675b90bf165cb63744b18f03e01ce86608a8d0544"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-toggle/observed.json",
+        "raw_bytes": 1565,
+        "raw_sha256": "ef958b565a59e12d8c91ea48a331d511b7e573374eb939a4e49bf41d81924817"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1042-unsaved/observed.json",
+        "raw_bytes": 1043,
+        "raw_sha256": "f87cb8163735ce22366808cc4781a2583a126b14350201cfbffdd24c5a82ef05"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-off/observed.json",
+        "raw_bytes": 1597,
+        "raw_sha256": "1c95c9d6d24ff8bc4d0baa8006538470091df0b9bce6ecc8414e28b645486a75"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-save-on/observed.json",
+        "raw_bytes": 1597,
+        "raw_sha256": "493018994271c9c353f4dc9bec99c2cdd302ceca85ce0b3a98e9c7f9b7be17b9"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-toggle/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-toggle/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-toggle/observed.json",
+        "raw_bytes": 1565,
+        "raw_sha256": "79257f1c74d1dbf882b7ec4fbf112af94f1994462dd9bf5b9cf3f3e23af41f0f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-unsaved/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "c64261a8a03db28715393c9fae0161ad05b293c9e25839657ed0c4d337236f00"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-unsaved/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-1043-unsaved/observed.json",
+        "raw_bytes": 1043,
+        "raw_sha256": "7f1c51cefc7224bbae4acf9e0e62d6bfb43946dbdb772a0283aec90b4c13d91b"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-dcs-bel/child.json",
+        "raw_bytes": 108,
+        "raw_sha256": "ce763282ef7312664ffe3a5447d4ac284f53fc707d514b734f8060bf5277fa67"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-dcs-bel/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-dcs-bel/observed.json",
+        "raw_bytes": 1094,
+        "raw_sha256": "2f229216fa89f3b4328bee8e541e5200da023b189c75f50c223d187dbadc789f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-disable-before-focus/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "5e176cafff84aa5abd8e980dd3dd6bf95344128751ffc7873a369e8ccc22459d"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-disable-before-focus/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-disable-before-focus/observed.json",
+        "raw_bytes": 1874,
+        "raw_sha256": "ffa7db68a51f4b8618fab1400d15a82e3c2494004820da95368e9c6518cfa12a"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-focused-bell/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-focused-bell/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-focused-bell/observed.json",
+        "raw_bytes": 1049,
+        "raw_sha256": "e241dedc63144f1dc9ba867bd540c3bbc69da1a56ab91e37f1c503abd5f679fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-initial/observed.json",
+        "raw_bytes": 1011,
+        "raw_sha256": "c0d5b884e2d6ec6a369f1e4d818bba4fc2c8538922a75be5354265df43d38785"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt-roundtrip/observed.json",
+        "raw_bytes": 1591,
+        "raw_sha256": "2a95e9a8f1f11e95671bc776a38f3b7846f8925622de58200c235102b7019acb"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-alt/observed.json",
+        "raw_bytes": 1575,
+        "raw_sha256": "036d91ca686474b614a60d7e8936cee00a9e8d1743a478f79278373b81ffde56"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-level/observed.json",
+        "raw_bytes": 1575,
+        "raw_sha256": "bd8cb1f00d3f3545666bdc2bd4cdd93b1699a8a69e3b9c27f7fe7aabe1f07257"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-ris/observed.json",
+        "raw_bytes": 1562,
+        "raw_sha256": "0353faa2071fe4b1408611df0ff4dd74faae42cefdebcd8af7cbd479d1f6df10"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-lifetime-soft/observed.json",
+        "raw_bytes": 1567,
+        "raw_sha256": "37a930a226b69dcebf0b1b9b0b3e4577f7f6218350cc7a6ebefd970098283ac7"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-osc-terminator/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-osc-terminator/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-osc-terminator/observed.json",
+        "raw_bytes": 1089,
+        "raw_sha256": "a8e59412bb44f48bb41ec39a0b296108aac4ba23be367b0154a38a11e8de54ab"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-initial/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "daabbcb89104624e507e8b148c490f7ea237c9c08df8fef07d20355c6349d278"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-initial/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-initial/observed.json",
+        "raw_bytes": 1026,
+        "raw_sha256": "25eeeb0efe2ba4cd160659477cd40757100651f55e898f0914922560c1241998"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-off/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "ef20335de719ccb0fd02673cf1be55497e2df0d47e5d0b33e989b957d21b4bee"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-off/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-off/observed.json",
+        "raw_bytes": 1053,
+        "raw_sha256": "c44c0c7d9d8da003a9deeb150db641f9a9cbce984e37732d207a8021f9064261"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-on/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-on/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-physical-on/observed.json",
+        "raw_bytes": 1584,
+        "raw_sha256": "9ee341e3297f5e8c016c32116db0d4624195f8d02484639375dac87d60c255d6"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-raise-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "23b96ef8ad4e9f439c5e3c5286f814bd07b691ff5c21e2b886a6ac1e028cacf0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-raise-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-raise-only/observed.json",
+        "raw_bytes": 1058,
+        "raw_sha256": "e4337d7e7616091440211e585efab275a8162c22c24453e668a466ccaf857787"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt-roundtrip/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt-roundtrip/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt-roundtrip/observed.json",
+        "raw_bytes": 1545,
+        "raw_sha256": "6ebd475ffc92a5b6fcc00c854671c6c86d5fec2221569e2d4ec352b5c84ad238"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-alt/observed.json",
+        "raw_bytes": 1529,
+        "raw_sha256": "31f9e44eff597dcb95f21648485a1b074adfc5b9a25070a99091f9ae1fcc7729"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-level/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-level/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-level/observed.json",
+        "raw_bytes": 1529,
+        "raw_sha256": "c72bef8064e2b80dfc62466b43999ff69aff22c87a9b601cd0a5533cbe825ec0"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-ris/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-ris/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-ris/observed.json",
+        "raw_bytes": 1517,
+        "raw_sha256": "96450b9fefffb3d804df4755c42230bd9e2427195386fbee04930af16aad5943"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-soft/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "102deaa648b1003c9ac3f9dd6aeefc234728ae11673221db822c86a87e5552fe"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-soft/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-saved-soft/observed.json",
+        "raw_bytes": 1521,
+        "raw_sha256": "5544e28e987df61c48940f57a089bd36f42c2009a73449f13eed6e65212a770a"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-urgent-only/child.json",
+        "raw_bytes": 94,
+        "raw_sha256": "544571b1aa6931c18ae530f3767932edaec28bb4d79a7df638d4f27a64d10add"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-urgent-only/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "reference/bell-modes-xterm/11-urgent-only/observed.json",
+        "raw_bytes": 1593,
+        "raw_sha256": "259bd44e50956268f5f6ee7540c40c79d2ff6cc92e40ded55535258758c254d4"
+      },
+      {
+        "path": "reference/bell-source-sha256.txt",
+        "raw_bytes": 789,
+        "raw_sha256": "8f8eb11921560ed9ef85ac8cd7aec4dc118b4c8d29a73e62295961c45632ea88"
+      },
+      {
+        "path": "reference/bell-source/VTPrsTbl.c",
+        "raw_bytes": 221587,
+        "raw_sha256": "36169b1c9ef40cd35a46ffc2549d1a002d488847d72b35aa2d810c71f692940d"
+      },
+      {
+        "path": "reference/bell-source/charproc.c",
+        "raw_bytes": 413168,
+        "raw_sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+      },
+      {
+        "path": "reference/bell-source/configure.in",
+        "raw_bytes": 41812,
+        "raw_sha256": "1c760575fd4da544e6c7daa5042be4dcf0d93d62aee540eb505d6ed05ee8ae31"
+      },
+      {
+        "path": "reference/bell-source/ctlseqs.ms",
+        "raw_bytes": 167851,
+        "raw_sha256": "69773380309da4c8b5d4ec9646eec703c47bc41db29a8efa5b94c30798c72349"
+      },
+      {
+        "path": "reference/bell-source/input.c",
+        "raw_bytes": 62876,
+        "raw_sha256": "835790ac9df59bff9953a21a973497300cc85a2d63a9d2a0cd2ff75e860fdc7b"
+      },
+      {
+        "path": "reference/bell-source/misc.c",
+        "raw_bytes": 204947,
+        "raw_sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+      },
+      {
+        "path": "reference/bell-source/ptyx.h",
+        "raw_bytes": 120334,
+        "raw_sha256": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+      },
+      {
+        "path": "reference/executable-sha256.txt",
+        "raw_bytes": 102,
+        "raw_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd"
+      },
+      {
+        "path": "reference/fixture-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "2a6a602c07d848b9c983b45368e37a8530589a5c5d898f0d656a9e26ae746418"
+      },
+      {
+        "path": "reference/upstream-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+      },
+      {
+        "path": "reference/version.txt",
+        "raw_bytes": 11,
+        "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+      },
+      {
+        "path": "reference/x11-packages.txt",
+        "raw_bytes": 77,
+        "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+      },
+      {
+        "path": "reference/xtermcfg.h",
+        "raw_bytes": 13727,
+        "raw_sha256": "e81cf6d96830432c9cdd309958a42ede3f81f18524d533fc152460e3cbe66adf"
+      },
+      {
+        "path": "source/.github/workflows/protocol-reference.yml",
+        "raw_bytes": 24375,
+        "raw_sha256": "05a1f91fb734791b929e0ef1e7458970a2222504dad315b8e94e10a2b5fb8a6b"
+      },
+      {
+        "path": "source/retain-bell-reference.py",
+        "raw_bytes": 4727,
+        "raw_sha256": "0d9db319bdacbfde0d4775b29e2cf50560ea24ad4fabcd8f34779d7e1a23111c"
+      },
+      {
+        "path": "source/tests/xterm_bell_modes_oracle.py",
+        "raw_bytes": 9267,
+        "raw_sha256": "44c0b3e4d8f5bb9c299333ac17732880251e530def283f480f1886ad81d4ae79"
+      },
+      {
+        "path": "source/tests/xterm_locator_oracle.py",
+        "raw_bytes": 16791,
+        "raw_sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+      }
+    ]
+  }
+}

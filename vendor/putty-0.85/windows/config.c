@@ -235,6 +235,12 @@ void win_setup_config_box(struct controlbox *b, HWND *hwndp, bool has_help,
                       "Disabled", I(B_IND_DISABLED),
                       "Flashing", I(B_IND_FLASH),
                       "Steady", I(B_IND_STEADY));
+    ctrl_checkbox(s, "Raise window on bell without taking keyboard focus", NO_SHORTCUT,
+                  HELPCTX(bell_taskbar),
+                  conf_checkbox_handler, I(CONF_nemo_bell_raise));
+    ctrl_checkbox(s, "Ring when the application resets the terminal", NO_SHORTCUT,
+                  HELPCTX(bell_style),
+                  conf_checkbox_handler, I(CONF_nemo_bell_on_reset));
 
     /*
      * The sunken-edge border is a Windows GUI feature.

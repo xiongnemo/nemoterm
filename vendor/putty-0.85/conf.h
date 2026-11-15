@@ -820,6 +820,16 @@ CONF_OPTION(beep_ind,
     SAVE_KEYWORD("BeepInd"),
     STORAGE_ENUM(beep_indication),
 )
+CONF_OPTION(nemo_bell_raise,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoBellRaise"),
+)
+CONF_OPTION(nemo_bell_on_reset,
+    VALUE_TYPE(BOOL),
+    DEFAULT_BOOL(false),
+    SAVE_KEYWORD("NemoBellOnReset"),
+)
 CONF_OPTION(bellovl, /* bell overload protection active? */
     VALUE_TYPE(BOOL),
     DEFAULT_BOOL(true),

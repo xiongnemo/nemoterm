@@ -18,6 +18,7 @@
 static void term_bidi_cache_clear_line(Terminal *term, size_t line);
 static void nemo_reset_ansi_colours(Terminal *term);
 static void nemo_set_reverse_video(Terminal *term, bool state);
+static void nemo_bell(Terminal *term);
 
 #define VT52_PLUS
 
@@ -3116,6 +3117,80 @@ static void nemo_presentation_tab_byte(Terminal *term, unsigned char c)
     }
 }
 
+/* Shared audible, visual and window-attention bell policy. */
+static void nemo_bell(Terminal *term)
+{
+    struct beeptime *newbeep;
+    unsigned long ticks;
+
+    ticks = GETTICKCOUNT();
+
+    if (term->bellovl && !term->beep_overloaded) {
+        newbeep = snew(struct beeptime);
+        newbeep->ticks = ticks;
+        newbeep->next = NULL;
+        if (!term->beephead)
+            term->beephead = newbeep;
+        else
+            term->beeptail->next = newbeep;
+        term->beeptail = newbeep;
+        term->nbeeps++;
+    }
+
+    /*
+     * Throw out any beeps that happened more than
+     * t seconds ago.
+     */
+    while (term->beephead &&
+           (!term->bellovl ||
+            ticks - term->beephead->ticks > (unsigned)term->bellovl_t)) {
+        struct beeptime *tmp = term->beephead;
+        term->beephead = tmp->next;
+        sfree(tmp);
+        if (!term->beephead)
+            term->beeptail = NULL;
+        term->nbeeps--;
+    }
+
+    if (term->bellovl && term->beep_overloaded &&
+        ticks - term->lastbeep >= (unsigned)term->bellovl_s) {
+        /*
+         * If we're currently overloaded and the
+         * last beep was more than s seconds ago,
+         * leave overload mode.
+         */
+        term->beep_overloaded = false;
+    } else if (term->bellovl && !term->beep_overloaded &&
+               term->nbeeps >= term->bellovl_n) {
+        /*
+         * Now, if we have n or more beeps
+         * remaining in the queue, go into overload
+         * mode.
+         */
+        term->beep_overloaded = true;
+    }
+    term->lastbeep = ticks;
+
+    /* Urgency is independent of overload suppression; raising is not.
+     * This also runs when sound is disabled or its platform rate limit fires. */
+    if (term->win->vt->bell_attention)
+        term->win->vt->bell_attention(term->win,
+            term->bell_is_urgent && !term->has_focus,
+            term->bell_raise && (!term->bellovl || !term->beep_overloaded));
+
+    /*
+     * Perform an actual beep if we're not overloaded.
+     */
+    if (!term->bellovl || !term->beep_overloaded) {
+        if (term->win->vt->bell) win_bell(term->win, term->beep);
+
+        if (term->beep == BELL_VISUAL) {
+            term_schedule_vbell(term, false, 0);
+        }
+    }
+    seen_disp_event(term);
+}
+
 /* true means the raw byte was consumed here. An unexpected ESC sequence
  * cancels DCS and returns the next byte to PuTTY's normal ESC state machine. */
 static bool nemo_dcs_byte(Terminal *term, unsigned char c)
@@ -3205,6 +3280,12 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             }
         } else if (c >= ' ') term->termstate = NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_QUERY) {
+        if (c == '\007' && term->dcs_query_type == '$') {
+            /* XTerm executes this BEL but also retains it in the DECRQSS
+             * name: it must not silently turn an invalid name into "m". */
+            term->dcs_query_invalid = true;
+            nemo_bell(term);
+        }
         if (c >= ' ') {
             if (term->dcs_query_type == '2') {
                 nemo_presentation_tab_byte(term, c);
@@ -3670,6 +3751,10 @@ void term_pre_reconfig(Terminal *term, Conf *conf)
  */
 void term_reconfig(Terminal *term, Conf *conf)
 {
+    if (conf_get_int(term->conf, CONF_beep_ind) != conf_get_int(conf, CONF_beep_ind))
+        term->bell_is_urgent = conf_get_int(conf, CONF_beep_ind) != B_IND_DISABLED;
+    if (conf_get_bool(term->conf, CONF_nemo_bell_raise) != conf_get_bool(conf, CONF_nemo_bell_raise))
+        term->bell_raise = conf_get_bool(conf, CONF_nemo_bell_raise);
     osc52_cancel_query(term);
     nemo_highlight_cancel(term, true);
     term_end_synchronized_update(term);
@@ -4214,6 +4299,8 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->termstate = TOPLEVEL;
     term->selstate = NO_SELECTION;
     term->answerback = strbuf_new();
+    term->bell_is_urgent = conf_get_int(term->conf, CONF_beep_ind) != B_IND_DISABLED;
+    term->bell_raise = conf_get_bool(term->conf, CONF_nemo_bell_raise);
 
     term_copy_stuff_from_conf(term);
 
@@ -6251,6 +6338,8 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
                 term->utf8.state = 0;
             }
             break;
+          case 1042: term->bell_is_urgent = state; break;
+          case 1043: term->bell_raise = state; break;
           case 1045: term->reverse_wrap_extended = state; break;
           case 12:                     /* cursor blinking (att610/xterm) */
             term->blink_cur = state;
@@ -6413,6 +6502,9 @@ static unsigned term_mode_status(Terminal *term, unsigned mode, bool dec)
             if (!has_compat(VT220)) return 0;
             if (term->no_remote_charset) return 4;
             state = term->nrc_mode; break;
+          case 1042: case 1043:
+            if (!term->win->vt->bell_attention) return 0;
+            state = mode == 1042 ? term->bell_is_urgent : term->bell_raise; break;
           case 1045: state = term->reverse_wrap_extended; break;
           case 12: state = term->blink_cur; break;
           case 25: state = term->cursor_on; break;
@@ -6468,7 +6560,8 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     }
     static const unsigned modes[] = {
         1, 3, 5, 6, 7, 8, 9, 12, 25, 47, 66, 69, 80,
-        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045, 42
+        1000, 1004, 1005, 1007, 1070, 2004, 2026, 2027, 8452, 9001, 45, 1045, 42,
+        1042, 1043
     };
     assert(lenof(modes) == lenof(term->saved_dec_modes));
     size_t i;
@@ -8340,68 +8433,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                 }
 
-                struct beeptime *newbeep;
-                unsigned long ticks;
-
-                ticks = GETTICKCOUNT();
-
-                if (term->bellovl && !term->beep_overloaded) {
-                    newbeep = snew(struct beeptime);
-                    newbeep->ticks = ticks;
-                    newbeep->next = NULL;
-                    if (!term->beephead)
-                        term->beephead = newbeep;
-                    else
-                        term->beeptail->next = newbeep;
-                    term->beeptail = newbeep;
-                    term->nbeeps++;
-                }
-
-                /*
-                 * Throw out any beeps that happened more than
-                 * t seconds ago.
-                 */
-                while (term->beephead &&
-                       (!term->bellovl ||
-                        ticks - term->beephead->ticks > (unsigned)term->bellovl_t)) {
-                    struct beeptime *tmp = term->beephead;
-                    term->beephead = tmp->next;
-                    sfree(tmp);
-                    if (!term->beephead)
-                        term->beeptail = NULL;
-                    term->nbeeps--;
-                }
-
-                if (term->bellovl && term->beep_overloaded &&
-                    ticks - term->lastbeep >= (unsigned)term->bellovl_s) {
-                    /*
-                     * If we're currently overloaded and the
-                     * last beep was more than s seconds ago,
-                     * leave overload mode.
-                     */
-                    term->beep_overloaded = false;
-                } else if (term->bellovl && !term->beep_overloaded &&
-                           term->nbeeps >= term->bellovl_n) {
-                    /*
-                     * Now, if we have n or more beeps
-                     * remaining in the queue, go into overload
-                     * mode.
-                     */
-                    term->beep_overloaded = true;
-                }
-                term->lastbeep = ticks;
-
-                /*
-                 * Perform an actual beep if we're not overloaded.
-                 */
-                if (!term->bellovl || !term->beep_overloaded) {
-                    win_bell(term->win, term->beep);
-
-                    if (term->beep == BELL_VISUAL) {
-                        term_schedule_vbell(term, false, 0);
-                    }
-                }
-                seen_disp_event(term);
+                nemo_bell(term);
                 break;
               }
               case '\b':              /* BS: Back space */
@@ -8620,6 +8652,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'c':            /* RIS: restore power-on settings */
                     compatibility(VT100);
+                    if (conf_get_bool(term->conf, CONF_nemo_bell_on_reset))
+                        nemo_bell(term);
                     power_on(term, true, true);
                     if (term->ldisc)   /* cause ldisc to notice changes */
                         ldisc_echoedit_update(term->ldisc);

@@ -253,6 +253,7 @@ static void wintw_set_raw_mouse_mode_pointer(TermWin *, bool enable);
 static void wintw_set_pointer_shape(TermWin *, unsigned shape);
 static void wintw_set_scrollbar(TermWin *, int total, int start, int page);
 static void wintw_bell(TermWin *, int mode);
+static void wintw_bell_attention(TermWin *, bool urgent, bool raise);
 static void wintw_clip_write(
     TermWin *, int clipboard, wchar_t *text, int *attrs,
     truecolour *colours, int len, bool must_deselect);
@@ -292,6 +293,7 @@ static const TermWinVtable windows_termwin_vt = {
     .set_pointer_shape = wintw_set_pointer_shape,
     .set_scrollbar = wintw_set_scrollbar,
     .bell = wintw_bell,
+    .bell_attention = wintw_bell_attention,
     .clip_write = wintw_clip_write,
     .clip_request_paste = wintw_clip_request_paste,
     .osc52_write = nemo_osc52_system_write,
@@ -3714,7 +3716,12 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
             ShowCaret(hwnd);
         }
-        flash_window(wgs, 0);               /* stop */
+        /* All tab seats share the host's caption/taskbar notification. */
+        for (struct WinGuiSeatListNode *n = wgslisthead.next;
+             n != &wgslisthead; n = n->next) {
+            WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
+            if (wgs_window(other) == wgs_window(wgs)) flash_window(other, 0);
+        }
         wgs->compose_state = 0;
         term_update(wgs->term);
         break;
@@ -7075,7 +7082,7 @@ static bool flash_window_ex(WinGuiSeat *wgs, DWORD dwFlags,
     if (p_FlashWindowEx) {
         FLASHWINFO fi;
         fi.cbSize = sizeof(fi);
-        fi.hwnd = wgs->term_hwnd;
+        fi.hwnd = wgs_window(wgs);
         fi.dwFlags = dwFlags;
         fi.uCount = uCount;
         fi.dwTimeout = dwTimeout;
@@ -7104,14 +7111,17 @@ static void flash_window_timer(void *vctx, unsigned long now)
 static void flash_window(WinGuiSeat *wgs, int mode)
 {
     int beep_ind = conf_get_int(wgs->conf, CONF_beep_ind);
-    if ((mode == 0) || (beep_ind == B_IND_DISABLED)) {
+    /* DECSET 1042 can enable attention after a disabled startup default.
+     * An existing notification remains until focus or an explicit stop. */
+    if (beep_ind == B_IND_DISABLED) beep_ind = B_IND_FLASH;
+    if (mode == 0) {
         /* stop */
         if (wgs->flashing) {
             wgs->flashing = false;
             if (p_FlashWindowEx)
                 flash_window_ex(wgs, FLASHW_STOP, 0, 0);
             else
-                FlashWindow(wgs->term_hwnd, false);
+                FlashWindow(wgs_window(wgs), false);
         }
 
     } else if (mode == 2) {
@@ -7130,7 +7140,7 @@ static void flash_window(WinGuiSeat *wgs, int mode)
                                 0 /* system cursor blink rate */);
                 /* No need to schedule timer */
             } else {
-                FlashWindow(wgs->term_hwnd, true);
+                FlashWindow(wgs_window(wgs), true);
                 wgs->next_flash = schedule_timer(450, flash_window_timer, wgs);
             }
         }
@@ -7138,7 +7148,7 @@ static void flash_window(WinGuiSeat *wgs, int mode)
     } else if ((mode == 1) && (beep_ind == B_IND_FLASH)) {
         /* maintain */
         if (wgs->flashing && !p_FlashWindowEx) {
-            FlashWindow(wgs->term_hwnd, true);    /* toggle */
+            FlashWindow(wgs_window(wgs), true);    /* toggle */
             wgs->next_flash = schedule_timer(450, flash_window_timer, wgs);
         }
     }
@@ -7207,8 +7217,17 @@ static void wintw_bell(TermWin *tw, int mode)
         wgs->last_beep_time = GetTickCount();
     }
     /* Otherwise, either visual bell or disabled; do nothing here */
-    if (!wgs->term->has_focus) {
-        flash_window(wgs, 2);               /* start */
+}
+
+static void wintw_bell_attention(TermWin *tw, bool urgent, bool raise)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    if (urgent && GetForegroundWindow() != wgs_window(wgs)) flash_window(wgs, 2);
+    if (raise) {
+        /* HWND_TOP preserves an existing topmost status. Do not activate,
+         * restore a minimised window, or switch an inactive terminal tab. */
+        SetWindowPos(wgs_window(wgs), HWND_TOP, 0, 0, 0, 0,
+                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 }
 
