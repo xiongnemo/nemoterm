@@ -17,6 +17,7 @@ u.SetForegroundWindow.argtypes = [w.HWND]
 u.GetWindow.argtypes,u.GetWindow.restype = [w.HWND,w.UINT],w.HWND
 u.GetTopWindow.argtypes,u.GetTopWindow.restype = [w.HWND],w.HWND
 u.SetWindowPos.argtypes = [w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
+u.GetWindowLongPtrW.argtypes,u.GetWindowLongPtrW.restype = [w.HWND,c.c_int],c.c_ssize_t
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 marker = b'\x1b[0n'
 with tarfile.open(root/'research/bell-modes-reference.tar.gz') as archive:
@@ -77,7 +78,8 @@ try:
                     order.append(window)
                     window=u.GetWindow(window,2) # GW_HWNDNEXT, top to bottom
                     assert len(order)<10000
-                return dict(foreground=u.GetForegroundWindow(),above_other=order.index(host)<order.index(other))
+                return dict(foreground=u.GetForegroundWindow(),above_other=order.index(host)<order.index(other),
+                            topmost=bool(u.GetWindowLongPtrW(host,-20)&8))
             def focus(window):
                 assert u.SetForegroundWindow(window)
                 wait_for(lambda: u.GetForegroundWindow() == window)
@@ -119,7 +121,9 @@ try:
                         assert after['foreground']==before['foreground'],(name,index,'focus stolen',before,after)
                         starts=[e for e in events if e['api']=='FlashWindowEx' and e['flags']!=0]
                         raises=[e for e in events if e['api']=='SetWindowPos']
-                        for event in raises: assert event['flags']==0x13 and event['after']=='0x0' and event['result'],event
+                        for event in raises:
+                            assert event['flags']==0x13 and event['after'] in ('0x0','0xffffffffffffffff','0xfffffffffffffffe') and event['result'],event
+                        assert after['topmost']==before['topmost'],(name,index,'topmost changed',before,after)
                         expected_start=step['window_after']['urgency'] and not step['window_before']['urgency']
                         assert bool(starts)==expected_start,(name,index,events,step)
                         if starts:

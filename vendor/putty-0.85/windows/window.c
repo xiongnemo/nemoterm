@@ -7224,10 +7224,17 @@ static void wintw_bell_attention(TermWin *tw, bool urgent, bool raise)
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     if (urgent && GetForegroundWindow() != wgs_window(wgs)) flash_window(wgs, 2);
     if (raise) {
-        /* HWND_TOP preserves an existing topmost status. Do not activate,
-         * restore a minimised window, or switch an inactive terminal tab. */
-        SetWindowPos(wgs_window(wgs), HWND_TOP, 0, 0, 0, 0,
-                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        /* HWND_TOP alone can return success while keeping an inactive window
+         * below the foreground window. A temporary topmost round trip raises
+         * it without changing focus or leaving it always-on-top. Preserve an
+         * already topmost host; never restore or switch an inactive tab. */
+        HWND hwnd = wgs_window(wgs);
+        UINT flags = SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE;
+        if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOPMOST) {
+            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, flags);
+        } else if (SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, flags)) {
+            SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, flags);
+        }
     }
 }
 
