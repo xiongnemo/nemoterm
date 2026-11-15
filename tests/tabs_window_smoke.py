@@ -20,6 +20,8 @@ parser.add_argument('--side',choices=('top','bottom','left','right'),default='to
 parser.add_argument('--font',default='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
 parser.add_argument('--cols',type=int,default=160)
 parser.add_argument('--rows',type=int,default=48)
+parser.add_argument('--session-seconds',type=int,default=300,
+                    help='Bounded child lifetime; large local grids may need more than the CI default')
 parser.add_argument('--dense-clusters',action='store_true')
 parser.add_argument('--workload-memory',action='store_true',
                     help='sample the full process tree during dense history and resize before instrumentation')
@@ -52,6 +54,8 @@ observation.add_argument('--virtual-memory-trace',action='store_true',
 observation.add_argument('--etw-memory-trace',action='store_true',
                     help='CI-only metadata under workflow-owned ETW recording; no injection, exits 2')
 args=parser.parse_args()
+if not 1<=args.session_seconds<=1800:
+    parser.error('--session-seconds must be between 1 and 1800')
 if args.kitty_compression and not args.kitty_images:
     parser.error('--kitty-compression requires --kitty-images')
 if args.kitty_unicode and (not args.kitty_images or args.kitty_compression):
@@ -119,6 +123,7 @@ def windows(pid,kind,parent=None,visible=False):
 
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
+              session_seconds=args.session_seconds,
               completed=False,checks=[],memory_instrumented=injected_observer,
               automation_enabled=True,phase='startup')
 if diagnostic:evidence.update(diagnostic_completed=False,memory_acceptance=False)
@@ -136,7 +141,7 @@ try:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
         worker_leases=[];evidence['worker_closes']=[];menu_checks=None;exception_observer=None;resize_observer=None
         process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',args.side,
-            '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
+            '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp),str(args.session_seconds)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
             creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)

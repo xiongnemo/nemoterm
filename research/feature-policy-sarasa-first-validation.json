@@ -1,0 +1,90 @@
+{
+  "source": "846b525bd0c7cbeacf71d12596d0a264d82eb5c6",
+  "completed": false,
+  "scope": "Local portable MinGW preflight; not single-image acceptance.",
+  "failure": "Session disappeared during post-sampling pixels with the fixture child lifetime fixed at 300 seconds.",
+  "sampled_seconds": 291.227,
+  "frontend_peaks": {
+    "count": 1,
+    "private_ws": 19857408,
+    "total_ws": 41963520,
+    "private_commit": 22917120
+  },
+  "cleanup": {
+    "before": {
+      "total": 31,
+      "active": 1,
+      "terminated": 0
+    },
+    "after": {
+      "total": 31,
+      "active": 0,
+      "terminated": 0
+    },
+    "terminated_remaining": true,
+    "remaining_processes": [
+      {
+        "pid": 33976,
+        "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-feature-policy-preflight-846b525\\dist\\nemoterm.exe",
+        "exit_code": 259
+      }
+    ]
+  },
+  "records": [
+    {
+      "path": "research/unicode-kitty-workload-progress-33976.json",
+      "bytes": 2123,
+      "sha256": "0021a538dba1ec5d194f17a295df3562e0157bb155772aae46641c8cc6265d3f"
+    },
+    {
+      "path": "research/unicode-kitty-workload-tabs-gdi-top-memory.json",
+      "bytes": 7125919,
+      "sha256": "9de0c88a8751837bdbdbbba515caa0246d191a9969a7ee7594dc807d9f8421f6"
+    },
+    {
+      "path": "research/unicode-kitty-workload-tabs-gdi-top-observed.json",
+      "bytes": 185382,
+      "sha256": "30581f8436c5a263a81085e79817d276c9d2d6ca7f3733f08c9d43a02a3f81b2"
+    },
+    {
+      "path": "research/unicode-kitty-workload-tabs-gdi-top-tab-0-False-row-1.png",
+      "bytes": 86,
+      "sha256": "5aad81e80d2d294b2758b8b483e66ac0f915ff236020e4143d7e89484693df7a"
+    },
+    {
+      "path": "logs/gdi-unicode-memory.log",
+      "bytes": 12519,
+      "sha256": "e7cf01e8289a3fcbf2443973abda523014d0a0a3f027ec74d417b0dcb3b8249e"
+    },
+    {
+      "path": "IDENTITY.json",
+      "bytes": 647,
+      "sha256": "6c57fe6bda8a876aadadeac0a92061f7e3e4679e46ea3561f609bd91e6624b40"
+    },
+    {
+      "path": "tests/session_fixture.py",
+      "bytes": 544,
+      "sha256": "5f7f2042ad7250ad1d9d6e2af7a57d4e927dd2dae0f111c88cb9901015bc2779"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "bytes": 38356,
+      "sha256": "ba97604d3ede8416acabb1b6524fac93d3ab16dc2c8969e77169fd6b9afce308"
+    },
+    {
+      "path": "tests/kitty_unicode_tab_workload.py",
+      "bytes": 3469,
+      "sha256": "bbc1237e643320b1c2b8bfc2a3e4d5dea8d99c3cacafc8f214a5df3ea9d3d8c0"
+    },
+    {
+      "path": "tests/tab_workload_memory.py",
+      "bytes": 13774,
+      "sha256": "cbe71e0ce88230c83969b5d935548e0f7825df58f2e95f8c47785669876bf3a0"
+    },
+    {
+      "path": "tests/mouse_fixture.py",
+      "bytes": 5665,
+      "sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+    }
+  ]
+}
