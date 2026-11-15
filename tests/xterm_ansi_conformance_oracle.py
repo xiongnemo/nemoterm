@@ -14,7 +14,9 @@ from xterm_state_oracle import run_cases
 E=b'\x1b'; C=E+b'['
 RESET=C+b'?42l'+E+b'%G'+E+b'c'+E+b'%@'+E+b'c'+C+b'65;1"p'
 BANKS=C+b'?42h'+E+b'(B'+E+b')0'+E+b'*5'+E+b'+R'+b'\x0f'
-PROBE=b'q@[\\]^'
+# A single shift affects only the first printable character. '[' distinguishes
+# both selected national banks from ASCII; 'q' alone would miss that behavior.
+PROBE=b'[q@\\]^'
 REPORT=C+b'1$w'
 SHIFTS={'ls2':E+b'n','ls3':E+b'o','ls1r':E+b'~','ls2r':E+b'}',
         'ls3r':E+b'|','so':b'\x0e','si':b'\x0f','ss2':E+b'N','ss3':E+b'O'}
