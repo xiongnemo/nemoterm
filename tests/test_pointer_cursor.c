@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
+#ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
+#endif
 #include "nemo_pointer_win.h"
 #include "nemo_pointer_glyph.h"
 #include <stdio.h>

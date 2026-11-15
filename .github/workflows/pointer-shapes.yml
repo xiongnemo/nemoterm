@@ -107,7 +107,7 @@ jobs:
           Get-FileHash vendor/putty-0.85/windows/nemo_pointer_win.c,vendor/putty-0.85/windows/nemo_pointer_win.h,vendor/putty-0.85/windows/nemo_pointer_glyph.c,vendor/putty-0.85/windows/nemo_pointer_glyph.h,vendor/putty-0.85/windows/window.c,vendor/putty-0.85/windows/win-gui-seat.h,vendor/putty-0.85/windows/nemo_link_ui.c,vendor/putty-0.85/windows/nemo_tabs_host.inc,tests/test_pointer_cursor.c -Algorithm SHA256 | ConvertTo-Json | Set-Content pointer-native-sources.json
           cmake --build pointer-terminal-build --target pterm test_pointer_cursor --parallel 4 2>&1 | Tee-Object pointer-native-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          Get-FileHash pointer-terminal-build/pterm.exe -Algorithm SHA256 | ConvertTo-Json | Set-Content pointer-frontend.json
+          Get-FileHash pointer-terminal-build/nemoterm.exe -Algorithm SHA256 | ConvertTo-Json | Set-Content pointer-frontend.json
           ./pointer-terminal-build/test_pointer_cursor.exe 2>&1 | Tee-Object pointer-native.log
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -124,7 +124,7 @@ jobs:
             pointer-native*.log
             pointer-native-sources.json
             pointer-frontend.json
-            pointer-terminal-build/pterm.exe
+            pointer-terminal-build/nemoterm.exe
             pointer-atlas-*.bmp
           if-no-files-found: error
           retention-days: 30
