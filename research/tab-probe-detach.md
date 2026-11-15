@@ -67,3 +67,9 @@ bytes while the probe was installed and restored bytes after detachment/selectio
 and naturally drained all 54 owned processes. Artifact `14137517841` and 12 raw
 records are retained in the validation index. This is a successful diagnostic
 comparison; the cause of the original access violation remains unproven.
+
+An [external exception observer](native-exception-observer.md) now provides an
+additional opt-in diagnostic. Its handled/fatal-exception and detach/exit controls
+pass locally and on MSVC CI; three more exact-image hosted replays pass while it
+is attached. It is not enabled for product memory acceptance, and these passes
+still do not explain the original missing fault stack.

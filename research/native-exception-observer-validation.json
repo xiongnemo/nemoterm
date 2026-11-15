@@ -453,6 +453,447 @@
           "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
         }
       ]
+    },
+    {
+      "path": "research/native-exception-observer-evidence/hosted.tar.gz",
+      "archive_sha256": "4f3266f3ff7eea8ef65d70afddb9bb214ae5653efffdd4414f1ece113dd501b2",
+      "archive_bytes": 185851,
+      "records": [
+        {
+          "path": "diagnostic-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "1551775b01b1dcfb15299809667beee9db3c5c5137185370664d4a9a49e567c8"
+        },
+        {
+          "path": "diagnostic/exception-controls/build-control.log",
+          "raw_bytes": 28,
+          "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+        },
+        {
+          "path": "diagnostic/exception-controls/build-observer.log",
+          "raw_bytes": 29,
+          "raw_sha256": "17795c4c72b39396231497f30fcc2c23af7af55ac50add73a0658215d5d0edc2"
+        },
+        {
+          "path": "diagnostic/exception-controls/control.exe",
+          "raw_bytes": 103424,
+          "raw_sha256": "91f83956f3c381d2ed8aabbffb8d417e7050ad7c9a24d1c31346ff41a1cff14c"
+        },
+        {
+          "path": "diagnostic/exception-controls/control.obj",
+          "raw_bytes": 2878,
+          "raw_sha256": "e4d9f2597d84145a2ec23d495be50bdf143aea0108ee27f1a8f8523d0e3af3f2"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/crash/crash-9588-1.dmp",
+          "raw_bytes": 12171,
+          "raw_sha256": "b2cd9510c052d4ed2afb28ee8d17fd0c90c13a0dcbbe901762d256489eb62888"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/crash/events.jsonl",
+          "raw_bytes": 1400,
+          "raw_sha256": "9ac027b6aa4b931b2520c0a9d247f40508974ec465e2431ce102fcb97937e7ad"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/crash/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "0ee59b9fd8225a0769cfefe78ebabc7bea7ee8fdbc17c5ed42ed6565c48e5f23"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/crash/result.json",
+          "raw_bytes": 521,
+          "raw_sha256": "1d7b8216417eadb3432f90272075365001577599067524ba1dedfedf2ea0fcf5"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/debugger-exit/events.jsonl",
+          "raw_bytes": 663,
+          "raw_sha256": "fbf64d1df55d4f08d2f1ee1bacf4e42e7f01cf2b840629e81a52f2522c9b01d1"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/debugger-exit/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "cdd8f8c7f745dcf7a61de39c7039303b770d109c682441e63aa3a0d443bffcf8"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/debugger-exit/result.json",
+          "raw_bytes": 501,
+          "raw_sha256": "46b0012847b71943502c4b2eb7b9ba79b172fb55ac086d557c0a760dc6ce4b76"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/detach/events.jsonl",
+          "raw_bytes": 698,
+          "raw_sha256": "dffd6ba05db1dbc3584d01dbc32922d7d8d9a6433e9ef9307f658196748e73ab"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/detach/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "b389eb7a8e49450e3ddd8cb8c2d3203563cb2e1c8646fb1d1ee5a6648bf528f2"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/detach/result.json",
+          "raw_bytes": 494,
+          "raw_sha256": "03bc77fb7cdadbd42fce2597b25d812a7e46358c51a90c1b03ea70d406abed5e"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/normal/events.jsonl",
+          "raw_bytes": 1142,
+          "raw_sha256": "9ef657bedaeefb1ba24bd508a70ecf2cee78ddd4abe1301bf33541d45943b7c7"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/normal/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "7052e468b16a9200981af8dbeba6eb8af41f8441e67a4b33a667c32ff8536757"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/normal/result.json",
+          "raw_bytes": 494,
+          "raw_sha256": "19720186d5c32e53240f3e06707fd285200d1ff47dc3ba2603e5da0cd587be0f"
+        },
+        {
+          "path": "diagnostic/exception-controls/controls/results.json",
+          "raw_bytes": 3877,
+          "raw_sha256": "6dcb60b83065b0a8bde3b8b9f79587e5523e76f2d1b80cc44001c61ab3ca6aeb"
+        },
+        {
+          "path": "diagnostic/exception-controls/observer.exe",
+          "raw_bytes": 153600,
+          "raw_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304"
+        },
+        {
+          "path": "diagnostic/exception-controls/observer.obj",
+          "raw_bytes": 16851,
+          "raw_sha256": "ef5cadfe5d95efa4342f2a9208bea8333e8f9fceccf2d5e5321d25f8b0500f74"
+        },
+        {
+          "path": "diagnostic/exception-controls/test.log",
+          "raw_bytes": 3009,
+          "raw_sha256": "ff1876eda1b976271dd66610cd1a4c8443d1975fc2eb81922d158d4f4ddcc3cd"
+        },
+        {
+          "path": "diagnostic/exception-observer-source.json",
+          "raw_bytes": 993,
+          "raw_sha256": "ed4e71e2f8e4c0ffebb403b6308e37b1cc166145cce68ee4c485a22a248aa640"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-bcb7bed5d71f4aea9fbc030b52e7e701/events.jsonl",
+          "raw_bytes": 43958,
+          "raw_sha256": "007630d26bf634fd6ce4cd95672613de1942b0f4fbfc72a2e6dff4b1d7100b48"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-bcb7bed5d71f4aea9fbc030b52e7e701/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "f25f1e85ad7b46fa4792f1ba60f6fddeac788bea6e93a89b92a19697923f7086"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-bcb7bed5d71f4aea9fbc030b52e7e701/result.json",
+          "raw_bytes": 503,
+          "raw_sha256": "ccc6ef9360336ef73bf66f0b1effb1b56a7c678fb28f674ad6ed7328c1d5dcf3"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-cf757e7d27af40b5ac5f9f4ca9c4ad1c/events.jsonl",
+          "raw_bytes": 43958,
+          "raw_sha256": "bc6042b6e2f02f40e616d058bf377609b09018ce6afc5bab4e7f2b5badc00fdc"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-cf757e7d27af40b5ac5f9f4ca9c4ad1c/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "55840850badaf154125f157537ea186854df71b66c9cc0a1dfa98c39ba7f7abf"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-cf757e7d27af40b5ac5f9f4ca9c4ad1c/result.json",
+          "raw_bytes": 503,
+          "raw_sha256": "6e92edd41bc816890806e351c29e967c4db4ed426f587ce9390f121ef230b343"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-f71394bc37874dac9ee7129b51598797/events.jsonl",
+          "raw_bytes": 43861,
+          "raw_sha256": "feb0c9025eb2cc279b464032530413d3d36934e27945af58978de4b71710ff04"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-f71394bc37874dac9ee7129b51598797/identity.json",
+          "raw_bytes": 330,
+          "raw_sha256": "16fd6262fdd869e4c36bbcdaef3db8d61c57bb63c4ea088290c710c771865771"
+        },
+        {
+          "path": "diagnostic/exception-tabs-opengl-right-tabs-f71394bc37874dac9ee7129b51598797/result.json",
+          "raw_bytes": 503,
+          "raw_sha256": "1344f04860111ecaae402fa2deabe24c7dd75574390a0523af01f4843e651f0f"
+        },
+        {
+          "path": "diagnostic/identity.json",
+          "raw_bytes": 2443,
+          "raw_sha256": "4eb1f8d7dfdacdf0ceb3ab2222170ef8d1405dd81f3dcc9107caffed48dcdce6"
+        },
+        {
+          "path": "diagnostic/replay-1-observed.json",
+          "raw_bytes": 125573,
+          "raw_sha256": "eda83c5956093c82c0ac7d7e7e22638d5f0eaa58d7579904b2963360b4cc564e"
+        },
+        {
+          "path": "diagnostic/replay-1.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "diagnostic/replay-2-observed.json",
+          "raw_bytes": 125588,
+          "raw_sha256": "a847f9930b7372220d1c34918ea6655669b856d90781cd08615caf43813363f3"
+        },
+        {
+          "path": "diagnostic/replay-2.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "diagnostic/replay-3-observed.json",
+          "raw_bytes": 125694,
+          "raw_sha256": "8a8fa029de9b9943bf362d44c3a7dcef3f539f1bfce75592201ea35b3067d095"
+        },
+        {
+          "path": "diagnostic/replay-3.log",
+          "raw_bytes": 36,
+          "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+        },
+        {
+          "path": "tabs-artifacts.json",
+          "raw_bytes": 787,
+          "raw_sha256": "0c99412fc41cb2c578483efad12d904d87a22f2205d19bea131dbb753f962a08"
+        },
+        {
+          "path": "tabs-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "febd301f06de6277ffa33caedcb7ff09c5e1862572acc16795954f2d1ef8c681"
+        },
+        {
+          "path": "tabs-run.json",
+          "raw_bytes": 2292,
+          "raw_sha256": "f97dc09de75a4601c89b6c9428c207c78a106a8a752087fa35e43f9f2e8da8b3"
+        },
+        {
+          "path": "tabs-run.log",
+          "raw_bytes": 79968,
+          "raw_sha256": "0606263e8d17bf5b70bc08e7ab3e54ea679aed3516acfb3d8405a6ee8e5ae6e3"
+        }
+      ]
     }
-  ]
+  ],
+  "hosted": {
+    "run": 43657368739,
+    "fixture_commit": "6449919efffde2c235494b4cd167b11bde13b258",
+    "artifact_id": 14138227152,
+    "controls": [
+      {
+        "mode": "normal",
+        "process_exit": 23,
+        "observer": {
+          "pid": 4176,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\controls\\normal\\events.jsonl",
+          "dumps": []
+        },
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      },
+      {
+        "mode": "crash",
+        "process_exit": 3221225477,
+        "observer": {
+          "pid": 9588,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\controls\\crash\\events.jsonl",
+          "dumps": [
+            "crash-9588-1.dmp"
+          ]
+        },
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "dump": {
+          "bytes": 12171,
+          "sha256": "b2cd9510c052d4ed2afb28ee8d17fd0c90c13a0dcbbe901762d256489eb62888",
+          "streams": 14
+        },
+        "passed": true
+      },
+      {
+        "mode": "detach",
+        "observer": {
+          "pid": 6252,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\controls\\detach\\events.jsonl",
+          "dumps": []
+        },
+        "process_exit": 23,
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      },
+      {
+        "mode": "debugger-exit",
+        "observer": {
+          "pid": 8964,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 1,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\controls\\debugger-exit\\events.jsonl",
+          "dumps": []
+        },
+        "process_exit": 23,
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      }
+    ],
+    "replays": [
+      {
+        "iteration": 1,
+        "renderer": 1,
+        "checks": 9,
+        "observer": {
+          "pid": 6060,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\research\\exception-tabs-opengl-right-tabs-f71394bc37874dac9ee7129b51598797\\events.jsonl",
+          "dumps": []
+        },
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "iteration": 2,
+        "renderer": 1,
+        "checks": 9,
+        "observer": {
+          "pid": 9008,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\research\\exception-tabs-opengl-right-tabs-bcb7bed5d71f4aea9fbc030b52e7e701\\events.jsonl",
+          "dumps": []
+        },
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "iteration": 3,
+        "renderer": 1,
+        "checks": 9,
+        "observer": {
+          "pid": 7328,
+          "observer": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\exception-controls\\observer.exe",
+          "observer_sha256": "ea5e1f40ccc6649eb4a8212e76e2f10e362714a3d35b1d3bdfeabbd27b54a304",
+          "diagnostic_only": true,
+          "scope": "One live fixture process, inherited process and private-job handles",
+          "exit_code": 0,
+          "events_file": "D:\\a\\nemoterm\\nemoterm\\research\\exception-tabs-opengl-right-tabs-cf757e7d27af40b5ac5f9f4ca9c4ad1c\\events.jsonl",
+          "dumps": []
+        },
+        "cleanup": {
+          "before": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 54,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ]
+  }
 }

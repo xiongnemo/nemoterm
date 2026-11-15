@@ -38,4 +38,10 @@ observer combinations. The focused artifact replay workflow has an opt-in
 and requires all four controls before replay. Ordinary product/acceptance tests
 continue without this debugger. The validation manifest retains raw local logs,
 control dumps, both exact helper executables and the fixture source snapshot.
-Hosted observer validation is pending.
+[Hosted run 43657368739](https://github.com/xiongnemo/nemoterm/actions/runs/43657368739)
+at `6449919` passes strict MSVC compilation, all four native controls and three
+independent lifetimes of the exact original failed image. Each replay used GDI
+after the requested OpenGL mode fell back, passed all nine groups, observed
+ordinary process exit and naturally drained 54 owned processes. There was no
+second-chance exception or terminal dump. The hosted raw records and control
+dumps are retained separately in `hosted.tar.gz` (artifact `14138227152`).
