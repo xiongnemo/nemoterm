@@ -19,9 +19,10 @@ u.GetWindowLongPtrW.argtypes,u.GetWindowLongPtrW.restype=[w.HWND,c.c_int],c.c_ss
 u.SetWindowPos.argtypes=[w.HWND,w.HWND,c.c_int,c.c_int,c.c_int,c.c_int,w.UINT]
 u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
+u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],renderers=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -67,6 +68,9 @@ try:
             second=next(s for s in sessions if s['id']!=first['id'])
             second_child=child()
             assert second['active'] and second['window']==host and second['renderer']==renderer,second
+            actual=[int(u.GetPropW(s['hwnd'],'NemotermRenderer') or 0) for s in (first,second)]
+            evidence['renderers'].append(dict(requested=renderer,configured_topmost=always_on_top,actual=actual))
+            assert actual==[1 if renderer==0 else 3]*2,evidence['renderers'][-1]
             def phase(target,name,wire):
                 global serial
                 serial+=1
