@@ -27,6 +27,10 @@ now passes all four jobs and twelve uninjected memory groups, including dense
 Unicode images and 25,048 post-memory cell-centre checks. Dense private-WS peaks
 are 14,405,632 bytes for GDI and 18,411,520 for DirectX at the remote grids;
 DirectX total WS is 54,407,168 bytes, still above the approximate 50 MB target.
+The indexed single-image run at `fd0c253` later fails its mixed-profile 15-second
+close check before memory acceptance. Its exact unverified EXE is retained for
+[remote replay](../research/unicode-single-profile-close.md); no new distribution
+has passed both complete workflows.
 This is not acceptance of
 the new exact product at local 160x48 Sarasa. Local interactive testing is
 currently paused at the user's request. The accepted artifact below is unchanged.

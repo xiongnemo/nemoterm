@@ -136,4 +136,7 @@ frontend SHA256 is
 It uses separate ConPTY/console-host files; the single-file workflow remains
 independent. This is remote-grid acceptance, not local 160x48 Sarasa validation.
 DirectX total WS still exceeds the approximate 50 MB target. No distribution
-binary is promoted, and local desktop testing remains paused.
+binary is promoted, and local desktop testing remains paused. The separate
+indexed single-image run subsequently fails its
+[mixed-profile close check](unicode-single-profile-close.md) before memory
+acceptance; its exact executable is retained for diagnosis.

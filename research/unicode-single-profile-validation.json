@@ -1,0 +1,190 @@
+{
+  "source": "fd0c2535314e4a3d0609eaff465962c1d96b2b14",
+  "run": 43687495119,
+  "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43687495119",
+  "conclusion": "failure",
+  "executable_sha256": "992cabb4d424235e92f46586230c5282dab1ad3a92d1cef3bd7f1b63ff759115",
+  "executable_bytes": 4523520,
+  "executable_retained": true,
+  "profile_checks": 7,
+  "failed_phase": "close-host",
+  "close_timeout_seconds": 15,
+  "root_alive_after_timeout": true,
+  "owned_processes_alive_after_timeout": 7,
+  "cleanup_forced": true,
+  "unicode_pixels": [
+    {
+      "name": "kitty-unicode-directx-observed.json",
+      "phases": 32,
+      "actual_renderer": 2
+    },
+    {
+      "name": "kitty-unicode-gdi-observed.json",
+      "phases": 32,
+      "actual_renderer": 0
+    },
+    {
+      "name": "kitty-unicode-geometry-directx-observed.json",
+      "phases": 19,
+      "actual_renderer": 2
+    },
+    {
+      "name": "kitty-unicode-geometry-gdi-observed.json",
+      "phases": 19,
+      "actual_renderer": 0
+    },
+    {
+      "name": "kitty-unicode-geometry-opengl-observed.json",
+      "phases": 19,
+      "actual_renderer": 0
+    },
+    {
+      "name": "kitty-unicode-opengl-observed.json",
+      "phases": 32,
+      "actual_renderer": 0
+    }
+  ],
+  "unicode_clipboard": [
+    {
+      "name": "kitty-unicode-selection-directx-observed.json",
+      "cases": 16,
+      "exact_copies": 32,
+      "actual_renderer": 2
+    },
+    {
+      "name": "kitty-unicode-selection-gdi-observed.json",
+      "cases": 16,
+      "exact_copies": 32,
+      "actual_renderer": 0
+    },
+    {
+      "name": "kitty-unicode-selection-opengl-observed.json",
+      "cases": 16,
+      "exact_copies": 32,
+      "actual_renderer": 0
+    }
+  ],
+  "scope": "Earlier native graphics checks pass; mixed-profile close timeout prevents later memory groups and final product validation. No memory acceptance or distribution promotion.",
+  "bundle": {
+    "path": "research/kitty-unicode-evidence/indexed-single-profile-timeout.tar.gz",
+    "archive_bytes": 2712121,
+    "archive_sha256": "3f60be3feb13557825f3477d6afe354f4e4a63fdeba6051b6e09c1ffd41f90ff",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 4191,
+        "raw_sha256": "1a1d09acecad7bbc30daa536b0b2d664a83e9f8d5624e146e97f88e17a0eb213"
+      },
+      {
+        "path": "single-artifacts.json",
+        "raw_bytes": 1559,
+        "raw_sha256": "7627cdaa4509423f40d9d45c692db5d2219ed8238bfd43ad4814245655ed3b42"
+      },
+      {
+        "path": "single-evidence-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "9e160884e7bd58fc1441d12602668ac6639984c16778b6e56b85cfa593c4c9f7"
+      },
+      {
+        "path": "single-evidence/build/native-crashes/application-errors.json",
+        "raw_bytes": 4,
+        "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/logs/tabs-directx-left.log",
+        "raw_bytes": 36,
+        "raw_sha256": "332923fd1035edeb5a45d56f25e8c465331f1b48e25e0ed6113b28818b94923a"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/logs/tabs-gdi-bottom.log",
+        "raw_bytes": 34,
+        "raw_sha256": "701908216efd74f92f9e9f157f9fa4e25401746da68ac796940d9a9d549c35f3"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/logs/tabs-gdi-top.log",
+        "raw_bytes": 31,
+        "raw_sha256": "c829b25c1aeef77d4be2be5c15b33aedbcb6df96025ea3c43e0f6ce027493c50"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/logs/tabs-opengl-right.log",
+        "raw_bytes": 36,
+        "raw_sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/logs/tabs-regressions.log",
+        "raw_bytes": 1207,
+        "raw_sha256": "3ed9ac508cd5e88991e35f55b6211db3cc7c6160bc5f3824edf90eec2d1c8b7e"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-directx-observed.json",
+        "raw_bytes": 199582,
+        "raw_sha256": "92de0f82a1696512a4247ef4347749f78c137be83aea172223d952d97652b156"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-gdi-observed.json",
+        "raw_bytes": 199402,
+        "raw_sha256": "2d9523a8b9caf8f517dbf49d793e650f8c16bcd8fb84edd1c89e63776c1f0889"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-directx-observed.json",
+        "raw_bytes": 64942,
+        "raw_sha256": "ea7ed8905f7afbba3465cfc4ad04c82a852cd17622faa0da0cada2255bcfd95a"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-gdi-observed.json",
+        "raw_bytes": 64932,
+        "raw_sha256": "9acaff4ee7be945006255bd97fd381cfaacca925d6b9ea3cb254e6d98787e188"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-opengl-observed.json",
+        "raw_bytes": 64938,
+        "raw_sha256": "1abd293a1ba498aeb0b409ddf5a748a57aad8077013a025ba7e5b246076297be"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-opengl-observed.json",
+        "raw_bytes": 199441,
+        "raw_sha256": "91ff862350efb7cceb1c39cd8176b64330d9b2a625bf0687601cd6577c9a0d56"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-selection-directx-observed.json",
+        "raw_bytes": 205209,
+        "raw_sha256": "4ca5f8295f165c4eb99fb15c84e182bb936b13b01bd8f6aecbd72af11635f6da"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-selection-gdi-observed.json",
+        "raw_bytes": 205193,
+        "raw_sha256": "606bcd47d68e26f0f32afa5a05027b867708188cf6a793470e37aef1cc397863"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/kitty-unicode-selection-opengl-observed.json",
+        "raw_bytes": 205205,
+        "raw_sha256": "1e6be2bbeefa8e603559bac2cd77ebbffeee68172f0891d20a75fe1493554e13"
+      },
+      {
+        "path": "single-evidence/build/single-exe-check/research/tabs-profiles-observed.json",
+        "raw_bytes": 26294,
+        "raw_sha256": "46dfac565c76d85263bba1f74e3fd1f05e17d98731f88bbadb695bc41893e930"
+      },
+      {
+        "path": "single-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "601c3213099cd2b8eba3a8e781b48137820d67447cab94624e50774e8dff81e2"
+      },
+      {
+        "path": "single-run.json",
+        "raw_bytes": 3208,
+        "raw_sha256": "f227648f089f30a23fc0410ba97ff4894545c81fce55afc489b5e94cebdb61b6"
+      },
+      {
+        "path": "single-run.log",
+        "raw_bytes": 859383,
+        "raw_sha256": "0a2d778bb75dc29a50cbf07bc42ee3c4cfdf1f92322ec2422d719255ccf76ead"
+      },
+      {
+        "path": "unverified-product/nemoterm.exe",
+        "raw_bytes": 4523520,
+        "raw_sha256": "992cabb4d424235e92f46586230c5282dab1ad3a92d1cef3bd7f1b63ff759115"
+      }
+    ]
+  }
+}
