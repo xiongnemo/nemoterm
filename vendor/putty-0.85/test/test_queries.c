@@ -44,6 +44,62 @@ static void test_legacy_parameters(Mock *mk)
     }
 }
 
+static void test_answerback_configuration(Mock *mk)
+{
+    const char *invalid[] = {
+        "literal", "^", "^!", "^0", "^9", "^ ", "^:", "^/", "^,", "^;",
+        "^<abc>", "^<>", "^<13", "^<0x>", "^< 13 >",
+    };
+    bool rejected = true;
+    for (size_t i = 0; i < lenof(invalid); i++) {
+        test_context(mk, "unrecognized answerback escape: %s", invalid[i]);
+        /* A previous successful parse must never survive a failed parse. */
+        char *next = (char *)invalid[i] + strlen(invalid[i]);
+        ctrlparse((char *)invalid[i], &next);
+        IEQUAL(next == NULL, true);
+        rejected &= next == NULL;
+    }
+    const struct { const char *text; int value; size_t consumed; } valid[] = {
+        {"^@tail", 0, 2}, {"^Atail", 1, 2}, {"^ztail", 26, 2},
+        {"^[tail", 27, 2}, {"^\\tail", 28, 2}, {"^]tail", 29, 2},
+        {"^^tail", 30, 2}, {"^_tail", 31, 2}, {"^?tail", 127, 2},
+        {"^~tail", '^', 2}, {"^<13>tail", 13, 5},
+        {"^<015>tail", 13, 6}, {"^<0x0d>tail", 13, 7},
+    };
+    for (size_t i = 0; i < lenof(valid); i++) {
+        test_context(mk, "recognized answerback escape: %s", valid[i].text);
+        char *next = NULL;
+        IEQUAL((unsigned char)ctrlparse((char *)valid[i].text, &next), valid[i].value);
+        IEQUAL(next == valid[i].text + valid[i].consumed, true);
+    }
+    /* Do not feed the known-broken parser an ambiguous continuation. The
+     * deterministic pointer assertions above are sufficient on old source. */
+    if (!rejected) return;
+    char *original = dupstr(conf_get_str(mk->conf, CONF_answerback));
+    const char *configured = "LEFT^!^0^ ^:^/RIGHT^~END";
+    for (int framed = 0; framed < 2; framed++) {
+        reset(mk);
+        test_context(mk, "literal answerback fallback, C1 framing %d", framed);
+        conf_set_str(mk->conf, CONF_answerback, configured);
+        term_reconfig(mk->term, mk->conf);
+        term_data_fragmented(mk->term, framed ? "\033 G\005" : "\033 F\005");
+        response(mk, "LEFT^!^0^ ^:^/RIGHT^END");
+    }
+    reset(mk);
+    test_context(mk, "binary configured answerback with embedded NUL");
+    conf_set_str(mk->conf, CONF_answerback, "^M^J^@^<0x1b>^?^~");
+    term_reconfig(mk->term, mk->conf);
+    term_data_fragmented(mk->term, "\005");
+    static const char expected[] = "\r\n\0\033\177^";
+    IEQUAL(mk->to_backend->len, sizeof(expected)-1);
+    if (mk->to_backend->len == sizeof(expected)-1)
+        IEQUAL(memcmp(mk->to_backend->s, expected, sizeof(expected)-1), 0);
+    strbuf_clear(mk->to_backend);
+    conf_set_str(mk->conf, CONF_answerback, original);
+    term_reconfig(mk->term, mk->conf);
+    sfree(original);
+}
+
 static void test_c1_controls(Mock *mk)
 {
     mk->ucsdata->line_codepage = CP_UTF8;
@@ -806,6 +862,7 @@ int main(void)
     test_presentation_state(mk);
     test_c1_controls(mk);
     test_legacy_parameters(mk);
+    test_answerback_configuration(mk);
     test_iterm_reports(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

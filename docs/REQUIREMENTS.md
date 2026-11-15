@@ -68,6 +68,18 @@ restore-size defect: the outer frame and tab strip were omitted. The
 resize stages across four tab positions and all three actual renderers, with
 natural cleanup. The combined full CI and single-image acceptance remain open.
 
+The later [parameter-query correction](../research/legacy-replies.md) follows
+136 retained VT100 request streams, with explicit baud/framing policy
+differences. Core GCC/Clang sanitizer and MSVC checks pass, as do 272 portable
+ConPTY comparisons. Full `5f5e80c` workflows then expose an unmet topmost
+precondition in the bell fixture; the [configured-window correction](../research/bell-modes.md#topmost-fixture-precondition)
+passes 74 states on the exact failed image with actual GDI and DirectX
+renderers and natural shutdown. Combined workflows for `69496bb` are running.
+A separate [answerback configuration fix](../research/answerback-config.md)
+initializes an unsuccessful caret parse correctly and passes core regression
+plus 160 direct native comparisons. Neither checkpoint replaces the accepted
+single executable or removes remaining protocol and physical-input work.
+
 ## Bell attention modes (2026-11-16 Sydney)
 
 The [1042/1043 development checkpoint](../research/bell-modes.md) retains an

@@ -20,6 +20,7 @@
 char ctrlparse(char *s, char **next)
 {
     char c = 0;
+    *next = NULL;
     if (*s != '^') {
         *next = NULL;
     } else {

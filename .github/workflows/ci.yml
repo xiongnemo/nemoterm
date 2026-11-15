@@ -514,6 +514,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/legacy-parameter-*-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Test configured answerback escapes and literal recovery
+        shell: pwsh
+        run: |
+          python tests/answerback_config_window_smoke.py 2>&1 | Tee-Object test-results/answerback-config-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/answerback-config-*-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
         run: |

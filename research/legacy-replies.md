@@ -44,8 +44,11 @@ captures, the diagnostic trace, complete later captures and both reference
 profiles. Its adjacent validation manifest hashes every record. The probe's
 generic log line saying cases "passed" means capture completed; actual equality
 is determined by the separate comparison JSON and the distinctions above.
-Unicode answerback settings, control-notation configuration, every simulated
-identity and the full malformed-input matrix remain unverified. No clipboard
+At this audit checkpoint, Unicode answerback settings, control-notation
+configuration, every simulated identity and the full malformed-input matrix
+remain unverified. The later [configuration recovery](answerback-config.md)
+adds bounded direct control-notation tests and fixes literal fallback; it does
+not establish Unicode or complete syntax coverage. No clipboard
 or physical desktop input is used, and the instrumented trace is not a memory
 measurement.
 

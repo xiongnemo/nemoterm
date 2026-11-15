@@ -61,6 +61,7 @@ on:
       - tests/legacy_parameter_reference.h
       - tests/legacy_parameter_reference.json
       - vendor/putty-0.85/test/test_queries.c
+      - vendor/putty-0.85/utils/ctrlparse.c
       - research/legacy-reply-reference.tar.gz
       - tests/ansi_conformance_reference.h
       - vendor/putty-0.85/test/test_cancellation_terminal.c
