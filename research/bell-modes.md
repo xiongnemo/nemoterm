@@ -2,8 +2,8 @@
 
 The development branch implements private modes 1042 (window attention) and
 1043 (raise on bell), their DECRQM replies and independent private-mode
-save/restore. The bell-specific component replay passes on three compilers;
-the complete regression and native Windows checkpoints remain pending. No local
+save/restore. The complete component regression passes on three compilers;
+the native Windows checkpoint remains pending. No local
 desktop test or executable promotion has been performed.
 
 ## Independent reference
@@ -46,7 +46,11 @@ preferences appear in Terminal / Bell and persist in saved sessions.
 The shared bell path keeps existing sound/visual and bounded overload behavior.
 Urgency requests still occur under overload; raising and sound are suppressed.
 The Windows backend uses the containing tab host for taskbar/caption indication
-and uses `SetWindowPos` with `SWP_NOACTIVATE` for raising. It does not select an
+and uses `SetWindowPos` with `SWP_NOACTIVATE` for raising. These are the documented
+[non-activating positioning](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos)
+and [attention](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-flashwindowex)
+APIs; an API success alone is not treated as proof of the visible effect.
+It does not select an
 inactive tab or restore a minimised window. A focused host is not flashed for
 an inactive tab's bell. On focus, all seats belonging to that host clear their
 notification. This deliberately uses ordinary Windows notification clearing,
@@ -69,5 +73,29 @@ DECRQSS recovery test that incorrectly expected BEL to be removed from `m BEL`.
 The latter is corrected to invalid-query status, consistent with the captured
 `BEL m` query and the retained upstream `do_dcs` complete-string comparison.
 No original oracle reply is rewritten. All three original failure artifacts are
-retained locally for the next evidence bundle. Production code is unchanged
+retained in the component evidence bundle. Production code is unchanged
 when correcting these two authored regression assertions.
+
+The corrected [run 43721163137](https://github.com/xiongnemo/nemoterm/actions/runs/43721163137)
+at `f93cb3d` passes all three compiler jobs, including every existing replay
+in that workflow. `bell-modes-components.tar.gz` retains both original runs:
+179 records / 816,297 bytes, with 126 source-hash matches. The companion manifest
+keeps failures, passing logs and exact sources separate. This is a component
+checkpoint, not full single-image acceptance.
+
+## Native stacking failure and correction under validation
+
+The first [native run 43721167249](https://github.com/xiongnemo/nemoterm/actions/runs/43721167249)
+at `f93cb3d` builds the single image but fails the first requested raise:
+`SetWindowPos(HWND_TOP, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE)` returns 1,
+yet actual window enumeration still places the terminal below the foreground
+cover window. Foreground focus remains unchanged and the real FlashWindowEx
+request is observed. The fixture correctly rejects this API-success-only result.
+Existing audible-policy and visual-bell fixtures pass in the same job.
+
+`994bee4` uses a temporary topmost round trip for an ordinary window, preserving
+the non-activating flags and restoring its original non-topmost class. A window
+already marked topmost keeps that status. The native fixture additionally checks
+that the final topmost attribute is unchanged, alongside actual stacking and
+unchanged focus. Its [run 43721733820](https://github.com/xiongnemo/nemoterm/actions/runs/43721733820)
+is pending. No successful native or full-product result is claimed for this fix.

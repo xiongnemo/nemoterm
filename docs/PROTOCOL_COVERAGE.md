@@ -156,7 +156,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DEC modes 80/1070/8452 | Tested | Sixel display/palette/cursor-scroll behavior, `sixel_terminal`. |
 | DEC modes 2026/2027 | Partial | Synchronized frames and opt-in grapheme widths tested; see `sync`, `grapheme_terminal`, `graphemes.md`. Color-font/emoji policy and long workloads remain open. |
 | DEC mode 9001 | Gated | Windows input records, `win32_input`, user setting and native fixture. |
-| DEC 1042/1043 bell attention and raising | Development; complete acceptance pending | Independent 112-case/192-step XTerm capture and three-compiler bell replay pass. Separate defaults, save/restore and Windows non-activating raise are implemented. Full regression and native Windows evidence remain pending; [scope and platform policies](../research/bell-modes.md). |
+| DEC 1042/1043 bell attention and raising | Development; native correction pending | Independent 112-case/192-step XTerm capture and full three-compiler component regressions pass. Separate defaults and save/restore are implemented. Native observation rejected an ineffective Windows raise despite API success; the correction is under validation. [Scope and platform policies](../research/bell-modes.md). |
 | Other unlisted DEC modes | Missing | Unimplemented modes continue to return unknown to DECRQM. |
 | >m/>n/?m; >f/?g/>g (modifyOtherKeys family) | Partial | `mok`, native key tests and independent reference; supported resource is modifyOtherKeys, not all xterm key resources. |
 | ?u/=u/>u/<u (kitty keyboard flags/stack) | Tested | `keyboard`, progressive flags and stack; platform-specific physical-layout coverage remains open. |

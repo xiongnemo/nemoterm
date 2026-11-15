@@ -13,6 +13,17 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. Local interactive desktop testing remains paused until the user resumes it.
 
+## Bell attention modes (2026-11-16 Sydney)
+
+The [1042/1043 development checkpoint](../research/bell-modes.md) retains an
+independent XTerm capture of 112 fresh cases / 192 steps, including actual X11
+urgency, focus and stacking. Full component regressions pass GCC/Clang sanitizers
+and MSVC at `f93cb3d`. Startup defaults, private save/restore, overload-aware
+attention and an optional reset bell are implemented. The first native Windows
+check caught an ineffective raise despite a successful API return; `994bee4`
+corrects the positioning and is undergoing cloud validation. Native/background
+tab and complete product acceptance remain open. Local testing stays paused.
+
 ## DEC user-defined key reference (2026-11-16 Sydney)
 
 The [independent UDK reference](../research/dec-udk.md) passes 91 cases and
