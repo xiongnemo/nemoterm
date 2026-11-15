@@ -265,7 +265,9 @@ Consolas windows; the private, total and committed peaks need not coincide:
 | DirectX, 88×35 | 17,793,024 | 54,263,808 | 20,652,032 |
 
 The private peaks satisfy the existing `<20,000,000` GDI and `≤25,000,000`
-DirectX limits. DirectX total working set remains above the roughly 50 MB goal.
+DirectX limits. The user subsequently confirmed that the roughly 50 MB total
+working-set goal applies to GDI and accepted current DirectX memory; further
+DX optimization is not required by this checkpoint.
 These workloads use the ordinary MinGW frontend and separate source host;
 they do not establish single-image memory or local 160×48 Sarasa acceptance.
 

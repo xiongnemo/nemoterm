@@ -1,5 +1,18 @@
 # Nemoterm requirements and evidence ledger
 
+## Current memory scope (user clarification, 2026-11-15 Sydney)
+
+The original **GDI <20 MB private working set / approximately 50 MB total
+working set** target applies to GDI. The user accepts the current DirectX
+footprint and explicitly stops further memory optimization toward the GDI
+target. Keep the earlier **DirectX ≤25 MB private working set** allowance as a
+regression limit, and keep the optional OpenGL exception. DirectX total working
+set is still recorded, but exceeding 50 MB is not an outstanding acceptance
+failure or an optimization task. Historical measurements and failures below
+remain unchanged; older statements treating that DX total as an unmet goal are
+superseded by this clarification. Continue feature compatibility and regression
+work. Local interactive desktop testing remains paused until the user resumes it.
+
 ## Relative and Unicode image development (2026-11-15 Sydney)
 
 The development branch implements Kitty relative placements and Unicode image
@@ -421,7 +434,8 @@ MIT-licensed PuTTY 0.85 C sources, not a promise that upstream already implement
   and exit, with native settings save/reload; see `research/shell-selection.md`.
 * Per-window frontend private working set: **GDI <20 MB**, **DirectX <=25 MB**.
   The user approved the DirectX allowance on 2026-11-14, with further optimization deferred.
-  Optional OpenGL retains its explicit exception. Total working set remains approximately 50 MB.
+  Optional OpenGL retains its explicit exception. The approximately 50 MB total-working-set
+  target applies only to GDI; the user accepted current DX memory on 2026-11-15.
   Record bytes, decimal MB and MiB; no forced working-set trimming.
   Apply limits to the actual renderer, so fallback to GDI does not inherit the DirectX allowance.
   Historical evidence keeps its original limits; a new evaluation must identify the new policy.

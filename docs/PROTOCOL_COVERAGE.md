@@ -9,7 +9,8 @@ The accepted product is source `752f3be`, with all four ordinary CI jobs,
 [exact-product record](../research/kitty-query-transaction-product.md) identifies
 the executable hash and ten uninjected Sarasa 160x48 two-tab workloads. Frontend
 private working-set peaks are 17.32 MB for GDI and 24.11 MB for DirectX; DirectX's
-59.69 MB total working set remains above the approximate 50 MB target. Earlier
+59.69 MB total working set is recorded separately. The user has accepted current
+DX memory and clarified that the approximate 50 MB total target is for GDI. Earlier
 resource, shutdown and access-violation failures remain recorded; later passes
 do not establish their causes.
 
