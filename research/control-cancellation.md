@@ -68,6 +68,27 @@ The retained failures explain the fixes rather than disappearing from the record
 logs and exact source blobs: 190 records, 725,352 bytes and 63 verified compiler
 source hashes. `control-cancellation-component-validation.json` indexes them.
 
+The first full ordinary workflow at `73ed664`,
+[run 43709232412](https://github.com/xiongnemo/nemoterm/actions/runs/43709232412),
+then exposes old no-glyph assumptions in selective-erasure and SGR tests.
+Their original failures and completed renderer/host jobs are retained in
+`control-cancellation-ordinary-failure.tar.gz` (85 records, 337,448 bytes),
+indexed by `control-cancellation-ordinary-failure-validation.json`.
+
+`069d220` updates those assertions and the corresponding XTGETTCAP recovery
+assertion without changing production code. Invalid erase requests still
+preserve all cells; CAN resumes at the same cell, while SUB inserts the
+independently observed error character before subsequent text. The SGR test
+also checks that both the error character and following text retain default
+attributes. [Run 43709798590](https://github.com/xiongnemo/nemoterm/actions/runs/43709798590)
+passes the expanded regression set on GCC/Clang ASan/UBSan and MSVC, alongside
+the unchanged 497-stream reference matrix and payload lifetime checks.
+`control-cancellation-regressions.tar.gz` retains this and the earlier passing
+`73ed664` component run (142 records, 497,415 bytes, 42 verified source hashes),
+indexed by `control-cancellation-regression-validation.json`. The replacement
+full ordinary run is 43710069426; the production-equivalent single-image run
+43709232409 remains in progress.
+
 ## Native integration boundary
 
 The ordinary and single-image suites now include
