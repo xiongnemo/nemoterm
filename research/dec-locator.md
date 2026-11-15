@@ -134,7 +134,30 @@ reply bytes are retained and its native replay now uses the equivalent disabled
 mouse-reporting policy; the new Locator fixture separately checks enabled
 status and type reports. DA1 retains the existing configurable terminal identity;
 the verified Locator capability queries are DSR 55 and 56. Complete product
-validation is now running at `8e8321c`: ordinary run 43715235781 and single-image
-run 43715238255. The focused result does not substitute for their completion.
+validation uses `8e8321c`: ordinary run 43715235781 now passes all four jobs;
+single-image run 43715238255 remains in progress. The focused result does not
+substitute for complete workflow acceptance.
 No local Sarasa or hardware acceptance is renewed, and DX memory optimization
 remains stopped.
+
+## Complete ordinary checkpoint
+
+[Run 43715235781](https://github.com/xiongnemo/nemoterm/actions/runs/43715235781)
+passes all four jobs at `8e8321c336bac4e6c7c21327f0e4b7b646367043`. Its MinGW
+frontend is 3,951,172 bytes, SHA256
+`f63ae3051caa9d46598291779eb4140b2a1308038975e7ff6df3fc106e235db7`.
+The separate OpenConsole host has verified source revision and overlay hashes.
+This checkpoint predates DECUDK and is not the single-image distribution.
+
+All 27 Locator phases retain actual received bytes, including both synchronization
+barriers. Offline validation compares them to their expected query/event bytes
+and confirms changed Shift-selection pixels and natural process cleanup. The
+same package matches 413 ANSI/CAN/SUB streams and three GDI pixel pairs.
+
+All twelve uninjected memory workloads pass their existing limits, with 25,048
+post-memory image-cell comparisons. The dense remote Consolas GDI workload
+(109x34) peaks at 14,635,008 private / 45,563,904 total working-set bytes; the DX
+workload (88x35) peaks at 17,821,696 / 54,378,496. The approximate 50 MB total
+target applies only to GDI. These remote grids do not renew local 160x48 Sarasa
+acceptance. `dec-locator-ordinary.tar.gz` retains 4,586 records / 9,375,426 bytes,
+indexed and hashed by `dec-locator-ordinary-validation.json`.

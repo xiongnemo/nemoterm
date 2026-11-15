@@ -67,9 +67,12 @@ The focused source-built single image at `33db228` also passes 27 real-input
 Windows/ConPTY phases and the existing mouse, highlight, state and DEC-status
 fixtures, including Shift selection pixels and live queries after resizing.
 The [implementation record](../research/dec-locator.md) retains that evidence
-separately from complete product validation, now running at `8e8321c`. This
-feature adds no graphics dependency or per-cell storage. Local acceptance
-remains paused.
+separately from complete product validation at `8e8321c`. The ordinary workflow
+now passes all four jobs, including 27 exact Locator input phases, 413 prior
+native streams and twelve uninjected memory workloads. Its dense remote GDI
+private/total peaks are 14,635,008 / 45,563,904 bytes; DX peaks are 17,821,696 /
+54,378,496. The single-image workflow remains in progress. This feature adds
+no graphics dependency or per-cell storage. Local acceptance remains paused.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 
