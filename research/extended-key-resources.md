@@ -63,8 +63,16 @@ images, source-built host sidecars, exact fixtures, source hashes, compiler
 logs, raw native replies and cleanup records. All archive members are rehashed
 after compression.
 
-The new native check is included in ordinary and single-image CI. Complete CI
-for this change is pending. Physical keyboard/IME behavior, Print/Menu/Help,
+The [component workflow at 77ec984](https://github.com/xiongnemo/nemoterm/actions/runs/43772008360)
+passes GCC/Clang ASan/UBSan and MSVC, including the 283-step replay in both
+fragmentation modes and the 243-step Windows mapper replay. Original logs,
+artifact receipts and source hashes are retained in
+`extended-key-resources-ci.tar.gz` and its validation manifest. Source hashes
+match the exact Git content; four existing `.inc` files have separately verified
+CRLF variants in the Windows checkout. The new native check is included in
+ordinary and single-image CI; both complete workflows remain pending.
+
+Physical keyboard/IME behavior, Print/Menu/Help,
 Ctrl+Pause/Break and keypad Tab/Space/Equal remain outside native acceptance.
 Resource 0 and remaining keyboard/application scope remain open. The separate
 [`8655aae` MSVC tab-selection access violation](tab-select-msvc-8655aae.md) also remains unresolved; passing
