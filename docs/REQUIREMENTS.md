@@ -20,9 +20,13 @@ The [independent UDK reference](../research/dec-udk.md) passes 91 cases and
 events, binary replies, reset/cancellation behavior and a default-profile
 comparison. The first virtual-keyboard mapping failure is retained separately;
 its 16 complete cases are unchanged after adding missing F13-F20 mappings only
-on the owned Xvfb display. This is reference evidence, not an implemented
-Nemoterm feature. Bounded storage, explicit keyboard profile, core replay and
-native integration remain pending. No memory/rendering policy changes are made.
+on the owned Xvfb display. The development implementation at `2a6a163` now has
+bounded lazy storage, an optional VT220 function-key profile and raw byte
+dispatch. GCC/Clang ASan/UBSan and MSVC at `f8a20d3` each match all 238 original
+replies whole and bytewise, plus budget and lifetime checks. The original Linux
+fixture failure and corrected table initialization are retained. Cloud-native
+input and complete product acceptance remain pending. No memory/rendering
+policy changes are made.
 
 ## ANSI charset conformance development (2026-11-15 Sydney)
 

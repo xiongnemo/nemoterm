@@ -1,8 +1,8 @@
 # DEC user-defined key reference
 
-The independent reference is complete for the cases below. Nemoterm does not
-yet implement DECUDK downloads or dispatch; its current unavailable-status reply
-remains truthful. This checkpoint changes only reference tests and evidence.
+DECUDK downloads and optional VT220 function-key dispatch are implemented on
+the development branch. The independent reference and three-compiler component
+replay pass; native Windows and complete product acceptance remain pending.
 Local interactive testing remains paused.
 
 ## Reference and original failure
@@ -67,17 +67,46 @@ These observations are consistent with the pinned upstream
 [keyboard dispatcher](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/input.c)
 and [reset/status parser](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/charproc.c).
 
-## Implementation boundary
+## Implementation and component evidence
 
-Do not copy arbitrary downloaded values into PuTTY's fixed function-key output
-buffer. Use explicit byte lengths and a separately bounded send path. Storage
-must be lazy, bounded per terminal and released on RIS/destruction; cancelled
-downloads must not partially clear or replace existing definitions. The tested
-4,096-byte value is a reference case, not an established upstream maximum.
+`2a6a163` adds a lazy store, explicit byte lengths and a send path independent
+of the fixed function-key formatting buffer. Idle terminals add two pointers
+(16 bytes on x64), with no per-cell storage. Pending encoded payloads are capped
+at 65,536 bytes, and retained decoded values at 1,048,576 bytes per terminal;
+allocator capacity and metadata are additional bounded overhead. Oversized
+downloads leave prior definitions intact. Complete commands commit at ST;
+CAN/SUB, a different ESC sequence, RIS and destruction release pending input.
+RIS and destruction also release retained values. The tested 4,096-byte reference
+value is not claimed to be an upstream maximum.
 
-Expose VT220 keyboard behavior explicitly rather than silently changing the
-existing default or the legacy PuTTY VT400 profile. Establish precedence with
-configured local bindings, Win32 input mode and Kitty keyboard mode. Core replay
-must compare the unchanged reference bytes in whole and fragmented input, with
-direct allocation/cancellation checks. Native ConPTY input, settings persistence,
+The new `VT220 (UDK)` function-key option is stored as value 7 in the existing
+`LinuxFunctionKeys` setting. The default Xterm 216+ and legacy VT400 options
+retain their prior behavior. Shift selects downloaded keys; Ctrl accesses the
+next twelve function-key positions. The Windows dispatcher evaluates local
+bindings and negotiated Win32/Kitty keyboard input before the UDK path. Raw
+downloaded bytes bypass C1 framing conversion. DSR 25 now reports unlocked;
+the older DEC-status projection includes the unchanged upstream `?25` case
+instead of excluding it as an unsupported feature.
+
+[Run 43717926965](https://github.com/xiongnemo/nemoterm/actions/runs/43717926965)
+at `f8a20d3` passes GCC and Clang with ASan/UBSan/LSan, plus MSVC. Each compiler
+matches all **238 original replies both whole and bytewise** and exercises input
+and aggregate budgets, profile changes, binary output and 64 complete/cancelled
+reset cycles. Existing Locator, CAN/SUB, ANSI charset, query, keyboard, pointer,
+OSC 52, Sixel, SGR, selective erase and termcap regressions pass.
+
+The original [run 43717684952](https://github.com/xiongnemo/nemoterm/actions/runs/43717684952)
+passes MSVC but fails the raw eight-bit DCS case on Linux: the fixture changed
+the numeric codepage without initializing its byte-mode translation tables.
+The corrected fixture initializes ISO-8859-1 tables and disables locale override,
+matching the upstream byte-mode case. Production source is identical between
+these two runs; no input or expected reply was edited to obtain the pass.
+`dec-udk-components.tar.gz` retains **169 records / 768,581 bytes** from both
+runs. Its validation manifest records 102 compiler-source hash matches.
+
+The prepared cloud-native fixture projects 89 reference cases / 232 streams
+through physical Windows keys and the bundled console host, including both
+saved keyboard profiles and Kitty precedence. Two cases remain explicitly
+core-only: raw non-UTF-8 framing and arbitrary high-byte payloads cannot be
+treated as a byte-preserving path through Unicode ConPTY. Native results,
 complete product regression and local acceptance remain pending.
