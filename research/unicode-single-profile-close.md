@@ -75,3 +75,11 @@ timeout unresolved.
 source blobs and the original comparison record. This is diagnostic evidence,
 not full single-image or memory acceptance. The accepted local distribution
 and the local desktop-testing pause are unchanged.
+
+## Subsequent complete workflow
+
+The [later single-image run at `056fe87`](kitty-unicode-ci.md) completes all
+154 groups, including this profile fixture and all twelve memory workloads.
+Its exact EXE has a separate retained hash and archive. This finite successful
+run does not explain the original `fd0c253` close timeout, and no terminal dump
+is produced because no failure occurs. Local desktop tests remain paused.

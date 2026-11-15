@@ -30,7 +30,13 @@ DirectX total WS is 54,407,168 bytes, still above the approximate 50 MB target.
 The indexed single-image run at `fd0c253` later fails its mixed-profile 15-second
 close check before memory acceptance. Its exact unverified EXE is retained for
 [remote replay](../research/unicode-single-profile-close.md); no new distribution
-has passed both complete workflows.
+had passed both complete workflows at that point. The subsequent
+[single-image run at `056fe87`](../research/kitty-unicode-ci.md) passes all
+154 groups with the same product source as the successful `f01927a` ordinary
+CI. All twelve memory groups and 25,048 post-memory cell-centre checks pass;
+dense peaks are GDI 14,442,496 / DirectX 17,571,840 private-WS bytes at the remote
+Consolas grids. DirectX total WS is 55,140,352 bytes. The exact 4,523,520-byte
+development EXE is retained, without replacing the local distribution.
 Twelve exact-image replays with the original Frida observer and twelve further
 replays through the uninjected automation interface pass all seven profile
 groups and drain naturally. All 36 automation profile frames match the original

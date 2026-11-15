@@ -140,3 +140,14 @@ binary is promoted, and local desktop testing remains paused. The separate
 indexed single-image run subsequently fails its
 [mixed-profile close check](unicode-single-profile-close.md) before memory
 acceptance; its exact executable is retained for diagnosis.
+
+## Completed indexed single-image CI
+
+The subsequent [single-image run at `056fe87`](kitty-unicode-ci.md) passes all
+154 groups with unchanged product source from `f01927a`. All twelve memory
+workloads drain naturally. Dense Unicode peaks are GDI 14,442,496 bytes private
+WS / 46,743,552 total WS and DirectX 17,571,840 / 55,140,352 bytes, using the same
+remote Consolas grids above. All 25,048 post-memory cell-centre checks pass.
+The exact 4,523,520-byte EXE and full downloaded evidence are retained. DirectX
+total WS and local 160x48 Sarasa acceptance remain outstanding; the accepted
+local executable is unchanged. The earlier close timeout remains unexplained.

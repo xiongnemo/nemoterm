@@ -402,3 +402,15 @@ single-image workflow reaches the dense Unicode memory workload but exceeds
 the 45-minute whole-job deadline while its controller waits in `MoveWindow`.
 The [timeout record](unicode-dense-memory.md) preserves the partial passes and
 unresolved native cause. Local desktop testing remains paused.
+
+## Indexed single-image checkpoint
+
+The [latest complete checkpoint](kitty-unicode-ci.md) passes ordinary full CI
+at `f01927a` and all 154 single-image groups at `056fe87`, with identical product
+source between them. The lazy cell index resolves the reproduced source-build
+dense lookup bottleneck; twelve single-image memory groups, 25,048 post-memory
+pixel checks, 153 Unicode placement/geometry stages and 96 exact clipboard
+copies pass. These are remote GDI/DirectX results with OpenGL falling back to
+GDI. Earlier sporadic profile closure failures remain unexplained. The exact
+new EXE is retained as a development artifact; local 160x48 Sarasa testing is
+still paused, and the accepted `752f3be` distribution remains unchanged.

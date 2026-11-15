@@ -20,6 +20,10 @@ checks. The single-image run at `fd0c253` fails a mixed-profile close timeout;
 twelve exact-image replays pass without explaining it. See the
 [dense-image record](../research/unicode-dense-memory.md) and
 [profile failure record](../research/unicode-single-profile-close.md).
+The later [single-image checkpoint at `056fe87`](../research/kitty-unicode-ci.md)
+passes all 154 groups, twelve memory workloads and 25,048 post-memory pixel
+checks with the same production source as the green ordinary CI. This does not
+explain the earlier intermittent failure.
 Local native testing is currently paused at the user's request. Remote
 Consolas grids and OpenGL-to-GDI fallback do not establish new local 160x48
 Sarasa or actual OpenGL acceptance. The accepted distribution is unchanged.

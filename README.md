@@ -39,8 +39,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 沿用原有图像内存限额，不增加分发文件。见[压缩实现记录](research/kitty-compression.md)。
 
 开发分支已实现相对放置和 Unicode 占位，并修复密集图片单元缩放时的查找性能问题。
-普通完整 CI 已通过新增密集图片负载；单文件版本仍在追查混合配置标签关闭时的偶发超时，
-尚未替换上述下载版。本机实测当前暂停，远端小窗口的结果不替代 160×48 Sarasa 验收。
+普通完整 CI 与 154 组单文件检查现已通过，包括新增密集图片负载。
+此前混合配置标签关闭时的偶发超时仍未解释；本机实测当前暂停，
+远端小窗口的结果不替代 160×48 Sarasa 验收，也尚未替换上述已验收版本。
 进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
 [密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
 
@@ -51,6 +52,10 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 压缩图片与功能查询子集、字号缩放与响铃。EXE 为 **4,515,840 字节**。
 产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
+
+最新开发分支另有[含相对放置与 Unicode 图片的 `056fe87` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43690641263/artifacts/14153711098)：
+4,523,520 字节，154 组单文件 CI 检查通过，预计于 2026-12-15 08:14 UTC 过期。
+本机大窗口验收尚未完成；精确哈希、远端内存与历史关闭故障的边界见[开发构建记录](research/kitty-unicode-ci.md)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
 
