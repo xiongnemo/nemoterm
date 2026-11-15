@@ -16,6 +16,7 @@ on:
           - ansi-conformance
           - control-cancellation
           - dec-locator
+          - dec-udk
           - reset-palette
           - x11-colour
           - sidecar-wire
@@ -121,6 +122,15 @@ jobs:
           done
           sha256sum build/protocol-reference/locator-source/* > build/protocol-reference/locator-source-sha256.txt
           python3 tests/xterm_locator_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/dec-locator-xterm.json
+      - name: Capture DEC user-defined keys and real private-display key events
+        if: ${{ (success() || failure()) && inputs.family == 'dec-udk' }}
+        run: |
+          mkdir -p build/protocol-reference/udk-source
+          for file in input.c misc.c charproc.c VTPrsTbl.c ptyx.h ctlseqs.ms configure.in; do
+            cp "/tmp/nemoterm-xterm-reference/$file" build/protocol-reference/udk-source/
+          done
+          sha256sum build/protocol-reference/udk-source/* > build/protocol-reference/udk-source-sha256.txt
+          python3 tests/xterm_udk_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/dec-udk-xterm.json
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
