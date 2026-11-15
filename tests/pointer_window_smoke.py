@@ -82,7 +82,11 @@ def publish():
 
 def native_cursor():
     cursor = CursorInfo(); cursor.cbSize = c.sizeof(cursor)
-    assert u.GetCursorInfo(c.byref(cursor)) and cursor.cursor
+    ok = u.GetCursorInfo(c.byref(cursor))
+    if not ok or not cursor.cursor:
+        return dict(handle=cursor.cursor,flags=cursor.flags,available=False,
+                    api_success=bool(ok),win32_error=k.GetLastError(),
+                    position=[cursor.position.x,cursor.position.y]), b''
     info = IconInfo(); assert u.GetIconInfo(cursor.cursor, c.byref(info))
     try:
         mask = Bitmap(); assert g.GetObjectW(info.mask, c.sizeof(mask), c.byref(mask))
@@ -97,6 +101,7 @@ def native_cursor():
         if info.color: g.DeleteObject(info.color)
 
 def matches(shape, record, raw):
+    if not record['handle']:return False
     if shape in stock:
         return record['handle'] == u.LoadCursorW(None, stock[shape])
     path = args.masks/f"pointer-mask-{shape}-{record['width']}.bin"
@@ -182,10 +187,16 @@ try:
 
             def expect(name,shape,seat,move=True):
                 if move:point_in(seat)
+                attempts=[]
                 def matching():
                     record,raw=native_cursor()
+                    if len(attempts)<16:attempts.append(record)
                     return (record,raw) if matches(shape,record,raw) else None
-                record,raw=wait_for(matching)
+                try:record,raw=wait_for(matching)
+                except BaseException:
+                    evidence['pointer_failure']=dict(name=name,expected=shape,samples=attempts,
+                        frontend_sessions=api.request(endpoint)['sessions'])
+                    publish();raise
                 record.update(name=name,shape=shape,session=seat['id'])
                 evidence['checks'].append(record)
                 (out/(str(len(evidence['checks']))+'.mask')).write_bytes(raw)

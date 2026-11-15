@@ -26,8 +26,13 @@ on:
           - kitty-pointer
           - pointer-components
           - pointer-components-linux
+          - pointer-window-replay
           - unicode-text-boundaries
           - all
+      pointer_run:
+        description: Completed pointer workflow containing the exact single image to diagnose
+        type: string
+        default: ''
   push:
     paths:
       - 'tests/xterm_identity_oracle.py'
@@ -39,13 +44,18 @@ permissions:
   actions: read
 
 jobs:
+  pointer-window-replay:
+    if: inputs.family == 'pointer-window-replay'
+    uses: ./.github/workflows/pointer-window-replay.yml
+    with:
+      run_id: ${{ inputs.pointer_run }}
   pointer-components:
     if: inputs.family == 'pointer-components' || inputs.family == 'pointer-components-linux'
     uses: ./.github/workflows/pointer-shapes.yml
     with:
       skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux' && inputs.family != 'pointer-window-replay'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

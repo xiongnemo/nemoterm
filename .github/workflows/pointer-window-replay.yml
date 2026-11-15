@@ -1,0 +1,66 @@
+name: Exact-image pointer window diagnostic
+
+on:
+  workflow_call:
+    inputs:
+      run_id:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  replay:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Download and identify the exact retained single image and cursor masks
+        env:
+          GH_TOKEN: ${{ github.token }}
+          POINTER_SOURCE_RUN: ${{ inputs.run_id }}
+        run: |
+          @'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          repo=os.environ['GITHUB_REPOSITORY'];run_id=os.environ['POINTER_SOURCE_RUN']
+          assert run_id.isdecimal()
+          run=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run_id}']))
+          assert run['status']=='completed'
+          source=run['head_sha']
+          artifacts=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run_id}/artifacts']))['artifacts']
+          name='pointer-component-msvc-'+source
+          artifact=next(a for a in artifacts if a['name']==name and not a['expired'])
+          dest=Path('pointer-replay')
+          subprocess.run(['gh','run','download',run_id,'--repo',repo,'--name',name,'--dir',str(dest)],check=True)
+          image=dest/'pointer-single/nemoterm.exe'
+          digest=hashlib.sha256(image.read_bytes()).hexdigest()
+          expected=json.loads((dest/'pointer-single-image.json').read_text(encoding='utf-8-sig'))
+          assert digest==expected['Hash'].lower()
+          assert len(list(dest.glob('pointer-mask-*.bin')))==104
+          fixture_files=('tests/pointer_window_smoke.py','tests/session_fixture.py','tests/mouse_fixture.py',
+            'tests/native_test_utils.py','tests/owned_job.py','tests/fixture_io.py','tools/nemoterm_debug.py')
+          identity=dict(source_run=run_id,source_commit=source,artifact_id=artifact['id'],
+            executable_sha256=digest,executable_bytes=image.stat().st_size,
+            fixture_commit=os.environ['GITHUB_SHA'],diagnostic_only=True,
+            fixture_sha256={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in fixture_files})
+          Path('pointer-replay-identity.json').write_text(json.dumps(identity,indent=2)+'\n')
+          '@ | python -
+          exit $LASTEXITCODE
+      - name: Observe the retained single image in owned windows
+        run: |
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path pointer-replay/pointer-single/nemoterm.exe).Path
+          python tests/pointer_window_smoke.py --masks pointer-replay 2>&1 | Tee-Object pointer-window.log
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pointer-window-replay-${{ github.sha }}
+          path: |
+            pointer-replay-identity.json
+            pointer-window.log
+            research/pointer-native-window/**
+          if-no-files-found: error
+          retention-days: 60
