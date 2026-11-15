@@ -6,7 +6,7 @@ on:
       fixture:
         description: Close fixture to diagnose
         type: choice
-        options: [profiles, profiles-api, shutdown, tabs, unicode-memory, drop]
+        options: [profiles, profiles-api, shutdown, tabs, tabs-mingw, unicode-memory, drop]
         default: profiles
         required: true
       source_commit:
@@ -14,7 +14,7 @@ on:
         type: string
         required: true
       source_run:
-        description: Failed single-image run, or core run with a completed failed MSVC job
+        description: Failed single-image run, or core run with the selected completed failed compiler job
         type: string
         required: true
       executable_sha256:
@@ -91,21 +91,27 @@ jobs:
         shell: pwsh
         run: |
           if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:EXPECTED_SHA256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid source identity' }
-          if ($env:CAPTURE_EXCEPTIONS -eq 'true' -and $env:CLOSE_FIXTURE -ne 'tabs') { throw 'External exception observer currently covers the tabs fixture only' }
+          $isTabs = $env:CLOSE_FIXTURE -in @('tabs','tabs-mingw')
+          if ($env:CAPTURE_EXCEPTIONS -eq 'true' -and !$isTabs) { throw 'External exception observer currently covers the tabs fixture only' }
           if ($env:CAPTURE_FAILURE_DUMPS -eq 'true' -and $env:CLOSE_FIXTURE -notin @('shutdown','profiles','profiles-api')) { throw 'Failure dump capture covers shutdown and profiles fixtures' }
           if ($env:FIXTURE_FRIDA_VERSION -notin @('17.24.3','17.23.3')) { throw 'Unexpected instrumentation version' }
           if ($env:REPLAY_REPETITIONS -notin @('3','12')) { throw 'Unexpected replay count' }
           $run = gh run view $env:SOURCE_RUN --json headSha,status,conclusion,workflowName,jobs | ConvertFrom-Json
           if ($LASTEXITCODE) { throw 'Could not read source run' }
-          $expectedWorkflow = if ($env:CLOSE_FIXTURE -eq 'tabs') { 'Test and build' } else { 'Single executable from source' }
+          $expectedWorkflow = if ($isTabs) { 'Test and build' } else { 'Single executable from source' }
           if ($run.headSha -ne $env:SOURCE_COMMIT -or $run.workflowName -ne $expectedWorkflow) { throw 'Source or workflow identity mismatch' }
-          if ($env:CLOSE_FIXTURE -eq 'tabs') {
-            $failedJob = @($run.jobs | Where-Object { $_.name -eq 'MSVC native renderer diagnostics' -and $_.status -eq 'completed' -and $_.conclusion -eq 'failure' })
-            if ($failedJob.Count -ne 1) { throw 'Expected one completed failed MSVC job' }
+          if ($isTabs) {
+            $jobName = if ($env:CLOSE_FIXTURE -eq 'tabs-mingw') { 'Windows x64 tests and portable build' } else { 'MSVC native renderer diagnostics' }
+            $failedJob = @($run.jobs | Where-Object { $_.name -eq $jobName -and $_.status -eq 'completed' -and $_.conclusion -eq 'failure' })
+            if ($failedJob.Count -ne 1) { throw "Expected one completed failed $jobName job" }
           } elseif ($run.status -ne 'completed' -or $run.conclusion -ne 'failure') { throw 'Expected a completed failed single-image run' }
           git diff --quiet $env:SOURCE_COMMIT HEAD -- vendor native scripts/build.ps1 scripts/build-single-exe.ps1 scripts/prepare-single-exe.py
           if ($LASTEXITCODE) { throw 'Production differs from the selected artifact' }
-          $artifactPrefix = if ($env:CLOSE_FIXTURE -eq 'tabs') { 'unverified-msvc-renderer-' } else { 'unverified-single-exe-x64-' }
+          $artifactPrefix = switch ($env:CLOSE_FIXTURE) {
+            'tabs' { 'unverified-msvc-renderer-' }
+            'tabs-mingw' { 'unverified-mingw-runtime-' }
+            default { 'unverified-single-exe-x64-' }
+          }
           gh run download $env:SOURCE_RUN --name "$artifactPrefix$env:SOURCE_COMMIT" --dir build/close-replay-product
           if ($LASTEXITCODE) { throw 'Artifact download failed' }
           $exe = Get-Item build/close-replay-product/nemoterm.exe
@@ -121,6 +127,7 @@ jobs:
             executable_bytes = $exe.Length
             runtime_hashes = @(Get-ChildItem build/close-replay-product -File | Get-FileHash -Algorithm SHA256 | Select-Object Path, Hash)
             fixture = $env:CLOSE_FIXTURE
+            artifact_name = "$artifactPrefix$env:SOURCE_COMMIT"
             capture_exceptions = ($env:CAPTURE_EXCEPTIONS -eq 'true')
             capture_failure_dumps = ($env:CAPTURE_FAILURE_DUMPS -eq 'true')
             shutdown_observer = $env:SHUTDOWN_OBSERVER
@@ -139,7 +146,7 @@ jobs:
         shell: pwsh
         run: ./scripts/test-shutdown-observer.ps1 -Destination build/close-replay-evidence/probe-controls
       - name: Verify external exception capture and target survival
-        if: ${{ inputs.capture_exceptions && inputs.fixture == 'tabs' }}
+        if: ${{ inputs.capture_exceptions && (inputs.fixture == 'tabs' || inputs.fixture == 'tabs-mingw') }}
         shell: pwsh
         run: |
           ./scripts/test-exception-observer.ps1 -Destination build/close-replay-evidence/exception-controls
@@ -158,11 +165,16 @@ jobs:
             'profiles-api' { $fixture = 'tabs_profiles_window_smoke.py'; $record = 'tabs-profiles-observed.json' }
             'shutdown' { $fixture = 'shutdown_window_smoke.py'; $record = 'shutdown-window-observed.json' }
             'tabs' { $fixture = 'tabs_window_smoke.py'; $record = 'tabs-opengl-right-observed.json' }
+            'tabs-mingw' { $fixture = 'tabs_window_smoke.py'; $record = 'tabs-opengl-right-observed.json' }
             'drop' { $fixture = 'drop_window_smoke.py'; $record = 'drop-gdi-observed.json' }
             default { throw 'Unknown close fixture' }
           }
           $failed = $false
-          $fixtureArgs = if ($env:CLOSE_FIXTURE -eq 'tabs') { @('--renderer','opengl','--side','right','--cols','88','--rows','35','--font','Consolas','--probe-boundaries') } else { @() }
+          $fixtureArgs = if ($env:CLOSE_FIXTURE -eq 'tabs-mingw') {
+            @('--renderer','opengl','--side','right','--cols','160','--rows','48','--font','Consolas','--probe-boundaries')
+          } elseif ($env:CLOSE_FIXTURE -eq 'tabs') {
+            @('--renderer','opengl','--side','right','--cols','88','--rows','35','--font','Consolas','--probe-boundaries')
+          } else { @() }
           if ($env:CLOSE_FIXTURE -eq 'shutdown') {
             $fixtureArgs += @('--observer', $env:SHUTDOWN_OBSERVER)
           }
