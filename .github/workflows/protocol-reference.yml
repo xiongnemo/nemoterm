@@ -23,6 +23,7 @@ on:
           - kitty-relative
           - kitty-unicode
           - kitty-unicode-geometry
+          - kitty-pointer
           - unicode-text-boundaries
           - all
   push:
@@ -37,7 +38,7 @@ permissions:
 
 jobs:
   xterm-reference:
-    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -95,7 +96,7 @@ jobs:
           if-no-files-found: error
 
   kitty-graphics-reference:
-    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression' || inputs.family == 'kitty-features' || inputs.family == 'kitty-query-errors' || inputs.family == 'kitty-relative' || inputs.family == 'kitty-unicode' || inputs.family == 'kitty-unicode-geometry')
+    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression' || inputs.family == 'kitty-features' || inputs.family == 'kitty-query-errors' || inputs.family == 'kitty-relative' || inputs.family == 'kitty-unicode' || inputs.family == 'kitty-unicode-geometry' || inputs.family == 'kitty-pointer')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -149,7 +150,8 @@ jobs:
                       'kitty-query-errors': 'kitty_query_errors_oracle.py',
                       'kitty-relative': 'kitty_relative_oracle.py',
                       'kitty-unicode': 'kitty_unicode_oracle.py',
-                      'kitty-unicode-geometry': 'kitty_unicode_geometry_oracle.py'}
+                      'kitty-unicode-geometry': 'kitty_unicode_geometry_oracle.py',
+                      'kitty-pointer': 'kitty_pointer_oracle.py'}
           fixture = (Path('tests') / fixtures[family]).resolve()
           output = base / 'observations.json'
           output.write_text('{"status":"not-started"}\n')
@@ -163,8 +165,8 @@ jobs:
               filesystem_observation_paths=[str(output)], events=[],
               terminal=dict(columns=120, rows=40, scrollback=100),
               timeout_ms=60000, idle_timeout_ms=20000, finalization_ms=2000,
-              limits=dict(output_bytes=2097152 if family in ('kitty-unicode','kitty-unicode-geometry') else 1048576 if family == 'kitty-query-errors' else 524288 if family == 'kitty-features' else 262144,
-                          file_bytes=4194304 if family in ('kitty-relative', 'kitty-unicode','kitty-unicode-geometry') else 1048576 if family == 'kitty-query-errors' else 524288, files=10,
+              limits=dict(output_bytes=2097152 if family in ('kitty-unicode','kitty-unicode-geometry','kitty-pointer') else 1048576 if family == 'kitty-query-errors' else 524288 if family == 'kitty-features' else 262144,
+                          file_bytes=4194304 if family in ('kitty-relative', 'kitty-unicode','kitty-unicode-geometry','kitty-pointer') else 1048576 if family == 'kitty-query-errors' else 524288, files=10,
                           filesystem_depth=1, processes=16))
           (base / 'scenario.json').write_text(json.dumps(scenario, indent=2) + '\n')
           PY
@@ -187,7 +189,12 @@ jobs:
           assert not capture['truncated'], capture['truncated']
           observed = json.loads((base / 'observations.json').read_text())
           assert observed['status'] == 'complete', observed.get('status')
-          if os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-compression':
+          if os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-pointer':
+              assert observed['family'] == 'kitty-pointer'
+              assert observed['case_count'] == 117 and observed['state_count'] == 555
+              assert [c['name'] for c in observed['cases']] == observed['expected_cases']
+              assert len(observed['controls']) == 3 and all(c['passed'] for c in observed['controls'])
+          elif os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-compression':
               assert observed['family'] == 'kitty-compression'
               assert observed['case_count'] == 26 and observed['state_count'] == 36, (observed['case_count'], observed['state_count'])
               assert [c['name'] for c in observed['cases']] == observed['expected_cases']
