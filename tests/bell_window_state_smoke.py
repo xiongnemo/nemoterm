@@ -20,7 +20,7 @@ u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    checks=[],cleanup=[],focus_actions=[],window_events=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    checks=[],cleanup=[],focus_actions=[],position_actions=[],window_events=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -88,7 +88,16 @@ try:
                 assert window in (host,other)
                 evidence['focus_actions'].append(focus_owned_window(window,process.pid if window==host else cover.pid))
             def position(window,after):
-                assert u.SetWindowPos(window,after,0,0,0,0,0x13)
+                record=dict(window=window,after=after,before_style=int(u.GetWindowLongPtrW(window,-20)))
+                evidence['position_actions'].append(record)
+                record['result']=int(u.SetWindowPos(window,after,0,0,0,0,0x13))
+                record['immediate_style']=int(u.GetWindowLongPtrW(window,-20))
+                assert record['result'],record
+                if after in (-1,-2):
+                    def settled():
+                        record['settled_style']=int(u.GetWindowLongPtrW(window,-20))
+                        return bool(record['settled_style']&8)==(after==-1)
+                    wait_for(settled)
             session=frida.attach(process.pid)
             script=session.create_script('''
                 const host=ptr('''+json.dumps(hex(host))+'''), events=[];
@@ -103,15 +112,20 @@ try:
                         onEnter(args) {
                             this.event=null;
                             const msg=args[1].toUInt32();
-                            if([6,7,8,28,134].includes(msg)) {
+                            if([6,7,8,28,70,71,125,134].includes(msg)) {
                                 this.event={hwnd:args[0].toString(),message:msg,wparam:args[2].toString(),
-                                    before_foreground:foreground().toString(),before_focus:getFocus().toString()};
+                                    before_foreground:foreground().toString(),before_focus:getFocus().toString(),
+                                    before_style:getProc(args[0],-20).toString()};
+                                this.window=args[0];
+                                if(msg===70||msg===71) this.event.position={
+                                    after:args[3].add(8).readPointer().toString(),flags:args[3].add(32).readU32()};
                                 windowEvents.push(this.event);
                             }
                         },
                         onLeave() {if(this.event) {
                             this.event.after_foreground=foreground().toString();
                             this.event.after_focus=getFocus().toString();
+                            this.event.after_style=getProc(this.window,-20).toString();
                         }}
                     });
                 }
@@ -159,6 +173,7 @@ try:
                 focus(other);position(other,None)
                 ring('background-disabled',first_child,'\x1b[?1042;1043l\x07',False,False)
                 position(host,-1);position(other,-1)
+                assert state()['topmost'],evidence['position_actions']
                 ring('already-topmost',first_child,'\x1b[?1043h\x07',False,True)
                 assert state()['topmost']
                 position(host,-2);position(other,-2)

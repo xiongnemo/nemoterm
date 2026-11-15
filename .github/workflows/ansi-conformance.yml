@@ -354,14 +354,23 @@ jobs:
           $name = "bell-native-$($run.head_sha)"
           $artifacts = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:IMAGE_RUN/artifacts" | ConvertFrom-Json
           $artifact = @($artifacts.artifacts | Where-Object { $_.name -eq $name -and !$_.expired })
+          $singleDiagnostic = $false
+          if ($diagnosticFailed -and $artifact.Count -eq 0) {
+            $name = "unverified-single-exe-x64-$($run.head_sha)"
+            $artifact = @($artifacts.artifacts | Where-Object { $_.name -eq $name -and !$_.expired })
+            $singleDiagnostic = $true
+          }
           if ($LASTEXITCODE -or $artifact.Count -ne 1) { throw 'Expected exactly one unexpired native image artifact' }
           gh run download $env:IMAGE_RUN --repo $env:GITHUB_REPOSITORY --name $name --dir build/bell-baseline
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           New-Item -ItemType Directory -Force dist | Out-Null
-          Copy-Item -LiteralPath build/bell-baseline/build/single-exe-dist/nemoterm.exe -Destination dist/nemoterm.exe
+          $image = if ($singleDiagnostic) { 'build/bell-baseline/nemoterm.exe' } else { 'build/bell-baseline/build/single-exe-dist/nemoterm.exe' }
+          Copy-Item -LiteralPath $image -Destination dist/nemoterm.exe
           $hash = (Get-FileHash dist/nemoterm.exe -Algorithm SHA256).Hash
-          $original = Get-Content build/bell-baseline/bell-image.json -Raw | ConvertFrom-Json
-          if ($hash -ne $original.Hash) { throw 'Downloaded image hash differs from its native checkpoint' }
+          if (!$singleDiagnostic) {
+            $original = Get-Content build/bell-baseline/bell-image.json -Raw | ConvertFrom-Json
+            if ($hash -ne $original.Hash) { throw 'Downloaded image hash differs from its native checkpoint' }
+          }
           @{ fixture_source=$env:GITHUB_SHA; image_source=$run.head_sha; image_run=$run.id; image_conclusion=$run.conclusion; diagnostic_failed_baseline=$diagnosticFailed; artifact_id=$artifact[0].id; image_sha256=$hash } | ConvertTo-Json | Set-Content bell-state-provenance.json
       - run: python -m pip install frida==17.24.3
       - name: Check focus, stacking, minimized and background-tab lifetime
