@@ -398,4 +398,7 @@ It has not replaced the accepted `752f3be` executable. At `eae8968`, ordinary
 CI fails `tabs_profiles_window_smoke.py` at the final zero-exit assertion:
 all seven functional checks complete, then the frontend exits `0xC0000005`.
 The graphics/memory gates later in that job were not reached. Its independent
-single-image workflow is still running. Local desktop testing remains paused.
+single-image workflow reaches the dense Unicode memory workload but exceeds
+the 45-minute whole-job deadline while its controller waits in `MoveWindow`.
+The [timeout record](unicode-dense-memory.md) preserves the partial passes and
+unresolved native cause. Local desktop testing remains paused.

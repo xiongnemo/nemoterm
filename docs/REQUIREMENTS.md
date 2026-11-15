@@ -17,7 +17,12 @@ identified earlier local development runs. The ten remote memory groups per
 workflow used Consolas at 109x34 or 88x35. The newer capability advertisement
 passes GCC, Clang and MSVC at `3ac5a6b`. Ordinary CI at `eae8968` fails mixed-profile
 close with exit `0xC0000005` after seven functional checks, before reaching the
-new dense-memory fixture; its separate single-image workflow is still running.
+new dense-memory fixture. Its separate single-image job reaches that fixture,
+then exceeds the 45-minute whole-job deadline while the controller waits in
+`MoveWindow`; no dense-memory result or final executable is retained. The
+[timeout record](../research/unicode-dense-memory.md) preserves the earlier ten
+memory passes and 96 exact clipboard copies as partial evidence. The lazy-index
+optimization passes all three component compilers; full native checks continue.
 This is not acceptance of
 the new exact product at local 160x48 Sarasa. Local interactive testing is
 currently paused at the user's request. The accepted artifact below is unchanged.
