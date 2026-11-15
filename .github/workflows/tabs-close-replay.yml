@@ -6,7 +6,7 @@ on:
       fixture:
         description: Close fixture to diagnose
         type: choice
-        options: [profiles, shutdown, tabs]
+        options: [profiles, shutdown, tabs, unicode-memory]
         default: profiles
         required: true
       source_commit:
@@ -49,6 +49,12 @@ permissions:
   actions: read
 
 jobs:
+  dense-diagnostic:
+    if: ${{ inputs.fixture == 'unicode-memory' }}
+    uses: ./.github/workflows/dense-image-diagnostic.yml
+    with:
+      source_commit: ${{ inputs.source_commit }}
+      source_run: ${{ inputs.source_run }}
   source-diagnostic:
     if: ${{ inputs.rebuild_profiles && inputs.fixture == 'profiles' }}
     uses: ./.github/workflows/profiles-close-diagnostic.yml
@@ -56,7 +62,7 @@ jobs:
       source_commit: ${{ inputs.source_commit }}
       source_run: ${{ inputs.source_run }}
   diagnostic:
-    if: ${{ !inputs.rebuild_profiles }}
+    if: ${{ !inputs.rebuild_profiles && inputs.fixture != 'unicode-memory' }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:

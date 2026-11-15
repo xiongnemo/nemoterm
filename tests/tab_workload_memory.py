@@ -9,7 +9,8 @@ from console_process_utils import owned_processes, workload_process_role
 
 
 class TabMemorySampler:
-    def __init__(self, pid, executable, interval=.1, injected=False, kernel_etw_recording=False):
+    def __init__(self, pid, executable, interval=.1, injected=False, kernel_etw_recording=False,
+                 external_diagnostic=False):
         self.pid = pid
         self.executable = os.path.normcase(str(Path(executable).resolve()))
         self.interval = interval
@@ -17,6 +18,7 @@ class TabMemorySampler:
         # its startup samples, when it will inject into the observed frontend.
         self.injected = injected
         self.kernel_etw_recording = kernel_etw_recording
+        self.external_diagnostic = external_diagnostic
         self.phase = 'startup'
         self.started = time.monotonic()
         self.samples = []
@@ -63,13 +65,14 @@ class TabMemorySampler:
                     seconds=round(time.monotonic()-self.started,3), errors=self.errors,
                     exited_during_sample=self.exited_during_sample,
                     injected=self.injected, kernel_etw_recording=self.kernel_etw_recording,
-                    diagnostic_only=self.injected or self.kernel_etw_recording,
+                    external_diagnostic=self.external_diagnostic,
+                    diagnostic_only=self.injected or self.kernel_etw_recording or self.external_diagnostic,
                     peaks=peaks, samples=self.samples,
                     scope='Synthetic dense text, bounded scrollback, links, images, tab lifetime and resize; not a real agent or physical hover acceptance.',
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 
 
-def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False, kitty_compression=False, kitty_unicode=False):
+def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False, kitty_compression=False, kitty_unicode=False, resize_observer=None):
     """Keep two 2000-line histories while switching/repainting/resizing."""
     result = dict(history_lines_per_tab=4096, history_limit=2000,
                   redraw_frames=24, resize_transitions=24, inline_images=inline_images,
@@ -154,7 +157,10 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
             output(child,inline)
         target = (max(400,width-160),max(300,height-100)) if frame%2 == 0 else (width,height)
         if kitty_unicode:checkpoint('before-window-resize')
-        assert u.MoveWindow(host,original.left,original.top,*target,True)
+        if resize_observer:
+            assert resize_observer.call(u.MoveWindow,host,original.left,original.top,*target,True)
+        else:
+            assert u.MoveWindow(host,original.left,original.top,*target,True)
         if kitty_unicode:checkpoint('after-window-resize')
         for other in (first,second):
             output(other,'\x1b[18t')

@@ -38,6 +38,8 @@ parser.add_argument('--probe-boundaries',action='store_true',
 parser.add_argument('--exception-observer',type=Path,
                     help='test-only external debugger executable; diagnostic only, not memory acceptance')
 observation=parser.add_mutually_exclusive_group()
+observation.add_argument('--resize-dumps',type=Path,
+                    help='CI-only external small-dump helper for slow Unicode workload resizes; exits 2, never memory acceptance')
 observation.add_argument('--resource-inventory',action='store_true',
                     help='read-only owned window/handle metadata; diagnostic only, exits 2 on completion')
 observation.add_argument('--allocation-census',action='store_true',
@@ -56,7 +58,9 @@ if args.kitty_unicode and (not args.kitty_images or args.kitty_compression):
 if (args.inline_images or args.animated_images or args.kitty_images) and not args.workload_memory:
     parser.error('Image workloads require --workload-memory')
 injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
-diagnostic=injected_observer or args.etw_memory_trace
+diagnostic=injected_observer or args.etw_memory_trace or bool(args.resize_dumps)
+if args.resize_dumps and not args.kitty_unicode:
+    parser.error('--resize-dumps requires the dense Unicode workload')
 if diagnostic and not args.workload_memory:
     parser.error('Memory observers require --workload-memory')
 if diagnostic and not args.local_heap_census and os.environ.get('CI')!='true':
@@ -129,7 +133,7 @@ with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tabs-') as tmp,OwnedJob() as job:
         tmp=Path(tmp);known=set();serial=0;captures=[];hover_session=None;memory_sampler=None;census_observer=None
-        worker_leases=[];evidence['worker_closes']=[];menu_checks=None;exception_observer=None
+        worker_leases=[];evidence['worker_closes']=[];menu_checks=None;exception_observer=None;resize_observer=None
         process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--tab-side',args.side,
             '--cols',str(args.cols),'--rows',str(args.rows),'--font',args.font,'-e',sys.executable,str(root/'tests/session_fixture.py'),str(tmp)],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_UTF8_INPUT='1'),
@@ -150,7 +154,8 @@ try:
             if args.workload_memory:
                 from tab_workload_memory import TabMemorySampler,exercise as memory_exercise
                 memory_sampler=TabMemorySampler(process.pid,exe,injected=injected_observer,
-                                               kernel_etw_recording=args.etw_memory_trace)
+                                               kernel_etw_recording=args.etw_memory_trace,
+                                               external_diagnostic=bool(args.resize_dumps))
             host=wait_for(lambda:next(iter(windows(process.pid,'NemotermHost')),None))
             if args.exception_observer:
                 from native_exception_observer import NativeExceptionObserver
@@ -314,7 +319,12 @@ try:
                 assert evidence['memory_limit_passed'],evidence['peak_private_ws']
             if args.workload_memory:
                 evidence['phase']='memory-workload'
-                if diagnostic:
+                if args.resize_dumps:
+                    from owned_resize_observer import OwnedResizeObserver
+                    resize_observer=OwnedResizeObserver(process,job,args.resize_dumps,
+                        root/'research'/f'resize-diagnostic-{profile}')
+                    evidence['resize_diagnostic']=str(resize_observer.destination)
+                elif diagnostic:
                     if args.etw_memory_trace:
                         from etw_memory_trace import EtwMemoryTrace as Observer
                     elif args.virtual_memory_trace:
@@ -329,7 +339,7 @@ try:
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene,
                                                      inline_images=args.inline_images,animated_images=args.animated_images,
                                                      kitty_images=args.kitty_images,kitty_compression=args.kitty_compression,
-                                                     kitty_unicode=args.kitty_unicode)
+                                                     kitty_unicode=args.kitty_unicode,resize_observer=resize_observer)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
                 memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')
@@ -343,8 +353,9 @@ try:
                 evidence['peak_private_ws']=max(evidence['peak_private_ws'],memory['peaks']['frontend']['private_ws'])
                 evidence['memory_limit_passed']=None if diagnostic else private_ws_passes(actual,evidence['peak_private_ws'])
                 if diagnostic:
-                    evidence['memory_observation']=census_observer.freeze()
-                    census_observer.close();census_observer=None
+                    if census_observer:
+                        evidence['memory_observation']=census_observer.freeze()
+                        census_observer.close();census_observer=None
                     u.PostMessageW(host,0x10,0,0);process.wait(timeout=15)
                     assert process.returncode==0,process.returncode
                     evidence['owned_job_cleanup']=job.finish(grace=5)

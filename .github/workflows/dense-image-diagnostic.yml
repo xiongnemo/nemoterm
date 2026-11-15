@@ -1,0 +1,129 @@
+name: Diagnose dense Unicode image resizing from pinned source
+
+on:
+  workflow_call:
+    inputs:
+      source_commit:
+        type: string
+        required: true
+      source_run:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostic:
+    strategy:
+      fail-fast: false
+      matrix:
+        renderer: [gdi, directx]
+    runs-on: windows-2025
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      FIXTURE_RENDERER: ${{ matrix.renderer }}
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate the frontend and console host source identities
+        shell: pwsh
+        run: |
+          if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$') { throw 'Invalid source identity' }
+          $run = gh run view $env:SOURCE_RUN --json headSha,workflowName,jobs
+          if ($LASTEXITCODE) { throw 'Could not read source run' }
+          $parsed = $run | ConvertFrom-Json
+          if ($parsed.headSha -cne $env:SOURCE_COMMIT -or $parsed.workflowName -ne 'Test and build') { throw 'Source run mismatch' }
+          if (@($parsed.jobs | Where-Object { $_.name -eq 'Source-built console host for compiler comparison' -and $_.conclusion -eq 'success' }).Count -ne 1) { throw 'Source host did not pass' }
+          New-Item -ItemType Directory -Force build/dense-diagnostic | Out-Null
+          $run | Set-Content build/dense-diagnostic/source-run.json
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.source_commit }}
+          path: build/dense-source
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            git
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+      - name: Rebuild the pinned frontend with the original release flags
+        shell: msys2 {0}
+        working-directory: build/dense-source
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+          gcc --version | tee ../dense-diagnostic/compiler.txt
+          cmake -S vendor/putty-0.85 -B build -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel \
+            '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc' -DPUTTY_GSSAPI=OFF \
+            2>&1 | tee ../dense-diagnostic/configure.log
+          cmake --build build --target pterm --parallel 4 2>&1 | tee ../dense-diagnostic/build.log
+          mkdir -p ../dense-diagnostic/runtime
+          cp build/nemoterm.exe ../dense-diagnostic/runtime/
+          nm -n build/nemoterm.exe > ../dense-diagnostic/frontend-symbols.txt
+      - name: Install the identified host and retain rebuilt runtime identity
+        shell: pwsh
+        run: |
+          ./build/dense-source/scripts/fetch-conpty.ps1 -Architecture x64 -Destination build/dense-diagnostic/runtime
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          gh run download $env:SOURCE_RUN --name "source-console-host-x64-$env:SOURCE_COMMIT" --dir build/dense-host
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build/dense-source/scripts/install-source-conpty-host.ps1 -SourceDirectory build/dense-host -Destination build/dense-diagnostic/runtime -ExpectedCommit $env:SOURCE_COMMIT
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $exe = (Resolve-Path build/dense-diagnostic/runtime/nemoterm.exe).Path
+          "NEMOTERM_TEST_EXE=$exe" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          [ordered]@{
+            production_source = $env:SOURCE_COMMIT
+            host_source_run = $env:SOURCE_RUN
+            fixture_source = (git rev-parse HEAD).Trim()
+            renderer = $env:FIXTURE_RENDERER
+            exact_failed_image = $false
+            memory_acceptance = $false
+            scope = 'Rebuilt frontend with external resize snapshots; diagnostic only'
+            runtime_hashes = @(Get-ChildItem build/dense-diagnostic/runtime -File | Get-FileHash -Algorithm SHA256 | Select-Object Path,Hash)
+            fixture_hashes = @(Get-FileHash tests/tabs_window_smoke.py, tests/tab_workload_memory.py, tests/kitty_unicode_tab_workload.py, tests/owned_resize_observer.py, tests/native_failure_dump.py, tests/native_failure_dump.c, tests/thread_snapshot.py -Algorithm SHA256 | Select-Object Path,Hash)
+          } | ConvertTo-Json -Depth 5 | Set-Content build/dense-diagnostic/identity.json
+      - name: Verify external dump ownership, thread context and target survival
+        shell: pwsh
+        run: |
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/test-failure-dump.ps1 -Destination build/dense-diagnostic/dump-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Observe the unchanged dense workload with bounded resize snapshots
+        shell: pwsh
+        run: |
+          $side = if ($env:FIXTURE_RENDERER -eq 'gdi') { 'top' } else { 'left' }
+          python tests/tabs_window_smoke.py --renderer $env:FIXTURE_RENDERER --side $side --cols 160 --rows 48 --font Consolas --workload-memory --kitty-images --kitty-unicode --resize-dumps build/dense-diagnostic/dump-controls/helper.exe 2>&1 | Tee-Object build/dense-diagnostic/workload.log
+          $code = $LASTEXITCODE
+          $record = "research/unicode-kitty-workload-tabs-$env:FIXTURE_RENDERER-$side-observed.json"
+          if (Test-Path $record) {
+            $observed = Get-Content $record -Raw | ConvertFrom-Json
+            if ($code -eq 2 -and $observed.diagnostic_completed -and $observed.memory_acceptance -eq $false -and !$observed.completed) {
+              Write-Host 'Diagnostic workload completed; no memory or product acceptance'
+              exit 0
+            }
+          }
+          throw "Diagnostic workload did not complete (exit $code); retain partial progress and dumps"
+      - name: Preserve complete and partial observations
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force build/dense-diagnostic/observations | Out-Null
+          Get-ChildItem research -File -Filter 'unicode-kitty-workload-*' | Copy-Item -Destination build/dense-diagnostic/observations
+          Get-ChildItem research -Directory -Filter 'resize-diagnostic-*' | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination build/dense-diagnostic/observations -Recurse }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: dense-image-diagnostic-${{ matrix.renderer }}-${{ github.sha }}
+          path: build/dense-diagnostic/
+          retention-days: 30
+          if-no-files-found: error
