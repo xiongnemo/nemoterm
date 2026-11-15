@@ -91,6 +91,23 @@ The expectation was corrected to the captured ignored-key behavior. The full
 replay remains strict. Native pixels, sanitizers, other compilers and product
 memory are not established by these local component results.
 
+## Hosted validation of 656fed4
+
+[Core run 43672313266](https://github.com/xiongnemo/nemoterm/actions/runs/43672313266)
+and [component run 43672313233](https://github.com/xiongnemo/nemoterm/actions/runs/43672313233)
+fail at the same five virtual-parent states. Their MinGW, GCC/Clang sanitizer
+and MSVC logs preserve those exact failures. Cache, layout and placement
+components pass with ASan/UBSan, and the MSVC native renderer diagnostic job
+succeeds. The Clang matrix job is recorded as cancelled after GCC failed,
+despite retaining its completed five-failure replay log; it is not a green job.
+The matrix now disables fail-fast so future compiler runs finish independently.
+
+[kitty-relative-ci-656fed4.json](kitty-relative-ci-656fed4.json) retains 109
+completed core/component CI records. These are regression checks and do not
+establish native relative-placement or single-executable product acceptance.
+The broader [Unicode reference and baseline](kitty-unicode-placeholders.md)
+now tracks virtual placements and text-driven image behavior separately.
+
 ## Observed behavior and remaining work
 
 The observed child origin is the parent's cell anchor, without the parent's

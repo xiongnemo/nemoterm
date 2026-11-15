@@ -85,6 +85,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-relative-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-kitty-unicode-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-cluster/test_zlib.exe 2>&1 | Tee-Object zlib-msvc.log
           if ($LASTEXITCODE) { throw 'Bounded zlib tests failed' }
           ./build-cluster/test_kitty_cache.exe 2>&1 | Tee-Object kitty-cache-msvc.log
@@ -903,6 +905,7 @@ jobs:
           python3 scripts/generate-kitty-feature-reference.py --check
           python3 scripts/generate-kitty-query-error-reference.py --check
           python3 scripts/generate-kitty-relative-reference.py --check
+          python3 scripts/generate-kitty-unicode-reference.py --check
           gcc -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -I vendor/putty-0.85/terminal tests/test_zlib.c vendor/putty-0.85/terminal/nemo_zlib.c vendor/putty-0.85/terminal/puff/puff.c -o test-zlib
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./test-zlib 2>&1 | tee terminal-zlib-sanitizers.log

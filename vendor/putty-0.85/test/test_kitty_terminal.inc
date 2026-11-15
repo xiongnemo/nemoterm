@@ -219,6 +219,7 @@ static void test_kitty_query_reference(Mock *parent, const KittyFeatureReference
 }
 
 #include "test_kitty_relative.inc"
+#include "test_kitty_unicode.inc"
 
 static void test_kitty_terminal(Mock *mk)
 {
@@ -359,4 +360,5 @@ static void test_kitty_terminal(Mock *mk)
     test_kitty_query_reference(mk,kitty_query_error_reference,lenof(kitty_query_error_reference),true);
     puts("Kitty upstream query errors: 54 cases, 216 states (one data-error envelope control)");
     test_kitty_relative_reference(mk);
+    test_kitty_unicode_reference(mk);
 }
