@@ -136,6 +136,7 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
 - 开发分支已修复 `-load` 覆盖前置 `--tabs`、字体及尺寸选项的问题；明确的命令行设置优先于保存配置，见[参数验证](research/command-line-profile.md)。上述 `12ee33b` 及更早下载版应将这些选项写在 `-load` 之后。
+- 开发分支还修复了标签窗口在最小化期间接收尺寸请求后、恢复时内容区域偏小的问题，见[恢复尺寸验证](research/host-restore-size.md)。
 - 在 **Session** 中选择 shell，并保存到 `Default Settings` 或命名配置；`-load "配置名"` 可加载命名配置。
 - **Session / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 

@@ -16,10 +16,11 @@ cases = [(f'overflow-{side}', 'tabs_overflow', ['--side', side], None)
 cases += [
     ('profiles', 'tabs_profiles', [], None),
     ('geometry', 'geometry', ['--tabs', '--tab-side', 'bottom'], None),
-    ('window-resize', 'window_resize', ['--tabs', '--tab-side', 'left'], None),
     ('input-method', 'input_method', ['--tabs','--input-api',options.input_api] +
         (['--font', 'Consolas'] if os.environ.get('CI') == 'true' else []), None),
 ]
+cases += [(f'window-resize-{side}', 'window_resize', ['--tabs','--tab-side',side],
+           'tabs-window-resize-observed.json') for side in ('top','bottom','left','right')]
 cases += [(f'selection-{name}', 'selection', ['--tabs', '--tab-side', 'right',
            '--renderer', str(renderer)], 'tabs-selection-observed.json')
           for renderer, name in ((0, 'gdi'), (1, 'opengl'), (2, 'directx'))]

@@ -2305,6 +2305,24 @@ static void wintw_request_window_resize(TermWin *tw, int w, int h, bool pixels)
         if (style & WS_HSCROLL)
             frame_h += p_GetSystemMetricsForDpi ?
                 p_GetSystemMetricsForDpi(SM_CYHSCROLL, dpi) : GetSystemMetrics(SM_CYHSCROLL);
+        if (wgs->tabbed) {
+            /* The child frame above includes its scrollbar/sunken edge.
+             * Restoring the outer host must also leave room for its caption,
+             * resize border and tab strip; none belong to the content HWND. */
+            DWORD host_style = GetWindowLongPtr(tab_host.hwnd, GWL_STYLE) &
+                ~(WS_MINIMIZE | WS_MAXIMIZE);
+            DWORD host_exstyle = GetWindowLongPtr(tab_host.hwnd, GWL_EXSTYLE);
+            RECT host_frame = {0};
+            if (p_AdjustWindowRectExForDpi) {
+                if (!p_AdjustWindowRectExForDpi(&host_frame, host_style, false,
+                                              host_exstyle, tab_host.dpi)) goto completed;
+            } else if (!AdjustWindowRectEx(&host_frame, host_style, false,
+                                           host_exstyle)) goto completed;
+            NemoTabMetrics tabs = nemo_tabs_metrics(tab_host.dpi, tab_host.sidebar);
+            bool vertical = tab_host.side == NEMO_TABS_LEFT || tab_host.side == NEMO_TABS_RIGHT;
+            frame_w += host_frame.right-host_frame.left + (vertical ? tabs.sidebar : 0);
+            frame_h += host_frame.bottom-host_frame.top + (vertical ? 0 : tabs.row);
+        }
         client.right = placement.rcNormalPosition.right-placement.rcNormalPosition.left-frame_w;
         client.bottom = placement.rcNormalPosition.bottom-placement.rcNormalPosition.top-frame_h;
     }

@@ -50,3 +50,6 @@ regression above establishes why it persisted.
 
 Both complete product workflows include the new regression. Their results on
 this source change are pending; existing passing CI belongs to `12ee33b`.
+The correctly hosted resize variant subsequently exposes and fixes a separate
+[minimized restore-size defect](host-restore-size.md). Its combined full
+workflows supersede the initial CLI-only runs; a superseded run is not a pass.

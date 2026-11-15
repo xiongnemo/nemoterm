@@ -62,6 +62,11 @@ selection fixtures did not verify the actual host. The product fix passes five
 local native cases, and those fixtures now assert the true window class.
 Actual foreground preparation remains unavailable under Windows' lock-screen
 layer; hosted IME acceptance is pending, and the user has been notified.
+The correctly hosted application-resize fixture then exposes a minimized
+restore-size defect: the outer frame and tab strip were omitted. The
+[bounded geometry fix](../research/host-restore-size.md) passes 348 existing
+resize stages across four tab positions and all three actual renderers, with
+natural cleanup. The combined full CI and single-image acceptance remain open.
 
 ## Bell attention modes (2026-11-16 Sydney)
 
