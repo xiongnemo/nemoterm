@@ -14,6 +14,11 @@ DX memory and clarified that the approximate 50 MB total target is for GDI. Earl
 resource, shutdown and access-violation failures remain recorded; later passes
 do not establish their causes.
 
+The later `8655aae` development MSVC job has a separate
+[tab-selection access violation](../research/tab-select-msvc-8655aae.md).
+The exact failed image passes six local and twelve hosted diagnostic replays,
+but the cause remains unconfirmed. New keyboard checks do not resolve it.
+
 The development branch adds Kitty relative placements and Unicode placeholders.
 The lazy cell index passes all three component compilers and ordinary full CI at
 `f01927a`, including twelve memory groups and 25,048 post-memory cell-centre

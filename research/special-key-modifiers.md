@@ -69,7 +69,8 @@ preserved and is not reported as a successful shutdown test.
 This does not establish physical-keyboard or full-product acceptance. The
 new core/native checks are included in ordinary and single-image CI; their
 complete candidate results remain pending, with an unresolved MSVC native
-tab-selection access violation in run 43768960240. Resources 3, 6 and 7 are
+tab-selection access violation in run 43768960240; the [original failure and
+exact-image diagnosis](tab-select-msvc-8655aae.md) are retained. Resources 3, 6 and 7 are
 covered by the later [extended-key implementation](extended-key-resources.md).
 Resource 0, remaining application/IME work, and the outstanding desktop tests
 remain separate work.

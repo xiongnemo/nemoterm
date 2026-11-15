@@ -67,5 +67,5 @@ The new native check is included in ordinary and single-image CI. Complete CI
 for this change is pending. Physical keyboard/IME behavior, Print/Menu/Help,
 Ctrl+Pause/Break and keypad Tab/Space/Equal remain outside native acceptance.
 Resource 0 and remaining keyboard/application scope remain open. The separate
-`8655aae` MSVC tab-selection access violation also remains unresolved; passing
+[`8655aae` MSVC tab-selection access violation](tab-select-msvc-8655aae.md) also remains unresolved; passing
 keyboard checks do not resolve it. No accepted executable is replaced.
