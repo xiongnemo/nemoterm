@@ -3,6 +3,7 @@
  * terminal ownership/budget checks from native WIC and compositor validation. */
 #include "kitty_compression_reference.h"
 #include "kitty_feature_reference.h"
+#include "kitty_query_error_reference.h"
 static void kitty_reset(Mock *mk)
 {
     reset(mk);
@@ -166,13 +167,14 @@ static void test_kitty_compression_reference(Mock *parent)
     puts("Kitty upstream compression replay: 26 cases, 36 states and decoded pixels checked");
 }
 
-static void test_kitty_feature_reference(Mock *parent)
+static void test_kitty_query_reference(Mock *parent, const KittyFeatureReference *reference,
+                                      size_t length, bool error_control)
 {
     Mock *mk=NULL;
     TermWinVtable vt=mock_termwin_vt;
     vt.kitty_graphics=true;
-    for (size_t i=0;i<lenof(kitty_feature_reference);i++) {
-        const KittyFeatureReference *r=&kitty_feature_reference[i];
+    for (size_t i=0;i<length;i++) {
+        const KittyFeatureReference *r=&reference[i];
         if (r->first) {
             if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
             mk=mock_new(); mk->tw.vt=&vt;
@@ -185,7 +187,14 @@ static void test_kitty_feature_reference(Mock *parent)
         Terminal *t=mk->term;
         size_t memory=term_kitty_memory(t);
         term_data_fragmented(t,r->wire);
-        kitty_reply_is(mk,r->reply);
+        if (error_control && !strcmp(r->name,"continuation-invalid-base64/interleaved")) {
+            /* Both terminals must return an error for the same upload ID.
+             * The strict local base64 parser and upstream decoder use different
+             * error codes/descriptions; preserve the original captured reply. */
+            IEQUAL(strncmp(mk->to_backend->s,"\033_Gi=9;E",8),0);
+            IEQUAL(strstr(mk->to_backend->s,"\033\\")!=NULL,true);
+            strbuf_clear(mk->to_backend);
+        } else kitty_reply_is(mk,r->reply);
         IEQUAL(t->curs.x,r->x); IEQUAL(t->curs.y,r->y);
         IEQUAL(kitty_images(t,0),r->images);
         unsigned count=0;
@@ -207,7 +216,6 @@ static void test_kitty_feature_reference(Mock *parent)
         kitty_check_budget(mk);
     }
     if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
-    puts("Kitty upstream feature queries: 84 cases, 176 states (22 explicit capability subsets)");
 }
 
 static void test_kitty_terminal(Mock *mk)
@@ -344,5 +352,8 @@ static void test_kitty_terminal(Mock *mk)
     mk->tw.vt=&mock_termwin_vt;
     test_kitty_terminal_reference(mk);
     test_kitty_compression_reference(mk);
-    test_kitty_feature_reference(mk);
+    test_kitty_query_reference(mk,kitty_feature_reference,lenof(kitty_feature_reference),false);
+    puts("Kitty upstream feature queries: 84 cases, 176 states (22 explicit capability subsets)");
+    test_kitty_query_reference(mk,kitty_query_error_reference,lenof(kitty_query_error_reference),true);
+    puts("Kitty upstream query errors: 54 cases, 216 states (one data-error envelope control)");
 }

@@ -50,7 +50,7 @@ struct NemoKitty {
     NemoKittyCommand command, upload;
     NemoKittyStatus status;
     unsigned quad[4], quad_count;
-    bool active, parsed, pending, feature_query, data_command, padded;
+    bool active, parsed, pending, feature_query, data_command, padded, discarded;
     char header[NEMO_KITTY_HEADER_MAX];
 };
 
@@ -58,6 +58,8 @@ size_t nemo_kitty_memory(const NemoKitty *s)
 { return s ? sizeof(*s) + s->capacity : 0; }
 bool nemo_kitty_pending(const NemoKitty *s)
 { return s && s->pending; }
+bool nemo_kitty_discarded(const NemoKitty *s)
+{ return s && s->discarded; }
 NemoKittyStatus nemo_kitty_status(const NemoKitty *s)
 { return s ? s->status : NEMO_KITTY_OUT_OF_MEMORY; }
 
@@ -73,6 +75,15 @@ static bool fail(NemoKitty *s, NemoKittyStatus status)
 {
     s->status = status;
     drop_data(s);
+    return false;
+}
+
+static bool discard_header(NemoKitty *s)
+{
+    /* A header is validated before appending any payload. A parser rejection
+     * must not enter the image owner or consume an earlier upload's bytes. */
+    s->status = NEMO_KITTY_MALFORMED;
+    s->discarded = true;
     return false;
 }
 
@@ -106,7 +117,7 @@ bool nemo_kitty_begin(NemoKitty *s)
     if (!s->pending) drop_data(s);
     memset(&s->command, 0, sizeof(s->command));
     s->header_length = s->chunk_chars = s->quad_count = 0;
-    s->parsed = s->feature_query = s->data_command = s->padded = false;
+    s->parsed = s->feature_query = s->data_command = s->padded = s->discarded = false;
     s->status = NEMO_KITTY_OK;
     s->active = true;
     return true;
@@ -142,25 +153,22 @@ static bool parse_header(NemoKitty *s)
          * the owner can silently discard it as the reference parser does. */
         if (stop-p>=2 && p[0]=='e' && p[1]=='=') set(&s->command,'e',0);
         if (stop - p < 3 || key_index(p[0]) < 0 || p[1] != '=')
-            return fail(s, NEMO_KITTY_MALFORMED);
+            return discard_header(s);
         char key = p[0];
         uint32_t value;
         if (key == 'a' || key == 'd' || key == 'e' || key == 't' || key == 'o') {
             if (stop - p != 3 || p[2] < '!' || p[2] > '~')
-                return fail(s, NEMO_KITTY_MALFORMED);
+                return discard_header(s);
             value = (unsigned char)p[2];
         } else if (!number(p + 2, (size_t)(stop - p - 2),
                            key == 'z' || key == 'H' || key == 'V', &value)) {
-            return fail(s, NEMO_KITTY_MALFORMED);
+            return discard_header(s);
         }
         set(&s->command, key, value);
-        if (next && next + 1 == end) return fail(s, NEMO_KITTY_MALFORMED);
+        /* Upstream accepts an optional trailing comma after a complete value. */
         p = next ? next + 1 : end;
     }
     NemoKittyCommand *c = &s->command;
-    if (nemo_kitty_get(c, 'm') > 1 || nemo_kitty_get(c, 'q') > 2 ||
-        (nemo_kitty_get(c, 'i') && nemo_kitty_get(c, 'I')))
-        return fail(s, NEMO_KITTY_MALFORMED);
     uint32_t action = nemo_kitty_get(c, 'a');
     if (action == 'q' && nemo_kitty_has(c, 'e')) {
         /* The query owns no payload. Even m=1 must not append to, finish or
@@ -168,6 +176,9 @@ static bool parse_header(NemoKitty *s)
         s->feature_query = true;
         return true;
     }
+    if (nemo_kitty_get(c, 'm') > 1 || nemo_kitty_get(c, 'q') > 2 ||
+        (nemo_kitty_get(c, 'i') && nemo_kitty_get(c, 'I')))
+        return fail(s, NEMO_KITTY_MALFORMED);
     if (action == 'd') drop_data(s);
     if (s->pending) {
         uint64_t allowed = (UINT64_C(1) << key_index('m')) |

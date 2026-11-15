@@ -306,6 +306,7 @@ static void nemo_kitty_finish_apc(Terminal *term)
     NemoKittyPacket packet;
     NemoKittyResult result=nemo_kitty_finish(term->kitty->input,&packet);
     if (result==NEMO_KITTY_MORE) return;
+    if (result==NEMO_KITTY_ERROR && nemo_kitty_discarded(term->kitty->input)) return;
     const NemoKittyCommand *c=&packet.command;
     uint32_t id=nemo_kitty_get(c,'i'),number=nemo_kitty_get(c,'I');
     const char *status="EINVAL:graphics command";

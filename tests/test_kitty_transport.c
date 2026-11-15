@@ -184,11 +184,11 @@ static void chunks(NemoKitty *s)
 static void invalid(NemoKitty *s)
 {
     static const char *bad_headers[] = {
-        "a", "aa=p", "a=", "a=pp", ",a=p", "a=p,", "a=p,,i=1", "i =1", "i= 1",
+        "a", "aa=p", "a=", "a=pp", ",a=p", "a=p,,i=1", "i =1", "i= 1",
         "i=+1", "i=-1", "i=4294967296", "i=9999999999999999999999999999999999999",
         "z=2147483648", "z=-2147483649", "z=--1", "H=-", "V=NaN", "x=1.5",
         "q=3", "m=2", "i=1,I=1", "a=p,m=1", "t=f,m=1",
-        "a=q,i=1,e=", "a=q,i=1,e=T,m=2", "a=p,i=1;AAAA"
+        "a=q,i=1,e=", "a=p,i=1;AAAA"
     };
     for (size_t i = 0; i < sizeof(bad_headers)/sizeof(*bad_headers); i++)
         bad(s, bad_headers[i], NEMO_KITTY_MALFORMED);
@@ -212,6 +212,32 @@ static void invalid(NemoKitty *s)
     CHECK(!nemo_kitty_feed(s, nul_header, sizeof(nul_header)));
     CHECK(nemo_kitty_finish(s, &p) == NEMO_KITTY_ERROR);
     CHECK(nemo_kitty_status(s) == NEMO_KITTY_MALFORMED);
+}
+
+static void rejected_headers(NemoKitty *s)
+{
+    start(s, "a=p,");
+    NemoKittyPacket p=packet(s,NULL,0);
+    CHECK(nemo_kitty_get(&p.command,'a')=='p');
+    start(s,"a=T,i=9,m=1;Zm9v"); more(s);
+    size_t memory=nemo_kitty_memory(s);
+    static const char *headers[]={"C=x,a=q,i=31,e=T", "a=q,i=31,C=x,e=T",
+        "a=q,i=31,e=T,C=x", "i=31,e=,a=q", "a=t,i=31,C=x", "a=q,i=,e=T"};
+    for (unsigned repeat=0;repeat<1000;repeat++) {
+        CHECK(nemo_kitty_begin(s));
+        const char *header=headers[repeat % (sizeof(headers)/sizeof(*headers))];
+        nemo_kitty_feed(s,header,strlen(header));
+        CHECK(nemo_kitty_finish(s,&p)==NEMO_KITTY_ERROR);
+        CHECK(nemo_kitty_discarded(s) && nemo_kitty_pending(s));
+        CHECK(nemo_kitty_memory(s)==memory);
+    }
+    start(s,"i=31,e=T,a=q,m=2,q=3,I=7;");
+    packet(s,NULL,0);
+    CHECK(!nemo_kitty_discarded(s) && nemo_kitty_pending(s));
+    CHECK(nemo_kitty_memory(s)==memory);
+    start(s,"m=0;YmFy");
+    p=packet(s,"foobar",6);
+    CHECK(nemo_kitty_get(&p.command,'i')==9 && !nemo_kitty_has(&p.command,'e'));
 }
 
 typedef struct Guard { size_t limit, peak; unsigned calls; } Guard;
@@ -327,7 +353,7 @@ int main(void)
 {
     NemoKitty *s = nemo_kitty_new(BUDGET, NULL, NULL);
     CHECK(s);
-    vectors(s); commands(s); chunks(s); invalid(s); fragmented_noise(s);
+    vectors(s); commands(s); chunks(s); invalid(s); rejected_headers(s); fragmented_noise(s);
     nemo_kitty_free(s);
     bounds(); quota();
     nemo_kitty_free(NULL); nemo_kitty_cancel(NULL);

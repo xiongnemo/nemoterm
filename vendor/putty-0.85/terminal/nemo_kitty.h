@@ -40,12 +40,16 @@ void nemo_kitty_free(NemoKitty *);
 void nemo_kitty_cancel(NemoKitty *);
 size_t nemo_kitty_memory(const NemoKitty *);
 bool nemo_kitty_pending(const NemoKitty *);
+bool nemo_kitty_discarded(const NemoKitty *);
 NemoKittyStatus nemo_kitty_status(const NemoKitty *);
 
 /* The enclosing parser owns APC G/ST framing and cancellation. Feed starts
  * after G. A non-final chunk never exposes image bytes. Finish consumes one
  * APC exactly once; packet bytes are borrowed until begin/cancel/free.
  * Error packets retain parsed command fields for the owner's error response.
+ * A malformed header is marked discarded: the owner must send no reply and
+ * leave any pending upload intact. Payload/limit failures keep their normal
+ * error/cancellation path. No header bytes are appended to image storage.
  * Valid feature queries preserve an unfinished upload and ignore their payload;
  * delete cancels it. Other commands interleaved with an upload are malformed.
  * This is transport only: the owner must validate formats, decode pixels,

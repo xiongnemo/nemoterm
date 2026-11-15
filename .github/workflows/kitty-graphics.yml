@@ -23,6 +23,10 @@ on:
       - scripts/generate-kitty-placement-reference.py
       - scripts/generate-kitty-terminal-reference.py
       - scripts/generate-kitty-feature-reference.py
+      - scripts/generate-kitty-query-error-reference.py
+      - tests/kitty_query_error_reference.json
+      - vendor/putty-0.85/test/kitty_query_error_reference.h
+      - research/kitty-query-errors-evidence/**
       - vendor/putty-0.85/test/kitty_feature_reference.h
       - tests/kitty_feature_reference.json
       - research/kitty-feature-query-evidence/**
@@ -53,6 +57,10 @@ on:
       - scripts/generate-kitty-placement-reference.py
       - scripts/generate-kitty-terminal-reference.py
       - scripts/generate-kitty-feature-reference.py
+      - scripts/generate-kitty-query-error-reference.py
+      - tests/kitty_query_error_reference.json
+      - vendor/putty-0.85/test/kitty_query_error_reference.h
+      - research/kitty-query-errors-evidence/**
       - vendor/putty-0.85/test/kitty_feature_reference.h
       - tests/kitty_feature_reference.json
       - research/kitty-feature-query-evidence/**
@@ -146,6 +154,7 @@ jobs:
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./kitty-placements-sanitizers 2>&1 | tee placements-sanitizers.log
           python3 scripts/generate-kitty-terminal-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check
+          python3 scripts/generate-kitty-query-error-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja \
             -DCMAKE_C_COMPILER="$CC" -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
@@ -220,6 +229,8 @@ jobs:
           python scripts/generate-kitty-terminal-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-feature-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-kitty-query-error-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1' -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object terminal-configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

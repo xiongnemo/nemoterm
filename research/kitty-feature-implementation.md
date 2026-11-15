@@ -72,6 +72,7 @@ compression product source (`2f478e7`, run `43652684756`) recorded an MSVC nativ
 tab-fixture access violation after hover-probe detachment; that failure remains
 under investigation and is not erased by these query passes.
 
-The 84-case reference does not exhaust header-field permutations or parser-error
-positions during a pending upload. Those are follow-up compatibility checks;
-the recorded valid-query replay does not establish every malformed-input order.
+The original 84-case reference does not exhaust header-field permutations or
+parser-error positions during a pending upload. A subsequent
+[54-case comparison](kitty-query-errors.md) reproduces lost uploads and records
+the development fix. The accepted `6e05bd1` image still predates that fix.

@@ -124,7 +124,8 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     return dict(x=BORDER+2*cw+left, y=BORDER+(row-1)*ch+top,
                                 width=count, height=height, colour=colour)
 
-                def phase(name, sequence, regions, *, stable_seconds=0, expected_reply=None):
+                def phase(name, sequence, regions, *, stable_seconds=0, expected_reply=None,
+                          expected_error_reply=None):
                     serial = len(evidence['checks'])+1
                     record = dict(name=name, sequence=sequence, sequence_hex=sequence.encode().hex(),
                         barrier_sequence_hex=(CSI+'5n').encode().hex(), input_barrier=serial,
@@ -139,6 +140,17 @@ def main(background_exercise=None, *, suite_name=None, font='Consolas', before_e
                     if expected_reply is not None:
                         record['expected_reply_hex'] = (expected_reply+(CSI+'0n').encode()).hex()
                         assert value['hex'] == record['expected_reply_hex'], record
+                    if expected_error_reply is not None:
+                        assert expected_reply is None
+                        prefix=expected_error_reply.split(b';',1)[0]+b';E'
+                        suffix=(ST+CSI+'0n').encode()
+                        observed=bytes.fromhex(value['hex'])
+                        record['upstream_error_reply_hex']=expected_error_reply.hex()
+                        record['expected_error_prefix_hex']=prefix.hex()
+                        record['expected_error_suffix_hex']=suffix.hex()
+                        assert observed.startswith(prefix) and observed.endswith(suffix),record
+                        detail=observed[len(prefix):-len(suffix)]
+                        assert detail and b'\x1b' not in detail,record
                     assert [value['columns'], value['rows']] == [COLS, ROWS], value
                     # Later rectangles overwrite earlier ones, so a one-pixel
                     # foreground can be specified over a full background ROI.

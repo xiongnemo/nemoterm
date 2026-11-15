@@ -9,6 +9,11 @@ links all four successful ordinary CI jobs, 140 single-image CI groups, 35 local
 groups, 927 API stages, 309 presented GDI stages and ten uninjected memory runs.
 The prior compression image remains backed up locally.
 
+A subsequent [query-error comparison](../research/kitty-query-errors.md) reproduces
+lost pending uploads in this accepted image. The development fix passes 216 new
+core states, 648 native API stages and 216 presented-GDI stages; its formal
+single-image replacement and full-grid memory acceptance are still pending.
+
 Actual 160x48 Sarasa two-tab Sixel/PNG/GIF/Kitty/compressed-Kitty workloads peak at
 16,838,656 private-WS bytes for GDI and 24,236,032 for DirectX,
 passing the strict 20 MB / inclusive 25 MB gates. Total WS peaks are
