@@ -100,3 +100,31 @@ The ordinary and single-image workflows started solely while registering the
 new focused workflow were intentionally cancelled; they are not regression
 results. Complete product CI, native ConPTY integration and local 160×48 Sarasa
 acceptance for this new parser change remain separate.
+
+## Complete single-image checkpoint
+
+[Run 43706001135](https://github.com/xiongnemo/nemoterm/actions/runs/43706001135)
+at `5bc9608` passes all 154 existing single-image validation groups, twelve
+uninjected memory workloads, 25,048 post-memory image-cell checks and natural
+owned-job cleanup. Its 4,532,224-byte executable has SHA256
+`40403ea7f4bb05c1cc411e09eb38cccb15390f27b1c5e1e2ab9ea687a6b91a4e`.
+The [single-EXE artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43706001135/artifacts/14160240151)
+is retained until 2026-12-15. It is a development build; the accepted local
+executable remains unchanged.
+
+This image contains the ANSI changes and predates CAN/SUB error-character
+parity and the new 413-case native conformance fixture. It therefore establishes
+existing product regression coverage, not native replay of that new matrix.
+The vendor/native production and single-image build inputs match the `889c941`
+compiler checkpoint. Dense remote GDI private/total working-set peaks are
+14,016,512 / 46,305,280 bytes on a 109×34 Consolas grid; DX peaks are
+17,596,416 / 55,173,120 bytes on an 88×35 grid. These are bounded remote
+workloads, not local 160×48 Sarasa acceptance. Current DX memory is accepted.
+
+The simultaneous ordinary run, 43705998603, failed the reference generator's
+strict UTF-8 encoding check before the frontend build. `6d9d80d` fixes the
+file-read encoding without changing production sources; its replacement
+ordinary run is still pending. The original failed ordinary evidence and
+successful single-image evidence are preserved together in
+`ansi-conformance-evidence/single-5bc9608.tar.gz` (4,620 records, 8,356,678 bytes),
+indexed by `ansi-conformance-single-validation.json`.

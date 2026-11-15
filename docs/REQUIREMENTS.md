@@ -28,6 +28,10 @@ See [implementation and original failures](../research/ansi-conformance.md).
 Product CI now includes a 413-stream native projection plus literal pixel
 comparisons; 84 binary-only cases remain explicitly core-only. Complete
 product/native checks and local acceptance for this change are pending.
+The earlier ANSI-only `5bc9608` single EXE passes all 154 existing validation
+groups and twelve uninjected memory workloads. Its hash is
+`40403ea7f4bb05c1cc411e09eb38cccb15390f27b1c5e1e2ab9ea687a6b91a4e`;
+that checkpoint predates CAN/SUB parity and the new native fixture.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 
