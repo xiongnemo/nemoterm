@@ -17,11 +17,13 @@ static Mock *cancellation_mock(void)
     /* Initialize the actual tables, not just the numeric codepage field.
      * The independent byte-mode XTerm uses ISO-8859-1, including C1 controls. */
     conf_set_str(mk->conf, CONF_line_codepage, "ISO-8859-1");
+    conf_set_bool(mk->conf, CONF_utf8_override, false);
     init_ucs_generic(mk->conf, mk->ucsdata);
     conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     reset(mk);
+    IEQUAL(mk->ucsdata->line_codepage, CP_ISO8859_1);
     return mk;
 }
 
