@@ -55,7 +55,9 @@ jobs:
         run: npm ci --prefix tools/codex-fixture --ignore-scripts --no-audit --no-fund
       - name: Verify shutdown observer sensitivity with native controls
         shell: pwsh
-        run: ./scripts/test-shutdown-observer.ps1
+        run: |
+          ./scripts/prepare-shutdown-observer.ps1
+          ./scripts/test-shutdown-observer.ps1
       - name: Verify isolated executable with native protocol and pixel tests
         shell: pwsh
         run: |

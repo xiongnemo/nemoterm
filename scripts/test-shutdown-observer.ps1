@@ -1,4 +1,7 @@
-param([string]$Destination = 'build/shutdown-observer')
+param(
+    [string]$Destination = 'build/shutdown-observer',
+    [string]$Python = $(if ($env:NEMOTERM_SHUTDOWN_PYTHON) { $env:NEMOTERM_SHUTDOWN_PYTHON } else { 'python' })
+)
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $outputPath = [IO.Path]::GetFullPath($Destination, $repo)
@@ -12,7 +15,7 @@ $image = Join-Path $outputPath 'shutdown-probe-fixture.exe'
 $object = Join-Path $outputPath 'shutdown-probe-fixture.obj'
 & cl /nologo /std:c11 /utf-8 /W4 /WX /O2 /D_CRT_SECURE_NO_WARNINGS "/Fe:$image" "/Fo:$object" "$repo/tests/shutdown_probe_fixture.c" ole32.lib user32.lib 2>&1 | Tee-Object (Join-Path $outputPath 'build.log')
 if ($LASTEXITCODE) { throw 'Shutdown observer control compilation failed' }
-& python "$repo/tests/shutdown_probe_controls.py" --executable $image 2>&1 | Tee-Object (Join-Path $outputPath 'test.log')
+& $Python "$repo/tests/shutdown_probe_controls.py" --executable $image 2>&1 | Tee-Object (Join-Path $outputPath 'test.log')
 $testExit = $LASTEXITCODE
 Copy-Item "$repo/research/shutdown-probe-controls-observed.json" $outputPath -ErrorAction SilentlyContinue
 if ($testExit) { throw 'Shutdown observer sensitivity controls failed' }

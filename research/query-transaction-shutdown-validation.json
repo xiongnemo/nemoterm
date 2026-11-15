@@ -1670,6 +1670,220 @@
           "raw_sha256": "9a4438e4133153c8b69553b82d3590c4df41fe1dc2036bbf2e08848b5d43b04e"
         }
       ]
+    },
+    {
+      "path": "research/query-transaction-shutdown-evidence/frida-17233-hosted.tar.gz",
+      "archive_bytes": 28512,
+      "archive_sha256": "193b14769d93eecb71074cff368b8be034ca7c8ad5ea2f05fe750ced7be4ca0b",
+      "records": [
+        {
+          "path": "diagnostic-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "0799e104d09ed2ba1d541fbf449e572076c57e97558ed4655e01fd8581ccded7"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/build-control.log",
+          "raw_bytes": 28,
+          "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/build-helper.log",
+          "raw_bytes": 23,
+          "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/already-exited/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/already-exited/result.json",
+          "raw_bytes": 660,
+          "raw_sha256": "038cb4975f63db4f7ff0eea8752cda80f72203850c29b0d8985b783970a54647"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/live-thread/failure.dmp",
+          "raw_bytes": 11593,
+          "raw_sha256": "75b35a6064549e094b9778e504b7cefaf4cd7ece3eeb224eeee74fce3e3b5a1b"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/live-thread/helper.jsonl",
+          "raw_bytes": 81,
+          "raw_sha256": "43774f845001a44c5544de5313ecb6b221832d3854563f0fa9efb2afd86dbb09"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/live-thread/result.json",
+          "raw_bytes": 914,
+          "raw_sha256": "eeed6e11d318657c4c4be693d18b2e9e8360484dfa1e7f8b333584cbe09e6e42"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/results.json",
+          "raw_bytes": 3811,
+          "raw_sha256": "9ea5440f41a45ac7f4f479221d1aab714153748f299847dbdbbb1f34b53e7a2c"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/wrong-job/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/controls/wrong-job/result.json",
+          "raw_bytes": 661,
+          "raw_sha256": "4b0b73935d508045f57e6450d7a77f0588a1f4e9a88e9cae1a5e2040dd369468"
+        },
+        {
+          "path": "diagnostic/failure-dump-controls/test.log",
+          "raw_bytes": 2664,
+          "raw_sha256": "afd90a4591db0db14ed14b67addb08a61d17a296194077c424735ce416556588"
+        },
+        {
+          "path": "diagnostic/failure-dump-source.json",
+          "raw_bytes": 978,
+          "raw_sha256": "f61056d0e859dc2203d1ec40aba8a08abf49e157b496832d8f93149d3483a953"
+        },
+        {
+          "path": "diagnostic/identity.json",
+          "raw_bytes": 2176,
+          "raw_sha256": "6adcb2f10339b9f04c3a1fbf5debdc4d47d60f54afa09958f3dfa29a8e2e7019"
+        },
+        {
+          "path": "diagnostic/probe-controls/build.log",
+          "raw_bytes": 26,
+          "raw_sha256": "1d16904e24403b660ce7f6837d682668fba595fe7077d3200eecf5ea52fd9c01"
+        },
+        {
+          "path": "diagnostic/probe-controls/shutdown-probe-controls-observed.json",
+          "raw_bytes": 2815,
+          "raw_sha256": "da47524302be43623a49d6d62a7eaf96181a6c0303c9f04612cc0f211be00018"
+        },
+        {
+          "path": "diagnostic/probe-controls/test.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "diagnostic/replay-1-observed.json",
+          "raw_bytes": 15158,
+          "raw_sha256": "baa3047e054fdf31bce40d7c761be9e29ffe20805a26a3f2faa261304a855828"
+        },
+        {
+          "path": "diagnostic/replay-1.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "diagnostic/replay-2-observed.json",
+          "raw_bytes": 15159,
+          "raw_sha256": "ce3479219498f577b146eec8cd4845eff2d2d549c871554800c466eff5fe3bb6"
+        },
+        {
+          "path": "diagnostic/replay-2.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "diagnostic/replay-3-observed.json",
+          "raw_bytes": 15149,
+          "raw_sha256": "12c78e42029dd135f7e95960272f61bd4698f1c38c71782ee493f2c2f8cd7463"
+        },
+        {
+          "path": "diagnostic/replay-3.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "tabs-artifacts.json",
+          "raw_bytes": 791,
+          "raw_sha256": "2d781b816e828bab049a206c448751b7f97f2fa41d450cdc974b59962cfdc9a1"
+        },
+        {
+          "path": "tabs-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "170837eb85987f0fb4adbab869b0b9bf5a6b47a991b2888de0c64d7f4ff7ec0a"
+        },
+        {
+          "path": "tabs-run.json",
+          "raw_bytes": 2489,
+          "raw_sha256": "80c93116322f38508f4f6a9410eeb7c49b0130fec6d59beddec7a919e719ed4b"
+        },
+        {
+          "path": "tabs-run.log",
+          "raw_bytes": 159375,
+          "raw_sha256": "afa42fec686feed1edf4212fc4e3462a006a704cf48b606717f070bb75a88fff"
+        }
+      ]
+    },
+    {
+      "path": "research/query-transaction-shutdown-evidence/pinned-environment-local.tar.gz",
+      "archive_bytes": 13357,
+      "archive_sha256": "cd9f24c0146791b9e85c793612526cb4684a1d1cc51b4c978f051bdcd5ba5008",
+      "records": [
+        {
+          "path": "controller-result.json",
+          "raw_bytes": 1110,
+          "raw_sha256": "35f7a085420ec0935053fc07b551e8e8f4561cbaa7abd939dd675cd756e4c1e7"
+        },
+        {
+          "path": "controller.py",
+          "raw_bytes": 2226,
+          "raw_sha256": "4d69ba12a9c6836451c8e491659cf0b64ba3830c1290f9cb9da77e3b655fec57"
+        },
+        {
+          "path": "logs/controls.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "logs/shutdown.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "research/shutdown-probe-controls-observed.json",
+          "raw_bytes": 2815,
+          "raw_sha256": "6505c6a169ce16701066a93db5d267ae9302a1e11a88ee7729fae6b0ff4e5319"
+        },
+        {
+          "path": "research/shutdown-window-observed.json",
+          "raw_bytes": 16237,
+          "raw_sha256": "e434a41a3db8b4f2a20ad40dadfdfe6ff41996eb37003d68a53e60890619746c"
+        },
+        {
+          "path": "source/scripts/prepare-shutdown-observer.ps1",
+          "raw_bytes": 888,
+          "raw_sha256": "021c0a68433816c11261f16ad1a92e2df107582fb8c7af07306c02328bf7f6f8"
+        },
+        {
+          "path": "source/scripts/test-shutdown-observer.ps1",
+          "raw_bytes": 1583,
+          "raw_sha256": "8df9b665f245912b33177e9bccb1a957344c4db906a6e755d574c9b95dd66a51"
+        },
+        {
+          "path": "source/scripts/test-single-exe.ps1",
+          "raw_bytes": 14588,
+          "raw_sha256": "63c7ad106d2a30a5f49a51c4d55ed390749e59d6b7c99cc4bccf40f44a5274fd"
+        },
+        {
+          "path": "source/tests/requirements-shutdown.txt",
+          "raw_bytes": 238,
+          "raw_sha256": "f0e9bc147acd1ede5c9e75918488b985729f73a61dabc2d9a49b7ef42a7d036c"
+        },
+        {
+          "path": "source/tests/shutdown_probe.js",
+          "raw_bytes": 3358,
+          "raw_sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f"
+        },
+        {
+          "path": "source/tests/shutdown_probe_controls.py",
+          "raw_bytes": 3681,
+          "raw_sha256": "d49e1fb11dbc1b99bd7cb5e69300823816d1dbfdab1a2638c82fecd9966b9514"
+        },
+        {
+          "path": "source/tests/shutdown_window_smoke.py",
+          "raw_bytes": 9557,
+          "raw_sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6"
+        }
+      ]
     }
   ],
   "hosted_replay": {
@@ -2642,5 +2856,38 @@
       }
     },
     "conclusion": "External API resolution does not avoid loader hooks; reverted. 17.25.0 cannot attach on local host. 17.23.3 passes the original assertions locally; hosted comparison pending, not product acceptance."
+  },
+  "frida_17233_hosted": {
+    "run": 43663948264,
+    "fixture_commit": "5851247c769a7a8ce580be19f5417e72fed92e43",
+    "conclusion": "success",
+    "artifact_id": 14140834861,
+    "frida_version": "17.23.3",
+    "cases": 36,
+    "instrumented_cases": 18,
+    "controls": 3,
+    "renderer_scope": "Actual GDI and DirectX; requested OpenGL falls back to GDI on runner. Local exact-image replay used actual OpenGL.",
+    "conclusion_scope": "Bounded workaround for the observed loader-allocation path; finite replays do not establish absence of every exit race. No product acceptance."
+  },
+  "pinned_environment_local": {
+    "completed": true,
+    "frida_version": "17.23.3",
+    "controls": 3,
+    "terminal_cases": 12,
+    "actual_renderers": [
+      "GDI",
+      "OpenGL",
+      "DirectX"
+    ],
+    "natural_cleanup": true,
+    "source_sha256": {
+      "scripts/prepare-shutdown-observer.ps1": "021c0a68433816c11261f16ad1a92e2df107582fb8c7af07306c02328bf7f6f8",
+      "scripts/test-shutdown-observer.ps1": "8df9b665f245912b33177e9bccb1a957344c4db906a6e755d574c9b95dd66a51",
+      "scripts/test-single-exe.ps1": "63c7ad106d2a30a5f49a51c4d55ed390749e59d6b7c99cc4bccf40f44a5274fd",
+      "tests/shutdown_window_smoke.py": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6",
+      "tests/shutdown_probe_controls.py": "d49e1fb11dbc1b99bd7cb5e69300823816d1dbfdab1a2638c82fecd9966b9514",
+      "tests/shutdown_probe.js": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f",
+      "tests/requirements-shutdown.txt": "f0e9bc147acd1ede5c9e75918488b985729f73a61dabc2d9a49b7ef42a7d036c"
+    }
   }
 }

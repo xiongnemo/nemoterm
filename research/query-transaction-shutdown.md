@@ -156,6 +156,25 @@ These are source comparisons, not claims that a particular release fixes every
 instrumentation failure. An isolated 17.23.3 environment passes the three original
 sensitivity controls and all 12 original terminal assertions on the exact failed
 image. Loader entry points still change, as its source predicts. The focused
-workflow now permits an explicit 17.23.3 comparison; ordinary CI remains pinned
-to 17.24.3 pending hosted results. The captured failure, the rejected resolution
+workflow permits an explicit 17.23.3 comparison. The captured failure, the rejected resolution
 experiment and the 17.25.0 startup failure are retained rather than overwritten.
+
+Hosted comparison
+[43663948264](https://github.com/xiongnemo/nemoterm/actions/runs/43663948264)
+passes all three sensitivity controls and **36 original terminal cases**, with
+the exact failed executable hash, the original ten-second exit deadline, both
+uninjected/instrumented cases and natural cleanup throughout. The runner uses
+actual GDI and DirectX; its OpenGL request falls back to GDI. The local 12-case
+replay covers actual OpenGL. Every instrumented case observes successful seat
+release after window destruction, COM entry and return, and retirement of all
+three listeners, without a callback after seat release.
+
+Ordinary CI now creates an isolated `build/shutdown-python` environment pinned
+by `tests/requirements-shutdown.txt`. Only shutdown controls and lifetime replay
+use it; other instrumentation retains 17.24.3. The single-image test driver checks
+this pin before starting and records it in its success manifest. Locally run
+`scripts/prepare-shutdown-observer.ps1` in the same PowerShell before the driver,
+or pass `-ShutdownPython` explicitly. This is a test-only workaround, with no
+change to the terminal executable or its runtime dependencies. Finite passing
+replays and source correlation do not establish that every exit race is fixed;
+the prior undumped timeout and older access violation remain separate findings.

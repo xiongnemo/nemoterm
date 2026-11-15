@@ -240,6 +240,7 @@ cd nemoterm
 
 ```powershell
 python -m pip install frida==17.24.3 Pillow==13.0.0
+.\scripts\prepare-shutdown-observer.ps1
 .\scripts\test-single-exe.ps1 -Executable .\build\single-exe-dist\nemoterm.exe
 ```
 

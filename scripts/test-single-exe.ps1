@@ -1,10 +1,14 @@
 param(
     [Parameter(Mandatory=$true)][string]$Executable,
     [string]$Destination = '',
-    [string]$CodexExecutable = ''
+    [string]$CodexExecutable = '',
+    [string]$ShutdownPython = $env:NEMOTERM_SHUTDOWN_PYTHON
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
+if (!$ShutdownPython) { throw 'Run scripts/prepare-shutdown-observer.ps1 or supply -ShutdownPython first.' }
+& $ShutdownPython -c "import frida; assert frida.__version__ == '17.23.3'"
+if ($LASTEXITCODE) { throw 'Expected the isolated shutdown observer version' }
 $Executable = (Resolve-Path -LiteralPath $Executable).Path
 if ($CodexExecutable) { $CodexExecutable = (Resolve-Path -LiteralPath $CodexExecutable).Path }
 if (!$Destination) { $Destination = Join-Path $root 'build/single-exe-check' }
@@ -37,7 +41,8 @@ try {
         Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
         if ($name -eq 'input_method' -and $env:CI -eq 'true') { $nativeArgs += @('--font', 'Consolas') }
-        & python "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        $testPython = if ($name -eq 'shutdown') { $ShutdownPython } else { 'python' }
+        & $testPython "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
         if ($name -eq 'c1_controls') {
@@ -180,6 +185,7 @@ try {
         executable_sha256 = $digest.Hash.ToLowerInvariant()
         executable_bytes = $files[0].Length
         passed_checks = @($checks.ToArray())
+        shutdown_frida_version = '17.23.3'
         executable_directory_files = @($files.Name)
         recorded_utc = [DateTime]::UtcNow.ToString('o')
     } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$Destination/research/single-exe-validation.json" -Encoding utf8

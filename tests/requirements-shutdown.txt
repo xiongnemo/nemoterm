@@ -1,0 +1,4 @@
+# Isolated lifetime-observer workaround. Other fixtures retain their own pin.
+# See research/query-transaction-shutdown.md for the captured 17.24.3 wait,
+# version comparison, failed alternatives and remaining limitations.
+frida==17.23.3

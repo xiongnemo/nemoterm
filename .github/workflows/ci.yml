@@ -325,12 +325,14 @@ jobs:
           exit $testExit
       - name: Verify shutdown observer sensitivity with native controls
         shell: pwsh
-        run: ./scripts/test-shutdown-observer.ps1 -Destination test-results/shutdown-observer
+        run: |
+          ./scripts/prepare-shutdown-observer.ps1
+          ./scripts/test-shutdown-observer.ps1 -Destination test-results/shutdown-observer
       - name: Test window callback lifetime during native shutdown
         timeout-minutes: 3
         shell: pwsh
         run: |
-          python tests/shutdown_window_smoke.py
+          & $env:NEMOTERM_SHUTDOWN_PYTHON tests/shutdown_window_smoke.py
           $testExit = $LASTEXITCODE
           Copy-Item research/shutdown-window-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
