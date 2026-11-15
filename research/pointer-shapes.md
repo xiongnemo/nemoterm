@@ -242,8 +242,8 @@ records and 18 verified fixture-source hashes are indexed by
 `pointer-drop-replay-validation.json` in
 `pointer-shape-evidence/drop-replay-068f87e.tar.gz`.
 
-The complete single-image regression is being repeated with the additional
-timing evidence. Product sources remain identical between `7e12e03` and
+The complete single-image regression was repeated with the additional timing
+evidence and passes as recorded below. Product sources remain identical between `7e12e03` and
 `068f87e`; only documentation, CI triggers and diagnostic fixtures changed.
 Local desktop tests and accepted distribution promotion remain pending.
 
@@ -280,5 +280,37 @@ Its identified source host is 4,532,224 bytes, SHA256
 test artifact, portable runtime, exact source-host identity and workload
 observations. The MSVC diagnostic artifact was downloaded into a fresh separate
 directory before retention, avoiding a shared local download-directory collision
-with the earlier pointer-only workflow. The full single-image retry remains a
-separate gate.
+with the earlier pointer-only workflow.
+
+## Complete single-image checkpoint
+
+[Run 43700454093](https://github.com/xiongnemo/nemoterm/actions/runs/43700454093)
+at `068f87e` passes all **154 single-image groups**, twelve uninjected memory
+workloads and 25,048 post-memory cell checks. Each workload's owned process
+tree closes naturally. GDI and DirectX each pass 50 drop/clipboard checks;
+the separate Windows PowerShell parser completes in 1.266 and 0.234 seconds
+under the unchanged 20-second deadline. This does not explain the first timeout.
+
+The [single-EXE artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43700454093/artifacts/14158135421)
+contains `nemoterm.exe`, **4,532,224 bytes**, SHA256
+`81fa088331057f694472a6c32583bd42097c35e27431cae14c7fe0164756f4d5`.
+It expires at 2026-12-15 10:25:04 UTC. Production sources match `7e12e03`
+exactly; the focused 53-cursor test used a separately linked image, while
+the 154 groups identify this exact executable.
+
+Dense image frontend peaks on the remote Consolas grids are:
+
+| Renderer and actual grid | Private working set | Total working set | Private commit |
+| --- | ---: | ---: | ---: |
+| GDI, 109×34 | 14,659,584 | 46,952,448 | 16,998,400 |
+| DirectX, 88×35 | 18,010,112 | 55,058,432 | 20,840,448 |
+
+Both private working-set limits pass. The approximate 50 MB total goal applies
+to GDI; the current DirectX footprint is accepted. Local 160×48 Sarasa testing
+remains paused and the accepted executable is not replaced.
+
+`pointer-shape-single-validation.json` indexes **4,544 records** in
+`pointer-shape-evidence/full-single-068f87e.tar.gz` (8,091,296 bytes), retaining
+the exact product, complete test evidence, CI receipts, fixture sources,
+uninjected workload samples and natural process cleanup. All archived records
+were independently rehashed against the manifest after writing.

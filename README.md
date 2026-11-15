@@ -47,7 +47,7 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 
 开发分支另已接入 OSC 22 鼠标指针形状，支持应用设置、查询和主/备用屏栈。
 定向远程测试已验证 30 种 Windows 光标，以及 Shift 选择、链接和标签页之间的优先级；
-普通完整 CI 及十二组图片负载的私有工作集检查已通过，单文件版完整回归仍在进行。
+普通完整 CI 和单文件版 154 组检查均已通过，包括十二组图片负载的私有工作集检查。
 远端结果不替代本机大窗口验收，见[指针形状进度](research/pointer-shapes.md)。
 
 ## 下载
@@ -58,9 +58,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DX 当前内存表现已接受。见下方 [渲染与内存](#渲染与内存)。
 
-最新开发分支另有[含相对放置与 Unicode 图片的 `056fe87` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43690641263/artifacts/14153711098)：
-4,523,520 字节，154 组单文件 CI 检查通过，预计于 2026-12-15 08:14 UTC 过期。
-本机大窗口验收尚未完成；精确哈希、远端内存与历史关闭故障的边界见[开发构建记录](research/kitty-unicode-ci.md)。
+最新开发分支另有[含相对放置、Unicode 图片与 OSC 22 指针形状的 `068f87e` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43700454093/artifacts/14158135421)：
+4,532,224 字节，154 组单文件 CI 检查通过，预计于 2026-12-15 10:25 UTC 过期。
+本机大窗口验收尚未完成；精确哈希、远端内存和首次外部 PowerShell 超时记录见[开发构建记录](research/pointer-shapes.md#complete-single-image-checkpoint)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
 

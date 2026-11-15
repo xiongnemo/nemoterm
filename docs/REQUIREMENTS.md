@@ -13,6 +13,21 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. Local interactive desktop testing remains paused until the user resumes it.
 
+## Pointer-shape integration checkpoint (2026-11-15 Sydney)
+
+OSC 22 supports 30 application pointer shapes and bounded main/alternate-screen
+stacks. All three compiler jobs and 53 actual Windows cursor checks pass at
+`7e12e03`; the complete ordinary workflow also passes. The source-equivalent
+single-image run at `068f87e` passes all 154 groups and twelve uninjected memory
+workloads, including 25,048 post-memory cell checks. Its 4,532,224-byte development
+EXE has SHA256 `81fa088331057f694472a6c32583bd42097c35e27431cae14c7fe0164756f4d5`.
+Dense GDI private / total working-set peaks are 14,659,584 / 46,952,448 bytes;
+DirectX peaks are 18,010,112 / 55,058,432 bytes. These remote Consolas grids are
+109×34 and 88×35 respectively. The first external PowerShell parser timeout
+remains unexplained despite passing exact-image replays and the complete retry.
+See the [checkpoint and retained evidence](../research/pointer-shapes.md#complete-single-image-checkpoint).
+Local 160×48 Sarasa acceptance and the accepted distribution remain unchanged.
+
 ## Relative and Unicode image development (2026-11-15 Sydney)
 
 The development branch implements Kitty relative placements and Unicode image

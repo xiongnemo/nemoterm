@@ -25,6 +25,10 @@ The later [single-image checkpoint at `056fe87`](../research/kitty-unicode-ci.md
 passes all 154 groups, twelve memory workloads and 25,048 post-memory pixel
 checks with the same production source as the green ordinary CI. This does not
 explain the earlier intermittent failure.
+The [pointer-shape checkpoint](../research/pointer-shapes.md#complete-single-image-checkpoint)
+also passes complete ordinary CI and all 154 single-image groups, including
+twelve memory workloads. Its first external PowerShell parser timeout remains
+unexplained after exact-image replays and the complete retry pass.
 Local native testing is currently paused at the user's request. Remote
 Consolas grids and OpenGL-to-GDI fallback do not establish new local 160x48
 Sarasa or actual OpenGL acceptance. The accepted distribution is unchanged.
@@ -179,7 +183,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | OSC 13–16/18, 113–116/118 | Missing | Pointer/Tektronix colour operations are not implemented. Chained dynamic commands preserve their parameter positions. |
 | OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
 | OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy. Native hover, activation, copy and synchronization checks run in full CI; physical input and all URI handlers remain separate. See the detailed scope in [the protocol ledger](PROTOCOLS.md). |
-| OSC 22 pointer shapes | Partial; development | [Pointer checkpoint](../research/pointer-shapes.md): all 30 Kitty shapes, bounded per-screen stacks, queries and resets; 555 upstream stages replayed whole and bytewise with three named cancellation differences. Corrected-source GCC/Clang/MSVC checks and 53 actual Windows cursor checks pass, including Shift/selection, links and tab isolation. Full single-image regression stops at an external shell-parser timeout; three exact-image drop replays pass, but its cause and full product/memory acceptance remain open. Physical DPI and original XTerm unknown-name semantics remain separate. Accepted EXE unchanged. |
+| OSC 22 pointer shapes | Partial; development | [Pointer checkpoint](../research/pointer-shapes.md): all 30 Kitty shapes, bounded per-screen stacks, queries and resets; 555 upstream stages replayed whole and bytewise with three named cancellation differences. Corrected-source GCC/Clang/MSVC checks and 53 actual Windows cursor checks pass, including Shift/selection, links and tab isolation. Complete ordinary CI and 154 single-image groups pass with twelve memory workloads; the first external shell-parser timeout remains unexplained. Local 160×48 Sarasa, physical DPI and original XTerm unknown-name semantics remain separate. Accepted EXE unchanged. |
 | OSC 9;9 / OSC 633 P;Cwd= / OSC 1337 CurrentDir= | Partial | `cwd`; metadata subset only, not every operation in these namespaces. |
 | OSC 133 / OSC 633 A/B/C/D | Partial | `shell_marks`; bounded prompt/command/output marks; not a complete VS Code terminal protocol. |
 | OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Full CI covers native Unicode clipboard text, selection retention, synchronized output, lock contention and delayed rendering. Read permission defaults off; these checks do not establish X11 ownership semantics or every application. See [the protocol ledger](PROTOCOLS.md). |
