@@ -1,0 +1,420 @@
+{
+  "runs": {
+    "missing-git": {
+      "source": "f01927ae12841fe7b657c5d86b3e637deb02b422",
+      "run": 43686389665,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43686389665",
+      "conclusion": "failure"
+    },
+    "replays": {
+      "source": "8fe8a64f8b157c6f2b0d5d7a5f622c05bb98c04d",
+      "run": 43686629800,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43686629800",
+      "conclusion": "success"
+    }
+  },
+  "production_source": "eae896846561f73fa1c444808ca3f7319707857a",
+  "rebuilt_executable_sha256": "dd71610cf78514e05d8e4d6f2daa2c2ea4c3eb2a13cbfc46de30871460bd8dd3",
+  "original_failed_executable_sha256": "d59a8d1e8e0094cc1bc2435d5a65de94659d881845a1cb3fd8fabf6ceb25a8d6",
+  "exact_failed_image": false,
+  "results": [
+    {
+      "name": "debugger-1-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": true
+    },
+    {
+      "name": "debugger-2-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": true
+    },
+    {
+      "name": "debugger-3-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": true
+    },
+    {
+      "name": "ordinary-1-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": false
+    },
+    {
+      "name": "ordinary-2-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": false
+    },
+    {
+      "name": "ordinary-3-observed.json",
+      "checks": 7,
+      "processes": 7,
+      "debugger": false
+    }
+  ],
+  "debugger_events": [
+    {
+      "path": "exception-profiles-36bdb611bf684bbe94e32ca6709c4724/events.jsonl",
+      "records": 407,
+      "initial_attach_breaks": 1,
+      "other_exceptions": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "exception-profiles-998cd8c0e75a47e3af6833da57acc7c7/events.jsonl",
+      "records": 407,
+      "initial_attach_breaks": 1,
+      "other_exceptions": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "exception-profiles-a82f3c4a794b45ffa2e6c74a905afef5/events.jsonl",
+      "records": 407,
+      "initial_attach_breaks": 1,
+      "other_exceptions": 0,
+      "exit_code": 0
+    }
+  ],
+  "controls_passed": 4,
+  "scope": "Six finite rebuilt-source passes, three with debugger; no terminal fault reproduced. Does not establish original crash cause or product acceptance.",
+  "bundle": {
+    "path": "research/kitty-unicode-evidence/profiles-source-replays.tar.gz",
+    "archive_bytes": 5020121,
+    "archive_sha256": "e6599397ffbd49eb96700c2491a9e9678a262a891bcd88fd014b83852bd15a6f",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 4298,
+        "raw_sha256": "07972e3961aaf7212f4c1a873c425285e7f88477b452def8fac6189def79374e"
+      },
+      {
+        "path": "missing-git/diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "529a36af0008113795c023c337ce0933ab751ea3daed33d5cef730991fc977d8"
+      },
+      {
+        "path": "missing-git/diagnostic/source-run.json",
+        "raw_bytes": 23928,
+        "raw_sha256": "cd97128f944ea1cbe6e5bda084a87188e00f903b1df397165f4e96d9ad0d7647"
+      },
+      {
+        "path": "missing-git/profiles-artifacts.json",
+        "raw_bytes": 795,
+        "raw_sha256": "c5461fb1decdba3357fe66da9bed306ce83b3791f3a1f1c83e5c947c2d75d355"
+      },
+      {
+        "path": "missing-git/profiles-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "6b6e4ceaa713bb3ca515182911039a103449390eea541178860f328b95450f54"
+      },
+      {
+        "path": "missing-git/profiles-run.json",
+        "raw_bytes": 3473,
+        "raw_sha256": "6e3ea372afb75e8b043eaee0c5a56909bdd1f102cb15b6e00bb88f76567fd281"
+      },
+      {
+        "path": "missing-git/profiles-run.log",
+        "raw_bytes": 97056,
+        "raw_sha256": "8b6ca05595822f159da28d9b53687bf53210498b51f04b0385ac5852b8de2ba2"
+      },
+      {
+        "path": "replays/diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "44355c8bd120a595568cd62f1a7dc11220a53c1e97aa52e13f951b21ec62f935"
+      },
+      {
+        "path": "replays/diagnostic/build.log",
+        "raw_bytes": 18206,
+        "raw_sha256": "b49c3724e87ded398d3c0ea21426e01a7f0c496cb1556ee387e307d5347dbb2f"
+      },
+      {
+        "path": "replays/diagnostic/compiler.txt",
+        "raw_bytes": 253,
+        "raw_sha256": "7091e6a9e7da9f7119dba5d159300d5639e3cfc711974dc5c1bb12492220e3ac"
+      },
+      {
+        "path": "replays/diagnostic/configure.log",
+        "raw_bytes": 2776,
+        "raw_sha256": "58dda3d0893f6e16593a11977bbb1b68583d4194af1fe4a66da95072a6b15f1f"
+      },
+      {
+        "path": "replays/diagnostic/debugger-1-observed.json",
+        "raw_bytes": 3811,
+        "raw_sha256": "01dab12265dddadd10edd6ba5ab53d2c9ed79aeb905b79d872c8b314ce158268"
+      },
+      {
+        "path": "replays/diagnostic/debugger-1.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/debugger-2-observed.json",
+        "raw_bytes": 3811,
+        "raw_sha256": "d8b558830ac1a1939f6ba94a9e704ff57460c74b72a8aef2dc5ffc2fb66e9121"
+      },
+      {
+        "path": "replays/diagnostic/debugger-2.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/debugger-3-observed.json",
+        "raw_bytes": 3811,
+        "raw_sha256": "013c4e5ca8e5f57055a2fbf3ec2d6c85aceab8ca82d244e69654c3a25d926691"
+      },
+      {
+        "path": "replays/diagnostic/debugger-3.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/build-control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/build-observer.log",
+        "raw_bytes": 29,
+        "raw_sha256": "17795c4c72b39396231497f30fcc2c23af7af55ac50add73a0658215d5d0edc2"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/control.exe",
+        "raw_bytes": 103424,
+        "raw_sha256": "c470e5e3d1cebadbf8387e1033710cca29dc2cf7574211181080224dd886ed59"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/control.obj",
+        "raw_bytes": 2874,
+        "raw_sha256": "2fe4f97ffc14bb4d2c493a2accb7de69423f74628b5ca9bcba3c76566fc0f391"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/crash/crash-2440-1.dmp",
+        "raw_bytes": 11574,
+        "raw_sha256": "bbea15d8528f506173b04917817af5811d4a215cf1b7c7f9e65c105b305dc438"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/crash/events.jsonl",
+        "raw_bytes": 1394,
+        "raw_sha256": "0db075f2f6dad176464825eeb83f6141f720bcaa6fdb0187d7da5706ea14fec5"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/crash/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "23512dec13ed6e99b3c4b02199198c809cf3f3fd02a4e2ee7c08d0f18161bfba"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/crash/result.json",
+        "raw_bytes": 515,
+        "raw_sha256": "e978a0079d91de75e9d8f7b2597d517a380c1db18325abba915fdeaa3475b519"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/debugger-exit/events.jsonl",
+        "raw_bytes": 660,
+        "raw_sha256": "571f43eb2c033b74413811511199880c35b7c59f44bf3c6a74ecbbd8ea9cd97b"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/debugger-exit/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "7109218a1d8ca5ac7a842e3b2c845b12c3b20da3905de0ffc5ecf16989068cdf"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/debugger-exit/result.json",
+        "raw_bytes": 495,
+        "raw_sha256": "3a962302e67c4423f4e9357db8ebb48282714d0afb2ec7e819c71eff0cde2531"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/detach/events.jsonl",
+        "raw_bytes": 695,
+        "raw_sha256": "86a0cc08d6e0d5904b8cbd5abbbce98e32054e553a97396231fb5d7b242c04b3"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/detach/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "3b3f4e7d99acc8c5c5a03c7f96d2c0836923e8fbcae7e531ef6ae88db75365de"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/detach/result.json",
+        "raw_bytes": 488,
+        "raw_sha256": "cd1e59144b5d9d1f1503fd82b861d4f483441077e4bf3ae4d86a5d754c405adb"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/normal/events.jsonl",
+        "raw_bytes": 1139,
+        "raw_sha256": "e402066c1bc219fa220159827d9c9f50eeb15b3dc14b6d3906aad116eaedfd8b"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/normal/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "f512954ab33b2aa0210d8af693959f7d47f9914a45ac088f43c5213ff3769f12"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/normal/result.json",
+        "raw_bytes": 488,
+        "raw_sha256": "ee2e6ee9dd4a4c5546b5c79055e6b67d4127e64930f06311426370f6a54f6127"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/controls/results.json",
+        "raw_bytes": 3853,
+        "raw_sha256": "d1fe8567e2738a2ccfc1a1203ba5337fce00aa6828cfafa2eacf57c1bb7e0c9d"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/observer.exe",
+        "raw_bytes": 153600,
+        "raw_sha256": "5b757eb143d26ad231249e2b46f7ec814513f77d93337d6e68020c3ad101f9a1"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/observer.obj",
+        "raw_bytes": 16847,
+        "raw_sha256": "35212e7b18dff4d4466857f96079166c6ac6df1959b14b1322e37f5f486f53b5"
+      },
+      {
+        "path": "replays/diagnostic/exception-controls/test.log",
+        "raw_bytes": 2985,
+        "raw_sha256": "289c933670229a4b3a790b92c808a94f4215ce7d501ffc5e1edf9a776de9f16f"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-36bdb611bf684bbe94e32ca6709c4724/events.jsonl",
+        "raw_bytes": 31386,
+        "raw_sha256": "dd71d20390a2d40b4193e7cebb60e6f66c343827ac3e9d1776beefdf3d8a78f2"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-36bdb611bf684bbe94e32ca6709c4724/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "047abbb2a166bf25ae59e1cd8d883bf3707da8a36751c686b64febadfd92f0a3"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-36bdb611bf684bbe94e32ca6709c4724/result.json",
+        "raw_bytes": 486,
+        "raw_sha256": "9e52d95c0e17045ca2419bbcadc0d77154cf2a807f461a07a2e1cd37377da70d"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-998cd8c0e75a47e3af6833da57acc7c7/events.jsonl",
+        "raw_bytes": 31386,
+        "raw_sha256": "c564468b450ee52d00962c13f93c7b2f4dc72bf9324986f2684b3cb3506457c5"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-998cd8c0e75a47e3af6833da57acc7c7/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "e046b5400ff218b3622c1407d5c71b316dcd95fd84922b9543367f62963bd2e1"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-998cd8c0e75a47e3af6833da57acc7c7/result.json",
+        "raw_bytes": 486,
+        "raw_sha256": "56e3c450274c30c9184e1de722566f7719daa777f51e2a89e67908fcf3f2f66c"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-a82f3c4a794b45ffa2e6c74a905afef5/events.jsonl",
+        "raw_bytes": 31386,
+        "raw_sha256": "d5d325514d50a3694f15ed3eb5f88e50d87ce8fbd694ba6848f18d027e4830b8"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-a82f3c4a794b45ffa2e6c74a905afef5/identity.json",
+        "raw_bytes": 327,
+        "raw_sha256": "47b0326b0fda31becb1fda074954dbe2670780dfc41cab9323a91525e718e990"
+      },
+      {
+        "path": "replays/diagnostic/exception-profiles-a82f3c4a794b45ffa2e6c74a905afef5/result.json",
+        "raw_bytes": 486,
+        "raw_sha256": "74f3360f6af4a5593a5c3336913b16e410fca8bb74c4e15df8b534f3d5cbf92a"
+      },
+      {
+        "path": "replays/diagnostic/identity.json",
+        "raw_bytes": 2215,
+        "raw_sha256": "2a5da2a03e9a41b8e57300f448b9a083df3adddd81463d1c007f417d85e1bbd0"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-1-observed.json",
+        "raw_bytes": 3218,
+        "raw_sha256": "8ef011795ba3f80003c098c61e2b25497ff0426b2bf5bda602c1ec83891fb84d"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-1.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-2-observed.json",
+        "raw_bytes": 3218,
+        "raw_sha256": "d6072100537ea19d86fd3852d5dee9e6734a6338556fd024fe37b05c4c804877"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-2.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-3-observed.json",
+        "raw_bytes": 3218,
+        "raw_sha256": "732ab02d3cf0cfc147f562aecad2f2b9e776ba4de9d2b89d444457c6dbd41554"
+      },
+      {
+        "path": "replays/diagnostic/ordinary-3.log",
+        "raw_bytes": 37,
+        "raw_sha256": "4abab5ca16db894cbbab1e9e09010fd3dab8aa1e7596dfe25220802ea749550e"
+      },
+      {
+        "path": "replays/diagnostic/runtime/CONPTY-RUNTIME.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "caa586fcbd4f82cc180774f9e56891fc449ece7baea7b8185f0053b154571739"
+      },
+      {
+        "path": "replays/diagnostic/runtime/LICENCE-Microsoft-ConPTY.txt",
+        "raw_bytes": 1096,
+        "raw_sha256": "09f4648ee8b31f2e0be38c6391b42eba38a9ec708ce957bac118e2f1e7bbec34"
+      },
+      {
+        "path": "replays/diagnostic/runtime/OpenConsole.exe",
+        "raw_bytes": 4522496,
+        "raw_sha256": "2485d304e6cc6cbd425f367696602f0b587c78726235a44b0f7ee528e5c854a9"
+      },
+      {
+        "path": "replays/diagnostic/runtime/SOURCE-HOST.json",
+        "raw_bytes": 446,
+        "raw_sha256": "2abf1d5f76b896bf081601fbbc93d80698c9006d3cf39436ba9d31088c2e8ce9"
+      },
+      {
+        "path": "replays/diagnostic/runtime/conpty.dll",
+        "raw_bytes": 119608,
+        "raw_sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+      },
+      {
+        "path": "replays/diagnostic/runtime/nemoterm.exe",
+        "raw_bytes": 3929344,
+        "raw_sha256": "dd71610cf78514e05d8e4d6f2daa2c2ea4c3eb2a13cbfc46de30871460bd8dd3"
+      },
+      {
+        "path": "replays/diagnostic/source-run.json",
+        "raw_bytes": 23928,
+        "raw_sha256": "cd97128f944ea1cbe6e5bda084a87188e00f903b1df397165f4e96d9ad0d7647"
+      },
+      {
+        "path": "replays/observer-errors.jsonl",
+        "raw_bytes": 494,
+        "raw_sha256": "3a044835b3179daa5ed8926beb666bf40cdf70bd7803c16af52a623bb4913910"
+      },
+      {
+        "path": "replays/profiles-artifacts.json",
+        "raw_bytes": 798,
+        "raw_sha256": "1de3c1efea3450d839dcdd247674341176eb50e2c29b327c42b537d727bc8a68"
+      },
+      {
+        "path": "replays/profiles-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "288dac8b426c5ae698bd54ba10c6194a549c93734d5b4a21904144a56c4f4d85"
+      },
+      {
+        "path": "replays/profiles-run.json",
+        "raw_bytes": 3473,
+        "raw_sha256": "198313f129c3d6eef946ad5ce1a632ae079700d0231559a84df9cdfcdde2f8d5"
+      },
+      {
+        "path": "replays/profiles-run.log",
+        "raw_bytes": 167217,
+        "raw_sha256": "22e3e55ba6b5346570a0aff056a00747948a5dc262aee22a9469ae99b9cf3b61"
+      }
+    ]
+  }
+}

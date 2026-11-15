@@ -52,3 +52,24 @@ The first source-diagnostic dispatch (`43686389665`, fixture `f01927a`) stopped
 before building or running Nemoterm because the MSYS shell had no `git` command.
 The dependency list now explicitly includes MSYS Git for the source-identity
 check. That failed setup is not a terminal reproduction or a successful replay.
+
+## Rebuilt-source observations
+
+[Run 43686629800](https://github.com/xiongnemo/nemoterm/actions/runs/43686629800)
+at fixture source `8fe8a64` passes all four debugger controls and six independent
+profile lifetimes (three ordinary, three with the external debugger). Each
+passes the seven functional groups, exits with zero and drains its seven owned
+processes naturally. Each debugger log contains only its initial attachment
+breakpoint and an ordinary zero process exit; no application exception or
+terminal dump was recorded. The deliberate crash control does produce the
+expected access-violation dump, kept separately.
+
+The rebuilt frontend SHA256 is
+`dd71610cf78514e05d8e4d6f2daa2c2ea4c3eb2a13cbfc46de30871460bd8dd3`,
+which differs from the original failed image. Its production source is still
+`eae8968`, and its source-host artifact comes from the original core run.
+`unicode-profiles-close-validation.json` indexes 66 original records, including
+all logs, controls, rebuilt runtime files, per-file hashes and the earlier setup
+failure, in `profiles-source-replays.tar.gz`. These finite rebuilt-source passes
+do not reproduce or explain the original crash. Its cause remains unresolved;
+there is no product close-path fix or acceptance claim from this diagnostic.
