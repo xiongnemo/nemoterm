@@ -1,0 +1,1601 @@
+{
+  "source_commit": "253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+  "ordinary_run": 43757506311,
+  "single_run": 43757506287,
+  "executable_sha256": "f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107",
+  "executable_bytes": 4544512,
+  "ci_groups": 163,
+  "passed_checks": [
+    "automation-gdi",
+    "drop-gdi",
+    "automation-directx",
+    "drop-directx",
+    "single_exe",
+    "shutdown",
+    "startup_size",
+    "command_line_profile",
+    "renderer",
+    "grapheme",
+    "grapheme-font",
+    "rtl",
+    "rtl-courier",
+    "bindings",
+    "input_method",
+    "unicode_input",
+    "console_unicode",
+    "mouse",
+    "selection",
+    "selection-directx",
+    "sync",
+    "sgr",
+    "font_resize",
+    "font_fallback",
+    "font-fallback-courier",
+    "query",
+    "highlight",
+    "sixel",
+    "sixel_font",
+    "sixel_palette",
+    "sixel_palette-opengl",
+    "sixel_palette-directx",
+    "sixel_background",
+    "sixel_background-opengl",
+    "sixel_background-directx",
+    "iterm_image",
+    "iterm_image-opengl",
+    "iterm_image-directx",
+    "kitty_image",
+    "kitty_image-opengl",
+    "kitty_image-directx",
+    "kitty_compression",
+    "kitty_compression-opengl",
+    "kitty_compression-directx",
+    "kitty_features",
+    "kitty_features-opengl",
+    "kitty_features-directx",
+    "kitty_query_errors",
+    "kitty_query_errors-opengl",
+    "kitty_query_errors-directx",
+    "kitty_geometry",
+    "kitty_geometry-opengl",
+    "kitty_geometry-directx",
+    "kitty_unicode",
+    "kitty_unicode-opengl",
+    "kitty_unicode-directx",
+    "kitty_unicode_geometry",
+    "kitty_unicode_geometry-opengl",
+    "kitty_unicode_geometry-directx",
+    "kitty_unicode_selection",
+    "kitty_unicode_selection-opengl",
+    "kitty_unicode_selection-directx",
+    "gif_animation",
+    "gif_animation-opengl",
+    "gif_animation-directx",
+    "hyperlink",
+    "reflow",
+    "keyboard",
+    "keyboard-courier",
+    "osc52",
+    "mok",
+    "mok-courier",
+    "win32_input",
+    "state_control",
+    "iso2022",
+    "tabulation",
+    "double_size",
+    "alignment",
+    "alignment-opengl",
+    "alignment-directx",
+    "graphics_query",
+    "dec_status",
+    "checksum",
+    "sgr_stack",
+    "palette_stack",
+    "palette_stack-opengl",
+    "palette_stack-directx",
+    "reset_palette",
+    "reset_palette-opengl",
+    "reset_palette-directx",
+    "selection_colour",
+    "selection_colour-opengl",
+    "selection_colour-directx",
+    "selection-colour-gdi-configured",
+    "attribute_colour",
+    "attribute_colour-opengl",
+    "attribute_colour-directx",
+    "attribute-colour-gdi-configured",
+    "presentation_state",
+    "horizontal",
+    "reverse_wrap",
+    "relative_cursor",
+    "relative_cursor-opengl",
+    "relative_cursor-directx",
+    "selective_erase",
+    "guarded_area",
+    "rectangle",
+    "margins",
+    "cwd",
+    "shell_marks",
+    "shell",
+    "powershell_environment",
+    "delegated_console",
+    "caret_startup",
+    "session",
+    "session-opengl",
+    "session-directx",
+    "session_restart",
+    "titles",
+    "title-modes",
+    "geometry",
+    "window_resize",
+    "gpu_lifecycle",
+    "c1_controls",
+    "c1-controls-utf8",
+    "startup_visibility",
+    "iterm_reports",
+    "font_zoom",
+    "bell",
+    "bell_visual",
+    "image_rectangle",
+    "control_cancellation",
+    "feature_policy",
+    "legacy_parameter",
+    "answerback_config",
+    "locator",
+    "udk",
+    "bell_modes",
+    "bell-window-state",
+    "tabs-gdi-top",
+    "tabs-gdi-bottom",
+    "tabs-directx-left",
+    "tabs-opengl-right",
+    "tabs-regressions",
+    "settings",
+    "tabs-settings",
+    "codex-image-paste",
+    "codex-default",
+    "codex-inline",
+    "codex-tabs-default",
+    "codex-tabs-inline",
+    "workload-tabs-gdi-top",
+    "workload-tabs-directx-left",
+    "inline-workload-tabs-gdi-top",
+    "inline-workload-tabs-directx-left",
+    "animated-workload-tabs-gdi-top",
+    "animated-workload-tabs-directx-left",
+    "kitty-workload-tabs-gdi-top",
+    "kitty-workload-tabs-directx-left",
+    "compressed-kitty-workload-tabs-gdi-top",
+    "compressed-kitty-workload-tabs-directx-left",
+    "unicode-kitty-workload-tabs-gdi-top",
+    "unicode-kitty-workload-tabs-directx-left"
+  ],
+  "archives": [
+    {
+      "path": "answerback-product-ci-core-evidence.zip",
+      "artifact_id": 14180033523,
+      "bytes": 4999715,
+      "sha256": "538ff9644492320e276b86b9245375518e9c301521e42f6473e23a708b3ac0f7",
+      "verified_members": 4505,
+      "expanded_bytes": 624962864
+    },
+    {
+      "path": "answerback-product-ci-single-evidence.zip",
+      "artifact_id": 14180543142,
+      "bytes": 7597594,
+      "sha256": "12f681928a9a2f5ae32677949c586801d4d6c4fec414f5ec5253cf4cb192a403",
+      "verified_members": 4562,
+      "expanded_bytes": 632543828
+    },
+    {
+      "path": "answerback-product-ci-product.zip",
+      "artifact_id": 14181225772,
+      "bytes": 2597807,
+      "sha256": "283322669f707173c69882d0056506192799d99a0b68a67fae0ecb2d9c86d675",
+      "verified_members": 1,
+      "expanded_bytes": 4544512
+    }
+  ],
+  "records": {
+    "ordinary-run.json": {
+      "conclusion": "success",
+      "databaseId": 43757506311,
+      "headSha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+      "jobs": [
+        {
+          "completedAt": "2026-11-15T20:25:11Z",
+          "conclusion": "success",
+          "databaseId": 132944712655,
+          "name": "MSVC native renderer diagnostics",
+          "startedAt": "2026-11-15T20:20:25Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-11-15T20:20:27Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:52Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "startedAt": "2026-11-15T20:20:27Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:52Z",
+              "conclusion": "success",
+              "name": "Retain native crash diagnostics on this disposable runner",
+              "number": 3,
+              "startedAt": "2026-11-15T20:20:52Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:22:03Z",
+              "conclusion": "success",
+              "name": "Build frontend and offscreen renderer checks",
+              "number": 4,
+              "startedAt": "2026-11-15T20:20:52Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:22:38Z",
+              "conclusion": "success",
+              "name": "Compare native frames and retain exact shaping inputs",
+              "number": 5,
+              "startedAt": "2026-11-15T20:22:03Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:05Z",
+              "conclusion": "success",
+              "name": "Repeat tab sibling lifetime and hyperlink input checks",
+              "number": 6,
+              "startedAt": "2026-11-15T20:22:38Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:06Z",
+              "conclusion": "success",
+              "name": "Collect application failure events",
+              "number": 7,
+              "startedAt": "2026-11-15T20:25:05Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:07Z",
+              "conclusion": "success",
+              "name": "Retain native diagnostics",
+              "number": 8,
+              "startedAt": "2026-11-15T20:25:06Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:07Z",
+              "conclusion": "skipped",
+              "name": "Retain exact failed MSVC image for reproduction",
+              "number": 9,
+              "startedAt": "2026-11-15T20:25:07Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:10Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 18,
+              "startedAt": "2026-11-15T20:25:07Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:10Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 19,
+              "startedAt": "2026-11-15T20:25:10Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506311/job/132944712655"
+        },
+        {
+          "completedAt": "2026-11-15T20:21:43Z",
+          "conclusion": "success",
+          "databaseId": 132944712918,
+          "name": "Terminal ASan and UBSan",
+          "startedAt": "2026-11-15T20:20:25Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-11-15T20:20:26Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:43Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:45Z",
+              "conclusion": "success",
+              "name": "Compile and test decoder with sanitizers",
+              "number": 3,
+              "startedAt": "2026-11-15T20:20:43Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:45Z",
+              "conclusion": "success",
+              "name": "Test inline-image transport with sanitizers",
+              "number": 4,
+              "startedAt": "2026-11-15T20:20:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:45Z",
+              "conclusion": "success",
+              "name": "Test kitty graphics transport with sanitizers",
+              "number": 5,
+              "startedAt": "2026-11-15T20:20:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:46Z",
+              "conclusion": "success",
+              "name": "Test bounded zlib with sanitizers",
+              "number": 6,
+              "startedAt": "2026-11-15T20:20:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:47Z",
+              "conclusion": "success",
+              "name": "Test kitty image cache with sanitizers",
+              "number": 7,
+              "startedAt": "2026-11-15T20:20:46Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:47Z",
+              "conclusion": "success",
+              "name": "Test kitty layout against retained reference with sanitizers",
+              "number": 8,
+              "startedAt": "2026-11-15T20:20:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:49Z",
+              "conclusion": "success",
+              "name": "Test kitty placement ownership and scrolling with sanitizers",
+              "number": 9,
+              "startedAt": "2026-11-15T20:20:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:50Z",
+              "conclusion": "success",
+              "name": "Test raster composition and timing with sanitizers",
+              "number": 10,
+              "startedAt": "2026-11-15T20:20:49Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:50Z",
+              "conclusion": "success",
+              "name": "Test colour parser with sanitizers",
+              "number": 11,
+              "startedAt": "2026-11-15T20:20:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:50Z",
+              "conclusion": "success",
+              "name": "Test ISO 2022 mapping data with sanitizers",
+              "number": 12,
+              "startedAt": "2026-11-15T20:20:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:50Z",
+              "conclusion": "success",
+              "name": "Test Unicode grapheme boundaries with sanitizers",
+              "number": 13,
+              "startedAt": "2026-11-15T20:20:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:50Z",
+              "conclusion": "success",
+              "name": "Test bounded OpenType cmap lookup with sanitizers",
+              "number": 14,
+              "startedAt": "2026-11-15T20:20:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:51Z",
+              "conclusion": "success",
+              "name": "Test tab and preview geometry with sanitizers",
+              "number": 15,
+              "startedAt": "2026-11-15T20:20:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:21:40Z",
+              "conclusion": "success",
+              "name": "Test terminal image, hyperlink, keyboard and clipboard lifecycle with sanitizers",
+              "number": 16,
+              "startedAt": "2026-11-15T20:20:51Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:21:41Z",
+              "conclusion": "success",
+              "name": "Upload sanitizer logs",
+              "number": 17,
+              "startedAt": "2026-11-15T20:21:40Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:21:41Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 34,
+              "startedAt": "2026-11-15T20:21:41Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:21:41Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 35,
+              "startedAt": "2026-11-15T20:21:41Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506311/job/132944712918"
+        },
+        {
+          "completedAt": "2026-11-15T20:24:49Z",
+          "conclusion": "success",
+          "databaseId": 132944712977,
+          "name": "Source-built console host for compiler comparison",
+          "startedAt": "2026-11-15T20:20:25Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-11-15T20:20:26Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:56Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:24:44Z",
+              "conclusion": "success",
+              "name": "Build the current source host with the same overlay as the single image",
+              "number": 3,
+              "startedAt": "2026-11-15T20:20:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:24:45Z",
+              "conclusion": "success",
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "number": 4,
+              "startedAt": "2026-11-15T20:24:44Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:24:47Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 8,
+              "startedAt": "2026-11-15T20:24:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:24:47Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 9,
+              "startedAt": "2026-11-15T20:24:47Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506311/job/132944712977"
+        },
+        {
+          "completedAt": "2026-11-15T21:08:41Z",
+          "conclusion": "success",
+          "databaseId": 132946014463,
+          "name": "Windows x64 tests and portable build",
+          "startedAt": "2026-11-15T20:24:51Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-11-15T20:24:53Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-11-15T20:24:52Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:19Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "startedAt": "2026-11-15T20:24:53Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:20Z",
+              "conclusion": "success",
+              "name": "Retain native crash diagnostics on this disposable runner",
+              "number": 3,
+              "startedAt": "2026-11-15T20:25:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:24Z",
+              "conclusion": "success",
+              "name": "Verify pinned Unicode data and generated grapheme tables",
+              "number": 4,
+              "startedAt": "2026-11-15T20:25:20Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:26:30Z",
+              "conclusion": "success",
+              "name": "Run msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e",
+              "number": 5,
+              "startedAt": "2026-11-15T20:25:24Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:26:45Z",
+              "conclusion": "success",
+              "name": "Configure",
+              "number": 6,
+              "startedAt": "2026-11-15T20:26:30Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:19Z",
+              "conclusion": "success",
+              "name": "Build terminal and regression tests",
+              "number": 7,
+              "startedAt": "2026-11-15T20:26:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:37Z",
+              "conclusion": "success",
+              "name": "Run tests",
+              "number": 8,
+              "startedAt": "2026-11-15T20:29:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:41Z",
+              "conclusion": "success",
+              "name": "Test Unicode extended grapheme boundaries",
+              "number": 9,
+              "startedAt": "2026-11-15T20:29:37Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:41Z",
+              "conclusion": "success",
+              "name": "Package portable executable",
+              "number": 10,
+              "startedAt": "2026-11-15T20:29:41Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:42Z",
+              "conclusion": "success",
+              "name": "Bundle pinned Microsoft ConPTY runtime",
+              "number": 11,
+              "startedAt": "2026-11-15T20:29:41Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:47Z",
+              "conclusion": "success",
+              "name": "Use the same source host fixes for MinGW integration tests",
+              "number": 12,
+              "startedAt": "2026-11-15T20:29:42Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:56Z",
+              "conclusion": "success",
+              "name": "Install owned-window input instrumentation",
+              "number": 13,
+              "startedAt": "2026-11-15T20:29:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:29:59Z",
+              "conclusion": "success",
+              "name": "Test command-line overrides before and after loaded profiles",
+              "number": 14,
+              "startedAt": "2026-11-15T20:29:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:07Z",
+              "conclusion": "success",
+              "name": "Test local terminal discovery, input and capture API",
+              "number": 15,
+              "startedAt": "2026-11-15T20:29:59Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:11Z",
+              "conclusion": "success",
+              "name": "Compare full and rectangle captures across renderer and tab states",
+              "number": 16,
+              "startedAt": "2026-11-15T20:30:07Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:18Z",
+              "conclusion": "success",
+              "name": "Test file drops and native clipboard formats",
+              "number": 17,
+              "startedAt": "2026-11-15T20:30:11Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:36Z",
+              "conclusion": "success",
+              "name": "Verify shutdown observer sensitivity with native controls",
+              "number": 18,
+              "startedAt": "2026-11-15T20:30:18Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:39Z",
+              "conclusion": "success",
+              "name": "Verify profile failure dump controls before native acceptance",
+              "number": 19,
+              "startedAt": "2026-11-15T20:30:36Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:43Z",
+              "conclusion": "success",
+              "name": "Test window callback lifetime during native shutdown",
+              "number": 20,
+              "startedAt": "2026-11-15T20:30:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:45Z",
+              "conclusion": "success",
+              "name": "Test startup caret creation before first focus",
+              "number": 21,
+              "startedAt": "2026-11-15T20:30:43Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:30:59Z",
+              "conclusion": "success",
+              "name": "Test native compositor parity and capture shaping diagnostics",
+              "number": 22,
+              "startedAt": "2026-11-15T20:30:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:31:14Z",
+              "conclusion": "success",
+              "name": "Test ISO 2022 renderer pixels and ConPTY selection input",
+              "number": 23,
+              "startedAt": "2026-11-15T20:30:59Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:31:32Z",
+              "conclusion": "success",
+              "name": "Test native grapheme widths, shapes, rectangles and font changes",
+              "number": 24,
+              "startedAt": "2026-11-15T20:31:14Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:31:39Z",
+              "conclusion": "success",
+              "name": "Test native window and ConPTY input and resize",
+              "number": 25,
+              "startedAt": "2026-11-15T20:31:32Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:31:53Z",
+              "conclusion": "success",
+              "name": "Test native RTL glyph presence, shaping and font resize",
+              "number": 26,
+              "startedAt": "2026-11-15T20:31:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:32:23Z",
+              "conclusion": "success",
+              "name": "Test independent session ownership and lifetime",
+              "number": 27,
+              "startedAt": "2026-11-15T20:31:53Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:33:33Z",
+              "conclusion": "success",
+              "name": "Test native tab host, previews and shared GPU lifetime",
+              "number": 28,
+              "startedAt": "2026-11-15T20:32:23Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:35:40Z",
+              "conclusion": "success",
+              "name": "Test tab overflow, geometry, resizing, input methods and selection",
+              "number": 29,
+              "startedAt": "2026-11-15T20:33:33Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:35:43Z",
+              "conclusion": "success",
+              "name": "Test iTerm capability reports and preference policy through ConPTY",
+              "number": 30,
+              "startedAt": "2026-11-15T20:35:40Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:35:46Z",
+              "conclusion": "success",
+              "name": "Test synchronized pixels and working set",
+              "number": 31,
+              "startedAt": "2026-11-15T20:35:43Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:35:51Z",
+              "conclusion": "success",
+              "name": "Test native SGR styles and colours",
+              "number": 32,
+              "startedAt": "2026-11-15T20:35:46Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:36:25Z",
+              "conclusion": "success",
+              "name": "Test session font zoom and real Windows bell dispatch",
+              "number": 33,
+              "startedAt": "2026-11-15T20:35:51Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:36:28Z",
+              "conclusion": "success",
+              "name": "Test native font resize and GDI resources",
+              "number": 34,
+              "startedAt": "2026-11-15T20:36:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:36:45Z",
+              "conclusion": "success",
+              "name": "Test native cursor pixels and status queries",
+              "number": 35,
+              "startedAt": "2026-11-15T20:36:28Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:37:09Z",
+              "conclusion": "success",
+              "name": "Compare legacy terminal parameter syntax through ConPTY",
+              "number": 36,
+              "startedAt": "2026-11-15T20:36:45Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:37:26Z",
+              "conclusion": "success",
+              "name": "Test configured answerback escapes and literal recovery",
+              "number": 37,
+              "startedAt": "2026-11-15T20:37:09Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:01Z",
+              "conclusion": "success",
+              "name": "Test embedded icon fallback, resize and RTL allocation lifetime",
+              "number": 38,
+              "startedAt": "2026-11-15T20:37:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:05Z",
+              "conclusion": "success",
+              "name": "Test native working directories and session duplication",
+              "number": 39,
+              "startedAt": "2026-11-15T20:40:01Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:08Z",
+              "conclusion": "success",
+              "name": "Test native shell marks, command selection and bounded memory",
+              "number": 40,
+              "startedAt": "2026-11-15T20:40:05Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:13Z",
+              "conclusion": "success",
+              "name": "Test native mouse highlight handshake and pixels",
+              "number": 41,
+              "startedAt": "2026-11-15T20:40:08Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:18Z",
+              "conclusion": "success",
+              "name": "Test native Sixel resize and partial scrolling",
+              "number": 42,
+              "startedAt": "2026-11-15T20:40:13Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:25Z",
+              "conclusion": "success",
+              "name": "Test native Sixel font changes and pixel erasure",
+              "number": 43,
+              "startedAt": "2026-11-15T20:40:18Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:31Z",
+              "conclusion": "success",
+              "name": "Test Sixel palette identity through active renderer automation captures",
+              "number": 44,
+              "startedAt": "2026-11-15T20:40:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:39Z",
+              "conclusion": "success",
+              "name": "Test Sixel implicit foreground and declared opaque backgrounds",
+              "number": 45,
+              "startedAt": "2026-11-15T20:40:31Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:40:49Z",
+              "conclusion": "success",
+              "name": "Test iTerm inline image formats, alpha, lifecycle and limits",
+              "number": 46,
+              "startedAt": "2026-11-15T20:40:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:41:03Z",
+              "conclusion": "success",
+              "name": "Test Kitty images, alpha, layering and lifecycle",
+              "number": 47,
+              "startedAt": "2026-11-15T20:40:49Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:41:16Z",
+              "conclusion": "success",
+              "name": "Test compressed Kitty images, PNG, chunks and recovery",
+              "number": 48,
+              "startedAt": "2026-11-15T20:41:03Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:42:08Z",
+              "conclusion": "success",
+              "name": "Test Kitty feature replies and unchanged images through ConPTY",
+              "number": 49,
+              "startedAt": "2026-11-15T20:41:16Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:43:13Z",
+              "conclusion": "success",
+              "name": "Test query errors preserve pending Kitty uploads",
+              "number": 50,
+              "startedAt": "2026-11-15T20:42:08Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:43:19Z",
+              "conclusion": "success",
+              "name": "Test retained Kitty pixels through font zoom and window resize",
+              "number": 51,
+              "startedAt": "2026-11-15T20:43:13Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:43:47Z",
+              "conclusion": "success",
+              "name": "Test Unicode image cells and virtual-parent repainting",
+              "number": 52,
+              "startedAt": "2026-11-15T20:43:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:43:55Z",
+              "conclusion": "success",
+              "name": "Test Unicode image zoom, resize and history against upstream geometry",
+              "number": 53,
+              "startedAt": "2026-11-15T20:43:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:44:11Z",
+              "conclusion": "success",
+              "name": "Test Unicode image selections and exact clipboard text",
+              "number": 54,
+              "startedAt": "2026-11-15T20:43:55Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:44:38Z",
+              "conclusion": "success",
+              "name": "Test native GIF animation, disposal and limits",
+              "number": 55,
+              "startedAt": "2026-11-15T20:44:11Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:44:50Z",
+              "conclusion": "success",
+              "name": "Test native hyperlink hover, activation and mouse interaction",
+              "number": 56,
+              "startedAt": "2026-11-15T20:44:38Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:44:55Z",
+              "conclusion": "success",
+              "name": "Test native reflow, history and Shift selection",
+              "number": 57,
+              "startedAt": "2026-11-15T20:44:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:45:01Z",
+              "conclusion": "success",
+              "name": "Test native keyboard protocol, copy/paste and resize",
+              "number": 58,
+              "startedAt": "2026-11-15T20:44:55Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:45:11Z",
+              "conclusion": "success",
+              "name": "Test native OSC 52 policies, clipboard and bounded memory",
+              "number": 59,
+              "startedAt": "2026-11-15T20:45:01Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:45:19Z",
+              "conclusion": "success",
+              "name": "Test native xterm modified keys and configured defaults",
+              "number": 60,
+              "startedAt": "2026-11-15T20:45:11Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:45:22Z",
+              "conclusion": "success",
+              "name": "Test native Win32 input records and VT coexistence",
+              "number": 61,
+              "startedAt": "2026-11-15T20:45:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:45:26Z",
+              "conclusion": "success",
+              "name": "Test native soft reset, saved mouse modes and resize",
+              "number": 62,
+              "startedAt": "2026-11-15T20:45:22Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:46:03Z",
+              "conclusion": "success",
+              "name": "Compare ANSI shifts and control cancellation through ConPTY",
+              "number": 63,
+              "startedAt": "2026-11-15T20:45:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:46:08Z",
+              "conclusion": "success",
+              "name": "Test native Locator input, live queries and resized grids",
+              "number": 64,
+              "startedAt": "2026-11-15T20:46:03Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:46:16Z",
+              "conclusion": "success",
+              "name": "Verify native feature reports match independent permission gates",
+              "number": 65,
+              "startedAt": "2026-11-15T20:46:08Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:47:23Z",
+              "conclusion": "success",
+              "name": "Compare UDK downloads and physical function keys with XTerm",
+              "number": 66,
+              "startedAt": "2026-11-15T20:46:16Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:48:26Z",
+              "conclusion": "success",
+              "name": "Compare bell modes and actual native attention without activation",
+              "number": 67,
+              "startedAt": "2026-11-15T20:47:23Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:48:42Z",
+              "conclusion": "success",
+              "name": "Check bell ownership and real focus across GDI and DirectX tabs",
+              "number": 68,
+              "startedAt": "2026-11-15T20:48:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:48:51Z",
+              "conclusion": "success",
+              "name": "Compare native tabulation with independent XTerm replies",
+              "number": 69,
+              "startedAt": "2026-11-15T20:48:42Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:48:56Z",
+              "conclusion": "success",
+              "name": "Compare native double-size rows with independent XTerm replies",
+              "number": 70,
+              "startedAt": "2026-11-15T20:48:51Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:49:09Z",
+              "conclusion": "success",
+              "name": "Test screen alignment state, raster retirement and synchronized frames",
+              "number": 71,
+              "startedAt": "2026-11-15T20:48:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:49:13Z",
+              "conclusion": "success",
+              "name": "Test graphics capability replies, resized geometry and palette pixels",
+              "number": 72,
+              "startedAt": "2026-11-15T20:49:09Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:49:17Z",
+              "conclusion": "success",
+              "name": "Test native selective erasure and protected Sixel pixels",
+              "number": 73,
+              "startedAt": "2026-11-15T20:49:13Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:53:02Z",
+              "conclusion": "success",
+              "name": "Test relative cursor movement and double-width write bounds",
+              "number": 74,
+              "startedAt": "2026-11-15T20:49:17Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:53:27Z",
+              "conclusion": "success",
+              "name": "Test colour resets and reverse-video cursor pixels",
+              "number": 75,
+              "startedAt": "2026-11-15T20:53:02Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:53:36Z",
+              "conclusion": "success",
+              "name": "Test ISO guarded areas through an owned native terminal",
+              "number": 76,
+              "startedAt": "2026-11-15T20:53:27Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:54:15Z",
+              "conclusion": "success",
+              "name": "Compare palette stacks, title positions and retained renderer pixels",
+              "number": 77,
+              "startedAt": "2026-11-15T20:53:36Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:54:48Z",
+              "conclusion": "success",
+              "name": "Test selection colours and retained renderer pixels",
+              "number": 78,
+              "startedAt": "2026-11-15T20:54:15Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:55:16Z",
+              "conclusion": "success",
+              "name": "Test attribute colours against explicit RGB scenes",
+              "number": 79,
+              "startedAt": "2026-11-15T20:54:48Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:55:25Z",
+              "conclusion": "success",
+              "name": "Test native DEC rectangle editing, Unicode copy, Sixel and memory",
+              "number": 80,
+              "startedAt": "2026-11-15T20:55:16Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:55:33Z",
+              "conclusion": "success",
+              "name": "Test native horizontal margins, Sixel columns and font/grid resize",
+              "number": 81,
+              "startedAt": "2026-11-15T20:55:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:55:46Z",
+              "conclusion": "success",
+              "name": "Test native settings save, load and local launch",
+              "number": 82,
+              "startedAt": "2026-11-15T20:55:33Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:56:00Z",
+              "conclusion": "success",
+              "name": "Test detected shells and delegated console lifetime",
+              "number": 83,
+              "startedAt": "2026-11-15T20:55:46Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:57:19Z",
+              "conclusion": "success",
+              "name": "Test tab workloads and record frontend, host and client memory",
+              "number": 84,
+              "startedAt": "2026-11-15T20:56:00Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:58:50Z",
+              "conclusion": "success",
+              "name": "Test inline images with the same mandatory tab memory limits",
+              "number": 85,
+              "startedAt": "2026-11-15T20:57:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:00:18Z",
+              "conclusion": "success",
+              "name": "Test animated images with the same mandatory tab memory limits",
+              "number": 86,
+              "startedAt": "2026-11-15T20:58:50Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:01:56Z",
+              "conclusion": "success",
+              "name": "Test Kitty images with the same mandatory tab memory limits",
+              "number": 87,
+              "startedAt": "2026-11-15T21:00:18Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:03:34Z",
+              "conclusion": "success",
+              "name": "Test compressed Kitty PNG with mandatory tab memory limits",
+              "number": 88,
+              "startedAt": "2026-11-15T21:01:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:24Z",
+              "conclusion": "success",
+              "name": "Test dense Unicode image cells with mandatory tab memory limits",
+              "number": 89,
+              "startedAt": "2026-11-15T21:03:34Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:26Z",
+              "conclusion": "success",
+              "name": "Upload portable terminal",
+              "number": 90,
+              "startedAt": "2026-11-15T21:08:24Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:27Z",
+              "conclusion": "success",
+              "name": "Collect application failure events",
+              "number": 91,
+              "startedAt": "2026-11-15T21:08:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:27Z",
+              "conclusion": "skipped",
+              "name": "Preserve the unverified MinGW package after a native failure",
+              "number": 92,
+              "startedAt": "2026-11-15T21:08:27Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:36Z",
+              "conclusion": "success",
+              "name": "Upload test logs",
+              "number": 93,
+              "startedAt": "2026-11-15T21:08:27Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:38Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 186,
+              "startedAt": "2026-11-15T21:08:36Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:08:38Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 187,
+              "startedAt": "2026-11-15T21:08:38Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506311/job/132946014463"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506311"
+    },
+    "single-run.json": {
+      "conclusion": "success",
+      "databaseId": 43757506287,
+      "headSha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+      "jobs": [
+        {
+          "completedAt": "2026-11-15T21:10:51Z",
+          "conclusion": "success",
+          "databaseId": 132944712767,
+          "name": "single-exe",
+          "startedAt": "2026-11-15T20:20:25Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-11-15T20:20:26Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-11-15T20:20:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:57Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "startedAt": "2026-11-15T20:20:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:20:58Z",
+              "conclusion": "success",
+              "name": "Retain native crash diagnostics on this disposable runner",
+              "number": 3,
+              "startedAt": "2026-11-15T20:20:57Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:21:01Z",
+              "conclusion": "success",
+              "name": "Verify pinned X11 colour data",
+              "number": 4,
+              "startedAt": "2026-11-15T20:20:58Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:05Z",
+              "conclusion": "success",
+              "name": "Build frontend and OpenConsole into the same image",
+              "number": 5,
+              "startedAt": "2026-11-15T20:21:01Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:18Z",
+              "conclusion": "success",
+              "name": "Install native instrumentation test dependency",
+              "number": 6,
+              "startedAt": "2026-11-15T20:25:05Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:28Z",
+              "conclusion": "success",
+              "name": "Install pinned real Codex client for local-response UI tests",
+              "number": 7,
+              "startedAt": "2026-11-15T20:25:18Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:39Z",
+              "conclusion": "success",
+              "name": "Verify shutdown observer sensitivity with native controls",
+              "number": 8,
+              "startedAt": "2026-11-15T20:25:28Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T20:25:42Z",
+              "conclusion": "success",
+              "name": "Verify profile failure dump controls before native acceptance",
+              "number": 9,
+              "startedAt": "2026-11-15T20:25:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:37Z",
+              "conclusion": "success",
+              "name": "Verify isolated executable with native protocol and pixel tests",
+              "number": 10,
+              "startedAt": "2026-11-15T20:25:42Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:38Z",
+              "conclusion": "success",
+              "name": "Upload single executable",
+              "number": 11,
+              "startedAt": "2026-11-15T21:10:37Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:38Z",
+              "conclusion": "skipped",
+              "name": "Retain failed-build executable for diagnosis",
+              "number": 12,
+              "startedAt": "2026-11-15T21:10:38Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:39Z",
+              "conclusion": "success",
+              "name": "Collect application failure events",
+              "number": 13,
+              "startedAt": "2026-11-15T21:10:38Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:47Z",
+              "conclusion": "success",
+              "name": "Upload build and native test evidence",
+              "number": 14,
+              "startedAt": "2026-11-15T21:10:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:50Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 28,
+              "startedAt": "2026-11-15T21:10:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-11-15T21:10:50Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 29,
+              "startedAt": "2026-11-15T21:10:50Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506287/job/132944712767"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43757506287"
+    },
+    "ordinary-artifacts.json": {
+      "total_count": 5,
+      "artifacts": [
+        {
+          "id": 14181160213,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE4MTE2MDIxMw==",
+          "name": "nemoterm-windows-x64-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 4831658,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14181160213",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14181160213/zip",
+          "expired": false,
+          "digest": "sha256:fb12efd03d492ecf4b060984b120bc35e40f8de07925189cd8ec7ef4dd667347",
+          "created_at": "2026-11-15T21:08:26Z",
+          "updated_at": "2026-11-15T21:08:26Z",
+          "expires_at": "2026-12-15T21:08:25Z",
+          "workflow_run": {
+            "id": 43757506311,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        },
+        {
+          "id": 14180033523,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE4MDAzMzUyMw==",
+          "name": "test-results-windows-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 4999715,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14180033523",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14180033523/zip",
+          "expired": false,
+          "digest": "sha256:538ff9644492320e276b86b9245375518e9c301521e42f6473e23a708b3ac0f7",
+          "created_at": "2026-11-15T21:08:36Z",
+          "updated_at": "2026-11-15T21:08:36Z",
+          "expires_at": "2027-02-13T20:20:23Z",
+          "workflow_run": {
+            "id": 43757506311,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        },
+        {
+          "id": 14179256762,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE3OTI1Njc2Mg==",
+          "name": "source-console-host-x64-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 2598230,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14179256762",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14179256762/zip",
+          "expired": false,
+          "digest": "sha256:94425f880dc852ad4d5f85e6799077e3bfe8e1b284502af97b8d0836d93d3537",
+          "created_at": "2026-11-15T20:24:45Z",
+          "updated_at": "2026-11-15T20:24:45Z",
+          "expires_at": "2026-11-22T20:24:44Z",
+          "workflow_run": {
+            "id": 43757506311,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        },
+        {
+          "id": 14178982988,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE3ODk4Mjk4OA==",
+          "name": "cluster-msvc-diagnostics-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 103125,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14178982988",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14178982988/zip",
+          "expired": false,
+          "digest": "sha256:38bf727ba822dd572252c0be1a5100984ec75c78d64d68723370407a8b2fa4a6",
+          "created_at": "2026-11-15T20:25:07Z",
+          "updated_at": "2026-11-15T20:25:07Z",
+          "expires_at": "2026-11-29T20:25:06Z",
+          "workflow_run": {
+            "id": 43757506311,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        },
+        {
+          "id": 14178653225,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE3ODY1MzIyNQ==",
+          "name": "test-results-sanitizers-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 14851,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14178653225",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14178653225/zip",
+          "expired": false,
+          "digest": "sha256:0c7ee5cf6d45e4e0148d420b4ed757149fa2aa95ea109997eced5098cbe92cff",
+          "created_at": "2026-11-15T20:21:41Z",
+          "updated_at": "2026-11-15T20:21:41Z",
+          "expires_at": "2027-02-13T20:20:23Z",
+          "workflow_run": {
+            "id": 43757506311,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        }
+      ]
+    },
+    "single-artifacts.json": {
+      "total_count": 2,
+      "artifacts": [
+        {
+          "id": 14181225772,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE4MTIyNTc3Mg==",
+          "name": "nemoterm-single-exe-x64-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 2597807,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14181225772",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14181225772/zip",
+          "expired": false,
+          "digest": "sha256:283322669f707173c69882d0056506192799d99a0b68a67fae0ecb2d9c86d675",
+          "created_at": "2026-11-15T21:10:38Z",
+          "updated_at": "2026-11-15T21:10:38Z",
+          "expires_at": "2026-12-15T21:10:37Z",
+          "workflow_run": {
+            "id": 43757506287,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        },
+        {
+          "id": 14180543142,
+          "node_id": "MDg6QXJ0aWZhY3QxNDE4MDU0MzE0Mg==",
+          "name": "single-exe-evidence-253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+          "size_in_bytes": 7597594,
+          "url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14180543142",
+          "archive_download_url": "https://api.github.com/repos/xiongnemo/nemoterm/actions/artifacts/14180543142/zip",
+          "expired": false,
+          "digest": "sha256:12f681928a9a2f5ae32677949c586801d4d6c4fec414f5ec5253cf4cb192a403",
+          "created_at": "2026-11-15T21:10:47Z",
+          "updated_at": "2026-11-15T21:10:47Z",
+          "expires_at": "2027-02-13T20:20:23Z",
+          "workflow_run": {
+            "id": 43757506287,
+            "repository_id": 1454119146,
+            "head_repository_id": 1454119146,
+            "head_branch": "fix/answerback-nul-20261116",
+            "head_sha": "253855b481b2ccd6a13dae5490c42f19c8b9dd64"
+          }
+        }
+      ]
+    }
+  },
+  "scope": "Complete successful CI evidence and exact single executable; full-size local and physical-input acceptance remain separate. No product promotion."
+}

@@ -52,6 +52,11 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
 [密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
 
+更新的开发候选 `253855b` 已通过完整普通 CI 和 **163 组单文件检查**，
+同时包含配置转义、终端查询及标签窗口恢复等后续修复。
+[候选下载与原始 CI 记录](research/answerback-product-ci.md)对应一个 **4,544,512 字节**的 EXE，
+本机验收正在进行；上面的 19.23 MB／27.11 MB 数据属于先前的 `12ee33b` 产物，不能直接套用于这一版。
+
 开发分支另已接入 OSC 22 鼠标指针形状，支持应用设置、查询和主/备用屏栈。
 定向远程测试已验证 30 种 Windows 光标，以及 Shift 选择、链接和标签页之间的优先级；
 普通完整 CI 和单文件版 154 组检查均已通过，包括十二组图片负载的私有工作集检查。
