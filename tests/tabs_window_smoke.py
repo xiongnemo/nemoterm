@@ -9,6 +9,7 @@ from tab_menu_checks import TabMenuChecks
 from resource_settle import startup as resource_startup, after_close as resource_after_close
 from collections import Counter
 import argparse
+import faulthandler
 import uuid
 import winreg
 import traceback

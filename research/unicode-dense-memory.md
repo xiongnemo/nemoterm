@@ -39,3 +39,17 @@ controller checkpoint now records the last phase, input and memory sample
 before/after each resize, explicitly marked incomplete. No new local native
 test has run while desktop testing is paused, and the accepted executable
 remains unchanged.
+
+The opt-in source diagnostic runs the same dense workload with small external
+process dumps if a synchronous resize remains outstanding for 30 and 60 seconds.
+Thread metadata includes CPU times. Capture validates the inherited private-job
+and process handles, and its existing three controls cover target survival,
+thread context, wrong-job rejection and an exited target. The diagnostic retains
+the ordinary 180-second diagnostic watchdog and exits separately from acceptance.
+No dump helper is added to the production binary or ordinary memory runs.
+
+The first dispatch, `43688160693` at fixture `09dd518`, fails before launching
+Nemoterm because the older diagnostic branch referenced `faulthandler` without
+importing it. The fixture now imports it explicitly. That setup failure is not
+a resize reproduction; its runtime identity, control results and error remain
+in the original CI artifacts.
