@@ -3220,8 +3220,16 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
     return true;
 }
 
+static void nemo_pointer_reset(Terminal *term)
+{
+    sfree(term->pointer_shapes);
+    term->pointer_shapes = NULL;
+    term->win_app_pointer_pending = true;
+}
+
 static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
+    nemo_pointer_reset(term);
     term->c1_8bit = false;
     term->nrc_mode = false;
     nemo_reset_ansi_colours(term);
@@ -3416,6 +3424,12 @@ void term_update(Terminal *term)
     if (term->win_pointer_shape_pending) {
         win_set_raw_mouse_mode_pointer(term->win, term->win_pointer_shape_raw);
         term->win_pointer_shape_pending = false;
+    }
+    if (term->win_app_pointer_pending) {
+        if (term->win->vt->set_pointer_shape)
+            term->win->vt->set_pointer_shape(term->win,
+                nemo_pointer_current(term->pointer_shapes, term->alt_which != 0));
+        term->win_app_pointer_pending = false;
     }
     if (term->win_refresh_pending) {
         win_refresh(term->win);
@@ -4229,6 +4243,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
 void term_free(Terminal *term)
 {
+    sfree(term->pointer_shapes);
     nemo_palette_stack_free(term->palette_stack);
     nemo_presentation_cancel(term);
     nemo_osc52_free(term->osc52);
@@ -4885,6 +4900,8 @@ static void swap_screen(Terminal *term, int which,
         }
 
         term->alt_which = which;
+        term->win_app_pointer_pending = true;
+        term_schedule_update(term);
 
         ttr = term->alt_screen;
         term->alt_screen = term->screen;
@@ -5397,6 +5414,7 @@ static void save_cursor(Terminal *term, bool save)
  * screen and current cursor position survive. Only its saved cursor is reset. */
 static void nemo_soft_reset(Terminal *term)
 {
+    nemo_pointer_reset(term);
     nemo_reset_ansi_colours(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
@@ -7061,6 +7079,34 @@ static void nemo_title_stack_op(Terminal *term, bool push)
     }
 }
 
+static void nemo_pointer_finish(Terminal *term)
+{
+    if (term->osc_overflow || !term->win->vt->set_pointer_shape) return;
+    NemoPointerState empty = {0};
+    NemoPointerState *state = term->pointer_shapes ? term->pointer_shapes : &empty;
+    char reply[NEMO_POINTER_REPLY_MAX + 7];
+    size_t used;
+    NemoPointerResult result = nemo_pointer_command(state, term->alt_which != 0,
+        term->osc_string, (size_t)term->osc_strlen,
+        reply + 5, NEMO_POINTER_REPLY_MAX, &used);
+    if (result == NEMO_POINTER_QUERY) {
+        if (!term->ldisc) return;
+        memcpy(reply, "\033]22;", 5);
+        memcpy(reply + 5 + used, "\033\\", 2);
+        nemo_protocol_send(term, reply, (int)used + 7);
+    } else if (result == NEMO_POINTER_APPLIED) {
+        if (!state->count[0] && !state->count[1]) {
+            sfree(term->pointer_shapes);
+            term->pointer_shapes = NULL;
+        } else if (!term->pointer_shapes) {
+            term->pointer_shapes = snew(NemoPointerState);
+            *term->pointer_shapes = empty;
+        }
+        term->win_app_pointer_pending = true;
+        term_schedule_update(term);
+    }
+}
+
 static int osc_string_limit(Terminal *term)
 {
     if (term->osc_type == OSCLIKE_OSC &&
@@ -7082,6 +7128,9 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 22:
+            nemo_pointer_finish(term);
+            break;
           case 7: case 9: case 133: case 633: case 1337:
             if (term->esc_args[0] == 1337 && nemo_inline_finish(term)) break;
             if (term->esc_args[0] == 1337 && nemo_iterm_report(term)) break;

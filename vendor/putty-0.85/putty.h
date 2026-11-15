@@ -1709,6 +1709,9 @@ struct TermWinVtable {
      * to change the mouse pointer shape to *indicate* raw mouse mode. */
     void (*set_raw_mouse_mode)(TermWin *, bool enable);
     void (*set_raw_mouse_mode_pointer)(TermWin *, bool enable);
+    /* Optional OSC 22 presentation. Presence advertises support for the
+     * complete NemoPointerShape set; zero restores the local pointer policy. */
+    void (*set_pointer_shape)(TermWin *, unsigned shape);
 
     void (*set_scrollbar)(TermWin *, int total, int start, int page);
 

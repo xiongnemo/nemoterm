@@ -9,6 +9,8 @@ on:
       - vendor/putty-0.85/terminal/nemo_pointer.*
       - tests/test_pointer_shapes.c
       - tests/pointer_shape_reference.h
+      - tests/pointer_terminal_reference.h
+      - vendor/putty-0.85/test/test_pointer_terminal.c
       - scripts/generate-pointer-reference.py
       - research/pointer-shape-evidence/**
 
@@ -39,6 +41,18 @@ jobs:
           ./pointer-test 2>&1 | tee normal.log
           "$CC" -std=c11 -Wall -Wextra -Werror -Wconversion -Wshadow -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -I vendor/putty-0.85/terminal tests/test_pointer_shapes.c vendor/putty-0.85/terminal/nemo_pointer.c -o pointer-sanitizers
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./pointer-sanitizers 2>&1 | tee sanitizers.log
+      - name: Replay complete VT inputs through the terminal with sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum vendor/putty-0.85/terminal/terminal.c vendor/putty-0.85/terminal/terminal.h vendor/putty-0.85/putty.h vendor/putty-0.85/test/test_pointer_terminal.c tests/pointer_terminal_reference.h > terminal-sources.sha256
+          cmake -S vendor/putty-0.85 -B pointer-terminal-build -G Ninja \
+            -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
+            '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee terminal-configure.log
+          cmake --build pointer-terminal-build --target test_pointer_terminal test_queries --parallel 4 2>&1 | tee terminal-build.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./pointer-terminal-build/test_pointer_terminal 2>&1 | tee terminal.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./pointer-terminal-build/test_queries 2>&1 | tee queries.log
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -48,6 +62,9 @@ jobs:
             sources.sha256
             normal.log
             sanitizers.log
+            terminal*.log
+            terminal-sources.sha256
+            queries.log
           if-no-files-found: error
           retention-days: 30
   msvc:
@@ -69,6 +86,18 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./pointer-test.exe 2>&1 | Tee-Object normal.log
           exit $LASTEXITCODE
+      - name: Replay complete VT inputs with MSVC
+        shell: pwsh
+        run: |
+          Get-FileHash vendor/putty-0.85/terminal/terminal.c,vendor/putty-0.85/terminal/terminal.h,vendor/putty-0.85/putty.h,vendor/putty-0.85/test/test_pointer_terminal.c,tests/pointer_terminal_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content terminal-sources.json
+          cmake -S vendor/putty-0.85 -B pointer-terminal-build -A x64 -DPUTTY_GSSAPI=OFF '-DCMAKE_C_FLAGS=/std:c11 /utf-8' 2>&1 | Tee-Object terminal-configure.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cmake --build pointer-terminal-build --config Release --target test_pointer_terminal test_queries --parallel 4 2>&1 | Tee-Object terminal-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./pointer-terminal-build/Release/test_pointer_terminal.exe 2>&1 | Tee-Object terminal.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./pointer-terminal-build/Release/test_queries.exe 2>&1 | Tee-Object queries.log
+          exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -77,5 +106,8 @@ jobs:
             compiler.log
             sources.json
             normal.log
+            terminal*.log
+            terminal-sources.json
+            queries.log
           if-no-files-found: error
           retention-days: 30

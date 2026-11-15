@@ -1,8 +1,8 @@
 """Project complete OSC payload cases from the retained independent capture.
 
-The full 117-case/555-stage capture is retained unchanged. Screen/reset/parser
-interactions are reserved for real-terminal replay; this component consumes
-complete OSC payloads and does not implement a VT parser.
+The full 117-case/555-stage capture is retained unchanged. The component gets
+complete OSC payload cases; a second projection replays every input byte and
+original chunk boundary through the real terminal parser.
 """
 import argparse
 import base64
@@ -50,3 +50,26 @@ else:
     path.write_text(generated,encoding='utf-8')
 print(json.dumps(dict(cases=len(selected),stages=sum(len(c['steps']) for c in selected),
                       reserved_for_terminal_replay=excluded)))
+
+lines=['/* Generated from unchanged independent upstream capture '+digest+'.',
+       ' * All input chunks and pointer observations; no parser-policy adaptations. */',
+       'static const PointerTerminalReference pointer_terminal_reference[] = {']
+for case in data['cases']:
+    for i,stage in enumerate(case['steps']):
+        wire=base64.b64decode(stage['input_base64'],validate=True)
+        reply=base64.b64decode(stage['reply_base64'],validate=True)
+        chunks=stage['chunk_bytes']
+        assert sum(chunks)==len(wire) and all(0<n<65536 for n in chunks)
+        fields=[json.dumps(case['name']+'/'+stage['label']),str(int(i==0)),
+                literal(wire),str(len(wire)),literal(reply),str(len(reply)),
+                json.dumps(stage['current_shape']),
+                '(const unsigned short[]){'+','.join(map(str,chunks))+'}',str(len(chunks))]
+        lines.append('    {'+', '.join(fields)+'},')
+lines.append('};\n')
+generated='\n'.join(lines)
+path=root/'tests/pointer_terminal_reference.h'
+if options.check:
+    assert path.read_text()==generated,'Regenerate terminal pointer reference header'
+else:
+    path.write_text(generated,encoding='utf-8')
+print(json.dumps(dict(terminal_cases=len(data['cases']),terminal_stages=data['state_count'])))

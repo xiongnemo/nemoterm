@@ -20,6 +20,7 @@
 #include "nemo_mok.h"
 #include "nemo_osc52.h"
 #include "nemo_win32_input.h"
+#include "nemo_pointer.h"
 
 /* Bounded cell extension storage; rationale is documented below. */
 #define CC_LIMIT 32
@@ -595,6 +596,8 @@ struct terminal_tag {
     bool win_title_pending, win_icon_title_pending;
     bool win_pointer_shape_pending;
     bool win_pointer_shape_raw;
+    bool win_app_pointer_pending;
+    NemoPointerState *pointer_shapes;
     bool win_refresh_pending;
     bool win_scrollbar_update_pending;
     bool win_palette_pending;
