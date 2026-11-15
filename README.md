@@ -31,12 +31,18 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及 `o=z` 压缩传输、裁剪缩放、透明度、查询、放置和删除。
 下方单 EXE 已支持功能查询，并修复错误查询打断图片上传的问题；在本机 GDI、OpenGL、DirectX
 共通过 1,575 个像素与回包阶段，另通过 525 个直接读取 GDI 窗口客户区的阶段。
-共享内存、文件传输、Kitty 动画、相对放置及 Unicode 占位等扩展尚未实现。
+该下载版尚不支持共享内存、文件传输、Kitty 动画、相对放置及 Unicode 占位。
 准确产物、内存样本与验证边界见[成品验证](research/kitty-query-transaction-product.md)；
 实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
 
 压缩传输已通过独立上游对照、严格 GCC/Clang/MSVC 检查、完整 CI 与下载成品的本机验收，
 沿用原有图像内存限额，不增加分发文件。见[压缩实现记录](research/kitty-compression.md)。
+
+开发分支已实现相对放置和 Unicode 占位，并修复密集图片单元缩放时的查找性能问题。
+普通完整 CI 已通过新增密集图片负载；单文件版本仍在追查混合配置标签关闭时的偶发超时，
+尚未替换上述下载版。本机实测当前暂停，远端小窗口的结果不替代 160×48 Sarasa 验收。
+进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
+[密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
 
 ## 下载
 

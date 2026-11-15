@@ -4,22 +4,25 @@ This is an audited inventory of the current development sources, not a claim
 of complete xterm compatibility. The accepted `dist/nemoterm.exe` on `main`
 has an older source identity; consult the artifact records in `research/`.
 
-The published product checkpoint at `f079f80` passes both full workflows,
-including 99 single-image groups. Its [manifest](../research/relative-cursor-validation.json)
-identifies the exact EXE, relative-cursor/DECALN replies and pixels, and local
-acceptance limits. GDI passes at 16.13 MB in the Sarasa 160x48 workload. DirectX's
-first run fails the temporary-tab resource-count gate; the cause remains unproven.
-A separate unmodified full-workload run passes nine functional groups and drains
-naturally, but reaches 30.63 MB private working set, above the 25 MB limit. Both
-failures are retained separately.
-The earlier sidecar reply-order issue was resolved by building the same host
-source and overlay for compiler comparison. Local native testing is currently
-paused at the user's request; remote CI continues. The later graphics/charset
-integration `26f50c8` passes both full workflows and 119 single-image groups;
-its smaller CI grids do not resolve local DirectX failures. See the
-[integration record](../research/graphics-charsets-integration.md).
-The preceding [overline checkpoint](../research/overline.md) includes local checks
-of its downloaded image under all three renderers; CI's OpenGL request used GDI fallback.
+The accepted product is source `752f3be`, with all four ordinary CI jobs,
+143 single-image groups and 39 local groups passing. Its
+[exact-product record](../research/kitty-query-transaction-product.md) identifies
+the executable hash and ten uninjected Sarasa 160x48 two-tab workloads. Frontend
+private working-set peaks are 17.32 MB for GDI and 24.11 MB for DirectX; DirectX's
+59.69 MB total working set remains above the approximate 50 MB target. Earlier
+resource, shutdown and access-violation failures remain recorded; later passes
+do not establish their causes.
+
+The development branch adds Kitty relative placements and Unicode placeholders.
+The lazy cell index passes all three component compilers and ordinary full CI at
+`f01927a`, including twelve memory groups and 25,048 post-memory cell-centre
+checks. The single-image run at `fd0c253` fails a mixed-profile close timeout;
+twelve exact-image replays pass without explaining it. See the
+[dense-image record](../research/unicode-dense-memory.md) and
+[profile failure record](../research/unicode-single-profile-close.md).
+Local native testing is currently paused at the user's request. Remote
+Consolas grids and OpenGL-to-GDI fallback do not establish new local 160x48
+Sarasa or actual OpenGL acceptance. The accepted distribution is unchanged.
 
 Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 (page identifies patch 411); independent captures use the pinned
@@ -47,7 +50,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 
 | Wire function | Status | Evidence or limitation |
 | --- | --- | --- |
-| C0 BEL | Partial; core and remote API checks | Sound/disabled/visual policy, OSC terminator distinction and bounded overload accounting pass core tests. Remote native checks observe real MessageBeep dispatch for sound and no calls for disabled/visual modes. Audible speaker output, visual pixels and custom WAV/PC-speaker modes remain unverified. See [bell evidence](../research/font-zoom-and-bell.md). |
+| C0 BEL | Partial; sound and renderer-surface checks | Sound/disabled/visual policy, OSC terminator distinction and bounded overload accounting pass core tests. The user confirmed audible output for the identified `69cd5a4` image; its actual GDI/OpenGL/DirectX surfaces also show the flash and restoration. That listening observation does not certify later image hashes. Physical desktop flash, custom WAV and PC-speaker modes remain unverified. See [bell evidence](../research/font-zoom-and-bell.md). |
 | C0 BS, CR, LF, VT, FF | Tested | `margins`, `terminal`; BS follows explicit reverse-wrap modes 45/1045, with physical-cell counting and pending-wrap cases. Default BS stays on the current line. |
 | C0 HT; ESC H (HTS) | Tested | `state_control`, 108 tabulation oracle comparisons and native ConPTY replies. |
 | C0 ENQ | Source only | Configured answerback path. |
@@ -62,13 +65,13 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | ESC #8 (DECALN) | Partial | [State/image fix](../research/alignment-reset.md): 13 exact XTerm query cases, direct RGB policy, cell/selection/history assertions and 12 native pixel checks per renderer. Both full CI workflows and downloaded-image actual GDI/OpenGL/DirectX checks pass. Current RGB keeps valid encoding instead of XTerm's packed-index report after reset. |
 | ESC ( / ) / * / + and ESC - / . / / | Partial | Development [parser integration](../research/iso2022-parser.md) adds mapped national/DEC/ISO sets and 94/96 designations. [Input/native follow-up](../research/iso2022-input.md) and [UPSS](../research/iso2022-upss.md) add independent paste and actual GDI/OpenGL/DirectX pixel checks. The broader lower-level output matrix remains open. Accepted EXE unchanged. |
 | ESC % G / ESC % @, DEC mode 42 | Partial | Development DOCS override/cache and NRC decoding match the isolated state matrix. Encoding is global across cursor/alternate saves. NRC paste conversion and the temporary UTF-8 keyboard shortcut are covered by the [input checkpoint](../research/iso2022-input.md); all encoding combinations remain open. |
-| ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Extended bank invocation passes the real-parser Unicode-cell and transition matrix. Native SS2 pixels match directly printed Unicode on three actual renderers; extended legacy checksums remain unverified. |
+| ESC N/O (SS2/SS3), ESC n/o and GR locking shifts | Partial | Extended bank invocation passes the real-parser Unicode-cell and transition matrix. Native SS2 pixels match directly printed Unicode on three actual renderers. The [legacy checksum matrix](../research/iso2022-checksums.md) matches 172 mapping streams and 33,024 cell sums, with four explicit lifecycle differences; it is not an all-level/all-encoding proof. |
 | ESC SP F/G (S7C1T/S8C1T) | Tested | Selectable generated reply/key framing; 141 exact XTerm streams, two native code-page variants, reset/level lifetimes. See [C1 transmission](../research/c1-controls.md). Input-parser conformance remains separate. |
 | ESC SP L/M/N (ANSI conformance levels) | Missing | No handlers. |
 | ESC 6/9 (DECBI/DECFI) | Tested | `margins`, native `horizontal`: VT420 gate, inside/outside margins, edge scrolling and pending wrap. Text, full cell payloads, shell marks and Sixel pixels move together. |
 | ESC V/W (SPA/EPA) | Tested | ISO guarded writes, ordinary/DEC erasure, queries, reset and family transitions: 63 independent XTerm matches, core assertions and single-image native text/Sixel pixels. See [guarded areas](../research/guarded-areas.md) for the upstream sidecar limitation. Legacy raw C1 dispatch retains the configured codepage policy. |
 | Raw C1 bytes and UTF-8 encoded C1 | Partial | Existing codepage-sensitive parser; exhaustive byte/state conformance is still open. Do not assume UTF-8 text is reprocessed as controls. |
-| SOS/PM/APC strings | Partial | String consumption/recovery only; no application payload support. |
+| SOS/PM and other APC strings | Partial | String consumption/recovery; Kitty APC G has its own implemented handler and is listed below. Other application payloads remain unimplemented. |
 
 ## CSI cursor, editing, status and window functions
 
@@ -129,7 +132,9 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | SGR 30–37/40–47/90–97/100–107/39/49 | Tested | Indexed/default foreground/background and configuration policy. |
 | SGR 38/48/58, indexed or RGB, semicolon/colon forms | Tested | `sgr`, `queries`; supported forms and malformed input recovery. |
 | SGR 53/55 (overline) | Tested | ECMA-48 state/reset/query, history/reflow and native GDI/OpenGL/DirectX pixels; both complete CI workflows pass. Selective SGR-stack selector 53 is a Nemoterm extension. See [overline](../research/overline.md); RTF export does not encode the style. |
-| SGR font-selection, framed/encircled and ideogram attributes | Missing | Legacy SCO font controls do not satisfy these families. |
+| SGR 51/52/54 (framed/encircled) | Tested | Independent text/style replies and native pixels on all three actual renderers; font/window geometry, history and reset checks. The [enclosure checkpoint](../research/sgr-enclosure-ci.md) retains its original separate resource failure. These attributes are included in the later accepted product. |
+| SGR 60–65 (ideogram decorations) | Partial | Five decorations and independent reset use existing cell storage. Twenty renderer scenes per actual backend and 283 protocol cases pass in the [accepted ideogram checkpoint](../research/sgr-ideogram-ci.md). Horizontal geometry is an explicit project policy, not vertical-writing or full XTerm pixel parity. |
+| SGR font-selection attributes | Missing | Legacy SCO font controls do not satisfy the full font-selection family. |
 | ANSI modes 4/12/20/34 | Tested | `modes`, `state_control`; insertion, echo, newline and legacy cursor mode. |
 | DEC modes 1/2/3/5/6/7/8/12/25/66 | Partial | `modes`, `state_control`; corresponding legacy behavior and configuration gates. Full VT52 and 80/132 transition coverage remains open. |
 | DEC modes 47/1047/1048/1049 | Tested | Alternate screen and cursor state, `state_control`, `margins`, `grapheme_terminal`. |
@@ -138,7 +143,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DEC modes 9/1000/1001/1002/1003 | Tested | X10, press/release, highlight, button/all motion; `mouse`, `highlight`, native HWND fixtures. |
 | DEC modes 1005/1006/1015/1016 | Tested | UTF-8/SGR/urxvt/pixel mouse encodings and bounded coordinates. |
 | DEC modes 1004/1007 | Tested | Focus reports and alternate-screen wheel behavior. |
-| DEC mode 2004 | Gated | Bracketed paste protocol tested; local real clipboard acceptance remains unavailable, mandatory CI gate retained. |
+| DEC mode 2004 | Gated | Bracketed paste framing and local settings are tested. Native clipboard and real-client checks are retained in [input validation](../research/automation-input.md) and full CI; physical gestures, all applications and sustained sessions remain separate. |
 | DEC modes 80/1070/8452 | Tested | Sixel display/palette/cursor-scroll behavior, `sixel_terminal`. |
 | DEC modes 2026/2027 | Partial | Synchronized frames and opt-in grapheme widths tested; see `sync`, `grapheme_terminal`, `graphemes.md`. Color-font/emoji policy and long workloads remain open. |
 | DEC mode 9001 | Gated | Windows input records, `win32_input`, user setting and native fixture. |
@@ -152,8 +157,8 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
 | CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
 | ReGIS; Tektronix 4014 | Missing | No decoders/renderers. |
-| APC G (kitty graphics) | Missing at runtime; transport in development | APC is still consumed without a graphics handler. A bounded chunk/base64 component and compiler/sanitizer fixtures are added; image decoding, identity/placement, rendering and runtime acceptance remain open. No support reply is advertised. See [implementation work](../research/kitty-graphics.md). |
-| OSC 1337 inline images: File / MultipartFile / FilePart / FileEnd | Partial; integration candidate | PNG/JPEG/BMP and animated GIF use streaming transport, Windows WIC and the shared bounded raster lifetime. This candidate passes 32 static and 36 animation scenes on each actual GDI/OpenGL/DirectX backend. File downloading and full iTerm parity remain open; the accepted download is unchanged. See [integration evidence](../research/graphics-charsets-integration.md). |
+| APC G (kitty graphics) | Partial; runtime implemented | The accepted `752f3be` supports direct RGB/RGBA/PNG, `o=z` compression, chunks, feature/image queries, placement/deletion, crop/scale, transparency and layered rendering. [Product validation](../research/kitty-query-transaction-product.md) covers actual GDI/OpenGL/DirectX and separate presented GDI pixels. The development branch adds [relative/Unicode placements](../research/kitty-unicode-placeholders.md), with 238 relative and 728 Unicode states and bounded lazy indexing; new exact-product local acceptance remains open. File/shared-memory transport and Kitty animation remain missing. |
+| OSC 1337 inline images: File / MultipartFile / FilePart / FileEnd | Partial; accepted runtime subset | PNG/JPEG/BMP and animated GIF use streaming transport, Windows WIC and the shared bounded raster lifetime. The accepted image passes 32 static and 36 animation stages on each actual GDI/OpenGL/DirectX backend, separate presented GDI stages and 160x48 memory workloads. File downloading and full iTerm parity remain open. See [product validation](../research/kitty-query-transaction-product.md). |
 | OSC 1337 Capabilities / ReportCellSize | Tested; remote CI | Live preference-aware feature codes and current DPI-scaled cell size. The ambiguous focus/file `F` and uncertified `Uw` codes are omitted; no `TERM_FEATURES` environment publication. Both full workflows pass at `5b2e6f1`, including 13 capability cases and 42 native geometry phases at 96 DPI; local native testing is paused. See [report policy and validation](../research/iterm-capability-reports.md). |
 
 ## OSC and modern shell metadata
@@ -168,10 +173,10 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | OSC 5/6, 105/106 and OSC 4/104 aliases 256–260 | Partial | [Attribute colours](../research/attribute-colours.md): special colours, modes, overlays, palette retention and [saved defaults/style settings](../research/attribute-colour-settings.md) pass remote core/native/settings checks. Independent replies match 37 cases, with two explicitly retained differences for overflow and selective reset; eight reference variants are recorded. Full reference pixel parity, documented mode 5 and actual OpenGL remain separate. |
 | OSC 13–16/18, 113–116/118 | Missing | Pointer/Tektronix colour operations are not implemented. Chained dynamic commands preserve their parameter positions. |
 | OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
-| OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy; mandatory native clipboard-related cases still await CI. |
+| OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy. Native hover, activation, copy and synchronization checks run in full CI; physical input and all URI handlers remain separate. See the detailed scope in [the protocol ledger](PROTOCOLS.md). |
 | OSC 9;9 / OSC 633 P;Cwd= / OSC 1337 CurrentDir= | Partial | `cwd`; metadata subset only, not every operation in these namespaces. |
 | OSC 133 / OSC 633 A/B/C/D | Partial | `shell_marks`; bounded prompt/command/output marks; not a complete VS Code terminal protocol. |
-| OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Actual clipboard integration remains a required CI gate. |
+| OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Full CI covers native Unicode clipboard text, selection retention, synchronized output, lock contention and delayed rendering. Read permission defaults off; these checks do not establish X11 ownership semantics or every application. See [the protocol ledger](PROTOCOLS.md). |
 | OSC P / R (Linux palette legacy syntax) | Source only | Inherited handlers; separate from tested OSC 4 parsing. |
 | OSC 3/22/30/31/46/50/60/61/62 and remaining xterm OSC commands | Missing | X properties, pointer/font/log/resource operations are not implemented. |
 
