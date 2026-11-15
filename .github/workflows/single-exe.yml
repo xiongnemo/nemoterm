@@ -18,7 +18,9 @@ concurrency:
 jobs:
   single-exe:
     runs-on: windows-2025
-    timeout-minutes: 45
+    # The growing full suite exceeded 45 minutes while dense Unicode frames
+    # were still progressing. Per-fixture and shutdown deadlines are unchanged.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
