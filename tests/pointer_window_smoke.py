@@ -182,6 +182,14 @@ try:
                 assert u.ClientToScreen(seat['hwnd'],c.byref(point))
                 assert u.SetCursorPos(point.x+1,point.y)
                 assert u.SetCursorPos(point.x,point.y)
+                # SetCursorPos alone can leave a touch-first runner in
+                # CURSOR_SUPPRESSED. Deliver actual mouse-class input to the
+                # owned foreground view before inspecting the OS cursor.
+                assert u.GetForegroundWindow()==host
+                moves=(Input*2)()
+                for event,delta in zip(moves,(1,-1)):
+                    event.kind=0;event.mouse.x=delta;event.mouse.flags=1
+                assert u.SendInput(2,moves,c.sizeof(Input))==2
                 wait_for(lambda:u.WindowFromPoint(point)==seat['hwnd'])
                 return point
 
