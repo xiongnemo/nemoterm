@@ -78,3 +78,10 @@ failures, fixed reports, exact frontends, source-built host, fixtures and
 changed parser source. These are bounded portable diagnostics, not acceptance
 of a final single executable or a claim of full xterm identity parity.
 The generated data and native replay are also included in CI.
+
+[Component run 43753933938](https://github.com/xiongnemo/nemoterm/actions/runs/43753933938)
+passes the full query suite and the other terminal regressions on GCC and
+Clang with ASan/UBSan, and on MSVC. The fixture source is `75bfdd1`; the parser
+fix is `c731b9a`. `legacy-parameter-ci.tar.gz` and its validation manifest retain
+the three compilers' original logs and artifact provenance. Complete native
+CI and acceptance of the final single executable remain separate requirements.

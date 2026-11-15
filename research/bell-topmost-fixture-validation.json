@@ -1,0 +1,188 @@
+{
+  "completed": true,
+  "scope": "Fixture correction verified against the exact previously failed image; not full product acceptance.",
+  "image_source": "5f5e80c25be4ac4ca9c5c273df107e92f515f61a",
+  "executable_sha256": "837c1ec9ac77c00e4088b5df2f4a2cce365134f433b68f5cf6d56fdc57d673ed",
+  "original_failed_runs": [
+    43750810064,
+    43750809954
+  ],
+  "failed_precondition_run": 43753878737,
+  "configured_topmost_run": 43754133124,
+  "actual_renderer_run": 43754353621,
+  "fixture_source": "1950dceb04c8a795cafa28c1ff561111c5010172",
+  "window_state_checks": 74,
+  "actual_renderers": [
+    "GDI",
+    "DirectX"
+  ],
+  "configured_topmost_values": [
+    false,
+    true
+  ],
+  "naturally_exited_processes": 48,
+  "local_foreground_input": false,
+  "physical_taskbar_acceptance": false,
+  "archive": {
+    "path": "bell-topmost-fixture.tar.gz",
+    "bytes": 2651056,
+    "sha256": "c3a38a9082206723ad58680324395076aa6028f4f9f92d520b9ae7e785daf72b"
+  },
+  "files": [
+    {
+      "path": "exact-failed-single/nemoterm.exe",
+      "bytes": 4544512,
+      "sha256": "837c1ec9ac77c00e4088b5df2f4a2cce365134f433b68f5cf6d56fdc57d673ed"
+    },
+    {
+      "path": "original-ci/ordinary-run.json",
+      "bytes": 25844,
+      "sha256": "0fb372b18dc062a98d1888d462f0a26bca36f9084d1692781bae85568b5fc531"
+    },
+    {
+      "path": "original-ci/single-run.json",
+      "bytes": 3409,
+      "sha256": "ea9fd18dde0aa1ad922e7d41b4f51f43578651704c39e7dc37f5b50e42ae44ff"
+    },
+    {
+      "path": "original-ci/single-artifacts.json",
+      "bytes": 1539,
+      "sha256": "c6a838cdc750bbb3f02efb9d3ee6802f1e2ae4d6eb5c86bbc63bb38422639812"
+    },
+    {
+      "path": "original-ci/unverified-product-download.json",
+      "bytes": 381,
+      "sha256": "8080d69d0a363f71fe2c5244c40549c6ba39a7985dd6e3887b455eb600c18ddf"
+    },
+    {
+      "path": "original-ci/ordinary/bell-window-state-observed.json",
+      "bytes": 13745,
+      "sha256": "8a5f412ecac4311314444e0b60de2593d1f09dfaeab9c0b34714d6fa06b5b2a7"
+    },
+    {
+      "path": "original-ci/single/bell-window-state-observed.json",
+      "bytes": 63417,
+      "sha256": "d8702f4e3dece5448445b336e4a47fb7524b0720ac8c89409606f043dde1913d"
+    },
+    {
+      "path": "precondition-trace/diagnostic/bell-state-provenance.json",
+      "bytes": 353,
+      "sha256": "d467154035e58d7182f978df7b67a0b79abc2b0cfaa09ab8cdbfd1e0cb2195d4"
+    },
+    {
+      "path": "precondition-trace/diagnostic/bell-window-state.log",
+      "bytes": 505,
+      "sha256": "133a0d6b5ff4a03d1417920b95b57d80598ff7dff17beee4013949a706e13025"
+    },
+    {
+      "path": "precondition-trace/diagnostic/research/bell-window-state-observed.json",
+      "bytes": 29748,
+      "sha256": "78be78109e51df5706a7e72e71b901ea837d199ec8b6e34577832f7e26a781a6"
+    },
+    {
+      "path": "precondition-trace/bell-state-run.json",
+      "bytes": 3272,
+      "sha256": "77ee788877c02500033a6b28a78a8934b2e1b9b07ffdef50a55dedc216b3b683"
+    },
+    {
+      "path": "precondition-trace/bell-state-artifacts.json",
+      "bytes": 783,
+      "sha256": "eaccec765204f53fcce0398d8b5438ba89b38c45b481abec9d5185f90b427641"
+    },
+    {
+      "path": "precondition-trace/diagnostic-download.json",
+      "bytes": 724,
+      "sha256": "9909947c4ef35cb66f2e9807c6a7d2e042a6f3cac7a3844a589f1c416a83d5cf"
+    },
+    {
+      "path": "configured-topmost/diagnostic/bell-state-provenance.json",
+      "bytes": 353,
+      "sha256": "39ac5d1bbc1d2db66e106ff44d9b7c2d11ddaa813ad239d6cdc3f3241620a9f5"
+    },
+    {
+      "path": "configured-topmost/diagnostic/bell-window-state.log",
+      "bytes": 66,
+      "sha256": "c62000e27cf719a896704bfc65e054d325e5426c82be2855dcc9081d74bc796d"
+    },
+    {
+      "path": "configured-topmost/diagnostic/research/bell-window-state-observed.json",
+      "bytes": 365043,
+      "sha256": "d3ad60f14ff33767a32e69e4f19b6abd873c244676aadf1ca9e470a79ebcbd71"
+    },
+    {
+      "path": "configured-topmost/bell-state-run.json",
+      "bytes": 3272,
+      "sha256": "65faef65b89cf0903e12129c5d996fb8e836bce68a5bf9e632fd21f02d8d6e0c"
+    },
+    {
+      "path": "configured-topmost/bell-state-artifacts.json",
+      "bytes": 783,
+      "sha256": "e1a6bbded4442bc9dbc46a1b9641ae117a26694b01dbc2a3c3382ae66f290a82"
+    },
+    {
+      "path": "configured-topmost/diagnostic-download.json",
+      "bytes": 724,
+      "sha256": "8a2773efd979ec3d36d40fcae3a99a973d1566430a704b520311f2a6ea7f6b08"
+    },
+    {
+      "path": "actual-renderers/diagnostic/bell-state-provenance.json",
+      "bytes": 353,
+      "sha256": "830d57d53d9f4e7c9caec6b7eb624f10a22cc41b6020dbc857bc37fc4de101f0"
+    },
+    {
+      "path": "actual-renderers/diagnostic/bell-window-state.log",
+      "bytes": 66,
+      "sha256": "c62000e27cf719a896704bfc65e054d325e5426c82be2855dcc9081d74bc796d"
+    },
+    {
+      "path": "actual-renderers/diagnostic/research/bell-window-state-observed.json",
+      "bytes": 360186,
+      "sha256": "9c7255ebdab233aa1ac90fe0e76c30a2ae095850484f3e7a87be407eeb5d2fbf"
+    },
+    {
+      "path": "actual-renderers/bell-state-run.json",
+      "bytes": 3272,
+      "sha256": "471ee9d31d02ed3de2bafc5b8cc4981e0e81442ca430a7c1c1d6b77f9e992810"
+    },
+    {
+      "path": "actual-renderers/bell-state-artifacts.json",
+      "bytes": 783,
+      "sha256": "6207e07c4a81d47e25aedb749cd9e0b865166a3f817e8c81cf13b6a61115b3e9"
+    },
+    {
+      "path": "actual-renderers/diagnostic-download.json",
+      "bytes": 724,
+      "sha256": "42ed307f6d7c6b138da06d7c9c3500becda306a7b2260cb221de30fccbabdac3"
+    },
+    {
+      "path": "fixtures/5f5e80c-fixture.py",
+      "bytes": 16386,
+      "sha256": "2f3135cf1a15b6abad51ad5a11b3f8bfe36569b489d25bcc15b1b55b06942cfb"
+    },
+    {
+      "path": "fixtures/75bfdd1-fixture.py",
+      "bytes": 17480,
+      "sha256": "566d87f7e8c4d3cf654cb8768b7d2647dd6296422e4822021dd02e4654e423e0"
+    },
+    {
+      "path": "fixtures/ab54a2a-fixture.py",
+      "bytes": 18105,
+      "sha256": "e3cb67fabab90627374f52169fe11d1cda4c42c8aaba1a944f31785b3988a5a9"
+    },
+    {
+      "path": "fixtures/1950dce-fixture.py",
+      "bytes": 18476,
+      "sha256": "b9652ea5b96583d20c776e4cf6d04b1395390e70533f3c39854fab7beed998c9"
+    },
+    {
+      "path": "local-probe/probe_topmost.py",
+      "bytes": 2443,
+      "sha256": "66593532951ea64b7dc35f31dd96728c626496a024dfa4557ec39374b41c2e50"
+    },
+    {
+      "path": "local-probe/observed.json",
+      "bytes": 11616,
+      "sha256": "6ea4e60bec5a3d55c6eab4a7d04bd6e687eda590d4e00de47e68a8723a719bc0"
+    }
+  ]
+}

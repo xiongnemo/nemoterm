@@ -292,3 +292,45 @@ artifact receipts. Its manifest links product artifact `14168664703` and
 evidence artifact `14169591216`; the hosted evidence expires on 2026-12-15.
 Local single-image Sarasa comparison is underway separately. No physical
 taskbar/speaker acceptance or accepted-image promotion is inferred from CI.
+
+## Topmost fixture precondition
+
+Later full runs at `5f5e80c`, ordinary
+[43750810064](https://github.com/xiongnemo/nemoterm/actions/runs/43750810064) and single
+[43750809954](https://github.com/xiongnemo/nemoterm/actions/runs/43750809954), fail
+the `already-topmost` bell scenario. They are retained failures, not full passes.
+The original records already show `topmost: false` before the bell. The single
+run passes the GDI instance of this scenario but fails its DirectX instance;
+the ordinary run fails its GDI instance.
+
+Diagnostic [43753878737](https://github.com/xiongnemo/nemoterm/actions/runs/43753878737)
+reuses the exact failed single image, SHA256
+`837c1ec9ac77c00e4088b5df2f4a2cce365134f433b68f5cf6d56fdc57d673ed`.
+The controller's `SetWindowPos(HWND_TOPMOST)` returns success, but the target's
+extended style remains `0x110`, without `WS_EX_TOPMOST`, both immediately and
+through the existing wait deadline. The added precondition fails before the
+bell. The unmodified window-message trace retains that failed preparation.
+A separate local owned-window probe changes the styles successfully; it does
+not explain the hosted desktop's differing behavior or certify its focus.
+
+The fixture now creates both processes using the real `AlwaysOnTop` setting,
+checks the resulting styles, and runs the lifecycle scenarios with both false
+and true values. It requires topmost preservation, unchanged foreground and
+active tab, natural shutdown, correct notification ownership, and exact
+focus-in bytes. In the already-topmost case it also requires one `HWND_TOP`
+call, rather than a temporary topmost/not-topmost round trip. Product bell code
+is unchanged.
+
+[43754133124](https://github.com/xiongnemo/nemoterm/actions/runs/43754133124) passes
+all 74 states against the same failed image. Final diagnostic
+[43754353621](https://github.com/xiongnemo/nemoterm/actions/runs/43754353621), fixture
+`1950dce`, additionally asserts each tab's actual renderer property: GDI is 1
+and DirectX is 3. All 74 states pass again; four owned jobs containing 48 total
+processes exit naturally. The extra checks establish the requested setup;
+they do not weaken the original bell assertions.
+
+`bell-topmost-fixture.tar.gz` and its validation manifest retain the original
+two failures, failed precondition trace, both successful diagnostics, exact
+failed image and artifact receipts, four fixture versions, and the local
+probe. These results cover hosted Windows state and API behavior, not physical
+taskbar/speaker acceptance, local Sarasa memory, or a complete product release.
