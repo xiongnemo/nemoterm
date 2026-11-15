@@ -6,6 +6,15 @@ replay pass, as does the focused native Windows checkpoint. Complete product
 acceptance remains pending.
 Local interactive testing remains paused.
 
+The first complete single-image run,
+[43718800782](https://github.com/xiongnemo/nemoterm/actions/runs/43718800782)
+at `fec0af2`, fails before UDK replay: the isolated fixture directory omitted
+`research/dec-udk-reference.tar.gz`. Its preceding Locator and protocol checks
+pass, but this run is not accepted as a complete product checkpoint. The
+isolation script now copies the retained reference into the fixture's research
+directory; the executable directory still contains only `nemoterm.exe`.
+The product source and the original expected UDK bytes are unchanged.
+
 ## Reference and original failure
 
 [Run 43716642922](https://github.com/xiongnemo/nemoterm/actions/runs/43716642922)
