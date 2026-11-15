@@ -170,6 +170,8 @@ size_t term_kitty_memory(const Terminal *);
 bool term_kitty_pending(const Terminal *);
 const NemoKittyCache *term_kitty_cache(const Terminal *, int screen);
 const NemoKittyPlacements *term_kitty_placements(const Terminal *, int screen);
+/* Refresh text-derived visible image runs before reading drawing views. */
+void term_kitty_prepare(Terminal *);
 
 struct terminal_tag {
 

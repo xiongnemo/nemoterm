@@ -8354,8 +8354,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 /* Only graphic characters get this far;
                  * ctrls are stripped above */
                 term_display_graphic_char(term, c, checksum);
-                term->last_graphic_char = c;
-                term->last_graphic_checksum = checksum;
+                /* Scalar REP repeats the preceding spacing graphic, not its
+                 * last combining mark. Cluster-mode REP keeps its own copy. */
+                if (DIRECT_CHAR(c) || term_char_width(term,c)>0) {
+                    term->last_graphic_char = c;
+                    term->last_graphic_checksum = checksum;
+                }
                 break;
 
               case OSC_MAYBE_ST:
@@ -10697,6 +10701,7 @@ static void nemo_paint_attribute_colours(Terminal *term, const rgb colours[5],
 
 static void do_paint(Terminal *term)
 {
+    term_kitty_prepare(term);
     /* Rebuild the grid before compositing alpha. Repeated cursor repaints
      * must not blend a translucent image over its own previous frame. No
      * timer is scheduled here; this only invalidates the current paint. */
@@ -10852,6 +10857,7 @@ static void do_paint(Terminal *term)
                 d = term->preedit_termline->chars + j - preedit_start;
 
             tchar = d->chr;
+            if (term->win->vt->kitty_graphics && tchar==0x10eeee) tchar=' ';
             tattr = d->attr;
             if (d->truecolour.decoration & UNDER_DOUBLE_LEGACY)
                 tattr |= ATTR_UNDER;
@@ -11134,7 +11140,7 @@ static void do_paint(Terminal *term)
 #endif /* PLATFORM_IS_UTF16 */
             ch[ccount++] = (wchar_t) tchar;
 
-            if (d->cc_next) {
+            if (d->cc_next && !(term->win->vt->kitty_graphics && d->chr==0x10eeee)) {
                 termchar *dd = d;
 
                 while (dd->cc_next) {

@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Independent compiled-upstream Unicode-image replay. All captured states stay
- * enabled while virtual placements and text-driven drawing are implemented. */
+ * enabled; eight explicit xterm text-policy expectations are separately
+ * generated from independent cursor/cell evidence. */
 typedef struct KittyUnicodeReference {
     const char *name;
     unsigned first, columns, rows, resize_columns, resize_rows;
@@ -36,7 +37,7 @@ static void kitty_unicode_text(Mock *mk, unsigned y, const char *expected)
 static void test_kitty_unicode_reference(Mock *parent)
 {
     Mock *mk=NULL;TermWinVtable vt=mock_termwin_vt;vt.kitty_graphics=true;
-    unsigned failed=0;
+    unsigned failed=0,policies=0;
     for (size_t i=0;i<lenof(kitty_unicode_reference);i++) {
         const KittyUnicodeReference *r=&kitty_unicode_reference[i];
         if (r->first) {
@@ -47,12 +48,18 @@ static void test_kitty_unicode_reference(Mock *parent)
             term_size(mk->term,8,12,20);term_set_cell_size(mk->term,10,20);
             term_set_trust_status(mk->term,false);
         }
+        bool policy=false;
+        for (size_t p=0;p<lenof(kitty_unicode_xterm_policy);p++)
+            if (!strcmp(r->name,kitty_unicode_xterm_policy[p].name)) {
+                r=&kitty_unicode_xterm_policy[p];policy=true;policies++;break;
+            }
         mk->any_test_failed=false;
         test_context(mk,"Kitty Unicode replay: %s",r->name);
         Terminal *t=mk->term;
         if (r->resize_rows) term_size(t,r->resize_rows,r->resize_columns,20);
         if (r->scroll) term_scroll(t,0,r->scroll);
         term_data_fragmented(t,r->wire);
+        term_kitty_prepare(t);
         if (r->error_prefix) {
             size_t n=strlen(mk->to_backend->s);
             IEQUAL(strncmp(mk->to_backend->s,r->reply,r->error_prefix),0);
@@ -84,8 +91,10 @@ static void test_kitty_unicode_reference(Mock *parent)
         }
         IEQUAL(visible,r->layers);kitty_check_budget(mk);
         if (mk->any_test_failed) { failed++;printf("Kitty Unicode failed state: %s\n",r->name); }
+        else if (policy) printf("Kitty Unicode xterm text policy matched: %s\n",r->name);
     }
     if (mk) mock_free(mk);
     parent->any_test_failed|=failed!=0;
-    printf("Kitty Unicode replay: %u states; %u failed states\n",(unsigned)lenof(kitty_unicode_reference),failed);
+    printf("Kitty Unicode replay: %u states; %u failed states; %u explicit xterm text-policy states\n",
+           (unsigned)lenof(kitty_unicode_reference),failed,policies);
 }

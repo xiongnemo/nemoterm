@@ -24,6 +24,70 @@ const NemoKittyPlacements *term_kitty_placements(const Terminal *term, int scree
         term->kitty->screen[screen].placements : NULL;
 }
 
+#include "nemo_kitty_diacritics.h"
+
+/* Zero denotes a missing/unknown positional diacritic. Valid indices are
+ * one-based here so inferred zero rows and columns remain distinguishable. */
+static uint32_t nemo_kitty_diacritic(unsigned long scalar)
+{
+    size_t lo=0,hi=lenof(nemo_kitty_diacritics);
+    while (lo<hi) {
+        size_t mid=lo+(hi-lo)/2;
+        if (nemo_kitty_diacritics[mid]<scalar) lo=mid+1;
+        else hi=mid;
+    }
+    return lo<lenof(nemo_kitty_diacritics) && nemo_kitty_diacritics[lo]==scalar ?
+        (uint32_t)lo+1 : 0;
+}
+
+void term_kitty_prepare(Terminal *term)
+{
+    if (!term || !term->kitty) return;
+    NemoKittyPlacements *s=term->kitty->screen[term->alt_which].placements;
+    if (!nemo_kitty_placements_have_cells(s)) return;
+    /* History runs outside this viewport stay owned and move with scrolling.
+     * No extra field is added to every terminal character for this protocol. */
+    nemo_kitty_placements_remove_cells(s,term->disptop,term->disptop+term->rows-1);
+    for (int y=term->disptop;y<term->disptop+term->rows;y++) {
+        termline *line=term_get_line(term,y);
+        uint32_t length=0,id=0,placement=0,image_row=0,image_column=0,high=0;
+        int limit=min(line->cols,term->cols);
+        for (int x=0;x<=limit;x++) {
+            const termchar *cell=x<limit ? &line->chars[x] : NULL;
+            bool placeholder=cell && cell->chr==0x10eeee;
+            uint32_t low=0,pid=0,indices[3]={0};
+            if (placeholder) {
+                optionalrgb fg=cell->truecolour.fg;
+                unsigned palette=(cell->attr&ATTR_FGMASK)>>ATTR_FGSHIFT;
+                low=fg.enabled ? ((uint32_t)fg.r<<16)|((uint32_t)fg.g<<8)|fg.b :
+                    palette<256 ? palette : 0;
+                pid=(uint32_t)(cell->truecolour.decoration&UNDER_COLOUR_MASK)&0xffffff;
+                const termchar *cc=cell;
+                for (unsigned n=0;n<3 && cc->cc_next;n++) {
+                    cc+=cc->cc_next;indices[n]=nemo_kitty_diacritic(cc->chr);
+                }
+            }
+            if (length && placeholder && id==low && placement==pid &&
+                (!indices[0] || indices[0]==image_row) &&
+                (!indices[1] || indices[1]==image_column+length+1) &&
+                (!indices[2] || indices[2]==high)) {
+                length++;
+                continue;
+            }
+            if (length)
+                nemo_kitty_placements_cell(s,id|((high-1)<<24),placement,
+                    image_column,image_row-1,length,x-(int)length,y,
+                    term->cell_width,term->cell_height);
+            length=placeholder ? 1 : 0;
+            id=low;placement=pid;
+            image_row=indices[0] ? indices[0] : 1;
+            image_column=indices[1] ? indices[1]-1 : 0;
+            high=indices[2] ? indices[2] : 1;
+        }
+        term_release_line(line);
+    }
+}
+
 size_t term_kitty_memory(const Terminal *term)
 {
     if (!term || !term->kitty) return 0;
@@ -139,17 +203,18 @@ static void nemo_kitty_clear_screen(Terminal *term, int screen, bool history)
 {
     if (!term->kitty) return;
     NemoKittyScreen *s=&term->kitty->screen[screen];
-    if (history) nemo_kitty_cache_clear(s->cache);
+    if (history) nemo_kitty_placements_erase_all(s->placements);
     else {
+        nemo_kitty_placements_remove_cells(s->placements,0,INT32_MAX);
         NemoKittyCommand c={0};
         c.present=UINT64_C(1)<<('d'-'a'+26);
         c.values['d'-'a'+26]='A';
         unsigned deleted=0;
         nemo_kitty_placements_delete(s->placements,&c,0,0,term->cols,term->rows,
                                      term->cell_width,term->cell_height,&deleted);
-        /* ED2/RIS also discard data that has no remaining placement. */
-        nemo_kitty_cache_prune_range(s->cache,1,UINT32_MAX);
     }
+    /* Virtual templates outlive text clearing, including RIS. */
+    nemo_kitty_cache_prune_range(s->cache,1,UINT32_MAX);
     term_invalidate(term);
 }
 

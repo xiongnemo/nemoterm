@@ -37,6 +37,10 @@ when two cells cannot fit, it produces a bounded replacement.
 REP retains a bounded copy independently of the source cell's later erasure.
 Each repeat starts a new cluster; omitted and zero counts mean one in both width
 policies. Storage and copying retain the original Unicode sequence.
+The later Unicode-image comparison corrected legacy scalar REP to remember the
+previous spacing character across combining marks, as independently observed in
+Kitty and XTerm. Cluster REP is unchanged; see
+[the captured comparison](kitty-unicode-placeholders.md#development-implementation-and-independent-text-policy).
 
 ## Windows drawing and negotiation
 

@@ -74,3 +74,64 @@ resize/lifecycle and uninjected single-image memory acceptance remain required.
 
 [kitty-unicode-validation.json](kitty-unicode-validation.json) indexes both
 upstream captures and the unchanged-production baseline with per-record hashes.
+
+## Development implementation and independent text policy
+
+The implementation stores invisible virtual templates alongside ordinary
+placements and derives bounded one-row image runs from existing terminal text.
+It adds no field to every terminal cell. The 297-entry protocol alphabet is
+generated from the hash-pinned capture. Foreground colour supplies the image ID,
+underline colour supplies placement ID, and positional combining marks supply
+row, column and high image-ID byte; adjacent compatible cells form a run.
+Templates fit the whole image with aspect-preserving letterboxing. Derived
+runs share the existing image budget and have a separate cap of 8192; ordinary
+placements/templates retain their cap of 512. The paint path renders placeholder
+glyphs as spaces without changing stored or copied text.
+
+Templates survive text clearing; derived runs disappear with text. A child of a
+template without any cell anchor is hidden and retained. Template replacement,
+explicit deletion, data retransmission, history scrolling, font changes and
+destruction retain separate ownership rules. New component checks exercise
+admission failure, both placement caps together, hidden children, named data
+retention and anonymous image disposal. Local strict GCC compilation passes;
+the placement suite now passes 12635 checks.
+
+Iteration 01 matched 718/728 raw Kitty states. Iteration 02 fixed a real scalar
+REP defect and matched 720/728. Both failures and source diffs remain retained.
+REP now remembers the previous spacing character across combining marks; mode
+2027 still repeats the complete bounded grapheme cluster. Ordinary terminal and
+grapheme regression suites pass.
+
+The remaining eight raw differences are text policies, independently tested in
+source-built XTerm 412 at commit `5c75ead9a75d4b2e666ca06fa94503b5766ed93f`:
+
+| Operation | Kitty capture | XTerm capture and Nemoterm policy |
+| --- | --- | --- |
+| Enter 1047/1049 alternate screen | Home cursor | Preserve cursor position |
+| Leave 1047 alternate screen | Restore main cursor | Preserve current cursor position |
+| ED 3 | Erase visible text too | Keep visible text; erase saved lines |
+
+[Run 43675871329](https://github.com/xiongnemo/nemoterm/actions/runs/43675871329)
+retains 18 streams. It exposed an observer effect: inserting CPR between text
+and REP cancels XTerm's repeat state. The corrected
+[run 43676070696](https://github.com/xiongnemo/nemoterm/actions/runs/43676070696)
+retains 26 streams, separating eight uninterrupted REP cases from eight query
+controls, plus ten alternate-screen/erase cases. Its observations SHA256 is
+`ea49c2d8830394edd8f156c3159a7cbfc66d9761d28a161640930d84ec1db3f2`.
+These captures establish the decisions above, not complete XTerm conformance;
+the query-interrupted REP control is not an implemented compatibility claim.
+
+The generator retains the original 728-state Kitty array byte-for-byte and
+appends eight explicit alternative expectations. It validates the independent
+XTerm cursor/checksum replies before deriving them. The expected image source
+rectangles still come from Kitty; only the cursor-driven translation and
+ED3 retention of previously captured cells differ. Every state's cursor, text,
+image count, history, replies, image geometry and budget assertions still run.
+The test log names every policy state. Iteration 03 passes all 728 checks as
+720 raw matches plus eight explicit xterm-policy states; all 238 relative states
+and earlier graphics/compression/query suites also pass.
+
+This remains development evidence. Native pixels in all renderers, actual text
+selection, long-session/resize disposal and fresh uninjected single-image memory
+acceptance are pending. No capability-advertisement or accepted product change
+is implied by these local core results.

@@ -3950,3 +3950,55 @@ static const KittyUnicodeReference kitty_unicode_reference[] = {
         {"\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","",""},
         {{0,0,20.000002384185791,20,0,0,0.5,0.5,-1},{20.000002384185791,0,40.000001192092896,20,0,0,0.5,0.5,-1},{40.000001192092896,0,60,20,0,0,0.5,0.5,-1},{60,0,80.000002384185791,20,0,0,0.5,0.5,-1},{80.000002384185791,0,100.00000476837158,20,0,0,0.5,0.5,-1},{100.00000476837158,0,120,20,0,0,0.5,0.5,-1},{0,20,20.000002384185791,40,0,0,0.5,0.5,-1},{20.000002384185791,20,40.000001192092896,40,0,0,0.5,0.5,-1},{40.000001192092896,20,60,40,0,0,0.5,0.5,-1},{60,20,80.000002384185791,40,0,0,0.5,0.5,-1}}},
 };
+
+/* Explicit xterm text policy; independent wire capture SHA256
+ * ea49c2d8830394edd8f156c3159a7cbfc66d9761d28a161640930d84ec1db3f2.
+ * Original Kitty observations above are never overwritten. */
+static const KittyUnicodeReference kitty_unicode_xterm_policy[] = {
+    {"alternate-1047/enter",1,12,8,0,0,0,2,0,0,0,0,0,
+        "\033[?1047h",
+        "",
+        {"","","","","","","",""},
+        {{0}}},
+    {"alternate-1047/alternate-cells",0,12,8,0,0,0,4,0,1,0,1,0,
+        "\033_Ga=T,f=24,i=42,s=20,v=20,U=1,c=4,r=2,C=1;E4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nx\033\\\033[38;5;42m\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215",
+        "\033_Gi=42;OK\033\\",
+        {"  \364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","","",""},
+        {{19.999999999999996,0,40.000002384185791,20,0,0,0.5,0.5,-1}}},
+    {"alternate-1047/leave",0,12,8,0,0,0,4,0,1,0,1,0,
+        "\033[?1047l",
+        "",
+        {"\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","","",""},
+        {{0,0,20.000002384185791,20,0,0,0.5,0.5,-1}}},
+    {"alternate-1047/erase-main",0,12,8,0,0,0,4,0,1,0,0,0,
+        "\033[2J",
+        "",
+        {"","","","","","","",""},
+        {{0}}},
+    {"alternate-1049/enter",1,12,8,0,0,0,2,0,0,0,0,0,
+        "\033[?1049h",
+        "",
+        {"","","","","","","",""},
+        {{0}}},
+    {"alternate-1049/alternate-cells",0,12,8,0,0,0,4,0,1,0,1,0,
+        "\033_Ga=T,f=24,i=42,s=20,v=20,U=1,c=4,r=2,C=1;E4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE"
+        "4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nxE4nx\033\\\033[38;5;42m\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215",
+        "\033_Gi=42;OK\033\\",
+        {"  \364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","","",""},
+        {{19.999999999999996,0,40.000002384185791,20,0,0,0.5,0.5,-1}}},
+    {"erase-history/operation",1,12,8,0,0,0,2,0,1,0,1,0,
+        "\033[3J",
+        "",
+        {"\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","","",""},
+        {{0,0,20.000002384185791,20,0,0,0.5,0.5,-1}}},
+    {"erase-history/redraw",0,12,8,0,0,0,2,1,1,0,2,0,
+        "\033[2;1H\033[38;5;42m\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215",
+        "",
+        {"\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","\364\216\273\256\314\205\314\205\364\216\273\256\314\205\314\215","","","","","",""},
+        {{0,0,20.000002384185791,20,0,0,0.5,0.5,-1},{0,20,20.000002384185791,40,0,0,0.5,0.5,-1}}},
+};

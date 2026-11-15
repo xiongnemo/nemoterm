@@ -270,6 +270,15 @@ static void test_repeat(Mock *mk)
     term_set_grapheme_clustering(t,false);output_scalars(t,tech,3);
     term_data_fragmented(t,"\033[b");IEQUAL(t->curs.x,6);
     IEQUAL(get_termchar(t,4,0).chr,tech[2]);
+
+    for (unsigned image=0;image<2;image++) {
+        setup_cluster(mk,"scalar REP retains spacing base across combining marks",4,20);
+        term_set_grapheme_clustering(t,false);
+        uint32_t text[]={image ? 0x10eeee : 'A',0x305,0x30d};
+        output_scalars(t,text,lenof(text));term_data_fragmented(t,"\033[3b");
+        IEQUAL(t->curs.x,4);cluster_contents(mk,0,0,text,lenof(text));
+        for (int x=1;x<4;x++) cluster_contents(mk,x,0,text,1);
+    }
 }
 
 static bool cluster_test_draw_context(TermWin *win) { return true; }

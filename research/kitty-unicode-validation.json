@@ -1,6 +1,6 @@
 {
   "upstream_commit": "8e5487e9d4a1dd79c3a769e0ba82326b8ad7c37f",
-  "scope": "Independent compiled-upstream Unicode image reference; Nemoterm implementation and native acceptance pending",
+  "scope": "Development core implementation: 720 raw Kitty states plus 8 explicit xterm text-policy states, 238 relative states; fresh hosted/native/single-image acceptance pending",
   "captures": [
     {
       "label": "rendered-journal-truncated",
@@ -445,6 +445,349 @@
           "path": "vendor/putty-0.85/test/test_kitty_unicode.inc",
           "raw_bytes": 4313,
           "raw_sha256": "b88a69074f68565c01ca33afba1ace60efc3168b5fd0cd9fc82e51d07736b6d5"
+        }
+      ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/xterm-text-33158e2.tar.gz",
+      "archive_bytes": 19465,
+      "archive_sha256": "717ae3a45c9d6aaea4f8c49b3df87dcf407b206a8c2cbdd6909d3d2dae6332a6",
+      "records": [
+        {
+          "path": "artifacts.json",
+          "raw_bytes": 812,
+          "raw_sha256": "1ef043f3aedc48db76dfe0f27b2111bbdcf5f68715ca635b83eee0257211ea0b"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/executable-sha256.txt",
+          "raw_bytes": 102,
+          "raw_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/fixture-commit.txt",
+          "raw_bytes": 41,
+          "raw_sha256": "6e1db289b30ee28e1aa7c2b54d556f868fe1c191bf842ec8ff3296ecc845d6e8"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/unicode-text-boundaries-xterm.json",
+          "raw_bytes": 14598,
+          "raw_sha256": "d97cb964084a0ebe9d2045beb8506970db9d6ddf05b96c870c03d2ec0b1ebf1f"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/upstream-commit.txt",
+          "raw_bytes": 41,
+          "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/version.txt",
+          "raw_bytes": 11,
+          "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/x11-packages.txt",
+          "raw_bytes": 77,
+          "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+        },
+        {
+          "path": "run.json",
+          "raw_bytes": 4287,
+          "raw_sha256": "cf5147b4e0c975ed3c9174206276ec4b5e6d538fe1ed8531fe0b2115ce082486"
+        },
+        {
+          "path": "run.log",
+          "raw_bytes": 125152,
+          "raw_sha256": "f4a52e80c2e46db8b58050c78f76727498066b176f6e31fe0cfc8eb7b3ed0e17"
+        }
+      ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/xterm-text-cd69cc7.tar.gz",
+      "archive_bytes": 19815,
+      "archive_sha256": "89e8db99c89ed2e476f663d2565340b1f89ca7c85d99f3b6a6288d1e3f96d700",
+      "records": [
+        {
+          "path": "artifacts.json",
+          "raw_bytes": 812,
+          "raw_sha256": "aec61176d9bad0d0de245c19a5d95ce550c5711bb8ac65abf3e41575b0279afa"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/executable-sha256.txt",
+          "raw_bytes": 102,
+          "raw_sha256": "503f4a44c34928c314f10c27de3682c486ba272fea8a82bb9eb9aee45ffe01cd"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/fixture-commit.txt",
+          "raw_bytes": 41,
+          "raw_sha256": "81cda7084c7020679ea783dabd97e2cdef1879b7fef088ef0f40fc6c016ef96d"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/unicode-text-boundaries-xterm.json",
+          "raw_bytes": 19206,
+          "raw_sha256": "ea49c2d8830394edd8f156c3159a7cbfc66d9761d28a161640930d84ec1db3f2"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/upstream-commit.txt",
+          "raw_bytes": 41,
+          "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/version.txt",
+          "raw_bytes": 11,
+          "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+        },
+        {
+          "path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/x11-packages.txt",
+          "raw_bytes": 77,
+          "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+        },
+        {
+          "path": "run.json",
+          "raw_bytes": 4287,
+          "raw_sha256": "65d855d28b5d02a9f256c54abd885183706c4dbdf7fea20ba3201d755787e3ee"
+        },
+        {
+          "path": "run.log",
+          "raw_bytes": 127320,
+          "raw_sha256": "91e9ac85922094e69853daef8cf6d38f26c69cc81c394e4f4baf3cc6312da390"
+        }
+      ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/implementation-01-02.tar.gz",
+      "archive_bytes": 21162,
+      "archive_sha256": "bc45b0a510b73d4ee89a092a2ddd53cd4df9cfb970155dd3301e18c7e5a9a1c5",
+      "records": [
+        {
+          "path": "01/cache.log",
+          "raw_bytes": 39,
+          "raw_sha256": "15cbce9e0abb65dd5aaa844fbbd6c7b3ed73c3727a133cf5f90ce5e91be56b91"
+        },
+        {
+          "path": "01/core.log",
+          "raw_bytes": 4102,
+          "raw_sha256": "e86f6d19bbdb0714c27843706bf5516d5454fcc979ce955edaa99dcea0aea67a"
+        },
+        {
+          "path": "01/exits.json",
+          "raw_bytes": 70,
+          "raw_sha256": "c8b201efa3d18d4a93793e2c595eb6ca0fa72cdd573d9561a1c35317106ddf77"
+        },
+        {
+          "path": "01/layout.log",
+          "raw_bytes": 700,
+          "raw_sha256": "2f7b8afc1fca0da948f87b2ab0a5358e5691630127b7c8f02d0602401d2f017c"
+        },
+        {
+          "path": "01/placements.log",
+          "raw_bytes": 4856,
+          "raw_sha256": "4f3c5109dc13ca952b017c01f956bd32633830de0aabaf2f99c2d0d941727879"
+        },
+        {
+          "path": "01/source.diff",
+          "raw_bytes": 24615,
+          "raw_sha256": "c7a8e34a0d132de6b6318baae1840a4514ded10b731227fe6632207cd0cccc90"
+        },
+        {
+          "path": "02/build.log",
+          "raw_bytes": 1319,
+          "raw_sha256": "a6ef286b5023c78e6b26de847b6eeeb75d2621cb75862ba3d3a798207286a3c9"
+        },
+        {
+          "path": "02/core.log",
+          "raw_bytes": 3203,
+          "raw_sha256": "11fa21c2a75858a54fa18d489210817c52c1762de2093ee6495b8f8a5af2b925"
+        },
+        {
+          "path": "02/exits.json",
+          "raw_bytes": 90,
+          "raw_sha256": "ec4131b9bb0658c45b29deb134ff4ab5145d79c6f797aaf78a0d12ae23e8317b"
+        },
+        {
+          "path": "02/graphemes.log",
+          "raw_bytes": 32,
+          "raw_sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+        },
+        {
+          "path": "02/placements.log",
+          "raw_bytes": 4857,
+          "raw_sha256": "8d2f210ab483d20bbda912789509460cbbe0e9a6d72dbc3b60828fedd8cf8399"
+        },
+        {
+          "path": "02/source.diff",
+          "raw_bytes": 30852,
+          "raw_sha256": "ff6f95ae7b9e0ebe1598f8824601359e66cd33d1723119bffe147f90cb4873f6"
+        },
+        {
+          "path": "02/terminal.log",
+          "raw_bytes": 19,
+          "raw_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+        },
+        {
+          "path": "controller.py",
+          "raw_bytes": 3195,
+          "raw_sha256": "75ba79a4b1d81e2482658c0852ed2c790709e3930b843c1fca89aa3532318cd2"
+        },
+        {
+          "path": "new-source/scripts/generate-kitty-diacritics.py",
+          "raw_bytes": 1328,
+          "raw_sha256": "67084a7cb24df8f68e1928b546fd622f45465d4e6a2581d65f3665b39ffc95da"
+        },
+        {
+          "path": "new-source/vendor/putty-0.85/terminal/nemo_kitty_diacritics.h",
+          "raw_bytes": 2440,
+          "raw_sha256": "29774ba851028d957091ac2bee1f014c2a785ad5fa4bca64080000276e82ac17"
+        },
+        {
+          "path": "strict/kitty-unicode-placements-02.log",
+          "raw_bytes": 4857,
+          "raw_sha256": "8d2f210ab483d20bbda912789509460cbbe0e9a6d72dbc3b60828fedd8cf8399"
+        },
+        {
+          "path": "strict/kitty-unicode-placements-strict-build.log",
+          "raw_bytes": 0,
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "strict/kitty-unicode-placements-strict-test.log",
+          "raw_bytes": 4857,
+          "raw_sha256": "8d2f210ab483d20bbda912789509460cbbe0e9a6d72dbc3b60828fedd8cf8399"
+        }
+      ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/core-pass.tar.gz",
+      "archive_bytes": 183484,
+      "archive_sha256": "9226447476991259c0024c69b6f14a530d73d88e6e03d5418cf0171a6f539709",
+      "records": [
+        {
+          "path": "03/build.log",
+          "raw_bytes": 248,
+          "raw_sha256": "b01f3f30f8e2c1537e6b0f1ec254bb167e8f04306921e22f30d70839a4620054"
+        },
+        {
+          "path": "03/core.log",
+          "raw_bytes": 1040,
+          "raw_sha256": "7dcb515b11b86b9c43a8498b5fddbc4b5d37ed4bbc18b7379d19e451cbc6ab49"
+        },
+        {
+          "path": "03/exits.json",
+          "raw_bytes": 34,
+          "raw_sha256": "56cb4fc604f3909c8c75b0632cedbf74ee619d376b05472c8d526e9053b24cb3"
+        },
+        {
+          "path": "04/build.log",
+          "raw_bytes": 249,
+          "raw_sha256": "1a96f60543b7da1f0b22ff9a9be1c431d05a16e5b137072a9ae19521d003fd95"
+        },
+        {
+          "path": "04/exits.json",
+          "raw_bytes": 173,
+          "raw_sha256": "d2047ad5a4e0f7953cb1fcb48694488f0f4b1974e933dc70a623cc29f07bb112"
+        },
+        {
+          "path": "04/test_grapheme_terminal.log",
+          "raw_bytes": 32,
+          "raw_sha256": "4e54bf78c6b54c14ef6869071c11fe7c6535fc00d30d7ceb6df2060913aacbc0"
+        },
+        {
+          "path": "04/test_kitty_cache.log",
+          "raw_bytes": 39,
+          "raw_sha256": "15cbce9e0abb65dd5aaa844fbbd6c7b3ed73c3727a133cf5f90ce5e91be56b91"
+        },
+        {
+          "path": "04/test_kitty_layout.log",
+          "raw_bytes": 700,
+          "raw_sha256": "2f7b8afc1fca0da948f87b2ab0a5358e5691630127b7c8f02d0602401d2f017c"
+        },
+        {
+          "path": "04/test_kitty_placements.log",
+          "raw_bytes": 4857,
+          "raw_sha256": "8d2f210ab483d20bbda912789509460cbbe0e9a6d72dbc3b60828fedd8cf8399"
+        },
+        {
+          "path": "04/test_sixel_terminal.log",
+          "raw_bytes": 1040,
+          "raw_sha256": "7dcb515b11b86b9c43a8498b5fddbc4b5d37ed4bbc18b7379d19e451cbc6ab49"
+        },
+        {
+          "path": "04/test_terminal.log",
+          "raw_bytes": 19,
+          "raw_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+        },
+        {
+          "path": "controller.py",
+          "raw_bytes": 4064,
+          "raw_sha256": "dffbfed5625ab1e1bcaad41a311a8d72d5da13c1da0c06563eda77666c7c6936"
+        },
+        {
+          "path": "source/.github/workflows/kitty-graphics.yml",
+          "raw_bytes": 18186,
+          "raw_sha256": "8103c8ad4d0ffbd23d6975d55d081c74f4ff85cdd58f7a49e19d8e1a7b1ebc3c"
+        },
+        {
+          "path": "source/scripts/generate-kitty-diacritics.py",
+          "raw_bytes": 1328,
+          "raw_sha256": "67084a7cb24df8f68e1928b546fd622f45465d4e6a2581d65f3665b39ffc95da"
+        },
+        {
+          "path": "source/scripts/generate-kitty-unicode-reference.py",
+          "raw_bytes": 7243,
+          "raw_sha256": "b7990a750071b97b2efa5b2b9fc672cd41f1d5245eb0a11721fd3c780d820364"
+        },
+        {
+          "path": "source/tests/test_kitty_placements.c",
+          "raw_bytes": 19183,
+          "raw_sha256": "177217132ad21a2fc33193d380930fa0099e869d10e4b549670060dd22956791"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/nemo_kitty_diacritics.h",
+          "raw_bytes": 2440,
+          "raw_sha256": "29774ba851028d957091ac2bee1f014c2a785ad5fa4bca64080000276e82ac17"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/nemo_kitty_placements.c",
+          "raw_bytes": 23945,
+          "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/nemo_kitty_placements.h",
+          "raw_bytes": 4747,
+          "raw_sha256": "ae4958cbef06bdbeccad619f01b6925bf9d796482d190739f2656ecc80164bd0"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/nemo_kitty_terminal.inc",
+          "raw_bytes": 19866,
+          "raw_sha256": "e04c580bee11351a8d1c76fb141c2435f06e872f8b8be4444636439536f79ae6"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/terminal.c",
+          "raw_bytes": 536417,
+          "raw_sha256": "8583ef3aeebf79b2770563de526515535ecbc5051fbf68f09839da4949b64fcd"
+        },
+        {
+          "path": "source/vendor/putty-0.85/terminal/terminal.h",
+          "raw_bytes": 29835,
+          "raw_sha256": "f437db320f6a85026d87ff6c5b0fa40896955356d07a09019af97b5df91d0558"
+        },
+        {
+          "path": "source/vendor/putty-0.85/test/kitty_unicode_reference.h",
+          "raw_bytes": 405264,
+          "raw_sha256": "4a40e5026585f3b9036f46a37d35e60298dd6e64623a61ad5481ff487458776f"
+        },
+        {
+          "path": "source/vendor/putty-0.85/test/test_grapheme_terminal.c",
+          "raw_bytes": 21557,
+          "raw_sha256": "71b407a5488937006594caaa4a4770342b6a3b7221e026d462e9669f38ebba4b"
+        },
+        {
+          "path": "source/vendor/putty-0.85/test/test_kitty_relative.inc",
+          "raw_bytes": 3415,
+          "raw_sha256": "6617129e03c4a8b1c0dabd9cd6fac458203a1c0e21809e427f336d62171b26d5"
+        },
+        {
+          "path": "source/vendor/putty-0.85/test/test_kitty_unicode.inc",
+          "raw_bytes": 4808,
+          "raw_sha256": "47e9148b2b2a23328340797c6870c39969265c50a706f2c9c286e28fb8d74bf1"
         }
       ]
     }
@@ -1150,5 +1493,54 @@
       "build/CMakeCache.txt": "1394fab81b581ba691882346fa6eb28e9836c9f04895f614358df71c833f640f"
     },
     "scope": "Unchanged 656fed4 production code with strict new Unicode replay; failing baseline only"
+  },
+  "xterm_text_boundaries": [
+    {
+      "run": 43675871329,
+      "source": "33158e205ff977d5400d6e1c00db6507be0d34b9",
+      "observation_path": "artifacts/protocol-reference-unicode-text-boundaries-33158e205ff977d5400d6e1c00db6507be0d34b9/unicode-text-boundaries-xterm.json",
+      "observation_sha256": "d97cb964084a0ebe9d2045beb8506970db9d6ddf05b96c870c03d2ec0b1ebf1f",
+      "cases": 18,
+      "scope": "REP with query observer effect"
+    },
+    {
+      "run": 43676070696,
+      "source": "cd69cc70b958f23be9f88089de7d90bd1d35e903",
+      "observation_path": "artifacts/protocol-reference-unicode-text-boundaries-cd69cc70b958f23be9f88089de7d90bd1d35e903/unicode-text-boundaries-xterm.json",
+      "observation_sha256": "ea49c2d8830394edd8f156c3159a7cbfc66d9761d28a161640930d84ec1db3f2",
+      "cases": 26,
+      "scope": "REP uninterrupted and query controls, alternate-screen cursors and ED2/ED3 cells"
+    }
+  ],
+  "implementation_iterations": [
+    {
+      "iteration": 1,
+      "failed_states": 10,
+      "raw_matched_states": 718
+    },
+    {
+      "iteration": 2,
+      "failed_states": 8,
+      "raw_matched_states": 720,
+      "remaining": "alternate-1047/1049 and ED3 text-policy differences confirmed independently with xterm"
+    }
+  ],
+  "core_pass": {
+    "base_commit": "cd69cc70b958f23be9f88089de7d90bd1d35e903",
+    "working_source_retained_in": "research/kitty-unicode-evidence/core-pass.tar.gz",
+    "executable_sha256": "52ec963694ac73ea93a6f633a3fa13d386ca7eb0ed0cf0557a7c7bbb2a4e4f87",
+    "test_exits": {
+      "test_sixel_terminal": 0,
+      "test_grapheme_terminal": 0,
+      "test_terminal": 0,
+      "test_kitty_placements": 0,
+      "test_kitty_cache": 0,
+      "test_kitty_layout": 0
+    },
+    "raw_kitty_matches": 720,
+    "xterm_text_policy_states": 8,
+    "relative_matched_states": 238,
+    "placement_checks": 12635,
+    "strict_c99_placements": "passed; retained with iterations 01/02"
   }
 }

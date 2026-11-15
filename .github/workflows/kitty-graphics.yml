@@ -29,6 +29,7 @@ on:
       - vendor/putty-0.85/test/test_kitty_relative.inc
       - research/kitty-relative-evidence/**
       - scripts/generate-kitty-unicode-reference.py
+      - scripts/generate-kitty-diacritics.py
       - vendor/putty-0.85/test/kitty_unicode_reference.h
       - vendor/putty-0.85/test/test_kitty_unicode.inc
       - research/kitty-unicode-evidence/**
@@ -71,6 +72,7 @@ on:
       - vendor/putty-0.85/test/test_kitty_relative.inc
       - research/kitty-relative-evidence/**
       - scripts/generate-kitty-unicode-reference.py
+      - scripts/generate-kitty-diacritics.py
       - vendor/putty-0.85/test/kitty_unicode_reference.h
       - vendor/putty-0.85/test/test_kitty_unicode.inc
       - research/kitty-unicode-evidence/**
@@ -174,6 +176,7 @@ jobs:
           python3 scripts/generate-kitty-query-error-reference.py --check
           python3 scripts/generate-kitty-relative-reference.py --check
           python3 scripts/generate-kitty-unicode-reference.py --check
+          python3 scripts/generate-kitty-diacritics.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja \
             -DCMAKE_C_COMPILER="$CC" -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
@@ -254,6 +257,7 @@ jobs:
           python scripts/generate-kitty-relative-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-unicode-reference.py --check
+          python scripts/generate-kitty-diacritics.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1' -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object terminal-configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

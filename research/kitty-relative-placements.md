@@ -122,8 +122,11 @@ layer updates. Scroll filtering also uses each reference's stored creation
 anchor, separately from its resolved drawing position; the corresponding raw
 history/margin cases are preserved rather than replaced by a simpler model.
 
-Virtual parents depend on Unicode-placeholder drawing, which is also still
-required. Native GDI/OpenGL/DirectX pixels, resizing, disposal, full CI and
+The Unicode-placeholder implementation now supplies virtual-parent anchors:
+local replay passes all 238 states, including hiding a child when its virtual
+parent has no text cells without deleting that child. The Unicode evidence is
+indexed in [kitty-unicode-placeholders.md](kitty-unicode-placeholders.md).
+Native GDI/OpenGL/DirectX pixels, resizing, disposal, full CI and
 downloaded-single-image memory acceptance remain pending. No new capability is
 advertised and no product acceptance is claimed by this checkpoint.
 

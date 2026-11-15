@@ -609,5 +609,56 @@
         "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
       }
     ]
+  },
+  "single_executable": {
+    "run": 43672313324,
+    "conclusion": "success",
+    "source_commit": "656fed46c0dff401e657f394c2550f35e61effed",
+    "sha256": "bdd3f278f86620581357daece9032080e3adc7a0b8fb54b883747df584fe1d1c",
+    "bytes": 4518400,
+    "bundle": {
+      "path": "research/kitty-relative-evidence/single-ci-656fed4.tar.gz",
+      "archive_bytes": 80387,
+      "archive_sha256": "553a1e66b5d6f9aed9f4a24b7f31a0bb73add7e24b545fa53cf176c73c3d085d",
+      "records": [
+        {
+          "path": "build-single-exe.log",
+          "raw_bytes": 41868,
+          "raw_sha256": "b5460b03559edcd3b2162c33a45a7ff231171a99cc7cacf90bfb6e7d9a961668"
+        },
+        {
+          "path": "product-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "7a9c7a02869add7143f13f2aba1eec9e8d57d6a929359e030503868c522a09db"
+        },
+        {
+          "path": "single-artifacts.json",
+          "raw_bytes": 1557,
+          "raw_sha256": "5be95e21040e36d65adc75fe30a990b44fa28ad95d49c320c06870845214109f"
+        },
+        {
+          "path": "single-evidence-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "6d69cf4cd86bb42f740b70e2bfc370f3ffac6f94840e64bcf276d00780a68368"
+        },
+        {
+          "path": "single-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "2f05bdd28a68ec51c1cbb1ab2dbc6537bcb0d939d5d38ed517e116841ae4104c"
+        },
+        {
+          "path": "single-run.json",
+          "raw_bytes": 3208,
+          "raw_sha256": "7a0ba0776b079cdbffcdaf65bdec188f014093172c5c8fce6b7fb8bde5141e96"
+        },
+        {
+          "path": "single-run.log",
+          "raw_bytes": 842099,
+          "raw_sha256": "1599ce50d589c0ad0d55e2ab55664cafcf35d36e218efe60db4a01f0d04235df"
+        }
+      ]
+    },
+    "accepted": false,
+    "reason": "This run predates Unicode support and does not resolve the five failing core virtual-parent states in that source"
   }
 }

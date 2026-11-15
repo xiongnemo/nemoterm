@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MIT
  * Literal upstream replay through the real parser and graphics owner.
- * This deliberately includes unsupported virtual parents: they remain a
- * failing requirement until that separate drawing model is implemented. */
+ * Includes virtual parents whose visibility follows Unicode image cells. */
 typedef struct KittyRelativeReference {
     const char *name;
     unsigned first, x, y, images, history, layers, error_prefix;
@@ -30,6 +29,7 @@ static void test_kitty_relative_reference(Mock *parent)
         mk->any_test_failed=false;
         test_context(mk,"Kitty relative replay: %s",r->name);
         term_data_fragmented(mk->term,r->wire);
+        term_kitty_prepare(mk->term);
         if (r->error_prefix) {
             size_t n=strlen(mk->to_backend->s);
             IEQUAL(strncmp(mk->to_backend->s,r->reply,r->error_prefix),0);

@@ -86,6 +86,70 @@ static NemoKittyView first(Fixture *f)
 }
 static bool near(double a,double b) { return a-b<0.00002 && a-b> -0.00002; }
 
+static void unicode_lifetime_boundaries(void)
+{
+    Fixture f;create(&f);
+    size_t baseline=nemo_kitty_placements_memory(f.places);
+    CHECK(!nemo_kitty_placements_have_cells(f.places));
+    NemoKittyImage *image=load(&f,parse("i=42,f=24,s=10,v=20"),10,20);
+    NemoKittyImage *child=load(&f,parse("i=43,f=24,s=10,v=20"),10,20);
+    put(&f,image,"a=p,p=7,U=1,c=4,r=4",6,7);
+    put(&f,child,"a=p,p=9,P=42,Q=7,H=1,V=2",0,0);
+    NemoKittyView v;
+    const NemoKittyPlacement *parent=nemo_kitty_placements_first(f.places);
+    CHECK(!nemo_kitty_placement_view(parent,10,20,&v));
+    const NemoKittyPlacement *relative=nemo_kitty_placement_next(parent);
+    CHECK(!nemo_kitty_placement_view(relative,10,20,&v));
+    CHECK(nemo_kitty_placements_have_cells(f.places));
+    uint64_t generation=nemo_kitty_placements_generation(f.places);
+    f.deny_placement=true;
+    CHECK(!nemo_kitty_placements_cell(f.places,42,7,0,0,1,2,3,10,20));
+    CHECK(nemo_kitty_placements_generation(f.places)==generation);
+    CHECK(nemo_kitty_image_references(image)==1);f.deny_placement=false;
+    CHECK(!nemo_kitty_placements_cell(f.places,42,99,0,0,1,2,3,10,20));
+    CHECK(nemo_kitty_placements_cell(f.places,42,7,0,0,1,2,3,10,20));
+    CHECK(nemo_kitty_placements_cell(f.places,42,7,0,1,1,1,5,10,20));
+    CHECK(nemo_kitty_placement_view(relative,10,20,&v) && v.left==20 && v.top==100);
+    nemo_kitty_placements_remove_cells(f.places,INT32_MIN,INT32_MAX);
+    CHECK(!nemo_kitty_placement_view(relative,10,20,&v));
+    CHECK(nemo_kitty_image_references(child)==1 && nemo_kitty_cache_count(f.cache)==2);
+    CHECK(nemo_kitty_placements_cell(f.places,42,7,0,0,2,0,0,10,20));
+    CHECK(delete(&f,"a=d,d=I,i=42,p=7")==1);
+    /* An explicitly deleted template does not prematurely free data retained
+     * by derived runs. Refresh drops those runs without deleting named data. */
+    CHECK(nemo_kitty_cache_count(f.cache)==1);
+    nemo_kitty_placements_remove_cells(f.places,INT32_MIN,INT32_MAX);
+    CHECK(!nemo_kitty_placements_count(f.places) && !nemo_kitty_image_references(image));
+    CHECK(nemo_kitty_cache_count(f.cache)==1);
+    CHECK(delete(&f,"a=d,d=I,i=42")==0 && !nemo_kitty_cache_count(f.cache));
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+
+    image=load(&f,parse("i=42,f=24,s=10,v=20"),10,20);
+    put(&f,image,"a=p,p=7,U=1,c=1,r=1",0,0);
+    for (unsigned i=0;i<NEMO_KITTY_CELL_RUN_MAX;i++)
+        CHECK(nemo_kitty_placements_cell(f.places,42,7,0,0,1,0,(int32_t)i,10,20));
+    generation=nemo_kitty_placements_generation(f.places);
+    CHECK(!nemo_kitty_placements_cell(f.places,42,7,0,0,1,0,0,10,20));
+    CHECK(nemo_kitty_placements_generation(f.places)==generation);
+    CHECK(nemo_kitty_image_references(image)==NEMO_KITTY_CELL_RUN_MAX+1);
+    for (unsigned i=1;i<NEMO_KITTY_PLACEMENT_MAX;i++) put(&f,image,"a=p",0,0);
+    CHECK(nemo_kitty_placements_count(f.places)==NEMO_KITTY_CELL_RUN_MAX+NEMO_KITTY_PLACEMENT_MAX);
+    CHECK(f.peak<=BUDGET);
+    nemo_kitty_placements_erase_all(f.places);
+    CHECK(nemo_kitty_placements_count(f.places)==1 && nemo_kitty_image_references(image)==1);
+    CHECK(nemo_kitty_placements_cell(f.places,42,7,0,0,1,0,0,10,20));
+    nemo_kitty_placements_rescale(f.places,5,10);
+    CHECK(nemo_kitty_placements_count(f.places)==1 && nemo_kitty_image_references(image)==1);
+    nemo_kitty_cache_clear(f.cache);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    CHECK(!nemo_kitty_placements_have_cells(f.places));
+    image=load(&f,parse("f=24,s=10,v=20"),10,20);put(&f,image,"a=p",0,0);
+    nemo_kitty_placements_erase_all(f.places);
+    CHECK(!nemo_kitty_cache_count(f.cache));
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    destroy(&f);
+}
+
 static void relative_lifetime_boundaries(void)
 {
     /* Retiring an anonymous image must not call back in the middle of a
@@ -142,6 +206,7 @@ static void relative_lifetime_boundaries(void)
 
 int main(void)
 {
+    unicode_lifetime_boundaries();
     relative_lifetime_boundaries();
     Fixture f; create(&f);
     size_t baseline=nemo_kitty_placements_memory(f.places);

@@ -5,6 +5,7 @@
 #include "nemo_kitty_layout.h"
 
 #define NEMO_KITTY_PLACEMENT_MAX 512u
+#define NEMO_KITTY_CELL_RUN_MAX 8192u
 #define NEMO_KITTY_PARENT_DEPTH_MAX 8u
 typedef struct NemoKittyPlacements NemoKittyPlacements;
 typedef struct NemoKittyPlacement NemoKittyPlacement;
@@ -29,6 +30,15 @@ void nemo_kitty_placements_free(NemoKittyPlacements *);
 void nemo_kitty_placements_clear(NemoKittyPlacements *);
 size_t nemo_kitty_placements_memory(const NemoKittyPlacements *);
 unsigned nemo_kitty_placements_count(const NemoKittyPlacements *);
+bool nemo_kitty_placements_have_cells(const NemoKittyPlacements *);
+/* Visible cell runs are derived from text, not client-addressable placements.
+ * Their metadata shares the image budget and has its own bounded run count. */
+void nemo_kitty_placements_remove_cells(NemoKittyPlacements *, int32_t first, int32_t last);
+bool nemo_kitty_placements_cell(NemoKittyPlacements *, uint32_t image, uint32_t placement,
+    uint32_t image_column, uint32_t image_row, uint32_t columns,
+    int32_t column, int32_t row, uint32_t cw, uint32_t ch);
+/* Clear physical placements, including history, while retaining prototypes. */
+void nemo_kitty_placements_erase_all(NemoKittyPlacements *);
 uint64_t nemo_kitty_placements_generation(const NemoKittyPlacements *);
 /* Call only from the cache's image-removed callback, before it frees the
  * image. Orphan references to other images are released through the cache's
