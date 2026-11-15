@@ -151,6 +151,10 @@ def cases():
     add('literal-disabled', step(Q))
     add('literal-cell-request', step(C+b"1;2'z"+Q))
     add('literal-left-events', step(C+b"1;2'z"+C+b"1;3'{"), step(b'', down), step(b'', up))
+    add('bound-fourth-button', step(C+b"1;2'z"+C+b"1;3'{"),
+        step(b'', ('button',4,1)), step(Q), step(b'', ('button',4,0)), step(Q))
+    add('bound-control-left', step(C+b"1;2'z"+C+b"1;3'{"),
+        step(b'', ('key','Control_L',1), down, up, ('key','Control_L',0)), step(Q))
     for enable in ('', '0', '1', '2', '3', '65535'):
         for unit in ('', '0', '1', '2', '9'):
             setup = C+(enable+(';' + unit if unit else '')+"'z").encode()
@@ -209,11 +213,20 @@ def capture_case(executable, display_name, name, steps, directory):
     folder.mkdir()
     report, control = folder/'child.json', folder/'control.json'
     display = Display(display_name)
+    resource_args = []
+    if name.startswith('bound-'):
+        # Default XTerm maps wheel-down presses to scrolling and Ctrl+button
+        # to menus before its locator dispatcher. Exercise that same unmodified
+        # dispatcher with explicit user bindings as a separate named profile.
+        bindings = ('XTerm*VT100.translations: #override\\n'
+                    '<Btn4Down>: select-start()\\n<Btn4Up>: select-end(SELECT,CUT_BUFFER0)\\n'
+                    'Ctrl<Btn1Down>: select-start()\\nCtrl<Btn1Up>: select-end(SELECT,CUT_BUFFER0)')
+        resource_args = ['-xrm', bindings]
     terminal = subprocess.Popen([executable, '-geometry','80x24+10+10','-b','2','-bw','0',
         '+sb','-fn','fixed','-ti','vt525','-xrm','XTerm*locale:false','-xrm','XTerm*wideChars:true',
-        '-e',sys.executable,str(Path(__file__).resolve()),'--child',str(report),str(control)],
+        *resource_args,'-e',sys.executable,str(Path(__file__).resolve()),'--child',str(report),str(control)],
         env=dict(os.environ,DISPLAY=display_name), stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-    result = dict(name=name, completed=False, steps=[])
+    result = dict(name=name, completed=False, steps=[], extra_resource_args=resource_args)
     counter = 0
     active_phase, expected_markers = None, 0
     def command(phase, wire):
@@ -279,6 +292,7 @@ def capture_case(executable, display_name, name, steps, directory):
         except subprocess.TimeoutExpired:
             terminal.terminate();terminal.wait(timeout=3)
         result['exit_code']=terminal.returncode
+        result['stderr']=terminal.stderr.read().decode('utf-8',errors='replace')
         display.close()
         write(folder/'observed.json',result)
     return result
@@ -308,6 +322,9 @@ def main():
             'literal-disabled':[b'\x1b[0&w'],
             'literal-cell-request':[b'\x1b[1;0;7;12&w'],
             'literal-left-events':[b'',b'\x1b[2;4;7;12&w',b'\x1b[3;0;7;12&w'],
+            'bound-fourth-button':[b'',b'\x1b[8;8;7;12&w',b'\x1b[1;8;7;12&w',
+                                   b'\x1b[9;0;7;12&w',b'\x1b[1;0;7;12&w'],
+            'bound-control-left':[b'',b'\x1b[2;4;7;12&w\x1b[3;0;7;12&w',b'\x1b[1;0;7;12&w'],
         }
         for name,expected in controls.items():
             assert [bytes.fromhex(s['reply_hex']) for s in result['cases'][name]['steps']]==expected,name
