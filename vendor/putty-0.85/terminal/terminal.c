@@ -2689,19 +2689,50 @@ static void nemo_pop_sgr(Terminal *term)
     }
 }
 
+static NemoModifyKeys *nemo_modify_keys_resource(Terminal *term, unsigned resource)
+{
+    if (resource == 1 || resource == 2)
+        return &term->special_modify_keys[resource-1];
+    return resource == 4 ? &term->modify_keys : NULL;
+}
+
+static void nemo_modify_special_keys_reset(Terminal *term)
+{
+    term->special_modify_keys_set = false;
+    for (size_t i = 0; i < lenof(term->special_modify_keys); i++)
+        nemo_mok_reset(&term->special_modify_keys[i], 2, 0);
+}
+
 static void nemo_modify_keys_setting(Terminal *term, bool format)
 {
     bool reset_all = term->esc_nargs == 1 && !term->esc_arg_present && !term->esc_has_subargs;
-    if (!reset_all && (term->esc_args[0] != 4 || term->esc_nargs > 2)) return;
+    unsigned resource = reset_all ? 4 : term->esc_args[0];
+    NemoModifyKeys *state = nemo_modify_keys_resource(term, resource);
+    if (!state || term->esc_nargs > 2) return;
     if (term->esc_has_subargs && (format || term->esc_nargs != 2 ||
         term->esc_sub_count[0] || term->esc_sub_count[1] != 1)) return;
     unsigned value = (term->esc_arg_present & 2) ? term->esc_args[1] :
+        resource != 4 ? (format ? 0 : 2) :
         conf_get_int(term->conf, format ? CONF_nemo_format_other_keys : CONF_nemo_modify_other_keys);
     if (format) {
-        if (value <= 1) term->modify_keys.format = value;
-    } else if (value <= 3 || value == 65535) {
-        term->modify_keys.level = value == 65535 ? -1 : (int)value;
-        term->modify_keys.ignore = term->esc_has_subargs ? term->esc_subargs[1][0] : 0;
+        if (value <= 1) {
+            state->format = value;
+            if (resource != 4) term->special_modify_keys_set = true;
+        }
+    } else if (value <= (resource == 4 ? 3u : 4u) || value == 65535) {
+        state->level = value == 65535 ? -1 : (int)value;
+        state->ignore = term->esc_has_subargs ? term->esc_subargs[1][0] : 0;
+        if (resource != 4) term->special_modify_keys_set = true;
+    }
+    if (reset_all) {
+        if (!format) term->special_modify_keys_set = false;
+        for (size_t i = 0; i < lenof(term->special_modify_keys); i++) {
+            if (format) term->special_modify_keys[i].format = 0;
+            else {
+                term->special_modify_keys[i].level = 2;
+                term->special_modify_keys[i].ignore = 0;
+            }
+        }
     }
 }
 
@@ -2709,11 +2740,12 @@ static void nemo_modify_keys_query(Terminal *term, bool format)
 {
     if (!term->ldisc) return;
     for (int i = 0; i < term->esc_nargs; i++) {
-        if (term->esc_args[i] != 4) continue;
+        unsigned resource = term->esc_args[i];
+        NemoModifyKeys *state = nemo_modify_keys_resource(term, resource);
+        if (!state) continue;
         char reply[32];
-        unsigned value = format ? term->modify_keys.format :
-            term->modify_keys.level < 0 ? 65535 : term->modify_keys.level;
-        int n = sprintf(reply, "\033[>4;%u%c", value, format ? 'f' : 'm');
+        unsigned value = format ? state->format : state->level < 0 ? 65535 : state->level;
+        int n = sprintf(reply, "\033[>%u;%u%c", resource, value, format ? 'f' : 'm');
         nemo_protocol_send(term, reply, n);
     }
 }
@@ -2780,12 +2812,14 @@ static void nemo_decrqss(Terminal *term)
         put_fmt(reply, "%d$|", term->cols);
     } else if (valid && !strcmp(query, "*|")) {
         put_fmt(reply, "%d*|", term->rows);
-    } else if (valid && (!strcmp(query, ">4m") || !strcmp(query, ">4f"))) {
+    } else if (valid && query[0] == '>' &&
+               (query[1] == '1' || query[1] == '2' || query[1] == '4') &&
+               (query[2] == 'm' || query[2] == 'f') && !query[3]) {
         bool format = query[2] == 'f';
-        unsigned value = format ? term->modify_keys.format :
-            term->modify_keys.level < 0 ? 65535 : term->modify_keys.level;
-        put_fmt(reply, ">4;%u", value);
-        if (!format && term->modify_keys.ignore) put_fmt(reply, ":%u", term->modify_keys.ignore);
+        NemoModifyKeys *state = nemo_modify_keys_resource(term, query[1]-'0');
+        unsigned value = format ? state->format : state->level < 0 ? 65535 : state->level;
+        put_fmt(reply, ">%c;%u", query[1], value);
+        if (!format && state->ignore) put_fmt(reply, ":%u", state->ignore);
         put_byte(reply, format ? 'f' : 'm');
     } else if (valid && query[0] == '>' &&
                !strcmp(query + 1 + strspn(query + 1, "0123456789;"), "t")) {
@@ -3417,6 +3451,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     term->win32_input_epoch++;
     nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
                    conf_get_int(term->conf, CONF_nemo_format_other_keys));
+    nemo_modify_special_keys_reset(term);
     term->app_cursor_keys = conf_get_bool(term->conf, CONF_app_cursor);
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     term->use_bce = conf_get_bool(term->conf, CONF_bce);
@@ -5538,6 +5573,7 @@ static void nemo_soft_reset(Terminal *term)
     term->app_keypad_keys = conf_get_bool(term->conf, CONF_app_keypad);
     nemo_mok_reset(&term->modify_keys, conf_get_int(term->conf, CONF_nemo_modify_other_keys),
                    conf_get_int(term->conf, CONF_nemo_format_other_keys));
+    nemo_modify_special_keys_reset(term);
     term->cset = term->sco_acs = 0;
     nemo_charset_reset(term);
     term->default_attr = term->curr_attr = ATTR_DEFAULT;
@@ -9592,9 +9628,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         nemo_modify_keys_query(term, true);
                         break;
                       case ANSI('n', '>'):
-                        if (term->esc_nargs == 1 && term->esc_args[0] == 4) {
-                            term->modify_keys.level = -1;
-                            term->modify_keys.ignore = 0;
+                        if (term->esc_nargs == 1 && !term->esc_has_subargs) {
+                            unsigned resource = term->esc_arg_present ? term->esc_args[0] : 2;
+                            NemoModifyKeys *state = nemo_modify_keys_resource(term, resource);
+                            if (state) {
+                                state->level = -1;
+                                state->ignore = 0;
+                                if (resource != 4) term->special_modify_keys_set = true;
+                            }
                         }
                         break;
                       case ANSI('u', 1): /* kitty keyboard flags query */
@@ -12875,6 +12916,33 @@ static int shift_bitmap(bool shift, bool ctrl, bool alt, bool *consumed_alt)
     return bitmap;
 }
 
+/* XTerm resources 1 and 2 use their own level and format. They are independent
+ * of modifyOtherKeys and of the Kitty keyboard protocol selected by the UI.
+ * The retained reference uses real XTest key events, including SS3 level 0. */
+static int nemo_format_special_key(char *buf, const NemoModifyKeys *mode,
+                                   unsigned unicode, int code, char final,
+                                   bool app, bool shift, bool ctrl, bool alt,
+                                   bool *consumed_alt)
+{
+    int bitmap = shift_bitmap(shift, ctrl, alt, consumed_alt);
+    if (mode->level == 4) {
+        if (!bitmap) bitmap = 1;
+        if (mode->format)
+            return sprintf(buf, "\033[%u;%du", unicode, bitmap);
+        return sprintf(buf, "\033[27;%d;%u~", bitmap, unicode);
+    }
+    if (mode->level < 0) bitmap = 0;
+    char *p = buf;
+    *p++ = '\033';
+    *p++ = app && !(bitmap && mode->level >= 1) ? 'O' : '[';
+    if (bitmap && mode->level >= 3) *p++ = '>';
+    if (!code && bitmap && mode->level >= 2) code = 1;
+    if (code) p += sprintf(p, "%d", code);
+    if (bitmap) p += sprintf(p, code ? ";%d" : "%d", bitmap);
+    *p++ = final;
+    return p - buf;
+}
+
 int format_arrow_key(char *buf, Terminal *term, int xkey,
                      bool shift, bool ctrl, bool alt, bool *consumed_alt)
 {
@@ -12884,6 +12952,14 @@ int format_arrow_key(char *buf, Terminal *term, int xkey,
         p += sprintf(p, "\x1B%c", xkey);
     else {
         bool app_flg = (term->app_cursor_keys && !term->no_applic_c);
+        if (term->sharrow_type == SHARROW_BITMAP) {
+            unsigned unicode = xkey == 'A' ? 0xe252 : xkey == 'B' ? 0xe254 :
+                xkey == 'C' ? 0xe253 : xkey == 'D' ? 0xe251 :
+                xkey == 'H' ? 0xe250 : xkey == 'F' ? 0xe257 : 0xe258;
+            int length = nemo_format_special_key(buf, &term->special_modify_keys[0],
+                unicode, 0, xkey, app_flg, shift, ctrl, alt, consumed_alt);
+            return term_format_c1_key(term, buf, length);
+        }
 #if 0
         /*
          * RDB: VT100 & VT102 manuals both state the app cursor
@@ -12941,6 +13017,18 @@ int format_function_key(char *buf, Terminal *term, int key_number,
         return 0;
 
     int index = key_number;
+    if (term->funky_type == FUNKY_XTERM_216 && !term->vt52_mode) {
+        const NemoModifyKeys *mode = &term->special_modify_keys[1];
+        /* The disabled resource uses the xterm default ctrlFKeys stride:
+         * Shift adds 12 and Control adds 24, rather than a modifier field. */
+        if (mode->level < 0) index += (shift ? 12 : 0) + (ctrl ? 24 : 0);
+        int code = index <= 20 ? key_number_to_tilde_code[index] : 42 + index-21;
+        bool pf = code >= 11 && code <= 14;
+        int length = nemo_format_special_key(buf, mode, 0xe2be + key_number-1,
+            pf ? 0 : code, pf ? 'P' + code-11 : '~', pf,
+            shift, ctrl, alt, consumed_alt);
+        return term_format_c1_key(term, buf, length);
+    }
     if (term->funky_type == FUNKY_VT220) {
         if (ctrl) index += 12;
         *consumed_alt = alt;
@@ -13026,6 +13114,15 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
         (key == SKK_HOME || key == SKK_END))
         return format_arrow_key(buf, term, key == SKK_HOME ? 'H' : 'F',
                                 shift, ctrl, alt, consumed_alt);
+    if (term->funky_type == FUNKY_XTERM_216 && !term->vt52_mode &&
+        term->special_modify_keys[0].level == 4 &&
+        (key == SKK_INSERT || key == SKK_DELETE || key == SKK_PGUP || key == SKK_PGDN)) {
+        unsigned unicode = key == SKK_INSERT ? 0xe263 : key == SKK_DELETE ? 127 :
+            key == SKK_PGUP ? 0xe255 : 0xe256;
+        int length = nemo_format_special_key(buf, &term->special_modify_keys[0],
+            unicode, code, '~', false, shift, ctrl, alt, consumed_alt);
+        return term_format_c1_key(term, buf, length);
+    }
     if (term->funky_type == FUNKY_SCO && key == SKK_HELP)
         return 0;
 

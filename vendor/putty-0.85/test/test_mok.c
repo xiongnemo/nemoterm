@@ -2,6 +2,37 @@
 #define main upstream_terminal_test_main
 #include "test_terminal.c"
 #undef main
+#include "../../../tests/special_keys_reference.h"
+
+static void test_special_reference(Mock *mk, bool fragmented)
+{
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_216);
+    conf_set_int(mk->conf, CONF_sharrow_type, SHARROW_BITMAP);
+    term_reconfig(mk->term, mk->conf);
+    for (size_t i = 0; i < lenof(special_keys_reference); i++) {
+        const struct special_key_reference *r = &special_keys_reference[i];
+        if (r->reset) reset(mk);
+        test_context(mk, "special modifiers %s step %u (%s)", r->name,
+                     (unsigned)i, fragmented ? "bytes" : "whole");
+        strbuf_clear(mk->to_backend);
+        if (fragmented) term_data_fragmented(mk->term, r->sequence);
+        else term_data(mk->term, r->sequence, strlen(r->sequence));
+        char output[64];
+        bool consumed = false, shift = r->mods & 1, ctrl = r->mods & 4, alt = r->mods & 2;
+        int n = 0;
+        if (r->kind == 1)
+            n = format_arrow_key(output, mk->term, r->key, shift, ctrl, alt, &consumed);
+        else if (r->kind == 2)
+            n = format_function_key(output, mk->term, r->key, shift, ctrl, alt, &consumed);
+        else if (r->kind == 3)
+            n = format_small_keypad_key(output, mk->term, r->key, shift, ctrl, alt, &consumed);
+        if (r->kind && alt && !consumed) put_byte(mk->to_backend, '\033');
+        put_data(mk->to_backend, output, n);
+        SEQUAL(mk->to_backend->s, r->reply);
+    }
+    printf("Special modifier reference: %zu unchanged steps (%s)\n",
+           lenof(special_keys_reference), fragmented ? "bytes" : "whole");
+}
 
 static void mok_reply(Mock *mk, const char *sequence, const char *expected)
 {
@@ -122,6 +153,27 @@ static void test_mok_encoding(Mock *mk)
     key.key=0x110000; IEQUAL(nemo_mok_encode(&mode, &key, output, sizeof(output)), 0);
 }
 
+static void test_special_policy(Mock *mk)
+{
+    reset(mk);
+    /* Preserve the documented reset-all contract, including resources that
+     * the pinned XTerm currently leaves unchanged. This is not oracle parity. */
+    mok_reply(mk, "\033[>1;3m\033[>2;4m\033[>1;1f\033[>2;1f\033[>m\033[>f"
+              "\033[?1;2m\033[?1;2g", "\033[>1;2m\033[>2;2m\033[>1;0f\033[>2;0f");
+    const char *invalid[] = {"\033[>1;5m", "\033[>2;4294967295m", "\033[>1;4;1m",
+        "\033[>1;4:1:2m", "\033[>2:1;4m", "\033[>1;2f", "\033[>2;1:1f", "\033[>1;3\030"};
+    for (size_t i = 0; i < lenof(invalid); i++) {
+        mok_reply(mk, invalid[i], "");
+        mok_reply(mk, "\033[?1;2m\033[>1;2g", "\033[>1;2m\033[>2;2m\033[>1;0f\033[>2;0f");
+    }
+    mok_reply(mk, "\033[>1;3m\033[>2;4m", "");
+    term_reconfig(mk->term, mk->conf);
+    term_size(mk->term, 40, 100, 100);
+    mok_reply(mk, "\033[?1;2m", "\033[>1;3m\033[>2;4m");
+    IEQUAL(sizeof(mk->term->special_modify_keys), 16);
+    reset(mk);
+}
+
 #ifdef _WINDOWS
 #include "test_mok_win.c"
 #endif
@@ -132,8 +184,11 @@ int main(void)
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     test_mok_negotiation(mk); test_mok_encoding(mk);
+    test_special_reference(mk, false); test_special_reference(mk, true);
+    test_special_policy(mk);
 #ifdef _WINDOWS
     test_windows_mok(mk);
+    test_windows_special_priority(mk);
 #endif
     bool failed = mk->any_test_failed;
     mock_free(mk);

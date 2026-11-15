@@ -2,6 +2,27 @@
 #include "win-gui-seat.h"
 #include "nemo_key_input.h"
 
+static void test_windows_special_priority(Mock *mk)
+{
+    reset(mk);
+    conf_set_bool(mk->conf, CONF_nemo_win32_input, true);
+    term_reconfig(mk->term, mk->conf);
+    WinGuiSeat wgs = {.conf=mk->conf, .term=mk->term};
+    mok_reply(mk, "\033[?9001h", "");
+    IEQUAL(nemo_win32_input_active(&wgs), true);
+    mok_reply(mk, "\033[>1;2m", "");
+    IEQUAL(nemo_win32_input_active(&wgs), false);
+    mok_reply(mk, "\033[>m", "");
+    IEQUAL(nemo_win32_input_active(&wgs), true);
+    mok_reply(mk, "\033[>2n", "");
+    IEQUAL(nemo_win32_input_active(&wgs), false);
+    mok_reply(mk, "\033c\033[?9001h", "");
+    IEQUAL(nemo_win32_input_active(&wgs), true);
+    mok_reply(mk, "\033[>1;1f", "");
+    IEQUAL(nemo_win32_input_active(&wgs), false);
+    reset(mk);
+}
+
 static void mok_native_key(Mock *mk, WinGuiSeat *wgs, HKL layout,
                            unsigned vk, unsigned scan, unsigned mods,
                            const char *expected, int length)

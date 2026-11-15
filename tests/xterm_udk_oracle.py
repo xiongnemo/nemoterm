@@ -138,6 +138,7 @@ def capture_case(executable, display_name, name, spec, base):
     report, control = folder/'child.json', folder/'control.json'
     display = Display(display_name)
     resource_args = ['-xrm','XTerm*keyboardType:'+spec['profile'], '-xrm','XTerm*ctrlFKeys:12']
+    resource_args += spec.get('resources', [])
     terminal = subprocess.Popen([executable,'-geometry','80x24+10+10','-b','2','-bw','0',
         '+sb','-fn','fixed','-ti','vt525','-xrm','XTerm*locale:false','-xrm','XTerm*wideChars:true',
         *resource_args,'-e',sys.executable,str(Path(__file__).resolve()),'--child',str(report),str(control)],

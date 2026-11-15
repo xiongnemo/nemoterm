@@ -341,6 +341,8 @@ struct terminal_tag {
     int alt_which;
     NemoKeyboard keyboard[2];
     NemoModifyKeys modify_keys; /* xterm settings are shared by both screens */
+    NemoModifyKeys special_modify_keys[2]; /* cursor and function resources */
+    bool special_modify_keys_set; /* application negotiation overrides Win32 transport */
     bool win32_input; /* DEC 9001 is global, including the alternate screen */
     unsigned win32_input_epoch; /* invalidate held raw keys after reset/toggle */
     /* XTSAVE/XTRESTORE is one shared cache, not a stack. Enum-valued mouse

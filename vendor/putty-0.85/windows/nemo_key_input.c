@@ -32,7 +32,7 @@ bool nemo_win32_input_active(WinGuiSeat *wgs)
     /* ConPTY requests 9001 on startup. Application keyboard negotiations must
      * still take precedence over that underlying transport request. */
     return wgs->term->win32_input && conf_get_bool(wgs->term->conf, CONF_nemo_win32_input) &&
-        !flags(wgs) && wgs->term->modify_keys.level <= 0;
+        !flags(wgs) && wgs->term->modify_keys.level <= 0 && !wgs->term->special_modify_keys_set;
 }
 
 static void refresh_win32_epoch(WinGuiSeat *wgs)
@@ -67,7 +67,7 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
     if (!wgs->term || key >= 256) return;
     bool kitty = enhanced(wgs);
     bool raw = nemo_win32_input_active(wgs);
-    bool active = kitty || raw || wgs->term->modify_keys.level > 0;
+    bool active = kitty || raw || wgs->term->modify_keys.level > 0 || wgs->term->special_modify_keys_set;
     if (!wgs->key_input && !active) return;
     if (!wgs->key_input) {
         wgs->key_input = snew(NemoKeyInput);
