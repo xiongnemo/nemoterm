@@ -26,6 +26,15 @@ fixtures: 41 background groups, with eight foreground/clipboard groups still
 requiring an available desktop. CI's smaller Consolas grids do not replace the
 local 160x48 Sarasa measurements. The accepted distribution remains unchanged.
 
+The exact candidate now completes the local dense GDI workload at **19,197,952
+private WS / 41,832,448 total WS / 22,716,416 private-commit bytes**. Its 3,966
+uninjected samples span 431.767 seconds; all 29,072 image-cell comparisons and
+ten lifecycle checks pass, and all 56 owned processes exit naturally. The
+first thirteen completed groups, source-matched fixtures, raw samples and
+retained pixel strips are independently reviewed in
+`answerback-product-local-gdi-validation.json` and its archive. Remaining local
+groups and full-goal requirements are not covered by this partial checkpoint.
+
 The older `69496bb` ordinary workflow succeeded, but its single-image Unicode
 workload failed during tab cleanup. Instrumented exact-image replays show that
 the old synthetic client's 300-second lifetime leaves little headroom; only

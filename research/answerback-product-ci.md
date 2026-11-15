@@ -27,7 +27,8 @@ cannot replace local 160x48 Sarasa acceptance. The 49-group local plan separates
 41 owned background cases from eight foreground/clipboard cases. Its prepared
 audit requires the exact executable, source-matched fixtures, all planned groups,
 raw pixel evidence and unchanged memory limits before reporting completion.
-The current local run is still in progress.
+The current local run is still in progress. Its first thirteen groups have now
+been independently reviewed and retained, as described below.
 
 `answerback-product-ci-validation.json` binds the source, complete workflow/job
 results, artifact metadata and all 163 group names. The three retained ZIPs are
@@ -47,3 +48,34 @@ Git. Prior failed revisions remain recorded separately; this successful CI run
 does not explain their intermittent callback or lifetime observations. Complete
 xterm-family coverage and remaining physical/application requirements are not
 claimed by these finite regression groups.
+
+## Local GDI checkpoint
+
+The exact downloaded image completes the 160x48 **SarasaTermSC Nerd Font Light**
+dense Unicode-image workload at **19,197,952 bytes private working set**,
+**41,832,448 bytes total working set**, and **22,716,416 bytes private commit**.
+All 3,966 samples over 431.767 seconds are uninjected; their maxima are
+independently recomputed from the original samples. Memory sampling completes
+before image-capture and key probes are loaded. The unchanged strict GDI
+20,000,000-byte private-working-set gate passes.
+
+After sampling, all **29,072 image-cell comparisons** pass on both active and
+inactive tabs. Twelve retained PNG strips are independently decoded and checked
+pixel by pixel. Ten tab/lifecycle checks pass, and all **56 owned processes**
+exit naturally. The complete case takes 897.2 seconds, including its subsequent
+image and lifecycle checks; this is a finite synthetic workload, not an
+interactive performance or long-running agent certification.
+
+`answerback-product-local-gdi.tar.gz` and its validation manifest retain this
+case plus the twelve earlier completed groups: CLI profile precedence, hosted
+geometry on all three actual renderers, resize on all four tab sides, 272
+terminal-parameter streams, 160 configured-answerback streams, twelve shutdown
+cases and startup sizing. The reviewer checks fixture bytes against Git source
+`253855b`, original per-case file hashes, exact reply bytes, actual renderer
+identity and natural cleanup. The resize checks also recompute work-area clamps.
+
+The archive contains a stable thirteen-result prefix while the original
+41-group background controller continues. It does not certify the remaining
+background groups, eight desktop/clipboard groups, physical IME/DPI, full
+protocol coverage or overall candidate acceptance. The previously accepted
+distribution is unchanged.
