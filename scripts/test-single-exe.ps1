@@ -37,8 +37,8 @@ try {
         'osc52', 'mok', 'win32_input', 'state_control', 'iso2022', 'tabulation', 'double_size', 'alignment', 'graphics_query', 'dec_status', 'checksum', 'sgr_stack', 'palette_stack', 'reset_palette', 'selection_colour', 'attribute_colour', 'presentation_state', 'horizontal', 'reverse_wrap', 'relative_cursor', 'selective_erase', 'guarded_area', 'rectangle', 'margins', 'cwd',
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     $tests += 'c1_controls', 'startup_visibility', 'iterm_reports', 'font_zoom', 'bell', 'bell_visual', 'image_rectangle', 'control_cancellation'
-    # Physical pointer input is restricted to the disposable CI desktop.
-    if ($env:GITHUB_ACTIONS -eq 'true') { $tests += 'locator' }
+    # Physical pointer and keyboard input is restricted to the disposable CI desktop.
+    if ($env:GITHUB_ACTIONS -eq 'true') { $tests += 'locator', 'udk' }
     foreach ($name in $tests) {
         Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
