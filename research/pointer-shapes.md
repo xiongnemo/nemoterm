@@ -1,8 +1,8 @@
 # OSC 22 pointer-shape development
 
 OSC 22 now has bounded parser state and a tested optional presentation callback.
-The Windows frontend does not yet implement that callback, so applications
-receive no support advertisement or query reply in the actual product.
+The Windows frontend now connects the callback and presents all thirty shapes;
+its native cursor resources and real-window behavior are undergoing validation.
 The accepted distribution is unchanged; local native testing remains paused.
 
 The [kitty protocol](https://sw.kovidgoyal.net/kitty/pointer-shapes/) defines
@@ -117,3 +117,27 @@ projection preserves every input chunk from the independent capture. This is
 parser/callback-model validation: Windows pointer pixels, actual tab isolation,
 native resources, DPI/selection/busy priorities and product memory remain
 unverified. No local GUI or native runtime test was run.
+
+## Windows presentation under validation
+
+The frontend selects shared Windows cursors for standard shapes and eight
+small monochrome glyphs for alias, cell, copy, grab, grabbing, vertical text
+and zoom. Custom resources are lazy, shared across tabs, and bounded to 104
+handles (eight shapes in thirteen 8-pixel size buckets, 32 through 128 pixels).
+No custom resource is created on a default terminal. Shutdown destroys only
+owned cursors after terminal windows close. No new library or distribution
+file is required.
+
+Application shape is per terminal. Busy status retains its existing priority;
+Shift/local selection and allowed link hover override the application's shape.
+Updates check the active visible window under the pointer or its mouse capture,
+without changing the shared class cursor. Tab activation, pointer movement,
+Shift transitions and DPI changes refresh presentation. System resize aliases
+share the corresponding Windows axis/diagonal cursors. Cursor sizes above 128
+pixels are clamped; physical multi-monitor/accessibility behavior remains to
+be tested.
+
+The native resource fixture checks all thirty shapes and thirteen sizes using
+actual Win32 cursor objects, stable cache handles, teardown and three BMP
+contact sheets. Source compilation alone does not establish these runtime
+checks or actual frontend pointer/selection behavior.

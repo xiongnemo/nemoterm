@@ -140,6 +140,7 @@ struct WinGuiSeat {
     bool font_zoom_wheeling;
 
     bool pointer_indicates_raw_mouse;
+    unsigned app_pointer_shape;
 
     BusyStatus busy_status;
 
@@ -172,6 +173,8 @@ struct WinGuiSeat {
 };
 
 extern const LogPolicyVtable win_gui_logpolicy_vt; /* in dialog.c */
+/* Updates only the owning visible terminal under the mouse (or capture). */
+void nemo_update_mouse_pointer(WinGuiSeat *wgs);
 
 static inline void wgs_link(WinGuiSeat *wgs)
 {

@@ -24,6 +24,7 @@
 #include "nemo_debug.h"
 #include "nemo_drop.h"
 #include "nemo_link_ui.h"
+#include "nemo_pointer_win.h"
 #include "nemo_shell.h"
 #include "nemo_key_input.h"
 #include "nemo_clipboard.h"
@@ -249,6 +250,7 @@ static void wintw_free_draw_ctx(TermWin *);
 static void wintw_set_cursor_pos(TermWin *, int x, int y);
 static void wintw_set_raw_mouse_mode(TermWin *, bool enable);
 static void wintw_set_raw_mouse_mode_pointer(TermWin *, bool enable);
+static void wintw_set_pointer_shape(TermWin *, unsigned shape);
 static void wintw_set_scrollbar(TermWin *, int total, int start, int page);
 static void wintw_bell(TermWin *, int mode);
 static void wintw_clip_write(
@@ -285,6 +287,7 @@ static const TermWinVtable windows_termwin_vt = {
     .set_cursor_pos = wintw_set_cursor_pos,
     .set_raw_mouse_mode = wintw_set_raw_mouse_mode,
     .set_raw_mouse_mode_pointer = wintw_set_raw_mouse_mode_pointer,
+    .set_pointer_shape = wintw_set_pointer_shape,
     .set_scrollbar = wintw_set_scrollbar,
     .bell = wintw_bell,
     .clip_write = wintw_clip_write,
@@ -1305,6 +1308,7 @@ void cleanup_exit(int code)
         wgs_cleanup(wgs);
     }
     sk_cleanup();
+    nemo_pointer_cursors_free();
     winselgui_clear_hwnd();
     if (app_event_hwnd) DestroyWindow(app_event_hwnd);
     app_event_hwnd = NULL;
@@ -1412,35 +1416,50 @@ static void win_seat_update_specials_menu(Seat *seat)
     wgs->specials_menu = new_menu;
 }
 
-static void update_mouse_pointer(WinGuiSeat *wgs)
+void nemo_update_mouse_pointer(WinGuiSeat *wgs)
 {
-    LPTSTR curstype = NULL;
+    /* Backend output and title/link changes also update hidden tabs. Never
+     * change a shared class cursor or a cursor over another application's UI. */
+    POINT point; RECT client;
+    if (wgs->closing || !wgs->term_hwnd || !wgs_active(wgs) ||
+        !IsWindowVisible(wgs->term_hwnd) || !GetCursorPos(&point)) return;
+    if (GetCapture() != wgs->term_hwnd) {
+        if (WindowFromPoint(point) != wgs->term_hwnd ||
+            !GetClientRect(wgs->term_hwnd, &client) ||
+            !ScreenToClient(wgs->term_hwnd, &point) || !PtInRect(&client, point)) return;
+    }
+    NemoPointerShape shape = NEMO_POINTER_TEXT;
     bool force_visible = false;
     static bool forced_visible = false;
     switch (wgs->busy_status) {
       case BUSY_NOT:
-        if (nemo_link_hand_cursor(wgs))
-            curstype = IDC_HAND;
+        if ((GetKeyState(VK_SHIFT) & 0x8000) || (wgs->term &&
+            (wgs->term->selstate == ABOUT_TO || wgs->term->selstate == DRAGGING)))
+            shape = NEMO_POINTER_TEXT;
+        else if (nemo_link_hand_cursor(wgs))
+            shape = NEMO_POINTER_POINTER;
+        else if (wgs->app_pointer_shape > NEMO_POINTER_NONE &&
+                 wgs->app_pointer_shape < NEMO_POINTER_SHAPE_COUNT)
+            shape = (NemoPointerShape)wgs->app_pointer_shape;
         else if (wgs->pointer_indicates_raw_mouse)
-            curstype = IDC_ARROW;
-        else
-            curstype = IDC_IBEAM;
+            shape = NEMO_POINTER_DEFAULT;
         break;
       case BUSY_WAITING:
-        curstype = IDC_APPSTARTING; /* this may be an abuse */
+        shape = NEMO_POINTER_PROGRESS;
         force_visible = true;
         break;
       case BUSY_CPU:
-        curstype = IDC_WAIT;
+        shape = NEMO_POINTER_WAIT;
         force_visible = true;
         break;
       default:
         unreachable("Bad busy_status");
     }
     {
-        HCURSOR cursor = LoadCursor(NULL, curstype);
-        SetClassLongPtr(wgs->term_hwnd, GCLP_HCURSOR, (LONG_PTR)cursor);
-        SetCursor(cursor); /* force redraw of cursor at current posn */
+        int size = p_GetSystemMetricsForDpi ?
+            p_GetSystemMetricsForDpi(SM_CXCURSOR, (UINT)max(96, wgs->dpi_info.cur_dpi.x)) :
+            GetSystemMetrics(SM_CXCURSOR);
+        SetCursor(nemo_pointer_cursor(shape, (unsigned)max(32, size)));
     }
     if (force_visible != forced_visible) {
         /* We want some cursor shapes to be visible always.
@@ -1456,7 +1475,7 @@ static void win_seat_set_busy_status(Seat *seat, BusyStatus status)
 {
     WinGuiSeat *wgs = container_of(seat, WinGuiSeat, seat);
     wgs->busy_status = status;
-    update_mouse_pointer(wgs);
+    nemo_update_mouse_pointer(wgs);
 }
 
 static void wintw_set_raw_mouse_mode(TermWin *tw, bool activate)
@@ -1469,7 +1488,14 @@ static void wintw_set_raw_mouse_mode_pointer(TermWin *tw, bool activate)
 {
     WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
     wgs->pointer_indicates_raw_mouse = activate;
-    update_mouse_pointer(wgs);
+    nemo_update_mouse_pointer(wgs);
+}
+
+static void wintw_set_pointer_shape(TermWin *tw, unsigned shape)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    wgs->app_pointer_shape = shape;
+    nemo_update_mouse_pointer(wgs);
 }
 
 /*
@@ -2663,7 +2689,7 @@ static Mouse_Button translate_button(WinGuiSeat *wgs, Mouse_Button button)
 static void show_mouseptr(WinGuiSeat *wgs, bool show)
 {
     /* NB that the counter in ShowCursor() is also frobbed by
-     * update_mouse_pointer() */
+     * nemo_update_mouse_pointer() */
     static bool cursor_visible = true;
     if (wgs) {
         if (!conf_get_bool(wgs->conf, CONF_hide_mouseptr))
@@ -3410,6 +3436,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     ReleaseCapture();
             }
         }
+        nemo_update_mouse_pointer(wgs);
         return message == WM_XBUTTONDOWN || message == WM_XBUTTONUP ? TRUE : 0;
       case WM_MOUSEMOVE:
         /*
@@ -3460,6 +3487,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                        Y_POS(lParam)-wgs->offset_height, (wParam & MK_SHIFT) != 0,
                        (wParam & MK_CONTROL) != 0, is_alt_pressed());
         }
+        nemo_update_mouse_pointer(wgs);
         return 0;
       case WM_CAPTURECHANGED:
         if ((HWND)lParam == hwnd) return 0;
@@ -3468,6 +3496,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         nemo_link_cancel(wgs);
         term_mouse_cancel(wgs->term);
         term_cancel_selection_drag(wgs->term);
+        nemo_update_mouse_pointer(wgs);
         if (message == WM_CANCELMODE && GetCapture() == hwnd)
             ReleaseCapture();
         if (message == WM_CANCELMODE)
@@ -3477,8 +3506,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         nemo_link_leave(wgs);
         return 0;
       case WM_SETCURSOR:
-        if (LOWORD(lParam) == HTCLIENT && nemo_link_hand_cursor(wgs)) {
-            SetCursor(LoadCursor(NULL, IDC_HAND));
+        if (LOWORD(lParam) == HTCLIENT) {
+            nemo_update_mouse_pointer(wgs);
             return TRUE;
         }
         break;
@@ -3913,6 +3942,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         wgs->dpi_info.cur_dpi.y = HIWORD(wParam);
         wgs->dpi_info.new_wnd_rect = *(RECT*)(lParam);
         reset_window(wgs, 3);
+        nemo_update_mouse_pointer(wgs);
         return 0;
       case WM_VSCROLL:
         switch (LOWORD(wParam)) {
@@ -4022,6 +4052,8 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_KEYUP:
       case WM_SYSKEYUP:
         nemo_link_key(wgs, message, wParam);
+        if (wParam == VK_SHIFT || wParam == VK_LSHIFT || wParam == VK_RSHIFT)
+            nemo_update_mouse_pointer(wgs);
         /*
          * Add the scan code and keypress timing to the random
          * number noise.

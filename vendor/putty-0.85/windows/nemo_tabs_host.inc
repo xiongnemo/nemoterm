@@ -210,6 +210,7 @@ static void nemo_host_select(WinGuiSeat *w)
     term_set_focus(w->term,GetForegroundWindow()==tab_host.hwnd);
     term_invalidate(w->term);InvalidateRect(w->term_hwnd,NULL,TRUE);
     UpdateWindow(w->term_hwnd);nemo_host_title(w);
+    nemo_update_mouse_pointer(w);
 }
 static void nemo_host_remove(WinGuiSeat *w)
 {

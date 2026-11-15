@@ -193,8 +193,7 @@ void nemo_link_refresh(WinGuiSeat *wgs)
         sfree(owned);
     }
     else if (ui->tip) ShowWindow(ui->tip, SW_HIDE);
-    SetCursor(LoadCursor(NULL, nemo_link_hand_cursor(wgs) ? IDC_HAND :
-                         wgs->pointer_indicates_raw_mouse ? IDC_ARROW : IDC_IBEAM));
+    nemo_update_mouse_pointer(wgs);
 }
 
 static void local_drag(WinGuiSeat *wgs, WPARAM keys)

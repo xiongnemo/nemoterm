@@ -65,6 +65,7 @@ add_sources_from_current_dir(agent
   agent-client.c)
 add_sources_from_current_dir(guiterminal
   nemo_debug.c nemo_drop.c nemo_wic.c nemo_kitty_paint.c
+  nemo_pointer_win.c nemo_pointer_glyph.c
   nemo_tabs_layout.c
   nemo_gl.c nemo_d2d.c nemo_d2d_api.cpp nemo_d3d11.c nemo_gpu.c
   nemo_font_cmap.c nemo_font_fallback.c
@@ -302,6 +303,12 @@ add_executable(test_pointer_terminal
   no-jump-list.c)
 target_link_libraries(test_pointer_terminal
   guiterminal settings eventloop utils ${platform_libraries})
+
+add_executable(test_pointer_cursor
+  ${CMAKE_SOURCE_DIR}/../../tests/test_pointer_cursor.c
+  nemo_pointer_win.c nemo_pointer_glyph.c)
+target_include_directories(test_pointer_cursor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(test_pointer_cursor user32 gdi32)
 
 add_executable(test_titles
   ${CMAKE_SOURCE_DIR}/test/test_titles.c
