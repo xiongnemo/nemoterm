@@ -127,3 +127,31 @@ The new single-image suite should have 158 groups. Ordinary
 [43722555463](https://github.com/xiongnemo/nemoterm/actions/runs/43722555463) and
 single-image [43722558224](https://github.com/xiongnemo/nemoterm/actions/runs/43722558224)
 are running. The currently accepted local image is unchanged.
+
+## Tab-host and window-state follow-up
+
+The image-reuse job verifies a prior successful workflow's artifact ID, binary
+source revision and SHA256 before running new fixtures. The first
+[43723320663](https://github.com/xiongnemo/nemoterm/actions/runs/43723320663)
+at `af5badf` stops before any bell assertion because its New Tab command launches
+the configured shell instead of duplicating the fixture command. After using
+Duplicate Session, [43723442007](https://github.com/xiongnemo/nemoterm/actions/runs/43723442007)
+at `f654468` observes the unchanged `994bee4` image through ten passing GDI
+window-state checks: focused/unfocused background bells, mode-disable/focus
+clearing, an already-topmost host and a minimized host. It then finds a real
+ownership bug: closing the sole notifying background tab produces no native
+stop request, while the remaining tab and foreground window stay correct.
+DirectX is not reached in that failing run.
+
+`bell-window-state-failures.tar.gz` retains both original failures, 33 records /
+55,246 bytes, with exact fixture sources, logs, binary provenance and observed
+states. The tested executable remains in the earlier native archive.
+
+`f25294c` clears a closing session's notification when it is the last owner for
+that host, and preserves the host notification when another live session owns
+one. It adds no allocation or persistent state. The new native build
+[43723767151](https://github.com/xiongnemo/nemoterm/actions/runs/43723767151)
+is pending and checks both GDI and DirectX, including two simultaneous owners.
+A further fixture covers selecting a neighbour when an unfocused host's active
+tab closes; its result is still pending. The earlier full workflows at `ea141fe`
+predate this lifecycle correction and cannot certify it.

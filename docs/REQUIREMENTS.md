@@ -24,7 +24,12 @@ check caught an ineffective raise despite a successful API return; `994bee4`
 corrects the positioning and passes 112 native cases / 192 exact streams, actual
 foreground/Z-order observations and unchanged final topmost status. Both full
 product workflows are now running at `ea141fe`. Visible taskbar, already-topmost,
-minimized and background-tab cases remain open. Local testing stays paused.
+minimized and background-tab cases now have follow-up evidence: ten GDI checks
+pass on the unchanged image, but closing the last notifying background tab
+leaves its host notice pending. `f25294c` corrects ownership/cleanup and is under
+native validation, including DirectX and multiple owners. The `ea141fe` full
+workflows predate that correction. Visible taskbar and further lifecycle/local
+acceptance remain open. Local testing stays paused.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 

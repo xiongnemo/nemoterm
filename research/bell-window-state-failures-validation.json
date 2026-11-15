@@ -1,0 +1,206 @@
+{
+  "runs": [
+    {
+      "fixture_source": "af5badf74a85cb3a6b73adacdb0a84d03de20fe9",
+      "run": 43723320663,
+      "artifact_id": 14165825512,
+      "image_provenance": {
+        "artifact_id": 14164424987,
+        "image_run": 43721733820,
+        "image_source": "994bee4b189850488a5ab4f29eed1fd7355850e9",
+        "fixture_source": "af5badf74a85cb3a6b73adacdb0a84d03de20fe9",
+        "image_sha256": "8CB4D404FA7C861E828B1B8AF1151DE7370FBA85943C8B9B00D873DE864E9BA9"
+      },
+      "observed_checks": 0,
+      "failure": "Fixture used New Tab, which intentionally launches the configured shell instead of duplicating the mailbox command."
+    },
+    {
+      "fixture_source": "f654468639fc3000900719e7bce27090833adbdf",
+      "run": 43723442007,
+      "artifact_id": 14165630929,
+      "image_provenance": {
+        "image_run": 43721733820,
+        "artifact_id": 14164424987,
+        "fixture_source": "f654468639fc3000900719e7bce27090833adbdf",
+        "image_source": "994bee4b189850488a5ab4f29eed1fd7355850e9",
+        "image_sha256": "8CB4D404FA7C861E828B1B8AF1151DE7370FBA85943C8B9B00D873DE864E9BA9"
+      },
+      "observed_checks": 11,
+      "failure": "GDI: closing the sole notifying background tab leaves its host notification without a FlashWindowEx STOP."
+    }
+  ],
+  "image_retained_in": "research/bell-modes-native.tar.gz",
+  "scope": "Original cloud failures; the second run reaches a real notification ownership bug after ten passing GDI observations. DirectX was not reached. No local desktop execution.",
+  "bundle": {
+    "path": "research/bell-window-state-failures.tar.gz",
+    "bytes": 55246,
+    "sha256": "74689d2acfe7de873ba74c7faf25aee3bbabf4890d5c784ad3d7f182254120cc",
+    "records": [
+      {
+        "path": "af5badf/bell-state-artifacts.json",
+        "raw_bytes": 772,
+        "raw_sha256": "bff2e3c1230df6eda6d7eca0ba5fe24421a72800c7cf680df7e16560a53b354a"
+      },
+      {
+        "path": "af5badf/bell-state-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "76baed43e0e94ada1a988a4484ef07444830f021519a9b1e17d2062fef0322dc"
+      },
+      {
+        "path": "af5badf/bell-state-run.json",
+        "raw_bytes": 3272,
+        "raw_sha256": "a8d18615d3deff9fe4b31061b73664ed886c1c691014aee67efd3cc0ef964d2b"
+      },
+      {
+        "path": "af5badf/bell-state-run.log",
+        "raw_bytes": 43156,
+        "raw_sha256": "e2157f78ae43a979572b80f03beee7d8f5080816930f06890be325b05c4e5eab"
+      },
+      {
+        "path": "af5badf/diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "e20fec8784618161c4aa00411a846ce60683bf36f663a1cd07b9efbc81273f62"
+      },
+      {
+        "path": "af5badf/diagnostic/bell-state-provenance.json",
+        "raw_bytes": 280,
+        "raw_sha256": "78d4b20a74790709173579333eb159163eb4b5a3ff8426b7b6348cc612332789"
+      },
+      {
+        "path": "af5badf/diagnostic/bell-window-state.log",
+        "raw_bytes": 568,
+        "raw_sha256": "b038db2da3e129b54223fe27f5a5e5f2a78ee7204981f055dd6c057f83e69dd8"
+      },
+      {
+        "path": "af5badf/diagnostic/research/bell-window-state-observed.json",
+        "raw_bytes": 269,
+        "raw_sha256": "faf87e1e96aed456b9bb3e5ea835881cdd65ad9b29cc6f04b58fd2d7e7761364"
+      },
+      {
+        "path": "af5badf/source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 19028,
+        "raw_sha256": "b474ca82af3872ceb47d3e76cbc031781321319ad62d2ece5c4f31cbbd7d98d5"
+      },
+      {
+        "path": "af5badf/source/tests/bell_window_state_smoke.py",
+        "raw_bytes": 11180,
+        "raw_sha256": "d67d375b28491d110521afd71256291702a65129a85acb6e4f736b7bed75b4ed"
+      },
+      {
+        "path": "af5badf/source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "af5badf/source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "af5badf/source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "af5badf/source/tests/protocol_oracle_window.py",
+        "raw_bytes": 6603,
+        "raw_sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+      },
+      {
+        "path": "af5badf/source/tests/session_fixture.py",
+        "raw_bytes": 544,
+        "raw_sha256": "5f7f2042ad7250ad1d9d6e2af7a57d4e927dd2dae0f111c88cb9901015bc2779"
+      },
+      {
+        "path": "af5badf/source/tools/nemoterm_debug.py",
+        "raw_bytes": 10195,
+        "raw_sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+      },
+      {
+        "path": "f654468/bell-state-artifacts.json",
+        "raw_bytes": 772,
+        "raw_sha256": "2eab079267da24fb988615625c995211b270a6dd2efaa54c12e22162330efbcf"
+      },
+      {
+        "path": "f654468/bell-state-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "523cb6fd5d910033cd6710ece88956607600f7de2583a7ccacc353c5946d6c27"
+      },
+      {
+        "path": "f654468/bell-state-run.json",
+        "raw_bytes": 3272,
+        "raw_sha256": "ba9870c5ff6a2ad50328a01454474f568774bb60398772aefb63de4fc079b139"
+      },
+      {
+        "path": "f654468/bell-state-run.log",
+        "raw_bytes": 42474,
+        "raw_sha256": "26fbfe1b6cf6be1d8a9ee375363ec9f6b3a8ad057efa597b03e3945e9e46800b"
+      },
+      {
+        "path": "f654468/diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "9b83f2e61aa026056fd12c60f5f074bfb4c67884fa8e3634d1b68ee016bdec7c"
+      },
+      {
+        "path": "f654468/diagnostic/bell-state-provenance.json",
+        "raw_bytes": 280,
+        "raw_sha256": "a2b6b440aa525bff94dfe9d04bb328582b08c60f4a74e5181cbb0b8e31633196"
+      },
+      {
+        "path": "f654468/diagnostic/bell-window-state.log",
+        "raw_bytes": 490,
+        "raw_sha256": "07a5d993ff0e17643bed1fa99b84bb6ebc7a7b8268fd0f3812d6bb2017053387"
+      },
+      {
+        "path": "f654468/diagnostic/research/bell-window-state-observed.json",
+        "raw_bytes": 8382,
+        "raw_sha256": "e5f80368c072c7723e3ac44f521c625134c513705b9d9b9dd98921e689480ddd"
+      },
+      {
+        "path": "f654468/source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 19028,
+        "raw_sha256": "b474ca82af3872ceb47d3e76cbc031781321319ad62d2ece5c4f31cbbd7d98d5"
+      },
+      {
+        "path": "f654468/source/tests/bell_window_state_smoke.py",
+        "raw_bytes": 11324,
+        "raw_sha256": "1eadef3ee76cd557542e3f88e45687a76256e722abd576b6bc44ffcb1844f3cb"
+      },
+      {
+        "path": "f654468/source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "f654468/source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "f654468/source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "f654468/source/tests/protocol_oracle_window.py",
+        "raw_bytes": 6603,
+        "raw_sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+      },
+      {
+        "path": "f654468/source/tests/session_fixture.py",
+        "raw_bytes": 544,
+        "raw_sha256": "5f7f2042ad7250ad1d9d6e2af7a57d4e927dd2dae0f111c88cb9901015bc2779"
+      },
+      {
+        "path": "f654468/source/tools/nemoterm_debug.py",
+        "raw_bytes": 10195,
+        "raw_sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+      },
+      {
+        "path": "source/retainer.py",
+        "raw_bytes": 4591,
+        "raw_sha256": "12c82d7fee2038bfb560eb66389d099f4d3be9c577d57287c425d044c1fdf32f"
+      }
+    ]
+  }
+}
