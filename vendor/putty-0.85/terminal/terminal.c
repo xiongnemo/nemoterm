@@ -11323,9 +11323,21 @@ static void do_paint(Terminal *term)
                 dirty_run = dirty_line || next_run_dirty;
             }
 
+            /* Kitty positional marks locate an image; the text renderer
+             * deliberately paints only a blank for their base character.
+             * Keep the original chain in the screen/history for image
+             * placement and copying, but do not duplicate those invisible
+             * marks in the last-painted-text cache on every dense row. */
+            termchar image_blank;
+            const termchar *display_char = d;
+            if (term->win->vt->kitty_graphics && d->chr == 0x10eeee) {
+                image_blank = *d;
+                image_blank.cc_next = 0;
+                display_char = &image_blank;
+            }
             do_copy = false;
             if (!termchars_equal_override(&term->disptext[i]->chars[j],
-                                          d, tchar, tattr)) {
+                                          display_char, tchar, tattr)) {
                 do_copy = true;
                 dirty_run = true;
             }
@@ -11376,7 +11388,7 @@ static void do_paint(Terminal *term)
             }
 
             if (do_copy) {
-                copy_termchar(term->disptext[i], j, d);
+                copy_termchar(term->disptext[i], j, display_char);
                 term->disptext[i]->chars[j].chr = tchar;
                 term->disptext[i]->chars[j].attr = tattr;
                 term->disptext[i]->chars[j].truecolour = tc;

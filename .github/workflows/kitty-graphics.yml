@@ -42,6 +42,7 @@ on:
       - vendor/putty-0.85/test/test_kitty_terminal.inc
       - vendor/putty-0.85/test/kitty_terminal_reference.h
       - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/test/test_grapheme_terminal.c
       - vendor/putty-0.85/terminal/terminal.h
       - vendor/putty-0.85/putty.h
       - vendor/putty-0.85/terminal/nemo_raster.*
@@ -85,6 +86,7 @@ on:
       - vendor/putty-0.85/test/test_kitty_terminal.inc
       - vendor/putty-0.85/test/kitty_terminal_reference.h
       - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/test/test_grapheme_terminal.c
       - vendor/putty-0.85/terminal/terminal.h
       - vendor/putty-0.85/putty.h
       - vendor/putty-0.85/terminal/nemo_raster.*
@@ -193,9 +195,12 @@ jobs:
             -DCMAKE_C_COMPILER="$CC" -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee terminal-configure.log
-          cmake --build build-terminal --target test_sixel_terminal --parallel 4 2>&1 | tee terminal-build.log
+          cmake --build build-terminal --target test_sixel_terminal test_grapheme_terminal --parallel 4 2>&1 | tee terminal-build.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-terminal/test_sixel_terminal 2>&1 | tee terminal-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-terminal/test_grapheme_terminal 2>&1 | tee paint-cache-sanitizers.log
+          sha256sum vendor/putty-0.85/test/test_grapheme_terminal.c > paint-cache-source.sha256
           sha256sum vendor/putty-0.85/terminal/terminal.[ch] vendor/putty-0.85/putty.h vendor/putty-0.85/test/test_kitty_terminal.inc vendor/putty-0.85/test/kitty_terminal_reference.h scripts/generate-kitty-terminal-reference.py > terminal-sources.sha256
           sha256sum vendor/putty-0.85/terminal/nemo_kitty* vendor/putty-0.85/terminal/nemo_raster.* tests/test_kitty_*.c tests/kitty_layout_reference.h scripts/generate-kitty-layout-reference.py tests/kitty_placement_reference.h scripts/generate-kitty-placement-reference.py vendor/putty-0.85/terminal/nemo_zlib.* vendor/putty-0.85/terminal/puff/* tests/test_zlib.c tests/zlib_reference.h vendor/putty-0.85/test/kitty_compression_reference.h scripts/generate-kitty-compression-reference.py > sources.sha256
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -220,6 +225,8 @@ jobs:
             terminal-configure.log
             terminal-build.log
             terminal-sanitizers.log
+            paint-cache-sanitizers.log
+            paint-cache-source.sha256
           retention-days: 14
   msvc:
     runs-on: windows-2025
@@ -287,10 +294,13 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake -S vendor/putty-0.85 -B build-terminal -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1' -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object terminal-configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build build-terminal --target test_sixel_terminal --parallel 4 2>&1 | Tee-Object terminal-build.log
+          cmake --build build-terminal --target test_sixel_terminal test_grapheme_terminal --parallel 4 2>&1 | Tee-Object terminal-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./build-terminal/test_sixel_terminal.exe 2>&1 | Tee-Object terminal-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build-terminal/test_grapheme_terminal.exe 2>&1 | Tee-Object paint-cache-test.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Get-FileHash vendor/putty-0.85/test/test_grapheme_terminal.c -Algorithm SHA256 | Format-List | Out-File paint-cache-source.txt
           Get-FileHash vendor/putty-0.85/terminal/terminal.c, vendor/putty-0.85/terminal/terminal.h, vendor/putty-0.85/putty.h, vendor/putty-0.85/test/test_kitty_terminal.inc, vendor/putty-0.85/test/kitty_terminal_reference.h, scripts/generate-kitty-terminal-reference.py -Algorithm SHA256 | Format-List | Out-File terminal-sources.txt
           Get-FileHash vendor/putty-0.85/terminal/nemo_kitty*, vendor/putty-0.85/terminal/nemo_raster.*, tests/test_kitty_*.c, tests/kitty_layout_reference.h, scripts/generate-kitty-layout-reference.py, tests/kitty_placement_reference.h, scripts/generate-kitty-placement-reference.py, vendor/putty-0.85/terminal/nemo_zlib.*, vendor/putty-0.85/terminal/puff/*, tests/test_zlib.c, tests/zlib_reference.h, vendor/putty-0.85/test/kitty_compression_reference.h, scripts/generate-kitty-compression-reference.py -Algorithm SHA256 | Format-List | Out-File sources.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -314,4 +324,6 @@ jobs:
             terminal-configure.log
             terminal-build.log
             terminal-test.log
+            paint-cache-test.log
+            paint-cache-source.txt
           retention-days: 14

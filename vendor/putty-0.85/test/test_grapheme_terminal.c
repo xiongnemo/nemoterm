@@ -286,6 +286,54 @@ static int cluster_test_char_width(TermWin *win, int uc) { return 1; }
 static void cluster_test_free_context(TermWin *win) {}
 static void cluster_test_cursor_pos(TermWin *win, int x, int y) {}
 
+static void test_image_placeholder_paint_cache(Mock *mk)
+{
+    setup_cluster(mk,"image positional marks are not rendered-text cache data",48,160);
+    Terminal *t=mk->term;
+    const TermWinVtable *original=mk->tw.vt;
+    TermWinVtable drawing=*original;
+    drawing.setup_draw_ctx=cluster_test_draw_context;
+    drawing.char_width=cluster_test_char_width;
+    drawing.free_draw_ctx=cluster_test_free_context;
+    drawing.set_cursor_pos=cluster_test_cursor_pos;
+    drawing.kitty_graphics=true;
+    mk->tw.vt=&drawing;
+    static const uint32_t image[]={0x10eeee,0x305,0x305};
+    strbuf *row=strbuf_new();
+    for (int x=0;x<158;x++)
+        for (size_t i=0;i<lenof(image);i++) put_utf8_char(row,image[i]);
+    for (int y=1;y<47;y++) {
+        char cursor[32];sprintf(cursor,"\033[%d;2H",y+1);
+        term_data_fragmented(t,cursor);term_data_fragmented(t,row->s);
+    }
+    strbuf_free(row);term_update(t);
+    size_t allocated=0,extensions=0;
+    for (int y=0;y<t->rows;y++) {
+        allocated+=t->disptext[y]->size*sizeof(termchar);
+        for (int x=0;x<t->cols;x++)
+            extensions+=t->disptext[y]->chars[x].cc_next!=0;
+    }
+    printf("Image paint cache: %zu bytes, %zu extension-bearing cells, %zu-byte cells\n",
+           allocated,extensions,sizeof(termchar));
+    IEQUAL(extensions,0);
+    IEQUAL(allocated,48u*160u*sizeof(termchar));
+    /* Render-cache elision must leave the live protocol text untouched. */
+    cluster_contents(mk,1,1,image,lenof(image));
+    term_invalidate(t);term_update(t);
+    cluster_contents(mk,1,1,image,lenof(image));
+    term_data_fragmented(t,"\033[2;2He\314\201");term_update(t);
+    IEQUAL(t->disptext[1]->chars[1].cc_next!=0,true);
+    static const uint32_t accent[]={'e',0x301};
+    cluster_contents(mk,1,1,accent,lenof(accent));
+    /* A frontend without Kitty graphics still paints ordinary PUA text and
+     * its marks; this optimization must not change that fallback. */
+    drawing.kitty_graphics=false;
+    term_data_fragmented(t,"\033[2;2H");output_scalars(t,image,lenof(image));term_update(t);
+    IEQUAL(t->disptext[1]->chars[1].cc_next!=0,true);
+    cluster_contents(mk,1,1,image,lenof(image));
+    mk->tw.vt=original;
+}
+
 static void test_bidi_cache(Mock *mk)
 {
     setup_cluster(mk,"identity cluster rows and bidi mapping transitions",4,20);
@@ -440,6 +488,7 @@ int main(void)
     test_shapes(mk);test_late_width(mk);test_controls_and_storage(mk);
     test_reflow_and_rectangle(mk);test_repeat(mk);test_mode(mk);test_initial_policy(mk);test_bidi_cache(mk);
     test_double_size_clusters(mk);
+    test_image_placeholder_paint_cache(mk);
     bool failed=mk->any_test_failed;mock_free(mk);
     puts(failed?"Grapheme terminal suite FAILED":"Grapheme terminal suite passed");
     return failed?1:0;
