@@ -49,3 +49,13 @@ after an actual failure and before private-job cleanup. Successful execution,
 the Frida version, the 15-second exit limit and all memory limits are unchanged.
 This retains an original failure directly if it recurs during the long suite;
 it is an observation change, not a production close-path fix.
+
+The exact-image workflow also offers `profiles-api`, an uninjected diagnostic
+arm of the same seven-group fixture. It enables the existing `--automation`
+interface, uses its renderer BMP snapshots and sends the existing next-tab
+bindings through its key operation. All three saved configurations, font checks,
+input isolation, 36 renderer switches, frozen-frame checks, resource thresholds
+and the 15-second close deadline remain. This arm does not import or install
+Frida. It uses the same failed artifact and ownership-checked post-failure dump
+helper; it does not replace the original injected checks or establish memory
+acceptance. Passing it cannot by itself identify the cause of the timeout.

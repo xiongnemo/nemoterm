@@ -1,7 +1,6 @@
 """Saved profiles with different fonts/renderers share one native tab host."""
 from native_test_utils import *
 from owned_job import OwnedJob
-from gpu_capture import OwnedGPUCapture
 from owned_failure_state import record_owned_failure
 import argparse
 import re
@@ -9,12 +8,18 @@ import uuid
 import winreg
 
 parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--observer',choices=('frida','automation'),default='frida',
+                    help='original injected checks, or an uninjected automation diagnostic')
 parser.add_argument('--exception-observer',type=Path,
                     help='attach an external debugger to this private fixture process; diagnostic only')
 parser.add_argument('--failure-dump',type=Path,default=os.environ.get('NEMOTERM_PROFILE_FAILURE_DUMP'),
                     help='external small-dump helper used only after a failed check, before owned cleanup')
 args=parser.parse_args()
 if args.failure_dump:args.failure_dump=args.failure_dump.resolve(strict=True)
+if args.observer=='automation':
+    from automation_capture import OwnedAutomationCapture as ProfileCapture, api
+else:
+    from gpu_capture import OwnedGPUCapture as ProfileCapture
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light'
 u.GetSystemMenu.argtypes,u.GetSystemMenu.restype=[w.HWND,w.BOOL],w.HMENU
@@ -27,8 +32,10 @@ u.GetWindowRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
 u.GetGuiResources.argtypes,u.GetGuiResources.restype=[w.HANDLE,w.DWORD],w.DWORD
 k.GetProcessHandleCount.argtypes=[w.HANDLE,c.POINTER(w.DWORD)]
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-              completed=False,font=font,checks=[],profiles=[],cycles=[],memory_instrumented=True)
+              completed=False,font=font,checks=[],profiles=[],cycles=[],
+              observer=args.observer,memory_instrumented=args.observer=='frida')
 profiles=[]
+if args.observer=='automation':evidence.update(automation_diagnostic=True,memory_acceptance=False)
 if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
 if args.failure_dump:evidence.update(failure_dump_enabled=True,memory_acceptance=False)
 def menu_command(menu,label):
@@ -58,7 +65,8 @@ try:
                         [sys.executable,str(root/'tests/session_fixture.py'),str(tmp)])).items():
                     winreg.SetValueEx(registry,key,0,winreg.REG_SZ,value)
             evidence['profiles'].append(dict(name=name,requested_renderer=renderer,font_size=10+renderer*2))
-        process=job.spawn([str(exe),'-load',evidence['profiles'][0]['name']],
+        process=job.spawn([str(exe),*(['--automation'] if args.observer=='automation' else []),
+            '-load',evidence['profiles'][0]['name']],
             env=dict(os.environ,NEMOTERM_CONPTY='bundled'),creationflags=subprocess.CREATE_NO_WINDOW)
         handle=k.OpenProcess(0x410,False,process.pid)
         try:
@@ -96,18 +104,25 @@ try:
                 return wait_snapshot(lambda:read_snapshot(child['report']),lambda value:'hex' in value)
             for index,child in enumerate(children):
                 output(child,scene('PROFILE '+str(index),('90;10;10','10;90;10','10;10;90')[index]))
-                captures.append(OwnedGPUCapture(process.pid,child['hwnd']))
-            import frida
-            session=frida.attach(process.pid)
-            script=session.create_script((root/'tests/agent_key_probe.js').read_text());script.load()
+                captures.append(ProfileCapture(process.pid,child['hwnd']))
+            if args.observer=='frida':
+                import frida
+                session=frida.attach(process.pid)
+                script=session.create_script((root/'tests/agent_key_probe.js').read_text());script.load()
             current=children[-1]
             def next_tab():
                 global serial,current
                 custom=current is children[2]
-                serial+=1;script.exports_sync.key(dict(id=serial,key=ord('N') if custom else 9,
-                    modifiers=[17,162,18,164] if custom else [17,162]))
-                u.PostMessageW(current['hwnd'],0x8322,0,0)
-                assert wait_for(lambda:script.exports_sync.result())==dict(id=serial)
+                serial+=1
+                if args.observer=='automation':
+                    capture=captures[children.index(current)]
+                    api.request(capture.endpoint,'key',capture.session,
+                                struct.pack('<II',ord('N') if custom else 9,6 if custom else 2))
+                else:
+                    script.exports_sync.key(dict(id=serial,key=ord('N') if custom else 9,
+                        modifiers=[17,162,18,164] if custom else [17,162]))
+                    u.PostMessageW(current['hwnd'],0x8322,0,0)
+                    assert wait_for(lambda:script.exports_sync.result())==dict(id=serial)
                 current=children[(children.index(current)+1)%len(children)]
                 wait_for(lambda:find_window(process.pid)==current['hwnd'])
             def resources():
@@ -189,7 +204,9 @@ try:
             evidence['checks'].append('frozen pixels survive destroying and recreating the shared renderer')
             evidence['phase']='close-capture-helpers'
             for helper in captures:helper.close()
-            captures=[];evidence['phase']='detach-key-probe';session.detach();session=None
+            captures=[]
+            if session:
+                evidence['phase']='detach-key-probe';session.detach();session=None
             evidence['phase']='close-host'
             owner=w.DWORD();host_thread=u.GetWindowThreadProcessId(host,c.byref(owner))
             evidence['close_request']=dict(hwnd=host,thread=host_thread,pid=owner.value)
