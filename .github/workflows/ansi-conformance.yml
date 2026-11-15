@@ -3,6 +3,16 @@ name: ANSI conformance replay
 on:
   workflow_dispatch:
   workflow_call:
+  push:
+    paths:
+      - .github/workflows/ansi-conformance.yml
+      - scripts/generate-ansi-reference.py
+      - tests/ansi_conformance_reference.h
+      - vendor/putty-0.85/test/test_ansi_terminal.c
+      - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/terminal/terminal.h
+      - vendor/putty-0.85/unix/CMakeLists.txt
+      - vendor/putty-0.85/windows/CMakeLists.txt
 
 permissions:
   contents: read
