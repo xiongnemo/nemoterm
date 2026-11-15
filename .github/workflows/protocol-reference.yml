@@ -14,6 +14,7 @@ on:
           - selection-colour
           - cursor-charset
           - ansi-conformance
+          - control-cancellation
           - reset-palette
           - x11-colour
           - sidecar-wire
@@ -100,6 +101,9 @@ jobs:
       - name: Capture ANSI conformance shifts and lifecycle without authored expectations
         if: ${{ (success() || failure()) && (inputs.family == 'ansi-conformance' || inputs.family == 'all') }}
         run: python3 tests/xterm_ansi_conformance_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/ansi-conformance-xterm.json
+      - name: Capture CAN and SUB parser cancellation, glyphs and recovery
+        if: ${{ (success() || failure()) && (inputs.family == 'control-cancellation' || inputs.family == 'all') }}
+        run: python3 tests/xterm_cancellation_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/control-cancellation-xterm.json
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
