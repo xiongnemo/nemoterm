@@ -24,9 +24,11 @@ on the owned Xvfb display. The development implementation at `2a6a163` now has
 bounded lazy storage, an optional VT220 function-key profile and raw byte
 dispatch. GCC/Clang ASan/UBSan and MSVC at `f8a20d3` each match all 238 original
 replies whole and bytewise, plus budget and lifetime checks. The original Linux
-fixture failure and corrected table initialization are retained. Cloud-native
-input and complete product acceptance remain pending. No memory/rendering
-policy changes are made.
+fixture failure and corrected table initialization are retained. The focused
+Windows single image at `1aff8c8` passes 89 physical-key cases / 232 unchanged
+streams, both saved keyboard profiles, Kitty precedence and four existing
+keyboard/status fixtures. Full product workflows are running at `fec0af2`;
+local acceptance remains paused. No memory/rendering policy changes are made.
 
 ## ANSI charset conformance development (2026-11-15 Sydney)
 
@@ -71,8 +73,12 @@ separately from complete product validation at `8e8321c`. The ordinary workflow
 now passes all four jobs, including 27 exact Locator input phases, 413 prior
 native streams and twelve uninjected memory workloads. Its dense remote GDI
 private/total peaks are 14,635,008 / 45,563,904 bytes; DX peaks are 17,821,696 /
-54,378,496. The single-image workflow remains in progress. This feature adds
-no graphics dependency or per-cell storage. Local acceptance remains paused.
+54,378,496. The single-image workflow also passes all 156 groups and twelve
+uninjected memory workloads, with dense GDI private/total peaks of 14,213,120 /
+46,551,040 bytes. Its 4,535,808-byte image has SHA256
+`ef1617db411be99b66f85b835f6fe2a55272e27d854c3cf40cf17ba954793d4d`.
+Both full checkpoints predate DECUDK and have separate retained bundles. This
+feature adds no graphics dependency or per-cell storage. Local acceptance remains paused.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 

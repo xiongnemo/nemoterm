@@ -2,7 +2,8 @@
 
 DECUDK downloads and optional VT220 function-key dispatch are implemented on
 the development branch. The independent reference and three-compiler component
-replay pass; native Windows and complete product acceptance remain pending.
+replay pass, as does the focused native Windows checkpoint. Complete product
+acceptance remains pending.
 Local interactive testing remains paused.
 
 ## Reference and original failure
@@ -104,9 +105,32 @@ these two runs; no input or expected reply was edited to obtain the pass.
 `dec-udk-components.tar.gz` retains **169 records / 768,581 bytes** from both
 runs. Its validation manifest records 102 compiler-source hash matches.
 
-The prepared cloud-native fixture projects 89 reference cases / 232 streams
+The cloud-native fixture projects 89 reference cases / 232 streams
 through physical Windows keys and the bundled console host, including both
 saved keyboard profiles and Kitty precedence. Two cases remain explicitly
 core-only: raw non-UTF-8 framing and arbitrary high-byte payloads cannot be
-treated as a byte-preserving path through Unicode ConPTY. Native results,
-complete product regression and local acceptance remain pending.
+treated as a byte-preserving path through Unicode ConPTY.
+
+## Native Windows checkpoint
+
+[Run 43718137156](https://github.com/xiongnemo/nemoterm/actions/runs/43718137156)
+at `1aff8c8` passes all **89 cases / 232 exact received streams**, the Kitty
+precedence/restore checks, and existing DEC status, keyboard, modifyOtherKeys
+and Win32 input regressions. The two profile sessions and their owned children
+exit naturally. This is real physical input on a disposable Windows CI desktop;
+no input was injected into the user's computer.
+
+The 4,536,832-byte single image has SHA256
+`94680622004d4489534eddf74d0979ca6ee39e18cb74cd043ec08c5e100d3bfd`.
+Its production and single-image build inputs match the passing `f8a20d3`
+component checkpoint. `dec-udk-native.tar.gz` retains 47 records / 2,984,933 bytes,
+indexed by `dec-udk-native-validation.json`, including the executable, source
+inputs, exact observed bytes and cleanup records. Offline validation compares
+every native input/action/reply/barrier stream directly to the original capture.
+
+Full ordinary and single-image workflows now include UDK at
+`fec0af2b24e952a68f9d1deb20fee28e8273db14` (runs 43718798329 and 43718800782).
+The standard `build.ps1 -Tests` target list also now includes both Locator and
+UDK, matching the test runner. The single-image pipeline should contain 157
+groups; its authoritative result remains pending. Full product and local Sarasa
+acceptance are not inferred from this focused native pass.

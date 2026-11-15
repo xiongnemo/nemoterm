@@ -1,8 +1,8 @@
 # DEC Locator reference and integration boundary
 
 DEC Locator is implemented on the development branch with passing parser and
-mouse-dispatch comparisons and a passing focused Windows/ConPTY check. Complete
-product acceptance remains pending. The independent reference establishes the
+mouse-dispatch comparisons, a focused Windows/ConPTY check and complete ordinary
+and single-image CI checkpoints. Local acceptance remains pending. The independent reference establishes the
 behavior separately from the existing xterm tracking protocols.
 Local interactive testing remains paused; all captures below run on private
 Xvfb displays in disposable Linux CI.
@@ -134,9 +134,9 @@ reply bytes are retained and its native replay now uses the equivalent disabled
 mouse-reporting policy; the new Locator fixture separately checks enabled
 status and type reports. DA1 retains the existing configurable terminal identity;
 the verified Locator capability queries are DSR 55 and 56. Complete product
-validation uses `8e8321c`: ordinary run 43715235781 now passes all four jobs;
-single-image run 43715238255 remains in progress. The focused result does not
-substitute for complete workflow acceptance.
+validation uses `8e8321c`: ordinary run 43715235781 passes all four jobs, and
+single-image run 43715238255 passes all 156 groups. Their complete evidence is
+retained separately from the focused fixture.
 No local Sarasa or hardware acceptance is renewed, and DX memory optimization
 remains stopped.
 
@@ -161,3 +161,24 @@ workload (88x35) peaks at 17,821,696 / 54,378,496. The approximate 50 MB total
 target applies only to GDI. These remote grids do not renew local 160x48 Sarasa
 acceptance. `dec-locator-ordinary.tar.gz` retains 4,586 records / 9,375,426 bytes,
 indexed and hashed by `dec-locator-ordinary-validation.json`.
+
+## Complete single-image checkpoint
+
+[Run 43715238255](https://github.com/xiongnemo/nemoterm/actions/runs/43715238255)
+at the same `8e8321c` passes **156 validation groups** with an isolated directory
+containing only `nemoterm.exe`. The image is 4,535,808 bytes, SHA256
+`ef1617db411be99b66f85b835f6fe2a55272e27d854c3cf40cf17ba954793d4d`.
+The [CI product artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43715238255/artifacts/14163477526)
+currently expires on 2026-12-15; the image is also retained in the repository's
+evidence bundle. This build includes Locator and predates DECUDK.
+
+Offline validation confirms all 27 actual Locator streams, 413 ANSI/CAN/SUB
+streams, three exact GDI pixel pairs, twelve uninjected memory workloads and
+25,048 post-memory image-cell comparisons. The dense remote GDI (109x34) peaks
+are 14,213,120 private / 46,551,040 total bytes; DX (88x35) peaks are 17,649,664 /
+55,783,424. The owned memory workloads and both 50-check drag/drop variants exit
+naturally. The GDI-only memory scope remains unchanged.
+
+`dec-locator-single.tar.gz` retains 4,568 records / 8,312,949 bytes, indexed and
+hashed by `dec-locator-single-validation.json`. Local Sarasa acceptance and
+the accepted `dist/nemoterm.exe` remain unchanged.

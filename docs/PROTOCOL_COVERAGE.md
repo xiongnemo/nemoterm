@@ -111,7 +111,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | c / >c / =c (DA/DA2/DA3) | Tested | `queries`, `identity-queries.md`; compatibility identity is not a feature-completeness claim. |
 | >q (XTVERSION) | Tested | `queries`; reports Nemoterm/PuTTY lineage. |
 | n parameters 5/6 (DSR/CPR) | Tested | `queries`, `margins`, tabulation oracle. |
-| ?n (DEC-specific DSR, including extended CPR) | Tested; UDK status update awaits native acceptance | `queries`, native `dec_status`: 5/6/15/25/26/55/56/62/63/75/85, level-dependent report formats, origin/margins/resize and explicit unavailable devices. Enabled Locator status/type pass the [Locator native checkpoint](../research/dec-locator.md). The [UDK development implementation](../research/dec-udk.md) now reports unlocked and passes the original query in core replay; macros remain missing. See `dec-status.md`. |
+| ?n (DEC-specific DSR, including extended CPR) | Tested including UDK status update | `queries`, native `dec_status`: 5/6/15/25/26/55/56/62/63/75/85, level-dependent report formats, origin/margins/resize and explicit unavailable devices. Enabled Locator status/type pass the [Locator native checkpoint](../research/dec-locator.md). The [UDK development implementation](../research/dec-udk.md) now reports unlocked and passes the original query in core and native replay; macros remain missing. See `dec-status.md`. |
 | ?9001;id n (Nemoterm internal cursor synchronization) | Tested | Same-image host transaction IDs and viewport-absolute coordinates; separate from application CPR and Win32 input mode 9001. Native ordering, stale replies and console-API positions are checked. |
 | x (DECREQTPARM) | Source only | Legacy fixed serial characteristics response. |
 | "p (DECSCL) | Partial | Levels 61–65, soft-reset effects, Pc control selection and DECRQSS `"p` use the [C1 reference capture](../research/c1-controls.md). PuTTY extensions remain; exhaustive reset/charset interactions remain open. |
@@ -130,7 +130,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
 | i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |
-| DEC locator 'w/'z/'{/'\| controls | Development core and focused native checks pass | [Independent DEC Locator comparison](../research/dec-locator.md): 102 fresh-XTerm cases and 429 unchanged reply streams pass GCC/Clang sanitizers and MSVC, whole and bytewise. Four default frontend interceptions are explicit. A source-built single image passes 27 actual Windows/ConPTY phases, including live pointer/button queries, Shift selection pixels and resize. Complete product checks are running; local acceptance remains paused. |
+| DEC locator 'w/'z/'{/'\| controls | Core, native and full CI checkpoints pass | [Independent DEC Locator comparison](../research/dec-locator.md): 102 fresh-XTerm cases and 429 unchanged reply streams pass GCC/Clang sanitizers and MSVC, whole and bytewise. Four default frontend interceptions are explicit. A source-built single image passes 27 actual Windows/ConPTY phases, including live pointer/button queries, Shift selection pixels and resize. Complete ordinary and 156-group single-image checkpoints pass; local acceptance remains paused. |
 
 ## Rendition, modes, input and graphics
 
@@ -162,7 +162,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | DCS $q ... ST (DECRQSS) | Partial | `queries`: m, r, s, *x, "p, "q, SP q, $\|, *\|, >4m, >4f and title modes; unknown requests fail explicitly. |
 | DCS Ps !u Pt ST; CSI &u (DECAUPSS / DECRQUPSS) | Partial | Development [UPSS checkpoint](../research/iso2022-upss.md): 112 independent streams, 5,376 output cells and 28 selection captures; reset, DOCS and saved-cursor state; actual three-renderer pixels and ConPTY transport. Full checkpoint CI and complete encoding/malformed-input combinations remain open. |
 | DCS +q ... ST (XTGETTCAP) | Partial | `tcap`; named colour/identity/key and rendition whitelist. `smul/rmul`, `sitm/ritm`, `smxx/rmxx`, `Smol/Rmol`, plus `us/ue/ZH/ZR` aliases. `Smulx`/`Setulc` programs pass independent ncurses expansion, both complete workflows at `37ef26d`, and local discovery/state replay using that exact downloaded image. Requests remain bounded to 2,047 bytes; replies have a 22 KiB ceiling. Not arbitrary terminfo access; `Su` and `Setulc1` remain unknown. These protocol checks do not resolve the separately retained DX acceptance failures. See [underline query evidence](../research/underline-capabilities.md). |
-| DCS Ps;Pl \| key/hex;... ST (DECUDK) | Development implementation; core replay passed | [91 independent XTerm cases / 238 steps](../research/dec-udk.md), including physical F1-F20 input, binary payloads, reset/cancellation and keyboard-profile differences. GCC/Clang sanitizers and MSVC match every reply whole and bytewise; input/aggregate budgets and lazy storage checked. Native and product acceptance pending. |
+| DCS Ps;Pl \| key/hex;... ST (DECUDK) | Development implementation; core and native replay passed | [91 independent XTerm cases / 238 steps](../research/dec-udk.md), including physical F1-F20 input, binary payloads, reset/cancellation and keyboard-profile differences. GCC/Clang sanitizers and MSVC match every reply whole and bytewise; input/aggregate budgets and lazy storage checked. 89 physical-key cases / 232 native streams also pass; two raw byte cases remain core-only. Complete product acceptance pending. |
 | DCS +p ... ST (XTSETTCAP) and full terminal-state restoration | Missing | Query-only termcap support; presentation-state restoration is listed separately. |
 | DCS ... q ... ST (Sixel) | Tested | `sixel`, `sixel_terminal`, native render/scroll/erase/font-resize cases. Resource bounds are part of the implementation. |
 | CSI ? Pi ; Pa ; Pv S (XTSMGRAPHICS) | Tested | `queries`, `sixel`, `sixel_terminal`, native `graphics_query`: register count read/reset/set/max (2–256), current/max geometry, explicit invalid-item/action/failure replies. Geometry is read-only; 8192 per-axis limit remains subject to the shared 4 MiB raster budget. See `graphics-query.md`. |
@@ -194,7 +194,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 ## Work queue from this audit
 
 1. Add remaining presentation/terminal-state reports and extend checksum charset coverage;
-   extend the implemented DEC status queries when UDK/locator/macro support exists.
+   extend the implemented DEC status queries when the remaining macro support exists.
 2. Audit C0/C1 and character-set state transitions; expand individual mode and
    unlisted CSI entries instead of treating this first inventory as exhaustive.
 3. Add remaining xterm report/stack operations and remaining mode families with
