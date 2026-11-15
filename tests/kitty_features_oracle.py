@@ -91,7 +91,7 @@ def make_cases():
     return cases
 
 
-def main():
+def main(inputs=None, family='kitty-features', fixture_path=__file__):
     import kitty.fast_data_types as native
     from kitty_tests.base import BaseTest, parse_bytes
     from kitty_tests.graphics import TestGraphics
@@ -101,11 +101,13 @@ def main():
     output = Path(os.environ['NEMOTERM_KITTY_REFERENCE_OUTPUT']).resolve()
     commit = subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip()
     assert commit == UPSTREAM
-    inputs = make_cases()
+    if inputs is None:
+        inputs = make_cases()
     sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
-    record = dict(status='running', family='kitty-features', upstream_commit=commit,
+    record = dict(status='running', family=family, upstream_commit=commit,
         scope='Native upstream query replies, cursor, images and layers; no OS window or GPU pixels',
-        fixture_sha256=sha(__file__), platform=platform.platform(), python=platform.python_version(),
+        fixture_sha256=sha(fixture_path), observer_sha256=sha(__file__),
+        platform=platform.platform(), python=platform.python_version(),
         source_sha256={p:sha(source/p) for p in ('kitty/graphics.c', 'kitty_tests/graphics.py', 'docs/graphics-protocol.rst')},
         compiled_sha256={p:sha(source/p) for p in ('kitty/launcher/kitty', str(Path(native.__file__).relative_to(source)))},
         expected_cases=[name for name, _ in inputs], cases=[])
