@@ -80,6 +80,6 @@ receipts, member hashes, all 165 groups and the failed ordinary-run result.
 This is not a fully passing candidate, physical-keyboard acceptance or a new
 local memory measurement. Resources 3, 6 and 7 are
 covered by the later [extended-key implementation](extended-key-resources.md).
-Resource 0, remaining application/IME work, and the outstanding desktop tests
-remain separate work.
+Resource 0 is covered by the later [legacy modifier implementation](legacy-modifiers.md).
+Remaining application/IME work and the outstanding desktop tests remain separate work.
 No accepted distribution is replaced and no memory-limit waiver is introduced.

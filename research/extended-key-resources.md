@@ -70,10 +70,18 @@ artifact receipts and source hashes are retained in
 `extended-key-resources-ci.tar.gz` and its validation manifest. Source hashes
 match the exact Git content; four existing `.inc` files have separately verified
 CRLF variants in the Windows checkout. The new native check is included in
-ordinary and single-image CI; both complete workflows remain pending.
+ordinary and single-image CI. Both complete workflows now pass at `77ec984`:
+[ordinary run 43772008320](https://github.com/xiongnemo/nemoterm/actions/runs/43772008320)
+passes all four jobs, and
+[single-image run 43772008256](https://github.com/xiongnemo/nemoterm/actions/runs/43772008256)
+passes **166 groups**. The product contains only a 4,547,072-byte EXE, SHA256
+`7378ca16a2d229bea46721eabf65be0dbc30c588f2a0ef78d916ba77d5ddb1cf`.
+Original product/core/single evidence ZIPs and all artifact/member checks are
+retained as `extended-key-resources-product-ci-*` and the validation manifest.
 
 Physical keyboard/IME behavior, Print/Menu/Help,
 Ctrl+Pause/Break and keypad Tab/Space/Equal remain outside native acceptance.
-Resource 0 and remaining keyboard/application scope remain open. The separate
+Resource 0 is covered by the later [legacy modifier implementation](legacy-modifiers.md);
+remaining keyboard/application scope stays open. The separate
 [`8655aae` MSVC tab-selection access violation](tab-select-msvc-8655aae.md) also remains unresolved; passing
 keyboard checks do not resolve it. No accepted executable is replaced.
