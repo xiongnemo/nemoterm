@@ -47,3 +47,8 @@ changes the close timeout, resource limits or zero-exit assertion. Optional
 and dumps through its normal private-job cleanup. A source rebuild and debugger
 attachment can both change behavior; successful attempts will not explain the
 original failure by themselves.
+
+The first source-diagnostic dispatch (`43686389665`, fixture `f01927a`) stopped
+before building or running Nemoterm because the MSYS shell had no `git` command.
+The dependency list now explicitly includes MSYS Git for the source-identity
+check. That failed setup is not a terminal reproduction or a successful replay.
