@@ -18,6 +18,7 @@ on:
           - dec-locator
           - dec-udk
           - bell-modes
+          - feature-policy
           - reset-palette
           - x11-colour
           - sidecar-wire
@@ -141,6 +142,15 @@ jobs:
           done
           sha256sum build/protocol-reference/bell-source/* > build/protocol-reference/bell-source-sha256.txt
           python3 tests/xterm_bell_modes_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/bell-modes-xterm.json
+      - name: Capture allowed, disallowed and allowable feature reports
+        if: ${{ (success() || failure()) && inputs.family == 'feature-policy' }}
+        run: |
+          mkdir -p build/protocol-reference/feature-policy-source
+          for file in misc.c charproc.c VTPrsTbl.c ptyx.h ctlseqs.ms xterm.h data.c configure.in; do
+            cp "/tmp/nemoterm-xterm-reference/$file" build/protocol-reference/feature-policy-source/
+          done
+          sha256sum build/protocol-reference/feature-policy-source/* > build/protocol-reference/feature-policy-source-sha256.txt
+          python3 tests/xterm_feature_policy_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/feature-policy-xterm.json
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
