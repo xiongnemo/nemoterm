@@ -1353,6 +1353,323 @@
           "raw_sha256": "9d3481e70addf5aa5abb040edf561e733db408079ba0114594c6f9d903e8af82"
         }
       ]
+    },
+    {
+      "path": "research/query-transaction-shutdown-evidence/observer-boundaries.tar.gz",
+      "archive_bytes": 49443,
+      "archive_sha256": "1034f581837d10d0b1d0469e7c47b94a80f4b5515928bf2b779f5488bb1f1ea8",
+      "records": [
+        {
+          "path": "controllers/test-shutdown-external-addresses.py",
+          "raw_bytes": 4314,
+          "raw_sha256": "1179e08aae71485ab0d4e0ca7ff3e3c4e456aaf553f4f2bff53187638a2d5e39"
+        },
+        {
+          "path": "controllers/test-shutdown-frida-17233.py",
+          "raw_bytes": 4700,
+          "raw_sha256": "b0c4c01aa30e67a3f0457a3186c23432882cbcd0a6f62e7c2101971515ab5af7"
+        },
+        {
+          "path": "controllers/test-shutdown-frida-17250.py",
+          "raw_bytes": 4700,
+          "raw_sha256": "a3768a8ec37eeacb719ce095059d2b38b6b5e6705d3fd2b6715fe0655f51e6b6"
+        },
+        {
+          "path": "local/address-probe-local-v2/controller.py",
+          "raw_bytes": 4314,
+          "raw_sha256": "1179e08aae71485ab0d4e0ca7ff3e3c4e456aaf553f4f2bff53187638a2d5e39"
+        },
+        {
+          "path": "local/address-probe-local-v2/loader-boundary.json",
+          "raw_bytes": 9086,
+          "raw_sha256": "281a733d2681d64c84227c403d4762c8e62268e94e3b00ca7d10ef71031df0ae"
+        },
+        {
+          "path": "local/address-probe-local-v2/logs/controls.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "local/address-probe-local-v2/logs/shutdown.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "local/address-probe-local-v2/research/shutdown-probe-controls-observed.json",
+          "raw_bytes": 6432,
+          "raw_sha256": "edb8bd3b47863f344004d1a1e9bfac0e5c977695603d9c763c3dbe8d7f15bc93"
+        },
+        {
+          "path": "local/address-probe-local-v2/research/shutdown-window-observed.json",
+          "raw_bytes": 23492,
+          "raw_sha256": "58f99f4545c1e033417411f0a063572f17b1e73e86e28928c10750981a747cf9"
+        },
+        {
+          "path": "local/address-probe-local-v2/tests/shutdown_probe.js",
+          "raw_bytes": 3474,
+          "raw_sha256": "01424c4922799c44ec968dfebda2bf5af348f13046f17fbd859bddc272a45137"
+        },
+        {
+          "path": "local/address-probe-local-v2/tests/shutdown_probe_controls.py",
+          "raw_bytes": 3819,
+          "raw_sha256": "79e5b4079e3809e76c30bcbe9dbfb696cb645fb9b238c696004d84e67a6c4632"
+        },
+        {
+          "path": "local/address-probe-local-v2/tests/shutdown_probe_targets.py",
+          "raw_bytes": 2511,
+          "raw_sha256": "07a8716c7c7b00d84e9bcd3d7a98cfbf5826a9b7c68441a8fee435f0ea9bbb0a"
+        },
+        {
+          "path": "local/address-probe-local-v2/tests/shutdown_window_smoke.py",
+          "raw_bytes": 9719,
+          "raw_sha256": "8777da5ea234409f368770fed9de70f6cab0baaa7994a848c993383f983b1a7c"
+        },
+        {
+          "path": "local/frida-17.23.3-local/controller.py",
+          "raw_bytes": 4700,
+          "raw_sha256": "b0c4c01aa30e67a3f0457a3186c23432882cbcd0a6f62e7c2101971515ab5af7"
+        },
+        {
+          "path": "local/frida-17.23.3-local/frida-version.json",
+          "raw_bytes": 125,
+          "raw_sha256": "b4171566f698fc005d0c9e25900c0d284c1b367a2eb0dde9c6a05e64d24fbd71"
+        },
+        {
+          "path": "local/frida-17.23.3-local/loader-boundary.json",
+          "raw_bytes": 9086,
+          "raw_sha256": "281a733d2681d64c84227c403d4762c8e62268e94e3b00ca7d10ef71031df0ae"
+        },
+        {
+          "path": "local/frida-17.23.3-local/logs/controls.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "local/frida-17.23.3-local/logs/shutdown.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "local/frida-17.23.3-local/research/shutdown-probe-controls-observed.json",
+          "raw_bytes": 2787,
+          "raw_sha256": "0802226ffff650543a9a8f1022ec5af3ab4e46f79bd5ff991490e22c8214557d"
+        },
+        {
+          "path": "local/frida-17.23.3-local/research/shutdown-window-observed.json",
+          "raw_bytes": 16216,
+          "raw_sha256": "a5f398327a765c520ae79741191e9640f1898a7b28a25330906004c5d582a353"
+        },
+        {
+          "path": "local/frida-17.23.3-local/tests/shutdown_probe.js",
+          "raw_bytes": 3358,
+          "raw_sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f"
+        },
+        {
+          "path": "local/frida-17.23.3-local/tests/shutdown_probe_controls.py",
+          "raw_bytes": 3636,
+          "raw_sha256": "4b445c85313a4b88dbc578dc5fddc26829f390440fe51dea2a96a78d851d29cb"
+        },
+        {
+          "path": "local/frida-17.23.3-local/tests/shutdown_probe_targets.py",
+          "raw_bytes": 2511,
+          "raw_sha256": "07a8716c7c7b00d84e9bcd3d7a98cfbf5826a9b7c68441a8fee435f0ea9bbb0a"
+        },
+        {
+          "path": "local/frida-17.23.3-local/tests/shutdown_window_smoke.py",
+          "raw_bytes": 9524,
+          "raw_sha256": "0035a97798a8a9698cf1c6004978ccd0be1030f0bb6103967da57a2dc6cc59b9"
+        },
+        {
+          "path": "local/frida-17.25.0-local/frida-version.json",
+          "raw_bytes": 125,
+          "raw_sha256": "074f28d36e73669690fed9106e543fb0e8cad176a1d1b25e5729ac6116f7b2f7"
+        },
+        {
+          "path": "local/frida-17.25.0-local/setup-failure.json",
+          "raw_bytes": 292,
+          "raw_sha256": "93961a730b139ac5267c43b15a043aa1a616a54527700d89e3fc0bf19be97bdc"
+        },
+        {
+          "path": "local/frida-17.25.0-local/tests/shutdown_probe.js",
+          "raw_bytes": 3358,
+          "raw_sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f"
+        },
+        {
+          "path": "local/frida-17.25.0-local/tests/shutdown_probe_controls.py",
+          "raw_bytes": 3636,
+          "raw_sha256": "4b445c85313a4b88dbc578dc5fddc26829f390440fe51dea2a96a78d851d29cb"
+        },
+        {
+          "path": "local/frida-17.25.0-local/tests/shutdown_probe_targets.py",
+          "raw_bytes": 2511,
+          "raw_sha256": "07a8716c7c7b00d84e9bcd3d7a98cfbf5826a9b7c68441a8fee435f0ea9bbb0a"
+        },
+        {
+          "path": "local/frida-17.25.0-local/tests/shutdown_window_smoke.py",
+          "raw_bytes": 9524,
+          "raw_sha256": "0035a97798a8a9698cf1c6004978ccd0be1030f0bb6103967da57a2dc6cc59b9"
+        },
+        {
+          "path": "session/diagnostic-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "1f4c8f632f2e7b4f12f2402ee5db4b07ca23a30e138cf5b66d55a67100633faf"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/build-control.log",
+          "raw_bytes": 28,
+          "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/build-helper.log",
+          "raw_bytes": 23,
+          "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/already-exited/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/already-exited/result.json",
+          "raw_bytes": 658,
+          "raw_sha256": "4da89ce9a662b94dc8d2404a9f30931a0d87004f5f5b9d05f008fafe58fd353d"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/live-thread/failure.dmp",
+          "raw_bytes": 10921,
+          "raw_sha256": "244b2c0f80f57451e2691833df6061d0279b2a34ae0af5d6f780325c362b9264"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/live-thread/helper.jsonl",
+          "raw_bytes": 81,
+          "raw_sha256": "963751062270d9395c4db89399732a354f1c1491230d24342152a90c11ddd703"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/live-thread/result.json",
+          "raw_bytes": 914,
+          "raw_sha256": "60ec0cdb7cf432688d31285f8f91f83cea2cdff52588bc90f4813e56a1a3bb10"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/results.json",
+          "raw_bytes": 3811,
+          "raw_sha256": "bf10839b7e924a3ecbb7ffb8775173c80e24693af45f1bb3fa4b10565b045ef2"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/wrong-job/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/controls/wrong-job/result.json",
+          "raw_bytes": 661,
+          "raw_sha256": "7ee6e2902f6f7e3bf4df2a5881223c79ccbd10dbb2c73f3fd792baa5bb25d481"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-controls/test.log",
+          "raw_bytes": 2664,
+          "raw_sha256": "4a26601d48cb22200469457b61099958d63d4e1b79f4885a291fa11ba45300bf"
+        },
+        {
+          "path": "session/diagnostic/failure-dump-source.json",
+          "raw_bytes": 978,
+          "raw_sha256": "f61056d0e859dc2203d1ec40aba8a08abf49e157b496832d8f93149d3483a953"
+        },
+        {
+          "path": "session/diagnostic/identity.json",
+          "raw_bytes": 2148,
+          "raw_sha256": "6c5f3c922142f0f922be134ebb5eeee8c7f91eb403ab398a0fa7e92c5216e507"
+        },
+        {
+          "path": "session/diagnostic/probe-controls/build.log",
+          "raw_bytes": 26,
+          "raw_sha256": "1d16904e24403b660ce7f6837d682668fba595fe7077d3200eecf5ea52fd9c01"
+        },
+        {
+          "path": "session/diagnostic/probe-controls/shutdown-probe-controls-observed.json",
+          "raw_bytes": 2787,
+          "raw_sha256": "e48d8dca33dd147c386f81c75ab3d33825218bd0661aa0d4ce9458c8184e9926"
+        },
+        {
+          "path": "session/diagnostic/probe-controls/test.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "session/diagnostic/replay-1-observed.json",
+          "raw_bytes": 5641,
+          "raw_sha256": "6cb68055c2defb5af94bdbc32aa2396d92e135ab2610a6e7069ee0c27eba07f5"
+        },
+        {
+          "path": "session/diagnostic/replay-1.log",
+          "raw_bytes": 2654,
+          "raw_sha256": "b41bc2a0fe84b6ab178037d4a61898b3efa7d2f89941d067e777ec6b221f7bf2"
+        },
+        {
+          "path": "session/diagnostic/replay-2-observed.json",
+          "raw_bytes": 5645,
+          "raw_sha256": "c7e0adf954221f71a6aec307af7e70ced7f0a06408859d9cc70d14598363aa73"
+        },
+        {
+          "path": "session/diagnostic/replay-2.log",
+          "raw_bytes": 2654,
+          "raw_sha256": "b41bc2a0fe84b6ab178037d4a61898b3efa7d2f89941d067e777ec6b221f7bf2"
+        },
+        {
+          "path": "session/diagnostic/replay-3-observed.json",
+          "raw_bytes": 5636,
+          "raw_sha256": "6b1c974d2447afc5a95e0d74868914b2644e5f4b2d41d591c17c395f579b3c60"
+        },
+        {
+          "path": "session/diagnostic/replay-3.log",
+          "raw_bytes": 2654,
+          "raw_sha256": "b41bc2a0fe84b6ab178037d4a61898b3efa7d2f89941d067e777ec6b221f7bf2"
+        },
+        {
+          "path": "session/tabs-artifacts.json",
+          "raw_bytes": 791,
+          "raw_sha256": "555984d6c15b09e30ce1f4030bc45d5c27afc900834302a498d21f2d7952c4eb"
+        },
+        {
+          "path": "session/tabs-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "b1cbd9e265a77a92232710fff823ed8a0916e23f3a7b081aa12c03011222d3a7"
+        },
+        {
+          "path": "session/tabs-run.json",
+          "raw_bytes": 2489,
+          "raw_sha256": "c8b4a4a870bad4735e48bc844063fada869a17124f3f5a75c711e3b23f4a83a5"
+        },
+        {
+          "path": "session/tabs-run.log",
+          "raw_bytes": 109155,
+          "raw_sha256": "9ba324d2bfab635849d8770da10fd08d84440b4fe4104953094eea0b5f7512f3"
+        },
+        {
+          "path": "sources/17.23.3-module-registry.c",
+          "raw_bytes": 6624,
+          "raw_sha256": "5fa69c1bc730271e9ed0358c4ef17a98c0c06f3629beaab07d3939cd3a44dc9b"
+        },
+        {
+          "path": "sources/17.24.3-module-registry.c",
+          "raw_bytes": 4539,
+          "raw_sha256": "99b3ed7f337e5db1274f86446f57a1ba5c9d7ab2d70d79dad7bec5f164fb77fa"
+        },
+        {
+          "path": "sources/17.25.0-module-registry.c",
+          "raw_bytes": 7701,
+          "raw_sha256": "a3a2e0f657b6ed48e2d03db43766e792a6c2feb7a4cf8435f188fb9e414c004b"
+        },
+        {
+          "path": "sources/17.26.3-module-registry.c",
+          "raw_bytes": 7596,
+          "raw_sha256": "f83e9287f41b458e3e0258312ed8787d7a5723203bd7d385b574995632b72be1"
+        },
+        {
+          "path": "sources/identity.json",
+          "raw_bytes": 639,
+          "raw_sha256": "9a4438e4133153c8b69553b82d3590c4df41fe1dc2036bbf2e08848b5d43b04e"
+        }
+      ]
     }
   ],
   "hosted_replay": {
@@ -2219,5 +2536,111 @@
       "inference": "The matching source is consistent with allocation during loader-hook module-registry synchronization",
       "limitation": "Lock ownership and the unwind beyond the Frida invocation trampoline are unavailable; no private Frida PDB. Other historic failures remain separate."
     }
+  },
+  "observer_boundaries": {
+    "session_run": 43662734795,
+    "session_cases": 18,
+    "session_artifact_id": 14141215002,
+    "local": {
+      "address-probe-local-v2": {
+        "loader_boundary": [
+          {
+            "mode": "empty-script",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          },
+          {
+            "mode": "legacy-module-lookups",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          },
+          {
+            "mode": "external-addresses",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          }
+        ],
+        "shutdown_cases": 12,
+        "product_sha256": "214abd0b87b45397d5952cb4151ac0778cc4b436c5ba34fa1a4e4bf0ad160c47"
+      },
+      "frida-17.25.0-local": {
+        "phase": "first frida.attach on owned opaque fixture",
+        "message": "Unable to locate the ntdll loader TLS routines",
+        "controller_exit_code": 1,
+        "product_cases_started": 0,
+        "followup_owned_fixture_processes": 0,
+        "status": "rejected on this host; no workaround selected"
+      },
+      "frida-17.23.3-local": {
+        "loader_boundary": [
+          {
+            "mode": "empty-script",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          },
+          {
+            "mode": "legacy-module-lookups",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          },
+          {
+            "mode": "external-addresses",
+            "entry_changed": {
+              "LdrLoadDll": true,
+              "LdrUnloadDll": true
+            },
+            "changed_before_script": true,
+            "exit_code": 0,
+            "natural": true
+          }
+        ],
+        "shutdown_cases": 12,
+        "product_sha256": "214abd0b87b45397d5952cb4151ac0778cc4b436c5ba34fa1a4e4bf0ad160c47"
+      }
+    },
+    "source_versions": {
+      "17.23.3": {
+        "commit": "1208a1266e9d28e6c958b6a167b6d944ebefaf47",
+        "sha256": "5fa69c1bc730271e9ed0358c4ef17a98c0c06f3629beaab07d3939cd3a44dc9b"
+      },
+      "17.24.3": {
+        "commit": "3f82ef6a5b2413867835a45fe341913455473303",
+        "sha256": "99b3ed7f337e5db1274f86446f57a1ba5c9d7ab2d70d79dad7bec5f164fb77fa"
+      },
+      "17.25.0": {
+        "commit": "5ebe3aeccab8dcd4b727378dab67fb15fa8a3cca",
+        "sha256": "a3a2e0f657b6ed48e2d03db43766e792a6c2feb7a4cf8435f188fb9e414c004b"
+      },
+      "17.26.3": {
+        "commit": "79d5c731fdbfbdd01dfe4b413f8de56be9012892",
+        "sha256": "f83e9287f41b458e3e0258312ed8787d7a5723203bd7d385b574995632b72be1"
+      }
+    },
+    "conclusion": "External API resolution does not avoid loader hooks; reverted. 17.25.0 cannot attach on local host. 17.23.3 passes the original assertions locally; hosted comparison pending, not product acceptance."
   }
 }

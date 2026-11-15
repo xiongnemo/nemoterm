@@ -25,7 +25,7 @@ parser.add_argument('--failure-dump', type=Path,
 args = parser.parse_args()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-                cases=[], completed=False)
+                frida_version=frida.__version__, cases=[], completed=False)
 evidence_path = root/'research/shutdown-window-observed.json'
 # Only enabled by CI. A stuck instrumentation call must fail with a stack and
 # leave the remaining job time for artifact upload. Windows closes OwnedJob's

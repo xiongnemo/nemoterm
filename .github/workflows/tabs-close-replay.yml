@@ -34,6 +34,11 @@ on:
         type: choice
         options: [both, session]
         default: both
+      instrumentation_version:
+        description: Pinned Frida version for a controlled observer comparison
+        type: choice
+        options: ['17.24.3', '17.23.3']
+        default: '17.24.3'
 
 permissions:
   contents: read
@@ -52,6 +57,7 @@ jobs:
       CAPTURE_EXCEPTIONS: ${{ inputs.capture_exceptions }}
       CAPTURE_FAILURE_DUMPS: ${{ inputs.capture_failure_dumps }}
       SHUTDOWN_OBSERVER: ${{ inputs.shutdown_observer }}
+      FIXTURE_FRIDA_VERSION: ${{ inputs.instrumentation_version }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
@@ -64,6 +70,7 @@ jobs:
           if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:EXPECTED_SHA256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid source identity' }
           if ($env:CAPTURE_EXCEPTIONS -eq 'true' -and $env:CLOSE_FIXTURE -ne 'tabs') { throw 'External exception observer currently covers the tabs fixture only' }
           if ($env:CAPTURE_FAILURE_DUMPS -eq 'true' -and $env:CLOSE_FIXTURE -ne 'shutdown') { throw 'Failure dump capture currently covers the shutdown fixture only' }
+          if ($env:FIXTURE_FRIDA_VERSION -notin @('17.24.3','17.23.3')) { throw 'Unexpected instrumentation version' }
           $run = gh run view $env:SOURCE_RUN --json headSha,status,conclusion,workflowName,jobs | ConvertFrom-Json
           if ($LASTEXITCODE) { throw 'Could not read source run' }
           $expectedWorkflow = if ($env:CLOSE_FIXTURE -eq 'tabs') { 'Test and build' } else { 'Single executable from source' }
@@ -93,12 +100,13 @@ jobs:
             capture_exceptions = ($env:CAPTURE_EXCEPTIONS -eq 'true')
             capture_failure_dumps = ($env:CAPTURE_FAILURE_DUMPS -eq 'true')
             shutdown_observer = $env:SHUTDOWN_OBSERVER
+            frida_version = $env:FIXTURE_FRIDA_VERSION
             fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/shutdown_window_smoke.py, tests/shutdown_probe.js, tests/tabs_window_smoke.py, tests/tab_probe_boundary.py, tests/tabs_hover_probe.js, tests/agent_key_probe.js, tests/session_faults.js -Algorithm SHA256 | Select-Object Path, Hash)
             unverified_product = $true
             scope = 'Close diagnosis only; unchanged fixture close thresholds; no product acceptance'
           } | ConvertTo-Json | Set-Content build/close-replay-evidence/identity.json
       - name: Install fixture dependency
-        run: python -m pip install frida==17.24.3
+        run: python -m pip install "frida==$env:FIXTURE_FRIDA_VERSION"
       - name: Verify shutdown observer detects invalid event orders
         if: ${{ inputs.fixture == 'shutdown' }}
         shell: pwsh

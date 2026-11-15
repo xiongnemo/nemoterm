@@ -12,7 +12,8 @@ args=parser.parse_args()
 exe=args.executable.resolve()
 probe=(root/'tests/shutdown_probe.js').read_text(encoding='utf-8')
 record=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-            probe_sha256=hashlib.sha256(probe.encode()).hexdigest(),cases=[])
+            probe_sha256=hashlib.sha256(probe.encode()).hexdigest(),
+            frida_version=frida.__version__,cases=[])
 try:
     for mode in ('ordered','free-before-window','free-after-com'):
         item=dict(mode=mode,events=[],completed=False);record['cases'].append(item)

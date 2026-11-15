@@ -124,7 +124,38 @@ actual failure dump, raw debugger output, module identities, selected disassembl
 analysis scripts and pinned source fingerprints. Microsoft DLL/PDB payloads and
 the Frida DLL remain local analysis inputs and are not committed or distributed.
 
-The next diagnostic boundary is `--observer session`: attach Frida without
-loading any script or installing the lifetime probe. The focused workflow exposes
-this explicit option while ordinary tests keep their existing `none`/`lifetime`
-pair. Such a boundary replay is diagnostic only, not lifetime-order acceptance.
+The `--observer session` boundary attaches Frida without loading any script or
+installing the lifetime probe. Hosted run
+[43662734795](https://github.com/xiongnemo/nemoterm/actions/runs/43662734795)
+passes all 18 cases in three fresh replays, with natural cleanup. This is
+diagnostic only, not lifetime-order acceptance or proof that attach is harmless.
+
+An external-export-resolution experiment does **not** avoid the loader hooks.
+Read-only snapshots of two loader entry points in three owned opaque control
+processes show both entries already changed immediately after Frida attaches,
+before any script is created. Empty script, original lifetime script and externally
+resolved script all retain those hooks. The candidate passes three sensitivity
+controls and 12 terminal exits locally, but its intended mechanism is disproved;
+the implementation is reverted. Snapshots, candidate source and results remain
+in `observer-boundaries.tar.gz`.
+
+The upstream module registry differs materially across versions:
+
+* 17.23.3 (`1208a1266e9d28e6c958b6a167b6d944ebefaf47`) tracks the specific
+  loader handle and does not unconditionally allocate a full module snapshot on
+  every loader return.
+* 17.24.3 adds the unconditional synchronization seen in the captured stack.
+* 17.25.0 uses DLL notifications when available, retaining loader hooks only as
+  a fallback. Its isolated local trial aborts at the first attach with
+  `Unable to locate the ntdll loader TLS routines`, before any product case.
+  It is not adopted; the owned opaque control is gone after the controller exits.
+* Later versions restore loader hooks alongside notifications for executable
+  images loaded as modules. Upgrading to latest would not remove that path.
+
+These are source comparisons, not claims that a particular release fixes every
+instrumentation failure. An isolated 17.23.3 environment passes the three original
+sensitivity controls and all 12 original terminal assertions on the exact failed
+image. Loader entry points still change, as its source predicts. The focused
+workflow now permits an explicit 17.23.3 comparison; ordinary CI remains pinned
+to 17.24.3 pending hosted results. The captured failure, the rejected resolution
+experiment and the 17.25.0 startup failure are retained rather than overwritten.
