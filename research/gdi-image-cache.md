@@ -32,8 +32,14 @@ Local MinGW grapheme, Sixel/Kitty, reflow, resize, mouse and hyperlink suites
 pass. The image suite includes all 728 unchanged independent Unicode states
 and 32 exact core clipboard copies. `gdi-image-cache-core.tar.gz` retains the
 original failing regression, corrected logs, source and build configuration;
-its manifest is `gdi-image-cache-core-validation.json`. GCC/Clang sanitizers
-and MSVC now also run this paint-cache regression in the component workflow.
+its manifest is `gdi-image-cache-core-validation.json`. GCC/Clang ASan+UBSan
+and MSVC all pass this regression in component run `43736421112`, including
+728 unchanged Unicode-image states and 32 exact core copies per compiler.
+The recorded display-cache sizes are 307,200 bytes on the Linux ABI (40-byte
+terminal cells) and 245,760 bytes on Windows (32-byte cells), with no cached
+positional chains. `gdi-image-cache-components.tar.gz` retains 80 original
+records, verified source hashes and artifact receipts; its separate manifest
+does not infer full-product or native process-memory acceptance.
 
 ## Native acceptance in progress
 
@@ -50,10 +56,12 @@ selection or copy assertion. A separate non-mutating `OpenClipboard(NULL)`
 probe also returns Windows error 5 (access denied), with no window holding the
 clipboard open. No existing clipboard contents were read or changed. The
 failure is not a selection pass and is not yet attributed to product code.
-The independent memory run does not use the clipboard.
+The independent memory run does not use the clipboard. The original failure,
+natural cleanup, external error-5 observation and exact test sources are in
+`gdi-image-cache-clipboard-preflight.tar.gz`, with a separate failure manifest.
 
 Current source workflows: [ordinary](https://github.com/xiongnemo/nemoterm/actions/runs/43736421054),
 [single image](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137),
 and [graphics components](https://github.com/xiongnemo/nemoterm/actions/runs/43736421112).
-All were still running when this record was created. No distribution or main
-branch promotion follows from the narrower cache regression.
+The components pass; the two complete product workflows remain running. No
+distribution or main branch promotion follows from the narrower cache regression.
