@@ -48,8 +48,11 @@ baseline placement source SHA256 is
 `1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0`.
 Additional correctness cases fill all 512 templates across 128 images, alternate
 image insertion order, replace/convert templates and remove/recreate cell runs.
-The candidate's remote validation is still pending; no runtime test has been
-run on the paused local desktop.
+The lazy-index candidate passes
+[all three component jobs](https://github.com/xiongnemo/nemoterm/actions/runs/43686139850)
+at `5f0c70f`, including GCC/Clang ASan/UBSan, 19,749 placement assertions, the
+under-8-KiB empty-owner check, 238 relative states, 728 Unicode states and 32
+exact core copies. No runtime test has been run on the paused local desktop.
 
 The first candidate `e05a60f` failed its complete component workflow: MSVC rejected
 a shadowed local variable, and GCC/Clang reported that its fixed owner tables
@@ -58,3 +61,20 @@ Unicode states, 238 relative states and 32 core copies still passed, as did
 19,708 placement checks. The later on-demand allocation corrects this idle
 overhead instead of relaxing that assertion. The failed run and its paired
 timings remain retained separately; partial passes do not make that run green.
+
+For 7,268 cells and one template, matched runner medians are:
+
+| Compiler/runtime | Create before / after (ms) | One view pass before / after (ms) |
+| --- | ---: | ---: |
+| GCC / Linux | 83.464 / 0.440 | 75.461 / 0.094 |
+| Clang / Linux | 167.996 / 0.744 | 202.372 / 0.117 |
+| MSVC / Windows | 128 / 1 | 231.75 / 0.25 |
+
+MSVC clock resolution is 1 ms; four view passes are timed together, so a zero
+sample in another case means below clock resolution, not zero work. The active
+placement owner adds 5,136 bytes on these x64 builds, including the 8-byte owner
+pointer that remains when no virtual templates exist. Per-cell and per-placement
+sizes remain unchanged. `kitty-cell-performance-validation.json` preserves all
+42 samples per compiler/arm and verifies each paired baseline source hash.
+The archive also retains the first candidate's failures. Full native rendering,
+dense-cell private working set and exact-product acceptance remain pending.

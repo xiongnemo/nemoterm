@@ -742,5 +742,1428 @@
         "raw_sha256": "9c01900ba789261926be2feffa985fb7dc4ecbe9e6f5437b87b866831cdc23b6"
       }
     ]
+  },
+  "indexed_comparison": {
+    "runs": {
+      "fixed-owner": {
+        "source": "e05a60f0da38555923babd8c5ba779f782032ff9",
+        "run": 43685217489,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43685217489",
+        "conclusion": "failure"
+      },
+      "lazy-owner": {
+        "source": "5f0c70f4653b535497a157a1cdd4c1b67f92e9d9",
+        "run": 43686139850,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43686139850",
+        "conclusion": "success"
+      }
+    },
+    "paired": {
+      "gcc": [
+        {
+          "templates": 1,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.106,
+            "view_pass_ms": 0.09225000000000001,
+            "clear_ms": 0.004,
+            "placement_bytes": 32976,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.015000000000000001,
+            "view_pass_ms": 0.00575,
+            "clear_ms": 0.006,
+            "placement_bytes": 38112,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 512,
+          "before": {
+            "create_ms": 0.453,
+            "view_pass_ms": 0.4725,
+            "clear_ms": 0.006,
+            "placement_bytes": 65744,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.023,
+            "view_pass_ms": 0.00975,
+            "clear_ms": 0.008,
+            "placement_bytes": 70880,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 1024,
+          "before": {
+            "create_ms": 1.841,
+            "view_pass_ms": 1.65575,
+            "clear_ms": 0.012,
+            "placement_bytes": 131280,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.063,
+            "view_pass_ms": 0.02,
+            "clear_ms": 0.016,
+            "placement_bytes": 136416,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 2048,
+          "before": {
+            "create_ms": 6.946,
+            "view_pass_ms": 6.15275,
+            "clear_ms": 0.024,
+            "placement_bytes": 262352,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.112,
+            "view_pass_ms": 0.0515,
+            "clear_ms": 0.041999999999999996,
+            "placement_bytes": 267488,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 4096,
+          "before": {
+            "create_ms": 26.782,
+            "view_pass_ms": 24.385,
+            "clear_ms": 0.047,
+            "placement_bytes": 524496,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.202,
+            "view_pass_ms": 0.054,
+            "clear_ms": 0.045000000000000005,
+            "placement_bytes": 529632,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 7268,
+          "before": {
+            "create_ms": 83.464,
+            "view_pass_ms": 75.461,
+            "clear_ms": 0.16699999999999998,
+            "placement_bytes": 930512,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.44,
+            "view_pass_ms": 0.09425,
+            "clear_ms": 0.103,
+            "placement_bytes": 935648,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 8192,
+          "before": {
+            "create_ms": 105.795,
+            "view_pass_ms": 95.84375,
+            "clear_ms": 0.17,
+            "placement_bytes": 1048784,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.499,
+            "view_pass_ms": 0.1035,
+            "clear_ms": 0.116,
+            "placement_bytes": 1053920,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.135,
+            "view_pass_ms": 0.096,
+            "clear_ms": 0.003,
+            "placement_bytes": 34896,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.016,
+            "view_pass_ms": 0.005,
+            "clear_ms": 0.005,
+            "placement_bytes": 40032,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 512,
+          "before": {
+            "create_ms": 0.508,
+            "view_pass_ms": 0.48375,
+            "clear_ms": 0.007,
+            "placement_bytes": 67664,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.034,
+            "view_pass_ms": 0.01475,
+            "clear_ms": 0.011,
+            "placement_bytes": 72800,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 1024,
+          "before": {
+            "create_ms": 1.8539999999999999,
+            "view_pass_ms": 1.65225,
+            "clear_ms": 0.012,
+            "placement_bytes": 133200,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.067,
+            "view_pass_ms": 0.0285,
+            "clear_ms": 0.022,
+            "placement_bytes": 138336,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 2048,
+          "before": {
+            "create_ms": 6.982,
+            "view_pass_ms": 6.2387500000000005,
+            "clear_ms": 0.024,
+            "placement_bytes": 264272,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.128,
+            "view_pass_ms": 0.03975,
+            "clear_ms": 0.022,
+            "placement_bytes": 269408,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 4096,
+          "before": {
+            "create_ms": 26.868,
+            "view_pass_ms": 24.564249999999998,
+            "clear_ms": 0.048,
+            "placement_bytes": 526416,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.235,
+            "view_pass_ms": 0.056499999999999995,
+            "clear_ms": 0.045000000000000005,
+            "placement_bytes": 531552,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 7268,
+          "before": {
+            "create_ms": 83.913,
+            "view_pass_ms": 76.16000000000001,
+            "clear_ms": 0.08600000000000001,
+            "placement_bytes": 932432,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.367,
+            "view_pass_ms": 0.10225000000000001,
+            "clear_ms": 0.081,
+            "placement_bytes": 937568,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 8192,
+          "before": {
+            "create_ms": 105.906,
+            "view_pass_ms": 96.48525,
+            "clear_ms": 0.12300000000000001,
+            "placement_bytes": 1050704,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.381,
+            "view_pass_ms": 0.1155,
+            "clear_ms": 0.094,
+            "placement_bytes": 1055840,
+            "baseline_bytes": 7264
+          }
+        }
+      ],
+      "clang": [
+        {
+          "templates": 1,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.145,
+            "view_pass_ms": 0.13075,
+            "clear_ms": 0.005,
+            "placement_bytes": 32976,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.014,
+            "view_pass_ms": 0.004,
+            "clear_ms": 0.004,
+            "placement_bytes": 38112,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 512,
+          "before": {
+            "create_ms": 0.75,
+            "view_pass_ms": 0.95375,
+            "clear_ms": 0.009000000000000001,
+            "placement_bytes": 65744,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.023,
+            "view_pass_ms": 0.008,
+            "clear_ms": 0.009000000000000001,
+            "placement_bytes": 70880,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 1024,
+          "before": {
+            "create_ms": 3.1319999999999997,
+            "view_pass_ms": 3.68925,
+            "clear_ms": 0.016,
+            "placement_bytes": 131280,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.066,
+            "view_pass_ms": 0.01575,
+            "clear_ms": 0.017,
+            "placement_bytes": 136416,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 2048,
+          "before": {
+            "create_ms": 12.906,
+            "view_pass_ms": 14.664,
+            "clear_ms": 0.032,
+            "placement_bytes": 262352,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.091,
+            "view_pass_ms": 0.03175,
+            "clear_ms": 0.034,
+            "placement_bytes": 267488,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 4096,
+          "before": {
+            "create_ms": 52.165000000000006,
+            "view_pass_ms": 58.71475,
+            "clear_ms": 0.06999999999999999,
+            "placement_bytes": 524496,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.243,
+            "view_pass_ms": 0.0665,
+            "clear_ms": 0.06899999999999999,
+            "placement_bytes": 529632,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 7268,
+          "before": {
+            "create_ms": 167.996,
+            "view_pass_ms": 202.37199999999999,
+            "clear_ms": 0.204,
+            "placement_bytes": 930512,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.744,
+            "view_pass_ms": 0.11675,
+            "clear_ms": 0.154,
+            "placement_bytes": 935648,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 8192,
+          "before": {
+            "create_ms": 217.727,
+            "view_pass_ms": 268.71374999999995,
+            "clear_ms": 0.231,
+            "placement_bytes": 1048784,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.878,
+            "view_pass_ms": 0.1305,
+            "clear_ms": 0.175,
+            "placement_bytes": 1053920,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.148,
+            "view_pass_ms": 0.10625,
+            "clear_ms": 0.005,
+            "placement_bytes": 34896,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.024,
+            "view_pass_ms": 0.00625,
+            "clear_ms": 0.005,
+            "placement_bytes": 40032,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 512,
+          "before": {
+            "create_ms": 0.687,
+            "view_pass_ms": 0.9504999999999999,
+            "clear_ms": 0.008,
+            "placement_bytes": 67664,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.041,
+            "view_pass_ms": 0.00925,
+            "clear_ms": 0.008,
+            "placement_bytes": 72800,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 1024,
+          "before": {
+            "create_ms": 3.407,
+            "view_pass_ms": 3.7087499999999998,
+            "clear_ms": 0.017,
+            "placement_bytes": 133200,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.06499999999999999,
+            "view_pass_ms": 0.018000000000000002,
+            "clear_ms": 0.017,
+            "placement_bytes": 138336,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 2048,
+          "before": {
+            "create_ms": 13.234,
+            "view_pass_ms": 14.7435,
+            "clear_ms": 0.033,
+            "placement_bytes": 264272,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.11699999999999999,
+            "view_pass_ms": 0.034999999999999996,
+            "clear_ms": 0.033,
+            "placement_bytes": 269408,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 4096,
+          "before": {
+            "create_ms": 52.789,
+            "view_pass_ms": 58.826,
+            "clear_ms": 0.07200000000000001,
+            "placement_bytes": 526416,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.245,
+            "view_pass_ms": 0.07725,
+            "clear_ms": 0.068,
+            "placement_bytes": 531552,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 7268,
+          "before": {
+            "create_ms": 166.85,
+            "view_pass_ms": 195.40025,
+            "clear_ms": 0.125,
+            "placement_bytes": 932432,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.46900000000000003,
+            "view_pass_ms": 0.13625,
+            "clear_ms": 0.121,
+            "placement_bytes": 937568,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 8192,
+          "before": {
+            "create_ms": 215.32999999999998,
+            "view_pass_ms": 255.89800000000002,
+            "clear_ms": 0.13699999999999998,
+            "placement_bytes": 1050704,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.713,
+            "view_pass_ms": 0.14925,
+            "clear_ms": 0.13699999999999998,
+            "placement_bytes": 1055840,
+            "baseline_bytes": 7264
+          }
+        }
+      ],
+      "msvc": [
+        {
+          "templates": 1,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 32976,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 38112,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 512,
+          "before": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 65744,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 70880,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 1024,
+          "before": {
+            "create_ms": 2.0,
+            "view_pass_ms": 3.5,
+            "clear_ms": 0.0,
+            "placement_bytes": 131280,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 136416,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 2048,
+          "before": {
+            "create_ms": 10.0,
+            "view_pass_ms": 13.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 262352,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 267488,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 4096,
+          "before": {
+            "create_ms": 38.0,
+            "view_pass_ms": 55.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 524496,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 529632,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 7268,
+          "before": {
+            "create_ms": 128.0,
+            "view_pass_ms": 231.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 930512,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.25,
+            "clear_ms": 0.0,
+            "placement_bytes": 935648,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 1,
+          "cells": 8192,
+          "before": {
+            "create_ms": 168.0,
+            "view_pass_ms": 359.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 1048784,
+            "baseline_bytes": 208
+          },
+          "after": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.25,
+            "clear_ms": 0.0,
+            "placement_bytes": 1053920,
+            "baseline_bytes": 5344
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 256,
+          "before": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.25,
+            "clear_ms": 0.0,
+            "placement_bytes": 34896,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 40032,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 512,
+          "before": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 67664,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 72800,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 1024,
+          "before": {
+            "create_ms": 2.0,
+            "view_pass_ms": 3.5,
+            "clear_ms": 0.0,
+            "placement_bytes": 133200,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 138336,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 2048,
+          "before": {
+            "create_ms": 10.0,
+            "view_pass_ms": 14.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 264272,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 269408,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 4096,
+          "before": {
+            "create_ms": 39.0,
+            "view_pass_ms": 56.75,
+            "clear_ms": 0.0,
+            "placement_bytes": 526416,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 0.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 531552,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 7268,
+          "before": {
+            "create_ms": 128.0,
+            "view_pass_ms": 246.5,
+            "clear_ms": 0.0,
+            "placement_bytes": 932432,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 937568,
+            "baseline_bytes": 7264
+          }
+        },
+        {
+          "templates": 16,
+          "cells": 8192,
+          "before": {
+            "create_ms": 180.0,
+            "view_pass_ms": 399.0,
+            "clear_ms": 0.0,
+            "placement_bytes": 1050704,
+            "baseline_bytes": 2128
+          },
+          "after": {
+            "create_ms": 1.0,
+            "view_pass_ms": 0.25,
+            "clear_ms": 0.0,
+            "placement_bytes": 1055840,
+            "baseline_bytes": 7264
+          }
+        }
+      ]
+    },
+    "active_owner_extra_bytes": 5136,
+    "idle_owner_extra_bytes": 8,
+    "placement_object_extra_bytes": 0,
+    "scope": "Identical test/compiler flags and same runner per pair; 3 clock() repetitions. Not a native painting or process-memory measurement.",
+    "failed_candidate": "Fixed arrays broke the existing under-8-KiB empty-owner test; MSVC rejected a shadowed local. Both corrected; original failures retained.",
+    "checks": "19,749 candidate placement assertions; 19,745 old-owner assertions (4 extra transactional-admission checks for dynamic index allocation). Terminal replay and sanitizers pass."
+  },
+  "indexed_bundle": {
+    "path": "research/kitty-unicode-evidence/cell-index-comparison.tar.gz",
+    "archive_bytes": 189761,
+    "archive_sha256": "f28b62cf2a0cc2fe597944318bd7903cb199b254039382f2f9fcc6a7a45f4c36",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 4514,
+        "raw_sha256": "9d1e84b99d45872e156844bb3bfc6239dcdb5e937b533ce0851198f33ab86a9b"
+      },
+      {
+        "path": "fixed-owner/components-artifacts.json",
+        "raw_bytes": 2310,
+        "raw_sha256": "c9cdee393fe68511192fd11430c8cd120f8807c527f93015984af4c83cd34e65"
+      },
+      {
+        "path": "fixed-owner/components-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "e7edb9273d1962f0b1f924940cc92dcb82b08c60a065ab00c3f9d96bb5395b63"
+      },
+      {
+        "path": "fixed-owner/components-run.json",
+        "raw_bytes": 4298,
+        "raw_sha256": "6e62e1933189a0ef170c1dfa4fa0bc2f5d40cae05cb19a19cf6cd10392112497"
+      },
+      {
+        "path": "fixed-owner/components-run.log",
+        "raw_bytes": 374360,
+        "raw_sha256": "08e4e297b0c6a6070d74b498bb917a962cf5f66681a201faab167cbd46388ec1"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "466b738ec93a6386b0b98d606598ed0503e8be32787426108c6588ca597b80a2"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/cache-normal.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/cache-sanitizers.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/compiler.txt",
+        "raw_bytes": 122,
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/layout-normal.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/layout-sanitizers.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/normal.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline-benchmark.jsonl",
+        "raw_bytes": 8577,
+        "raw_sha256": "2b250e4c2288385647de128ec7254924c8bd10e7759799f523ad1383a310513b"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline-test.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline.c",
+        "raw_bytes": 23945,
+        "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline.sha256",
+        "raw_bytes": 88,
+        "raw_sha256": "f7032ea35245c444993f4de392d6e99120beeb8c86ee9a0e7c23aa57a9a40ed6"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-benchmark.jsonl",
+        "raw_bytes": 8429,
+        "raw_sha256": "60c9ef3b158a81e3557e8f3a09dc810804f987c1f4c3122b53b866ae331215c3"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-normal.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/placements-sanitizers.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/sanitizers.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-build.log",
+        "raw_bytes": 13008,
+        "raw_sha256": "a6b1c227079e5f140242a0392c52327511b2fc1c9c832621c0f8520a2c44ebe8"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-configure.log",
+        "raw_bytes": 4317,
+        "raw_sha256": "4b3a1d1defd054426a06fdcafc60caa445ec98fa9cb6af108822400360aae358"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-sanitizers.log",
+        "raw_bytes": 1202,
+        "raw_sha256": "3e50ff9d2d84c37f427a65541cf060ef4244bb5c3d52e11a3b02fa2b54d14d70"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-normal.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-clang-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-sanitizers.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "1dd362ac4059ba762be7600f375d958361faa13af1570921011b2ba04e0cb81a"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/cache-normal.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/cache-sanitizers.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/compiler.txt",
+        "raw_bytes": 239,
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/layout-normal.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/layout-sanitizers.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/normal.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline-benchmark.jsonl",
+        "raw_bytes": 8580,
+        "raw_sha256": "84649ff3a0ec5a2e3b49bf7b6a9f584abd38616f9a9310df773b33e56cc0c184"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline-test.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline.c",
+        "raw_bytes": 23945,
+        "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-baseline.sha256",
+        "raw_bytes": 88,
+        "raw_sha256": "f7032ea35245c444993f4de392d6e99120beeb8c86ee9a0e7c23aa57a9a40ed6"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-benchmark.jsonl",
+        "raw_bytes": 8439,
+        "raw_sha256": "822f38d623248c731b4b285d4222bf04031ff4bed299f70d2ad632c66568e125"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-normal.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-sanitizers.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "08d9ee87800f7d470597159980d3ff47a72e9aad43977cd0e6a9f68044b0ea12"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/sanitizers.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-build.log",
+        "raw_bytes": 14663,
+        "raw_sha256": "1a14ed6276ed61bce12f9f3b726afb382ac99146aa20bf73248736a2df75e104"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-configure.log",
+        "raw_bytes": 4312,
+        "raw_sha256": "e1955d9daca3bf12e63435857ca209d56b4450b5e3c5fc8465e27dc198f2b8e0"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/terminal-sanitizers.log",
+        "raw_bytes": 1202,
+        "raw_sha256": "3e50ff9d2d84c37f427a65541cf060ef4244bb5c3d52e11a3b02fa2b54d14d70"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-normal.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-gcc-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-sanitizers.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "239126b813f450a49597cff1bfcece1ccbcbc454eaee27c51a4f4ba2b233a6cb"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/build.log",
+        "raw_bytes": 58,
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/cache-build.log",
+        "raw_bytes": 110,
+        "raw_sha256": "ca7396e8e14e52a83395bd252a539b9b7f02e26e31c523ea185086025b6a8a21"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/cache-test.log",
+        "raw_bytes": 39,
+        "raw_sha256": "15cbce9e0abb65dd5aaa844fbbd6c7b3ed73c3727a133cf5f90ce5e91be56b91"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/layout-build.log",
+        "raw_bytes": 76,
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/layout-test.log",
+        "raw_bytes": 700,
+        "raw_sha256": "2f7b8afc1fca0da948f87b2ab0a5358e5691630127b7c8f02d0602401d2f017c"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/placements-build.log",
+        "raw_bytes": 486,
+        "raw_sha256": "caa51b5e576c749c1b44562d6d8542b95273bd9fb7a0f929ae73b0d22a3e35e0"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/test.log",
+        "raw_bytes": 44,
+        "raw_sha256": "9147d4b5a5d065c81408408d0f8a147b50c527137066df53db715c9350d96cca"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-build.log",
+        "raw_bytes": 54,
+        "raw_sha256": "a4439b8448eb1798560e9c8163383872f611513884d3426c3ebaa035ab0273b5"
+      },
+      {
+        "path": "fixed-owner/components/kitty-transport-msvc-e05a60f0da38555923babd8c5ba779f782032ff9/zlib-test.log",
+        "raw_bytes": 36,
+        "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca"
+      },
+      {
+        "path": "lazy-owner/components-artifacts.json",
+        "raw_bytes": 2311,
+        "raw_sha256": "21bd27179c7e43396ac99f33a9e11fc4f88e0f9009ffcd7b291ac2496d6026db"
+      },
+      {
+        "path": "lazy-owner/components-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "f376a38f6f44ba3173d3324d990ec69c75d5d6c44952b28d38711b8c434452aa"
+      },
+      {
+        "path": "lazy-owner/components-run.json",
+        "raw_bytes": 4298,
+        "raw_sha256": "458d7d2cadafabe780dadddb66d2778fa60dbcf3a317fa2acdf6b46483993920"
+      },
+      {
+        "path": "lazy-owner/components-run.log",
+        "raw_bytes": 459728,
+        "raw_sha256": "210615f9f0a031d8cc41a118950a1d8c3633c6d6ee8dff7e2b1fcb99c3df8221"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "4f2423cf8eb5d071c5c163c569541fd4847100433536f517dc418e6af29f006b"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-normal.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-sanitizers.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/compiler.txt",
+        "raw_bytes": 122,
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-normal.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-sanitizers.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/normal.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-benchmark.jsonl",
+        "raw_bytes": 8599,
+        "raw_sha256": "8188850a8dfd3e54fa4ebd6d042d55ab7510de2f3301216fcbfd4243a9b5acd6"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-test.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "e12b5523edf38ae4ee487e3f306fc72c61365fb644cc16bc33cd65311945fc2c"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.c",
+        "raw_bytes": 23945,
+        "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.sha256",
+        "raw_bytes": 88,
+        "raw_sha256": "f7032ea35245c444993f4de392d6e99120beeb8c86ee9a0e7c23aa57a9a40ed6"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-benchmark.jsonl",
+        "raw_bytes": 8426,
+        "raw_sha256": "9849d7b9e8aedeb259b987460a188732010ec130863f94a2817206cd41e1d396"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-normal.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "904875b63274f9be6eac3d157d25acd3607fb282d72d57033b46a93445675ac8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-sanitizers.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "904875b63274f9be6eac3d157d25acd3607fb282d72d57033b46a93445675ac8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/sanitizers.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/sources.sha256",
+        "raw_bytes": 3072,
+        "raw_sha256": "2677b7aab3d6af57b5e0d86081b94d5c34040c0cc41b467958669a854901d83e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-build.log",
+        "raw_bytes": 13008,
+        "raw_sha256": "0da808213d7eaecfc764a7f084add659b33e889333384b86a864539208bb5af7"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-configure.log",
+        "raw_bytes": 4317,
+        "raw_sha256": "42896660d4ca1caed8b88d5ae921c1ede849dc358d6697d0386f795710680360"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-sanitizers.log",
+        "raw_bytes": 1080,
+        "raw_sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-sources.sha256",
+        "raw_bytes": 640,
+        "raw_sha256": "0b3a644ccaf77be0ce73bed3d1c4d1b580932f5f706da68f1e59251be41c7d22"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-normal.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-clang-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-sanitizers.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "a715da99f6075c3aad26f97f1a06181cee4d25b43de2dd4b5307df473bdd5721"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-normal.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-sanitizers.log",
+        "raw_bytes": 38,
+        "raw_sha256": "2512d52d999ddc4fd494a99ec1adc9659ab9fdcf3c439291df14696fd184e072"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/compiler.txt",
+        "raw_bytes": 239,
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-normal.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-sanitizers.log",
+        "raw_bytes": 686,
+        "raw_sha256": "91b6771e95dec367cbef2ea07add671aa63da83cbcc30388a21ddec1f194989f"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/normal.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-benchmark.jsonl",
+        "raw_bytes": 8565,
+        "raw_sha256": "57de999612258d415ae5c9f83ba28b2f83078de95a9ac69670631775fd6b90e6"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-test.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "e12b5523edf38ae4ee487e3f306fc72c61365fb644cc16bc33cd65311945fc2c"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.c",
+        "raw_bytes": 23945,
+        "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.sha256",
+        "raw_bytes": 88,
+        "raw_sha256": "f7032ea35245c444993f4de392d6e99120beeb8c86ee9a0e7c23aa57a9a40ed6"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-benchmark.jsonl",
+        "raw_bytes": 8426,
+        "raw_sha256": "77f4afd66a206ae94dce8dbf70a28cc609b4b09542d9fdc7e1e986d3e3f8ee1c"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-normal.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "904875b63274f9be6eac3d157d25acd3607fb282d72d57033b46a93445675ac8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-sanitizers.log",
+        "raw_bytes": 4791,
+        "raw_sha256": "904875b63274f9be6eac3d157d25acd3607fb282d72d57033b46a93445675ac8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/sanitizers.log",
+        "raw_bytes": 43,
+        "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/sources.sha256",
+        "raw_bytes": 3072,
+        "raw_sha256": "2677b7aab3d6af57b5e0d86081b94d5c34040c0cc41b467958669a854901d83e"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-build.log",
+        "raw_bytes": 14663,
+        "raw_sha256": "a975ca48b77e5e41bf5c9966ac1003024cc5d665b292c2436b8cd0b5ef517e60"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-configure.log",
+        "raw_bytes": 4312,
+        "raw_sha256": "47c76f04ef2c6bb03023139556521165e9ff3f2cfe8f27f2f38a514a0225dbc1"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-sanitizers.log",
+        "raw_bytes": 1080,
+        "raw_sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-sources.sha256",
+        "raw_bytes": 640,
+        "raw_sha256": "0b3a644ccaf77be0ce73bed3d1c4d1b580932f5f706da68f1e59251be41c7d22"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-normal.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-gcc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-sanitizers.log",
+        "raw_bytes": 35,
+        "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "e1956cb47145502fcc1bdce10c8c77ac639167a07707ce4207a933ca3ba06ffe"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/build.log",
+        "raw_bytes": 58,
+        "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-build.log",
+        "raw_bytes": 110,
+        "raw_sha256": "ca7396e8e14e52a83395bd252a539b9b7f02e26e31c523ea185086025b6a8a21"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/cache-test.log",
+        "raw_bytes": 39,
+        "raw_sha256": "15cbce9e0abb65dd5aaa844fbbd6c7b3ed73c3727a133cf5f90ce5e91be56b91"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-build.log",
+        "raw_bytes": 76,
+        "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/layout-test.log",
+        "raw_bytes": 700,
+        "raw_sha256": "2f7b8afc1fca0da948f87b2ab0a5358e5691630127b7c8f02d0602401d2f017c"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-benchmark.jsonl",
+        "raw_bytes": 8238,
+        "raw_sha256": "e7df9ba9f20f3238f4ccb98da084b5a100f2287f319bc18e3e045412dc75ec10"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-build.log",
+        "raw_bytes": 159,
+        "raw_sha256": "fde6408f97521b13e2a03d9832a320bf85ef428f50ddf259a01a1db20f8ac8ce"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline-test.log",
+        "raw_bytes": 4857,
+        "raw_sha256": "44bb9a24c679b98b495d7c3c6f7bcc972c5e77ec8c673ad32e92e67ed4608ba3"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.c",
+        "raw_bytes": 23945,
+        "raw_sha256": "1e3e8a381108afbf1be5e539dfb5ffd845b36d03e790f13975606fcd600457b0"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.obj",
+        "raw_bytes": 43579,
+        "raw_sha256": "b7bdbc71b285d7ea475f0904d6ff5aad5936f4f5b124d6a3d2a53bde59bd5f27"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-baseline.sha256",
+        "raw_bytes": 160,
+        "raw_sha256": "f06c561c36a142a69b614164b4186150f91524441a8a66f173cffb9985f2c232"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-benchmark.jsonl",
+        "raw_bytes": 8169,
+        "raw_sha256": "25950d9b69e67f806e72752bf63bf88ceb4e1747afeba79611603d5ae0e0cb4d"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-build.log",
+        "raw_bytes": 161,
+        "raw_sha256": "92079f571f84af0851a4456242ae469f75ab4378e06e65959965c303953b4deb"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/placements-test.log",
+        "raw_bytes": 4857,
+        "raw_sha256": "3caffcb3b5a6bfe70aed5c6395de0eee0a5fac8f15d7dbac3e802b6da0acb794"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/sources.txt",
+        "raw_bytes": 5104,
+        "raw_sha256": "4c508145f0173699af2e669516da58b4a7631fae4c5f604cbd22c605e38c0b99"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-build.log",
+        "raw_bytes": 16563,
+        "raw_sha256": "ccbd64e0d242739dc0c3d780fcf338da8b404adf0d6f41c467d465600b2c3399"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-configure.log",
+        "raw_bytes": 2886,
+        "raw_sha256": "fc0dec44a171d8a439798acc2c4891bb5905264d9600ccdaf9456ba16bb2ff78"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-sources.txt",
+        "raw_bytes": 1062,
+        "raw_sha256": "f86fd81b5a8c337f8b2b0996bd4689dfd2e72db1d4e28e427f0b4c9c6d2d23b8"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/terminal-test.log",
+        "raw_bytes": 1096,
+        "raw_sha256": "42d6f6067351e9c7d3271a57d075d10061bddc5a2f8f504ed62807e5a4a24d19"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/test.log",
+        "raw_bytes": 44,
+        "raw_sha256": "9147d4b5a5d065c81408408d0f8a147b50c527137066df53db715c9350d96cca"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-build.log",
+        "raw_bytes": 54,
+        "raw_sha256": "a4439b8448eb1798560e9c8163383872f611513884d3426c3ebaa035ab0273b5"
+      },
+      {
+        "path": "lazy-owner/components/kitty-transport-msvc-5f0c70f4653b535497a157a1cdd4c1b67f92e9d9/zlib-test.log",
+        "raw_bytes": 36,
+        "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca"
+      }
+    ]
   }
 }
