@@ -22,6 +22,7 @@ on:
           - kitty-query-errors
           - kitty-relative
           - kitty-unicode
+          - kitty-unicode-geometry
           - unicode-text-boundaries
           - all
   push:
@@ -36,7 +37,7 @@ permissions:
 
 jobs:
   xterm-reference:
-    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -94,7 +95,7 @@ jobs:
           if-no-files-found: error
 
   kitty-graphics-reference:
-    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression' || inputs.family == 'kitty-features' || inputs.family == 'kitty-query-errors' || inputs.family == 'kitty-relative' || inputs.family == 'kitty-unicode')
+    if: github.event_name == 'workflow_dispatch' && (inputs.family == 'kitty-graphics' || inputs.family == 'kitty-compression' || inputs.family == 'kitty-features' || inputs.family == 'kitty-query-errors' || inputs.family == 'kitty-relative' || inputs.family == 'kitty-unicode' || inputs.family == 'kitty-unicode-geometry')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -147,7 +148,8 @@ jobs:
                       'kitty-features': 'kitty_features_oracle.py',
                       'kitty-query-errors': 'kitty_query_errors_oracle.py',
                       'kitty-relative': 'kitty_relative_oracle.py',
-                      'kitty-unicode': 'kitty_unicode_oracle.py'}
+                      'kitty-unicode': 'kitty_unicode_oracle.py',
+                      'kitty-unicode-geometry': 'kitty_unicode_geometry_oracle.py'}
           fixture = (Path('tests') / fixtures[family]).resolve()
           output = base / 'observations.json'
           output.write_text('{"status":"not-started"}\n')
@@ -161,8 +163,8 @@ jobs:
               filesystem_observation_paths=[str(output)], events=[],
               terminal=dict(columns=120, rows=40, scrollback=100),
               timeout_ms=60000, idle_timeout_ms=20000, finalization_ms=2000,
-              limits=dict(output_bytes=2097152 if family == 'kitty-unicode' else 1048576 if family == 'kitty-query-errors' else 524288 if family == 'kitty-features' else 262144,
-                          file_bytes=4194304 if family in ('kitty-relative', 'kitty-unicode') else 1048576 if family == 'kitty-query-errors' else 524288, files=10,
+              limits=dict(output_bytes=2097152 if family in ('kitty-unicode','kitty-unicode-geometry') else 1048576 if family == 'kitty-query-errors' else 524288 if family == 'kitty-features' else 262144,
+                          file_bytes=4194304 if family in ('kitty-relative', 'kitty-unicode','kitty-unicode-geometry') else 1048576 if family == 'kitty-query-errors' else 524288, files=10,
                           filesystem_depth=1, processes=16))
           (base / 'scenario.json').write_text(json.dumps(scenario, indent=2) + '\n')
           PY
@@ -202,6 +204,12 @@ jobs:
               assert observed['case_count'] == 60 and observed['state_count'] == 238, (observed['case_count'], observed['state_count'])
               assert [c['name'] for c in observed['cases']] == observed['expected_cases']
               assert observed['upstream_tests']['names'] == ['test_image_parents', 'test_image_put', 'test_gr_scroll']
+              assert observed['upstream_tests']['successful'] and not observed['upstream_tests']['skipped']
+          elif os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-unicode-geometry':
+              assert observed['family'] == 'kitty-unicode-geometry'
+              assert observed['case_count'] == observed['state_count'] == 153
+              assert len(observed['cases']) == 153
+              assert observed['upstream_tests']['run'] == 3
               assert observed['upstream_tests']['successful'] and not observed['upstream_tests']['skipped']
           elif os.environ['KITTY_REFERENCE_FAMILY'] == 'kitty-unicode':
               assert observed['family'] == 'kitty-unicode'
