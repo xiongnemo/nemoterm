@@ -1,0 +1,122 @@
+{
+  "completed": true,
+  "scope": "Host-class guard sensitivity and bounded geometry/resize regression only; no foreground or clipboard acceptance.",
+  "source_base": "d914972e781a6e1bb18711fb9b25b005e03e4560",
+  "fixture_changes": "Working-tree host-class assertions added to geometry, resize and Codex; Codex replay awaits desktop availability.",
+  "negative_controls": 2,
+  "positive_commands": 4,
+  "positive_stages": 130,
+  "codex_replay": "pending",
+  "archive": {
+    "path": "tab-host-fixture-guards.tar.gz",
+    "bytes": 39312,
+    "sha256": "82501245e16299c73bac0116a4f6061a72ab027eb4c8bfc02be9d4cecfeacb62"
+  },
+  "records": [
+    {
+      "path": "case-evidence/hosted-geometry/research/geometry-0.png",
+      "bytes": 1086,
+      "sha256": "10d8f6495a327d75c0e438ead4f895f4f5c6320606f02797f8ef70a46ff2fd16"
+    },
+    {
+      "path": "case-evidence/hosted-geometry/research/tabs-geometry-window-observed.json",
+      "bytes": 11592,
+      "sha256": "76203a9a8880a3c5555c231b0e1bc078afeb0aeda5953cfac4bb4e79f4f9f2a8"
+    },
+    {
+      "path": "case-evidence/hosted-window_resize/research/tabs-window-resize-observed.json",
+      "bytes": 51455,
+      "sha256": "c779935a20effde1378f46529f739dabd270c194873fdca912c64aafe5a93a1f"
+    },
+    {
+      "path": "case-evidence/hosted-window_resize/research/window-resize-gdi.png",
+      "bytes": 1087,
+      "sha256": "d218eda8118cf1ea66c823275fa69f7f54d48b02d021b1de0245428e1c74b34a"
+    },
+    {
+      "path": "case-evidence/negative-geometry/research/tabs-geometry-window-observed.json",
+      "bytes": 35040,
+      "sha256": "21ea157936efb8d363763bc964dc9a4e594dde34bc3b00fb36f3de6a5d0bf6b6"
+    },
+    {
+      "path": "case-evidence/negative-window_resize/research/tabs-window-resize-observed.json",
+      "bytes": 35158,
+      "sha256": "89427d10c75c42258b8c7ca9a1f714cf2e8586803907bcc804a612a60401bdad"
+    },
+    {
+      "path": "case-evidence/standalone-geometry/research/geometry-window-observed.json",
+      "bytes": 11589,
+      "sha256": "e02c234cf8c44fd3220d2a7d5e4b9185525206e7f635fc89333f1c94a9110834"
+    },
+    {
+      "path": "case-evidence/standalone-window_resize/research/window-resize-observed.json",
+      "bytes": 51445,
+      "sha256": "00a6a0d96cbb07211650db3e6d2eccbeaface1bd1a8ee820eb582241c510f99d"
+    },
+    {
+      "path": "controller.py",
+      "bytes": 4367,
+      "sha256": "0408f204a366f9b03c9f13f0ddb5dac6bc489131fffb04739a22d9ace2efc20b"
+    },
+    {
+      "path": "IDENTITY.json",
+      "bytes": 918,
+      "sha256": "105e43630782fc79dddde9eef071c2f788cafdb5ab60a39225322cd01c0f8f86"
+    },
+    {
+      "path": "logs/hosted-geometry.log",
+      "bytes": 42,
+      "sha256": "c5c6d774cecacb0fc259f28c7a879dd5125693ea8cfcd3d294e8b9515c463503"
+    },
+    {
+      "path": "logs/hosted-window_resize.log",
+      "bytes": 123,
+      "sha256": "a9f27811b3c21719f8f6e8191c092ae4a6ded315f75482da381a213ed15fe3bf"
+    },
+    {
+      "path": "logs/negative-geometry.log",
+      "bytes": 12846,
+      "sha256": "600117262382883ce1ad04299a5f958b7274e6629c3c6eba819b73f9c71540df"
+    },
+    {
+      "path": "logs/negative-window_resize.log",
+      "bytes": 12895,
+      "sha256": "f82830694f460216f7fe427482077fb7c1bd196d7e36e9a5321481254a3b8f7c"
+    },
+    {
+      "path": "logs/standalone-geometry.log",
+      "bytes": 42,
+      "sha256": "c5c6d774cecacb0fc259f28c7a879dd5125693ea8cfcd3d294e8b9515c463503"
+    },
+    {
+      "path": "logs/standalone-window_resize.log",
+      "bytes": 123,
+      "sha256": "a9f27811b3c21719f8f6e8191c092ae4a6ded315f75482da381a213ed15fe3bf"
+    },
+    {
+      "path": "results.json",
+      "bytes": 9247,
+      "sha256": "5bf32177ec8582d27e1bd39c26d5dd23dbc128ab54a0350c15e39dd075439479"
+    },
+    {
+      "path": "tests/codex_window_smoke.py",
+      "bytes": 18528,
+      "sha256": "f3e372469ac6244267c7eabadade8a75ad63e22be9fc9014db3ea39b269509e3"
+    },
+    {
+      "path": "tests/geometry_window_smoke.py",
+      "bytes": 15801,
+      "sha256": "4eb64cdef3ff84c61f687a58104636e33f5ed88841e4232b50f3e9647c124276"
+    },
+    {
+      "path": "tests/window_resize_window_smoke.py",
+      "bytes": 16064,
+      "sha256": "73e4427908236c71fb267301394e85faf7cca53c8a168d299490f5d697378fb2"
+    }
+  ],
+  "image_identity": {
+    "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\ci-gdi-display-cache-12ee33b\\product\\nemoterm.exe": "64195969a8f2e6653f854d598f169810107ee808d66eaa1088cf9e3ced6b259f",
+    "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\local-cli-profile-candidate-02\\dist\\nemoterm.exe": "a6c4c3b2d31db884ca22636e4d05bfd055df0fa8d50d64a2e9cba7cf8485b292"
+  },
+  "product_retention": "Corrected portable image is retained separately in host-restore-size.tar.gz; baseline single-image identity is recorded in gdi-image-cache.md."
+}

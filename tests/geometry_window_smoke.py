@@ -29,6 +29,7 @@ u.MonitorFromWindow.argtypes, u.MonitorFromWindow.restype = [w.HWND, w.DWORD], w
 u.GetMonitorInfoW.argtypes = [w.HANDLE, c.c_void_p]
 u.GetPropW.argtypes, u.GetPropW.restype = [w.HWND, w.LPCWSTR], w.HANDLE
 u.GetDpiForWindow.argtypes, u.GetDpiForWindow.restype = [w.HWND], w.UINT
+u.GetClassNameW.argtypes = [w.HWND, w.LPWSTR, c.c_int]
 
 class MonitorInfo(c.Structure):
     _fields_ = [('size', w.DWORD), ('monitor', w.RECT), ('work', w.RECT), ('flags', w.DWORD)]
@@ -40,7 +41,7 @@ def drawing(colors):
     return ('\x1b[?25l\x1b[0m\x1b]11;#000000\x07\x1b[2J'
             f'\x1b[1;1H\x1b[48;2;{green}m  \x1b[0m'
             f'\x1b[3;4H\x1b[48;2;{blue}m \x1b[0m')
-evidence = dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
+evidence = dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     requested_font=args.font, modes=[], runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe', exe.parent/'conpty.dll') if p.exists()})
 
@@ -69,6 +70,11 @@ try:
                 try:
                     hwnd = wait_for(lambda: find_window(process.pid))
                     wait_for(lambda: read_snapshot(report))
+                    host=terminal_host(hwnd);host_class=c.create_unicode_buffer(128)
+                    assert u.GetClassNameW(host,host_class,len(host_class))
+                    mode.update(host_class=host_class.value,tab_host=host!=hwnd)
+                    evidence['tab_host']=mode['tab_host']
+                    assert mode['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),mode
                     mode['active_renderer'] = int(u.GetPropW(hwnd, 'NemotermRenderer') or 0)
                     assert mode['active_renderer'] in (1, 2, 3)
                     if renderer == 0: assert mode['active_renderer'] == 1

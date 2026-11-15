@@ -34,7 +34,7 @@ if args.tabs:mode='tabs-'+mode
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     codex_launcher=str(codex), codex_launcher_sha256=hashlib.sha256(codex.read_bytes()).hexdigest(),
     codex_version=subprocess.check_output([str(codex), '--version'], text=True, timeout=15).strip(),
-    mode=mode, font=args.font, renderer=args.renderer, backend='loopback deterministic SSE; no model or tool calls', checks=[], screenshots=[])
+    mode=mode, requested_tab_host=args.tabs, tab_host=None, font=args.font, renderer=args.renderer, backend='loopback deterministic SSE; no model or tool calls', checks=[], screenshots=[])
 profile = 'codex-window-'+uuid.uuid4().hex
 keypath = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER, keypath) as key:
@@ -162,6 +162,11 @@ enabled = false
         hwnd = None
         try:
             hwnd = wait_for(lambda: find_window(process.pid), timeout=15)
+            u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+            host=terminal_host(hwnd);host_class=c.create_unicode_buffer(128)
+            assert u.GetClassNameW(host,host_class,len(host_class))
+            evidence['host_class']=host_class.value;evidence['tab_host']=host!=hwnd
+            assert evidence['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),evidence
             u.GetPropW.argtypes=[w.HWND,w.LPCWSTR];u.GetPropW.restype=w.HANDLE
             assert int(u.GetPropW(hwnd,'NemotermRenderer') or 0)==(2 if args.renderer=='opengl' else 1),'Requested renderer unavailable'
             saved = SavedClipboard(hwnd)

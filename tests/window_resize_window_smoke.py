@@ -23,12 +23,13 @@ u.GetMonitorInfoW.argtypes=[w.HANDLE,c.c_void_p]
 u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
 u.IsZoomed.argtypes=[w.HWND]
+u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 class MonitorInfo(c.Structure):
     _fields_=[('size',w.DWORD),('monitor',w.RECT),('work',w.RECT),('flags',w.DWORD)]
 
 CSI='\x1b['
 queries=CSI+'14t'+CSI+'14;2t'+CSI+'16t'+CSI+'18t'+CSI+'5n'
-evidence=dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
+evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
     font=font,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()})
 profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1,2))]
@@ -55,6 +56,11 @@ try:
                 gl=None
                 try:
                     hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
+                    host=terminal_host(hwnd);host_class=c.create_unicode_buffer(128)
+                    assert u.GetClassNameW(host,host_class,len(host_class))
+                    mode.update(host_class=host_class.value,tab_host=host!=hwnd)
+                    evidence['tab_host']=mode['tab_host']
+                    assert mode['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),mode
                     active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
                     assert active in (1,2,3)
                     if not renderer:assert active==1
