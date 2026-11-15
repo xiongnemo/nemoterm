@@ -13,6 +13,7 @@ on:
       - vendor/putty-0.85/test/test_pointer_terminal.c
       - vendor/putty-0.85/windows/nemo_pointer_*
       - tests/test_pointer_cursor.c
+      - tests/pointer_window_smoke.py
       - scripts/generate-pointer-reference.py
       - research/pointer-shape-evidence/**
 
@@ -110,6 +111,12 @@ jobs:
           Get-FileHash pointer-terminal-build/nemoterm.exe -Algorithm SHA256 | ConvertTo-Json | Set-Content pointer-frontend.json
           ./pointer-terminal-build/test_pointer_cursor.exe 2>&1 | Tee-Object pointer-native.log
           exit $LASTEXITCODE
+      - name: Verify native pointer selection in owned real windows
+        env:
+          NEMOTERM_TEST_EXE: ${{ github.workspace }}/pointer-terminal-build/nemoterm.exe
+        run: |
+          python tests/pointer_window_smoke.py --masks . 2>&1 | Tee-Object pointer-window.log
+          exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -126,5 +133,8 @@ jobs:
             pointer-frontend.json
             pointer-terminal-build/nemoterm.exe
             pointer-atlas-*.bmp
+            pointer-mask-*.bin
+            pointer-window.log
+            research/pointer-native-window/**
           if-no-files-found: error
           retention-days: 30

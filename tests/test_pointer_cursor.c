@@ -17,6 +17,20 @@ static const char *const names[] = {"automatic",
 #undef NAME
 };
 
+/* Isolate first-use GDI/font caches from cursor lifetime accounting. This
+ * control does not call the cursor implementation or create any cursor. */
+static int observer_control(void)
+{
+    HDC dc = CreateCompatibleDC(NULL); CHECK(dc != NULL);
+    HBITMAP bitmap = CreateBitmap(8, 8, 1, 1, NULL); CHECK(bitmap != NULL);
+    HGDIOBJ old = SelectObject(dc, bitmap);
+    HGDIOBJ oldfont = SelectObject(dc, GetStockObject(DEFAULT_GUI_FONT));
+    CHECK(TextOutA(dc, 0, 0, "control", 7)); CHECK(GdiFlush());
+    SelectObject(dc, oldfont); SelectObject(dc, old);
+    CHECK(DeleteObject(bitmap)); CHECK(DeleteDC(dc));
+    return 0;
+}
+
 static int atlas(unsigned size)
 {
     const int width = 960, height = 720;
@@ -70,6 +84,14 @@ static int atlas(unsigned size)
 
 int main(void)
 {
+    DWORD cold_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    CHECK(observer_control() == 0);
+    DWORD control_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    CHECK(observer_control() == 0);
+    DWORD repeated_control_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    printf("GDI observer control without cursors: cold=%lu first=%lu repeated=%lu\n",
+           cold_gdi, control_gdi, repeated_control_gdi);
+    CHECK(repeated_control_gdi == control_gdi);
     /* Stock resources are shared with Windows and intentionally not destroyed. */
     for (unsigned shape = 0; shape < NEMO_POINTER_SHAPE_COUNT; shape++)
         if (nemo_pointer_glyph_index((NemoPointerShape)shape) < 0)
@@ -103,6 +125,14 @@ int main(void)
                     white += bits[plane+i] != 0;
                 }
                 CHECK(opaque && transparent && white);
+                char filename[100];
+                snprintf(filename, sizeof(filename), "pointer-mask-%s-%u.bin", names[shape], size);
+                FILE *file = fopen(filename, "wb"); CHECK(file != NULL);
+                const uint32_t header[] = {(uint32_t)mask.bmWidth, (uint32_t)mask.bmHeight,
+                    (uint32_t)mask.bmWidthBytes, info.xHotspot, info.yHotspot};
+                CHECK(fwrite(header, 1, sizeof(header), file) == sizeof(header));
+                CHECK(fwrite(bits, 1, (size_t)count, file) == (size_t)count);
+                CHECK(fclose(file) == 0);
             }
             CHECK(DeleteObject(info.hbmMask));
             if (info.hbmColor) CHECK(DeleteObject(info.hbmColor));
@@ -111,6 +141,8 @@ int main(void)
     CHECK(custom == 104);
     DWORD warmed_user = GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS);
     DWORD warmed_gdi = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    printf("Cursor resources: baseline user=%lu gdi=%lu; warmed user=%lu gdi=%lu\n",
+           baseline_user, baseline_gdi, warmed_user, warmed_gdi);
     for (unsigned pass = 0; pass < 100; pass++)
         for (unsigned size = 32; size <= 128; size += 8)
             for (unsigned shape = 1; shape < NEMO_POINTER_SHAPE_COUNT; shape++)
@@ -120,6 +152,9 @@ int main(void)
     CHECK(atlas(32) == 0); CHECK(atlas(48) == 0); CHECK(atlas(96) == 0);
     SetCursor(cache[0][NEMO_POINTER_ZOOM_IN]);
     nemo_pointer_cursors_free();
+    printf("After atlases and cursor cleanup: user=%lu gdi=%lu\n",
+           GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS),
+           GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS));
     CHECK(GetCursor() == LoadCursor(NULL, IDC_ARROW));
     CHECK(GetGuiResources(GetCurrentProcess(), GR_USEROBJECTS) <= baseline_user);
     CHECK(GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS) <= baseline_gdi);
