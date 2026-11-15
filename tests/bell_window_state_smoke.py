@@ -70,7 +70,8 @@ try:
                 d=wait_for(received)
                 assert bytes.fromhex(d['hex'])==marker,(name,d)
                 time.sleep(.04)
-                assert read_snapshot(target['report'])['hex']==d['hex']
+                late=wait_for(lambda:read_snapshot(target['report']) or None)
+                assert late.get('phase')==serial and late.get('hex')==d['hex'],(name,late)
                 return d['hex']
             def state():
                 order=[];window=u.GetTopWindow(None)

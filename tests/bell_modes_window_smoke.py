@@ -93,7 +93,8 @@ try:
                 d=wait_for(received)
                 assert bytes.fromhex(d['hex'])==expected+marker,(name,d,expected)
                 time.sleep(.04)
-                assert read_snapshot(report)['hex']==d['hex'],('late reply',name)
+                late=wait_for(lambda:read_snapshot(report) or None)
+                assert late.get('phase')==name and late.get('hex')==d['hex'],('late reply',name,late)
                 return d['hex']
             try:
                 initial = b'\x1b[?1042$p\x1b[?1043$p'

@@ -11,6 +11,10 @@ on:
         description: Successful bell-native run for the window-state fixture
         type: string
         default: '43721733820'
+      image_allow_failed:
+        description: Explicit diagnostic-only reuse of a completed failed native run
+        type: boolean
+        default: false
       bell_native:
         description: Observe native bell attention, focus and stacking on a disposable desktop
         type: boolean
@@ -323,10 +327,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           IMAGE_RUN: ${{ inputs.image_run }}
+          ALLOW_FAILED_IMAGE: ${{ inputs.image_allow_failed }}
         run: |
           if ($env:IMAGE_RUN -notmatch '^\d+$') { throw 'Expected a workflow run number' }
           $run = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:IMAGE_RUN" | ConvertFrom-Json
-          if ($LASTEXITCODE -or $run.status -ne 'completed' -or $run.conclusion -ne 'success') { throw 'Baseline must be a successful completed workflow' }
+          $diagnosticFailed = $env:ALLOW_FAILED_IMAGE -eq 'true' -and $run.conclusion -eq 'failure'
+          if ($LASTEXITCODE -or $run.status -ne 'completed' -or ($run.conclusion -ne 'success' -and !$diagnosticFailed)) { throw 'Baseline must be completed; a failed run requires explicit diagnostic-only selection' }
           $name = "bell-native-$($run.head_sha)"
           $artifacts = gh api "repos/$env:GITHUB_REPOSITORY/actions/runs/$env:IMAGE_RUN/artifacts" | ConvertFrom-Json
           $artifact = @($artifacts.artifacts | Where-Object { $_.name -eq $name -and !$_.expired })
@@ -338,7 +344,7 @@ jobs:
           $hash = (Get-FileHash dist/nemoterm.exe -Algorithm SHA256).Hash
           $original = Get-Content build/bell-baseline/bell-image.json -Raw | ConvertFrom-Json
           if ($hash -ne $original.Hash) { throw 'Downloaded image hash differs from its native checkpoint' }
-          @{ fixture_source=$env:GITHUB_SHA; image_source=$run.head_sha; image_run=$run.id; artifact_id=$artifact[0].id; image_sha256=$hash } | ConvertTo-Json | Set-Content bell-state-provenance.json
+          @{ fixture_source=$env:GITHUB_SHA; image_source=$run.head_sha; image_run=$run.id; image_conclusion=$run.conclusion; diagnostic_failed_baseline=$diagnosticFailed; artifact_id=$artifact[0].id; image_sha256=$hash } | ConvertTo-Json | Set-Content bell-state-provenance.json
       - run: python -m pip install frida==17.24.3
       - name: Check focus, stacking, minimized and background-tab lifetime
         shell: pwsh
