@@ -10,6 +10,7 @@ import tarfile
 from native_test_utils import (root,c,w,u,hashlib,json,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_for,find_window,terminal_host)
 from owned_job import OwnedJob
+from owned_window_focus import focus_owned_window
 from protocol_oracle_window import saved_profile
 
 u.GetForegroundWindow.restype = w.HWND
@@ -25,7 +26,7 @@ with tarfile.open(root/'research/bell-modes-reference.tar.gz') as archive:
 assert hashlib.sha256(raw).hexdigest() == 'c5a87d9f9ee75d637293e3a6767d86102be622271720e8ee4b704e5727c9b6b4'
 reference = json.loads(raw)
 evidence = dict(completed=False,reference_sha256=hashlib.sha256(raw).hexdigest(),
-    executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),cases={},cleanup=[],
+    executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),cases={},cleanup=[],focus_actions=[],
     observation='Unmodified API calls and actual foreground/Z-order. Visible taskbar appearance and audible sound not certified.',
     platform_policy='Windows focus clears notifications even after 1042 is reset; foreground activation can itself raise a window.')
 
@@ -81,9 +82,8 @@ try:
                 return dict(foreground=u.GetForegroundWindow(),above_other=order.index(host)<order.index(other),
                             topmost=bool(u.GetWindowLongPtrW(host,-20)&8))
             def focus(window):
-                assert u.SetForegroundWindow(window)
-                wait_for(lambda: u.GetForegroundWindow() == window)
-                time.sleep(.05)
+                owner = next(p.pid for p,_,host,_,_ in children if host == window)
+                evidence['focus_actions'].append(focus_owned_window(window, owner))
             def phase(name,wire,expected=b''):
                 write_snapshot(control,dict(phase=name,preserve_mouse=True,sequence=wire.decode('utf-8')+'\x1b[5n'))
                 def received():

@@ -210,6 +210,7 @@ static UINT_PTR next_session_id;
 static void reset_window(WinGuiSeat *wgs, int reinit);
 
 static void flash_window(WinGuiSeat *wgs, int mode);
+static void nemo_bell_acknowledge(WinGuiSeat *wgs);
 static void nemo_bell_close(WinGuiSeat *wgs);
 static void sys_cursor_update(WinGuiSeat *wgs);
 static bool get_fullscreen_rect(WinGuiSeat *wgs, RECT *ss);
@@ -3722,14 +3723,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
             ShowCaret(hwnd);
         }
-        /* All tab seats share the host's caption/taskbar notification. */
-        if (foreground) {
-            for (struct WinGuiSeatListNode *n = wgslisthead.next;
-                 n != &wgslisthead; n = n->next) {
-                WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
-                if (wgs_window(other) == wgs_window(wgs)) flash_window(other, 0);
-            }
-        }
+        nemo_bell_acknowledge(wgs);
         wgs->compose_state = 0;
         term_update(wgs->term);
         break;
@@ -7226,6 +7220,17 @@ static void wintw_bell(TermWin *tw, int mode)
         wgs->last_beep_time = GetTickCount();
     }
     /* Otherwise, either visual bell or disabled; do nothing here */
+}
+
+static void nemo_bell_acknowledge(WinGuiSeat *wgs)
+{
+    if (!wgs_active(wgs) || GetForegroundWindow() != wgs_window(wgs)) return;
+    /* All tab seats share the host's caption/taskbar notification. */
+    for (struct WinGuiSeatListNode *n = wgslisthead.next;
+         n != &wgslisthead; n = n->next) {
+        WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
+        if (wgs_window(other) == wgs_window(wgs)) flash_window(other, 0);
+    }
 }
 
 static void nemo_bell_close(WinGuiSeat *wgs)

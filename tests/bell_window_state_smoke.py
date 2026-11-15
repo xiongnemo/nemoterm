@@ -5,6 +5,7 @@ import frida
 from native_test_utils import (root,c,w,u,hashlib,json,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_for,find_window,terminal_host)
 from owned_job import OwnedJob
+from owned_window_focus import focus_owned_window
 from protocol_oracle_window import saved_profile
 sys.path.insert(0,str(root/'tools'))
 import nemoterm_debug as api
@@ -19,7 +20,7 @@ u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    checks=[],cleanup=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    checks=[],cleanup=[],focus_actions=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -84,8 +85,8 @@ try:
                             topmost=bool(u.GetWindowLongPtrW(host,-20)&8),minimized=bool(u.IsIconic(host)),
                             active=active[0],sessions=[s['id'] for s in sessions])
             def focus(window):
-                if u.GetForegroundWindow()!=window:assert u.SetForegroundWindow(window)
-                wait_for(lambda:u.GetForegroundWindow()==window);time.sleep(.06)
+                assert window in (host,other)
+                evidence['focus_actions'].append(focus_owned_window(window,process.pid if window==host else cover.pid))
             def position(window,after):
                 assert u.SetWindowPos(window,after,0,0,0,0,0x13)
             session=frida.attach(process.pid)

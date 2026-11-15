@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
       image_run:
-        description: Successful bell-native run for the window-state fixture
+        description: Completed bell-native run for the window-state fixture
         type: string
         default: '43721733820'
       image_allow_failed:
@@ -322,7 +322,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - name: Verify and download the identified successful native image
+      - name: Verify and download the explicitly identified native image
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}

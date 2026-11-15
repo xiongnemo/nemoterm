@@ -51,6 +51,11 @@ try {
         & $testPython "$Destination/tests/${name}_window_smoke.py" @nativeArgs 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable native test failed: $name" }
         $checks.Add($name)
+        if ($name -eq 'bell_modes') {
+            & python "$Destination/tests/bell_window_state_smoke.py" 2>&1 | Tee-Object "$Destination/logs/bell-window-state.log"
+            if ($LASTEXITCODE) { throw 'Single-executable bell ownership and focus test failed' }
+            $checks.Add('bell-window-state')
+        }
         if ($name -eq 'c1_controls') {
             & python "$Destination/tests/c1_controls_window_smoke.py" --input-cp 65001 2>&1 | Tee-Object "$Destination/logs/c1-controls-utf8.log"
             if ($LASTEXITCODE) { throw 'Single-executable UTF-8 C1 transport test failed' }

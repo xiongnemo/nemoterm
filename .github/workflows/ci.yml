@@ -748,6 +748,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/bell-modes-window-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Check bell ownership and real focus across GDI and DirectX tabs
+        shell: pwsh
+        run: |
+          python tests/bell_window_state_smoke.py 2>&1 | Tee-Object test-results/bell-window-state.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/bell-window-state-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Compare native tabulation with independent XTerm replies
         shell: pwsh
         run: |

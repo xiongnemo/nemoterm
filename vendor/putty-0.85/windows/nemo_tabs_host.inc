@@ -407,6 +407,12 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
       case WM_SETFOCUS:if (active) SetFocus(active->term_hwnd);return 0;
       case WM_ACTIVATE:
         if (LOWORD(wp)==WA_INACTIVE) memset(tab_host.consumed_keys,0,sizeof(tab_host.consumed_keys));
+        if (active && !active->closing) {
+            /* A background tab switch may already have selected this child
+             * in our input queue, so activation need not send WM_SETFOCUS. */
+            term_set_focus(active->term,LOWORD(wp)!=WA_INACTIVE && GetForegroundWindow()==hwnd);
+            if (LOWORD(wp)!=WA_INACTIVE) nemo_bell_acknowledge(active);
+        }
         break;
       case WM_MOUSEACTIVATE:return MA_ACTIVATE;
       case WM_LBUTTONDOWN:
