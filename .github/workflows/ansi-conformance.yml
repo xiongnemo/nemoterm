@@ -3,6 +3,10 @@ name: Terminal conformance replay
 on:
   workflow_dispatch:
     inputs:
+      bell_native:
+        description: Observe native bell attention, focus and stacking on a disposable desktop
+        type: boolean
+        default: false
       udk_native:
         description: Build the single image and replay UDK with physical keys on a disposable desktop
         type: boolean
@@ -50,7 +54,7 @@ permissions:
 
 jobs:
   linux:
-    if: inputs.locator_native != true && inputs.udk_native != true
+    if: inputs.locator_native != true && inputs.udk_native != true && inputs.bell_native != true
     strategy:
       fail-fast: false
       matrix:
@@ -100,7 +104,7 @@ jobs:
           retention-days: 30
           if-no-files-found: error
   msvc:
-    if: inputs.locator_native != true && inputs.udk_native != true
+    if: inputs.locator_native != true && inputs.udk_native != true && inputs.bell_native != true
     runs-on: windows-2025
     timeout-minutes: 10
     steps:
@@ -246,5 +250,51 @@ jobs:
             research/mok-*.png
             research/win32-input-*.json
             research/win32-input-*.png
+          if-no-files-found: error
+          retention-days: 60
+
+  bell-native:
+    if: inputs.bell_native == true
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          submodules: true
+      - name: Build the frontend and console host in one image
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 2>&1 | Tee-Object bell-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item build/single-exe-dist/nemoterm.exe dist/nemoterm.exe
+          Get-FileHash dist/nemoterm.exe -Algorithm SHA256 | ConvertTo-Json | Set-Content bell-image.json
+      - run: python -m pip install frida==17.24.3
+      - name: Observe native bell attention and existing bell/visual policy
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
+          $failed = 0
+          foreach ($test in @('bell_modes', 'bell', 'bell_visual')) {
+            python "tests/${test}_window_smoke.py" 2>&1 | Tee-Object "bell-$test.log"
+            if ($LASTEXITCODE) { $failed = 1 }
+          }
+          exit $failed
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: bell-native-${{ github.sha }}
+          path: |
+            bell-*.log
+            bell-image.json
+            build/single-exe-dist/nemoterm.exe
+            research/bell-*.json
+            research/bell-*.png
+            research/visual-bell-*.json
+            research/visual-bell-*.png
           if-no-files-found: error
           retention-days: 60

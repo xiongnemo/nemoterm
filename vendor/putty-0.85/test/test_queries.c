@@ -582,7 +582,10 @@ static void test_dcs_recovery(Mock *mk)
     term_data_fragmented(mk->term, "\033P0$qm\033\\\033P$xq\033\\");
     response(mk, "");
     term_data_fragmented(mk->term, "\033P$qm\007\033\\");
-    response(mk, "\033P1$r0;31m\033\\");
+    /* The original hand-authored expectation discarded BEL. Pinned XTerm's
+     * DECRQSS matches the complete name, so a BEL before or after m makes
+     * the query invalid; see research/bell-modes.md and the retained source. */
+    response(mk, "\033P0$r\033\\");
     term_data_fragmented(mk->term, "\033P$qm\x9c\033P$qm\xc2\x9c");
     response(mk, "\033P1$r0;31m\033\\\033P1$r0;31m\033\\");
     term_data_fragmented(mk->term, "\033P$qm");

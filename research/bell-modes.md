@@ -2,7 +2,8 @@
 
 The development branch implements private modes 1042 (window attention) and
 1043 (raise on bell), their DECRQM replies and independent private-mode
-save/restore. Component and native Windows validation are pending. No local
+save/restore. The bell-specific component replay passes on three compilers;
+the complete regression and native Windows checkpoints remain pending. No local
 desktop test or executable promotion has been performed.
 
 ## Independent reference
@@ -57,3 +58,16 @@ attention requests; that model does **not** certify Windows API effects or
 visible taskbar behavior. Separate checks exercise overload, setting changes,
 silent reset and OSC termination. Real Windows focus, stacking, taskbar effects,
 background tabs and complete product CI remain pending.
+
+## First component checkpoint
+
+[Run 43720699776](https://github.com/xiongnemo/nemoterm/actions/runs/43720699776)
+at `b854196` passes all 192 bell reply/state records, in whole-buffer and bytewise
+feeds, on GCC/Clang with ASan+UBSan and on MSVC. The complete workflow fails two
+older authored assertions: a fixed 26-integer save-slot budget (now 28), and a
+DECRQSS recovery test that incorrectly expected BEL to be removed from `m BEL`.
+The latter is corrected to invalid-query status, consistent with the captured
+`BEL m` query and the retained upstream `do_dcs` complete-string comparison.
+No original oracle reply is rewritten. All three original failure artifacts are
+retained locally for the next evidence bundle. Production code is unchanged
+when correcting these two authored regression assertions.
