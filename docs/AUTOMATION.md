@@ -37,6 +37,10 @@ does not focus the window or send global desktop input.
 
 Discovery returns process ID and all live session IDs, terminal/host HWNDs,
 active status, dimensions, actual renderer (0 GDI, 1 OpenGL, 2 DirectX), and title.
+Development builds also report `pointer_shape`: the active screen's OSC 22
+application shape (a canonical name, or `"0"` for automatic). This is protocol
+state, not the effective OS cursor: Shift selection, link hover and busy status
+can temporarily override its presentation.
 A session ID is monotonically allocated within its process and never reused.
 Every operation except `list` requires an explicit ID; a missing/closed target
 is an error, never an implicit redirect to the active tab. The endpoint contains

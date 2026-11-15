@@ -25,6 +25,7 @@ on:
           - kitty-unicode-geometry
           - kitty-pointer
           - pointer-components
+          - pointer-components-linux
           - unicode-text-boundaries
           - all
   push:
@@ -39,10 +40,12 @@ permissions:
 
 jobs:
   pointer-components:
-    if: inputs.family == 'pointer-components'
+    if: inputs.family == 'pointer-components' || inputs.family == 'pointer-components-linux'
     uses: ./.github/workflows/pointer-shapes.yml
+    with:
+      skip_windows: ${{ inputs.family == 'pointer-components-linux' }}
   xterm-reference:
-    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components'
+    if: inputs.family != 'sidecar-wire' && inputs.family != 'kitty-graphics' && inputs.family != 'kitty-compression' && inputs.family != 'kitty-features' && inputs.family != 'kitty-query-errors' && inputs.family != 'kitty-relative' && inputs.family != 'kitty-unicode' && inputs.family != 'kitty-unicode-geometry' && inputs.family != 'kitty-pointer' && inputs.family != 'pointer-components' && inputs.family != 'pointer-components-linux'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

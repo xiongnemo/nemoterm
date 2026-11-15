@@ -2,6 +2,10 @@ name: Pointer shape components
 
 on:
   workflow_call:
+    inputs:
+      skip_windows:
+        type: boolean
+        default: false
   workflow_dispatch:
   push:
     paths:
@@ -81,6 +85,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
   msvc:
+    if: ${{ !inputs.skip_windows }}
     runs-on: windows-2025
     timeout-minutes: 25
     steps:
