@@ -130,7 +130,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
 | i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |
-| DEC locator 'w/'z/'{/'\| controls | Development core; native validation pending | [Independent DEC Locator comparison](../research/dec-locator.md): 102 fresh-XTerm cases and 429 unchanged reply streams pass GCC/Clang sanitizers and MSVC, whole and bytewise. Four default frontend interceptions are explicit; bound fourth-button/Ctrl profiles separately verify dispatch. Windows snapshot callback is implemented; actual native/ConPTY and complete product checks remain pending. |
+| DEC locator 'w/'z/'{/'\| controls | Development core and focused native checks pass | [Independent DEC Locator comparison](../research/dec-locator.md): 102 fresh-XTerm cases and 429 unchanged reply streams pass GCC/Clang sanitizers and MSVC, whole and bytewise. Four default frontend interceptions are explicit. A source-built single image passes 27 actual Windows/ConPTY phases, including live pointer/button queries, Shift selection pixels and resize. Complete product checks are running; local acceptance remains paused. |
 
 ## Rendition, modes, input and graphics
 

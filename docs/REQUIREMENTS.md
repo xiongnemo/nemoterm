@@ -48,9 +48,13 @@ the Windows pointer snapshot callback. GCC/Clang ASan/UBSan and MSVC each match
 all 429 unchanged XTerm replies, whole and bytewise, with four explicitly
 modeled upstream frontend binding interceptions. Direct checks cover disabled
 reporting, unavailable queries and Shift taking over a reported gesture.
-The [implementation record](../research/dec-locator.md) separates those parser
-results from pending native Windows/ConPTY and complete product validation.
-This feature adds no graphics dependency or per-cell storage.
+The focused source-built single image at `33db228` also passes 27 real-input
+Windows/ConPTY phases and the existing mouse, highlight, state and DEC-status
+fixtures, including Shift selection pixels and live queries after resizing.
+The [implementation record](../research/dec-locator.md) retains that evidence
+separately from complete product validation, now running at `8e8321c`. This
+feature adds no graphics dependency or per-cell storage. Local acceptance
+remains paused.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 

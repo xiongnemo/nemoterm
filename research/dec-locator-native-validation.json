@@ -1,0 +1,245 @@
+{
+  "source": "33db228feabe4412ca5fffaaab2205eed9943fdc",
+  "run": 43714776480,
+  "conclusion": "success",
+  "artifact_id": 14161987211,
+  "artifact_expires": "2027-01-14T12:41:26Z",
+  "image": {
+    "sha256": "01f22a3c71f43cad0b23d09d5add844903fce86618a9be2599dc32cc6ec85d68",
+    "bytes": 4535808
+  },
+  "native_phases": 27,
+  "regressions": [
+    "dec_status",
+    "mouse",
+    "state_control",
+    "highlight"
+  ],
+  "shift_selection_pixels": {
+    "before_sha256": "21521cad712c99ce3bcdfffef1123705d96adfa5c9fb2c3507271495834a6179",
+    "after_sha256": "97bc850ce44b4c6dbac7b0272729439780eb206a3ff9648adc3534ec2c88a274"
+  },
+  "resized_grid": [
+    73,
+    28
+  ],
+  "natural_cleanup": true,
+  "production_equivalence": {
+    "component": "43f75a4",
+    "paths": [
+      "vendor",
+      "native",
+      "scripts/build-single-exe.ps1",
+      "scripts/prepare-single-exe.py"
+    ],
+    "git_diff_exit": 0
+  },
+  "scope": "Focused source-built single-image diagnostic with real mouse input on disposable CI. This first fixture records asserted expected replies; final snapshot retains raw bytes. The subsequent full-product fixture also retains every observed wire including barriers. Complete product and local Sarasa acceptance remain separate. DA1 keeps the existing configurable identity; enabled Locator status/type queries are verified.",
+  "bundle": {
+    "path": "research/dec-locator-native.tar.gz",
+    "bytes": 2919989,
+    "sha256": "0d3c9c8b486fdf4365218422588df6688136dfb9fcd4756027bdaaf6593f3292",
+    "records": [
+      {
+        "path": "diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "7abfbfce0fdc7c2c202f1d97ffc85d516d8fbe4588731c575afc383f66c6d386"
+      },
+      {
+        "path": "diagnostic/build/single-exe-dist/nemoterm.exe",
+        "raw_bytes": 4535808,
+        "raw_sha256": "01f22a3c71f43cad0b23d09d5add844903fce86618a9be2599dc32cc6ec85d68"
+      },
+      {
+        "path": "diagnostic/locator-build.log",
+        "raw_bytes": 42115,
+        "raw_sha256": "6d3ba37a09daf8d9ced7cbfa79ee4e62a0e30305bae5bdc0cb686221a3d97ad3"
+      },
+      {
+        "path": "diagnostic/locator-dec_status.log",
+        "raw_bytes": 55,
+        "raw_sha256": "6f01b100febbafb9e6c58d471af833f7c9df865d61c58716ea840cfbe784b2ec"
+      },
+      {
+        "path": "diagnostic/locator-highlight.log",
+        "raw_bytes": 1032,
+        "raw_sha256": "4a46a593ba8c5be2d43fb2af83f85b562cba877926062c77edb9b000b789bdf8"
+      },
+      {
+        "path": "diagnostic/locator-image.json",
+        "raw_bytes": 170,
+        "raw_sha256": "510468be5523ccbaebab9eda4459abe1ea5100fc82edf94034712a9bb0eecb03"
+      },
+      {
+        "path": "diagnostic/locator-locator.log",
+        "raw_bytes": 34,
+        "raw_sha256": "1f18f59417d853a62cb070ec79d866526e039a83ab5bb8401933cb4055efe21d"
+      },
+      {
+        "path": "diagnostic/locator-mouse.log",
+        "raw_bytes": 101,
+        "raw_sha256": "6b03c4a3a393e08eaaeb97f503cfd300976ddcd7c685863f5610fcec4306afe4"
+      },
+      {
+        "path": "diagnostic/locator-state_control.log",
+        "raw_bytes": 1401,
+        "raw_sha256": "3426e840608b097000bb6d66084e9354abf89e2f8178ab66743e3a0756079e21"
+      },
+      {
+        "path": "diagnostic/research/dec-status-observed.json",
+        "raw_bytes": 45834,
+        "raw_sha256": "947f1480315a957e6b07f74eed566ed8e208c45df45bad02ebfdead51c6d7f5f"
+      },
+      {
+        "path": "diagnostic/research/dec-status-window.png",
+        "raw_bytes": 1586,
+        "raw_sha256": "bf4fcc41dac1230169bbbbdb8a38eaae1eafaf1c13910d59a22a6b57351dd9da"
+      },
+      {
+        "path": "diagnostic/research/highlight-selection.png",
+        "raw_bytes": 2812,
+        "raw_sha256": "12dcb4cba4ae3190ed5ea67dd00f4e985dfd4a1b652fffe876aa0b3cdcae1c05"
+      },
+      {
+        "path": "diagnostic/research/highlight-window-observed.json",
+        "raw_bytes": 1050,
+        "raw_sha256": "ec8fece793cd73f70a7a2b54ff4c8ae8f7d78323d034d68507f1b6ba8839ddf3"
+      },
+      {
+        "path": "diagnostic/research/locator-window-observed.json",
+        "raw_bytes": 4531,
+        "raw_sha256": "845626ad2bd58ba0640cbce7b774139b104ab9da18d7df60d700e6ebf43ab14c"
+      },
+      {
+        "path": "diagnostic/research/mouse-window-observed.json",
+        "raw_bytes": 4131,
+        "raw_sha256": "8af7f0aa54bd6fcb819c23cd8d34c442b332bbc29938c8153b5f953753eef012"
+      },
+      {
+        "path": "diagnostic/research/state-control-observed.json",
+        "raw_bytes": 1858,
+        "raw_sha256": "bef70cde1b03a582e90de4fb519cc056ab0cc124444202cb53e56beab6c15786"
+      },
+      {
+        "path": "diagnostic/research/state-control-window.png",
+        "raw_bytes": 2174,
+        "raw_sha256": "da53c37ac31b1b60bcf58299de86c89fc3a13aa81721582a824175007b6f5ded"
+      },
+      {
+        "path": "diagnostic/research/state-control-xterm.json",
+        "raw_bytes": 7633,
+        "raw_sha256": "ec7b81fd74fd5325f9260bc956b19b761568bbf471a9b5927069d873a2c5d629"
+      },
+      {
+        "path": "locator-window-artifacts.json",
+        "raw_bytes": 773,
+        "raw_sha256": "8ee9ea3e86608c2f10214b4f81cb32796f26720f467cfa8aa6a3747d99ba74ec"
+      },
+      {
+        "path": "locator-window-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "c1ed3141cd147670b8a8925ac24aed242798b633f56ce8ed973a4a4cd0612a7e"
+      },
+      {
+        "path": "locator-window-run.json",
+        "raw_bytes": 2282,
+        "raw_sha256": "bd2ba8e7403ed897200b0f3e8d451a276fd0752fdd4392a9493a36f7be33f827"
+      },
+      {
+        "path": "locator-window-run.log",
+        "raw_bytes": 152019,
+        "raw_sha256": "4f4548864af59683696054e073608cf295be521398f335f98aa26fbed28235bc"
+      },
+      {
+        "path": "source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 9408,
+        "raw_sha256": "c976a62c0b6d16449dc61c26e1ae63afdd5f920ac3b4ef7fcfdc71f3ba9cf022"
+      },
+      {
+        "path": "source/native/single_exe/entry.cpp",
+        "raw_bytes": 1785,
+        "raw_sha256": "0e2e67df27afa74ca05e0c6bf92371122aff0b2bad3e06351f1c138414ab4660"
+      },
+      {
+        "path": "source/scripts/build-single-exe.ps1",
+        "raw_bytes": 2021,
+        "raw_sha256": "91677475c1e35475e46d1bda8ef2259f3e1ec7b6ac9e75eb5e804f6c4b322486"
+      },
+      {
+        "path": "source/scripts/prepare-single-exe.py",
+        "raw_bytes": 17709,
+        "raw_sha256": "4d36faee8cdbffcde17e167177012f1d953a85736f571fb0481b795a23d3bc73"
+      },
+      {
+        "path": "source/tests/dec_status_window_smoke.py",
+        "raw_bytes": 3118,
+        "raw_sha256": "5fcc23601e676adfef0e295a89331b1d8b2e930f8b617564c7f1459829d1857f"
+      },
+      {
+        "path": "source/tests/highlight_window_smoke.py",
+        "raw_bytes": 7085,
+        "raw_sha256": "76f4ed675f972c849bf99f7586c9d9ae4752b6b098b9f117dceb76c5623a5a6c"
+      },
+      {
+        "path": "source/tests/locator_window_smoke.py",
+        "raw_bytes": 8767,
+        "raw_sha256": "f788016dba190388248455612ddd2f7fd0ae7ca373dcbaa18ef95d24d16a5907"
+      },
+      {
+        "path": "source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "source/tests/mouse_window_smoke.py",
+        "raw_bytes": 10443,
+        "raw_sha256": "ab6d95221e22285dac944379c0865fb1cb0445769d212ac1386a2357b9e9a046"
+      },
+      {
+        "path": "source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "source/tests/protocol_oracle_window.py",
+        "raw_bytes": 6603,
+        "raw_sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+      },
+      {
+        "path": "source/tests/state_control_window_smoke.py",
+        "raw_bytes": 7680,
+        "raw_sha256": "8c8e1d0260a77bc05cb7d13fafc79402cf1593cc05f4732ac932057e36564d8e"
+      },
+      {
+        "path": "source/vendor/putty-0.85/putty.h",
+        "raw_bytes": 117235,
+        "raw_sha256": "3f73210f3da865e68e5decaf274e55019dfa2f88bee14e64522142b8adb9e4c1"
+      },
+      {
+        "path": "source/vendor/putty-0.85/terminal/nemo_locator_terminal.inc",
+        "raw_bytes": 7352,
+        "raw_sha256": "c81ea2b92928e67c6c35d1421869d5f6110a30576f47812f72e57eccdf422b68"
+      },
+      {
+        "path": "source/vendor/putty-0.85/terminal/terminal.c",
+        "raw_bytes": 543268,
+        "raw_sha256": "cd5cd6b298d7751ddca056f48bd524b9920ed80c92b8dbc643b00fa044525965"
+      },
+      {
+        "path": "source/vendor/putty-0.85/terminal/terminal.h",
+        "raw_bytes": 30349,
+        "raw_sha256": "81ab865d134a3542d046b79b7f66e4697d69af2ce032ce5b8f589dfacf8df123"
+      },
+      {
+        "path": "source/vendor/putty-0.85/windows/window.c",
+        "raw_bytes": 287957,
+        "raw_sha256": "6b93b220953a1ca3057791eabb480cc1564305d7331d13da7dcfcbb773428c9c"
+      }
+    ]
+  }
+}

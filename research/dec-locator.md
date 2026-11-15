@@ -1,8 +1,8 @@
 # DEC Locator reference and integration boundary
 
 DEC Locator is implemented on the development branch with passing parser and
-mouse-dispatch comparisons. Native Windows/ConPTY validation and complete
-product acceptance remain pending. The independent reference establishes the
+mouse-dispatch comparisons and a passing focused Windows/ConPTY check. Complete
+product acceptance remains pending. The independent reference establishes the
 behavior separately from the existing xterm tracking protocols.
 Local interactive testing remains paused; all captures below run on private
 Xvfb displays in disposable Linux CI.
@@ -103,7 +103,7 @@ XTGETTCAP, query, state, keyboard, clipboard and image regressions also pass.
 exact source blobs and all compiler logs. The companion
 `dec-locator-component-validation.json` verifies 36 recorded source hashes.
 
-## Native integration work still required
+## Native integration checkpoint
 
 The new `locator_window_smoke.py` is restricted to disposable CI desktops. It
 checks live queries, physical buttons and their held-state masks, pixel units,
@@ -111,9 +111,30 @@ one-shot and filter behavior, Shift selection pixels, resized grids and outside
 positions through the bundled host. A focused source-built single-image job
 also runs the existing mouse, highlight, state and DEC-status fixtures.
 
+[Run 43714776480](https://github.com/xiongnemo/nemoterm/actions/runs/43714776480)
+at `33db228` passes **27 physical-input phases** and all four additional
+regression fixtures. The measured initial cells are 9×16 pixels; the resized
+grid is 73×28. Left, middle, right and X1 button presses/releases and held-state
+queries return their expected masks. Shift sends no Locator events while
+changing the GDI selection pixels, and subsequent queries still read the live
+pointer. The owned terminal, host and child exit naturally with no forced
+cleanup.
+
+The diagnostic single EXE is 4,535,808 bytes, SHA256
+`01f22a3c71f43cad0b23d09d5add844903fce86618a9be2599dc32cc6ec85d68`.
+Its production and single-image build inputs match component checkpoint
+`43f75a4`. `dec-locator-native.tar.gz` retains 40 records (2,919,989 bytes),
+indexed by `dec-locator-native-validation.json`, including the image, logs,
+observations and exact fixture/source blobs. This first fixture stores its
+asserted expected replies plus the final raw snapshot; the subsequent full
+product fixture also retains every actual wire including its barriers.
+
 The older DEC-status oracle used an XTerm build without Locator. Its original
 reply bytes are retained and its native replay now uses the equivalent disabled
 mouse-reporting policy; the new Locator fixture separately checks enabled
-status and type reports. Native results, remaining capability-advertisement
-review and full product validation are still pending. No local Sarasa or
-hardware acceptance is renewed, and DX memory optimization remains stopped.
+status and type reports. DA1 retains the existing configurable terminal identity;
+the verified Locator capability queries are DSR 55 and 56. Complete product
+validation is now running at `8e8321c`: ordinary run 43715235781 and single-image
+run 43715238255. The focused result does not substitute for their completion.
+No local Sarasa or hardware acceptance is renewed, and DX memory optimization
+remains stopped.
