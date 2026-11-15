@@ -62,3 +62,18 @@ now request a 900-second client lifetime. The default remains 300 seconds;
 other tests, memory ceilings, operation waits and normal shutdown bounds are
 unchanged. The focused `tabs-unicode-900s` mode allows the same failed image to
 exercise this setup change without rebuilding or changing production code.
+
+[The 900-second replay](https://github.com/xiongnemo/nemoterm/actions/runs/43760974443)
+uses the same failed EXE and passes all ten groups in 302.172 seconds, with 56
+naturally drained processes and no forced cleanup. The GDI private working-set
+peak is 14,528,512 bytes on the same 109x34 grid. All four post-sampling image
+checks report 13,696 matched cells. The setup change preserves the original
+memory threshold and operation/close assertions. The earlier failure remains
+retained with its unproven cause.
+
+`session-lifetime-900.tar.gz` and its validation manifest retain artifact
+`14180351718`, exact runtime identity, fixture observation and controller logs.
+This focused workflow does not upload the replay's full raw memory sample file
+or PNGs, so it is not an independent re-analysis of those pixels or a local
+160x48 product acceptance. The full CI and local acceptance paths retain those
+additional files separately.
