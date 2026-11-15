@@ -14,6 +14,12 @@ pass, but this run is not accepted as a complete product checkpoint. The
 isolation script now copies the retained reference into the fixture's research
 directory; the executable directory still contains only `nemoterm.exe`.
 The product source and the original expected UDK bytes are unchanged.
+`dec-udk-single-first.tar.gz` retains all 4,336 records / 6,956,430 bytes from
+that failure, including the unaccepted 4,536,832-byte executable, logs and
+preceding test outputs. Its manifest hashes every record. The corrected full
+single-image workflow is
+[43721295539](https://github.com/xiongnemo/nemoterm/actions/runs/43721295539)
+at `23615de`; it is still pending.
 
 ## Reference and original failure
 
