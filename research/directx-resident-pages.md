@@ -74,6 +74,8 @@ frames and 24 resize transitions. It uses the same accepted executable and
 snapshots; it exits explicitly with diagnostic code 2 after sampling and before
 the later injected UI checks. No memory gate is evaluated. The changed fixture,
 base source identity, observer code and full output are retained.
+The existing workload pairing uses top tabs for GDI and left tabs for DirectX;
+this is not a randomized comparison with identical window chrome.
 
 Both runs report diagnostic completion, zero sampling errors and natural
 cleanup of their 31-member jobs. All ten metadata snapshots have no unavailable
