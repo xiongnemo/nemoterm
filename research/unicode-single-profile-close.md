@@ -59,3 +59,19 @@ and the 15-second close deadline remain. This arm does not import or install
 Frida. It uses the same failed artifact and ownership-checked post-failure dump
 helper; it does not replace the original injected checks or establish memory
 acceptance. Passing it cannot by itself identify the cause of the timeout.
+
+[Uninjected exact-image run 43691454895](https://github.com/xiongnemo/nemoterm/actions/runs/43691454895)
+at `7146510` passes all three dump-helper controls and twelve independent
+lifetimes. Each completes the same seven functional groups, exits with code
+zero and naturally drains seven owned processes. The Frida installation step
+is skipped. All 36 recorded profile frames and their font geometry/actual
+renderer fields match the first original Frida replay byte-for-byte by hash;
+the requested OpenGL profile uses GDI fallback in both runs. There is no terminal
+failure dump because no failure occurs. These finite passes leave the original
+timeout unresolved.
+
+`unicode-single-profile-api-replays.json` indexes 52 records in
+`single-profile-api-replays.tar.gz`, including raw observations, controls,
+source blobs and the original comparison record. This is diagnostic evidence,
+not full single-image or memory acceptance. The accepted local distribution
+and the local desktop-testing pause are unchanged.

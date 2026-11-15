@@ -31,6 +31,11 @@ The indexed single-image run at `fd0c253` later fails its mixed-profile 15-secon
 close check before memory acceptance. Its exact unverified EXE is retained for
 [remote replay](../research/unicode-single-profile-close.md); no new distribution
 has passed both complete workflows.
+Twelve exact-image replays with the original Frida observer and twelve further
+replays through the uninjected automation interface pass all seven profile
+groups and drain naturally. All 36 automation profile frames match the original
+observer's reference frames; neither set reproduces or explains the timeout.
+The original failure and both diagnostic arms remain in the linked record.
 This is not acceptance of
 the new exact product at local 160x48 Sarasa. Local interactive testing is
 currently paused at the user's request. The accepted artifact below is unchanged.
