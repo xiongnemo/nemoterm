@@ -89,14 +89,18 @@ jobs:
       - name: Replay complete VT inputs with MSVC
         shell: pwsh
         run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           Get-FileHash vendor/putty-0.85/terminal/terminal.c,vendor/putty-0.85/terminal/terminal.h,vendor/putty-0.85/putty.h,vendor/putty-0.85/test/test_pointer_terminal.c,tests/pointer_terminal_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content terminal-sources.json
-          cmake -S vendor/putty-0.85 -B pointer-terminal-build -A x64 -DPUTTY_GSSAPI=OFF '-DCMAKE_C_FLAGS=/std:c11 /utf-8' 2>&1 | Tee-Object terminal-configure.log
+          cmake -S vendor/putty-0.85 -B pointer-terminal-build -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object terminal-configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build pointer-terminal-build --config Release --target test_pointer_terminal test_queries --parallel 4 2>&1 | Tee-Object terminal-build.log
+          cmake --build pointer-terminal-build --target test_pointer_terminal test_queries --parallel 4 2>&1 | Tee-Object terminal-build.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          ./pointer-terminal-build/Release/test_pointer_terminal.exe 2>&1 | Tee-Object terminal.log
+          ./pointer-terminal-build/test_pointer_terminal.exe 2>&1 | Tee-Object terminal.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          ./pointer-terminal-build/Release/test_queries.exe 2>&1 | Tee-Object queries.log
+          ./pointer-terminal-build/test_queries.exe 2>&1 | Tee-Object queries.log
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
