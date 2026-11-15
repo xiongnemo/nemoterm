@@ -1,5 +1,6 @@
 """Native Kitty placement geometry across font zoom and window resize."""
 import argparse
+import base64
 import re
 import traceback
 import uuid
@@ -22,17 +23,21 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer',choices=('gdi','opengl','directx'),default='gdi')
     parser.add_argument('--presented-gdi',action='store_true',help='read the owned visible GDI client surface')
+    parser.add_argument('--unicode-images',action='store_true',help='compare text-derived images against pinned upstream cell-size observations')
     args=parser.parse_args()
     if args.presented_gdi and args.renderer!='gdi':parser.error('--presented-gdi requires --renderer gdi')
     renderer={'gdi':0,'opengl':1,'directx':2}[args.renderer]
     exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
     font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
-    suite='kitty-geometry'+('-presented' if args.presented_gdi else '')
+    suite=('kitty-unicode-geometry' if args.unicode_images else 'kitty-geometry')+('-presented' if args.presented_gdi else '')
+    reference=None
+    if args.unicode_images:
+        reference=json.loads((root/'tests/kitty_unicode_geometry_reference.json').read_text())
     folder=root/'research'/f'{suite}-{args.renderer}-{uuid.uuid4().hex}'
     folder.mkdir(parents=True)
     report,control=folder/'child-report.json',folder/'child-control.json'
     evidence=dict(completed=False,executable=str(exe),executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-        renderer=args.renderer,font=font,phases=[],global_input=False,clipboard_access=False,
+        renderer=args.renderer,font=font,folder=str(folder),phases=[],inputs=[],global_input=False,clipboard_access=False,
         memory_acceptance=False,capture='public API, active GPU or native snapshot')
     profile=dict(NemoRenderer=renderer,WarnOnClose=0,CloseOnExit=1,WindowBorder=1,ScrollBar=0,
                  FontHeight=12,LockSize=0,MouseAutocopy=0)
@@ -69,6 +74,8 @@ def main():
                 def send(name,sequence=''):
                     nonlocal serial
                     serial+=1
+                    evidence['inputs'].append(dict(name=name,sequence_hex=sequence.encode().hex(),
+                        appended_geometry_query_hex=(CSI+'16t').encode().hex(),input_barrier=serial))
                     write_snapshot(control,dict(phase=f'{serial}-{name}',sequence=sequence+CSI+'16t',
                         input_barrier=serial,preserve_mouse=True))
                     value=wait_snapshot(current,lambda v:v.get('phase')==f'{serial}-{name}' and v.get('input_barrier')==serial)
@@ -89,14 +96,46 @@ def main():
                     return CSI+f'3;{column}H'+command(f'a=T,i={ident},f=32,s=32,v=24,C=1,X={offset[0]},Y={offset[1]}'+
                         (',c=4,r=3' if scaled else ''),bytes((*colour,255))*32*24)
                 sequence=transfer(1,(255,0,0),3)+transfer(2,(0,0,255),16,True)+CSI+'H'
+                if reference:
+                    original=base64.b64decode(reference['input_base64']).decode()
+                    # Upstream accepts oversized APCs; use legal 4096-character
+                    # chunks here, preserving the exact decoded image bytes.
+                    sequence,n=re.subn(r'\x1b_G([^;]*);([A-Za-z0-9+/=]+)\x1b\\',
+                        lambda m:command(m[1],base64.b64decode(m[2],validate=True)),original)
+                    assert n==2
+                    evidence['normalized_image_apcs']=n
+                    evidence['reference_sha256']=reference['source_sha256']
                 geom=send('images',sequence)
+                if reference:
+                    assert bytes.fromhex(geom['reply_hex']).startswith(base64.b64decode(reference['reply_base64']))
                 def check(name,geom,visible=True):
                     offset[0]=min(offset[0],geom['cw']-1);offset[1]=min(offset[1],geom['ch']-1)
                     record=dict(name=name,geometry=geom,offset=list(offset),matched=False)
                     evidence['phases'].append(record)
                     colours={bytes((0,0,255)):'red',bytes((255,0,0)):'blue'}
                     wanted={'red':set(),'blue':set()}
-                    if visible:
+                    if visible and reference:
+                        sample=reference['cases'][f'{geom["cw"]}x{geom["ch"]}']
+                        record['reference_cell_size']=sample['name']
+                        for layer in sample['layers']:
+                            colour={1:'red',2:'blue'}[layer['image_id']]
+                            left,top,right,bottom=layer['pixels']
+                            src=layer['src_rect']
+                            for py in range(top,bottom):
+                                sy=src['top']+(py+.5-top)*(src['bottom']-src['top'])/(bottom-top)
+                                # Normalise only floating-point representation
+                                # noise at the exact texture border. All pixels
+                                # are still tested under nearest sampling.
+                                if abs(sy)<1e-6:sy=0
+                                if abs(sy-1)<1e-6:sy=1
+                                if not 0<=sy<1:continue
+                                for px in range(left,right):
+                                    sx=src['left']+(px+.5-left)*(src['right']-src['left'])/(right-left)
+                                    if abs(sx)<1e-6:sx=0
+                                    if abs(sx-1)<1e-6:sx=1
+                                    if 0<=sx<1 and 0<=px<geom['cols']*geom['cw'] and 0<=py<geom['rows']*geom['ch']:
+                                        wanted[colour].add((px+geom['ox'],py+geom['oy']))
+                    elif visible:
                         for colour,col,scaled in (('red',2,False),('blue',15,True)):
                             x=geom['ox']+col*geom['cw']+offset[0];y=geom['oy']+2*geom['ch']+offset[1]
                             width=4*geom['cw']-offset[0] if scaled else 32
@@ -142,10 +181,30 @@ def main():
                     check(name,geom)
                 # A font change explicitly ends synchronization and exposes the
                 # already parsed image deletion, rather than rescaling a stale frame.
-                geom=send('freeze-delete',CSI+'?2026h'+command('a=d,d=A'))
+                geom=send('freeze-delete',CSI+'?2026h'+command('a=d,d=R,x=1,y=2' if reference else 'a=d,d=A'))
                 check('frozen-image-before-zoom',geom)
                 u.SendMessageW(window,0x111,0x940,0);geom=send('zoom-ends-freeze')
                 check('zoom-ends-freeze',geom,False)
+                if reference:
+                    geom=send('history-seed',CSI+'2J'+CSI+'3J'+sequence)
+                    check('history-seed',geom)
+                    geom=send('scroll-images-to-history',CSI+f'{geom["rows"]};1H'+'\r\n'*geom['rows'])
+                    check('scroll-images-to-history',geom,False)
+                    u.SendMessageW(window,0x115,6,0)  # owned window: SB_TOP
+                    geom=send('view-oldest-history')
+                    check('view-oldest-history',geom)
+                    u.SendMessageW(window,0x115,7,0)  # owned window: SB_BOTTOM
+                    geom=send('return-to-current-screen')
+                    check('return-to-current-screen',geom,False)
+                    geom=send('clear-history',CSI+'3J')
+                    check('clear-history',geom,False)
+                    u.SendMessageW(window,0x115,6,0)
+                    geom=send('cleared-history-stays-empty')
+                    check('cleared-history-stays-empty',geom,False)
+                    text_only=re.sub('\x1b_G.*?\x1b\\\\','',sequence,flags=re.S)
+                    assert '\x1b_G' not in text_only and '\U0010eeee' in text_only
+                    geom=send('template-after-history-clear',text_only)
+                    check('template-after-history-clear',geom)
                 if presented:evidence['presented_capture']=presented.close()
                 assert u.PostMessageW(window,0x10,0,0)
                 assert process.wait(timeout=15)==0

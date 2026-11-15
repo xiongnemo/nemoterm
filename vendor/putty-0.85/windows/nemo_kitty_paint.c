@@ -2,6 +2,7 @@
 #include "putty.h"
 #include "terminal.h"
 #include "nemo_kitty_paint.h"
+#include <float.h>
 #include <math.h>
 
 /* One reusable row; no image-sized bitmap, texture or window backbuffer. */
@@ -12,6 +13,17 @@ struct NemoKittyPainter {
     HGDIOBJ previous;
     uint32_t *pixels;
 };
+
+/* Affine sampling can put an exact raster edge a few ulps inside the image.
+ * Keep half-open border coverage stable across cell sizes without rounding
+ * interior samples. The tolerance is measured in source pixels. */
+static double raster_border(double value, uint32_t extent)
+{
+    double tolerance=16*DBL_EPSILON*extent;
+    if (fabs(value)<tolerance) return 0;
+    if (fabs(value-extent)<tolerance) return extent;
+    return value;
+}
 
 void nemo_kitty_paint_free(NemoKittyPainter **slot)
 {
@@ -101,16 +113,20 @@ bool nemo_kitty_paint(NemoKittyPainter **slot, Terminal *term, HDC dc, RECT clip
         double sx=(v.source_right-v.source_left)/(v.right-v.left);
         double sy=(v.source_bottom-v.source_top)/(v.bottom-v.top);
         for (int y=top;y<bottom;y++) {
-            double fy=v.source_top+(y+0.5-v.top)*sy;
-            unsigned iy=(unsigned)max(0.0,min((double)r->height-1,floor(fy)));
+            double fy=raster_border(v.source_top+(y+0.5-v.top)*sy,r->height);
+            /* Partly filled placeholder cells can extend beyond the raster.
+             * Their border is transparent; repeating the final source pixel
+             * would paint over the letterbox area. */
+            if (fy<0 || fy>=r->height) continue;
+            unsigned iy=(unsigned)floor(fy);
             for (int x=left;x<right;) {
                 int count=min(KITTY_ROW_PIXELS,right-x);
                 bool any=false,opaque=true;
                 GdiFlush();
                 for (int i=0;i<count;i++) {
-                    double fx=v.source_left+(x+i+0.5-v.left)*sx;
-                    unsigned ix=(unsigned)max(0.0,min((double)r->width-1,floor(fx)));
-                    uint32_t pixel=r->pixels[(size_t)iy*r->width+ix];
+                    double fx=raster_border(v.source_left+(x+i+0.5-v.left)*sx,r->width);
+                    uint32_t pixel=fx>=0 && fx<r->width ?
+                        r->pixels[(size_t)iy*r->width+(unsigned)floor(fx)] : 0;
                     unsigned a=pixel>>24;
                     any|=a!=0; opaque&=a==255;
                     uint32_t out=pixel&0xff000000u;

@@ -13,3 +13,10 @@ __pycache__/
 /research/kitty-unicode-directx-*/
 /research/kitty-unicode-presented-gdi-*/
 /research/kitty-unicode-*-observed.json
+/research/kitty-unicode-geometry-*/
+/research/kitty-geometry-*/
+/research/kitty-geometry-*-observed.json
+/research/kitty-image-*/
+/research/kitty-image-*-observed.json
+/research/kitty-compression-*/
+/research/kitty-compression-*-observed.json

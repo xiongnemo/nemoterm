@@ -167,3 +167,77 @@ verification script for all three renderers. `native-repaint.tar.gz` retains
 Actual text selection, Unicode-image zoom/resize/history disposal, long-session
 resource behavior and fresh uninjected single-image memory acceptance remain
 pending. The broader project goal is still open.
+
+## Transparent borders and font geometry
+
+The pinned upstream `shaders.c` configures `REPEAT_CLAMP` with a transparent
+border and `GL_CLAMP_TO_BORDER`. The earlier native painter repeated edge pixels
+outside the raster, which filled the empty portion of a partially occupied
+Unicode cell. A new partial-letterbox case fails on the repaint-only image:
+320 extra green pixels appear in direct GDI capture. The corrected painter
+leaves out-of-raster samples transparent. This retains Nemoterm's nearest-neighbour
+sampling; it does not claim pixel identity with Kitty's GPU linear filtering.
+The upstream file, including its licence, is retained as research evidence;
+the production fix is an independent bounds check.
+
+[Run 43679054777](https://github.com/xiongnemo/nemoterm/actions/runs/43679054777),
+at fixture source `6520e3c`, independently captures 153 fresh cell geometries
+(widths 4 through 12, heights 10 through 26) from the pinned compiled Kitty.
+Three upstream controls pass. REA records normal exit 0, verified process
+cleanup, temporary-root removal and no truncation. The observation SHA256 is
+`c6a03613d5f5df5313ee7f07610bb4ac2b0615428a9ab5efd61f9fd06e59656a`.
+`font-geometry-reference.tar.gz` retains the complete capture and CI provenance.
+The generator validates these observations and exports their rectangles for
+native checks. It removes only checked floating-point representation noise
+when converting normalized coordinates back to integral destination pixels.
+
+The first native replay rejected the two reference image APCs with `E2BIG`:
+upstream accepted their 6144-character base64 payloads, while the protocol
+chunk limit is 4096. The fixture now splits the same decoded bytes into legal
+chunks and checks the graphics replies. The rejected input, replies and failed
+screen are retained as a transport mismatch in the fixture, not a renderer bug.
+
+Sarasa passed the new zoom/history sequence after the transparent-border fix.
+Consolas then exposed another real border defect at 7x15 cells: double-precision
+roundoff moved an exact bottom-edge sample slightly inside the image, painting
+one extra row (28 pixels per image). The painter now canonicalizes only values
+within 16 double-precision epsilons, scaled by raster extent, of either raster
+border. Interior samples are unchanged. The independently captured expectations
+and every pixel assertion remain unchanged.
+
+The final local frontend SHA256 is
+`0675072f4cb1c070a81d676211343ecdc14b5340b7b153a8d5b85ce7d812f474`.
+It passes 603 native pixel stages in 25 owned runs:
+
+- Sarasa and Consolas each pass 32 Unicode editing/letterboxing stages and
+  19 geometry/history stages in GDI, actual OpenGL, actual DirectX and direct
+  GDI client-DC capture: 408 stages together.
+- Ordinary Kitty images, compressed images and placement zoom/resize pass
+  24, 29 and 12 stages on each of the three renderers: 195 stages together.
+
+The geometry sequence checks shrink/grow/reset, window resizing, synchronized
+output ending on zoom, scrollback visibility, history erasure and template
+retention after history erasure. Expected image rectangles come from the
+independent fresh-size captures; the 153 reference sizes are not 153 native
+font runs. Geometry checks compare complete red/blue pixel sets; the separate
+32-stage fixture compares the whole text grid, including its background.
+All owned process groups exit naturally. These tests use no global input or
+clipboard access. The real-core Unicode replay still passes all 728 states,
+including its eight explicit xterm text-policy alternatives; ordinary terminal
+and grapheme suites also pass.
+
+`native-border-geometry.tar.gz` retains 2089 records from 46 runs, including
+the two production failures, the oversized-APC fixture failure, preliminary
+passes and all final passes, plus source/runtime identities and controller logs.
+A PowerShell argument-splatting mistake exited in argparse before launching a
+terminal; its log is also retained. Older geometry reports omitted their output
+folder: the retainer matches complete checks JSON and, where identical runs
+exist, requires a unique controller-log/checks completion-time match within two
+seconds. That mapping evidence is explicit in the manifest. Future reports
+record the folder directly.
+
+CI now regenerates the font reference and runs Unicode geometry/history tests
+for each renderer, including isolated single-executable validation. The local
+frontend still uses the unchanged source-built `3ee3235` headless host; these
+results are not acceptance of a new combined single executable. Fresh CI,
+selection, lifecycle and uninjected memory acceptance remain pending.

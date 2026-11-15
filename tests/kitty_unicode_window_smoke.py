@@ -76,7 +76,13 @@ def exercise(phase, block):
     check('high-image-byte', clean + upload(ident=(1 << 24) + 42) + fg + cup(2, 1) + cell(0, 0, 1) + PUA*3,
           tile('red', 2, 1, 4, 1))
     check('unknown-image-is-invisible', clean + fg + cup(2, 1) + cell() + PUA*3)
-    check('stable-repaint', upload() + text(), tile('red'), stable_seconds=2)
+    # The last partly filled cell includes source coordinates beyond the image.
+    # Those samples must be transparent, not a repeated strip of edge pixels.
+    check('partial-vertical-letterbox', clean + upload(colour=(0, 255, 0), height=ch) + text(),
+          block(2, 'green', top=ch//2, count=4*cw, height=ch))
+    check('partial-horizontal-letterbox', clean + upload(colour=(0, 255, 0), width=3*cw) + text(),
+          block(2, 'green', left=cw//2, count=3*cw, height=2*ch))
+    check('stable-repaint', clean + upload() + text(), tile('red'), stable_seconds=2)
 
 
 if __name__ == '__main__':
