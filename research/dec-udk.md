@@ -19,7 +19,16 @@ that failure, including the unaccepted 4,536,832-byte executable, logs and
 preceding test outputs. Its manifest hashes every record. The corrected full
 single-image workflow is
 [43721295539](https://github.com/xiongnemo/nemoterm/actions/runs/43721295539)
-at `23615de`; it is still pending.
+at `23615de`. It passes the 89 UDK cases / 232 exact streams, then hits the
+45-minute overall job deadline while the dense Unicode workload is still
+advancing (`frame-13 after-window-resize`). GitHub's annotation confirms the
+job exceeded 45 minutes. This is incomplete product acceptance.
+`dec-udk-single-timeout.tar.gz` retains all 4,518 records / 8,729,798 bytes,
+including the original cancellation and unverified executable. The combined
+bell/UDK single-image run
+[43725867215](https://github.com/xiongnemo/nemoterm/actions/runs/43725867215)
+at `f9e6e82` now has a 60-minute total budget, with individual fixture and
+shutdown deadlines unchanged. Its result is pending.
 
 ## Reference and original failure
 

@@ -126,7 +126,12 @@ outside the executable directory; that directory still contains one executable.
 The new single-image suite should have 158 groups. Ordinary
 [43722555463](https://github.com/xiongnemo/nemoterm/actions/runs/43722555463) and
 single-image [43722558224](https://github.com/xiongnemo/nemoterm/actions/runs/43722558224)
-are running. The currently accepted local image is unchanged.
+both fail before the first bell case: `SetForegroundWindow` refuses fixture
+preparation after earlier physical-input tests. Both still pass the preceding
+89 UDK cases / 232 exact streams. `bell-full-first.tar.gz` retains all 8,725
+records / 16,535,421 bytes with original run metadata, logs and both unverified
+images; neither full workflow is accepted. The currently accepted local image
+is unchanged.
 
 ## Tab-host and window-state follow-up
 
@@ -151,7 +156,60 @@ states. The tested executable remains in the earlier native archive.
 that host, and preserves the host notification when another live session owns
 one. It adds no allocation or persistent state. The new native build
 [43723767151](https://github.com/xiongnemo/nemoterm/actions/runs/43723767151)
-is pending and checks both GDI and DirectX, including two simultaneous owners.
-A further fixture covers selecting a neighbour when an unfocused host's active
-tab closes; its result is still pending. The earlier full workflows at `ea141fe`
-predate this lifecycle correction and cannot certify it.
+builds image SHA256
+`bb407c52853e9e9003b9b853e418495940033182c15f714efabe31f9115b9955`.
+Its separate window-state fixture passes all **30 GDI/DirectX checks**, including
+two simultaneous owners and natural job cleanup. The overall job nevertheless
+fails: the older protocol fixture records 139 exact reply streams before a
+transient empty mailbox read raises `KeyError: hex`. The corrected observer waits
+for a complete snapshot and still compares the exact phase and original bytes;
+no expected reply or product behavior is relaxed. `bell-lifecycle-native.tar.gz`
+retains all 40 records / 2,766,329 bytes, including both the passing state fixture
+and the original overall failure. It does not promote the image.
+
+The image-reuse job subsequently requires an explicit diagnostic-only flag to
+use that completed failed run, and records the failure in its provenance.
+[43724456785](https://github.com/xiongnemo/nemoterm/actions/runs/43724456785)
+at `a87c01e` reaches another real GDI issue: closing the selected tab while the
+host is unfocused selects its neighbour and incorrectly clears the neighbour's
+notice. Actual foreground remains the other application. DirectX is not reached.
+`bell-active-close.tar.gz` retains this observation, source and provenance.
+
+The [SetFocus contract](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setfocus)
+describes focus messages on the calling input queue; an internal tab selection
+is therefore not sufficient evidence that the user brought the host forward.
+`0284fcf` checks the actual foreground host before acknowledging notices or
+reporting terminal focus. Its new fixture also checks that closing a background
+host's selected tab emits no false focus report, and bringing the host forward
+emits one real report. Native
+[43724828019](https://github.com/xiongnemo/nemoterm/actions/runs/43724828019)
+passes all 112 standalone cases / 192 exact replies. The state fixture reaches
+19 GDI checks: background active-tab closure now retains the notice and emits
+no false focus input, but real foreground activation fails to clear the notice.
+DirectX is not reached. `bell-reactivation-first.tar.gz` retains all 41 records /
+2,774,791 bytes and this original failure.
+
+`5a1bcdb` acknowledges the host notification on actual `WM_ACTIVATE`, including
+when its selected child already has focus in the application's input queue and
+therefore receives no new `WM_SETFOCUS`. The same activation updates terminal
+focus; the fixture requires exactly one real focus-in report. Foreground checks
+still gate notification acknowledgement. No allocation or persistent state is
+added.
+
+The [Windows foreground rules](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow)
+also allow denial of the controller's focus preparation. The fixture now checks
+ownership and, when necessary, exposes and clicks only that owned host's caption
+using real input. It verifies the actual foreground window and preserves the
+topmost attribute. This occurs before observations; it does not alter bell API
+results, replace focus messages, or relax reply/notification expectations.
+
+Native [43725655349](https://github.com/xiongnemo/nemoterm/actions/runs/43725655349)
+and full ordinary [43725655091](https://github.com/xiongnemo/nemoterm/actions/runs/43725655091)
+are running at `5a1bcdb`. The single-image run at that source was deliberately
+superseded early by [43725867215](https://github.com/xiongnemo/nemoterm/actions/runs/43725867215)
+at production-equivalent `f9e6e82`, which budgets 60 minutes for the expanded
+suite instead of 45. The earlier UDK-only suite reached that overall deadline
+while dense Unicode frames were still progressing; per-fixture and shutdown
+deadlines remain unchanged. Both full suites now include the 38-state fixture;
+the complete single-image suite should contain 159 groups. These runs remain
+unaccepted until their actual results are checked.

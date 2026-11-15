@@ -23,12 +23,17 @@ attention and an optional reset bell are implemented. The first native Windows
 check caught an ineffective raise despite a successful API return; `994bee4`
 corrects the positioning and passes 112 native cases / 192 exact streams, actual
 foreground/Z-order observations and unchanged final topmost status. Both full
-product workflows are now running at `ea141fe`. Visible taskbar, already-topmost,
-minimized and background-tab cases now have follow-up evidence: ten GDI checks
-pass on the unchanged image, but closing the last notifying background tab
-leaves its host notice pending. `f25294c` corrects ownership/cleanup and is under
-native validation, including DirectX and multiple owners. The `ea141fe` full
-workflows predate that correction. Visible taskbar and further lifecycle/local
+product workflows at `ea141fe` fail before their first bell case because Windows
+refuses the fixture's foreground request. Original failures are retained.
+Follow-up state tests find and correct notification ownership when closing tabs:
+`f25294c` passes 30 GDI/DirectX states, but the overall job fails on a transient
+empty observer read. Correcting that read preserves all reply assertions.
+`0284fcf` passes all 192 standalone replies and suppresses false focus when a
+background host selects a neighbour, but fails to acknowledge its notification
+on real reactivation. `5a1bcdb` handles host activation and uses checked clicks on
+fixture-owned captions when foreground preparation is denied. It adds the 38-state
+fixture to both full suites. Native and ordinary workflows at `5a1bcdb` and the
+60-minute single-image workflow at `f9e6e82` are running. Visible taskbar and local
 acceptance remain open. Local testing stays paused.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
@@ -51,7 +56,11 @@ streams and twelve uninjected memory workloads. The retained dense remote GDI
 private/total peaks are 14,643,200 / 45,563,904 bytes.
 The first full single workflow stopped before UDK replay because its isolated
 fixture lacked the retained reference archive; all original failure records are
-retained. The isolation-only fix is running as `23615de`. Local acceptance
+retained. The isolation-only fix at `23615de` passes all 232 UDK native streams,
+then reaches the overall 45-minute job deadline while dense Unicode frames are
+still progressing. The cancellation and image are retained, not accepted. The
+combined bell/UDK suite at `f9e6e82` now has a 60-minute overall job budget;
+individual fixture and shutdown deadlines are unchanged. Local acceptance
 remains paused. No memory/rendering policy changes are made.
 
 ## ANSI charset conformance development (2026-11-15 Sydney)
