@@ -27,8 +27,11 @@ replies whole and bytewise, plus budget and lifetime checks. The original Linux
 fixture failure and corrected table initialization are retained. The focused
 Windows single image at `1aff8c8` passes 89 physical-key cases / 232 unchanged
 streams, both saved keyboard profiles, Kitty precedence and four existing
-keyboard/status fixtures. Full product workflows are running at `fec0af2`;
-local acceptance remains paused. No memory/rendering policy changes are made.
+keyboard/status fixtures. The full ordinary workflow is running at `fec0af2`.
+The first full single workflow stopped before UDK replay because its isolated
+fixture lacked the retained reference archive; all original failure records are
+retained. The isolation-only fix is running as `23615de`. Local acceptance
+remains paused. No memory/rendering policy changes are made.
 
 ## ANSI charset conformance development (2026-11-15 Sydney)
 
