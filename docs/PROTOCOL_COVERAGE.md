@@ -29,9 +29,14 @@ The [pointer-shape checkpoint](../research/pointer-shapes.md#complete-single-ima
 also passes complete ordinary CI and all 154 single-image groups, including
 twelve memory workloads. Its first external PowerShell parser timeout remains
 unexplained after exact-image replays and the complete retry pass.
-Local native testing is currently paused at the user's request. Remote
-Consolas grids and OpenGL-to-GDI fallback do not establish new local 160x48
-Sarasa or actual OpenGL acceptance. The accepted distribution is unchanged.
+The user resumed local native testing. The latest portable
+[display-cache correction](../research/gdi-image-cache.md) completes the local
+160x48 Sarasa dense-image workload at 18.48 MB private / 39.97 MB total WS,
+with 29,072 image cells and ten lifecycle checks passing. It also passes 185
+native pixel stages, including actual OpenGL/DirectX and presented GDI captures.
+Exact combined-product acceptance is separate and remains pending; the local
+clipboard preflight is denied before any selection assertion. The accepted
+distribution is unchanged.
 
 Reference: [official xterm control sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 (page identifies patch 411); independent captures use the pinned

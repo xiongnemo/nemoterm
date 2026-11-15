@@ -21,16 +21,21 @@ natural cleanup. A completed portable MinGW dense Unicode-image workload
 passes all 29,072 image-cell checks and tab lifecycle checks, but peaks at
 20,746,240 bytes private working set and therefore fails the unchanged GDI gate.
 The earlier lower sample had incomplete pixels and is not a passing run. Both
-original failures are retained. The successful bell single-image product is
-being compared on the same machine and workload; the newer feature-policy
-product still needs full CI and exact-image local acceptance. No accepted
-distribution has been replaced.
+original failures are retained. The successful bell single-image comparison
+also exceeds the limit at 20,623,360 bytes and times out after its pixel checks.
+The newer feature-policy product passes both complete CI workflows and all
+160 single-image groups. No accepted distribution has been replaced.
 
 The [display-cache follow-up](../research/gdi-image-cache.md) removes only the
 duplicate invisible positional marks from the last-painted-text cache. Its
 160x48 core regression saves 491,648 bytes per tab while preserving live text,
-ordinary accents and non-Kitty frontends. Six local core suites pass; actual
-working-set and full-product acceptance are still running. A separate local
+ordinary accents and non-Kitty frontends. Six local core suites and three
+component compilers pass. The corrected portable candidate completes the same
+local workload at **18,481,152 private WS / 39,968,768 total WS bytes**, with all
+29,072 image cells, ten lifecycle checks and natural cleanup passing. Another
+185 native pixel stages pass across actual GDI/OpenGL/DirectX, including a
+presented GDI capture and resize/font/history checks. Complete CI and exact
+single-image local acceptance for this fix remain pending. A separate local
 selection fixture is blocked before its first copy assertion by Windows
 clipboard access denied; the original failure is retained separately.
 

@@ -41,15 +41,32 @@ positional chains. `gdi-image-cache-components.tar.gz` retains 80 original
 records, verified source hashes and artifact receipts; its separate manifest
 does not infer full-product or native process-memory acceptance.
 
-## Native acceptance in progress
+## Local portable acceptance
 
 The local portable candidate is 4,026,766 bytes, SHA256
 `ddf4ccfdedf6d6406884d27e24d0b8be87a022f65ae01c5041700bd05fa26452`.
-It is being measured with the unchanged two-tab workload, Sarasa, 160x48 and
-strict GDI limit. The existing bounded child option is set to 1,800 seconds,
+It passes the unchanged two-tab workload with Sarasa, 160x48 and the strict GDI
+limit. The existing bounded child option is set to 1,800 seconds,
 because the older single image completed all 29,072 pixels just before its
 900-second child expired, leaving no time for the later lifecycle scenes.
 Per-reply, shutdown and memory assertions remain unchanged.
+
+The complete run records **18,481,152 bytes private working set**, **39,968,768
+bytes total working set**, and **21,385,216 bytes private commit**. All 2,670
+uninstrumented samples over 290.015 seconds are retained, with the peaks
+independently recomputed. All **29,072** post-sampling image-cell centres match,
+all ten tab/lifecycle checks pass, and all 56 owned processes drain naturally
+without forced termination. This closes the portable candidate's dense GDI
+budget failure; it does not measure the forthcoming combined CI executable.
+
+The same frontend also passes **185 native pixel stages**: 32 Unicode-image
+checks on each of GDI, actual OpenGL and actual DirectX, another 32 from the
+visible GDI client DC, and 19 resize/font/history stages on each actual backend.
+The presented capture uses `GetDC(owned HWND) + BitBlt`, without `WM_PRINTCLIENT`
+or the image API. Each run checks natural process cleanup. Original observations,
+BMP/PNG captures, exact executable/runtime files, source fixtures and controller
+logs are retained in `gdi-image-cache-local.tar.gz`; the separate validation
+manifest verifies their hashes and all twelve dense-image pixel strips.
 
 The first local native selection attempt fails in `SavedClipboard` before any
 selection or copy assertion. A separate non-mutating `OpenClipboard(NULL)`
