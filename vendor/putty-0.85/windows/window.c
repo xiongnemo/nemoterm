@@ -210,6 +210,7 @@ static UINT_PTR next_session_id;
 static void reset_window(WinGuiSeat *wgs, int reinit);
 
 static void flash_window(WinGuiSeat *wgs, int mode);
+static void nemo_bell_close(WinGuiSeat *wgs);
 static void sys_cursor_update(WinGuiSeat *wgs);
 static bool get_fullscreen_rect(WinGuiSeat *wgs, RECT *ss);
 static bool get_workingarea_rect(WinGuiSeat *wgs, RECT *ss);
@@ -1130,6 +1131,7 @@ static void wgs_request_close(WinGuiSeat *wgs)
 {
     if (wgs->closing) return;
     wgs->closing = true;
+    nemo_bell_close(wgs);
     /* Never free a seat on a backend or WndProc stack. */
     queue_toplevel_callback(wgs_cleanup, wgs);
 }
@@ -1138,6 +1140,7 @@ static void wgs_cleanup(void *vctx)
 {
     WinGuiSeat *wgs = vctx;
     wgs->closing = true;
+    nemo_bell_close(wgs);
     nemo_host_remove(wgs);
     delete_callbacks_for_context(wgs);
     expire_timer_context(wgs);
@@ -7217,6 +7220,23 @@ static void wintw_bell(TermWin *tw, int mode)
         wgs->last_beep_time = GetTickCount();
     }
     /* Otherwise, either visual bell or disabled; do nothing here */
+}
+
+static void nemo_bell_close(WinGuiSeat *wgs)
+{
+    if (!wgs->flashing) return;
+    /* Caption/taskbar state belongs to the host, but each session owns its
+     * pending notice. Closing one owner must not erase another owner's bell. */
+    for (struct WinGuiSeatListNode *n = wgslisthead.next;
+         n != &wgslisthead; n = n->next) {
+        WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
+        if (other != wgs && !other->closing && other->flashing &&
+            wgs_window(other) == wgs_window(wgs)) {
+            wgs->flashing = false;
+            return;
+        }
+    }
+    flash_window(wgs, 0);
 }
 
 static void wintw_bell_attention(TermWin *tw, bool urgent, bool raise)

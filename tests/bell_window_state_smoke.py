@@ -155,6 +155,24 @@ try:
                 evidence['checks'].append(record)
                 assert after['active']==second['id'] and after['foreground']==other,record
                 assert any(e['api']=='FlashWindowEx' and e['flags']==0 for e in events),record
+                # Two sessions can own notices for the same host. Closing one
+                # must leave the other pending until the host gains focus.
+                original_second=second
+                u.SendMessageW(second['hwnd'],0x111,0x30,0)
+                sessions=wait_for(lambda:(s if len(s:=api.request(endpoint)['sessions'])==2 else None))
+                second=next(s for s in sessions if s['id']!=original_second['id'])
+                third_child=child();assert second['active']
+                focus(host);focus(other);position(other,None)
+                ring('two-notices-background-owner',second_child,'\x1b[?1042;1043h\x07',True,True)
+                ring('two-notices-active-owner',third_child,'\x1b[?1042;1043h\x07',True,True)
+                drain();write_snapshot(second_child['control'],dict(stop=True))
+                wait_for(lambda:len(api.request(endpoint)['sessions'])==1)
+                events=drain();after=state()
+                record=dict(name='one-notice-owner-close-preserves-other',renderer=renderer,after=after,api=events)
+                evidence['checks'].append(record)
+                assert after['active']==second['id'] and after['foreground']==other,record
+                assert not any(e['api']=='FlashWindowEx' and e['flags']==0 for e in events),record
+                clear('remaining-notice-clears-on-focus')
             finally:
                 session.detach()
                 for target in children:write_snapshot(target['control'],dict(stop=True))

@@ -291,6 +291,8 @@ jobs:
             python "tests/${test}_window_smoke.py" 2>&1 | Tee-Object "bell-$test.log"
             if ($LASTEXITCODE) { $failed = 1 }
           }
+          python tests/bell_window_state_smoke.py 2>&1 | Tee-Object bell-window-state.log
+          if ($LASTEXITCODE) { $failed = 1 }
           exit $failed
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
