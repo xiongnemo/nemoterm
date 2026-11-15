@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #define BUDGET (4u*1024u*1024u)
 static unsigned checks;
 #define CHECK(x) do { checks++; if (!(x)) { fprintf(stderr,"%s:%d: %s\n",__FILE__,__LINE__,#x); exit(1); } } while (0)
@@ -204,8 +205,74 @@ static void relative_lifetime_boundaries(void)
     destroy(&f);
 }
 
-int main(void)
+/* Opt-in component measurement, separate from correctness-suite timing.
+ * This exercises the real placement owner without a window or renderer.
+ * clock() units are retained; compare only matched compiler/runtime runs. */
+static int benchmark_cells(void)
 {
+    const unsigned sizes[]={256,512,1024,2048,4096,7268,8192};
+    const unsigned templates[]={1,16};
+    for (unsigned mode=0;mode<sizeof(templates)/sizeof(*templates);mode++) {
+        Fixture f;create(&f);
+        NemoKittyImage *image=load(&f,parse("i=42,f=24,s=512,v=288"),512,288);
+        for (unsigned i=0;i<templates[mode];i++) {
+            char header[64];
+            int n=snprintf(header,sizeof(header),"a=p,p=%u,U=1,c=1,r=1",i+1);
+            CHECK(n>0 && (size_t)n<sizeof(header));
+            put(&f,image,header,0,0);
+        }
+        size_t baseline=nemo_kitty_placements_memory(f.places);
+        for (unsigned size=0;size<sizeof(sizes)/sizeof(*sizes);size++) {
+            unsigned count=sizes[size];
+            for (unsigned repeat=0;repeat<3;repeat++) {
+                clock_t before=clock();CHECK(before!=(clock_t)-1);
+                for (unsigned i=0;i<count;i++)
+                    CHECK(nemo_kitty_placements_cell(f.places,42,i%templates[mode]+1,
+                        0,0,1,(int32_t)(i%158),(int32_t)(i/158),10,20));
+                clock_t created=clock();CHECK(created!=(clock_t)-1 && created>=before);
+                CHECK(nemo_kitty_placements_count(f.places)==count+templates[mode]);
+                CHECK(nemo_kitty_image_references(image)==count+templates[mode]);
+                size_t bytes=nemo_kitty_placements_memory(f.places);
+                for (unsigned pass=0;pass<4;pass++) {
+                    unsigned visible=0,hidden=0;
+                    for (const NemoKittyPlacement *p=nemo_kitty_placements_first(f.places);p;
+                         p=nemo_kitty_placement_next(p)) {
+                        NemoKittyView v;
+                        if (!nemo_kitty_placement_view(p,10,20,&v)) { hidden++;continue; }
+                        CHECK(v.id==42 && !v.placement && v.z==-1 && v.image==image);
+                        CHECK(v.left==(double)(visible%158)*10 && v.right==v.left+10);
+                        CHECK(v.top>=(double)(visible/158)*20 && v.bottom>v.top &&
+                              v.bottom<=(double)(visible/158+1)*20);
+                        visible++;
+                    }
+                    CHECK(visible==count && hidden==templates[mode]);
+                }
+                clock_t viewed=clock();CHECK(viewed!=(clock_t)-1 && viewed>=created);
+                nemo_kitty_placements_remove_cells(f.places,INT32_MIN,INT32_MAX);
+                clock_t cleared=clock();CHECK(cleared!=(clock_t)-1 && cleared>=viewed);
+                CHECK(nemo_kitty_placements_count(f.places)==templates[mode]);
+                CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+                CHECK(nemo_kitty_image_references(image)==templates[mode]);
+                CHECK(f.peak<=BUDGET);
+                printf("{\"cells\":%u,\"templates\":%u,\"repeat\":%u,\"view_passes\":4,"
+                    "\"clock_hz\":%.0f,\"create_ticks\":%.0f,\"view_ticks\":%.0f,"
+                    "\"clear_ticks\":%.0f,\"placement_bytes\":%zu,\"baseline_bytes\":%zu,"
+                    "\"owner_peak_bytes\":%zu}\n",
+                    count,templates[mode],repeat,(double)CLOCKS_PER_SEC,
+                    (double)(created-before),(double)(viewed-created),(double)(cleared-viewed),
+                    bytes,baseline,f.peak);
+                fflush(stdout);
+            }
+        }
+        destroy(&f);
+    }
+    return 0;
+}
+
+int main(int argc,char **argv)
+{
+    if (argc==2 && !strcmp(argv[1],"--benchmark-cells")) return benchmark_cells();
+    CHECK(argc==1);
     unicode_lifetime_boundaries();
     relative_lifetime_boundaries();
     Fixture f; create(&f);

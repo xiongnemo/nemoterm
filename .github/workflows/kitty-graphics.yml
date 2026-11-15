@@ -162,6 +162,7 @@ jobs:
             vendor/putty-0.85/terminal/nemo_kitty.c \
             vendor/putty-0.85/terminal/nemo_raster.c -o kitty-placements-normal
           ./kitty-placements-normal 2>&1 | tee placements-normal.log
+          ./kitty-placements-normal --benchmark-cells 2>&1 | tee placements-benchmark.jsonl
           "$CC" -std=c99 -Wall -Wextra -Werror -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer \
             -I vendor/putty-0.85/terminal tests/test_kitty_placements.c \
             vendor/putty-0.85/terminal/nemo_kitty_placements.c \
@@ -200,6 +201,7 @@ jobs:
             layout-normal.log
             layout-sanitizers.log
             placements-normal.log
+            placements-benchmark.jsonl
             placements-sanitizers.log
             zlib-*.log
             sources.sha256
@@ -246,6 +248,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./kitty-placements.exe 2>&1 | Tee-Object placements-test.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./kitty-placements.exe --benchmark-cells 2>&1 | Tee-Object placements-benchmark.jsonl
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-compression-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-kitty-terminal-reference.py --check
@@ -280,6 +284,7 @@ jobs:
             layout-test.log
             placements-build.log
             placements-test.log
+            placements-benchmark.jsonl
             zlib-*.log
             sources.txt
             terminal-sources.txt
