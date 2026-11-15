@@ -45,7 +45,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 **18.48 MB**、总工作集 **39.97 MB**，29,072 个图片单元和十项标签/关闭检查全部通过。
 三种实际渲染器另通过 185 项像素检查。准确的 CI 单文件产物也已通过该 GDI 重负载：
 私有工作集峰值 **19.23 MB**、总工作集 **42.02 MB**，全部图片单元和生命周期检查通过。
-其本机输入法 DPI 检查尚未通过，其余验收继续进行，尚未替换上述版本；
+该单 EXE 也已通过三种实际渲染器及直接 GDI 窗口捕获的 185 项像素检查。
+密集 Unicode 图片的 DX 私有工作集达到 **27.11 MB**，超过目前 25 MB 回归上限。
+本机输入法 DPI 与剩余交互验收尚未完成，该版本尚未替换上述已验收版本；
 见[修复与本机证据](research/gdi-image-cache.md)及[原始失败记录](research/feature-policy-sarasa.md)。
 进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
 [密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
@@ -133,6 +135,7 @@ Nemoterm 使用系统中已有的 shell；单文件产物不包含 PowerShell 7�
 - 检测到 WSL 发行版不代表其中一定安装了 Bash；显式指定的 shell 不存在时会报错。
 - `--directory "路径"` 指定启动目录，留空时继承启动器目录；Git Bash / WSL Bash 也接受各自的 POSIX 路径。
 - `-e` 后的内容作为自定义启动命令，优先于保存的 shell。**Nemoterm 参数应写在 `-e` 之前。**
+- 开发分支已修复 `-load` 覆盖前置 `--tabs`、字体及尺寸选项的问题；明确的命令行设置优先于保存配置，见[参数验证](research/command-line-profile.md)。上述 `12ee33b` 及更早下载版应将这些选项写在 `-load` 之后。
 - 在 **Session** 中选择 shell，并保存到 `Default Settings` 或命名配置；`-load "配置名"` 可加载命名配置。
 - **Session / Shell** 用于编辑自定义命令和启动目录；命令行也可用 `--shell custom --shell-command "命令"`。
 

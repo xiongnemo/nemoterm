@@ -13,6 +13,10 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     bool show_settings = false;
     char *exec_command = NULL;
     char *shell_id = NULL, *shell_command = NULL, *directory = NULL;
+    bool tabs = false;
+    int tab_side = -1, cols = 0, rows = 0, scrollback = -1;
+    int font_size = 0, right_click_paste = -1;
+    char *font_name = NULL;
     do_defaults(NULL, conf);
     conf_set_str(conf, CONF_remote_cmd, "");
 
@@ -36,7 +40,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             continue;
         }
         if (!strcmp(argstr, "--tabs")) {
-            conf_set_bool(conf, CONF_nemo_tabs, true);
+            tabs = true;
             continue;
         }
         if (!strcmp(argstr, "--tab-side")) {
@@ -45,7 +49,7 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             int value=!strcmp(side,"top") ? 0 : !strcmp(side,"bottom") ? 1 :
                       !strcmp(side,"left") ? 2 : !strcmp(side,"right") ? 3 : -1;
             if (value<0) cmdline_error("--tab-side expects top, bottom, left or right");
-            conf_set_int(conf,CONF_nemo_tab_side,value);arglistpos++;continue;
+            tab_side=value;arglistpos++;continue;
         }
         if (!strcmp(argstr, "--list-shells")) {
             NemoShellList shells;
@@ -85,14 +89,10 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
             if (!strcmp(argstr, "--right-click")) {
                 if (strcmp(value, "copy") && strcmp(value, "copy-paste"))
                     cmdline_error("--right-click expects copy or copy-paste");
-                conf_set_bool(conf, CONF_nemo_right_click_paste,
-                              !strcmp(value, "copy-paste"));
+                right_click_paste = !strcmp(value, "copy-paste");
             } else if (!strcmp(argstr, "--font")) {
-                FontSpec *old = conf_get_fontspec(conf, CONF_font);
-                FontSpec *font = fontspec_new(value, old->isbold,
-                                              old->height, DEFAULT_CHARSET);
-                conf_set_fontspec(conf, CONF_font, font);
-                fontspec_free(font);
+                sfree(font_name);
+                font_name = dupstr(value);
             } else {
                 char *end;
                 long n = strtol(value, &end, 10);
@@ -102,15 +102,10 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
                 if (!*value || *end || n < minval || n > maxval)
                     cmdline_error("%s must be between %ld and %ld", argstr, minval, maxval);
                 if (!strcmp(argstr, "--font-size")) {
-                    FontSpec *old = conf_get_fontspec(conf, CONF_font);
-                    FontSpec *font = fontspec_new(old->name, old->isbold, n, old->charset);
-                    conf_set_fontspec(conf, CONF_font, font);
-                    fontspec_free(font);
-                } else {
-                    int key = !strcmp(argstr, "--cols") ? CONF_width :
-                              !strcmp(argstr, "--rows") ? CONF_height : CONF_savelines;
-                    conf_set_int(conf, key, n);
-                }
+                    font_size = n;
+                } else if (!strcmp(argstr, "--cols")) cols = n;
+                else if (!strcmp(argstr, "--rows")) rows = n;
+                else scrollback = n;
             }
             continue;
         }
@@ -138,6 +133,25 @@ void gui_term_process_cmdline(Conf *conf, char *cmdline)
     }
 
     cmdline_run_saved(conf);
+    /* Like the existing shell overrides and PuTTY's saved options, explicit
+     * frontend options take precedence over any -load, regardless of order.
+     * Read unspecified font properties from the final loaded configuration. */
+    if (tabs) conf_set_bool(conf, CONF_nemo_tabs, true);
+    if (tab_side >= 0) conf_set_int(conf, CONF_nemo_tab_side, tab_side);
+    if (cols) conf_set_int(conf, CONF_width, cols);
+    if (rows) conf_set_int(conf, CONF_height, rows);
+    if (scrollback >= 0) conf_set_int(conf, CONF_savelines, scrollback);
+    if (right_click_paste >= 0)
+        conf_set_bool(conf, CONF_nemo_right_click_paste, right_click_paste);
+    if (font_name || font_size) {
+        FontSpec *old = conf_get_fontspec(conf, CONF_font);
+        FontSpec *font = fontspec_new(font_name ? font_name : old->name,
+            old->isbold, font_size ? font_size : old->height,
+            font_name ? DEFAULT_CHARSET : old->charset);
+        conf_set_fontspec(conf, CONF_font, font);
+        fontspec_free(font);
+        sfree(font_name);
+    }
     bool explicit_command = exec_command != NULL;
     if (directory) { conf_set_utf8(conf, CONF_nemo_starting_directory, directory);sfree(directory); }
     if (shell_id) { conf_set_str(conf, CONF_nemo_shell, shell_id); sfree(shell_id); }

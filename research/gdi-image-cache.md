@@ -141,10 +141,14 @@ The input probe sends synthetic focus messages; current product code requires
 the actual foreground host before updating the composition position. This is
 a suspected test-precondition mismatch, not yet an empirically established
 cause. Two external preparation attempts fail before establishing foreground;
-the second forcibly cleans up its owned job. Inspection finds that the helper
-selected the transient `Nemoterm` view instead of waiting for `NemotermHost`.
-The corrected helper must still be exercised before claiming focused input
-acceptance. Product focus behavior and the original fixture remain unchanged.
+the second forcibly cleans up its owned job. The initial explanation that the
+selected `Nemoterm` view was transient was incorrect. A later five-case native
+regression proves that `--tabs` before `-load` is overwritten by the profile,
+so this fixture actually launched a standalone window. Waiting specifically
+for `NemotermHost` therefore also failed. The separate
+[command-line fix and actual-host assertions](command-line-profile.md) address
+that defect. Local foreground preparation then finds Windows' lock-screen
+window covering the genuine host. IME acceptance remains open.
 Both unsuccessful preparations, including their original controllers, are
 retained in `gdi-image-cache-input-focus-preflight.tar.gz`; no caption click
 was sent in either attempt, and the first controller did not record cleanup.
@@ -155,3 +159,32 @@ cases. Each command preserves its own research observations and build failure
 diagnostics before shared filenames can be reused. Clipboard access remains an
 outstanding local concern. No accepted executable or main-branch promotion has
 occurred.
+
+The first seven continuation groups now pass **185 native pixel stages on the
+exact single image**, matching the portable checks described above: 32 Unicode
+image stages on each actual renderer and the presented GDI client, plus 19
+geometry stages on each actual renderer. All jobs exit naturally. Independent
+review rechecks report/capture hashes, geometry colour counts, actual renderer
+identity and the presented capture's restored topmost status. The 705 retained
+records in `gdi-image-cache-product-pixels.tar.gz` include the original reports,
+captures, source-identical fixtures and controller. Its validation manifest is
+limited to these seven completed groups; it does not certify the remaining
+input and memory cases.
+
+The continuation also completes all eleven remaining memory workloads. Ten
+pass; dense Unicode DirectX fails the unchanged **25,000,000-byte** regression
+gate at **27,107,328 private WS / 62,705,664 total WS bytes**. Its 4,284
+uninjected samples have no sampling errors. All 29,072 image cells and ten
+tab/lifecycle checks pass; all 56 owned processes exit naturally. The failure
+is retained as `completed: false`, phase `memory-acceptance`, with no promotion.
+The ordinary DirectX image workloads peak at 24,104,960 private bytes.
+`gdi-image-cache-product-memory-continuation.tar.gz` retains the original
+samples, observations, images, logs and controller; its validation manifest
+independently recomputes every memory peak and preserves the failed threshold.
+No further DirectX optimization is undertaken under the user's instruction.
+
+At this checkpoint, 31 of the original 39 local groups pass. The dense DirectX
+gate fails, both correctly hosted IME paths remain unaccepted, and five
+clipboard/bindings/drop/selection groups were not reached after the memory
+failure. The desktop lock layer prevents a subsequent real-focus preparation.
+These remaining gates are not erased by the independent CLI regression pass.

@@ -1,6 +1,6 @@
 """Independent grid selections and Ctrl-drag rectangular copying and pixels."""
 from native_test_utils import (root,c,w,u,hashlib,json,os,subprocess,sys,tempfile,
-    Path,time,wait_for,find_window,read_snapshot,write_snapshot,wait_snapshot,capture)
+    Path,time,wait_for,find_window,read_snapshot,write_snapshot,wait_snapshot,capture,terminal_host)
 from clipboard_test_utils import SavedClipboard,clipboard_text
 from gpu_capture import OwnedGPUCapture
 import argparse
@@ -12,13 +12,14 @@ parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
 args=parser.parse_args()
 u.GetPropW.argtypes,u.GetPropW.restype=[w.HWND,w.LPCWSTR],w.HANDLE
+u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 profile='selection-'+uuid.uuid4().hex
 keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
     winreg.SetValueEx(key,'NemoRenderer',0,winreg.REG_DWORD,args.renderer)
     winreg.SetValueEx(key,'WarnOnClose',0,winreg.REG_DWORD,0)
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
-evidence=dict(tab_host=args.tabs,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
+evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),checks=[],rectangles=[],requested_renderer=args.renderer,completed=False)
 with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     report,control=(Path(temporary)/name for name in ('report','control'))
     process=subprocess.Popen([str(exe)]+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','80','--rows','24','-e',sys.executable,
@@ -27,6 +28,10 @@ with tempfile.TemporaryDirectory(prefix='nemoterm-selection-') as temporary:
     saved=None; session=None; script=None; gpu=None
     try:
         hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
+        host=terminal_host(hwnd);host_class=c.create_unicode_buffer(128)
+        assert u.GetClassNameW(host,host_class,len(host_class))
+        evidence['host_class']=host_class.value;evidence['tab_host']=host!=hwnd
+        assert evidence['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),evidence
         active=int(u.GetPropW(hwnd,'NemotermRenderer') or 0)
         assert active in (1,2,3)
         if args.renderer==0:assert active==1

@@ -6,20 +6,22 @@ Real IMM API submission is recorded only when the installed IME supports it.
 It is not physical key conversion, candidate UI or multi-monitor certification.
 """
 from native_test_utils import (root,c,w,u,k,hashlib,json,os,subprocess,sys,tempfile,
-    Path,time,read_snapshot,write_snapshot,wait_snapshot,wait_for,capture,find_window)
+    Path,time,read_snapshot,write_snapshot,wait_snapshot,wait_for,capture,find_window,terminal_host)
 import frida,uuid,winreg,argparse
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--font',default='SarasaTermSC Nerd Font Light')
 parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--input-api',choices=('byte','wide'),default='byte')
+parser.add_argument('--foreground',action='store_true',help='Explicitly focus only this owned test window, with a checked caption click if required')
 args=parser.parse_args()
 u.PostMessageW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM]
 u.GetClientRect.argtypes=[w.HWND,c.POINTER(w.RECT)]
+u.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 profile='input-method-'+uuid.uuid4().hex;keypath='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 with winreg.CreateKey(winreg.HKEY_CURRENT_USER,keypath) as key:
  for name,value in dict(WarnOnClose=0,NemoWin32Input=0).items():winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
-evidence=dict(tab_host=args.tabs,input_api='ReadConsoleW' if args.input_api=='wide' else 'ReadFile',executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,requested_font=args.font,input_cp=65001,checks=[],dpi=[])
+evidence=dict(requested_tab_host=args.tabs,tab_host=None,input_api='ReadConsoleW' if args.input_api=='wide' else 'ReadFile',executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),frida_version=frida.__version__,requested_font=args.font,input_cp=65001,checks=[],dpi=[])
 evidence['runtime_files']={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
  for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()}
 try:
@@ -32,6 +34,13 @@ try:
   session=script=None;command=None;messages=[];serial=0;request={};phase_id=''
   try:
    hwnd=wait_for(lambda:find_window(process.pid));wait_for(lambda:read_snapshot(report))
+   host=terminal_host(hwnd);host_class=c.create_unicode_buffer(128)
+   assert u.GetClassNameW(host,host_class,len(host_class))
+   evidence['host_class']=host_class.value;evidence['tab_host']=host!=hwnd
+   assert evidence['tab_host']==args.tabs and host_class.value==('NemotermHost' if args.tabs else 'Nemoterm'),evidence
+   if args.foreground or os.environ.get('GITHUB_ACTIONS')=='true':
+    from owned_window_focus import focus_owned_window
+    evidence['foreground_preparation']=focus_owned_window(host,process.pid,allow_local=args.foreground)
    session=frida.attach(process.pid);script=session.create_script((root/'tests/input_method_probe.js').read_text(encoding='utf-8-sig'))
    def received(message,data):messages.append(message)
    script.on('message',received);script.load();wait_for(lambda:any(m.get('payload',{}).get('event')=='ready' for m in messages))

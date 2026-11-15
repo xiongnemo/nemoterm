@@ -45,8 +45,23 @@ group fails at the synthetic DPI composition-window assertion after sixteen
 input checks pass, including installed Chinese IMM API submission. Actual
 foreground preparation has not yet succeeded; this is not an IME acceptance.
 The failed run remains intact while a separate continuation runs independent
-remaining groups. Clipboard access also remains an outstanding local concern.
+remaining groups. Its first seven groups pass 185 native pixel stages on this
+exact single image, with all three actual renderers and presented GDI capture;
+the separate archive verifies all capture hashes and geometry colour counts.
+Clipboard access also remains an outstanding local concern.
 No accepted executable has been replaced.
+
+The continuation subsequently passes ten ordinary image-memory groups but
+fails the dense DirectX gate at **27,107,328 private WS / 62,705,664 total WS
+bytes**, despite all 29,072 pixels, ten lifecycle checks and natural cleanup
+passing. That failure is preserved; no additional DX optimization is started.
+There are 31 passing local groups at this checkpoint, with five clipboard
+groups not yet reached. A [CLI precedence regression](../research/command-line-profile.md)
+also proves that `--tabs` before `-load` was silently lost: earlier input and
+selection fixtures did not verify the actual host. The product fix passes five
+local native cases, and those fixtures now assert the true window class.
+Actual foreground preparation remains unavailable under Windows' lock-screen
+layer; hosted IME acceptance is pending, and the user has been notified.
 
 ## Bell attention modes (2026-11-16 Sydney)
 

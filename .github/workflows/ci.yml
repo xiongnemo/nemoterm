@@ -317,6 +317,14 @@ jobs:
           python tests/owned_job_test.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python -m pip install frida==17.24.3
+      - name: Test command-line overrides before and after loaded profiles
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          python tests/command_line_profile_window_smoke.py 2>&1 | Tee-Object test-results/command-line-profile.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/command-line-profile-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test local terminal discovery, input and capture API
         timeout-minutes: 3
         shell: pwsh

@@ -1,0 +1,238 @@
+{
+  "completed": true,
+  "executable_sha256": "3495de273836eee233bfb92ff052a3b596970b945fda3fe5d736c308b848c269",
+  "checks": [
+    {
+      "name": "profile-only",
+      "arguments": [
+        "-load",
+        "protocol-test-f8a397d82a864fdc80d39661a0d8ef4c"
+      ],
+      "host_class": "Nemoterm",
+      "grid": [
+        54,
+        17
+      ],
+      "view_equals_host": true,
+      "client": [
+        434,
+        342
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "matched": true
+    },
+    {
+      "name": "after-load",
+      "arguments": [
+        "-load",
+        "protocol-test-f8a397d82a864fdc80d39661a0d8ef4c",
+        "--tabs",
+        "--tab-side",
+        "left",
+        "--cols",
+        "45",
+        "--rows",
+        "13",
+        "--font",
+        "Courier New",
+        "--font-size",
+        "14"
+      ],
+      "host_class": "NemotermHost",
+      "grid": [
+        45,
+        13
+      ],
+      "view_equals_host": false,
+      "client": [
+        497,
+        275
+      ],
+      "offset": [
+        192,
+        0
+      ],
+      "matched": true
+    },
+    {
+      "name": "before-load",
+      "arguments": [
+        "--tabs",
+        "--tab-side",
+        "left",
+        "--cols",
+        "45",
+        "--rows",
+        "13",
+        "--font",
+        "Courier New",
+        "--font-size",
+        "14",
+        "-load",
+        "protocol-test-f8a397d82a864fdc80d39661a0d8ef4c"
+      ],
+      "host_class": "NemotermHost",
+      "grid": [
+        45,
+        13
+      ],
+      "view_equals_host": false,
+      "client": [
+        497,
+        275
+      ],
+      "offset": [
+        192,
+        0
+      ],
+      "matched": true
+    },
+    {
+      "name": "mixed-load",
+      "arguments": [
+        "--tabs",
+        "--font-size",
+        "14",
+        "-load",
+        "protocol-test-f8a397d82a864fdc80d39661a0d8ef4c",
+        "--tab-side",
+        "left",
+        "--cols",
+        "45",
+        "--rows",
+        "13",
+        "--font",
+        "Courier New"
+      ],
+      "host_class": "NemotermHost",
+      "grid": [
+        45,
+        13
+      ],
+      "view_equals_host": false,
+      "client": [
+        497,
+        275
+      ],
+      "offset": [
+        192,
+        0
+      ],
+      "matched": true
+    },
+    {
+      "name": "last-value",
+      "arguments": [
+        "--cols",
+        "22",
+        "--font-size",
+        "8",
+        "--tabs",
+        "--tab-side",
+        "left",
+        "--cols",
+        "45",
+        "--rows",
+        "13",
+        "--font",
+        "Courier New",
+        "--font-size",
+        "14",
+        "-load",
+        "protocol-test-f8a397d82a864fdc80d39661a0d8ef4c"
+      ],
+      "host_class": "NemotermHost",
+      "grid": [
+        45,
+        13
+      ],
+      "view_equals_host": false,
+      "client": [
+        497,
+        275
+      ],
+      "offset": [
+        192,
+        0
+      ],
+      "matched": true
+    }
+  ],
+  "cleanup": [
+    {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 3,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  ],
+  "physical_input": false,
+  "clipboard_access": false
+}
