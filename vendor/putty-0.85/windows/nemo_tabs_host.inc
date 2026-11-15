@@ -414,6 +414,15 @@ static LRESULT CALLBACK nemo_host_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp
             if (LOWORD(wp)!=WA_INACTIVE) nemo_bell_acknowledge(active);
         }
         break;
+      case WM_NCACTIVATE:
+        /* A background SetFocus can already activate this input queue. When
+         * the user then brings it forward, Windows may send only NCACTIVATE.
+         * Flashing also sends that message, so verify the real foreground. */
+        if (wp && active && !active->closing && GetForegroundWindow()==hwnd) {
+            term_set_focus(active->term,true);
+            nemo_bell_acknowledge(active);
+        }
+        break;
       case WM_MOUSEACTIVATE:return MA_ACTIVATE;
       case WM_LBUTTONDOWN:
       case WM_MBUTTONUP: {

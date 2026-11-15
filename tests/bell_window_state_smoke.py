@@ -103,7 +103,7 @@ try:
                         onEnter(args) {
                             this.event=null;
                             const msg=args[1].toUInt32();
-                            if([6,7,8,134].includes(msg)) {
+                            if([6,7,8,28,134].includes(msg)) {
                                 this.event={hwnd:args[0].toString(),message:msg,wparam:args[2].toString(),
                                     before_foreground:foreground().toString(),before_focus:getFocus().toString()};
                                 windowEvents.push(this.event);
