@@ -39,13 +39,24 @@ on:
         type: choice
         options: ['17.24.3', '17.23.3']
         default: '17.24.3'
+      rebuild_profiles:
+        description: Rebuild the pinned MinGW source for profile diagnosis when the failed image is unavailable
+        type: boolean
+        default: false
 
 permissions:
   contents: read
   actions: read
 
 jobs:
+  source-diagnostic:
+    if: ${{ inputs.rebuild_profiles && inputs.fixture == 'profiles' }}
+    uses: ./.github/workflows/profiles-close-diagnostic.yml
+    with:
+      source_commit: ${{ inputs.source_commit }}
+      source_run: ${{ inputs.source_run }}
   diagnostic:
+    if: ${{ !inputs.rebuild_profiles }}
     runs-on: windows-2025
     timeout-minutes: 15
     env:

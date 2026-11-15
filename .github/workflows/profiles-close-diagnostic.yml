@@ -1,6 +1,14 @@
 name: Diagnose mixed-profile close from pinned source
 
 on:
+  workflow_call:
+    inputs:
+      source_commit:
+        type: string
+        required: true
+      source_run:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       source_commit:
