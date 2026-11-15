@@ -10,7 +10,18 @@ on:
   push:
     paths:
       - .github/workflows/pointer-shapes.yml
+      - .github/workflows/protocol-reference.yml
+      - vendor/putty-0.85/putty.h
+      - vendor/putty-0.85/CMakeLists.txt
+      - vendor/putty-0.85/terminal/terminal.c
+      - vendor/putty-0.85/terminal/terminal.h
       - vendor/putty-0.85/terminal/nemo_pointer.*
+      - vendor/putty-0.85/windows/CMakeLists.txt
+      - vendor/putty-0.85/windows/window.c
+      - vendor/putty-0.85/windows/win-gui-seat.h
+      - vendor/putty-0.85/windows/nemo_link_ui.c
+      - vendor/putty-0.85/windows/nemo_tabs_host.inc
+      - vendor/putty-0.85/windows/nemo_debug_ui.inc
       - tests/test_pointer_shapes.c
       - tests/pointer_shape_reference.h
       - tests/pointer_terminal_reference.h
@@ -19,7 +30,16 @@ on:
       - tests/test_pointer_cursor.c
       - tests/test_pointer_glyph.c
       - tests/pointer_window_smoke.py
+      - tests/session_fixture.py
+      - tests/mouse_fixture.py
+      - tests/native_test_utils.py
+      - tests/owned_job.py
+      - tests/fixture_io.py
+      - tools/nemoterm_debug.py
       - scripts/generate-pointer-reference.py
+      - scripts/build-single-exe.ps1
+      - scripts/prepare-single-exe.py
+      - native/single_exe/**
       - research/pointer-shape-evidence/**
 
 permissions:
