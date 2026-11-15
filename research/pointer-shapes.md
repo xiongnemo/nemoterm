@@ -204,3 +204,45 @@ DPI against the older image. Current-source Windows validation, full ordinary
 and single-image regressions, product memory, physical multi-monitor input,
 busy-status transitions and optional user controls remain separate checks.
 The accepted local executable and local-test pause are unchanged.
+
+## Corrected-source Windows checkpoint and full-regression failure
+
+[Run 43699492458](https://github.com/xiongnemo/nemoterm/actions/runs/43699492458)
+at `7e12e03` passes all three compiler jobs with the hotspot fix included.
+Both Linux sanitizers repeat the 776 glyph cases and full terminal replay;
+MSVC repeats 141,028 resource checks, then builds the current source console
+host and passes all 53 native cursor checks / 44 exact query round trips.
+All five window-fixture processes exit naturally. Its 4,532,224-byte focused
+single image has SHA256
+`d02c4e4bf154236366dfef57594a7d20d7592500712d3fbc5a998ed91fa39cb8`.
+
+The separately built [full single-image run 43699496703](https://github.com/xiongnemo/nemoterm/actions/runs/43699496703)
+at the same source fails early in GDI file-drop validation. Thirteen checks
+complete, including correct Windows PowerShell path bytes delivered by the
+terminal. The independent `powershell.exe -NoProfile -NonInteractive -Command`
+process that then parses those quoted arguments exceeds its existing 20-second
+deadline. This is not evidence of a cursor failure, and the incomplete run does
+not establish product regression or memory acceptance. Its separately linked
+image is also 4,532,224 bytes, with SHA256
+`862216d30cb5f5a27d9507c4e6ddfe7170de32f5871433c3af14f8f666b8cc6a`.
+Both exact binaries and their distinct build/test records are retained in
+`pointer-shape-windows-validation.json` and
+`pointer-shape-evidence/windows-7e12e03.tar.gz` (333 records, 42 source matches).
+
+The unchanged failed image subsequently passes three GDI drop replays in
+[run 43700206613](https://github.com/xiongnemo/nemoterm/actions/runs/43700206613),
+using fixture `068f87e`. Only external-shell timing/output recording was added;
+the process invocation and 20-second limit are unchanged. Each replay completes
+all 50 drop/clipboard checks and all six owned terminal lifetimes close without
+forced termination. Actual pwsh, Windows PowerShell and Git Bash argument parsing
+passes; other shells retain their existing wire-only scope on this runner.
+Windows PowerShell takes 2.875, 0.219 and 0.219 seconds. These successes leave
+the initial timeout unexplained; no production fix is claimed. The 32 original
+records and 18 verified fixture-source hashes are indexed by
+`pointer-drop-replay-validation.json` in
+`pointer-shape-evidence/drop-replay-068f87e.tar.gz`.
+
+The complete single-image regression is being repeated with the additional
+timing evidence. Product sources remain identical between `7e12e03` and
+`068f87e`; only documentation, CI triggers and diagnostic fixtures changed.
+Local desktop tests and accepted distribution promotion remain pending.

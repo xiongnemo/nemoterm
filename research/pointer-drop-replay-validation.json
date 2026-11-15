@@ -1,0 +1,299 @@
+{
+  "fixture_source": "068f87ed5a92eaba7528b66bad03f0a8cc70fe2e",
+  "run": 43700206613,
+  "executable_source": "7e12e03e5bb2824e7aaf82a5873f1e584ef6bc22",
+  "executable_sha256": "862216d30cb5f5a27d9507c4e6ddfe7170de32f5871433c3af14f8f666b8cc6a",
+  "source_matches": [
+    {
+      "path": "tests/tabs_profiles_window_smoke.py",
+      "sha256": "ed8650ea21d0a2eeaf2470c40aa2e2562cff68074d7e35d299b4e12428b6081d",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/automation_capture.py",
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tools/nemoterm_debug.py",
+      "sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/gpu_capture.py",
+      "sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/frida_test_utils.py",
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/native_test_utils.py",
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/shutdown_window_smoke.py",
+      "sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/shutdown_probe.js",
+      "sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f",
+      "encoding": "crlf_checkout"
+    },
+    {
+      "path": "tests/tabs_window_smoke.py",
+      "sha256": "ba97604d3ede8416acabb1b6524fac93d3ab16dc2c8969e77169fd6b9afce308",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/tab_probe_boundary.py",
+      "sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/tabs_hover_probe.js",
+      "sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e",
+      "encoding": "crlf_checkout"
+    },
+    {
+      "path": "tests/agent_key_probe.js",
+      "sha256": "aeff8aeb85642447dc6d66cd48aedfb872f0f6bf314a52b36455cbcc32117ea3",
+      "encoding": "crlf_checkout"
+    },
+    {
+      "path": "tests/session_faults.js",
+      "sha256": "0336042802a5186be3c799871eee46940e7f70268c830c233bdb36f453b25391",
+      "encoding": "crlf_checkout"
+    },
+    {
+      "path": "tests/drop_window_smoke.py",
+      "sha256": "5f057eda3d503eedd32de29a909a3a7b4066fc725e2511d1aed60cc436655eec",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/clipboard_test_utils.py",
+      "sha256": "cd7137b1766f8d096534013f39fcea29b21b2b2de8818e7e7569e34ea895a560",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/automation_window_smoke.py",
+      "sha256": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/fixture_io.py",
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b",
+      "encoding": "git_blob"
+    },
+    {
+      "path": "tests/owned_job.py",
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23",
+      "encoding": "git_blob"
+    }
+  ],
+  "replays": [
+    {
+      "iteration": 1,
+      "checks": 50,
+      "natural_cleanup": true,
+      "external_shell_seconds": {
+        "pwsh": 0.32799999999997453,
+        "powershell": 2.875,
+        "git-bash": 0.1560000000000059
+      }
+    },
+    {
+      "iteration": 2,
+      "checks": 50,
+      "natural_cleanup": true,
+      "external_shell_seconds": {
+        "pwsh": 0.3599999999999568,
+        "powershell": 0.2189999999999941,
+        "git-bash": 0.047000000000025466
+      }
+    },
+    {
+      "iteration": 3,
+      "checks": 50,
+      "natural_cleanup": true,
+      "external_shell_seconds": {
+        "pwsh": 0.3439999999999941,
+        "powershell": 0.2189999999999941,
+        "git-bash": 0.04699999999996862
+      }
+    }
+  ],
+  "scope": "Three passing GDI drop replays against the exact failed image, with the original 20-second external-shell deadline. The initial timeout remains unexplained; this is not a product fix or full acceptance.",
+  "product_record": "research/pointer-shape-windows-validation.json",
+  "bundle": {
+    "path": "research/pointer-shape-evidence/drop-replay-068f87e.tar.gz",
+    "archive_bytes": 65303,
+    "archive_sha256": "fe67dc9473b65d43a6c9b6af36e29af3ca0014d10dca41f0d3139843d7172962",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 3920,
+        "raw_sha256": "9edab4f792029618f24dfa65a1c332fdd361ccced52563f9601aab578d63f3d8"
+      },
+      {
+        "path": "diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "5083980a4b7970458002caa75c48e456a41e4a5ba9bb55845bbf0f9c038979aa"
+      },
+      {
+        "path": "diagnostic/identity.json",
+        "raw_bytes": 3902,
+        "raw_sha256": "bb8b6e6c93b98e9896445d6c9a0e28bab5fffc3e47f25dee010268afb3e3f7ea"
+      },
+      {
+        "path": "diagnostic/replay-1-observed.json",
+        "raw_bytes": 7075,
+        "raw_sha256": "993050c9c572b9038ea920537198a6c8a58a0b9a096d417c7dc012938285f90b"
+      },
+      {
+        "path": "diagnostic/replay-1.log",
+        "raw_bytes": 8564,
+        "raw_sha256": "9a506d84721389b6aa3edd4a9586701ed58fdfbd9e86cbb3a26aa1b6c74eab89"
+      },
+      {
+        "path": "diagnostic/replay-2-observed.json",
+        "raw_bytes": 7089,
+        "raw_sha256": "4883c8e09bca47fd63af81675db109e9909ebabc1683c544cc04d31a866f0478"
+      },
+      {
+        "path": "diagnostic/replay-2.log",
+        "raw_bytes": 8578,
+        "raw_sha256": "3b3102d3a0763fdd1601b1ceed42950a1e8d5e26a22b8dd951c0c520c9fd8a46"
+      },
+      {
+        "path": "diagnostic/replay-3-observed.json",
+        "raw_bytes": 7088,
+        "raw_sha256": "0d2ad356698cd70bd2eed8630cdabfd7c350b5d0f48912a4d9f85fa8025f8200"
+      },
+      {
+        "path": "diagnostic/replay-3.log",
+        "raw_bytes": 8577,
+        "raw_sha256": "84ef0300e689694545f92c60bd8e09c09818a76115e127f96a8ac277c05ef882"
+      },
+      {
+        "path": "source/.github/workflows/tabs-close-replay.yml",
+        "raw_bytes": 12502,
+        "raw_sha256": "13022d8e234f1dd08443738e0f170fc0fab5eed9329a8eeacc2b3797dec6e671"
+      },
+      {
+        "path": "source/tests/agent_key_probe.js",
+        "raw_bytes": 2365,
+        "raw_sha256": "460b09bb7f888bb33641eda425d3606e865b5a413c1edd2f04c00b08ba044798"
+      },
+      {
+        "path": "source/tests/automation_capture.py",
+        "raw_bytes": 2009,
+        "raw_sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+      },
+      {
+        "path": "source/tests/automation_window_smoke.py",
+        "raw_bytes": 11396,
+        "raw_sha256": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce"
+      },
+      {
+        "path": "source/tests/clipboard_test_utils.py",
+        "raw_bytes": 4253,
+        "raw_sha256": "cd7137b1766f8d096534013f39fcea29b21b2b2de8818e7e7569e34ea895a560"
+      },
+      {
+        "path": "source/tests/drop_window_smoke.py",
+        "raw_bytes": 12658,
+        "raw_sha256": "5f057eda3d503eedd32de29a909a3a7b4066fc725e2511d1aed60cc436655eec"
+      },
+      {
+        "path": "source/tests/fixture_io.py",
+        "raw_bytes": 1211,
+        "raw_sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+      },
+      {
+        "path": "source/tests/frida_test_utils.py",
+        "raw_bytes": 1072,
+        "raw_sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+      },
+      {
+        "path": "source/tests/gpu_capture.py",
+        "raw_bytes": 1626,
+        "raw_sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343"
+      },
+      {
+        "path": "source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "source/tests/session_faults.js",
+        "raw_bytes": 4172,
+        "raw_sha256": "dbd1bb37fa2c44d68fcf90ffd82e3cb982d51db663e97f86245933e753bde9a4"
+      },
+      {
+        "path": "source/tests/shutdown_probe.js",
+        "raw_bytes": 3298,
+        "raw_sha256": "630b8a19cd37511977ae11000e6000bfc291cf48f81ee334db329aab6b8f5e9b"
+      },
+      {
+        "path": "source/tests/shutdown_window_smoke.py",
+        "raw_bytes": 9557,
+        "raw_sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6"
+      },
+      {
+        "path": "source/tests/tab_probe_boundary.py",
+        "raw_bytes": 2863,
+        "raw_sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc"
+      },
+      {
+        "path": "source/tests/tabs_hover_probe.js",
+        "raw_bytes": 2034,
+        "raw_sha256": "112c646a23115d74ccc0b6b12ecbefbb85b61099a246c13add9e6643cd155908"
+      },
+      {
+        "path": "source/tests/tabs_profiles_window_smoke.py",
+        "raw_bytes": 15933,
+        "raw_sha256": "ed8650ea21d0a2eeaf2470c40aa2e2562cff68074d7e35d299b4e12428b6081d"
+      },
+      {
+        "path": "source/tests/tabs_window_smoke.py",
+        "raw_bytes": 38356,
+        "raw_sha256": "ba97604d3ede8416acabb1b6524fac93d3ab16dc2c8969e77169fd6b9afce308"
+      },
+      {
+        "path": "source/tools/nemoterm_debug.py",
+        "raw_bytes": 10195,
+        "raw_sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+      },
+      {
+        "path": "tabs-artifacts.json",
+        "raw_bytes": 787,
+        "raw_sha256": "214c0e74cdf5eb23b2b227c64d108d9012fad90ec4aeacaada35413a5e02176f"
+      },
+      {
+        "path": "tabs-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "b60d6dbde18ba80839571a0e1bccf228ad56446ca33bf143743f782af3c0ceec"
+      },
+      {
+        "path": "tabs-run.json",
+        "raw_bytes": 3034,
+        "raw_sha256": "e1377b121c65b98691c380e99669003865bd054a60100385f5d527b1dee4bbdc"
+      },
+      {
+        "path": "tabs-run.log",
+        "raw_bytes": 157987,
+        "raw_sha256": "d0bef89811d6fa79f968ac0bc7c9529040caaf5882b153dc202b65856897c303"
+      }
+    ]
+  }
+}
