@@ -73,6 +73,9 @@ bool BinarySink_put_wc_to_mb(
 {
     size_t defchr_len = 0;
     bool defchr_len_known = false;
+    /* The conversion wrappers allow an omitted replacement string. Match
+     * the charset layer's default instead of passing NULL to strlen. */
+    if (!defchr) defchr = ".";
 
     if (codepage == DEFAULT_CODEPAGE) {
         char output[MB_LEN_MAX];

@@ -76,10 +76,17 @@ static int key_value(Terminal *term, CapKey key, char value[64])
         len = format_function_key(value, term, key.code, shift, ctrl, alt, &consumed_alt);
         break;
       case 'E':
-        if (ctrl && term->funky_type != FUNKY_XTERM_216) return -1;
+        if (ctrl && term->funky_type != FUNKY_XTERM_216 &&
+            term->funky_type != FUNKY_XTERM_LEGACY && !term->special_modify_keys_set) return -1;
         len = format_small_keypad_key(value, term, key.code, shift, ctrl, alt, &consumed_alt);
         break;
       case 'N':
+        if (term->special_modify_keys_set || term->funky_type == FUNKY_XTERM_LEGACY) {
+            unsigned point = 0xe280 + (unsigned char)key.code;
+            len = term_format_xterm_extended_key(term, 3, point, key.modifiers, value, 64);
+            if (len < 0) len = term_format_xterm_legacy_key(term, 3, point, key.modifiers, false, value, 64);
+            if (len >= 0) { consumed_alt = alt; break; }
+        }
         if (alt) return -1; /* Win32 uses Alt+numpad for local character entry. */
         len = format_numeric_keypad_key(value, term, key.code, shift, ctrl);
         if (!len) {

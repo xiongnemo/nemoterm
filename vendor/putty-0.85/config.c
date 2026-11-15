@@ -2432,7 +2432,8 @@ void setup_config_box(struct controlbox *b, bool midsession,
                       "VT100+", I(FUNKY_VT100P),
                       "SCO", I(FUNKY_SCO),
                       "Xterm 216+", I(FUNKY_XTERM_216),
-                      "VT220 (UDK)", I(FUNKY_VT220));
+                      "VT220 (UDK)", I(FUNKY_VT220),
+                      "Xterm legacy (X11R5)", I(FUNKY_XTERM_LEGACY));
     ctrl_radiobuttons(s, "Shift/Ctrl/Alt with the arrow keys", 'w', 2,
                       HELPCTX(keyboard_sharrow),
                       conf_radiobutton_handler,

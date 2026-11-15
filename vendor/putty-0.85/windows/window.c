@@ -5600,7 +5600,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
                 if (wParam == VK_MENU && (HIWORD(lParam) & KF_EXTENDED))
                     wgs->compose_keycode = wParam;
             }
-            if (wParam == VK_APPS)
+            if (wParam == VK_APPS && !wgs->term->special_modify_keys_set &&
+                funky_type != FUNKY_XTERM_LEGACY)
                 wgs->compose_keycode = wParam;
         }
 
@@ -5929,7 +5930,8 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           case VK_HELP: sk_key = SKK_HELP; goto small_keypad_key;
           small_keypad_key:
             /* Retain the old local behaviour in legacy keyboard modes. */
-            if ((shift_state & 2) && funky_type != FUNKY_XTERM_216)
+            if ((shift_state & 2) && funky_type != FUNKY_XTERM_216 && funky_type != FUNKY_XTERM_LEGACY &&
+                !wgs->term->special_modify_keys_set)
                 break;
 
             consumed_alt = false;

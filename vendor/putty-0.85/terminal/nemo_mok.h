@@ -7,8 +7,8 @@
 #include "nemo_keyboard.h"
 
 typedef struct NemoModifyKeys {
-    int8_t level; /* -1 disabled by CSI > 4 n; 0..3 are XTMODKEYS levels */
-    uint8_t format;
+    int32_t level; /* -1 disabled; resource 0 is a mask, others are levels */
+    uint32_t format;
     uint32_t ignore; /* xterm/X11 modifier mask, independent of wire modifiers */
 } NemoModifyKeys;
 

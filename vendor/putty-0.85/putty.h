@@ -483,7 +483,8 @@ enum {
     FUNKY_VT100P,
     FUNKY_SCO,
     FUNKY_XTERM_216,
-    FUNKY_VT220
+    FUNKY_VT220,
+    FUNKY_XTERM_LEGACY
 };
 
 enum {
@@ -2174,6 +2175,9 @@ int format_numeric_keypad_key(char *buf, Terminal *term, char key,
 int term_format_xterm_extended_key(Terminal *, unsigned resource,
                                    unsigned codepoint, unsigned modifiers,
                                    char *output, size_t capacity);
+int term_format_xterm_legacy_key(Terminal *, unsigned resource, unsigned codepoint,
+                                 unsigned modifiers, bool numlock,
+                                 char *output, size_t capacity);
 
 /*
  * Exports from logging.c.

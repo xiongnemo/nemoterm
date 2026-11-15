@@ -4,6 +4,55 @@
 #undef main
 #include "../../../tests/special_keys_reference.h"
 #include "../../../tests/extended_keys_reference.h"
+#include "../../../tests/legacy_modifiers_reference.h"
+
+static void test_legacy_reference(Mock *mk, bool fragmented)
+{
+    for (size_t i = 0; i < lenof(legacy_modifiers_reference); i++) {
+        const struct legacy_modifier_reference *r = &legacy_modifiers_reference[i];
+        if (r->reset) {
+            reset(mk);
+            conf_set_int(mk->conf, CONF_funky_type, r->profile);
+            term_reconfig(mk->term, mk->conf);
+        }
+        test_context(mk, "legacy modifiers %s step %u (%s)", r->name,
+                     (unsigned)i, fragmented ? "bytes" : "whole");
+        strbuf_clear(mk->to_backend);
+        if (fragmented) term_data_fragmented(mk->term, r->sequence);
+        else term_data(mk->term, r->sequence, strlen(r->sequence));
+        for (unsigned j = 0; j < r->count; j++) {
+            const struct legacy_modifier_event *e = &r->events[j];
+            if (!e->down) continue;
+            char output[NEMO_MOK_ENCODED_MAX];
+            int n = term_format_xterm_extended_key(mk->term, e->resource,
+                e->codepoint, e->mods, output, sizeof(output));
+            bool consumed = false;
+            if (n < 0) {
+                if (e->kind == 1)
+                    n = format_arrow_key(output, mk->term, e->code,
+                        e->mods & 1, e->mods & 4, e->mods & 2, &consumed);
+                else if (e->kind == 2) {
+                    if (term_send_udk(mk->term, e->code, e->mods & 1, e->mods & 4)) continue;
+                    n = format_function_key(output, mk->term, e->code,
+                        e->mods & 1, e->mods & 4, e->mods & 2, &consumed);
+                } else if (e->kind == 3)
+                    n = format_small_keypad_key(output, mk->term, e->code,
+                        e->mods & 1, e->mods & 4, e->mods & 2, &consumed);
+                else n = term_format_xterm_legacy_key(mk->term, e->resource,
+                    e->codepoint, e->mods, e->state & 16, output, sizeof(output));
+                if (e->kind && n > 0 && (e->mods & 2) && !consumed)
+                    put_byte(mk->to_backend, '\033');
+            }
+            if (n > 0) put_data(mk->to_backend, output, n);
+        }
+        SEQUAL(mk->to_backend->s, r->reply);
+    }
+    printf("Legacy modifier reference: %zu unchanged steps (%s)\n",
+           lenof(legacy_modifiers_reference), fragmented ? "bytes" : "whole");
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_216);
+    term_reconfig(mk->term, mk->conf);
+    reset(mk);
+}
 
 static void test_extended_reference(Mock *mk, bool fragmented)
 {
@@ -112,7 +161,7 @@ static void test_mok_negotiation(Mock *mk)
     conf_set_int(mk->conf, CONF_nemo_modify_other_keys, 0);
     conf_set_int(mk->conf, CONF_nemo_format_other_keys, 0);
     term_reconfig(mk->term, mk->conf);
-    IEQUAL(sizeof(mk->term->modify_keys), 8);
+    IEQUAL(sizeof(mk->term->modify_keys), 12);
 }
 
 static void test_mok_encoding(Mock *mk)
@@ -200,7 +249,7 @@ static void test_special_policy(Mock *mk)
     term_reconfig(mk->term, mk->conf);
     term_size(mk->term, 40, 100, 100);
     mok_reply(mk, "\033[?1;2m", "\033[>1;3m\033[>2;4m");
-    IEQUAL(sizeof(mk->term->special_modify_keys), 40);
+    IEQUAL(sizeof(mk->term->special_modify_keys), 72);
     reset(mk);
 }
 
@@ -232,6 +281,41 @@ static void test_extended_policy(Mock *mk)
     reset(mk);
 }
 
+static void test_legacy_policy(Mock *mk)
+{
+    reset(mk);
+    const unsigned values[] = {0, 1, 2, 4, 8, 15, 16, 255, 65535};
+    for (size_t i = 0; i < lenof(values); i++) {
+        char sequence[100], expected[100];
+        sprintf(sequence, "\033[>0;%um\033[?0m\033P$q>0m\033\\", values[i]);
+        sprintf(expected, "\033[>0;%um\033P1$r>0;%um\033\\", values[i], values[i]);
+        mok_reply(mk, sequence, expected);
+    }
+    mok_reply(mk, "\033[>0;15:5m\033[>0;65535f\033P$q>0f\033\\", "\033P1$r>0;65535f\033\\");
+    /* Applying a format status reply must restore format without changing the
+     * modifier mask. XTerm 412's observed m suffix fails this round trip. */
+    mok_reply(mk, "\033[>0;0f\033[>0;65535f\033[?0m\033[>0g",
+              "\033[>0;15m\033[>0;65535f");
+    const char *preserve[] = {"\033[?1049h\033[?1049l", "\0337\0338"};
+    for (size_t i = 0; i < lenof(preserve); i++) {
+        mok_reply(mk, preserve[i], "");
+        mok_reply(mk, "\033P$q>0m\033\\\033[>0g", "\033P1$r>0;15:5m\033\\\033[>0;65535f");
+    }
+    term_size(mk->term, 40, 100, 100);
+    term_reconfig(mk->term, mk->conf);
+    mok_reply(mk, "\033P$q>0m\033\\", "\033P1$r>0;15:5m\033\\");
+    mok_reply(mk, "\033[>0n\033[?0m\033P$q>0m\033\\",
+              "\033[>0;65535m\033P1$r>0;65535m\033\\");
+    const char *resets[] = {"\033c", "\033[!p", "\033[63;1\"p", "\033[>0m\033[>0f", "\033[>m\033[>f"};
+    for (size_t i = 0; i < lenof(resets); i++) {
+        mok_reply(mk, "\033[>0;15:5m\033[>0;1f", "");
+        mok_reply(mk, resets[i], "");
+        mok_reply(mk, "\033[?0m\033[>0g\033P$q>0m\033\\\033P$q>0f\033\\",
+                  "\033[>0;0m\033[>0;0f\033P1$r>0;0m\033\\\033P1$r>0;0f\033\\");
+    }
+    reset(mk);
+}
+
 #ifdef _WINDOWS
 #include "test_mok_win.c"
 #endif
@@ -246,10 +330,13 @@ int main(void)
     test_special_policy(mk);
     test_extended_reference(mk, false); test_extended_reference(mk, true);
     test_extended_policy(mk);
+    test_legacy_reference(mk, false); test_legacy_reference(mk, true);
+    test_legacy_policy(mk);
 #ifdef _WINDOWS
     test_windows_mok(mk);
     test_windows_special_priority(mk);
     test_windows_extended_reference(mk);
+    test_windows_legacy_startup(mk);
 #endif
     bool failed = mk->any_test_failed;
     mock_free(mk);

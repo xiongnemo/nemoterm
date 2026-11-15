@@ -67,7 +67,8 @@ void nemo_keyboard_prepare(WinGuiSeat *wgs, UINT message, WPARAM key, LPARAM lp,
     if (!wgs->term || key >= 256) return;
     bool kitty = enhanced(wgs);
     bool raw = nemo_win32_input_active(wgs);
-    bool active = kitty || raw || wgs->term->modify_keys.level > 0 || wgs->term->special_modify_keys_set;
+    bool active = kitty || raw || wgs->term->modify_keys.level > 0 || wgs->term->special_modify_keys_set ||
+        wgs->term->funky_type == FUNKY_XTERM_LEGACY;
     if (!wgs->key_input && !active) return;
     if (!wgs->key_input) {
         wgs->key_input = snew(NemoKeyInput);
@@ -286,7 +287,8 @@ static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
 static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
                                const BYTE state[256], HeldKey *held)
 {
-    if (!wgs->term->special_modify_keys_set || wgs->compose_state) return false;
+    if ((!wgs->term->special_modify_keys_set && wgs->term->funky_type != FUNKY_XTERM_LEGACY) ||
+        wgs->compose_state) return false;
     unsigned key = specific_key(vk, lp), resource = 7, codepoint = 0;
     unsigned mods = modifiers(state), own_modifier = 0, other_key = 0;
     bool ext = (HIWORD(lp) & KF_EXTENDED) != 0;
@@ -299,6 +301,8 @@ static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
       case VK_ESCAPE: codepoint = 27; break;
       case VK_PAUSE: codepoint = 19; break;
       case VK_SCROLL: codepoint = 20; break;
+      case VK_HELP: resource = 2; codepoint = 0xe26a; break;
+      case VK_APPS: resource = 2; codepoint = 0xe267; break;
       case VK_DECIMAL: resource = 3; codepoint = 0xe2ae; break;
       case VK_DIVIDE: resource = 3; codepoint = 0xe2af; break;
       case VK_MULTIPLY: resource = 3; codepoint = 0xe2aa; break;
@@ -347,6 +351,9 @@ static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
     char output[NEMO_MOK_ENCODED_MAX];
     int length = term_format_xterm_extended_key(wgs->term, resource, codepoint,
                                                mods, output, sizeof(output));
+    if (length < 0)
+        length = term_format_xterm_legacy_key(wgs->term, resource, codepoint,
+            mods, (state[VK_NUMLOCK] & 1) != 0, output, sizeof(output));
     if (length < 0) return false;
     held->active = held->down = true;
     held->protocol = false;

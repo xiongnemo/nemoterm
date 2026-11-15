@@ -2695,6 +2695,7 @@ static NemoModifyKeys *nemo_modify_keys_resource(Terminal *term, unsigned resour
         return &term->special_modify_keys[resource-1];
     if (resource == 3) return &term->special_modify_keys[2];
     if (resource == 6 || resource == 7) return &term->special_modify_keys[resource-3];
+    if (resource == 0) return &term->special_modify_keys[5];
     return resource == 4 ? &term->modify_keys : NULL;
 }
 
@@ -2714,15 +2715,15 @@ static void nemo_modify_keys_setting(Terminal *term, bool format)
     if (term->esc_has_subargs && (format || term->esc_nargs != 2 ||
         term->esc_sub_count[0] || term->esc_sub_count[1] != 1)) return;
     unsigned value = (term->esc_arg_present & 2) ? term->esc_args[1] :
-        resource != 4 ? (!format && resource <= 2 ? 2 : 0) :
+        resource != 4 ? (!format && resource >= 1 && resource <= 2 ? 2 : 0) :
         conf_get_int(term->conf, format ? CONF_nemo_format_other_keys : CONF_nemo_modify_other_keys);
     if (format) {
-        if (value <= 1) {
+        if (value <= (resource == 0 ? 65535u : 1u)) {
             state->format = value;
             if (resource != 4) term->special_modify_keys_set = true;
         }
-    } else if (value <= (resource == 4 ? 3u : 4u) || value == 65535) {
-        state->level = value == 65535 ? -1 : (int)value;
+    } else if (value <= (resource == 0 ? 65535u : resource == 4 ? 3u : 4u) || value == 65535) {
+        state->level = value == 65535 && resource != 0 ? -1 : (int)value;
         state->ignore = term->esc_has_subargs ? term->esc_subargs[1][0] : 0;
         if (resource != 4) term->special_modify_keys_set = true;
     }
@@ -12919,15 +12920,32 @@ static int shift_bitmap(bool shift, bool ctrl, bool alt, bool *consumed_alt)
     return bitmap;
 }
 
+static bool nemo_legacy_keyboard(Terminal *term)
+{
+    return term->funky_type == FUNKY_VT220 || term->funky_type == FUNKY_XTERM_LEGACY;
+}
+
+static bool nemo_xterm_keyboard(Terminal *term)
+{
+    return term->funky_type == FUNKY_XTERM_216 || nemo_legacy_keyboard(term);
+}
+
+static bool nemo_legacy_modifiers(Terminal *term, unsigned category)
+{
+    return !nemo_legacy_keyboard(term) || term->modify_keys.level != 0 ||
+        ((unsigned)term->special_modify_keys[5].level & category) != 0;
+}
+
 /* XTerm resources 1 and 2 use their own level and format. They are independent
  * of modifyOtherKeys and of the Kitty keyboard protocol selected by the UI.
  * The retained reference uses real XTest key events, including SS3 level 0. */
 static int nemo_format_special_key(char *buf, const NemoModifyKeys *mode,
                                    unsigned unicode, int code, char final,
                                    bool app, bool shift, bool ctrl, bool alt,
-                                   bool *consumed_alt)
+                                   bool force_modifier, bool *consumed_alt)
 {
     int bitmap = shift_bitmap(shift, ctrl, alt, consumed_alt);
+    if (!bitmap && force_modifier) bitmap = 1;
     if (mode->level == 4) {
         if (!bitmap) bitmap = 1;
         if (mode->format)
@@ -12964,6 +12982,89 @@ int term_format_xterm_extended_key(Terminal *term, unsigned resource,
     return length;
 }
 
+/* Preserve the original keypad identity until resource 0 has selected the
+ * modifier category. XTerm converts keypad navigation only after this step. */
+int term_format_xterm_legacy_key(Terminal *term, unsigned resource,
+                                 unsigned unicode, unsigned modifiers, bool numlock,
+                                 char *output, size_t capacity)
+{
+    if (!nemo_xterm_keyboard(term) || term->vt52_mode) return -1;
+    char encoded[NEMO_MOK_ENCODED_MAX];
+    unsigned mods = modifiers & 15;
+    bool shift = mods & 1, ctrl = mods & 4;
+    int code = 0, length = -1;
+    char final = 0;
+    if (resource == 2) {
+        if (unicode == 0xe26a) code = 28; /* Help */
+        else if (unicode == 0xe267) code = 29; /* Menu */
+        else if (unicode == 0xe261 || unicode == 0xe26b) return 0; /* Print/Break */
+        else return -1;
+        if (!nemo_legacy_modifiers(term, 8)) mods = 0;
+        length = mods ? sprintf(encoded, "\033[%d;%u~", code, mods+1) :
+            sprintf(encoded, "\033[%d~", code);
+    } else if (resource == 3) {
+        if (term->funky_type == FUNKY_VT220 && unicode == 0xe2ab && !shift) {
+            unicode = ctrl ? 0xe2ad : 0xe2ac;
+            mods &= ~4u;
+        }
+        if (!nemo_legacy_modifiers(term, 1)) mods = 0;
+        if (term->funky_type == FUNKY_VT220 && unicode >= 0xe295 && unicode <= 0xe29d) {
+            static const char digits[] = "748629315";
+            unicode = 0xe2b0 + digits[unicode-0xe295]-'0';
+        }
+        if (unicode >= 0xe295 && unicode <= 0xe29d) {
+            switch (unicode) {
+              case 0xe295: final = 'H'; break;
+              case 0xe296: final = 'D'; break;
+              case 0xe297: final = 'A'; break;
+              case 0xe298: final = 'C'; break;
+              case 0xe299: final = 'B'; break;
+              case 0xe29a: code = 5; break;
+              case 0xe29b: code = 6; break;
+              case 0xe29c: final = 'F'; break;
+              case 0xe29d: final = 'E'; break;
+            }
+            if (term->funky_type == FUNKY_VT220 && (final == 'H' || final == 'F')) {
+                code = final == 'H' ? 1 : 4; final = 0;
+            }
+            if (final) {
+                length = nemo_format_special_key(encoded, &term->special_modify_keys[0],
+                    unicode-0x45, 0, final, term->app_cursor_keys && !term->no_applic_c,
+                    mods & 1, mods & 4, mods & 2, false, NULL);
+            } else length = mods ? sprintf(encoded, "\033[%d;%u~", code, mods+1) :
+                sprintf(encoded, "\033[%d~", code);
+        } else {
+            char number = 0;
+            if (unicode >= 0xe2b0 && unicode <= 0xe2b9) {
+                number = '0' + unicode-0xe2b0; final = 'p' + unicode-0xe2b0;
+            } else switch (unicode) {
+              case 0xe280: number = ' '; final = ' '; break;
+              case 0xe289: number = '\t'; final = 'I'; break;
+              case 0xe28d: number = '\r'; final = 'M'; break;
+              case 0xe29e: number = '0'; final = 'p'; break;
+              case 0xe29f: number = '.'; final = 'n'; break;
+              case 0xe2aa: number = '*'; final = 'j'; break;
+              case 0xe2ab: number = '+'; final = 'k'; break;
+              case 0xe2ac: number = ','; final = 'l'; break;
+              case 0xe2ad: number = '-'; final = 'm'; break;
+              case 0xe2ae: number = '.'; final = 'n'; break;
+              case 0xe2af: number = '/'; final = 'o'; break;
+              case 0xe2bd: number = '='; final = 'X'; break;
+              default: return -1;
+            }
+            if (term->app_keypad_keys && !term->no_applic_k && !numlock)
+                length = mods ? sprintf(encoded, "\033O%u%c", mods+1, final) :
+                    sprintf(encoded, "\033O%c", final);
+            else { encoded[0] = number; length = 1; }
+        }
+    }
+    if (length < 0) return -1;
+    length = term_format_c1_key(term, encoded, length);
+    if (!output || (size_t)length > capacity) return 0;
+    memcpy(output, encoded, length);
+    return length;
+}
+
 int format_arrow_key(char *buf, Terminal *term, int xkey,
                      bool shift, bool ctrl, bool alt, bool *consumed_alt)
 {
@@ -12977,8 +13078,12 @@ int format_arrow_key(char *buf, Terminal *term, int xkey,
             unsigned unicode = xkey == 'A' ? 0xe252 : xkey == 'B' ? 0xe254 :
                 xkey == 'C' ? 0xe253 : xkey == 'D' ? 0xe251 :
                 xkey == 'H' ? 0xe250 : xkey == 'F' ? 0xe257 : 0xe258;
+            if (term->special_modify_keys[0].level != 4 && !nemo_legacy_modifiers(term, 2)) {
+                if (alt && consumed_alt) *consumed_alt = true;
+                shift = ctrl = alt = false;
+            }
             int length = nemo_format_special_key(buf, &term->special_modify_keys[0],
-                unicode, 0, xkey, app_flg, shift, ctrl, alt, consumed_alt);
+                unicode, 0, xkey, app_flg, shift, ctrl, alt, false, consumed_alt);
             return term_format_c1_key(term, buf, length);
         }
 #if 0
@@ -13033,21 +13138,29 @@ int format_function_key(char *buf, Terminal *term, int key_number,
     };
 
     if (key_number < 1 || key_number > 63 ||
-        (key_number > 20 && term->funky_type != FUNKY_XTERM_216 &&
-         term->funky_type != FUNKY_VT220))
+        (key_number > 20 && !nemo_xterm_keyboard(term)))
         return 0;
 
     int index = key_number;
-    if (term->funky_type == FUNKY_XTERM_216 && !term->vt52_mode) {
+    if (nemo_xterm_keyboard(term) && !term->vt52_mode) {
         const NemoModifyKeys *mode = &term->special_modify_keys[1];
+        bool force_modifier = nemo_legacy_keyboard(term) && ctrl &&
+            mode->level != 4 && term->modify_keys.level == 3;
         /* The disabled resource uses the xterm default ctrlFKeys stride:
          * Shift adds 12 and Control adds 24, rather than a modifier field. */
-        if (mode->level < 0) index += (shift ? 12 : 0) + (ctrl ? 24 : 0);
+        if (nemo_legacy_keyboard(term) && mode->level != 4) {
+            if (ctrl) index += 12;
+            ctrl = false;
+            if (!nemo_legacy_modifiers(term, 4)) {
+                if (alt && consumed_alt) *consumed_alt = true;
+                shift = alt = false;
+            }
+        } else if (mode->level < 0) index += (shift ? 12 : 0) + (ctrl ? 24 : 0);
         int code = index <= 20 ? key_number_to_tilde_code[index] : 42 + index-21;
-        bool pf = code >= 11 && code <= 14;
+        bool pf = term->funky_type != FUNKY_XTERM_LEGACY && code >= 11 && code <= 14;
         int length = nemo_format_special_key(buf, mode, 0xe2be + key_number-1,
             pf ? 0 : code, pf ? 'P' + code-11 : '~', pf,
-            shift, ctrl, alt, consumed_alt);
+            shift, ctrl, alt, force_modifier, consumed_alt);
         return term_format_c1_key(term, buf, length);
     }
     if (term->funky_type == FUNKY_VT220) {
@@ -13131,17 +13244,28 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
       default: unreachable("bad small keypad key enum value");
     }
 
-    if (term->funky_type == FUNKY_XTERM_216 &&
+    if ((term->funky_type == FUNKY_XTERM_216 || term->funky_type == FUNKY_XTERM_LEGACY) &&
         (key == SKK_HOME || key == SKK_END))
         return format_arrow_key(buf, term, key == SKK_HOME ? 'H' : 'F',
                                 shift, ctrl, alt, consumed_alt);
-    if (term->funky_type == FUNKY_XTERM_216 && !term->vt52_mode &&
+    /* The legacy XTerm profile defaults Delete to DEL. Its resource-0 mask
+     * cannot turn a character into an editing key; modifyOtherKeys can. */
+    if (term->funky_type == FUNKY_XTERM_LEGACY && !term->vt52_mode &&
+        key == SKK_DELETE && term->special_modify_keys[0].level != 4 &&
+        (term->modify_keys.level == 0 || !(shift || ctrl || alt))) {
+        if (alt && consumed_alt) *consumed_alt = true;
+        buf[0] = 127;
+        return 1;
+    }
+    if (nemo_xterm_keyboard(term) && !term->vt52_mode &&
         term->special_modify_keys[0].level == 4 &&
-        (key == SKK_INSERT || key == SKK_DELETE || key == SKK_PGUP || key == SKK_PGDN)) {
+        (key == SKK_INSERT || key == SKK_DELETE || key == SKK_PGUP || key == SKK_PGDN ||
+         key == SKK_HOME || key == SKK_END)) {
         unsigned unicode = key == SKK_INSERT ? 0xe263 : key == SKK_DELETE ? 127 :
-            key == SKK_PGUP ? 0xe255 : 0xe256;
+            key == SKK_PGUP ? 0xe255 : key == SKK_PGDN ? 0xe256 :
+            key == SKK_HOME ? 0xe250 : 0xe257;
         int length = nemo_format_special_key(buf, &term->special_modify_keys[0],
-            unicode, code, '~', false, shift, ctrl, alt, consumed_alt);
+            unicode, code, '~', false, shift, ctrl, alt, false, consumed_alt);
         return term_format_c1_key(term, buf, length);
     }
     if (term->funky_type == FUNKY_SCO && key == SKK_HELP)
@@ -13167,8 +13291,14 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
 	    p += sprintf(p, "\x1B[%d~", code);
         } else {
             int bitmap = 0;
-            if (term->funky_type == FUNKY_XTERM_216)
+            if (nemo_xterm_keyboard(term)) {
+                unsigned category = key == SKK_HELP ? 8 : 2;
+                if (!nemo_legacy_modifiers(term, category)) {
+                    if (alt && consumed_alt) *consumed_alt = true;
+                    shift = ctrl = alt = false;
+                }
                 bitmap = shift_bitmap(shift, ctrl, alt, consumed_alt);
+            }
             if (bitmap)
                 p += sprintf(p, "\x1B[%d;%d~", code, bitmap);
             else

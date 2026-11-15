@@ -107,6 +107,7 @@ bool term_send_udk(Terminal *term, int number, bool shift, bool ctrl)
         11,12,13,14,15,17,18,19,20,21,23,24,25,26,28,29,31,32,33,34
     };
     if (term->funky_type != FUNKY_VT220 || !shift || !term->udk) return false;
+    if (term->special_modify_keys[1].level == 4) return false;
     if (number < 1 || number > 63) return false;
     if (ctrl) number += 12;
     if (number < 1 || number > (int)lenof(codes)) return false;

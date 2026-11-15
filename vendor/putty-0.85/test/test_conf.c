@@ -765,7 +765,7 @@ void test_simple(void)
     test_int_translated(CONF_funky_type, "LinuxFunctionKeys", FUNKY_XTERM_216,
                         FUNKY_TILDE, 0, FUNKY_LINUX, 1, FUNKY_XTERM, 2,
                         FUNKY_VT400, 3, FUNKY_VT100P, 4, FUNKY_SCO, 5,
-                        FUNKY_XTERM_216, 6, -1);
+                        FUNKY_XTERM_216, 6, FUNKY_VT220, 7, FUNKY_XTERM_LEGACY, 8, -1);
     test_int_translated(CONF_sharrow_type, "ShiftedArrowKeys",
                         SHARROW_BITMAP,
                         SHARROW_APPLICATION, 0, SHARROW_BITMAP, 1, -1);

@@ -251,6 +251,25 @@ static void test_keyboard(Mock *mk)
     IEQUAL(format_function_key(encoded, mk->term, 64, false, false, false, &consumed), 0);
 }
 
+static void test_legacy_keyboard(Mock *mk)
+{
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_LEGACY);
+    conf_set_int(mk->conf, CONF_sharrow_type, SHARROW_BITMAP);
+    conf_set_bool(mk->conf, CONF_no_applic_c, false);
+    conf_set_bool(mk->conf, CONF_no_applic_k, false);
+    term_reconfig(mk->term, mk->conf);
+    reset(mk);
+    query(mk, "kf1", "\033[11~"); query(mk, "kdch1", "\177");
+    query(mk, "kUP5", "\033[A"); query(mk, "kHOM5", "\033[H");
+    term_data(mk->term, "\033=", 2);
+    query(mk, "kpDIV", "\033Oo"); query(mk, "kpADD", "\033Ok");
+    term_data(mk->term, "\033[>0;15m", 8);
+    query(mk, "kUP5", "\033[1;5A"); query(mk, "kpADD4", "\033O4k");
+    term_data(mk->term, "\033[>3;4m", 7);
+    query(mk, "kpDIV", "\033[27;2;58031~");
+    reset(mk);
+}
+
 int main(int argc, char **argv)
 {
     Mock *mk = mock_new();
@@ -275,6 +294,7 @@ int main(int argc, char **argv)
     test_queries_and_bounds(mk);
     test_renditions(mk);
     test_keyboard(mk);
+    test_legacy_keyboard(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);
     puts(failed ? "Capability/keyboard suite FAILED" : "Capability/keyboard suite passed");

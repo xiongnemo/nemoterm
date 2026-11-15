@@ -94,6 +94,28 @@ static void mok_native_key(Mock *mk, WinGuiSeat *wgs, HKL layout,
     IEQUAL(mk->to_backend->len, 0);
 }
 
+static void test_windows_legacy_startup(Mock *mk)
+{
+    reset(mk);
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_LEGACY);
+    conf_set_bool(mk->conf, CONF_nemo_win32_input, false);
+    term_reconfig(mk->term, mk->conf);
+    WinGuiSeat wgs = {.term=mk->term, .conf=mk->conf};
+    HKL layout = GetKeyboardLayout(0);
+#define KEY(vk,scan,mods,expected) mok_native_key(mk,&wgs,layout,vk,scan,mods,expected,sizeof(expected)-1)
+    IEQUAL(mk->term->special_modify_keys_set, false);
+    KEY(VK_NUMPAD1,0x4f,0,"1");
+    KEY(VK_APPS,0x15d,0,"\033[29~"); KEY(VK_HELP,0x163,4,"\033[28~");
+    mok_reply(mk,"\033=","");
+    KEY(VK_ADD,0x4e,1,"\033Ok"); KEY(VK_DIVIDE,0x135,4,"\033Oo");
+    KEY(VK_RETURN,0x11c,2,"\033OM"); KEY(VK_NUMPAD1,0x4f,128,"1");
+    nemo_keyboard_free(&wgs);
+    conf_set_int(mk->conf, CONF_funky_type, FUNKY_XTERM_216);
+    term_reconfig(mk->term, mk->conf);
+    reset(mk);
+#undef KEY
+}
+
 static void test_windows_mok(Mock *mk)
 {
     reset(mk);

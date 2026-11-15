@@ -174,7 +174,9 @@ jobs:
     # workloads keep their individual deadlines, assertions and limits.
     # The complete native suite reached the former 40-minute outer deadline
     # during its final dense-image workload. Keep individual test bounds intact.
-    timeout-minutes: 50
+    # The added 2,704-step legacy keyboard replay takes about eight minutes.
+    # Only the outer job budget grows; existing product gates remain unchanged.
+    timeout-minutes: 65
     defaults:
       run:
         shell: msys2 {0}
@@ -228,6 +230,8 @@ jobs:
           python scripts/generate-special-keys-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-extended-keys-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-legacy-modifiers-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -547,6 +551,13 @@ jobs:
           python tests/extended_keys_window_smoke.py 2>&1 | Tee-Object test-results/extended-keys-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/extended-keys-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Compare legacy and VT220 modifier masks through ConPTY
+        shell: pwsh
+        run: |
+          python tests/legacy_modifiers_window_smoke.py 2>&1 | Tee-Object test-results/legacy-modifiers-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/legacy-modifiers-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
@@ -1064,6 +1075,7 @@ jobs:
           python3 scripts/generate-osc-colour-sequence-reference.py --check
           python3 scripts/generate-special-keys-reference.py --check
           python3 scripts/generate-extended-keys-reference.py --check
+          python3 scripts/generate-legacy-modifiers-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check
