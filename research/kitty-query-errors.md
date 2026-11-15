@@ -50,11 +50,13 @@ This local build uses separate identified ConPTY DLL/host files. The validation
 index retains source/fixture hashes, baseline failures, corrected expectations,
 all screenshots and raw replies. It explicitly corrects the baseline controller's
 source-field ambiguity; the baseline executable and source identities are verified
-separately. This is not yet new single-image or memory acceptance.
+separately. This is the earlier development checkpoint; the formal replacement now passes
+[separate single-image and memory acceptance](kitty-query-transaction-product.md).
 
 Component/full CI now checks the generated reference, and ordinary/single-image
-native suites include the new replay. The accepted local executable remains
-`6e05bd1` until the replacement product passes its full pipeline and local checks.
+native suites include the new replay. The formal `752f3be` replacement passes
+all four ordinary jobs, 143 single-image CI groups and 39 local acceptance groups.
+It now replaces `6e05bd1` in `dist`, with the earlier image preserved as a backup.
 The component workflow passes all three compilers. Full core run
 [43660378625](https://github.com/xiongnemo/nemoterm/actions/runs/43660378625)
 also passes all four jobs, including the native frontend suites, MSVC renderer

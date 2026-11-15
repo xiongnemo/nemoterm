@@ -1,6 +1,9 @@
-# Accepted feature-query single executable
+# Earlier accepted feature-query single executable
 
-The accepted local `dist/nemoterm.exe` is the formal CI product from
+This historical checkpoint is superseded by the [query-transaction fix
+product](kitty-query-transaction-product.md). Its original measurements remain unchanged.
+
+The then-accepted local `dist/nemoterm.exe` is the formal CI product from
 `6e05bd1a70515ede970323eb633563021d80ac3e`: **4,515,840 bytes**, SHA256
 `dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab`. Its runtime directory contains only this executable; the source-built
 console host uses the same image. The prior accepted compression image is kept

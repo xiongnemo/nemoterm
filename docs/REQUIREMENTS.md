@@ -2,6 +2,26 @@
 
 ## Current accepted artifact (2026-11-15 Sydney)
 
+The sole distribution file is `nemoterm.exe` from `752f3be71f8a0dce6e24d46af7dcf3d6d87c70a2`,
+4,515,840 bytes, SHA256 `1655120a9a64bfd29b64f6ad0a5cc912484ba1d242ec560938591c03328e2cf1`. All four ordinary jobs,
+143 single-image CI groups and 39 local groups pass. The
+[exact-product record](../research/kitty-query-transaction-product.md) retains
+1,575 API stages, 525 direct presented-GDI stages, 12 shutdown cases and ten
+uninjected 160x48 Sarasa two-tab memory workloads. The earlier `6e05bd1` image
+remains backed up; its pending-upload bug and failure evidence remain preserved.
+
+GDI private WS peaks at 17,321,984 bytes and DirectX at 24,113,152,
+passing the strict 20 MB / inclusive 25 MB gates. Total WS peaks at
+40,050,688 and 59,686,912; the approximate 50 MB total target is still
+unmet for DX. All owned jobs exit naturally. The malformed-header fix adds no
+rollback buffer; query replay checks pending-image completion and wire replies.
+
+The historical access violation and other shutdown/resource incidents remain
+unresolved. Full graphics/protocol coverage, physical input/IME, multi-monitor
+DPI and sustained real-agent behavior remain required work.
+
+## Earlier feature-query artifact (2026-11-15 Sydney)
+
 The sole local distribution file is the accepted `nemoterm.exe` from
 `6e05bd1a70515ede970323eb633563021d80ac3e`, 4,515,840 bytes, SHA256
 `dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab`. The [exact-product record](../research/kitty-feature-product.md)

@@ -1,9 +1,9 @@
 # Kitty feature-query implementation checkpoint
 
 The implementation answers `a=q,e=<action>` without loading an image, changing
-placements or advancing the cursor. The formal `6e05bd1` single EXE now passes
-full CI and downloaded-product local acceptance, and replaces the earlier
-compression image in `dist`. See [the exact product record](kitty-feature-product.md).
+placements or advancing the cursor. The formal `752f3be` single EXE also preserves unfinished uploads when
+interleaved query headers are rejected. It passes full CI and downloaded-product
+local acceptance; see [the current product record](kitty-query-transaction-product.md).
 The development-sidecar observations below remain a separate earlier checkpoint.
 
 Replies describe existing Nemoterm behavior: direct RGB/RGBA/PNG, zlib compression,
@@ -75,4 +75,5 @@ under investigation and is not erased by these query passes.
 The original 84-case reference does not exhaust header-field permutations or
 parser-error positions during a pending upload. A subsequent
 [54-case comparison](kitty-query-errors.md) reproduces lost uploads and records
-the development fix. The accepted `6e05bd1` image still predates that fix.
+the development fix. That older image predates the fix; the current accepted
+`752f3be` product includes it, with failures and replacement validation retained.

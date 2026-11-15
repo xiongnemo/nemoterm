@@ -29,10 +29,10 @@ Nemoterm 是 **PuTTY 0.85 Windows pterm 的下游 fork**，沿用其终端核心
 - **字体与设置**：原生设置窗口、当前标签字号缩放、声音或视觉响铃，按需加载的内嵌 Nerd 图标字体，独立的 Nemoterm 配置存储。
 
 Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及 `o=z` 压缩传输、裁剪缩放、透明度、查询、放置和删除。
-下方单 EXE 已支持功能查询，在本机 GDI、OpenGL、DirectX 共通过 927 个像素与回包阶段，
-另通过 309 个直接读取 GDI 窗口客户区的阶段；包含既有图片、缩放、GIF 和新增功能查询。
+下方单 EXE 已支持功能查询，并修复错误查询打断图片上传的问题；在本机 GDI、OpenGL、DirectX
+共通过 1,575 个像素与回包阶段，另通过 525 个直接读取 GDI 窗口客户区的阶段。
 共享内存、文件传输、Kitty 动画、相对放置及 Unicode 占位等扩展尚未实现。
-准确产物、内存样本与验证边界见[成品验证](research/kitty-feature-product.md)；
+准确产物、内存样本与验证边界见[成品验证](research/kitty-query-transaction-product.md)；
 实现方式见[绘制接入记录](research/kitty-windows-compositor.md)。
 
 压缩传输已通过独立上游对照、严格 GCC/Clang/MSVC 检查、完整 CI 与下载成品的本机验收，
@@ -40,10 +40,10 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 
 ## 下载
 
-已通过 CI 的开发快照：[下载 `6e05bd1` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43653882888/artifacts/14138801522)。
-常规 CI 与单文件 CI 已通过，单文件 CI 共 140 组检查；包含本机自动化接口、文件/图片输入、
+已通过 CI 的开发快照：[下载 `752f3be` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43664330399/artifacts/14143105257)。
+常规 CI 与单文件 CI 已通过，单文件 CI 共 143 组检查；包含本机自动化接口、文件/图片输入、
 三种渲染器、Sixel、OSC 1337 图片/GIF、Kitty 压缩图片与功能查询子集、字号缩放与响铃。EXE 为 **4,515,840 字节**。
-产物预计于 **2026-12-15 00:13 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-feature-product.md)。
+产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DirectX 总工作集仍需优化。见下方 [渲染与内存](#渲染与内存)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
@@ -167,11 +167,11 @@ GPU 模式使用 Windows 系统 DLL 与显卡驱动，不新增分发文件；�
 这里的 MB 按十进制字节计，20 MB 为 20,000,000 字节，25 MB 为 25,000,000 字节；私有工作集与私有提交量分别记录。
 DirectX 的上限由用户于 2026-11-14 调整；历史测试仍保留当时的门槛与结果。
 控制台宿主、shell 和终端内应用是独立进程，量测时分别记录；这是优化目标，不是任意负载下的内存保证。
-下载的 `6e05bd1` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
-GDI 私有工作集最高 **16.84 MB**，DX 最高 **24.24 MB**。
-GDI 总工作集最高 **39.57 MB**，DX 最高 **59.82 MB**；DX 仍高于约 50 MB 的总工作集目标。
+下载的 `752f3be` 在本机 Sarasa、实际 160×48、双标签的 Sixel、PNG、GIF、Kitty 和压缩 Kitty 十组负载中，
+GDI 私有工作集最高 **17.32 MB**，DX 最高 **24.11 MB**。
+GDI 总工作集最高 **40.05 MB**，DX 最高 **59.69 MB**；DX 仍高于约 50 MB 的总工作集目标。
 测试等待临时标签的两条 I/O 工作线程实际退出，并观察短暂 GUI 活动回落；启动和回落期间的内存样本均计入峰值。句柄和窗口资源的数值门槛保持不变，没有裁剪工作集。
-完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-feature-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
+完整 CI 与下载成品复核均通过；其他显卡与长时间运行仍需验证。精确镜像、像素比较和样本见 [成品验证记录](research/kitty-query-transaction-product.md)；此前故障恢复记录见 [D3D11 验证](research/d3d11-ci.md)。
 CI 的 Consolas 窗口较小，其通过结果不能替代本机大窗口验收。
 旧 Direct2D 版本的 30.63 MB 失败结果保留在 [此前验证记录](research/relative-cursor.md)；
 [分配诊断](research/local-directx-heap.md)、[初始化探针](research/graphics-initialization.md)、

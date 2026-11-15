@@ -178,3 +178,16 @@ or pass `-ShutdownPython` explicitly. This is a test-only workaround, with no
 change to the terminal executable or its runtime dependencies. Finite passing
 replays and source correlation do not establish that every exit race is fixed;
 the prior undumped timeout and older access violation remain separate findings.
+
+
+## Full product follow-up
+
+Source `752f3be` passes both complete workflows, including 143 single-image
+groups and all four ordinary jobs. Its downloaded product, SHA256 `1655120a9a64bfd29b64f6ad0a5cc912484ba1d242ec560938591c03328e2cf1`,
+also passes 39 local groups, including all 12 original shutdown cases with
+actual GDI, OpenGL and DirectX and natural cleanup. Shutdown cases use isolated
+17.23.3; the other instrumented suites retain 17.24.3. The original exit deadline
+and lifetime assertions are unchanged. See the [exact-product acceptance and
+retained observations](kitty-query-transaction-product.md). This bounded
+validation does not reclassify the earlier failures or identify the causes of
+the separate undumped incidents.
