@@ -346,5 +346,30 @@ also includes Unicode placement, maximum parent/placement IDs and signed offset
 limits while the graphics cache and placement store remain absent.
 
 This advertisement change is newer than `4095697` and the downloaded precheck
-image. Its runtime validation is pending remote CI. Local desktop tests remain
+image. [Component CI 43682719696](https://github.com/xiongnemo/nemoterm/actions/runs/43682719696)
+passes GCC/Clang with ASan/UBSan and MSVC at `3ac5a6b`: 176 feature states with
+18 explicit capability subsets, 238 relative states, 728 Unicode states with
+the same eight xterm-policy differences, and 32 exact core copies. Original
+logs, artifact identities and hashes are retained in `kitty-unicode-validation.json`.
+Native/full-product validation remains pending. Local desktop tests remain
 paused; neither the accepted executable nor its documented scope changes yet.
+
+## Dense cell-image memory workload
+
+The next CI checkpoint adds `--kitty-images --kitty-unicode` to the existing
+uninjected two-tab memory fixture. A shared 512x288 PNG is repeated with explicit
+row/column zero in each visible interior cell. At 160x48 this is 7,268 independent
+cell images per tab, rather than a few contiguous image runs. The workload keeps
+the existing 2,000-line histories, 24 redraw/resize transitions, temporary-tab
+cleanup and mandatory strict GDI 20 MB / inclusive DirectX 25 MB private-WS
+thresholds. The Unicode text overwrites the previously emitted Sixel region,
+exercising its disposal; the existing mixed-image memory groups remain separate.
+
+Both tabs are reseeded at their final grid size before sampling stops. Only
+afterward, bounded one-pixel-high screenshot strips check the centre of every
+expected cell on active and inactive tabs. Missing late allocations therefore
+cannot pass solely because the first image appeared. Screenshot requests and
+the later input/hover probes remain outside memory acceptance sampling.
+Input sizes/hashes, actual grids and process-tree samples are retained. The
+fixture is added to both full workflows; it has not yet run on this paused
+desktop or passed its new remote memory gate.

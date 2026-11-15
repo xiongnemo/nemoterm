@@ -31,6 +31,8 @@ images.add_argument('--kitty-images',action='store_true',
                     help='add Kitty PNG images, cleanup and preview checks to --workload-memory')
 parser.add_argument('--kitty-compression',action='store_true',
                     help='use zlib-compressed PNG for the Kitty memory workload')
+parser.add_argument('--kitty-unicode',action='store_true',
+                    help='fill visible cells with independent Unicode image placements; requires --kitty-images')
 parser.add_argument('--probe-boundaries',action='store_true',
                     help='retain read-only owned procedure-entry/liveness snapshots around test probes')
 parser.add_argument('--exception-observer',type=Path,
@@ -49,6 +51,8 @@ observation.add_argument('--etw-memory-trace',action='store_true',
 args=parser.parse_args()
 if args.kitty_compression and not args.kitty_images:
     parser.error('--kitty-compression requires --kitty-images')
+if args.kitty_unicode and (not args.kitty_images or args.kitty_compression):
+    parser.error('--kitty-unicode requires --kitty-images without --kitty-compression')
 if (args.inline_images or args.animated_images or args.kitty_images) and not args.workload_memory:
     parser.error('Image workloads require --workload-memory')
 injected_observer=args.allocation_census or args.local_heap_census or args.virtual_memory_trace
@@ -66,6 +70,7 @@ if args.inline_images:prefix='inline-'+prefix
 if args.animated_images:prefix='animated-'+prefix
 if args.kitty_images:prefix='kitty-'+prefix
 if args.kitty_compression:prefix='compressed-'+prefix
+if args.kitty_unicode:prefix='unicode-'+prefix
 base_scene=scene
 if args.resource_inventory:prefix='inventory-tabs'
 if args.exception_observer:prefix='exception-tabs'
@@ -323,7 +328,8 @@ try:
                     census_observer.start()
                 evidence['workload']=memory_exercise(memory_sampler,first,second,output,select,resources,host,scene,
                                                      inline_images=args.inline_images,animated_images=args.animated_images,
-                                                     kitty_images=args.kitty_images,kitty_compression=args.kitty_compression)
+                                                     kitty_images=args.kitty_images,kitty_compression=args.kitty_compression,
+                                                     kitty_unicode=args.kitty_unicode)
                 memory=memory_sampler.stop();memory_sampler=None
                 memory_path=root/'research'/f'{prefix}-{args.renderer}-{args.side}-memory.json'
                 memory_path.write_text(json.dumps(memory,indent=2),encoding='utf-8')
@@ -348,7 +354,12 @@ try:
                     # Dedicated diagnostic CI recognizes this explicit outcome.
                     # Ordinary acceptance workflows must not turn green here.
                     raise SystemExit(2)
-                if args.kitty_images:
+                if args.kitty_unicode:
+                    from kitty_unicode_tab_workload import verify_images
+                    evidence['post_memory_kitty_unicode']=[]
+                    verify_images(process.pid,(first,second),select,evidence['post_memory_kitty_unicode'],
+                        f'{prefix}-{args.renderer}-{args.side}',evidence['workload']['unicode_grids'])
+                elif args.kitty_images:
                     from kitty_tab_workload import verify_images
                     evidence['post_memory_kitty']=[]
                     verify_images(process.pid,(first,second),select,

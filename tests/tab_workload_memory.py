@@ -69,15 +69,30 @@ class TabMemorySampler:
                     totals_note='Summed process working sets include shared pages more than once; host and client totals are separate from the frontend threshold.')
 
 
-def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False, kitty_compression=False):
+def exercise(sampler, first, second, output, select, resources, host, scene, inline_images=False, animated_images=False, kitty_images=False, kitty_compression=False, kitty_unicode=False):
     """Keep two 2000-line histories while switching/repainting/resizing."""
     result = dict(history_lines_per_tab=4096, history_limit=2000,
                   redraw_frames=24, resize_transitions=24, inline_images=inline_images,
                   animated_images=animated_images, kitty_images=kitty_images,
-                  kitty_compression=kitty_compression, samples=[])
+                  kitty_compression=kitty_compression, kitty_unicode=kitty_unicode, samples=[])
     assert sum((inline_images,animated_images,kitty_images))<=1
     assert not kitty_compression or kitty_images
-    if kitty_images:
+    assert not kitty_unicode or (kitty_images and not kitty_compression)
+    if kitty_unicode:
+        from kitty_unicode_tab_workload import workload_image as unicode_image
+        import hashlib
+        result['unicode_inputs']=[]
+        result['unicode_scope']='Dense independent image cells; their text overwrites the preceding Sixel area, exercising image disposal as well as admission'
+        def add_unicode(child):
+            grid=output(child,'\x1b[18t')
+            columns,rows=grid['columns'],grid['rows']
+            wire=unicode_image(columns,rows)
+            result['unicode_inputs'].append(dict(phase=sampler.phase,columns=columns,rows=rows,
+                cells=(columns-2)*(rows-2),input_bytes=len(wire.encode()),
+                input_sha256=hashlib.sha256(wire.encode()).hexdigest()))
+            output(child,wire)
+            return [columns,rows]
+    elif kitty_images:
         from kitty_tab_workload import workload_image
         inline=workload_image(compressed=kitty_compression)
     if inline_images:
@@ -119,7 +134,9 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
         # One sizeable Sixel per retained terminal, rebuilt through normal VT.
         output(child,'\x1b[2;4H\x1bP0;1q"1;1;512;288#1;2;20;40;70#1'+
                      ('!512~-')*48+'\x1b\\')
-        if inline_images or animated_images or kitty_images:
+        if kitty_unicode:
+            add_unicode(child)
+        elif inline_images or animated_images or kitty_images:
             output(child,inline)
         target = (max(400,width-160),max(300,height-100)) if frame%2 == 0 else (width,height)
         assert u.MoveWindow(host,original.left,original.top,*target,True)
@@ -127,6 +144,15 @@ def exercise(sampler, first, second, output, select, resources, host, scene, inl
             output(other,'\x1b[18t')
         result['samples'].append(dict(phase=sampler.phase, **resources()))
         time.sleep(.12)
+    if kitty_unicode:
+        # Both tabs are reseeded at their final restored size while sampling is
+        # still active. Later pixel verification must not alter the workload.
+        sampler.phase='unicode-final-grid'
+        result['unicode_grids']=[]
+        for index,child in enumerate((first,second)):
+            select(child,index)
+            result['unicode_grids'].append(add_unicode(child))
+            result['samples'].append(dict(phase=sampler.phase,**resources()))
     sampler.phase = 'settled'
     time.sleep(.5)
     result['samples'].append(dict(phase='settled', **resources()))

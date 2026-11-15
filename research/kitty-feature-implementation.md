@@ -85,6 +85,8 @@ now retains captured `U=1` and `P/Q/H/V` capabilities for actions `T` and `p`.
 The original 176 states are unchanged; five projected replies now include those
 implemented fields, and the remaining projection count is 18. The empty-owner
 allocation check also queries maximum parent IDs and signed offset limits.
-This newer responder still needs its own remote CI and product acceptance;
-`752f3be` above remains the accepted checkpoint. See the
+The newer responder passes all three compiler jobs in
+[component CI 43682719696](https://github.com/xiongnemo/nemoterm/actions/runs/43682719696),
+including the updated query replay and GCC/Clang ASan/UBSan. Full native and
+product acceptance remain pending; `752f3be` above remains the accepted checkpoint. See the
 [Unicode implementation record](kitty-unicode-placeholders.md#capability-discovery-after-implementation).

@@ -874,6 +874,15 @@ jobs:
             Copy-Item research/compressed-kitty-* test-results/ -ErrorAction SilentlyContinue
             if ($code) { exit $code }
           }
+      - name: Test dense Unicode image cells with mandatory tab memory limits
+        shell: pwsh
+        run: |
+          foreach ($case in @(@('gdi','top'), @('directx','left'))) {
+            python tests/tabs_window_smoke.py --renderer $case[0] --side $case[1] --workload-memory --kitty-images --kitty-unicode 2>&1 | Tee-Object "test-results/unicode-kitty-workload-$($case[0]).log"
+            $code = $LASTEXITCODE
+            Copy-Item research/unicode-kitty-workload-tabs-* test-results/ -ErrorAction SilentlyContinue
+            if ($code) { exit $code }
+          }
       - name: Upload portable terminal
         # Only publish the package after every native rendering check succeeds.
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
