@@ -130,7 +130,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
 | i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |
-| DEC locator 'w/'z/'{/'\| controls | Missing | Xterm mouse tracking is implemented separately; DEC locator is not. |
+| DEC locator 'w/'z/'{/'\| controls | Missing; reference captured | [Independent DEC Locator reference](../research/dec-locator.md): 100 fresh-XTerm cases, 421 steps and three literal controls with the upstream optional feature enabled, using private-display XTest input. Native/default binding distinctions are retained. Nemoterm parser and Windows integration remain to be implemented. |
 
 ## Rendition, modes, input and graphics
 
