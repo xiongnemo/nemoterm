@@ -57,9 +57,16 @@ source-matched fixtures, raw replies and logs are retained in
 preparation was stopped before any native test to correct the expected tab side
 in the preceding memory report; that controller record is retained too.
 
-The native fixture is wired into both product workflows, and the single-image
-plan gains one group. **Complete product CI is not yet verified for this
-change.** The separate 49-group local
+Both product workflows now pass for source `31747b9`: [ordinary CI](https://github.com/xiongnemo/nemoterm/actions/runs/43765300838)
+passes all four jobs, and [single-image CI](https://github.com/xiongnemo/nemoterm/actions/runs/43765300827)
+passes **164 groups**. The isolated distribution contains only the
+4,544,512-byte `nemoterm.exe`, SHA256
+`6642707b623e1ec9605a9bb640e2515bdd02912d054d2cbef01ca2b6297eb180`.
+The original core-evidence, single-evidence and product ZIPs are retained as
+`osc-colour-sequence-product-ci-*.zip`; the validation manifest checks GitHub's
+archive digests and every downloaded member against its receipt.
+
+The separate 49-group local
 acceptance uses the previous exact `253855b` executable, so its results and
 memory measurements do not certify this later parser patch. Neither the
 accepted executable nor the main branch has been replaced.
