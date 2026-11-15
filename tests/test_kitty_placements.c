@@ -216,6 +216,42 @@ static void unicode_index_lifetime(void)
     CHECK(f.peak<=BUDGET);destroy(&f);
 }
 
+static void unicode_index_admission(void)
+{
+    Fixture f;create(&f);
+    NemoKittyImage *image=load(&f,parse("i=42,f=24,s=10,v=20"),10,20);
+    put(&f,image,"a=p,p=7,c=1,r=1",0,0);
+    size_t ordinary=nemo_kitty_placements_memory(f.places);
+    put(&f,image,"a=p,p=7,U=1,c=1,r=1",0,0);
+    size_t virtual_bytes=nemo_kitty_placements_memory(f.places);
+    CHECK(virtual_bytes>=ordinary);
+    put(&f,image,"a=p,p=7,c=1,r=1",0,0);
+    CHECK(nemo_kitty_placements_memory(f.places)==ordinary);
+    uint64_t generation=nemo_kitty_placements_generation(f.places);
+    f.limit=nemo_kitty_cache_memory(f.cache)+ordinary;
+    NemoKittyCommand command=parse("a=p,p=7,U=1,c=1,r=1");NemoKittyLayout out;
+    NemoKittyPlacementStatus status=nemo_kitty_placements_put(f.places,image,&command,0,0,10,20,&out);
+    /* Run the identical contract against the measured old owner too: an
+     * in-place conversion with no extra ownership can fit a full budget. */
+    CHECK(status==(virtual_bytes>ordinary ? NEMO_KITTY_PLACE_LIMIT : NEMO_KITTY_PLACE_OK));
+    CHECK(nemo_kitty_placements_memory(f.places)==ordinary && nemo_kitty_image_references(image)==1);
+    if (status==NEMO_KITTY_PLACE_LIMIT) {
+        CHECK(nemo_kitty_placements_generation(f.places)==generation);
+        CHECK(!nemo_kitty_placements_have_cells(f.places));
+        CHECK(first(&f).placement==7);
+    }
+    command=parse("a=p,p=8,U=1,c=1,r=1");
+    CHECK(nemo_kitty_placements_put(f.places,image,&command,0,0,10,20,&out)==NEMO_KITTY_PLACE_LIMIT);
+    CHECK(nemo_kitty_placements_memory(f.places)==ordinary && nemo_kitty_placements_count(f.places)==1);
+    f.limit=BUDGET;
+    put(&f,image,"a=p,p=7,U=1,c=1,r=1",0,0);
+    CHECK(nemo_kitty_placements_memory(f.places)==virtual_bytes);
+    put(&f,image,"a=p,p=7,c=1,r=1",0,0);
+    CHECK(nemo_kitty_placements_memory(f.places)==ordinary && !nemo_kitty_placements_have_cells(f.places));
+    CHECK(first(&f).placement==7);
+    CHECK(f.peak<=BUDGET);destroy(&f);
+}
+
 static void relative_lifetime_boundaries(void)
 {
     /* Retiring an anonymous image must not call back in the middle of a
@@ -340,6 +376,7 @@ int main(int argc,char **argv)
     CHECK(argc==1);
     unicode_lifetime_boundaries();
     unicode_index_lifetime();
+    unicode_index_admission();
     relative_lifetime_boundaries();
     Fixture f; create(&f);
     size_t baseline=nemo_kitty_placements_memory(f.places);

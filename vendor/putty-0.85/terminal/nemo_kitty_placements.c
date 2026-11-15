@@ -17,6 +17,12 @@ struct NemoKittyPlacement {
     uint64_t prototype;
     bool virtual;
 };
+typedef struct NemoKittyCellIndex {
+    NemoKittyPlacement *virtual_index[NEMO_KITTY_PLACEMENT_MAX];
+    NemoKittyPlacement *cell_insert[NEMO_KITTY_IMAGE_MAX];
+    unsigned cell_insert_count;
+} NemoKittyCellIndex;
+
 struct NemoKittyPlacements {
     NemoKittyCache *cache;
     NemoKittyPlacement *first;
@@ -27,33 +33,32 @@ struct NemoKittyPlacements {
     void *ctx;
     /* Prototypes never exceed the ordinary-placement limit. Keep their
      * identity index separate from the much larger derived-cell list. */
-    NemoKittyPlacement *virtual_index[NEMO_KITTY_PLACEMENT_MAX];
     /* During a cell refresh, later cells of an image follow its earlier
      * cells in drawing order. Any unlink/replacement invalidates all hints. */
-    NemoKittyPlacement *cell_insert[NEMO_KITTY_IMAGE_MAX];
-    unsigned cell_insert_count;
+    NemoKittyCellIndex *index;
 };
 
 static const NemoKittyPlacement *virtual_by_sequence(const NemoKittyPlacements *s,
                                                    uint64_t sequence)
 {
+    if (!s->index) return NULL;
     unsigned lo=0,hi=s->virtuals;
     while (lo<hi) {
         unsigned mid=lo+(hi-lo)/2;
-        if (s->virtual_index[mid]->sequence<sequence) lo=mid+1;
+        if (s->index->virtual_index[mid]->sequence<sequence) lo=mid+1;
         else hi=mid;
     }
-    return lo<s->virtuals && s->virtual_index[lo]->sequence==sequence ?
-        s->virtual_index[lo] : NULL;
+    return lo<s->virtuals && s->index->virtual_index[lo]->sequence==sequence ?
+        s->index->virtual_index[lo] : NULL;
 }
 
 static void virtual_remove(NemoKittyPlacements *s, const NemoKittyPlacement *p)
 {
     for (unsigned i=0;i<s->virtuals;i++) {
-        if (s->virtual_index[i]!=p) continue;
+        if (s->index->virtual_index[i]!=p) continue;
         s->virtuals--;
-        memmove(s->virtual_index+i,s->virtual_index+i+1,
-                (s->virtuals-i)*sizeof(*s->virtual_index));
+        memmove(s->index->virtual_index+i,s->index->virtual_index+i+1,
+                (s->virtuals-i)*sizeof(*s->index->virtual_index));
         return;
     }
 }
@@ -61,17 +66,24 @@ static void virtual_remove(NemoKittyPlacements *s, const NemoKittyPlacement *p)
 static void virtual_insert(NemoKittyPlacements *s, NemoKittyPlacement *p)
 {
     unsigned i=s->virtuals;
-    while (i && s->virtual_index[i-1]->sequence>p->sequence) {
-        s->virtual_index[i]=s->virtual_index[i-1];i--;
+    while (i && s->index->virtual_index[i-1]->sequence>p->sequence) {
+        s->index->virtual_index[i]=s->index->virtual_index[i-1];i--;
     }
-    s->virtual_index[i]=p;s->virtuals++;
+    s->index->virtual_index[i]=p;s->virtuals++;
+}
+
+static void index_release_empty(NemoKittyPlacements *s)
+{
+    if (s->index && !s->virtuals) {
+        s->used-=sizeof(*s->index);free(s->index);s->index=NULL;
+    }
 }
 
 static const NemoKittyPlacement *by_sequence(const NemoKittyPlacements *s, uint64_t sequence)
 {
     if (sequence) {
-        const NemoKittyPlacement *p=virtual_by_sequence(s,sequence);
-        if (p) return p;
+        const NemoKittyPlacement *prototype=virtual_by_sequence(s,sequence);
+        if (prototype) return prototype;
         for (const NemoKittyPlacement *p=s->first;p;p=p->next)
             if (p->sequence==sequence) return p;
     }
@@ -137,11 +149,12 @@ NemoKittyPlacements *nemo_kitty_placements_new(NemoKittyCache *cache, size_t bud
 static void remove_view(NemoKittyPlacements *s, NemoKittyPlacement **link, bool callback)
 {
     NemoKittyPlacement *p=*link;
-    s->cell_insert_count=0;
+    if (s->index) s->index->cell_insert_count=0;
     *link=p->next;
     if (!callback) nemo_kitty_image_reference(s->cache,p->image,false);
     if (p->prototype) s->cells--;
     if (p->virtual) virtual_remove(s,p);
+    index_release_empty(s);
     s->used-=sizeof(*p); s->count--; s->generation++;
     free(p);
 }
@@ -239,10 +252,10 @@ static void insert(NemoKittyPlacements *s, NemoKittyPlacement *p)
     NemoKittyPlacement **link=&s->first;
     if (p->prototype) {
         unsigned i=0;
-        while (i<s->cell_insert_count && s->cell_insert[i]->image!=p->image) i++;
-        if (i<s->cell_insert_count) link=&s->cell_insert[i]->next;
-        else if (i<NEMO_KITTY_IMAGE_MAX) s->cell_insert_count++;
-        if (i<NEMO_KITTY_IMAGE_MAX) s->cell_insert[i]=p;
+        while (i<s->index->cell_insert_count && s->index->cell_insert[i]->image!=p->image) i++;
+        if (i<s->index->cell_insert_count) link=&s->index->cell_insert[i]->next;
+        else if (i<NEMO_KITTY_IMAGE_MAX) s->index->cell_insert_count++;
+        if (i<NEMO_KITTY_IMAGE_MAX) s->index->cell_insert[i]=p;
     }
     int32_t z=p->z;
     uint64_t order=nemo_kitty_image_sequence(p->image);
@@ -301,7 +314,7 @@ bool nemo_kitty_placements_cell(NemoKittyPlacements *s, uint32_t image_id,
         cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return false;
     const NemoKittyPlacement *prototype=NULL;
     for (unsigned i=0;i<s->virtuals;i++) {
-        const NemoKittyPlacement *q=s->virtual_index[i];
+        const NemoKittyPlacement *q=s->index->virtual_index[i];
         if (nemo_kitty_image_id(q->image)==image_id && (!placement_id || q->id==placement_id)) {
             prototype=q;break;
         }
@@ -408,26 +421,37 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
         return status==NEMO_KITTY_LAYOUT_UNSUPPORTED ? NEMO_KITTY_PLACE_UNSUPPORTED :
             status==NEMO_KITTY_LAYOUT_LIMIT ? NEMO_KITTY_PLACE_LIMIT : NEMO_KITTY_PLACE_INVALID;
     uint64_t sequence=p ? p->sequence : 0;
+    size_t extra=(p ? 0 : sizeof(*p))+
+        (virtual && !s->index ? sizeof(NemoKittyCellIndex) : 0);
+    if ((!p && (s->count-s->cells>=NEMO_KITTY_PLACEMENT_MAX || s->sequence==UINT64_MAX)) ||
+        extra>s->budget-s->used ||
+        (extra && s->admit && !s->admit(s->ctx,s->used,extra))) return NEMO_KITTY_PLACE_LIMIT;
+    NemoKittyCellIndex *index=NULL;
+    if (virtual && !s->index) {
+        index=calloc(1,sizeof(*index));
+        if (!index) return NEMO_KITTY_PLACE_NOMEM;
+    }
     if (p) {
-        s->cell_insert_count=0;
+        if (s->index) s->index->cell_insert_count=0;
         *link=p->next;
         if (p->virtual) virtual_remove(s,p);
     }
     else {
-        if (s->count-s->cells>=NEMO_KITTY_PLACEMENT_MAX || s->sequence==UINT64_MAX ||
-            sizeof(*p)>s->budget-s->used ||
-            (s->admit && !s->admit(s->ctx,s->used,sizeof(*p)))) return NEMO_KITTY_PLACE_LIMIT;
         p=malloc(sizeof(*p));
-        if (!p) return NEMO_KITTY_PLACE_NOMEM;
-        if (!nemo_kitty_image_reference(s->cache,image,true)) { free(p); return NEMO_KITTY_PLACE_NOT_FOUND; }
+        if (!p) { free(index);return NEMO_KITTY_PLACE_NOMEM; }
+        if (!nemo_kitty_image_reference(s->cache,image,true)) {
+            free(p);free(index);return NEMO_KITTY_PLACE_NOT_FOUND;
+        }
         s->used+=sizeof(*p); s->count++;
         sequence=++s->sequence;
     }
+    if (index) { s->index=index;s->used+=sizeof(*index); }
     *p=(NemoKittyPlacement){NULL,image,column,row,g.z,id,
         nemo_kitty_get(command,'c'),nemo_kitty_get(command,'r'),g.offset_x,g.offset_y,
         g.source_x,g.source_y,g.source_width,g.source_height,sequence,s,
         parent ? parent->sequence : 0,nemo_kitty_signed(command,'H'),nemo_kitty_signed(command,'V'),0,virtual};
     if (virtual) { p->column=p->row=0;virtual_insert(s,p); }
+    index_release_empty(s);
     insert(s,p); s->generation++;
     int64_t resolved_x,resolved_y;
     if (resolve(p,&resolved_x,&resolved_y)) {

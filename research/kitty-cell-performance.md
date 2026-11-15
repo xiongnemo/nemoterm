@@ -34,9 +34,12 @@ The proposed optimization keeps a sequence-sorted prototype index and per-image
 cell insertion hints in the placement owner. Unlinking or replacing a placement
 invalidates the hints before a borrowed pointer can expire. Template replacement
 preserves identity; removing or converting a template updates the index.
-Character and placement object sizes are unchanged. The fixed owner tables
-remain charged to the shared 4 MiB image budget (roughly 5 KiB extra per owner
-on x64); no run count or image cap is raised.
+Character and placement object sizes are unchanged. The bounded tables are
+allocated only on the first virtual template and freed when the last template
+is removed or converted to an ordinary placement. They remain charged to the
+shared 4 MiB image budget (roughly 5 KiB while present on x64); no run count or
+image cap is raised. Admission covers the whole index and new placement before
+either is committed, including in-place conversions.
 
 The component workflow compiles the original placement source from full commit
 `a7e40bdc698dfa268b2bebe8c426d82e7a2d9130` beside the candidate, with identical
@@ -47,3 +50,11 @@ Additional correctness cases fill all 512 templates across 128 images, alternate
 image insertion order, replace/convert templates and remove/recreate cell runs.
 The candidate's remote validation is still pending; no runtime test has been
 run on the paused local desktop.
+
+The first candidate `e05a60f` failed its complete component workflow: MSVC rejected
+a shadowed local variable, and GCC/Clang reported that its fixed owner tables
+violated the existing under-8-KiB empty terminal graphics-owner check. All 728
+Unicode states, 238 relative states and 32 core copies still passed, as did
+19,708 placement checks. The later on-demand allocation corrects this idle
+overhead instead of relaxing that assertion. The failed run and its paired
+timings remain retained separately; partial passes do not make that run green.

@@ -895,6 +895,14 @@ jobs:
         if: always()
         shell: pwsh
         run: ./scripts/native-crash-evidence.ps1 -Collect
+      - name: Preserve the unverified MinGW package after a native failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unverified-mingw-runtime-${{ github.sha }}
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 7
       - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
