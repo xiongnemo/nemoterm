@@ -121,6 +121,7 @@ def windows(pid,kind,parent=None,visible=False):
     else:u.EnumWindows(visit,0)
     return found
 
+fixture_started=time.monotonic()
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),renderer=args.renderer,
               side=args.side,font=args.font,requested_grid=[args.cols,args.rows],dense_clusters=args.dense_clusters,
               session_seconds=args.session_seconds,
@@ -402,7 +403,9 @@ try:
             evidence['pixel_capture']='owned-automation-api'
             boundary=None
             import frida
-            hover_session=frida.attach(process.pid)
+            evidence['probe_attach']=dict(started_seconds=time.monotonic()-fixture_started)
+            try:hover_session=frida.attach(process.pid)
+            finally:evidence['probe_attach']['finished_seconds']=time.monotonic()-fixture_started
             hover_script=hover_session.create_script('const ownedHost=ptr("'+hex(host)+'");\n'+(root/'tests/tabs_hover_probe.js').read_text())
             hover_script.load()
             if args.probe_boundaries:
@@ -568,6 +571,9 @@ try:
                     if evidence['exception_observer'].get('exit_code')!=0:
                         cleanup_failure=RuntimeError('External exception observer failed; inspect its retained log')
                 evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
+                evidence['session_launches']=[read_snapshot(p) for p in sorted(tmp.glob('*.launch.json'))]
+                evidence['session_exits']=[read_snapshot(p) for p in sorted(tmp.glob('*.exit.json'))]
+                evidence['elapsed_seconds']=time.monotonic()-fixture_started
                 if cleanup_failure is not None and primary_failure is None:raise cleanup_failure
 finally:
     failure=sys.exc_info()[1]
