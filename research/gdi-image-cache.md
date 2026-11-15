@@ -70,12 +70,23 @@ manifest verifies their hashes and all twelve dense-image pixel strips.
 
 The first local native selection attempt fails in `SavedClipboard` before any
 selection or copy assertion. A separate non-mutating `OpenClipboard(NULL)`
-probe also returns Windows error 5 (access denied), with no window holding the
-clipboard open. No existing clipboard contents were read or changed. The
+probe also returns Windows error 5 (access denied), with no reported open-window
+handle. No existing clipboard contents were read or changed. The
 failure is not a selection pass and is not yet attributed to product code.
 The independent memory run does not use the clipboard. The original failure,
 natural cleanup, external error-5 observation and exact test sources are in
 `gdi-image-cache-clipboard-preflight.tar.gz`, with a separate failure manifest.
+
+A later external `OpenClipboard(NULL)` succeeds and closes normally, allowing
+one unchanged-fixture retry. That retry again fails at the initial clipboard
+backup; a subsequent independent call again returns error 5. The retry retains
+zero selection assertions and natural cleanup, without changing clipboard
+contents. Current process window-station access includes clipboard access and
+its job reports no UI restrictions; the cause remains unconfirmed. A NULL
+`GetOpenClipboardWindow` result does **not** exclude a lock opened without a
+window handle, as [Microsoft documents](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getopenclipboardwindow).
+The original failed retry and surrounding observations are retained separately
+in `gdi-image-cache-clipboard-retry.tar.gz`; no clipboard pass is claimed.
 
 Current source workflows: [ordinary](https://github.com/xiongnemo/nemoterm/actions/runs/43736421054),
 [single image](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137),
