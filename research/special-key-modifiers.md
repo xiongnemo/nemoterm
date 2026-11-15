@@ -66,11 +66,19 @@ retains both images, source-built sidecars, fixtures, source hashes, raw replies
 core logs and cleanup records. The negative comparison's forced cleanup is
 preserved and is not reported as a successful shutdown test.
 
-This does not establish physical-keyboard or full-product acceptance. The
-new core/native checks are included in ordinary and single-image CI; their
-complete candidate results remain pending, with an unresolved MSVC native
-tab-selection access violation in run 43768960240; the [original failure and
-exact-image diagnosis](tab-select-msvc-8655aae.md) are retained. Resources 3, 6 and 7 are
+The [single-image workflow at 8655aae](https://github.com/xiongnemo/nemoterm/actions/runs/43768960139)
+completed all **165 check groups**. Its product contains only the
+4,545,536-byte `nemoterm.exe`, SHA256
+`915c2c2c58e45d5a3cbb700159346b2ebbde9852b66509a24cb882468a340758`.
+The matching [ordinary workflow](https://github.com/xiongnemo/nemoterm/actions/runs/43768960240)
+passed the sanitizer, source-host and portable native jobs, but **failed**
+the MSVC native job on a tab-selection access violation. The [original failure
+and exact-image diagnosis](tab-select-msvc-8655aae.md) remain unresolved.
+`special-key-modifiers-product-ci-{core-evidence,single-evidence,product}.zip`
+retain the original GitHub artifacts; the validation manifest records artifact
+receipts, member hashes, all 165 groups and the failed ordinary-run result.
+This is not a fully passing candidate, physical-keyboard acceptance or a new
+local memory measurement. Resources 3, 6 and 7 are
 covered by the later [extended-key implementation](extended-key-resources.md).
 Resource 0, remaining application/IME work, and the outstanding desktop tests
 remain separate work.
