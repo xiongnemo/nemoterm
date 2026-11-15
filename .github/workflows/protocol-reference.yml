@@ -15,6 +15,7 @@ on:
           - cursor-charset
           - ansi-conformance
           - control-cancellation
+          - dec-locator
           - reset-palette
           - x11-colour
           - sidecar-wire
@@ -65,15 +66,21 @@ jobs:
       - name: Install XTerm build and private display dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev xvfb
+          sudo apt-get install -y libx11-dev libxt-dev libxaw7-dev libxft-dev libncurses-dev libxtst6 xfonts-base xvfb
       - name: Build pinned upstream reference
+        env:
+          LOCATOR_REFERENCE: ${{ inputs.family == 'dec-locator' && '1' || '0' }}
         run: |
           git init /tmp/nemoterm-xterm-reference
           git -C /tmp/nemoterm-xterm-reference remote add origin https://github.com/ThomasDickey/xterm-snapshots.git
           git -C /tmp/nemoterm-xterm-reference fetch --depth 1 origin 5c75ead9a75d4b2e666ca06fa94503b5766ed93f
           git -C /tmp/nemoterm-xterm-reference checkout --detach FETCH_HEAD
           cd /tmp/nemoterm-xterm-reference
-          ./configure
+          # DEC Locator is an upstream compile-time option, disabled by default.
+          # Keep the existing reference families' build configuration unchanged.
+          args=()
+          if [ "$LOCATOR_REFERENCE" = 1 ]; then args+=(--enable-dec-locator); fi
+          ./configure "${args[@]}"
           make -j2
       - name: Record reference identity and create a fresh output directory
         run: |
@@ -83,6 +90,7 @@ jobs:
           sha256sum /tmp/nemoterm-xterm-reference/xterm > build/protocol-reference/executable-sha256.txt
           /tmp/nemoterm-xterm-reference/xterm -version > build/protocol-reference/version.txt
           dpkg-query -W -f='${Package}\t${Version}\n' xvfb libx11-6 libxft2 > build/protocol-reference/x11-packages.txt
+          cp /tmp/nemoterm-xterm-reference/xtermcfg.h build/protocol-reference/
       - name: Compare identity argument and cursor semantics
         if: ${{ (success() || failure()) && (inputs.family == '' || inputs.family == 'identity' || inputs.family == 'all') }}
         run: python3 tests/xterm_identity_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/identity-xterm.json
@@ -104,6 +112,15 @@ jobs:
       - name: Capture CAN and SUB parser cancellation, glyphs and recovery
         if: ${{ (success() || failure()) && (inputs.family == 'control-cancellation' || inputs.family == 'all') }}
         run: python3 tests/xterm_cancellation_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/control-cancellation-xterm.json
+      - name: Capture DEC Locator replies and real private-display mouse events
+        if: ${{ (success() || failure()) && inputs.family == 'dec-locator' }}
+        run: |
+          mkdir -p build/protocol-reference/locator-source
+          for file in button.c charproc.c VTPrsTbl.c ptyx.h ctlseqs.ms configure.in; do
+            cp "/tmp/nemoterm-xterm-reference/$file" build/protocol-reference/locator-source/
+          done
+          sha256sum build/protocol-reference/locator-source/* > build/protocol-reference/locator-source-sha256.txt
+          python3 tests/xterm_locator_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/dec-locator-xterm.json
       - name: Capture indexed and dynamic palette reset boundaries
         if: ${{ (success() || failure()) && (inputs.family == 'reset-palette' || inputs.family == 'all') }}
         run: python3 tests/xterm_reset_palette_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/reset-palette-xterm.json
