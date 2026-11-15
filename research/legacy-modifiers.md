@@ -62,7 +62,7 @@ bytewise. Windows unit checks also cover legacy input before negotiation.
 Broader configuration checking exposed an existing Unix Unicode conversion
 path calling `strlen(NULL)` when the optional replacement string is omitted.
 It now uses the charset layer's default replacement. The original GCC/Clang
-UBSan failures and passing reruns are retained locally pending final bundling.
+UBSan failures and passing reruns are retained in the fix archive below.
 The saved-profile checks now include VT220 and the new legacy profile.
 
 The first native fixture misclassified Shift+Alt+Insert as application input;
@@ -75,12 +75,26 @@ The corrected intermediate image passes **2,704 exact native streams**, with
 naturally. The previous `77ec984` image passes the F1 mechanism control and
 fails the first new resource-0 query, as expected.
 
-The final image adds startup-path and capability-query consistency fixes.
-Its full native replay and **112 separate mask-zero startup equivalence
-checks** are running. Those 112 checks reuse the observed key bytes with the
+The final image includes startup-path and capability-query consistency fixes.
+It passes **2,704 exact native streams** and **112 separate mask-zero startup
+equivalence checks**. All nine owned processes across the three profiles drain
+naturally. Those 112 checks reuse the observed key bytes with the
 reset default instead of an explicit setter; they are not additional raw
-XTerm input-stream captures. CI includes the reference generator, core replay,
-native fixture and single-image check. Final local and CI results remain pending.
+XTerm input-stream captures. `legacy-modifiers-fix.tar.gz` (SHA256
+`e3ca11f9afb7a4253b6e542073845712357a01fe027eafefd32bc69e696c92a7`)
+retains exact old/new images, source-built host sidecars, all three native
+attempts, original failures, compiler logs, source snapshots and cleanup.
+Every archived member was rehashed after compression.
+
+The [component workflow at 029bfac](https://github.com/xiongnemo/nemoterm/actions/runs/43776658169)
+passes GCC/Clang ASan/UBSan and MSVC, including the unchanged replay, startup
+mapper, configuration and capability regressions. `legacy-modifiers-ci.tar.gz`
+and its manifest retain original logs and artifact receipts; all source hashes
+match the exact Git content, with separately verified Windows CRLF checkout
+variants for four existing `.inc` files. Ordinary and single-image CI include
+the native fixture; those complete workflows remain pending. The outer
+portable CI job budget accounts for the roughly eight-minute new replay;
+existing product tests, deadlines and memory gates are unchanged.
 
 Physical keyboard/IME/agent behavior, full keypad hardware coverage and the
 remaining protocol ledger stay open. No accepted distribution is replaced.
