@@ -130,7 +130,11 @@ static void direct_checks(Mock *mk)
 int main(void)
 {
     Mock *mk = mock_new();
-    mk->ucsdata->line_codepage = CP_UTF8;
+    /* The reference disables locale conversion. Initialize the real byte-mode
+     * tables too: assigning only line_codepage leaves Unix C1 tables stale. */
+    conf_set_str(mk->conf, CONF_line_codepage, "ISO-8859-1");
+    conf_set_bool(mk->conf, CONF_utf8_override, false);
+    init_ucs_generic(mk->conf, mk->ucsdata);
     mk->term = term_init(mk->conf,mk->ucsdata,&mk->tw);
     mk->ldisc = ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
     replay(mk,false);
