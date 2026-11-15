@@ -38,8 +38,7 @@ fixture source. Its manifest is `feature-policy-sarasa-first-validation.json`.
 The tab fixture now accepts an explicit bounded `--session-seconds` option,
 passed to each child. Its default remains 300 seconds. The local repeat will
 use 900 seconds with the identical executable, font, grid, workload and memory
-threshold. Individual reply waits and shutdown deadlines are unchanged. Passing
-that repeat, including all pixels and natural cleanup, is still required.
+threshold. Individual reply waits and shutdown deadlines are unchanged.
 
 The first attempt with the longer lifetime did not reach the workload: the
 session wrapper accepted 900 seconds, but the underlying `mouse_fixture.py`
@@ -47,3 +46,21 @@ still rejected values above 300. That guard mismatch is retained separately in
 `feature-policy-sarasa-lifetime-rejected.tar.gz` with its original source and
 failure metadata. Both layers now use the same 1–1800-second bound; ordinary
 mouse/session defaults remain 60/300 seconds. No product code changed.
+
+## Completed repeat: GDI memory gate fails
+
+The repeat with the 900-second child lifetime finishes all **29,072 image-cell
+checks**, all ten tab/lifecycle checks, and natural cleanup (56 total owned
+processes, zero remaining or terminated; host exit code zero). Its 2,874
+uninstrumented samples span 310.009 seconds. The peaks are **20,746,240 private
+working set**, **42,950,656 total working set**, and **23,064,576 private commit**
+bytes. It therefore **fails** the unchanged strict 20,000,000-byte GDI gate.
+Neither the lower first run nor a conversion to MiB makes this result a pass.
+
+`feature-policy-sarasa-budget.tar.gz` retains the original samples, all four
+active/inactive pixel observations, twelve representative pixel strips, fixture
+source, original failure and natural cleanup. Its manifest independently
+recomputes the three peaks and verifies the saved strip pixels. The successful
+bell single-image product is being measured with the same local workload to
+distinguish a portable compiler/runtime effect from the shipping-image budget.
+That comparison is not acceptance of the newer feature-policy product.
