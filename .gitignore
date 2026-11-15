@@ -8,3 +8,8 @@
 /research/*.tar.gz
 *.pyc
 __pycache__/
+/research/kitty-unicode-gdi-*/
+/research/kitty-unicode-opengl-*/
+/research/kitty-unicode-directx-*/
+/research/kitty-unicode-presented-gdi-*/
+/research/kitty-unicode-*-observed.json

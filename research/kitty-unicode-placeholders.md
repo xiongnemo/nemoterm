@@ -131,7 +131,39 @@ The test log names every policy state. Iteration 03 passes all 728 checks as
 720 raw matches plus eight explicit xterm-policy states; all 238 relative states
 and earlier graphics/compression/query suites also pass.
 
-This remains development evidence. Native pixels in all renderers, actual text
-selection, long-session/resize disposal and fresh uninjected single-image memory
-acceptance are pending. No capability-advertisement or accepted product change
-is implied by these local core results.
+This remains development evidence. No capability-advertisement or accepted
+product change is implied by these local core results.
+
+## Native repaint regression and correction
+
+The source-built combined image from `3ee3235` has SHA256
+`cd5a038a03eec1329b77062590fda15b1a3c5c995b55a84c369feef331b944b2`.
+The new native fixture tests the entire 40x12 text grid, using the installed
+SarasaTermSC Nerd Font Light. Its 30 stages cover text editing/scrolling,
+template deletion/recreation, RIS/ED2/ED3, alternate screens, virtual-parent
+visibility/movement, letterboxing, placement selection and high image-ID bytes.
+
+The initial GDI API run passed all 30. OpenGL, DirectX and a direct GDI client-DC
+capture each passed 22 stages and failed when erasing the last virtual-parent
+anchor: the child was hidden in the placement model but its blue pixels remained
+in the presented surface. GDI's API snapshot forced a redraw and masked this
+defect. The three failures and all screenshots are retained, not reclassified
+as instrumentation noise.
+
+`do_paint` now notices placement-generation changes during text-cell refresh
+and invalidates the displayed cells even if no current view remains visible.
+It sets invalid attributes directly without scheduling another paint. After
+this change, the same 30 stages pass in all four capture modes (120 pixel
+states). Ordinary terminal, grapheme and complete image-core regressions also
+pass. All eight native runs exit normally, remove their temporary profiles and
+leave no owned child processes. The fixed local frontend SHA256 is
+`c11361107a16632e5b66822f6ed26d5acae325be1d353c7cea2c675fe96415b9`.
+
+The fixed native runs use a local MinGW frontend plus the unchanged source-built
+headless host from `3ee3235`; they are not a fresh combined-single-file
+acceptance. The fixture is added to Windows CI and the single-executable
+verification script for all three renderers. `native-repaint.tar.gz` retains
+489 inputs, logs, snapshots, source/runtime metadata and images with hashes.
+Actual text selection, Unicode-image zoom/resize/history disposal, long-session
+resource behavior and fresh uninjected single-image memory acceptance remain
+pending. The broader project goal is still open.
