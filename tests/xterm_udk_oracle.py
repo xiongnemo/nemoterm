@@ -91,6 +91,47 @@ def cases():
     return result
 
 
+def prepare_keyboard(display):
+    """Add missing function symbols to unused keys on our private Xvfb only.
+
+    Keep this connection open for the capture so Xvfb cannot reset the map
+    between cases. New XTerm/observer clients read the completed server map.
+    """
+    x, d = display.x, display.d
+    x.XDisplayKeycodes.argtypes = [c.c_void_p, c.POINTER(c.c_int), c.POINTER(c.c_int)]
+    x.XGetKeyboardMapping.argtypes = [c.c_void_p, c.c_ubyte, c.c_int, c.POINTER(c.c_int)]
+    x.XGetKeyboardMapping.restype = c.POINTER(c.c_ulong)
+    x.XChangeKeyboardMapping.argtypes = [c.c_void_p, c.c_int, c.c_int,
+                                        c.POINTER(c.c_ulong), c.c_int]
+    low, high, width = c.c_int(), c.c_int(), c.c_int()
+    x.XDisplayKeycodes(d, c.byref(low), c.byref(high))
+    def mapping():
+        values = x.XGetKeyboardMapping(d, low.value, high.value-low.value+1, c.byref(width))
+        assert values
+        try:
+            return {code: [values[(code-low.value)*width.value+i] for i in range(width.value)]
+                    for code in range(low.value, high.value+1)}
+        finally:
+            x.XFree(values)
+    before = mapping()
+    available = [code for code, symbols in before.items() if not any(symbols)]
+    added = {}
+    for name in [f'F{i}' for i in range(1,21)]:
+        symbol = x.XStringToKeysym(name.encode())
+        assert symbol
+        if not any(symbol in symbols for symbols in before.values()):
+            assert available, 'No unused private-display keycode for '+name
+            code = available.pop()
+            values = (c.c_ulong*width.value)(symbol)
+            x.XChangeKeyboardMapping(d, code, width.value, values, 1)
+            added[name] = dict(keycode=code, keysym=symbol)
+    x.XSync(d, False)
+    after = mapping()
+    for item in added.values():
+        assert item['keysym'] in after[item['keycode']]
+    return dict(before=before, after=after, added=added)
+
+
 def capture_case(executable, display_name, name, spec, base):
     folder = base/(re.sub(r'[^A-Za-z0-9_-]','_',name)+'-'+hashlib.sha256(name.encode()).hexdigest()[:8])
     folder.mkdir()
@@ -135,6 +176,10 @@ def capture_case(executable, display_name, name, spec, base):
         display.x.XSetInputFocus(display.d,display.window,1,0)
         display.x.XSync(display.d,False)
         result.update(cell_pixels=cell,viewport_window=display.window,window_tree=windows)
+        result['keycodes'] = {key: display.x.XKeysymToKeycode(
+            display.d, display.x.XStringToKeysym(key.encode()))
+            for key in ['Shift_L','Control_L','Alt_L']+[f'F{i}' for i in range(1,21)]}
+        assert all(result['keycodes'].values()), result['keycodes']
         for index, phase_spec in enumerate(spec['steps']):
             phase = 'step-'+str(index)
             prefix = command(phase,bytes.fromhex(phase_spec['sequence_hex'])+C+b'5n')
@@ -172,11 +217,13 @@ def main():
     xvfb=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','1024x768x24','-nolisten','tcp'],
                           pass_fds=[w],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     os.close(w);display=':'+os.read(r,100).decode().strip();os.close(r)
+    owner = Display(display)
     result=dict(completed=False,version=subprocess.check_output([args.xterm,'-version'],text=True).strip(),
                 executable_sha256=hashlib.sha256(Path(args.xterm).read_bytes()).hexdigest(),
                 fixture_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 shared_harness_sha256=hashlib.sha256(Path(__file__).with_name('xterm_locator_oracle.py').read_bytes()).hexdigest(),cases={})
     try:
+        result['private_keyboard'] = prepare_keyboard(owner)
         for name,spec in cases().items():
             observed=capture_case(args.xterm,display,name,spec,folder)
             result['cases'][name]=observed;write(output,result)
@@ -187,7 +234,7 @@ def main():
             assert [bytes.fromhex(s['reply_hex']) for s in result['cases'][name]['steps']]==expected,name
         result['literal_controls']=list(controls);result['completed']=True
     finally:
-        write(output,result);xvfb.terminate();xvfb.wait(timeout=5)
+        write(output,result);owner.close();xvfb.terminate();xvfb.wait(timeout=5)
 
 
 if __name__=='__main__': main()
