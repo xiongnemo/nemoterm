@@ -53,7 +53,8 @@ with saved_profile(dict(NoMouseReporting=0, WarnOnClose=0, NemoRenderer=0)) as p
         value = wait_for(lambda: (d := current()).get('phase') == name and
                          bytes.fromhex(d.get('hex','')).endswith(marker) and d)
         assert bytes.fromhex(value['hex']) == expected, (name, value, expected)
-        evidence['checks'][name] = dict(sequence_hex=sequence.encode().hex(), reply_hex=reply.hex())
+        evidence['checks'][name] = dict(sequence_hex=sequence.encode().hex(), reply_hex=reply.hex(),
+                                       wire_with_barrier_hex=value['hex'])
         return request, expected
 
     def events(request, prefix, action, expected):
@@ -67,6 +68,7 @@ with saved_profile(dict(NoMouseReporting=0, WarnOnClose=0, NemoRenderer=0)) as p
         value = wait_for(lambda: (d := current()).get('input_barrier') == request['input_barrier'] and d)
         assert bytes.fromhex(value['hex']) == prefix+expected+marker, (request['phase'], value, expected)
         evidence['checks'][request['phase']]['event_reply_hex'] = expected.hex()
+        evidence['checks'][request['phase']]['event_wire_with_barriers_hex'] = value['hex']
 
     def geometry():
         d = current(); rect = w.RECT()
