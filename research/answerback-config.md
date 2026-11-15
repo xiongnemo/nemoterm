@@ -63,3 +63,10 @@ whole and bytewise. Full CI for the combined source remains pending.
 failed component logs, passing MSVC result, local configure/build/test records,
 controller scripts, exact source and hashes. Initial local setup failures are
 retained separately from the product failure; no assertion was relaxed.
+
+The fixed source `253855b` now passes the [component workflow
+43757506328](https://github.com/xiongnemo/nemoterm/actions/runs/43757506328):
+GCC and Clang with sanitizers, plus MSVC. All three retain a passing query
+suite. `answerback-nul-ci.tar.gz` and its validation manifest bind the raw logs,
+artifact receipts and exact source revision. Full native and single-image
+acceptance remain separate from this component result.

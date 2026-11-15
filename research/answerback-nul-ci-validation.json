@@ -1,0 +1,358 @@
+{
+  "source_commit": "253855b481b2ccd6a13dae5490c42f19c8b9dd64",
+  "run_id": 43757506328,
+  "conclusion": "success",
+  "scope": "GCC and Clang sanitizer plus MSVC component regression for the NUL conversion fix; full native and single-image acceptance are separate.",
+  "artifacts": {
+    "gcc": 14179201544,
+    "clang": 14179205817,
+    "msvc": 14178977646
+  },
+  "archive": {
+    "path": "answerback-nul-ci.tar.gz",
+    "bytes": 74757,
+    "sha256": "07fee059554845e92b7ce84e67455818af07e24f76a9ef606dc106bdca454b22"
+  },
+  "files": [
+    {
+      "path": "ansi-components/clang-download.json",
+      "bytes": 3216,
+      "sha256": "5000601d20763cce699ff5e25bd7741ff59b5a6fa79b1eb960067ce8e6e6b491"
+    },
+    {
+      "path": "ansi-components/gcc-download.json",
+      "bytes": 3214,
+      "sha256": "c8d9834b5cca298efa7c583f04c5d9e69087f686aae28542d0cbfa443a44baaa"
+    },
+    {
+      "path": "ansi-components/msvc-download.json",
+      "bytes": 3369,
+      "sha256": "1d62a0ef6f0bfc5a1ec1b78fbc3a3547511f8f437a56b6a59a754eb44feee60f"
+    },
+    {
+      "path": "ansi-components/clang/build.log",
+      "bytes": 23692,
+      "sha256": "6f8607fd1d0febc2809fca357d3b95fe21e9ea4857fbbc8e36a1948fbefe4d91"
+    },
+    {
+      "path": "ansi-components/clang/compiler.txt",
+      "bytes": 122,
+      "sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+    },
+    {
+      "path": "ansi-components/clang/configure.log",
+      "bytes": 4314,
+      "sha256": "36f53d2b86a87b1bc86bb187850f349f3c6647a1f86c80effac31e5d4ff2e065"
+    },
+    {
+      "path": "ansi-components/clang/sources.sha256",
+      "bytes": 2738,
+      "sha256": "0c41de5d34610849a319b9aac70647c25b1b41d82b6f3f840e4356603d946ed5"
+    },
+    {
+      "path": "ansi-components/clang/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "ansi-components/clang/test_bell_modes.log",
+      "bytes": 187,
+      "sha256": "1b18c52b11cfaf8483b982339285bb2f24193e0ffe91793504adbd65370600a1"
+    },
+    {
+      "path": "ansi-components/clang/test_cancellation_terminal.log",
+      "bytes": 144,
+      "sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+    },
+    {
+      "path": "ansi-components/clang/test_feature_policy.log",
+      "bytes": 310,
+      "sha256": "3fd59b7cf845567b58ad44948a7a217d61f2f977418a4760746c4de2fef2351d"
+    },
+    {
+      "path": "ansi-components/clang/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "ansi-components/clang/test_locator_terminal.log",
+      "bytes": 170,
+      "sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+    },
+    {
+      "path": "ansi-components/clang/test_osc52.log",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "ansi-components/clang/test_pointer_terminal.log",
+      "bytes": 309,
+      "sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+    },
+    {
+      "path": "ansi-components/clang/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "ansi-components/clang/test_selective_erase.log",
+      "bytes": 29,
+      "sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+    },
+    {
+      "path": "ansi-components/clang/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "ansi-components/clang/test_sixel_terminal.log",
+      "bytes": 1080,
+      "sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+    },
+    {
+      "path": "ansi-components/clang/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "ansi-components/clang/test_tcap.log",
+      "bytes": 33,
+      "sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+    },
+    {
+      "path": "ansi-components/clang/test_udk_terminal.log",
+      "bytes": 187,
+      "sha256": "e7c9a904d3859f87eacec6a6a9b9c6c4ec6a22a6e74664452dc1dfa84a088ff1"
+    },
+    {
+      "path": "ansi-components/gcc/build.log",
+      "bytes": 28383,
+      "sha256": "3cb612df24d73a7677370be63f3d5a1b581706174061d15de5bff5d1689921f0"
+    },
+    {
+      "path": "ansi-components/gcc/compiler.txt",
+      "bytes": 239,
+      "sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+    },
+    {
+      "path": "ansi-components/gcc/configure.log",
+      "bytes": 4308,
+      "sha256": "9c762a0dd53d983e37d3c4e1ff56950cb842061dd4c0d8fb5229081440133f6f"
+    },
+    {
+      "path": "ansi-components/gcc/sources.sha256",
+      "bytes": 2738,
+      "sha256": "0c41de5d34610849a319b9aac70647c25b1b41d82b6f3f840e4356603d946ed5"
+    },
+    {
+      "path": "ansi-components/gcc/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "ansi-components/gcc/test_bell_modes.log",
+      "bytes": 187,
+      "sha256": "1b18c52b11cfaf8483b982339285bb2f24193e0ffe91793504adbd65370600a1"
+    },
+    {
+      "path": "ansi-components/gcc/test_cancellation_terminal.log",
+      "bytes": 144,
+      "sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+    },
+    {
+      "path": "ansi-components/gcc/test_feature_policy.log",
+      "bytes": 310,
+      "sha256": "3fd59b7cf845567b58ad44948a7a217d61f2f977418a4760746c4de2fef2351d"
+    },
+    {
+      "path": "ansi-components/gcc/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "ansi-components/gcc/test_locator_terminal.log",
+      "bytes": 170,
+      "sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+    },
+    {
+      "path": "ansi-components/gcc/test_osc52.log",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "ansi-components/gcc/test_pointer_terminal.log",
+      "bytes": 309,
+      "sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+    },
+    {
+      "path": "ansi-components/gcc/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "ansi-components/gcc/test_selective_erase.log",
+      "bytes": 29,
+      "sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+    },
+    {
+      "path": "ansi-components/gcc/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "ansi-components/gcc/test_sixel_terminal.log",
+      "bytes": 1080,
+      "sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+    },
+    {
+      "path": "ansi-components/gcc/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "ansi-components/gcc/test_tcap.log",
+      "bytes": 33,
+      "sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+    },
+    {
+      "path": "ansi-components/gcc/test_udk_terminal.log",
+      "bytes": 187,
+      "sha256": "e7c9a904d3859f87eacec6a6a9b9c6c4ec6a22a6e74664452dc1dfa84a088ff1"
+    },
+    {
+      "path": "ansi-components/msvc/build.log",
+      "bytes": 25240,
+      "sha256": "86442dc656e0d00fdb23e975af6a6ab4c673292800403c90785885254863c68c"
+    },
+    {
+      "path": "ansi-components/msvc/configure.log",
+      "bytes": 3013,
+      "sha256": "219bd555ab0b2be3e8033effded3569ba3341d609f7f63e3a8f779e97adade82"
+    },
+    {
+      "path": "ansi-components/msvc/sources.json",
+      "bytes": 5301,
+      "sha256": "e6fef857fabed1a73d0923f865d4c61bc4d8310a435d0daec75a259bd5d5f6d9"
+    },
+    {
+      "path": "ansi-components/msvc/test_ansi_terminal.log",
+      "bytes": 109,
+      "sha256": "2bfeac5fcd3472e18ecf40f087a3b3a05b4f822e96e9b43be7d438f61c5861b0"
+    },
+    {
+      "path": "ansi-components/msvc/test_bell_modes.log",
+      "bytes": 190,
+      "sha256": "1e69198f9d68cfb27b8501f836b8fc51f134e77dcd36af90486650920299beee"
+    },
+    {
+      "path": "ansi-components/msvc/test_cancellation_terminal.log",
+      "bytes": 147,
+      "sha256": "ee624064c23a0b03f521d2c7ab24280330ad0aeb88a6f331843cf3b5f74f1162"
+    },
+    {
+      "path": "ansi-components/msvc/test_feature_policy.log",
+      "bytes": 315,
+      "sha256": "77957edf37705657542948e1a9e1e9d965c269893055d71176c6f53b006b5a78"
+    },
+    {
+      "path": "ansi-components/msvc/test_keyboard.log",
+      "bytes": 32,
+      "sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0"
+    },
+    {
+      "path": "ansi-components/msvc/test_locator_terminal.log",
+      "bytes": 173,
+      "sha256": "080715e829d74ee1ec8340c1afb50971702694d3d74db24241432e818b94fac9"
+    },
+    {
+      "path": "ansi-components/msvc/test_modes.log",
+      "bytes": 24,
+      "sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843"
+    },
+    {
+      "path": "ansi-components/msvc/test_osc52.log",
+      "bytes": 21,
+      "sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+    },
+    {
+      "path": "ansi-components/msvc/test_pointer_terminal.log",
+      "bytes": 312,
+      "sha256": "04368dca8618c4c7d07c8cbe0828c446af9861f62186dab8658094bb0b66fe63"
+    },
+    {
+      "path": "ansi-components/msvc/test_queries.log",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "ansi-components/msvc/test_selective_erase.log",
+      "bytes": 30,
+      "sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2"
+    },
+    {
+      "path": "ansi-components/msvc/test_sgr.log",
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    {
+      "path": "ansi-components/msvc/test_sixel_terminal.log",
+      "bytes": 1096,
+      "sha256": "42d6f6067351e9c7d3271a57d075d10061bddc5a2f8f504ed62807e5a4a24d19"
+    },
+    {
+      "path": "ansi-components/msvc/test_state_control.log",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "path": "ansi-components/msvc/test_tcap.log",
+      "bytes": 34,
+      "sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+    },
+    {
+      "path": "ansi-components/msvc/test_terminal.log",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "path": "ansi-components/msvc/test_udk_terminal.log",
+      "bytes": 191,
+      "sha256": "a60f63ef4e4d601d2aa3ee9ae97dcc01558a7829357ead78871b1e3dc1fb5a26"
+    },
+    {
+      "path": "ansi-components-run.json",
+      "bytes": 6391,
+      "sha256": "e8c8450c5a1ad14985cb751eae66704efb12722770c4b7a5ed7e136c7211a478"
+    },
+    {
+      "path": "ansi-components-run.log",
+      "bytes": 312211,
+      "sha256": "55a8c87857545bb879fa764c3d273a54039d75736041bba1ae099831af0fb513"
+    },
+    {
+      "path": "ansi-components-artifacts.json",
+      "bytes": 2276,
+      "sha256": "71f5c609767acb550ec7a67ae751d69f8433fd9d380d1a2e1a3e9193cda676af"
+    },
+    {
+      "path": "ansi-components/gcc-download.json",
+      "bytes": 3214,
+      "sha256": "c8d9834b5cca298efa7c583f04c5d9e69087f686aae28542d0cbfa443a44baaa"
+    },
+    {
+      "path": "ansi-components/clang-download.json",
+      "bytes": 3216,
+      "sha256": "5000601d20763cce699ff5e25bd7741ff59b5a6fa79b1eb960067ce8e6e6b491"
+    },
+    {
+      "path": "ansi-components/msvc-download.json",
+      "bytes": 3369,
+      "sha256": "1d62a0ef6f0bfc5a1ec1b78fbc3a3547511f8f437a56b6a59a754eb44feee60f"
+    },
+    {
+      "path": "controller/retain-answerback-nul-ci.py",
+      "bytes": 2309,
+      "sha256": "727c398720cd7ffe1d461842020642dcdd5817ef5c4e894d8137dbd8858ea5cb"
+    }
+  ]
+}
