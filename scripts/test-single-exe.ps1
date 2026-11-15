@@ -20,6 +20,7 @@ Copy-Item -LiteralPath "$root/tests" -Destination "$Destination/tests" -Recurse
 # UDK native replay reads the retained upstream capture. Keep fixture data
 # outside dist so the isolated executable directory still contains one file.
 Copy-Item -LiteralPath "$root/research/dec-udk-reference.tar.gz" -Destination "$Destination/research/dec-udk-reference.tar.gz"
+Copy-Item -LiteralPath "$root/research/bell-modes-reference.tar.gz" -Destination "$Destination/research/bell-modes-reference.tar.gz"
 New-Item -ItemType Directory -Path "$Destination/tools" | Out-Null
 Copy-Item -LiteralPath "$root/tools/nemoterm_debug.py" -Destination "$Destination/tools/nemoterm_debug.py"
 Copy-Item -LiteralPath $Executable -Destination "$Destination/dist/nemoterm.exe"
@@ -41,7 +42,7 @@ try {
         'shell_marks', 'shell', 'powershell_environment', 'delegated_console', 'caret_startup', 'session', 'session_restart', 'titles', 'geometry', 'window_resize', 'gpu_lifecycle')
     $tests += 'c1_controls', 'startup_visibility', 'iterm_reports', 'font_zoom', 'bell', 'bell_visual', 'image_rectangle', 'control_cancellation'
     # Physical pointer and keyboard input is restricted to the disposable CI desktop.
-    if ($env:GITHUB_ACTIONS -eq 'true') { $tests += 'locator', 'udk' }
+    if ($env:GITHUB_ACTIONS -eq 'true') { $tests += 'locator', 'udk', 'bell_modes' }
     foreach ($name in $tests) {
         Write-Host "Starting isolated native test: $name"
         $nativeArgs = @()
