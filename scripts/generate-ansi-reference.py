@@ -34,7 +34,7 @@ parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
 path = root / 'tests/ansi_conformance_reference.h'
 if args.check:
-    assert path.read_text() == generated, 'Regenerate ANSI conformance reference'
+    assert path.read_text(encoding='utf-8') == generated, 'Regenerate ANSI conformance reference'
 else:
     path.write_text(generated, encoding='utf-8')
 print('243 unchanged XTerm streams; 1443 Unicode cell observations; 3 literal controls')
