@@ -2,8 +2,8 @@
 
 The development branch implements private modes 1042 (window attention) and
 1043 (raise on bell), their DECRQM replies and independent private-mode
-save/restore. The complete component regression passes on three compilers;
-the native Windows checkpoint remains pending. No local
+save/restore. The complete component regression passes on three compilers,
+and the focused native Windows checkpoint passes. Full product CI is running. No local
 desktop test or executable promotion has been performed.
 
 ## Independent reference
@@ -60,8 +60,10 @@ The component fixture projects all original replies and window-state records
 without rewriting them. It models the X11 focus/stack adapter to test core
 attention requests; that model does **not** certify Windows API effects or
 visible taskbar behavior. Separate checks exercise overload, setting changes,
-silent reset and OSC termination. Real Windows focus, stacking, taskbar effects,
-background tabs and complete product CI remain pending.
+silent reset and OSC termination. The focused native checkpoint below checks
+Windows focus, stacking and attention API effects. Visible desktop taskbar
+appearance, initially-topmost/minimized windows, background tabs and complete
+product CI remain pending.
 
 ## First component checkpoint
 
@@ -83,7 +85,7 @@ in that workflow. `bell-modes-components.tar.gz` retains both original runs:
 keeps failures, passing logs and exact sources separate. This is a component
 checkpoint, not full single-image acceptance.
 
-## Native stacking failure and correction under validation
+## Native stacking failure and verified correction
 
 The first [native run 43721167249](https://github.com/xiongnemo/nemoterm/actions/runs/43721167249)
 at `f93cb3d` builds the single image but fails the first requested raise:
@@ -102,4 +104,26 @@ the non-activating flags and restoring its original non-topmost class. A window
 already marked topmost keeps that status. The native fixture additionally checks
 that the final topmost attribute is unchanged, alongside actual stacking and
 unchanged focus. Its [run 43721733820](https://github.com/xiongnemo/nemoterm/actions/runs/43721733820)
-is pending. No successful native or full-product result is claimed for this fix.
+passes all **112 cases / 192 exact reply streams**, actual foreground and stacking
+checks, and unchanged final topmost attributes. Four pairs of owned window/child
+sessions exit naturally. Existing sound-policy and visual-bell fixtures also pass.
+
+The 4,538,368-byte source single image has SHA256
+`8cb4d404fa7c861e828b1b8af1151de7370fba85943c8b9b00d873de864e9ba9`.
+`bell-modes-native.tar.gz` retains 33 records / 2,751,712 bytes; its manifest
+compares all native sequences/replies/barriers with the unmodified original
+capture and verifies API flags, actual Z order, foreground preservation, final
+topmost state and cleanup. No API result or protocol expectation is substituted.
+This does not certify desktop taskbar appearance, already-topmost/minimized
+windows, background-tab bell behavior or local speaker output.
+
+## Full workflow integration
+
+`ea141fefc3e105aad6c1fcd49e0e0f161745ab53` adds generated-reference checking,
+the new core replay and disposable native bell fixture to ordinary CI and the
+isolated single-image workflow. Both required reference archives are copied
+outside the executable directory; that directory still contains one executable.
+The new single-image suite should have 158 groups. Ordinary
+[43722555463](https://github.com/xiongnemo/nemoterm/actions/runs/43722555463) and
+single-image [43722558224](https://github.com/xiongnemo/nemoterm/actions/runs/43722558224)
+are running. The currently accepted local image is unchanged.

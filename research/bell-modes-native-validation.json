@@ -1,0 +1,187 @@
+{
+  "source": "994bee4b189850488a5ab4f29eed1fd7355850e9",
+  "run": 43721733820,
+  "conclusion": "success",
+  "artifact_id": 14164424987,
+  "image": {
+    "bytes": 4538368,
+    "sha256": "8cb4d404fa7c861e828b1b8af1151de7370fba85943c8b9b00d873de864e9ba9",
+    "accepted": false
+  },
+  "cases": 112,
+  "exact_reply_streams": 192,
+  "natural_child_cleanup": true,
+  "scope": "Native protocol, actual stacking and foreground, final topmost attribute, and unmodified attention API observations pass. Existing sound-policy and visual fixtures pass. Visible desktop taskbar appearance, initially-topmost/minimized and background-tab cases remain unverified. No local execution or full-product promotion.",
+  "bundle": {
+    "path": "research/bell-modes-native.tar.gz",
+    "bytes": 2751712,
+    "sha256": "457fd614025b1477446c42692d11d47b86e0f00e8883d6eab325d7f54e4bb79b",
+    "records": [
+      {
+        "path": "bell-window-artifacts.json",
+        "raw_bytes": 769,
+        "raw_sha256": "ac2be87ea3108aa71c6dff519dfd4de1fd1512429dafe23dc1c5894c052502c6"
+      },
+      {
+        "path": "bell-window-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "bb5fb0820a1dca4bff1bbe888e9bf4af4726ae1dd36b380d61767b572d28318d"
+      },
+      {
+        "path": "bell-window-run.json",
+        "raw_bytes": 2993,
+        "raw_sha256": "a998f2315fe4ca07fb15e679d29864f8736edeeef27cd0b1978a951967b1e740"
+      },
+      {
+        "path": "bell-window-run.log",
+        "raw_bytes": 149765,
+        "raw_sha256": "9be214787c3df37b768bf63499c7d4c90a200291104762a2a4d08e1d8a2ccd10"
+      },
+      {
+        "path": "diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "a17eb231019d38df75f8ddbfe6f332703f6b4feae29dac89bac4857f3dfdcd67"
+      },
+      {
+        "path": "diagnostic/bell-bell.log",
+        "raw_bytes": 165,
+        "raw_sha256": "c2ac7536f53d3a2438964a577f524f2a0951ad2237f50581e32fe5f875568a8b"
+      },
+      {
+        "path": "diagnostic/bell-bell_modes.log",
+        "raw_bytes": 103,
+        "raw_sha256": "662be8be174ee7e4812b3230781b7b454e35c07f38da0bf881ec9fe55fd2b04b"
+      },
+      {
+        "path": "diagnostic/bell-bell_visual.log",
+        "raw_bytes": 73,
+        "raw_sha256": "1f140b0e15d7a3a580f3500642f4589102932a5fce5c43d6de685b73e291c8bb"
+      },
+      {
+        "path": "diagnostic/bell-build.log",
+        "raw_bytes": 42110,
+        "raw_sha256": "a9250e58509915c768f7151842fbd8cb9df6e78ba1483abbf35ff36127fa696a"
+      },
+      {
+        "path": "diagnostic/bell-image.json",
+        "raw_bytes": 170,
+        "raw_sha256": "7ab1dc8e42d10001f3acd4225f7568ad893f21766f0a833d90f4bd2392cb7031"
+      },
+      {
+        "path": "diagnostic/build/single-exe-dist/nemoterm.exe",
+        "raw_bytes": 4538368,
+        "raw_sha256": "8cb4d404fa7c861e828b1b8af1151de7370fba85943c8b9b00d873de864e9ba9"
+      },
+      {
+        "path": "diagnostic/research/bell-mode-0-observed.json",
+        "raw_bytes": 1285,
+        "raw_sha256": "df96a5e64f65b9d2bd908a11635004470bbdebb1352d63bd1e9fed5a65f3a14f"
+      },
+      {
+        "path": "diagnostic/research/bell-mode-1-observed.json",
+        "raw_bytes": 1381,
+        "raw_sha256": "8f5e6b9267e2ae2896844606bebd87676847cba2d16af4de86b358f764718bb1"
+      },
+      {
+        "path": "diagnostic/research/bell-mode-2-observed.json",
+        "raw_bytes": 1285,
+        "raw_sha256": "428457f0bb2202be72a912806b7ae34dec68d2c5f46e4c06eb2333b30891da9d"
+      },
+      {
+        "path": "diagnostic/research/bell-modes-reference-validation.json",
+        "raw_bytes": 76222,
+        "raw_sha256": "17d4f52c51cafc00fcb3fe3689d5a9d4e6ada8a2159141de7102532e3a95c59a"
+      },
+      {
+        "path": "diagnostic/research/bell-modes-window-observed.json",
+        "raw_bytes": 234111,
+        "raw_sha256": "f87c9a03f5abc11b62bded9bc4fb5a5092741e7d4b78cd9ea22f90eb5b90aa0d"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-0-flash.png",
+        "raw_bytes": 2775,
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-0-normal.png",
+        "raw_bytes": 2779,
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-1-flash.png",
+        "raw_bytes": 2775,
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-1-normal.png",
+        "raw_bytes": 2779,
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-2-flash.png",
+        "raw_bytes": 2775,
+        "raw_sha256": "00b3dd34310da862cf80c5bced13aa768b207fede6c5f84976e0fca28b04844d"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-2-normal.png",
+        "raw_bytes": 2779,
+        "raw_sha256": "535e97a5aa19362e52cbd38aeb7412f3e7fb14e9b4495b10b8a1e3d699650f3f"
+      },
+      {
+        "path": "diagnostic/research/visual-bell-observed.json",
+        "raw_bytes": 94096,
+        "raw_sha256": "ffdd783cdddf95ce32a3538c2a6235ab0ad9de5202b6bfaa62546f7a41aab4fc"
+      },
+      {
+        "path": "source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 15931,
+        "raw_sha256": "6cbe7287350ac65e85b2c8b76eef43d286047a9ba668405260b8b5cb19c93c55"
+      },
+      {
+        "path": "source/retainer.py",
+        "raw_bytes": 4964,
+        "raw_sha256": "aafb2eac7a81cd64a7f6fae6c8526a3bf6c1292eff8cf75bf9b291f393eb4023"
+      },
+      {
+        "path": "source/tests/bell_modes_window_smoke.py",
+        "raw_bytes": 9991,
+        "raw_sha256": "c9bf14399b20aef1555c23470a6fcae618653ed0ee740cd4fda417aca645eb0e"
+      },
+      {
+        "path": "source/tests/bell_visual_window_smoke.py",
+        "raw_bytes": 5049,
+        "raw_sha256": "7efe4534c2719e1c285e21e2bf3de15810455cc305b442bad491b69bc44c4d1b"
+      },
+      {
+        "path": "source/tests/bell_window_smoke.py",
+        "raw_bytes": 1792,
+        "raw_sha256": "e707368067d18a9f7f550897e7cd09ab9afb2f8a53517943712d8ebd010406ca"
+      },
+      {
+        "path": "source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "source/tests/protocol_oracle_window.py",
+        "raw_bytes": 6603,
+        "raw_sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+      },
+      {
+        "path": "source/vendor/putty-0.85/windows/window.c",
+        "raw_bytes": 289524,
+        "raw_sha256": "97f71eacc92ff1b357c39a55ba986224e2fc476e2b2cb7a7891a5ee0748e3690"
+      }
+    ]
+  }
+}

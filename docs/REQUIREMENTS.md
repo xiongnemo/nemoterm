@@ -21,8 +21,10 @@ urgency, focus and stacking. Full component regressions pass GCC/Clang sanitizer
 and MSVC at `f93cb3d`. Startup defaults, private save/restore, overload-aware
 attention and an optional reset bell are implemented. The first native Windows
 check caught an ineffective raise despite a successful API return; `994bee4`
-corrects the positioning and is undergoing cloud validation. Native/background
-tab and complete product acceptance remain open. Local testing stays paused.
+corrects the positioning and passes 112 native cases / 192 exact streams, actual
+foreground/Z-order observations and unchanged final topmost status. Both full
+product workflows are now running at `ea141fe`. Visible taskbar, already-topmost,
+minimized and background-tab cases remain open. Local testing stays paused.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 
