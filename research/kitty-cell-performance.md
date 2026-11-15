@@ -80,5 +80,9 @@ The archive also retains the first candidate's failures. A later
 [native source diagnostic](unicode-dense-memory.md) completes 24 dense-image
 resizes per renderer on the remote grids without reaching its 30-second snapshot
 threshold. It is explicitly separate from memory acceptance and post-memory
-pixel verification. The full dense-cell gate and exact-product acceptance
-remain pending.
+pixel verification. The later ordinary CI at `f01927a` passes the full dense-cell
+gate on remote Consolas grids, including all post-memory cell-centre checks.
+A pre-index source reproduction captures the busy thread inside linear prototype
+lookup at both 30 and 60 seconds. The [native record](unicode-dense-memory.md)
+distinguishes those rebuilt images from the missing original failure. Single-file
+and local 160x48 Sarasa exact-product acceptance remain pending.

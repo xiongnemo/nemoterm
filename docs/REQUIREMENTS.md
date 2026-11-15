@@ -22,7 +22,11 @@ then exceeds the 45-minute whole-job deadline while the controller waits in
 `MoveWindow`; no dense-memory result or final executable is retained. The
 [timeout record](../research/unicode-dense-memory.md) preserves the earlier ten
 memory passes and 96 exact clipboard copies as partial evidence. The lazy-index
-optimization passes all three component compilers; full native checks continue.
+optimization passes all three component compilers. Ordinary CI at `f01927a`
+now passes all four jobs and twelve uninjected memory groups, including dense
+Unicode images and 25,048 post-memory cell-centre checks. Dense private-WS peaks
+are 14,405,632 bytes for GDI and 18,411,520 for DirectX at the remote grids;
+DirectX total WS is 54,407,168 bytes, still above the approximate 50 MB target.
 This is not acceptance of
 the new exact product at local 160x48 Sarasa. Local interactive testing is
 currently paused at the user's request. The accepted artifact below is unchanged.

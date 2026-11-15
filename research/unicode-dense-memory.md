@@ -76,6 +76,64 @@ executables also differ from the missing original single-file image.
 logs and controls in `indexed-native-resize.tar.gz`. Downloaded runtime/helper
 binaries are listed by hash and remain in the identified local/CI artifact
 folders rather than being embedded in this archive. The earlier setup failure
-is included. A separate rebuilt pre-index source diagnostic is being collected
-to locate the slow path; these finite indexed passes alone do not establish the
-old timeout's cause. Full local-grid acceptance remains pending.
+is included. The rebuilt pre-index source diagnostic below locates a slow path;
+these finite indexed passes alone do not establish the original missing image's
+timeout cause. Full local-grid acceptance remains pending.
+
+## Pre-index source reproduction
+
+[Run 43688973897](https://github.com/xiongnemo/nemoterm/actions/runs/43688973897)
+uses the same `84e6f80` diagnostic fixture with production source `eae8968`.
+Both GDI and DirectX remain in the first resize when the existing 180-second
+diagnostic watchdog terminates their controllers. Each retains two successful
+external captures, at 30 and 60 seconds; the helper leaves its target alive.
+The first scene's grid, cell count, input byte count and hash match the indexed
+diagnostic for each renderer exactly. The only changed production file between
+`eae8968` and `f01927a` is `nemo_kitty_placements.c`.
+
+The GDI thread is captured at `by_sequence+0xd` and `by_sequence+0x12` and adds
+27.453 CPU seconds between snapshots. DirectX is captured at `by_sequence+0xd`
+and `nemo_kitty_placement_view+0x13`, adding 29.594 CPU seconds. Disassembly of the
+retained rebuilt image confirms those `by_sequence` addresses are in the linked
+list search. These direct instruction and CPU observations demonstrate active
+placement lookup in the source reproduction, rather than a waiting thread.
+
+Raw stack words also point into `visible`, `nemo_kitty_paint`, text drawing and
+painting callbacks; these are explicitly recorded as pointer candidates, not
+an unwound call chain. Source inspection connects each per-text-run placement
+walk to a fresh linear prototype lookup for each view. The lazy sequence index
+removes that inner list search without changing the raster, cell cap or budget.
+Different runners and rebuilt images prevent an exact latency comparison or a
+claim that the missing original single-file failure has been replayed.
+
+`unicode-preindex-stall-validation.json` indexes 82 original records in
+`preindex-native-resize-stall.tar.gz`, including all four dumps, rebuilt runtime
+images, symbol lists, helper controls, disassembly and offline parser. Neither
+baseline controller reaches memory acceptance or ordinary cleanup; the existing
+watchdog bounds the diagnostic lifetime.
+
+## Completed indexed ordinary CI
+
+[Run 43686454496](https://github.com/xiongnemo/nemoterm/actions/runs/43686454496)
+at `f01927a` passes all four jobs, including the complete Windows native sequence
+and all twelve uninjected two-tab memory groups. The dense Unicode groups pass
+their unchanged strict GDI 20 MB / inclusive DirectX 25 MB private-WS gates:
+
+| Renderer | Actual Consolas grid | Peak private WS | Peak total WS |
+| --- | --- | ---: | ---: |
+| GDI | 109x34 | 14,405,632 bytes | 45,400,064 bytes |
+| DirectX | 88x35 | 18,411,520 bytes | 54,407,168 bytes |
+
+After sampling stops, all 25,048 expected cell centres match across active and
+inactive reads of both tabs (260 row strips total). The same frontend also
+passes 153 Unicode cell/geometry stages and 96 exact clipboard copies. Requested
+OpenGL again falls back to GDI. All memory fixture jobs drain naturally.
+
+`unicode-indexed-core-validation.json` indexes 78 workflow, memory, native and
+retained strip records in `indexed-full-core-f01927a.tar.gz`. The portable MinGW
+frontend SHA256 is
+`9fa94d82fac744a2dbed3fda8bd78f6a75e8b2b01207f8670938513cdfc267e3`.
+It uses separate ConPTY/console-host files; the single-file workflow remains
+independent. This is remote-grid acceptance, not local 160x48 Sarasa validation.
+DirectX total WS still exceeds the approximate 50 MB target. No distribution
+binary is promoted, and local desktop testing remains paused.
