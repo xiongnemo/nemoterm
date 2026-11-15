@@ -36,3 +36,14 @@ incidents remain documented in [tab-probe-detach.md](tab-probe-detach.md) and
 root cause has not been established. A targeted diagnostic needs an external
 exception observer attached to a newly owned mixed-profile process, plus the
 existing observer controls. Local desktop testing stays paused.
+
+`profiles-close-diagnostic.yml` now builds the selected full source commit with
+the original MinGW release flags and downloads that source run's identified
+console host. It records the rebuilt frontend and every runtime file hash,
+then runs three ordinary and three debugger-observed independent lifetimes.
+The existing four debugger controls must pass first. Neither repetition arm
+changes the close timeout, resource limits or zero-exit assertion. Optional
+`--exception-observer` support in the profile fixture retains exception metadata
+and dumps through its normal private-job cleanup. A source rebuild and debugger
+attachment can both change behavior; successful attempts will not explain the
+original failure by themselves.

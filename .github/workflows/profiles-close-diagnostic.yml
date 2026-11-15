@@ -1,0 +1,119 @@
+name: Diagnose mixed-profile close from pinned source
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Full production source commit to rebuild, not an exact failed image
+        type: string
+        required: true
+      source_run:
+        description: Matching core run with its retained source-console-host artifact
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostic:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SOURCE_RUN: ${{ inputs.source_run }}
+      NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate the production and host source identities
+        shell: pwsh
+        run: |
+          if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$') { throw 'Invalid source identity' }
+          $run = gh run view $env:SOURCE_RUN --json headSha,workflowName,jobs
+          if ($LASTEXITCODE) { throw 'Could not read source run' }
+          $parsed = $run | ConvertFrom-Json
+          if ($parsed.headSha -cne $env:SOURCE_COMMIT -or $parsed.workflowName -ne 'Test and build') { throw 'Source run mismatch' }
+          if (@($parsed.jobs | Where-Object { $_.name -eq 'Source-built console host for compiler comparison' -and $_.conclusion -eq 'success' }).Count -ne 1) { throw 'Source host did not pass' }
+          New-Item -ItemType Directory -Force build/profile-diagnostic | Out-Null
+          $run | Set-Content build/profile-diagnostic/source-run.json
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ inputs.source_commit }}
+          path: build/profile-source
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+      - name: Rebuild the pinned frontend with the original release flags
+        shell: msys2 {0}
+        working-directory: build/profile-source
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+          gcc --version | tee ../profile-diagnostic/compiler.txt
+          cmake -S vendor/putty-0.85 -B build -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel \
+            '-DCMAKE_C_FLAGS_MINSIZEREL=-Os -ffunction-sections -fdata-sections' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc' -DPUTTY_GSSAPI=OFF \
+            2>&1 | tee ../profile-diagnostic/configure.log
+          cmake --build build --target pterm --parallel 4 2>&1 | tee ../profile-diagnostic/build.log
+          mkdir -p ../profile-diagnostic/runtime
+          cp build/nemoterm.exe ../profile-diagnostic/runtime/
+      - name: Install the identified source host and retain runtime identity
+        shell: pwsh
+        run: |
+          ./build/profile-source/scripts/fetch-conpty.ps1 -Architecture x64 -Destination build/profile-diagnostic/runtime
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          gh run download $env:SOURCE_RUN --name "source-console-host-x64-$env:SOURCE_COMMIT" --dir build/profile-host
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./build/profile-source/scripts/install-source-conpty-host.ps1 -SourceDirectory build/profile-host -Destination build/profile-diagnostic/runtime -ExpectedCommit $env:SOURCE_COMMIT
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $exe = (Resolve-Path build/profile-diagnostic/runtime/nemoterm.exe).Path
+          "NEMOTERM_TEST_EXE=$exe" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          [ordered]@{
+            production_source = $env:SOURCE_COMMIT
+            host_source_run = $env:SOURCE_RUN
+            fixture_source = (git rev-parse HEAD).Trim()
+            exact_failed_image = $false
+            scope = 'Rebuilt MinGW frontend; diagnostic only, not memory or product acceptance'
+            runtime_hashes = @(Get-ChildItem build/profile-diagnostic/runtime -File | Get-FileHash -Algorithm SHA256 | Select-Object Path,Hash)
+            fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/gpu_capture.py, tests/agent_key_probe.js, tests/native_exception_observer.py -Algorithm SHA256 | Select-Object Path,Hash)
+          } | ConvertTo-Json -Depth 5 | Set-Content build/profile-diagnostic/identity.json
+      - name: Install the original instrumentation version and validate debugger controls
+        shell: pwsh
+        run: |
+          python -m pip install frida==17.24.3
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/test-exception-observer.ps1 -Destination build/profile-diagnostic/exception-controls
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Retain three ordinary and three debugger-observed profile lifetimes
+        shell: pwsh
+        run: |
+          $failed = $false
+          foreach ($mode in @('ordinary','debugger')) {
+            $fixtureArgs = if ($mode -eq 'debugger') { @('--exception-observer',(Resolve-Path build/profile-diagnostic/exception-controls/observer.exe).Path) } else { @() }
+            foreach ($iteration in 1..3) {
+              python tests/tabs_profiles_window_smoke.py @fixtureArgs 2>&1 | Tee-Object "build/profile-diagnostic/$mode-$iteration.log"
+              $code = $LASTEXITCODE
+              if (Test-Path research/tabs-profiles-observed.json) { Copy-Item research/tabs-profiles-observed.json "build/profile-diagnostic/$mode-$iteration-observed.json" }
+              if ($code) { $failed = $true }
+            }
+          }
+          if ($failed) { throw 'At least one profile lifetime failed; all attempts retained' }
+      - name: Preserve observed exceptions even when a replay fails
+        if: always()
+        shell: pwsh
+        run: |
+          Get-ChildItem research -Directory -Filter 'exception-profiles-*' | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination build/profile-diagnostic -Recurse }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: profiles-close-diagnostic-${{ github.sha }}
+          path: build/profile-diagnostic/
+          retention-days: 30
+          if-no-files-found: error

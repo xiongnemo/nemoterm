@@ -3,10 +3,15 @@ from native_test_utils import *
 from owned_job import OwnedJob
 from gpu_capture import OwnedGPUCapture
 from owned_failure_state import record_owned_failure
+import argparse
 import re
 import uuid
 import winreg
 
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--exception-observer',type=Path,
+                    help='attach an external debugger to this private fixture process; diagnostic only')
+args=parser.parse_args()
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light'
 u.GetSystemMenu.argtypes,u.GetSystemMenu.restype=[w.HWND,w.BOOL],w.HMENU
@@ -21,6 +26,7 @@ k.GetProcessHandleCount.argtypes=[w.HANDLE,c.POINTER(w.DWORD)]
 evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
               completed=False,font=font,checks=[],profiles=[],cycles=[],memory_instrumented=True)
 profiles=[]
+if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
 def menu_command(menu,label):
     for i in range(u.GetMenuItemCount(menu)):
         text=c.create_unicode_buffer(256)
@@ -33,7 +39,7 @@ def menu_command(menu,label):
     return None
 try:
     with tempfile.TemporaryDirectory(prefix='nemoterm-tab-profiles-') as tmp,OwnedJob() as job:
-        tmp=Path(tmp);known=set();serial=0;captures=[];session=None
+        tmp=Path(tmp);known=set();serial=0;captures=[];session=None;exception_observer=None
         for renderer in range(3):
             name='tab-profile-'+uuid.uuid4().hex
             path='Software\\Nemo\\Nemoterm\\Sessions\\'+name
@@ -64,6 +70,10 @@ try:
                 wait_for(lambda:read_snapshot(child['report']))
                 return child
             children=[new_child()];host=terminal_host(children[0]['hwnd'])
+            if args.exception_observer:
+                from native_exception_observer import NativeExceptionObserver
+                exception_observer=NativeExceptionObserver(args.exception_observer,process,job,
+                    root/'research'/('exception-profiles-'+uuid.uuid4().hex))
             for profile in evidence['profiles'][1:]:
                 command=menu_command(u.GetSystemMenu(host,False),profile['name'])
                 assert command is not None,profile
@@ -173,8 +183,10 @@ try:
             output(current,'\x1b[?2026l')
             wait_for(lambda:captures[2].capture()!=hashes[2])
             evidence['checks'].append('frozen pixels survive destroying and recreating the shared renderer')
+            evidence['phase']='close-capture-helpers'
             for helper in captures:helper.close()
-            captures=[];session.detach();session=None
+            captures=[];evidence['phase']='detach-key-probe';session.detach();session=None
+            evidence['phase']='close-host'
             owner=w.DWORD();host_thread=u.GetWindowThreadProcessId(host,c.byref(owner))
             evidence['close_request']=dict(hwnd=host,thread=host_thread,pid=owner.value)
             assert host_thread and owner.value==process.pid,'Tab host ownership changed before close'
@@ -182,17 +194,27 @@ try:
             assert evidence['close_request']['posted'],'WM_CLOSE could not be posted to the owned tab host'
             evidence['frontend_exit']=process.wait(timeout=15)
             assert evidence['frontend_exit']==0,evidence['frontend_exit']
+            if exception_observer:exception_observer.helper.wait(timeout=10)
             evidence['owned_job_cleanup']=job.finish(grace=5)
             assert not evidence['owned_job_cleanup']['terminated_remaining']
             evidence['completed']=True
+            evidence['phase']='complete'
         except BaseException:
             record_owned_failure(process,job,evidence,'mixed-profile-failure')
             raise
         finally:
-            if session:session.detach()
-            for helper in captures:helper.close()
-            k.CloseHandle(handle)
-            evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
+            primary_failure=sys.exc_info()[1]
+            try:
+                if session:session.detach()
+                for helper in captures:helper.close()
+            finally:
+                if handle:k.CloseHandle(handle)
+                try:
+                    if exception_observer:
+                        evidence['exception_observer']=exception_observer.close()
+                        if evidence['exception_observer'].get('exit_code')!=0 and primary_failure is None:
+                            raise RuntimeError('External exception observer failed; inspect its retained log')
+                finally:evidence.setdefault('owned_job_cleanup',job.finish(grace=0))
 finally:
     if sys.exc_info()[0]:evidence['error']=repr(sys.exc_info()[1])
     for path in profiles:winreg.DeleteKey(winreg.HKEY_CURRENT_USER,path)
