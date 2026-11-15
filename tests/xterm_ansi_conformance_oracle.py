@@ -46,6 +46,8 @@ def cases():
         transitions={
             'soft-reset':C+b'!p'+BANKS,
             'hard-reset':E+b'c'+E+b'%@'+BANKS,
+            'soft-reset-default-banks':C+b'!p'+REPORT,
+            'hard-reset-default-banks':E+b'c'+E+b'%@'+REPORT,
             'dec-level-reset':C+b'65;1"p'+BANKS,
             'cursor-save-restore':E+b'7'+E+b' N'+E+b'8',
             'cursor-save-restores-lower':E+b' N'+E+b'7'+E+b' L'+E+b'8',
@@ -60,6 +62,15 @@ def cases():
         }
         for name,transition in transitions.items():
             add(f'ansi{ansi}-{name}',setup,transition+E+b'n',ansi_command=ansi,transition=name)
+        add(f'ansi{ansi}-preserves-current-gl',BANKS+E+b'n',E+b' '+ansi.encode(),
+            ansi_command=ansi,transition='already invoked GL bank')
+        add(f'ansi{ansi}-preserves-current-gr',BANKS+E+b'|',E+b' '+ansi.encode(),
+            bytes(x+0x80 for x in PROBE),ansi_command=ansi,transition='already invoked GR bank')
+        for shift in ('ss2','ss3'):
+            add(f'ansi{ansi}-preserves-pending-{shift}',BANKS,SHIFTS[shift]+E+b' '+ansi.encode(),
+                ansi_command=ansi,transition='pending '+shift)
+        add(f'ansi{ansi}-vt52-return',BANKS,C+b'?2l'+E+b' '+ansi.encode()+E+b'<'+E+b'n',
+            ansi_command=ansi,transition='VT52 enter and exit')
     return result
 
 if __name__=='__main__':
