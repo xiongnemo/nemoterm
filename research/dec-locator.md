@@ -63,10 +63,19 @@ reference.
 
 The [upstream mouse dispatcher](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/button.c)
 and [parser](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/charproc.c)
-provide context for these independent observations. A supplementary 102-case
-capture at `bbddb98` adds named explicit-binding profiles for the fourth button
-and Ctrl+left, with the unmodified upstream protocol implementation; its result
-is pending.
+provide context for these independent observations. The supplementary
+[run 43712495322](https://github.com/xiongnemo/nemoterm/actions/runs/43712495322)
+at `bbddb98` passes **102 cases, 429 steps and five literal controls**. Named
+explicit-binding profiles verify fourth-button and Ctrl+left dispatch with the
+unmodified upstream protocol implementation. All 100 earlier input/action/reply
+streams remain identical; the extra profiles distinguish protocol behavior
+from XTerm's default wheel/menu bindings.
+
+The supplemental capture SHA256 is
+`fa3f3f13dd56847c093c8b638f8e658a8227bf29964485c63a07029bcb2fa96e`.
+`dec-locator-binding-reference.tar.gz` retains 328 records (304,848 bytes),
+indexed by `dec-locator-binding-reference-validation.json`. It includes the
+explicit X resources, pointer states, replies, stderr and natural exit records.
 
 ## Implementation work still required
 

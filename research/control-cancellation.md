@@ -85,9 +85,13 @@ passes the expanded regression set on GCC/Clang ASan/UBSan and MSVC, alongside
 the unchanged 497-stream reference matrix and payload lifetime checks.
 `control-cancellation-regressions.tar.gz` retains this and the earlier passing
 `73ed664` component run (142 records, 497,415 bytes, 42 verified source hashes),
-indexed by `control-cancellation-regression-validation.json`. The replacement
-full ordinary run is 43710069426; the production-equivalent single-image run
-43709232409 remains in progress.
+indexed by `control-cancellation-regression-validation.json`. Replacement
+ordinary run 43710069426 was explicitly cancelled and superseded by
+[run 43710486453](https://github.com/xiongnemo/nemoterm/actions/runs/43710486453)
+at `7c40765`: the earlier ANSI run demonstrated that the 40-minute outer job
+budget interrupted the final memory workload. The replacement allows 50 minutes
+without changing individual test deadlines or memory limits. It remains in
+progress at this checkpoint; the cancellation is not a product failure.
 
 ## Native integration boundary
 
@@ -100,7 +104,37 @@ replay, not by this native fixture. It also compares SUB/CAN output pixels with
 literal byte/Unicode text in an owned window. Expected wire bytes are copied
 directly from the independent captures.
 
-These newly added native checks have not yet passed product CI. Full product
-acceptance, other renderer-specific checks and local 160×48 Sarasa testing
-remain separate. The memory target applies to GDI; current DX memory is
-accepted and this work does not introduce further DX memory optimization.
+These checks now pass the complete single-image workflow below. Ordinary
+workflow completion and local 160×48 Sarasa testing remain separate. The memory
+target applies to GDI; current DX memory is accepted and this work does not
+introduce further DX memory optimization.
+
+## Complete single-image checkpoint
+
+[Run 43709232409](https://github.com/xiongnemo/nemoterm/actions/runs/43709232409)
+at `73ed664` passes all **155 validation groups**, including the 413 native
+reference streams and three literal GDI pixel comparisons. Offline validation
+compares every captured reply with the unchanged generated reference, checks
+both hashes of each pixel pair and confirms natural process cleanup. The 84
+binary-only streams retain their separately passing core coverage.
+
+The single executable is 4,532,224 bytes with SHA256
+`c5a359282e012a5cbd3b27b74543a5c74e9e5e43687cd1cd8d0d01e687890a71`.
+The [verified CI artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43709232409/artifacts/14161561224)
+expires on 2026-12-15. It has the same production and single-image build inputs
+as the corrected `069d220` component checkpoint; the old test assertions are
+not production code, and these are separately linked binaries.
+
+All twelve uninjected memory workloads pass their existing private-working-set
+limits, with natural cleanup and 25,048 post-sampling Unicode image cell checks.
+Dense GDI uses a remote Consolas 109×34 grid and peaks at 14,213,120 bytes private
+working set, 46,645,248 bytes total and 16,801,792 bytes private commit. DirectX
+uses an 88×35 grid and peaks at 18,112,512 / 55,152,640 / 21,135,360 bytes. Its total
+working set is recorded under the user's accepted DX scope, not the GDI target.
+
+`control-cancellation-single.tar.gz` preserves 4,560 records (8,330,025 bytes),
+including the executable, full CI evidence, original ordinary failure log and
+exact source blobs. `control-cancellation-single-validation.json` indexes and
+hashes those records. No local GUI was launched and `dist/nemoterm.exe` remains
+the previously accepted image; this cloud checkpoint does not renew local
+Sarasa or hardware OpenGL acceptance.

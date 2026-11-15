@@ -1,0 +1,1675 @@
+{
+  "runs": [
+    {
+      "source": "bbddb983687d1f042bb4e35535cfa3a8a2ddbcfa",
+      "run": 43712495322,
+      "artifact_id": 14161431365,
+      "conclusion": "success",
+      "completed_cases": 102,
+      "capture_completed": true,
+      "observations_sha256": "fa3f3f13dd56847c093c8b638f8e658a8227bf29964485c63a07029bcb2fa96e",
+      "executable_sha256": "5ed4a2adcf6b34774dad9f215068d53f453d469dbabf19ade2f0b6a75508cac0",
+      "upstream_source_sha256": {
+        "button.c": "a14b0dd0b177d54a1a339b5be13050c346178b065295195bf1b9763f82d714ec",
+        "charproc.c": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325",
+        "configure.in": "1c760575fd4da544e6c7daa5042be4dcf0d93d62aee540eb505d6ed05ee8ae31",
+        "ctlseqs.ms": "69773380309da4c8b5d4ec9646eec703c47bc41db29a8efa5b94c30798c72349",
+        "ptyx.h": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38",
+        "VTPrsTbl.c": "36169b1c9ef40cd35a46ffc2549d1a002d488847d72b35aa2d810c71f692940d"
+      }
+    }
+  ],
+  "current_source": "bbddb983687d1f042bb4e35535cfa3a8a2ddbcfa",
+  "cases": 102,
+  "steps": 429,
+  "literal_controls": 5,
+  "configuration": "Pinned XTerm(412), --enable-dec-locator, -ti vt525, fixed 6x13 font, 80x24 grid, private Xvfb and real XTest events.",
+  "scope": "Independent upstream reference only; Nemoterm DEC Locator implementation and native Windows integration remain missing. Default XTerm button bindings affect Ctrl and wheel-button event delivery. Named explicit-binding profiles separately verify fourth-button and Ctrl-left protocol dispatch; the earlier 100 input/action/reply streams are unchanged.",
+  "bundle": {
+    "path": "research/dec-locator-binding-reference.tar.gz",
+    "archive_bytes": 304848,
+    "archive_sha256": "456942a992b5af8126d3ce5ec9696c76e46a42518e9bab92312280db0f4fefc4",
+    "records": [
+      {
+        "path": "bbddb98/locator-artifacts.json",
+        "raw_bytes": 788,
+        "raw_sha256": "3e5c6acdef7d0bb05a04bd09af8d92220509a6950598a393c65dfef1356d5dfd"
+      },
+      {
+        "path": "bbddb98/locator-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "54de004b8a4455a5358f617347795bf434908a176d06483594daa6feadf1b7d9"
+      },
+      {
+        "path": "bbddb98/locator-run.json",
+        "raw_bytes": 5453,
+        "raw_sha256": "11afc476c159cf05eb6163c98db5b11d1dd707fbc59cece6151e3db005c65458"
+      },
+      {
+        "path": "bbddb98/locator-run.log",
+        "raw_bytes": 145638,
+        "raw_sha256": "769ab74d7e8be482902f4a00764ec9c871a782395242312fb49d42e1cba3ccfd"
+      },
+      {
+        "path": "bbddb98/reference-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "7dc79c74f238f687b6faf03aa2aed2a59ac0159588df7136b8189d3da61981d8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm.json",
+        "raw_bytes": 160308,
+        "raw_sha256": "fa3f3f13dd56847c093c8b638f8e658a8227bf29964485c63a07029bcb2fa96e"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-control-left-cee28de4/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-control-left-cee28de4/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-control-left-cee28de4/observed.json",
+        "raw_bytes": 1857,
+        "raw_sha256": "c2e01d63225634abee059a40fc7dba117137bd31ab27bf0019dd1a6b1d77daec"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-fourth-button-4394bc0b/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-fourth-button-4394bc0b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bound-fourth-button-4394bc0b/observed.json",
+        "raw_bytes": 2041,
+        "raw_sha256": "7fd895e3f99b3e59e52e36efbd2200d57c5399d2843bb8c3a6699e214b2832fe"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_-30_-30_-972bb6ec/child.json",
+        "raw_bytes": 90,
+        "raw_sha256": "b5317815a7a935b15d004775bd35f01a7d0a95de9e1bc64d9c6615a1f9778d84"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_-30_-30_-972bb6ec/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_-30_-30_-972bb6ec/observed.json",
+        "raw_bytes": 1960,
+        "raw_sha256": "dc3f6322cceae5b2c376a364a770a8cebb0773531a8d28cfe87bb3c2b327f34f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_0_0_-d16edf82/child.json",
+        "raw_bytes": 90,
+        "raw_sha256": "b5317815a7a935b15d004775bd35f01a7d0a95de9e1bc64d9c6615a1f9778d84"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_0_0_-d16edf82/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_0_0_-d16edf82/observed.json",
+        "raw_bytes": 1956,
+        "raw_sha256": "fb37fb95ad31496cf7b71f2aabe6f0a4c68c3ffe133c98d24690fe4151630413"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_3_3_-5fc5cdee/child.json",
+        "raw_bytes": 90,
+        "raw_sha256": "b5317815a7a935b15d004775bd35f01a7d0a95de9e1bc64d9c6615a1f9778d84"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_3_3_-5fc5cdee/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_3_3_-5fc5cdee/observed.json",
+        "raw_bytes": 1956,
+        "raw_sha256": "f0f74073ad5db8d5e833b68c265ff167b15ec666af7a9a3a3a87ba3572496c5e"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_900_600_-03fcf349/child.json",
+        "raw_bytes": 90,
+        "raw_sha256": "b5317815a7a935b15d004775bd35f01a7d0a95de9e1bc64d9c6615a1f9778d84"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_900_600_-03fcf349/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-1-_900_600_-03fcf349/observed.json",
+        "raw_bytes": 1960,
+        "raw_sha256": "0ef7bad3af1733a6ec86e2ffee1c61fec7b5d48dd891c5bae3a33ce4309c5f2f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_-30_-30_-292c1a7e/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "d06a9dac238d32cf447068553b10b6b3ba2a32f6d7c4a2a0b8cd287f54a33cb7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_-30_-30_-292c1a7e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_-30_-30_-292c1a7e/observed.json",
+        "raw_bytes": 1952,
+        "raw_sha256": "f2ea4cc428a30f2be186cb6d8429b7ae949f383100cff06c31045fbeed1e2092"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_0_0_-176bff99/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "d06a9dac238d32cf447068553b10b6b3ba2a32f6d7c4a2a0b8cd287f54a33cb7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_0_0_-176bff99/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_0_0_-176bff99/observed.json",
+        "raw_bytes": 1948,
+        "raw_sha256": "63067ac3e37be0e720420caadd34f0a0797dd8efced6dd8955c40631e123f44d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_3_3_-948d2671/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "d06a9dac238d32cf447068553b10b6b3ba2a32f6d7c4a2a0b8cd287f54a33cb7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_3_3_-948d2671/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_3_3_-948d2671/observed.json",
+        "raw_bytes": 1948,
+        "raw_sha256": "bed1c5065fbd11770bf41cb72b1166c9e767801d899cdd2b124096e4ca13ca69"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_900_600_-50c3c0b3/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "d06a9dac238d32cf447068553b10b6b3ba2a32f6d7c4a2a0b8cd287f54a33cb7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_900_600_-50c3c0b3/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/bounds-2-_900_600_-50c3c0b3/observed.json",
+        "raw_bytes": 1952,
+        "raw_sha256": "7610741a75ed91895775e1cca0480f78e9ad09d82223178213522ab464af0617"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-1-94b16949/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-1-94b16949/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-1-94b16949/observed.json",
+        "raw_bytes": 1830,
+        "raw_sha256": "bb4ad583804e7c2de3b8a7824a36751b78b573e7d3d55963d88379ac7f61f313"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-2-46f2ccde/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-2-46f2ccde/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-2-46f2ccde/observed.json",
+        "raw_bytes": 1830,
+        "raw_sha256": "5e1fddbb8cff2af338e490331bef61aeaae5666e895f1f0f7ec230219e744128"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-3-9c5d5ed3/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-3-9c5d5ed3/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-3-9c5d5ed3/observed.json",
+        "raw_bytes": 1833,
+        "raw_sha256": "300a81f7aa938a1624acb76d9f216228dc99f8de02b97beabe5711932ab39f37"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-4-02af13e3/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-4-02af13e3/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-4-02af13e3/observed.json",
+        "raw_bytes": 1785,
+        "raw_sha256": "85567de91c35f7a50e308cf6ff96ea0ed1e83527e2124efe7fe66c326b7aba8b"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-5-f14e5d4c/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-5-f14e5d4c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/button-5-f14e5d4c/observed.json",
+        "raw_bytes": 1793,
+        "raw_sha256": "59e4a2e04855f71f5cb1e81045284b6d49ba185fddd802a8522beb13ba81c368"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-1-48c15b30/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "5b34fee141b411ac3ed187ce6d2c7eae3a8d71fbb2dc58fa40376ca712221883"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-1-48c15b30/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-1-48c15b30/observed.json",
+        "raw_bytes": 1632,
+        "raw_sha256": "ea23bd02129c721c6f36b2c8027265bf545c239f9940a3a805992d7a695e019e"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-2-33866381/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "5b34fee141b411ac3ed187ce6d2c7eae3a8d71fbb2dc58fa40376ca712221883"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-2-33866381/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-2-33866381/observed.json",
+        "raw_bytes": 1632,
+        "raw_sha256": "e47068157b4267673f8554693ccb9118e1e9ba8ee0ebb825b2fbc22340ee76d0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-3-7b1cf224/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "5b34fee141b411ac3ed187ce6d2c7eae3a8d71fbb2dc58fa40376ca712221883"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-3-7b1cf224/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-3-7b1cf224/observed.json",
+        "raw_bytes": 1688,
+        "raw_sha256": "8e1f2b5790e93b7c21ecb4b863583e3137379837f8416db947bc5e7c02ae5f77"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-4-35db81d9/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "5b34fee141b411ac3ed187ce6d2c7eae3a8d71fbb2dc58fa40376ca712221883"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-4-35db81d9/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-4-35db81d9/observed.json",
+        "raw_bytes": 1688,
+        "raw_sha256": "555136cd1569d93fe15bf1376fcd5a7aaea7e5445b537b47f2dbe137671bbe3d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-5-85ba175f/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "5b34fee141b411ac3ed187ce6d2c7eae3a8d71fbb2dc58fa40376ca712221883"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-5-85ba175f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/dec-level-5-85ba175f/observed.json",
+        "raw_bytes": 1688,
+        "raw_sha256": "4b1da1fd988f7d2261dc9bf4cd1d52a8b00c881ca4acec32ae219f742cd06485"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-0-88847041/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-0-88847041/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-0-88847041/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "80a374032d0730a2a6b074480764d5cf837ec98c9e3313e99f3a005f1f5a3d6a"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-1-e0364a6a/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-1-e0364a6a/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-1-e0364a6a/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "325b0c2350a396e6047beba13a3d4d40f1367d8aca8e474cb32aaa3307f78c2a"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-2-21d15502/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-2-21d15502/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-2-21d15502/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "76614c4037e469317b92a9f770e1908f6ae25ce6dae2ac7d4063be71df333cd2"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-9-a6212fd4/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-9-a6212fd4/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-9-a6212fd4/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "dcc0772df5e72e4a15b14b9e2549ad3ef8955b156f8e61163659048045c8b929"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-default-48883bcb/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-default-48883bcb/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-0-unit-default-48883bcb/observed.json",
+        "raw_bytes": 1318,
+        "raw_sha256": "e0f53376cb3a822bedd14c60f354b3de7c283da761e6f93a16489167740be726"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-0-6cc3d4cb/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-0-6cc3d4cb/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-0-6cc3d4cb/observed.json",
+        "raw_bytes": 1400,
+        "raw_sha256": "247d0635478c947234ddfe55f179539defc532ff3f3a37bacffe79ab242cc508"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-1-25809c1c/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-1-25809c1c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-1-25809c1c/observed.json",
+        "raw_bytes": 1412,
+        "raw_sha256": "e66b81022ff910548c1e234b5232feb911b7d5f1e03d606086a71b7c5e641d50"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-2-464021ed/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-2-464021ed/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-2-464021ed/observed.json",
+        "raw_bytes": 1400,
+        "raw_sha256": "f98a7b739db426494eb4bcd4f30a03bc0a07e1b734b12391b30f398b7eabdece"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-9-fef31778/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-9-fef31778/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-9-fef31778/observed.json",
+        "raw_bytes": 1400,
+        "raw_sha256": "67cd962eceda6a8fd603e58c92780749e3b982afac3b5dfe3b418c19860eae76"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-default-a75c2610/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-default-a75c2610/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-1-unit-default-a75c2610/observed.json",
+        "raw_bytes": 1402,
+        "raw_sha256": "89996b583c787ed53c6055a8c13a73427169719d26fc01672856f1c8d2247304"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-0-2ffa2b39/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-0-2ffa2b39/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-0-2ffa2b39/observed.json",
+        "raw_bytes": 1344,
+        "raw_sha256": "a030dfb7e0280dcdb4e66b81e829db059c5f3334f0def48f35adabb2eca74175"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-1-e03bc8fc/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-1-e03bc8fc/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-1-e03bc8fc/observed.json",
+        "raw_bytes": 1348,
+        "raw_sha256": "f861e3219fb20e078da4ca1dbc1d5437d19378d9431c391f61502c13027624e2"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-2-d8645e14/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-2-d8645e14/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-2-d8645e14/observed.json",
+        "raw_bytes": 1344,
+        "raw_sha256": "0552fd0fa300b6e7090c8c840f9b561c7064be55bd185c69088dc59d42591208"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-9-6d623d3f/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-9-6d623d3f/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-9-6d623d3f/observed.json",
+        "raw_bytes": 1344,
+        "raw_sha256": "6b7cd77c3d2502da65fdef42d113e5b53d2f9e3ec7637e660a7173742d5596ac"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-default-ae1e8af7/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-default-ae1e8af7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-2-unit-default-ae1e8af7/observed.json",
+        "raw_bytes": 1346,
+        "raw_sha256": "22cca1dbb7e1d28ac326c616855331bb3a35dc34c38a8dc62f207d35b3595986"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-0-80552c06/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-0-80552c06/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-0-80552c06/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "68c178cd6d27e0a26005d67da69a9c1bbb1a4281655f54e97ec7f0a78469e425"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-1-0f351bc1/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-1-0f351bc1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-1-0f351bc1/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "13a0e46aa1533c0216d8ad824fe9c78b5387731bfff7d32c9f6552b9c85aad6b"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-2-79870122/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-2-79870122/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-2-79870122/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "c5f1db8a4782c7188d6643b3be32a096c580ba0a76ab4ad66b177b4809f2ac1d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-9-eaadba08/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-9-eaadba08/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-9-eaadba08/observed.json",
+        "raw_bytes": 1316,
+        "raw_sha256": "77ca6e68124cf507b13faaafeca020ba5b52be9d936210410ab94017cd4289b9"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-default-e7a336e7/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-default-e7a336e7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-3-unit-default-e7a336e7/observed.json",
+        "raw_bytes": 1318,
+        "raw_sha256": "1175bb1d7fb007f049ed8599841325b0e120801ae22afc472c56af6ef9ed8a48"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-0-90b459d8/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-0-90b459d8/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-0-90b459d8/observed.json",
+        "raw_bytes": 1328,
+        "raw_sha256": "2dda0ea673bebf5d85e54dc14e382a82565091dbade7a4c4d40086acac0335f5"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-1-0ef989ca/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-1-0ef989ca/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-1-0ef989ca/observed.json",
+        "raw_bytes": 1328,
+        "raw_sha256": "c4006f7a997988a3b171ba9fea96a45ee299d6a835d1a7c74f07c1e98c7c5f69"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-2-43c685ed/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-2-43c685ed/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-2-43c685ed/observed.json",
+        "raw_bytes": 1328,
+        "raw_sha256": "4d1cdea2e24f3cde0b7c8f32c909283ce4d8bf04eecdf6472597919f1fdc6097"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-9-6102bae9/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-9-6102bae9/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-9-6102bae9/observed.json",
+        "raw_bytes": 1328,
+        "raw_sha256": "9dae55817d35c7376f2a82990c6c460a8ecf7e27daf327a48da8993fa57b380f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-default-090f33ce/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-default-090f33ce/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-65535-unit-default-090f33ce/observed.json",
+        "raw_bytes": 1330,
+        "raw_sha256": "cc9533091b2818aa11a9c4798f4338020f0f71206b9432500290abc0ec3c8eca"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-0-a7d93364/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-0-a7d93364/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-0-a7d93364/observed.json",
+        "raw_bytes": 1320,
+        "raw_sha256": "46621874e47be7838a2adeec6564e54095d258b7e0ccfa1f6ef8b224057327f7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-1-7733cbc7/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-1-7733cbc7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-1-7733cbc7/observed.json",
+        "raw_bytes": 1320,
+        "raw_sha256": "184844dbf727c1553c87a4b30fd6a7ce432331f0e13ec0e3a792914b50d76b0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-2-ade511b8/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-2-ade511b8/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-2-ade511b8/observed.json",
+        "raw_bytes": 1320,
+        "raw_sha256": "da9deb20fb797382c33feb6c29243c5350ff16c6a5ae4f3f2831b9fe87d9ec97"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-9-b603f539/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-9-b603f539/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-9-b603f539/observed.json",
+        "raw_bytes": 1320,
+        "raw_sha256": "9e3b45cba58407b9641bccc6771fdf371e51d8840196e53ad0771f8becd7ced7"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-default-901ef5ec/child.json",
+        "raw_bytes": 63,
+        "raw_sha256": "b816b5a60ae71218a6e941897f2fa546b349c5bc511abe07ecc5fececbb8ea0d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-default-901ef5ec/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/enable-default-unit-default-901ef5ec/observed.json",
+        "raw_bytes": 1322,
+        "raw_sha256": "b6915a60e84d66f052536af260a487da753038c6419731ae314e5a9dfaa32715"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0-3994574c/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0-3994574c/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0-3994574c/observed.json",
+        "raw_bytes": 1726,
+        "raw_sha256": "3dc8e241b7a71dae338f498076bfd38c30a7a796b3d4b983e9a25c9543df700d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0_1_3-f5d8fd30/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0_1_3-f5d8fd30/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-0_1_3-f5d8fd30/observed.json",
+        "raw_bytes": 1834,
+        "raw_sha256": "50acd116f02d07151c55f671a8475401c796ebc78d8b56d5f0d14b8cbb7fc5a0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1-74b43bb7/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1-74b43bb7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1-74b43bb7/observed.json",
+        "raw_bytes": 1774,
+        "raw_sha256": "30c0a3333fe31680bd329225a3488b44833664a30d2b8bab7c3f9a06153b61ba"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_0_3-60d3a1ab/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_0_3-60d3a1ab/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_0_3-60d3a1ab/observed.json",
+        "raw_bytes": 1786,
+        "raw_sha256": "c2529d15e0c7eb4ea018bbce311d1ea3d89b9d419f6fc6e5b50a9eb51ee6b2d8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_2_3-d0e596f2/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_2_3-d0e596f2/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_2_3-d0e596f2/observed.json",
+        "raw_bytes": 1786,
+        "raw_sha256": "fd752a08de5d6edb83e59012da27b4837d8136e03a63899a9357e1162af6208d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-109bb7c7/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-109bb7c7/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-109bb7c7/observed.json",
+        "raw_bytes": 1828,
+        "raw_sha256": "84b25e1d934d6b923903292d6832a8842859329be985c87303fe0932ccd5fcfe"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-5a7d6f96/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-5a7d6f96/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3-5a7d6f96/observed.json",
+        "raw_bytes": 1732,
+        "raw_sha256": "d95ce5f91621bc7f771ce28caeeb66b96817f54b853c08299f9598d3ac088dba"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3_0-5757b9ea/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3_0-5757b9ea/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-1_3_0-5757b9ea/observed.json",
+        "raw_bytes": 1738,
+        "raw_sha256": "23b2fd74da2547428b64b845e1edba27cbbd0ffa68e86acb0041f9497b9459cb"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-2-c857ae7d/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-2-c857ae7d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-2-c857ae7d/observed.json",
+        "raw_bytes": 1726,
+        "raw_sha256": "89850438f377ab9dd934a9c0df4edabe9c534efad615ff3347d18797fd9f7eff"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3-1f80f483/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3-1f80f483/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3-1f80f483/observed.json",
+        "raw_bytes": 1774,
+        "raw_sha256": "787fb1386631ad1309a89beff826e2b7b7cb36598674416bf94a451fb34ed99e"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3_4-3cc30b0b/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3_4-3cc30b0b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-3_4-3cc30b0b/observed.json",
+        "raw_bytes": 1732,
+        "raw_sha256": "fda2c8b349fa735dfc12e6b109b4191ce0fe9518731fbc4ceb0c1849577adbb8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-4-61ef2e33/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-4-61ef2e33/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-4-61ef2e33/observed.json",
+        "raw_bytes": 1726,
+        "raw_sha256": "61e97cba34edbf1fc710f35b6512c8ac75fa0c72b2c39715ab17bc07dcda5904"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-9_1_3-9b02a8aa/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-9_1_3-9b02a8aa/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-9_1_3-9b02a8aa/observed.json",
+        "raw_bytes": 1834,
+        "raw_sha256": "68e40f336d0dda6816a7cf54f3d596718f596aa0a4da53a0fdecf4eb77645d7c"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-default-b1f24de6/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-default-b1f24de6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/events-default-b1f24de6/observed.json",
+        "raw_bytes": 1730,
+        "raw_sha256": "9a2fb8d4609180062b892668e5f9c5e348b22cbe29b7ad760c3a2948b1e5fd6f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-0_0_0_0-a3f265fe/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-0_0_0_0-a3f265fe/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-0_0_0_0-a3f265fe/observed.json",
+        "raw_bytes": 1560,
+        "raw_sha256": "1bb0aa085f6168e1449062f2d14c0a037419e8d19ca1f3446aec2cbe170bf4d0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_24_80-7c7e4955/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_24_80-7c7e4955/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_24_80-7c7e4955/observed.json",
+        "raw_bytes": 1482,
+        "raw_sha256": "efcfd11b6bf60deda0dd37972cb8b0dcdfa0e5d2cd93db1e4cf518c0334cafdc"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_2_2-8f6c924e/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_2_2-8f6c924e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_2_2-8f6c924e/observed.json",
+        "raw_bytes": 1560,
+        "raw_sha256": "426bda0518304956ce916e7210311ff7c911e9d587a91e7d8220d16ea868bdec"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_65535_65535-59bce70d/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_65535_65535-59bce70d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-1_1_65535_65535-59bce70d/observed.json",
+        "raw_bytes": 1500,
+        "raw_sha256": "da28ecab74f09700b8b6bec7b3300a6414dfea9da976ecc4bacfd19e6ed3b712"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-5_10_9_15-379e76de/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-5_10_9_15-379e76de/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-5_10_9_15-379e76de/observed.json",
+        "raw_bytes": 1570,
+        "raw_sha256": "5ee9dd35c207782c56e0b780af01ebae60cf71e2edc779e38dc7ba1347151b39"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-7_12_7_12-9d7d522d/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-7_12_7_12-9d7d522d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-7_12_7_12-9d7d522d/observed.json",
+        "raw_bytes": 1566,
+        "raw_sha256": "786df4a3ed5b626184ffc2adab7df405ada4ff11c78fba0b81348bf33f421be6"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-9_15_5_10-12605d2b/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-9_15_5_10-12605d2b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-9_15_5_10-12605d2b/observed.json",
+        "raw_bytes": 1570,
+        "raw_sha256": "90bdea14157d6b73fa377e2514e749a97fca3e6815f22c2b10554df734b86487"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-default-c9f1a1c5/child.json",
+        "raw_bytes": 89,
+        "raw_sha256": "a48ee9470ec1fe708e09366342422f3d26b4c8ed21b345f0d531e86e8db00a89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-default-c9f1a1c5/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-default-c9f1a1c5/observed.json",
+        "raw_bytes": 1546,
+        "raw_sha256": "232161d1027e2f05a0d6cf9af6a68c1445ee038bae66eefea38d1e9b893c46fe"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b277c-b289cf30/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b277c-b289cf30/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b277c-b289cf30/observed.json",
+        "raw_bytes": 1535,
+        "raw_sha256": "51766f010040298d1560e02ab985dd14801a1b0da651e4685543e3d2d2db79f4"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277a-9381929b/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277a-9381929b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277a-9381929b/observed.json",
+        "raw_bytes": 1519,
+        "raw_sha256": "d4c23b387ba2e0dcc79e10b32a47cb07441baf239ab7336b306f73d10432d9fa"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277b-b2128d6e/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277b-b2128d6e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b30277b-b2128d6e/observed.json",
+        "raw_bytes": 1547,
+        "raw_sha256": "8fbcf7884504f2ff35acddb0d0b9a5bf6c96dedd5dceac79e281547b2464fc19"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b31277a-0db3af99/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b31277a-0db3af99/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b31277a-0db3af99/observed.json",
+        "raw_bytes": 1643,
+        "raw_sha256": "6db67958d3a51ff66a2b369c05aaa7a60563e21f7391534f8dac07b87d38b60d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b313b33277b-42b2a860/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b313b33277b-42b2a860/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/filter-follow-1b5b313b33277b-42b2a860/observed.json",
+        "raw_bytes": 1575,
+        "raw_sha256": "f047486a2c379acbfda8d3cb9c7a8eaea16c26c87e0f3b36517d8eff7697d899"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b2170-13f4172b/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b2170-13f4172b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b2170-13f4172b/observed.json",
+        "raw_bytes": 1664,
+        "raw_sha256": "ab1af167abf721a37f67729357f5390e4744a30d44b8ba4322ca6fa61d40de89"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b36333b312270-4a1c201e/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b36333b312270-4a1c201e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b36333b312270-4a1c201e/observed.json",
+        "raw_bytes": 1680,
+        "raw_sha256": "3e4c3deb04d78832d686627fa9754804be5f23f29a5bb376502f323be566ff2e"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f3130343968-a4f35922/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f3130343968-a4f35922/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f3130343968-a4f35922/observed.json",
+        "raw_bytes": 1680,
+        "raw_sha256": "51aea2e9bbc98196f1e99259e6f837fc0f7218ca2f0f42f8214af2fe6c19b185"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f31303439681b5b3f313034396c-96c8a21d/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "017622c46532a83e61edf7a4aa506e6e7ff8b3f384460bbc1af3d55a56b1ddf3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f31303439681b5b3f313034396c-96c8a21d/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b5b3f31303439681b5b3f313034396c-96c8a21d/observed.json",
+        "raw_bytes": 1712,
+        "raw_sha256": "706edc26ccd18bbd159d4ae8e496f539713a739306f79493d3d963fca7233d16"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b63-6bd567f6/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "d14a4afd190ebda240a9fda2b84716efa1a442c622613aafc67300dcb648aca8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b63-6bd567f6/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/lifetime-1b63-6bd567f6/observed.json",
+        "raw_bytes": 1504,
+        "raw_sha256": "1a3ad5b0e69f507618a8f83a59f0f3ca81b90c48d4c281840ab93d8ec6c57181"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-cell-request-fa4449d2/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "43cfb8044c903532cb11e8f4191a93ce2b215f3d4d03765aa66c8614ab9591b3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-cell-request-fa4449d2/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-cell-request-fa4449d2/observed.json",
+        "raw_bytes": 732,
+        "raw_sha256": "6e0b06f8313400d934dd9ccd40fddde9faeda34c4bf2f916a7bf9d752e900105"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-disabled-9e31c22b/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "483716e2e8bc767ef8bae5d987720853e20e685213d4cafe40102fc8ae9729b1"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-disabled-9e31c22b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-disabled-9e31c22b/observed.json",
+        "raw_bytes": 686,
+        "raw_sha256": "529aec740a67b11644844b0b2b2f522a3f634d4bd60fa495ca107c6b9676b42a"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-left-events-c1765945/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "2074fa15e7d6031f693c48d3e4ecdad3d722456456a93832a9c78594bc4c5669"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-left-events-c1765945/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/literal-left-events-c1765945/observed.json",
+        "raw_bytes": 1361,
+        "raw_sha256": "0bff7b23c7533109d289d6f52f1b4c9f4c9fc3899846d4f105b45a485d61584b"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1000-be2d572e/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "a64816ec8ccbfe4f95523654a65fae12fd6fb18b592ab337a7cd07f07428e76f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1000-be2d572e/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1000-be2d572e/observed.json",
+        "raw_bytes": 1222,
+        "raw_sha256": "eb74d16d0490ca6fec5cd3eac33e7537a52a33ccd233d532df7cdeb8638b169a"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1001-1dfba6f4/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "a64816ec8ccbfe4f95523654a65fae12fd6fb18b592ab337a7cd07f07428e76f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1001-1dfba6f4/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1001-1dfba6f4/observed.json",
+        "raw_bytes": 1222,
+        "raw_sha256": "6e12f69fc81462cdf444735fdbafb616a48a4922274655c8da18f7a526a580f1"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1002-38f6fa31/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "a64816ec8ccbfe4f95523654a65fae12fd6fb18b592ab337a7cd07f07428e76f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1002-38f6fa31/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1002-38f6fa31/observed.json",
+        "raw_bytes": 1222,
+        "raw_sha256": "d5ba37d926e86184e40e7cc03dd5c18b71e57c683c2e67dd99c14bd2a13285b8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1003-2ed33278/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "a64816ec8ccbfe4f95523654a65fae12fd6fb18b592ab337a7cd07f07428e76f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1003-2ed33278/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-1003-2ed33278/observed.json",
+        "raw_bytes": 1222,
+        "raw_sha256": "02824ba87fab4105dac3576d57258c43b7a0d0c52faf9d5bb09dbf07c83ebcc3"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-9-5d8bd9e1/child.json",
+        "raw_bytes": 73,
+        "raw_sha256": "a64816ec8ccbfe4f95523654a65fae12fd6fb18b592ab337a7cd07f07428e76f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-9-5d8bd9e1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/locator-overrides-9-5d8bd9e1/observed.json",
+        "raw_bytes": 1189,
+        "raw_sha256": "4e173130d882628f8356954bc93e1bd227906315005d45bb31c35d8975be79ae"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Alt_L-2ca6c4c8/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Alt_L-2ca6c4c8/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Alt_L-2ca6c4c8/observed.json",
+        "raw_bytes": 1640,
+        "raw_sha256": "32b697813981f286e828254c4c84e83607e1c90c0ed98f0cb81e50d268ec3b7d"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Control_L-46093769/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Control_L-46093769/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Control_L-46093769/observed.json",
+        "raw_bytes": 1564,
+        "raw_sha256": "008cff9d6a17232a3b20caff6200ebda289e20f17e0685a54e0b857c354f7df5"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Shift_L-72c2adf1/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Shift_L-72c2adf1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/modifier-Shift_L-72c2adf1/observed.json",
+        "raw_bytes": 1554,
+        "raw_sha256": "8d2f45d9ac7d678df6906eca3c29702cd294a43c7c23b15434a775f9fa4e21cb"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/multiple-buttons-53baaeb8/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e23d6551781c23ee242df200086486168814161122f7bc301ad6a78891016719"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/multiple-buttons-53baaeb8/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/multiple-buttons-53baaeb8/observed.json",
+        "raw_bytes": 2519,
+        "raw_sha256": "bb9516fa1e4738cee660c8c7fb13d969b923294dd3af085e5a0df10f1b054588"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1-0a2ce62b/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1-0a2ce62b/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1-0a2ce62b/observed.json",
+        "raw_bytes": 1756,
+        "raw_sha256": "8bd40db853d0c8ee1f8dbebb4046af80a99b73e8b8cd146765aacceaddfc0186"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1_3-4f7aae07/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1_3-4f7aae07/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-1_3-4f7aae07/observed.json",
+        "raw_bytes": 1762,
+        "raw_sha256": "e78a04a9912ba8eb65a908cb6bf5630f49b21b77f6bd98ee8086085f211777a6"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-3-c4ba2bd2/child.json",
+        "raw_bytes": 88,
+        "raw_sha256": "e252266b3f39dd2f44888d1dd98212e3240b2f7d93b3c7e5420abc96e87c3444"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-3-c4ba2bd2/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/one-shot-3-c4ba2bd2/observed.json",
+        "raw_bytes": 1756,
+        "raw_sha256": "80788fb08fd0ca95de25fac2fe94385e57b3bb8cc0c5953e9b0243f8eb8575a8"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1000-2bcc7edc/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1000-2bcc7edc/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1000-2bcc7edc/observed.json",
+        "raw_bytes": 1210,
+        "raw_sha256": "10de5d298d53922d55f553753caad4801cf32c03a64091d76e1068e85ee14b27"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1001-355aeace/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1001-355aeace/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1001-355aeace/observed.json",
+        "raw_bytes": 1210,
+        "raw_sha256": "522e69308790974ac9bb56ba5832034705829d24af182743b3fac573e826a2a0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1002-20fe3162/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1002-20fe3162/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1002-20fe3162/observed.json",
+        "raw_bytes": 1210,
+        "raw_sha256": "653e6eebf0518cbc80bcbfb773b66b4b32173a03ef6aa86cac2bdacfe0915fe9"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1003-7c98b5e1/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1003-7c98b5e1/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-1003-7c98b5e1/observed.json",
+        "raw_bytes": 1210,
+        "raw_sha256": "34d9af8ae44708ecc7319a08c5bd5c33ff0e7715f5e9000ad63314c1eaff19a5"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-9-197a3a68/child.json",
+        "raw_bytes": 87,
+        "raw_sha256": "a7bdb79b860526090809478412c333b5c5d93eba53d0d0d8da164bf0f1aaefa0"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-9-197a3a68/control.json",
+        "raw_bytes": 14,
+        "raw_sha256": "7b6778e679c4290e193fcb50079be989e4c6f9c0db1fd647b96b670890c1a65f"
+      },
+      {
+        "path": "bbddb98/reference/dec-locator-xterm/xterm-overrides-9-197a3a68/observed.json",
+        "raw_bytes": 1195,
+        "raw_sha256": "c37f9c4fe28e506c79e2fd59e78d5ee7a64f3d28a482239389e3eeee8191a1ff"
+      },
+      {
+        "path": "bbddb98/reference/executable-sha256.txt",
+        "raw_bytes": 102,
+        "raw_sha256": "4d56b1601f5e6c1b6afc5331728973778838c632ab80e7cc0350020facafd9d9"
+      },
+      {
+        "path": "bbddb98/reference/fixture-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "30f3728baa59b514d91579d649c0f8e436232293ebe05d6161f992e7dbb287b5"
+      },
+      {
+        "path": "bbddb98/reference/locator-source-sha256.txt",
+        "raw_bytes": 698,
+        "raw_sha256": "05bae0cd94024265ed71c0dbac16f6a75ec25ff330518e2a291107149a0941f6"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/VTPrsTbl.c",
+        "raw_bytes": 221587,
+        "raw_sha256": "36169b1c9ef40cd35a46ffc2549d1a002d488847d72b35aa2d810c71f692940d"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/button.c",
+        "raw_bytes": 162495,
+        "raw_sha256": "a14b0dd0b177d54a1a339b5be13050c346178b065295195bf1b9763f82d714ec"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/charproc.c",
+        "raw_bytes": 413168,
+        "raw_sha256": "c59a06ec6a3a243bfd1547e11dd0aa38e189e3256644ca6cfc43dc6810a4d325"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/configure.in",
+        "raw_bytes": 41812,
+        "raw_sha256": "1c760575fd4da544e6c7daa5042be4dcf0d93d62aee540eb505d6ed05ee8ae31"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/ctlseqs.ms",
+        "raw_bytes": 167851,
+        "raw_sha256": "69773380309da4c8b5d4ec9646eec703c47bc41db29a8efa5b94c30798c72349"
+      },
+      {
+        "path": "bbddb98/reference/locator-source/ptyx.h",
+        "raw_bytes": 120334,
+        "raw_sha256": "c6f56e5efbf934e2899ec7afbc6b42d4897d7d2ad55e5c9ce19c4a81a1317b38"
+      },
+      {
+        "path": "bbddb98/reference/upstream-commit.txt",
+        "raw_bytes": 41,
+        "raw_sha256": "bf6f674e8b91e84aa164a6517dea642b1fe2a7f81ad88c3344a742f7570f0f27"
+      },
+      {
+        "path": "bbddb98/reference/version.txt",
+        "raw_bytes": 11,
+        "raw_sha256": "74591dfbac810206a936418eaf4895085967c1b006a5de52d0d346ec25464c1a"
+      },
+      {
+        "path": "bbddb98/reference/x11-packages.txt",
+        "raw_bytes": 77,
+        "raw_sha256": "1c94957f25f80992fcc06583c8416152617f7f68d1a82291f4c748e033b0dba3"
+      },
+      {
+        "path": "bbddb98/reference/xtermcfg.h",
+        "raw_bytes": 13724,
+        "raw_sha256": "45443cc94e9ee1aa5cea6c50f24ebeefc592aafea37e6314aa4a5ef9be5e9e76"
+      },
+      {
+        "path": "bbddb98/source/.github/workflows/protocol-reference.yml",
+        "raw_bytes": 22971,
+        "raw_sha256": "b7882eee9c1cb71c3413e1eb04620aaa179ab42718683fd934e4b9ba27aeaf9a"
+      },
+      {
+        "path": "bbddb98/source/tests/xterm_locator_oracle.py",
+        "raw_bytes": 16791,
+        "raw_sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+      },
+      {
+        "path": "controller.py",
+        "raw_bytes": 4942,
+        "raw_sha256": "d05d9a0be83bc5e3a9d3e06b5ab1f2fa701e7d6efc8615ee99b40f2e7a6923d0"
+      }
+    ]
+  }
+}
