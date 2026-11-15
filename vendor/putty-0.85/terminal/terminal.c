@@ -7619,12 +7619,11 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
     if (term->curs.x >= linecols) {
         term->curs.x = linecols - 1;
 
-        if (term->wrap) {
-            if (!term->vt52_mode) {
-                /* Set the wrapnext flag, so that the next character
-                 * wraps, but this one doesn't. */
-                term->wrapnext = true;
-            } else {
+        if (!term->vt52_mode) {
+            /* Remember a write at the right edge even with DECAWM off.
+             * A subsequent write wraps only when autowrap is enabled. */
+            term->wrapnext = true;
+        } else if (term->wrap) {
                 /* VT52 mode expects simpler handling, and we just
                  * wrap straight away. */
                 cline->lattr |= LATTR_WRAPPED;
@@ -7634,7 +7633,6 @@ static void term_display_graphic_char(Terminal *term, unsigned long c, uint64_t 
                     term->curs.y++;
                 term->curs.x = 0;
                 term->wrapnext = false;
-            }
         }
     }
     if (cluster)
@@ -8215,7 +8213,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 unget = c;
                 /* fall through */
               case UCSINVALID:
-                c = UCSERR;
+                /* UTF-8 decoding errors use the Unicode replacement graphic.
+                 * The legacy DEC checkerboard remains an ordinary line glyph. */
+                c = 0xFFFD;
                 break;
               default:
                 c = t;

@@ -14,6 +14,10 @@ typedef struct CancellationReference {
 static Mock *cancellation_mock(void)
 {
     Mock *mk = mock_new();
+    /* Initialize the actual tables, not just the numeric codepage field.
+     * The independent byte-mode XTerm uses ISO-8859-1, including C1 controls. */
+    conf_set_str(mk->conf, CONF_line_codepage, "ISO-8859-1");
+    init_ucs_generic(mk->conf, mk->ucsdata);
     conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);

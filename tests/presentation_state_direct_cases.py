@@ -11,8 +11,6 @@ for bank, prefix in enumerate(('(', ')', '*', '+')):
 CASES += [
     ('retained-modern-order', RESET+CSI+'2;3;8;9;21;31;44m'+DCS+'1$t'+BASE+ST+QUERY+DCS+'$qm'+ST,
      DCS+'1$u'+BASE+ST+DCS+'1$r0;2;3;8;9;21;31;44m'+ST),
-    ('sub-cancels-without-glyph', RESET+DCS+'1$t'+BASE+'\x1a'+QUERY,
-     DCS+'1$u1;1;1;@;@;@;0;2;@;BBBB'+ST),
     ('report-modern-underline-as-underlined', RESET+CSI+'4:3;21;58:2::1:2:3m'+QUERY,
      DCS+'1$u1;1;1;B;@;@;0;2;@;BBBB'+ST),
     ('restore-single-keeps-legacy-double-color', RESET+CSI+'4:3;21;58:2::1:2:3m'+

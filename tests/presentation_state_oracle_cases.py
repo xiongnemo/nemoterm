@@ -139,6 +139,7 @@ CASES = [
     ('empty-selective-ed-clears-family', '\x1b[65;1"p\x1bc\x1b[0"qABC\x1b[?2J\x1b[1$w', '\x1bP1$u1;4;1;@;@;@;0;2;@;BBBB\x1b\\'),
     ('restored-origin-outside-margins', '\x1b[65;1"p\x1bc\x1b[3;20r\x1b[?69h\x1b[11;70s\x1bP1$t1;1;1;@;@;A;0;2;@;BBBB\x1b\\\x1b[1$w', '\x1bP1$u1;1;1;@;@;A;0;2;@;BBBB\x1b\\'),
     ('cancel-18', '\x1b[65;1"p\x1bc\x1bP1$t7;19;1;@;@;@;0;2;@;BBBB\x18\x1b[1$w', '\x1bP1$u1;1;1;@;@;@;0;2;@;BBBB\x1b\\'),
+    ('cancel-1a', '\x1b[65;1"p\x1bc\x1bP1$t7;19;1;@;@;@;0;2;@;BBBB\x1a\x1b[1$w', '\x1bP1$u1;2;1;@;@;@;0;2;@;BBBB\x1b\\'),
     ('cancel-1b5b353b3648', '\x1b[65;1"p\x1bc\x1bP1$t7;19;1;@;@;@;0;2;@;BBBB\x1b[5;6H\x1b[1$w', '\x1bP1$u5;6;1;@;@;@;0;2;@;BBBB\x1b\\'),
     ('restore-low-level-61', '\x1b[65;1"p\x1bc\x1b[61;1"p\x1bP1$t7;19;1;@;@;@;0;2;@;BBBB\x1b\\\x1b[6n\x1bP2$t2/7\x1b\\\t\x1b[6n', '\x1b[1;1R\x1b[1;9R'),
     ('restore-low-level-62', '\x1b[65;1"p\x1bc\x1b[62;1"p\x1bP1$t7;19;1;@;@;@;0;2;@;BBBB\x1b\\\x1b[6n\x1bP2$t2/7\x1b\\\t\x1b[6n', '\x1b[1;1R\x1b[1;9R'),

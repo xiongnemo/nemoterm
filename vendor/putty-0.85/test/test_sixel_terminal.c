@@ -46,7 +46,11 @@ static void test_sixel_framing(Mock *mk)
     term_data_fragmented(mk->term, "\033Pq@\302\234");
     IEQUAL(image_count(mk->term), 3);
     term_data_fragmented(mk->term, "\033Pq@\030");
+    /* SUB's error graphic is a real text write. Put it outside retained
+     * images so this check isolates cancellation of the incomplete image. */
+    term_data_fragmented(mk->term, "\033[10;10H");
     term_data_fragmented(mk->term, "\033Pq@\032");
+    IEQUAL(get_termchar(mk->term, 9, 9).chr, CSET_ASCII|'&');
     term_data_fragmented(mk->term, "\033Pq@\033[H");
     IEQUAL(image_count(mk->term), 3);
     IEQUAL(mk->term->termstate, TOPLEVEL);

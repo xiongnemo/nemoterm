@@ -488,7 +488,7 @@ static void test_wrap(Mock *mk)
 static void test_nonwrap(Mock *mk)
 {
     /* Test behaviour when printing characters hit end of line without wrap.
-     * The wrapnext flag is never set in this mode. */
+     * The edge-write flag is retained, but does not cause wrapping. */
     mk->ucsdata->line_codepage = CP_UTF8;
 
     /* Print 'abc' without enough space for the c */
@@ -506,18 +506,18 @@ static void test_nonwrap(Mock *mk)
     term_datapl(mk->term, PTRLEN_LITERAL("b"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_lineattr(mk->term, 0), 0);
     IEQUAL(get_termchar(mk->term, 79, 0).chr, CSET_ASCII | 'b');
     /* The 'c' overwrites the b */
     term_datapl(mk->term, PTRLEN_LITERAL("c"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_lineattr(mk->term, 0), 0);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, CSET_ASCII | 'a');
     IEQUAL(get_termchar(mk->term, 79, 0).chr, CSET_ASCII | 'c');
-    /* Since wrapnext was never set, backspacing returns us to the a */
+    /* With DECAWM off, backspacing clears the edge flag and returns to the a */
     term_datapl(mk->term, PTRLEN_LITERAL("\b"));
     IEQUAL(mk->term->curs.x, 78);
     IEQUAL(mk->term->curs.y, 0);
@@ -531,14 +531,14 @@ static void test_nonwrap(Mock *mk)
     term_datapl(mk->term, PTRLEN_LITERAL("\xEA\xB0\x80"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, 0xAC00);
     IEQUAL(get_termchar(mk->term, 79, 0).chr, UCSWIDE);
     /* The 'c' must overprint the RHS of the DW char, clearing the LHS */
     term_datapl(mk->term, PTRLEN_LITERAL("c"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_lineattr(mk->term, 0), 0);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, CSET_ASCII | ' ');
     IEQUAL(get_termchar(mk->term, 79, 0).chr, CSET_ASCII | 'c');
@@ -558,7 +558,7 @@ static void test_nonwrap(Mock *mk)
     term_datapl(mk->term, PTRLEN_LITERAL("\xEA\xB0\x80"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_lineattr(mk->term, 0), 0);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, CSET_ASCII | 'a');
     IEQUAL(get_termchar(mk->term, 79, 0).chr, 0xFFFD);
@@ -572,14 +572,14 @@ static void test_nonwrap(Mock *mk)
     term_datapl(mk->term, PTRLEN_LITERAL("\xEA\xB0\x80"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, 0xAC00);
     IEQUAL(get_termchar(mk->term, 79, 0).chr, UCSWIDE);
     /* Second DW char becomes U+FFFD, overwriting RHS of the first one */
     term_datapl(mk->term, PTRLEN_LITERAL("\xEA\xB0\x81"));
     IEQUAL(mk->term->curs.x, 79);
     IEQUAL(mk->term->curs.y, 0);
-    IEQUAL(mk->term->wrapnext, 0);
+    IEQUAL(mk->term->wrapnext, 1);
     IEQUAL(get_lineattr(mk->term, 0), 0);
     IEQUAL(get_termchar(mk->term, 78, 0).chr, CSET_ASCII | ' ');
     IEQUAL(get_termchar(mk->term, 79, 0).chr, 0xFFFD);

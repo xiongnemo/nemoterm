@@ -575,7 +575,8 @@ static void test_dcs_recovery(Mock *mk)
     term_data_fragmented(mk->term, "\033P$qm\030B\033P$qm\032C");
     response(mk, "");
     IEQUAL(get_termchar(mk->term, 1, 0).chr, CSET_ASCII|'B');
-    IEQUAL(get_termchar(mk->term, 2, 0).chr, CSET_ASCII|'C');
+    IEQUAL(get_termchar(mk->term, 2, 0).chr, CSET_ASCII|'&');
+    IEQUAL(get_termchar(mk->term, 3, 0).chr, CSET_ASCII|'C');
     term_data_fragmented(mk->term, "\033P$qm\033[31m\033P$qm\033\\");
     response(mk, "\033P1$r0;31m\033\\");
     term_data_fragmented(mk->term, "\033P0$qm\033\\\033P$xq\033\\");

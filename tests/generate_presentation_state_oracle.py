@@ -9,7 +9,6 @@ source = json.loads((root/'research/presentation-state-xterm.json').read_text(en
 separate = {f'charset-{bank}U': 'PuTTY SCO alternate charset is supported and reported as U.'
             for bank in ('(', ')', '*', '+')}
 separate['retained-modern'] = 'Equivalent DECRQSS SGR fields use the established Nemoterm ordering.'
-separate['cancel-1a'] = 'Existing SUB recovery cancels without printing a replacement glyph.'
 cases = [(name, item['sequence'], item['reply']) for name,item in source['cases'].items()
          if name not in separate]
 
