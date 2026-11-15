@@ -17,6 +17,9 @@ if (Test-Path -LiteralPath $Destination) { throw 'Choose a fresh validation dire
 New-Item -ItemType Directory -Path $Destination | Out-Null
 New-Item -ItemType Directory -Path "$Destination/dist", "$Destination/research", "$Destination/build", "$Destination/logs" | Out-Null
 Copy-Item -LiteralPath "$root/tests" -Destination "$Destination/tests" -Recurse
+# UDK native replay reads the retained upstream capture. Keep fixture data
+# outside dist so the isolated executable directory still contains one file.
+Copy-Item -LiteralPath "$root/research/dec-udk-reference.tar.gz" -Destination "$Destination/research/dec-udk-reference.tar.gz"
 New-Item -ItemType Directory -Path "$Destination/tools" | Out-Null
 Copy-Item -LiteralPath "$root/tools/nemoterm_debug.py" -Destination "$Destination/tools/nemoterm_debug.py"
 Copy-Item -LiteralPath $Executable -Destination "$Destination/dist/nemoterm.exe"
