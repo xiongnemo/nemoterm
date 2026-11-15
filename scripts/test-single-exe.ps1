@@ -191,7 +191,7 @@ try {
     }
     foreach ($case in @(@('gdi','top'), @('directx','left'))) {
         $name = "unicode-kitty-workload-tabs-$($case[0])-$($case[1])"
-        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --workload-memory --kitty-images --kitty-unicode 2>&1 | Tee-Object "$Destination/logs/$name.log"
+        & python "$Destination/tests/tabs_window_smoke.py" --renderer $case[0] --side $case[1] --workload-memory --kitty-images --kitty-unicode --session-seconds 900 2>&1 | Tee-Object "$Destination/logs/$name.log"
         if ($LASTEXITCODE) { throw "Single-executable Unicode Kitty workload and memory test failed: $name" }
         $checks.Add($name)
     }
