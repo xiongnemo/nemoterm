@@ -76,5 +76,9 @@ placement owner adds 5,136 bytes on these x64 builds, including the 8-byte owner
 pointer that remains when no virtual templates exist. Per-cell and per-placement
 sizes remain unchanged. `kitty-cell-performance-validation.json` preserves all
 42 samples per compiler/arm and verifies each paired baseline source hash.
-The archive also retains the first candidate's failures. Full native rendering,
-dense-cell private working set and exact-product acceptance remain pending.
+The archive also retains the first candidate's failures. A later
+[native source diagnostic](unicode-dense-memory.md) completes 24 dense-image
+resizes per renderer on the remote grids without reaching its 30-second snapshot
+threshold. It is explicitly separate from memory acceptance and post-memory
+pixel verification. The full dense-cell gate and exact-product acceptance
+remain pending.

@@ -1,0 +1,997 @@
+{
+  "runs": {
+    "missing-import": {
+      "source": "09dd51894fcfd0d16ea95f415c1a2014681f61c0",
+      "run": 43688160693,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43688160693",
+      "conclusion": "failure"
+    },
+    "indexed": {
+      "source": "84e6f80ef4eb631626fafd32ade9783547b112e8",
+      "run": 43688463026,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43688463026",
+      "conclusion": "success"
+    }
+  },
+  "production_source": "f01927ae12841fe7b657c5d86b3e637deb02b422",
+  "results": [
+    {
+      "renderer": "gdi",
+      "actual_grid": [
+        109,
+        34
+      ],
+      "executable_sha256": "fee68e7e1e1d3eec28b4a271886f5c317a5117818c3a449af3c9100d7e5528d6",
+      "resize_calls": 24,
+      "median_observed_seconds": 0.8985000000000127,
+      "max_observed_seconds": 1.1100000000000136,
+      "slow_snapshots": 0,
+      "diagnostic_only": true,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 14336000,
+        "total_ws": 43515904,
+        "private_commit": 16457728
+      },
+      "owned_job_cleanup": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    },
+    {
+      "renderer": "directx",
+      "actual_grid": [
+        88,
+        35
+      ],
+      "executable_sha256": "c7c6517dd4797fb359b0875a39863033b05e06f0d9a4f178db6da213842327f7",
+      "resize_calls": 24,
+      "median_observed_seconds": 0.3669999999999902,
+      "max_observed_seconds": 0.5310000000000059,
+      "slow_snapshots": 0,
+      "diagnostic_only": true,
+      "frontend_peaks": {
+        "count": 1,
+        "private_ws": 18059264,
+        "total_ws": 55074816,
+        "private_commit": 20869120
+      },
+      "owned_job_cleanup": {
+        "before": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 31,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "timing_scope": "MoveWindow plus external before/after thread snapshots, not frame latency. Different grids and hosted runners; not a renderer ranking.",
+  "acceptance": "Source rebuild and diagnostic only; no exact failed image, dense-cell pixel verification or memory acceptance. Original timeout cause remains unproven.",
+  "external_binary_note": "Downloaded binaries remain in local CI artifact folders and identified GitHub artifacts; they are hashed here, not embedded in this archive.",
+  "external_binaries": [
+    {
+      "path": "missing-import/gdi/dump-controls/control.exe",
+      "bytes": 103424,
+      "sha256": "effe8acc3acdd310736c981b8f68f98e99ebdf2df9b0c091edd35d3fa3da9846"
+    },
+    {
+      "path": "missing-import/gdi/dump-controls/control.obj",
+      "bytes": 2866,
+      "sha256": "185cc361c8074b2cb3a7de83df403b54ebab7021030968ed2488a9709d35eee0"
+    },
+    {
+      "path": "missing-import/gdi/dump-controls/helper.exe",
+      "bytes": 139776,
+      "sha256": "c21d63fc3753eb48073ee131458a4c18526997e09c009df8c2f5ddf617526924"
+    },
+    {
+      "path": "missing-import/gdi/dump-controls/helper.obj",
+      "bytes": 7356,
+      "sha256": "92a100eefb3967280922708377f26b2e3c95d229f2adb880d783c2ea9c4ff236"
+    },
+    {
+      "path": "missing-import/gdi/runtime/conpty.dll",
+      "bytes": 119608,
+      "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+    },
+    {
+      "path": "missing-import/gdi/runtime/nemoterm.exe",
+      "bytes": 3931080,
+      "sha256": "0cfa802ffc86463eadfd2a0799d673a0fdd5b3fa4bbc061580cb139f689ffcfa"
+    },
+    {
+      "path": "missing-import/gdi/runtime/OpenConsole.exe",
+      "bytes": 4523520,
+      "sha256": "6faf18aa0d768a2c5b87788db365567333e6b5d7d3a3219399a478554566e270"
+    },
+    {
+      "path": "missing-import/directx/dump-controls/control.exe",
+      "bytes": 103424,
+      "sha256": "e2a5325b00a3bcc0b51d93c2acf6a8af55df34a70af22a2274d075d0de58fd83"
+    },
+    {
+      "path": "missing-import/directx/dump-controls/control.obj",
+      "bytes": 2866,
+      "sha256": "402fecc7a9cc5693a547fa0f326e34e73e67d5c6c64c142f3b62e2bd7d8878b9"
+    },
+    {
+      "path": "missing-import/directx/dump-controls/helper.exe",
+      "bytes": 139776,
+      "sha256": "e29464a7610e83b87c3a3d2d692b95c548f5d4f59929ef294f9ff4c5c7a9dd4c"
+    },
+    {
+      "path": "missing-import/directx/dump-controls/helper.obj",
+      "bytes": 7356,
+      "sha256": "f6410beabe1140f3f9cc0d2f6be5e0f760ac5ea130b542b7c505049d3aea0306"
+    },
+    {
+      "path": "missing-import/directx/runtime/conpty.dll",
+      "bytes": 119608,
+      "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+    },
+    {
+      "path": "missing-import/directx/runtime/nemoterm.exe",
+      "bytes": 3931080,
+      "sha256": "230c465bdf9b7917b7e73ba62909ff8639f818ddc50d855748aa7517261a3f0e"
+    },
+    {
+      "path": "missing-import/directx/runtime/OpenConsole.exe",
+      "bytes": 4523520,
+      "sha256": "6faf18aa0d768a2c5b87788db365567333e6b5d7d3a3219399a478554566e270"
+    },
+    {
+      "path": "indexed/gdi/dump-controls/control.exe",
+      "bytes": 103424,
+      "sha256": "8612cd8a4c3cbcb145bb1fec0e3b604ecb7fcc4151386fbab1aa2a7352556b2b"
+    },
+    {
+      "path": "indexed/gdi/dump-controls/control.obj",
+      "bytes": 2866,
+      "sha256": "d22088ff5203c658be72b27c1de317a4f13279b7ef5c3b5ca01094be82f4554e"
+    },
+    {
+      "path": "indexed/gdi/dump-controls/helper.exe",
+      "bytes": 139776,
+      "sha256": "77f12371f469481079fd9abaca2f084fa4ae333e4bad5009f0997701ad667a8a"
+    },
+    {
+      "path": "indexed/gdi/dump-controls/helper.obj",
+      "bytes": 7356,
+      "sha256": "f6aa1a2dc17a0d6b8789e29b0e24eb2bb88a6bb9d8d67d83cdff79487f71a992"
+    },
+    {
+      "path": "indexed/gdi/runtime/conpty.dll",
+      "bytes": 119608,
+      "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+    },
+    {
+      "path": "indexed/gdi/runtime/nemoterm.exe",
+      "bytes": 3931080,
+      "sha256": "fee68e7e1e1d3eec28b4a271886f5c317a5117818c3a449af3c9100d7e5528d6"
+    },
+    {
+      "path": "indexed/gdi/runtime/OpenConsole.exe",
+      "bytes": 4523520,
+      "sha256": "6faf18aa0d768a2c5b87788db365567333e6b5d7d3a3219399a478554566e270"
+    },
+    {
+      "path": "indexed/directx/dump-controls/control.exe",
+      "bytes": 103424,
+      "sha256": "7d5160546b0530280a38027a14420c77d757836e755c3fb9c5c927192faea8d5"
+    },
+    {
+      "path": "indexed/directx/dump-controls/control.obj",
+      "bytes": 2866,
+      "sha256": "24de8116a4219d598df7bcc3f68aff24d833a20ce07b21342026cb0cc0f9c8a7"
+    },
+    {
+      "path": "indexed/directx/dump-controls/helper.exe",
+      "bytes": 139776,
+      "sha256": "af44936b0f5d094e16bc1ea60b498c0dbbf412ab22f398654148d46ad65cd39a"
+    },
+    {
+      "path": "indexed/directx/dump-controls/helper.obj",
+      "bytes": 7356,
+      "sha256": "3ff1ece358a707764285625997eb136350b01024e9b0fc13e8775940b1db9e55"
+    },
+    {
+      "path": "indexed/directx/runtime/conpty.dll",
+      "bytes": 119608,
+      "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+    },
+    {
+      "path": "indexed/directx/runtime/nemoterm.exe",
+      "bytes": 3931080,
+      "sha256": "c7c6517dd4797fb359b0875a39863033b05e06f0d9a4f178db6da213842327f7"
+    },
+    {
+      "path": "indexed/directx/runtime/OpenConsole.exe",
+      "bytes": 4523520,
+      "sha256": "6faf18aa0d768a2c5b87788db365567333e6b5d7d3a3219399a478554566e270"
+    }
+  ],
+  "bundle": {
+    "path": "research/kitty-unicode-evidence/indexed-native-resize.tar.gz",
+    "archive_bytes": 635296,
+    "archive_sha256": "077d45ea41dff7911132557f2daae3e1a713ae093c9c657b54f461e08a7f8fab",
+    "records": [
+      {
+        "path": "controller.py",
+        "raw_bytes": 5074,
+        "raw_sha256": "367e6a02161a1df64100d3fca626caf3c3f77021c0c441a19ee56c871007c5e0"
+      },
+      {
+        "path": "indexed/dense-artifacts.json",
+        "raw_bytes": 1571,
+        "raw_sha256": "a44ae1d1cf41232d355b5d1bd821a1d1aa4fad3fb148dc3317e5c2b4880f1e6c"
+      },
+      {
+        "path": "indexed/dense-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "b01a7b1485684868798175ae10e8e272f564956783a0b8b6b21d53bce30bfc71"
+      },
+      {
+        "path": "indexed/dense-run.json",
+        "raw_bytes": 6734,
+        "raw_sha256": "f406635875dce29900576b7dcde93b865671d9890a49290899889bd5bb19eb5a"
+      },
+      {
+        "path": "indexed/dense-run.log",
+        "raw_bytes": 368395,
+        "raw_sha256": "bbc1f86a9ba6628ba3eca3c30c755472f0a7cbd1379b4674b57e845077ff34ff"
+      },
+      {
+        "path": "indexed/directx-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "0dfa512602778c942e14879db5e764b250c3c78616494616cf4858f50d363686"
+      },
+      {
+        "path": "indexed/directx/build.log",
+        "raw_bytes": 18206,
+        "raw_sha256": "9ed7f0c9d85729bd29b94a70035339ddcb677eb0f1222100cacc9992ba945204"
+      },
+      {
+        "path": "indexed/directx/compiler.txt",
+        "raw_bytes": 253,
+        "raw_sha256": "7091e6a9e7da9f7119dba5d159300d5639e3cfc711974dc5c1bb12492220e3ac"
+      },
+      {
+        "path": "indexed/directx/configure.log",
+        "raw_bytes": 2774,
+        "raw_sha256": "dd5e59efbab4d9f72f75589906988a37d3a0e838f91e8a842192912b5701bbd3"
+      },
+      {
+        "path": "indexed/directx/dump-controls/build-control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "indexed/directx/dump-controls/build-helper.log",
+        "raw_bytes": 23,
+        "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/already-exited/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/already-exited/result.json",
+        "raw_bytes": 646,
+        "raw_sha256": "193340e6655fdb20c9ea49c70ea0460d1fbbe21af709896e11f65d88d907c262"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/live-thread/failure.dmp",
+        "raw_bytes": 11279,
+        "raw_sha256": "e08f10882b5449bcd59980356b472b999ac7388e5aa2d26aecd4dae7654601e4"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/live-thread/helper.jsonl",
+        "raw_bytes": 81,
+        "raw_sha256": "b042a19fe904767d58ceed20f8b82185646187914b22a44c92b454b749dc94e4"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/live-thread/result.json",
+        "raw_bytes": 888,
+        "raw_sha256": "3b7cca1c9a517d39a45e50827494a4431ac52b0ca1904111d2f3a18f7936076f"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/results.json",
+        "raw_bytes": 3759,
+        "raw_sha256": "d77404ccc2729a24e375adf8147307dbc62bf8e2912319e62009760e94ccc43f"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/wrong-job/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "indexed/directx/dump-controls/controls/wrong-job/result.json",
+        "raw_bytes": 648,
+        "raw_sha256": "c54b274ace2b9108dfabc2bfa04ffbad1e4cb650e56da74d0d536a8e11c8ce70"
+      },
+      {
+        "path": "indexed/directx/dump-controls/test.log",
+        "raw_bytes": 2612,
+        "raw_sha256": "5387f4952c6daa7530a808bfeb3a276d4ab7f70da70a493045eba38d3eac1173"
+      },
+      {
+        "path": "indexed/directx/frontend-symbols.txt",
+        "raw_bytes": 461790,
+        "raw_sha256": "2df0cf23dc35baa82767aa171a48a05ceb17811a643b8aa16dcd544cc94f5f6c"
+      },
+      {
+        "path": "indexed/directx/identity.json",
+        "raw_bytes": 2768,
+        "raw_sha256": "353bf05e1626cbdb81a90bd159292ed27f88695a5e8a2160f4c0b98cd8250730"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-0.json",
+        "raw_bytes": 22924,
+        "raw_sha256": "3ad253a03350ee12f03230dc9404bed100e37742f41c240262f942ece52fde75"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-1.json",
+        "raw_bytes": 22926,
+        "raw_sha256": "c487bc0187ef6227958fa9ab80028d19e94f80b5ef9540704fae6dcce1ad7a5a"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-10.json",
+        "raw_bytes": 22630,
+        "raw_sha256": "555132965bfe02c7e10614003f73aa0645b6294ded5d5f5388fee2698670aba5"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-11.json",
+        "raw_bytes": 22616,
+        "raw_sha256": "aa83d2a5d8543bc0776fe27ec6759df94751b2d8221a764924491c3f89a75bb1"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-12.json",
+        "raw_bytes": 22630,
+        "raw_sha256": "b4210ab9d33d8943b1fc6384b5269adcd26ed2026400d684a5d3be6673f20d5f"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-13.json",
+        "raw_bytes": 22632,
+        "raw_sha256": "f15d8782a54c6d6a06a2ff537fd68d2de20494500ad7f6db68f6f227be91e9f3"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-14.json",
+        "raw_bytes": 22631,
+        "raw_sha256": "515434da17d7a4b50ee39e7d81f0b47f92e32d4fe36d232d1d76720ae06b4fab"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-15.json",
+        "raw_bytes": 22628,
+        "raw_sha256": "b19817078bdd97bb22fd982606ace4138d1f9b7aa2307b6ea0f6c39ab7d91e37"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-16.json",
+        "raw_bytes": 22628,
+        "raw_sha256": "7e850a51e6d67b734b1868a8cb87e77ee7ab9d78727d384745df00b846dc5709"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-17.json",
+        "raw_bytes": 21742,
+        "raw_sha256": "baf6135042ff38aa7be81891ee28ccc55280fdef169de08d3f0715c34982f0dc"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-18.json",
+        "raw_bytes": 21741,
+        "raw_sha256": "2a83279f493a6890f5855b83257c09beb16f486037e101b1a310ec5c5f8fa97f"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-19.json",
+        "raw_bytes": 21742,
+        "raw_sha256": "4151308b8b69bb4d7c74a6bc90ebe54b3d29add8a941862d3b90a0a4a65d2992"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-2.json",
+        "raw_bytes": 22924,
+        "raw_sha256": "821474f18b068878919e111262888aac5dd7a86eac5258c133aabd0a290081b6"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-20.json",
+        "raw_bytes": 21742,
+        "raw_sha256": "96c825f759b5491f9982ba8083c82e89c9af2d6f69900f346f3a35e05c4bcf4b"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-21.json",
+        "raw_bytes": 21742,
+        "raw_sha256": "e18ccfdadeec4c46d4e7b20d1e9bf5cdc3881836066747c3defe95369ca3c80d"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-22.json",
+        "raw_bytes": 21726,
+        "raw_sha256": "3ab3bc09d19cab1e8e041e5393d31f95d3d4eeae6493f982362ea603809a4a6d"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-23.json",
+        "raw_bytes": 21742,
+        "raw_sha256": "a89d94b2016992c80667363d616ebd5f40459a945a57ca7c72ee2138e61a1292"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-3.json",
+        "raw_bytes": 22925,
+        "raw_sha256": "21ced0a98cc127bcd33a7c49d917281a20c30cae3d35fc7a79001cedf54e2924"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-4.json",
+        "raw_bytes": 22630,
+        "raw_sha256": "3e66c403f0163c80abcb82fd73397b79338b6c16396bc2f4850a3b14f2cb827c"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-5.json",
+        "raw_bytes": 22629,
+        "raw_sha256": "2ec6d96c29430c9028f87608fd51b86d3ac81ac4ede1cf0769e010cbfef8bbb1"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-6.json",
+        "raw_bytes": 22628,
+        "raw_sha256": "4539a20eb6dcf0ef565d90017ebf034cc5749662fb8088ab66566c69a0a82edc"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-7.json",
+        "raw_bytes": 22630,
+        "raw_sha256": "d42cd0e0966ece285c39528428286562b3a3b9da8a5f7ac3eb6eb48dfc64d6d0"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-8.json",
+        "raw_bytes": 22627,
+        "raw_sha256": "41c0022d0731a0728b1756ebfac46b405bbcbe71497fade8f4383df0c988290f"
+      },
+      {
+        "path": "indexed/directx/observations/resize-diagnostic-tabs-4413086070ab44678c6844426be09af7/resize-9.json",
+        "raw_bytes": 22615,
+        "raw_sha256": "6d805aca74ac07af9f7ce60aad92e5cec1b190b89601af25e9ef59f0f697b710"
+      },
+      {
+        "path": "indexed/directx/observations/unicode-kitty-workload-progress-2380.json",
+        "raw_bytes": 1991,
+        "raw_sha256": "da6a967827ceb9b933877ae32e887e9f90fab3e6e493fde23f7a1c229eb1a9e1"
+      },
+      {
+        "path": "indexed/directx/observations/unicode-kitty-workload-tabs-directx-left-memory.json",
+        "raw_bytes": 1920568,
+        "raw_sha256": "4a44a2ef22692b1e328e1ff455bb42463441880c40cbbd83020e20f45bcfa1cd"
+      },
+      {
+        "path": "indexed/directx/observations/unicode-kitty-workload-tabs-directx-left-observed.json",
+        "raw_bytes": 157769,
+        "raw_sha256": "3258cc4aa4094dee115206bc3324aabfad81b3e50e9ceab0b99464355bd36284"
+      },
+      {
+        "path": "indexed/directx/runtime/CONPTY-RUNTIME.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "e6b039f582f0a951503b9907db3a0dad6bb4664cb62db50404c6feabb680202c"
+      },
+      {
+        "path": "indexed/directx/runtime/LICENCE-Microsoft-ConPTY.txt",
+        "raw_bytes": 1096,
+        "raw_sha256": "09f4648ee8b31f2e0be38c6391b42eba38a9ec708ce957bac118e2f1e7bbec34"
+      },
+      {
+        "path": "indexed/directx/runtime/SOURCE-HOST.json",
+        "raw_bytes": 446,
+        "raw_sha256": "b2d3cee2413f03372c7a950a56821955e37d30db1083e1d0d93ba0d572800f46"
+      },
+      {
+        "path": "indexed/directx/source-run.json",
+        "raw_bytes": 23830,
+        "raw_sha256": "158cdf0083979a9cfd4f69b2b589098a2ef35fff1247c7611884ef45861742bb"
+      },
+      {
+        "path": "indexed/directx/workload.log",
+        "raw_bytes": 3780,
+        "raw_sha256": "f7902518eed7545b7b6392dd16c3d621af855a4d01058718bf2c0fdfcb5f189b"
+      },
+      {
+        "path": "indexed/gdi-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "d61cc451476c87fcbc2842b153c9468b3bd366d01e59bc7b2206dcdbad31fc2c"
+      },
+      {
+        "path": "indexed/gdi/build.log",
+        "raw_bytes": 18206,
+        "raw_sha256": "f6c098a5832d050e49b4261734df49fca48058106b83dc3003163405afce9f51"
+      },
+      {
+        "path": "indexed/gdi/compiler.txt",
+        "raw_bytes": 253,
+        "raw_sha256": "7091e6a9e7da9f7119dba5d159300d5639e3cfc711974dc5c1bb12492220e3ac"
+      },
+      {
+        "path": "indexed/gdi/configure.log",
+        "raw_bytes": 2774,
+        "raw_sha256": "671de480dfb4cea3109d5f6c8bdca127ab3865322625cb6e848ba2dbe63f3cfe"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/build-control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/build-helper.log",
+        "raw_bytes": 23,
+        "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/already-exited/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/already-exited/result.json",
+        "raw_bytes": 646,
+        "raw_sha256": "3eb2532653bb0929e6b7db63b0b21eda3f2025f1dbcceef1339ac7d88d392589"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/live-thread/failure.dmp",
+        "raw_bytes": 10447,
+        "raw_sha256": "db8d57dafabea83d69fe26d05e8fe7fdd049db8933923846ab999f891a71f79d"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/live-thread/helper.jsonl",
+        "raw_bytes": 81,
+        "raw_sha256": "737aa068154664874424aeeb80e2d804cd10ce3a5d8925583c61d78e1dc5c799"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/live-thread/result.json",
+        "raw_bytes": 888,
+        "raw_sha256": "e748299b881dd2f025558f359996a81abb0bed4cf6fb6cd17cff81ed03f0be93"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/results.json",
+        "raw_bytes": 3760,
+        "raw_sha256": "7fd16d017745be240b15504ae3783305892e87ce91aa80ac79c97afb6ebbdf4f"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/wrong-job/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/controls/wrong-job/result.json",
+        "raw_bytes": 648,
+        "raw_sha256": "4b8823237cebf683d5dad531b49e29fa5fb7c8bc031d493d1a23d4e1155ce391"
+      },
+      {
+        "path": "indexed/gdi/dump-controls/test.log",
+        "raw_bytes": 2613,
+        "raw_sha256": "f5a5785013c24a0e89f01c3659293e9508a8f4d8b7e562dbf5482c4aec64be49"
+      },
+      {
+        "path": "indexed/gdi/frontend-symbols.txt",
+        "raw_bytes": 461790,
+        "raw_sha256": "2df0cf23dc35baa82767aa171a48a05ceb17811a643b8aa16dcd544cc94f5f6c"
+      },
+      {
+        "path": "indexed/gdi/identity.json",
+        "raw_bytes": 2764,
+        "raw_sha256": "98fe80120d790c32c738556fe403fd6966e1fc5aaaad1f9f60a24c28e044dee0"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-0.json",
+        "raw_bytes": 18720,
+        "raw_sha256": "d092011b557b58f451c8724964d670a9674ff50ed0d8af78438e4da18f792660"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-1.json",
+        "raw_bytes": 18709,
+        "raw_sha256": "52648f2eda2a46ff49a1f40841cb35be1339640d51fb02e524e9b9b756c02867"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-10.json",
+        "raw_bytes": 17834,
+        "raw_sha256": "fdf4eede5aecbbdb21496cae3f5e615c06b44aaa1d92b06dadaa3141f0407e80"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-11.json",
+        "raw_bytes": 17836,
+        "raw_sha256": "bfb71e86347052cd3489f33094f340187aa32336cdbebd7f5027a957888f8a3a"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-12.json",
+        "raw_bytes": 17834,
+        "raw_sha256": "7eb50454304f29c1d108102e79ca65af93e294d1e661e29d0d4ab8907d974685"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-13.json",
+        "raw_bytes": 18131,
+        "raw_sha256": "e19d8a33a1ea0973d3b7f8dd566b5ae6a0759d05dab35d71a6c6c4f59b377071"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-14.json",
+        "raw_bytes": 18425,
+        "raw_sha256": "0a7aa0ece3b2b1fc6cc05a844c76c1c1910a51fc82a821a3cba06f03123c2014"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-15.json",
+        "raw_bytes": 18412,
+        "raw_sha256": "b39bad155a452dea61f9e66d824d94738f82869dcaac2657049c8645d02290f4"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-16.json",
+        "raw_bytes": 18424,
+        "raw_sha256": "24692c9e8786b83963aa40ceab2a4bda90efe4b22a8a844368d11204a7118056"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-17.json",
+        "raw_bytes": 18426,
+        "raw_sha256": "13445cb5112819ed208544678e26d84a912623c391caaa26ceb956be0539571c"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-18.json",
+        "raw_bytes": 18424,
+        "raw_sha256": "7b6ff717d713ffbbf51870df50a807b521665c0116e2fb8a612e066b096e3450"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-19.json",
+        "raw_bytes": 18426,
+        "raw_sha256": "c180f55ec54e79a48177a70de075da79d0ad8e559082c9522a596d4f8f82bc07"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-2.json",
+        "raw_bytes": 18722,
+        "raw_sha256": "bf4a41f80e5bdd257b6e908bc0e521b1fd239200e844aa57d8b2150a834df61d"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-20.json",
+        "raw_bytes": 18423,
+        "raw_sha256": "a749f14874ae54e9ecdc71556252aae754641e2187842b1257dbeab2bb4371a9"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-21.json",
+        "raw_bytes": 18425,
+        "raw_sha256": "76fe21d073eef3acdefdae5584bc9deef980227a370c361452cacd870d8289ac"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-22.json",
+        "raw_bytes": 17831,
+        "raw_sha256": "a862ca4f92ed33df8e3da9267b0c1082fdcb4583491d9a847a283b39a5a61fda"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-23.json",
+        "raw_bytes": 17820,
+        "raw_sha256": "354603bd0aa010e301d57fefc736a4846460507d8e8b16873f3efe6e49763c96"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-3.json",
+        "raw_bytes": 18721,
+        "raw_sha256": "b9ef8fb94b7cbcf041f248a6e77f4a9677b42c49bb20fe07c75ed23979620b5e"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-4.json",
+        "raw_bytes": 18721,
+        "raw_sha256": "97db4759e0b8ff08140af54562a9e068c71c4d243771d99f7df63adf967519df"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-5.json",
+        "raw_bytes": 18709,
+        "raw_sha256": "67a623cb01eb0c2cbea0dc5f7f9ccb4463feab93685649103b8a18f40771d758"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-6.json",
+        "raw_bytes": 18721,
+        "raw_sha256": "f7c8c595057b047da53cc85ae8b3fbe29ec1cb9ef49f83827971c962275caafa"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-7.json",
+        "raw_bytes": 18278,
+        "raw_sha256": "0e484084c6dbf01869b6fe4e8e5be9cb4dfcfb9992649c8506066ff7b347de80"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-8.json",
+        "raw_bytes": 17831,
+        "raw_sha256": "92a59086e8a2d9d09d84f22327bdebf35e38a5abcf0337a84435ebda512b5b20"
+      },
+      {
+        "path": "indexed/gdi/observations/resize-diagnostic-tabs-0d840bfccebf4283ab9269eabd504f3b/resize-9.json",
+        "raw_bytes": 17822,
+        "raw_sha256": "b0652e7d8c2caa572cf0150486adda0b789989a9955edf9cbda80485201f88da"
+      },
+      {
+        "path": "indexed/gdi/observations/unicode-kitty-workload-progress-4568.json",
+        "raw_bytes": 2006,
+        "raw_sha256": "71b3abab8856b3033974c0f93ccca1d4fd1495cbbd0b8dfc10af3737b7c3c760"
+      },
+      {
+        "path": "indexed/gdi/observations/unicode-kitty-workload-tabs-gdi-top-memory.json",
+        "raw_bytes": 3701677,
+        "raw_sha256": "c805422758d10fa982e3c0befb9c27c6c8da1794986423852ac40a4ef17bb6c2"
+      },
+      {
+        "path": "indexed/gdi/observations/unicode-kitty-workload-tabs-gdi-top-observed.json",
+        "raw_bytes": 157319,
+        "raw_sha256": "027004e685752e19f96abb8d1209f238a1e3898be82202e8d91dd50bf6501dbd"
+      },
+      {
+        "path": "indexed/gdi/runtime/CONPTY-RUNTIME.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "e6b039f582f0a951503b9907db3a0dad6bb4664cb62db50404c6feabb680202c"
+      },
+      {
+        "path": "indexed/gdi/runtime/LICENCE-Microsoft-ConPTY.txt",
+        "raw_bytes": 1096,
+        "raw_sha256": "09f4648ee8b31f2e0be38c6391b42eba38a9ec708ce957bac118e2f1e7bbec34"
+      },
+      {
+        "path": "indexed/gdi/runtime/SOURCE-HOST.json",
+        "raw_bytes": 446,
+        "raw_sha256": "b2d3cee2413f03372c7a950a56821955e37d30db1083e1d0d93ba0d572800f46"
+      },
+      {
+        "path": "indexed/gdi/source-run.json",
+        "raw_bytes": 23830,
+        "raw_sha256": "158cdf0083979a9cfd4f69b2b589098a2ef35fff1247c7611884ef45861742bb"
+      },
+      {
+        "path": "indexed/gdi/workload.log",
+        "raw_bytes": 5432,
+        "raw_sha256": "40816ad1ed9d859c2220743aaa0426dba77b7bd2f852443cc0c00c2837cfb93c"
+      },
+      {
+        "path": "missing-import/dense-artifacts.json",
+        "raw_bytes": 1571,
+        "raw_sha256": "89f85bbc45f7f9a4eabc0a14246bdfbe2101ae8671d7d9074ff3c4aecd974f7e"
+      },
+      {
+        "path": "missing-import/dense-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "9390e07d1c8df79b16c91bb681cbddc8f4423545ee2320c9c039063ef5e6af86"
+      },
+      {
+        "path": "missing-import/dense-run.json",
+        "raw_bytes": 6734,
+        "raw_sha256": "121c54c6fba3fba66db5bc1154f1f3110b82bcf3fd2f7a4aa6bc7e23790b2ff6"
+      },
+      {
+        "path": "missing-import/dense-run.log",
+        "raw_bytes": 338405,
+        "raw_sha256": "59a9ec01194b5c8ef7eafcd45e65320cb7de4ef05610187beabf100007e6a890"
+      },
+      {
+        "path": "missing-import/directx-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "aeef36c9756d71215aae4b1203ed7319f13275a165270d2a3a8264e901f6691b"
+      },
+      {
+        "path": "missing-import/directx-job-early.log",
+        "raw_bytes": 105162,
+        "raw_sha256": "7516b5c90b43b1afc6f44231690877c312c39e50fe42206a9503358f74127f9e"
+      },
+      {
+        "path": "missing-import/directx/build.log",
+        "raw_bytes": 18206,
+        "raw_sha256": "e3446acbf77744fb78a22da857de659832966b262211f882fb1fe795ba8656cd"
+      },
+      {
+        "path": "missing-import/directx/compiler.txt",
+        "raw_bytes": 253,
+        "raw_sha256": "7091e6a9e7da9f7119dba5d159300d5639e3cfc711974dc5c1bb12492220e3ac"
+      },
+      {
+        "path": "missing-import/directx/configure.log",
+        "raw_bytes": 2773,
+        "raw_sha256": "f1e98e4a8cee0efa085eaef2a752bccb27bcc621089c52361541c35768b04eb9"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/build-control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/build-helper.log",
+        "raw_bytes": 23,
+        "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/already-exited/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/already-exited/result.json",
+        "raw_bytes": 646,
+        "raw_sha256": "012598e3dc452f1e1644fa75e5d7154d554e8169fb54698ecac689d16c944a39"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/live-thread/failure.dmp",
+        "raw_bytes": 12847,
+        "raw_sha256": "514e791efdca7077f6a2b050fe36c3435380c9f6cdc5cb8c10309c77f5f3a5b8"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/live-thread/helper.jsonl",
+        "raw_bytes": 81,
+        "raw_sha256": "3a6f3ff462f7e8db979188a056ab47c464b9c5f6850f004680183ea07e0e2e59"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/live-thread/result.json",
+        "raw_bytes": 888,
+        "raw_sha256": "e9f3555e3bf0c6ffe138e995c9790d7abbd25a903f2d2888a13c2d0ca1a34ae3"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/results.json",
+        "raw_bytes": 3760,
+        "raw_sha256": "cdd31120e5cc97ec65a5e14cbbc23c8f29b843899d614999b99f8694d61c1a12"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/wrong-job/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/controls/wrong-job/result.json",
+        "raw_bytes": 648,
+        "raw_sha256": "a99ad203704e68bb6beec3b2ae72137401cccfe5fbf35d04596850ed123f5d28"
+      },
+      {
+        "path": "missing-import/directx/dump-controls/test.log",
+        "raw_bytes": 2613,
+        "raw_sha256": "f3baa7bc28f8490afdf2880ffdadaaf7070b16cb5c399facef0f26485b18302e"
+      },
+      {
+        "path": "missing-import/directx/frontend-symbols.txt",
+        "raw_bytes": 461790,
+        "raw_sha256": "2df0cf23dc35baa82767aa171a48a05ceb17811a643b8aa16dcd544cc94f5f6c"
+      },
+      {
+        "path": "missing-import/directx/identity.json",
+        "raw_bytes": 2768,
+        "raw_sha256": "0016d75d6e7771764f3092767865d91076475adf5bdc00a5cb0926e79d4801b1"
+      },
+      {
+        "path": "missing-import/directx/runtime/CONPTY-RUNTIME.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "e6b039f582f0a951503b9907db3a0dad6bb4664cb62db50404c6feabb680202c"
+      },
+      {
+        "path": "missing-import/directx/runtime/LICENCE-Microsoft-ConPTY.txt",
+        "raw_bytes": 1096,
+        "raw_sha256": "09f4648ee8b31f2e0be38c6391b42eba38a9ec708ce957bac118e2f1e7bbec34"
+      },
+      {
+        "path": "missing-import/directx/runtime/SOURCE-HOST.json",
+        "raw_bytes": 446,
+        "raw_sha256": "b2d3cee2413f03372c7a950a56821955e37d30db1083e1d0d93ba0d572800f46"
+      },
+      {
+        "path": "missing-import/directx/source-run.json",
+        "raw_bytes": 23785,
+        "raw_sha256": "edc25be9dd7eb2a2d7d989c030f31f5e40cc4451affe6d7f8785c5a8d14363ce"
+      },
+      {
+        "path": "missing-import/directx/workload.log",
+        "raw_bytes": 307,
+        "raw_sha256": "29515385c5550df18b7b640c72edf0abd01b0d3682999356329d25fea7d7466d"
+      },
+      {
+        "path": "missing-import/gdi-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "f8323a8a36215c2e84d64320723a1476a92913a03380795c3c671ec75ba699a5"
+      },
+      {
+        "path": "missing-import/gdi/build.log",
+        "raw_bytes": 18206,
+        "raw_sha256": "635958848839f4c9609a51ef6d7b46df56bb50f60824792aa52c1b20bb2c5c6e"
+      },
+      {
+        "path": "missing-import/gdi/compiler.txt",
+        "raw_bytes": 253,
+        "raw_sha256": "7091e6a9e7da9f7119dba5d159300d5639e3cfc711974dc5c1bb12492220e3ac"
+      },
+      {
+        "path": "missing-import/gdi/configure.log",
+        "raw_bytes": 2774,
+        "raw_sha256": "9fe04fd7246404bfbbb8ed8bb8ea8cda447c17048fc84e64a3510a1d70e788cd"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/build-control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/build-helper.log",
+        "raw_bytes": 23,
+        "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/already-exited/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/already-exited/result.json",
+        "raw_bytes": 646,
+        "raw_sha256": "ba514f8d9de7c7f07bac4118299431b18676ffc67d01a12ca841c87ac9ef324d"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/live-thread/failure.dmp",
+        "raw_bytes": 9472,
+        "raw_sha256": "5cf7242bed9619f9701fd592d745585960a892df320f5a98324989e2a68f7b8b"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/live-thread/helper.jsonl",
+        "raw_bytes": 80,
+        "raw_sha256": "a85824190492ee05e80c9b965f6d9d79474a3056410fd492d7376a53ebfb5b67"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/live-thread/result.json",
+        "raw_bytes": 887,
+        "raw_sha256": "2e11f86dd200dbf4225624e731e968b24e1c5bddec2d2a3a595e64667ab549d3"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/results.json",
+        "raw_bytes": 3759,
+        "raw_sha256": "cd4ee4daa5a5e9651846cd70deeb00fb53b6df2bc407bb0dc650bbac67f7b018"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/wrong-job/helper.jsonl",
+        "raw_bytes": 32,
+        "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/controls/wrong-job/result.json",
+        "raw_bytes": 649,
+        "raw_sha256": "2c29873094068aff51fceeac36917e85968def05d10207e5ca99fd5768ab5d01"
+      },
+      {
+        "path": "missing-import/gdi/dump-controls/test.log",
+        "raw_bytes": 2612,
+        "raw_sha256": "5a08cfba2c7ee13fdac9435544268dc5180101922050ec09adb31bd6c0c7acde"
+      },
+      {
+        "path": "missing-import/gdi/frontend-symbols.txt",
+        "raw_bytes": 461790,
+        "raw_sha256": "2df0cf23dc35baa82767aa171a48a05ceb17811a643b8aa16dcd544cc94f5f6c"
+      },
+      {
+        "path": "missing-import/gdi/identity.json",
+        "raw_bytes": 2764,
+        "raw_sha256": "45798b9da30e426b5bfe4ce863acfb1f9bca32ca81a711bf26affc904e554f88"
+      },
+      {
+        "path": "missing-import/gdi/runtime/CONPTY-RUNTIME.json",
+        "raw_bytes": 1461,
+        "raw_sha256": "e6b039f582f0a951503b9907db3a0dad6bb4664cb62db50404c6feabb680202c"
+      },
+      {
+        "path": "missing-import/gdi/runtime/LICENCE-Microsoft-ConPTY.txt",
+        "raw_bytes": 1096,
+        "raw_sha256": "09f4648ee8b31f2e0be38c6391b42eba38a9ec708ce957bac118e2f1e7bbec34"
+      },
+      {
+        "path": "missing-import/gdi/runtime/SOURCE-HOST.json",
+        "raw_bytes": 446,
+        "raw_sha256": "b2d3cee2413f03372c7a950a56821955e37d30db1083e1d0d93ba0d572800f46"
+      },
+      {
+        "path": "missing-import/gdi/source-run.json",
+        "raw_bytes": 23785,
+        "raw_sha256": "edc25be9dd7eb2a2d7d989c030f31f5e40cc4451affe6d7f8785c5a8d14363ce"
+      },
+      {
+        "path": "missing-import/gdi/workload.log",
+        "raw_bytes": 307,
+        "raw_sha256": "29515385c5550df18b7b640c72edf0abd01b0d3682999356329d25fea7d7466d"
+      }
+    ]
+  }
+}

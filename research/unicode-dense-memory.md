@@ -42,7 +42,7 @@ remains unchanged.
 
 The opt-in source diagnostic runs the same dense workload with small external
 process dumps if a synchronous resize remains outstanding for 30 and 60 seconds.
-Thread metadata includes CPU times. Capture validates the inherited private-job
+The dump's thread information includes CPU times. Capture validates the inherited private-job
 and process handles, and its existing three controls cover target survival,
 thread context, wrong-job rejection and an exited target. The diagnostic retains
 the ordinary 180-second diagnostic watchdog and exits separately from acceptance.
@@ -53,3 +53,29 @@ Nemoterm because the older diagnostic branch referenced `faulthandler` without
 importing it. The fixture now imports it explicitly. That setup failure is not
 a resize reproduction; its runtime identity, control results and error remain
 in the original CI artifacts.
+
+The corrected [indexed-source diagnostic](https://github.com/xiongnemo/nemoterm/actions/runs/43688463026)
+at fixture `84e6f80` completes in both requested renderers. Each rebuilt frontend
+uses production source `f01927a`, which includes the lazy index, and the matching
+source-host artifact. Both complete all 24 resize calls, reseed both final grids,
+and naturally drain all 31 owned processes. Neither call sequence reaches the
+30-second dump threshold; no application dump is taken.
+
+| Requested renderer | Actual grid | Median / longest observed resize (s) |
+| --- | --- | --- |
+| GDI | 109x34 | 0.899 / 1.110 |
+| DirectX | 88x35 | 0.367 / 0.531 |
+
+These intervals include external before/after thread-snapshot overhead. They
+are not frame latency, and different grids/runners prevent a renderer ranking.
+The runs explicitly disable memory acceptance and stop before post-memory pixel
+verification; they do not replace the ordinary dense-image gate. The rebuilt
+executables also differ from the missing original single-file image.
+
+`unicode-resize-diagnostic-validation.json` indexes 152 retained observations,
+logs and controls in `indexed-native-resize.tar.gz`. Downloaded runtime/helper
+binaries are listed by hash and remain in the identified local/CI artifact
+folders rather than being embedded in this archive. The earlier setup failure
+is included. A separate rebuilt pre-index source diagnostic is being collected
+to locate the slow path; these finite indexed passes alone do not establish the
+old timeout's cause. Full local-grid acceptance remains pending.
