@@ -98,3 +98,60 @@ static void test_kitty_unicode_reference(Mock *parent)
     printf("Kitty Unicode replay: %u states; %u failed states; %u explicit xterm text-policy states\n",
            (unsigned)lenof(kitty_unicode_reference),failed,policies);
 }
+
+/* Rendering suppresses placeholder glyphs, but local selection must retain
+ * their exact underlying scalars and combining marks. No system clipboard. */
+static void test_kitty_unicode_selection(Mock *parent)
+{
+#ifdef PLATFORM_IS_UTF16
+#define KITTY_COPY_PUA L"\xdbfb\xdeee"
+#define KITTY_COPY_NL L"\r\n"
+#else
+#define KITTY_COPY_PUA L"\U0010eeee"
+#define KITTY_COPY_NL L"\n"
+#endif
+    const wchar_t *linear=L"A" KITTY_COPY_PUA L"\u0305\u0305B" KITTY_COPY_NL L"C"
+        KITTY_COPY_PUA L"\u030d\u0305D";
+    const wchar_t *rectangle=KITTY_COPY_PUA L"\u0305\u0305" KITTY_COPY_NL
+        KITTY_COPY_PUA L"\u030d\u0305";
+    const int clipboard=CLIP_LOCAL+1;
+    unsigned cases=0;
+    for (unsigned flags=0;flags<16;flags++) {
+        bool alternate=flags&1, mouse=flags&2, block=flags&4, cluster=flags&8;
+        Mock *mk=mock_new();TermWinVtable vt=mock_termwin_vt;vt.kitty_graphics=true;
+        mk->tw.vt=&vt;mk->ucsdata->line_codepage=CP_UTF8;
+        mk->term=term_init(mk->conf,mk->ucsdata,&mk->tw);
+        mk->ldisc=ldisc_create(mk->conf,mk->term,&mk->backend,&mk->seat);
+        Terminal *t=mk->term;
+        term_size(t,4,8,20);term_set_cell_size(t,8,16);
+        term_set_trust_status(t,false);
+        test_context(mk,"Kitty Unicode copy: alternate=%d mouse=%d rectangle=%d cluster=%d",
+                     alternate,mouse,block,cluster);
+        if (alternate) term_data_fragmented(t,"\033[?1049h");
+        term_data_fragmented(t,cluster ? "\033[?2027h" : "\033[?2027l");
+        term_data_fragmented(t,"\033_Ga=T,i=42,f=24,s=1,v=2,c=1,r=2,U=1,C=1;/wAA/wAA\033\\"
+            "\033[38;2;0;0;42m\033[HA\xf4\x8e\xbb\xae\xcc\x85\xcc\x85" "B\r\nC"
+            "\xf4\x8e\xbb\xae\xcc\x8d\xcc\x85" "D");
+        if (mouse) term_data_fragmented(t,"\033[?1003;1006h");
+        term_kitty_prepare(t);
+        IEQUAL(kitty_images(t,alternate),1);
+        IEQUAL(kitty_views(t,alternate)>1,true);
+        strbuf_clear(mk->to_backend);
+        for (unsigned repeat=0;repeat<2;repeat++) {
+            term_mouse(t,MBT_LEFT,MBT_SELECT,MA_CLICK,block ? 1 : 0,0,true,block,false);
+            term_mouse(t,MBT_LEFT,MBT_SELECT,MA_DRAG,block ? 1 : 2,1,true,block,false);
+            term_mouse(t,MBT_LEFT,MBT_SELECT,MA_RELEASE,block ? 1 : 2,1,false,false,false);
+            IEQUAL(t->selstate,SELECTED);
+            IEQUAL(t->seltype,block ? RECTANGULAR : LEXICOGRAPHIC);
+            IEQUAL(mk->to_backend->len,0);
+            mk->clipboard_writes=0;
+            term_request_copy(t,&clipboard,1);
+            check_clipboard(mk,block ? rectangle : linear);
+            term_kitty_prepare(t);kitty_check_budget(mk);cases++;
+        }
+        parent->any_test_failed|=mk->any_test_failed;mock_free(mk);
+    }
+    printf("Kitty Unicode selections: %u exact core copies checked\n",cases);
+#undef KITTY_COPY_PUA
+#undef KITTY_COPY_NL
+}

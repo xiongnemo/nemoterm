@@ -361,4 +361,5 @@ static void test_kitty_terminal(Mock *mk)
     puts("Kitty upstream query errors: 54 cases, 216 states (one data-error envelope control)");
     test_kitty_relative_reference(mk);
     test_kitty_unicode_reference(mk);
+    test_kitty_unicode_selection(mk);
 }

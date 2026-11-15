@@ -241,3 +241,30 @@ for each renderer, including isolated single-executable validation. The local
 frontend still uses the unchanged source-built `3ee3235` headless host; these
 results are not acceptance of a new combined single executable. Fresh CI,
 selection, lifecycle and uninjected memory acceptance remain pending.
+
+## Selection core and completed repaint CI
+
+An additional 32 real-core copy checks preserve the literal U+10EEEE scalars
+and their combining marks through ordinary and rectangular selection. They
+cover main/alternate screens, application mouse on/off, mode 2027 on/off and a
+repeat after image preparation. Shift keeps the gesture local even when mouse
+reporting is enabled; releasing modifiers before the button produces no stray
+mouse report. Expected newlines and supplementary-plane encoding follow the
+platform. The local Windows GCC build passes these checks and the complete
+graphics suite. This uses the mock clipboard sink, not the system clipboard or
+native selection pixels.
+
+The repaint checkpoint `191c641` has now completed
+[core CI 43678325293](https://github.com/xiongnemo/nemoterm/actions/runs/43678325293),
+[single-image CI 43678327425](https://github.com/xiongnemo/nemoterm/actions/runs/43678327425)
+and [component CI 43678139051](https://github.com/xiongnemo/nemoterm/actions/runs/43678139051).
+All four core jobs and all three component compilers pass; the single-image
+manifest lists 146 passed groups. The downloaded 4,522,496-byte executable has
+SHA256 `eadbb1d7280e764fe61460427399d3b2c86a9d158a4ae46e89ca7eff0a24d4c2`.
+It predates the transparent-border/roundoff fixes and has not replaced `dist`.
+The earlier `3ee3235` core and single workflows were automatically cancelled by
+same-branch concurrency when the repaint-fix workflows were dispatched; their
+component workflow passed. Those cancellations are neither test passes nor
+diagnosed failures. `ci-repaint-and-selection.tar.gz` retains all six workflow
+receipts, full logs, artifact metadata, the single-image validation manifest and
+the exact new local selection source/build/test evidence.

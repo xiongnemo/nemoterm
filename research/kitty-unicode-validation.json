@@ -13771,6 +13771,163 @@
           "raw_sha256": "382bd43b805f7e3349ea130c56092b12b5a5db73b3fb2fe18ef4cba9ed1ba4b3"
         }
       ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/ci-repaint-and-selection.tar.gz",
+      "archive_bytes": 490329,
+      "archive_sha256": "84b5b2409db3350f936f476bc8b4c54e990da739f5f5c4a5da0d729be1e3e84a",
+      "records": [
+        {
+          "path": "controller.py",
+          "raw_bytes": 3946,
+          "raw_sha256": "34d8273be05126385e3a499c8a42101016d4ce6a6d1a0bc346d7cecfcfc8d389"
+        },
+        {
+          "path": "repaint/components-artifacts.json",
+          "raw_bytes": 2308,
+          "raw_sha256": "bb574f83eaea533da696d37fb0b70b63fa6c591d389b0bc166972409ded91d05"
+        },
+        {
+          "path": "repaint/components-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "9b08cc62736b2f5b02a134b841fc83178582bf87de02a18ab778aae1484eddd5"
+        },
+        {
+          "path": "repaint/components-run.json",
+          "raw_bytes": 4298,
+          "raw_sha256": "05484fecb3f4389799ebf01957d565fde44a7e61444fc6d67444ba8bc3f307d0"
+        },
+        {
+          "path": "repaint/components-run.log",
+          "raw_bytes": 345863,
+          "raw_sha256": "441133e7d00c19ff17b9e656e0ecb387d4aac605d93df45a9a9d21ba31163f23"
+        },
+        {
+          "path": "repaint/core-artifacts.json",
+          "raw_bytes": 3848,
+          "raw_sha256": "a5953387cee7e37217ca914ce0408da02815f6b5c8d907c4b4b02c770eec1e1e"
+        },
+        {
+          "path": "repaint/core-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "0ccf595c34a9af060fbae5a6cfe821883a946657982e69f68f25259d482a569f"
+        },
+        {
+          "path": "repaint/core-run.json",
+          "raw_bytes": 23430,
+          "raw_sha256": "783a8f0dc16809c0e9aa35b31c1fd03371178f5374adbe905eab6147f59ed9dd"
+        },
+        {
+          "path": "repaint/core-run.log",
+          "raw_bytes": 1607997,
+          "raw_sha256": "744e311db59a0c5e1a7979c5c0757a0f52cd5bd74ffda8c2c23e3271050c1bf4"
+        },
+        {
+          "path": "repaint/single-artifacts.json",
+          "raw_bytes": 1557,
+          "raw_sha256": "dad9368124d8295cac5bbf44d8b621b162967dbf3b5f3225cda2971846939f3a"
+        },
+        {
+          "path": "repaint/single-exe-validation.json",
+          "raw_bytes": 3867,
+          "raw_sha256": "5d27796f08c903e375cc4ffc0f21beb298bfa46a20369531c2a9acd07d200fcd"
+        },
+        {
+          "path": "repaint/single-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "12ac7b14a54acc3051561794022cedcf668aae10c3fb908bae713ba88099755d"
+        },
+        {
+          "path": "repaint/single-run.json",
+          "raw_bytes": 3208,
+          "raw_sha256": "7854b2973e85ba11d6111a8d2f6fc58297c3436b51d81c63e6e4ec07be10ef29"
+        },
+        {
+          "path": "repaint/single-run.log",
+          "raw_bytes": 877052,
+          "raw_sha256": "fa7363c3611412b64775ab11376afcdd92ed9d032ff586133ed14608d562928a"
+        },
+        {
+          "path": "selection/kitty-unicode-selection-build.log",
+          "raw_bytes": 248,
+          "raw_sha256": "b01f3f30f8e2c1537e6b0f1ec254bb167e8f04306921e22f30d70839a4620054"
+        },
+        {
+          "path": "selection/kitty-unicode-selection-core.log",
+          "raw_bytes": 1096,
+          "raw_sha256": "935e295711a4d3dfb26b9727a332ca4618e4c67b0cbac49ed3a7a900817896a5"
+        },
+        {
+          "path": "selection/test_kitty_terminal.inc",
+          "raw_bytes": 18411,
+          "raw_sha256": "0c392b479fd3bf4b84ebff9272a2bd5530b793e13a0a5eedfe98569a003db1c6"
+        },
+        {
+          "path": "selection/test_kitty_unicode.inc",
+          "raw_bytes": 7638,
+          "raw_sha256": "121a553fbe40d104ac1c6b7b79f623f26a926b3b0324796e651e080c9056d6ab"
+        },
+        {
+          "path": "superseded/components-artifacts.json",
+          "raw_bytes": 2308,
+          "raw_sha256": "841cd4e570935106da34b3b024af3673f02f217f153d3766dd61d445669ead95"
+        },
+        {
+          "path": "superseded/components-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "b0a116e525b45c6b7c0cd8a28c40c788686642f2d05f18e4e42213fa3cb40419"
+        },
+        {
+          "path": "superseded/components-run.json",
+          "raw_bytes": 4298,
+          "raw_sha256": "c5607da43360fcee42d8ef3634b47380bbdf23a464c5883efee270e731f9ab63"
+        },
+        {
+          "path": "superseded/components-run.log",
+          "raw_bytes": 345744,
+          "raw_sha256": "1e5495603223439bd83e0a2921c3b943fa3992692e9179c7d9460cd0c9a4ff10"
+        },
+        {
+          "path": "superseded/core-artifacts.json",
+          "raw_bytes": 3086,
+          "raw_sha256": "c12e2ec35acfcad69178dd5ecec5f07f1e7aff67527f88d36353c0fae344d42f"
+        },
+        {
+          "path": "superseded/core-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "7aa8b76334709816386604c10cea8d2fbf100bd3871b88e1584e701d8290547e"
+        },
+        {
+          "path": "superseded/core-run.json",
+          "raw_bytes": 23242,
+          "raw_sha256": "a9eeb8c745b78f17232c47d21655ae6bd355d8dd7779957e6bad1658fe35fd22"
+        },
+        {
+          "path": "superseded/core-run.log",
+          "raw_bytes": 996327,
+          "raw_sha256": "9af0e4da92dde8fd73fd47b976ec9d7cf60a07423620246237fe840b5e30bc6e"
+        },
+        {
+          "path": "superseded/single-artifacts.json",
+          "raw_bytes": 792,
+          "raw_sha256": "c7aa628db32a0c0d5bcf5796e9f754ecd9c9e3ea5de515e954ab62b1388b22bb"
+        },
+        {
+          "path": "superseded/single-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "46387cdb66f4c35ec22bfff1aafe9cca36e08db1ac5d1d4b2a0960e9b85212c4"
+        },
+        {
+          "path": "superseded/single-run.json",
+          "raw_bytes": 3214,
+          "raw_sha256": "a77c2de169ac5827be8640e0abe5038db89052e883645202d51baff64b6336e8"
+        },
+        {
+          "path": "superseded/single-run.log",
+          "raw_bytes": 780128,
+          "raw_sha256": "661dcb22cd28ca606289996e1c3613024b425f1bc8389cbd3f6fc4dbfbe02a17"
+        }
+      ]
     }
   ],
   "baseline": {
@@ -16218,5 +16375,58 @@
     "geometry_scope": "153 fresh upstream cell sizes provide rectangles. Native transitions cover 19 states per renderer; no claim that all 153 sizes ran natively. Nearest-neighbour sampling differs from Kitty GPU linear filtering.",
     "memory_acceptance": false,
     "physical_input": false
+  },
+  "repaint_ci": {
+    "results": {
+      "repaint-core": {
+        "run": 43678325293,
+        "source": "191c6411faddec119304e7148fa47d0bdc1fd12f",
+        "conclusion": "success",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43678325293"
+      },
+      "repaint-single": {
+        "run": 43678327425,
+        "source": "191c6411faddec119304e7148fa47d0bdc1fd12f",
+        "conclusion": "success",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43678327425"
+      },
+      "repaint-components": {
+        "run": 43678139051,
+        "source": "191c6411faddec119304e7148fa47d0bdc1fd12f",
+        "conclusion": "success",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43678139051"
+      },
+      "superseded-core": {
+        "run": 43677048718,
+        "source": "3ee3235e4f90e53dc81dc56604812ac322607b9f",
+        "conclusion": "cancelled",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43677048718"
+      },
+      "superseded-single": {
+        "run": 43677048680,
+        "source": "3ee3235e4f90e53dc81dc56604812ac322607b9f",
+        "conclusion": "cancelled",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43677048680"
+      },
+      "superseded-components": {
+        "run": 43677048717,
+        "source": "3ee3235e4f90e53dc81dc56604812ac322607b9f",
+        "conclusion": "success",
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43677048717"
+      }
+    },
+    "single_executable_sha256": "eadbb1d7280e764fe61460427399d3b2c86a9d158a4ae46e89ca7eff0a24d4c2",
+    "single_executable_bytes": 4522496,
+    "passed_check_groups": 146,
+    "superseded": "Automatic same-branch concurrency cancellation when the repaint fix workflows were dispatched; not a test pass or diagnosed test failure",
+    "acceptance": "191c641 predates transparent-border/roundoff fixes. Downloaded and verified, not promoted to dist."
+  },
+  "core_selection": {
+    "copies": 32,
+    "platform": "Local Windows GCC 16.2",
+    "system_clipboard": false,
+    "cases": "Main/alternate screen, application mouse on/off, linear/rectangle, mode 2027 on/off, repeated after image preparation",
+    "executable_sha256": "23cbd7a021807e90ef447faa98ca1a7e0ea799668357adedaee174547d068321",
+    "scope": "Exact original PUA and combining marks, expected platform newline, no forwarded mouse bytes; native clipboard/pixels still pending"
   }
 }
