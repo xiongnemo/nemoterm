@@ -1,0 +1,80 @@
+name: Pointer shape components
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/pointer-shapes.yml
+      - vendor/putty-0.85/terminal/nemo_pointer.*
+      - tests/test_pointer_shapes.c
+      - tests/pointer_shape_reference.h
+      - scripts/generate-pointer-reference.py
+      - research/pointer-shape-evidence/**
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CC: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Verify independent capture projection
+        run: python3 scripts/generate-pointer-reference.py --check
+      - name: Strict compiler and sanitizer replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$CC" --version > compiler.txt
+          sha256sum vendor/putty-0.85/terminal/nemo_pointer.* tests/test_pointer_shapes.c tests/pointer_shape_reference.h > sources.sha256
+          "$CC" -std=c11 -Wall -Wextra -Werror -Wconversion -Wshadow -pedantic -O2 -I vendor/putty-0.85/terminal tests/test_pointer_shapes.c vendor/putty-0.85/terminal/nemo_pointer.c -o pointer-test
+          ./pointer-test 2>&1 | tee normal.log
+          "$CC" -std=c11 -Wall -Wextra -Werror -Wconversion -Wshadow -pedantic -g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer -I vendor/putty-0.85/terminal tests/test_pointer_shapes.c vendor/putty-0.85/terminal/nemo_pointer.c -o pointer-sanitizers
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./pointer-sanitizers 2>&1 | tee sanitizers.log
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pointer-component-${{ matrix.compiler }}-${{ github.sha }}
+          path: |
+            compiler.txt
+            sources.sha256
+            normal.log
+            sanitizers.log
+          if-no-files-found: error
+          retention-days: 30
+  msvc:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Verify independent capture projection
+        run: python scripts/generate-pointer-reference.py --check
+      - name: Strict MSVC replay
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          Get-FileHash vendor/putty-0.85/terminal/nemo_pointer.c,vendor/putty-0.85/terminal/nemo_pointer.h,tests/test_pointer_shapes.c,tests/pointer_shape_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content sources.json
+          & cl.exe /nologo /std:c11 /W4 /WX /O2 /Ivendor/putty-0.85/terminal tests/test_pointer_shapes.c vendor/putty-0.85/terminal/nemo_pointer.c /Fe:pointer-test.exe 2>&1 | Tee-Object compiler.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./pointer-test.exe 2>&1 | Tee-Object normal.log
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pointer-component-msvc-${{ github.sha }}
+          path: |
+            compiler.log
+            sources.json
+            normal.log
+          if-no-files-found: error
+          retention-days: 30

@@ -36,3 +36,37 @@ isolation and precedence with local selection, links and busy status. Native
 cursor inspection, settings/permission behavior, resets, allocation/lifetime
 checks and the original memory limits remain separate acceptance work. No
 support row is promoted by adding this reference fixture.
+
+## Retained reference and component checkpoint
+
+[Reference run 43692238900](https://github.com/xiongnemo/nemoterm/actions/runs/43692238900)
+at `ed5beca` completes all 117 cases / 555 stages and three literal controls.
+REA records normal exit and verified owned-process cleanup; its prelaunch-image
+identity and sampling limitations remain in the manifest. Fifteen original
+records are retained in `pointer-shape-evidence/kitty-reference-ed5beca.tar.gz`,
+indexed by `pointer-shape-reference-validation.json`. The observation SHA256 is
+`4060b1bc1cde1302da9874c804e4d83d66d95a0bfb47b5a1dbf8401a2081d81e`.
+
+The upstream keeps the prior shape for an unknown setter, keeps separate stacks
+across all three tested alternate-screen modes, and clears both on hard and soft
+reset. Empty setters install an automatic-shape slot; empty push elements do
+nothing. Three legacy spellings (`arrow`, `beam`, `hand`) return supported in
+queries while other recognized aliases return zero. The raw capture also keeps
+malformed-string/cancellation behavior; those observations are not silently
+rewritten into Nemoterm expectations.
+
+The standalone component uses 34 bytes for both sixteen-entry stacks and has
+no allocator. Complete payloads are bounded to 2,048 bytes and query content to
+4,096 bytes; query output is only emitted after successful completion. A future
+terminal owner can allocate this state lazily. It is not linked into the
+terminal yet and does not advertise runtime support.
+
+`generate-pointer-reference.py` reproduces a 106-case / 504-stage component
+projection from the unchanged capture. Its eleven omitted cases require actual
+VT dispatch (screen switches, resets, mouse modes, cursor save/erase, cancellation
+and NUL handling) and remain reserved for that integration. Bytewise input in
+the source is replayed as complete payloads here; this does not verify parser
+fragmentation. Additional component checks cover screen isolation, rejected
+oversized input, exact reply capacity and read-only query state. Local checks
+have only compiled the C sources and parsed/generated fixtures; runtime replay
+uses the disposable GCC, Clang and MSVC CI jobs.
