@@ -193,5 +193,227 @@
         "raw_sha256": "c41be3ac26c601420dd04d384ee332142241c34954a8e63b67c42401e2f958c0"
       }
     ]
+  },
+  "workload_followup": {
+    "cases": [
+      {
+        "renderer": "gdi",
+        "actual_renderer": 1,
+        "grid": [
+          160,
+          48
+        ],
+        "font": "SarasaTermSC Nerd Font Light",
+        "executable_sha256": "dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab",
+        "diagnostic_completed": true,
+        "memory_acceptance": false,
+        "sample_count": 507,
+        "sampled_peaks": {
+          "count": 1,
+          "private_ws": 15364096,
+          "total_ws": 37392384,
+          "private_commit": 17600512
+        },
+        "metadata_snapshots": {
+          "history-0": {
+            "private_ws": 11296768,
+            "shareable_ws": 22024192,
+            "shareable_one_process": 0,
+            "total_ws": 33320960
+          },
+          "history-1": {
+            "private_ws": 12283904,
+            "shareable_ws": 22024192,
+            "shareable_one_process": 0,
+            "total_ws": 34308096
+          },
+          "frame-0": {
+            "private_ws": 12902400,
+            "shareable_ws": 22028288,
+            "shareable_one_process": 0,
+            "total_ws": 34930688
+          },
+          "frame-23": {
+            "private_ws": 14688256,
+            "shareable_ws": 22028288,
+            "shareable_one_process": 0,
+            "total_ws": 36716544
+          },
+          "settled": {
+            "private_ws": 14688256,
+            "shareable_ws": 22028288,
+            "shareable_one_process": 0,
+            "total_ws": 36716544
+          }
+        },
+        "cleanup": {
+          "before": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      },
+      {
+        "renderer": "directx",
+        "actual_renderer": 3,
+        "grid": [
+          160,
+          48
+        ],
+        "font": "SarasaTermSC Nerd Font Light",
+        "executable_sha256": "dfae1cdea10e091d209aa56ce291b63e3ae5ada2f02035254c3c3398cda6c5ab",
+        "diagnostic_completed": true,
+        "memory_acceptance": false,
+        "sample_count": 460,
+        "sampled_peaks": {
+          "count": 1,
+          "private_ws": 22892544,
+          "total_ws": 57692160,
+          "private_commit": 85827584
+        },
+        "metadata_snapshots": {
+          "history-0": {
+            "private_ws": 18288640,
+            "shareable_ws": 34787328,
+            "shareable_one_process": 0,
+            "total_ws": 53075968
+          },
+          "history-1": {
+            "private_ws": 19431424,
+            "shareable_ws": 34787328,
+            "shareable_one_process": 0,
+            "total_ws": 54218752
+          },
+          "frame-0": {
+            "private_ws": 20504576,
+            "shareable_ws": 34791424,
+            "shareable_one_process": 0,
+            "total_ws": 55296000
+          },
+          "frame-23": {
+            "private_ws": 22122496,
+            "shareable_ws": 34803712,
+            "shareable_one_process": 0,
+            "total_ws": 56926208
+          },
+          "settled": {
+            "private_ws": 22118400,
+            "shareable_ws": 34803712,
+            "shareable_one_process": 0,
+            "total_ws": 56922112
+          }
+        },
+        "cleanup": {
+          "before": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 31,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        }
+      }
+    ],
+    "scope": "Original Sixel/dense-history/24-frame two-tab workload with five external metadata snapshots. Explicit diagnostic exit 2 before later injected UI checks; never memory acceptance.",
+    "bundle": {
+      "path": "research/directx-resident-pages-evidence/two-tab-workload.tar.gz",
+      "archive_bytes": 684384,
+      "archive_sha256": "434980188f19758a5a94d43f82758af98136ba6b455867409624a1fcc9d5e387",
+      "records": [
+        {
+          "path": "controller.py",
+          "raw_bytes": 5234,
+          "raw_sha256": "8ef3182600a6b508cdff4513cff5c7ab539f1b6cf35b7c4a0a94b3c481d9a001"
+        },
+        {
+          "path": "directx/fixture-change.json",
+          "raw_bytes": 409,
+          "raw_sha256": "343ba973661ba4456d5de7af8ee76d195f5d0bf0e09e95c049139c07f9135b32"
+        },
+        {
+          "path": "directx/logs/run.log",
+          "raw_bytes": 81,
+          "raw_sha256": "05fd1d0c221148e502d1cceba39a41e78c2b85485ee53feba3319cb997a25e0c"
+        },
+        {
+          "path": "directx/research/resident-pages-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 1189088,
+          "raw_sha256": "a22b2ec7e839b8adc32641a76ec624cb9c6eb75f25bb92de6c48648f1adacb9a"
+        },
+        {
+          "path": "directx/research/resident-pages-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 2405165,
+          "raw_sha256": "58bd9b3798d4ca4e6a307ad526b15687bb2ee91ab4b998209e4989f342861478"
+        },
+        {
+          "path": "directx/tests/resident_pages.py",
+          "raw_bytes": 2949,
+          "raw_sha256": "48c6d8ff9b7755d46a57eb84b8060a67f36ca4859d13687395ad712b4861cde2"
+        },
+        {
+          "path": "directx/tests/tab_workload_memory.py",
+          "raw_bytes": 10766,
+          "raw_sha256": "2650479b2cc49aa0e952e062e35c403d6721cb6c4326505cc9ce79dfb04fdeef"
+        },
+        {
+          "path": "directx/tests/tabs_window_smoke.py",
+          "raw_bytes": 38301,
+          "raw_sha256": "67d8a803fb9b0c221067d3639ff637313ddacaf9eafa5d9702dcb1b974ad634c"
+        },
+        {
+          "path": "gdi/fixture-change.json",
+          "raw_bytes": 409,
+          "raw_sha256": "343ba973661ba4456d5de7af8ee76d195f5d0bf0e09e95c049139c07f9135b32"
+        },
+        {
+          "path": "gdi/logs/run.log",
+          "raw_bytes": 81,
+          "raw_sha256": "05fd1d0c221148e502d1cceba39a41e78c2b85485ee53feba3319cb997a25e0c"
+        },
+        {
+          "path": "gdi/research/resident-pages-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1307561,
+          "raw_sha256": "a371c8787f1f62b76f060988f5863ae117912442b47d114347a92aac0516da85"
+        },
+        {
+          "path": "gdi/research/resident-pages-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 1677098,
+          "raw_sha256": "7d74c0399168d64f5d1d4e8888c57f43059d35050aa1ccfd56bdab0b12f42a43"
+        },
+        {
+          "path": "gdi/tests/resident_pages.py",
+          "raw_bytes": 2949,
+          "raw_sha256": "48c6d8ff9b7755d46a57eb84b8060a67f36ca4859d13687395ad712b4861cde2"
+        },
+        {
+          "path": "gdi/tests/tab_workload_memory.py",
+          "raw_bytes": 10766,
+          "raw_sha256": "2650479b2cc49aa0e952e062e35c403d6721cb6c4326505cc9ce79dfb04fdeef"
+        },
+        {
+          "path": "gdi/tests/tabs_window_smoke.py",
+          "raw_bytes": 38301,
+          "raw_sha256": "67d8a803fb9b0c221067d3639ff637313ddacaf9eafa5d9702dcb1b974ad634c"
+        },
+        {
+          "path": "summary.json",
+          "raw_bytes": 2183,
+          "raw_sha256": "c7dd712e401be5c6ed78e7139f59b025d5e3c5e9ca1f1a15d82c6837eacb49b3"
+        }
+      ]
+    }
   }
 }

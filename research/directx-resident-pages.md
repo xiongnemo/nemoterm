@@ -53,14 +53,52 @@ the current backend only copies textures and makes no `D3DCompile` call.
 not evidence that our backend compiles shaders, nor that it can be unloaded
 without regard to other system components.
 
-The next useful memory experiment needs a workload-aligned resident-page
-snapshot or a concrete allocation/resource change. Changing the private limit,
-trimming working sets, or repeating the earlier rejected atlas/readback changes
-would not explain these measurements. The approximate 50 MB total-workload
-target and broader terminal requirements remain open.
+The workload follow-up below checks whether these image mappings grow during
+history output and resizing. Changing the private limit, trimming working sets,
+or repeating the earlier rejected atlas/readback changes would not explain
+these measurements. The approximate 50 MB total-workload target and broader
+terminal requirements remain open.
 
 [`directx-resident-pages-validation.json`](directx-resident-pages-validation.json)
 indexes the exact executable, fixture source, raw page flags, allocation/module
 records, cleanup and observer source. Its compressed bundle retains all 13
 records with verified SHA256 hashes. No memory-reading or injection mechanism
 is added to the terminal product.
+
+## Same workload, five metadata checkpoints
+
+A separate copy of the existing tab fixture runs the original Sixel/dense-text
+workload: 4,096 output lines per tab with a 2,000-line history limit, 24 redraw
+frames and 24 resize transitions. It uses the same accepted executable and
+160x48 Sarasa grid. The only observation additions are five external metadata
+snapshots; it exits explicitly with diagnostic code 2 after sampling and before
+the later injected UI checks. No memory gate is evaluated. The changed fixture,
+base source identity, observer code and full output are retained.
+
+Both runs report diagnostic completion, zero sampling errors and natural
+cleanup of their 31-member jobs. All ten metadata snapshots have no unavailable
+queries, only committed regions, and no Frida agent in the frontend catalogue.
+The GDI sampler records 507 samples and DirectX 460. Their sampled total-WS
+peaks are 37,392,384 and 57,692,160 bytes respectively; these are diagnostic
+observations, not replacements for ordinary uninjected acceptance runs.
+
+| Checkpoint | Private WS (B) | Shareable WS (B) | Total WS (B) |
+| --- | ---: | ---: | ---: |
+| GDI, first history complete | 11,296,768 | 22,024,192 | 33,320,960 |
+| GDI, settled after frame 23 | 14,688,256 | 22,028,288 | 36,716,544 |
+| DirectX, first history complete | 18,288,640 | 34,787,328 | 53,075,968 |
+| DirectX, settled after frame 23 | 22,118,400 | 34,803,712 | 56,922,112 |
+
+The two named driver image mappings above are already resident at the first
+history checkpoint: together 10,096,640 bytes, rising by only one 4 KiB page
+through the final checkpoint. DirectX's later growth is predominantly private
+pages: 3,829,760 bytes versus 16,384 shareable bytes. GDI likewise grows mainly
+private pages in this workload. The page metadata does not identify allocation
+owners inside anonymous heaps, so it cannot assign that growth to a driver,
+terminal cache or allocator retention.
+
+The useful next boundary is a concrete resource/allocation experiment on the
+current copy compositor, with separate uninstrumented workload validation.
+There is no renderer change or demonstrated memory saving in this checkpoint.
+The validation index adds a second bundle with all 16 workload records; the
+earlier idle observations remain intact.
