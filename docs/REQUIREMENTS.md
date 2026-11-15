@@ -32,9 +32,13 @@ empty observer read. Correcting that read preserves all reply assertions.
 background host selects a neighbour, but fails to acknowledge its notification
 on real reactivation. `5a1bcdb` handles host activation and uses checked clicks on
 fixture-owned captions when foreground preparation is denied. It adds the 38-state
-fixture to both full suites. Native and ordinary workflows at `5a1bcdb` and the
-60-minute single-image workflow at `f9e6e82` are running. Visible taskbar and local
-acceptance remain open. Local testing stays paused.
+fixture to both full suites. Its native job still fails on reactivation. An
+image-identical message trace at `9dd2d92` confirms that the ordinary activation
+and focus messages occur while the host remains in the background; actual
+foreground restoration then emits only nonclient activation. `4154bac` handles
+that message while checking the actual foreground host. Native, ordinary and
+60-minute single-image workflows are running at this corrected source. Visible
+taskbar and local acceptance remain open. Local testing stays paused.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 
@@ -59,7 +63,8 @@ fixture lacked the retained reference archive; all original failure records are
 retained. The isolation-only fix at `23615de` passes all 232 UDK native streams,
 then reaches the overall 45-minute job deadline while dense Unicode frames are
 still progressing. The cancellation and image are retained, not accepted. The
-combined bell/UDK suite at `f9e6e82` now has a 60-minute overall job budget;
+combined bell/UDK suite now has a 60-minute overall job budget (introduced at
+`f9e6e82`, current corrected source `4154bac`);
 individual fixture and shutdown deadlines are unchanged. Local acceptance
 remains paused. No memory/rendering policy changes are made.
 

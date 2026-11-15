@@ -27,8 +27,11 @@ job exceeded 45 minutes. This is incomplete product acceptance.
 including the original cancellation and unverified executable. The combined
 bell/UDK single-image run
 [43725867215](https://github.com/xiongnemo/nemoterm/actions/runs/43725867215)
-at `f9e6e82` now has a 60-minute total budget, with individual fixture and
-shutdown deadlines unchanged. Its result is pending.
+at `f9e6e82` introduced a 60-minute total budget, with individual fixture and
+shutdown deadlines unchanged. It was subsequently superseded by combined run
+[43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
+at `4154bac` after the separate bell fixture confirmed another activation bug.
+The corrected full result is pending.
 
 ## Reference and original failure
 

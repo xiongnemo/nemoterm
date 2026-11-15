@@ -1,0 +1,130 @@
+{
+  "fixture_source": "9dd2d926187d01bd2172c74893b46ca38c9bd4ab",
+  "run": 43726461817,
+  "conclusion": "failure",
+  "artifact_id": 14166651874,
+  "image_provenance": {
+    "image_sha256": "DBE525DA574C302902F13981F515CB74E5C3B3DA773F60F397D7270FCDDB1E27",
+    "image_conclusion": "failure",
+    "image_source": "5a1bcdbf4636b6062a08af77d9791a9ebdbb1221",
+    "artifact_id": 14166267953,
+    "fixture_source": "9dd2d926187d01bd2172c74893b46ca38c9bd4ab",
+    "image_run": 43725655349,
+    "diagnostic_failed_baseline": true
+  },
+  "finding": "WM_ACTIVATE and WM_SETFOCUS occur while the other process is foreground after active-tab close. Real foreground restoration subsequently emits WM_NCACTIVATE only; the notification remains uncleared.",
+  "scope": "Actual unmodified window procedures and foreground/focus observations on a diagnostic-only failed image. DirectX is not reached; the original failed assertion is retained.",
+  "image_retained_in": "research/bell-activation-native.tar.gz",
+  "bundle": {
+    "path": "research/bell-activation-trace.tar.gz",
+    "bytes": 112328,
+    "sha256": "9cec2ac675f0f29d1a36c0b88ec9fd268bcbe88a79636429446e2e0c1f3f24b9",
+    "records": [
+      {
+        "path": "bell-state-artifacts.json",
+        "raw_bytes": 772,
+        "raw_sha256": "3deca9389bba37530d0e125455be47def069bf4ed177ecb486d2dac6eaf4f6b8"
+      },
+      {
+        "path": "bell-state-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "ee9bd5cf79db1714b6ceaaded5984a1f3f82b9eb2a955ee5cc8def89288a44dc"
+      },
+      {
+        "path": "bell-state-run.json",
+        "raw_bytes": 3272,
+        "raw_sha256": "107f5f0e134120bf64c4b5fdc7daaaf0b8f3fee7d5b0140a5a9fa3373cf39fc1"
+      },
+      {
+        "path": "bell-state-run.log",
+        "raw_bytes": 43353,
+        "raw_sha256": "a2021ab79b0e7570bb705ed8f45aebb4d35faff53d30052796021688ec147d2d"
+      },
+      {
+        "path": "diagnostic-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "47a0d560c1ce357bc7aba65063c616d49f676a14895f8416f2ae3f6e9b1df58d"
+      },
+      {
+        "path": "diagnostic/bell-state-provenance.json",
+        "raw_bytes": 353,
+        "raw_sha256": "95dac3926c879169e01bf9cd0cad8759fc247f28ac6e9e1064032a8b4ad8d623"
+      },
+      {
+        "path": "diagnostic/bell-window-state.log",
+        "raw_bytes": 641,
+        "raw_sha256": "4d5986c53f76eb96bab3601732c7494262f5385f54c1a8f12808a8f6b9ca6eac"
+      },
+      {
+        "path": "diagnostic/research/bell-window-state-observed.json",
+        "raw_bytes": 37456,
+        "raw_sha256": "9bb91ea3523892fe6c1e80a2112022dfc69a9b9002a89c25b9dd8506b9d6b35b"
+      },
+      {
+        "path": "image-source/vendor/putty-0.85/windows/nemo_tabs_host.inc",
+        "raw_bytes": 24590,
+        "raw_sha256": "72ba5f08800d6eae8b7abf66acc178a425a1925993cfd633c0e8a1f292ee3891"
+      },
+      {
+        "path": "image-source/vendor/putty-0.85/windows/window.c",
+        "raw_bytes": 290702,
+        "raw_sha256": "1008000084a528ef1d10b817b18e47d3652bb267edbd399986f9d52c0ffb8d67"
+      },
+      {
+        "path": "source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 19623,
+        "raw_sha256": "e2f44e3dabb9bed19b260b929d8112e10dd236dfd1b47432f44723ce2347ae01"
+      },
+      {
+        "path": "source/retainer.py",
+        "raw_bytes": 4734,
+        "raw_sha256": "21b46f94fb9231fbc03bb0e209a44929e3fcc149278942a32fee9a5f84e3ac0e"
+      },
+      {
+        "path": "source/tests/bell_window_state_smoke.py",
+        "raw_bytes": 16383,
+        "raw_sha256": "d1e074153ce4e26564f85b864aff199db72c6c10090c1d58b587eed6ad9848f0"
+      },
+      {
+        "path": "source/tests/fixture_io.py",
+        "raw_bytes": 1211,
+        "raw_sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+      },
+      {
+        "path": "source/tests/mouse_fixture.py",
+        "raw_bytes": 5665,
+        "raw_sha256": "2241d83c849b7cca1a6acc5f702a25b6ec51b90d432d48d8d4a8fe984447793c"
+      },
+      {
+        "path": "source/tests/native_test_utils.py",
+        "raw_bytes": 7063,
+        "raw_sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+      },
+      {
+        "path": "source/tests/owned_job.py",
+        "raw_bytes": 8182,
+        "raw_sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+      },
+      {
+        "path": "source/tests/owned_window_focus.py",
+        "raw_bytes": 3685,
+        "raw_sha256": "1d0240297ccc6c0333b6c5ade62339d1269f38f641d72762734dcccc6628feff"
+      },
+      {
+        "path": "source/tests/protocol_oracle_window.py",
+        "raw_bytes": 6603,
+        "raw_sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+      },
+      {
+        "path": "source/tests/session_fixture.py",
+        "raw_bytes": 544,
+        "raw_sha256": "5f7f2042ad7250ad1d9d6e2af7a57d4e927dd2dae0f111c88cb9901015bc2779"
+      },
+      {
+        "path": "source/tools/nemoterm_debug.py",
+        "raw_bytes": 10195,
+        "raw_sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+      }
+    ]
+  }
+}

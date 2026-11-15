@@ -204,12 +204,34 @@ topmost attribute. This occurs before observations; it does not alter bell API
 results, replace focus messages, or relax reply/notification expectations.
 
 Native [43725655349](https://github.com/xiongnemo/nemoterm/actions/runs/43725655349)
-and full ordinary [43725655091](https://github.com/xiongnemo/nemoterm/actions/runs/43725655091)
-are running at `5a1bcdb`. The single-image run at that source was deliberately
+at `5a1bcdb` still fails on the nineteenth GDI check, although all 192 standalone
+replies and sound/visual fixtures pass. `bell-activation-native.tar.gz` retains
+44 records / 2,778,402 bytes. The single-image run at that source was deliberately
 superseded early by [43725867215](https://github.com/xiongnemo/nemoterm/actions/runs/43725867215)
 at production-equivalent `f9e6e82`, which budgets 60 minutes for the expanded
 suite instead of 45. The earlier UDK-only suite reached that overall deadline
 while dense Unicode frames were still progressing; per-fixture and shutdown
 deadlines remain unchanged. Both full suites now include the 38-state fixture;
-the complete single-image suite should contain 159 groups. These runs remain
-unaccepted until their actual results are checked.
+the complete single-image suite should contain 159 groups.
+
+The image-identical diagnostic
+[43726461817](https://github.com/xiongnemo/nemoterm/actions/runs/43726461817)
+at `9dd2d92` observes the real host and child window procedures. Its trace shows
+`WM_ACTIVATE` and `WM_SETFOCUS` during background tab selection with the other
+process still foreground. Actual foreground restoration subsequently sends
+`WM_NCACTIVATE` only. `bell-activation-trace.tar.gz` retains 21 records / 112,328
+bytes, including this original failed assertion and exact image provenance.
+The trace does not replace or synthesize any window message.
+
+`4154bac` handles positive nonclient activation, checks that this host is truly
+foreground, then acknowledges notices and reports focus. The foreground check
+also distinguishes real activation from notification flashing. No allocation
+or persistent state is added. The older full ordinary/single runs were
+superseded because they contain the now-confirmed reactivation defect.
+
+Corrected native [43726648546](https://github.com/xiongnemo/nemoterm/actions/runs/43726648546),
+ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
+and single-image [43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
+are running at `4154bac`. These remain unaccepted until their actual results are
+checked. The single-image job retains the 60-minute total budget; fixture and
+shutdown deadlines are unchanged.
