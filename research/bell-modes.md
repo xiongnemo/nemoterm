@@ -228,6 +228,9 @@ foreground, then acknowledges notices and reports focus. The foreground check
 also distinguishes real activation from notification flashing. No allocation
 or persistent state is added. The older full ordinary/single runs were
 superseded because they contain the now-confirmed reactivation defect.
+`bell-superseded-workflows.tar.gz` retains 582 records / 11,940,538 bytes from
+those cancellations and the earlier budget replacement, including partial
+outputs and unverified images. Their cancellations are not treated as passes.
 
 Corrected native [43726648546](https://github.com/xiongnemo/nemoterm/actions/runs/43726648546),
 ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
