@@ -1,0 +1,464 @@
+{
+  "scope": "Exact-image hosted diagnosis; successful finite replays do not explain or resolve the original callback exception.",
+  "source_commit": "23c90fe3eb54d21b0d8c128c2d2a41090095b6d4",
+  "fixture_commit": "8c2d00484548e86351d2aa063fb67c57570458bd",
+  "run_id": 43758602960,
+  "artifact_id": 14179114486,
+  "executable_sha256": "75c88c5236b53853ea7c992c870fef322822939592b07476d99730a88543663d",
+  "replays": 12,
+  "actual_renderer": "GDI",
+  "groups_per_replay": 9,
+  "naturally_drained_processes": 648,
+  "external_observer_controls": 4,
+  "first_chance_exceptions": {
+    "0x40080201": 12
+  },
+  "second_chance_exceptions": 0,
+  "archive": {
+    "path": "tab-callback-portable-hosted.tar.gz",
+    "bytes": 266674,
+    "sha256": "96d1e52be5580bd6625c7fa254a46f07068743488bad1d44b084ec7458590893"
+  },
+  "files": [
+    {
+      "path": "diagnostic/exception-observer-source.json",
+      "bytes": 993,
+      "sha256": "ed4e71e2f8e4c0ffebb403b6308e37b1cc166145cce68ee4c485a22a248aa640"
+    },
+    {
+      "path": "diagnostic/identity.json",
+      "bytes": 6470,
+      "sha256": "5946548da38c38a59ddb35be06a14e8a2e8af78ad6eec3d7e35e8eb0ca2bbbb7"
+    },
+    {
+      "path": "diagnostic/replay-1-observed.json",
+      "bytes": 125559,
+      "sha256": "df2667ca6fb50abeac7e2258aa80153211e8763441df324d2a7aff5d4c34f651"
+    },
+    {
+      "path": "diagnostic/replay-1.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-10-observed.json",
+      "bytes": 125967,
+      "sha256": "16d073aa62bb0808dfff4a3f74ead40c165895fb011dedc0c9ea081633b23015"
+    },
+    {
+      "path": "diagnostic/replay-10.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-11-observed.json",
+      "bytes": 125890,
+      "sha256": "376d7789425ac465c2ba0b0106429a7f1fb74b2f51a7f098c9f2fe6de18472c5"
+    },
+    {
+      "path": "diagnostic/replay-11.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-12-observed.json",
+      "bytes": 126002,
+      "sha256": "b3749fd82a46098c6f06b297252e9bed965ab9f3c1bd6928de6ae749b3d3c87f"
+    },
+    {
+      "path": "diagnostic/replay-12.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-2-observed.json",
+      "bytes": 125591,
+      "sha256": "53abf20abb8f8bcdfd89cdca9fa0317dfb1f78e7e60fbb830b0c21d3a02e098f"
+    },
+    {
+      "path": "diagnostic/replay-2.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-3-observed.json",
+      "bytes": 125701,
+      "sha256": "f73b45d9545ce3f79be888c0c1901015e65daac084b736e4783e7d2018a727f2"
+    },
+    {
+      "path": "diagnostic/replay-3.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-4-observed.json",
+      "bytes": 125780,
+      "sha256": "6e98e08d05de7e81a72f1c129a9d7d9bca131c9b68f336c5a700a9a75d1b4771"
+    },
+    {
+      "path": "diagnostic/replay-4.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-5-observed.json",
+      "bytes": 125807,
+      "sha256": "c2be8f07caa2aa6972e402ef3a05a466916ad331e13b8810a074849f4cb40809"
+    },
+    {
+      "path": "diagnostic/replay-5.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-6-observed.json",
+      "bytes": 125905,
+      "sha256": "61c75184601f40b736d5b5d1a82986ce7897f9c6df1eaded3be8fbcb7ea8f1fd"
+    },
+    {
+      "path": "diagnostic/replay-6.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-7-observed.json",
+      "bytes": 125829,
+      "sha256": "192d40d119a531ae5113ffb1287b3e5a3de064f7221f4d2528613ef38e734ff0"
+    },
+    {
+      "path": "diagnostic/replay-7.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-8-observed.json",
+      "bytes": 125930,
+      "sha256": "dcddbc25ddda609909ccde68dc2e92e0fad10a02e62b7efdc6c647c7a0929c2a"
+    },
+    {
+      "path": "diagnostic/replay-8.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/replay-9-observed.json",
+      "bytes": 125873,
+      "sha256": "3469f1b69fb5eff5ce045d4c95a749bc8b7bdb573d2e5798e319c0e86003e65f"
+    },
+    {
+      "path": "diagnostic/replay-9.log",
+      "bytes": 36,
+      "sha256": "04973c1ea181758e744fb6dca823ee56c11d625a83f1757ac93db1e5358bd3c6"
+    },
+    {
+      "path": "diagnostic/exception-controls/build-control.log",
+      "bytes": 28,
+      "sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+    },
+    {
+      "path": "diagnostic/exception-controls/build-observer.log",
+      "bytes": 29,
+      "sha256": "17795c4c72b39396231497f30fcc2c23af7af55ac50add73a0658215d5d0edc2"
+    },
+    {
+      "path": "diagnostic/exception-controls/control.exe",
+      "bytes": 103424,
+      "sha256": "221d15e17c2c2a59d0bdb1556dbbde7b99e8326635408ab959c4b8c972f43e49"
+    },
+    {
+      "path": "diagnostic/exception-controls/control.obj",
+      "bytes": 2878,
+      "sha256": "41ac05e33d77cf0f9cd2c34c717d7f09c7c77e7502e23496ac83de77ac03d6cd"
+    },
+    {
+      "path": "diagnostic/exception-controls/observer.exe",
+      "bytes": 153600,
+      "sha256": "1f88e3e62b4d4078556829f438b5a4f673618ce85694cf83a38bab6b51ef4e3f"
+    },
+    {
+      "path": "diagnostic/exception-controls/observer.obj",
+      "bytes": 16851,
+      "sha256": "6ced74b7cd4875fd406c1682bc54fec2f4954e4c40fb2efef0ac3e92fae84f34"
+    },
+    {
+      "path": "diagnostic/exception-controls/test.log",
+      "bytes": 3009,
+      "sha256": "3a02e71babee2639f2129071f56d48001a75b3f0db1668bd68d79b5d85c2c317"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-0a838275fddb4893a17ce0edfc9e1b29/events.jsonl",
+      "bytes": 43958,
+      "sha256": "aef5708a19da95aa87abe5debd30c0e9409e45f6eee4d6fe3c31ddf4adf32bed"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-0a838275fddb4893a17ce0edfc9e1b29/identity.json",
+      "bytes": 330,
+      "sha256": "03aa223c281780e49c41ecc8f46cd6c09c3c7e3293c8ef143f8b668f1e9a9489"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-0a838275fddb4893a17ce0edfc9e1b29/result.json",
+      "bytes": 503,
+      "sha256": "e1a9b40d81c6e778b81471ac0300011a136a1965bf0f6e724bc6620911916499"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-3c0ec07e3828425cb72b469a59ac4c97/events.jsonl",
+      "bytes": 43958,
+      "sha256": "294e25c23df4eaace4d1e1d4f5fb3245ac09fff7312eba57d0eb44c9a3c4a3ba"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-3c0ec07e3828425cb72b469a59ac4c97/identity.json",
+      "bytes": 330,
+      "sha256": "64556a8ebf36f283266f8c32e2a3ed201fe3d5b5b3ca208a85375fe0806d6e4d"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-3c0ec07e3828425cb72b469a59ac4c97/result.json",
+      "bytes": 503,
+      "sha256": "2693ddf6a50b2c73162ae6ba0c77b62c8132096a0dc46d19732252e76a9b322a"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-4a31d39734dc450989ba550afee5e2a1/events.jsonl",
+      "bytes": 43957,
+      "sha256": "f897b860c2d6f522fc833afaf42f023997ffe6d331fa16a3e91d951fba9fd0eb"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-4a31d39734dc450989ba550afee5e2a1/identity.json",
+      "bytes": 330,
+      "sha256": "121efaa249beb9f5556b28827e907e6ca300cab262d37e7a50366348add08492"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-4a31d39734dc450989ba550afee5e2a1/result.json",
+      "bytes": 503,
+      "sha256": "b844ccbc53977d2b228d4c5c72da8a18951e96acb7b48351e736bbf2d22d2fbf"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-62f978a61cbd4af5b6896fe74525e422/events.jsonl",
+      "bytes": 43958,
+      "sha256": "403870285e10ac54f6dd0d9b9c461ab7e98fcb8e115cdca6fb94bca620140e9f"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-62f978a61cbd4af5b6896fe74525e422/identity.json",
+      "bytes": 330,
+      "sha256": "5a40d7a6e84805fd1df0c7c3183dd128fd77579ec32de103d6da412a71bfe65d"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-62f978a61cbd4af5b6896fe74525e422/result.json",
+      "bytes": 503,
+      "sha256": "caed8a65ab43943475505061ac48bbc75a1bd403cbc38394168bc35f9abfd162"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-70a3b249709e49cbb6bae9ce4bcc635e/events.jsonl",
+      "bytes": 43958,
+      "sha256": "dcb3289cc5aeccc276198787f2820ed0e0be445e7382da396adf2f97f3205c8d"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-70a3b249709e49cbb6bae9ce4bcc635e/identity.json",
+      "bytes": 330,
+      "sha256": "027fc29121cb7ca0f96ba0a36c6fede036cf397d0e70b8cc4b6aa3e9dfb65b2d"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-70a3b249709e49cbb6bae9ce4bcc635e/result.json",
+      "bytes": 503,
+      "sha256": "5babd35d738d73576c0efbbd0a47fbbfb3d86e946980d3ce24fb7145d2213d2f"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-727ffe463ac34adfa2798c3902cf2e5a/events.jsonl",
+      "bytes": 43957,
+      "sha256": "82343a645f059bc5c06cbb0a77cd531e0d5ed881a5af90971a8f2a8f3159dec5"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-727ffe463ac34adfa2798c3902cf2e5a/identity.json",
+      "bytes": 330,
+      "sha256": "7e9ce0bafdfee551582b05253e60e29a94ffe64666d524d40196f9f484ef8bb6"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-727ffe463ac34adfa2798c3902cf2e5a/result.json",
+      "bytes": 503,
+      "sha256": "41137cdfc7c73000971259c0339d55091bca637d468bd446fe2d561cd2febcf9"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-77a1b28efc104a4faef1e95822280d7a/events.jsonl",
+      "bytes": 43958,
+      "sha256": "bf5cffad0fb5ab07cdbde1a0feaaca804f616d37b184caa271349658c13d20d8"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-77a1b28efc104a4faef1e95822280d7a/identity.json",
+      "bytes": 330,
+      "sha256": "af37bcd45479803c8662c3196badd353589dc0457ef920aa52255cec04f6cdd3"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-77a1b28efc104a4faef1e95822280d7a/result.json",
+      "bytes": 503,
+      "sha256": "bb8b176665f72bab2e2db3dcd25f0a992c6d86737c5d3b695d1222a2e3872c9e"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-ccbb09f48db343b294e79832873e3c4e/events.jsonl",
+      "bytes": 43958,
+      "sha256": "f900a0673146501d9c14258c924ddc193ce61ea04bd96356454f67c2dc636ad2"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-ccbb09f48db343b294e79832873e3c4e/identity.json",
+      "bytes": 330,
+      "sha256": "a2df383ad2ae4ab2adaf61d7d4d789620e15dd12ecbbcb40c49fdcaf222c50f2"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-ccbb09f48db343b294e79832873e3c4e/result.json",
+      "bytes": 503,
+      "sha256": "7f1f9de00240b0402d05b8284a150de643d0cbb07464b8e431a458548e51e851"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d2b407700f4c449eae3c79b5913099fe/events.jsonl",
+      "bytes": 43860,
+      "sha256": "1ace4eabe2825fb4195b4d0c65945d15bdb9368a85a6669cd5606be504d4173f"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d2b407700f4c449eae3c79b5913099fe/identity.json",
+      "bytes": 330,
+      "sha256": "6a6d9e0f18036ce0a535570cd3e7e985423bb5f0ae070d8ef3679280bc3bf262"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d2b407700f4c449eae3c79b5913099fe/result.json",
+      "bytes": 503,
+      "sha256": "3221b118402f9ea56798dc58176c3d7619cc17a78d9bb2885992e9e1a9afdf94"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d616ec0dd0134aadb52b0e41b9c8d34e/events.jsonl",
+      "bytes": 43958,
+      "sha256": "bc245e62249459e9d86457b8cda5454cbdd7aa0c740cbd70736af1b873d17f1f"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d616ec0dd0134aadb52b0e41b9c8d34e/identity.json",
+      "bytes": 330,
+      "sha256": "be07e7d6af414d3a5ad2d8ba550cabd5670d07e21abf0db8a16b28c756a23c6c"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-d616ec0dd0134aadb52b0e41b9c8d34e/result.json",
+      "bytes": 503,
+      "sha256": "bcbddbc223b9760d440add415713182b39f812d8d2582dc2604e54e487ee1eff"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-e8c9284a48b04cffa24a36c15018107a/events.jsonl",
+      "bytes": 43958,
+      "sha256": "4faf4d010413bc06a77357bb9ad57301492b3f3561505e309634c0aadb3e0467"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-e8c9284a48b04cffa24a36c15018107a/identity.json",
+      "bytes": 330,
+      "sha256": "4eb2aef5a1c7f1a069165f2023d0144d5aedae37670ba11241d64b0ffa6cf8eb"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-e8c9284a48b04cffa24a36c15018107a/result.json",
+      "bytes": 503,
+      "sha256": "ea89b276d4c9a046644260bbb6269d3d62d8031fef75f8326c9d8a5d4ecc8dbd"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-f18e93fd6f754102bf4290e718c1d477/events.jsonl",
+      "bytes": 43956,
+      "sha256": "9599ef2008e0b5729fa5f34de7a15fe999c3945ba369d524a59c0f09f9787557"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-f18e93fd6f754102bf4290e718c1d477/identity.json",
+      "bytes": 330,
+      "sha256": "83f970d6eec3dc14df283148c19ef2cb5b2de33dcc09bf2ee630f6dd8f1a0b17"
+    },
+    {
+      "path": "diagnostic/exception-tabs-opengl-right-tabs-f18e93fd6f754102bf4290e718c1d477/result.json",
+      "bytes": 503,
+      "sha256": "4666f6096508c889085864db781e97160fdacfc01c1ad0fb29f5d0d0bdc06e47"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/results.json",
+      "bytes": 3877,
+      "sha256": "cb532a989e85e04bee82dd055b4ee4cb1d701a86dd95ab99ed20ceb01e539284"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/crash/crash-8208-1.dmp",
+      "bytes": 10572,
+      "sha256": "dfd9c1ae46375334d106eb4218d902c91fc95c02465f86f38bafcf01c8dfb628"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/crash/events.jsonl",
+      "bytes": 1400,
+      "sha256": "5b1ff069f56e5f40c0aebeb52295530b5cddc659ba130e14a3e1215298afbe12"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/crash/identity.json",
+      "bytes": 330,
+      "sha256": "aa4dfb3c6ca2fdb5e2ad6effcdc6491f4a8d6328f1c5ab967c07687ae349b243"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/crash/result.json",
+      "bytes": 521,
+      "sha256": "52baad10e007087d5303e1fd20d9536e7d0022c92e51f4bf7c52a3215b9b2664"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/debugger-exit/events.jsonl",
+      "bytes": 663,
+      "sha256": "2cd91ecbedf3fb88340610f868c4d3f26021927448c1a9ff4e8b27b6a5d17b00"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/debugger-exit/identity.json",
+      "bytes": 330,
+      "sha256": "4f319c1331a88476b80e84f32935d4b94c6268374341014d758cf398e35e12fd"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/debugger-exit/result.json",
+      "bytes": 501,
+      "sha256": "2794b91d7c5c496d3a94b60804718f6a0b58e584b39de1424313ef75ceef85b8"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/detach/events.jsonl",
+      "bytes": 698,
+      "sha256": "6e350d43ad00c7a0b193a63f1af6397a7f27661211b938c17fcf14704ee47de8"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/detach/identity.json",
+      "bytes": 330,
+      "sha256": "01fa5164502889a2cb85dc32d37c5355b2886034e7b61d194a8bbaff175bbef9"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/detach/result.json",
+      "bytes": 494,
+      "sha256": "2274ebb8531d70004790b3677c50312bcd48883b765167c2966d21ae97e0836b"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/normal/events.jsonl",
+      "bytes": 1142,
+      "sha256": "9ca8f3a01bab9f2c96ad1cd89e7022fb26fe5d3f8aae18ac1b43d21105107d89"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/normal/identity.json",
+      "bytes": 330,
+      "sha256": "663ee624134466f1464cbdfbf5db37156bd6ab6928cbb2ec5afbf2f2c6b425cf"
+    },
+    {
+      "path": "diagnostic/exception-controls/controls/normal/result.json",
+      "bytes": 494,
+      "sha256": "f1d0cb01975fb1e00da1c6d8f18c1d477994eaa158bf573e96158bf508e8159e"
+    },
+    {
+      "path": "tabs-run.json",
+      "bytes": 3034,
+      "sha256": "3a12ffa9ce967fa56efb62744f3451b75035845d04b30ec36e9cbc355bd7fc88"
+    },
+    {
+      "path": "tabs-run.log",
+      "bytes": 94460,
+      "sha256": "bab4c72abf98d3cc61c694429fb3f4b244a95597b1950290392e668ed1f61e3e"
+    },
+    {
+      "path": "tabs-artifacts.json",
+      "bytes": 789,
+      "sha256": "b71e15fb3278a54ecc922ceac0bb4db1af8f92805775636fe78a3e0bde9868a7"
+    },
+    {
+      "path": "diagnostic-download.json",
+      "bytes": 15980,
+      "sha256": "83f2a2e43113a5c73dcfd2575602ad1970a01a57eef427f24804a539fdfc5126"
+    },
+    {
+      "path": "controller/retain-tab-callback-hosted.py",
+      "bytes": 4002,
+      "sha256": "7717a42c729fc7ca41cf62b0314fe2cae040321098e10429aa51e800c41a9ec2"
+    }
+  ]
+}
