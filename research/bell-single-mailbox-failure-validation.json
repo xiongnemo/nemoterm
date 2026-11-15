@@ -1,0 +1,63 @@
+{
+  "run": 43726676358,
+  "source": "4154baca2db2d26c953d2fc6e82429918414a224",
+  "conclusion": "failure",
+  "scope": "Diagnostic subset: run metadata and log, failed shell-mark observations, screenshots and unverified executable. Other partial-suite evidence remains in the original CI artifact.",
+  "records": [
+    {
+      "path": "single-artifacts.json",
+      "size": 1529,
+      "sha256": "07ab1966a1a63cfe6f4b44d794767abdc06f89d860beeff335df24355577fb1a"
+    },
+    {
+      "path": "single-evidence-download.json",
+      "size": 82,
+      "sha256": "6f4c93161fb4904f6dd54a5c838b50856f946c451f7143b83cafca8ea02998c6"
+    },
+    {
+      "path": "single-observed-at.txt",
+      "size": 32,
+      "sha256": "293bd4f30d67f71955a090f2a04c03eea51c5dea27835a0a418c0903ffb9700a"
+    },
+    {
+      "path": "single-run.json",
+      "size": 3409,
+      "sha256": "3930ffdc4152523ae3712e529c02c346d4d70f9ab54938d37dcdcd7b49ee05e9"
+    },
+    {
+      "path": "single-run.log",
+      "size": 861015,
+      "sha256": "ffb6d8a97bd918c3aa4fe1c341a213e3ec890f6c4ae10ecf796535c640eba7e9"
+    },
+    {
+      "path": "unverified-product/nemoterm.exe",
+      "size": 4538880,
+      "sha256": "2d67a9f80ca132ee6e7ac37e8fba89f1d7a4e49fb1e8048df139c300812b3567"
+    },
+    {
+      "path": "unverified-product-download.json",
+      "size": 82,
+      "sha256": "a77d3262fd69a59fa4a1150008f9d3de0715591a7c69cf2639fbcbe4d491b13c"
+    },
+    {
+      "path": "single-evidence/build/single-exe-check/research/shell-marks-observed.json",
+      "size": 9530,
+      "sha256": "ab3beb8e3ab253b43c54c0dc6065b590a3352431b0615d9343ae6879147dd2fa"
+    },
+    {
+      "path": "single-evidence/build/single-exe-check/research/shell-marks-selected.png",
+      "size": 1780,
+      "sha256": "827b0234ce7978a628fc9cf06e601c5f2184e3d3e02985913b4c679ecd65d14c"
+    },
+    {
+      "path": "single-evidence/build/single-exe-check/research/shell-marks-truncated.png",
+      "size": 3225,
+      "sha256": "28f182c7aa60c3455b224bdc62de8113f96550bc1d041bee871a72e2a2d88d2b"
+    },
+    {
+      "path": "single-evidence/build/single-exe-check/logs/shell_marks.log",
+      "size": 285,
+      "sha256": "20dee6c54386f837be1381448a6dcd1350cd52c8e0bd31f015bae5d59b6d7b1f"
+    }
+  ]
+}
