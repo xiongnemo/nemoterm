@@ -176,7 +176,7 @@ def cases():
             step(b'', ('move',13,7)), step(b'', ('move',16,10)), step(Q))
     for follow in (Q, C+b"1;3'{", C+b"0'{", C+b"1'z", C+b"0'z"):
         add('filter-follow-'+follow.hex(), step(C+b"1;2'z"+C+b"1;3'{"+C+b"5;10;9;15'w"),
-            step(follow), step(b'', down), step(b'', up), step(Q))
+            step(follow), step(b'', down, up), step(Q))
     for unit in (1, 2):
         for point in ((0,0), (-30,-30), (900,600), (3,3)):
             add('bounds-'+str(unit)+'-'+str(point), step(C+f"1;{unit}'z".encode()),
@@ -184,8 +184,9 @@ def cases():
                 step(b'', ('move',12,7)), step(Q))
     for modifier in ('Shift_L','Control_L','Alt_L'):
         add('modifier-'+modifier, step(C+b"1;2'z"+C+b"1;3'{"),
-            step(b'', ('key',modifier,1)), step(b'', down), step(b'', up),
-            step(b'', ('key',modifier,0)), step(Q))
+            # Shift can start local selection, which suspends XTerm PTY reads.
+            # Finish that owned gesture before requesting the trailing barrier.
+            step(b'', ('key',modifier,1), down, up, ('key',modifier,0)), step(Q))
     for reset in (E+b'c', C+b'!p', C+b'63;1"p', C+b'?1049h', C+b'?1049h'+C+b'?1049l'):
         add('lifetime-'+reset.hex(), step(C+b"1;2'z"+C+b"1;3'{"),
             step(reset+Q), step(b'', down), step(b'', up), step(Q))
@@ -214,15 +215,21 @@ def capture_case(executable, display_name, name, steps, directory):
         env=dict(os.environ,DISPLAY=display_name), stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     result = dict(name=name, completed=False, steps=[])
     counter = 0
+    active_phase, expected_markers = None, 0
     def command(phase, wire):
-        nonlocal counter
+        nonlocal counter, active_phase, expected_markers
         counter += 1
+        if active_phase != phase:
+            active_phase, expected_markers = phase, 0
+        expected_markers += 1
         write(control, dict(id=counter,phase=phase,hex=wire.hex()))
         deadline = time.monotonic()+5
         while time.monotonic() < deadline:
             value = read(report)
-            if value.get('command_id') == counter and bytes.fromhex(value['hex']).endswith(MARKER):
-                return bytes.fromhex(value['hex'])
+            data = bytes.fromhex(value.get('hex',''))
+            if (value.get('command_id') == counter and data.endswith(MARKER)
+                    and data.count(MARKER) == expected_markers):
+                return data
             if terminal.poll() is not None:
                 raise AssertionError(('XTerm exited',terminal.returncode,terminal.stderr.read().decode(errors='replace')))
             time.sleep(.005)
