@@ -22,12 +22,25 @@ static const char *const names[] = {"automatic",
 static int observer_control(void)
 {
     HDC dc = CreateCompatibleDC(NULL); CHECK(dc != NULL);
-    HBITMAP bitmap = CreateBitmap(8, 8, 1, 1, NULL); CHECK(bitmap != NULL);
+    BITMAPINFO info = {0}; void *pixels = NULL;
+    info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth = 32; info.bmiHeader.biHeight = -32;
+    info.bmiHeader.biPlanes = 1; info.bmiHeader.biBitCount = 32;
+    HBITMAP bitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, &pixels, NULL, 0);
+    CHECK(bitmap != NULL && pixels != NULL);
     HGDIOBJ old = SelectObject(dc, bitmap);
     HGDIOBJ oldfont = SelectObject(dc, GetStockObject(DEFAULT_GUI_FONT));
-    CHECK(TextOutA(dc, 0, 0, "control", 7)); CHECK(GdiFlush());
+    HBRUSH light = CreateSolidBrush(RGB(246,246,246));
+    HBRUSH dark = CreateSolidBrush(RGB(30,30,30));
+    RECT rect = {0, 0, 32, 32};
+    CHECK(light && dark && FillRect(dc, &rect, light));
+    rect.right = 16; CHECK(FillRect(dc, &rect, dark));
+    SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(0,0,0));
+    CHECK(DrawTextA(dc, "control", -1, &rect, DT_LEFT | DT_SINGLELINE));
+    CHECK(GdiFlush());
     SelectObject(dc, oldfont); SelectObject(dc, old);
-    CHECK(DeleteObject(bitmap)); CHECK(DeleteDC(dc));
+    CHECK(DeleteObject(light)); CHECK(DeleteObject(dark));
+    CHECK(DeleteObject(bitmap)); CHECK(DeleteDC(dc)); CHECK(GdiFlush());
     return 0;
 }
 

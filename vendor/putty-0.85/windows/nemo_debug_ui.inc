@@ -116,11 +116,14 @@ static void nemo_debug_ui(NemoDebugRequest *r)
             RECT client={0};GetClientRect(wgs->term_hwnd,&client);
             put_fmt(r->output,"{\"id\":%llu,\"hwnd\":%llu,\"window\":%llu,"
                 "\"active\":%s,\"cols\":%d,\"rows\":%d,"
-                "\"client_width\":%ld,\"client_height\":%ld,\"renderer\":%d,\"title\":",
+                "\"client_width\":%ld,\"client_height\":%ld,\"renderer\":%d,"
+                "\"pointer_shape\":\"%s\",\"title\":",
                 (unsigned long long)wgs->session_id,(unsigned long long)(UINT_PTR)wgs->term_hwnd,
                 (unsigned long long)(UINT_PTR)wgs_window(wgs),wgs_active(wgs)?"true":"false",
                 wgs->term->cols,wgs->term->rows,client.right,client.bottom,
-                (int)(UINT_PTR)GetPropW(wgs->term_hwnd,L"NemotermRenderer")-1);
+                (int)(UINT_PTR)GetPropW(wgs->term_hwnd,L"NemotermRenderer")-1,
+                nemo_pointer_name(nemo_pointer_current(wgs->term->pointer_shapes,
+                                                      wgs->term->alt_which != 0)));
             wchar_t title[1024];GetWindowTextW(wgs->term_hwnd,title,lenof(title));
             char *utf8=dup_wc_to_mb(CP_UTF8,title,NULL);nemo_debug_json_string(r->output,utf8);sfree(utf8);
             put_byte(r->output,'}');

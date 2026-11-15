@@ -16,6 +16,7 @@ import nemoterm_debug as api
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--masks', type=Path, required=True)
+parser.add_argument('--conpty', choices=('system','bundled'), default='bundled')
 args = parser.parse_args()
 exe = Path(os.environ['NEMOTERM_TEST_EXE']).resolve(strict=True)
 out = root/'research/pointer-native-window'
@@ -70,7 +71,7 @@ stock = {'default':32512, 'text':32513, 'wait':32514, 'crosshair':32515,
          'pointer':32649, 'progress':32650, 'help':32651}
 evidence = dict(exe=str(exe), exe_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
                 observer='Win32 GetCursorInfo/GetIconInfo and opt-in terminal API',
-                conpty='system', memory_acceptance=False, injected=False, checks=[])
+                conpty=args.conpty, memory_acceptance=False, injected=False, checks=[])
 profile = 'pointer-'+uuid.uuid4().hex
 registry = 'Software\\Nemo\\Nemoterm\\Sessions\\'+profile
 original = w.POINT(); assert u.GetCursorPos(c.byref(original))
@@ -124,13 +125,14 @@ try:
         tmp=Path(tmp);known=set();children=[];serial=0;process=None
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,registry) as key:
             for name,value in dict(WarnOnClose=0,CloseOnExit=1,NemoTabs=1,NemoTabSide=0,
-                                   NemoRenderer=0,HideMousePtr=0).items():
+                                   NemoRenderer=0,HideMousePtr=0,LogType=2,LogFileClash=1,LogFlush=1).items():
                 winreg.SetValueEx(key,name,0,winreg.REG_DWORD,value)
+            winreg.SetValueEx(key,'LogFileName',0,winreg.REG_SZ,str(out/'terminal-wire-&P.log'))
         try:
             process=job.spawn([str(exe),'-load',profile,'--automation','--tabs','--cols','80','--rows','24',
                 '--font','Consolas','--shell-command',subprocess.list2cmdline(
                     [sys.executable,str(root/'tests/session_fixture.py'),str(tmp)])],
-                env=dict(os.environ,NEMOTERM_CONPTY='system',NEMOTERM_TEST_EXACT_OUTPUT='1'),
+                env=dict(os.environ,NEMOTERM_CONPTY=args.conpty,NEMOTERM_TEST_EXACT_OUTPUT='1'),
                 creationflags=subprocess.CREATE_NO_WINDOW)
             instance=wait_for(lambda:next(iter(api.discover(process.pid)),None),timeout=20)
             endpoint=instance['endpoint'];first=instance['sessions'][0]
@@ -153,15 +155,21 @@ try:
                 serial+=1
                 phase='pointer-'+str(serial)
                 query='\x1b]22;?__current__\x1b\\'
+                record=dict(phase=phase,session=child['seat']['id'],
+                    input_hex=(sequence+query).encode().hex(),current=current,matched=False)
+                evidence.setdefault('wire',[]).append(record);publish()
                 write_snapshot(child['control'],dict(phase=phase,sequence=sequence+query,preserve_mouse=True))
                 expected=('\x1b]22;'+current+'\x1b\\').encode()
                 def replied():
                     value=read_snapshot(child['report'])
+                    record['last_child_report']=value
                     return value if value and value.get('phase')==phase and expected in bytes.fromhex(value['hex']) else None
-                reply=wait_for(replied)
-                evidence.setdefault('wire',[]).append(dict(phase=phase,session=child['seat']['id'],
-                    input_hex=(sequence+query).encode().hex(),reply_hex=reply['hex'],current=current))
-                publish()
+                try:
+                    reply=wait_for(replied)
+                    record.update(reply_hex=reply['hex'],matched=True)
+                finally:
+                    record['frontend_sessions']=api.request(endpoint)['sessions']
+                    publish()
 
             def point_in(seat, x=None, y=None):
                 point=w.POINT(x if x is not None else seat['client_width']//2,
@@ -255,6 +263,7 @@ try:
             expect('re-entering client applies saved shape','copy',first)
 
             for child in children:write_snapshot(child['control'],{'stop':True})
+            evidence['last_child_reports']=[read_snapshot(child['report']) for child in children]
             evidence['exit_code']=process.wait(timeout=15);assert evidence['exit_code']==0
             evidence['cleanup']=job.finish();assert not evidence['cleanup']['terminated_remaining']
             evidence['completed']=True
