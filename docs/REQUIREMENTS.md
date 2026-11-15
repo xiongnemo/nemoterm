@@ -27,7 +27,8 @@ in VT52 mode. Existing query, state, keyboard and pointer regressions pass.
 See [implementation and original failures](../research/ansi-conformance.md).
 Product CI now includes a 413-stream native projection plus literal pixel
 comparisons; 84 binary-only cases remain explicitly core-only. Complete
-ordinary workflow and local acceptance for this change remain pending. The
+ordinary workflow now passes all four jobs at `7c40765`; local acceptance for
+this change remains pending. The
 production-equivalent `73ed664` single EXE passes all 155 native validation
 groups, including all 413 reference streams and three exact GDI pixel pairs,
 plus twelve uninjected memory workloads. Its 4,532,224-byte image has SHA256
@@ -39,6 +40,17 @@ The earlier ANSI-only `5bc9608` single EXE passes all 154 existing validation
 groups and twelve uninjected memory workloads. Its hash is
 `40403ea7f4bb05c1cc411e09eb38cccb15390f27b1c5e1e2ab9ea687a6b91a4e`;
 that checkpoint predates CAN/SUB parity and the new native fixture.
+
+## DEC Locator development (2026-11-15 Sydney)
+
+`43f75a4` implements the four Locator controls, bounded per-terminal state and
+the Windows pointer snapshot callback. GCC/Clang ASan/UBSan and MSVC each match
+all 429 unchanged XTerm replies, whole and bytewise, with four explicitly
+modeled upstream frontend binding interceptions. Direct checks cover disabled
+reporting, unavailable queries and Shift taking over a reported gesture.
+The [implementation record](../research/dec-locator.md) separates those parser
+results from pending native Windows/ConPTY and complete product validation.
+This feature adds no graphics dependency or per-cell storage.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 

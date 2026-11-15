@@ -2,6 +2,11 @@ name: Terminal conformance replay
 
 on:
   workflow_dispatch:
+    inputs:
+      locator_native:
+        description: Build the source single image and check Locator on a disposable desktop
+        type: boolean
+        default: false
   workflow_call:
   push:
     paths:
@@ -30,6 +35,7 @@ permissions:
 
 jobs:
   linux:
+    if: inputs.locator_native != true
     strategy:
       fail-fast: false
       matrix:
@@ -76,6 +82,7 @@ jobs:
           retention-days: 30
           if-no-files-found: error
   msvc:
+    if: inputs.locator_native != true
     runs-on: windows-2025
     timeout-minutes: 10
     steps:
@@ -118,3 +125,52 @@ jobs:
             sources.json
           retention-days: 30
           if-no-files-found: error
+
+  locator-native:
+    if: inputs.locator_native == true
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          submodules: true
+      - name: Build the frontend and console host in one image
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          ./scripts/build-single-exe.ps1 2>&1 | Tee-Object locator-build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item build/single-exe-dist/nemoterm.exe dist/nemoterm.exe
+          Get-FileHash dist/nemoterm.exe -Algorithm SHA256 | ConvertTo-Json | Set-Content locator-image.json
+      - name: Exercise real Locator input and existing mouse protocols
+        shell: pwsh
+        run: |
+          $env:NEMOTERM_TEST_EXE = (Resolve-Path dist/nemoterm.exe).Path
+          $failed = 0
+          foreach ($test in @('locator', 'dec_status', 'mouse', 'state_control', 'highlight')) {
+            python "tests/${test}_window_smoke.py" 2>&1 | Tee-Object "locator-$test.log"
+            if ($LASTEXITCODE) { $failed = 1 }
+          }
+          exit $failed
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: locator-native-${{ github.sha }}
+          path: |
+            locator-*.log
+            locator-image.json
+            build/single-exe-dist/nemoterm.exe
+            research/locator-window-observed.json
+            research/dec-status-observed.json
+            research/dec-status-window.png
+            research/mouse-*.json
+            research/state-control-*.json
+            research/state-control-*.png
+            research/highlight-*.json
+            research/highlight-*.png
+          if-no-files-found: error
+          retention-days: 60

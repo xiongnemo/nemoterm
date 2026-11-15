@@ -1,8 +1,9 @@
 # DEC Locator reference and integration boundary
 
-DEC Locator remains a missing Nemoterm feature. The new independent reference
-establishes behavior before implementing its parser, pointer query and native
-mouse integration. It is separate from the existing xterm tracking protocols.
+DEC Locator is implemented on the development branch with passing parser and
+mouse-dispatch comparisons. Native Windows/ConPTY validation and complete
+product acceptance remain pending. The independent reference establishes the
+behavior separately from the existing xterm tracking protocols.
 Local interactive testing remains paused; all captures below run on private
 Xvfb displays in disposable Linux CI.
 
@@ -77,19 +78,42 @@ The supplemental capture SHA256 is
 indexed by `dec-locator-binding-reference-validation.json`. It includes the
 explicit X resources, pointer states, replies, stderr and natural exit records.
 
-## Implementation work still required
+## Implementation and component validation
 
-Add bounded per-terminal locator state, integrate the four CSI commands and
-capability/status reports, and share the existing raw-mouse mode arbitration.
-The Windows pointer snapshot must query the current position and held buttons,
-with cell coordinates and physical pixels measured from their appropriate
-origins. A last-mouse-event cache cannot satisfy explicit position requests.
-Preserve Shift selection and configured local bindings, including cancellation
-of captured gestures and transitions between locator and xterm tracking.
+`43f75a4` adds 24 bytes of per-terminal Locator state and an optional synchronous
+pointer snapshot callback. It implements the four CSI controls and available /
+unavailable status reports, sharing the existing raw-mouse mode group. Query
+positions and held buttons come from the OS; event positions come from the
+current window message, with button state from that message's input queue.
+Pixel coordinates include viewport padding; cell coordinates use the text
+origin. No per-cell storage, allocation or renderer dependency is added.
 
-Replay the retained protocol observations through the real terminal parser,
-separating upstream frontend bindings from delivered protocol events. Then
-verify the actual Windows/ConPTY path, resizing and pointer boundaries in
-remote CI. No implementation, native parity or new local Sarasa acceptance is
-claimed by the upstream capture alone. This work adds no renderer dependency
-and does not resume DX memory optimization.
+[Run 43713883091](https://github.com/xiongnemo/nemoterm/actions/runs/43713883091)
+passes GCC/Clang ASan/UBSan and MSVC. Each compiler compares all **429 unchanged
+reply streams** both whole and bytewise, spanning all 102 retained cases.
+Four default XTerm frontend interceptions are modeled explicitly in the
+projection; the named Ctrl/fourth-button profiles verify actual dispatch.
+These are parser/input-dispatch comparisons, not proof of identical physical
+event routing on Windows. Direct checks cover unavailable snapshots, reporting
+disabled by local policy, and Shift cancelling a reported press before taking
+over the selection. Existing cancellation, ANSI, selective-erasure, SGR,
+XTGETTCAP, query, state, keyboard, clipboard and image regressions also pass.
+
+`dec-locator-components.tar.gz` retains 85 records (370,102 bytes), including
+exact source blobs and all compiler logs. The companion
+`dec-locator-component-validation.json` verifies 36 recorded source hashes.
+
+## Native integration work still required
+
+The new `locator_window_smoke.py` is restricted to disposable CI desktops. It
+checks live queries, physical buttons and their held-state masks, pixel units,
+one-shot and filter behavior, Shift selection pixels, resized grids and outside
+positions through the bundled host. A focused source-built single-image job
+also runs the existing mouse, highlight, state and DEC-status fixtures.
+
+The older DEC-status oracle used an XTerm build without Locator. Its original
+reply bytes are retained and its native replay now uses the equivalent disabled
+mouse-reporting policy; the new Locator fixture separately checks enabled
+status and type reports. Native results, remaining capability-advertisement
+review and full product validation are still pending. No local Sarasa or
+hardware acceptance is renewed, and DX memory optimization remains stopped.

@@ -1,0 +1,349 @@
+{
+  "run": {
+    "conclusion": "cancelled",
+    "databaseId": 43710069426,
+    "headSha": "069d220e0f53b732caab9748a66a5413c2a8c6fc",
+    "jobs": [
+      {
+        "completedAt": "2026-11-15T11:42:01Z",
+        "conclusion": "success",
+        "databaseId": 132799494362,
+        "name": "Terminal ASan and UBSan",
+        "startedAt": "2026-11-15T11:40:40Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-15T11:40:41Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-15T11:40:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-15T11:40:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:49Z",
+            "conclusion": "success",
+            "name": "Compile and test decoder with sanitizers",
+            "number": 3,
+            "startedAt": "2026-11-15T11:40:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:50Z",
+            "conclusion": "success",
+            "name": "Test inline-image transport with sanitizers",
+            "number": 4,
+            "startedAt": "2026-11-15T11:40:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:50Z",
+            "conclusion": "success",
+            "name": "Test kitty graphics transport with sanitizers",
+            "number": 5,
+            "startedAt": "2026-11-15T11:40:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:51Z",
+            "conclusion": "success",
+            "name": "Test bounded zlib with sanitizers",
+            "number": 6,
+            "startedAt": "2026-11-15T11:40:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:52Z",
+            "conclusion": "success",
+            "name": "Test kitty image cache with sanitizers",
+            "number": 7,
+            "startedAt": "2026-11-15T11:40:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:53Z",
+            "conclusion": "success",
+            "name": "Test kitty layout against retained reference with sanitizers",
+            "number": 8,
+            "startedAt": "2026-11-15T11:40:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:55Z",
+            "conclusion": "success",
+            "name": "Test kitty placement ownership and scrolling with sanitizers",
+            "number": 9,
+            "startedAt": "2026-11-15T11:40:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:55Z",
+            "conclusion": "success",
+            "name": "Test raster composition and timing with sanitizers",
+            "number": 10,
+            "startedAt": "2026-11-15T11:40:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:56Z",
+            "conclusion": "success",
+            "name": "Test colour parser with sanitizers",
+            "number": 11,
+            "startedAt": "2026-11-15T11:40:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:56Z",
+            "conclusion": "success",
+            "name": "Test ISO 2022 mapping data with sanitizers",
+            "number": 12,
+            "startedAt": "2026-11-15T11:40:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:56Z",
+            "conclusion": "success",
+            "name": "Test Unicode grapheme boundaries with sanitizers",
+            "number": 13,
+            "startedAt": "2026-11-15T11:40:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:57Z",
+            "conclusion": "success",
+            "name": "Test bounded OpenType cmap lookup with sanitizers",
+            "number": 14,
+            "startedAt": "2026-11-15T11:40:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:57Z",
+            "conclusion": "success",
+            "name": "Test tab and preview geometry with sanitizers",
+            "number": 15,
+            "startedAt": "2026-11-15T11:40:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:58Z",
+            "conclusion": "success",
+            "name": "Test terminal image, hyperlink, keyboard and clipboard lifecycle with sanitizers",
+            "number": 16,
+            "startedAt": "2026-11-15T11:40:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:59Z",
+            "conclusion": "success",
+            "name": "Upload sanitizer logs",
+            "number": 17,
+            "startedAt": "2026-11-15T11:41:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:59Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 34,
+            "startedAt": "2026-11-15T11:41:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:59Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 35,
+            "startedAt": "2026-11-15T11:41:59Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43710069426/job/132799494362"
+      },
+      {
+        "completedAt": "2026-11-15T11:45:56Z",
+        "conclusion": "cancelled",
+        "databaseId": 132799494442,
+        "name": "Source-built console host for compiler comparison",
+        "startedAt": "2026-11-15T11:40:40Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-15T11:40:42Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-15T11:40:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:08Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-15T11:40:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:45:51Z",
+            "conclusion": "cancelled",
+            "name": "Build the current source host with the same overlay as the single image",
+            "number": 3,
+            "startedAt": "2026-11-15T11:41:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:45:51Z",
+            "conclusion": "skipped",
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "number": 4,
+            "startedAt": "2026-11-15T11:45:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:45:54Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 8,
+            "startedAt": "2026-11-15T11:45:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:45:54Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 9,
+            "startedAt": "2026-11-15T11:45:54Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43710069426/job/132799494442"
+      },
+      {
+        "completedAt": "2026-11-15T11:44:33Z",
+        "conclusion": "success",
+        "databaseId": 132799494549,
+        "name": "MSVC native renderer diagnostics",
+        "startedAt": "2026-11-15T11:40:40Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-15T11:40:41Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-15T11:40:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:53Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-15T11:40:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:40:53Z",
+            "conclusion": "success",
+            "name": "Retain native crash diagnostics on this disposable runner",
+            "number": 3,
+            "startedAt": "2026-11-15T11:40:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:41:45Z",
+            "conclusion": "success",
+            "name": "Build frontend and offscreen renderer checks",
+            "number": 4,
+            "startedAt": "2026-11-15T11:40:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:42:10Z",
+            "conclusion": "success",
+            "name": "Compare native frames and retain exact shaping inputs",
+            "number": 5,
+            "startedAt": "2026-11-15T11:41:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:28Z",
+            "conclusion": "success",
+            "name": "Repeat tab sibling lifetime and hyperlink input checks",
+            "number": 6,
+            "startedAt": "2026-11-15T11:42:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:29Z",
+            "conclusion": "success",
+            "name": "Collect application failure events",
+            "number": 7,
+            "startedAt": "2026-11-15T11:44:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:30Z",
+            "conclusion": "success",
+            "name": "Retain native diagnostics",
+            "number": 8,
+            "startedAt": "2026-11-15T11:44:29Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:30Z",
+            "conclusion": "skipped",
+            "name": "Retain exact failed MSVC image for reproduction",
+            "number": 9,
+            "startedAt": "2026-11-15T11:44:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:31Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 18,
+            "startedAt": "2026-11-15T11:44:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-15T11:44:31Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-11-15T11:44:31Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43710069426/job/132799494549"
+      },
+      {
+        "completedAt": "2026-11-15T11:45:56Z",
+        "conclusion": "cancelled",
+        "databaseId": 132800764105,
+        "name": "Windows x64 tests and portable build",
+        "startedAt": "2026-11-15T11:45:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43710069426/job/132800764105"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43710069426"
+  },
+  "controller": {
+    "run": 43710069426,
+    "source": "069d220e0f53b732caab9748a66a5413c2a8c6fc",
+    "reason": "Intentionally stopped early after independent run 43706562015 confirmed the old 40-minute job budget was insufficient. Replaced by run 43710486453 with a 50-minute outer budget; no individual test bounds or product code changed."
+  },
+  "observer_errors": "{\"utc\": \"2026-11-15T11:46:13.951748+00:00\", \"attempt\": 1, \"command\": [\"gh\", \"run\", \"view\", \"43710069426\", \"--log\"], \"error\": \"CalledProcessError(1, ['gh', 'run', 'view', '43710069426', '--log'])\", \"stderr\": \"log not found: 132800764105\\n\"}\n{\"utc\": \"2026-11-15T11:46:18.498063+00:00\", \"attempt\": 2, \"command\": [\"gh\", \"run\", \"view\", \"43710069426\", \"--log\"], \"error\": \"CalledProcessError(1, ['gh', 'run', 'view', '43710069426', '--log'])\", \"stderr\": \"log not found: 132800764105\\n\"}\n{\"utc\": \"2026-11-15T11:46:25.124735+00:00\", \"attempt\": 3, \"command\": [\"gh\", \"run\", \"view\", \"43710069426\", \"--log\"], \"error\": \"CalledProcessError(1, ['gh', 'run', 'view', '43710069426', '--log'])\", \"stderr\": \"log not found: 132800764105\\n\"}\n",
+  "note": "Logs remained unavailable after bounded reads; preserve the cancelled authoritative state separately from the successful replacement."
+}

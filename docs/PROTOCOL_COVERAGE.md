@@ -130,7 +130,7 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | >t / >T (title modes) | Tested | `titles`, independent raw-byte title-mode oracle. |
 | *\| / $\| (DECSNLS/DECSCPP) | Gated | `queries`, `window_resize`; remote resizing setting and monitor work-area clamp. |
 | i / ?i (media copy) | Source only | Configured printer start/stop subset; not a full screen-to-printer implementation. |
-| DEC locator 'w/'z/'{/'\| controls | Missing; reference captured | [Independent DEC Locator reference](../research/dec-locator.md): 102 fresh-XTerm cases, 429 steps and five literal controls with the upstream optional feature enabled, using private-display XTest input. Explicit fourth-button/Ctrl profiles distinguish protocol dispatch from default frontend bindings. Nemoterm parser and Windows integration remain to be implemented. |
+| DEC locator 'w/'z/'{/'\| controls | Development core; native validation pending | [Independent DEC Locator comparison](../research/dec-locator.md): 102 fresh-XTerm cases and 429 unchanged reply streams pass GCC/Clang sanitizers and MSVC, whole and bytewise. Four default frontend interceptions are explicit; bound fourth-button/Ctrl profiles separately verify dispatch. Windows snapshot callback is implemented; actual native/ConPTY and complete product checks remain pending. |
 
 ## Rendition, modes, input and graphics
 

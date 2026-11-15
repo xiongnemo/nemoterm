@@ -60,4 +60,8 @@ def exercise(hwnd, phase, current):
 
 
 run('dec-status',CASES,extra_cases=direct,exercise=exercise,
+    # The retained XTerm reference was built without Locator. Exercise the
+    # equivalent disabled capability policy without rewriting those bytes;
+    # locator_window_smoke separately checks the enabled native capability.
+    profile=dict(NoMouseReporting=1, WarnOnClose=0),
     barrier=('\x1b[>q', b'\x1bP>|Nemoterm(PuTTY 0.85)\x1b\\'), report_cursor=True)

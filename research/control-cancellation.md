@@ -90,8 +90,10 @@ ordinary run 43710069426 was explicitly cancelled and superseded by
 [run 43710486453](https://github.com/xiongnemo/nemoterm/actions/runs/43710486453)
 at `7c40765`: the earlier ANSI run demonstrated that the 40-minute outer job
 budget interrupted the final memory workload. The replacement allows 50 minutes
-without changing individual test deadlines or memory limits. It remains in
-progress at this checkpoint; the cancellation is not a product failure.
+without changing individual test deadlines or memory limits. All four jobs now
+pass. The original cancellation and unsuccessful log-fetch records are kept in
+`control-cancellation-superseded-run.json`; that cancellation is not a product
+failure.
 
 ## Native integration boundary
 
@@ -104,8 +106,8 @@ replay, not by this native fixture. It also compares SUB/CAN output pixels with
 literal byte/Unicode text in an owned window. Expected wire bytes are copied
 directly from the independent captures.
 
-These checks now pass the complete single-image workflow below. Ordinary
-workflow completion and local 160×48 Sarasa testing remain separate. The memory
+These checks now pass both the ordinary and complete single-image workflows.
+Local 160×48 Sarasa testing remains separate. The memory
 target applies to GDI; current DX memory is accepted and this work does not
 introduce further DX memory optimization.
 
@@ -138,3 +140,13 @@ exact source blobs. `control-cancellation-single-validation.json` indexes and
 hashes those records. No local GUI was launched and `dist/nemoterm.exe` remains
 the previously accepted image; this cloud checkpoint does not renew local
 Sarasa or hardware OpenGL acceptance.
+
+The ordinary `7c40765` workflow separately passes all four jobs, twelve
+uninjected memory workloads, the 413 native reference streams and the same
+three GDI pixel pairs. Its MinGW frontend is 3,945,221 bytes with SHA256
+`3894256dc019f7a897ae878b3661b82f28b9701608ab8b7d618c54b6b70d71fb`;
+this portable package uses the separately identified source-built console host.
+`control-cancellation-ordinary.tar.gz` retains 4,574 records (9,288,003 bytes),
+with source/host identity and reply validation in
+`control-cancellation-ordinary-validation.json`. It does not replace the single
+image or the accepted local distribution.

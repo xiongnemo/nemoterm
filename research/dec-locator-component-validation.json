@@ -1,0 +1,666 @@
+{
+  "runs": [
+    {
+      "source": "43f75a49f16886c6cca7a07d4c349891d0d13330",
+      "run": 43713883091,
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "linux (gcc)",
+          "conclusion": "success"
+        },
+        {
+          "name": "linux (clang)",
+          "conclusion": "success"
+        },
+        {
+          "name": "msvc",
+          "conclusion": "success"
+        }
+      ],
+      "artifacts": [
+        {
+          "compiler": "gcc",
+          "artifact_id": 14161702890
+        },
+        {
+          "compiler": "clang",
+          "artifact_id": 14161782679
+        },
+        {
+          "compiler": "msvc",
+          "artifact_id": 14161194635
+        }
+      ],
+      "source_matches": [
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/terminal/nemo_locator_terminal.inc",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/putty.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/windows/window.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/test/test_locator_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "tests/locator_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/terminal/terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/terminal/terminal.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/test/test_ansi_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "tests/ansi_conformance_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/terminal/nemo_kitty_terminal.inc",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "vendor/putty-0.85/test/test_cancellation_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "gcc",
+          "path": "tests/control_cancellation_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/terminal/nemo_locator_terminal.inc",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/putty.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/windows/window.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/test/test_locator_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "tests/locator_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/terminal/terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/terminal/terminal.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/test/test_ansi_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "tests/ansi_conformance_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/terminal/nemo_kitty_terminal.inc",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "vendor/putty-0.85/test/test_cancellation_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "clang",
+          "path": "tests/control_cancellation_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/terminal/nemo_locator_terminal.inc",
+          "encoding": "CRLF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/putty.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/windows/window.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/test/test_locator_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "tests/locator_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/terminal/terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/terminal/terminal.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/test/test_ansi_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "tests/ansi_conformance_reference.h",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/terminal/nemo_kitty_terminal.inc",
+          "encoding": "CRLF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "vendor/putty-0.85/test/test_cancellation_terminal.c",
+          "encoding": "Git LF"
+        },
+        {
+          "compiler": "msvc",
+          "path": "tests/control_cancellation_reference.h",
+          "encoding": "Git LF"
+        }
+      ]
+    }
+  ],
+  "locator_reference_observations_sha256": "fa3f3f13dd56847c093c8b638f8e658a8227bf29964485c63a07029bcb2fa96e",
+  "locator_cases": 102,
+  "locator_steps_per_mode": 429,
+  "upstream_frontend_interceptions_per_mode": 4,
+  "cancellation_reference_observations_sha256": "d69f11e6a36383d0cd8e08c4555bc6decb67f063c751992cd640f77acc9c0fa1",
+  "ansi_reference_observations_sha256": "098028b29c4cbfe4ea66a447e576ddd3750baa9acafe270697ab9194d4c23506",
+  "cancellation_cases_per_mode": 254,
+  "ansi_cases_per_mode": 243,
+  "fragmentation_modes": [
+    "whole",
+    "bytewise"
+  ],
+  "lifetime_cycles_per_compiler": 64,
+  "explicit_policy_exceptions": [],
+  "scope": "DEC Locator parser and mouse dispatch match all 429 unchanged upstream reply streams in both fragmentation modes, with four explicitly modeled upstream frontend binding interceptions. Direct checks cover unavailable queries, disabled reporting and Shift gesture takeover. Existing conformance regressions pass. Native Windows/ConPTY validation, capability advertisement and full product CI remain separate.",
+  "bundle": {
+    "path": "research/dec-locator-components.tar.gz",
+    "archive_bytes": 370102,
+    "archive_sha256": "dfebcd6658ac84bbb8697d02eb527092abb53f9a0e9f5a9fc7d2179263bd7696",
+    "records": [
+      {
+        "path": "43f75a4/ansi-components-artifacts.json",
+        "raw_bytes": 2269,
+        "raw_sha256": "7c2f0a8708295cbcfea3b42c8844991a64a64b3aeb21b4e35da82bcc2002fbc8"
+      },
+      {
+        "path": "43f75a4/ansi-components-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "e5fafded6f5a6ee5527625f5ec7918f30114a7d37445110dd0eee8d2f67c1ad2"
+      },
+      {
+        "path": "43f75a4/ansi-components-run.json",
+        "raw_bytes": 5327,
+        "raw_sha256": "bf53b1312caf26183b572f5795cc4d0b76456ee870edb28c72fe020bace6f5d1"
+      },
+      {
+        "path": "43f75a4/ansi-components-run.log",
+        "raw_bytes": 281047,
+        "raw_sha256": "bee601ee9ae6cd7f8b1b725b9e85783da9877eccf1131f314aa56b8f4275ac57"
+      },
+      {
+        "path": "43f75a4/clang-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "7e600dbb00cb17da990a588d299b944d21492dea46ae5f8a72de60b7edb7fc2f"
+      },
+      {
+        "path": "43f75a4/clang/build.log",
+        "raw_bytes": 20206,
+        "raw_sha256": "1aa3d6a1b142c2ca958dbce05d371677505b5f179b82a25a0aa56e075acad55e"
+      },
+      {
+        "path": "43f75a4/clang/compiler.txt",
+        "raw_bytes": 122,
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+      },
+      {
+        "path": "43f75a4/clang/configure.log",
+        "raw_bytes": 4313,
+        "raw_sha256": "1dbe5869117cd9cfd2b3766bccb55c427dc6872ecae86274b92ee6c6026f31ed"
+      },
+      {
+        "path": "43f75a4/clang/sources.sha256",
+        "raw_bytes": 1276,
+        "raw_sha256": "d2a13595b5ef1df4d2dad0eb10d60c58618cafefbedf96bc1cb0b4d31bcaada8"
+      },
+      {
+        "path": "43f75a4/clang/test_ansi_terminal.log",
+        "raw_bytes": 107,
+        "raw_sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+      },
+      {
+        "path": "43f75a4/clang/test_cancellation_terminal.log",
+        "raw_bytes": 144,
+        "raw_sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+      },
+      {
+        "path": "43f75a4/clang/test_keyboard.log",
+        "raw_bytes": 31,
+        "raw_sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+      },
+      {
+        "path": "43f75a4/clang/test_locator_terminal.log",
+        "raw_bytes": 170,
+        "raw_sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+      },
+      {
+        "path": "43f75a4/clang/test_osc52.log",
+        "raw_bytes": 20,
+        "raw_sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+      },
+      {
+        "path": "43f75a4/clang/test_pointer_terminal.log",
+        "raw_bytes": 309,
+        "raw_sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+      },
+      {
+        "path": "43f75a4/clang/test_queries.log",
+        "raw_bytes": 19,
+        "raw_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+      },
+      {
+        "path": "43f75a4/clang/test_selective_erase.log",
+        "raw_bytes": 29,
+        "raw_sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+      },
+      {
+        "path": "43f75a4/clang/test_sgr.log",
+        "raw_bytes": 17,
+        "raw_sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+      },
+      {
+        "path": "43f75a4/clang/test_sixel_terminal.log",
+        "raw_bytes": 1080,
+        "raw_sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+      },
+      {
+        "path": "43f75a4/clang/test_state_control.log",
+        "raw_bytes": 27,
+        "raw_sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+      },
+      {
+        "path": "43f75a4/clang/test_tcap.log",
+        "raw_bytes": 33,
+        "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+      },
+      {
+        "path": "43f75a4/gcc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "5db846593832548f53b25c5252e5e8f511279de9eaebe506e7fe063d7c38efd7"
+      },
+      {
+        "path": "43f75a4/gcc/build.log",
+        "raw_bytes": 24875,
+        "raw_sha256": "8c5d886241b73c17152cbac45a99edbe01dbcb90429dc040556460cbf083f7cc"
+      },
+      {
+        "path": "43f75a4/gcc/compiler.txt",
+        "raw_bytes": 239,
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+      },
+      {
+        "path": "43f75a4/gcc/configure.log",
+        "raw_bytes": 4308,
+        "raw_sha256": "a62e8380a26914a4a4f12ce7fd5c2f70b514bc22a4f4fa377f72b8edf3285529"
+      },
+      {
+        "path": "43f75a4/gcc/sources.sha256",
+        "raw_bytes": 1276,
+        "raw_sha256": "d2a13595b5ef1df4d2dad0eb10d60c58618cafefbedf96bc1cb0b4d31bcaada8"
+      },
+      {
+        "path": "43f75a4/gcc/test_ansi_terminal.log",
+        "raw_bytes": 107,
+        "raw_sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+      },
+      {
+        "path": "43f75a4/gcc/test_cancellation_terminal.log",
+        "raw_bytes": 144,
+        "raw_sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+      },
+      {
+        "path": "43f75a4/gcc/test_keyboard.log",
+        "raw_bytes": 31,
+        "raw_sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+      },
+      {
+        "path": "43f75a4/gcc/test_locator_terminal.log",
+        "raw_bytes": 170,
+        "raw_sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+      },
+      {
+        "path": "43f75a4/gcc/test_osc52.log",
+        "raw_bytes": 20,
+        "raw_sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+      },
+      {
+        "path": "43f75a4/gcc/test_pointer_terminal.log",
+        "raw_bytes": 309,
+        "raw_sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+      },
+      {
+        "path": "43f75a4/gcc/test_queries.log",
+        "raw_bytes": 19,
+        "raw_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+      },
+      {
+        "path": "43f75a4/gcc/test_selective_erase.log",
+        "raw_bytes": 29,
+        "raw_sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+      },
+      {
+        "path": "43f75a4/gcc/test_sgr.log",
+        "raw_bytes": 17,
+        "raw_sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+      },
+      {
+        "path": "43f75a4/gcc/test_sixel_terminal.log",
+        "raw_bytes": 1080,
+        "raw_sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+      },
+      {
+        "path": "43f75a4/gcc/test_state_control.log",
+        "raw_bytes": 27,
+        "raw_sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+      },
+      {
+        "path": "43f75a4/gcc/test_tcap.log",
+        "raw_bytes": 33,
+        "raw_sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+      },
+      {
+        "path": "43f75a4/msvc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "05824d42826b9b63d47734278fff61b65642768094c868cc8a7a67556c1c503c"
+      },
+      {
+        "path": "43f75a4/msvc/build.log",
+        "raw_bytes": 23559,
+        "raw_sha256": "406bc7087089a9051c95c94801e60acda9ec62984e2a362d63c8d10eda0d812b"
+      },
+      {
+        "path": "43f75a4/msvc/configure.log",
+        "raw_bytes": 3013,
+        "raw_sha256": "219bd555ab0b2be3e8033effded3569ba3341d609f7f63e3a8f779e97adade82"
+      },
+      {
+        "path": "43f75a4/msvc/sources.json",
+        "raw_bytes": 2462,
+        "raw_sha256": "2f22e458ce55002fffebef168034c16d735938df4a85c79d8ccf35a3b69ae4a5"
+      },
+      {
+        "path": "43f75a4/msvc/test_ansi_terminal.log",
+        "raw_bytes": 109,
+        "raw_sha256": "2bfeac5fcd3472e18ecf40f087a3b3a05b4f822e96e9b43be7d438f61c5861b0"
+      },
+      {
+        "path": "43f75a4/msvc/test_cancellation_terminal.log",
+        "raw_bytes": 147,
+        "raw_sha256": "ee624064c23a0b03f521d2c7ab24280330ad0aeb88a6f331843cf3b5f74f1162"
+      },
+      {
+        "path": "43f75a4/msvc/test_keyboard.log",
+        "raw_bytes": 32,
+        "raw_sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0"
+      },
+      {
+        "path": "43f75a4/msvc/test_locator_terminal.log",
+        "raw_bytes": 173,
+        "raw_sha256": "080715e829d74ee1ec8340c1afb50971702694d3d74db24241432e818b94fac9"
+      },
+      {
+        "path": "43f75a4/msvc/test_modes.log",
+        "raw_bytes": 24,
+        "raw_sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843"
+      },
+      {
+        "path": "43f75a4/msvc/test_osc52.log",
+        "raw_bytes": 21,
+        "raw_sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+      },
+      {
+        "path": "43f75a4/msvc/test_pointer_terminal.log",
+        "raw_bytes": 312,
+        "raw_sha256": "04368dca8618c4c7d07c8cbe0828c446af9861f62186dab8658094bb0b66fe63"
+      },
+      {
+        "path": "43f75a4/msvc/test_queries.log",
+        "raw_bytes": 20,
+        "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+      },
+      {
+        "path": "43f75a4/msvc/test_selective_erase.log",
+        "raw_bytes": 30,
+        "raw_sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2"
+      },
+      {
+        "path": "43f75a4/msvc/test_sgr.log",
+        "raw_bytes": 18,
+        "raw_sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+      },
+      {
+        "path": "43f75a4/msvc/test_sixel_terminal.log",
+        "raw_bytes": 1096,
+        "raw_sha256": "42d6f6067351e9c7d3271a57d075d10061bddc5a2f8f504ed62807e5a4a24d19"
+      },
+      {
+        "path": "43f75a4/msvc/test_state_control.log",
+        "raw_bytes": 28,
+        "raw_sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+      },
+      {
+        "path": "43f75a4/msvc/test_tcap.log",
+        "raw_bytes": 34,
+        "raw_sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+      },
+      {
+        "path": "43f75a4/msvc/test_terminal.log",
+        "raw_bytes": 19,
+        "raw_sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+      },
+      {
+        "path": "43f75a4/source/.github/workflows/ansi-conformance.yml",
+        "raw_bytes": 6886,
+        "raw_sha256": "108617364965bc24ae0a00330d87624a51f5f0be1d5b853de055abcbb4d8ef62"
+      },
+      {
+        "path": "43f75a4/source/scripts/generate-ansi-reference.py",
+        "raw_bytes": 2898,
+        "raw_sha256": "97c6b39f0b17aaaf42ef2c0f0f1184af5f9b3bf209d96cbb1bc1ac2fa0c14839"
+      },
+      {
+        "path": "43f75a4/source/scripts/generate-cancellation-reference.py",
+        "raw_bytes": 2834,
+        "raw_sha256": "1284b14f1be6653b5c005034d8a9879223f5773e0f9e8289ca3e6774b27f1bea"
+      },
+      {
+        "path": "43f75a4/source/scripts/generate-locator-reference.py",
+        "raw_bytes": 3286,
+        "raw_sha256": "7ada9a9b532972861efbab56e0f2d35642231e9340b71b0eae5ff15e244662db"
+      },
+      {
+        "path": "43f75a4/source/tests/ansi_conformance_reference.h",
+        "raw_bytes": 120702,
+        "raw_sha256": "fb0d428d15c2a34232d2451d549109a2ddcbdefaa771d5f3f680f2b065cd71af"
+      },
+      {
+        "path": "43f75a4/source/tests/control_cancellation_reference.h",
+        "raw_bytes": 136218,
+        "raw_sha256": "507306e38585130fde5fc6c89eedb602e7c0e519d3a12d26e2c0455e8b96c258"
+      },
+      {
+        "path": "43f75a4/source/tests/generate_presentation_state_oracle.py",
+        "raw_bytes": 1875,
+        "raw_sha256": "c2c75658c1e645a541cfe151f46a531c9b21840b3ca91caff251a04d7e143c2e"
+      },
+      {
+        "path": "43f75a4/source/tests/locator_reference.h",
+        "raw_bytes": 43471,
+        "raw_sha256": "af5b4594b743bf122e6b659cbd4b23c11b2b1f9454e1f5a2802d1595925e1ff2"
+      },
+      {
+        "path": "43f75a4/source/tests/presentation_state_direct_cases.py",
+        "raw_bytes": 1183,
+        "raw_sha256": "35eb5299fccb32f756fa590ad867ccc946b80900f4902437fa632026b44b1f5e"
+      },
+      {
+        "path": "43f75a4/source/tests/presentation_state_oracle_cases.h",
+        "raw_bytes": 24625,
+        "raw_sha256": "5930e1a231b10f39bbdcb4c16d9bab736895e1028cbd45d776145ed63027be85"
+      },
+      {
+        "path": "43f75a4/source/tests/presentation_state_oracle_cases.py",
+        "raw_bytes": 18677,
+        "raw_sha256": "e5fcd4dcc60fc3a4a59a6207d2c186fa7eeb2b0d971791ea05184d2a96280a76"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/putty.h",
+        "raw_bytes": 117235,
+        "raw_sha256": "3f73210f3da865e68e5decaf274e55019dfa2f88bee14e64522142b8adb9e4c1"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/terminal/nemo_kitty_terminal.inc",
+        "raw_bytes": 19449,
+        "raw_sha256": "34ea91af34548516a54253490e63f28764f4393a941d42ec48cb6ce5204a65f1"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/terminal/nemo_locator_terminal.inc",
+        "raw_bytes": 7352,
+        "raw_sha256": "c81ea2b92928e67c6c35d1421869d5f6110a30576f47812f72e57eccdf422b68"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/terminal/terminal.c",
+        "raw_bytes": 543268,
+        "raw_sha256": "cd5cd6b298d7751ddca056f48bd524b9920ed80c92b8dbc643b00fa044525965"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/terminal/terminal.h",
+        "raw_bytes": 30349,
+        "raw_sha256": "81ab865d134a3542d046b79b7f66e4697d69af2ce032ce5b8f589dfacf8df123"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_ansi_terminal.c",
+        "raw_bytes": 2335,
+        "raw_sha256": "e1e2e8b5f3babe31aa43d281a98b9fcb7599f22a8c9c6afda441cb7062113663"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_cancellation_terminal.c",
+        "raw_bytes": 4406,
+        "raw_sha256": "82ac2c9a6685a64e06ad77dfd690ed30e1312ea483bd43673e6302c5c728db7f"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_locator_terminal.c",
+        "raw_bytes": 5808,
+        "raw_sha256": "00312eea2996c00c492d9f9ff23b44df988845b3de45f639ad575251a82b85c6"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_queries.c",
+        "raw_bytes": 36503,
+        "raw_sha256": "0cee77561669c819035ca9aa1cca267ba5a69e453cb3cedf895dc39dc8ff4a7f"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_selective_erase.c",
+        "raw_bytes": 11404,
+        "raw_sha256": "d8050c74aded602d772af9ae0e5d60f33c5c69ff501b840880bedbc9f0cffddd"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_sgr.c",
+        "raw_bytes": 14223,
+        "raw_sha256": "fa24b37c6ad4789ebf6e931504bab110b5256de5688298d124825d4009a70aba"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_sixel_terminal.c",
+        "raw_bytes": 46985,
+        "raw_sha256": "4aeda254a07d41d4e91e01f8354dde8d7b3a83df4ba0af1aa531a27bd3e386d2"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_tcap.c",
+        "raw_bytes": 15074,
+        "raw_sha256": "41055a1f90d075610615a6d2dd554c211407a3cff4846f1122e2ede66afcfd42"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/test/test_terminal.c",
+        "raw_bytes": 29257,
+        "raw_sha256": "e19d8e8015efef0cb64c04a93a77e5ac8a8622a01990de9ccdb71d57d12022e6"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/unix/CMakeLists.txt",
+        "raw_bytes": 16643,
+        "raw_sha256": "9e4b4f403c788893df584631a17d44540e96dc337251d74a47b7712dd87d07d3"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/windows/CMakeLists.txt",
+        "raw_bytes": 17946,
+        "raw_sha256": "d401e89a7921f365aefd4ffb66d32c7fcb36a37a962f949659c7fe1848dbd9b6"
+      },
+      {
+        "path": "43f75a4/source/vendor/putty-0.85/windows/window.c",
+        "raw_bytes": 287957,
+        "raw_sha256": "6b93b220953a1ca3057791eabb480cc1564305d7331d13da7dcfcbb773428c9c"
+      },
+      {
+        "path": "controller.py",
+        "raw_bytes": 7665,
+        "raw_sha256": "b11760ee7706dc335148ed83c6769c4598ae81385e6a23246ebeeb44c34f29b9"
+      }
+    ]
+  }
+}
