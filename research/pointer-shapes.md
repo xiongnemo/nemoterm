@@ -246,3 +246,37 @@ The complete single-image regression is being repeated with the additional
 timing evidence. Product sources remain identical between `7e12e03` and
 `068f87e`; only documentation, CI triggers and diagnostic fixtures changed.
 Local desktop tests and accepted distribution promotion remain pending.
+
+## Complete ordinary CI checkpoint
+
+[Ordinary run 43699494654](https://github.com/xiongnemo/nemoterm/actions/runs/43699494654)
+at `7e12e03` passes all four jobs: source console-host build, terminal sanitizers,
+MSVC native renderer diagnostics and the complete Windows portable build/tests.
+All twelve uninstrumented history/image workload gates pass. The dense Unicode
+image cases also verify 25,048 cells after memory sampling and close their
+owned process trees naturally.
+
+These are frontend peak bytes for the two dense workloads, using remote
+Consolas windows; the private, total and committed peaks need not coincide:
+
+| Renderer and actual grid | Private working set | Total working set | Private commit |
+| --- | ---: | ---: | ---: |
+| GDI, 109×34 | 14,008,320 | 44,912,640 | 16,969,728 |
+| DirectX, 88×35 | 17,793,024 | 54,263,808 | 20,652,032 |
+
+The private peaks satisfy the existing `<20,000,000` GDI and `≤25,000,000`
+DirectX limits. DirectX total working set remains above the roughly 50 MB goal.
+These workloads use the ordinary MinGW frontend and separate source host;
+they do not establish single-image memory or local 160×48 Sarasa acceptance.
+
+The portable frontend is 3,944,197 bytes, SHA256
+`bac628dee463caf12b3c36cf8526b86546a6c1a6d2c55fc450e39ce26b6c1cd3`.
+Its identified source host is 4,532,224 bytes, SHA256
+`21c669e9e6634a2d56795fb1ec4d98022d046e00fda34c406d80723398e351e4`.
+`pointer-shape-ordinary-validation.json` indexes 4,558 records in
+`pointer-shape-evidence/full-ordinary-7e12e03.tar.gz`, including every ordinary
+test artifact, portable runtime, exact source-host identity and workload
+observations. The MSVC diagnostic artifact was downloaded into a fresh separate
+directory before retention, avoiding a shared local download-directory collision
+with the earlier pointer-only workflow. The full single-image retry remains a
+separate gate.
