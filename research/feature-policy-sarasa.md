@@ -64,3 +64,19 @@ recomputes the three peaks and verifies the saved strip pixels. The successful
 bell single-image product is being measured with the same local workload to
 distinguish a portable compiler/runtime effect from the shipping-image budget.
 That comparison is not acceptance of the newer feature-policy product.
+
+## Exact successful bell single-image comparison
+
+The `9d636e9` single image also exceeds the GDI gate: **20,623,360 private WS**,
+**44,183,552 total WS**, and **23,658,496 private commit** bytes over 3,976
+uninstrumented samples / 431.678 seconds. Thus the overrun is not specific to
+the portable MinGW build. All 29,072 post-sampling image cells match, but the
+900-second child lifetime is exhausted before the subsequent lifecycle scenes;
+the next fixture mailbox wait fails. The job drains naturally, yet neither
+the memory gate nor the complete functional run passes.
+
+`bell-single-sarasa-budget.tar.gz` retains the original measurements, pixels,
+later timeout, cleanup, runtime identity and exact fixture sources. A separate
+read-only region map was taken after sampling; it is not a peak attribution.
+Future local dense runs use the existing bounded 1,800-second child option;
+individual reply deadlines and memory thresholds remain unchanged.

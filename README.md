@@ -62,7 +62,9 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 开发分支另有[含相对放置、Unicode 图片、OSC 22 指针、DEC 用户定义键及响铃修复的 `9d636e9` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43729769426/artifacts/14168664703)：
 4,538,880 字节，159 组单文件 CI 检查通过，预计于 2026-12-15 16:13 UTC 过期。
 本机大窗口验收进行中；精确哈希、远端内存及原始失败记录见[开发构建记录](research/bell-modes.md)。
-更新的 OSC 60/61/62 能力与权限报告候选仍在完整 CI 中，不包含于此下载。
+更新的 [OSC 60/61/62 候选 `846b525`](https://github.com/xiongnemo/nemoterm/actions/runs/43731283079/artifacts/14170378426)
+也已通过两条完整 CI 和 160 组单文件检查：4,544,000 字节，预计于 2026-12-15 16:33 UTC 过期。
+本机 GDI 密集图片负载仍在修复与验收中，见[能力报告与产物记录](research/feature-policy.md)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
 

@@ -128,6 +128,24 @@ manifest is `feature-policy-components-native-validation.json`.
 
 Full ordinary [43731280250](https://github.com/xiongnemo/nemoterm/actions/runs/43731280250)
 and single-image [43731283079](https://github.com/xiongnemo/nemoterm/actions/runs/43731283079)
-are running at the same source. The single-image suite includes this new fixture
-and should have 160 groups. Full product and local 160x48 Sarasa acceptance
-remain separate gates; the accepted executable is unchanged.
+both pass at the same source: all four ordinary jobs and **160 single-image
+groups**. The retained records independently verify 72 native feature-policy
+replies per product, 192 bell streams, 38 window states, 232 UDK streams, 27
+Locator phases, 413 earlier ANSI/cancellation streams and twelve memory workloads.
+All required cleanup checks pass.
+
+The single image is **4,544,000 bytes**, SHA256
+`f508da8ab09cf5318b455569b91b143a4aba93eb7926ce76bd6829b47450b409`.
+[Product artifact 14170378426](https://github.com/xiongnemo/nemoterm/actions/runs/43731283079/artifacts/14170378426)
+expires on 2026-12-15 at 16:33 UTC. Remote Consolas GDI private/total peaks are
+13,844,480 / 44,068,864 bytes; DirectX peaks are 18,165,760 / 52,924,416.
+The ordinary MinGW product separately peaks at 14,950,400 / 43,900,928 for GDI
+and 17,014,784 / 51,937,280 for DirectX. These are remote grids, not local Sarasa.
+
+`feature-policy-ordinary.tar.gz` retains 4,629 records / 640,100,017 raw bytes
+(9,595,010 compressed). `feature-policy-single.tar.gz` retains 4,604 records /
+640,456,661 raw bytes (9,502,517 compressed). Each manifest verifies source,
+artifact/image identity, original reply streams, pixels, memory and cleanup.
+Local 160x48 Sarasa acceptance remains separate: the
+[portable preflight and older successful single-image comparison](feature-policy-sarasa.md)
+both exceed the GDI private-working-set gate. The accepted executable is unchanged.
