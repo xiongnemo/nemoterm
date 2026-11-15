@@ -11,7 +11,20 @@ set is still recorded, but exceeding 50 MB is not an outstanding acceptance
 failure or an optimization task. Historical measurements and failures below
 remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
-work. Local interactive desktop testing remains paused until the user resumes it.
+work. The user resumed local interactive desktop testing on 2026-11-16 Sydney.
+
+## Current local Sarasa acceptance (2026-11-16 Sydney)
+
+The [feature-policy preflight](../research/feature-policy-sarasa.md) confirms
+the installed Sarasa face, default 160x48 startup and work-area clamping with
+natural cleanup. A completed portable MinGW dense Unicode-image workload
+passes all 29,072 image-cell checks and tab lifecycle checks, but peaks at
+20,746,240 bytes private working set and therefore fails the unchanged GDI gate.
+The earlier lower sample had incomplete pixels and is not a passing run. Both
+original failures are retained. The successful bell single-image product is
+being compared on the same machine and workload; the newer feature-policy
+product still needs full CI and exact-image local acceptance. No accepted
+distribution has been replaced.
 
 ## Bell attention modes (2026-11-16 Sydney)
 
@@ -39,9 +52,12 @@ foreground restoration then emits only nonclient activation. `4154bac` handles
 that message while checking the actual foreground host. Its native checkpoint
 passes all 192 original reply streams and 38 GDI/DirectX states, including
 notification ownership, real reactivation and exact focus reports. Existing
-sound/visual fixtures and all six owned-job cleanup groups pass. The ordinary
-and 60-minute single-image workflows remain running at this corrected source.
-Visible taskbar and local acceptance remain open. Local testing stays paused.
+sound/visual fixtures and all six owned-job cleanup groups pass. The complete
+ordinary workflow passes at `4154bac`; the production-equivalent `9d636e9`
+single image passes all 159 groups, including UDK and twelve memory workloads.
+Both complete checkpoints and the first single-image mailbox-read failure are
+retained in the bell record. Visible taskbar and local acceptance remain open;
+local testing has resumed.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 
@@ -68,8 +84,10 @@ then reaches the overall 45-minute job deadline while dense Unicode frames are
 still progressing. The cancellation and image are retained, not accepted. The
 combined bell/UDK suite now has a 60-minute overall job budget (introduced at
 `f9e6e82`, current corrected source `4154bac`);
-individual fixture and shutdown deadlines are unchanged. Local acceptance
-remains paused. No memory/rendering policy changes are made.
+individual fixture and shutdown deadlines are unchanged. That combined suite
+passes all 159 single-image groups at production-equivalent `9d636e9`, including
+232 unchanged native UDK streams. Local acceptance is in progress. No
+memory/rendering policy changes are made.
 
 ## ANSI charset conformance development (2026-11-15 Sydney)
 
