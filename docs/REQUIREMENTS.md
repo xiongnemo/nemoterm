@@ -13,7 +13,29 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. The user resumed local interactive desktop testing on 2026-11-16 Sydney.
 
-## Current local Sarasa acceptance (2026-11-16 Sydney)
+## Current combined candidate (2026-11-16 Sydney)
+
+Source `253855b481b2ccd6a13dae5490c42f19c8b9dd64` passes both complete
+workflows: all four ordinary CI jobs and **163 single-image groups**. Its
+4,544,512-byte executable has SHA256
+`f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107`.
+The [candidate record](../research/answerback-product-ci.md) retains original
+GitHub artifact ZIPs, exact member hashes and complete workflow identities.
+Local acceptance is running against that exact image and source-matched
+fixtures: 41 background groups, with eight foreground/clipboard groups still
+requiring an available desktop. CI's smaller Consolas grids do not replace the
+local 160x48 Sarasa measurements. The accepted distribution remains unchanged.
+
+The older `69496bb` ordinary workflow succeeded, but its single-image Unicode
+workload failed during tab cleanup. Instrumented exact-image replays show that
+the old synthetic client's 300-second lifetime leaves little headroom; only
+that workload's CI client lifetime is now 900 seconds. The [lifetime record](../research/session-lifetime.md)
+keeps the original failure and both successful replays, without claiming they
+prove the original cause. A separate [portable callback exception](../research/tab-callback-portable.md)
+also remains unexplained after finite successful exact-image replays. Neither
+observation is erased by the newer candidate's successful complete CI.
+
+## Earlier local Sarasa checkpoints (2026-11-16 Sydney)
 
 The [feature-policy preflight](../research/feature-policy-sarasa.md) confirms
 the installed Sarasa face, default 160x48 startup and work-area clamping with
@@ -66,7 +88,8 @@ The correctly hosted application-resize fixture then exposes a minimized
 restore-size defect: the outer frame and tab strip were omitted. The
 [bounded geometry fix](../research/host-restore-size.md) passes 348 existing
 resize stages across four tab positions and all three actual renderers, with
-natural cleanup. The combined full CI and single-image acceptance remain open.
+natural cleanup. Combined full CI was still open at that checkpoint; the newer
+`253855b` result above supersedes its CI status, while local acceptance remains open.
 
 The later [parameter-query correction](../research/legacy-replies.md) follows
 136 retained VT100 request streams, with explicit baud/framing policy
@@ -74,7 +97,7 @@ differences. Core GCC/Clang sanitizer and MSVC checks pass, as do 272 portable
 ConPTY comparisons. Full `5f5e80c` workflows then expose an unmet topmost
 precondition in the bell fixture; the [configured-window correction](../research/bell-modes.md#topmost-fixture-precondition)
 passes 74 states on the exact failed image with actual GDI and DirectX
-renderers and natural shutdown. Combined workflows for `69496bb` are running.
+renderers and natural shutdown. The later `69496bb` outcomes are recorded above.
 A separate [answerback configuration fix](../research/answerback-config.md)
 initializes an unsuccessful caret parse correctly and passes core regression
 plus 160 direct native comparisons. Neither checkpoint replaces the accepted

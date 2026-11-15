@@ -14,7 +14,9 @@
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
-当前开发候选 `12ee33b` 的两条完整 CI 和 160 组单文件检查已通过，涵盖下述 ANSI/C0、UDK、响铃和能力报告变更；准确 EXE 的本机验收仍在进行。其完整 160×48 Sarasa 密集图片 GDI 负载已通过，私有工作集峰值 19.23 MB；本机输入法合成 DPI 检查尚未通过。详见[当前产物与失败记录](../research/gdi-image-cache.md)。历史证据只证明各自标注的构建和场景。
+当前开发候选 `253855b` 的两条完整 CI 和 **163 组单文件检查**已通过，包含下述 ANSI/C0、UDK、响铃、能力报告，以及配置转义、查询和窗口恢复修复。准确 EXE 的 49 组本机验收正在进行，其中 41 组可在后台运行，八组需要可用桌面或剪贴板。产物哈希、原始 CI 压缩包和范围见[当前候选记录](../research/answerback-product-ci.md)。
+
+先前 `12ee33b` 的完整 160×48 Sarasa 密集图片 GDI 负载通过，私有工作集峰值 19.23 MB；其 DX 同项负载达到 27.11 MB，超过保留的 25 MB 回归限额。本机输入法合成 DPI 检查尚未通过。详见[历史产物与失败记录](../research/gdi-image-cache.md)。这些测量不能直接用于新候选；有限回归通过也不代表下表的协议缺口已经补齐。
 
 ## 核心字符、状态、绘制
 

@@ -70,12 +70,13 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DX 当前内存表现已接受。见下方 [渲染与内存](#渲染与内存)。
 
-正在本机验收的更新版本：[下载 `12ee33b` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137/artifacts/14172342252)。
+正在本机验收的更新版本：[下载 `253855b` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43757506287/artifacts/14181225772)。
 它包含相对放置、Unicode 图片、OSC 22 指针、DEC 用户定义键、响铃修复、OSC 60/61/62
-能力报告及 GDI 缓存修复。两条完整 CI 与 **160 组单文件检查**均已通过；EXE 为
-**4,544,000 字节**，预计于 **2026-12-15 17:22 UTC** 过期。
-该准确产物的 39 组本机验收仍在进行中，尚未替换上方已验收版本。哈希、原始失败及
-完整验证范围见[缓存修复与产物记录](research/gdi-image-cache.md)。
+能力报告、GDI 缓存修复，以及配置转义、终端查询和窗口恢复修复。
+两条完整 CI 与 **163 组单文件检查**均已通过，EXE 为 **4,544,512 字节**。
+该准确产物的 49 组本机验收正在进行，尚未替换上方已验收版本。哈希、原始产物和
+完整验证范围见[候选记录](research/answerback-product-ci.md)；先前 `12ee33b` 的结果和失败
+继续保留在[缓存修复与产物记录](research/gdi-image-cache.md)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
 
