@@ -372,6 +372,7 @@ struct terminal_tag {
         SEEN_CSI,
         SEEN_OSC,
         SEEN_OSC_W,
+        VT52_ESC_IGNORE,
 
         DO_CTRLS,
 

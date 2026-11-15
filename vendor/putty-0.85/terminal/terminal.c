@@ -10143,7 +10143,16 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->osc_overflow = false;
                 }
                 break;
+              case VT52_ESC_IGNORE:
+                if (c >= '0' && c <= '~') term->termstate = TOPLEVEL;
+                break;
               case VT52_ESC:
+                /* An unsupported ESC intermediate sequence consumes its
+                 * final byte too; ANSI level letters must not become text. */
+                if (c >= ' ' && c <= '/') {
+                    term->termstate = VT52_ESC_IGNORE;
+                    break;
+                }
                 term->termstate = TOPLEVEL;
                 switch (c) {
                   case 'A':
