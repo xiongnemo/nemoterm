@@ -27,7 +27,10 @@ replies whole and bytewise, plus budget and lifetime checks. The original Linux
 fixture failure and corrected table initialization are retained. The focused
 Windows single image at `1aff8c8` passes 89 physical-key cases / 232 unchanged
 streams, both saved keyboard profiles, Kitty precedence and four existing
-keyboard/status fixtures. The full ordinary workflow is running at `fec0af2`.
+keyboard/status fixtures. The full ordinary workflow passes all four jobs at
+`fec0af2`, including 232 UDK streams, 27 Locator phases, 413 earlier ANSI/C0
+streams and twelve uninjected memory workloads. The retained dense remote GDI
+private/total peaks are 14,643,200 / 45,563,904 bytes.
 The first full single workflow stopped before UDK replay because its isolated
 fixture lacked the retained reference archive; all original failure records are
 retained. The isolation-only fix is running as `23615de`. Local acceptance
