@@ -268,3 +268,62 @@ component workflow passed. Those cancellations are neither test passes nor
 diagnosed failures. `ci-repaint-and-selection.tar.gz` retains all six workflow
 receipts, full logs, artifact metadata, the single-image validation manifest and
 the exact new local selection source/build/test evidence.
+
+## Native clipboard selections and combined-image precheck
+
+The owned-window selection fixture now checks both Ctrl+Shift+C and default
+right-click copy through the real Windows clipboard. Sixteen cases combine
+main/alternate screens, application mouse on/off, normal/rectangular selection
+and mode 2027 on/off. They release modifiers before the mouse button and drain
+child input exactly, so a copied value alone cannot hide a forwarded mouse or
+paste event. The copied text includes the original supplementary-plane PUA and
+all positional combining marks. The fixture preserves supported clipboard
+formats and restores them when its own window still owns the clipboard.
+Its injected keyboard state and mouse messages are confined to the owned UI
+thread; these are not physical-input or uninjected memory measurements.
+
+The first fixture expectation omitted the leading space on the second line of
+a cross-line selection. The second attempt clicked the same point rapidly
+enough for the real frontend to classify the third click as line selection.
+Both failed attempts, including exact copies and screenshots, are retained.
+The corrected fixture includes the leading space and moves consecutive
+independent selections outside the system double-click rectangle, rather than
+altering terminal selection behavior or weakening byte comparisons.
+
+The local MinGW frontend `0675072` passes 256 clipboard copies with Sarasa and
+Consolas across actual GDI/OpenGL/DirectX and direct GDI client-DC capture.
+All eight final runs close naturally, restore the clipboard, remove their
+temporary profiles and leave no owned processes. `native-selection.tar.gz`
+contains 324 records from all ten attempts, including both fixture failures.
+The new fixture is wired into future ordinary and single-executable CI runs.
+
+Before selection, the test asserts the complete opaque red image area. Selected
+screenshots are retained diagnostics, not an assertion that image pixels change
+colour. Inspection shows that opaque images cover the underlying selection
+background, so an image-only rectangular selection has no separate visible tint.
+Copying still works. The pinned Kitty `draw_cells_with_layers` also draws negative
+images after cell backgrounds; this is source evidence, not a captured Kitty
+selection-pixel comparison. A dedicated image-selection overlay remains absent.
+
+The current source-host artifact `14148651177` from core run `43681119193` is
+built at `4095697`. Its combined executable is 4,522,496 bytes, SHA256
+`31850600b2a0a9d9a91ff9305ff449ae4febca6fc977c306a25bbff1aaee51ed`.
+An isolated-directory check confirms that the child console host runs from the
+same executable, no OpenConsole/conhost sidecar process is used, the console
+survives delegated-launcher exit and the directory still contains only the EXE.
+The same image then passes 204 Unicode/geometry pixel stages and 128 native
+clipboard copies with Sarasa across the four capture modes.
+
+One initial DirectX geometry run passed 16 stages, then received an extra
+`DEL` byte after the otherwise correct geometry/status replies. The unchanged
+input and executable pass all 19 stages on retry. The failed input/reply record
+and screenshots remain in `combined-409-precheck.tar.gz` alongside the passes
+(552 records). The user confirmed using the computer during testing, making
+external input plausible, but no specific physical action is established as
+the byte's source. This is not silently treated as a first-attempt pass.
+
+Local interactive testing is now paused at the user's request. All fixture
+processes had exited when the pause was checked. Remote CI and background source
+work may continue. The combined-image precheck has not replaced `dist`, and its
+incidental small-window memory samples do not replace the required uninjected
+160x48 workload acceptance.

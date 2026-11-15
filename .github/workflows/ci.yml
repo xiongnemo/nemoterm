@@ -617,6 +617,15 @@ jobs:
             Copy-Item "research/kitty-unicode-geometry-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
             if ($testExit) { exit $testExit }
           }
+      - name: Test Unicode image selections and exact clipboard text
+        shell: pwsh
+        run: |
+          foreach ($renderer in @('gdi', 'opengl', 'directx')) {
+            python tests/kitty_unicode_selection_window_smoke.py --renderer $renderer 2>&1 | Tee-Object "test-results/kitty-unicode-selection-$renderer-native.log"
+            $testExit = $LASTEXITCODE
+            Copy-Item "research/kitty-unicode-selection-$renderer-*" test-results/ -Recurse -ErrorAction SilentlyContinue
+            if ($testExit) { exit $testExit }
+          }
       - name: Test native GIF animation, disposal and limits
         shell: pwsh
         run: |

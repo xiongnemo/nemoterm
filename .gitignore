@@ -20,3 +20,4 @@ __pycache__/
 /research/kitty-image-*-observed.json
 /research/kitty-compression-*/
 /research/kitty-compression-*-observed.json
+/research/kitty-unicode-selection-*/
