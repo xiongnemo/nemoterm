@@ -1,7 +1,8 @@
 # OSC 22 pointer-shape development
 
-OSC 22 is currently missing from the Nemoterm parser and Windows frontend.
-This branch first records an independent reference before implementing it.
+OSC 22 now has bounded parser state and a tested optional presentation callback.
+The Windows frontend does not yet implement that callback, so applications
+receive no support advertisement or query reply in the actual product.
 The accepted distribution is unchanged; local native testing remains paused.
 
 The [kitty protocol](https://sw.kovidgoyal.net/kitty/pointer-shapes/) defines
@@ -30,8 +31,7 @@ process recorder. Its result must preserve source/binary hashes, complete input
 and output records, exit status and verified cleanup. This in-memory reference
 does not observe an OS mouse cursor or establish Windows rendering.
 
-Implementation still requires bounded per-terminal state, response framing,
-all thirty Windows cursor presentations, legacy aliases, per-tab cursor
+Implementation still requires all thirty Windows cursor presentations, per-tab cursor
 isolation and precedence with local selection, links and busy status. Native
 cursor inspection, settings/permission behavior, resets, allocation/lifetime
 checks and the original memory limits remain separate acceptance work. No
@@ -57,9 +57,9 @@ rewritten into Nemoterm expectations.
 
 The standalone component uses 34 bytes for both sixteen-entry stacks and has
 no allocator. Complete payloads are bounded to 2,048 bytes and query content to
-4,096 bytes; query output is only emitted after successful completion. A future
-terminal owner can allocate this state lazily. It is not linked into the
-terminal yet and does not advertise runtime support.
+4,096 bytes; query output is only emitted after successful completion. A terminal
+owner allocates this state lazily. The component checkpoint below predates
+terminal integration and does not establish native cursor support.
 
 `generate-pointer-reference.py` reproduces a 106-case / 504-stage component
 projection from the unchanged capture. Its eleven omitted cases require actual
@@ -79,3 +79,41 @@ identified Git blobs (with any checkout line-ending conversion recorded).
 `pointer-shape-component-validation.json` indexes 23 retained records in
 `components-51fe4b2.tar.gz`. This still does not establish terminal integration,
 Windows cursor pixels or a new accepted product.
+
+## Terminal dispatch and lifecycle checkpoint
+
+The terminal now links the component, allocates its 34-byte state only after
+an effective setter, and frees it when both stacks empty or on RIS/DECSTR or
+destruction. There is one owner pointer and a deferred presentation flag per
+terminal, with no per-cell storage. Screen changes schedule presentation of
+that screen's current shape. Queries use the existing seven/eight-bit reply
+framing. An absent frontend callback disables both setters and replies, so an
+unimplemented frontend cannot claim support.
+
+The first [terminal run at `98116eb`](https://github.com/xiongnemo/nemoterm/actions/runs/43694691231)
+retains two distinct failures. GCC/Clang match all pointer states but differ
+from three upstream cancellation replies in each fragmentation mode. The
+existing Nemoterm parser cancels an unfinished OSC on CAN/SUB or an interrupting
+escape and accepts the following valid query; the pinned Kitty parser leaves
+that query unanswered. The replay explicitly names these three policy
+differences and preserves the original reference bytes. No production parser
+change was made to hide the discrepancy. MSVC's first terminal fixture instead
+fails during compilation because its new VS-generator configuration defines
+`NDEBUG`; the fixture now uses the project's existing Ninja/MSVC flags.
+
+The [corrected run at `fe4b9a9`](https://github.com/xiongnemo/nemoterm/actions/runs/43694995351)
+passes GCC, Clang and MSVC, including GCC/Clang ASan/UBSan. For each compiler,
+all **555 stages** pass with original chunks and again bytewise: each mode has
+552 exact upstream replies, three explicit cancellation-policy replies and
+555 matching pointer states. Both the terminal state and the deferred frontend
+callback model are checked. Supplemental tests cover lazy allocation, release,
+two-screen reset, oversized setter rejection, parser recovery, C1 framing and
+the absent-callback gate. The existing terminal query suite also passes.
+
+`pointer-shape-terminal-validation.json` indexes 91 records in
+`pointer-shape-evidence/terminal-fe4b9a9.tar.gz`, retaining both failed and passed
+runs, exact source blobs and 54 matching source hashes. The generated full-VT
+projection preserves every input chunk from the independent capture. This is
+parser/callback-model validation: Windows pointer pixels, actual tab isolation,
+native resources, DPI/selection/busy priorities and product memory remain
+unverified. No local GUI or native runtime test was run.

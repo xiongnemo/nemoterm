@@ -1,0 +1,883 @@
+{
+  "runs": [
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "run": 43694691231,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43694691231",
+      "conclusion": "failure"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "run": 43694995351,
+      "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43694995351",
+      "conclusion": "success"
+    }
+  ],
+  "compilers": [
+    "gcc",
+    "clang",
+    "msvc"
+  ],
+  "sanitizers": [
+    "gcc",
+    "clang"
+  ],
+  "terminal_stages_per_fragmentation": 555,
+  "fragmentation_modes": [
+    "original chunks",
+    "bytewise"
+  ],
+  "exact_upstream_replies_per_mode": 552,
+  "matching_pointer_states_per_mode": 555,
+  "cancellation_policy_differences": [
+    "cancel-18/step-1",
+    "cancel-1a/step-1",
+    "cancel-1b5b306d/step-1"
+  ],
+  "component_checks_per_execution": 4740,
+  "component_stages": 504,
+  "lazy_state_bytes": 34,
+  "source_matches": [
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "38889b7a45327eafb1463c3c7cd781b11400b1fbbf221102762970d461b1f2d8",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "gcc",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "38889b7a45327eafb1463c3c7cd781b11400b1fbbf221102762970d461b1f2d8",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "clang",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "38889b7a45327eafb1463c3c7cd781b11400b1fbbf221102762970d461b1f2d8",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "98116eb6872c016ea15c582234825e2460014de4",
+      "compiler": "msvc",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "94c0d179771f518063f8dc8d2f4e811aff37832e665cda891351105cf9e4c56f",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "gcc",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "94c0d179771f518063f8dc8d2f4e811aff37832e665cda891351105cf9e4c56f",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "clang",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.c",
+      "sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/nemo_pointer.h",
+      "sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "tests/test_pointer_shapes.c",
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "tests/pointer_shape_reference.h",
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/terminal.c",
+      "sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/terminal/terminal.h",
+      "sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/putty.h",
+      "sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "vendor/putty-0.85/test/test_pointer_terminal.c",
+      "sha256": "94c0d179771f518063f8dc8d2f4e811aff37832e665cda891351105cf9e4c56f",
+      "encoding": "git_blob"
+    },
+    {
+      "source": "fe4b9a9be53d1e55c72b02b5848a0fdc89f99d29",
+      "compiler": "msvc",
+      "path": "tests/pointer_terminal_reference.h",
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486",
+      "encoding": "git_blob"
+    }
+  ],
+  "scope": "Real terminal parser and frontend callback model; Windows pointer display remains disconnected. No new product, native cursor pixel or memory acceptance. Local desktop testing remains paused.",
+  "bundle": {
+    "path": "research/pointer-shape-evidence/terminal-fe4b9a9.tar.gz",
+    "archive_bytes": 476558,
+    "archive_sha256": "bec0f1cecb119511fd8e34d899edcb007a8649e539f327eadc37d77790e00d6c",
+    "records": [
+      {
+        "path": "98116eb/clang-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "943db02adc5f1aef5592398a036d7762b7127918c4e211e2cbdb8ea6fec712db"
+      },
+      {
+        "path": "98116eb/clang/compiler.txt",
+        "raw_bytes": 122,
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+      },
+      {
+        "path": "98116eb/clang/normal.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "98116eb/clang/sanitizers.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "98116eb/clang/sources.sha256",
+        "raw_bytes": 408,
+        "raw_sha256": "f016c5743521fd59f81df89de3cf028d8afe9762b89a108f27aac6acf17b587b"
+      },
+      {
+        "path": "98116eb/clang/terminal-build.log",
+        "raw_bytes": 13718,
+        "raw_sha256": "b2bc1f9ef5690c1c22d7b914a607439e2cf22e73e0bf369c477883016202f1dc"
+      },
+      {
+        "path": "98116eb/clang/terminal-configure.log",
+        "raw_bytes": 4325,
+        "raw_sha256": "167d3357801855cf304f7b3ea7d59a04a134d8d9827c3e89bb038e6fb2fb3366"
+      },
+      {
+        "path": "98116eb/clang/terminal-sources.sha256",
+        "raw_bytes": 514,
+        "raw_sha256": "fe9390478a62d954f8578db58738b88f39a9b9a419a517b751076ef7f970a26c"
+      },
+      {
+        "path": "98116eb/clang/terminal.log",
+        "raw_bytes": 987,
+        "raw_sha256": "5b1c5f804b7c3e25be4f31a67368221a9a1fba855deec906bcee1eba0fa7f30d"
+      },
+      {
+        "path": "98116eb/gcc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "61ae5f5d3e2770147149905597c7ebd63cc6b0ad3792a87a7ad71a96549c113d"
+      },
+      {
+        "path": "98116eb/gcc/compiler.txt",
+        "raw_bytes": 239,
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+      },
+      {
+        "path": "98116eb/gcc/normal.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "98116eb/gcc/sanitizers.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "98116eb/gcc/sources.sha256",
+        "raw_bytes": 408,
+        "raw_sha256": "f016c5743521fd59f81df89de3cf028d8afe9762b89a108f27aac6acf17b587b"
+      },
+      {
+        "path": "98116eb/gcc/terminal-build.log",
+        "raw_bytes": 15373,
+        "raw_sha256": "403b5245673c537ce6f447e5a2f87e712b1102bf98d2ac0d5512bf52ba0d6ab2"
+      },
+      {
+        "path": "98116eb/gcc/terminal-configure.log",
+        "raw_bytes": 4320,
+        "raw_sha256": "bd278a18f56ef50e596755b78f04e5957f0af86d20d209f197e79cef1db38de3"
+      },
+      {
+        "path": "98116eb/gcc/terminal-sources.sha256",
+        "raw_bytes": 514,
+        "raw_sha256": "fe9390478a62d954f8578db58738b88f39a9b9a419a517b751076ef7f970a26c"
+      },
+      {
+        "path": "98116eb/gcc/terminal.log",
+        "raw_bytes": 987,
+        "raw_sha256": "5b1c5f804b7c3e25be4f31a67368221a9a1fba855deec906bcee1eba0fa7f30d"
+      },
+      {
+        "path": "98116eb/msvc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "894f61af79df22f138f75666557d69964776cb2595e6159573fdf5ba1c24c5f4"
+      },
+      {
+        "path": "98116eb/msvc/compiler.log",
+        "raw_bytes": 59,
+        "raw_sha256": "0dc9f3745589e2c479924380cf81185a81cdfe5a1ae87e56151e2240e5e8b157"
+      },
+      {
+        "path": "98116eb/msvc/normal.log",
+        "raw_bytes": 72,
+        "raw_sha256": "37051d8d2cf49de65f38a3850306338146e97216109b7314aaa0f381baeafb4c"
+      },
+      {
+        "path": "98116eb/msvc/sources.json",
+        "raw_bytes": 805,
+        "raw_sha256": "5fdeedd920c8bc3ffb29fc53b77e03858c45a3f61f8455961b806b49ef259b4b"
+      },
+      {
+        "path": "98116eb/msvc/terminal-build.log",
+        "raw_bytes": 11886,
+        "raw_sha256": "58b1ed9bdd134a3413ac6b8300148e8be54c28473d40d978bfc69df4ba317906"
+      },
+      {
+        "path": "98116eb/msvc/terminal-configure.log",
+        "raw_bytes": 2934,
+        "raw_sha256": "4a27756538d8d8c69d59c7b30055f55804718de974b24cbb3b7527a3f2dafa97"
+      },
+      {
+        "path": "98116eb/msvc/terminal-sources.json",
+        "raw_bytes": 1011,
+        "raw_sha256": "4300dc1d33ab2ef0aad75f6a777776d2e3121f523535e1204bff0eaecad8a432"
+      },
+      {
+        "path": "98116eb/pointer-components-artifacts.json",
+        "raw_bytes": 2299,
+        "raw_sha256": "09fcf476dd12e5b30aa1a34ce600102168f55eec861e2db8e2770663d602ad34"
+      },
+      {
+        "path": "98116eb/pointer-components-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "353c58891072e03752d4779f060cc06daecec83f0d4dc4ce7bf55528ca6e251c"
+      },
+      {
+        "path": "98116eb/pointer-components-run.json",
+        "raw_bytes": 6481,
+        "raw_sha256": "eba3665fcde5e49bf3dd19e5f2bddd6db655a2dbb62fb79e8e86cf41a93a99ae"
+      },
+      {
+        "path": "98116eb/pointer-components-run.log",
+        "raw_bytes": 218469,
+        "raw_sha256": "d380cfafcfd41e27a43cd9a6beb13756786f9818926ec619cf216704eec63ac8"
+      },
+      {
+        "path": "98116eb/source/.github/workflows/pointer-shapes.yml",
+        "raw_bytes": 6135,
+        "raw_sha256": "9f94639ecf303c0b0afd063c8aefa3791d918aa1cdb833ef5536c5fcae922c14"
+      },
+      {
+        "path": "98116eb/source/scripts/generate-pointer-reference.py",
+        "raw_bytes": 3681,
+        "raw_sha256": "cb07dfdc82b4cdeeeb7928c5eee46d11a3fa330f77d5780f732d31772fc141c5"
+      },
+      {
+        "path": "98116eb/source/tests/pointer_shape_reference.h",
+        "raw_bytes": 63152,
+        "raw_sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880"
+      },
+      {
+        "path": "98116eb/source/tests/pointer_terminal_reference.h",
+        "raw_bytes": 87371,
+        "raw_sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486"
+      },
+      {
+        "path": "98116eb/source/tests/test_pointer_shapes.c",
+        "raw_bytes": 4513,
+        "raw_sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/CMakeLists.txt",
+        "raw_bytes": 7460,
+        "raw_sha256": "db0b9d354100ae38dd4c601761dcf924e6e9670cb5bce2b3d7542f86bd10e6c8"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/putty.h",
+        "raw_bytes": 116668,
+        "raw_sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/terminal/nemo_pointer.c",
+        "raw_bytes": 6517,
+        "raw_sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/terminal/nemo_pointer.h",
+        "raw_bytes": 2598,
+        "raw_sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/terminal/terminal.c",
+        "raw_bytes": 538771,
+        "raw_sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/terminal/terminal.h",
+        "raw_bytes": 29933,
+        "raw_sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/test/test_pointer_terminal.c",
+        "raw_bytes": 4232,
+        "raw_sha256": "38889b7a45327eafb1463c3c7cd781b11400b1fbbf221102762970d461b1f2d8"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/unix/CMakeLists.txt",
+        "raw_bytes": 15482,
+        "raw_sha256": "0ab2d1e4b188d151f5c1c20a563ea0ec97b67a6bad152eef6c9e393def428f6c"
+      },
+      {
+        "path": "98116eb/source/vendor/putty-0.85/windows/CMakeLists.txt",
+        "raw_bytes": 16630,
+        "raw_sha256": "b7a62818f21b12d9d3c8c635db61dd95dbe8f3a2bbe1db84ae5375ad2a9a7681"
+      },
+      {
+        "path": "controller.py",
+        "raw_bytes": 5819,
+        "raw_sha256": "42072357016b373f397c6af215889388f6e3e7c36f4a33061e0a0ce1685ab151"
+      },
+      {
+        "path": "fe4b9a9/clang-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "12023a449c7cdb8ccc3709be8d94694a93f91ca73d918e33961a1a2f10aa0b91"
+      },
+      {
+        "path": "fe4b9a9/clang/compiler.txt",
+        "raw_bytes": 122,
+        "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+      },
+      {
+        "path": "fe4b9a9/clang/normal.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "fe4b9a9/clang/queries.log",
+        "raw_bytes": 19,
+        "raw_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+      },
+      {
+        "path": "fe4b9a9/clang/sanitizers.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "fe4b9a9/clang/sources.sha256",
+        "raw_bytes": 408,
+        "raw_sha256": "f016c5743521fd59f81df89de3cf028d8afe9762b89a108f27aac6acf17b587b"
+      },
+      {
+        "path": "fe4b9a9/clang/terminal-build.log",
+        "raw_bytes": 13718,
+        "raw_sha256": "7b575cf4a947a8505fccba911a40ba348b71ee9a877b8fde5219427b73cb4dcb"
+      },
+      {
+        "path": "fe4b9a9/clang/terminal-configure.log",
+        "raw_bytes": 4325,
+        "raw_sha256": "2eed43526c1ef09ef744742ceed573798a25df7ed354777657413f85471f8307"
+      },
+      {
+        "path": "fe4b9a9/clang/terminal-sources.sha256",
+        "raw_bytes": 514,
+        "raw_sha256": "5e9538df062ea351452541e15a3bc26d615a1449c7a9c9ffbf1d2c027e12e24b"
+      },
+      {
+        "path": "fe4b9a9/clang/terminal.log",
+        "raw_bytes": 309,
+        "raw_sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+      },
+      {
+        "path": "fe4b9a9/gcc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "7f46828780249823d8ccd7c59379d212bdd1423cd13659b8755ef140bfe931b0"
+      },
+      {
+        "path": "fe4b9a9/gcc/compiler.txt",
+        "raw_bytes": 239,
+        "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+      },
+      {
+        "path": "fe4b9a9/gcc/normal.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "fe4b9a9/gcc/queries.log",
+        "raw_bytes": 19,
+        "raw_sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+      },
+      {
+        "path": "fe4b9a9/gcc/sanitizers.log",
+        "raw_bytes": 71,
+        "raw_sha256": "21d5a30dcc532e4dcdb291300ea0d0295e09b737af07d715cddc1ff020b1fa77"
+      },
+      {
+        "path": "fe4b9a9/gcc/sources.sha256",
+        "raw_bytes": 408,
+        "raw_sha256": "f016c5743521fd59f81df89de3cf028d8afe9762b89a108f27aac6acf17b587b"
+      },
+      {
+        "path": "fe4b9a9/gcc/terminal-build.log",
+        "raw_bytes": 15373,
+        "raw_sha256": "3a747f504b0595ce29e4e073e0569b2be91b480707e652de254d86f12b133953"
+      },
+      {
+        "path": "fe4b9a9/gcc/terminal-configure.log",
+        "raw_bytes": 4320,
+        "raw_sha256": "df090d0f3d806c74c00147aca90a20241e512633e54ed2875bc91d27a0718575"
+      },
+      {
+        "path": "fe4b9a9/gcc/terminal-sources.sha256",
+        "raw_bytes": 514,
+        "raw_sha256": "5e9538df062ea351452541e15a3bc26d615a1449c7a9c9ffbf1d2c027e12e24b"
+      },
+      {
+        "path": "fe4b9a9/gcc/terminal.log",
+        "raw_bytes": 309,
+        "raw_sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+      },
+      {
+        "path": "fe4b9a9/msvc-download.json",
+        "raw_bytes": 82,
+        "raw_sha256": "878d02fdf51c3b020195abfe7e69ec3e7e0388c59ed553de66e6304cd53474d4"
+      },
+      {
+        "path": "fe4b9a9/msvc/compiler.log",
+        "raw_bytes": 59,
+        "raw_sha256": "0dc9f3745589e2c479924380cf81185a81cdfe5a1ae87e56151e2240e5e8b157"
+      },
+      {
+        "path": "fe4b9a9/msvc/normal.log",
+        "raw_bytes": 72,
+        "raw_sha256": "37051d8d2cf49de65f38a3850306338146e97216109b7314aaa0f381baeafb4c"
+      },
+      {
+        "path": "fe4b9a9/msvc/queries.log",
+        "raw_bytes": 20,
+        "raw_sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+      },
+      {
+        "path": "fe4b9a9/msvc/sources.json",
+        "raw_bytes": 805,
+        "raw_sha256": "5fdeedd920c8bc3ffb29fc53b77e03858c45a3f61f8455961b806b49ef259b4b"
+      },
+      {
+        "path": "fe4b9a9/msvc/terminal-build.log",
+        "raw_bytes": 17156,
+        "raw_sha256": "4875b795bb004c995dc7ae9386a80eff62d653fa86fb6fa6bec5037aa5cc696b"
+      },
+      {
+        "path": "fe4b9a9/msvc/terminal-configure.log",
+        "raw_bytes": 3025,
+        "raw_sha256": "bbcc09884a39df3dc661815aab4f6be3eac5a43e1a54ad585d61cc4882fd9dd7"
+      },
+      {
+        "path": "fe4b9a9/msvc/terminal-sources.json",
+        "raw_bytes": 1011,
+        "raw_sha256": "1116f2b9afbe9ab880fde75634ac116a97243dce7d0f4c948e8388992825a0db"
+      },
+      {
+        "path": "fe4b9a9/msvc/terminal.log",
+        "raw_bytes": 312,
+        "raw_sha256": "04368dca8618c4c7d07c8cbe0828c446af9861f62186dab8658094bb0b66fe63"
+      },
+      {
+        "path": "fe4b9a9/pointer-components-artifacts.json",
+        "raw_bytes": 2299,
+        "raw_sha256": "5132a872bc1c43ebe2ef58a32fc9bb377a1eaa5795e91080fe457fba5285b982"
+      },
+      {
+        "path": "fe4b9a9/pointer-components-observed-at.txt",
+        "raw_bytes": 32,
+        "raw_sha256": "429ec58587a441ba8c0dd1b96d794257d3058184733febc10f89952c73bcb6a5"
+      },
+      {
+        "path": "fe4b9a9/pointer-components-run.json",
+        "raw_bytes": 6481,
+        "raw_sha256": "516946568e093a568541078c1e2587df859cf9bfcf27d313ee9e9bd43fc60162"
+      },
+      {
+        "path": "fe4b9a9/pointer-components-run.log",
+        "raw_bytes": 216751,
+        "raw_sha256": "789a839d65ecf76967bffcd7fd47d56f889ef2a4399a649381fcf3ad86ab893d"
+      },
+      {
+        "path": "fe4b9a9/source/.github/workflows/pointer-shapes.yml",
+        "raw_bytes": 6727,
+        "raw_sha256": "33ad4d3888e1689f0555f46e39a83622e7ccefff0cc58dfd3c91fd2b41565d72"
+      },
+      {
+        "path": "fe4b9a9/source/scripts/generate-pointer-reference.py",
+        "raw_bytes": 3681,
+        "raw_sha256": "cb07dfdc82b4cdeeeb7928c5eee46d11a3fa330f77d5780f732d31772fc141c5"
+      },
+      {
+        "path": "fe4b9a9/source/tests/pointer_shape_reference.h",
+        "raw_bytes": 63152,
+        "raw_sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880"
+      },
+      {
+        "path": "fe4b9a9/source/tests/pointer_terminal_reference.h",
+        "raw_bytes": 87371,
+        "raw_sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486"
+      },
+      {
+        "path": "fe4b9a9/source/tests/test_pointer_shapes.c",
+        "raw_bytes": 4513,
+        "raw_sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/CMakeLists.txt",
+        "raw_bytes": 7460,
+        "raw_sha256": "db0b9d354100ae38dd4c601761dcf924e6e9670cb5bce2b3d7542f86bd10e6c8"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/putty.h",
+        "raw_bytes": 116668,
+        "raw_sha256": "d223e64e347f316a8d4975279e0071dc63cb33b2518013bc84803cfdc3418da7"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/terminal/nemo_pointer.c",
+        "raw_bytes": 6517,
+        "raw_sha256": "80efb25364107bfddc8ada93b0ba1867bee74b7b003e72535001b7fee8d08b82"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/terminal/nemo_pointer.h",
+        "raw_bytes": 2598,
+        "raw_sha256": "69193d07ec3aa35a164127655714c60d1da971f7794e67ee218e50e73e7d2c8d"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/terminal/terminal.c",
+        "raw_bytes": 538771,
+        "raw_sha256": "c09dbd5823db40f352e168ffe31e9a1f2acffb1578d592bf90f86d406c55e7de"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/terminal/terminal.h",
+        "raw_bytes": 29933,
+        "raw_sha256": "3c2bc91047ca31412edc6511e9eeaf276ad28578521e488fa068e0b2bc2b7185"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/test/test_pointer_terminal.c",
+        "raw_bytes": 5798,
+        "raw_sha256": "94c0d179771f518063f8dc8d2f4e811aff37832e665cda891351105cf9e4c56f"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/unix/CMakeLists.txt",
+        "raw_bytes": 15482,
+        "raw_sha256": "0ab2d1e4b188d151f5c1c20a563ea0ec97b67a6bad152eef6c9e393def428f6c"
+      },
+      {
+        "path": "fe4b9a9/source/vendor/putty-0.85/windows/CMakeLists.txt",
+        "raw_bytes": 16630,
+        "raw_sha256": "b7a62818f21b12d9d3c8c635db61dd95dbe8f3a2bbe1db84ae5375ad2a9a7681"
+      }
+    ]
+  }
+}
