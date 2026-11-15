@@ -130,6 +130,9 @@ bool nemo_pointer_glyph_masks(NemoPointerShape shape, unsigned size,
         if (ink) and_mask[index] &= (uint8_t)~bit;
         if (ink == 2) xor_mask[index] |= bit;
     }
-    *hot_x = hx*size/32u; *hot_y = hy*size/32u;
+    /* Each output pixel samples floor(position*32/size). Round the hotspot
+     * up to the first pixel that actually contains the base hotspot, rather
+     * than placing it in the preceding transparent pixel at fractional DPI. */
+    *hot_x = (hx*size+31u)/32u; *hot_y = (hy*size+31u)/32u;
     return true;
 }

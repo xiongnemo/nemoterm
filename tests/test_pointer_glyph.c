@@ -31,6 +31,8 @@ int main(void)
             CHECK(nemo_pointer_glyph_masks(value,size,a+1,b+1,bytes,&hx,&hy));
             CHECK(hx < size && hy < size);
             CHECK(a[0] == 0xa5 && a[bytes+1] == 0xa5 && b[0] == 0x5a && b[bytes+1] == 0x5a);
+            if (a[1+hy*stride+hx/8] & (128u >> (hx%8)))
+                fprintf(stderr,"Transparent hotspot: shape=%u size=%u x=%u y=%u\n",shape,size,hx,hy);
             CHECK(!(a[1+hy*stride+hx/8] & (128u >> (hx%8))));
             unsigned white = 0, black = 0, transparent = 0;
             for (unsigned y = 0; y < size; y++) for (unsigned x = 0; x < size; x++) {
