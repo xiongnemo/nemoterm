@@ -224,7 +224,10 @@ jobs:
           python scripts/generate-legacy-parameter-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-osc-colour-sequence-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-special-keys-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-extended-keys-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -537,6 +540,13 @@ jobs:
           python tests/special_keys_window_smoke.py 2>&1 | Tee-Object test-results/special-keys-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/special-keys-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Compare keypad, modifier and special-key resources through ConPTY
+        shell: pwsh
+        run: |
+          python tests/extended_keys_window_smoke.py 2>&1 | Tee-Object test-results/extended-keys-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/extended-keys-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
@@ -1053,6 +1063,7 @@ jobs:
           python3 scripts/generate-legacy-parameter-reference.py --check
           python3 scripts/generate-osc-colour-sequence-reference.py --check
           python3 scripts/generate-special-keys-reference.py --check
+          python3 scripts/generate-extended-keys-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check

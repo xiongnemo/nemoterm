@@ -3,6 +3,36 @@
 #include "test_terminal.c"
 #undef main
 #include "../../../tests/special_keys_reference.h"
+#include "../../../tests/extended_keys_reference.h"
+
+static void test_extended_reference(Mock *mk, bool fragmented)
+{
+    unsigned matched = 0, fallback = 0;
+    for (size_t i = 0; i < lenof(extended_keys_reference); i++) {
+        const struct extended_key_reference *r = &extended_keys_reference[i];
+        if (r->reset) reset(mk);
+        test_context(mk, "extended resource %s step %u (%s)", r->name,
+                     (unsigned)i, fragmented ? "bytes" : "whole");
+        strbuf_clear(mk->to_backend);
+        if (fragmented) term_data_fragmented(mk->term, r->sequence);
+        else term_data(mk->term, r->sequence, strlen(r->sequence));
+        SEQUAL(mk->to_backend->s, r->before);
+        for (unsigned j = 0; j < r->count; j++) {
+            const struct extended_key_event *e = &r->events[j];
+            if (!e->down) continue; /* This protocol has no key releases. */
+            char output[NEMO_MOK_ENCODED_MAX];
+            int n = term_format_xterm_extended_key(mk->term, e->resource,
+                e->codepoint, e->mods, output, sizeof(output));
+            if (n > 0) put_data(mk->to_backend, output, n);
+        }
+        if (r->core) { SEQUAL(mk->to_backend->s, r->reply); matched++; }
+        else { SEQUAL(mk->to_backend->s, r->before); fallback++; }
+    }
+    IEQUAL(matched, 283); IEQUAL(fallback, 26);
+    printf("Extended resource reference: %u unchanged steps (%s); %u legacy observations excluded\n",
+           matched, fragmented ? "bytes" : "whole", fallback);
+    reset(mk);
+}
 
 static void test_special_reference(Mock *mk, bool fragmented)
 {
@@ -170,7 +200,35 @@ static void test_special_policy(Mock *mk)
     term_reconfig(mk->term, mk->conf);
     term_size(mk->term, 40, 100, 100);
     mok_reply(mk, "\033[?1;2m", "\033[>1;3m\033[>2;4m");
-    IEQUAL(sizeof(mk->term->special_modify_keys), 16);
+    IEQUAL(sizeof(mk->term->special_modify_keys), 40);
+    reset(mk);
+}
+
+static void test_extended_policy(Mock *mk)
+{
+    reset(mk);
+    mok_reply(mk, "\033[>3;4m\033[>6;4m\033[>7;4m\033[>3;1f\033[>6;1f\033[>7;1f"
+              "\033[>m\033[>f\033[?3;6;7m\033[>3;6;7g",
+              "\033[>3;0m\033[>6;0m\033[>7;0m\033[>3;0f\033[>6;0f\033[>7;0f");
+    mok_reply(mk, "\033[>7;4m", "");
+    char output[NEMO_MOK_ENCODED_MAX];
+    int n = term_format_xterm_extended_key(mk->term, 7, 27, 4, output, sizeof(output));
+    IEQUAL(n, sizeof("\033[27;5;27~")-1);
+    IEQUAL(memcmp(output, "\033[27;5;27~", n), 0);
+    for (size_t capacity = 0; capacity <= sizeof(output); capacity++) {
+        unsigned char guarded[NEMO_MOK_ENCODED_MAX+2];
+        memset(guarded, 0x5a, sizeof(guarded));
+        int got = term_format_xterm_extended_key(mk->term, 7, 27, 4,
+                                                 (char *)guarded+1, capacity);
+        IEQUAL(got, capacity < (size_t)n ? 0 : n);
+        IEQUAL(guarded[0], 0x5a); IEQUAL(guarded[capacity+1], 0x5a);
+    }
+    IEQUAL(term_format_xterm_extended_key(mk->term, 7, 0xd800, 0, output, sizeof(output)), 0);
+    IEQUAL(term_format_xterm_extended_key(mk->term, 7, 0x110000, 0, output, sizeof(output)), 0);
+    mk->term->c1_8bit = true;
+    n = term_format_xterm_extended_key(mk->term, 7, 27, 4, output, sizeof(output));
+    IEQUAL(n, sizeof("\23327;5;27~")-1);
+    IEQUAL(memcmp(output, "\23327;5;27~", n), 0);
     reset(mk);
 }
 
@@ -186,9 +244,12 @@ int main(void)
     test_mok_negotiation(mk); test_mok_encoding(mk);
     test_special_reference(mk, false); test_special_reference(mk, true);
     test_special_policy(mk);
+    test_extended_reference(mk, false); test_extended_reference(mk, true);
+    test_extended_policy(mk);
 #ifdef _WINDOWS
     test_windows_mok(mk);
     test_windows_special_priority(mk);
+    test_windows_extended_reference(mk);
 #endif
     bool failed = mk->any_test_failed;
     mock_free(mk);

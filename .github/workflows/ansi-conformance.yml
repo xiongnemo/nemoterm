@@ -76,6 +76,10 @@ on:
       - scripts/generate-special-keys-reference.py
       - tests/special_keys_reference.h
       - tests/special_keys_reference.json
+      - research/extended-key-resources-reference.tar.gz
+      - scripts/generate-extended-keys-reference.py
+      - tests/extended_keys_reference.h
+      - tests/extended_keys_reference.json
       - tests/ansi_conformance_reference.h
       - vendor/putty-0.85/test/test_cancellation_terminal.c
       - tests/control_cancellation_reference.h
@@ -114,6 +118,7 @@ jobs:
           python3 scripts/generate-legacy-parameter-reference.py --check
           python3 scripts/generate-osc-colour-sequence-reference.py --check
           python3 scripts/generate-special-keys-reference.py --check
+          python3 scripts/generate-extended-keys-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
       - name: Build terminal replay with sanitizers
         shell: bash
@@ -123,6 +128,7 @@ jobs:
           sha256sum vendor/putty-0.85/test/test_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.h vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc tests/feature_policy_reference.h vendor/putty-0.85/test/test_bell_modes.c tests/bell_modes_reference.h vendor/putty-0.85/conf.h vendor/putty-0.85/windows/config.c vendor/putty-0.85/terminal/nemo_udk_terminal.inc vendor/putty-0.85/test/test_udk_terminal.c tests/udk_reference.h vendor/putty-0.85/conf-enums.h vendor/putty-0.85/config.c vendor/putty-0.85/terminal/nemo_locator_terminal.inc vendor/putty-0.85/putty.h vendor/putty-0.85/windows/window.c vendor/putty-0.85/test/test_locator_terminal.c tests/locator_reference.h vendor/putty-0.85/terminal/terminal.{c,h} vendor/putty-0.85/test/test_ansi_terminal.c tests/ansi_conformance_reference.h vendor/putty-0.85/terminal/nemo_kitty_terminal.inc vendor/putty-0.85/test/test_cancellation_terminal.c tests/control_cancellation_reference.h > sources.sha256
           sha256sum vendor/putty-0.85/test/test_osc_colour.c tests/osc_colour_sequence_reference.h >> sources.sha256
           sha256sum vendor/putty-0.85/test/test_mok.c tests/special_keys_reference.h >> sources.sha256
+          sha256sum tests/extended_keys_reference.h vendor/putty-0.85/putty.h >> sources.sha256
           cmake -S vendor/putty-0.85 -B ansi-build -G Ninja \
             -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
@@ -170,7 +176,10 @@ jobs:
           python scripts/generate-legacy-parameter-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-osc-colour-sequence-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-special-keys-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-extended-keys-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           exit $LASTEXITCODE
@@ -183,7 +192,7 @@ jobs:
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           Get-FileHash vendor/putty-0.85/test/test_feature_policy.c,vendor/putty-0.85/terminal/nemo_feature_policy.c,vendor/putty-0.85/terminal/nemo_feature_policy.h,vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc,tests/feature_policy_reference.h,vendor/putty-0.85/test/test_bell_modes.c,tests/bell_modes_reference.h,vendor/putty-0.85/conf.h,vendor/putty-0.85/windows/config.c,vendor/putty-0.85/terminal/nemo_udk_terminal.inc,vendor/putty-0.85/test/test_udk_terminal.c,tests/udk_reference.h,vendor/putty-0.85/conf-enums.h,vendor/putty-0.85/config.c,vendor/putty-0.85/terminal/nemo_locator_terminal.inc,vendor/putty-0.85/putty.h,vendor/putty-0.85/windows/window.c,vendor/putty-0.85/test/test_locator_terminal.c,tests/locator_reference.h,vendor/putty-0.85/terminal/terminal.c,vendor/putty-0.85/terminal/terminal.h,vendor/putty-0.85/test/test_ansi_terminal.c,tests/ansi_conformance_reference.h,vendor/putty-0.85/terminal/nemo_kitty_terminal.inc,vendor/putty-0.85/test/test_cancellation_terminal.c,tests/control_cancellation_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content sources.json
           Get-FileHash vendor/putty-0.85/test/test_osc_colour.c,tests/osc_colour_sequence_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content colour-sources.json
-          Get-FileHash vendor/putty-0.85/test/test_mok.c,vendor/putty-0.85/test/test_mok_win.c,tests/special_keys_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content special-key-sources.json
+          Get-FileHash vendor/putty-0.85/test/test_mok.c,vendor/putty-0.85/test/test_mok_win.c,vendor/putty-0.85/windows/nemo_key_input.c,tests/special_keys_reference.h,tests/extended_keys_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content special-key-sources.json
           cmake -S vendor/putty-0.85 -B ansi-build -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cmake --build ansi-build --target test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal test_osc_colour test_mok --parallel 4 2>&1 | Tee-Object build.log
@@ -205,6 +214,7 @@ jobs:
             *.log
             sources.json
             colour-sources.json
+            special-key-sources.json
           retention-days: 30
           if-no-files-found: error
 

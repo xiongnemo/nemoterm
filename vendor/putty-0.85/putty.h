@@ -2169,6 +2169,11 @@ int format_small_keypad_key(char *buf, Terminal *term, SmallKeypadKey key,
                             bool *consumed_alt);
 int format_numeric_keypad_key(char *buf, Terminal *term, char key,
                               bool shift, bool ctrl);
+/* -1 keeps the legacy translator; 0 consumes an invalid/undersized output.
+ * Codepoint is the xterm Unicode/PUA identity of a platform special key. */
+int term_format_xterm_extended_key(Terminal *, unsigned resource,
+                                   unsigned codepoint, unsigned modifiers,
+                                   char *output, size_t capacity);
 
 /*
  * Exports from logging.c.

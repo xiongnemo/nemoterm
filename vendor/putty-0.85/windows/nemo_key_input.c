@@ -283,6 +283,78 @@ static bool modified_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
     return true;
 }
 
+static bool extended_key_input(WinGuiSeat *wgs, unsigned vk, LPARAM lp,
+                               const BYTE state[256], HeldKey *held)
+{
+    if (!wgs->term->special_modify_keys_set || wgs->compose_state) return false;
+    unsigned key = specific_key(vk, lp), resource = 7, codepoint = 0;
+    unsigned mods = modifiers(state), own_modifier = 0, other_key = 0;
+    bool ext = (HIWORD(lp) & KF_EXTENDED) != 0;
+    if (key >= VK_NUMPAD0 && key <= VK_NUMPAD9) {
+        resource = 3; codepoint = 0xe2b0 + key-VK_NUMPAD0;
+    } else switch (key) {
+      case VK_RETURN: resource = ext ? 3 : 7; codepoint = ext ? 0xe28d : 13; break;
+      case VK_TAB: codepoint = mods & NEMO_KEY_SHIFT ? 0xe120 : 9; break;
+      case VK_BACK: codepoint = 8; break;
+      case VK_ESCAPE: codepoint = 27; break;
+      case VK_PAUSE: codepoint = 19; break;
+      case VK_SCROLL: codepoint = 20; break;
+      case VK_DECIMAL: resource = 3; codepoint = 0xe2ae; break;
+      case VK_DIVIDE: resource = 3; codepoint = 0xe2af; break;
+      case VK_MULTIPLY: resource = 3; codepoint = 0xe2aa; break;
+      case VK_ADD: resource = 3; codepoint = 0xe2ab; break;
+      case VK_SEPARATOR: resource = 3; codepoint = 0xe2ac; break;
+      case VK_SUBTRACT: resource = 3; codepoint = 0xe2ad; break;
+      /* Navigation on the numeric keypad has its own identity, distinct from
+       * both the Num Lock digits and the dedicated extended navigation keys. */
+      case VK_HOME: if (!ext) { resource = 3; codepoint = 0xe295; } break;
+      case VK_LEFT: if (!ext) { resource = 3; codepoint = 0xe296; } break;
+      case VK_UP: if (!ext) { resource = 3; codepoint = 0xe297; } break;
+      case VK_RIGHT: if (!ext) { resource = 3; codepoint = 0xe298; } break;
+      case VK_DOWN: if (!ext) { resource = 3; codepoint = 0xe299; } break;
+      case VK_PRIOR: if (!ext) { resource = 3; codepoint = 0xe29a; } break;
+      case VK_NEXT: if (!ext) { resource = 3; codepoint = 0xe29b; } break;
+      case VK_END: if (!ext) { resource = 3; codepoint = 0xe29c; } break;
+      case VK_CLEAR: if (!ext) { resource = 3; codepoint = 0xe29d; } break;
+      case VK_INSERT: if (!ext) { resource = 3; codepoint = 0xe29e; } break;
+      case VK_DELETE: if (!ext) { resource = 3; codepoint = 0xe29f; } break;
+      case VK_CAPITAL: resource = 6; codepoint = 0xe2e5; break;
+      case VK_NUMLOCK: resource = 6; codepoint = 0xe27f; break;
+      case VK_LSHIFT:
+        resource = 6; codepoint = 0xe2e1; own_modifier = NEMO_KEY_SHIFT; other_key = VK_RSHIFT; break;
+      case VK_RSHIFT:
+        resource = 6; codepoint = 0xe2e2; own_modifier = NEMO_KEY_SHIFT; other_key = VK_LSHIFT; break;
+      case VK_LCONTROL:
+        resource = 6; codepoint = 0xe2e3; own_modifier = NEMO_KEY_CTRL; other_key = VK_RCONTROL; break;
+      case VK_RCONTROL:
+        resource = 6; codepoint = 0xe2e4; own_modifier = NEMO_KEY_CTRL; other_key = VK_LCONTROL; break;
+      case VK_LMENU:
+        resource = 6; codepoint = mods & NEMO_KEY_SHIFT ? 0xe2e7 : 0xe2e9;
+        own_modifier = NEMO_KEY_ALT; other_key = VK_RMENU; break;
+      case VK_RMENU:
+        resource = 6; codepoint = mods & NEMO_KEY_SHIFT ? 0xe2e8 : 0xe2ea;
+        own_modifier = NEMO_KEY_ALT; other_key = VK_LMENU; break;
+      case VK_LWIN:
+        resource = 6; codepoint = 0xe2eb; own_modifier = NEMO_KEY_SUPER; other_key = VK_RWIN; break;
+      case VK_RWIN:
+        resource = 6; codepoint = 0xe2ec; own_modifier = NEMO_KEY_SUPER; other_key = VK_LWIN; break;
+    }
+    if (!codepoint) return false;
+    /* XTerm reports a modifier press with the state before that press. A
+     * different held key for the same modifier still contributes its bit. */
+    if (own_modifier && !(HIWORD(lp) & KF_REPEAT) && !(state[other_key] & 0x80))
+        mods &= ~own_modifier;
+    char output[NEMO_MOK_ENCODED_MAX];
+    int length = term_format_xterm_extended_key(wgs->term, resource, codepoint,
+                                               mods, output, sizeof(output));
+    if (length < 0) return false;
+    held->active = held->down = true;
+    held->protocol = false;
+    for (unsigned i = 0, repeat = max(1, LOWORD(lp)); i < repeat; i++)
+        term_keyinput(wgs->term, -1, output, length);
+    return true;
+}
+
 static void win32_send(WinGuiSeat *wgs, const NemoWin32Key *key)
 {
     char output[NEMO_WIN32_ENCODED_MAX];
@@ -350,7 +422,8 @@ bool nemo_keyboard_input(WinGuiSeat *wgs, UINT message, WPARAM vk, LPARAM lp,
         win32_key_input(wgs, vk, lp, state, layout, held, true);
         return true;
     }
-    if (!active) return modified_key_input(wgs, vk, lp, state, layout, held);
+    if (!active) return extended_key_input(wgs, vk, lp, state, held) ||
+        modified_key_input(wgs, vk, lp, state, layout, held);
     held->active = held->down = true;
     unsigned scan = (lp >> 16) & 255, mode = flags(wgs);
     uint32_t text[NEMO_KEY_TEXT_MAX], translated[16];

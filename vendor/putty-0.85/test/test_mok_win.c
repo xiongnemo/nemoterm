@@ -2,6 +2,47 @@
 #include "win-gui-seat.h"
 #include "nemo_key_input.h"
 
+static void test_windows_extended_reference(Mock *mk)
+{
+    WinGuiSeat wgs = {.conf=mk->conf, .term=mk->term};
+    BYTE held[256] = {0};
+    unsigned matched = 0;
+    for (size_t i = 0; i < lenof(extended_keys_reference); i++) {
+        const struct extended_key_reference *r = &extended_keys_reference[i];
+        if (r->reset) {
+            nemo_keyboard_focus_lost(&wgs);
+            memset(held, 0, sizeof(held));
+            reset(mk);
+        }
+        test_context(mk, "Windows extended resource %s step %u", r->name, (unsigned)i);
+        strbuf_clear(mk->to_backend);
+        term_data_fragmented(mk->term, r->sequence);
+        if (!r->windows) continue;
+        for (unsigned j = 0; j < r->count; j++) {
+            const struct extended_key_event *e = &r->events[j];
+            BYTE state[256];
+            held[e->vk] = e->down ? 0x80 : 0;
+            memcpy(state, held, sizeof(state));
+            state[VK_SHIFT] = state[VK_LSHIFT] | state[VK_RSHIFT];
+            state[VK_CONTROL] = state[VK_LCONTROL] | state[VK_RCONTROL];
+            state[VK_MENU] = state[VK_LMENU] | state[VK_RMENU];
+            state[VK_CAPITAL] |= !!(e->state & 2);
+            state[VK_NUMLOCK] |= !!(e->state & 16);
+            LPARAM lp = 1 | (e->scan << 16);
+            if (!e->down) lp |= (LPARAM)0xc0000000;
+            UINT message = e->down ? WM_KEYDOWN : WM_KEYUP;
+            nemo_keyboard_prepare(&wgs, message, e->vk, lp, state);
+            nemo_keyboard_input(&wgs, message, e->vk, lp, state, GetKeyboardLayout(0));
+        }
+        SEQUAL(mk->to_backend->s, r->reply);
+        matched++;
+    }
+    IEQUAL(matched, 243);
+    nemo_keyboard_free(&wgs);
+    reset(mk);
+    printf("Windows extended resource reference: %u unchanged steps, including releases\n", matched);
+}
+
 static void test_windows_special_priority(Mock *mk)
 {
     reset(mk);

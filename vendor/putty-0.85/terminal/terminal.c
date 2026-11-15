@@ -2693,6 +2693,8 @@ static NemoModifyKeys *nemo_modify_keys_resource(Terminal *term, unsigned resour
 {
     if (resource == 1 || resource == 2)
         return &term->special_modify_keys[resource-1];
+    if (resource == 3) return &term->special_modify_keys[2];
+    if (resource == 6 || resource == 7) return &term->special_modify_keys[resource-3];
     return resource == 4 ? &term->modify_keys : NULL;
 }
 
@@ -2700,7 +2702,7 @@ static void nemo_modify_special_keys_reset(Terminal *term)
 {
     term->special_modify_keys_set = false;
     for (size_t i = 0; i < lenof(term->special_modify_keys); i++)
-        nemo_mok_reset(&term->special_modify_keys[i], 2, 0);
+        nemo_mok_reset(&term->special_modify_keys[i], i < 2 ? 2 : 0, 0);
 }
 
 static void nemo_modify_keys_setting(Terminal *term, bool format)
@@ -2712,7 +2714,7 @@ static void nemo_modify_keys_setting(Terminal *term, bool format)
     if (term->esc_has_subargs && (format || term->esc_nargs != 2 ||
         term->esc_sub_count[0] || term->esc_sub_count[1] != 1)) return;
     unsigned value = (term->esc_arg_present & 2) ? term->esc_args[1] :
-        resource != 4 ? (format ? 0 : 2) :
+        resource != 4 ? (!format && resource <= 2 ? 2 : 0) :
         conf_get_int(term->conf, format ? CONF_nemo_format_other_keys : CONF_nemo_modify_other_keys);
     if (format) {
         if (value <= 1) {
@@ -2729,7 +2731,7 @@ static void nemo_modify_keys_setting(Terminal *term, bool format)
         for (size_t i = 0; i < lenof(term->special_modify_keys); i++) {
             if (format) term->special_modify_keys[i].format = 0;
             else {
-                term->special_modify_keys[i].level = 2;
+                term->special_modify_keys[i].level = i < 2 ? 2 : 0;
                 term->special_modify_keys[i].ignore = 0;
             }
         }
@@ -2813,7 +2815,8 @@ static void nemo_decrqss(Terminal *term)
     } else if (valid && !strcmp(query, "*|")) {
         put_fmt(reply, "%d*|", term->rows);
     } else if (valid && query[0] == '>' &&
-               (query[1] == '1' || query[1] == '2' || query[1] == '4') &&
+               query[1] >= '0' && query[1] <= '9' &&
+               nemo_modify_keys_resource(term, query[1]-'0') &&
                (query[2] == 'm' || query[2] == 'f') && !query[3]) {
         bool format = query[2] == 'f';
         NemoModifyKeys *state = nemo_modify_keys_resource(term, query[1]-'0');
@@ -12941,6 +12944,24 @@ static int nemo_format_special_key(char *buf, const NemoModifyKeys *mode,
     if (bitmap) p += sprintf(p, code ? ";%d" : "%d", bitmap);
     *p++ = final;
     return p - buf;
+}
+
+int term_format_xterm_extended_key(Terminal *term, unsigned resource,
+                                   unsigned codepoint, unsigned modifiers,
+                                   char *output, size_t capacity)
+{
+    NemoModifyKeys *mode = nemo_modify_keys_resource(term, resource);
+    if (!mode || mode->level != 4) return -1;
+    if (!output || !codepoint || codepoint > 0x10ffff ||
+        (codepoint >= 0xd800 && codepoint <= 0xdfff)) return 0;
+    char encoded[NEMO_MOK_ENCODED_MAX];
+    unsigned parameter = 1 + (modifiers & 15);
+    int length = mode->format ? sprintf(encoded, "\033[%u;%uu", codepoint, parameter) :
+        sprintf(encoded, "\033[27;%u;%u~", parameter, codepoint);
+    length = term_format_c1_key(term, encoded, length);
+    if ((size_t)length > capacity) return 0;
+    memcpy(output, encoded, length);
+    return length;
 }
 
 int format_arrow_key(char *buf, Terminal *term, int xkey,

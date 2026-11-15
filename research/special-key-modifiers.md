@@ -68,6 +68,9 @@ preserved and is not reported as a successful shutdown test.
 
 This does not establish physical-keyboard or full-product acceptance. The
 new core/native checks are included in ordinary and single-image CI; their
-complete candidate results remain pending. Resources 0, 3, 6 and 7, remaining
-application/IME work, and the outstanding desktop tests remain separate work.
+complete candidate results remain pending, with an unresolved MSVC native
+tab-selection access violation in run 43768960240. Resources 3, 6 and 7 are
+covered by the later [extended-key implementation](extended-key-resources.md).
+Resource 0, remaining application/IME work, and the outstanding desktop tests
+remain separate work.
 No accepted distribution is replaced and no memory-limit waiver is introduced.
