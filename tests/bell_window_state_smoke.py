@@ -20,7 +20,7 @@ u.ShowWindow.argtypes=[w.HWND,c.c_int]
 u.IsIconic.argtypes=[w.HWND]
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    checks=[],cleanup=[],focus_actions=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
+    checks=[],cleanup=[],focus_actions=[],window_events=[],scope='Actual owned Windows state and unmodified API observation; no speaker or visible taskbar acceptance.')
 marker=b'\x1b[0n'
 
 try:
@@ -94,6 +94,27 @@ try:
                 const host=ptr('''+json.dumps(hex(host))+'''), events=[];
                 if(Process.pointerSize!==8) throw new Error('Expected x64');
                 const user=Process.getModuleByName('user32.dll');
+                const foreground=new NativeFunction(user.getExportByName('GetForegroundWindow'),'pointer',[]);
+                const getFocus=new NativeFunction(user.getExportByName('GetFocus'),'pointer',[]);
+                const getProc=new NativeFunction(user.getExportByName('GetWindowLongPtrW'),'pointer',['pointer','int']);
+                const windowEvents=[];
+                for (const window of [host,ptr('''+json.dumps(hex(first['hwnd']))+''')]) {
+                    Interceptor.attach(getProc(window,-4),{
+                        onEnter(args) {
+                            this.event=null;
+                            const msg=args[1].toUInt32();
+                            if([6,7,8,134].includes(msg)) {
+                                this.event={hwnd:args[0].toString(),message:msg,wparam:args[2].toString(),
+                                    before_foreground:foreground().toString(),before_focus:getFocus().toString()};
+                                windowEvents.push(this.event);
+                            }
+                        },
+                        onLeave() {if(this.event) {
+                            this.event.after_foreground=foreground().toString();
+                            this.event.after_focus=getFocus().toString();
+                        }}
+                    });
+                }
                 Interceptor.attach(user.getExportByName('FlashWindowEx'),{
                     onEnter(args) { this.event=null;if(args[0].add(8).readPointer().equals(host))
                         this.event={api:'FlashWindowEx',flags:args[0].add(16).readU32()}; },
@@ -104,7 +125,7 @@ try:
                         this.event={api:'SetWindowPos',after:args[1].toString(),flags:args[6].toUInt32()}; },
                     onLeave(result) {if(this.event){this.event.result=result.toInt32();events.push(this.event);}}
                 });
-                rpc.exports={drain(){return events.splice(0);}};
+                rpc.exports={drain(){return events.splice(0);},windowevents(){return windowEvents.splice(0);}};
             ''');script.load()
             def drain():return script.exports_sync.drain()
             def ring(name,target,wire,flash,raise_,above=True):
@@ -202,6 +223,7 @@ try:
                 evidence['checks'][-1]['focus_input_hex']=focused['hex']
                 phase(third_child,'disable-focus-reporting','\x1b[?1004l')
             finally:
+                evidence['window_events'].append(dict(renderer=renderer,host=host,other=other,events=script.exports_sync.windowevents()))
                 session.detach()
                 for target in children:write_snapshot(target['control'],dict(stop=True))
                 write_snapshot(other_control,dict(stop=True))
