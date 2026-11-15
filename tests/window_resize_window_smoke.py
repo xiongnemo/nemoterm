@@ -12,6 +12,7 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--renderer',type=int,choices=(0,1,2))
 parser.add_argument('--tabs',action='store_true')
 parser.add_argument('--tab-side',choices=('top','bottom','left','right'),default='top')
+parser.add_argument('--font-size',type=int,default=12)
 args=parser.parse_args()
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font=os.environ.get('NEMOTERM_TEST_FONT','Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light')
@@ -30,7 +31,7 @@ class MonitorInfo(c.Structure):
 CSI='\x1b['
 queries=CSI+'14t'+CSI+'14;2t'+CSI+'16t'+CSI+'18t'+CSI+'5n'
 evidence=dict(requested_tab_host=args.tabs,tab_host=None,tab_side=args.tab_side,executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
-    font=font,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+    font=font,font_size=args.font_size,reference_run=43271622637,modes=[],runtime_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
     for p in (exe.parent/'OpenConsole.exe',exe.parent/'conpty.dll') if p.exists()})
 profiles=[('normal',0,False,r) for r in ((args.renderer,) if args.renderer is not None else (0,1,2))]
 profiles += [('remote-denied',0,True,0),('locked-window',1,False,0),('font-resize',2,False,0)]
@@ -47,7 +48,7 @@ try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-window-resize-') as tmp,OwnedJob() as job:
                 report,control=Path(tmp)/'report',Path(tmp)/'control'
                 process=job.spawn([str(exe),'--automation']+(['--tabs','--tab-side',args.tab_side] if args.tabs else [])+['-load',profile,'--cols','83','--rows','27',
-                    '--font',font,'--font-size','12','-e',sys.executable,
+                    '--font',font,'--font-size',str(args.font_size),'-e',sys.executable,
                     str(root/'tests/mouse_fixture.py'),str(report),str(control)],
                     env=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1'),
                     creationflags=subprocess.CREATE_NO_WINDOW)
@@ -121,6 +122,18 @@ try:
                         u.ShowWindow(terminal_host(hwnd),9);wait_for(lambda:not u.IsIconic(terminal_host(hwnd)))
                         phase('font-restored-pixels',client=[733,563],grid=[70,20])
                     else:
+                        def sized_phase(label,sequence,requested,grid=None):
+                            # The native policy bounds application requests to
+                            # the monitor after accounting for the real host
+                            # frame/tab strip. A 90-column request exceeds a
+                            # 1024-pixel CI screen when the sidebar is visible.
+                            expected=[min(requested[i],limit[i]) for i in (0,1)]
+                            if grid is not None and expected!=requested:
+                                grid=[(expected[0]-2)//cw,(expected[1]-2)//ch]
+                            phase(label,sequence,client=expected,grid=grid)
+                            mode['checks'][-1].update(requested_client=requested,
+                                expected_client=expected,monitor_client_limit=limit,
+                                expected_screen_clamp=expected!=requested)
                         cases=[
                             ('chars','8;30;90t',[2+90*cw,2+30*ch],[90,30]),
                             ('row-only','8;30t',[base[0],2+30*ch],[83,30]),
@@ -153,7 +166,7 @@ try:
                             ('cancelled','4;213;489\x18X',base,[83,27]),
                         ]
                         for label,command,size,grid in cases:
-                            phase(label,CSI+'8;27;83t'+CSI+command,client=size,grid=grid)
+                            sized_phase(label,CSI+'8;27;83t'+CSI+command,size,grid)
                         # The Win32 minimum caption size may exceed one cell.
                         # Native replies and child dimensions must agree even
                         # when the OS imposes that extra minimum.
@@ -168,8 +181,8 @@ try:
                             mode['checks'][-1]['requested_client_minimum']=[cw+2,ch+2]
                         # Sequential requests in a single write must not overtake
                         # the resize completion or lose intervening output.
-                        phase('ordered-resizes',CSI+'8;20;60t'+CSI+'2JORDERED'+CSI+'8;30;90t',
-                              client=[2+90*cw,2+30*ch],grid=[90,30])
+                        sized_phase('ordered-resizes',CSI+'8;20;60t'+CSI+'2JORDERED'+CSI+'8;30;90t',
+                                    [2+90*cw,2+30*ch],[90,30])
                         phase('sync-resize',CSI+'?2026h'+CSI+'8;27;83t',client=base,grid=[83,27])
                         phase('alternate-resize',CSI+'?1049h'+CSI+'8;22;72t',
                               client=[2+72*cw,2+22*ch],grid=[72,22])

@@ -30,3 +30,8 @@ The complete tab regression suite now exercises application resizing with all
 four tab-strip positions. Full CI for the combined source remains pending;
 this portable result does not replace the accepted single EXE or certify
 physical multi-monitor/DPI behavior.
+
+The subsequent ordinary CI passes real hosted input and top/bottom resizing,
+then exposes an incorrect small-screen expectation in the left-tab fixture.
+The product's 799-pixel client is the correct monitor-bounded result; see the
+[screen-clamp correction and retained failure](window-resize-screen-clamp.md).
