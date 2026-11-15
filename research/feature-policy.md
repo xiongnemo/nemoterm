@@ -109,7 +109,25 @@ The raw upstream result remains unchanged; the native case names this difference
 This change does not claim complete parser equivalence or implement missing
 underlying operations.
 
-`feature_policy_window_smoke.py` adds 72 native ConPTY cases across three isolated
-profiles, without physical input or system clipboard access. It and the
-GCC/Clang sanitizer/MSVC checks are wired into CI; their results are pending.
-Full product and local 160x48 Sarasa acceptance remain separate gates.
+At source `846b525bd0c7cbeacf71d12596d0a264d82eb5c6`,
+[component CI 43731038939](https://github.com/xiongnemo/nemoterm/actions/runs/43731038939)
+passes GCC/Clang ASan+UBSan and MSVC, including the existing terminal regressions.
+The production file hashes match the reviewed source for all three compilers.
+
+`feature_policy_window_smoke.py` also passes **72 local native ConPTY cases**
+across three isolated profiles, without physical input or system clipboard
+access. All three owned jobs exit naturally with no remaining processes. This
+uses an 80x24 GDI MinGW frontend and the pinned packaged ConPTY runtime; it does
+not certify the combined single EXE or the 160x48 Sarasa workload. The frontend
+SHA256 is `037a107306ebaf79ff6af59cdfcd18cd19b1e720cc998647fce5e900f17baa54`.
+
+`feature-policy-components-native.tar.gz` retains 84 records / 6,511,802 bytes:
+original compiler logs and source hashes, artifact/run receipts, local native
+replies and cleanup, exact fixture sources, and the diagnostic runtime. Its
+manifest is `feature-policy-components-native-validation.json`.
+
+Full ordinary [43731280250](https://github.com/xiongnemo/nemoterm/actions/runs/43731280250)
+and single-image [43731283079](https://github.com/xiongnemo/nemoterm/actions/runs/43731283079)
+are running at the same source. The single-image suite includes this new fixture
+and should have 160 groups. Full product and local 160x48 Sarasa acceptance
+remain separate gates; the accepted executable is unchanged.
