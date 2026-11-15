@@ -99,7 +99,8 @@ static void test_queries_and_bounds(Mock *mk)
                          "\033P+q436f\033[31m\033P+q524742\033\\");
     response(mk, "\033P1+r524742=38\033\\");
     IEQUAL(get_termchar(mk->term, 1, 0).chr, CSET_ASCII|'B');
-    IEQUAL(get_termchar(mk->term, 2, 0).chr, CSET_ASCII|'C');
+    IEQUAL(get_termchar(mk->term, 2, 0).chr, CSET_ASCII|'&');
+    IEQUAL(get_termchar(mk->term, 3, 0).chr, CSET_ASCII|'C');
     term_data_fragmented(mk->term, "\033P0+q436f\033\\\033P+x436f\033\\"); response(mk, "");
     term_data_fragmented(mk->term, "\033P+q436f\x9c\033P+q436f\xc2\x9c");
     response(mk, "\033P1+r436f=323536\033\\\033P1+r436f=323536\033\\");

@@ -112,8 +112,10 @@ static void test_invalid_groups(Mock *mk)
     IEQUAL(get_termchar(mk->term, 1, 0).attr, ATTR_DEFAULT);
     IEQUAL(get_termchar(mk->term, 2, 0).attr & ATTR_ITALIC, ATTR_ITALIC);
     term_data_fragmented(mk->term, "\033[0m\033[38:2::1\032W");
-    IEQUAL(get_termchar(mk->term, 3, 0).chr & ~CSET_MASK, 'W');
+    IEQUAL(get_termchar(mk->term, 3, 0).chr & ~CSET_MASK, '&');
     IEQUAL(get_termchar(mk->term, 3, 0).attr, ATTR_DEFAULT);
+    IEQUAL(get_termchar(mk->term, 4, 0).chr & ~CSET_MASK, 'W');
+    IEQUAL(get_termchar(mk->term, 4, 0).attr, ATTR_DEFAULT);
 }
 
 static void test_style_lifetime(Mock *mk)

@@ -215,10 +215,14 @@ static void test_images_and_recovery(Mock *mk)
             for(int x=0;x<48;x++) IEQUAL(pixels[x],0);
         }
     }
-    erase_setup(mk,"invalid and cancelled erases do not change cells");
-    term_data_fragmented(t,"ABC\033[H\033[?4K\033[?999J\033[4K\033[4294967295J"
-        "\033[?2:0K\033[1:0;1;1;3${\033[?2\030K\033[?2\032J");
-    erase_row_text(mk,0,"KJC"); /* cancellation resumes ordinary printable input */
+    erase_setup(mk,"invalid and cancelled erase requests never erase cells");
+    term_data_fragmented(t,"\033%@ABC\033[H\033[?4K\033[?999J\033[4K\033[4294967295J"
+        "\033[?2:0K\033[1:0;1;1;3${");
+    erase_row_text(mk,0,"ABC");
+    term_data_fragmented(t,"\033[?2\030K");
+    erase_row_text(mk,0,"KBC");
+    term_data_fragmented(t,"\033[?2\032J");
+    erase_row_text(mk,0,"K&J"); /* SUB prints the byte-mode error character. */
     term_data_fragmented(t,"\033[1\"q\033[?2;9K");
     erase_row_text(mk,0,"   ");
     for(int i=0;i<2000;i++) term_data_fragmented(t,"\033[99999999999999999;1;2;3${\033[1;12;1;1$z");
