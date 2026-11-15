@@ -146,6 +146,26 @@ every native input/action/reply/barrier stream directly to the original capture.
 Full ordinary and single-image workflows now include UDK at
 `fec0af2b24e952a68f9d1deb20fee28e8273db14` (runs 43718798329 and 43718800782).
 The standard `build.ps1 -Tests` target list also now includes both Locator and
-UDK, matching the test runner. The single-image pipeline should contain 157
-groups; its authoritative result remains pending. Full product and local Sarasa
-acceptance are not inferred from this focused native pass.
+UDK, matching the test runner. The first single-image failure and its corrected
+157-group run are described above; full single-image and local Sarasa acceptance
+are not inferred from the focused native pass.
+
+## Complete ordinary workflow
+
+[Run 43718798329](https://github.com/xiongnemo/nemoterm/actions/runs/43718798329)
+at `fec0af2` passes all four jobs, including the complete native UDK projection,
+27 Locator phases, 413 earlier ANSI/C0 streams and three exact pixel pairs.
+All twelve uninjected tab memory workloads pass; 25,048 Unicode image cells are
+checked after memory sampling and all owned jobs exit naturally.
+
+The MinGW frontend is 3,953,182 bytes, SHA256
+`fc423c946182026b057f059843c1ed7c5887c7e38dc4c6ac0486637707deea9a`;
+the source console host and its overlay inputs have separate verified hashes.
+Remote dense GDI at 109x34 peaks at 14,643,200 bytes private working set and
+45,563,904 total; DX at 88x35 peaks at 17,813,504 private and 54,857,728 total.
+These are remote Consolas workloads, not renewed local 160x48 Sarasa acceptance.
+DX's total is informational under the user's clarified GDI-only target.
+
+`dec-udk-ordinary.tar.gz` retains 4,597 records / 9,422,029 bytes. Its manifest
+verifies every original UDK input, gesture and received stream against XTerm,
+keeps compiler/source-host/artifact identity, and indexes all retained records.
