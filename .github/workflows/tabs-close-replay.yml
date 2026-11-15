@@ -6,7 +6,7 @@ on:
       fixture:
         description: Close fixture to diagnose
         type: choice
-        options: [profiles, profiles-api, shutdown, tabs, tabs-mingw, tabs-unicode, unicode-memory, drop]
+        options: [profiles, profiles-api, shutdown, tabs, tabs-mingw, tabs-unicode, tabs-unicode-900s, unicode-memory, drop]
         default: profiles
         required: true
       source_commit:
@@ -167,17 +167,21 @@ jobs:
             'tabs' { $fixture = 'tabs_window_smoke.py'; $record = 'tabs-opengl-right-observed.json' }
             'tabs-mingw' { $fixture = 'tabs_window_smoke.py'; $record = 'tabs-opengl-right-observed.json' }
             'tabs-unicode' { $fixture = 'tabs_window_smoke.py'; $record = 'unicode-kitty-workload-tabs-gdi-top-observed.json' }
+            'tabs-unicode-900s' { $fixture = 'tabs_window_smoke.py'; $record = 'unicode-kitty-workload-tabs-gdi-top-observed.json' }
             'drop' { $fixture = 'drop_window_smoke.py'; $record = 'drop-gdi-observed.json' }
             default { throw 'Unknown close fixture' }
           }
           $failed = $false
-          $fixtureArgs = if ($env:CLOSE_FIXTURE -eq 'tabs-unicode') {
+          $fixtureArgs = if ($env:CLOSE_FIXTURE -in @('tabs-unicode','tabs-unicode-900s')) {
             @('--renderer','gdi','--side','top','--cols','160','--rows','48','--font','Consolas','--workload-memory','--kitty-images','--kitty-unicode','--probe-boundaries')
           } elseif ($env:CLOSE_FIXTURE -eq 'tabs-mingw') {
             @('--renderer','opengl','--side','right','--cols','160','--rows','48','--font','Consolas','--probe-boundaries')
           } elseif ($env:CLOSE_FIXTURE -eq 'tabs') {
             @('--renderer','opengl','--side','right','--cols','88','--rows','35','--font','Consolas','--probe-boundaries')
           } else { @() }
+          if ($env:CLOSE_FIXTURE -eq 'tabs-unicode-900s') {
+            $fixtureArgs += @('--session-seconds','900')
+          }
           if ($env:CLOSE_FIXTURE -eq 'shutdown') {
             $fixtureArgs += @('--observer', $env:SHUTDOWN_OBSERVER)
           }
