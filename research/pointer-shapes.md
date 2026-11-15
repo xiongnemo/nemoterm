@@ -1,8 +1,9 @@
 # OSC 22 pointer-shape development
 
 OSC 22 now has bounded parser state and a tested optional presentation callback.
-The Windows frontend now connects the callback and presents all thirty shapes;
-its native cursor resources and real-window behavior are undergoing validation.
+The Windows frontend now connects the callback and presents all thirty shapes.
+Native resource and real-window checks pass at the checkpoints below; the
+latest source still needs full product regression and memory acceptance.
 The accepted distribution is unchanged; local native testing remains paused.
 
 The [kitty protocol](https://sw.kovidgoyal.net/kitty/pointer-shapes/) defines
@@ -31,11 +32,10 @@ process recorder. Its result must preserve source/binary hashes, complete input
 and output records, exit status and verified cleanup. This in-memory reference
 does not observe an OS mouse cursor or establish Windows rendering.
 
-Implementation still requires all thirty Windows cursor presentations, per-tab cursor
-isolation and precedence with local selection, links and busy status. Native
-cursor inspection, settings/permission behavior, resets, allocation/lifetime
-checks and the original memory limits remain separate acceptance work. No
-support row is promoted by adding this reference fixture.
+The reference alone does not establish Windows cursor presentation, per-tab
+isolation, selection/link/busy precedence or resource lifetime. Those require
+the separate native checks below. Product memory and local physical-device/DPI
+acceptance remain open.
 
 ## Retained reference and component checkpoint
 
@@ -141,3 +141,66 @@ The native resource fixture checks all thirty shapes and thirteen sizes using
 actual Win32 cursor objects, stable cache handles, teardown and three BMP
 contact sheets. Source compilation alone does not establish these runtime
 checks or actual frontend pointer/selection behavior.
+
+## Native diagnostics and corrected observation
+
+The first four remote attempts are preserved in
+`pointer-shape-native-initial-validation.json` and
+`pointer-shape-evidence/native-initial-failures.tar.gz` (415 records).
+The first fixture used the wrong frontend output filename. Subsequent resource
+checks found three additional GDI objects after drawing the first colour atlas.
+A cursor-free control that performs the same colour drawing establishes a
+0 → 3 → 3 baseline; monochrome drawing alone had not exercised that path.
+The atlas itself returns to its pre-drawing count each time. The corrected
+fixture retains strict final resource equality; it does not subtract a guessed
+cursor leak. The first system-ConPTY window attempt timed out on its first
+query without retaining enough wire evidence to locate the missing reply.
+
+[Run 43697828780](https://github.com/xiongnemo/nemoterm/actions/runs/43697828780)
+at `49e13b1` passes **141,028 native resource checks**, including 30 shapes,
+13 sizes, 104 custom cursor objects, 39,000 cached reads and a second lifetime.
+After all cursor destruction, USER/GDI counts return to the measured 1/3
+baseline. Three raw BMP atlases and all 104 native masks are retained.
+The same run builds a 4,532,224-byte single image with SHA256
+`2627957c29e54cc6a79bcf61e61eac06381563be4fd070b95c04c2f8271bde1b`.
+Its first OSC 22 query completes through the bundled console host, but the
+first cursor observation fails. This run also exposes a real glyph defect:
+floor rounding can place a scaled hotspot on a transparent pixel.
+
+The hotspot now uses the first destination pixel that samples its opaque source
+pixel. [Linux replay at `bbdd37f`](https://github.com/xiongnemo/nemoterm/actions/runs/43698295314)
+passes **5,580,341 checks / 776 shape-size cases** under both GCC and Clang
+ASan/UBSan, including canaries, exact mask capacity, opaque hotspots and rejection
+of invalid sizes. Component and full-terminal replay also pass. MSVC was
+intentionally skipped for that diagnostic; the older `49e13b1` executable does
+not contain this hotspot correction.
+
+Exact-image replays keep that older single executable and its original masks
+fixed while changing only the observer. The first replay records Windows
+`CURSOR_SUPPRESSED` and a null cursor despite successful query replies.
+`SetCursorPos` alone leaves that runner state intact; real mouse-class
+`SendInput` movement clears it. The next replay passes 51 checks, then samples
+the old terminal cursor immediately after moving onto the tab strip. Hit testing
+already identifies the host, but its queued cursor update has not completed.
+The fixture now waits for the independently expected host arrow before testing
+whether terminal output changes it.
+
+[Replay 43699397756](https://github.com/xiongnemo/nemoterm/actions/runs/43699397756)
+with fixture `7e12e03` passes **53 actual OS cursor checks and 44 exact OSC 22
+round trips**. It covers every canonical shape, push/pop, alternate-screen
+isolation, soft reset, mouse-reporting independence, real Shift transitions and
+selection dragging, allowed link hover, two-tab isolation and activation,
+tab-strip isolation and client re-entry. Hidden-tab and tab-strip guards each
+retain 30 stable observations. All five owned processes exit naturally with
+exit code zero. `GetCursorInfo`/`GetIconInfo` observe selected Windows objects;
+the PNGs draw those objects with `DrawIconEx`, not desktop framebuffer captures.
+The fixture refuses to send input outside disposable CI.
+
+These five runs, exact source blobs, single image, raw cursor masks, logs and
+observations are retained in `pointer-shape-native-diagnostic-validation.json`
+and `pointer-shape-evidence/native-diagnostics-7e12e03.tar.gz` (541 records,
+77 matching source hashes). The successful replay is at the runner's default
+DPI against the older image. Current-source Windows validation, full ordinary
+and single-image regressions, product memory, physical multi-monitor input,
+busy-status transitions and optional user controls remain separate checks.
+The accepted local executable and local-test pause are unchanged.

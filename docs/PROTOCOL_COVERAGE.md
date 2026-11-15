@@ -178,11 +178,12 @@ number of passing executables. Unlisted private extensions remain **unverified**
 | OSC 13–16/18, 113–116/118 | Missing | Pointer/Tektronix colour operations are not implemented. Chained dynamic commands preserve their parameter positions. |
 | OSC 7 | Tested | `cwd`; validated working-directory URI metadata. |
 | OSC 8 | Gated | `hyperlink`; bounded IDs/URIs and local link policy. Native hover, activation, copy and synchronization checks run in full CI; physical input and all URI handlers remain separate. See the detailed scope in [the protocol ledger](PROTOCOLS.md). |
+| OSC 22 pointer shapes | Partial; development | [Pointer checkpoint](../research/pointer-shapes.md): all 30 Kitty shapes, bounded per-screen stacks, queries and resets; 555 upstream stages replayed whole and bytewise with three named cancellation differences. Native resource checks and 53 actual cursor checks pass on the retained diagnostic image, including Shift/selection, links and tab isolation. The latest scaled-hotspot fix, full product/memory regression and physical DPI acceptance are separate. Original XTerm unknown-name semantics differ. Accepted EXE unchanged. |
 | OSC 9;9 / OSC 633 P;Cwd= / OSC 1337 CurrentDir= | Partial | `cwd`; metadata subset only, not every operation in these namespaces. |
 | OSC 133 / OSC 633 A/B/C/D | Partial | `shell_marks`; bounded prompt/command/output marks; not a complete VS Code terminal protocol. |
 | OSC 52 | Gated | `osc52`; read/write permissions separate, bounded streaming base64. Full CI covers native Unicode clipboard text, selection retention, synchronized output, lock contention and delayed rendering. Read permission defaults off; these checks do not establish X11 ownership semantics or every application. See [the protocol ledger](PROTOCOLS.md). |
 | OSC P / R (Linux palette legacy syntax) | Source only | Inherited handlers; separate from tested OSC 4 parsing. |
-| OSC 3/22/30/31/46/50/60/61/62 and remaining xterm OSC commands | Missing | X properties, pointer/font/log/resource operations are not implemented. |
+| OSC 3/30/31/46/50/60/61/62 and remaining xterm OSC commands | Missing | X properties, font/log/resource operations are not implemented. |
 
 ## Work queue from this audit
 

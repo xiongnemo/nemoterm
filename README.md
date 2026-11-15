@@ -45,6 +45,10 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 进度与原始失败记录见[Unicode 占位](research/kitty-unicode-placeholders.md)、
 [密集图片验证](research/unicode-dense-memory.md)和[关闭超时](research/unicode-single-profile-close.md)。
 
+开发分支另已接入 OSC 22 鼠标指针形状，支持应用设置、查询和主/备用屏栈。
+定向远程测试已验证 30 种 Windows 光标，以及 Shift 选择、链接和标签页之间的优先级；
+最新代码的完整回归与内存验收仍在进行，见[指针形状进度](research/pointer-shapes.md)。
+
 ## 下载
 
 已通过 CI 的开发快照：[下载 `752f3be` 单文件产物](https://github.com/xiongnemo/nemoterm/actions/runs/43664330399/artifacts/14143105257)。
