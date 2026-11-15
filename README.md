@@ -39,7 +39,7 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 沿用原有图像内存限额，不增加分发文件。见[压缩实现记录](research/kitty-compression.md)。
 
 开发分支已实现相对放置和 Unicode 占位，并修复密集图片单元缩放时的查找性能问题。
-含后续响铃与键盘修复的完整普通 CI 和 159 组单文件检查已通过，包括新增密集图片负载。
+含后续响铃、键盘及能力报告修复的完整普通 CI 和 160 组单文件检查已通过，包括新增密集图片负载。
 本机实测已恢复：启动尺寸与屏幕裁剪通过。160×48 Sarasa 密集图片负载曾超过 GDI
 内存目标；修复重复的显示缓存后，开发用 MinGW 版本完整通过，私有工作集峰值
 **18.48 MB**、总工作集 **39.97 MB**，29,072 个图片单元和十项标签/关闭检查全部通过。
@@ -61,13 +61,12 @@ Kitty 图片协议已接入 Windows 三层绘制，支持直接 RGB/RGBA/PNG 及
 产物预计于 **2026-12-15 02:16 UTC** 过期，SHA-256 与完整范围见 [验证记录](research/kitty-query-transaction-product.md)。
 下载成品已通过本机 GDI 与 DirectX 私有工作集检查；DX 当前内存表现已接受。见下方 [渲染与内存](#渲染与内存)。
 
-开发分支另有[含相对放置、Unicode 图片、OSC 22 指针、DEC 用户定义键及响铃修复的 `9d636e9` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43729769426/artifacts/14168664703)：
-4,538,880 字节，159 组单文件 CI 检查通过，预计于 2026-12-15 16:13 UTC 过期。
-本机大窗口验收进行中；精确哈希、远端内存及原始失败记录见[开发构建记录](research/bell-modes.md)。
-更新的 [OSC 60/61/62 候选 `846b525`](https://github.com/xiongnemo/nemoterm/actions/runs/43731283079/artifacts/14170378426)
-也已通过两条完整 CI 和 160 组单文件检查：4,544,000 字节，预计于 2026-12-15 16:33 UTC 过期。
-后续 GDI 缓存修复已通过本机开发版负载，新的完整 CI 与单文件验收仍在进行中。
-见[能力报告与产物记录](research/feature-policy.md)和[缓存修复记录](research/gdi-image-cache.md)。
+正在本机验收的更新版本：[下载 `12ee33b` 单 EXE](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137/artifacts/14172342252)。
+它包含相对放置、Unicode 图片、OSC 22 指针、DEC 用户定义键、响铃修复、OSC 60/61/62
+能力报告及 GDI 缓存修复。两条完整 CI 与 **160 组单文件检查**均已通过；EXE 为
+**4,544,000 字节**，预计于 **2026-12-15 17:22 UTC** 过期。
+该准确产物的 39 组本机验收仍在进行中，尚未替换上方已验收版本。哈希、原始失败及
+完整验证范围见[缓存修复与产物记录](research/gdi-image-cache.md)。
 
 此前一次主分支 CI 的 MSVC 标签测试出现过访问冲突；当时产物的本机及定向 CI 复测通过，但原因尚未确定。见[故障记录](research/tab-probe-detach.md)。
 

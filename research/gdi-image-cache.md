@@ -88,8 +88,43 @@ window handle, as [Microsoft documents](https://learn.microsoft.com/en-us/window
 The original failed retry and surrounding observations are retained separately
 in `gdi-image-cache-clipboard-retry.tar.gz`; no clipboard pass is claimed.
 
-Current source workflows: [ordinary](https://github.com/xiongnemo/nemoterm/actions/runs/43736421054),
+## Complete CI and exact-product acceptance
+
+All three compiler components and both complete source `12ee33b` workflows now
+pass: [ordinary](https://github.com/xiongnemo/nemoterm/actions/runs/43736421054),
 [single image](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137),
 and [graphics components](https://github.com/xiongnemo/nemoterm/actions/runs/43736421112).
-The components pass; the two complete product workflows remain running. No
-distribution or main branch promotion follows from the narrower cache regression.
+The ordinary workflow passes all four jobs; the single image passes **160
+groups**. Each full workflow passes twelve uninjected memory workloads and
+25,048 dense image-cell comparisons. Retainers also verify the unchanged 413
+ANSI/C0 streams, 232 UDK streams, 27 Locator phases, 192 bell streams, 38 bell
+window states and 72 feature-policy cases against their exact expectations.
+
+The [single executable artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43736421137/artifacts/14172342252)
+is **4,544,000 bytes**, SHA256
+`64195969a8f2e6653f854d598f169810107ee808d66eaa1088cf9e3ced6b259f`,
+and expires at `2026-12-15T17:22:32Z`. The isolated runtime contains only
+`nemoterm.exe`. The ordinary compiler-comparison frontend is a distinct
+3,961,838-byte image, SHA256
+`d445b06e7de8dfc2169d5d6c00ec526f50423b8b7be43c9736b053d9b17bf74a`;
+its source-built console host remains a separate file.
+
+| Complete workflow | Dense GDI private / total WS (B) | Dense DirectX private / total WS (B) |
+| --- | ---: | ---: |
+| Ordinary | 14,176,256 / 45,166,592 | 17,637,376 / 54,329,344 |
+| Single image | 14,258,176 / 46,653,440 | 18,026,496 / 55,267,328 |
+
+These cloud Consolas workloads use smaller grids and do not substitute for
+local Sarasa acceptance. DirectX total WS remains recorded under the user's
+accepted policy. `gdi-image-cache-ordinary.tar.gz` retains 4,634 records;
+`gdi-image-cache-single.tar.gz` retains 4,605. Their manifests verify artifact
+receipts, source identities, archived record hashes and all listed assertions.
+
+The exact downloaded single image has started a separate **39-command** local
+acceptance run. Shutdown and startup-size groups pass; the 160x48 Sarasa dense
+GDI workload is running. The remaining groups cover all available shells, tab
+positions and previews, session lifetime, font zoom, input translation, local
+automation, native image pixels, twelve memory workloads, bindings and file/
+clipboard input. Each command preserves its own observations before shared
+filenames can be reused. Clipboard access remains an outstanding local concern.
+No accepted executable or main-branch promotion has occurred.

@@ -34,7 +34,8 @@ The user resumed local native testing. The latest portable
 160x48 Sarasa dense-image workload at 18.48 MB private / 39.97 MB total WS,
 with 29,072 image cells and ten lifecycle checks passing. It also passes 185
 native pixel stages, including actual OpenGL/DirectX and presented GDI captures.
-Exact combined-product acceptance is separate and remains pending; the local
+Both full workflows for this correction pass, with 160 single-image groups.
+Exact combined-product local acceptance is separate and remains in progress; the local
 clipboard preflight is denied before any selection assertion. The accepted
 distribution is unchanged.
 

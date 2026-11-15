@@ -34,8 +34,11 @@ component compilers pass. The corrected portable candidate completes the same
 local workload at **18,481,152 private WS / 39,968,768 total WS bytes**, with all
 29,072 image cells, ten lifecycle checks and natural cleanup passing. Another
 185 native pixel stages pass across actual GDI/OpenGL/DirectX, including a
-presented GDI capture and resize/font/history checks. Complete CI and exact
-single-image local acceptance for this fix remain pending. A separate local
+presented GDI capture and resize/font/history checks. Both complete CI workflows
+for this fix now pass, including 160 single-image groups and twelve uninjected
+memory workloads per workflow. The exact 4,544,000-byte single image has started
+39 local acceptance commands; shutdown and startup sizes pass, while the dense
+GDI workload and remaining local groups are in progress. A separate local
 selection fixture is blocked before its first copy assertion by Windows
 clipboard access denied; the original failure is retained separately.
 
