@@ -276,7 +276,19 @@ Both one-shot assertions now wait for a readable snapshot and assert on that
 same value; a readable but incorrect reply still fails immediately. The fix
 changes only the fixture. Replacement single-image
 [43729769426](https://github.com/xiongnemo/nemoterm/actions/runs/43729769426)
-at `9d636e9` is still running and retains the 60-minute total budget; fixture and
-shutdown deadlines are unchanged. No local execution, physical taskbar or
-speaker acceptance, or accepted-image promotion is inferred from the narrow
-native pass.
+at `9d636e9` passes all **159 groups** within the unchanged 60-minute total
+budget. Production source is identical to `4154bac`; only the mailbox fixture
+changed. The one-file image is 4,538,880 bytes, SHA256
+`714c6af5cd66b3ef7eeb69b619850217ba9827d40e1fe2a31ea3f53ece700fea`.
+Its retained observations independently verify all 192 bell replies, 38 window
+states, 232 UDK streams, 27 Locator checks, 413 ANSI/cancellation streams and 12
+memory workloads. Remote Consolas peaks are 14,196,736 private / 44,527,616 total
+bytes for GDI and 17,272,832 private / 52,953,088 total for DirectX. These do not
+certify local Sarasa memory.
+
+`bell-modes-single.tar.gz` retains 4,590 records (637,266,503 raw bytes;
+9,411,513 compressed), including the image, source, original observations and
+artifact receipts. Its manifest links product artifact `14168664703` and
+evidence artifact `14169591216`; the hosted evidence expires on 2026-12-15.
+Local single-image Sarasa comparison is underway separately. No physical
+taskbar/speaker acceptance or accepted-image promotion is inferred from CI.
