@@ -21,6 +21,10 @@ on:
         description: Exact SHA256 of the unverified executable
         type: string
         required: true
+      capture_exceptions:
+        description: Attach the external diagnostic debugger during tabs replay
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -36,6 +40,7 @@ jobs:
       SOURCE_RUN: ${{ inputs.source_run }}
       EXPECTED_SHA256: ${{ inputs.executable_sha256 }}
       CLOSE_FIXTURE: ${{ inputs.fixture }}
+      CAPTURE_EXCEPTIONS: ${{ inputs.capture_exceptions }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
@@ -46,6 +51,7 @@ jobs:
         shell: pwsh
         run: |
           if ($env:SOURCE_COMMIT -cnotmatch '^[0-9a-f]{40}$' -or $env:SOURCE_RUN -notmatch '^[1-9][0-9]*$' -or $env:EXPECTED_SHA256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid source identity' }
+          if ($env:CAPTURE_EXCEPTIONS -eq 'true' -and $env:CLOSE_FIXTURE -ne 'tabs') { throw 'External exception observer currently covers the tabs fixture only' }
           $run = gh run view $env:SOURCE_RUN --json headSha,status,conclusion,workflowName,jobs | ConvertFrom-Json
           if ($LASTEXITCODE) { throw 'Could not read source run' }
           $expectedWorkflow = if ($env:CLOSE_FIXTURE -eq 'tabs') { 'Test and build' } else { 'Single executable from source' }
@@ -72,6 +78,7 @@ jobs:
             executable_bytes = $exe.Length
             runtime_hashes = @(Get-ChildItem build/close-replay-product -File | Get-FileHash -Algorithm SHA256 | Select-Object Path, Hash)
             fixture = $env:CLOSE_FIXTURE
+            capture_exceptions = ($env:CAPTURE_EXCEPTIONS -eq 'true')
             fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/shutdown_window_smoke.py, tests/shutdown_probe.js, tests/tabs_window_smoke.py, tests/tab_probe_boundary.py, tests/tabs_hover_probe.js, tests/agent_key_probe.js, tests/session_faults.js -Algorithm SHA256 | Select-Object Path, Hash)
             unverified_product = $true
             scope = 'Close diagnosis only; unchanged fixture close thresholds; no product acceptance'
@@ -82,6 +89,12 @@ jobs:
         if: ${{ inputs.fixture == 'shutdown' }}
         shell: pwsh
         run: ./scripts/test-shutdown-observer.ps1 -Destination build/close-replay-evidence/probe-controls
+      - name: Verify external exception capture and target survival
+        if: ${{ inputs.capture_exceptions && inputs.fixture == 'tabs' }}
+        shell: pwsh
+        run: |
+          ./scripts/test-exception-observer.ps1 -Destination build/close-replay-evidence/exception-controls
+          Get-FileHash tests/native_exception_observer.c, tests/native_exception_observer.py, tests/native_exception_control.c, tests/native_exception_controls.py, scripts/test-exception-observer.ps1 -Algorithm SHA256 | ConvertTo-Json | Set-Content build/close-replay-evidence/exception-observer-source.json
       - name: Observe three independently owned lifetimes
         shell: pwsh
         run: |
@@ -93,10 +106,17 @@ jobs:
           }
           $failed = $false
           $fixtureArgs = if ($env:CLOSE_FIXTURE -eq 'tabs') { @('--renderer','opengl','--side','right','--cols','88','--rows','35','--font','Consolas','--probe-boundaries') } else { @() }
+          if ($env:CAPTURE_EXCEPTIONS -eq 'true') {
+            $fixtureArgs += @('--exception-observer', (Resolve-Path build/close-replay-evidence/exception-controls/observer.exe).Path)
+            $record = 'exception-tabs-opengl-right-observed.json'
+          }
           foreach ($iteration in 1..3) {
             python "tests/$fixture" @fixtureArgs 2>&1 | Tee-Object "build/close-replay-evidence/replay-$iteration.log"
             $code = $LASTEXITCODE
             if (Test-Path "research/$record") { Copy-Item "research/$record" "build/close-replay-evidence/replay-$iteration-observed.json" }
+            if ($env:CAPTURE_EXCEPTIONS -eq 'true') {
+              Get-ChildItem research -Directory -Filter 'exception-tabs-*' | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination build/close-replay-evidence -Recurse -Force }
+            }
             if ($code) { $failed = $true }
           }
           if ($failed) { throw 'At least one diagnostic replay failed; all completed observations retained' }
