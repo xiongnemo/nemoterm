@@ -10,6 +10,7 @@
 #include "../../../tests/sgr_stack_oracle_cases.h"
 #include "../../../tests/presentation_state_oracle_cases.h"
 #include "../../../tests/c1_controls_oracle_cases.h"
+#include "../../../tests/legacy_parameter_reference.h"
 
 static void response(Mock *mk, const char *expected)
 {
@@ -23,6 +24,24 @@ static void response(Mock *mk, const char *expected)
         putchar('\n');
     }
     strbuf_clear(mk->to_backend);
+}
+
+static void test_legacy_parameters(Mock *mk)
+{
+    for (int fragmented = 0; fragmented < 2; fragmented++) {
+        for (size_t i = 0; i < lenof(legacy_parameter_reference); i++) {
+            reset(mk);
+            test_context(mk, "legacy parameters %s %s",
+                         fragmented ? "bytewise" : "whole",
+                         legacy_parameter_reference[i].name);
+            const char *sequence = legacy_parameter_reference[i].sequence;
+            if (fragmented)
+                term_data_fragmented(mk->term, sequence);
+            else
+                term_data(mk->term, sequence, strlen(sequence));
+            response(mk, legacy_parameter_reference[i].reply);
+        }
+    }
 }
 
 static void test_c1_controls(Mock *mk)
@@ -786,6 +805,7 @@ int main(void)
     test_sgr_stack(mk);
     test_presentation_state(mk);
     test_c1_controls(mk);
+    test_legacy_parameters(mk);
     test_iterm_reports(mk);
     bool failed = mk->any_test_failed;
     mock_free(mk);

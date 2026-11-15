@@ -57,6 +57,11 @@ on:
       - research/dec-locator-binding-reference.tar.gz
       - .github/workflows/ansi-conformance.yml
       - scripts/generate-ansi-reference.py
+      - scripts/generate-legacy-parameter-reference.py
+      - tests/legacy_parameter_reference.h
+      - tests/legacy_parameter_reference.json
+      - vendor/putty-0.85/test/test_queries.c
+      - research/legacy-reply-reference.tar.gz
       - tests/ansi_conformance_reference.h
       - vendor/putty-0.85/test/test_cancellation_terminal.c
       - tests/control_cancellation_reference.h
@@ -92,6 +97,7 @@ jobs:
           python3 tests/generate_dec_status_oracle.py --check
           python3 scripts/generate-locator-reference.py --check
           python3 scripts/generate-ansi-reference.py --check
+          python3 scripts/generate-legacy-parameter-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
       - name: Build terminal replay with sanitizers
         shell: bash
@@ -142,6 +148,8 @@ jobs:
           python scripts/generate-locator-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-ansi-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-legacy-parameter-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           exit $LASTEXITCODE

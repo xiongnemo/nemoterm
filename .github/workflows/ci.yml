@@ -221,6 +221,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-ansi-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-legacy-parameter-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-bell-reference.py --check
@@ -505,6 +507,13 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Copy-Item research/query-window-observed.json test-results/
           Copy-Item research/cursor-*.png test-results/
+      - name: Compare legacy terminal parameter syntax through ConPTY
+        shell: pwsh
+        run: |
+          python tests/legacy_parameter_window_smoke.py 2>&1 | Tee-Object test-results/legacy-parameter-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/legacy-parameter-*-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
         run: |
@@ -1017,6 +1026,7 @@ jobs:
       - name: Test bounded zlib with sanitizers
         run: |
           python3 scripts/generate-ansi-reference.py --check
+          python3 scripts/generate-legacy-parameter-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check

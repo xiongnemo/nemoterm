@@ -8890,13 +8890,15 @@ static void term_out(Terminal *term, bool called_from_term_data)
                 } else if (term->esc_overflow ||
                            (term->esc_has_subargs &&
                             !((c == 'm' && (!term->esc_query || term->esc_query == '>')) ||
+                              (c == 'x' && !term->esc_query) ||
                               (c == 'c' && (!term->esc_query || term->esc_query == '>' ||
                                (term->esc_query == '=' && term->compatibility_level != TM_SCOANSI))) ||
                               ((c == 'q' || c == 't' || c == 'T') && term->esc_query == '>')))) {
                     /* Reject the complete overflowing sequence, and never
                      * reinterpret colon values as unrelated CSI parameters.
                      * Xterm discards the whole parameter list on unexpected
-                     * subparameters, then still dispatches identity queries. */
+                     * subparameters, then still dispatches identity and
+                     * terminal-parameter queries. */
                 } else
 #define CLAMP(arg, lim) ((arg) = ((arg) > (lim)) ? (lim) : (arg))
                     switch (ANSI(c, term->esc_query)) {
@@ -9796,7 +9798,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         compatibility(VT100);
                         if (term->ldisc) {
                             char buf[32];
-                            int i = def(term->esc_args[0], 0);
+                            int i = term->esc_has_subargs ? 0 :
+                                def(term->esc_args[0], 0);
                             if (i == 0 || i == 1) {
                                 strcpy(buf, "\033[2;1;1;112;112;1;0x");
                                 buf[2] += i;

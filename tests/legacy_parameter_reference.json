@@ -1,0 +1,825 @@
+{
+  "reference_source": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+  "policy_differences": [
+    "Fixed baud codes 112 instead of 128",
+    "S8C1T replies at level 5 instead of VT100 framing"
+  ],
+  "cases": [
+    {
+      "name": "parameters-F-plain-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b333b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b333b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-plain-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-plain-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b333b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b333b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "1b5b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-F-plain-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-plain-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-plain-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-?-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[?999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F->-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[>999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-F-=-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b F\u001b[=999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-plain-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b333b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b333b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-plain-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-plain-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b333b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b333b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "1b5b323b313b313b3132383b3132383b313b3078",
+      "reply_hex": "9b323b313b313b3131323b3131323b313b3078"
+    },
+    {
+      "name": "parameters-G-plain-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-plain-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-plain-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-?-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[?999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G->-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[>999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-default",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-00",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=00x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-3",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=3x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-0;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=0;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-1;0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=1;0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-;1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=;1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-0:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=0:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-0:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=0:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-1:0",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=1:0x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-:1",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=:1x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-0;1:2",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=0;1:2x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-65535",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=65535x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-65536",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=65536x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    },
+    {
+      "name": "parameters-G-=-999999999999999999999999",
+      "sequence": "\u001b[65;1\"p\u001bc\u001b F\u001b G\u001b[=999999999999999999999999x\u001b<\u001b[65;1\"p\u001b F",
+      "reference_hex": "",
+      "reply_hex": ""
+    }
+  ]
+}
