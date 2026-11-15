@@ -63,10 +63,9 @@ int main(void)
     memset(&sentinel,0xa5,sizeof(sentinel));
     {
         const char *headers[]={"a=p,x=20","a=p,y=30","a=p,C=2","a=p,U=1",
-            "a=p,P=1","a=p,Q=1","a=p,H=-1","a=p,V=1","a=p,c=4294967295"};
+            "a=p,P=1","a=p,c=4294967295"};
         const NemoKittyLayoutStatus status[]={NEMO_KITTY_LAYOUT_INVALID,NEMO_KITTY_LAYOUT_INVALID,
             NEMO_KITTY_LAYOUT_INVALID,NEMO_KITTY_LAYOUT_UNSUPPORTED,NEMO_KITTY_LAYOUT_UNSUPPORTED,
-            NEMO_KITTY_LAYOUT_UNSUPPORTED,NEMO_KITTY_LAYOUT_UNSUPPORTED,NEMO_KITTY_LAYOUT_UNSUPPORTED,
             NEMO_KITTY_LAYOUT_LIMIT};
         for (i=0;i<sizeof(headers)/sizeof(*headers);i++) {
             CHECK(parse(headers[i],&command));g=sentinel;
@@ -74,6 +73,15 @@ int main(void)
             CHECK(!memcmp(&g,&sentinel,sizeof(g)));
         }
     }
+    /* The retained relative-placement oracle verifies these keys are ignored
+     * without P. They must preserve ordinary geometry and cursor movement. */
+    CHECK(parse("a=p",&command));
+    CHECK(nemo_kitty_layout(&command,20,30,1,2,10,20,&sentinel)==NEMO_KITTY_LAYOUT_OK);
+    CHECK(parse("a=p,Q=1,H=-2147483648,V=2147483647",&command));
+    CHECK(nemo_kitty_layout(&command,20,30,1,2,10,20,&g)==NEMO_KITTY_LAYOUT_OK);
+    CHECK(g.left==sentinel.left && g.top==sentinel.top && g.right==sentinel.right && g.bottom==sentinel.bottom);
+    CHECK(g.advance_columns==sentinel.advance_columns && g.advance_rows==sentinel.advance_rows);
+    memset(&sentinel,0xa5,sizeof(sentinel));
     CHECK(parse("a=p",&command));g=sentinel;
     CHECK(nemo_kitty_layout(&command,0,30,0,0,10,20,&g)==NEMO_KITTY_LAYOUT_INVALID);
     CHECK(nemo_kitty_layout(&command,20,30,0,0,0,20,&g)==NEMO_KITTY_LAYOUT_INVALID);

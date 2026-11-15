@@ -17,6 +17,9 @@ typedef struct Fixture {
     unsigned admitted, readonly, removed, png_calls, png_mode;
     uint32_t last_removed_id;
     unsigned last_removed_references;
+    uint32_t orphan_source[2];
+    NemoKittyImage *orphan_target[2];
+    unsigned callback_depth, max_callback_depth;
 } Fixture;
 
 static NemoKittyPacket command(const char *header, const void *data, size_t length)
@@ -44,12 +47,25 @@ static bool admission(void *ctx, size_t current, size_t extra, bool evict)
 static void removed(void *ctx, const NemoKittyImage *im)
 {
     Fixture *f = ctx;
+    f->callback_depth++;
+    if (f->callback_depth>f->max_callback_depth) f->max_callback_depth=f->callback_depth;
     f->removed++; f->last_removed_id = nemo_kitty_image_id(im);
     f->last_removed_references = nemo_kitty_image_references(im);
     CHECK(nemo_kitty_image_raster(im)->pixels != NULL);
     /* The owner may inspect the old image, but cannot reenter mutation. */
     CHECK(!nemo_kitty_cache_remove(f->cache, (NemoKittyImage *)im));
     CHECK(!nemo_kitty_image_reference(f->cache, (NemoKittyImage *)im, false));
+    CHECK(!nemo_kitty_cache_release_orphan(f->cache, (NemoKittyImage *)im));
+    for (unsigned i=0;i<2;i++) if (f->orphan_source[i]==nemo_kitty_image_id(im) && f->orphan_target[i]) {
+        unsigned count=nemo_kitty_cache_count(f->cache);
+        NemoKittyImage *target=f->orphan_target[i];f->orphan_target[i]=NULL;
+        CHECK(!nemo_kitty_image_reference(f->cache,target,false));
+        CHECK(nemo_kitty_cache_release_orphan(f->cache,target));
+        CHECK(!nemo_kitty_cache_prune_orphans(f->cache));
+        CHECK(nemo_kitty_cache_count(f->cache)==count);
+        CHECK(nemo_kitty_image_raster(target)->pixels);
+    }
+    f->callback_depth--;
 }
 
 static bool png(void *ctx, const void *bytes, size_t length, NemoRaster *r,
@@ -57,6 +73,8 @@ static bool png(void *ctx, const void *bytes, size_t length, NemoRaster *r,
 {
     Fixture *f = ctx;
     f->png_calls++;
+    for (unsigned i=0;i<2;i++) if (f->orphan_target[i])
+        CHECK(!nemo_kitty_cache_release_orphan(f->cache,f->orphan_target[i]));
     CHECK(bytes && length >= 8);
     if (f->png_mode == 1) return false;
     if (!allow(allow_ctx, 2, 1, 8)) return false;
@@ -298,10 +316,78 @@ static void compressed_budget_and_readonly_peek(void)
     CHECK(!nemo_kitty_cache_peek(NULL, 1, 0));
 }
 
+static void deferred_orphan_retirement(void)
+{
+    Fixture f;create(&f,BUDGET,true);
+    size_t empty=nemo_kitty_cache_memory(f.cache);
+    NemoKittyImage *root=load(&f,"i=1,f=24,s=1,v=1","abc",3).image;
+    size_t cost=nemo_kitty_cache_memory(f.cache)-empty;
+    NemoKittyImage *child=load(&f,"i=2,f=24,s=1,v=1","abc",3).image;
+    NemoKittyImage *grandchild=load(&f,"i=3,f=24,s=1,v=1","abc",3).image;
+    CHECK(nemo_kitty_image_reference(f.cache,child,true));
+    CHECK(nemo_kitty_image_reference(f.cache,grandchild,true));
+    f.orphan_source[0]=1;f.orphan_target[0]=child;
+    f.orphan_source[1]=2;f.orphan_target[1]=grandchild;
+    CHECK(nemo_kitty_cache_remove(f.cache,root));
+    CHECK(f.removed==3 && f.max_callback_depth==1);
+    CHECK(!nemo_kitty_cache_count(f.cache) && nemo_kitty_cache_memory(f.cache)==empty);
+    CHECK(!nemo_kitty_cache_remove_unreferenced(f.cache,child));
+    CHECK(!nemo_kitty_cache_release_orphan(f.cache,grandchild));
+    nemo_kitty_cache_free(f.cache);
+
+    /* A remaining independent placement retains data. Reacquiring an orphan
+     * before the deferred drain also cancels its pending retirement. */
+    create(&f,BUDGET,true);
+    child=load(&f,"i=2,f=24,s=1,v=1","abc",3).image;
+    CHECK(nemo_kitty_image_reference(f.cache,child,true));
+    CHECK(nemo_kitty_image_reference(f.cache,child,true));
+    CHECK(nemo_kitty_cache_release_orphan(f.cache,child));
+    CHECK(nemo_kitty_image_reference(f.cache,child,false));
+    CHECK(!nemo_kitty_cache_prune_orphans(f.cache));
+    CHECK(nemo_kitty_cache_count(f.cache)==1);
+    CHECK(nemo_kitty_image_reference(f.cache,child,true));
+    CHECK(nemo_kitty_cache_release_orphan(f.cache,child));
+    /* A read-only query cannot drain even a previously pending retirement. */
+    NemoKittyImageResult query=load(&f,"a=q,i=99,f=24,s=1,v=1","abc",3);
+    CHECK(query.status==NEMO_KITTY_IMAGE_OK && query.query && !query.changed);
+    CHECK(nemo_kitty_cache_count(f.cache)==1 && nemo_kitty_cache_peek(f.cache,2,0)==child);
+    CHECK(nemo_kitty_image_reference(f.cache,child,true));
+    CHECK(!nemo_kitty_cache_prune_orphans(f.cache));
+    CHECK(nemo_kitty_cache_release_orphan(f.cache,child));
+    CHECK(nemo_kitty_cache_prune_orphans(f.cache)==1);
+    nemo_kitty_cache_free(f.cache);
+
+    /* Replacing a child can evict its parent while decoding. Its old identity
+     * must survive until the transaction commits or unwinds, even though the
+     * callback has already dropped the final placement reference. */
+    const unsigned char signature[]={137,80,78,71,13,10,26,10};
+    for (unsigned fail=0;fail<2;fail++) {
+        create(&f,empty+2*cost+4,true);
+        root=load(&f,"i=1,f=24,s=1,v=1","abc",3).image;
+        child=load(&f,"i=2,f=24,s=1,v=1","abc",3).image;
+        CHECK(nemo_kitty_image_reference(f.cache,root,true));
+        CHECK(nemo_kitty_image_reference(f.cache,child,true));
+        uint64_t sequence=nemo_kitty_image_sequence(child);
+        f.orphan_source[0]=1;f.orphan_target[0]=child;
+        f.png_mode=fail ? 3 : 0;
+        NemoKittyImageResult r=load(&f,"i=2,f=100",signature,sizeof(signature));
+        CHECK(r.status==(fail ? NEMO_KITTY_IMAGE_DECODE : NEMO_KITTY_IMAGE_OK));
+        CHECK(r.changed && f.removed==2 && f.max_callback_depth==1);
+        CHECK(!nemo_kitty_cache_peek(f.cache,1,0));
+        CHECK(nemo_kitty_cache_count(f.cache)==(fail ? 0u : 1u));
+        if (!fail) {
+            CHECK(nemo_kitty_image_sequence(r.image)==sequence);
+            CHECK(nemo_kitty_image_raster(r.image)->pixels[0]==0xff123456);
+        }
+        nemo_kitty_cache_free(f.cache);
+    }
+}
+
 int main(void)
 {
     pixels_and_identity(); numbers_and_anonymous(); malformed_and_codecs(); limits_and_eviction();
     compressed_budget_and_readonly_peek();
+    deferred_orphan_retirement();
     CHECK(!nemo_kitty_cache_new(1, NULL, NULL, NULL, NULL));
     CHECK(!nemo_kitty_cache_memory(NULL) && !nemo_kitty_cache_count(NULL));
     CHECK(!nemo_kitty_cache_generation(NULL) && !nemo_kitty_image_raster(NULL));

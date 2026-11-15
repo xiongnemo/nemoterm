@@ -86,8 +86,63 @@ static NemoKittyView first(Fixture *f)
 }
 static bool near(double a,double b) { return a-b<0.00002 && a-b> -0.00002; }
 
+static void relative_lifetime_boundaries(void)
+{
+    /* Retiring an anonymous image must not call back in the middle of a
+     * scroll iterator: that callback can also remove its preceding orphan. */
+    for (unsigned resize=0;resize<2;resize++) {
+        Fixture f;create(&f);
+        size_t baseline=nemo_kitty_placements_memory(f.places);
+        NemoKittyImage *root=load(&f,parse("i=1,f=24,s=1,v=1"),1,1);
+        NemoKittyImage *child=load(&f,parse("i=2,f=24,s=1,v=1"),1,1);
+        NemoKittyImage *anonymous=load(&f,parse("f=24,s=1,v=1"),1,1);
+        NemoKittyImage *last=load(&f,parse("i=3,f=24,s=1,v=1"),1,1);
+        put(&f,root,"a=p,p=1,z=0",0,0);
+        put(&f,child,"a=p,P=1,Q=1,p=2,z=1",0,7);
+        put(&f,anonymous,"a=p,z=2",0,0);
+        put(&f,last,"a=p,p=3,z=3",0,0);
+        if (resize) nemo_kitty_placements_rows(f.places,-1,0,10,20);
+        else nemo_kitty_placements_scroll(f.places,0,7,1,false,0,10,20);
+        CHECK(!nemo_kitty_placements_count(f.places));
+        CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+        CHECK(nemo_kitty_cache_count(f.cache)==2);
+        CHECK(nemo_kitty_cache_peek(f.cache,1,0) && nemo_kitty_cache_peek(f.cache,3,0));
+        CHECK(!nemo_kitty_cache_peek(f.cache,2,0));
+        destroy(&f);
+    }
+
+    Fixture f;create(&f);
+    NemoKittyImage *image=load(&f,parse("i=1,f=24,s=1,v=1"),1,1);
+    size_t baseline=nemo_kitty_placements_memory(f.places);
+    put(&f,image,"a=p,p=1",INT32_MAX,INT32_MIN);
+    size_t per_view=nemo_kitty_placements_memory(f.places)-baseline;
+    for (unsigned i=2;i<=NEMO_KITTY_PARENT_DEPTH_MAX+1;i++) {
+        char header[160];snprintf(header,sizeof(header),
+            "a=p,p=%u,P=1,Q=%u,H=2147483647,V=-2147483648",i,i-1);
+        put(&f,image,header,0,0);
+    }
+    const NemoKittyPlacement *leaf=nemo_kitty_placements_first(f.places);
+    while (nemo_kitty_placement_next(leaf)) leaf=nemo_kitty_placement_next(leaf);
+    NemoKittyView v;CHECK(nemo_kitty_placement_view(leaf,10,20,&v));
+    CHECK(v.left==(double)((int64_t)INT32_MAX*9)*10);
+    CHECK(v.top==(double)((int64_t)INT32_MIN*9)*20);
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline+9*per_view);
+    uint64_t generation=nemo_kitty_placements_generation(f.places);
+    NemoKittyLayout out,sentinel;memset(&sentinel,0xa5,sizeof(sentinel));out=sentinel;
+    NemoKittyCommand c=parse("a=p,p=10,P=1,Q=9");
+    CHECK(nemo_kitty_placements_put(f.places,image,&c,0,0,10,20,&out)==NEMO_KITTY_PLACE_DEPTH);
+    CHECK(!memcmp(&out,&sentinel,sizeof(out)));
+    CHECK(nemo_kitty_placements_generation(f.places)==generation);
+    CHECK(nemo_kitty_image_references(image)==9);
+    CHECK(delete(&f,"a=d,d=i,i=1,p=1")==1);
+    CHECK(!nemo_kitty_cache_count(f.cache) && !nemo_kitty_placements_count(f.places));
+    CHECK(nemo_kitty_placements_memory(f.places)==baseline);
+    destroy(&f);
+}
+
 int main(void)
 {
+    relative_lifetime_boundaries();
     Fixture f; create(&f);
     size_t baseline=nemo_kitty_placements_memory(f.places);
     for (unsigned i=0;i<sizeof(states)/sizeof(*states);i++) {

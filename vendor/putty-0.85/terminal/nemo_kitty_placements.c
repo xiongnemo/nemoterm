@@ -11,6 +11,9 @@ struct NemoKittyPlacement {
     uint32_t id, columns, rows, offset_x, offset_y;
     double source_x, source_y, source_width, source_height;
     uint64_t sequence;
+    NemoKittyPlacements *owner;
+    uint64_t parent;
+    int32_t parent_x, parent_y;
 };
 struct NemoKittyPlacements {
     NemoKittyCache *cache;
@@ -21,6 +24,31 @@ struct NemoKittyPlacements {
     NemoKittyPlacementAdmission admit;
     void *ctx;
 };
+
+static const NemoKittyPlacement *by_sequence(const NemoKittyPlacements *s, uint64_t sequence)
+{
+    if (sequence)
+        for (const NemoKittyPlacement *p=s->first;p;p=p->next)
+            if (p->sequence==sequence) return p;
+    return NULL;
+}
+
+/* Parent identity never stores a pointer that could survive a deletion.
+ * Stored creation anchors remain separate from resolved drawing coordinates:
+ * upstream scrolling/deletion filters operate on the former. */
+static bool resolve(const NemoKittyPlacement *p, int64_t *column, int64_t *row)
+{
+    int64_t x=0,y=0;
+    unsigned depth=0;
+    while (p->parent) {
+        if (depth++>=NEMO_KITTY_PARENT_DEPTH_MAX) return false;
+        x+=p->parent_x;y+=p->parent_y;
+        p=by_sequence(p->owner,p->parent);
+        if (!p) return false;
+    }
+    *column=(int64_t)p->column+x;*row=(int64_t)p->row+y;
+    return true;
+}
 
 size_t nemo_kitty_placements_memory(const NemoKittyPlacements *s) { return s ? s->used : 0; }
 unsigned nemo_kitty_placements_count(const NemoKittyPlacements *s) { return s ? s->count : 0; }
@@ -47,6 +75,27 @@ static void remove_view(NemoKittyPlacements *s, NemoKittyPlacement **link, bool 
     free(p);
 }
 
+static void collect_orphans(NemoKittyPlacements *s)
+{
+    bool changed;
+    do {
+        changed=false;
+        NemoKittyPlacement **link=&s->first;
+        while (*link) {
+            NemoKittyPlacement *p=*link;
+            int64_t x,y;
+            if (p->parent && !resolve(p,&x,&y) &&
+                nemo_kitty_cache_release_orphan(s->cache,p->image)) {
+                remove_view(s,link,true);
+                changed=true;
+            } else link=&p->next;
+        }
+    } while (changed);
+    /* This is a no-op while inside a cache callback. The cache drains its
+     * deferred removals after the current image/list operation is complete. */
+    nemo_kitty_cache_prune_orphans(s->cache);
+}
+
 void nemo_kitty_placements_image_removed(NemoKittyPlacements *s, const NemoKittyImage *image)
 {
     if (!s) return;
@@ -55,6 +104,7 @@ void nemo_kitty_placements_image_removed(NemoKittyPlacements *s, const NemoKitty
         if ((*link)->image==image) remove_view(s,link,true);
         else link=&(*link)->next;
     }
+    collect_orphans(s);
 }
 
 void nemo_kitty_placements_clear(NemoKittyPlacements *s)
@@ -72,11 +122,11 @@ void nemo_kitty_placements_free(NemoKittyPlacements *s)
     if (s) { nemo_kitty_placements_clear(s); free(s); }
 }
 
-bool nemo_kitty_placement_view(const NemoKittyPlacement *p, uint32_t cw, uint32_t ch,
-                               NemoKittyView *out)
+static bool placement_view_at(const NemoKittyPlacement *p, uint32_t cw, uint32_t ch,
+                              int64_t column, int64_t row, NemoKittyView *out)
 {
     if (!p || !out || !cw || !ch || cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return false;
-    double left=(double)p->column*cw+p->offset_x, top=(double)p->row*ch+p->offset_y;
+    double left=(double)column*cw+p->offset_x, top=(double)row*ch+p->offset_y;
     double width=p->columns ? (double)p->columns*cw-p->offset_x :
         p->rows ? ((double)p->rows*ch-p->offset_y)*p->source_width/p->source_height : p->source_width;
     double height=p->rows ? (double)p->rows*ch-p->offset_y : width*p->source_height/p->source_width;
@@ -85,6 +135,13 @@ bool nemo_kitty_placement_view(const NemoKittyPlacement *p, uint32_t cw, uint32_
         left,top,left+width,top+height,p->source_x,p->source_y,
         p->source_x+p->source_width,p->source_y+p->source_height};
     return true;
+}
+
+bool nemo_kitty_placement_view(const NemoKittyPlacement *p, uint32_t cw, uint32_t ch,
+                               NemoKittyView *out)
+{
+    int64_t column,row;
+    return p && resolve(p,&column,&row) && placement_view_at(p,cw,ch,column,row,out);
 }
 
 /* The cell footprint includes pixel offsets, independently of the drawing
@@ -122,21 +179,49 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     int32_t column, int32_t row, uint32_t cw, uint32_t ch, NemoKittyLayout *out)
 {
     if (!s || !command || !out) return NEMO_KITTY_PLACE_INVALID;
+    uint32_t parent_id=nemo_kitty_get(command,'P');
+    if (parent_id && nemo_kitty_get(command,'U')) return NEMO_KITTY_PLACE_INVALID;
     if (!image) return NEMO_KITTY_PLACE_NOT_FOUND;
-    const NemoRaster *r=nemo_kitty_image_raster(image);
-    NemoKittyLayout g;
-    NemoKittyLayoutStatus status=nemo_kitty_layout(command,r->width,r->height,column,row,cw,ch,&g);
-    if (status!=NEMO_KITTY_LAYOUT_OK)
-        return status==NEMO_KITTY_LAYOUT_UNSUPPORTED ? NEMO_KITTY_PLACE_UNSUPPORTED :
-            status==NEMO_KITTY_LAYOUT_LIMIT ? NEMO_KITTY_PLACE_LIMIT : NEMO_KITTY_PLACE_INVALID;
+    const NemoKittyPlacement *parent=NULL;
+    uint32_t parent_view=nemo_kitty_get(command,'Q');
+    if (parent_id) {
+        for (const NemoKittyPlacement *q=s->first;q;q=q->next)
+            if (nemo_kitty_image_id(q->image)==parent_id &&
+                (!parent_view || q->id==parent_view) &&
+                (!parent || q->sequence<parent->sequence)) parent=q;
+        if (!parent) return NEMO_KITTY_PLACE_NO_PARENT;
+    }
     uint32_t id=nemo_kitty_image_id(image) ? nemo_kitty_get(command,'p') : 0;
     NemoKittyPlacement **link=&s->first;
     while (*link && (!id || (*link)->image!=image || (*link)->id!=id)) link=&(*link)->next;
     NemoKittyPlacement *p=*link;
+    if (parent && parent==p) return NEMO_KITTY_PLACE_INVALID;
+    unsigned depth=1;
+    for (const NemoKittyPlacement *q=parent;q;) {
+        if (depth>NEMO_KITTY_PARENT_DEPTH_MAX) return NEMO_KITTY_PLACE_DEPTH;
+        if (q==p) return NEMO_KITTY_PLACE_CYCLE;
+        if (!q->parent) break;
+        q=by_sequence(s,q->parent);
+        if (!q) return NEMO_KITTY_PLACE_NO_PARENT;
+        depth++;
+    }
+    NemoKittyCommand geometry=*command;
+    if (parent) {
+        geometry.values['P'-'A']=0;
+        geometry.values['C'-'A']=1;
+        geometry.present|=UINT64_C(1)<<('C'-'A');
+    }
+    const NemoRaster *r=nemo_kitty_image_raster(image);
+    NemoKittyLayout g;
+    NemoKittyLayoutStatus status=nemo_kitty_layout(&geometry,r->width,r->height,column,row,cw,ch,&g);
+    if (status!=NEMO_KITTY_LAYOUT_OK)
+        return status==NEMO_KITTY_LAYOUT_UNSUPPORTED ? NEMO_KITTY_PLACE_UNSUPPORTED :
+            status==NEMO_KITTY_LAYOUT_LIMIT ? NEMO_KITTY_PLACE_LIMIT : NEMO_KITTY_PLACE_INVALID;
     uint64_t sequence=p ? p->sequence : 0;
     if (p) *link=p->next;
     else {
-        if (s->count>=NEMO_KITTY_PLACEMENT_MAX || sizeof(*p)>s->budget-s->used ||
+        if (s->count>=NEMO_KITTY_PLACEMENT_MAX || s->sequence==UINT64_MAX ||
+            sizeof(*p)>s->budget-s->used ||
             (s->admit && !s->admit(s->ctx,s->used,sizeof(*p)))) return NEMO_KITTY_PLACE_LIMIT;
         p=malloc(sizeof(*p));
         if (!p) return NEMO_KITTY_PLACE_NOMEM;
@@ -146,8 +231,16 @@ NemoKittyPlacementStatus nemo_kitty_placements_put(
     }
     *p=(NemoKittyPlacement){NULL,image,column,row,g.z,id,
         nemo_kitty_get(command,'c'),nemo_kitty_get(command,'r'),g.offset_x,g.offset_y,
-        g.source_x,g.source_y,g.source_width,g.source_height,sequence};
-    insert(s,p); s->generation++; *out=g;
+        g.source_x,g.source_y,g.source_width,g.source_height,sequence,s,
+        parent ? parent->sequence : 0,nemo_kitty_signed(command,'H'),nemo_kitty_signed(command,'V')};
+    insert(s,p); s->generation++;
+    int64_t resolved_x,resolved_y;
+    if (resolve(p,&resolved_x,&resolved_y)) {
+        double dx=((double)resolved_x-column)*cw,dy=((double)resolved_y-row)*ch;
+        g.left+=dx;g.right+=dx;g.top+=dy;g.bottom+=dy;
+    }
+    collect_orphans(s);
+    *out=g;
     return NEMO_KITTY_PLACE_OK;
 }
 
@@ -170,11 +263,11 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
     NemoKittyImage *target=action=='i' ? nemo_kitty_cache_find(s->cache,nemo_kitty_get(c,'i'),0) :
         action=='n' ? nemo_kitty_cache_find(s->cache,0,nemo_kitty_get(c,'I')) : NULL;
     NemoKittyImage *candidates[NEMO_KITTY_IMAGE_MAX]; unsigned count=0,removed=0;
+    NemoKittyPlacement *selected[NEMO_KITTY_PLACEMENT_MAX];unsigned selection=0;
     /* Uppercase id/number also frees a matching image with no placements. */
     if (release && target && !id) candidates[count++]=target;
-    NemoKittyPlacement **link=&s->first;
-    while (*link) {
-        NemoKittyPlacement *p=*link; NemoKittyView v;
+    for (NemoKittyPlacement *p=s->first;p;p=p->next) {
+        NemoKittyView v;
         bool match=false;
         uint32_t cell_columns,cell_rows;
         if (nemo_kitty_placement_view(p,cw,ch,&v) && footprint(p,cw,ch,&cell_columns,&cell_rows)) {
@@ -195,7 +288,15 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
               case 'z': match=v.z==nemo_kitty_signed(c,'z'); break;
             }
         }
-        if (!match) { link=&p->next; continue; }
+        if (match) selected[selection++]=p;
+    }
+    /* Select the entire direct deletion before orphan retirement. A child
+     * explicitly selected in the same command follows ordinary data-retention
+     * rules rather than the rules for a lost parent. */
+    for (unsigned n=0;n<selection;n++) {
+        NemoKittyPlacement *p=selected[n];
+        NemoKittyPlacement **link=&s->first;
+        while (*link!=p) link=&(*link)->next;
         NemoKittyImage *image=p->image;
         if (release || !nemo_kitty_image_id(image)) {
             unsigned i=0; while (i<count && candidates[i]!=image) i++;
@@ -203,8 +304,9 @@ NemoKittyPlacementStatus nemo_kitty_placements_delete(
         }
         remove_view(s,link,false); removed++;
     }
+    collect_orphans(s);
     for (unsigned i=0;i<count;i++)
-        if (!nemo_kitty_image_references(candidates[i])) nemo_kitty_cache_remove(s->cache,candidates[i]);
+        nemo_kitty_cache_remove_unreferenced(s->cache,candidates[i]);
     if (release && action=='r' && !id) nemo_kitty_cache_prune_range(s->cache,x,y);
     *deleted=removed; return NEMO_KITTY_PLACE_OK;
 }
@@ -214,10 +316,11 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
 {
     if (!s || !lines || top<0 || bottom<top || !cw || !ch ||
         cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return;
+    NemoKittyImage *unused[NEMO_KITTY_IMAGE_MAX];unsigned unused_count=0;
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link; NemoKittyView v;uint32_t cols,rows;
-        if (!nemo_kitty_placement_view(p,cw,ch,&v) || !footprint(p,cw,ch,&cols,&rows) ||
+        if (!placement_view_at(p,cw,ch,p->column,p->row,&v) || !footprint(p,cw,ch,&cols,&rows) ||
             (margins && (p->row<top || (int64_t)p->row+rows>(int64_t)bottom+1)) ||
             (!margins && lines<0 && (int64_t)p->row+rows<=0)) {
             link=&p->next; continue;
@@ -246,7 +349,8 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
         if (discard) {
             NemoKittyImage *image=p->image;
             remove_view(s,link,false);
-            if (!nemo_kitty_image_id(image) && !nemo_kitty_image_references(image)) nemo_kitty_cache_remove(s->cache,image);
+            if (!nemo_kitty_image_id(image) && !nemo_kitty_image_references(image))
+                unused[unused_count++]=image;
             continue;
         }
         p->row=(int32_t)row;
@@ -254,6 +358,8 @@ void nemo_kitty_placements_scroll(NemoKittyPlacements *s, int32_t top, int32_t b
         if (p->rows) p->rows-=clipped;
         s->generation++; link=&p->next;
     }
+    collect_orphans(s);
+    for (unsigned i=0;i<unused_count;i++) nemo_kitty_cache_remove_unreferenced(s->cache,unused[i]);
 }
 
 void nemo_kitty_placements_rescale(NemoKittyPlacements *s, uint32_t cw, uint32_t ch)
@@ -270,6 +376,7 @@ void nemo_kitty_placements_rows(NemoKittyPlacements *s, int32_t delta,
                                 int32_t first, uint32_t cw, uint32_t ch)
 {
     if (!s || !cw || !ch || cw>NEMO_KITTY_AXIS_MAX || ch>NEMO_KITTY_AXIS_MAX) return;
+    NemoKittyImage *unused[NEMO_KITTY_IMAGE_MAX];unsigned unused_count=0;
     NemoKittyPlacement **link=&s->first;
     while (*link) {
         NemoKittyPlacement *p=*link;
@@ -280,11 +387,13 @@ void nemo_kitty_placements_rows(NemoKittyPlacements *s, int32_t delta,
             NemoKittyImage *image=p->image;
             remove_view(s,link,false);
             if (!nemo_kitty_image_id(image) && !nemo_kitty_image_references(image))
-                nemo_kitty_cache_remove(s->cache,image);
+                unused[unused_count++]=image;
         } else {
             p->row=(int32_t)row;
             if (delta) s->generation++;
             link=&p->next;
         }
     }
+    collect_orphans(s);
+    for (unsigned i=0;i<unused_count;i++) nemo_kitty_cache_remove_unreferenced(s->cache,unused[i]);
 }

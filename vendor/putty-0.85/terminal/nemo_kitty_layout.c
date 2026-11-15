@@ -30,8 +30,7 @@ NemoKittyLayoutStatus nemo_kitty_layout(
     if (iw > NEMO_KITTY_AXIS_MAX || ih > NEMO_KITTY_AXIS_MAX ||
         cw > NEMO_KITTY_AXIS_MAX || ch > NEMO_KITTY_AXIS_MAX)
         return NEMO_KITTY_LAYOUT_LIMIT;
-    if (nemo_kitty_get(c, 'U') || nemo_kitty_get(c, 'P') ||
-        nemo_kitty_get(c, 'Q') || nemo_kitty_get(c, 'H') || nemo_kitty_get(c, 'V'))
+    if (nemo_kitty_get(c, 'U') || nemo_kitty_get(c, 'P'))
         return NEMO_KITTY_LAYOUT_UNSUPPORTED;
     if (nemo_kitty_get(c, 'C') > 1) return NEMO_KITTY_LAYOUT_INVALID;
     memset(&g, 0, sizeof(g));

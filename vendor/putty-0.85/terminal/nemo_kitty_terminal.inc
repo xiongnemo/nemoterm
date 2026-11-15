@@ -276,6 +276,9 @@ static const char *nemo_kitty_put(Terminal *term, NemoKittyScreen *s,
         term->curs.x,term->curs.y,term->cell_width,term->cell_height,&g);
     switch (status) {
       case NEMO_KITTY_PLACE_NOT_FOUND: return "ENOENT:image not found";
+      case NEMO_KITTY_PLACE_NO_PARENT: return "ENOPARENT:parent placement not found";
+      case NEMO_KITTY_PLACE_CYCLE: return "ECYCLE:cyclic parent placement";
+      case NEMO_KITTY_PLACE_DEPTH: return "ETOODEEP:parent chain limit";
       case NEMO_KITTY_PLACE_UNSUPPORTED: return "ENOTSUP:placement mode";
       case NEMO_KITTY_PLACE_LIMIT: return "E2BIG:placement limit";
       case NEMO_KITTY_PLACE_NOMEM: return "ENOMEM:placement allocation";

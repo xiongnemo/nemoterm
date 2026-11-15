@@ -5,11 +5,13 @@
 #include "nemo_kitty_layout.h"
 
 #define NEMO_KITTY_PLACEMENT_MAX 512u
+#define NEMO_KITTY_PARENT_DEPTH_MAX 8u
 typedef struct NemoKittyPlacements NemoKittyPlacements;
 typedef struct NemoKittyPlacement NemoKittyPlacement;
 typedef enum NemoKittyPlacementStatus {
     NEMO_KITTY_PLACE_OK, NEMO_KITTY_PLACE_INVALID, NEMO_KITTY_PLACE_UNSUPPORTED,
-    NEMO_KITTY_PLACE_LIMIT, NEMO_KITTY_PLACE_NOMEM, NEMO_KITTY_PLACE_NOT_FOUND
+    NEMO_KITTY_PLACE_LIMIT, NEMO_KITTY_PLACE_NOMEM, NEMO_KITTY_PLACE_NOT_FOUND,
+    NEMO_KITTY_PLACE_NO_PARENT, NEMO_KITTY_PLACE_CYCLE, NEMO_KITTY_PLACE_DEPTH
 } NemoKittyPlacementStatus;
 typedef struct NemoKittyView {
     const NemoKittyImage *image;
@@ -29,7 +31,8 @@ size_t nemo_kitty_placements_memory(const NemoKittyPlacements *);
 unsigned nemo_kitty_placements_count(const NemoKittyPlacements *);
 uint64_t nemo_kitty_placements_generation(const NemoKittyPlacements *);
 /* Call only from the cache's image-removed callback, before it frees the
- * image. No cache mutation/reference operation is performed by this hook. */
+ * image. Orphan references to other images are released through the cache's
+ * deferred retirement API; no nested image removal is performed. */
 void nemo_kitty_placements_image_removed(NemoKittyPlacements *, const NemoKittyImage *);
 
 /* image is borrowed from this cache (load result or find), with no intervening

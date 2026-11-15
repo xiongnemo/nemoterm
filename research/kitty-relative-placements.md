@@ -1,8 +1,8 @@
-# Kitty relative-placement reference and baseline
+# Kitty relative placements: reference and partial implementation
 
-Relative placements are still an implementation gap. The accepted 752f3be
-single executable is unchanged; this branch currently adds an independent
-reference and a deliberately failing real-core replay.
+Ordinary relative placements now match the retained upstream cases. The full
+replay still fails five Unicode-placeholder states, so this branch is not a
+product acceptance. The accepted 752f3be single executable remains unchanged.
 
 ## Independent reference
 
@@ -41,7 +41,7 @@ image/placement ID and status prefix, require nonempty detail and the original
 terminator; the upstream wording remains retained without requiring identical
 English prose from Nemoterm.
 
-The current core, with production source unchanged from 03c1f05, builds under
+The baseline core, with production source unchanged from 03c1f05, builds under
 local MinGW GCC 16.2.0. Its corrected UTF-8 replay exits **1**: **145 of 238 states
 fail across 58 cases**. All 60 seed states match, and every assertion failure
 belongs to the new replay. The pre-existing 101 image, 36 compression, 176
@@ -54,7 +54,44 @@ The corrected replay sets CP_UTF8 before terminal initialization. Both runs
 retain their exact test-executable hashes, fixture bytes, compiler version,
 build commands and CMake configuration; neither modifies the distribution.
 
-## Implementation consequences
+## Partial implementation and validation
+
+The local real-core replay now matches **233 of 238 states**, compared with
+93 at baseline. All 140 newly matching states are retained comparisons; no
+reference states or assertions were removed. The remaining failures are
+virtual-parent/virtual-root, relative-child, placeholder, earlier-placeholder
+and erase-placeholders. The process still exits 1. Earlier image, compression,
+feature-query and query-error replays remain passing.
+
+The owner stores parent creation identities rather than borrowed parent
+pointers. It resolves at most eight edges using wide signed offset arithmetic,
+preserves identity on named replacement, and validates ancestry before mutation.
+Each placement adds 24 bytes of metadata on the current x64 layout, charged to
+the existing shared budget; ordinary relative placements add no per-cell data.
+
+Deletion first selects every directly affected placement, then retires orphan
+descendants. Cache callbacks can release another image's orphan references but
+defer the actual removal until the current list mutation is finished. A decode
+transaction protects the old image until commit or unwind. Scroll and row-change
+loops also defer anonymous-image removal: a callback in the middle of iteration
+could otherwise remove the preceding orphan and invalidate the iterator.
+
+Local GCC 16.2.0 release and separate -Wall -Wextra -Werror -pedantic builds pass
+the cache (1,982 checks), layout (150) and placement (2,841) component suites.
+New ownership checks cover callback non-reentrancy, cascading final-reference
+release, surviving independent references, replacement under eviction on both
+decode success and failure, read-only queries with a pending orphan, mixed
+anonymous/relative scroll and row deletion,
+and maximum signed offsets across eight edges. These are authored ownership
+tests, separate from the independent upstream comparison.
+
+The first implementation run is retained too: it had the same five real-core
+failures and one obsolete layout expectation that Q/H/V without P were rejected.
+The expectation was corrected to the captured ignored-key behavior. The full
+replay remains strict. Native pixels, sanitizers, other compilers and product
+memory are not established by these local component results.
+
+## Observed behavior and remaining work
 
 The observed child origin is the parent's cell anchor, without the parent's
 pixel offset. Named-parent replacement preserves the relationship; rejected
@@ -68,18 +105,11 @@ layer updates. Scroll filtering also uses each reference's stored creation
 anchor, separately from its resolved drawing position; the corresponding raw
 history/margin cases are preserved rather than replaced by a simpler model.
 
-The existing cache-removal callback runs while mutation is blocked. Adding a
-parent pointer and recursively deleting children inside that callback would
-violate existing reference-count and iteration contracts. The implementation
-therefore needs an explicit, tested phase for releasing orphan references and
-images, plus stable parent identity, bounded ancestry checks and wide offset
-arithmetic. It must account for placement metadata within the existing shared
-image budget and add no per-character storage for ordinary relative placements.
-
 Virtual parents depend on Unicode-placeholder drawing, which is also still
 required. Native GDI/OpenGL/DirectX pixels, resizing, disposal, full CI and
 downloaded-single-image memory acceptance remain pending. No new capability is
-advertised and no product implementation is claimed by this checkpoint.
+advertised and no product acceptance is claimed by this checkpoint.
 
 [kitty-relative-validation.json](kitty-relative-validation.json) indexes the
-upstream capture and both baseline archives with per-record SHA256 hashes.
+upstream capture, both baseline archives and local implementation runs with
+per-record SHA256 hashes.

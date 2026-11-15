@@ -10,10 +10,12 @@ struct NemoKittyImage {
     NemoRaster raster;
     uint32_t id, number;
     unsigned references;
+    bool orphan;
     uint64_t age, sequence;
 };
 struct NemoKittyCache {
     NemoKittyImage *images;
+    const NemoKittyImage *retiring;
     size_t budget, used, temporary;
     unsigned count;
     uint32_t next_id;
@@ -52,13 +54,41 @@ static NemoKittyImage **locate(NemoKittyCache *s, const NemoKittyImage *im)
 static void remove_image(NemoKittyCache *s, NemoKittyImage **link)
 {
     NemoKittyImage *im = *link;
-    if (s->removed) s->removed(s->ctx, im);
+    if (s->removed) {
+        s->retiring=im;
+        s->removed(s->ctx, im);
+        s->retiring=NULL;
+    }
     *link = im->next;
     s->used -= sizeof(*im) + im->raster.bytes;
     s->count--;
     s->generation++;
     nemo_raster_free(&im->raster);
     free(im);
+}
+
+/* Run only between list mutations, never inside a removal callback. Restart
+ * after each retirement because its callback can orphan another image. A load
+ * reservation protects the old image until decoding/commit has finished. */
+static unsigned prune_orphans(NemoKittyCache *s, const NemoKittyImage *protect)
+{
+    unsigned count=0;
+    for (;;) {
+        NemoKittyImage **link=&s->images;
+        while (*link && (*link==protect || !(*link)->orphan || (*link)->references))
+            link=&(*link)->next;
+        if (!*link) return count;
+        remove_image(s,link);count++;
+    }
+}
+
+unsigned nemo_kitty_cache_prune_orphans(NemoKittyCache *s)
+{
+    if (!s || s->busy) return 0;
+    s->busy=true;
+    unsigned count=prune_orphans(s,NULL);
+    s->busy=false;
+    return count;
 }
 
 void nemo_kitty_cache_clear(NemoKittyCache *s)
@@ -118,10 +148,20 @@ bool nemo_kitty_image_reference(NemoKittyCache *s, NemoKittyImage *im, bool add)
     if (add) {
         if (im->references == UINT_MAX) return false;
         im->references++;
+        im->orphan=false;
     } else {
         if (!im->references) return false;
         im->references--;
     }
+    return true;
+}
+
+bool nemo_kitty_cache_release_orphan(NemoKittyCache *s, NemoKittyImage *im)
+{
+    if (!s || !im || im==s->retiring || (s->busy && !s->retiring) ||
+        !*locate(s,im) || !im->references) return false;
+    im->references--;
+    im->orphan=!im->references;
     return true;
 }
 
@@ -132,8 +172,16 @@ bool nemo_kitty_cache_remove(NemoKittyCache *s, NemoKittyImage *im)
     if (!*link || (im->references && !s->removed)) return false;
     s->busy = true;
     remove_image(s, link);
+    prune_orphans(s,NULL);
     s->busy = false;
     return true;
+}
+
+bool nemo_kitty_cache_remove_unreferenced(NemoKittyCache *s, NemoKittyImage *im)
+{
+    if (!s || s->busy || !im) return false;
+    NemoKittyImage **link=locate(s,im);
+    return *link && !(*link)->references && nemo_kitty_cache_remove(s,*link);
 }
 
 unsigned nemo_kitty_cache_prune_range(NemoKittyCache *s, uint32_t first, uint32_t last)
@@ -148,6 +196,7 @@ unsigned nemo_kitty_cache_prune_range(NemoKittyCache *s, uint32_t first, uint32_
             remove_image(s,link);count++;
         } else link=&image->next;
     }
+    prune_orphans(s,NULL);
     s->busy=false;return count;
 }
 
@@ -163,6 +212,7 @@ static bool evict_one(NemoKittyCache *s, const NemoKittyImage *protect)
     }
     if (!oldest) return false;
     remove_image(s, oldest);
+    prune_orphans(s,protect);
     return true;
 }
 
@@ -338,6 +388,7 @@ NemoKittyImageResult nemo_kitty_cache_load(NemoKittyCache *s, const NemoKittyPac
   done:
     nemo_raster_free(&raster);
     s->temporary = 0;
+    if (!result.query) prune_orphans(s,result.image);
     s->busy = false;
     result.changed = generation != s->generation;
     return result;

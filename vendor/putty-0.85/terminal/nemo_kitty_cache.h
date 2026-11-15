@@ -29,7 +29,9 @@ typedef bool (*NemoKittyCacheAdmission)(void *, size_t current, size_t extra, bo
 typedef bool (*NemoKittyPngDecode)(void *, const void *, size_t, NemoRaster *,
                                  NemoRasterAdmission, void *);
 /* Discard all placement references before the image is freed. This callback
- * must not mutate the cache; read-only accessors remain available. */
+ * must not reenter ordinary cache mutation. It may release orphan references
+ * to OTHER images with nemo_kitty_cache_release_orphan; actual image removal
+ * waits until the current callback and list mutation have finished. */
 typedef void (*NemoKittyImageRemoved)(void *, const NemoKittyImage *);
 NemoKittyCache *nemo_kitty_cache_new(size_t budget, NemoKittyCacheAdmission,
                                    NemoKittyPngDecode, NemoKittyImageRemoved, void *);
@@ -58,6 +60,14 @@ const NemoRaster *nemo_kitty_image_raster(const NemoKittyImage *);
 unsigned nemo_kitty_image_references(const NemoKittyImage *);
 bool nemo_kitty_image_reference(NemoKittyCache *, NemoKittyImage *, bool add);
 bool nemo_kitty_cache_remove(NemoKittyCache *, NemoKittyImage *);
+/* Conditional removal validates membership before dereferencing the handle,
+ * which may have been retired by an earlier cascade in the same batch. */
+bool nemo_kitty_cache_remove_unreferenced(NemoKittyCache *, NemoKittyImage *);
+/* Drop one orphaned placement reference, marking data for removal only if this
+ * was the last reference. Does not remove images or call back immediately.
+ * During removal callbacks, the currently retiring image is excluded. */
+bool nemo_kitty_cache_release_orphan(NemoKittyCache *, NemoKittyImage *);
+unsigned nemo_kitty_cache_prune_orphans(NemoKittyCache *);
 /* Delete unreferenced named images in an inclusive client-id range. */
 unsigned nemo_kitty_cache_prune_range(NemoKittyCache *, uint32_t first, uint32_t last);
 #endif

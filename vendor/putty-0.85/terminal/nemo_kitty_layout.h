@@ -21,7 +21,8 @@ typedef struct NemoKittyLayout {
  * applies cursor deltas through its normal wrap/scroll path, moves placements
  * with that scroll, and re-evaluates geometry when cell metrics change.
  * Explicit c/r fill their rectangle; a single explicit axis keeps source aspect.
- * Virtual/relative placements are rejected until their separate model exists.
+ * Relative parents are resolved by the placement owner before this helper;
+ * commands still containing P or U require that separate model.
  * Failure leaves the output unchanged. Source axes and cell sizes are <=8192. */
 NemoKittyLayoutStatus nemo_kitty_layout(
     const NemoKittyCommand *, uint32_t image_width, uint32_t image_height,
