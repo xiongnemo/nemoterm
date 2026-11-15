@@ -11,6 +11,8 @@ import winreg
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--exception-observer',type=Path,
                     help='attach an external debugger to this private fixture process; diagnostic only')
+parser.add_argument('--failure-dump',type=Path,
+                    help='external small-dump helper used only after a failed check, before owned cleanup')
 args=parser.parse_args()
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light'
@@ -27,6 +29,7 @@ evidence=dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
               completed=False,font=font,checks=[],profiles=[],cycles=[],memory_instrumented=True)
 profiles=[]
 if args.exception_observer:evidence.update(exception_diagnostic=True,memory_acceptance=False)
+if args.failure_dump:evidence.update(failure_dump_enabled=True,memory_acceptance=False)
 def menu_command(menu,label):
     for i in range(u.GetMenuItemCount(menu)):
         text=c.create_unicode_buffer(256)
@@ -201,6 +204,13 @@ try:
             evidence['phase']='complete'
         except BaseException:
             record_owned_failure(process,job,evidence,'mixed-profile-failure')
+            if args.failure_dump and process.poll() is None:
+                try:
+                    from native_failure_dump import capture_owned_failure_dump
+                    evidence['failure_dump']=capture_owned_failure_dump(args.failure_dump,
+                        process,job,root/'research'/('profiles-failure-'+uuid.uuid4().hex))
+                except Exception as capture_error:
+                    evidence['failure_dump_error']=repr(capture_error)
             raise
         finally:
             primary_failure=sys.exc_info()[1]
