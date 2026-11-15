@@ -22,6 +22,8 @@ static void print_wire(const char *label, const char *bytes, size_t length)
 static Mock *ansi_mock(void)
 {
     Mock *mk = mock_new();
+    /* Match the reference collector's allowWindowOps checksum permission. */
+    conf_set_bool(mk->conf, CONF_nemo_allow_checksum, true);
     mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
     mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
     reset(mk);

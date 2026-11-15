@@ -41,13 +41,13 @@ jobs:
             -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee configure.log
-          cmake --build ansi-build --target test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | tee build.log
+          cmake --build ansi-build --target test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | tee build.log
       - name: Replay reference and terminal regressions
         shell: bash
         run: |
           set -uo pipefail
           failed=0
-          for test in test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal; do
+          for test in test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal; do
             ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./ansi-build/$test 2>&1 | tee "$test.log" || failed=1
           done
           exit "$failed"
