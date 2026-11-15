@@ -36,9 +36,12 @@ fixture to both full suites. Its native job still fails on reactivation. An
 image-identical message trace at `9dd2d92` confirms that the ordinary activation
 and focus messages occur while the host remains in the background; actual
 foreground restoration then emits only nonclient activation. `4154bac` handles
-that message while checking the actual foreground host. Native, ordinary and
-60-minute single-image workflows are running at this corrected source. Visible
-taskbar and local acceptance remain open. Local testing stays paused.
+that message while checking the actual foreground host. Its native checkpoint
+passes all 192 original reply streams and 38 GDI/DirectX states, including
+notification ownership, real reactivation and exact focus reports. Existing
+sound/visual fixtures and all six owned-job cleanup groups pass. The ordinary
+and 60-minute single-image workflows remain running at this corrected source.
+Visible taskbar and local acceptance remain open. Local testing stays paused.
 
 ## DEC user-defined key reference (2026-11-16 Sydney)
 

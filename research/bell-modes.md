@@ -232,9 +232,26 @@ superseded because they contain the now-confirmed reactivation defect.
 those cancellations and the earlier budget replacement, including partial
 outputs and unverified images. Their cancellations are not treated as passes.
 
-Corrected native [43726648546](https://github.com/xiongnemo/nemoterm/actions/runs/43726648546),
-ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
+Corrected native [43726648546](https://github.com/xiongnemo/nemoterm/actions/runs/43726648546)
+at `4154bac` passes all **112 cases / 192 exact replies** and **38 GDI/DirectX
+window-state checks**. Background selected-tab closure preserves the remaining
+notice and emits no false focus bytes; actual reactivation clears it and emits
+exactly one `ESC [ I`. Existing sound-policy/visual fixtures pass, and all six
+owned-job groups exit naturally. The 300 focus preparations in this focused
+run need no caption-click fallback; that fallback remains for the full-suite
+foreground-denial case and is not certified by this narrow pass.
+
+The image is 4,538,880 bytes, SHA256
+`0936fe9e787c7e81b7486d8911859e5ef5eff4a1beebf936876f4b0ec11eaa17`.
+`bell-lifecycle-final-native.tar.gz` retains 48 records / 2,912,342 bytes with
+the executable, exact source, original replies, API calls, message traces and
+cleanup. Its manifest independently checks the original XTerm byte streams,
+window invariants and both renderers' closure/reactivation reports.
+
+Full ordinary [43726676169](https://github.com/xiongnemo/nemoterm/actions/runs/43726676169)
 and single-image [43726676358](https://github.com/xiongnemo/nemoterm/actions/runs/43726676358)
 are running at `4154bac`. These remain unaccepted until their actual results are
 checked. The single-image job retains the 60-minute total budget; fixture and
-shutdown deadlines are unchanged.
+shutdown deadlines are unchanged. No local execution, physical taskbar or
+speaker acceptance, or accepted-image promotion is inferred from the narrow
+native pass.
