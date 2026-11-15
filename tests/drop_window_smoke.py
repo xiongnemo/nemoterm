@@ -60,6 +60,28 @@ def main():
     detected=json.loads(subprocess.check_output([str(exe),'--list-shells'],creationflags=subprocess.CREATE_NO_WINDOW))
     locations={v['id']:v['path'] for v in detected if v['available']}
     result['shell_argument_checks']={}
+    def shell_output(command,shell):
+        # Keep the original 20-second deadline and subprocess configuration.
+        # A shell-parser failure is distinct from the preceding terminal wire
+        # check; retain it even if the independent process never returns.
+        record=dict(shell=shell,command=command,timeout_seconds=20)
+        result.setdefault('shell_parser_processes',[]).append(record)
+        write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
+        start=time.monotonic()
+        try:
+            raw=subprocess.check_output(command,creationflags=subprocess.CREATE_NO_WINDOW,timeout=20)
+            record.update(completed=True,stdout_hex=raw.hex())
+            return raw
+        except subprocess.TimeoutExpired as exc:
+            record.update(completed=False,error=repr(exc),stdout_hex=(exc.output or b'').hex())
+            raise
+        except subprocess.CalledProcessError as exc:
+            record.update(completed=False,error=repr(exc),exit_code=exc.returncode,
+                          stdout_hex=(exc.output or b'').hex())
+            raise
+        finally:
+            record['elapsed_seconds']=time.monotonic()-start
+            write_snapshot(ROOT/f'research/drop-{args.renderer}-observed.json',result)
     for shell in ('pwsh','powershell','cmd','busybox-ash','git-bash','wsl-bash'):
         profile='drop-'+uuid.uuid4().hex;registry='Software\\Nemo\\Nemoterm\\Sessions\\'+profile
         with winreg.CreateKey(winreg.HKEY_CURRENT_USER,registry) as key:
@@ -122,13 +144,12 @@ def main():
                     if shell in ('pwsh','powershell'):
                         code="[Console]::OutputEncoding=[Text.UTF8Encoding]::new(); & { $args | ConvertTo-Json -Compress } "+expression
                         command=[locations[shell],'-NoLogo','-NoProfile','-NonInteractive','-Command',code]
-                        raw=subprocess.check_output(command,creationflags=subprocess.CREATE_NO_WINDOW,timeout=20)
+                        raw=shell_output(command,shell)
                         parsed=json.loads(raw.decode('utf-8-sig'))
                         assert parsed==paths,(shell,parsed,paths)
                     else:
                         flags=['ash','-c'] if shell=='busybox-ash' else ['--noprofile','--norc','-c']
-                        raw=subprocess.check_output([locations[shell],*flags,"printf '%s\\0' "+expression],
-                                                    creationflags=subprocess.CREATE_NO_WINDOW,timeout=20)
+                        raw=shell_output([locations[shell],*flags,"printf '%s\\0' "+expression],shell)
                         parsed=raw.decode('utf-8').rstrip('\0').split('\0')
                         assert parsed==[p.replace('\\','/') for p in paths],(shell,parsed,paths)
                     result['shell_argument_checks'][shell]='actual shell parsed exact arguments'
