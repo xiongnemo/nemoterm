@@ -274,11 +274,18 @@ try:
             expect('tab activation restores saved pointer','wait',first)
 
             point_in(dict(hwnd=host,client_width=20,client_height=20),10,10)
-            outside,_=native_cursor()
+            # WindowFromPoint observes hit testing, not completion of the
+            # queued mouse/WM_SETCURSOR messages. The host class owns an arrow;
+            # wait for that independent state before checking output isolation.
+            outside=expect('tab strip has its own arrow','default',first,False)
             emit(first_child,'\x1b]22;copy\x1b\\','copy')
-            time.sleep(.15)
-            after,_=native_cursor();assert after['handle']==outside['handle'],(outside,after)
-            evidence['outside_view_unchanged']=dict(before=outside,after=after)
+            outside_samples=[]
+            for _ in range(30):
+                after,raw=native_cursor()
+                assert matches('default',after,raw),(outside,after)
+                outside_samples.append(after['mask_sha256']);time.sleep(.01)
+            evidence['outside_view_unchanged']=dict(before=outside,after=after,
+                                                    samples=outside_samples)
             expect('re-entering client applies saved shape','copy',first)
 
             for child in children:write_snapshot(child['control'],{'stop':True})
