@@ -189,7 +189,7 @@ def cases():
             step(b'', ('key',modifier,1), down, up, ('key',modifier,0)), step(Q))
     for reset in (E+b'c', C+b'!p', C+b'63;1"p', C+b'?1049h', C+b'?1049h'+C+b'?1049l'):
         add('lifetime-'+reset.hex(), step(C+b"1;2'z"+C+b"1;3'{"),
-            step(reset+Q), step(b'', down), step(b'', up), step(Q))
+            step(reset+Q), step(b'', down, up), step(Q))
     for level in (1,2,3,4,5):
         add('dec-level-'+str(level), step(C+f'{60+level};1"p'.encode()+C+b"1;2'z"+Q),
             step(C+b'?55n'+C+b'?56n'), step(C+b"1;3'{", down), step(b'', up))
