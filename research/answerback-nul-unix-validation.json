@@ -1,0 +1,640 @@
+{
+  "completed": true,
+  "scope": "Unix conversion-loop repair and unchanged binary-answerback regression; Windows and complete product acceptance are separate.",
+  "failed_component_run": 43755825392,
+  "base_source": "23c90fe3eb54d21b0d8c128c2d2a41090095b6d4",
+  "original_result": {
+    "gcc": "FATAL ERROR: Out of memory",
+    "clang": "FATAL ERROR: Out of memory",
+    "msvc": "Query suite passed"
+  },
+  "local_compilers": [
+    "gcc",
+    "clang"
+  ],
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "local_suites_per_compiler": 4,
+  "final_source_sha256": "917898661b2b7d108e35f25f8846aa6f325e07f4f31806252d7494c20a87a646",
+  "setup_failures": "Local attempt 01 stopped at a Windows-form worktree git path; attempt 02 initially named the Windows-only test_terminal target. Existing configurations were resumed with verified Unix targets; failed preparation/build records are preserved.",
+  "intermediate_variant": "Attempt 02 used a one-byte NUL step; final attempt 03 consumes through the NUL byte including any preceding shift sequence.",
+  "archive": {
+    "path": "answerback-nul-unix.tar.gz",
+    "bytes": 53192,
+    "sha256": "f4aba6948d223fc5a3448eb23c0bd1b639974b27f5c3e573b8d004af8cdf2939"
+  },
+  "files": [
+    {
+      "path": "original-ci/ansi-components/clang-download.json",
+      "bytes": 3216,
+      "sha256": "057709d0ca7ee45f144d880790e7dccaa10d06a0bbb9411e6abfbdc38f38db34"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc-download.json",
+      "bytes": 3214,
+      "sha256": "9ef84d81e7066489b37496f828882ad8384dd233c23430f5e111887d39321295"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc-download.json",
+      "bytes": 3369,
+      "sha256": "ad5e979a810cd6615f055a6e9a605b4fe26367c33b795152fb1e947001077d9d"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/build.log",
+      "bytes": 23692,
+      "sha256": "b551d3df0aedc9c2f3e74df476ab6602cf4fcc2980de0ab3a29e380e7d6ad992"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/compiler.txt",
+      "bytes": 122,
+      "sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/configure.log",
+      "bytes": 4314,
+      "sha256": "27d60b910a877d9f6e78bddfc3cbd7dcf2e9659f8f742727492ad88e62551df6"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/sources.sha256",
+      "bytes": 2738,
+      "sha256": "0c41de5d34610849a319b9aac70647c25b1b41d82b6f3f840e4356603d946ed5"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_bell_modes.log",
+      "bytes": 187,
+      "sha256": "1b18c52b11cfaf8483b982339285bb2f24193e0ffe91793504adbd65370600a1"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_cancellation_terminal.log",
+      "bytes": 144,
+      "sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_feature_policy.log",
+      "bytes": 310,
+      "sha256": "3fd59b7cf845567b58ad44948a7a217d61f2f977418a4760746c4de2fef2351d"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_locator_terminal.log",
+      "bytes": 170,
+      "sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_osc52.log",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_pointer_terminal.log",
+      "bytes": 309,
+      "sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_queries.log",
+      "bytes": 27,
+      "sha256": "7f989a6befd7e9c891456fc94908436fc0a74041e04d766bfae9f516b101a66a"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_selective_erase.log",
+      "bytes": 29,
+      "sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_sixel_terminal.log",
+      "bytes": 1080,
+      "sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_tcap.log",
+      "bytes": 33,
+      "sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+    },
+    {
+      "path": "original-ci/ansi-components/clang/test_udk_terminal.log",
+      "bytes": 187,
+      "sha256": "e7c9a904d3859f87eacec6a6a9b9c6c4ec6a22a6e74664452dc1dfa84a088ff1"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/build.log",
+      "bytes": 28383,
+      "sha256": "41c2ed5d55dbd3bb5b54b4ff9554ef76ed571f2ce8be595901f9162bccc77d10"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/compiler.txt",
+      "bytes": 239,
+      "sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/configure.log",
+      "bytes": 4308,
+      "sha256": "27e3dd4b4da3365ab571ffcae16a3bfbaacac7ef785d0de94d6108f890b90cd4"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/sources.sha256",
+      "bytes": 2738,
+      "sha256": "0c41de5d34610849a319b9aac70647c25b1b41d82b6f3f840e4356603d946ed5"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_bell_modes.log",
+      "bytes": 187,
+      "sha256": "1b18c52b11cfaf8483b982339285bb2f24193e0ffe91793504adbd65370600a1"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_cancellation_terminal.log",
+      "bytes": 144,
+      "sha256": "b66bd44fa2963d587aa9fefd66c74cab8bedd1809c27218f5732cf91e6a13774"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_feature_policy.log",
+      "bytes": 310,
+      "sha256": "3fd59b7cf845567b58ad44948a7a217d61f2f977418a4760746c4de2fef2351d"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_locator_terminal.log",
+      "bytes": 170,
+      "sha256": "c2f96be52bbcaba33fdc3281c8452a598c11742312cbb5e1b0c85eee07f9fb41"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_osc52.log",
+      "bytes": 20,
+      "sha256": "a8501dfd5cdf45c9d5afee5e75dfbadfbb6c4064448304573437472245f08633"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_pointer_terminal.log",
+      "bytes": 309,
+      "sha256": "69c50a78cca23966e8ac7611e007c3a908adcc9fec135698b6493210bf9e025c"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_queries.log",
+      "bytes": 27,
+      "sha256": "7f989a6befd7e9c891456fc94908436fc0a74041e04d766bfae9f516b101a66a"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_selective_erase.log",
+      "bytes": 29,
+      "sha256": "13d2135a2f94d1d764122941ea0882f8ff1c3ea032de9650cc2e904c3e3cc0b2"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_sixel_terminal.log",
+      "bytes": 1080,
+      "sha256": "a8e11c82eb3a6d943a064938d543cd0191bff5c87b6fdb579ffb7a91a0a5ccd0"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_tcap.log",
+      "bytes": 33,
+      "sha256": "e0a12cd49f9c30dff30b43f644e2cc4b5a4774ebea568bd15691b7b40c0120f4"
+    },
+    {
+      "path": "original-ci/ansi-components/gcc/test_udk_terminal.log",
+      "bytes": 187,
+      "sha256": "e7c9a904d3859f87eacec6a6a9b9c6c4ec6a22a6e74664452dc1dfa84a088ff1"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/build.log",
+      "bytes": 25240,
+      "sha256": "9f73df041c47f59856c755e4d32da701518d28f5db95881accbafae6c486e30f"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/configure.log",
+      "bytes": 3013,
+      "sha256": "922c61c060d3e9263cb70b0e6e4edc4a67a3cfd59cb4178d48284ec16eb470f8"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/sources.json",
+      "bytes": 5301,
+      "sha256": "e6fef857fabed1a73d0923f865d4c61bc4d8310a435d0daec75a259bd5d5f6d9"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_ansi_terminal.log",
+      "bytes": 109,
+      "sha256": "2bfeac5fcd3472e18ecf40f087a3b3a05b4f822e96e9b43be7d438f61c5861b0"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_bell_modes.log",
+      "bytes": 190,
+      "sha256": "1e69198f9d68cfb27b8501f836b8fc51f134e77dcd36af90486650920299beee"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_cancellation_terminal.log",
+      "bytes": 147,
+      "sha256": "ee624064c23a0b03f521d2c7ab24280330ad0aeb88a6f331843cf3b5f74f1162"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_feature_policy.log",
+      "bytes": 315,
+      "sha256": "77957edf37705657542948e1a9e1e9d965c269893055d71176c6f53b006b5a78"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_keyboard.log",
+      "bytes": 32,
+      "sha256": "9481387dfd0bb0f135c5b9678b6e95628dab6967cf82da6a8fd966b32e29daf0"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_locator_terminal.log",
+      "bytes": 173,
+      "sha256": "080715e829d74ee1ec8340c1afb50971702694d3d74db24241432e818b94fac9"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_modes.log",
+      "bytes": 24,
+      "sha256": "5ab66a81c83548af923ce75cc47e2449d29ae8eded3e4304b6fb04a3332a9843"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_osc52.log",
+      "bytes": 21,
+      "sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_pointer_terminal.log",
+      "bytes": 312,
+      "sha256": "04368dca8618c4c7d07c8cbe0828c446af9861f62186dab8658094bb0b66fe63"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_queries.log",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_selective_erase.log",
+      "bytes": 30,
+      "sha256": "631febf58a7ebd5f107b30ebd1cfb82eba820812288817c12b26f91f3e3a5fc2"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_sgr.log",
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_sixel_terminal.log",
+      "bytes": 1096,
+      "sha256": "42d6f6067351e9c7d3271a57d075d10061bddc5a2f8f504ed62807e5a4a24d19"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_state_control.log",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_tcap.log",
+      "bytes": 34,
+      "sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_terminal.log",
+      "bytes": 19,
+      "sha256": "7792e467452b024c3c748f4b99080b88d6253cfa9ef21c302271fb97021348eb"
+    },
+    {
+      "path": "original-ci/ansi-components/msvc/test_udk_terminal.log",
+      "bytes": 191,
+      "sha256": "a60f63ef4e4d601d2aa3ee9ae97dcc01558a7829357ead78871b1e3dc1fb5a26"
+    },
+    {
+      "path": "original-ci/ansi-components-run.json",
+      "bytes": 6391,
+      "sha256": "237b7b85d56bc8cf715e7e045eea6378bd092f5bc1b5d4166841eae184c80e1e"
+    },
+    {
+      "path": "original-ci/ansi-components-artifacts.json",
+      "bytes": 2285,
+      "sha256": "225a7f5c4c7b432e40b69b6b444412a0be911a9627fb6d836e64107746bbd48c"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-01/base-source.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-01/build-directory.txt",
+      "bytes": 36,
+      "sha256": "d1570a4ccd727e686c136afbbbad413521db1c47355df4f9a356e504fb84c9bc"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-01/compiler.txt",
+      "bytes": 232,
+      "sha256": "4dc9a4e32fd9e06d42fb307688c59d6d889f0ff90ce034cbefed21b0d451fd81"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/base-source.txt",
+      "bytes": 41,
+      "sha256": "70201db4cec01af031234ee7fc32a20eb28da016e18aa930cb8a437673678f01"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/build-directory.txt",
+      "bytes": 36,
+      "sha256": "78c8405322280db2239d8b78e9308fa1d20441977192892dea1e140af5f89465"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/build-targets-fixed.log",
+      "bytes": 16726,
+      "sha256": "8fb712a63abc66938f3f5f8e0137d11f7418b73e7ab8476e73869c4c368ef350"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/build.log",
+      "bytes": 45,
+      "sha256": "d49ac315fa5f1fe8a816703822f1468639d583a8292880271a5cb1039dff62ca"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/compiler.txt",
+      "bytes": 232,
+      "sha256": "4dc9a4e32fd9e06d42fb307688c59d6d889f0ff90ce034cbefed21b0d451fd81"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/configure.log",
+      "bytes": 4297,
+      "sha256": "1b5275435289497d0c25262c92615528534c7e74cc58ae0aaee6014bde77e221"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/source-recheck.log",
+      "bytes": 353,
+      "sha256": "f5d69d3ee99c040ebf268381014a42b771f4a24fca72f339af1db9e318add7f7"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/source.diff",
+      "bytes": 667,
+      "sha256": "a86b0977d75e807b89b5e8b19d255c87c8e4046208eff73d942cbd6aac045bac"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/sources.sha256",
+      "bytes": 539,
+      "sha256": "a2f81e4dfbb1fa0ffe5f9bc79c79688215e72a357698bea9b805b9a5c6d397fb"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-02/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/base-source.txt",
+      "bytes": 41,
+      "sha256": "70201db4cec01af031234ee7fc32a20eb28da016e18aa930cb8a437673678f01"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/build-directory.txt",
+      "bytes": 36,
+      "sha256": "78c8405322280db2239d8b78e9308fa1d20441977192892dea1e140af5f89465"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/build.log",
+      "bytes": 564,
+      "sha256": "9d3812c9efaa6dbcf02db29ac5ba5457f13241a63854b7b053ca7e789cb1cc96"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/compiler.txt",
+      "bytes": 232,
+      "sha256": "4dc9a4e32fd9e06d42fb307688c59d6d889f0ff90ce034cbefed21b0d451fd81"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/source.diff",
+      "bytes": 820,
+      "sha256": "bd9cf505e3f3a93fd811dd92ea3174e320f4d4bdca318e7e5e0464e25207ea9b"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/sources.sha256",
+      "bytes": 539,
+      "sha256": "3310bdc0f07856f27d73b18e3772debd8fdc6ed2b89b0f90ad1ff0d5671efaaa"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "local/answerback-nul-linux-gcc-03/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-01/base-source.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-01/build-directory.txt",
+      "bytes": 38,
+      "sha256": "6bf64a0599bb1794172cd1800e893257751a0fe6e35ea7a9b92400a2f548926e"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-01/compiler.txt",
+      "bytes": 118,
+      "sha256": "d55fcb3e9abb393ac95ffffa5fe52c13c79abead018abb911a0f46a324b0f91d"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/base-source.txt",
+      "bytes": 41,
+      "sha256": "70201db4cec01af031234ee7fc32a20eb28da016e18aa930cb8a437673678f01"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/build-directory.txt",
+      "bytes": 38,
+      "sha256": "3d5fe9edd612272d3c62694d08597ba5442c2216aefe6bbeb7b5b55ac67ff41b"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/build-targets-fixed.log",
+      "bytes": 16662,
+      "sha256": "e5b06981b733a86b44f77d2cbaa91e06f0cafedac710a92dc342af46b7d9887c"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/build.log",
+      "bytes": 45,
+      "sha256": "d49ac315fa5f1fe8a816703822f1468639d583a8292880271a5cb1039dff62ca"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/compiler.txt",
+      "bytes": 118,
+      "sha256": "d55fcb3e9abb393ac95ffffa5fe52c13c79abead018abb911a0f46a324b0f91d"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/configure.log",
+      "bytes": 4304,
+      "sha256": "ee50cde2b7de565bc501b3f7fbf0a7cde76ed1408b004f2425caff14732932d6"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/source-recheck.log",
+      "bytes": 353,
+      "sha256": "f5d69d3ee99c040ebf268381014a42b771f4a24fca72f339af1db9e318add7f7"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/source.diff",
+      "bytes": 667,
+      "sha256": "a86b0977d75e807b89b5e8b19d255c87c8e4046208eff73d942cbd6aac045bac"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/sources.sha256",
+      "bytes": 539,
+      "sha256": "a2f81e4dfbb1fa0ffe5f9bc79c79688215e72a357698bea9b805b9a5c6d397fb"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-02/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/base-source.txt",
+      "bytes": 41,
+      "sha256": "70201db4cec01af031234ee7fc32a20eb28da016e18aa930cb8a437673678f01"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/build-directory.txt",
+      "bytes": 38,
+      "sha256": "3d5fe9edd612272d3c62694d08597ba5442c2216aefe6bbeb7b5b55ac67ff41b"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/build.log",
+      "bytes": 564,
+      "sha256": "0d3f5a16bf84102ed69fd5ca7ef008919f9e40851b2a6acaaac08d9317a323ad"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/compiler.txt",
+      "bytes": 118,
+      "sha256": "d55fcb3e9abb393ac95ffffa5fe52c13c79abead018abb911a0f46a324b0f91d"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/source.diff",
+      "bytes": 820,
+      "sha256": "bd9cf505e3f3a93fd811dd92ea3174e320f4d4bdca318e7e5e0464e25207ea9b"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/sources.sha256",
+      "bytes": 539,
+      "sha256": "3310bdc0f07856f27d73b18e3772debd8fdc6ed2b89b0f90ad1ff0d5671efaaa"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/test_ansi_terminal.log",
+      "bytes": 107,
+      "sha256": "ebb2c0285f19e405a6ceafca0d0cb49897ef64ed9e5f022f2ea8e72d51ddb8af"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/test_keyboard.log",
+      "bytes": 31,
+      "sha256": "27ee53d7b3ed940985573c68f63329010c0cb536d411a4459b267cb2c061bcf5"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "local/answerback-nul-linux-clang-03/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "source/vendor/putty-0.85/unix/unicode.c",
+      "bytes": 9101,
+      "sha256": "917898661b2b7d108e35f25f8846aa6f325e07f4f31806252d7494c20a87a646"
+    },
+    {
+      "path": "source/vendor/putty-0.85/utils/ctrlparse.c",
+      "bytes": 1394,
+      "sha256": "1eeb0ed56e19ffea21bf6c263acf9d8ba22e9a1b3be7debc96b9e1e93fe14788"
+    },
+    {
+      "path": "source/vendor/putty-0.85/test/test_queries.c",
+      "bytes": 40209,
+      "sha256": "6b1b37532b693d378a79c8e4db1a146a6ba1d59bad4c765768b13a1e423b4ada"
+    },
+    {
+      "path": "controller/check-answerback-nul-linux.sh",
+      "bytes": 1653,
+      "sha256": "3becb828f75a79a6ad2ecb08abd199b6c86bb2899dfed5619f1942a5cd62f176"
+    },
+    {
+      "path": "controller/check-answerback-nul-linux-resume.sh",
+      "bytes": 877,
+      "sha256": "482ec69255aea04fed098c7458936e2af81a69499241e36d0308586426ea448f"
+    },
+    {
+      "path": "controller/check-answerback-nul-linux-final.sh",
+      "bytes": 1272,
+      "sha256": "9c82ce546a83fd7cb6e4808b321dbe344ab385f25df0e33137be4af985e32dd2"
+    },
+    {
+      "path": "controller/retain-answerback-nul.py",
+      "bytes": 3891,
+      "sha256": "5df1d3a8aea204497e6922f1ac4cb811ef0ac1d19afabc9aff2c53bc918900af"
+    }
+  ]
+}

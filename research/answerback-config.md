@@ -40,3 +40,26 @@ exact frontend and source-host identity. The frontend SHA256 is
 This portable diagnostic is not a final single-image acceptance. Unicode
 configuration, exhaustive numeric syntax, and complete xterm compatibility
 remain separate work. CI now includes the core and native regressions.
+
+## Unix conversion follow-up
+
+The first [component CI](https://github.com/xiongnemo/nemoterm/actions/runs/43755825392)
+at `23c90fe` passes MSVC but fails the unchanged query suite on both GCC and
+Clang with `FATAL ERROR: Out of memory`. The binary answerback test exposes a
+second inherited defect in the Unix locale converter: it appends the converted
+NUL repeatedly because it uses the zero return value as the consumed byte count.
+For NUL, zero is the conversion result rather than a byte count; this distinction
+is specified in [C draft N1570, section 7.29.6.3.2](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf).
+
+The converter now advances through the NUL byte within the provided input
+length, including any preceding shift sequence. The regression still requires
+the NUL and all following bytes; it is not removed or changed to truncate the
+answerback. The Windows conversion implementation is unaffected.
+
+Local GCC and Clang ASan/UBSan builds each pass the unchanged query, keyboard,
+state-control and ANSI suites. The ANSI suite checks all 243 retained streams
+whole and bytewise. Full CI for the combined source remains pending.
+`answerback-nul-unix.tar.gz` and its validation manifest retain the original
+failed component logs, passing MSVC result, local configure/build/test records,
+controller scripts, exact source and hashes. Initial local setup failures are
+retained separately from the product failure; no assertion was relaxed.

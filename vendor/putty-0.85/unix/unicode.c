@@ -34,6 +34,13 @@ bool BinarySink_put_mb_to_wc(
             size_t i = mbrtowc(&wc, mbstr, (size_t)mblen, &state);
             if (i == (size_t)-1 || i == (size_t)-2)
                 break;
+            /* A converted NUL returns zero, not the byte count. Consume
+             * through that byte, including any preceding shift sequence. */
+            if (i == 0) {
+                const char *nul = memchr(mbstr, '\0', (size_t)mblen);
+                assert(nul != NULL);
+                i = nul - mbstr + 1;
+            }
             put_data(bs, &wc, sizeof(wc));
             mbstr += i;
             mblen -= i;
