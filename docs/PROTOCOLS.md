@@ -1,6 +1,6 @@
 # NemoTerm 协议范围与缺口清单
 
-最近补充核对：2026-11-15。这是持续更新的覆盖账本，目标仍是用户要求的现代终端完整能力；不是“基本 ANSI 已经够用”的验收结论。支持状态针对本工作区，而非原版 PuTTY 的宣传描述。后续实现必须更新相应行，并补充精确测试和端到端证据。
+最近补充核对：2026-11-16。这是持续更新的覆盖账本，目标仍是用户要求的现代终端完整能力；不是“基本 ANSI 已经够用”的验收结论。支持状态针对本工作区，而非原版 PuTTY 的宣传描述。后续实现必须更新相应行，并补充精确测试和端到端证据。
 
 ## 状态及证据口径
 
@@ -14,12 +14,17 @@
 
 下表源码简称：**T**=`vendor/putty-0.85/terminal/terminal.c`，**H**=`terminal/terminal.h`，**W**=`windows/window.c`（后两者同一 vendor 根目录）。使用函数/分支名称定位，避免后续 Sixel 合入导致行号失效。序列中的 `CSI=ESC [`、`OSC=ESC ]`、`DCS=ESC P`、`APC=ESC _`，`ST=ESC \`；OSC 的 BEL 终止另测，不能把所有字符串协议一律当成 OSC。
 
+当前开发候选 `12ee33b` 的两条完整 CI 和 160 组单文件检查已通过，涵盖下述 ANSI/C0、UDK、响铃和能力报告变更；准确 EXE 的本机验收仍在进行。其完整 160×48 Sarasa 密集图片 GDI 负载已通过，私有工作集峰值 19.23 MB；本机输入法合成 DPI 检查尚未通过。详见[当前产物与失败记录](../research/gdi-image-cache.md)。历史证据只证明各自标注的构建和场景。
+
 ## 核心字符、状态、绘制
 
 | 家族 / 具体范围 | 状态 | 工作区证据与尚需证明的内容 |
 | --- | --- | --- |
 | C0：BEL、BS、HT、LF/VT/FF、CR、SO/SI、CAN/SUB、ESC；C1 及 7/8-bit 控制形式 | 源码已见，完整一致性待核实 | T `term_out`、UTF-8 解码与控制字符分支。应逐项测中断、取消、错误恢复、截断、UTF-8/C1 歧义及每个字节切分；不能仅测正常字符串。 |
+| CAN/SUB 取消与错误字符 | 开发实现；独立核心对照及完整 CI 通过 | 254 条独立 XTerm 流在整块和逐字节回放中相符，覆盖 23 种解析前缀、UTF-8/字节模式、单次移位、截断字符及边缘换行。CAN 不打印；SUB 按编码与字符集打印错误字符，并释放未完成的字符串解析资源。与 ANSI 合计 413 条可经 ConPTY 传输的原始流在完整 CI 中通过；二进制核心范围不冒充原生传输范围。见[取消语义](../research/control-cancellation.md)。 |
+| ANSI 字符集一致性级别 `ESC SP L/M/N` | 开发实现；独立核心对照及完整 CI 通过 | 独立于 DEC 工作级别和 C1 回复格式，控制后续锁定移位；保留已选 GL/GR、待执行单次移位，并遵循各类 reset/save/备用屏规则。243 条 XTerm 流在三编译器整块及逐字节回放中相符；原生投影 177 条，另 66 条明确仅属二进制核心范围。见[ANSI 对照](../research/ansi-conformance.md)。 |
 | C0 BEL 响铃 | 已证（默认提示音与渲染表面闪烁） | 声音、关闭、视觉模式及 OSC 终止符区分、连响抑制和有界记录已有核心测试。本机 `69cd5a4` 的 MessageBeep 调用成功，用户已确认听到提示音；同一镜像在实际 GDI/GL/DX 的渲染表面捕获中验证了视觉闪烁与恢复。该听感不跨 EXE 哈希追认；物理桌面闪烁、自定义 WAV 和 PC speaker 仍未验收。见[响铃记录](../research/font-zoom-and-bell.md)。 |
+| 响铃关注模式 `?1042/1043` | 开发实现；独立对照及完整 CI 通过 | 支持通知/抬升设置、查询及私有模式保存恢复；后台标签不因合成焦点消息清除通知，宿主实际重新激活才确认通知。112 个参考用例 / 192 条流、38 项 GDI/DirectX 实际窗口状态通过；保留先前抬升与焦点故障。物理任务栏呈现仍待验收，见[响铃关注模式](../research/bell-modes.md)。 |
 | ESC：`D/E/M/H`、`7/8`、`=`、`>`、`c`、`#3/#4/#5/#6/#8`、字符集 G0/G1 等 | 源码已见 | T ESC 分派含索引、制表、保存恢复、键盘模式、RIS、行属性/字符集；仍需各参数、组合状态和 reset 测试。 |
 | CSI 光标和编辑：`A/B/C/D/E/F/G/H/f/d/a/e`、`@/P/L/M/X/J/K`、`S/T`、`I/Z/g`、`b` | 源码已见，局部已证 | T `SEEN_CSI`；已有 `test_wrap/test_nonwrap` 覆盖换行、退格与宽字符边界。移动/插删/擦除/重复/制表仍需系统测试，尤其空参数、0、超大参数和滚动边界。 |
 | 标准模式 4/12/20；DEC 模式 1/2/3/5/6/7/8/25 | 源码已见 | T `toggle_mode`。需验证插入、回显、换行、应用光标、VT52、80/132列、反色、origin、wrap、重复键及光标状态之间的交互。 |
@@ -48,12 +53,13 @@
 | 家族 / 具体范围 | 状态 | 工作区证据与缺口 |
 | --- | --- | --- |
 | 普通/应用光标键、数字键盘、F键、Alt/Ctrl/Shift修饰 | 源码已见 | T `format_arrow_key` 等与W键盘路径；真实Windows键盘布局、AltGr、IME和ConPTY传输尚需验证。 |
+| DECUDK `DCS Ps;Pl \| ... ST` 与 `CSI ?25n` | 开发实现；独立对照及完整 CI 通过 | 下载有界功能键定义；VT220 键盘配置下按 Shift 功能键调用，默认配置和 kitty 优先级保持各自行为。91 个独立 XTerm 用例 / 238 步有核心对照；原生 Windows 投影 89 用例 / 232 条准确输入回复，两项任意字节传输明确仅属核心范围。完整 CI 已通过，本机物理键盘另待验收。见[UDK 记录](../research/dec-udk.md)与[组合产物](../research/gdi-image-cache.md)。 |
 | xterm `modifyOtherKeys`：`CSI > 4;Ps m`，扩展键格式 | 已证（字符键与 Windows 映射） | 支持 0–3 级、`>4n` 禁用、`?4m` 查询、`>4;0/1f` 格式、`?4g`/`>4g` 查询及 DECRQSS。`>4;level:mask m` 按 X11 修饰位屏蔽字符查找；主/备用屏共用，RIS 回到配置初值，kitty 增强输入优先。8 字节协议状态，编码无堆分配；Windows 预览字符不消费死键，AltGr、俄语、Unicode 提交及本地快捷键有测试。20 组核心中的 `test_mok` 与真实 ConPTY 精确字节、两套初始配置、鼠标选择和缩放通过。独立 XTerm(412) 对照及 Shift-Tab、格式查询/DECRQSS 差异见 [研究记录](../research/modify-other-keys.md)。其他资源 P0/1/2/3/6/7 尚未实现；物理键盘和真实 IME/agent 仍需验收。 |
 | CSI-u / kitty keyboard：查询 `CSI ? u`，设置 `CSI = flags;mode u`，push `CSI > flags u`，pop `CSI < n u` | 已证（有限范围） | `nemo_keyboard.c`实现flags 1/2/4/8/16，主/备用屏各32项栈、满栈淘汰最旧项、显式pop 0不操作、RIS清空、resize/光标保存不改模式。Win32接入按下/重复/释放、左右修饰键、锁状态、PC101基础键码、布局转换、死键/AltGr、UTF-16文本提交；本地快捷键优先。失焦补发已报告按键的释放并清状态。编码最多16个文本码点/256字节，无部分序列；栈66字节，按键跟踪按需分配约24KiB。`test_keyboard`及真实ConPTY精确字节、主备屏、冻结输出、Unicode提交、Ctrl+Shift+C/V和resize测试通过。Windows物理F键映射到F24，核心编码覆盖F35；Hyper/Meta无物理映射。真实IME候选/组合、Alt数字输入、更多布局和真实agent尚待验收；不以合成消息代替物理设备。参照 [kitty键盘规范](https://sw.kovidgoyal.net/kitty/keyboard-protocol/)；普通CSI u仍保留光标恢复。 |
 | Windows Win32 input `?9001 h/l` | 可选路径已证（有限范围） | 默认关闭；Terminal/Keyboard/Extended可启用。48字节栈编码器，按需约24KiB按键表，UTF-16、左右修饰键、重复/释放、控制信号、真实控制台鼠标及resize记录有测试；kitty/modifyOtherKeys优先。当前ConPTY普通VT转换丢失F21–F24，且绕过传统自定义按键，不能视为完整键盘验收；见[记录](../research/win32-input.md)。 |
 | 鼠标9/1000/1002/1003；传统编码、1005 UTF-8、1006 SGR字符格、1015 urxvt | 已证（有限范围） | `test_mouse` 精确字节覆盖三键、Alt/Ctrl、四向滚轮、坐标边界、最后SET编码/匹配RESET、tracking RESET、拖动去重、双宽行和历史独立坐标、Shift中途接管及取消。传统坐标最大223、UTF-8最大2015，越界不发；capture取消回最后合法点释放。 |
 | 1016 SGR像素、1007备用屏滚轮 | 已证（有限范围） | 核心测同格内像素移动/resize裁剪，1007仅备用屏且服从DECCKM。真实Win32→ConPTY→Python验证像素移动与窗口缩放；多屏DPI、触控板/物理设备尚需验收。 |
-| OSC22 鼠标指针形状 | 开发实现；核心与定向原生检查通过 | 30 种 Kitty 形状、主/备用屏各 16 项有界栈、设置/查询/reset；555 阶段独立对照整块与逐字节回放，保留三项取消回复差异。含缩放热点修复的新源码通过 GCC/Clang/MSVC，单 EXE 通过 53 项实际 Windows 光标检查及 44 次 ConPTY 回包，包括 Shift/选择、链接、标签切换与隐藏标签隔离。完整单文件回归停在外部 PowerShell 参数解析超时；同一失败产物的三次拖放复现均通过，原因与完整内存验收仍待完成。物理 DPI 及原 XTerm 未知名称语义另有边界。见[指针形状记录](../research/pointer-shapes.md)，已验收下载版未替换。 |
+| OSC22 鼠标指针形状 | 开发实现；核心、原生及完整 CI 通过 | 30 种 Kitty 形状、主/备用屏各 16 项有界栈、设置/查询/reset；555 阶段独立对照整块与逐字节回放，保留三项取消回复差异。含缩放热点修复的新源码通过 GCC/Clang/MSVC，单 EXE 通过 53 项实际 Windows 光标检查及 44 次 ConPTY 回包，包括 Shift/选择、链接、标签切换与隐藏标签隔离。后续两条完整 CI 与十二组内存负载通过；首轮外部 PowerShell 参数解析超时仍保留，未由通过结果解释。物理 DPI 及原 XTerm 未知名称语义另有边界。见[指针形状记录](../research/pointer-shapes.md)，已验收下载版未替换。 |
 | 鼠标侧键 XBUTTON1/2（xterm 按钮8/9） | 已证（有限范围） | 核心测试覆盖128/129按钮码、修饰键、各编码、拖动、取消、Shift隔离和无本地绑定。真实Win32→ConPTY验证两个侧键及左键/侧键混合捕获；重复获取自身捕获不再误释放全部按键。物理设备尚待验收。 |
 | 鼠标1001 highlight tracking | 已证（有限范围） | 应用CSI五参数T握手、限制行范围（lastrow排除）、半开字符选区、正反向短/长回报、五种坐标编码、双击选词/三击选行、软换行与宽字符已测。使用独立视口高亮，不写剪贴板；Shift仍转入本地选择。等待握手最多1秒，期间输入/解析/绘制继续；取消、缩放、字体、焦点、屏幕/编码切换、配置与RIS均清理。核心精确字节与真实窗口像素/ConPTY测试通过；复杂bidi/历史边界、极端坐标与物理设备仍须更广验收。Ctrl+右键保留本地菜单。 |
 | 焦点1004：`CSI I` / `CSI O` | 已证（有限范围） | 核心验证开关、重复通知抑制、焦点丢失先释放拖动及RIS。Win32 handler注入测试证明通知经过ConPTY抵达子进程；并非物理焦点/所有窗口管理器行为认证。 |
@@ -89,7 +95,8 @@
 | DCS XTGETTCAP：`DCS + q hex-names ST`，如`Co/TN/RGB`及键能力 | 已证（有限范围） | 查询终端名、颜色能力及逻辑键编码，复用实际输入编码器。支持功能键1..63的termcap/terminfo名称、导航及扩展修饰键名称、数字小键盘与退格/反向Tab等；另有无参数样式序列`smul/rmul`、`sitm/ritm`、`smxx/rmxx`、`Smol/Rmol`及`us/ue/ZH/ZR`别名，见[查询回放记录](../research/rendition-capabilities.md)。`Smulx`／`Setulc` 返回由客户端展开的 terminfo 程序，已有独立 ncurses 展开、完整 CI 和下载成品的本机回放验证，见[参数化下划线记录](../research/underline-capabilities.md)；不是任意 terminfo 查询，`Su`／`Setulc1` 仍未知。多名称单回复，未知名称结束列表，已知不可用名称无值；最多2047字节输入，回复硬上限22 KiB。核心测试覆盖断片、异常/取消、配置和模式切换；真实窗口15类无修饰键在普通/应用光标模式均与查询一致。物理键布局、本地快捷键、数字键盘完整修饰语义和剩余名称仍待验。 |
 | Sixel：`DCS P1;P2;P3 q ... ST`、repeat/color/raster指令；DECSDM80等 | 解码、局部滚动、行列/字体resize保留及有限实屏已证，完整兼容未完成 | `test_sixel`、`test_sixel_terminal`和两组Sixel原生窗口测试覆盖跨滚动边界保留、横向裁剪/恢复、主屏临时历史、备用屏删除行、清历史不删可见部分及移动后擦除。图片保持原始像素尺寸，按扫描行记录字符单位的滚动位移；字体变化后孔洞不变，新擦除按当前格宽/格高精确换算。擦除位图按32行按需分配，位置/掩码/解码器同享4MiB预算。显式寄存器重定义、共享/私有归属、CAN后共享定义保留及软/硬重置已有核心、sanitizer和三渲染器各16场景的本机API像素证据，见[调色板记录](../research/sixel-palette.md)；[完整CI及下载成品复核](../research/sixel-palette-ci.md)已通过。整合分支进一步修正隐式寄存器3、背景寄存器0和声明区域填充，核心及本机三渲染器各22场景通过，[背景记录](../research/sixel-background.md)与[完整CI/下载成品记录](../research/sixel-background-ci.md)已保留，原下载成品的DX资源验收失败记录保留；采用有界资源回落检查后的[整合版本机验证](../research/sixel-enclosure-integration.md)已通过GDI/DX完整负载，[整合CI与下载成品复核](../research/sixel-enclosure-integration-ci.md)已通过；真实多屏DPI切换及更多像素擦除边界/查询仍未完成。 |
 | kitty graphics：`APC G control;payload ST` | 已证（有限子集）；相对放置及 Unicode 占位待本机验收 | 直接 RGB/RGBA/PNG、`o=z` 压缩、分块、图像及功能查询、放置/删除、裁剪缩放、三层叠放、滚动与主备屏生命周期已接入。已验收 `752f3be` 单 EXE 在实际 GDI/GL/DX 各通过 24 项图像、12 项几何、29 项压缩、176 个功能查询及 216 个查询错误阶段；错误查询头不会再清掉待完成上传。独立 GDI 客户区捕获和 GDI/DX 大窗口内存负载也通过。开发分支新增相对放置与 Unicode 占位，238 个相对状态和 728 个 Unicode 状态通过，后者保留八项经独立 XTerm 确认的文本策略差异；能力查询已报告 U/P/Q/H/V，三编译器检查通过。惰性索引修复密集图片查找瓶颈，`f01927a` 普通完整 CI 与相同产品源码的 `056fe87` 单文件 CI 均通过；后者完成 154 组检查、十二组内存负载及 25,048 个单元中心像素检查。`fd0c253` 先前的混合配置标签关闭超时仍未解释；本机大窗口验收仍待完成。详见[最新开发构建](../research/kitty-unicode-ci.md)、[开发记录](../research/kitty-unicode-placeholders.md)、[密集负载](../research/unicode-dense-memory.md)及[关闭故障](../research/unicode-single-profile-close.md)。文件/共享内存及 Kitty 动画仍未实现。已验收范围见[功能查询实现](../research/kitty-feature-implementation.md)、[查询错误修复](../research/kitty-query-errors.md)及[成品验证](../research/kitty-query-transaction-product.md)。 |
-| 其他DCS/APC/PM/SOS、ReGIS、Tektronix、UDK/DRCS等历史家族 | 待逐项清点，未完成 | 当前原版`do_osc`默认忽略这些字符串；Sixel分支合入不会自动实现其余家族。保留xterm总清单作为完整性审计入口。 |
+| OSC60/61/62 能力与限制报告 | 开发实现；核心、原生及完整 CI 通过 | 从当前本地权限及已实现操作生成回复，不改变权限、不宣告尚未实现的 X 属性或字体切换。独立 XTerm 捕获 2,100 条流，1,780 条单查询用于原样对照；本地权限模型与 XTerm 主开关的差异另列。三配置共 72 项 ConPTY 用例在本机和完整 CI 通过。见[能力报告](../research/feature-policy.md)。 |
+| 其他DCS/APC/PM/SOS、ReGIS、Tektronix、DRCS等历史家族 | 待逐项清点，未完成 | 未列出的字符串处理仍须逐项核对；Sixel 和 UDK 合入不会自动实现其余家族。保留 xterm 总清单作为完整性审计入口。 |
 
 基础字符串缓冲原为 `OSC_STR_MAX=2048`。扩展不能粗暴地把所有OSC/DCS/APC都改成无限缓存；应分别确定流式处理、终止/取消语义、数量和内存上限，并验证被拒绝或截断后解析器能继续正确处理后续文本。设置上限不意味着可以无声地把功能缺失当作支持。
 
