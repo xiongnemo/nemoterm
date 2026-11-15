@@ -422,9 +422,7 @@ static void nemo_kitty_finish_apc(Terminal *term)
  * a terminator. An interrupted ESC is returned to the ordinary escape parser. */
 static bool nemo_kitty_apc_byte(Terminal *term, unsigned char c)
 {
-    if (c==0x18 || c==0x1a) {
-        nemo_kitty_cancel_input(term); term->termstate=TOPLEVEL; return true;
-    }
+    /* CAN/SUB are handled by the common parser transaction cleanup. */
     if (c==0x9c || (term->termstate==NEMO_APC_MAYBE_ST && c=='\\')) {
         nemo_kitty_finish_apc(term);
         term->kitty_apc=false; term->termstate=TOPLEVEL; return true;

@@ -3113,11 +3113,7 @@ static void nemo_presentation_tab_byte(Terminal *term, unsigned char c)
  * cancels DCS and returns the next byte to PuTTY's normal ESC state machine. */
 static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 {
-    if (c == 0x18 || c == 0x1a) {
-        nemo_presentation_cancel(term);
-        term->dcs_query_active = false;
-        nemo_sixel_cancel(term); term->termstate = TOPLEVEL; return true;
-    }
+    /* CAN/SUB are handled by the common parser transaction cleanup. */
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
         if (term->dcs_query_active) {
             if (term->dcs_query_type == 'U') nemo_charset_assign_preferred(term);
@@ -8030,6 +8026,43 @@ static void nemo_sgr_colour(Terminal *term, int *argi)
     }
 }
 
+/* CAN/SUB cancel the active parser transaction, not retained images or cached
+ * selections. SUB writes an error graphic without consuming a pending SS2/3.
+ * Pinned XTerm in byte mode maps that graphic through the current GL bank. */
+static void nemo_cancel_control(Terminal *term, unsigned control)
+{
+    if (term->termstate >= NEMO_APC_START &&
+        term->termstate <= NEMO_APC_MAYBE_ST_UTF8)
+        nemo_kitty_cancel_input(term);
+    if (term->termstate >= NEMO_DCS_HEADER) {
+        nemo_presentation_cancel(term);
+        term->dcs_query_active = false;
+        nemo_sixel_cancel(term);
+    }
+    if (term->iterm_osc) nemo_inline_cancel(term);
+    nemo_osc52_cancel(term->osc52);
+    term->termstate = TOPLEVEL;
+    term->esc_query = 0;
+    term->grapheme_pending = false;
+    if (control != 0x1a) return;
+
+    unsigned long graphic = 0x2426;
+    uint64_t checksum = 0;
+    if (!nemo_charset_base_utf8(term) && !term->vt52_mode) {
+        int pending = term->cset_ss;
+        term->cset_ss = 0;
+        struct term_utf8_decode unused = {0};
+        graphic = term_translate(term, &unused, 0x26);
+        term->cset_ss = pending;
+        if (graphic == UCSINCOMPLETE) return;
+        checksum = nemo_charset_checksum_metadata(
+            term, term->cset_attr[term->cset], 0x26);
+    }
+    term_display_graphic_char(term, graphic, checksum);
+    term->last_graphic_char = graphic;
+    term->last_graphic_checksum = checksum;
+}
+
 static void term_out(Terminal *term, bool called_from_term_data)
 {
     unsigned long c;
@@ -8147,6 +8180,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
             }
         }
 
+        if ((c == 0x18 || c == 0x1a) &&
+            !(term->termstate == TOPLEVEL && in_utf(term) && term->utf8.state)) {
+            /* Let the normal decoder finish a truncated UTF-8 character
+             * before the same control is replayed through unget. */
+            nemo_cancel_control(term, c);
+            goto character_done;
+        }
+
         if (term->termstate >= NEMO_APC_START && term->termstate <= NEMO_APC_MAYBE_ST_UTF8 &&
             nemo_kitty_apc_byte(term, (unsigned char)c))
             continue;
@@ -8155,13 +8196,6 @@ static void term_out(Terminal *term, bool called_from_term_data)
         if (term->termstate >= NEMO_DCS_HEADER &&
             nemo_dcs_byte(term, (unsigned char)c))
             continue;
-
-        if ((c == 0x18 || c == 0x1a) && term->termstate != TOPLEVEL) {
-            if (term->iterm_osc) nemo_inline_cancel(term);
-            term->termstate = TOPLEVEL;
-            term->esc_query = 0;
-            continue;
-        }
 
         uint64_t checksum = 0;
         /* Preserve the graphic byte before charset translation loses it. */
@@ -10408,6 +10442,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
 #endif
               default: break;          /* placate gcc warning about enum use */
             }
+      character_done:
         /* Cell writers/erasers invalidate affected selections themselves.
          * Only cursor movement needs this extra point check. Otherwise every
          * byte of an incoming query clears a selection covering the cursor. */

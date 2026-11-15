@@ -32,24 +32,9 @@ static Mock *ansi_mock(void)
 
 static unsigned replay_reference(bool bytewise)
 {
-    unsigned failed = 0, cancellation_differences = 0;
+    unsigned failed = 0;
     for (size_t i = 0; i < lenof(ansi_reference); i++) {
         const AnsiReference *ref = &ansi_reference[i];
-        const AnsiReference *expected = ref;
-        /* Preserve all independent SUB observations. Nemoterm's existing
-         * cancellation policy omits the error glyph; test that policy against
-         * the independent CAN observation for the otherwise identical stream.
-         * General SUB rendering is a separate compatibility gap. */
-        const char *cancel_can = !strcmp(ref->name, "ansiL-cancel-sub") ? "ansiL-cancel-can" :
-            !strcmp(ref->name, "ansiM-cancel-sub") ? "ansiM-cancel-can" :
-            !strcmp(ref->name, "ansiN-cancel-sub") ? "ansiN-cancel-can" : NULL;
-        if (cancel_can) {
-            for (size_t j = 0; j < lenof(ansi_reference); j++)
-                if (!strcmp(ansi_reference[j].name, cancel_can))
-                    expected = &ansi_reference[j];
-            assert(expected != ref);
-            cancellation_differences++;
-        }
         /* The independent collector uses a fresh process per case. RIS and
          * DECSTR preserve ANSI level, so reset alone cannot isolate cases. */
         Mock *mk = ansi_mock();
@@ -60,17 +45,16 @@ static unsigned replay_reference(bool bytewise)
             offset += length;
         }
         term_update(mk->term);
-        if (mk->to_backend->len != expected->reply_length ||
-            memcmp(mk->to_backend->s, expected->reply, expected->reply_length)) {
+        if (mk->to_backend->len != ref->reply_length ||
+            memcmp(mk->to_backend->s, ref->reply, ref->reply_length)) {
             report_fail(mk, __FILE__, __LINE__, "ANSI reference reply mismatch");
             print_wire("actual", mk->to_backend->s, mk->to_backend->len);
-            print_wire("oracle", expected->reply, expected->reply_length);
+            print_wire("oracle", ref->reply, ref->reply_length);
         }
         failed += mk->any_test_failed ? 1 : 0;
         mock_free(mk);
     }
-    assert(cancellation_differences == 3);
-    printf("ANSI %s: %zu streams, 240 exact XTerm replies, 3 explicit SUB policies, %u failures\n",
+    printf("ANSI %s: %zu unchanged XTerm streams, %u failures\n",
            bytewise ? "bytewise" : "whole", lenof(ansi_reference), failed);
     return failed;
 }
