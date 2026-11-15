@@ -218,6 +218,8 @@ static void test_kitty_query_reference(Mock *parent, const KittyFeatureReference
     if (mk) { parent->any_test_failed|=mk->any_test_failed; mock_free(mk); }
 }
 
+#include "test_kitty_relative.inc"
+
 static void test_kitty_terminal(Mock *mk)
 {
     Terminal *t=mk->term;
@@ -356,4 +358,5 @@ static void test_kitty_terminal(Mock *mk)
     puts("Kitty upstream feature queries: 84 cases, 176 states (22 explicit capability subsets)");
     test_kitty_query_reference(mk,kitty_query_error_reference,lenof(kitty_query_error_reference),true);
     puts("Kitty upstream query errors: 54 cases, 216 states (one data-error envelope control)");
+    test_kitty_relative_reference(mk);
 }
