@@ -172,7 +172,9 @@ jobs:
     # Run 43652684756 reached the 30-minute job ceiling during its final
     # compressed-image memory group. The expanded native suites and ten memory
     # workloads keep their individual deadlines, assertions and limits.
-    timeout-minutes: 40
+    # The complete native suite reached the former 40-minute outer deadline
+    # during its final dense-image workload. Keep individual test bounds intact.
+    timeout-minutes: 50
     defaults:
       run:
         shell: msys2 {0}

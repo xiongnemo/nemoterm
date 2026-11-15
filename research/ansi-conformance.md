@@ -124,7 +124,22 @@ workloads, not local 160×48 Sarasa acceptance. Current DX memory is accepted.
 The simultaneous ordinary run, 43705998603, failed the reference generator's
 strict UTF-8 encoding check before the frontend build. `6d9d80d` fixes the
 file-read encoding without changing production sources; its replacement
-ordinary run is still pending. The original failed ordinary evidence and
+ordinary run subsequently reaches the outer job deadline, as described below.
+The original failed ordinary evidence and
 successful single-image evidence are preserved together in
 `ansi-conformance-evidence/single-5bc9608.tar.gz` (4,620 records, 8,356,678 bytes),
 indexed by `ansi-conformance-single-validation.json`.
+
+The replacement ordinary run,
+[43706562015](https://github.com/xiongnemo/nemoterm/actions/runs/43706562015),
+passes its sanitizer, MSVC renderer and source-host jobs. Its Windows job is
+cancelled exactly at the 40-minute outer deadline during the final dense DX
+workload; the retained GitHub annotation explicitly confirms that limit.
+Eleven uninjected workloads, including dense GDI, complete successfully, but
+there is no completed dense DX result or successful portable artifact. This
+is partial evidence, not a full ordinary pass. The original logs, annotations,
+unverified image and artifacts are retained in
+`ansi-conformance-evidence/ordinary-timeout-6d9d80d.tar.gz` (4,538 records,
+9,099,528 bytes), indexed by `ansi-conformance-ordinary-timeout-validation.json`.
+The current CI gives that outer job 50 minutes; individual test deadlines,
+memory assertions and production code are unchanged by the budget adjustment.
