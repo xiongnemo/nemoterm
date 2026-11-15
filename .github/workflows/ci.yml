@@ -219,6 +219,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-ansi-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-cancellation-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_guarded_area_cases.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/generate_alignment_oracle.py --check
@@ -245,12 +247,12 @@ jobs:
           '-DCMAKE_EXE_LINKER_FLAGS=-Wl,--gc-sections -static-libgcc'
           -DPUTTY_GSSAPI=OFF
       - name: Build terminal and regression tests
-        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_ansi_terminal test_pointer_terminal test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
+        run: cmake --build build --target pterm test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_ansi_terminal test_cancellation_terminal test_pointer_terminal test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io --parallel 4
       - name: Run tests
         run: |
           set -euo pipefail
           mkdir -p test-results
-          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_ansi_terminal test_pointer_terminal test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
+          for test in test_conf test_terminal test_sixel test_iterm test_kitty_transport test_zlib test_kitty_cache test_kitty_layout test_kitty_placements test_raster test_iso2022_charset test_sixel_terminal test_resize test_reflow test_mouse test_colour test_osc_colour test_modes test_sync test_snapshot test_sgr test_queries test_ansi_terminal test_cancellation_terminal test_pointer_terminal test_titles test_tcap test_highlight test_hyperlink test_keyboard test_osc52 test_mok test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_shell test_font_cmap test_font_fallback test_tabs_layout test_handle_io; do
             echo "Running $test"
             "./build/$test.exe" 2>&1 | tee "test-results/$test.log"
           done
@@ -710,6 +712,13 @@ jobs:
           $testExit = $LASTEXITCODE
           Copy-Item research/state-control-observed.json, research/state-control-window.png test-results/ -ErrorAction SilentlyContinue
           exit $testExit
+      - name: Compare ANSI shifts and control cancellation through ConPTY
+        shell: pwsh
+        run: |
+          python tests/control_cancellation_window_smoke.py 2>&1 | Tee-Object test-results/control-cancellation-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/control-cancellation-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
       - name: Compare native tabulation with independent XTerm replies
         shell: pwsh
         run: |
@@ -957,6 +966,7 @@ jobs:
       - name: Test bounded zlib with sanitizers
         run: |
           python3 scripts/generate-ansi-reference.py --check
+          python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check
           python3 scripts/generate-kitty-query-error-reference.py --check
@@ -1059,7 +1069,7 @@ jobs:
             -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined'
-          cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_queries test_ansi_terminal test_pointer_terminal test_titles test_osc_colour --parallel 4
+          cmake --build build-asan --target test_sixel_terminal test_hyperlink test_keyboard test_osc52 test_mok test_reflow test_win32_input test_state_control test_selective_erase test_rectangle test_margins test_cwd test_shell_marks test_queries test_ansi_terminal test_cancellation_terminal test_pointer_terminal test_titles test_osc_colour --parallel 4
           cmake --build build-asan --target test_grapheme_terminal test_sgr test_tcap --parallel 4
           set -o pipefail
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
@@ -1094,6 +1104,8 @@ jobs:
             ./build-asan/test_queries 2>&1 | tee terminal-queries-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_ansi_terminal 2>&1 | tee terminal-ansi-sanitizers.log
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ./build-asan/test_cancellation_terminal 2>&1 | tee terminal-cancellation-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
             ./build-asan/test_pointer_terminal 2>&1 | tee terminal-pointer-sanitizers.log
           ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \

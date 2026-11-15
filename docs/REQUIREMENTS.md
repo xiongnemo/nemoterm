@@ -17,12 +17,17 @@ work. Local interactive desktop testing remains paused until the user resumes it
 
 `ESC SP L/M/N` now sets separate ANSI charset conformance state, with no new
 per-cell storage or distribution dependency. GCC/Clang sanitizers and MSVC at
-`889c941` each replay 243 independent XTerm streams both whole and bytewise:
-240 exact wire matches and three explicitly retained SUB glyph-policy differences.
+`d07f13d` each match all 243 independent XTerm streams both whole and bytewise.
+The [CAN/SUB checkpoint](../research/control-cancellation.md) additionally
+matches 254 cancellation streams and passes 64 payload lifetime cycles per
+compiler. It implements SUB error-character display and removes the three
+previous ANSI SUB exceptions, while retaining their original observations.
 The same matrix exposed and verified a fix for leaked escape-sequence letters
 in VT52 mode. Existing query, state, keyboard and pointer regressions pass.
 See [implementation and original failures](../research/ansi-conformance.md).
-Complete product/native checks and local acceptance for this change are pending.
+Product CI now includes a 413-stream native projection plus literal pixel
+comparisons; 84 binary-only cases remain explicitly core-only. Complete
+product/native checks and local acceptance for this change are pending.
 
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 

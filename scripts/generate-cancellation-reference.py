@@ -37,4 +37,26 @@ if args.check:
     assert path.read_text(encoding='utf-8') == generated, 'Regenerate cancellation reference'
 else:
     path.write_text(generated, encoding='utf-8')
+
+# This projection is for the existing UTF-8 console-output fixture. Raw C1
+# bytes and deliberately truncated UTF-8 remain in the complete core matrix.
+native, excluded = [], []
+for name, case in data['cases'].items():
+    wire, reply = (bytes.fromhex(case[key]) for key in ('sequence_hex', 'reply_hex'))
+    try:
+        text = wire.decode('utf-8')
+    except UnicodeDecodeError:
+        excluded.append((name, 'non-UTF-8 input bytes'))
+        continue
+    assert text.encode('utf-8') == wire and all(c < 128 for c in reply)
+    native.append((name, text, reply))
+assert len(native) == 236 and len(excluded) == 18
+projection = '# Generated from unchanged XTerm observations.\n'
+projection += 'REFERENCE_SHA256 = ' + repr(digest) + '\n'
+projection += 'CASES = ' + repr(native) + '\nEXCLUDED = ' + repr(excluded) + '\n'
+path = root/'tests/control_cancellation_native_cases.py'
+if args.check:
+    assert path.read_text(encoding='utf-8') == projection, 'Regenerate native cancellation reference'
+else:
+    path.write_text(projection, encoding='utf-8')
 print('254 unchanged XTerm streams; 1960 Unicode cell observations; 4 literal controls')

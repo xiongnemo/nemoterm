@@ -54,15 +54,22 @@ dispatcher source used for the audit.
 
 ## Terminal implementation and replay
 
+The newer [CAN/SUB checkpoint](control-cancellation.md) at `d07f13d` matches
+all 243 unchanged ANSI reference streams on GCC/Clang sanitizers and MSVC,
+whole and bytewise. It removes the three SUB policy exceptions described in
+the historical checkpoint below. A 177-stream native projection is now wired
+into product CI, with 66 binary-only cases named as exclusions; its native
+result is still pending.
+
 [Run 43705674015](https://github.com/xiongnemo/nemoterm/actions/runs/43705674015)
 at `889c941` passes GCC and Clang AddressSanitizer/UndefinedBehaviorSanitizer,
 and MSVC. Each compiler replays every input against a fresh terminal, both as
 one chunk and one byte at a time. **240 streams exactly match XTerm's complete
 wire replies** in each mode, including Unicode checksums and charset/cursor
-reports. Three named SUB cases assert the existing Nemoterm cancellation policy
+reports. At that historical revision, three named SUB cases assert the Nemoterm cancellation policy
 against the corresponding independent CAN observation: no error glyph is
 inserted. The original SUB replies remain unchanged in the generated header
-and archive. General SUB display parity remains an explicit gap.
+and archive. The newer cancellation checkpoint closes those three differences.
 
 The implementation preserves ANSI level through RIS, DECSTR, cursor saves and
 alternate-screen changes. DECSCL resets character sets under the old ANSI state,

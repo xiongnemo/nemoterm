@@ -37,4 +37,29 @@ if args.check:
     assert path.read_text(encoding='utf-8') == generated, 'Regenerate ANSI conformance reference'
 else:
     path.write_text(generated, encoding='utf-8')
+
+# The native console fixture writes UTF-8 text. Keep only losslessly encodable
+# streams with seven-bit replies, and name every omitted binary-only case.
+native, excluded = [], []
+for name, case in data['cases'].items():
+    wire, reply = (bytes.fromhex(case[key]) for key in ('sequence_hex', 'reply_hex'))
+    try:
+        text = wire.decode('utf-8')
+    except UnicodeDecodeError:
+        excluded.append((name, 'non-UTF-8 input bytes'))
+        continue
+    if any(c >= 128 for c in reply):
+        excluded.append((name, 'eight-bit reply framing'))
+        continue
+    assert text.encode('utf-8') == wire
+    native.append((name, text, reply))
+assert len(native) == 177 and len(excluded) == 66
+projection = '# Generated from unchanged XTerm observations.\n'
+projection += 'REFERENCE_SHA256 = ' + repr(digest) + '\n'
+projection += 'CASES = ' + repr(native) + '\nEXCLUDED = ' + repr(excluded) + '\n'
+path = root/'tests/ansi_conformance_native_cases.py'
+if args.check:
+    assert path.read_text(encoding='utf-8') == projection, 'Regenerate native ANSI reference'
+else:
+    path.write_text(projection, encoding='utf-8')
 print('243 unchanged XTerm streams; 1443 Unicode cell observations; 3 literal controls')
