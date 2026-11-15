@@ -21,8 +21,8 @@ workflows: all four ordinary CI jobs and **163 single-image groups**. Its
 `f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107`.
 The [candidate record](../research/answerback-product-ci.md) retains original
 GitHub artifact ZIPs, exact member hashes and complete workflow identities.
-Local acceptance is running against that exact image and source-matched
-fixtures: 41 background groups, with eight foreground/clipboard groups still
+Local acceptance uses that exact image and source-matched fixtures: 41
+background groups have run, with eight foreground/clipboard groups still
 requiring an available desktop. CI's smaller Consolas grids do not replace the
 local 160x48 Sarasa measurements. The accepted distribution remains unchanged.
 
@@ -34,6 +34,16 @@ first thirteen completed groups, source-matched fixtures, raw samples and
 retained pixel strips are independently reviewed in
 `answerback-product-local-gdi-validation.json` and its archive. Remaining local
 groups and full-goal requirements are not covered by this partial checkpoint.
+
+The separate `answerback-product-local-background-validation.json` now retains
+the other 28 groups, including 153 native image/geometry stages, all six shells,
+session/restart, zoom, four tab-bar positions and ten passing ordinary image
+memory workloads. Overall **40 of 41 background groups pass**. Dense DirectX
+fails the unchanged 25,000,000-byte private-working-set gate at **27,602,944
+bytes** after all 29,072 pixels, ten lifecycle checks and natural cleanup of
+56 processes pass. Its original failure remains intact; no further DX memory
+optimization or promotion is performed. The eight desktop/clipboard cases and
+original full protocol/application scope remain open.
 
 The older `69496bb` ordinary workflow succeeded, but its single-image Unicode
 workload failed during tab cleanup. Instrumented exact-image replays show that

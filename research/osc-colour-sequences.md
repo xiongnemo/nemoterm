@@ -46,9 +46,20 @@ now passes GCC/Clang ASan/UBSan and MSVC at source
 replay modes. Its original logs, artifact receipts and source hashes are retained
 in `osc-colour-sequence-ci.tar.gz` and its validation manifest.
 
-The native ConPTY fixture is wired into both product workflows, and the
-single-image plan gains one group. **Native replay and complete product CI are
-not yet verified for this change.** The ongoing 49-group local
+The native ConPTY comparison now reproduces the first differing reply on the
+exact old `253855b` single image, then matches **all 64 unchanged streams** on
+the fixed `31747b9` portable image with the source-built console host. The
+positive case exits naturally with all three owned processes gone. The negative
+fixture aborts at its expected mismatch and forcibly drains its own job; that
+cleanup is retained and is not a passing shutdown test. Original images,
+source-matched fixtures, raw replies and logs are retained in
+`osc-colour-sequence-native.tar.gz` and its validation manifest. An earlier
+preparation was stopped before any native test to correct the expected tab side
+in the preceding memory report; that controller record is retained too.
+
+The native fixture is wired into both product workflows, and the single-image
+plan gains one group. **Complete product CI is not yet verified for this
+change.** The separate 49-group local
 acceptance uses the previous exact `253855b` executable, so its results and
 memory measurements do not certify this later parser patch. Neither the
 accepted executable nor the main branch has been replaced.

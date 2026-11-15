@@ -1,0 +1,3759 @@
+{
+  "identity": {
+    "fixture_source": "31747b9aba2199ddf896f06f87a05c829a223d69",
+    "physical_input": false,
+    "clipboard_access": false,
+    "variants": {
+      "negative": {
+        "frontend_sha256": "f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107",
+        "single_executable": true,
+        "sidecars": {}
+      },
+      "fixed": {
+        "frontend_sha256": "1c4b000e3d6d165b6ddaefdeae5457851242f9cb01aa76a320c7ba1b1abdf61f",
+        "single_executable": false,
+        "sidecars": {
+          "OpenConsole.exe": "e3f4f7ef4a8c8105bdf8dea84bb4d135d7e0e9cfc477c2c0ca11d2489b39ed68",
+          "conpty.dll": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+        }
+      }
+    }
+  },
+  "results": [
+    {
+      "variant": "negative",
+      "exit_code": 1,
+      "completed": false,
+      "streams": 1,
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 3,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 58476,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\osc-colour-sequence-native-02\\negative\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 80752,
+            "image": "C:\\Users\\nemo\\Documents\\Projects\\nemoterm\\build\\osc-colour-sequence-native-02\\negative\\dist\\nemoterm.exe",
+            "exit_code": 259
+          },
+          {
+            "pid": 52556,
+            "image": "C:\\Users\\nemo\\scoop\\apps\\python\\3.15.0\\python.exe",
+            "exit_code": 259
+          }
+        ]
+      }
+    },
+    {
+      "variant": "fixed",
+      "exit_code": 0,
+      "completed": true,
+      "streams": 64,
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": false,
+        "remaining_processes": []
+      }
+    }
+  ],
+  "matched_native_streams": 64,
+  "scope": "Old exact single image reproduces the reply difference and its failed fixture drains the owned job; fixed portable image matches all 64 streams with natural cleanup. No single-image product acceptance.",
+  "preparation_correction": {
+    "reason": "Stopped before any native comparison; correct the expected DirectX report side from top to left.",
+    "native_comparison_started": false,
+    "pid": 13304
+  },
+  "archive": {
+    "path": "osc-colour-sequence-native.tar.gz",
+    "bytes": 9033252,
+    "sha256": "226806fbe8c8ce6df5df4a7c25c3675526ee490707defccfbbebd3b60e52d250"
+  },
+  "records": [
+    {
+      "path": "IDENTITY.json",
+      "bytes": 696,
+      "sha256": "89206f64cf6e9f624fff4790fe9a5434fed326c4f327846d3ffeb824dddec12f"
+    },
+    {
+      "path": "controller.py",
+      "bytes": 4712,
+      "sha256": "a35efb99b91a1e2ac160e4741c6e716c0b30bb8e5d80597036b9e4a77cac5252"
+    },
+    {
+      "path": "fixed/dist/OpenConsole.exe",
+      "bytes": 4544512,
+      "sha256": "e3f4f7ef4a8c8105bdf8dea84bb4d135d7e0e9cfc477c2c0ca11d2489b39ed68"
+    },
+    {
+      "path": "fixed/dist/conpty.dll",
+      "bytes": 119608,
+      "sha256": "feeef341d891643c62d30b6b07800bc70f0bc148f44cb8c3bee84aa557ae805a"
+    },
+    {
+      "path": "fixed/dist/nemoterm.exe",
+      "bytes": 4027278,
+      "sha256": "1c4b000e3d6d165b6ddaefdeae5457851242f9cb01aa76a320c7ba1b1abdf61f"
+    },
+    {
+      "path": "fixed/logs/native.log",
+      "bytes": 64,
+      "sha256": "ed33d673ec40a522824ff469b08e38c9b231133f70a5a73bf70633a2c4bb5900"
+    },
+    {
+      "path": "fixed/research/osc-colour-sequence-observed.json",
+      "bytes": 21839,
+      "sha256": "52fbb4ed22130f22538209b6df76b69aceb4dded61e294baa59198b74f8deaab"
+    },
+    {
+      "path": "fixed/tests/agent_clipboard_fixture.py",
+      "bytes": 14306,
+      "sha256": "87cae7a708147ed1156412a1169b367d499f728905307bfa81d14cae7321405a"
+    },
+    {
+      "path": "fixed/tests/agent_clipboard_smoke.py",
+      "bytes": 5542,
+      "sha256": "d5cf6415bd81dc1b83a97f4886b4d802846bd85682868c03ac3d9254fe71dc4e"
+    },
+    {
+      "path": "fixed/tests/agent_key_probe.js",
+      "bytes": 2407,
+      "sha256": "aeff8aeb85642447dc6d66cd48aedfb872f0f6bf314a52b36455cbcc32117ea3"
+    },
+    {
+      "path": "fixed/tests/alignment_oracle_cases.h",
+      "bytes": 4033,
+      "sha256": "ce9c40c454fd79f85ce90390229a636e5d893130e9d3b17ccac0bbf2daff33f2"
+    },
+    {
+      "path": "fixed/tests/alignment_oracle_cases.py",
+      "bytes": 3894,
+      "sha256": "f83083f83dbe5e460a4026f5249f48c6972037ad3f0029996112a677c6f2f1c3"
+    },
+    {
+      "path": "fixed/tests/alignment_window_smoke.py",
+      "bytes": 4089,
+      "sha256": "2fb6edf8b47d8970b0777eca3700fda5d6802aa7fd68b0d02f70e4beb5439612"
+    },
+    {
+      "path": "fixed/tests/allocation_census.h",
+      "bytes": 4493,
+      "sha256": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e"
+    },
+    {
+      "path": "fixed/tests/allocation_census.py",
+      "bytes": 5857,
+      "sha256": "2bd40dc781e6b89447377b3f75c68bcf0d8bf2f0866045b8f15d76d23e24cbd0"
+    },
+    {
+      "path": "fixed/tests/allocation_census_native_test.py",
+      "bytes": 5646,
+      "sha256": "985c5cb6bdb2d2bb4be433d076415515fc83db7c87c389be78d27e9dd57917ae"
+    },
+    {
+      "path": "fixed/tests/allocation_census_pages.py",
+      "bytes": 3709,
+      "sha256": "57ec190a8ea1ed17b0a1a8446dee28160064b45ec6df279da6699a78cbc20fd9"
+    },
+    {
+      "path": "fixed/tests/allocation_census_pages_test.py",
+      "bytes": 2592,
+      "sha256": "ac46c2975070a92919c668081b3fa366248febc507249d88396bfb149ed0d02b"
+    },
+    {
+      "path": "fixed/tests/allocation_census_probe.js",
+      "bytes": 10299,
+      "sha256": "309aaf43df242dd35158cdaf8442889deb53ad7c2cce58f1dc8972dfa92c7730"
+    },
+    {
+      "path": "fixed/tests/allocation_census_selftest.js",
+      "bytes": 10245,
+      "sha256": "783fa04b903ccbd036985ddb814acda23ba6595b548c320ea27824eb58bb879b"
+    },
+    {
+      "path": "fixed/tests/allocation_census_validate.py",
+      "bytes": 2746,
+      "sha256": "716b45a27b5219b52f545c606b8d0b37a9a80f7ba7a1aa668444a800fe1d9394"
+    },
+    {
+      "path": "fixed/tests/ansi_conformance_native_cases.py",
+      "bytes": 87985,
+      "sha256": "5ece618d36f1cc9ae0d0ffee94bb0591c19e494dc59fabbbeee5412a18a4a6a0"
+    },
+    {
+      "path": "fixed/tests/ansi_conformance_reference.h",
+      "bytes": 120702,
+      "sha256": "fb0d428d15c2a34232d2451d549109a2ddcbdefaa771d5f3f680f2b065cd71af"
+    },
+    {
+      "path": "fixed/tests/answerback_config_window_smoke.py",
+      "bytes": 2083,
+      "sha256": "e389c489e49507a2362c760e073c7ddadff0e3897e36a1bcb9b1bd61b8e8598a"
+    },
+    {
+      "path": "fixed/tests/attribute_colour_cases.h",
+      "bytes": 8336,
+      "sha256": "6487f78f28826a0336655778eb53e97bbb0f7f090bdc7601e1fc266e3c9266e8"
+    },
+    {
+      "path": "fixed/tests/attribute_colour_cases.py",
+      "bytes": 2746,
+      "sha256": "d3277e2936582127f2f8f9cf79e361c8414f8932f61612f3cd66d273d12d2858"
+    },
+    {
+      "path": "fixed/tests/attribute_colour_window_smoke.py",
+      "bytes": 6447,
+      "sha256": "399337868020baf51fac17928b6b25a29e5f0bdb344d672c97e918e050e3c183"
+    },
+    {
+      "path": "fixed/tests/automation_capture.py",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "fixed/tests/automation_window_smoke.py",
+      "bytes": 11396,
+      "sha256": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce"
+    },
+    {
+      "path": "fixed/tests/bell_modes_reference.h",
+      "bytes": 34796,
+      "sha256": "b8fb38b93da6abd82a5cee7c68224ac94b1dca9213bb906ff90ff9fda174b93b"
+    },
+    {
+      "path": "fixed/tests/bell_modes_window_smoke.py",
+      "bytes": 10160,
+      "sha256": "ff90f6fe8c7d0602570b114362ad7edfb839b2f4995fd73d0353ffdc118ed6ba"
+    },
+    {
+      "path": "fixed/tests/bell_visual_window_smoke.py",
+      "bytes": 5049,
+      "sha256": "7efe4534c2719e1c285e21e2bf3de15810455cc305b442bad491b69bc44c4d1b"
+    },
+    {
+      "path": "fixed/tests/bell_window_smoke.py",
+      "bytes": 1792,
+      "sha256": "e707368067d18a9f7f550897e7cd09ab9afb2f8a53517943712d8ebd010406ca"
+    },
+    {
+      "path": "fixed/tests/bell_window_state_smoke.py",
+      "bytes": 18476,
+      "sha256": "b9652ea5b96583d20c776e4cf6d04b1395390e70533f3c39854fab7beed998c9"
+    },
+    {
+      "path": "fixed/tests/bindings_window_smoke.py",
+      "bytes": 6235,
+      "sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874"
+    },
+    {
+      "path": "fixed/tests/c1_controls_oracle_cases.h",
+      "bytes": 24762,
+      "sha256": "da4e7977154b88e6b4e40fecfb6c7b4addc2fa3588f446193c0a2b95fbc19b66"
+    },
+    {
+      "path": "fixed/tests/c1_controls_oracle_cases.py",
+      "bytes": 24167,
+      "sha256": "72e339f164f13004ee6b5e96ef8154b6a21d5a426e112b3c20906160b0d3955e"
+    },
+    {
+      "path": "fixed/tests/c1_controls_window_smoke.py",
+      "bytes": 2751,
+      "sha256": "9f527da50c7cdbe1174c8ee427fee3e85d52d34320a8a4bc1dd05199544cdf02"
+    },
+    {
+      "path": "fixed/tests/capture_window.py",
+      "bytes": 3395,
+      "sha256": "f116e77cfca3eac15ce6da84ad19c6ff97dea606a41b68acc92f2b2555a4f70c"
+    },
+    {
+      "path": "fixed/tests/caret_startup_probe.js",
+      "bytes": 835,
+      "sha256": "77187715147009fe4f93c985a19d11a488efe646b5d6fa74fc751dbedb461f92"
+    },
+    {
+      "path": "fixed/tests/caret_startup_window_smoke.py",
+      "bytes": 5987,
+      "sha256": "c5901a32ab54260c2eacf9fd9e0e50c3b9b7a198811fb7908cb45f74857c43c3"
+    },
+    {
+      "path": "fixed/tests/charset_checksum_reference.h",
+      "bytes": 260334,
+      "sha256": "e551e87902f5ff8783220d32f4942dac51b68397c63a439bb021fed761fbb2a0"
+    },
+    {
+      "path": "fixed/tests/charset_input_reference.h",
+      "bytes": 72886,
+      "sha256": "698bf6a795de3d4c84f4ccdba65249009e519e9a3db02686d14509becfdf6643"
+    },
+    {
+      "path": "fixed/tests/charset_parser_reference.h",
+      "bytes": 23265,
+      "sha256": "d337558422bbfd86cdd281094e1514096064849edbf7653187897186fc164949"
+    },
+    {
+      "path": "fixed/tests/charset_reference.h",
+      "bytes": 128365,
+      "sha256": "23a815d4c76a1d24d47789322c74ca1f196010ca0d8916384a5ae4933083dd70"
+    },
+    {
+      "path": "fixed/tests/charset_state_reference.h",
+      "bytes": 9097,
+      "sha256": "82f2866d3977ac39c88b03b27d44e8fdfcb889d9b65134b2689df9bf9bec2a4c"
+    },
+    {
+      "path": "fixed/tests/checksum_direct_cases.py",
+      "bytes": 874,
+      "sha256": "945697c51e421521f67e627a1b84ac8c1d3057a918962aac0b652b440ec23442"
+    },
+    {
+      "path": "fixed/tests/checksum_oracle_cases.h",
+      "bytes": 48303,
+      "sha256": "adc22d0e1d11c70145f0705e18e38aa9e2f5e6b5d9d2e0ff127b569f16e200fa"
+    },
+    {
+      "path": "fixed/tests/checksum_oracle_cases.py",
+      "bytes": 44175,
+      "sha256": "b53552f5eae7bd609c0dfbe3e67e7169d9f51e98588f9c5401da8983cd67c8b0"
+    },
+    {
+      "path": "fixed/tests/checksum_window_smoke.py",
+      "bytes": 2182,
+      "sha256": "1eb3e825dd7e028ce4a268b84cb598b580b4ba5889da8be49be99ff22678e3e3"
+    },
+    {
+      "path": "fixed/tests/clipboard_delivery_probe.js",
+      "bytes": 637,
+      "sha256": "6571749a5d9e31f605d958d9ca4ff276061f72a4d83ade8bdf1a6ac0bbe55888"
+    },
+    {
+      "path": "fixed/tests/clipboard_test_utils.py",
+      "bytes": 4253,
+      "sha256": "cd7137b1766f8d096534013f39fcea29b21b2b2de8818e7e7569e34ea895a560"
+    },
+    {
+      "path": "fixed/tests/codex_console_probe.js",
+      "bytes": 1328,
+      "sha256": "6d6816255f4055670f32a959c8f4243cf2cf29d99d577c4508846bd7c3a4c7bb"
+    },
+    {
+      "path": "fixed/tests/codex_fixture_server.py",
+      "bytes": 6602,
+      "sha256": "938fd179394b7ee5bded20c39c83c612cc4613fde7b135d3b892de87c9c9625e"
+    },
+    {
+      "path": "fixed/tests/codex_window_smoke.py",
+      "bytes": 18528,
+      "sha256": "f3e372469ac6244267c7eabadade8a75ad63e22be9fc9014db3ea39b269509e3"
+    },
+    {
+      "path": "fixed/tests/command_line_profile_window_smoke.py",
+      "bytes": 4352,
+      "sha256": "c240f227663c238967b00b9c2f4e11d28bf7979934974f7dba755703eac30c59"
+    },
+    {
+      "path": "fixed/tests/console_process_utils.py",
+      "bytes": 4774,
+      "sha256": "b7f396b4b074d0be0b6facc22020b38bbaa840c1262d6c99375efa723e554d29"
+    },
+    {
+      "path": "fixed/tests/console_unicode_window_smoke.py",
+      "bytes": 3712,
+      "sha256": "b9fff6beb626c5da71a99478f45afbae0dd71ba77fa86e08e4b618892d48097a"
+    },
+    {
+      "path": "fixed/tests/control_cancellation_native_cases.py",
+      "bytes": 123588,
+      "sha256": "632d106fd0c7a86d87dae7e7fe1396a167923a1e0b54453ff2ef0bf25ea3043e"
+    },
+    {
+      "path": "fixed/tests/control_cancellation_reference.h",
+      "bytes": 136218,
+      "sha256": "507306e38585130fde5fc6c89eedb602e7c0e519d3a12d26e2c0455e8b96c258"
+    },
+    {
+      "path": "fixed/tests/control_cancellation_window_smoke.py",
+      "bytes": 2169,
+      "sha256": "f29448d0070905b116fcce9bf82e0a81e8ee4820ebc0b9e84e031c432ac10b3d"
+    },
+    {
+      "path": "fixed/tests/cursor_charset_cases.h",
+      "bytes": 9050,
+      "sha256": "9f376c69a9169ddccb73d224d1161007c5e35aa3a18af7b8d7c91cc557bb1f5c"
+    },
+    {
+      "path": "fixed/tests/cursor_charset_cases.py",
+      "bytes": 2250,
+      "sha256": "e2ae7b9ef96a0be7f58eb9956a892ef93031c5e4024d7245c6f8a40623ae8329"
+    },
+    {
+      "path": "fixed/tests/cwd_fixture.py",
+      "bytes": 542,
+      "sha256": "f9f37d78a07680cf2c427e9d71162a35d3672a13f4d3bc15ceb0d57b78531933"
+    },
+    {
+      "path": "fixed/tests/cwd_window_smoke.py",
+      "bytes": 11357,
+      "sha256": "f1f7593290b8c6ebb5881539c90fba8b17b120d9e6fcbff3f93392288d259e2b"
+    },
+    {
+      "path": "fixed/tests/dec_status_oracle_cases.h",
+      "bytes": 7135,
+      "sha256": "91e920081fe028311c04fe3061415a3863638feef63d46cfca7ef4fb3834f525"
+    },
+    {
+      "path": "fixed/tests/dec_status_oracle_cases.py",
+      "bytes": 6952,
+      "sha256": "e29ad86ab877cbdcbef1baafa75ab34a0f260fd81916f59e31d0e4892200366d"
+    },
+    {
+      "path": "fixed/tests/dec_status_window_smoke.py",
+      "bytes": 3115,
+      "sha256": "7e9029195139e8e03603842d3fa814e56e7325d76475ed620454f545b74cb2d4"
+    },
+    {
+      "path": "fixed/tests/delegated_console_fixture.py",
+      "bytes": 735,
+      "sha256": "40f21b987e2fb0a5ce74f8fd0c1c17dc915449cab4f8ba5a091146e249b2eb8a"
+    },
+    {
+      "path": "fixed/tests/delegated_console_window_smoke.py",
+      "bytes": 2363,
+      "sha256": "18b0418db89fdf7f8fc28ef0baddbc36bc34876ffb5c7739d1de14cdcea04dfa"
+    },
+    {
+      "path": "fixed/tests/display_fixture.py",
+      "bytes": 1343,
+      "sha256": "765ce4340532d5b031098b018c2053d5362525f5a336ab01af31849f0a98ae49"
+    },
+    {
+      "path": "fixed/tests/double_size_oracle_cases.h",
+      "bytes": 10790,
+      "sha256": "ac3179addcb4cf50414019248c1cf4a7d8155492fd1542866386d2ebe67e6a28"
+    },
+    {
+      "path": "fixed/tests/double_size_oracle_cases.py",
+      "bytes": 5624,
+      "sha256": "47d5eb520840bc16314347a5a722cdbe60299885fc8d0bcb65f59ba1da95f63f"
+    },
+    {
+      "path": "fixed/tests/double_size_window_smoke.py",
+      "bytes": 763,
+      "sha256": "96c4dd4d8fb0cb9a4047b055c30fde245346fb1c57ccd91a568498079029d851"
+    },
+    {
+      "path": "fixed/tests/drop_window_smoke.py",
+      "bytes": 12658,
+      "sha256": "5f057eda3d503eedd32de29a909a3a7b4066fc725e2511d1aed60cc436655eec"
+    },
+    {
+      "path": "fixed/tests/etw_extract.py",
+      "bytes": 4961,
+      "sha256": "dcbed1e984e74d907d93293a8c777aa5f4b2f0a1bf193e4ff5f6e7fe0947888f"
+    },
+    {
+      "path": "fixed/tests/etw_memory_trace.py",
+      "bytes": 3848,
+      "sha256": "5350503bad10c01ab53c47233e0e199baac05e37088d69b0c00210c67258909e"
+    },
+    {
+      "path": "fixed/tests/etw_memory_validate.py",
+      "bytes": 2298,
+      "sha256": "0b01ce2c43fba3ddd92a508b188b5fc6876063c1d253d93bac657589b3aade50"
+    },
+    {
+      "path": "fixed/tests/etw_region_report.py",
+      "bytes": 7260,
+      "sha256": "3e53b59f06a27d1cc5ceb36c6fefeee41a425ca109768d8d0fb0f695537526d1"
+    },
+    {
+      "path": "fixed/tests/feature_policy_reference.h",
+      "bytes": 231032,
+      "sha256": "c0b62cf16437abb4e3d6cc7440b2ab2780d51c2c63c24514392cca4d45e108a3"
+    },
+    {
+      "path": "fixed/tests/feature_policy_window_smoke.py",
+      "bytes": 4659,
+      "sha256": "e8aa11342d0e72b8cfa9ca95163a29fad7cf522c147e8ae66e2cbe65c7fd80fa"
+    },
+    {
+      "path": "fixed/tests/fixture_io.py",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "path": "fixed/tests/fixture_traceback.py",
+      "bytes": 1138,
+      "sha256": "03d114fc96a33655d0d1cfd97d0cc742422c5a970df1727cbbabcf76de1982a2"
+    },
+    {
+      "path": "fixed/tests/fixture_traceback_test.py",
+      "bytes": 1389,
+      "sha256": "902c429ccb6b07bc98c9447205a7fab991d50019d47df08f847ff3384816fc0a"
+    },
+    {
+      "path": "fixed/tests/font_fallback_window_smoke.py",
+      "bytes": 10357,
+      "sha256": "af54333f535b39fb9bcf0301e7616234d31ce83120c89752b5de7264715d29ff"
+    },
+    {
+      "path": "fixed/tests/font_probe.c",
+      "bytes": 807,
+      "sha256": "686418907fd6423ed32e8bb43f89789312f16df98546ef9e44cb667e256d8571"
+    },
+    {
+      "path": "fixed/tests/font_resize_window_smoke.py",
+      "bytes": 6736,
+      "sha256": "f99e4ade42f08a71ce2b5601cf544f58ccdb03bfa7ef56a0f430eae5907563c5"
+    },
+    {
+      "path": "fixed/tests/font_zoom_window_smoke.py",
+      "bytes": 13909,
+      "sha256": "fec31574f04b4195b5733865717853e5758251be42f07a2c3f847d4715b067e6"
+    },
+    {
+      "path": "fixed/tests/frida_test_utils.py",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+    },
+    {
+      "path": "fixed/tests/generate_alignment_oracle.py",
+      "bytes": 2089,
+      "sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9"
+    },
+    {
+      "path": "fixed/tests/generate_attribute_colour_cases.py",
+      "bytes": 1155,
+      "sha256": "35708c3b411e45ca46c161cc061b6592abc78f1aa658d38919817a6374f4c3b5"
+    },
+    {
+      "path": "fixed/tests/generate_c1_controls_oracle.py",
+      "bytes": 1403,
+      "sha256": "3ec02abf28af16ba57b8fafb75e3a99cfb73688d2d29640c9e9f86569d1e77d6"
+    },
+    {
+      "path": "fixed/tests/generate_checksum_oracle.py",
+      "bytes": 2055,
+      "sha256": "7b9370136601eed46cea0fe8e8d1830be841034a008adc41555af8abfba849b3"
+    },
+    {
+      "path": "fixed/tests/generate_cursor_charset_cases.py",
+      "bytes": 1135,
+      "sha256": "a33e7eaeb776d981b5262d9bb18fa4ec7d640ac5e8fda600888c9b6cea81d8ee"
+    },
+    {
+      "path": "fixed/tests/generate_dec_status_oracle.py",
+      "bytes": 1486,
+      "sha256": "13d318730066314608958001d1d5ef3cd55f56cb482b757511bcd2ada009cfa2"
+    },
+    {
+      "path": "fixed/tests/generate_double_size_oracle.py",
+      "bytes": 1844,
+      "sha256": "bef3e29831f47f74ff4f8e10b75ac0dfeef703a2cc50abd91921b8a2b5611619"
+    },
+    {
+      "path": "fixed/tests/generate_graphics_query_oracle.py",
+      "bytes": 1687,
+      "sha256": "bcb10585027105c7e216aa4ee5c8bf9e2367ddb659be2459a3bb5a42484fbfe1"
+    },
+    {
+      "path": "fixed/tests/generate_guarded_area_cases.py",
+      "bytes": 1113,
+      "sha256": "bbd289fa6da0c8555436884666ea0e83a9408136dcb4fdc40fd2d6d1dba44860"
+    },
+    {
+      "path": "fixed/tests/generate_horizontal_oracle.py",
+      "bytes": 1597,
+      "sha256": "245e55c5bdf5cbf7ffcd9c730abd55fb430461e19e75b4c12eb3a8c95000106a"
+    },
+    {
+      "path": "fixed/tests/generate_margin_oracle.py",
+      "bytes": 1741,
+      "sha256": "f77405eb2d5a8adf61ec35eb5274e854d7ef0424511fd29234fcb3c6a3a46ef2"
+    },
+    {
+      "path": "fixed/tests/generate_palette_stack_oracle.py",
+      "bytes": 1362,
+      "sha256": "6538039d53d08d2b431b90749c10360532c2a42892882fdb92268b523ef5a49d"
+    },
+    {
+      "path": "fixed/tests/generate_presentation_state_oracle.py",
+      "bytes": 1875,
+      "sha256": "c2c75658c1e645a541cfe151f46a531c9b21840b3ca91caff251a04d7e143c2e"
+    },
+    {
+      "path": "fixed/tests/generate_rectangle_oracle.py",
+      "bytes": 1347,
+      "sha256": "eae34fcc5f97be3eabb69a8619a6f7031d60c928f4abc7efd84c3b4cedc22f44"
+    },
+    {
+      "path": "fixed/tests/generate_relative_cursor_oracle.py",
+      "bytes": 2070,
+      "sha256": "30153b0b3f15ae32d31d84f9a7aa38548971ff1269903569cf05989ce9f2f57e"
+    },
+    {
+      "path": "fixed/tests/generate_reset_palette_oracle.py",
+      "bytes": 1875,
+      "sha256": "13a1112e445aa4f5ec640abeb6a507f0de21bb869fd9f4214885a4271f266b87"
+    },
+    {
+      "path": "fixed/tests/generate_reverse_wrap_oracle.py",
+      "bytes": 1992,
+      "sha256": "6dea0c2bf4dc586f4d1fa8b466db57ce9d1adcecce0fda51c5594c17ec6a8902"
+    },
+    {
+      "path": "fixed/tests/generate_selection_colour_cases.py",
+      "bytes": 1139,
+      "sha256": "35fd66ad7585a84c4093dff43ffa981c9b5246d19ecb9c6e17bdde164bcaedf4"
+    },
+    {
+      "path": "fixed/tests/generate_sgr_stack_oracle.py",
+      "bytes": 1748,
+      "sha256": "e5c28f0dded15f13756e3c9933cfdb0a1ccd7e9b559c07ebb60aa10c823c4e81"
+    },
+    {
+      "path": "fixed/tests/generate_tabulation_oracle.py",
+      "bytes": 1711,
+      "sha256": "eecaf30887e90cbcd8fb542436f5795cec31108de17517439ab33ebe94741af2"
+    },
+    {
+      "path": "fixed/tests/geometry_gl_probe.js",
+      "bytes": 3230,
+      "sha256": "c49c40b471b374751ae93bae4eaed71bcf4f1aa7d9837f938406319483eed8ee"
+    },
+    {
+      "path": "fixed/tests/geometry_window_smoke.py",
+      "bytes": 15801,
+      "sha256": "4eb64cdef3ff84c61f687a58104636e33f5ed88841e4232b50f3e9647c124276"
+    },
+    {
+      "path": "fixed/tests/gif_animation_window_smoke.py",
+      "bytes": 4695,
+      "sha256": "d1ad555e1d46317d84a14179085711c5b949851ccefeae4b0eefc99287b264ef"
+    },
+    {
+      "path": "fixed/tests/gif_fixture.py",
+      "bytes": 2223,
+      "sha256": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0"
+    },
+    {
+      "path": "fixed/tests/gpu_capture.js",
+      "bytes": 2742,
+      "sha256": "bf9232a8ba0b35650e351ed2db8e0a142cb450fb308c53c39b1ea464b22bfd2a"
+    },
+    {
+      "path": "fixed/tests/gpu_capture.py",
+      "bytes": 1626,
+      "sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343"
+    },
+    {
+      "path": "fixed/tests/gpu_faults.js",
+      "bytes": 5764,
+      "sha256": "d4f7dea65a7d120b270fd7ee9f0a63af1108107a3461d3eb78e68422bbf0b709"
+    },
+    {
+      "path": "fixed/tests/gpu_lifecycle_window_smoke.py",
+      "bytes": 7753,
+      "sha256": "e4cbd8e4d9127cda37f74d336965967707d175e0f97b8f967be2c4926d59f397"
+    },
+    {
+      "path": "fixed/tests/gpu_settings_driver.ps1",
+      "bytes": 3941,
+      "sha256": "27a5894c0738a6580325670620bead38473db7fe68a3cfdd1f5bd9d0930d278e"
+    },
+    {
+      "path": "fixed/tests/grapheme_window_smoke.py",
+      "bytes": 12026,
+      "sha256": "af3ee0bd2bbe63c56ca371f894c4245a3ddaf85749457ac580c993c1833e11f7"
+    },
+    {
+      "path": "fixed/tests/graphics_query_oracle_cases.h",
+      "bytes": 3609,
+      "sha256": "c55e512b7e56a9bfeb219ba042d6915ba9b0e8d2d0ccb1cabf24cca7d4dd5b5c"
+    },
+    {
+      "path": "fixed/tests/graphics_query_oracle_cases.py",
+      "bytes": 3525,
+      "sha256": "367d9d75ea4bce2dd42498b7acd9a8a88563c307715fa019d88f3c6255e3ec52"
+    },
+    {
+      "path": "fixed/tests/graphics_query_window_smoke.py",
+      "bytes": 2834,
+      "sha256": "b043d8e229ddb2622bfbcf82b4bf4f93ec3eb30044bec1592bb8475e1d8ef213"
+    },
+    {
+      "path": "fixed/tests/guarded_area_cases.h",
+      "bytes": 25775,
+      "sha256": "6caf5a476366ad6e69c087e8046ebfe0a81b39f087ba45fbfbd937cc85415c28"
+    },
+    {
+      "path": "fixed/tests/guarded_area_cases.py",
+      "bytes": 3991,
+      "sha256": "67f09a4413dd26a10494e225e117286c9728246e40664e2475c3d7cc6c6f04f6"
+    },
+    {
+      "path": "fixed/tests/guarded_area_window_smoke.py",
+      "bytes": 2771,
+      "sha256": "4936b99d97898000c224ff037678d8ece8579d2fede56756a9a7804449928735"
+    },
+    {
+      "path": "fixed/tests/handle_snapshot.py",
+      "bytes": 7089,
+      "sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e"
+    },
+    {
+      "path": "fixed/tests/handle_snapshot_native_test.py",
+      "bytes": 8020,
+      "sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846"
+    },
+    {
+      "path": "fixed/tests/handle_trace.js",
+      "bytes": 5899,
+      "sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd"
+    },
+    {
+      "path": "fixed/tests/handle_trace.py",
+      "bytes": 2515,
+      "sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870"
+    },
+    {
+      "path": "fixed/tests/handle_trace_native_test.py",
+      "bytes": 7393,
+      "sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3"
+    },
+    {
+      "path": "fixed/tests/highlight_window_smoke.py",
+      "bytes": 7085,
+      "sha256": "76f4ed675f972c849bf99f7586c9d9ae4752b6b098b9f117dceb76c5623a5a6c"
+    },
+    {
+      "path": "fixed/tests/horizontal_oracle_cases.h",
+      "bytes": 206077,
+      "sha256": "3ff4fbecd6d36e9348b51d254449673542b7c4a10097a86211d6cdba1ca07c5a"
+    },
+    {
+      "path": "fixed/tests/horizontal_oracle_cases.py",
+      "bytes": 947027,
+      "sha256": "3fc0717d029b3038e521a025650b5d856c513f51ad239d44a0d1a03618f9a5b9"
+    },
+    {
+      "path": "fixed/tests/horizontal_window_smoke.py",
+      "bytes": 2330,
+      "sha256": "de808694bda88031b4b1880d7e599c22d6e6fc9d9dd7fd6acec54d7568cbc114"
+    },
+    {
+      "path": "fixed/tests/hyperlink_message_probe.js",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9"
+    },
+    {
+      "path": "fixed/tests/hyperlink_target.py",
+      "bytes": 299,
+      "sha256": "4db2cb479214b8560d7b3e0216584b88ea78ccb3c69849e893cb94066d1d07d9"
+    },
+    {
+      "path": "fixed/tests/hyperlink_window_smoke.py",
+      "bytes": 40148,
+      "sha256": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f"
+    },
+    {
+      "path": "fixed/tests/image_rectangle_window_smoke.py",
+      "bytes": 9054,
+      "sha256": "4f1aebbdd5264ed39b7d696c17dec4a55048ad0dcf028ea3702ac756720e540b"
+    },
+    {
+      "path": "fixed/tests/input_method_probe.js",
+      "bytes": 3931,
+      "sha256": "0f48d207ac1ea8a410bd9477fe6893644f5ecb78e43d6069bf485816a2810c55"
+    },
+    {
+      "path": "fixed/tests/input_method_window_smoke.py",
+      "bytes": 9851,
+      "sha256": "eba52d45945c50f774c0adf37364511544f270cfafacdfa5e2e593275d5da8da"
+    },
+    {
+      "path": "fixed/tests/iso2022_window_smoke.py",
+      "bytes": 8440,
+      "sha256": "de84069617adecea4884f8f3b563e0083f0d97c9cf08760649df61f54f46e410"
+    },
+    {
+      "path": "fixed/tests/iterm_image_window_smoke.py",
+      "bytes": 6228,
+      "sha256": "1947c8f54d31f9927adb0e9ea5fa6480a4bc48cee17544935dee6d8adcdc8d05"
+    },
+    {
+      "path": "fixed/tests/iterm_reports_window_smoke.py",
+      "bytes": 1708,
+      "sha256": "15bb8dd719ee3b307e866839841111532520c7a2e3c4c6000ffb7166c75ba400"
+    },
+    {
+      "path": "fixed/tests/keyboard_window_smoke.py",
+      "bytes": 9009,
+      "sha256": "d0ca95d2be378f880330a48c62e29d5e7e1d4b8113be613867f9ef9eccab0b30"
+    },
+    {
+      "path": "fixed/tests/kitty_compression_oracle.py",
+      "bytes": 9344,
+      "sha256": "f9e97acc75d718c6d72e641ed0a163e7a6f07ec97125926616a0cc32fbb6744b"
+    },
+    {
+      "path": "fixed/tests/kitty_compression_window_smoke.py",
+      "bytes": 3627,
+      "sha256": "be31c9547a836b18f2fb7db13483b0723849f3e30d4883178d8123cab022c7d6"
+    },
+    {
+      "path": "fixed/tests/kitty_feature_reference.json",
+      "bytes": 63832,
+      "sha256": "a7e4f45a62d00df2a4c161c0964694b9cd542c755e577f7cb399de5185c916a9"
+    },
+    {
+      "path": "fixed/tests/kitty_features_oracle.py",
+      "bytes": 7749,
+      "sha256": "19f17d0ae0768353a05cb01db258e853ff79c2fe0517bd6a7dddad7adbed1f72"
+    },
+    {
+      "path": "fixed/tests/kitty_features_window_smoke.py",
+      "bytes": 1256,
+      "sha256": "2d2f3f87fdca0f970941c4f4440e665148318f9c7f22cb32a8eeb6bf538145ba"
+    },
+    {
+      "path": "fixed/tests/kitty_geometry_window_smoke.py",
+      "bytes": 15131,
+      "sha256": "37233319fbcf12473e6dd7a8f5fc258604426685d11aafa8df99091320222e35"
+    },
+    {
+      "path": "fixed/tests/kitty_graphics_oracle.py",
+      "bytes": 11635,
+      "sha256": "e75e5719ccf501841c7161e88bc34e4a5c5799f4c78117b449b8597d1bbd10c3"
+    },
+    {
+      "path": "fixed/tests/kitty_image_window_smoke.py",
+      "bytes": 4773,
+      "sha256": "8a8c667c4cb8473917b3daeeef632db62d728e0dc3efab59e43d54e12066439a"
+    },
+    {
+      "path": "fixed/tests/kitty_layout_reference.h",
+      "bytes": 1911,
+      "sha256": "b33cc16d6d31d0d99f4a14d57cee4ed4b10be93d28c13cb6935f8b9d5b8e825c"
+    },
+    {
+      "path": "fixed/tests/kitty_placement_reference.h",
+      "bytes": 9716,
+      "sha256": "71a9979164beee5e3da8fd5a077ea2a8e7193d3f7af3a717f63dfc82c36e449b"
+    },
+    {
+      "path": "fixed/tests/kitty_pointer_oracle.py",
+      "bytes": 8410,
+      "sha256": "7c441380b54fa82c1a59d5d85f650ea8f495c00da7036a298363b11f85f2a64e"
+    },
+    {
+      "path": "fixed/tests/kitty_query_error_reference.json",
+      "bytes": 65413,
+      "sha256": "e73028a55fd364733d80713c1d441174c4890665c88d89c65004f13450c73d81"
+    },
+    {
+      "path": "fixed/tests/kitty_query_errors_oracle.py",
+      "bytes": 2310,
+      "sha256": "48b31ec2de6ed989c62d38639b213c84c7be7fbeadaaf0613e48f91a15ed404f"
+    },
+    {
+      "path": "fixed/tests/kitty_query_errors_window_smoke.py",
+      "bytes": 1252,
+      "sha256": "1901d8be604fea46a9623474b73eaae4971a28182b58dab7d2bbb6713f5b521c"
+    },
+    {
+      "path": "fixed/tests/kitty_relative_oracle.py",
+      "bytes": 11578,
+      "sha256": "92313787434f9cb6c3898ac35b4ed6d4c1362ce20270390ae7895858cdff742b"
+    },
+    {
+      "path": "fixed/tests/kitty_tab_workload.py",
+      "bytes": 2433,
+      "sha256": "e6d8533db3658059fd830d100e77148b14317368b981142b400552bab55fff7e"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_geometry_oracle.py",
+      "bytes": 4146,
+      "sha256": "27e0e935f84e239be4d920b4d24f8669596a4b826e67278a811f5a84d8a26942"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_geometry_reference.json",
+      "bytes": 320347,
+      "sha256": "2fbf8a045a1be6ce4080862c01ce016cc4da3c5af8eb540b4e511bff831cedfe"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_geometry_window_smoke.py",
+      "bytes": 213,
+      "sha256": "38112fcc995e7470a44b75f3a32197aecb93df0d3f5d1431f28cbfaeb1d7bab2"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_oracle.py",
+      "bytes": 13709,
+      "sha256": "66814069218dbe9a347c0de47bda3fba076f338a787e77f3fc6e07924d32d492"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_selection_window_smoke.py",
+      "bytes": 11243,
+      "sha256": "3092e1c1a44de2c49be0767c679f720340f0d507bf553d559ae5e22cbbbd69d1"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_tab_workload.py",
+      "bytes": 3469,
+      "sha256": "bbc1237e643320b1c2b8bfc2a3e4d5dea8d99c3cacafc8f214a5df3ea9d3d8c0"
+    },
+    {
+      "path": "fixed/tests/kitty_unicode_window_smoke.py",
+      "bytes": 5066,
+      "sha256": "2236e4066cd9d5ab49f11038090c04e11f76c329241b709d3cbb6743325408c2"
+    },
+    {
+      "path": "fixed/tests/legacy_parameter_reference.h",
+      "bytes": 16051,
+      "sha256": "194f222e190791a9b7b07549199d11b9aac80547e4409191b61880c05b809bd8"
+    },
+    {
+      "path": "fixed/tests/legacy_parameter_reference.json",
+      "bytes": 30231,
+      "sha256": "6256aef7ddebf2ed292d73ea9aac1821f56e4d68af06341937212d54dc10817f"
+    },
+    {
+      "path": "fixed/tests/legacy_parameter_window_smoke.py",
+      "bytes": 1662,
+      "sha256": "8b788a5473399f3a8d004bd03090aa7e7b07b41a9aba7a1b6c92ec7ede860c61"
+    },
+    {
+      "path": "fixed/tests/locator_reference.h",
+      "bytes": 43471,
+      "sha256": "af5b4594b743bf122e6b659cbd4b23c11b2b1f9454e1f5a2802d1595925e1ff2"
+    },
+    {
+      "path": "fixed/tests/locator_window_smoke.py",
+      "bytes": 8934,
+      "sha256": "00c40034e2777e0840b2240a4a48a06cbd63f5f6192f0d7a87c1af9a17bcf59e"
+    },
+    {
+      "path": "fixed/tests/margin_oracle_cases.h",
+      "bytes": 69476,
+      "sha256": "fc7c755c8ceb19d55174051a9ae1027d2b1103c9b5d9d77ee80941b171abf485"
+    },
+    {
+      "path": "fixed/tests/margins_window_smoke.py",
+      "bytes": 10368,
+      "sha256": "ba87561bc244fb354df78a3a2bf2f430ee115005555e5ef5ad8a1562b752a58f"
+    },
+    {
+      "path": "fixed/tests/memory_limits.py",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "path": "fixed/tests/memory_limits_test.py",
+      "bytes": 1172,
+      "sha256": "8ebf46eda9a1a6924aaa7087735efd5c80094a374a5606792c106fd228825668"
+    },
+    {
+      "path": "fixed/tests/memory_sample_test.py",
+      "bytes": 2116,
+      "sha256": "450b41898a23b678f6f543401ebc56d5617d438e346775fecc5f41a3bd6c638b"
+    },
+    {
+      "path": "fixed/tests/mok_window_smoke.py",
+      "bytes": 9409,
+      "sha256": "39e6b6cd64ab04b525b18f0b5c11dcfcabd72a1087a9842de2f19907db723c85"
+    },
+    {
+      "path": "fixed/tests/mouse_fixture.py",
+      "bytes": 5737,
+      "sha256": "7ea357ae2b3e7ed88178c452e88c41c2868ee8cb775963788b4ee202f8402d40"
+    },
+    {
+      "path": "fixed/tests/mouse_window_smoke.py",
+      "bytes": 10443,
+      "sha256": "ab6d95221e22285dac944379c0865fb1cb0445769d212ac1386a2357b9e9a046"
+    },
+    {
+      "path": "fixed/tests/native_exception_control.c",
+      "bytes": 1299,
+      "sha256": "5b4247638f4c8edcd586a4398231782a20fd37a18287857faa0d7bf5e8ea16a7"
+    },
+    {
+      "path": "fixed/tests/native_exception_controls.py",
+      "bytes": 4010,
+      "sha256": "b5ed07ef529051fc9bc11a453882bdd5a52f594b617f2eaecfffb317417ab996"
+    },
+    {
+      "path": "fixed/tests/native_exception_observer.c",
+      "bytes": 7877,
+      "sha256": "1fbe0fc6ba222a20b127f8280fe1a0f68bcbc9ade9470854be94fc85da39f214"
+    },
+    {
+      "path": "fixed/tests/native_exception_observer.py",
+      "bytes": 4857,
+      "sha256": "ac3e0eeba94125ab497630b0bed3f0c06ec084e16c402a00f88f968d7cfaff57"
+    },
+    {
+      "path": "fixed/tests/native_failure_dump.c",
+      "bytes": 2015,
+      "sha256": "2c598d70d53ce183dd03138f9f1433f6d82d17acf10bf8c392d4f270ed3f3691"
+    },
+    {
+      "path": "fixed/tests/native_failure_dump.py",
+      "bytes": 2893,
+      "sha256": "2c8cd34025e5421abe139044f88914b6ce5a4d96d918433862b1358c3757620d"
+    },
+    {
+      "path": "fixed/tests/native_failure_dump_controls.py",
+      "bytes": 3774,
+      "sha256": "c1023c9b7168c0cb17b5357e505552e63032ff32b51d32f714b892021c96fb83"
+    },
+    {
+      "path": "fixed/tests/native_test_utils.py",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "path": "fixed/tests/osc52_delayed_fixture.py",
+      "bytes": 3474,
+      "sha256": "4e800c1186622ef986e12cec58721bb1e6c583ec40d27846fb377cef38c2442d"
+    },
+    {
+      "path": "fixed/tests/osc52_window_smoke.py",
+      "bytes": 15313,
+      "sha256": "160a072daf94d6b35441f9cfe888a513184425a227966166931b3e7daf7415d8"
+    },
+    {
+      "path": "fixed/tests/osc_colour_sequence_reference.h",
+      "bytes": 16820,
+      "sha256": "fefbdd43207e56296b3c29d25f25693bb2ab3de1669d9d4d5a3f16a641efee16"
+    },
+    {
+      "path": "fixed/tests/osc_colour_sequence_reference.json",
+      "bytes": 29052,
+      "sha256": "eaf595a21a6fde8b7da22f091c7c7842bc792c770cb307f3338bde41ecf410a1"
+    },
+    {
+      "path": "fixed/tests/osc_colour_sequence_window_smoke.py",
+      "bytes": 1126,
+      "sha256": "bdcaf4351b9e633f49bfb0e774dabdd176305f19469377898f6afcd993920269"
+    },
+    {
+      "path": "fixed/tests/owned_failure_state.py",
+      "bytes": 2238,
+      "sha256": "c2875722eb3543051143651c67831af75a15f2d97a844b84d04fa37a2fd30fa7"
+    },
+    {
+      "path": "fixed/tests/owned_job.py",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "fixed/tests/owned_job_test.py",
+      "bytes": 3249,
+      "sha256": "f46573cda086d503f4fd67f15bc9d4d7f6b29ddf7b6af67215c56c969941c926"
+    },
+    {
+      "path": "fixed/tests/owned_resize_observer.py",
+      "bytes": 3133,
+      "sha256": "c09079beab7c3f178063fb2b3a7125f178f470e295ffa5a47bb10e217630fa0c"
+    },
+    {
+      "path": "fixed/tests/owned_window_focus.py",
+      "bytes": 4531,
+      "sha256": "6e2acf954e30defc916a5762fad844aa3426c72585d730323b8a0256b20558b5"
+    },
+    {
+      "path": "fixed/tests/palette_stack_oracle_cases.h",
+      "bytes": 123045,
+      "sha256": "0489d57c63d72a6a9c3f2195211a554828c483a9c142dbfc580b0e539c2752bb"
+    },
+    {
+      "path": "fixed/tests/palette_stack_oracle_cases.py",
+      "bytes": 122957,
+      "sha256": "d55b49ed78d937caf56d3a533614a80d7d159cfdc1ee8b4cc9e1a9b811694a7d"
+    },
+    {
+      "path": "fixed/tests/palette_stack_window_smoke.py",
+      "bytes": 4444,
+      "sha256": "3aec90c1067cbf3ab7a64779106d938dc1411cd6f4a9aecae17ee1b6c4c454e3"
+    },
+    {
+      "path": "fixed/tests/pointer_shape_reference.h",
+      "bytes": 63152,
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880"
+    },
+    {
+      "path": "fixed/tests/pointer_terminal_reference.h",
+      "bytes": 87371,
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486"
+    },
+    {
+      "path": "fixed/tests/pointer_window_smoke.py",
+      "bytes": 17894,
+      "sha256": "3761d4f7b6f30f159daf850c20de67973d6e7bcb8a78e870b7908f586ad82f5f"
+    },
+    {
+      "path": "fixed/tests/powershell_environment_window_smoke.py",
+      "bytes": 5399,
+      "sha256": "134af49c3fe2028be13d99e948ad40b65f37e60925087c5338952afef71f3942"
+    },
+    {
+      "path": "fixed/tests/presentation_state_direct_cases.py",
+      "bytes": 1183,
+      "sha256": "35eb5299fccb32f756fa590ad867ccc946b80900f4902437fa632026b44b1f5e"
+    },
+    {
+      "path": "fixed/tests/presentation_state_oracle_cases.h",
+      "bytes": 24625,
+      "sha256": "5930e1a231b10f39bbdcb4c16d9bab736895e1028cbd45d776145ed63027be85"
+    },
+    {
+      "path": "fixed/tests/presentation_state_oracle_cases.py",
+      "bytes": 18677,
+      "sha256": "e5fcd4dcc60fc3a4a59a6207d2c186fa7eeb2b0d971791ea05184d2a96280a76"
+    },
+    {
+      "path": "fixed/tests/presentation_state_window_smoke.py",
+      "bytes": 4181,
+      "sha256": "efb164cf371854ae239a7566b8a51fa5008246f535083c68b405667c6487c0d6"
+    },
+    {
+      "path": "fixed/tests/presented_window_capture.py",
+      "bytes": 3117,
+      "sha256": "cc0b111d885221e47ed541ab41db4ebeb37d47f4d738295c2724ded9a4135e14"
+    },
+    {
+      "path": "fixed/tests/process_tree_test.py",
+      "bytes": 3976,
+      "sha256": "190fd04aafce869b5b240de3c23e4d6e5c70e7b1a11ee96b07ec9e099a5035bd"
+    },
+    {
+      "path": "fixed/tests/protocol_oracle_window.py",
+      "bytes": 6603,
+      "sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+    },
+    {
+      "path": "fixed/tests/protocol_wire_trace.js",
+      "bytes": 3526,
+      "sha256": "cf21657223d945eca15e0632572339dfce047c550f61dc310cce2cc2fb5b47f5"
+    },
+    {
+      "path": "fixed/tests/protocol_wire_trace.py",
+      "bytes": 4090,
+      "sha256": "3f2947fe6375663a66abb25513f9a1eef8ecab26241e4d43006c18cc2656784f"
+    },
+    {
+      "path": "fixed/tests/query_focus_probe.js",
+      "bytes": 2368,
+      "sha256": "71f2ba5bf1e7fdf93f665647b1e5eecae0eea6f679c5f34b03928a3b32444a79"
+    },
+    {
+      "path": "fixed/tests/query_window_smoke.py",
+      "bytes": 16638,
+      "sha256": "55a972bab965fe8c4d1036cec1d0ceb25d67b4527506c0b4b6faff0d64c51528"
+    },
+    {
+      "path": "fixed/tests/rectangle_oracle_cases.h",
+      "bytes": 21497,
+      "sha256": "c64356332d8ff3768996d60f51490e539abdf3564618e4a47fbb7e6af51e7747"
+    },
+    {
+      "path": "fixed/tests/rectangle_window_smoke.py",
+      "bytes": 9627,
+      "sha256": "8cd2246942600a06a3a0d69851500b8d728f3ecb575eb4300f22f645f8e48e76"
+    },
+    {
+      "path": "fixed/tests/reflow_window_smoke.py",
+      "bytes": 7084,
+      "sha256": "99011511a9a4442d5eeb21ec5f63e384db34c2ceda7e6ad180d5e1ae21fe7c6e"
+    },
+    {
+      "path": "fixed/tests/relative_cursor_oracle_cases.h",
+      "bytes": 137073,
+      "sha256": "98620f96f3970087006b34d50f0465494aa00fc3d377e91f8e5bf0bf5abac2f5"
+    },
+    {
+      "path": "fixed/tests/relative_cursor_oracle_cases.py",
+      "bytes": 136139,
+      "sha256": "7d8bc96670fd76e6f973cdb4061ed4dc0aaa122e1f0420d7bf2e8abb42e5b31b"
+    },
+    {
+      "path": "fixed/tests/relative_cursor_window_smoke.py",
+      "bytes": 3544,
+      "sha256": "d51d665d01379ec2726d99f259618cf4aae63ac843901a3ca7018ee0bc0ace18"
+    },
+    {
+      "path": "fixed/tests/renderer_window_smoke.py",
+      "bytes": 20166,
+      "sha256": "033bc275a74bcfdf434994a3ad7fc10cc990913b34470008cc5d64e51ebaf746"
+    },
+    {
+      "path": "fixed/tests/requirements-shutdown.txt",
+      "bytes": 242,
+      "sha256": "763e380d30809cf12bdc30a7387166dd17002cb642325640c9052b9c4c0e0d86"
+    },
+    {
+      "path": "fixed/tests/reset_palette_oracle_cases.h",
+      "bytes": 27173,
+      "sha256": "cbbe8e499d15d4686ecf0daacf0fa5f9602826f548c0fdc96c60ee31f2a4f407"
+    },
+    {
+      "path": "fixed/tests/reset_palette_oracle_cases.py",
+      "bytes": 27089,
+      "sha256": "8099d7b5646ff0b8d001095a2e0922808079ae73b834d3c1e9f61f34eeb06a19"
+    },
+    {
+      "path": "fixed/tests/reset_palette_window_smoke.py",
+      "bytes": 5283,
+      "sha256": "25f3b012ad62d59a331d027308e728afb6f56f2b570c351e5b4a7dafebaac552"
+    },
+    {
+      "path": "fixed/tests/resize_fixture.py",
+      "bytes": 859,
+      "sha256": "faa91cf5633442931c171a52248d3a749d127d9b4d25411be919937f126f987b"
+    },
+    {
+      "path": "fixed/tests/resource_settle.py",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "fixed/tests/resource_settle_test.py",
+      "bytes": 3327,
+      "sha256": "3735a3d9daf7cd7fd85e90101a20c9251bfbb8c4ea0535b9476bd02a4471310b"
+    },
+    {
+      "path": "fixed/tests/reverse_wrap_direct_cases.py",
+      "bytes": 808,
+      "sha256": "c16dc2fd2358518a3af3fa002e374d1182f06eeb38bcd6d03eda9c737997b120"
+    },
+    {
+      "path": "fixed/tests/reverse_wrap_oracle_cases.h",
+      "bytes": 435563,
+      "sha256": "41b75eb61130355dbb310b192f1fd4d0d92be3d0d32925f8966b4e01dc755d01"
+    },
+    {
+      "path": "fixed/tests/reverse_wrap_oracle_cases.py",
+      "bytes": 2720581,
+      "sha256": "95cfd6a3aa6ca965dd03dd959d5c7210d58351bf698ee0483c91e67fa8c3beec"
+    },
+    {
+      "path": "fixed/tests/reverse_wrap_window_smoke.py",
+      "bytes": 2658,
+      "sha256": "75db921ebd0ec12612fb30b0bdb7891988b6acadcc61ea9eb89cc2ab5a4a8dd1"
+    },
+    {
+      "path": "fixed/tests/rtl_window_smoke.py",
+      "bytes": 10507,
+      "sha256": "b8b6c59e2f4eb5cc431373f2bbb6b88566c912244ab3fd59f9deaeeb3ac472d3"
+    },
+    {
+      "path": "fixed/tests/selection_colour_cases.h",
+      "bytes": 6489,
+      "sha256": "e8e42fa9ad0316618054ae0202d818ced6fa68c4111601c40c3cd5b2634ee36e"
+    },
+    {
+      "path": "fixed/tests/selection_colour_cases.py",
+      "bytes": 3114,
+      "sha256": "089529387b5a54860e462ac7cf36708156255b20738332febe88f665a540e041"
+    },
+    {
+      "path": "fixed/tests/selection_colour_window_smoke.py",
+      "bytes": 6747,
+      "sha256": "c5cf77c8b8b83cb7438decb8285c2cd5f30e09b0e56f62f9b44eef2242143035"
+    },
+    {
+      "path": "fixed/tests/selection_window_smoke.py",
+      "bytes": 9583,
+      "sha256": "084638d7818ef7b12256f6ce85187e1dd68bdc5f52643a6397589fa86842fd53"
+    },
+    {
+      "path": "fixed/tests/selective_erase_window_smoke.py",
+      "bytes": 7811,
+      "sha256": "c327d1e1829734626360420f1cecd3141faa822887046b1eee7b0f751b344be5"
+    },
+    {
+      "path": "fixed/tests/session_faults.js",
+      "bytes": 4260,
+      "sha256": "0336042802a5186be3c799871eee46940e7f70268c830c233bdb36f453b25391"
+    },
+    {
+      "path": "fixed/tests/session_fixture.py",
+      "bytes": 1316,
+      "sha256": "80050f268d573cb843b69dbc7e38231bf198e2cf0ce48aa589e1ac899838cfd8"
+    },
+    {
+      "path": "fixed/tests/session_restart_window_smoke.py",
+      "bytes": 5959,
+      "sha256": "f3a94aef4f05c19f8cebc33606a76bbe2441627493cf5ecc2a4e00ec2183fc58"
+    },
+    {
+      "path": "fixed/tests/session_window_smoke.py",
+      "bytes": 10684,
+      "sha256": "33e6d2a5e9568c120339e41578e998f22ca3875cde65bb56a78b57c0c7284537"
+    },
+    {
+      "path": "fixed/tests/settings_capture.py",
+      "bytes": 704,
+      "sha256": "0f53e98b86e44af003f0d3a49fde5a4058f95e2155fa66ff5ddd8dc36a3fff43"
+    },
+    {
+      "path": "fixed/tests/settings_window_smoke.ps1",
+      "bytes": 49139,
+      "sha256": "037f74f36f9e569c5a41143ab2a62c7e1370230671273a5d02d758588865ae3d"
+    },
+    {
+      "path": "fixed/tests/sgr_stack_direct_cases.py",
+      "bytes": 6193,
+      "sha256": "c0f5fa9c9d17608cc7eceec66fcaeb183f9b714e627f063dbf0274fc01f5f49d"
+    },
+    {
+      "path": "fixed/tests/sgr_stack_oracle_cases.h",
+      "bytes": 166259,
+      "sha256": "e05146e523ba4b9d9a75a9916618ff87e81b4529f848c4e94d0667b51759ffb6"
+    },
+    {
+      "path": "fixed/tests/sgr_stack_oracle_cases.py",
+      "bytes": 115288,
+      "sha256": "b4929cb4a6cc50b5b7a880254496049bf1c29210ffac5d8bdb2e5bd86542e652"
+    },
+    {
+      "path": "fixed/tests/sgr_stack_window_smoke.py",
+      "bytes": 4355,
+      "sha256": "5acb0a53c44aeda3bb9271864352301598a8c235cd282fdef07b81e0bb5ebb7f"
+    },
+    {
+      "path": "fixed/tests/sgr_window_smoke.py",
+      "bytes": 6521,
+      "sha256": "82dc931ca4890819026d673a8dbbe98d7ef8f219952e87d938e3f856421b420e"
+    },
+    {
+      "path": "fixed/tests/shell_marks_window_smoke.py",
+      "bytes": 11550,
+      "sha256": "00fd0b2f6c3483c222abf36b43efce528570b9231f18c049d002aea998c62cf2"
+    },
+    {
+      "path": "fixed/tests/shell_window_smoke.py",
+      "bytes": 8315,
+      "sha256": "88faef76dffa3c74c14cad676a6c24c4dcc3e024fb8d3fcb9ff9b47d9a6ef75e"
+    },
+    {
+      "path": "fixed/tests/shutdown_probe.js",
+      "bytes": 3358,
+      "sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f"
+    },
+    {
+      "path": "fixed/tests/shutdown_probe_controls.py",
+      "bytes": 3681,
+      "sha256": "d49e1fb11dbc1b99bd7cb5e69300823816d1dbfdab1a2638c82fecd9966b9514"
+    },
+    {
+      "path": "fixed/tests/shutdown_probe_fixture.c",
+      "bytes": 2003,
+      "sha256": "2cf18627f7d9504bcc5d8d3a9eda813c202e67d1ac22b9df0742d3c21b798a85"
+    },
+    {
+      "path": "fixed/tests/shutdown_window_smoke.py",
+      "bytes": 9557,
+      "sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6"
+    },
+    {
+      "path": "fixed/tests/single_exe_window_smoke.py",
+      "bytes": 3667,
+      "sha256": "7ef74aaa08acd824d8abe6086666be7f1241953c81b0972495dcd84264190fc1"
+    },
+    {
+      "path": "fixed/tests/sixel_background_window_smoke.py",
+      "bytes": 3561,
+      "sha256": "7a06180aa54d692e003b60b50b7b3ff93d7c7a4074742aa4bd355a35f7053244"
+    },
+    {
+      "path": "fixed/tests/sixel_font_window_smoke.py",
+      "bytes": 10101,
+      "sha256": "bbcbd07b321bbaffaab7eaa342fd21633ddab57990e9e7a33852256aa898bb37"
+    },
+    {
+      "path": "fixed/tests/sixel_palette_window_smoke.py",
+      "bytes": 17910,
+      "sha256": "382bd43b805f7e3349ea130c56092b12b5a5db73b3fb2fe18ef4cba9ed1ba4b3"
+    },
+    {
+      "path": "fixed/tests/sixel_window_smoke.py",
+      "bytes": 6627,
+      "sha256": "917ce316f16d2b67fc64dbf9dacb9405f676d03360821b8426abe60cd1519929"
+    },
+    {
+      "path": "fixed/tests/startup_size_window_smoke.py",
+      "bytes": 4314,
+      "sha256": "daf2ccfbb6fc7e5052146df1da6de8704adb8e8019ce2258e56ef54b684ebbce"
+    },
+    {
+      "path": "fixed/tests/startup_visibility_fixture.py",
+      "bytes": 2200,
+      "sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940"
+    },
+    {
+      "path": "fixed/tests/startup_visibility_window_smoke.py",
+      "bytes": 4597,
+      "sha256": "daf70bbeec8dd5c550189f72bc71fd82d92a2da7bd3a799b9ab920622817ad94"
+    },
+    {
+      "path": "fixed/tests/state_control_window_smoke.py",
+      "bytes": 7680,
+      "sha256": "8c8e1d0260a77bc05cb7d13fafc79402cf1593cc05f4732ac932057e36564d8e"
+    },
+    {
+      "path": "fixed/tests/sync_window_smoke.py",
+      "bytes": 4573,
+      "sha256": "d6b15120974c5b0365fc2c3d5e57c400d9e2ff916d888b9ffbc896be3d0f5659"
+    },
+    {
+      "path": "fixed/tests/tab_menu_checks.py",
+      "bytes": 3075,
+      "sha256": "18525b44d512a75de42a50d670475cb824bdf672c05b90d9ff72efeb39fa4043"
+    },
+    {
+      "path": "fixed/tests/tab_probe_boundary.py",
+      "bytes": 2863,
+      "sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc"
+    },
+    {
+      "path": "fixed/tests/tab_workload_memory.py",
+      "bytes": 13774,
+      "sha256": "cbe71e0ce88230c83969b5d935548e0f7825df58f2e95f8c47785669876bf3a0"
+    },
+    {
+      "path": "fixed/tests/tabs_hover_probe.js",
+      "bytes": 2072,
+      "sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e"
+    },
+    {
+      "path": "fixed/tests/tabs_overflow_window_smoke.py",
+      "bytes": 8230,
+      "sha256": "0e9160a7ea1b42911118b66ec1be7d68c7718ccf6ba9d958a7b791467df8e310"
+    },
+    {
+      "path": "fixed/tests/tabs_profiles_window_smoke.py",
+      "bytes": 15933,
+      "sha256": "ed8650ea21d0a2eeaf2470c40aa2e2562cff68074d7e35d299b4e12428b6081d"
+    },
+    {
+      "path": "fixed/tests/tabs_regression_suite.py",
+      "bytes": 2333,
+      "sha256": "509b35b98ae1341dbe63c3c4aec53276aa3463eebe62d1678d5ef8623dabd0a0"
+    },
+    {
+      "path": "fixed/tests/tabs_window_smoke.py",
+      "bytes": 39216,
+      "sha256": "a65881355dacb732e79397f2e8a14a2bd3f3585184cd7ca0d3e606405dd36e35"
+    },
+    {
+      "path": "fixed/tests/tabulation_oracle_cases.h",
+      "bytes": 9036,
+      "sha256": "b3d339897d8371e42ad44f68029eb5696f4d3cf8294b55956dd5836907f1e535"
+    },
+    {
+      "path": "fixed/tests/tabulation_oracle_cases.py",
+      "bytes": 8858,
+      "sha256": "920916df2a312ced4bd2fc8239e093adfac27bb8ac57be5b07557f1ea5444334"
+    },
+    {
+      "path": "fixed/tests/tabulation_window_smoke.py",
+      "bytes": 181,
+      "sha256": "05d70a319b367ed00ac4233e854f671e658f6b7ff7da144ad7235e40eb6d9eb4"
+    },
+    {
+      "path": "fixed/tests/test_allocation_census.c",
+      "bytes": 4716,
+      "sha256": "b35353639db11fd422a16d2c4d15e05b4023f0a7198cdda2b9ce002b14a3ff52"
+    },
+    {
+      "path": "fixed/tests/test_charset.c",
+      "bytes": 3845,
+      "sha256": "c886facb9395ba696954b46b19f8d4f37e44a8096dd732c1854105b89046473e"
+    },
+    {
+      "path": "fixed/tests/test_cluster_renderer.cpp",
+      "bytes": 12690,
+      "sha256": "2c7cb3cb6947398e95a79480e679f8d3038db9f0cc9fe5a9dea0dd4a2e0c0c17"
+    },
+    {
+      "path": "fixed/tests/test_colour.c",
+      "bytes": 7603,
+      "sha256": "84825f7e0ee7dc05bf89e007527979fa77c8c1e7174f1176fd1df4551a0e5f71"
+    },
+    {
+      "path": "fixed/tests/test_font_cmap.c",
+      "bytes": 2324,
+      "sha256": "857d5fb7340c74682132702e14de28e4a107ed27a74918daf570734e4471c39a"
+    },
+    {
+      "path": "fixed/tests/test_gl_lifetime.c",
+      "bytes": 8541,
+      "sha256": "6ef0f56db1e88e708218b803116253bd68ac75f5edbbd32fa454fc7ccb91eac0"
+    },
+    {
+      "path": "fixed/tests/test_grapheme.c",
+      "bytes": 4318,
+      "sha256": "36a6c45672da7cf48e06dff77c7bb72539e207050ac3629d3428b9ff704f376c"
+    },
+    {
+      "path": "fixed/tests/test_iterm.c",
+      "bytes": 10155,
+      "sha256": "6bb1d38b2d12ca8448b911d5679999445e9eda7dcbd96af3487242985081d221"
+    },
+    {
+      "path": "fixed/tests/test_kitty_cache.c",
+      "bytes": 20099,
+      "sha256": "f4a07096cbea647e94f658502b0cddad58f6383248165efdc73ce3c407aebdaa"
+    },
+    {
+      "path": "fixed/tests/test_kitty_layout.c",
+      "bytes": 5528,
+      "sha256": "6d0e14735e8ed5967369372aea2a16d9ed8a9eef4b3e53da2624179f4a00ea3e"
+    },
+    {
+      "path": "fixed/tests/test_kitty_placements.c",
+      "bytes": 28246,
+      "sha256": "d0677674923af48a718f10f6f9572287c213b21ad2a6c0c070dc2138fae6589b"
+    },
+    {
+      "path": "fixed/tests/test_kitty_transport.c",
+      "bytes": 14958,
+      "sha256": "203c74fa0bc2696fc83ddecf5f6333533a5eac73808a5495f1a1f9c6719f5911"
+    },
+    {
+      "path": "fixed/tests/test_pointer_cursor.c",
+      "bytes": 10233,
+      "sha256": "7972498c0a0f256f99a9cb8d8e36eed6a71be61bd27f112023f6fd679249a197"
+    },
+    {
+      "path": "fixed/tests/test_pointer_glyph.c",
+      "bytes": 3335,
+      "sha256": "e98a730ea2bbaec34df8ab77fdc79fc5fb58c3095cf903589f11b1c1c5b0f016"
+    },
+    {
+      "path": "fixed/tests/test_pointer_shapes.c",
+      "bytes": 4513,
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503"
+    },
+    {
+      "path": "fixed/tests/test_raster.c",
+      "bytes": 5572,
+      "sha256": "85ecbf29cfe487a729099165536683b0dcf04e7400fd0a71e117cc134daf8d5d"
+    },
+    {
+      "path": "fixed/tests/test_sixel.c",
+      "bytes": 15152,
+      "sha256": "aacf696c46f5c83693e26df107f582053fbedb23b12f86437492205d28f4a259"
+    },
+    {
+      "path": "fixed/tests/test_sixel.exe",
+      "bytes": 63980,
+      "sha256": "1f976ecaa577f17df281139ca8b62ec48390ee58629ba8624e8c8c32c45a5f83"
+    },
+    {
+      "path": "fixed/tests/test_snapshot.c",
+      "bytes": 9315,
+      "sha256": "15e59fb2080f3d04eaaf469eda053998ce2f041e4141a1ad6409ef9b7f84ef4d"
+    },
+    {
+      "path": "fixed/tests/test_tabs_layout.c",
+      "bytes": 5609,
+      "sha256": "479f79345dd9b30ee8c4c0b7052105978a5ff8ab4875b3e4f38dbe789805c242"
+    },
+    {
+      "path": "fixed/tests/test_underline_terminfo.py",
+      "bytes": 2664,
+      "sha256": "8b66ce332f36de06e2ce935cc996518f802e4f1d57bbcf685d8914b8989af2ec"
+    },
+    {
+      "path": "fixed/tests/test_window_snapshot.py",
+      "bytes": 4991,
+      "sha256": "dd2e01d069a42738cd3c73c528bc81548a7a077d1c753ed4b6356de246aaa982"
+    },
+    {
+      "path": "fixed/tests/test_zlib.c",
+      "bytes": 3247,
+      "sha256": "27ae32f24032e8135cac03ed2650a4e7f8f377252152da0151e7f35fc74f4b42"
+    },
+    {
+      "path": "fixed/tests/thread_snapshot.py",
+      "bytes": 7972,
+      "sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+    },
+    {
+      "path": "fixed/tests/thread_snapshot_native_test.py",
+      "bytes": 8849,
+      "sha256": "a3db634cb96a5ad4b0a63ea3f75f6003d830b3c12748b4e52811a88a8d719d4b"
+    },
+    {
+      "path": "fixed/tests/title_modes_reference.json",
+      "bytes": 40939,
+      "sha256": "622367306f9fce3597b9f9a3b3ff61e81e5258ff8cfcd17036d27bd2188eea77"
+    },
+    {
+      "path": "fixed/tests/title_stack_reference.json",
+      "bytes": 22858,
+      "sha256": "8f9e5f70baf29ba3b3a92ae55fe952b395ca18dadca6e8417205b8109aac215f"
+    },
+    {
+      "path": "fixed/tests/titles_window_smoke.py",
+      "bytes": 4652,
+      "sha256": "8b1c7bef21b2b9e96f5649e2daba8756edc56aadd0c22871a9d8c028d8398013"
+    },
+    {
+      "path": "fixed/tests/udk_reference.h",
+      "bytes": 37707,
+      "sha256": "c40b6181a1276fe6c68ff48e3635e4425fd436c333fda70df72b66c79ec2b205"
+    },
+    {
+      "path": "fixed/tests/udk_window_smoke.py",
+      "bytes": 7557,
+      "sha256": "7c394c1efe33f856907f399e0028d1b6f2f0ec8e73be654ac7f1151a582bbc51"
+    },
+    {
+      "path": "fixed/tests/underline_capabilities.py",
+      "bytes": 1847,
+      "sha256": "6227b70da9d4401a03818bbf21acf0b5e1d5f985eb631e0529e599cbcdf9b607"
+    },
+    {
+      "path": "fixed/tests/unicode_input_fixture.py",
+      "bytes": 2690,
+      "sha256": "c3309f6fdb0c1cbbba162232389a9649376e208badb9c7dd617b8caa20ca9713"
+    },
+    {
+      "path": "fixed/tests/unicode_input_window_smoke.py",
+      "bytes": 3670,
+      "sha256": "a0817fb2925964d7d756e07ef8c7a100798c544f76709cca0aafbef94be23817"
+    },
+    {
+      "path": "fixed/tests/upss_input_reference.h",
+      "bytes": 34438,
+      "sha256": "ad7c406715652d9d034a01baab89009433f203817c7d2072a4e71745e576c8d5"
+    },
+    {
+      "path": "fixed/tests/upss_reference.h",
+      "bytes": 312128,
+      "sha256": "51cf7155efa1d72f1b0efede4eaa871e41d800d78ad39ca6860f96e6d633628f"
+    },
+    {
+      "path": "fixed/tests/virtual_memory_native_test.py",
+      "bytes": 4627,
+      "sha256": "1d5f93f3a824293351f559c95cdb0837b88a78aa018fb4b4bad396559961aa4b"
+    },
+    {
+      "path": "fixed/tests/virtual_memory_probe.js",
+      "bytes": 6557,
+      "sha256": "579752f6690726a410343e712d683260236aa80a805892cea0a7404e7c91bddb"
+    },
+    {
+      "path": "fixed/tests/virtual_memory_selftest.js",
+      "bytes": 2796,
+      "sha256": "09fd48259d0cfac61cb5d2be0cd67f6cde03408b0c280e0a77c591bc24556529"
+    },
+    {
+      "path": "fixed/tests/virtual_memory_trace.py",
+      "bytes": 6027,
+      "sha256": "31d0359fdef5e253a229827487a29e9a5108544c842a718228f1513cd3eaed24"
+    },
+    {
+      "path": "fixed/tests/virtual_memory_validate.py",
+      "bytes": 2952,
+      "sha256": "e84b2917c49170e4b4e4ac4d669949f5ad8a3f6738e927a755ad69bba1d7bc4d"
+    },
+    {
+      "path": "fixed/tests/win32_input_fixture.py",
+      "bytes": 4005,
+      "sha256": "77107892f03400f7088e08cb7b2fbfcdd6815761bda01dca3df967b508ed8f25"
+    },
+    {
+      "path": "fixed/tests/win32_input_window_smoke.py",
+      "bytes": 11584,
+      "sha256": "5b9723bd483db202a55c52cc2ce933c6a8a186a2a2721201f97d5406fbd60dd7"
+    },
+    {
+      "path": "fixed/tests/window_resize_window_smoke.py",
+      "bytes": 17094,
+      "sha256": "03cb77bf2e02f9849479b65083eb41ef3a3e97c66461575ac5332d443a07bd03"
+    },
+    {
+      "path": "fixed/tests/window_snapshot.py",
+      "bytes": 3928,
+      "sha256": "ede46a681db2a0f7515821c615bebd21383aefe23622412552a8dd44e1bddaa3"
+    },
+    {
+      "path": "fixed/tests/working_set_regions.py",
+      "bytes": 5065,
+      "sha256": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610"
+    },
+    {
+      "path": "fixed/tests/x11_colour_cases.h",
+      "bytes": 25984,
+      "sha256": "5a3b19d6be3d747debd57d0ee5062f51a48547732517c6e032761ca434b61a6a"
+    },
+    {
+      "path": "fixed/tests/xterm_ansi_conformance_oracle.py",
+      "bytes": 5668,
+      "sha256": "22b3a6d8637f585b27e59de384373ad93ea29cb3777e4e613b965930620dd16e"
+    },
+    {
+      "path": "fixed/tests/xterm_attribute_colour_oracle.py",
+      "bytes": 3265,
+      "sha256": "6e74e077c43fb1f6b9c8221caa3731faa42f6cfd54b4afb2c54336c94805dcac"
+    },
+    {
+      "path": "fixed/tests/xterm_bell_modes_oracle.py",
+      "bytes": 9267,
+      "sha256": "44c0b3e4d8f5bb9c299333ac17732880251e530def283f480f1886ad81d4ae79"
+    },
+    {
+      "path": "fixed/tests/xterm_c1_controls_oracle.py",
+      "bytes": 2437,
+      "sha256": "54870b386cc0b880cc5be8df2e20ec0d43c7e55328637293fa67e36476fac70a"
+    },
+    {
+      "path": "fixed/tests/xterm_cancellation_oracle.py",
+      "bytes": 7588,
+      "sha256": "12b886cc8f6173131216add7affe5e724b0a718aff8e974f2aeb6104c679e496"
+    },
+    {
+      "path": "fixed/tests/xterm_charset_checksum_oracle.py",
+      "bytes": 3668,
+      "sha256": "91bd6fbedf809b2ce8ef34f19f919fb793484719cbf2945c7a293069987a2f11"
+    },
+    {
+      "path": "fixed/tests/xterm_charset_input_oracle.py",
+      "bytes": 6745,
+      "sha256": "1c9c7dde0f3d0a18872f567d1ea3ea31210b646d9d3255fb554c677aa64c387a"
+    },
+    {
+      "path": "fixed/tests/xterm_charset_lifetime_oracle.py",
+      "bytes": 2580,
+      "sha256": "bf7e0a391c83e319ddc6a98be7b5074d5dd49e3d7e53bde1532f9193339a0b92"
+    },
+    {
+      "path": "fixed/tests/xterm_charset_state_oracle.py",
+      "bytes": 3714,
+      "sha256": "88d98de5096b8566ad9e1f6ace7bfaaab20165c6f1c3e79b18b8b98f291066e4"
+    },
+    {
+      "path": "fixed/tests/xterm_charsets_oracle.py",
+      "bytes": 3348,
+      "sha256": "f7e12f48aa2c6692acd965005d83eb4d4dc86619ce006d0782fe848f14ac179f"
+    },
+    {
+      "path": "fixed/tests/xterm_checksum_oracle.py",
+      "bytes": 3387,
+      "sha256": "2e52e457f2b391d9185ca9cda7180472930715a5856e6bd48c06d5eea6ac9934"
+    },
+    {
+      "path": "fixed/tests/xterm_cursor_charset_oracle.py",
+      "bytes": 1131,
+      "sha256": "f7a887e9964db8e3ee0ecd795c910ad41191efd4de86af7c012c25a346c7ce34"
+    },
+    {
+      "path": "fixed/tests/xterm_dec_status_oracle.py",
+      "bytes": 2297,
+      "sha256": "452f27cd0027e3fd6dd63e4b89e8d5fc85b6569e397f3696de7d99d5b7b491b1"
+    },
+    {
+      "path": "fixed/tests/xterm_double_size_oracle.py",
+      "bytes": 2753,
+      "sha256": "94fcd723ee8f4fada48dd626f6305655ed6fdb47eea6e5202976efc479ee5a81"
+    },
+    {
+      "path": "fixed/tests/xterm_erase_oracle.py",
+      "bytes": 3307,
+      "sha256": "fab2bf8464b0dc37537ff2f53c26d357ab3b0660272aa3fbfc6b2e3cfb16acab"
+    },
+    {
+      "path": "fixed/tests/xterm_feature_policy_oracle.py",
+      "bytes": 7826,
+      "sha256": "472a6aeea08bc92ea4b022199e2873596c15fa2462f019f97313e4a2eb4d9c1f"
+    },
+    {
+      "path": "fixed/tests/xterm_geometry_oracle.py",
+      "bytes": 3065,
+      "sha256": "7a3b87355f9bc6353556a3e6d1a1561383b6bc17a25e6a0570d0e06ded118509"
+    },
+    {
+      "path": "fixed/tests/xterm_graphics_query_oracle.py",
+      "bytes": 1477,
+      "sha256": "39d65081d46fc69a3f9eb9e5ef5797b69b31fa56416241f32ad753f0a0288f3e"
+    },
+    {
+      "path": "fixed/tests/xterm_guarded_area_oracle.py",
+      "bytes": 1125,
+      "sha256": "df5a897062703e289bc40c0f26ba36bbc97afcd2bc648f8061dfa8509e8ccab6"
+    },
+    {
+      "path": "fixed/tests/xterm_horizontal_oracle.py",
+      "bytes": 3158,
+      "sha256": "99f0b8785ee64e29ceb961a1ebcc1097d69e409ba9a804ad6a94e5f0b96d51c7"
+    },
+    {
+      "path": "fixed/tests/xterm_identity_oracle.py",
+      "bytes": 1982,
+      "sha256": "7ff53a224b185446e7d120b9c2b6b579ac0243f317405f432c758148b88d2d20"
+    },
+    {
+      "path": "fixed/tests/xterm_locator_oracle.py",
+      "bytes": 16791,
+      "sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+    },
+    {
+      "path": "fixed/tests/xterm_margin_oracle.py",
+      "bytes": 1340,
+      "sha256": "28b950892ffee480af86cb250d787da2b72f26b353f305fb50804f8be772cc1e"
+    },
+    {
+      "path": "fixed/tests/xterm_mok_child.py",
+      "bytes": 876,
+      "sha256": "4100cb0062e9ea5b3f781fa5722c574e4e305241746db8ccdcf2e93bd6b47a7c"
+    },
+    {
+      "path": "fixed/tests/xterm_mok_reference.py",
+      "bytes": 5979,
+      "sha256": "a889cbd10206062177c61ede93b78b5d1ee9ad9492e79dc84ac9619512232acc"
+    },
+    {
+      "path": "fixed/tests/xterm_palette_stack_oracle.py",
+      "bytes": 3984,
+      "sha256": "e3750eb0da8af6ebc3e09148267645d550f73c1dc624ec2570ebdd99694ec110"
+    },
+    {
+      "path": "fixed/tests/xterm_presentation_state_oracle.py",
+      "bytes": 5343,
+      "sha256": "cd29716ee3759a877d9caf3c6390e5d1bc5b7ef03fa787b93a83c5a99ad03551"
+    },
+    {
+      "path": "fixed/tests/xterm_rectangle_oracle.py",
+      "bytes": 3914,
+      "sha256": "3bbbe1fffb94e3f4b50e19be6199ead5a83905e11feefe32dbf214328312f773"
+    },
+    {
+      "path": "fixed/tests/xterm_reset_palette_oracle.py",
+      "bytes": 2249,
+      "sha256": "a52ace652a5bb5a8eb0f60cc8cfef1e2310cc56aacba269eaaeb951a0c3a4b80"
+    },
+    {
+      "path": "fixed/tests/xterm_reverse_wrap_oracle.py",
+      "bytes": 4649,
+      "sha256": "3a810553db6ae984a9fc67699f3659f0a46ca0c2cc48e2f410992648a6bfa57a"
+    },
+    {
+      "path": "fixed/tests/xterm_selection_colour_oracle.py",
+      "bytes": 1861,
+      "sha256": "b888f25130917fd3e5747ecd16aa553c571fc416a1b53ad385c9165ff2a6a726"
+    },
+    {
+      "path": "fixed/tests/xterm_sgr_stack_oracle.py",
+      "bytes": 4791,
+      "sha256": "34b4fa1f49f9f107666e6b6f0e7ddcdc3b90a70e58d7374f395fb20d65b686f8"
+    },
+    {
+      "path": "fixed/tests/xterm_state_oracle.py",
+      "bytes": 7243,
+      "sha256": "3e20c4cdf9f73c1bfda373d8429c3f32b3de84290397ef9aea8fc09f773204dc"
+    },
+    {
+      "path": "fixed/tests/xterm_tabulation_oracle.py",
+      "bytes": 2579,
+      "sha256": "249494c47611e22e1f534f30df28df2372b453dc49d67f0f1d15da31750202d5"
+    },
+    {
+      "path": "fixed/tests/xterm_title_modes_oracle.py",
+      "bytes": 3047,
+      "sha256": "911cc9204c63b8dc04ee4ab1bd68321bb6daeb05169f50308e3c5b21d3ca8f37"
+    },
+    {
+      "path": "fixed/tests/xterm_udk_oracle.py",
+      "bytes": 12413,
+      "sha256": "87db712e93a89d11ef4af63c9c4577dcaea90a215bba46e60e2b7cb78d53616a"
+    },
+    {
+      "path": "fixed/tests/xterm_unicode_boundaries_oracle.py",
+      "bytes": 2133,
+      "sha256": "1901eb3b4f18862b53375860a28d18c54c12b19d1f04ff1dcc8ea2a9127fea04"
+    },
+    {
+      "path": "fixed/tests/xterm_upss_oracle.py",
+      "bytes": 4356,
+      "sha256": "b064b9cc2ac1f160d6e9738e026f1051ab421ff2e25f152785c7e4f652ef89c1"
+    },
+    {
+      "path": "fixed/tests/xterm_window_oracle.py",
+      "bytes": 4748,
+      "sha256": "8980fd0f5d9791e32b97025c48c14b573c0b02a8139e7fdce5dcffbd17393890"
+    },
+    {
+      "path": "fixed/tests/xterm_x11_colour_oracle.py",
+      "bytes": 2846,
+      "sha256": "f6f88668d6dd16234d5606fcf03d669dc61eb931b88e5d21afa9880308b58b91"
+    },
+    {
+      "path": "fixed/tests/zlib_reference.h",
+      "bytes": 14194,
+      "sha256": "85f676e95bde1324346c656dd4268c82af6a2dd66e1051f0e3f7deb339a08636"
+    },
+    {
+      "path": "fixed/tools/nemoterm_debug.py",
+      "bytes": 10195,
+      "sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+    },
+    {
+      "path": "negative/dist/nemoterm.exe",
+      "bytes": 4544512,
+      "sha256": "f086fde1d97b33d231281a939dcf855150b2270726e672d99b68fca631e32107"
+    },
+    {
+      "path": "negative/logs/native.log",
+      "bytes": 1771,
+      "sha256": "89e50b610acde13718fa847d4bbf81eff550b6b15d9cb034523baa018909dc4a"
+    },
+    {
+      "path": "negative/research/osc-colour-sequence-observed.json",
+      "bytes": 2068,
+      "sha256": "e66126bbb008339623d4d7067e327a21ec33079520e8c6132062fa22beacb3a2"
+    },
+    {
+      "path": "negative/tests/agent_clipboard_fixture.py",
+      "bytes": 14306,
+      "sha256": "87cae7a708147ed1156412a1169b367d499f728905307bfa81d14cae7321405a"
+    },
+    {
+      "path": "negative/tests/agent_clipboard_smoke.py",
+      "bytes": 5542,
+      "sha256": "d5cf6415bd81dc1b83a97f4886b4d802846bd85682868c03ac3d9254fe71dc4e"
+    },
+    {
+      "path": "negative/tests/agent_key_probe.js",
+      "bytes": 2407,
+      "sha256": "aeff8aeb85642447dc6d66cd48aedfb872f0f6bf314a52b36455cbcc32117ea3"
+    },
+    {
+      "path": "negative/tests/alignment_oracle_cases.h",
+      "bytes": 4033,
+      "sha256": "ce9c40c454fd79f85ce90390229a636e5d893130e9d3b17ccac0bbf2daff33f2"
+    },
+    {
+      "path": "negative/tests/alignment_oracle_cases.py",
+      "bytes": 3894,
+      "sha256": "f83083f83dbe5e460a4026f5249f48c6972037ad3f0029996112a677c6f2f1c3"
+    },
+    {
+      "path": "negative/tests/alignment_window_smoke.py",
+      "bytes": 4089,
+      "sha256": "2fb6edf8b47d8970b0777eca3700fda5d6802aa7fd68b0d02f70e4beb5439612"
+    },
+    {
+      "path": "negative/tests/allocation_census.h",
+      "bytes": 4493,
+      "sha256": "35445b415b756658f3c1b2bd92f5443d82c3d7b2fecb84738dad8459755bae1e"
+    },
+    {
+      "path": "negative/tests/allocation_census.py",
+      "bytes": 5857,
+      "sha256": "2bd40dc781e6b89447377b3f75c68bcf0d8bf2f0866045b8f15d76d23e24cbd0"
+    },
+    {
+      "path": "negative/tests/allocation_census_native_test.py",
+      "bytes": 5646,
+      "sha256": "985c5cb6bdb2d2bb4be433d076415515fc83db7c87c389be78d27e9dd57917ae"
+    },
+    {
+      "path": "negative/tests/allocation_census_pages.py",
+      "bytes": 3709,
+      "sha256": "57ec190a8ea1ed17b0a1a8446dee28160064b45ec6df279da6699a78cbc20fd9"
+    },
+    {
+      "path": "negative/tests/allocation_census_pages_test.py",
+      "bytes": 2592,
+      "sha256": "ac46c2975070a92919c668081b3fa366248febc507249d88396bfb149ed0d02b"
+    },
+    {
+      "path": "negative/tests/allocation_census_probe.js",
+      "bytes": 10299,
+      "sha256": "309aaf43df242dd35158cdaf8442889deb53ad7c2cce58f1dc8972dfa92c7730"
+    },
+    {
+      "path": "negative/tests/allocation_census_selftest.js",
+      "bytes": 10245,
+      "sha256": "783fa04b903ccbd036985ddb814acda23ba6595b548c320ea27824eb58bb879b"
+    },
+    {
+      "path": "negative/tests/allocation_census_validate.py",
+      "bytes": 2746,
+      "sha256": "716b45a27b5219b52f545c606b8d0b37a9a80f7ba7a1aa668444a800fe1d9394"
+    },
+    {
+      "path": "negative/tests/ansi_conformance_native_cases.py",
+      "bytes": 87985,
+      "sha256": "5ece618d36f1cc9ae0d0ffee94bb0591c19e494dc59fabbbeee5412a18a4a6a0"
+    },
+    {
+      "path": "negative/tests/ansi_conformance_reference.h",
+      "bytes": 120702,
+      "sha256": "fb0d428d15c2a34232d2451d549109a2ddcbdefaa771d5f3f680f2b065cd71af"
+    },
+    {
+      "path": "negative/tests/answerback_config_window_smoke.py",
+      "bytes": 2083,
+      "sha256": "e389c489e49507a2362c760e073c7ddadff0e3897e36a1bcb9b1bd61b8e8598a"
+    },
+    {
+      "path": "negative/tests/attribute_colour_cases.h",
+      "bytes": 8336,
+      "sha256": "6487f78f28826a0336655778eb53e97bbb0f7f090bdc7601e1fc266e3c9266e8"
+    },
+    {
+      "path": "negative/tests/attribute_colour_cases.py",
+      "bytes": 2746,
+      "sha256": "d3277e2936582127f2f8f9cf79e361c8414f8932f61612f3cd66d273d12d2858"
+    },
+    {
+      "path": "negative/tests/attribute_colour_window_smoke.py",
+      "bytes": 6447,
+      "sha256": "399337868020baf51fac17928b6b25a29e5f0bdb344d672c97e918e050e3c183"
+    },
+    {
+      "path": "negative/tests/automation_capture.py",
+      "bytes": 2009,
+      "sha256": "17bc64137aeff5eea66a5cdfe77d4e32cc1edb0f310977f58b235c4a5775b4e0"
+    },
+    {
+      "path": "negative/tests/automation_window_smoke.py",
+      "bytes": 11396,
+      "sha256": "b74fbb679e1ecd33a87ce1bdef37d78de50347ed1c0419d7b8ffe3c9d3d7e4ce"
+    },
+    {
+      "path": "negative/tests/bell_modes_reference.h",
+      "bytes": 34796,
+      "sha256": "b8fb38b93da6abd82a5cee7c68224ac94b1dca9213bb906ff90ff9fda174b93b"
+    },
+    {
+      "path": "negative/tests/bell_modes_window_smoke.py",
+      "bytes": 10160,
+      "sha256": "ff90f6fe8c7d0602570b114362ad7edfb839b2f4995fd73d0353ffdc118ed6ba"
+    },
+    {
+      "path": "negative/tests/bell_visual_window_smoke.py",
+      "bytes": 5049,
+      "sha256": "7efe4534c2719e1c285e21e2bf3de15810455cc305b442bad491b69bc44c4d1b"
+    },
+    {
+      "path": "negative/tests/bell_window_smoke.py",
+      "bytes": 1792,
+      "sha256": "e707368067d18a9f7f550897e7cd09ab9afb2f8a53517943712d8ebd010406ca"
+    },
+    {
+      "path": "negative/tests/bell_window_state_smoke.py",
+      "bytes": 18476,
+      "sha256": "b9652ea5b96583d20c776e4cf6d04b1395390e70533f3c39854fab7beed998c9"
+    },
+    {
+      "path": "negative/tests/bindings_window_smoke.py",
+      "bytes": 6235,
+      "sha256": "4fa1449c63081b8841dca8bea10738bc2dffa3fb3b476946141d1e4362276874"
+    },
+    {
+      "path": "negative/tests/c1_controls_oracle_cases.h",
+      "bytes": 24762,
+      "sha256": "da4e7977154b88e6b4e40fecfb6c7b4addc2fa3588f446193c0a2b95fbc19b66"
+    },
+    {
+      "path": "negative/tests/c1_controls_oracle_cases.py",
+      "bytes": 24167,
+      "sha256": "72e339f164f13004ee6b5e96ef8154b6a21d5a426e112b3c20906160b0d3955e"
+    },
+    {
+      "path": "negative/tests/c1_controls_window_smoke.py",
+      "bytes": 2751,
+      "sha256": "9f527da50c7cdbe1174c8ee427fee3e85d52d34320a8a4bc1dd05199544cdf02"
+    },
+    {
+      "path": "negative/tests/capture_window.py",
+      "bytes": 3395,
+      "sha256": "f116e77cfca3eac15ce6da84ad19c6ff97dea606a41b68acc92f2b2555a4f70c"
+    },
+    {
+      "path": "negative/tests/caret_startup_probe.js",
+      "bytes": 835,
+      "sha256": "77187715147009fe4f93c985a19d11a488efe646b5d6fa74fc751dbedb461f92"
+    },
+    {
+      "path": "negative/tests/caret_startup_window_smoke.py",
+      "bytes": 5987,
+      "sha256": "c5901a32ab54260c2eacf9fd9e0e50c3b9b7a198811fb7908cb45f74857c43c3"
+    },
+    {
+      "path": "negative/tests/charset_checksum_reference.h",
+      "bytes": 260334,
+      "sha256": "e551e87902f5ff8783220d32f4942dac51b68397c63a439bb021fed761fbb2a0"
+    },
+    {
+      "path": "negative/tests/charset_input_reference.h",
+      "bytes": 72886,
+      "sha256": "698bf6a795de3d4c84f4ccdba65249009e519e9a3db02686d14509becfdf6643"
+    },
+    {
+      "path": "negative/tests/charset_parser_reference.h",
+      "bytes": 23265,
+      "sha256": "d337558422bbfd86cdd281094e1514096064849edbf7653187897186fc164949"
+    },
+    {
+      "path": "negative/tests/charset_reference.h",
+      "bytes": 128365,
+      "sha256": "23a815d4c76a1d24d47789322c74ca1f196010ca0d8916384a5ae4933083dd70"
+    },
+    {
+      "path": "negative/tests/charset_state_reference.h",
+      "bytes": 9097,
+      "sha256": "82f2866d3977ac39c88b03b27d44e8fdfcb889d9b65134b2689df9bf9bec2a4c"
+    },
+    {
+      "path": "negative/tests/checksum_direct_cases.py",
+      "bytes": 874,
+      "sha256": "945697c51e421521f67e627a1b84ac8c1d3057a918962aac0b652b440ec23442"
+    },
+    {
+      "path": "negative/tests/checksum_oracle_cases.h",
+      "bytes": 48303,
+      "sha256": "adc22d0e1d11c70145f0705e18e38aa9e2f5e6b5d9d2e0ff127b569f16e200fa"
+    },
+    {
+      "path": "negative/tests/checksum_oracle_cases.py",
+      "bytes": 44175,
+      "sha256": "b53552f5eae7bd609c0dfbe3e67e7169d9f51e98588f9c5401da8983cd67c8b0"
+    },
+    {
+      "path": "negative/tests/checksum_window_smoke.py",
+      "bytes": 2182,
+      "sha256": "1eb3e825dd7e028ce4a268b84cb598b580b4ba5889da8be49be99ff22678e3e3"
+    },
+    {
+      "path": "negative/tests/clipboard_delivery_probe.js",
+      "bytes": 637,
+      "sha256": "6571749a5d9e31f605d958d9ca4ff276061f72a4d83ade8bdf1a6ac0bbe55888"
+    },
+    {
+      "path": "negative/tests/clipboard_test_utils.py",
+      "bytes": 4253,
+      "sha256": "cd7137b1766f8d096534013f39fcea29b21b2b2de8818e7e7569e34ea895a560"
+    },
+    {
+      "path": "negative/tests/codex_console_probe.js",
+      "bytes": 1328,
+      "sha256": "6d6816255f4055670f32a959c8f4243cf2cf29d99d577c4508846bd7c3a4c7bb"
+    },
+    {
+      "path": "negative/tests/codex_fixture_server.py",
+      "bytes": 6602,
+      "sha256": "938fd179394b7ee5bded20c39c83c612cc4613fde7b135d3b892de87c9c9625e"
+    },
+    {
+      "path": "negative/tests/codex_window_smoke.py",
+      "bytes": 18528,
+      "sha256": "f3e372469ac6244267c7eabadade8a75ad63e22be9fc9014db3ea39b269509e3"
+    },
+    {
+      "path": "negative/tests/command_line_profile_window_smoke.py",
+      "bytes": 4352,
+      "sha256": "c240f227663c238967b00b9c2f4e11d28bf7979934974f7dba755703eac30c59"
+    },
+    {
+      "path": "negative/tests/console_process_utils.py",
+      "bytes": 4774,
+      "sha256": "b7f396b4b074d0be0b6facc22020b38bbaa840c1262d6c99375efa723e554d29"
+    },
+    {
+      "path": "negative/tests/console_unicode_window_smoke.py",
+      "bytes": 3712,
+      "sha256": "b9fff6beb626c5da71a99478f45afbae0dd71ba77fa86e08e4b618892d48097a"
+    },
+    {
+      "path": "negative/tests/control_cancellation_native_cases.py",
+      "bytes": 123588,
+      "sha256": "632d106fd0c7a86d87dae7e7fe1396a167923a1e0b54453ff2ef0bf25ea3043e"
+    },
+    {
+      "path": "negative/tests/control_cancellation_reference.h",
+      "bytes": 136218,
+      "sha256": "507306e38585130fde5fc6c89eedb602e7c0e519d3a12d26e2c0455e8b96c258"
+    },
+    {
+      "path": "negative/tests/control_cancellation_window_smoke.py",
+      "bytes": 2169,
+      "sha256": "f29448d0070905b116fcce9bf82e0a81e8ee4820ebc0b9e84e031c432ac10b3d"
+    },
+    {
+      "path": "negative/tests/cursor_charset_cases.h",
+      "bytes": 9050,
+      "sha256": "9f376c69a9169ddccb73d224d1161007c5e35aa3a18af7b8d7c91cc557bb1f5c"
+    },
+    {
+      "path": "negative/tests/cursor_charset_cases.py",
+      "bytes": 2250,
+      "sha256": "e2ae7b9ef96a0be7f58eb9956a892ef93031c5e4024d7245c6f8a40623ae8329"
+    },
+    {
+      "path": "negative/tests/cwd_fixture.py",
+      "bytes": 542,
+      "sha256": "f9f37d78a07680cf2c427e9d71162a35d3672a13f4d3bc15ceb0d57b78531933"
+    },
+    {
+      "path": "negative/tests/cwd_window_smoke.py",
+      "bytes": 11357,
+      "sha256": "f1f7593290b8c6ebb5881539c90fba8b17b120d9e6fcbff3f93392288d259e2b"
+    },
+    {
+      "path": "negative/tests/dec_status_oracle_cases.h",
+      "bytes": 7135,
+      "sha256": "91e920081fe028311c04fe3061415a3863638feef63d46cfca7ef4fb3834f525"
+    },
+    {
+      "path": "negative/tests/dec_status_oracle_cases.py",
+      "bytes": 6952,
+      "sha256": "e29ad86ab877cbdcbef1baafa75ab34a0f260fd81916f59e31d0e4892200366d"
+    },
+    {
+      "path": "negative/tests/dec_status_window_smoke.py",
+      "bytes": 3115,
+      "sha256": "7e9029195139e8e03603842d3fa814e56e7325d76475ed620454f545b74cb2d4"
+    },
+    {
+      "path": "negative/tests/delegated_console_fixture.py",
+      "bytes": 735,
+      "sha256": "40f21b987e2fb0a5ce74f8fd0c1c17dc915449cab4f8ba5a091146e249b2eb8a"
+    },
+    {
+      "path": "negative/tests/delegated_console_window_smoke.py",
+      "bytes": 2363,
+      "sha256": "18b0418db89fdf7f8fc28ef0baddbc36bc34876ffb5c7739d1de14cdcea04dfa"
+    },
+    {
+      "path": "negative/tests/display_fixture.py",
+      "bytes": 1343,
+      "sha256": "765ce4340532d5b031098b018c2053d5362525f5a336ab01af31849f0a98ae49"
+    },
+    {
+      "path": "negative/tests/double_size_oracle_cases.h",
+      "bytes": 10790,
+      "sha256": "ac3179addcb4cf50414019248c1cf4a7d8155492fd1542866386d2ebe67e6a28"
+    },
+    {
+      "path": "negative/tests/double_size_oracle_cases.py",
+      "bytes": 5624,
+      "sha256": "47d5eb520840bc16314347a5a722cdbe60299885fc8d0bcb65f59ba1da95f63f"
+    },
+    {
+      "path": "negative/tests/double_size_window_smoke.py",
+      "bytes": 763,
+      "sha256": "96c4dd4d8fb0cb9a4047b055c30fde245346fb1c57ccd91a568498079029d851"
+    },
+    {
+      "path": "negative/tests/drop_window_smoke.py",
+      "bytes": 12658,
+      "sha256": "5f057eda3d503eedd32de29a909a3a7b4066fc725e2511d1aed60cc436655eec"
+    },
+    {
+      "path": "negative/tests/etw_extract.py",
+      "bytes": 4961,
+      "sha256": "dcbed1e984e74d907d93293a8c777aa5f4b2f0a1bf193e4ff5f6e7fe0947888f"
+    },
+    {
+      "path": "negative/tests/etw_memory_trace.py",
+      "bytes": 3848,
+      "sha256": "5350503bad10c01ab53c47233e0e199baac05e37088d69b0c00210c67258909e"
+    },
+    {
+      "path": "negative/tests/etw_memory_validate.py",
+      "bytes": 2298,
+      "sha256": "0b01ce2c43fba3ddd92a508b188b5fc6876063c1d253d93bac657589b3aade50"
+    },
+    {
+      "path": "negative/tests/etw_region_report.py",
+      "bytes": 7260,
+      "sha256": "3e53b59f06a27d1cc5ceb36c6fefeee41a425ca109768d8d0fb0f695537526d1"
+    },
+    {
+      "path": "negative/tests/feature_policy_reference.h",
+      "bytes": 231032,
+      "sha256": "c0b62cf16437abb4e3d6cc7440b2ab2780d51c2c63c24514392cca4d45e108a3"
+    },
+    {
+      "path": "negative/tests/feature_policy_window_smoke.py",
+      "bytes": 4659,
+      "sha256": "e8aa11342d0e72b8cfa9ca95163a29fad7cf522c147e8ae66e2cbe65c7fd80fa"
+    },
+    {
+      "path": "negative/tests/fixture_io.py",
+      "bytes": 1211,
+      "sha256": "4842e58da597199a8662c0c90b3755c541fd7d8492aaadf24225a3323a086d2b"
+    },
+    {
+      "path": "negative/tests/fixture_traceback.py",
+      "bytes": 1138,
+      "sha256": "03d114fc96a33655d0d1cfd97d0cc742422c5a970df1727cbbabcf76de1982a2"
+    },
+    {
+      "path": "negative/tests/fixture_traceback_test.py",
+      "bytes": 1389,
+      "sha256": "902c429ccb6b07bc98c9447205a7fab991d50019d47df08f847ff3384816fc0a"
+    },
+    {
+      "path": "negative/tests/font_fallback_window_smoke.py",
+      "bytes": 10357,
+      "sha256": "af54333f535b39fb9bcf0301e7616234d31ce83120c89752b5de7264715d29ff"
+    },
+    {
+      "path": "negative/tests/font_probe.c",
+      "bytes": 807,
+      "sha256": "686418907fd6423ed32e8bb43f89789312f16df98546ef9e44cb667e256d8571"
+    },
+    {
+      "path": "negative/tests/font_resize_window_smoke.py",
+      "bytes": 6736,
+      "sha256": "f99e4ade42f08a71ce2b5601cf544f58ccdb03bfa7ef56a0f430eae5907563c5"
+    },
+    {
+      "path": "negative/tests/font_zoom_window_smoke.py",
+      "bytes": 13909,
+      "sha256": "fec31574f04b4195b5733865717853e5758251be42f07a2c3f847d4715b067e6"
+    },
+    {
+      "path": "negative/tests/frida_test_utils.py",
+      "bytes": 1072,
+      "sha256": "60464818b9a87d30d19c0e32683befe2cfb98168f722ffa8ac43949c8e6a7ab4"
+    },
+    {
+      "path": "negative/tests/generate_alignment_oracle.py",
+      "bytes": 2089,
+      "sha256": "d755a4fc7cac86873bf66caa5f3b9c07f5119d7e5655aabeb4aa7fca534c95f9"
+    },
+    {
+      "path": "negative/tests/generate_attribute_colour_cases.py",
+      "bytes": 1155,
+      "sha256": "35708c3b411e45ca46c161cc061b6592abc78f1aa658d38919817a6374f4c3b5"
+    },
+    {
+      "path": "negative/tests/generate_c1_controls_oracle.py",
+      "bytes": 1403,
+      "sha256": "3ec02abf28af16ba57b8fafb75e3a99cfb73688d2d29640c9e9f86569d1e77d6"
+    },
+    {
+      "path": "negative/tests/generate_checksum_oracle.py",
+      "bytes": 2055,
+      "sha256": "7b9370136601eed46cea0fe8e8d1830be841034a008adc41555af8abfba849b3"
+    },
+    {
+      "path": "negative/tests/generate_cursor_charset_cases.py",
+      "bytes": 1135,
+      "sha256": "a33e7eaeb776d981b5262d9bb18fa4ec7d640ac5e8fda600888c9b6cea81d8ee"
+    },
+    {
+      "path": "negative/tests/generate_dec_status_oracle.py",
+      "bytes": 1486,
+      "sha256": "13d318730066314608958001d1d5ef3cd55f56cb482b757511bcd2ada009cfa2"
+    },
+    {
+      "path": "negative/tests/generate_double_size_oracle.py",
+      "bytes": 1844,
+      "sha256": "bef3e29831f47f74ff4f8e10b75ac0dfeef703a2cc50abd91921b8a2b5611619"
+    },
+    {
+      "path": "negative/tests/generate_graphics_query_oracle.py",
+      "bytes": 1687,
+      "sha256": "bcb10585027105c7e216aa4ee5c8bf9e2367ddb659be2459a3bb5a42484fbfe1"
+    },
+    {
+      "path": "negative/tests/generate_guarded_area_cases.py",
+      "bytes": 1113,
+      "sha256": "bbd289fa6da0c8555436884666ea0e83a9408136dcb4fdc40fd2d6d1dba44860"
+    },
+    {
+      "path": "negative/tests/generate_horizontal_oracle.py",
+      "bytes": 1597,
+      "sha256": "245e55c5bdf5cbf7ffcd9c730abd55fb430461e19e75b4c12eb3a8c95000106a"
+    },
+    {
+      "path": "negative/tests/generate_margin_oracle.py",
+      "bytes": 1741,
+      "sha256": "f77405eb2d5a8adf61ec35eb5274e854d7ef0424511fd29234fcb3c6a3a46ef2"
+    },
+    {
+      "path": "negative/tests/generate_palette_stack_oracle.py",
+      "bytes": 1362,
+      "sha256": "6538039d53d08d2b431b90749c10360532c2a42892882fdb92268b523ef5a49d"
+    },
+    {
+      "path": "negative/tests/generate_presentation_state_oracle.py",
+      "bytes": 1875,
+      "sha256": "c2c75658c1e645a541cfe151f46a531c9b21840b3ca91caff251a04d7e143c2e"
+    },
+    {
+      "path": "negative/tests/generate_rectangle_oracle.py",
+      "bytes": 1347,
+      "sha256": "eae34fcc5f97be3eabb69a8619a6f7031d60c928f4abc7efd84c3b4cedc22f44"
+    },
+    {
+      "path": "negative/tests/generate_relative_cursor_oracle.py",
+      "bytes": 2070,
+      "sha256": "30153b0b3f15ae32d31d84f9a7aa38548971ff1269903569cf05989ce9f2f57e"
+    },
+    {
+      "path": "negative/tests/generate_reset_palette_oracle.py",
+      "bytes": 1875,
+      "sha256": "13a1112e445aa4f5ec640abeb6a507f0de21bb869fd9f4214885a4271f266b87"
+    },
+    {
+      "path": "negative/tests/generate_reverse_wrap_oracle.py",
+      "bytes": 1992,
+      "sha256": "6dea0c2bf4dc586f4d1fa8b466db57ce9d1adcecce0fda51c5594c17ec6a8902"
+    },
+    {
+      "path": "negative/tests/generate_selection_colour_cases.py",
+      "bytes": 1139,
+      "sha256": "35fd66ad7585a84c4093dff43ffa981c9b5246d19ecb9c6e17bdde164bcaedf4"
+    },
+    {
+      "path": "negative/tests/generate_sgr_stack_oracle.py",
+      "bytes": 1748,
+      "sha256": "e5c28f0dded15f13756e3c9933cfdb0a1ccd7e9b559c07ebb60aa10c823c4e81"
+    },
+    {
+      "path": "negative/tests/generate_tabulation_oracle.py",
+      "bytes": 1711,
+      "sha256": "eecaf30887e90cbcd8fb542436f5795cec31108de17517439ab33ebe94741af2"
+    },
+    {
+      "path": "negative/tests/geometry_gl_probe.js",
+      "bytes": 3230,
+      "sha256": "c49c40b471b374751ae93bae4eaed71bcf4f1aa7d9837f938406319483eed8ee"
+    },
+    {
+      "path": "negative/tests/geometry_window_smoke.py",
+      "bytes": 15801,
+      "sha256": "4eb64cdef3ff84c61f687a58104636e33f5ed88841e4232b50f3e9647c124276"
+    },
+    {
+      "path": "negative/tests/gif_animation_window_smoke.py",
+      "bytes": 4695,
+      "sha256": "d1ad555e1d46317d84a14179085711c5b949851ccefeae4b0eefc99287b264ef"
+    },
+    {
+      "path": "negative/tests/gif_fixture.py",
+      "bytes": 2223,
+      "sha256": "8bc5a427dd2cf8ed5b9e559c2c9affd0470dc89b48ab272147e71abfafadb3a0"
+    },
+    {
+      "path": "negative/tests/gpu_capture.js",
+      "bytes": 2742,
+      "sha256": "bf9232a8ba0b35650e351ed2db8e0a142cb450fb308c53c39b1ea464b22bfd2a"
+    },
+    {
+      "path": "negative/tests/gpu_capture.py",
+      "bytes": 1626,
+      "sha256": "606c6c4898f7e3138e430e6089dae0f89f42b03de1ffa2f45ce34a8d8e34c343"
+    },
+    {
+      "path": "negative/tests/gpu_faults.js",
+      "bytes": 5764,
+      "sha256": "d4f7dea65a7d120b270fd7ee9f0a63af1108107a3461d3eb78e68422bbf0b709"
+    },
+    {
+      "path": "negative/tests/gpu_lifecycle_window_smoke.py",
+      "bytes": 7753,
+      "sha256": "e4cbd8e4d9127cda37f74d336965967707d175e0f97b8f967be2c4926d59f397"
+    },
+    {
+      "path": "negative/tests/gpu_settings_driver.ps1",
+      "bytes": 3941,
+      "sha256": "27a5894c0738a6580325670620bead38473db7fe68a3cfdd1f5bd9d0930d278e"
+    },
+    {
+      "path": "negative/tests/grapheme_window_smoke.py",
+      "bytes": 12026,
+      "sha256": "af3ee0bd2bbe63c56ca371f894c4245a3ddaf85749457ac580c993c1833e11f7"
+    },
+    {
+      "path": "negative/tests/graphics_query_oracle_cases.h",
+      "bytes": 3609,
+      "sha256": "c55e512b7e56a9bfeb219ba042d6915ba9b0e8d2d0ccb1cabf24cca7d4dd5b5c"
+    },
+    {
+      "path": "negative/tests/graphics_query_oracle_cases.py",
+      "bytes": 3525,
+      "sha256": "367d9d75ea4bce2dd42498b7acd9a8a88563c307715fa019d88f3c6255e3ec52"
+    },
+    {
+      "path": "negative/tests/graphics_query_window_smoke.py",
+      "bytes": 2834,
+      "sha256": "b043d8e229ddb2622bfbcf82b4bf4f93ec3eb30044bec1592bb8475e1d8ef213"
+    },
+    {
+      "path": "negative/tests/guarded_area_cases.h",
+      "bytes": 25775,
+      "sha256": "6caf5a476366ad6e69c087e8046ebfe0a81b39f087ba45fbfbd937cc85415c28"
+    },
+    {
+      "path": "negative/tests/guarded_area_cases.py",
+      "bytes": 3991,
+      "sha256": "67f09a4413dd26a10494e225e117286c9728246e40664e2475c3d7cc6c6f04f6"
+    },
+    {
+      "path": "negative/tests/guarded_area_window_smoke.py",
+      "bytes": 2771,
+      "sha256": "4936b99d97898000c224ff037678d8ece8579d2fede56756a9a7804449928735"
+    },
+    {
+      "path": "negative/tests/handle_snapshot.py",
+      "bytes": 7089,
+      "sha256": "34a9562b21e154500078817b08b120ed72ff1b4b695370ad2268779177c6965e"
+    },
+    {
+      "path": "negative/tests/handle_snapshot_native_test.py",
+      "bytes": 8020,
+      "sha256": "25e026d1e69d3201e0145e62444a037b3060ddb57a9df5d4d2eb25e1d3575846"
+    },
+    {
+      "path": "negative/tests/handle_trace.js",
+      "bytes": 5899,
+      "sha256": "7d360ec93062ae4e061f0d8249cd19c4f101395e62a4ed8cb221d799599c1acd"
+    },
+    {
+      "path": "negative/tests/handle_trace.py",
+      "bytes": 2515,
+      "sha256": "8c872728469104b0eee4171c2f3969f4b0eaa1c8a2f36621814dea0748e31870"
+    },
+    {
+      "path": "negative/tests/handle_trace_native_test.py",
+      "bytes": 7393,
+      "sha256": "e4ca8e04578716de9eeff9bd502c1d57b619c36f7ad807e5948273fd6459aae3"
+    },
+    {
+      "path": "negative/tests/highlight_window_smoke.py",
+      "bytes": 7085,
+      "sha256": "76f4ed675f972c849bf99f7586c9d9ae4752b6b098b9f117dceb76c5623a5a6c"
+    },
+    {
+      "path": "negative/tests/horizontal_oracle_cases.h",
+      "bytes": 206077,
+      "sha256": "3ff4fbecd6d36e9348b51d254449673542b7c4a10097a86211d6cdba1ca07c5a"
+    },
+    {
+      "path": "negative/tests/horizontal_oracle_cases.py",
+      "bytes": 947027,
+      "sha256": "3fc0717d029b3038e521a025650b5d856c513f51ad239d44a0d1a03618f9a5b9"
+    },
+    {
+      "path": "negative/tests/horizontal_window_smoke.py",
+      "bytes": 2330,
+      "sha256": "de808694bda88031b4b1880d7e599c22d6e6fc9d9dd7fd6acec54d7568cbc114"
+    },
+    {
+      "path": "negative/tests/hyperlink_message_probe.js",
+      "bytes": 2354,
+      "sha256": "0f983298bcbad4eed608abb14a05cc24184edcf7676948ca38aa8cf4fd3317d9"
+    },
+    {
+      "path": "negative/tests/hyperlink_target.py",
+      "bytes": 299,
+      "sha256": "4db2cb479214b8560d7b3e0216584b88ea78ccb3c69849e893cb94066d1d07d9"
+    },
+    {
+      "path": "negative/tests/hyperlink_window_smoke.py",
+      "bytes": 40148,
+      "sha256": "276ab043889fa1a36dfdc5e02e7b4f7c74dd1762cf1c1f8a32cb297b2f0d502f"
+    },
+    {
+      "path": "negative/tests/image_rectangle_window_smoke.py",
+      "bytes": 9054,
+      "sha256": "4f1aebbdd5264ed39b7d696c17dec4a55048ad0dcf028ea3702ac756720e540b"
+    },
+    {
+      "path": "negative/tests/input_method_probe.js",
+      "bytes": 3931,
+      "sha256": "0f48d207ac1ea8a410bd9477fe6893644f5ecb78e43d6069bf485816a2810c55"
+    },
+    {
+      "path": "negative/tests/input_method_window_smoke.py",
+      "bytes": 9851,
+      "sha256": "eba52d45945c50f774c0adf37364511544f270cfafacdfa5e2e593275d5da8da"
+    },
+    {
+      "path": "negative/tests/iso2022_window_smoke.py",
+      "bytes": 8440,
+      "sha256": "de84069617adecea4884f8f3b563e0083f0d97c9cf08760649df61f54f46e410"
+    },
+    {
+      "path": "negative/tests/iterm_image_window_smoke.py",
+      "bytes": 6228,
+      "sha256": "1947c8f54d31f9927adb0e9ea5fa6480a4bc48cee17544935dee6d8adcdc8d05"
+    },
+    {
+      "path": "negative/tests/iterm_reports_window_smoke.py",
+      "bytes": 1708,
+      "sha256": "15bb8dd719ee3b307e866839841111532520c7a2e3c4c6000ffb7166c75ba400"
+    },
+    {
+      "path": "negative/tests/keyboard_window_smoke.py",
+      "bytes": 9009,
+      "sha256": "d0ca95d2be378f880330a48c62e29d5e7e1d4b8113be613867f9ef9eccab0b30"
+    },
+    {
+      "path": "negative/tests/kitty_compression_oracle.py",
+      "bytes": 9344,
+      "sha256": "f9e97acc75d718c6d72e641ed0a163e7a6f07ec97125926616a0cc32fbb6744b"
+    },
+    {
+      "path": "negative/tests/kitty_compression_window_smoke.py",
+      "bytes": 3627,
+      "sha256": "be31c9547a836b18f2fb7db13483b0723849f3e30d4883178d8123cab022c7d6"
+    },
+    {
+      "path": "negative/tests/kitty_feature_reference.json",
+      "bytes": 63832,
+      "sha256": "a7e4f45a62d00df2a4c161c0964694b9cd542c755e577f7cb399de5185c916a9"
+    },
+    {
+      "path": "negative/tests/kitty_features_oracle.py",
+      "bytes": 7749,
+      "sha256": "19f17d0ae0768353a05cb01db258e853ff79c2fe0517bd6a7dddad7adbed1f72"
+    },
+    {
+      "path": "negative/tests/kitty_features_window_smoke.py",
+      "bytes": 1256,
+      "sha256": "2d2f3f87fdca0f970941c4f4440e665148318f9c7f22cb32a8eeb6bf538145ba"
+    },
+    {
+      "path": "negative/tests/kitty_geometry_window_smoke.py",
+      "bytes": 15131,
+      "sha256": "37233319fbcf12473e6dd7a8f5fc258604426685d11aafa8df99091320222e35"
+    },
+    {
+      "path": "negative/tests/kitty_graphics_oracle.py",
+      "bytes": 11635,
+      "sha256": "e75e5719ccf501841c7161e88bc34e4a5c5799f4c78117b449b8597d1bbd10c3"
+    },
+    {
+      "path": "negative/tests/kitty_image_window_smoke.py",
+      "bytes": 4773,
+      "sha256": "8a8c667c4cb8473917b3daeeef632db62d728e0dc3efab59e43d54e12066439a"
+    },
+    {
+      "path": "negative/tests/kitty_layout_reference.h",
+      "bytes": 1911,
+      "sha256": "b33cc16d6d31d0d99f4a14d57cee4ed4b10be93d28c13cb6935f8b9d5b8e825c"
+    },
+    {
+      "path": "negative/tests/kitty_placement_reference.h",
+      "bytes": 9716,
+      "sha256": "71a9979164beee5e3da8fd5a077ea2a8e7193d3f7af3a717f63dfc82c36e449b"
+    },
+    {
+      "path": "negative/tests/kitty_pointer_oracle.py",
+      "bytes": 8410,
+      "sha256": "7c441380b54fa82c1a59d5d85f650ea8f495c00da7036a298363b11f85f2a64e"
+    },
+    {
+      "path": "negative/tests/kitty_query_error_reference.json",
+      "bytes": 65413,
+      "sha256": "e73028a55fd364733d80713c1d441174c4890665c88d89c65004f13450c73d81"
+    },
+    {
+      "path": "negative/tests/kitty_query_errors_oracle.py",
+      "bytes": 2310,
+      "sha256": "48b31ec2de6ed989c62d38639b213c84c7be7fbeadaaf0613e48f91a15ed404f"
+    },
+    {
+      "path": "negative/tests/kitty_query_errors_window_smoke.py",
+      "bytes": 1252,
+      "sha256": "1901d8be604fea46a9623474b73eaae4971a28182b58dab7d2bbb6713f5b521c"
+    },
+    {
+      "path": "negative/tests/kitty_relative_oracle.py",
+      "bytes": 11578,
+      "sha256": "92313787434f9cb6c3898ac35b4ed6d4c1362ce20270390ae7895858cdff742b"
+    },
+    {
+      "path": "negative/tests/kitty_tab_workload.py",
+      "bytes": 2433,
+      "sha256": "e6d8533db3658059fd830d100e77148b14317368b981142b400552bab55fff7e"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_geometry_oracle.py",
+      "bytes": 4146,
+      "sha256": "27e0e935f84e239be4d920b4d24f8669596a4b826e67278a811f5a84d8a26942"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_geometry_reference.json",
+      "bytes": 320347,
+      "sha256": "2fbf8a045a1be6ce4080862c01ce016cc4da3c5af8eb540b4e511bff831cedfe"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_geometry_window_smoke.py",
+      "bytes": 213,
+      "sha256": "38112fcc995e7470a44b75f3a32197aecb93df0d3f5d1431f28cbfaeb1d7bab2"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_oracle.py",
+      "bytes": 13709,
+      "sha256": "66814069218dbe9a347c0de47bda3fba076f338a787e77f3fc6e07924d32d492"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_selection_window_smoke.py",
+      "bytes": 11243,
+      "sha256": "3092e1c1a44de2c49be0767c679f720340f0d507bf553d559ae5e22cbbbd69d1"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_tab_workload.py",
+      "bytes": 3469,
+      "sha256": "bbc1237e643320b1c2b8bfc2a3e4d5dea8d99c3cacafc8f214a5df3ea9d3d8c0"
+    },
+    {
+      "path": "negative/tests/kitty_unicode_window_smoke.py",
+      "bytes": 5066,
+      "sha256": "2236e4066cd9d5ab49f11038090c04e11f76c329241b709d3cbb6743325408c2"
+    },
+    {
+      "path": "negative/tests/legacy_parameter_reference.h",
+      "bytes": 16051,
+      "sha256": "194f222e190791a9b7b07549199d11b9aac80547e4409191b61880c05b809bd8"
+    },
+    {
+      "path": "negative/tests/legacy_parameter_reference.json",
+      "bytes": 30231,
+      "sha256": "6256aef7ddebf2ed292d73ea9aac1821f56e4d68af06341937212d54dc10817f"
+    },
+    {
+      "path": "negative/tests/legacy_parameter_window_smoke.py",
+      "bytes": 1662,
+      "sha256": "8b788a5473399f3a8d004bd03090aa7e7b07b41a9aba7a1b6c92ec7ede860c61"
+    },
+    {
+      "path": "negative/tests/locator_reference.h",
+      "bytes": 43471,
+      "sha256": "af5b4594b743bf122e6b659cbd4b23c11b2b1f9454e1f5a2802d1595925e1ff2"
+    },
+    {
+      "path": "negative/tests/locator_window_smoke.py",
+      "bytes": 8934,
+      "sha256": "00c40034e2777e0840b2240a4a48a06cbd63f5f6192f0d7a87c1af9a17bcf59e"
+    },
+    {
+      "path": "negative/tests/margin_oracle_cases.h",
+      "bytes": 69476,
+      "sha256": "fc7c755c8ceb19d55174051a9ae1027d2b1103c9b5d9d77ee80941b171abf485"
+    },
+    {
+      "path": "negative/tests/margins_window_smoke.py",
+      "bytes": 10368,
+      "sha256": "ba87561bc244fb354df78a3a2bf2f430ee115005555e5ef5ad8a1562b752a58f"
+    },
+    {
+      "path": "negative/tests/memory_limits.py",
+      "bytes": 1015,
+      "sha256": "2f882932d6ff7ec140c7a09671098070b776e54aa17e4cdeec7b0f4c5c35726a"
+    },
+    {
+      "path": "negative/tests/memory_limits_test.py",
+      "bytes": 1172,
+      "sha256": "8ebf46eda9a1a6924aaa7087735efd5c80094a374a5606792c106fd228825668"
+    },
+    {
+      "path": "negative/tests/memory_sample_test.py",
+      "bytes": 2116,
+      "sha256": "450b41898a23b678f6f543401ebc56d5617d438e346775fecc5f41a3bd6c638b"
+    },
+    {
+      "path": "negative/tests/mok_window_smoke.py",
+      "bytes": 9409,
+      "sha256": "39e6b6cd64ab04b525b18f0b5c11dcfcabd72a1087a9842de2f19907db723c85"
+    },
+    {
+      "path": "negative/tests/mouse_fixture.py",
+      "bytes": 5737,
+      "sha256": "7ea357ae2b3e7ed88178c452e88c41c2868ee8cb775963788b4ee202f8402d40"
+    },
+    {
+      "path": "negative/tests/mouse_window_smoke.py",
+      "bytes": 10443,
+      "sha256": "ab6d95221e22285dac944379c0865fb1cb0445769d212ac1386a2357b9e9a046"
+    },
+    {
+      "path": "negative/tests/native_exception_control.c",
+      "bytes": 1299,
+      "sha256": "5b4247638f4c8edcd586a4398231782a20fd37a18287857faa0d7bf5e8ea16a7"
+    },
+    {
+      "path": "negative/tests/native_exception_controls.py",
+      "bytes": 4010,
+      "sha256": "b5ed07ef529051fc9bc11a453882bdd5a52f594b617f2eaecfffb317417ab996"
+    },
+    {
+      "path": "negative/tests/native_exception_observer.c",
+      "bytes": 7877,
+      "sha256": "1fbe0fc6ba222a20b127f8280fe1a0f68bcbc9ade9470854be94fc85da39f214"
+    },
+    {
+      "path": "negative/tests/native_exception_observer.py",
+      "bytes": 4857,
+      "sha256": "ac3e0eeba94125ab497630b0bed3f0c06ec084e16c402a00f88f968d7cfaff57"
+    },
+    {
+      "path": "negative/tests/native_failure_dump.c",
+      "bytes": 2015,
+      "sha256": "2c598d70d53ce183dd03138f9f1433f6d82d17acf10bf8c392d4f270ed3f3691"
+    },
+    {
+      "path": "negative/tests/native_failure_dump.py",
+      "bytes": 2893,
+      "sha256": "2c8cd34025e5421abe139044f88914b6ce5a4d96d918433862b1358c3757620d"
+    },
+    {
+      "path": "negative/tests/native_failure_dump_controls.py",
+      "bytes": 3774,
+      "sha256": "c1023c9b7168c0cb17b5357e505552e63032ff32b51d32f714b892021c96fb83"
+    },
+    {
+      "path": "negative/tests/native_test_utils.py",
+      "bytes": 7063,
+      "sha256": "7ab93ec1e4cd9941d1e06921d27ac61b43bd062445b8bc47ce066ac9380aa675"
+    },
+    {
+      "path": "negative/tests/osc52_delayed_fixture.py",
+      "bytes": 3474,
+      "sha256": "4e800c1186622ef986e12cec58721bb1e6c583ec40d27846fb377cef38c2442d"
+    },
+    {
+      "path": "negative/tests/osc52_window_smoke.py",
+      "bytes": 15313,
+      "sha256": "160a072daf94d6b35441f9cfe888a513184425a227966166931b3e7daf7415d8"
+    },
+    {
+      "path": "negative/tests/osc_colour_sequence_reference.h",
+      "bytes": 16820,
+      "sha256": "fefbdd43207e56296b3c29d25f25693bb2ab3de1669d9d4d5a3f16a641efee16"
+    },
+    {
+      "path": "negative/tests/osc_colour_sequence_reference.json",
+      "bytes": 29052,
+      "sha256": "eaf595a21a6fde8b7da22f091c7c7842bc792c770cb307f3338bde41ecf410a1"
+    },
+    {
+      "path": "negative/tests/osc_colour_sequence_window_smoke.py",
+      "bytes": 1126,
+      "sha256": "bdcaf4351b9e633f49bfb0e774dabdd176305f19469377898f6afcd993920269"
+    },
+    {
+      "path": "negative/tests/owned_failure_state.py",
+      "bytes": 2238,
+      "sha256": "c2875722eb3543051143651c67831af75a15f2d97a844b84d04fa37a2fd30fa7"
+    },
+    {
+      "path": "negative/tests/owned_job.py",
+      "bytes": 8182,
+      "sha256": "51327173dafee0666e8916a76c9c56d97e300803f6784c7b51ac22c9f4a64d23"
+    },
+    {
+      "path": "negative/tests/owned_job_test.py",
+      "bytes": 3249,
+      "sha256": "f46573cda086d503f4fd67f15bc9d4d7f6b29ddf7b6af67215c56c969941c926"
+    },
+    {
+      "path": "negative/tests/owned_resize_observer.py",
+      "bytes": 3133,
+      "sha256": "c09079beab7c3f178063fb2b3a7125f178f470e295ffa5a47bb10e217630fa0c"
+    },
+    {
+      "path": "negative/tests/owned_window_focus.py",
+      "bytes": 4531,
+      "sha256": "6e2acf954e30defc916a5762fad844aa3426c72585d730323b8a0256b20558b5"
+    },
+    {
+      "path": "negative/tests/palette_stack_oracle_cases.h",
+      "bytes": 123045,
+      "sha256": "0489d57c63d72a6a9c3f2195211a554828c483a9c142dbfc580b0e539c2752bb"
+    },
+    {
+      "path": "negative/tests/palette_stack_oracle_cases.py",
+      "bytes": 122957,
+      "sha256": "d55b49ed78d937caf56d3a533614a80d7d159cfdc1ee8b4cc9e1a9b811694a7d"
+    },
+    {
+      "path": "negative/tests/palette_stack_window_smoke.py",
+      "bytes": 4444,
+      "sha256": "3aec90c1067cbf3ab7a64779106d938dc1411cd6f4a9aecae17ee1b6c4c454e3"
+    },
+    {
+      "path": "negative/tests/pointer_shape_reference.h",
+      "bytes": 63152,
+      "sha256": "d29aaa4f955fd610eb82b9e050a40a83dbf31419691cc3fcb85b6de779420880"
+    },
+    {
+      "path": "negative/tests/pointer_terminal_reference.h",
+      "bytes": 87371,
+      "sha256": "9c77263c76cf98e445f23ab4a0cac40e669160de18ed63c380bfcd6b1bc95486"
+    },
+    {
+      "path": "negative/tests/pointer_window_smoke.py",
+      "bytes": 17894,
+      "sha256": "3761d4f7b6f30f159daf850c20de67973d6e7bcb8a78e870b7908f586ad82f5f"
+    },
+    {
+      "path": "negative/tests/powershell_environment_window_smoke.py",
+      "bytes": 5399,
+      "sha256": "134af49c3fe2028be13d99e948ad40b65f37e60925087c5338952afef71f3942"
+    },
+    {
+      "path": "negative/tests/presentation_state_direct_cases.py",
+      "bytes": 1183,
+      "sha256": "35eb5299fccb32f756fa590ad867ccc946b80900f4902437fa632026b44b1f5e"
+    },
+    {
+      "path": "negative/tests/presentation_state_oracle_cases.h",
+      "bytes": 24625,
+      "sha256": "5930e1a231b10f39bbdcb4c16d9bab736895e1028cbd45d776145ed63027be85"
+    },
+    {
+      "path": "negative/tests/presentation_state_oracle_cases.py",
+      "bytes": 18677,
+      "sha256": "e5fcd4dcc60fc3a4a59a6207d2c186fa7eeb2b0d971791ea05184d2a96280a76"
+    },
+    {
+      "path": "negative/tests/presentation_state_window_smoke.py",
+      "bytes": 4181,
+      "sha256": "efb164cf371854ae239a7566b8a51fa5008246f535083c68b405667c6487c0d6"
+    },
+    {
+      "path": "negative/tests/presented_window_capture.py",
+      "bytes": 3117,
+      "sha256": "cc0b111d885221e47ed541ab41db4ebeb37d47f4d738295c2724ded9a4135e14"
+    },
+    {
+      "path": "negative/tests/process_tree_test.py",
+      "bytes": 3976,
+      "sha256": "190fd04aafce869b5b240de3c23e4d6e5c70e7b1a11ee96b07ec9e099a5035bd"
+    },
+    {
+      "path": "negative/tests/protocol_oracle_window.py",
+      "bytes": 6603,
+      "sha256": "4d4c705039db54bfe9e41ec26f0ca7735c80b3e7bff067003ed06401baca0ef2"
+    },
+    {
+      "path": "negative/tests/protocol_wire_trace.js",
+      "bytes": 3526,
+      "sha256": "cf21657223d945eca15e0632572339dfce047c550f61dc310cce2cc2fb5b47f5"
+    },
+    {
+      "path": "negative/tests/protocol_wire_trace.py",
+      "bytes": 4090,
+      "sha256": "3f2947fe6375663a66abb25513f9a1eef8ecab26241e4d43006c18cc2656784f"
+    },
+    {
+      "path": "negative/tests/query_focus_probe.js",
+      "bytes": 2368,
+      "sha256": "71f2ba5bf1e7fdf93f665647b1e5eecae0eea6f679c5f34b03928a3b32444a79"
+    },
+    {
+      "path": "negative/tests/query_window_smoke.py",
+      "bytes": 16638,
+      "sha256": "55a972bab965fe8c4d1036cec1d0ceb25d67b4527506c0b4b6faff0d64c51528"
+    },
+    {
+      "path": "negative/tests/rectangle_oracle_cases.h",
+      "bytes": 21497,
+      "sha256": "c64356332d8ff3768996d60f51490e539abdf3564618e4a47fbb7e6af51e7747"
+    },
+    {
+      "path": "negative/tests/rectangle_window_smoke.py",
+      "bytes": 9627,
+      "sha256": "8cd2246942600a06a3a0d69851500b8d728f3ecb575eb4300f22f645f8e48e76"
+    },
+    {
+      "path": "negative/tests/reflow_window_smoke.py",
+      "bytes": 7084,
+      "sha256": "99011511a9a4442d5eeb21ec5f63e384db34c2ceda7e6ad180d5e1ae21fe7c6e"
+    },
+    {
+      "path": "negative/tests/relative_cursor_oracle_cases.h",
+      "bytes": 137073,
+      "sha256": "98620f96f3970087006b34d50f0465494aa00fc3d377e91f8e5bf0bf5abac2f5"
+    },
+    {
+      "path": "negative/tests/relative_cursor_oracle_cases.py",
+      "bytes": 136139,
+      "sha256": "7d8bc96670fd76e6f973cdb4061ed4dc0aaa122e1f0420d7bf2e8abb42e5b31b"
+    },
+    {
+      "path": "negative/tests/relative_cursor_window_smoke.py",
+      "bytes": 3544,
+      "sha256": "d51d665d01379ec2726d99f259618cf4aae63ac843901a3ca7018ee0bc0ace18"
+    },
+    {
+      "path": "negative/tests/renderer_window_smoke.py",
+      "bytes": 20166,
+      "sha256": "033bc275a74bcfdf434994a3ad7fc10cc990913b34470008cc5d64e51ebaf746"
+    },
+    {
+      "path": "negative/tests/requirements-shutdown.txt",
+      "bytes": 242,
+      "sha256": "763e380d30809cf12bdc30a7387166dd17002cb642325640c9052b9c4c0e0d86"
+    },
+    {
+      "path": "negative/tests/reset_palette_oracle_cases.h",
+      "bytes": 27173,
+      "sha256": "cbbe8e499d15d4686ecf0daacf0fa5f9602826f548c0fdc96c60ee31f2a4f407"
+    },
+    {
+      "path": "negative/tests/reset_palette_oracle_cases.py",
+      "bytes": 27089,
+      "sha256": "8099d7b5646ff0b8d001095a2e0922808079ae73b834d3c1e9f61f34eeb06a19"
+    },
+    {
+      "path": "negative/tests/reset_palette_window_smoke.py",
+      "bytes": 5283,
+      "sha256": "25f3b012ad62d59a331d027308e728afb6f56f2b570c351e5b4a7dafebaac552"
+    },
+    {
+      "path": "negative/tests/resize_fixture.py",
+      "bytes": 859,
+      "sha256": "faa91cf5633442931c171a52248d3a749d127d9b4d25411be919937f126f987b"
+    },
+    {
+      "path": "negative/tests/resource_settle.py",
+      "bytes": 2099,
+      "sha256": "5b6a0070dceddfce59b79051f3bf87f280384cd3834fd98f0a1b1ccca6b53ae9"
+    },
+    {
+      "path": "negative/tests/resource_settle_test.py",
+      "bytes": 3327,
+      "sha256": "3735a3d9daf7cd7fd85e90101a20c9251bfbb8c4ea0535b9476bd02a4471310b"
+    },
+    {
+      "path": "negative/tests/reverse_wrap_direct_cases.py",
+      "bytes": 808,
+      "sha256": "c16dc2fd2358518a3af3fa002e374d1182f06eeb38bcd6d03eda9c737997b120"
+    },
+    {
+      "path": "negative/tests/reverse_wrap_oracle_cases.h",
+      "bytes": 435563,
+      "sha256": "41b75eb61130355dbb310b192f1fd4d0d92be3d0d32925f8966b4e01dc755d01"
+    },
+    {
+      "path": "negative/tests/reverse_wrap_oracle_cases.py",
+      "bytes": 2720581,
+      "sha256": "95cfd6a3aa6ca965dd03dd959d5c7210d58351bf698ee0483c91e67fa8c3beec"
+    },
+    {
+      "path": "negative/tests/reverse_wrap_window_smoke.py",
+      "bytes": 2658,
+      "sha256": "75db921ebd0ec12612fb30b0bdb7891988b6acadcc61ea9eb89cc2ab5a4a8dd1"
+    },
+    {
+      "path": "negative/tests/rtl_window_smoke.py",
+      "bytes": 10507,
+      "sha256": "b8b6c59e2f4eb5cc431373f2bbb6b88566c912244ab3fd59f9deaeeb3ac472d3"
+    },
+    {
+      "path": "negative/tests/selection_colour_cases.h",
+      "bytes": 6489,
+      "sha256": "e8e42fa9ad0316618054ae0202d818ced6fa68c4111601c40c3cd5b2634ee36e"
+    },
+    {
+      "path": "negative/tests/selection_colour_cases.py",
+      "bytes": 3114,
+      "sha256": "089529387b5a54860e462ac7cf36708156255b20738332febe88f665a540e041"
+    },
+    {
+      "path": "negative/tests/selection_colour_window_smoke.py",
+      "bytes": 6747,
+      "sha256": "c5cf77c8b8b83cb7438decb8285c2cd5f30e09b0e56f62f9b44eef2242143035"
+    },
+    {
+      "path": "negative/tests/selection_window_smoke.py",
+      "bytes": 9583,
+      "sha256": "084638d7818ef7b12256f6ce85187e1dd68bdc5f52643a6397589fa86842fd53"
+    },
+    {
+      "path": "negative/tests/selective_erase_window_smoke.py",
+      "bytes": 7811,
+      "sha256": "c327d1e1829734626360420f1cecd3141faa822887046b1eee7b0f751b344be5"
+    },
+    {
+      "path": "negative/tests/session_faults.js",
+      "bytes": 4260,
+      "sha256": "0336042802a5186be3c799871eee46940e7f70268c830c233bdb36f453b25391"
+    },
+    {
+      "path": "negative/tests/session_fixture.py",
+      "bytes": 1316,
+      "sha256": "80050f268d573cb843b69dbc7e38231bf198e2cf0ce48aa589e1ac899838cfd8"
+    },
+    {
+      "path": "negative/tests/session_restart_window_smoke.py",
+      "bytes": 5959,
+      "sha256": "f3a94aef4f05c19f8cebc33606a76bbe2441627493cf5ecc2a4e00ec2183fc58"
+    },
+    {
+      "path": "negative/tests/session_window_smoke.py",
+      "bytes": 10684,
+      "sha256": "33e6d2a5e9568c120339e41578e998f22ca3875cde65bb56a78b57c0c7284537"
+    },
+    {
+      "path": "negative/tests/settings_capture.py",
+      "bytes": 704,
+      "sha256": "0f53e98b86e44af003f0d3a49fde5a4058f95e2155fa66ff5ddd8dc36a3fff43"
+    },
+    {
+      "path": "negative/tests/settings_window_smoke.ps1",
+      "bytes": 49139,
+      "sha256": "037f74f36f9e569c5a41143ab2a62c7e1370230671273a5d02d758588865ae3d"
+    },
+    {
+      "path": "negative/tests/sgr_stack_direct_cases.py",
+      "bytes": 6193,
+      "sha256": "c0f5fa9c9d17608cc7eceec66fcaeb183f9b714e627f063dbf0274fc01f5f49d"
+    },
+    {
+      "path": "negative/tests/sgr_stack_oracle_cases.h",
+      "bytes": 166259,
+      "sha256": "e05146e523ba4b9d9a75a9916618ff87e81b4529f848c4e94d0667b51759ffb6"
+    },
+    {
+      "path": "negative/tests/sgr_stack_oracle_cases.py",
+      "bytes": 115288,
+      "sha256": "b4929cb4a6cc50b5b7a880254496049bf1c29210ffac5d8bdb2e5bd86542e652"
+    },
+    {
+      "path": "negative/tests/sgr_stack_window_smoke.py",
+      "bytes": 4355,
+      "sha256": "5acb0a53c44aeda3bb9271864352301598a8c235cd282fdef07b81e0bb5ebb7f"
+    },
+    {
+      "path": "negative/tests/sgr_window_smoke.py",
+      "bytes": 6521,
+      "sha256": "82dc931ca4890819026d673a8dbbe98d7ef8f219952e87d938e3f856421b420e"
+    },
+    {
+      "path": "negative/tests/shell_marks_window_smoke.py",
+      "bytes": 11550,
+      "sha256": "00fd0b2f6c3483c222abf36b43efce528570b9231f18c049d002aea998c62cf2"
+    },
+    {
+      "path": "negative/tests/shell_window_smoke.py",
+      "bytes": 8315,
+      "sha256": "88faef76dffa3c74c14cad676a6c24c4dcc3e024fb8d3fcb9ff9b47d9a6ef75e"
+    },
+    {
+      "path": "negative/tests/shutdown_probe.js",
+      "bytes": 3358,
+      "sha256": "a7d23659efa08326a4c2cc06df1900f0aa79b83bdc16afa8f59e9a3e6d20331f"
+    },
+    {
+      "path": "negative/tests/shutdown_probe_controls.py",
+      "bytes": 3681,
+      "sha256": "d49e1fb11dbc1b99bd7cb5e69300823816d1dbfdab1a2638c82fecd9966b9514"
+    },
+    {
+      "path": "negative/tests/shutdown_probe_fixture.c",
+      "bytes": 2003,
+      "sha256": "2cf18627f7d9504bcc5d8d3a9eda813c202e67d1ac22b9df0742d3c21b798a85"
+    },
+    {
+      "path": "negative/tests/shutdown_window_smoke.py",
+      "bytes": 9557,
+      "sha256": "c836401818d42ce550a84e96481bfc4ba9c865bb3ed2200417e027c352e593b6"
+    },
+    {
+      "path": "negative/tests/single_exe_window_smoke.py",
+      "bytes": 3667,
+      "sha256": "7ef74aaa08acd824d8abe6086666be7f1241953c81b0972495dcd84264190fc1"
+    },
+    {
+      "path": "negative/tests/sixel_background_window_smoke.py",
+      "bytes": 3561,
+      "sha256": "7a06180aa54d692e003b60b50b7b3ff93d7c7a4074742aa4bd355a35f7053244"
+    },
+    {
+      "path": "negative/tests/sixel_font_window_smoke.py",
+      "bytes": 10101,
+      "sha256": "bbcbd07b321bbaffaab7eaa342fd21633ddab57990e9e7a33852256aa898bb37"
+    },
+    {
+      "path": "negative/tests/sixel_palette_window_smoke.py",
+      "bytes": 17910,
+      "sha256": "382bd43b805f7e3349ea130c56092b12b5a5db73b3fb2fe18ef4cba9ed1ba4b3"
+    },
+    {
+      "path": "negative/tests/sixel_window_smoke.py",
+      "bytes": 6627,
+      "sha256": "917ce316f16d2b67fc64dbf9dacb9405f676d03360821b8426abe60cd1519929"
+    },
+    {
+      "path": "negative/tests/startup_size_window_smoke.py",
+      "bytes": 4314,
+      "sha256": "daf2ccfbb6fc7e5052146df1da6de8704adb8e8019ce2258e56ef54b684ebbce"
+    },
+    {
+      "path": "negative/tests/startup_visibility_fixture.py",
+      "bytes": 2200,
+      "sha256": "6da6472b549795a62e2e87098311c2a94b848b8662f6e288a0ba66410d7c2940"
+    },
+    {
+      "path": "negative/tests/startup_visibility_window_smoke.py",
+      "bytes": 4597,
+      "sha256": "daf70bbeec8dd5c550189f72bc71fd82d92a2da7bd3a799b9ab920622817ad94"
+    },
+    {
+      "path": "negative/tests/state_control_window_smoke.py",
+      "bytes": 7680,
+      "sha256": "8c8e1d0260a77bc05cb7d13fafc79402cf1593cc05f4732ac932057e36564d8e"
+    },
+    {
+      "path": "negative/tests/sync_window_smoke.py",
+      "bytes": 4573,
+      "sha256": "d6b15120974c5b0365fc2c3d5e57c400d9e2ff916d888b9ffbc896be3d0f5659"
+    },
+    {
+      "path": "negative/tests/tab_menu_checks.py",
+      "bytes": 3075,
+      "sha256": "18525b44d512a75de42a50d670475cb824bdf672c05b90d9ff72efeb39fa4043"
+    },
+    {
+      "path": "negative/tests/tab_probe_boundary.py",
+      "bytes": 2863,
+      "sha256": "bf943f2f80ef817cb4510681f69d505addefc2a1e53d2a492a29e0f9085eaadc"
+    },
+    {
+      "path": "negative/tests/tab_workload_memory.py",
+      "bytes": 13774,
+      "sha256": "cbe71e0ce88230c83969b5d935548e0f7825df58f2e95f8c47785669876bf3a0"
+    },
+    {
+      "path": "negative/tests/tabs_hover_probe.js",
+      "bytes": 2072,
+      "sha256": "d081bc30872552c9dda92fd370544b7bef3b4a7c9847f3fbcca5b7ad80aba41e"
+    },
+    {
+      "path": "negative/tests/tabs_overflow_window_smoke.py",
+      "bytes": 8230,
+      "sha256": "0e9160a7ea1b42911118b66ec1be7d68c7718ccf6ba9d958a7b791467df8e310"
+    },
+    {
+      "path": "negative/tests/tabs_profiles_window_smoke.py",
+      "bytes": 15933,
+      "sha256": "ed8650ea21d0a2eeaf2470c40aa2e2562cff68074d7e35d299b4e12428b6081d"
+    },
+    {
+      "path": "negative/tests/tabs_regression_suite.py",
+      "bytes": 2333,
+      "sha256": "509b35b98ae1341dbe63c3c4aec53276aa3463eebe62d1678d5ef8623dabd0a0"
+    },
+    {
+      "path": "negative/tests/tabs_window_smoke.py",
+      "bytes": 39216,
+      "sha256": "a65881355dacb732e79397f2e8a14a2bd3f3585184cd7ca0d3e606405dd36e35"
+    },
+    {
+      "path": "negative/tests/tabulation_oracle_cases.h",
+      "bytes": 9036,
+      "sha256": "b3d339897d8371e42ad44f68029eb5696f4d3cf8294b55956dd5836907f1e535"
+    },
+    {
+      "path": "negative/tests/tabulation_oracle_cases.py",
+      "bytes": 8858,
+      "sha256": "920916df2a312ced4bd2fc8239e093adfac27bb8ac57be5b07557f1ea5444334"
+    },
+    {
+      "path": "negative/tests/tabulation_window_smoke.py",
+      "bytes": 181,
+      "sha256": "05d70a319b367ed00ac4233e854f671e658f6b7ff7da144ad7235e40eb6d9eb4"
+    },
+    {
+      "path": "negative/tests/test_allocation_census.c",
+      "bytes": 4716,
+      "sha256": "b35353639db11fd422a16d2c4d15e05b4023f0a7198cdda2b9ce002b14a3ff52"
+    },
+    {
+      "path": "negative/tests/test_charset.c",
+      "bytes": 3845,
+      "sha256": "c886facb9395ba696954b46b19f8d4f37e44a8096dd732c1854105b89046473e"
+    },
+    {
+      "path": "negative/tests/test_cluster_renderer.cpp",
+      "bytes": 12690,
+      "sha256": "2c7cb3cb6947398e95a79480e679f8d3038db9f0cc9fe5a9dea0dd4a2e0c0c17"
+    },
+    {
+      "path": "negative/tests/test_colour.c",
+      "bytes": 7603,
+      "sha256": "84825f7e0ee7dc05bf89e007527979fa77c8c1e7174f1176fd1df4551a0e5f71"
+    },
+    {
+      "path": "negative/tests/test_font_cmap.c",
+      "bytes": 2324,
+      "sha256": "857d5fb7340c74682132702e14de28e4a107ed27a74918daf570734e4471c39a"
+    },
+    {
+      "path": "negative/tests/test_gl_lifetime.c",
+      "bytes": 8541,
+      "sha256": "6ef0f56db1e88e708218b803116253bd68ac75f5edbbd32fa454fc7ccb91eac0"
+    },
+    {
+      "path": "negative/tests/test_grapheme.c",
+      "bytes": 4318,
+      "sha256": "36a6c45672da7cf48e06dff77c7bb72539e207050ac3629d3428b9ff704f376c"
+    },
+    {
+      "path": "negative/tests/test_iterm.c",
+      "bytes": 10155,
+      "sha256": "6bb1d38b2d12ca8448b911d5679999445e9eda7dcbd96af3487242985081d221"
+    },
+    {
+      "path": "negative/tests/test_kitty_cache.c",
+      "bytes": 20099,
+      "sha256": "f4a07096cbea647e94f658502b0cddad58f6383248165efdc73ce3c407aebdaa"
+    },
+    {
+      "path": "negative/tests/test_kitty_layout.c",
+      "bytes": 5528,
+      "sha256": "6d0e14735e8ed5967369372aea2a16d9ed8a9eef4b3e53da2624179f4a00ea3e"
+    },
+    {
+      "path": "negative/tests/test_kitty_placements.c",
+      "bytes": 28246,
+      "sha256": "d0677674923af48a718f10f6f9572287c213b21ad2a6c0c070dc2138fae6589b"
+    },
+    {
+      "path": "negative/tests/test_kitty_transport.c",
+      "bytes": 14958,
+      "sha256": "203c74fa0bc2696fc83ddecf5f6333533a5eac73808a5495f1a1f9c6719f5911"
+    },
+    {
+      "path": "negative/tests/test_pointer_cursor.c",
+      "bytes": 10233,
+      "sha256": "7972498c0a0f256f99a9cb8d8e36eed6a71be61bd27f112023f6fd679249a197"
+    },
+    {
+      "path": "negative/tests/test_pointer_glyph.c",
+      "bytes": 3335,
+      "sha256": "e98a730ea2bbaec34df8ab77fdc79fc5fb58c3095cf903589f11b1c1c5b0f016"
+    },
+    {
+      "path": "negative/tests/test_pointer_shapes.c",
+      "bytes": 4513,
+      "sha256": "bc25efed21dcef432c6a925188497096c1c4a035d6382bc48ef4d8450a65c503"
+    },
+    {
+      "path": "negative/tests/test_raster.c",
+      "bytes": 5572,
+      "sha256": "85ecbf29cfe487a729099165536683b0dcf04e7400fd0a71e117cc134daf8d5d"
+    },
+    {
+      "path": "negative/tests/test_sixel.c",
+      "bytes": 15152,
+      "sha256": "aacf696c46f5c83693e26df107f582053fbedb23b12f86437492205d28f4a259"
+    },
+    {
+      "path": "negative/tests/test_sixel.exe",
+      "bytes": 63980,
+      "sha256": "1f976ecaa577f17df281139ca8b62ec48390ee58629ba8624e8c8c32c45a5f83"
+    },
+    {
+      "path": "negative/tests/test_snapshot.c",
+      "bytes": 9315,
+      "sha256": "15e59fb2080f3d04eaaf469eda053998ce2f041e4141a1ad6409ef9b7f84ef4d"
+    },
+    {
+      "path": "negative/tests/test_tabs_layout.c",
+      "bytes": 5609,
+      "sha256": "479f79345dd9b30ee8c4c0b7052105978a5ff8ab4875b3e4f38dbe789805c242"
+    },
+    {
+      "path": "negative/tests/test_underline_terminfo.py",
+      "bytes": 2664,
+      "sha256": "8b66ce332f36de06e2ce935cc996518f802e4f1d57bbcf685d8914b8989af2ec"
+    },
+    {
+      "path": "negative/tests/test_window_snapshot.py",
+      "bytes": 4991,
+      "sha256": "dd2e01d069a42738cd3c73c528bc81548a7a077d1c753ed4b6356de246aaa982"
+    },
+    {
+      "path": "negative/tests/test_zlib.c",
+      "bytes": 3247,
+      "sha256": "27ae32f24032e8135cac03ed2650a4e7f8f377252152da0151e7f35fc74f4b42"
+    },
+    {
+      "path": "negative/tests/thread_snapshot.py",
+      "bytes": 7972,
+      "sha256": "d87f1e9626c4471166c1ec04d6571f80098018b3cde955d1650e2469cbf56bde"
+    },
+    {
+      "path": "negative/tests/thread_snapshot_native_test.py",
+      "bytes": 8849,
+      "sha256": "a3db634cb96a5ad4b0a63ea3f75f6003d830b3c12748b4e52811a88a8d719d4b"
+    },
+    {
+      "path": "negative/tests/title_modes_reference.json",
+      "bytes": 40939,
+      "sha256": "622367306f9fce3597b9f9a3b3ff61e81e5258ff8cfcd17036d27bd2188eea77"
+    },
+    {
+      "path": "negative/tests/title_stack_reference.json",
+      "bytes": 22858,
+      "sha256": "8f9e5f70baf29ba3b3a92ae55fe952b395ca18dadca6e8417205b8109aac215f"
+    },
+    {
+      "path": "negative/tests/titles_window_smoke.py",
+      "bytes": 4652,
+      "sha256": "8b1c7bef21b2b9e96f5649e2daba8756edc56aadd0c22871a9d8c028d8398013"
+    },
+    {
+      "path": "negative/tests/udk_reference.h",
+      "bytes": 37707,
+      "sha256": "c40b6181a1276fe6c68ff48e3635e4425fd436c333fda70df72b66c79ec2b205"
+    },
+    {
+      "path": "negative/tests/udk_window_smoke.py",
+      "bytes": 7557,
+      "sha256": "7c394c1efe33f856907f399e0028d1b6f2f0ec8e73be654ac7f1151a582bbc51"
+    },
+    {
+      "path": "negative/tests/underline_capabilities.py",
+      "bytes": 1847,
+      "sha256": "6227b70da9d4401a03818bbf21acf0b5e1d5f985eb631e0529e599cbcdf9b607"
+    },
+    {
+      "path": "negative/tests/unicode_input_fixture.py",
+      "bytes": 2690,
+      "sha256": "c3309f6fdb0c1cbbba162232389a9649376e208badb9c7dd617b8caa20ca9713"
+    },
+    {
+      "path": "negative/tests/unicode_input_window_smoke.py",
+      "bytes": 3670,
+      "sha256": "a0817fb2925964d7d756e07ef8c7a100798c544f76709cca0aafbef94be23817"
+    },
+    {
+      "path": "negative/tests/upss_input_reference.h",
+      "bytes": 34438,
+      "sha256": "ad7c406715652d9d034a01baab89009433f203817c7d2072a4e71745e576c8d5"
+    },
+    {
+      "path": "negative/tests/upss_reference.h",
+      "bytes": 312128,
+      "sha256": "51cf7155efa1d72f1b0efede4eaa871e41d800d78ad39ca6860f96e6d633628f"
+    },
+    {
+      "path": "negative/tests/virtual_memory_native_test.py",
+      "bytes": 4627,
+      "sha256": "1d5f93f3a824293351f559c95cdb0837b88a78aa018fb4b4bad396559961aa4b"
+    },
+    {
+      "path": "negative/tests/virtual_memory_probe.js",
+      "bytes": 6557,
+      "sha256": "579752f6690726a410343e712d683260236aa80a805892cea0a7404e7c91bddb"
+    },
+    {
+      "path": "negative/tests/virtual_memory_selftest.js",
+      "bytes": 2796,
+      "sha256": "09fd48259d0cfac61cb5d2be0cd67f6cde03408b0c280e0a77c591bc24556529"
+    },
+    {
+      "path": "negative/tests/virtual_memory_trace.py",
+      "bytes": 6027,
+      "sha256": "31d0359fdef5e253a229827487a29e9a5108544c842a718228f1513cd3eaed24"
+    },
+    {
+      "path": "negative/tests/virtual_memory_validate.py",
+      "bytes": 2952,
+      "sha256": "e84b2917c49170e4b4e4ac4d669949f5ad8a3f6738e927a755ad69bba1d7bc4d"
+    },
+    {
+      "path": "negative/tests/win32_input_fixture.py",
+      "bytes": 4005,
+      "sha256": "77107892f03400f7088e08cb7b2fbfcdd6815761bda01dca3df967b508ed8f25"
+    },
+    {
+      "path": "negative/tests/win32_input_window_smoke.py",
+      "bytes": 11584,
+      "sha256": "5b9723bd483db202a55c52cc2ce933c6a8a186a2a2721201f97d5406fbd60dd7"
+    },
+    {
+      "path": "negative/tests/window_resize_window_smoke.py",
+      "bytes": 17094,
+      "sha256": "03cb77bf2e02f9849479b65083eb41ef3a3e97c66461575ac5332d443a07bd03"
+    },
+    {
+      "path": "negative/tests/window_snapshot.py",
+      "bytes": 3928,
+      "sha256": "ede46a681db2a0f7515821c615bebd21383aefe23622412552a8dd44e1bddaa3"
+    },
+    {
+      "path": "negative/tests/working_set_regions.py",
+      "bytes": 5065,
+      "sha256": "ebc6825d64c87f32ac8383b5b4d492e6c4b210879010507b98707fae10513610"
+    },
+    {
+      "path": "negative/tests/x11_colour_cases.h",
+      "bytes": 25984,
+      "sha256": "5a3b19d6be3d747debd57d0ee5062f51a48547732517c6e032761ca434b61a6a"
+    },
+    {
+      "path": "negative/tests/xterm_ansi_conformance_oracle.py",
+      "bytes": 5668,
+      "sha256": "22b3a6d8637f585b27e59de384373ad93ea29cb3777e4e613b965930620dd16e"
+    },
+    {
+      "path": "negative/tests/xterm_attribute_colour_oracle.py",
+      "bytes": 3265,
+      "sha256": "6e74e077c43fb1f6b9c8221caa3731faa42f6cfd54b4afb2c54336c94805dcac"
+    },
+    {
+      "path": "negative/tests/xterm_bell_modes_oracle.py",
+      "bytes": 9267,
+      "sha256": "44c0b3e4d8f5bb9c299333ac17732880251e530def283f480f1886ad81d4ae79"
+    },
+    {
+      "path": "negative/tests/xterm_c1_controls_oracle.py",
+      "bytes": 2437,
+      "sha256": "54870b386cc0b880cc5be8df2e20ec0d43c7e55328637293fa67e36476fac70a"
+    },
+    {
+      "path": "negative/tests/xterm_cancellation_oracle.py",
+      "bytes": 7588,
+      "sha256": "12b886cc8f6173131216add7affe5e724b0a718aff8e974f2aeb6104c679e496"
+    },
+    {
+      "path": "negative/tests/xterm_charset_checksum_oracle.py",
+      "bytes": 3668,
+      "sha256": "91bd6fbedf809b2ce8ef34f19f919fb793484719cbf2945c7a293069987a2f11"
+    },
+    {
+      "path": "negative/tests/xterm_charset_input_oracle.py",
+      "bytes": 6745,
+      "sha256": "1c9c7dde0f3d0a18872f567d1ea3ea31210b646d9d3255fb554c677aa64c387a"
+    },
+    {
+      "path": "negative/tests/xterm_charset_lifetime_oracle.py",
+      "bytes": 2580,
+      "sha256": "bf7e0a391c83e319ddc6a98be7b5074d5dd49e3d7e53bde1532f9193339a0b92"
+    },
+    {
+      "path": "negative/tests/xterm_charset_state_oracle.py",
+      "bytes": 3714,
+      "sha256": "88d98de5096b8566ad9e1f6ace7bfaaab20165c6f1c3e79b18b8b98f291066e4"
+    },
+    {
+      "path": "negative/tests/xterm_charsets_oracle.py",
+      "bytes": 3348,
+      "sha256": "f7e12f48aa2c6692acd965005d83eb4d4dc86619ce006d0782fe848f14ac179f"
+    },
+    {
+      "path": "negative/tests/xterm_checksum_oracle.py",
+      "bytes": 3387,
+      "sha256": "2e52e457f2b391d9185ca9cda7180472930715a5856e6bd48c06d5eea6ac9934"
+    },
+    {
+      "path": "negative/tests/xterm_cursor_charset_oracle.py",
+      "bytes": 1131,
+      "sha256": "f7a887e9964db8e3ee0ecd795c910ad41191efd4de86af7c012c25a346c7ce34"
+    },
+    {
+      "path": "negative/tests/xterm_dec_status_oracle.py",
+      "bytes": 2297,
+      "sha256": "452f27cd0027e3fd6dd63e4b89e8d5fc85b6569e397f3696de7d99d5b7b491b1"
+    },
+    {
+      "path": "negative/tests/xterm_double_size_oracle.py",
+      "bytes": 2753,
+      "sha256": "94fcd723ee8f4fada48dd626f6305655ed6fdb47eea6e5202976efc479ee5a81"
+    },
+    {
+      "path": "negative/tests/xterm_erase_oracle.py",
+      "bytes": 3307,
+      "sha256": "fab2bf8464b0dc37537ff2f53c26d357ab3b0660272aa3fbfc6b2e3cfb16acab"
+    },
+    {
+      "path": "negative/tests/xterm_feature_policy_oracle.py",
+      "bytes": 7826,
+      "sha256": "472a6aeea08bc92ea4b022199e2873596c15fa2462f019f97313e4a2eb4d9c1f"
+    },
+    {
+      "path": "negative/tests/xterm_geometry_oracle.py",
+      "bytes": 3065,
+      "sha256": "7a3b87355f9bc6353556a3e6d1a1561383b6bc17a25e6a0570d0e06ded118509"
+    },
+    {
+      "path": "negative/tests/xterm_graphics_query_oracle.py",
+      "bytes": 1477,
+      "sha256": "39d65081d46fc69a3f9eb9e5ef5797b69b31fa56416241f32ad753f0a0288f3e"
+    },
+    {
+      "path": "negative/tests/xterm_guarded_area_oracle.py",
+      "bytes": 1125,
+      "sha256": "df5a897062703e289bc40c0f26ba36bbc97afcd2bc648f8061dfa8509e8ccab6"
+    },
+    {
+      "path": "negative/tests/xterm_horizontal_oracle.py",
+      "bytes": 3158,
+      "sha256": "99f0b8785ee64e29ceb961a1ebcc1097d69e409ba9a804ad6a94e5f0b96d51c7"
+    },
+    {
+      "path": "negative/tests/xterm_identity_oracle.py",
+      "bytes": 1982,
+      "sha256": "7ff53a224b185446e7d120b9c2b6b579ac0243f317405f432c758148b88d2d20"
+    },
+    {
+      "path": "negative/tests/xterm_locator_oracle.py",
+      "bytes": 16791,
+      "sha256": "22e62aeafeec438ff6d500673bc70483a3e6d3d7ce148404300ba595d41508a3"
+    },
+    {
+      "path": "negative/tests/xterm_margin_oracle.py",
+      "bytes": 1340,
+      "sha256": "28b950892ffee480af86cb250d787da2b72f26b353f305fb50804f8be772cc1e"
+    },
+    {
+      "path": "negative/tests/xterm_mok_child.py",
+      "bytes": 876,
+      "sha256": "4100cb0062e9ea5b3f781fa5722c574e4e305241746db8ccdcf2e93bd6b47a7c"
+    },
+    {
+      "path": "negative/tests/xterm_mok_reference.py",
+      "bytes": 5979,
+      "sha256": "a889cbd10206062177c61ede93b78b5d1ee9ad9492e79dc84ac9619512232acc"
+    },
+    {
+      "path": "negative/tests/xterm_palette_stack_oracle.py",
+      "bytes": 3984,
+      "sha256": "e3750eb0da8af6ebc3e09148267645d550f73c1dc624ec2570ebdd99694ec110"
+    },
+    {
+      "path": "negative/tests/xterm_presentation_state_oracle.py",
+      "bytes": 5343,
+      "sha256": "cd29716ee3759a877d9caf3c6390e5d1bc5b7ef03fa787b93a83c5a99ad03551"
+    },
+    {
+      "path": "negative/tests/xterm_rectangle_oracle.py",
+      "bytes": 3914,
+      "sha256": "3bbbe1fffb94e3f4b50e19be6199ead5a83905e11feefe32dbf214328312f773"
+    },
+    {
+      "path": "negative/tests/xterm_reset_palette_oracle.py",
+      "bytes": 2249,
+      "sha256": "a52ace652a5bb5a8eb0f60cc8cfef1e2310cc56aacba269eaaeb951a0c3a4b80"
+    },
+    {
+      "path": "negative/tests/xterm_reverse_wrap_oracle.py",
+      "bytes": 4649,
+      "sha256": "3a810553db6ae984a9fc67699f3659f0a46ca0c2cc48e2f410992648a6bfa57a"
+    },
+    {
+      "path": "negative/tests/xterm_selection_colour_oracle.py",
+      "bytes": 1861,
+      "sha256": "b888f25130917fd3e5747ecd16aa553c571fc416a1b53ad385c9165ff2a6a726"
+    },
+    {
+      "path": "negative/tests/xterm_sgr_stack_oracle.py",
+      "bytes": 4791,
+      "sha256": "34b4fa1f49f9f107666e6b6f0e7ddcdc3b90a70e58d7374f395fb20d65b686f8"
+    },
+    {
+      "path": "negative/tests/xterm_state_oracle.py",
+      "bytes": 7243,
+      "sha256": "3e20c4cdf9f73c1bfda373d8429c3f32b3de84290397ef9aea8fc09f773204dc"
+    },
+    {
+      "path": "negative/tests/xterm_tabulation_oracle.py",
+      "bytes": 2579,
+      "sha256": "249494c47611e22e1f534f30df28df2372b453dc49d67f0f1d15da31750202d5"
+    },
+    {
+      "path": "negative/tests/xterm_title_modes_oracle.py",
+      "bytes": 3047,
+      "sha256": "911cc9204c63b8dc04ee4ab1bd68321bb6daeb05169f50308e3c5b21d3ca8f37"
+    },
+    {
+      "path": "negative/tests/xterm_udk_oracle.py",
+      "bytes": 12413,
+      "sha256": "87db712e93a89d11ef4af63c9c4577dcaea90a215bba46e60e2b7cb78d53616a"
+    },
+    {
+      "path": "negative/tests/xterm_unicode_boundaries_oracle.py",
+      "bytes": 2133,
+      "sha256": "1901eb3b4f18862b53375860a28d18c54c12b19d1f04ff1dcc8ea2a9127fea04"
+    },
+    {
+      "path": "negative/tests/xterm_upss_oracle.py",
+      "bytes": 4356,
+      "sha256": "b064b9cc2ac1f160d6e9738e026f1051ab421ff2e25f152785c7e4f652ef89c1"
+    },
+    {
+      "path": "negative/tests/xterm_window_oracle.py",
+      "bytes": 4748,
+      "sha256": "8980fd0f5d9791e32b97025c48c14b573c0b02a8139e7fdce5dcffbd17393890"
+    },
+    {
+      "path": "negative/tests/xterm_x11_colour_oracle.py",
+      "bytes": 2846,
+      "sha256": "f6f88668d6dd16234d5606fcf03d669dc61eb931b88e5d21afa9880308b58b91"
+    },
+    {
+      "path": "negative/tests/zlib_reference.h",
+      "bytes": 14194,
+      "sha256": "85f676e95bde1324346c656dd4268c82af6a2dd66e1051f0e3f7deb339a08636"
+    },
+    {
+      "path": "negative/tools/nemoterm_debug.py",
+      "bytes": 10195,
+      "sha256": "b203a875b55f4d93f4f05a36e5177301c640eb856fe5e58291073d910eb8c6f9"
+    },
+    {
+      "path": "preparation-only-01/IDENTITY.json",
+      "bytes": 696,
+      "sha256": "89206f64cf6e9f624fff4790fe9a5434fed326c4f327846d3ffeb824dddec12f"
+    },
+    {
+      "path": "preparation-only-01/controller-stopped.json",
+      "bytes": 174,
+      "sha256": "77844f525952116479a8e986bf3c311ceba2418b008ea542752954d0a44b0639"
+    },
+    {
+      "path": "preparation-only-01/controller.py",
+      "bytes": 4600,
+      "sha256": "533fb42b8678e40e928dfcea33055ae6842434202c32380c49ffe2b96ecb8469"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1378,
+      "sha256": "5f764a659bc0f07097431fceadcffa58827ce9fdc78fd73314e252a4d0496101"
+    },
+    {
+      "path": "retainer.py",
+      "bytes": 3952,
+      "sha256": "36a6c9095fde55be2255fd7f316f5e8dd5d55de8612b55afbd20c0acc695f4ef"
+    }
+  ]
+}

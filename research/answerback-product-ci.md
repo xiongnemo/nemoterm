@@ -27,8 +27,10 @@ cannot replace local 160x48 Sarasa acceptance. The 49-group local plan separates
 41 owned background cases from eight foreground/clipboard cases. Its prepared
 audit requires the exact executable, source-matched fixtures, all planned groups,
 raw pixel evidence and unchanged memory limits before reporting completion.
-The current local run is still in progress. Its first thirteen groups have now
-been independently reviewed and retained, as described below.
+All 41 background groups have now run: **40 pass**, and the dense DirectX
+workload fails only its unchanged private-working-set gate after its pixel and
+lifecycle checks pass. The eight desktop/clipboard groups remain pending. The
+completed background evidence is independently reviewed and retained below.
 
 `answerback-product-ci-validation.json` binds the source, complete workflow/job
 results, artifact metadata and all 163 group names. The three retained ZIPs are
@@ -74,8 +76,33 @@ cases and startup sizing. The reviewer checks fixture bytes against Git source
 `253855b`, original per-case file hashes, exact reply bytes, actual renderer
 identity and natural cleanup. The resize checks also recompute work-area clamps.
 
-The archive contains a stable thirteen-result prefix while the original
-41-group background controller continues. It does not certify the remaining
-background groups, eight desktop/clipboard groups, physical IME/DPI, full
-protocol coverage or overall candidate acceptance. The previously accepted
-distribution is unchanged.
+The archive contains a stable thirteen-result prefix captured before the
+background controller finished. Later results are retained separately below;
+this prefix does not certify them or the full candidate.
+
+## Completed background run
+
+`answerback-product-local-background.tar.gz` retains the remaining 28 groups,
+the complete 41-command result list and original per-case observations. Its
+validation manifest rechecks every retained file hash and the original fixture
+identity. All six installed shells execute commands: PowerShell 7, Windows
+PowerShell, BusyBox ash, Git Bash, WSL Bash and cmd. Session/restart, font zoom,
+both automation renderers, four tab-bar positions and 72 feature-policy cases
+pass. The six image/geometry groups add **153 stages** across actual GDI,
+OpenGL and DirectX; decoded geometry pixels and original BMP hashes are checked
+again. These are retained-renderer captures, not a new presented-desktop test.
+
+Ten ordinary image-memory workloads pass. The dense DirectX workload completes
+**4,153 uninjected samples over 451.726 seconds**, with peaks of **27,602,944
+private WS / 63,152,128 total WS / 89,686,016 private-commit bytes**. All 29,072
+image-cell comparisons and ten lifecycle checks pass; all 56 owned processes
+exit naturally. Its **25,000,000-byte** private-working-set regression gate
+fails, so the original report remains `completed: false`, phase
+`memory-acceptance`, and the controller exits with failure. No limit is relaxed
+and no additional DX memory optimization is undertaken.
+
+Together the two archives establish 40 passing background groups and preserve
+the one failed gate. They do not certify the eight desktop/clipboard groups,
+physical IME/DPI, long application sessions or full protocol coverage. The
+previously accepted distribution is unchanged. Later parser fixes have separate
+source identities and do not inherit these measurements.
