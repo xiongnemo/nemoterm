@@ -40,9 +40,15 @@ fixed source, compiler/build logs and original references are retained in
 `osc-colour-sequence-fix.tar.gz` and its validation manifest. Archive members
 are rehashed after compression.
 
-The native ConPTY fixture and all three component compiler jobs are wired into
-CI, and the single-image plan gains one group. **Native replay, MSVC and complete
-product CI are not yet verified for this change.** The ongoing 49-group local
+The [component workflow 43765300885](https://github.com/xiongnemo/nemoterm/actions/runs/43765300885)
+now passes GCC/Clang ASan/UBSan and MSVC at source
+`31747b9aba2199ddf896f06f87a05c829a223d69`, including all 64 streams in both
+replay modes. Its original logs, artifact receipts and source hashes are retained
+in `osc-colour-sequence-ci.tar.gz` and its validation manifest.
+
+The native ConPTY fixture is wired into both product workflows, and the
+single-image plan gains one group. **Native replay and complete product CI are
+not yet verified for this change.** The ongoing 49-group local
 acceptance uses the previous exact `253855b` executable, so its results and
 memory measurements do not certify this later parser patch. Neither the
 accepted executable nor the main branch has been replaced.
