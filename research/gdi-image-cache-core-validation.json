@@ -1,0 +1,90 @@
+{
+  "source": "12ee33baa970363ddde687b3e612f9154e386356",
+  "baseline_cache_bytes": 737408,
+  "candidate_cache_bytes": 245760,
+  "saved_per_tab": 491648,
+  "scope": "Actual display-cache allocation in the headless 160x48 parser/paint regression; not process working set.",
+  "local_suites": [
+    "grapheme_terminal",
+    "sixel_terminal",
+    "reflow",
+    "resize",
+    "mouse",
+    "hyperlink"
+  ],
+  "baseline_failure_verified": true,
+  "original_screen_chains_retained": true,
+  "ordinary_accents_and_nonkitty_frontend_pass": true,
+  "archive": {
+    "path": "gdi-image-cache-core.tar.gz",
+    "sha256": "f9b9daf83b8cc9478816b93aca039e160f918bd2395dcdd3d35e3e88b84c63bc",
+    "bytes": 258851
+  },
+  "records": [
+    {
+      "path": "baseline/terminal.c",
+      "bytes": 545457,
+      "sha256": "30ccdb59927e5eaa296f66d06bd60b1aaa4e6d67441990f193d378a64a5b6b41"
+    },
+    {
+      "path": "gdi-dense-build-baseline.log",
+      "bytes": 16790,
+      "sha256": "9212b033ab7d85e527476e0adf502647b9f55bf1ca38da1dea409b73fe0bee52"
+    },
+    {
+      "path": "gdi-dense-build-candidate.log",
+      "bytes": 6526,
+      "sha256": "d934360aa9c6a4a9d3b6e0bb5333b0267bcbdfc94ba1b10082b90bcf393b6ffb"
+    },
+    {
+      "path": "gdi-dense-cache-baseline.log",
+      "bytes": 374,
+      "sha256": "6ee030e41696cdbacacae5fe2cfdc932317e41fcea6cfb2c8589abcc66991bdd"
+    },
+    {
+      "path": "gdi-dense-configure.log",
+      "bytes": 2888,
+      "sha256": "31e883063c6a028dbdc7f0420cbdf260ff193889c8f9cb9b790ed0669ebc1f5d"
+    },
+    {
+      "path": "gdi-dense-test_grapheme_terminal.log",
+      "bytes": 107,
+      "sha256": "81b5bed9d6c378829e61acafb66df68f3b41f70d052949d2d4d82ddd9c4720b1"
+    },
+    {
+      "path": "gdi-dense-test_hyperlink.log",
+      "bytes": 29,
+      "sha256": "6462b368612e7ebe26e1bae02d79d8e1cf84e92029634dd71df918b612581461"
+    },
+    {
+      "path": "gdi-dense-test_mouse.log",
+      "bytes": 25,
+      "sha256": "472f27dbb97edade3d44427aa024ca65d0e6585bd6802b41c1fb609f3fc74a56"
+    },
+    {
+      "path": "gdi-dense-test_reflow.log",
+      "bytes": 21,
+      "sha256": "64da1f711e2c2e4bfa2681eae83eacadaa03b5890167dfff604146b3ac10ebc7"
+    },
+    {
+      "path": "gdi-dense-test_resize.log",
+      "bytes": 21,
+      "sha256": "023398bd1fed7f20d837565b10a6c7e3a9ed39cba6a60fd6cd26525b38201114"
+    },
+    {
+      "path": "gdi-dense-test_sixel_terminal.log",
+      "bytes": 1096,
+      "sha256": "42d6f6067351e9c7d3271a57d075d10061bddc5a2f8f504ed62807e5a4a24d19"
+    },
+    {
+      "path": "source/terminal/terminal.c",
+      "bytes": 546132,
+      "sha256": "27d21eb2f467c576a82dd02c962534fa601576debd66c40c93b6052afd818739"
+    },
+    {
+      "path": "source/test/test_grapheme_terminal.c",
+      "bytes": 23792,
+      "sha256": "6b5729b2b89bc267dfb0e36f21ccd43f8cbe02b1623fccb499385cea6a660750"
+    }
+  ]
+}

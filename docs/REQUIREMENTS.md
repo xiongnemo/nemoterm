@@ -26,6 +26,14 @@ being compared on the same machine and workload; the newer feature-policy
 product still needs full CI and exact-image local acceptance. No accepted
 distribution has been replaced.
 
+The [display-cache follow-up](../research/gdi-image-cache.md) removes only the
+duplicate invisible positional marks from the last-painted-text cache. Its
+160x48 core regression saves 491,648 bytes per tab while preserving live text,
+ordinary accents and non-Kitty frontends. Six local core suites pass; actual
+working-set and full-product acceptance are still running. A separate local
+selection fixture is blocked before its first copy assertion by Windows
+clipboard access denied; the original failure is retained separately.
+
 ## Bell attention modes (2026-11-16 Sydney)
 
 The [1042/1043 development checkpoint](../research/bell-modes.md) retains an
