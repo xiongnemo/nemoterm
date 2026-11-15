@@ -70,3 +70,12 @@ fragmentation. Additional component checks cover screen isolation, rejected
 oversized input, exact reply capacity and read-only query state. Local checks
 have only compiled the C sources and parsed/generated fixtures; runtime replay
 uses the disposable GCC, Clang and MSVC CI jobs.
+
+[Component run 43693144294](https://github.com/xiongnemo/nemoterm/actions/runs/43693144294)
+at `51fe4b2` passes all three compiler jobs and both GCC/Clang ASan/UBSan runs.
+Each execution reports 4,740 checks and all 504 unchanged upstream stages.
+The four compiled source/header hashes in each compiler artifact match the
+identified Git blobs (with any checkout line-ending conversion recorded).
+`pointer-shape-component-validation.json` indexes 23 retained records in
+`components-51fe4b2.tar.gz`. This still does not establish terminal integration,
+Windows cursor pixels or a new accepted product.
