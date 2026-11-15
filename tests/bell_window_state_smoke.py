@@ -173,6 +173,25 @@ try:
                 assert after['active']==second['id'] and after['foreground']==other,record
                 assert not any(e['api']=='FlashWindowEx' and e['flags']==0 for e in events),record
                 clear('remaining-notice-clears-on-focus')
+                # Closing the selected tab while another application has focus
+                # selects its neighbour, but must not acknowledge that notice.
+                original_third=second
+                u.SendMessageW(second['hwnd'],0x111,0x30,0)
+                sessions=wait_for(lambda:(s if len(s:=api.request(endpoint)['sessions'])==2 else None))
+                second=next(s for s in sessions if s['id']!=original_third['id'])
+                fourth_child=child();assert second['active']
+                focus(host);focus(other);position(other,None)
+                ring('background-before-active-close',third_child,'\x1b[?1042;1043h\x07',True,True)
+                ring('active-before-close',fourth_child,'\x1b[?1042;1043h\x07',True,True)
+                drain();write_snapshot(fourth_child['control'],dict(stop=True))
+                wait_for(lambda:len(api.request(endpoint)['sessions'])==1)
+                second=original_third
+                events=drain();after=state()
+                record=dict(name='inactive-host-active-tab-close',renderer=renderer,after=after,api=events)
+                evidence['checks'].append(record)
+                assert after['active']==second['id'] and after['foreground']==other,record
+                assert not any(e['api']=='FlashWindowEx' and e['flags']==0 for e in events),record
+                clear('new-active-notice-clears-on-foreground')
             finally:
                 session.detach()
                 for target in children:write_snapshot(target['control'],dict(stop=True))
