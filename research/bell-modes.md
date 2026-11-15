@@ -92,6 +92,10 @@ yet actual window enumeration still places the terminal below the foreground
 cover window. Foreground focus remains unchanged and the real FlashWindowEx
 request is observed. The fixture correctly rejects this API-success-only result.
 Existing audible-policy and visual-bell fixtures pass in the same job.
+`bell-modes-native-first.tar.gz` retains all 33 records / 2,747,094 bytes,
+including the original image, API/focus/stacking observations, 16 preceding exact
+reply streams, failure logs and exact fixture sources. Its validation manifest
+does not promote the failed image.
 
 `994bee4` uses a temporary topmost round trip for an ordinary window, preserving
 the non-activating flags and restoring its original non-topmost class. A window
