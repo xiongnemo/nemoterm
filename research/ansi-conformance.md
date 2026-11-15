@@ -1,8 +1,9 @@
 # ANSI character-set conformance reference
 
-`ESC SP L/M/N` is still unimplemented in Nemoterm. This checkpoint records the
-independent behavior needed to implement it; it does not promote protocol
-support or replace the accepted executable. Local desktop testing remains paused.
+The development branch implements `ESC SP L/M/N` with one byte of per-terminal
+ANSI conformance state. It changes future locking shifts without changing DEC
+operating level, C1 framing, selected banks or a pending single shift. Local
+desktop testing remains paused and the accepted executable is unchanged.
 
 The [pinned XTerm specification](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/ctlseqs.ms)
 lists three ECMA-43 conformance levels. Its
@@ -43,12 +44,52 @@ distinguish either national bank for a single-character shift. `677d00b` fixes
 that input by putting `[` first. `3b49cd4` adds reset defaults, already selected
 banks, pending single shifts and VT52 return. All three original captures are
 retained; only the last is the current reference. SUB cancellation records the
-reference's `&` error character and shifted cursor/checksum positions. Those
+reference's stored U+0026 error character and shifted cursor/checksum positions. Those
 bytes must not be silently replaced by Nemoterm's preferred cancellation policy.
 
 `ansi-conformance-reference-validation.json` indexes 1,419 original records in
 `ansi-conformance-reference.tar.gz`, including exact input-authoring revisions,
 the unchanged upstream replies, source/build identities and the read-only
-dispatcher source used for the audit. The matrix has not yet been replayed
-against an implementation in Nemoterm. Full terminal dispatch, fragmentation,
-reset integration, bounded state and native ConPTY behavior remain required.
+dispatcher source used for the audit.
+
+## Terminal implementation and replay
+
+[Run 43705674015](https://github.com/xiongnemo/nemoterm/actions/runs/43705674015)
+at `889c941` passes GCC and Clang AddressSanitizer/UndefinedBehaviorSanitizer,
+and MSVC. Each compiler replays every input against a fresh terminal, both as
+one chunk and one byte at a time. **240 streams exactly match XTerm's complete
+wire replies** in each mode, including Unicode checksums and charset/cursor
+reports. Three named SUB cases assert the existing Nemoterm cancellation policy
+against the corresponding independent CAN observation: no error glyph is
+inserted. The original SUB replies remain unchanged in the generated header
+and archive. General SUB display parity remains an explicit gap.
+
+The implementation preserves ANSI level through RIS, DECSTR, cursor saves and
+alternate-screen changes. DECSCL resets character sets under the old ANSI state,
+then establishes the new DEC level's ANSI default. VT52 return now selects
+VT100 conformance. Unsupported escape intermediates in VT52 consume their final
+byte instead of leaking an ANSI command letter onto the screen, matching the
+[pinned XTerm parser tables](https://github.com/ThomasDickey/xterm-snapshots/blob/5c75ead9a75d4b2e666ca06fa94503b5766ed93f/VTPrsTbl.c).
+There is no per-cell allocation or new distributed dependency.
+
+Existing query, state-control, keyboard and pointer suites pass on all three
+compilers; Windows additionally passes the general terminal and mode suites.
+The independent header generator checks the retained observation digest and
+copies complete input/reply bytes without replacing expected values.
+
+The first run at `2650746` fails Linux configuration because GTK-disabled builds
+do not provide the general terminal/mode targets. Its Windows fixture initially
+omits the checksum permission enabled in the XTerm collector, so all 243 cases
+lack checksum replies. After fixing only these harness conditions, `7f449c0`
+reproduces six differences on all three compilers: three VT52 leaked letters
+and three existing SUB glyph-policy differences. The next run fixes VT52 and
+asserts the explicitly retained SUB policy. No production checksum permission
+or expected upstream observation was relaxed.
+
+`ansi-conformance-component-validation.json` indexes the failed and successful
+run artifacts and exact source blobs in `ansi-conformance-components.tar.gz`
+(122 records, 589,115 bytes, 36 verified source hashes).
+The ordinary and single-image workflows started solely while registering the
+new focused workflow were intentionally cancelled; they are not regression
+results. Complete product CI, native ConPTY integration and local 160×48 Sarasa
+acceptance for this new parser change remain separate.

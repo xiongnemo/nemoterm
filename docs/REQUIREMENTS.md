@@ -13,6 +13,17 @@ remain unchanged; older statements treating that DX total as an unmet goal are
 superseded by this clarification. Continue feature compatibility and regression
 work. Local interactive desktop testing remains paused until the user resumes it.
 
+## ANSI charset conformance development (2026-11-15 Sydney)
+
+`ESC SP L/M/N` now sets separate ANSI charset conformance state, with no new
+per-cell storage or distribution dependency. GCC/Clang sanitizers and MSVC at
+`889c941` each replay 243 independent XTerm streams both whole and bytewise:
+240 exact wire matches and three explicitly retained SUB glyph-policy differences.
+The same matrix exposed and verified a fix for leaked escape-sequence letters
+in VT52 mode. Existing query, state, keyboard and pointer regressions pass.
+See [implementation and original failures](../research/ansi-conformance.md).
+Complete product/native checks and local acceptance for this change are pending.
+
 ## Pointer-shape integration checkpoint (2026-11-15 Sydney)
 
 OSC 22 supports 30 application pointer shapes and bounded main/alternate-screen
