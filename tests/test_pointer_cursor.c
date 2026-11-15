@@ -33,6 +33,7 @@ static int observer_control(void)
 
 static int atlas(unsigned size)
 {
+    DWORD initial = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
     const int width = 960, height = 720;
     BITMAPINFO info = {0};
     info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -53,6 +54,8 @@ static int atlas(unsigned size)
     SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(0,0,0));
     HFONT font = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
     HGDIOBJ oldfont = SelectObject(dc, font);
+    DWORD previous = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    printf("Atlas %u setup: GDI %lu -> %lu\n", size, initial, previous);
     for (unsigned shape = 1; shape < NEMO_POINTER_SHAPE_COUNT; shape++) {
         int x = (int)((shape-1)%6)*160, y = (int)((shape-1)/6)*144;
         RECT label = {x+4,y+3,x+158,y+23};
@@ -63,6 +66,9 @@ static int atlas(unsigned size)
         if ((shape-1)%2) FillRect(dc, &cell, dark);
         HCURSOR cursor = nemo_pointer_cursor((NemoPointerShape)shape, size);
         CHECK(DrawIconEx(dc, x+10, y+32, cursor, (int)size, (int)size, 0, NULL, DI_NORMAL));
+        DWORD after = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+        if (after != previous) printf("Atlas %u after %s: GDI %lu -> %lu\n", size, names[shape], previous, after);
+        previous = after;
     }
     CHECK(GdiFlush());
     char filename[80];
@@ -79,6 +85,10 @@ static int atlas(unsigned size)
     SelectObject(dc, oldfont); SelectObject(dc, old);
     CHECK(DeleteObject(light)); CHECK(DeleteObject(dark)); CHECK(DeleteObject(bitmap));
     CHECK(DeleteDC(dc));
+    DWORD before_flush = GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS);
+    CHECK(GdiFlush());
+    printf("Atlas %u cleanup: GDI before flush=%lu after flush=%lu initial=%lu\n", size,
+           before_flush, GetGuiResources(GetCurrentProcess(), GR_GDIOBJECTS), initial);
     return 0;
 }
 

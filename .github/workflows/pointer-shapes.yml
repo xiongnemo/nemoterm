@@ -112,9 +112,13 @@ jobs:
           ./pointer-terminal-build/test_pointer_cursor.exe 2>&1 | Tee-Object pointer-native.log
           exit $LASTEXITCODE
       - name: Verify native pointer selection in owned real windows
+        if: ${{ !cancelled() }}
         env:
           NEMOTERM_TEST_EXE: ${{ github.workspace }}/pointer-terminal-build/nemoterm.exe
         run: |
+          if (!(Test-Path $env:NEMOTERM_TEST_EXE) -or !(Test-Path pointer-mask-grab-32.bin)) {
+            throw 'The resource fixture did not produce the required frontend and native masks'
+          }
           python tests/pointer_window_smoke.py --masks . 2>&1 | Tee-Object pointer-window.log
           exit $LASTEXITCODE
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
