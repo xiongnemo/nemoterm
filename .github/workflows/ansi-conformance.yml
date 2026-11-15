@@ -1,4 +1,4 @@
-name: ANSI conformance replay
+name: ANSI charset conformance
 
 on:
   workflow_dispatch:
