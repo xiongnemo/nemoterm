@@ -12,9 +12,10 @@ from fixture_io import read_snapshot, write_snapshot
 
 report, control = map(Path, sys.argv[1:3])
 # Settings lifecycle tests need time for several modal UI Automation rounds.
-# Keep the ordinary fixture's one-minute bound; opt in explicitly up to five.
+# Keep the ordinary fixture's one-minute bound. Dense local 160x48 image
+# workloads can explicitly opt into a longer, still bounded child lifetime.
 lifetime = int(sys.argv[3]) if len(sys.argv) > 3 else 60
-assert 1 <= lifetime <= 300
+assert 1 <= lifetime <= 1800
 k = c.windll.kernel32
 k.GetStdHandle.argtypes = [w.DWORD]
 k.GetStdHandle.restype = w.HANDLE

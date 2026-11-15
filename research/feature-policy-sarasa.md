@@ -40,3 +40,10 @@ passed to each child. Its default remains 300 seconds. The local repeat will
 use 900 seconds with the identical executable, font, grid, workload and memory
 threshold. Individual reply waits and shutdown deadlines are unchanged. Passing
 that repeat, including all pixels and natural cleanup, is still required.
+
+The first attempt with the longer lifetime did not reach the workload: the
+session wrapper accepted 900 seconds, but the underlying `mouse_fixture.py`
+still rejected values above 300. That guard mismatch is retained separately in
+`feature-policy-sarasa-lifetime-rejected.tar.gz` with its original source and
+failure metadata. Both layers now use the same 1–1800-second bound; ordinary
+mouse/session defaults remain 60/300 seconds. No product code changed.
