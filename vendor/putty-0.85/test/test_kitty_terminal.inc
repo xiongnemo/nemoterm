@@ -241,8 +241,10 @@ static void test_kitty_terminal(Mock *mk)
     IEQUAL(term_kitty_placements(t,0)==NULL,true);
     size_t query_memory=term_kitty_memory(t);
     for (unsigned i=0;i<1000;i++) {
-        term_data_fragmented(t,"\033_Ga=q,i=31,e=T,S=2097153,C=1,U=1\033\\");
-        kitty_reply_is(mk,"\033_Gi=31,e=T,C=1;OK\033\\");
+        term_data_fragmented(t,"\033_Ga=q,i=31,e=T,S=2097153,C=1,U=1,"
+            "P=4294967295,Q=4294967295,H=-2147483648,V=2147483647\033\\");
+        kitty_reply_is(mk,"\033_Gi=31,e=T,C=1,U=1,P=4294967295,Q=4294967295,"
+            "H=-2147483648,V=2147483647;OK\033\\");
         IEQUAL(term_kitty_memory(t),query_memory);
     }
     IEQUAL(term_kitty_cache(t,0)==NULL,true);
@@ -356,7 +358,8 @@ static void test_kitty_terminal(Mock *mk)
     test_kitty_terminal_reference(mk);
     test_kitty_compression_reference(mk);
     test_kitty_query_reference(mk,kitty_feature_reference,lenof(kitty_feature_reference),false);
-    puts("Kitty upstream feature queries: 84 cases, 176 states (22 explicit capability subsets)");
+    printf("Kitty upstream feature queries: 84 cases, 176 states (%u explicit capability subsets)\n",
+           (unsigned)KITTY_FEATURE_SUBSET_CASES);
     test_kitty_query_reference(mk,kitty_query_error_reference,lenof(kitty_query_error_reference),true);
     puts("Kitty upstream query errors: 54 cases, 216 states (one data-error envelope control)");
     test_kitty_relative_reference(mk);

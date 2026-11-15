@@ -327,3 +327,24 @@ processes had exited when the pause was checked. Remote CI and background source
 work may continue. The combined-image precheck has not replaced `dist`, and its
 incidental small-window memory samples do not replace the required uninjected
 160x48 workload acceptance.
+
+## Capability discovery after implementation
+
+The development responder now advertises `U=1` and relative-placement keys
+`P/Q/H/V` for transmit-and-place (`e=T`) and place (`e=p`) feature queries.
+Signed parent offsets retain their signs, including the 32-bit limits. Queries
+remain non-mutating and do not require the requested parent IDs to exist; this
+reports individual supported fields, not validity or budget admission of every
+combination. Unsupported Unicode flag values are still omitted, as in the
+independent upstream capture.
+
+The generator reuses the unchanged 84-case/176-state reference: exactly five
+expected replies change, and all original input bytes and upstream replies are
+preserved. Four cases no longer need capability omissions, reducing explicit
+subset projections from 22 to 18. The existing 1,000-query allocation check now
+also includes Unicode placement, maximum parent/placement IDs and signed offset
+limits while the graphics cache and placement store remain absent.
+
+This advertisement change is newer than `4095697` and the downloaded precheck
+image. Its runtime validation is pending remote CI. Local desktop tests remain
+paused; neither the accepted executable nor its documented scope changes yet.

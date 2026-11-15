@@ -1,5 +1,6 @@
 {
   "upstream_sha256": "d3e775257cfcf70308d88030f2b0bbee5f81a860b15eae4d9911a4ea2dc227ac",
+  "subset_case_count": 18,
   "cases": [
     {
       "name": "action-t",
@@ -183,7 +184,7 @@
         {
           "label": "query",
           "input_base64": "G19HYT1xLGk9MzEsZT1ULHQ9ZCxvPXosZj0yNCxzPTIsdj0zLFM9MTIsTz00LE49MSxwPTkseD0xLHk9Mix3PTMsaD00LFg9MSxZPTIsYz0zLHI9NCxDPTEsVT0xLHo9LTMsUD03LFE9MixIPS0xLFY9MixkPWEbXA==",
-          "reply_base64": "G19HaT0zMSxlPVQsdD1kLG89eixmPTI0LHM9Mix2PTMsUz0xMixwPTkseD0xLHk9Mix3PTMsaD00LFg9MSxZPTIsYz0zLHI9NCxDPTEsej0tMztPSxtc",
+          "reply_base64": "G19HaT0zMSxlPVQsdD1kLG89eixmPTI0LHM9Mix2PTMsUz0xMixwPTkseD0xLHk9Mix3PTMsaD00LFg9MSxZPTIsYz0zLHI9NCxDPTEsVT0xLHo9LTMsUD03LFE9MixIPS0xLFY9MjtPSxtc",
           "upstream_reply_base64": "G19HaT0zMSxlPVQsdD1kLG89eixmPTI0LHM9Mix2PTMsUz0xMixPPTQsTj0xLHA9OSx4PTEseT0yLHc9MyxoPTQsWD0xLFk9MixjPTMscj00LEM9MSxVPTEsej0tMyxQPTcsUT0yLEg9LTEsVj0yO09LG1w="
         }
       ]
@@ -217,7 +218,7 @@
         {
           "label": "query",
           "input_base64": "G19HYT1xLGk9MzEsZT1wLHQ9ZCxvPXosZj0yNCxzPTIsdj0zLFM9MTIsTz00LE49MSxwPTkseD0xLHk9Mix3PTMsaD00LFg9MSxZPTIsYz0zLHI9NCxDPTEsVT0xLHo9LTMsUD03LFE9MixIPS0xLFY9MixkPWEbXA==",
-          "reply_base64": "G19HaT0zMSxlPXAscD05LHg9MSx5PTIsdz0zLGg9NCxYPTEsWT0yLGM9MyxyPTQsQz0xLHo9LTM7T0sbXA==",
+          "reply_base64": "G19HaT0zMSxlPXAscD05LHg9MSx5PTIsdz0zLGg9NCxYPTEsWT0yLGM9MyxyPTQsQz0xLFU9MSx6PS0zLFA9NyxRPTIsSD0tMSxWPTI7T0sbXA==",
           "upstream_reply_base64": "G19HaT0zMSxlPXAscD05LHg9MSx5PTIsdz0zLGg9NCxYPTEsWT0yLGM9MyxyPTQsQz0xLFU9MSx6PS0zLFA9NyxRPTIsSD0tMSxWPTI7T0sbXA=="
         }
       ]
@@ -625,7 +626,7 @@
         {
           "label": "query",
           "input_base64": "G19HYT1xLGk9MzEsZT1ULFU9MRtc",
-          "reply_base64": "G19HaT0zMSxlPVQ7T0sbXA==",
+          "reply_base64": "G19HaT0zMSxlPVQsVT0xO09LG1w=",
           "upstream_reply_base64": "G19HaT0zMSxlPVQsVT0xO09LG1w="
         }
       ]
@@ -829,7 +830,7 @@
         {
           "label": "query",
           "input_base64": "G19HYT1xLGk9MzEsZT1ULHo9LTIxNDc0ODM2NDgsSD0yMTQ3NDgzNjQ3LFY9LTEbXA==",
-          "reply_base64": "G19HaT0zMSxlPVQsej0tMjE0NzQ4MzY0ODtPSxtc",
+          "reply_base64": "G19HaT0zMSxlPVQsej0tMjE0NzQ4MzY0OCxIPTIxNDc0ODM2NDcsVj0tMTtPSxtc",
           "upstream_reply_base64": "G19HaT0zMSxlPVQsej0tMjE0NzQ4MzY0OCxIPTIxNDc0ODM2NDcsVj0tMTtPSxtc"
         }
       ]
@@ -1356,7 +1357,7 @@
         {
           "label": "query-bytewise",
           "input_base64": "G19HYT1xLGk9MzEsZT1ULEM9MSxVPTEsbz16LGY9MjQbXA==",
-          "reply_base64": "G19HaT0zMSxlPVQsbz16LGY9MjQsQz0xO09LG1w=",
+          "reply_base64": "G19HaT0zMSxlPVQsbz16LGY9MjQsQz0xLFU9MTtPSxtc",
           "upstream_reply_base64": "G19HaT0zMSxlPVQsbz16LGY9MjQsQz0xLFU9MTtPSxtc"
         }
       ]

@@ -293,8 +293,8 @@ static void nemo_kitty_feature_reply(Terminal *term, const NemoKittyCommand *c,
     const char *keys=NULL;
     switch (action) {
       case 't': case 'q': keys="tofsvS"; break;
-      case 'T': keys="tofsvSpxywhXYcrCz"; break;
-      case 'p': keys="pxywhXYcrCz"; break;
+      case 'T': keys="tofsvSpxywhXYcrCUzPQHV"; break;
+      case 'p': keys="pxywhXYcrCUzPQHV"; break;
       case 'd': keys="dpxyz"; break;
     }
     if (keys) {
@@ -306,18 +306,19 @@ static void nemo_kitty_feature_reply(Terminal *term, const NemoKittyCommand *c,
             if ((key=='t' && value!='d') ||
                 (key=='f' && value!=24 && value!=32 && value!=100) ||
                 ((key=='s' || key=='v' || key=='c' || key=='r') && value>NEMO_KITTY_AXIS_MAX) ||
-                (key=='S' && value>NEMO_KITTY_DATA_MAX) || (key=='C' && value!=1) ||
+                (key=='S' && value>NEMO_KITTY_DATA_MAX) || ((key=='C' || key=='U') && value!=1) ||
                 (key=='d' && (value>127 || !strchr("aAiInNcCpPqQrRxXyYzZ",(int)value)))) continue;
             size_t available=sizeof(reply)-(size_t)used;
             int n= key=='t' || key=='o' || key=='d' ?
                 snprintf(reply+used,available,",%c=%c",key,(char)value) :
-                key=='z' ? snprintf(reply+used,available,",z=%d",nemo_kitty_signed(c,key)) :
+                key=='z' || key=='H' || key=='V' ?
+                snprintf(reply+used,available,",%c=%d",key,nemo_kitty_signed(c,key)) :
                 snprintf(reply+used,available,",%c=%u",key,value);
             if (n<0 || (size_t)n>=available) return;
             used+=n;
         }
     }
-    /* At most 17 numeric/flag fields; no allocation or graphics-owner access. */
+    /* At most 22 numeric/flag fields; no allocation or graphics-owner access. */
     if ((size_t)used+5>=sizeof(reply)) return;
     memcpy(reply+used,";OK\033\\",5);
     nemo_protocol_send(term,reply,used+5);
