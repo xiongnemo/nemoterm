@@ -2284,8 +2284,8 @@ static void nemo_status_query(Terminal *term, bool private)
         }
         break;
       case 25:
-        /* UDKs are unavailable, not merely locked against reprogramming. */
-        if (has_compat(VT220)) n = sprintf(reply, "\033[?23n");
+        /* Like XTerm, definitions remain programmable (the lock is ignored). */
+        if (has_compat(VT220)) n = sprintf(reply, "\033[?20n");
         break;
       case 26:
         if (has_compat(VT220))
@@ -3085,8 +3085,11 @@ static void nemo_restore_cursor_information(Terminal *term)
     }
 }
 
-static void nemo_presentation_cancel(Terminal *term)
+#include "nemo_udk_terminal.inc"
+
+static void nemo_dcs_payload_cancel(Terminal *term)
 {
+    nemo_udk_cancel(term);
     sfree(term->dcs_tabs_pending);
     term->dcs_tabs_pending = NULL;
     term->dcs_tabs_bytes = 0;
@@ -3119,6 +3122,7 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
 {
     /* CAN/SUB are handled by the common parser transaction cleanup. */
     if (c == 0x9c || (term->termstate == NEMO_DCS_MAYBE_ST && c == '\\')) {
+        nemo_udk_finish(term);
         if (term->dcs_query_active) {
             if (term->dcs_query_type == 'U') nemo_charset_assign_preferred(term);
             else if (term->dcs_query_type == '$') nemo_decrqss(term);
@@ -3136,18 +3140,18 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
             }
         }
         term->dcs_query_active = false;
-        nemo_presentation_cancel(term);
+        nemo_dcs_payload_cancel(term);
         nemo_sixel_complete(term); term->termstate = TOPLEVEL; return true;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST) {
-        nemo_presentation_cancel(term);
+        nemo_dcs_payload_cancel(term);
         term->dcs_query_active = false;
         nemo_sixel_cancel(term); term->termstate = SEEN_ESC;
         term->esc_query = 0;
         return false;
     }
     if (term->termstate == NEMO_DCS_MAYBE_ST_UTF8) {
-        nemo_presentation_cancel(term);
+        nemo_dcs_payload_cancel(term);
         term->dcs_query_invalid = true;
         nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
     }
@@ -3181,6 +3185,9 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
         } else if (c == 'q') {
             nemo_sixel_begin(term);
             term->termstate = term->sixel_pending ? NEMO_DCS_SIXEL : NEMO_DCS_DROP;
+        } else if (c == '|' && has_compat(VT220)) {
+            term->udk_pending = strbuf_new();
+            term->termstate = NEMO_DCS_UDK;
         } else if (c > ' ') term->termstate = NEMO_DCS_DROP;
     } else if (term->termstate == NEMO_DCS_QUERY_PREFIX) {
         if ((c == 'u' && term->dcs_query_type == 'U' && has_compat(VT320)) ||
@@ -3212,6 +3219,13 @@ static bool nemo_dcs_byte(Terminal *term, unsigned char c)
                 term->dcs_query[term->dcs_query_len] = '\0';
             }
         }
+    } else if (term->termstate == NEMO_DCS_UDK) {
+        if (c >= ' ') {
+            if (term->udk_pending->len >= NEMO_UDK_INPUT_LIMIT) {
+                nemo_udk_cancel(term);
+                term->termstate = NEMO_DCS_DROP;
+            } else put_byte(term->udk_pending, c & 0x7f);
+        }
     } else if (term->termstate == NEMO_DCS_SIXEL) {
         if (!nemo_sixel_feed(term->sixel_pending, &c, 1)) {
             nemo_sixel_cancel(term); term->termstate = NEMO_DCS_DROP;
@@ -3229,11 +3243,12 @@ static void nemo_pointer_reset(Terminal *term)
 
 static void power_on(Terminal *term, bool clear, bool keep_encoding)
 {
+    nemo_udk_clear(term);
     nemo_pointer_reset(term);
     term->c1_8bit = false;
     term->nrc_mode = false;
     nemo_reset_ansi_colours(term);
-    nemo_presentation_cancel(term);
+    nemo_dcs_payload_cancel(term);
     term->protection_mode = NEMO_PROTECT_NONE;
     term->cset_gr = 2;
     term->cset_ss = 0;
@@ -4245,9 +4260,10 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
 
 void term_free(Terminal *term)
 {
+    nemo_udk_clear(term);
     sfree(term->pointer_shapes);
     nemo_palette_stack_free(term->palette_stack);
-    nemo_presentation_cancel(term);
+    nemo_dcs_payload_cancel(term);
     nemo_osc52_free(term->osc52);
     sfree(term->sgr_stack);
     term_end_synchronized_update(term);
@@ -8048,7 +8064,7 @@ static void nemo_cancel_control(Terminal *term, unsigned control)
         term->termstate <= NEMO_APC_MAYBE_ST_UTF8)
         nemo_kitty_cancel_input(term);
     if (term->termstate >= NEMO_DCS_HEADER) {
-        nemo_presentation_cancel(term);
+        nemo_dcs_payload_cancel(term);
         term->dcs_query_active = false;
         nemo_sixel_cancel(term);
     }
@@ -8514,7 +8530,7 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->esc_nargs = 1;
                     break;
                   case 'P':             /* DCS: streamed Sixel or bounded query */
-                    nemo_presentation_cancel(term);
+                    nemo_dcs_payload_cancel(term);
                     nemo_sixel_cancel(term);
                     memset(term->sixel_header, 0, sizeof(term->sixel_header));
                     term->sixel_header_index = 0;
@@ -12858,11 +12874,16 @@ int format_function_key(char *buf, Terminal *term, int key_number,
     };
 
     if (key_number < 1 || key_number > 63 ||
-        (key_number > 20 && term->funky_type != FUNKY_XTERM_216))
+        (key_number > 20 && term->funky_type != FUNKY_XTERM_216 &&
+         term->funky_type != FUNKY_VT220))
         return 0;
 
     int index = key_number;
-    if (term->funky_type != FUNKY_XTERM_216 && term->funky_type != FUNKY_SCO) {
+    if (term->funky_type == FUNKY_VT220) {
+        if (ctrl) index += 12;
+        *consumed_alt = alt;
+        shift = ctrl = alt = false;
+    } else if (term->funky_type != FUNKY_XTERM_216 && term->funky_type != FUNKY_SCO) {
         if (shift && index <= 10) {
             shift = false;
             index += 10;
@@ -12892,7 +12913,7 @@ int format_function_key(char *buf, Terminal *term, int key_number,
             p += sprintf(p, "\x1BO%c", code + 'P' - 11 - offt);
     } else if (term->funky_type == FUNKY_LINUX && code >= 11 && code <= 15) {
         p += sprintf(p, "\x1B[[%c", code + 'A' - 11);
-    } else if ((term->funky_type == FUNKY_XTERM ||
+    } else if ((term->funky_type == FUNKY_XTERM || term->funky_type == FUNKY_VT220 ||
                 term->funky_type == FUNKY_XTERM_216) &&
                code >= 11 && code <= 14) {
         if (term->vt52_mode)

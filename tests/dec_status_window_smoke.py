@@ -4,7 +4,7 @@ from protocol_oracle_window import run
 from native_test_utils import capture, hashlib, terminal_host, time, u, wait_for
 
 direct = [
-    ('udk-unavailable', '\x1b[65;1"p\x1b[?25n', '\x1b[?23n'),
+    ('udk-unlocked', '\x1b[65;1"p\x1b[?25n', '\x1b[?20n'),
     ('empty-checksum-id', '\x1b[?63;;9n', '\x1bP0!~0000\x1b\\'),
     ('stale-internal-reply-is-consumed', '\x1b[?9001;65535n', ''),
 ]
@@ -51,7 +51,7 @@ def exercise(hwnd, phase, current):
     pixels_before=capture(hwnd,return_pixels=True)
     phase('queries-preserve-content', ''.join(f'\x1b[?{n}n' for n in
           (5,15,25,26,55,56,62,63,75,85)),
-          '\x1b[?0n\x1b[?13n\x1b[?23n\x1b[?27;1;0;0n\x1b[?53n'
+          '\x1b[?0n\x1b[?13n\x1b[?20n\x1b[?27;1;0;0n\x1b[?53n'
           '\x1b[?57;0n\x1b[0000*{\x1bP0!~0000\x1b\\\x1b[?70n\x1b[?83n')
     pixels_after=capture(hwnd,'dec-status-window.png',return_pixels=True)
     assert pixels_before==pixels_after

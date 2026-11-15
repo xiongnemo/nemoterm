@@ -5,10 +5,9 @@ from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
 source=json.loads((root/'research/dec-status-xterm.json').read_text(encoding='utf-8'))
-# Nemoterm does not accept downloadable UDK bindings: report unavailable, not
-# xterm's unlocked state. An explicitly empty checksum id is consistently zero
+# An explicitly empty checksum id is consistently zero
 # here, not xterm's unsigned representation of its missing-parameter sentinel.
-separate={'?25', 'arguments-63;;9'}
+separate={'arguments-63;;9'}
 cases=[(name, c['sequence'], c['reply']) for name,c in source['cases'].items()
        if name not in separate]
 

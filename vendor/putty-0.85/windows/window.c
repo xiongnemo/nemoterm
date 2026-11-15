@@ -5876,6 +5876,9 @@ static int TranslateKey(WinGuiSeat *wgs, UINT message, WPARAM wParam,
           case VK_F23: fkey_number = 23; goto numbered_function_key;
           case VK_F24: fkey_number = 24; goto numbered_function_key;
           numbered_function_key:
+            if (term_send_udk(wgs->term, fkey_number,
+                              shift_state & 1, shift_state & 2))
+                return 0;
             consumed_alt = false;
             p += format_function_key((char *)p, wgs->term, fkey_number,
                                      shift_state & 1, shift_state & 2,

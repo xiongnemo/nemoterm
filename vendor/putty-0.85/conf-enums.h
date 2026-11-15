@@ -109,6 +109,7 @@ CONF_ENUM(funky_type,
     VALUE(FUNKY_VT100P, 4),
     VALUE(FUNKY_SCO, 5),
     VALUE(FUNKY_XTERM_216, 6),
+    VALUE(FUNKY_VT220, 7),
 )
 
 CONF_ENUM(sharrow_type,

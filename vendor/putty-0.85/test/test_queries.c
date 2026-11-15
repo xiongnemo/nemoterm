@@ -220,9 +220,9 @@ static void test_dec_status(Mock *mk)
         response(mk, dec_status_oracle[i].reply);
     }
     reset(mk);
-    test_context(mk, "DEC status truthful unsupported devices and empty checksum id");
+    test_context(mk, "DEC status UDK available, unsupported devices and empty checksum id");
     term_data_fragmented(mk->term, "\033[65;1\"p\033[?25n\033[?55n\033[?56n\033[?63;;9n");
-    response(mk, "\033[?23n\033[?53n\033[?57;0n\033P0!~0000\033\\");
+    response(mk, "\033[?20n\033[?53n\033[?57;0n\033P0!~0000\033\\");
     test_context(mk, "printer configuration does not probe or start a print job");
     conf_set_str(mk->conf, CONF_printer, "Nemoterm test printer - do not open");
     term_reconfig(mk->term, mk->conf);

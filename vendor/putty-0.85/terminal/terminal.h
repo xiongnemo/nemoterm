@@ -196,6 +196,8 @@ struct terminal_tag {
     size_t dcs_tabs_bytes;
     unsigned dcs_tab_value;
     bool dcs_tab_stopped, dcs_upss_header_valid;
+    struct NemoUdk *udk;
+    strbuf *udk_pending;
     int sixel_x, sixel_y, sixel_screen;
     bool sixel_display_mode, sixel_scrolls_right, sixel_private_palette;
     unsigned sixel_register_count;
@@ -392,7 +394,7 @@ struct terminal_tag {
         NEMO_APC_START, NEMO_APC_DATA, NEMO_APC_DROP,
         NEMO_APC_MAYBE_ST, NEMO_APC_MAYBE_ST_UTF8,
         NEMO_DCS_HEADER, NEMO_DCS_SIXEL, NEMO_DCS_QUERY_PREFIX,
-        NEMO_DCS_QUERY, NEMO_DCS_DROP,
+        NEMO_DCS_QUERY, NEMO_DCS_DROP, NEMO_DCS_UDK,
         NEMO_DCS_MAYBE_ST, NEMO_DCS_MAYBE_ST_UTF8
     } termstate;
 
