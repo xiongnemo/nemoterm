@@ -64,6 +64,11 @@ on:
       - vendor/putty-0.85/utils/ctrlparse.c
       - vendor/putty-0.85/unix/unicode.c
       - research/legacy-reply-reference.tar.gz
+      - research/osc-colour-sequence-reference.tar.gz
+      - scripts/generate-osc-colour-sequence-reference.py
+      - tests/osc_colour_sequence_reference.h
+      - tests/osc_colour_sequence_reference.json
+      - vendor/putty-0.85/test/test_osc_colour.c
       - tests/ansi_conformance_reference.h
       - vendor/putty-0.85/test/test_cancellation_terminal.c
       - tests/control_cancellation_reference.h
@@ -100,6 +105,7 @@ jobs:
           python3 scripts/generate-locator-reference.py --check
           python3 scripts/generate-ansi-reference.py --check
           python3 scripts/generate-legacy-parameter-reference.py --check
+          python3 scripts/generate-osc-colour-sequence-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
       - name: Build terminal replay with sanitizers
         shell: bash
@@ -107,17 +113,18 @@ jobs:
           set -euo pipefail
           "$CC" --version > compiler.txt
           sha256sum vendor/putty-0.85/test/test_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.c vendor/putty-0.85/terminal/nemo_feature_policy.h vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc tests/feature_policy_reference.h vendor/putty-0.85/test/test_bell_modes.c tests/bell_modes_reference.h vendor/putty-0.85/conf.h vendor/putty-0.85/windows/config.c vendor/putty-0.85/terminal/nemo_udk_terminal.inc vendor/putty-0.85/test/test_udk_terminal.c tests/udk_reference.h vendor/putty-0.85/conf-enums.h vendor/putty-0.85/config.c vendor/putty-0.85/terminal/nemo_locator_terminal.inc vendor/putty-0.85/putty.h vendor/putty-0.85/windows/window.c vendor/putty-0.85/test/test_locator_terminal.c tests/locator_reference.h vendor/putty-0.85/terminal/terminal.{c,h} vendor/putty-0.85/test/test_ansi_terminal.c tests/ansi_conformance_reference.h vendor/putty-0.85/terminal/nemo_kitty_terminal.inc vendor/putty-0.85/test/test_cancellation_terminal.c tests/control_cancellation_reference.h > sources.sha256
+          sha256sum vendor/putty-0.85/test/test_osc_colour.c tests/osc_colour_sequence_reference.h >> sources.sha256
           cmake -S vendor/putty-0.85 -B ansi-build -G Ninja \
             -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
             '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
             '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee configure.log
-          cmake --build ansi-build --target test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | tee build.log
+          cmake --build ansi-build --target test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal test_osc_colour --parallel 4 2>&1 | tee build.log
       - name: Replay reference and terminal regressions
         shell: bash
         run: |
           set -uo pipefail
           failed=0
-          for test in test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal; do
+          for test in test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_state_control test_keyboard test_pointer_terminal test_osc_colour; do
             ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./ansi-build/$test 2>&1 | tee "$test.log" || failed=1
           done
           exit "$failed"
@@ -153,6 +160,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-legacy-parameter-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-osc-colour-sequence-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           exit $LASTEXITCODE
       - name: Build terminal replay with MSVC
@@ -163,15 +172,16 @@ jobs:
           Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
           Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           Get-FileHash vendor/putty-0.85/test/test_feature_policy.c,vendor/putty-0.85/terminal/nemo_feature_policy.c,vendor/putty-0.85/terminal/nemo_feature_policy.h,vendor/putty-0.85/terminal/nemo_feature_policy_terminal.inc,tests/feature_policy_reference.h,vendor/putty-0.85/test/test_bell_modes.c,tests/bell_modes_reference.h,vendor/putty-0.85/conf.h,vendor/putty-0.85/windows/config.c,vendor/putty-0.85/terminal/nemo_udk_terminal.inc,vendor/putty-0.85/test/test_udk_terminal.c,tests/udk_reference.h,vendor/putty-0.85/conf-enums.h,vendor/putty-0.85/config.c,vendor/putty-0.85/terminal/nemo_locator_terminal.inc,vendor/putty-0.85/putty.h,vendor/putty-0.85/windows/window.c,vendor/putty-0.85/test/test_locator_terminal.c,tests/locator_reference.h,vendor/putty-0.85/terminal/terminal.c,vendor/putty-0.85/terminal/terminal.h,vendor/putty-0.85/test/test_ansi_terminal.c,tests/ansi_conformance_reference.h,vendor/putty-0.85/terminal/nemo_kitty_terminal.inc,vendor/putty-0.85/test/test_cancellation_terminal.c,tests/control_cancellation_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content sources.json
+          Get-FileHash vendor/putty-0.85/test/test_osc_colour.c,tests/osc_colour_sequence_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content colour-sources.json
           cmake -S vendor/putty-0.85 -B ansi-build -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object configure.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          cmake --build ansi-build --target test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | Tee-Object build.log
+          cmake --build ansi-build --target test_feature_policy test_bell_modes test_udk_terminal test_locator_terminal test_cancellation_terminal test_selective_erase test_sgr test_tcap test_sixel_terminal test_osc52 test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal test_osc_colour --parallel 4 2>&1 | Tee-Object build.log
           exit $LASTEXITCODE
       - name: Replay reference and terminal regressions
         shell: pwsh
         run: |
           $failed = 0
-          foreach ($test in @('test_feature_policy','test_bell_modes','test_udk_terminal','test_locator_terminal','test_cancellation_terminal','test_selective_erase','test_sgr','test_tcap','test_sixel_terminal','test_osc52','test_ansi_terminal','test_queries','test_terminal','test_modes','test_state_control','test_keyboard','test_pointer_terminal')) {
+          foreach ($test in @('test_feature_policy','test_bell_modes','test_udk_terminal','test_locator_terminal','test_cancellation_terminal','test_selective_erase','test_sgr','test_tcap','test_sixel_terminal','test_osc52','test_ansi_terminal','test_queries','test_terminal','test_modes','test_state_control','test_keyboard','test_pointer_terminal','test_osc_colour')) {
             & "./ansi-build/$test.exe" 2>&1 | Tee-Object "$test.log"
             if ($LASTEXITCODE) { $failed = 1 }
           }
@@ -183,6 +193,7 @@ jobs:
           path: |
             *.log
             sources.json
+            colour-sources.json
           retention-days: 30
           if-no-files-found: error
 

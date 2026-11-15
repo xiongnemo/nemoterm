@@ -6637,19 +6637,20 @@ static void osc_colour_reply(Terminal *term, unsigned command, unsigned index,
     nemo_protocol_send(term, response, len);
 }
 
-static void osc_colour(Terminal *term, unsigned command, unsigned index,
+static bool osc_colour(Terminal *term, unsigned command, unsigned index,
                        const char *spec, bool bel)
 {
     if (!strcmp(spec, "?")) {
         osc_colour_reply(term, command, index, term->palette[index], bel);
     } else {
         NemoColour colour;
-        if (!nemo_colour_parse(spec, strlen(spec), &colour)) return;
+        if (!nemo_colour_parse(spec, strlen(spec), &colour)) return false;
         term->subpalettes[SUBPAL_SESSION].values[index] =
             (rgb){colour.r, colour.g, colour.b};
         term->subpalettes[SUBPAL_SESSION].present[index] = true;
         palette_rebuild(term); /* later queries in the same OSC see updates */
     }
+    return true;
 }
 
 static void osc_selection_colour(Terminal *term, unsigned command,
@@ -6677,7 +6678,7 @@ static void osc_selection_colour(Terminal *term, unsigned command,
     }
 }
 
-static void osc_attribute_colour(Terminal *term, unsigned command,
+static bool osc_attribute_colour(Terminal *term, unsigned command,
                                   unsigned which, const char *spec, bool bel)
 {
     if (!strcmp(spec, "?")) {
@@ -6685,9 +6686,10 @@ static void osc_attribute_colour(Terminal *term, unsigned command,
                          nemo_attribute_colour(term, which), bel);
     } else {
         NemoColour c;
-        if (nemo_colour_parse(spec, strlen(spec), &c))
-            nemo_attribute_colour_set(term, which, (optionalrgb){true,c.r,c.g,c.b});
+        if (!nemo_colour_parse(spec, strlen(spec), &c)) return false;
+        nemo_attribute_colour_set(term, which, (optionalrgb){true,c.r,c.g,c.b});
     }
+    return true;
 }
 
 static unsigned osc_dynamic_colour_index(Terminal *term, unsigned which)
@@ -6716,11 +6718,15 @@ static bool osc_colours(Terminal *term, bool bel)
             char *spec = osc_token(&next);
             if (!spec) break;
             if (osc_colour_number(token, command == 5 ? 4 : 260, &index)) {
-                if (command == 5 || index >= 256)
-                    osc_attribute_colour(term, command,
-                        command == 5 ? index : index-256, spec, bel);
-                else
-                    osc_colour(term, 4, index, spec, bel);
+                /* XTerm stops this indexed/attribute command at a rejected
+                 * colour. Earlier replies and changes remain effective. The
+                 * separate dynamic-colour handler deliberately continues. */
+                if (command == 5 || index >= 256) {
+                    if (!osc_attribute_colour(term, command,
+                            command == 5 ? index : index-256, spec, bel)) break;
+                } else if (!osc_colour(term, 4, index, spec, bel)) {
+                    break;
+                }
             }
         }
     } else if (command == 6 || command == 106) {

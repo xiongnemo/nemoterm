@@ -1,0 +1,61 @@
+{
+  "identity": {
+    "source_commit": "5c75ead9a75d4b2e666ca06fa94503b5766ed93f",
+    "source_directory": "/tmp/nemoterm-legacy-reference-5RtbUr",
+    "executable_sha256": "fabe97acf7dc1d7b5e4786d797f77be94edf11d43ccbd1322cbfad7e52120688",
+    "case_count": 72,
+    "display": "Private Xvfb -displayfd; TCP disabled",
+    "global_input": false,
+    "clipboard_access": false
+  },
+  "cases": 72,
+  "product_comparison": false,
+  "syntax_observation": "Eight extra-rgb-component cases are accepted by this Xlib; the current strict product parser rejects extra components. All raw observations are retained.",
+  "archive": {
+    "path": "osc-colour-sequence-reference.tar.gz",
+    "bytes": 66847,
+    "sha256": "a4fe4d8a5f098af8047a1fba548827b545e3488cb518962a11d740af12de9908"
+  },
+  "records": [
+    {
+      "path": "capture-osc-colour-sequence.py",
+      "bytes": 1554,
+      "sha256": "4905a878e56caab5f84fac41a7188a0402ac893570ef71d29d2676cd98cccd07"
+    },
+    {
+      "path": "IDENTITY.json",
+      "bytes": 348,
+      "sha256": "cf040d5aabf36befdd121462e5ba646a7e86a48d2ab446ef8240862de2dcda6e"
+    },
+    {
+      "path": "osc_colour_sequence_cases.py",
+      "bytes": 1948,
+      "sha256": "cdcbaae37a2345b737ab6a130af053c15c04b1cc14fb259b3e8dbe634c1d42f2"
+    },
+    {
+      "path": "x11-packages.txt",
+      "bytes": 90,
+      "sha256": "c6a7b236ae0de2ec636337c55b0913cbb91bc94de0f6d4100955afcb4df92760"
+    },
+    {
+      "path": "xterm-misc.c",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "path": "xterm-version.h",
+      "bytes": 2050,
+      "sha256": "63b6f571bc5e7b78d9cac29cf1418f0f4f9458bb2aab7b06399fa44e68a9ca91"
+    },
+    {
+      "path": "xterm.json",
+      "bytes": 37789,
+      "sha256": "f70be8e4695ed21b298c5c76d23dd831c3734019069d2a519f565b71a879d447"
+    },
+    {
+      "path": "xterm_state_oracle.py",
+      "bytes": 7243,
+      "sha256": "3e20c4cdf9f73c1bfda373d8429c3f32b3de84290397ef9aea8fc09f773204dc"
+    }
+  ]
+}

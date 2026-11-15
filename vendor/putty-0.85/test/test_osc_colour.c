@@ -6,6 +6,7 @@
 #include "../../../tests/palette_stack_oracle_cases.h"
 #include "../../../tests/reset_palette_oracle_cases.h"
 #include "../../../tests/x11_colour_cases.h"
+#include "../../../tests/osc_colour_sequence_reference.h"
 
 static void check_colour(Mock *mk, unsigned index, unsigned r, unsigned g, unsigned b)
 {
@@ -50,6 +51,31 @@ static void named_colour_protocol(Mock *mk)
               "\033]12;rgb:adad/d8d8/e6e6\033\\"
               "\033]17;rgb:8080/8080/8080\007"
               "\033]19;rgb:ffff/0000/0000\007");
+}
+
+static bool colour_sequence_reference(void)
+{
+    bool failed = false;
+    for (size_t i = 0; i < lenof(osc_colour_sequence_reference); i++) {
+        for (int fragmented = 0; fragmented < 2; fragmented++) {
+            Mock *mk = mock_new();
+            mk->term = term_init(mk->conf, mk->ucsdata, &mk->tw);
+            mk->ldisc = ldisc_create(mk->conf, mk->term, &mk->backend, &mk->seat);
+            reset(mk);
+            test_context(mk, "captured colour sequence %s (%s)",
+                         osc_colour_sequence_reference[i].name,
+                         fragmented ? "bytewise" : "whole");
+            const char *sequence = osc_colour_sequence_reference[i].sequence;
+            if (fragmented)
+                term_data_fragmented(mk->term, sequence);
+            else
+                term_data(mk->term, sequence, strlen(sequence));
+            reply(mk, osc_colour_sequence_reference[i].reply);
+            failed |= mk->any_test_failed;
+            mock_free(mk);
+        }
+    }
+    return failed;
 }
 
 static void stack_bounds_and_roundtrip(Mock *mk)
@@ -134,7 +160,8 @@ int main(void)
     reply(mk, "");
     check_colour(mk, OSC4_COLOUR_fg, originalfg.r, originalfg.g, originalfg.b);
     check_colour(mk, 1, original1.r, original1.g, original1.b);
-    check_colour(mk, 2, 240, 240, 240);
+    /* The rejected colour for entry 1 stops the following entry 2 setter. */
+    check_colour(mk, 2, original2.r, original2.g, original2.b);
 
     test_context(mk, "overlong colour payload is rejected as a whole");
     strbuf *longosc = strbuf_new();
@@ -156,6 +183,7 @@ int main(void)
 
     bool failed = mk->any_test_failed;
     mock_free(mk);
+    failed |= colour_sequence_reference();
     failed |= test_selection_colour_wire();
     failed |= test_selection_colour_paint();
     failed |= test_attribute_colour_wire();

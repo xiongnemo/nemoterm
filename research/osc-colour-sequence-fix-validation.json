@@ -1,0 +1,256 @@
+{
+  "baseline": {
+    "exit_code": 1,
+    "exe_sha256": "97d0b8817926b03f41de29ac7bebc023add7ffed6d40f454b9bf3c1cac3b3a11",
+    "source_sha256": "6d95be1f8870d887ad62b2daca181f9edb8f397e26de0f6f1a7c18e7ead2dee8"
+  },
+  "baseline_mismatches": 84,
+  "reference_streams": 64,
+  "replay_modes": [
+    "whole",
+    "bytewise"
+  ],
+  "compilers": [
+    "MinGW GCC",
+    "WSL GCC ASan/UBSan",
+    "WSL Clang ASan/UBSan"
+  ],
+  "suites": [
+    "colour",
+    "osc_colour",
+    "queries",
+    "sgr",
+    "state_control"
+  ],
+  "current_terminal_sha256": "79e38db33b245b66a04b023ef818178d95c75fc2c3dca2703969fcbc4b90b003",
+  "native_verified": false,
+  "complete_ci_verified": false,
+  "scope": "Local core regression; existing strict RGB parsing is unchanged. Native ConPTY, MSVC and complete product CI remain pending.",
+  "archive": {
+    "path": "osc-colour-sequence-fix.tar.gz",
+    "bytes": 328728,
+    "sha256": "f02d4cebc983d3176ea6dbdcff355b34bd5f931d36f14e05a717507c4d389f41"
+  },
+  "records": [
+    {
+      "path": "baseline/identity.json",
+      "bytes": 197,
+      "sha256": "740d3fa6c1ca4de53f51d4c4a8c2abc96e1c8316b2a433048af8b63d810ff36c"
+    },
+    {
+      "path": "baseline/terminal.c",
+      "bytes": 546302,
+      "sha256": "6d95be1f8870d887ad62b2daca181f9edb8f397e26de0f6f1a7c18e7ead2dee8"
+    },
+    {
+      "path": "baseline/test_osc_colour.log",
+      "bytes": 24512,
+      "sha256": "86d3b2305fa0cc8d987387fc843c2be21ef6c1c5a545aa8fe0232af3f8c5eca3"
+    },
+    {
+      "path": "capture-osc-colour-sequence.py",
+      "bytes": 1554,
+      "sha256": "4905a878e56caab5f84fac41a7188a0402ac893570ef71d29d2676cd98cccd07"
+    },
+    {
+      "path": "check-osc-colour-sequence-linux.sh",
+      "bytes": 1151,
+      "sha256": "ef6d60b7c5b2234bb0abe26a4c7d9313bcde42561c7d15616f01705bc4deb1ea"
+    },
+    {
+      "path": "IDENTITY.json",
+      "bytes": 348,
+      "sha256": "cf040d5aabf36befdd121462e5ba646a7e86a48d2ab446ef8240862de2dcda6e"
+    },
+    {
+      "path": "osc_colour_sequence_cases.py",
+      "bytes": 1948,
+      "sha256": "cdcbaae37a2345b737ab6a130af053c15c04b1cc14fb259b3e8dbe634c1d42f2"
+    },
+    {
+      "path": "patched-clang/build-directory.txt",
+      "bytes": 38,
+      "sha256": "3d5fe9edd612272d3c62694d08597ba5442c2216aefe6bbeb7b5b55ac67ff41b"
+    },
+    {
+      "path": "patched-clang/build.log",
+      "bytes": 3266,
+      "sha256": "43527b801550ede7e676d38435aba7251991809d846fa48f4edd456bf6fb2b2d"
+    },
+    {
+      "path": "patched-clang/compiler.txt",
+      "bytes": 118,
+      "sha256": "d55fcb3e9abb393ac95ffffa5fe52c13c79abead018abb911a0f46a324b0f91d"
+    },
+    {
+      "path": "patched-clang/sources.sha256",
+      "bytes": 549,
+      "sha256": "189fac17d376bce692e8ae46f5e5fb942394b471551fc53ac7eff81426f2d42d"
+    },
+    {
+      "path": "patched-clang/test_colour.log",
+      "bytes": 31,
+      "sha256": "56b86830cdaf7c24a4729b9b643dea0bb28b5009483274838d8bd446d8ec0e6e"
+    },
+    {
+      "path": "patched-clang/test_osc_colour.log",
+      "bytes": 24,
+      "sha256": "910cafca6fb0539b049f3b2ce14366a7797e932eb9863ae9e466afed8ecec43c"
+    },
+    {
+      "path": "patched-clang/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "patched-clang/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "patched-clang/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "patched-gcc/build-directory.txt",
+      "bytes": 36,
+      "sha256": "78c8405322280db2239d8b78e9308fa1d20441977192892dea1e140af5f89465"
+    },
+    {
+      "path": "patched-gcc/build.log",
+      "bytes": 3330,
+      "sha256": "b6b78a16e42c20dddf1dd9e289f212d8c45cba2a632c1abad6138179ec4adf83"
+    },
+    {
+      "path": "patched-gcc/compiler.txt",
+      "bytes": 232,
+      "sha256": "4dc9a4e32fd9e06d42fb307688c59d6d889f0ff90ce034cbefed21b0d451fd81"
+    },
+    {
+      "path": "patched-gcc/sources.sha256",
+      "bytes": 549,
+      "sha256": "189fac17d376bce692e8ae46f5e5fb942394b471551fc53ac7eff81426f2d42d"
+    },
+    {
+      "path": "patched-gcc/test_colour.log",
+      "bytes": 31,
+      "sha256": "56b86830cdaf7c24a4729b9b643dea0bb28b5009483274838d8bd446d8ec0e6e"
+    },
+    {
+      "path": "patched-gcc/test_osc_colour.log",
+      "bytes": 24,
+      "sha256": "910cafca6fb0539b049f3b2ce14366a7797e932eb9863ae9e466afed8ecec43c"
+    },
+    {
+      "path": "patched-gcc/test_queries.log",
+      "bytes": 19,
+      "sha256": "05fda5154a329a825e8f2cc86caa460f4a23182a729c38de938701c560facfbe"
+    },
+    {
+      "path": "patched-gcc/test_sgr.log",
+      "bytes": 17,
+      "sha256": "c417d2e93a8bcf8e7671b56d5731015132513c73223ed42cafa359fd4563cc33"
+    },
+    {
+      "path": "patched-gcc/test_state_control.log",
+      "bytes": 27,
+      "sha256": "0ea4b9d07ae6066255fd7e084341a6e6d138177590236ba6abbcf8ffa85a6835"
+    },
+    {
+      "path": "patched-mingw/results.json",
+      "bytes": 779,
+      "sha256": "fd79fb63d47b82a9891fe539307cde271cb72d08793315e2baca02ecb4283c70"
+    },
+    {
+      "path": "patched-mingw/source.diff",
+      "bytes": 5889,
+      "sha256": "67fad272b9626a55883c77c373a527bf1b4d7b025f8abe85b60a51739c34d7bb"
+    },
+    {
+      "path": "patched-mingw/sources.json",
+      "bytes": 351,
+      "sha256": "93c7e27d56cb14032d493bca3c321aab8d74afde42e8c96bd52e2a62d0b38b55"
+    },
+    {
+      "path": "patched-mingw/test_colour.log",
+      "bytes": 32,
+      "sha256": "0e112b31c6b9f24a8008d802fea49590e1b060c042d8c1313643b8bb9b75b000"
+    },
+    {
+      "path": "patched-mingw/test_osc_colour.log",
+      "bytes": 25,
+      "sha256": "4cd154ad75c54b329bc6ca05c4900ad052cfc4356736361da62a0e9960574e8c"
+    },
+    {
+      "path": "patched-mingw/test_queries.log",
+      "bytes": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "patched-mingw/test_sgr.log",
+      "bytes": 18,
+      "sha256": "c633e29d6343d5e1a087932bd4d73d80115425eac222099e416053d658ad95d1"
+    },
+    {
+      "path": "patched-mingw/test_state_control.log",
+      "bytes": 28,
+      "sha256": "a71c3f53fb571edbbe5ffd6c72f236a6228989a3a00061d818a07aa0176b62b6"
+    },
+    {
+      "path": "patched-source/scripts/generate-osc-colour-sequence-reference.py",
+      "bytes": 2763,
+      "sha256": "9335c6c8b0c24de1b1d50ad9f74760acbcd3b7fc874e0f450ccbaaa6e280024b"
+    },
+    {
+      "path": "patched-source/tests/osc_colour_sequence_reference.h",
+      "bytes": 16887,
+      "sha256": "9d0ffd6a87a992ca12f2f5df56f02c748bdbd6a97e44f1392c797d7844c977ae"
+    },
+    {
+      "path": "patched-source/tests/osc_colour_sequence_reference.json",
+      "bytes": 29052,
+      "sha256": "eaf595a21a6fde8b7da22f091c7c7842bc792c770cb307f3338bde41ecf410a1"
+    },
+    {
+      "path": "patched-source/tests/osc_colour_sequence_window_smoke.py",
+      "bytes": 1126,
+      "sha256": "bdcaf4351b9e633f49bfb0e774dabdd176305f19469377898f6afcd993920269"
+    },
+    {
+      "path": "patched-source/vendor/putty-0.85/terminal/terminal.c",
+      "bytes": 546636,
+      "sha256": "79e38db33b245b66a04b023ef818178d95c75fc2c3dca2703969fcbc4b90b003"
+    },
+    {
+      "path": "patched-source/vendor/putty-0.85/test/test_osc_colour.c",
+      "bytes": 10370,
+      "sha256": "e3ac00a3c7d98137be93c8c9ab73942875cb0cf5c280a53945a766d6be347a8e"
+    },
+    {
+      "path": "x11-packages.txt",
+      "bytes": 90,
+      "sha256": "c6a7b236ae0de2ec636337c55b0913cbb91bc94de0f6d4100955afcb4df92760"
+    },
+    {
+      "path": "xterm-misc.c",
+      "bytes": 204947,
+      "sha256": "002b41ed6c74fd36d8a06bc55d6128625ebb24c117307b3dfbb9045d152ff8db"
+    },
+    {
+      "path": "xterm-version.h",
+      "bytes": 2050,
+      "sha256": "63b6f571bc5e7b78d9cac29cf1418f0f4f9458bb2aab7b06399fa44e68a9ca91"
+    },
+    {
+      "path": "xterm.json",
+      "bytes": 37789,
+      "sha256": "f70be8e4695ed21b298c5c76d23dd831c3734019069d2a519f565b71a879d447"
+    },
+    {
+      "path": "xterm_state_oracle.py",
+      "bytes": 7243,
+      "sha256": "3e20c4cdf9f73c1bfda373d8429c3f32b3de84290397ef9aea8fc09f773204dc"
+    }
+  ]
+}

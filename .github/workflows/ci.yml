@@ -223,6 +223,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-legacy-parameter-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/generate-osc-colour-sequence-reference.py --check
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-cancellation-reference.py --check
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python scripts/generate-bell-reference.py --check
@@ -520,6 +522,13 @@ jobs:
           python tests/answerback_config_window_smoke.py 2>&1 | Tee-Object test-results/answerback-config-native.log
           $testExit = $LASTEXITCODE
           Copy-Item research/answerback-config-*-observed.json test-results/ -ErrorAction SilentlyContinue
+          exit $testExit
+      - name: Compare chained colour-command recovery through ConPTY
+        shell: pwsh
+        run: |
+          python tests/osc_colour_sequence_window_smoke.py 2>&1 | Tee-Object test-results/osc-colour-sequence-native.log
+          $testExit = $LASTEXITCODE
+          Copy-Item research/osc-colour-sequence-observed.json test-results/ -ErrorAction SilentlyContinue
           exit $testExit
       - name: Test embedded icon fallback, resize and RTL allocation lifetime
         shell: pwsh
@@ -1034,6 +1043,7 @@ jobs:
         run: |
           python3 scripts/generate-ansi-reference.py --check
           python3 scripts/generate-legacy-parameter-reference.py --check
+          python3 scripts/generate-osc-colour-sequence-reference.py --check
           python3 scripts/generate-cancellation-reference.py --check
           python3 scripts/generate-kitty-compression-reference.py --check
           python3 scripts/generate-kitty-feature-reference.py --check
