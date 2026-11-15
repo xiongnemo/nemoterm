@@ -1,0 +1,90 @@
+name: ANSI conformance replay
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CC: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Verify independent reference projection
+        run: python3 scripts/generate-ansi-reference.py --check
+      - name: Build terminal replay with sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$CC" --version > compiler.txt
+          sha256sum vendor/putty-0.85/terminal/terminal.{c,h} vendor/putty-0.85/test/test_ansi_terminal.c tests/ansi_conformance_reference.h > sources.sha256
+          cmake -S vendor/putty-0.85 -B ansi-build -G Ninja \
+            -DPUTTY_GTK_VERSION=NONE -DPUTTY_GSSAPI=OFF \
+            '-DCMAKE_C_FLAGS=-g -O1 -fsanitize=address,undefined -fno-omit-frame-pointer' \
+            '-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined' 2>&1 | tee configure.log
+          cmake --build ansi-build --target test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | tee build.log
+      - name: Replay reference and terminal regressions
+        shell: bash
+        run: |
+          set -uo pipefail
+          failed=0
+          for test in test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal; do
+            ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ./ansi-build/$test 2>&1 | tee "$test.log" || failed=1
+          done
+          exit "$failed"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ansi-conformance-${{ matrix.compiler }}-${{ github.sha }}
+          path: |
+            *.log
+            compiler.txt
+            sources.sha256
+          retention-days: 30
+          if-no-files-found: error
+  msvc:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Verify independent reference projection
+        run: python scripts/generate-ansi-reference.py --check
+      - name: Build terminal replay with MSVC
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+          $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module "$vs/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"
+          Enter-VsDevShell -VsInstallPath $vs -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          Get-FileHash vendor/putty-0.85/terminal/terminal.c,vendor/putty-0.85/terminal/terminal.h,vendor/putty-0.85/test/test_ansi_terminal.c,tests/ansi_conformance_reference.h -Algorithm SHA256 | ConvertTo-Json | Set-Content sources.json
+          cmake -S vendor/putty-0.85 -B ansi-build -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DPUTTY_GSSAPI=OFF 2>&1 | Tee-Object configure.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cmake --build ansi-build --target test_ansi_terminal test_queries test_terminal test_modes test_state_control test_keyboard test_pointer_terminal --parallel 4 2>&1 | Tee-Object build.log
+          exit $LASTEXITCODE
+      - name: Replay reference and terminal regressions
+        shell: pwsh
+        run: |
+          $failed = 0
+          foreach ($test in @('test_ansi_terminal','test_queries','test_terminal','test_modes','test_state_control','test_keyboard','test_pointer_terminal')) {
+            & "./ansi-build/$test.exe" 2>&1 | Tee-Object "$test.log"
+            if ($LASTEXITCODE) { $failed = 1 }
+          }
+          exit $failed
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ansi-conformance-msvc-${{ github.sha }}
+          path: |
+            *.log
+            sources.json
+          retention-days: 30
+          if-no-files-found: error

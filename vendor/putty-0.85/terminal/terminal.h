@@ -203,6 +203,7 @@ struct terminal_tag {
     bool sixel_palette_valid;
 
     int compatibility_level;
+    unsigned char ansi_level;     /* ECMA-43 charset conformance, 1..3. */
     bool c1_8bit;                  /* Generated protocol controls, not text. */
 
     tree234 *scrollback;               /* lines scrolled off top of screen */

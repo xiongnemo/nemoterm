@@ -352,6 +352,16 @@ add_executable(test_queries
 target_link_libraries(test_queries
   guiterminal settings eventloop charset utils ${platform_libraries})
 
+add_executable(test_ansi_terminal
+  ${CMAKE_SOURCE_DIR}/test/test_ansi_terminal.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-gss.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-storage.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-timing.c
+  ${CMAKE_SOURCE_DIR}/stubs/no-printing.c
+  unicode.c no-gtk.c)
+target_link_libraries(test_ansi_terminal
+  guiterminal settings eventloop charset utils ${platform_libraries})
+
 add_executable(test_pointer_terminal
   ${CMAKE_SOURCE_DIR}/test/test_pointer_terminal.c
   ${CMAKE_SOURCE_DIR}/stubs/no-gss.c

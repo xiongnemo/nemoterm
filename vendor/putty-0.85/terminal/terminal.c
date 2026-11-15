@@ -2908,7 +2908,7 @@ static bool nemo_charset_base_utf8(Terminal *term)
 static void nemo_charset_reset(Terminal *term)
 {
     bool latin1 = !nemo_charset_base_utf8(term) &&
-        !term->no_remote_charset && nemo_charset_level(term) >= 2;
+        !term->no_remote_charset && term->ansi_level >= 2;
     const NemoCharset *cs = nemo_charset_designate(latin1 ? 3 : 1, 5,
                                                   false, latin1 ? "A" : "B", 1);
     term->upss_id = nemo_charset_id(cs);
@@ -4190,6 +4190,7 @@ Terminal *term_init(Conf *myconf, struct unicode_data *ucsdata, TermWin *win)
     term->ucsdata = ucsdata;
     term->conf = conf_copy(myconf);
     term->compatibility_level = TM_PUTTY;
+    term->ansi_level = 3;
     strcpy(term->id_string, "\033[?62;4;22c");
     bufchain_init(&term->inbuf);
     bufchain_init(&term->printer_buf);
@@ -6175,6 +6176,7 @@ static void toggle_mode(Terminal *term, int mode, int query, bool state)
           case 2:                      /* DECANM: VT52 mode */
             term->vt52_mode = !state;
             if (term->vt52_mode) {
+                term->ansi_level = 1;
                 term->blink_is_real = false;
                 term->vt52_bold = false;
             } else {
@@ -8655,11 +8657,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     break;
                   case 'n': case 'o': /* LS2 / LS3 */
                     compatibility(VT220);
-                    if (!term->no_remote_charset) term->cset = c == 'n' ? 2 : 3;
+                    if (!term->no_remote_charset && term->ansi_level >= 3)
+                        term->cset = c == 'n' ? 2 : 3;
                     break;
                   case '~': case '}': case '|': /* LS1R / LS2R / LS3R */
                     compatibility(VT220);
-                    if (!term->no_remote_charset)
+                    if (!term->no_remote_charset && term->ansi_level >= 3)
                         term->cset_gr = c == '~' ? 1 : c == '}' ? 2 : 3;
                     break;
                   case ANSI('A', '*'): case ANSI('B', '*'): case ANSI('0', '*'):
@@ -8719,6 +8722,14 @@ static void term_out(Terminal *term, bool called_from_term_data)
                   case ANSI('G', ' '): /* S8C1T */
                     compatibility(VT220);
                     term->c1_8bit = c == 'G';
+                    break;
+                  case ANSI('L', ' '): /* ANSI conformance levels 1/2/3 */
+                  case ANSI('M', ' '):
+                  case ANSI('N', ' '):
+                    compatibility(VT320);
+                    /* This changes future locking shifts, not selected banks,
+                     * pending single shifts, DEC level or reply framing. */
+                    term->ansi_level = (unsigned char)(c - 'L' + 1);
                     break;
                   /* DOCS: Designate other coding system */
                   case ANSI('8', '%'):  /* Old Linux code */
@@ -9775,6 +9786,9 @@ static void term_out(Terminal *term, bool called_from_term_data)
                       case ANSI('p', '"'): /* DECSCL: set compat level */
                         if (term->esc_args[0] >= 61 && term->esc_args[0] <= 65) {
                             nemo_soft_reset(term);
+                            /* Reset uses the previous ANSI state; DECSCL then
+                             * installs the new operating level's default. */
+                            term->ansi_level = term->esc_args[0] == 61 ? 1 : 3;
                             /* Level 1 preserves transmission mode. Invalid Pc
                              * preserves it too, even when the level changes. */
                             unsigned pc = term->esc_nargs > 1 ? term->esc_args[1] : 0;
@@ -10235,11 +10249,12 @@ static void term_out(Terminal *term, bool called_from_term_data)
                     term->app_keypad_keys = false;
                     break;
                   case '<':
-                    /* XXX This should switch to VT100 mode not current or default
-                     *     VT mode. But this will only have effect in a VT220+
-                     *     emulation.
-                     */
+                    /* VT52 return enters VT100 conformance, even when the
+                     * terminal previously operated at a higher DEC level. */
                     term->vt52_mode = false;
+                    term->compatibility_level &= ~TM_VTXXX;
+                    term->compatibility_level |= TM_VT102;
+                    term->ansi_level = 1;
                     term->blink_is_real = term->blinktext;
                     term_schedule_tblink(term);
                     break;
