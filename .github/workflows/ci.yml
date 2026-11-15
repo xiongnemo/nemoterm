@@ -334,6 +334,12 @@ jobs:
         run: |
           ./scripts/prepare-shutdown-observer.ps1
           ./scripts/test-shutdown-observer.ps1 -Destination test-results/shutdown-observer
+      - name: Verify profile failure dump controls before native acceptance
+        shell: pwsh
+        run: |
+          ./scripts/test-failure-dump.ps1 -Destination test-results/profile-failure-dump
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "NEMOTERM_PROFILE_FAILURE_DUMP=$((Resolve-Path test-results/profile-failure-dump/helper.exe).Path)" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
       - name: Test window callback lifetime during native shutdown
         timeout-minutes: 3
         shell: pwsh
@@ -912,6 +918,7 @@ jobs:
             test-results/
             build/native-crashes/
             research/shutdown-window-observed.json
+            research/profiles-failure-*/
           if-no-files-found: warn
 
   decoder-sanitizers:

@@ -11,9 +11,10 @@ import winreg
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--exception-observer',type=Path,
                     help='attach an external debugger to this private fixture process; diagnostic only')
-parser.add_argument('--failure-dump',type=Path,
+parser.add_argument('--failure-dump',type=Path,default=os.environ.get('NEMOTERM_PROFILE_FAILURE_DUMP'),
                     help='external small-dump helper used only after a failed check, before owned cleanup')
 args=parser.parse_args()
+if args.failure_dump:args.failure_dump=args.failure_dump.resolve(strict=True)
 exe=Path(os.environ.get('NEMOTERM_TEST_EXE',root/'dist/nemoterm.exe')).resolve()
 font='Consolas' if os.environ.get('CI')=='true' else 'SarasaTermSC Nerd Font Light'
 u.GetSystemMenu.argtypes,u.GetSystemMenu.restype=[w.HWND,w.BOOL],w.HMENU

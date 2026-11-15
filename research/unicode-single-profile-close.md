@@ -33,3 +33,19 @@ independently owned lifetimes. The helper is only invoked after a check has
 already failed, before cleanup; it neither changes the 15-second limit nor turns
 a failure into success. Replays use the original Frida 17.24.3 dependency. This
 diagnostic runs on GitHub's disposable runner; local desktop testing stays paused.
+
+[Exact-image run 43690036549](https://github.com/xiongnemo/nemoterm/actions/runs/43690036549)
+at fixture `af03e5a` passes the three helper controls and all twelve profile
+lifetimes. Every lifetime passes seven functional groups, returns exit zero and
+naturally drains seven owned processes. The post-failure helper is never invoked
+against Nemoterm, so there is no terminal dump. The original timeout remains
+unexplained; finite successful replays do not change its result.
+
+`unicode-single-profile-replays.json` indexes 47 records, including the fixture
+identity and native helper controls, in `single-profile-exact-replays.tar.gz`.
+Both complete workflows now prepare this validated helper and pass its absolute
+path through `NEMOTERM_PROFILE_FAILURE_DUMP`. The profile fixture only captures
+after an actual failure and before private-job cleanup. Successful execution,
+the Frida version, the 15-second exit limit and all memory limits are unchanged.
+This retains an original failure directly if it recurs during the long suite;
+it is an observation change, not a production close-path fix.
