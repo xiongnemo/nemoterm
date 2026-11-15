@@ -184,6 +184,7 @@ try:
                 focus(host);focus(other);position(other,None)
                 ring('background-before-active-close',third_child,'\x1b[?1042;1043h\x07',True,True)
                 ring('active-before-close',fourth_child,'\x1b[?1042;1043h\x07',True,True)
+                phase(third_child,'enable-focus-reporting','\x1b[?1004h')
                 drain();write_snapshot(fourth_child['control'],dict(stop=True))
                 wait_for(lambda:len(api.request(endpoint)['sessions'])==1)
                 second=original_third
@@ -192,7 +193,13 @@ try:
                 evidence['checks'].append(record)
                 assert after['active']==second['id'] and after['foreground']==other,record
                 assert not any(e['api']=='FlashWindowEx' and e['flags']==0 for e in events),record
+                focus_data=wait_for(lambda:read_snapshot(third_child['report']) or None)
+                record['focus_input_hex']=focus_data.get('hex')
+                assert record['focus_input_hex']==marker.hex(),record
                 clear('new-active-notice-clears-on-foreground')
+                focused=wait_for(lambda:(d if (d:=read_snapshot(third_child['report'])).get('hex')==(marker+b'\x1b[I').hex() else None))
+                evidence['checks'][-1]['focus_input_hex']=focused['hex']
+                phase(third_child,'disable-focus-reporting','\x1b[?1004l')
             finally:
                 session.detach()
                 for target in children:write_snapshot(target['control'],dict(stop=True))

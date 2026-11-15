@@ -3709,25 +3709,31 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
       case WM_DONE_WITH_SOCKET:
         winselgui_response(message, wParam, lParam);
         return 0;
-      case WM_SETFOCUS:
+      case WM_SETFOCUS: {
         if (wgs->tabbed) {
             HIMC imc=ImmGetContext(hwnd);
             if (imc) {ImmSetCompositionFont(imc,&wgs->lfont);ImmReleaseContext(hwnd,imc);}
         }
-        term_set_focus(wgs->term, true);
+        /* A background host can move focus within its own input queue when
+         * closing a tab. That does not mean the user has viewed the host. */
+        bool foreground = GetForegroundWindow() == wgs_window(wgs) && wgs_active(wgs);
+        term_set_focus(wgs->term, foreground);
         if (wgs->caretbm) {
             CreateCaret(hwnd, wgs->caretbm, wgs->font_width, wgs->font_height);
             ShowCaret(hwnd);
         }
         /* All tab seats share the host's caption/taskbar notification. */
-        for (struct WinGuiSeatListNode *n = wgslisthead.next;
-             n != &wgslisthead; n = n->next) {
-            WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
-            if (wgs_window(other) == wgs_window(wgs)) flash_window(other, 0);
+        if (foreground) {
+            for (struct WinGuiSeatListNode *n = wgslisthead.next;
+                 n != &wgslisthead; n = n->next) {
+                WinGuiSeat *other = container_of(n, WinGuiSeat, wgslistnode);
+                if (wgs_window(other) == wgs_window(wgs)) flash_window(other, 0);
+            }
         }
         wgs->compose_state = 0;
         term_update(wgs->term);
         break;
+      }
       case WM_KILLFOCUS:
         memset(wgs->font_zoom_keys, 0, sizeof(wgs->font_zoom_keys));
         wgs->font_zoom_wheel_accumulator = 0;
