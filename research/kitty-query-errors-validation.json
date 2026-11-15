@@ -9931,6 +9931,298 @@
           "raw_sha256": "43080402247b74707ce967fdf1062c01eb937911d4a8818dffaf5ded480a001c"
         }
       ]
+    },
+    {
+      "path": "research/kitty-query-errors-evidence/components-ci.tar.gz",
+      "archive_bytes": 61578,
+      "archive_sha256": "d91b3416eaa333d6264e5b8b8dc69b4a78a2df5a2f6385661d8f6765961dd346",
+      "records": [
+        {
+          "path": "components-artifacts.json",
+          "raw_bytes": 2302,
+          "raw_sha256": "e1314f1ecc34358d125927d5d7f4f11bd2a3b3c296c5e2f813f0a38775f62838"
+        },
+        {
+          "path": "components-run.json",
+          "raw_bytes": 4298,
+          "raw_sha256": "36bce1953b6f5c00a27bf8ed3a3030f4481407ade87d9c7f86a96f0334ae41c5"
+        },
+        {
+          "path": "components-run.log",
+          "raw_bytes": 335893,
+          "raw_sha256": "76bcd39f6d211e32f300d9715db8f03929bed5e999e2acdd21a2478d6056729c"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "cf877b7b08dfd6859e8431e434cceba3036b0035b297d3ea0d77e581d658e44c"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/cache-normal.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/cache-sanitizers.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/compiler.txt",
+          "raw_bytes": 122,
+          "raw_sha256": "77467400b91c4cebb6c3e29d8a611af518a2f4078c22baf276b0a1373e996bf5"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/layout-normal.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/layout-sanitizers.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/normal.log",
+          "raw_bytes": 43,
+          "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/placements-normal.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/placements-sanitizers.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/sanitizers.log",
+          "raw_bytes": 43,
+          "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/sources.sha256",
+          "raw_bytes": 2955,
+          "raw_sha256": "bc79a105f229bfbe41153c00ffb3944df3e29b0c16bad490cd7524c88e55181f"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/terminal-build.log",
+          "raw_bytes": 13008,
+          "raw_sha256": "15fb976fa657b08cb52bb5fc96b45116262517121bb1111ef9a20759ea185670"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/terminal-configure.log",
+          "raw_bytes": 4317,
+          "raw_sha256": "7567e00fd868fa0d30477c5af8787cda38bbc9f4a077a7bb99152e94f56da1ef"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/terminal-sanitizers.log",
+          "raw_bytes": 363,
+          "raw_sha256": "111da3fb6d866b95a44b9f33345bf36856d88355abcf18ae42d52bed835c5d1b"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/terminal-sources.sha256",
+          "raw_bytes": 640,
+          "raw_sha256": "5a6a345b9c1b460ee8b626c3b7c41fda632ab321cbc39541ebe4016707d8326a"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/zlib-normal.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-clang-88743d31c21090bf78be63fc2719a51993507310/zlib-sanitizers.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "9ee21839b7b1b865439ab0f93261948b6ba3e4373c5e9280bc39651762ecbe59"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/cache-normal.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/cache-sanitizers.log",
+          "raw_bytes": 38,
+          "raw_sha256": "e0a6dd118d6861163e09fa92fd32c48b638108ae4d6229614946d647060b9f4d"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/compiler.txt",
+          "raw_bytes": 239,
+          "raw_sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/layout-normal.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/layout-sanitizers.log",
+          "raw_bytes": 686,
+          "raw_sha256": "b33c5efdbfc2f3e0481839d7fdd5dfc4860192c84dc253cb7148585828c62439"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/normal.log",
+          "raw_bytes": 43,
+          "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/placements-normal.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/placements-sanitizers.log",
+          "raw_bytes": 4790,
+          "raw_sha256": "a346ac55473f93756730877a012d3b9ff5846ddcb3a77a0dc4eaca36f93c7df6"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/sanitizers.log",
+          "raw_bytes": 43,
+          "raw_sha256": "fe93987ea729776ae87e616f6810b1560bac72c088203721116e19161127fb4e"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/sources.sha256",
+          "raw_bytes": 2955,
+          "raw_sha256": "bc79a105f229bfbe41153c00ffb3944df3e29b0c16bad490cd7524c88e55181f"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/terminal-build.log",
+          "raw_bytes": 14663,
+          "raw_sha256": "899fc8bebd15f58c7dcf39d23b21f7bb3b3c0cc2902b7fea0b48a726e81c9408"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/terminal-configure.log",
+          "raw_bytes": 4312,
+          "raw_sha256": "aa3289364cdc11ad8c46e65a5119a59b26b6910a7928d7a70fed0ea808bb220c"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/terminal-sanitizers.log",
+          "raw_bytes": 363,
+          "raw_sha256": "111da3fb6d866b95a44b9f33345bf36856d88355abcf18ae42d52bed835c5d1b"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/terminal-sources.sha256",
+          "raw_bytes": 640,
+          "raw_sha256": "5a6a345b9c1b460ee8b626c3b7c41fda632ab321cbc39541ebe4016707d8326a"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/zlib-normal.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-gcc-88743d31c21090bf78be63fc2719a51993507310/zlib-sanitizers.log",
+          "raw_bytes": 35,
+          "raw_sha256": "19280eea9b648106c77a1d09beb17063122e62cce913aa5b9521dc38f7688933"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "8b1b9fc95e647eef68b0d3efa02458cb3c38b78e6136523c7940188f16b66f27"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/build.log",
+          "raw_bytes": 58,
+          "raw_sha256": "d365bff8c67d4a0adf421f59c6caa57a2b496a8ee1d4f5465fd1fccfca4e26ed"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/cache-build.log",
+          "raw_bytes": 110,
+          "raw_sha256": "ca7396e8e14e52a83395bd252a539b9b7f02e26e31c523ea185086025b6a8a21"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/cache-test.log",
+          "raw_bytes": 39,
+          "raw_sha256": "0d45d79e71a05e0a8bc609f8408f062aae85b8fb5c50a285743be5dc067afc72"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/layout-build.log",
+          "raw_bytes": 76,
+          "raw_sha256": "6631042717b68cea122f2d2785134db67144dd9a3b7034637586c20bcce6b5ea"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/layout-test.log",
+          "raw_bytes": 700,
+          "raw_sha256": "e83e071fc1f97544b035dbf46630cae9109736b5066c6f1678649533b7fa9dcc"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/placements-build.log",
+          "raw_bytes": 161,
+          "raw_sha256": "92079f571f84af0851a4456242ae469f75ab4378e06e65959965c303953b4deb"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/placements-test.log",
+          "raw_bytes": 4856,
+          "raw_sha256": "32fdc2fe57e080218be4a0b0e0416b499ae7d4deb92921e7da964b82d27aa422"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/sources.txt",
+          "raw_bytes": 4917,
+          "raw_sha256": "18dc3859a55a6418c962f10d514c7b15cfcdc4e24e1e53734b09b1b276b50897"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/terminal-build.log",
+          "raw_bytes": 16563,
+          "raw_sha256": "d84c088dcca34774a77b78f1869cd4d20ba02e75d5b10d281bbd1c6e22e0293c"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/terminal-configure.log",
+          "raw_bytes": 2886,
+          "raw_sha256": "e430807a20c3cf03d3a40d35a1ef760f1d7aa5e66ce5379f80476cc5fa2b9b19"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/terminal-sources.txt",
+          "raw_bytes": 1062,
+          "raw_sha256": "f722cb7ab71e313eb3237007e7d5d2bb1abcf2ff8ea20c7a3eae54c93e41ec4b"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/terminal-test.log",
+          "raw_bytes": 368,
+          "raw_sha256": "0b2250f77c9e1bde9297a3bb433a78e6722e59f32d5e93df4d21407c3f2e330c"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/test.log",
+          "raw_bytes": 44,
+          "raw_sha256": "9147d4b5a5d065c81408408d0f8a147b50c527137066df53db715c9350d96cca"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/zlib-build.log",
+          "raw_bytes": 54,
+          "raw_sha256": "a4439b8448eb1798560e9c8163383872f611513884d3426c3ebaa035ab0273b5"
+        },
+        {
+          "path": "components/kitty-transport-msvc-88743d31c21090bf78be63fc2719a51993507310/zlib-test.log",
+          "raw_bytes": 36,
+          "raw_sha256": "c7481928746ab2bbba7a46e0b4920e171bed78b2a7e65fdc7f3107f3711ea7ca"
+        }
+      ]
     }
-  ]
+  ],
+  "component_ci": {
+    "run": 43660375865,
+    "source_commit": "88743d31c21090bf78be63fc2719a51993507310",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "msvc",
+        "conclusion": "success"
+      },
+      {
+        "name": "unix (gcc)",
+        "conclusion": "success"
+      },
+      {
+        "name": "unix (clang)",
+        "conclusion": "success"
+      }
+    ],
+    "scope": "Strict GCC/Clang/MSVC components and real-core replay; GCC/Clang ASan/UBSan; no single-image acceptance"
+  }
 }

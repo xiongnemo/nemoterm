@@ -20,6 +20,8 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx', 'both', 'all'), default='all')
 parser.add_argument('--observer', choices=('lifetime', 'none', 'both'), default='both',
                     help='retain lifetime ordering checks and separate uninjected exit controls')
+parser.add_argument('--failure-dump', type=Path,
+                    help='optional diagnostic helper, invoked only after a failed live-process check')
 args = parser.parse_args()
 exe = Path(os.environ.get('NEMOTERM_TEST_EXE', root/'dist/nemoterm.exe')).resolve()
 evidence = dict(executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),
@@ -116,6 +118,13 @@ try:
                     case['error'] = repr(error)
                     case['failed_phase'] = case['phase']
                     record_owned_failure(process, job, case, 'shutdown-'+case['failed_phase'])
+                    if args.failure_dump and process.poll() is None:
+                        try:
+                            from native_failure_dump import capture_owned_failure_dump
+                            case['failure_dump'] = capture_owned_failure_dump(args.failure_dump,
+                                process, job, root/'research'/('shutdown-failure-'+uuid.uuid4().hex))
+                        except Exception as capture_error:
+                            case['failure_dump_error'] = repr(capture_error)
                     case['child_report'] = read_snapshot(report)
                     write_snapshot(evidence_path, evidence)
                     raise

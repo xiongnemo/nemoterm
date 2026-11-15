@@ -55,5 +55,9 @@ separately. This is not yet new single-image or memory acceptance.
 Component/full CI now checks the generated reference, and ordinary/single-image
 native suites include the new replay. The accepted local executable remains
 `6e05bd1` until the replacement product passes its full pipeline and local checks.
+The component workflow passes all three compilers. The first formal single-image
+run fails an earlier instrumented DirectX shutdown check, before query replay;
+the exact image, unchanged local pass and diagnostic boundary are retained in
+[the shutdown record](query-transaction-shutdown.md).
 The complete graphics/protocol, real-application, physical-input and resource
 requirements remain open.

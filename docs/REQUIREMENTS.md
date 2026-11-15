@@ -13,6 +13,9 @@ A subsequent [query-error comparison](../research/kitty-query-errors.md) reprodu
 lost pending uploads in this accepted image. The development fix passes 216 new
 core states, 648 native API stages and 216 presented-GDI stages; its formal
 single-image replacement and full-grid memory acceptance are still pending.
+The first replacement single-image pipeline fails an earlier DirectX shutdown
+check. An unchanged exact-image local replay passes all 12 cases but does not
+explain the failure; see [the diagnostic record](../research/query-transaction-shutdown.md).
 
 Actual 160x48 Sarasa two-tab Sixel/PNG/GIF/Kitty/compressed-Kitty workloads peak at
 16,838,656 private-WS bytes for GDI and 24,236,032 for DirectX,
