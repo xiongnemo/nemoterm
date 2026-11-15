@@ -17,6 +17,10 @@ def cases():
     for name, char in [('ascii', 'A'), ('placeholder', '\U0010eeee')]:
         for marks in ['', '\u0305', '\u0305\u0305', '\u0305\u030d']:
             result[f'repeat-{name}-{marks.encode().hex()}'] = (
+                '\x1bc' + char + marks + C + '3b' + CPR + CELLS)
+            # A query between text and REP can itself reset XTerm's repeat
+            # state. Retain that observer effect as a separate control.
+            result[f'repeat-query-interrupted-{name}-{marks.encode().hex()}'] = (
                 '\x1bc' + char + marks + CPR + C + '3b' + CPR + CELLS)
     for mode in [47, 1047, 1049]:
         result[f'alternate-{mode}'] = (
@@ -41,4 +45,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     run_cases(args.xterm, args.output, cases(),
               ['-ti', 'vt520', '-xrm', '*allowWindowOps: true'], raw_replies=True)
-    print('Retained 18 independent text-boundary streams including controls')
+    print('Retained 26 independent text-boundary streams including query controls')
