@@ -2,6 +2,7 @@
 import os
 assert os.environ.get('GITHUB_ACTIONS') == 'true', 'Requires disposable CI desktop'
 import frida
+from itertools import product
 from native_test_utils import (root,c,w,u,hashlib,json,subprocess,sys,tempfile,
     Path,time,read_snapshot,write_snapshot,wait_for,find_window,terminal_host)
 from owned_job import OwnedJob
@@ -24,9 +25,10 @@ evidence=dict(completed=False,executable_sha256=hashlib.sha256(exe.read_bytes())
 marker=b'\x1b[0n'
 
 try:
-    for renderer in (0,2):
+    for renderer,always_on_top in product((0,2),(False,True)):
         settings=dict(Beep=0,BeepInd=0,NemoBellRaise=0,NemoBellOnReset=0,
-                      BellOverload=0,WarnOnClose=0,CloseOnExit=1,NemoRenderer=renderer)
+                      BellOverload=0,WarnOnClose=0,CloseOnExit=1,NemoRenderer=renderer,
+                      AlwaysOnTop=int(always_on_top))
         with saved_profile(settings) as args,tempfile.TemporaryDirectory(prefix='nemoterm-bell-state-') as directory,OwnedJob() as job:
             folder=Path(directory);tab_folder=folder/'tabs';tab_folder.mkdir()
             environment=dict(os.environ,NEMOTERM_CONPTY='bundled',NEMOTERM_TEST_EXACT_OUTPUT='1')
@@ -41,6 +43,11 @@ try:
             endpoint=instance['endpoint'];first=instance['sessions'][0]
             assert first['renderer']==renderer and first['active'],first
             host=first['window'];other=terminal_host(wait_for(lambda:find_window(cover.pid)))
+            # Exercise the user setting in each native process. An external
+            # controller's SetWindowPos can return success without changing
+            # the inactive target's topmost state on the CI desktop.
+            for window in (host,other):
+                wait_for(lambda:bool(u.GetWindowLongPtrW(window,-20)&8)==always_on_top)
             serial=0;known=set();children=[]
             def child():
                 def launched():
@@ -83,7 +90,7 @@ try:
                 assert len(active)==1
                 return dict(foreground=u.GetForegroundWindow(),above_other=order.index(host)<order.index(other),
                             topmost=bool(u.GetWindowLongPtrW(host,-20)&8),minimized=bool(u.IsIconic(host)),
-                            active=active[0],sessions=[s['id'] for s in sessions])
+                            active=active[0],sessions=[s['id'] for s in sessions],configured_topmost=always_on_top)
             def focus(window):
                 assert window in (host,other)
                 evidence['focus_actions'].append(focus_owned_window(window,process.pid if window==host else cover.pid))
@@ -172,11 +179,13 @@ try:
                 clear('background-focus-clears-after-disable')
                 focus(other);position(other,None)
                 ring('background-disabled',first_child,'\x1b[?1042;1043l\x07',False,False)
-                position(host,-1);position(other,-1)
-                assert state()['topmost'],evidence['position_actions']
-                ring('already-topmost',first_child,'\x1b[?1043h\x07',False,True)
-                assert state()['topmost']
-                position(host,-2);position(other,-2)
+                if always_on_top:
+                    assert state()['topmost']
+                    record=ring('already-topmost',first_child,'\x1b[?1043h\x07',False,True)
+                    raises=[e for e in record['api'] if e['api']=='SetWindowPos']
+                    assert len(raises)==1 and raises[0]['after']=='0x0',record
+                else:
+                    phase(first_child,'enable-raise','\x1b[?1043h')
                 u.ShowWindow(host,6);wait_for(lambda:u.IsIconic(host));focus(other)
                 ring('minimized-background',first_child,'\x1b[?1042h\x07',True,True,above=False)
                 assert u.IsIconic(host)
