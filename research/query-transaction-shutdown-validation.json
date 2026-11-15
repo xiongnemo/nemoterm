@@ -1086,6 +1086,1138 @@
           "raw_sha256": "8130ea7cd9ae555ddf9d900c2486e3c0a70d02161a21d7748eef9e2299c93ac3"
         }
       ]
+    },
+    {
+      "path": "research/query-transaction-shutdown-evidence/hosted-dump-analysis.tar.gz",
+      "archive_bytes": 78221,
+      "archive_sha256": "80ae903bdf297d8e3516d33f29ee1fcf2e951f6e7234e9306d66ee324b176781",
+      "records": [
+        {
+          "path": "analysis/copy-owned-frida-analysis-image.py",
+          "raw_bytes": 2001,
+          "raw_sha256": "75a5cdb284becc959ca749dc348efdf8e9a9804efec8215f95f0294f4638d0e1"
+        },
+        {
+          "path": "analysis/disassemble-shutdown-frida.py",
+          "raw_bytes": 1426,
+          "raw_sha256": "609e4a63d30f6923489eee4e3d5e08e78fd8aa88069d7f1181b1e6eea3b1a832"
+        },
+        {
+          "path": "analysis/dump-structure.json",
+          "raw_bytes": 46177,
+          "raw_sha256": "b0061b7c98d7981fa6be04e8bf5631d41074616673893fd674844497b03580d1"
+        },
+        {
+          "path": "analysis/fetch-shutdown-symbols.py",
+          "raw_bytes": 2722,
+          "raw_sha256": "b24fea8a2ef259273080fbcd55105a6f787501a8ade5a389492392fcf55f8687"
+        },
+        {
+          "path": "analysis/frida-analysis-image.json",
+          "raw_bytes": 700,
+          "raw_sha256": "42674e016547dc925e65f73270069ecf477a4dd1f0af04dd70d72d250f93c606"
+        },
+        {
+          "path": "analysis/frida-disassembly-1311d0.txt",
+          "raw_bytes": 6716,
+          "raw_sha256": "e37850705b2a0ffcdc1bac03e45f886a877052bc65da26f8c822374a896ccc50"
+        },
+        {
+          "path": "analysis/frida-disassembly-137df8.txt",
+          "raw_bytes": 8563,
+          "raw_sha256": "a44cd99e3151ace94dc028257c1d47d7576bfe797cd7c8af37c3a655d39ac2dd"
+        },
+        {
+          "path": "analysis/frida-disassembly-1387e4.txt",
+          "raw_bytes": 1194,
+          "raw_sha256": "7a8048bd654285a07e2e90f373b78bc5f06632d22e63e70f38465b74831ef169"
+        },
+        {
+          "path": "analysis/frida-disassembly-139714.txt",
+          "raw_bytes": 585,
+          "raw_sha256": "edf5519a7b88eb13bb0b2995c494b233e5a1390745764935d981eeebcddd71a5"
+        },
+        {
+          "path": "analysis/frida-disassembly-13b61c.txt",
+          "raw_bytes": 6779,
+          "raw_sha256": "37c1d5713b753347a6a91398b84c1b47e198f8f4b032cd8be3ccdde58ec51952"
+        },
+        {
+          "path": "analysis/frida-unwind-ranges.json",
+          "raw_bytes": 565,
+          "raw_sha256": "f3ffe2c3c1d0ecfb6cb9b3ed23aab49c35901052587b532434069c2f406db94f"
+        },
+        {
+          "path": "analysis/inspect-query-shutdown-dump.py",
+          "raw_bytes": 2813,
+          "raw_sha256": "c398e214fad6c76e0ff5dac6faccafe7da6afe8ca68941b259a3eabb5c1e4d0d"
+        },
+        {
+          "path": "analysis/lldb-initial.log",
+          "raw_bytes": 9216,
+          "raw_sha256": "ad55fbc24008bcb20d7a80d9c3757bf976efa8b0092259a502bdd0648f003799"
+        },
+        {
+          "path": "analysis/lldb-matched.log",
+          "raw_bytes": 1946,
+          "raw_sha256": "e37f658772f8fe634c0786ce3f5435022bc31b04106988197542d2e42a3bc0ed"
+        },
+        {
+          "path": "analysis/source-reference.json",
+          "raw_bytes": 492,
+          "raw_sha256": "07027214fda851e5a998c9fdf8e193c83fcb11ffe67098905c1a19b4a80a9fde"
+        },
+        {
+          "path": "analysis/symbol-downloads.json",
+          "raw_bytes": 5394,
+          "raw_sha256": "c942de3c9ea8741e5ecd9e021785599d77764da5fb72901c9f3e4a348dd8a9ca"
+        },
+        {
+          "path": "fixture/.github/workflows/tabs-close-replay.yml",
+          "raw_bytes": 9272,
+          "raw_sha256": "b9efb038d5d8d84f5791e3c85516e70c010c3fb1f564a58f29434844e417713e"
+        },
+        {
+          "path": "fixture/scripts/test-failure-dump.ps1",
+          "raw_bytes": 1431,
+          "raw_sha256": "729d867af7e4bb6ec20e32af2b00f2494548571d044c408ce52e78f7c99c0f65"
+        },
+        {
+          "path": "fixture/tests/native_failure_dump.c",
+          "raw_bytes": 2015,
+          "raw_sha256": "2c598d70d53ce183dd03138f9f1433f6d82d17acf10bf8c392d4f270ed3f3691"
+        },
+        {
+          "path": "fixture/tests/native_failure_dump.py",
+          "raw_bytes": 2893,
+          "raw_sha256": "2c8cd34025e5421abe139044f88914b6ce5a4d96d918433862b1358c3757620d"
+        },
+        {
+          "path": "fixture/tests/native_failure_dump_controls.py",
+          "raw_bytes": 3774,
+          "raw_sha256": "c1023c9b7168c0cb17b5357e505552e63032ff32b51d32f714b892021c96fb83"
+        },
+        {
+          "path": "fixture/tests/shutdown_window_smoke.py",
+          "raw_bytes": 9466,
+          "raw_sha256": "01e7991596d0e6ed0e287dd33e0db4002f65885f2b62801a27510bbb3ca40471"
+        },
+        {
+          "path": "hosted/diagnostic-download.json",
+          "raw_bytes": 82,
+          "raw_sha256": "1b0f88e4e4509e18b69536758293d0d73dfeaa42352791b2ab5ae6a74fbc7ad5"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/build-control.log",
+          "raw_bytes": 28,
+          "raw_sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/build-helper.log",
+          "raw_bytes": 23,
+          "raw_sha256": "fcd13d68cc11de7a793b826907afbfd4dad155454cf9c756ef18798c4285135b"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/already-exited/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/already-exited/result.json",
+          "raw_bytes": 660,
+          "raw_sha256": "0c34eabc1e3e9476f0b632ffad03c1b019779c7348b74a8d8ee619011f83531c"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/live-thread/failure.dmp",
+          "raw_bytes": 13033,
+          "raw_sha256": "59f660a25ff2983c5db7d740fe29a21fedbb1c8bf7f218d92c9f54837cce21d7"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/live-thread/helper.jsonl",
+          "raw_bytes": 81,
+          "raw_sha256": "902e70791e67a51b0f13bba68d7e8ebe00eb41bf92a22a3432bfcb88e41c6dc6"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/live-thread/result.json",
+          "raw_bytes": 914,
+          "raw_sha256": "43ca318393959c4e9846bbf32bfc43342806b2bb9fcc8f0a067cd67f8e82d615"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/results.json",
+          "raw_bytes": 3814,
+          "raw_sha256": "ee8ffb25d7e622daae19c04e99a4427f2c7680a47325f62cacdf2318faa39e96"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/wrong-job/helper.jsonl",
+          "raw_bytes": 32,
+          "raw_sha256": "3eff29babc5da5796b62182fa540c32313bd32f1fe727500d64dfcf76098ff0b"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/controls/wrong-job/result.json",
+          "raw_bytes": 662,
+          "raw_sha256": "69ef586d7c603a6ac77409f3abe180097e24d6aa7a936a671679759f2516cee1"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-controls/test.log",
+          "raw_bytes": 2667,
+          "raw_sha256": "2c32cbea198dce242bee18de2fd0a9360e6b263ae376213d5db13ee9e442be66"
+        },
+        {
+          "path": "hosted/diagnostic/failure-dump-source.json",
+          "raw_bytes": 978,
+          "raw_sha256": "f61056d0e859dc2203d1ec40aba8a08abf49e157b496832d8f93149d3483a953"
+        },
+        {
+          "path": "hosted/diagnostic/identity.json",
+          "raw_bytes": 2113,
+          "raw_sha256": "5e5e63098cc5aab393aad6bfcbcf285e130d102cd13aaed37c18dc360deec6a5"
+        },
+        {
+          "path": "hosted/diagnostic/probe-controls/build.log",
+          "raw_bytes": 26,
+          "raw_sha256": "1d16904e24403b660ce7f6837d682668fba595fe7077d3200eecf5ea52fd9c01"
+        },
+        {
+          "path": "hosted/diagnostic/probe-controls/shutdown-probe-controls-observed.json",
+          "raw_bytes": 2787,
+          "raw_sha256": "d16ce4a35e0ed2f8fef36708039aa3a170be5c56ef09ea7b3fc63a94f90fb96b"
+        },
+        {
+          "path": "hosted/diagnostic/probe-controls/test.log",
+          "raw_bytes": 147,
+          "raw_sha256": "35bf43bb0687f1f94b8875e980c5db6375b7c76b613ee03ef1eed0285179e706"
+        },
+        {
+          "path": "hosted/diagnostic/replay-1-observed.json",
+          "raw_bytes": 15125,
+          "raw_sha256": "cbbcc95b60fd9da83c7e99f4501b7a9887118167fa041bd643e631066ca61fad"
+        },
+        {
+          "path": "hosted/diagnostic/replay-1.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "hosted/diagnostic/replay-2-observed.json",
+          "raw_bytes": 21689,
+          "raw_sha256": "ca0cd44d72a84ddff3adda52b9ee3b8cec9b19c903f500b4b0d1348c9847fdad"
+        },
+        {
+          "path": "hosted/diagnostic/replay-2.log",
+          "raw_bytes": 7547,
+          "raw_sha256": "d6e6ee3a5078a18e0c92e592ce8501dd3c0bd34d0946bf0c44df6d30f378f4ed"
+        },
+        {
+          "path": "hosted/diagnostic/replay-3-observed.json",
+          "raw_bytes": 15129,
+          "raw_sha256": "32f60411e1ada4a7526f2f3e74b8a5d085bdbc5a2821769d805408cbda10ab3c"
+        },
+        {
+          "path": "hosted/diagnostic/replay-3.log",
+          "raw_bytes": 10041,
+          "raw_sha256": "25d160bad301c396019343f81330e001a153d4a92460533c70fbf0009d9291a8"
+        },
+        {
+          "path": "hosted/diagnostic/shutdown-failure-9f79e93afe8b4e5ca266ed6cb54468c8/failure.dmp",
+          "raw_bytes": 45354,
+          "raw_sha256": "4cc9d8fe072bdc48c2668cbf49c81c8931fb270ba0c4b09e868e86add295db03"
+        },
+        {
+          "path": "hosted/diagnostic/shutdown-failure-9f79e93afe8b4e5ca266ed6cb54468c8/helper.jsonl",
+          "raw_bytes": 81,
+          "raw_sha256": "f57fcfc4aed2552d720d93b3b34dfc1ae09cbb6f04c0bf5aa7c6449184512f57"
+        },
+        {
+          "path": "hosted/diagnostic/shutdown-failure-9f79e93afe8b4e5ca266ed6cb54468c8/result.json",
+          "raw_bytes": 899,
+          "raw_sha256": "b3f4aebd56437d9e4f98f164581215dd92fdb161a79b37e3d3a1bef6b0541fb6"
+        },
+        {
+          "path": "hosted/tabs-artifacts.json",
+          "raw_bytes": 791,
+          "raw_sha256": "0303a780e776e85a720ef45113fad40535e446922da111e12b767ca894b16a3e"
+        },
+        {
+          "path": "hosted/tabs-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "450b65e0850fa16fea47291c3a9365ac2c8ae7b6df8b0bf8f23bb08c1429cec1"
+        },
+        {
+          "path": "hosted/tabs-run.json",
+          "raw_bytes": 2489,
+          "raw_sha256": "c0aef7a482bae8eb56f80948bfc51f5df4a26789ac321e19f3b9b72117bd27e7"
+        },
+        {
+          "path": "hosted/tabs-run.log",
+          "raw_bytes": 150657,
+          "raw_sha256": "9d3481e70addf5aa5abb040edf561e733db408079ba0114594c6f9d903e8af82"
+        }
+      ]
     }
-  ]
+  ],
+  "hosted_replay": {
+    "run": 43661529669,
+    "fixture_commit": "a8fffe4b6220dca9511d3122a80825bf4dc1f726",
+    "conclusion": "failure",
+    "artifact_id": 14139854789,
+    "repetitions": [
+      {
+        "completed": true,
+        "cases": 12
+      },
+      {
+        "completed": false,
+        "cases": 8
+      },
+      {
+        "completed": true,
+        "cases": 12
+      }
+    ],
+    "failed_case": {
+      "renderer": "opengl",
+      "close": "window-close",
+      "observer": "lifetime",
+      "injected": true,
+      "events": [
+        {
+          "event": "probe-phase",
+          "phase": "window-data"
+        },
+        {
+          "event": "probe-phase",
+          "phase": "install-heap-observer"
+        },
+        {
+          "event": "probe-phase",
+          "phase": "install-com-observer"
+        },
+        {
+          "event": "probe-phase",
+          "phase": "install-window-observer"
+        },
+        {
+          "event": "probe-phase",
+          "phase": "observers-installed"
+        },
+        {
+          "event": "seat-free",
+          "success": true,
+          "window_alive": false
+        },
+        {
+          "event": "com-uninitialize",
+          "window_alive": false,
+          "seat_freed": true
+        },
+        {
+          "event": "com-uninitialize-return",
+          "window_alive": false,
+          "seat_freed": true,
+          "detached_observers": [
+            "heap",
+            "window",
+            "com"
+          ]
+        }
+      ],
+      "phase": "cleanup-complete",
+      "phases": [
+        {
+          "name": "spawn",
+          "monotonic": 144.5
+        },
+        {
+          "name": "window-ready",
+          "monotonic": 144.515
+        },
+        {
+          "name": "fixture-ready",
+          "monotonic": 144.671
+        },
+        {
+          "name": "frida-attach",
+          "monotonic": 144.718
+        },
+        {
+          "name": "frida-create-script",
+          "monotonic": 144.734
+        },
+        {
+          "name": "frida-load-script",
+          "monotonic": 144.734
+        },
+        {
+          "name": "frida-watch-window",
+          "monotonic": 144.734
+        },
+        {
+          "name": "request-close",
+          "monotonic": 144.734
+        },
+        {
+          "name": "wait-process-exit",
+          "monotonic": 144.734
+        },
+        {
+          "name": "frida-detach",
+          "monotonic": 155.062
+        },
+        {
+          "name": "drain-owned-job",
+          "monotonic": 170.062
+        },
+        {
+          "name": "cleanup-complete",
+          "monotonic": 170.078
+        }
+      ],
+      "pid": 7240,
+      "active_renderer": 1,
+      "close_request": {
+        "hwnd": 1180232,
+        "thread": 9036,
+        "pid": 7240,
+        "posted": true
+      },
+      "error": "TimeoutExpired(['D:\\\\a\\\\nemoterm\\\\nemoterm\\\\build\\\\close-replay-product\\\\nemoterm.exe', '-load', 'shutdown-test-ed69a0d894c74adca0d35a280db3cade', '--cols', '40', '--rows', '12', '-e', 'C:\\\\hostedtoolcache\\\\windows\\\\Python\\\\3.12.10\\\\x64\\\\python.exe', 'D:\\\\a\\\\nemoterm\\\\nemoterm\\\\tests\\\\mouse_fixture.py', 'C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\nemoterm-shutdown-e9ipm3d5\\\\report', 'C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\nemoterm-shutdown-e9ipm3d5\\\\control'], 10)",
+      "failed_phase": "wait-process-exit",
+      "process_before_cleanup": {
+        "pid": 7240,
+        "exit_code": null,
+        "job": {
+          "total": 3,
+          "active": 1,
+          "terminated": 0
+        },
+        "threads": {
+          "label": "shutdown-wait-process-exit",
+          "pid": 7240,
+          "threads": [
+            {
+              "tid": 9036,
+              "created": 134391784759807796,
+              "exited": false,
+              "start": 140694824426176,
+              "io_pending": false,
+              "module": "nemoterm.exe",
+              "rva": 1252032
+            }
+          ],
+          "unavailable": [],
+          "modules": [
+            {
+              "base": 140694823174144,
+              "size": 4546560,
+              "path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-product\\nemoterm.exe",
+              "name": "nemoterm.exe"
+            },
+            {
+              "base": 140734776606720,
+              "size": 2506752,
+              "path": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+              "name": "ntdll.dll"
+            },
+            {
+              "base": 140734741413888,
+              "size": 823296,
+              "path": "C:\\Windows\\System32\\KERNEL32.DLL",
+              "name": "KERNEL32.DLL"
+            },
+            {
+              "base": 140734733221888,
+              "size": 4116480,
+              "path": "C:\\Windows\\System32\\KERNELBASE.dll",
+              "name": "KERNELBASE.dll"
+            },
+            {
+              "base": 140734760026112,
+              "size": 978944,
+              "path": "C:\\Windows\\System32\\COMDLG32.dll",
+              "name": "COMDLG32.dll"
+            },
+            {
+              "base": 140734728699904,
+              "size": 667648,
+              "path": "C:\\Windows\\System32\\msvcp_win.dll",
+              "name": "msvcp_win.dll"
+            },
+            {
+              "base": 140734731845632,
+              "size": 1355776,
+              "path": "C:\\Windows\\System32\\ucrtbase.dll",
+              "name": "ucrtbase.dll"
+            },
+            {
+              "base": 140734753865728,
+              "size": 3698688,
+              "path": "C:\\Windows\\System32\\combase.dll",
+              "name": "combase.dll"
+            },
+            {
+              "base": 140734749999104,
+              "size": 1146880,
+              "path": "C:\\Windows\\System32\\RPCRT4.dll",
+              "name": "RPCRT4.dll"
+            },
+            {
+              "base": 140734761664512,
+              "size": 999424,
+              "path": "C:\\Windows\\System32\\shcore.dll",
+              "name": "shcore.dll"
+            },
+            {
+              "base": 140734742528000,
+              "size": 1855488,
+              "path": "C:\\Windows\\System32\\USER32.dll",
+              "name": "USER32.dll"
+            },
+            {
+              "base": 140734737416192,
+              "size": 159744,
+              "path": "C:\\Windows\\System32\\win32u.dll",
+              "name": "win32u.dll"
+            },
+            {
+              "base": 140734757601280,
+              "size": 176128,
+              "path": "C:\\Windows\\System32\\GDI32.dll",
+              "name": "GDI32.dll"
+            },
+            {
+              "base": 140734739120128,
+              "size": 1232896,
+              "path": "C:\\Windows\\System32\\gdi32full.dll",
+              "name": "gdi32full.dll"
+            },
+            {
+              "base": 140734751899648,
+              "size": 421888,
+              "path": "C:\\Windows\\System32\\SHLWAPI.dll",
+              "name": "SHLWAPI.dll"
+            },
+            {
+              "base": 140734768611328,
+              "size": 7675904,
+              "path": "C:\\Windows\\System32\\SHELL32.dll",
+              "name": "SHELL32.dll"
+            },
+            {
+              "base": 140734056824832,
+              "size": 2699264,
+              "path": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.33648_none_ee38cd5ddaee2cd9\\COMCTL32.dll",
+              "name": "COMCTL32.dll"
+            },
+            {
+              "base": 140734737612800,
+              "size": 1482752,
+              "path": "C:\\Windows\\System32\\wintypes.dll",
+              "name": "wintypes.dll"
+            },
+            {
+              "base": 140734759305216,
+              "size": 692224,
+              "path": "C:\\Windows\\System32\\msvcrt.dll",
+              "name": "msvcrt.dll"
+            },
+            {
+              "base": 140734744494080,
+              "size": 684032,
+              "path": "C:\\Windows\\System32\\sechost.dll",
+              "name": "sechost.dll"
+            },
+            {
+              "base": 140734740561920,
+              "size": 741376,
+              "path": "C:\\Windows\\System32\\advapi32.dll",
+              "name": "advapi32.dll"
+            },
+            {
+              "base": 140734475927552,
+              "size": 180224,
+              "path": "C:\\Windows\\SYSTEM32\\Cabinet.dll",
+              "name": "Cabinet.dll"
+            },
+            {
+              "base": 140734763237376,
+              "size": 1667072,
+              "path": "C:\\Windows\\System32\\ole32.dll",
+              "name": "ole32.dll"
+            },
+            {
+              "base": 140734742265856,
+              "size": 200704,
+              "path": "C:\\Windows\\System32\\IMM32.dll",
+              "name": "IMM32.dll"
+            },
+            {
+              "base": 140734752358400,
+              "size": 880640,
+              "path": "C:\\Windows\\System32\\OLEAUT32.dll",
+              "name": "OLEAUT32.dll"
+            },
+            {
+              "base": 140734243995648,
+              "size": 4333568,
+              "path": "C:\\Windows\\SYSTEM32\\uiautomationcore.dll",
+              "name": "uiautomationcore.dll"
+            },
+            {
+              "base": 140734302126080,
+              "size": 102400,
+              "path": "C:\\Windows\\SYSTEM32\\USP10.dll",
+              "name": "USP10.dll"
+            },
+            {
+              "base": 140734596907008,
+              "size": 8781824,
+              "path": "C:\\Windows\\SYSTEM32\\windows.storage.dll",
+              "name": "windows.storage.dll"
+            },
+            {
+              "base": 140734630264832,
+              "size": 1060864,
+              "path": "C:\\Windows\\SYSTEM32\\PROPSYS.dll",
+              "name": "PROPSYS.dll"
+            },
+            {
+              "base": 140733799530496,
+              "size": 217088,
+              "path": "C:\\Windows\\SYSTEM32\\WINMM.dll",
+              "name": "WINMM.dll"
+            },
+            {
+              "base": 140734642061312,
+              "size": 6533120,
+              "path": "C:\\Windows\\SYSTEM32\\d2d1.dll",
+              "name": "d2d1.dll"
+            },
+            {
+              "base": 140734637146112,
+              "size": 2531328,
+              "path": "C:\\Windows\\SYSTEM32\\DWrite.dll",
+              "name": "DWrite.dll"
+            },
+            {
+              "base": 140734692655104,
+              "size": 1290240,
+              "path": "C:\\Windows\\SYSTEM32\\dxgi.dll",
+              "name": "dxgi.dll"
+            },
+            {
+              "base": 140734649860096,
+              "size": 2498560,
+              "path": "C:\\Windows\\SYSTEM32\\d3d11.dll",
+              "name": "d3d11.dll"
+            },
+            {
+              "base": 140734632361984,
+              "size": 4714496,
+              "path": "C:\\Windows\\SYSTEM32\\D3DCOMPILER_47.dll",
+              "name": "D3DCOMPILER_47.dll"
+            },
+            {
+              "base": 140734726078464,
+              "size": 385024,
+              "path": "C:\\Windows\\SYSTEM32\\powrprof.dll",
+              "name": "powrprof.dll"
+            },
+            {
+              "base": 140734717296640,
+              "size": 110592,
+              "path": "C:\\Windows\\SYSTEM32\\cryptsp.dll",
+              "name": "cryptsp.dll"
+            },
+            {
+              "base": 140734727913472,
+              "size": 704512,
+              "path": "C:\\Windows\\System32\\bcryptPrimitives.dll",
+              "name": "bcryptPrimitives.dll"
+            },
+            {
+              "base": 140734725554176,
+              "size": 81920,
+              "path": "C:\\Windows\\SYSTEM32\\UMPDC.dll",
+              "name": "UMPDC.dll"
+            },
+            {
+              "base": 140734765268992,
+              "size": 516096,
+              "path": "C:\\Windows\\System32\\ws2_32.dll",
+              "name": "ws2_32.dll"
+            },
+            {
+              "base": 140733918609408,
+              "size": 737280,
+              "path": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.26100.32860_none_7573b06a63bfff31\\comctl32.dll",
+              "name": "comctl32.dll"
+            },
+            {
+              "base": 140734689312768,
+              "size": 700416,
+              "path": "C:\\Windows\\system32\\uxtheme.dll",
+              "name": "uxtheme.dll"
+            },
+            {
+              "base": 140734757797888,
+              "size": 1437696,
+              "path": "C:\\Windows\\System32\\MSCTF.dll",
+              "name": "MSCTF.dll"
+            },
+            {
+              "base": 140734695866368,
+              "size": 110592,
+              "path": "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+              "name": "kernel.appcore.dll"
+            },
+            {
+              "base": 140734485364736,
+              "size": 1343488,
+              "path": "C:\\Windows\\SYSTEM32\\textinputframework.dll",
+              "name": "textinputframework.dll"
+            },
+            {
+              "base": 140734655561728,
+              "size": 1208320,
+              "path": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+              "name": "CoreMessaging.dll"
+            },
+            {
+              "base": 140734521737216,
+              "size": 3026944,
+              "path": "C:\\Windows\\SYSTEM32\\CoreUIComponents.dll",
+              "name": "CoreUIComponents.dll"
+            },
+            {
+              "base": 140734715461632,
+              "size": 49152,
+              "path": "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+              "name": "CRYPTBASE.DLL"
+            },
+            {
+              "base": 140733708697600,
+              "size": 753664,
+              "path": "C:\\Windows\\system32\\hhctrl.ocx",
+              "name": "hhctrl.ocx"
+            },
+            {
+              "base": 140734765858816,
+              "size": 724992,
+              "path": "C:\\Windows\\System32\\clbcatq.dll",
+              "name": "clbcatq.dll"
+            },
+            {
+              "base": 140734273159168,
+              "size": 708608,
+              "path": "C:\\Windows\\System32\\appresolver.dll",
+              "name": "appresolver.dll"
+            },
+            {
+              "base": 140734713757696,
+              "size": 176128,
+              "path": "C:\\Windows\\System32\\USERENV.dll",
+              "name": "USERENV.dll"
+            },
+            {
+              "base": 140734220926976,
+              "size": 61440,
+              "path": "C:\\Windows\\SYSTEM32\\LINKINFO.dll",
+              "name": "LINKINFO.dll"
+            },
+            {
+              "base": 140734722473984,
+              "size": 356352,
+              "path": "C:\\Windows\\SYSTEM32\\CFGMGR32.dll",
+              "name": "CFGMGR32.dll"
+            },
+            {
+              "base": 140734616633344,
+              "size": 1970176,
+              "path": "C:\\Windows\\System32\\urlmon.dll",
+              "name": "urlmon.dll"
+            },
+            {
+              "base": 140734606016512,
+              "size": 2899968,
+              "path": "C:\\Windows\\System32\\iertutil.dll",
+              "name": "iertutil.dll"
+            },
+            {
+              "base": 140734702419968,
+              "size": 53248,
+              "path": "C:\\Windows\\System32\\netutils.dll",
+              "name": "netutils.dll"
+            },
+            {
+              "base": 140734629478400,
+              "size": 167936,
+              "path": "C:\\Windows\\System32\\srvcli.dll",
+              "name": "srvcli.dll"
+            },
+            {
+              "base": 140734710087680,
+              "size": 303104,
+              "path": "C:\\Windows\\System32\\SspiCli.dll",
+              "name": "SspiCli.dll"
+            },
+            {
+              "base": 140734629019648,
+              "size": 94208,
+              "path": "C:\\Windows\\SYSTEM32\\virtdisk.dll",
+              "name": "virtdisk.dll"
+            },
+            {
+              "base": 140734725881856,
+              "size": 167936,
+              "path": "C:\\Windows\\SYSTEM32\\profapi.dll",
+              "name": "profapi.dll"
+            },
+            {
+              "base": 140734407639040,
+              "size": 802816,
+              "path": "C:\\Windows\\System32\\Windows.StateRepositoryPS.dll",
+              "name": "Windows.StateRepositoryPS.dll"
+            },
+            {
+              "base": 140734563418112,
+              "size": 1540096,
+              "path": "C:\\Windows\\System32\\Windows.System.Launcher.dll",
+              "name": "Windows.System.Launcher.dll"
+            },
+            {
+              "base": 140734550835200,
+              "size": 106496,
+              "path": "C:\\Windows\\SYSTEM32\\windows.staterepositorycore.dll",
+              "name": "windows.staterepositorycore.dll"
+            },
+            {
+              "base": 140734672011264,
+              "size": 647168,
+              "path": "C:\\Windows\\SYSTEM32\\apphelp.dll",
+              "name": "apphelp.dll"
+            },
+            {
+              "base": 140734562828288,
+              "size": 110592,
+              "path": "C:\\Windows\\system32\\NetworkExplorer.dll",
+              "name": "NetworkExplorer.dll"
+            },
+            {
+              "base": 140733999415296,
+              "size": 684032,
+              "path": "C:\\Windows\\SYSTEM32\\ntshrui.dll",
+              "name": "ntshrui.dll"
+            },
+            {
+              "base": 140734473306112,
+              "size": 77824,
+              "path": "C:\\Windows\\SYSTEM32\\cscapi.dll",
+              "name": "cscapi.dll"
+            },
+            {
+              "base": 140734584258560,
+              "size": 737280,
+              "path": "C:\\Windows\\SYSTEM32\\policymanager.dll",
+              "name": "policymanager.dll"
+            },
+            {
+              "base": 140734725685248,
+              "size": 172032,
+              "path": "C:\\Windows\\SYSTEM32\\bcrypt.dll",
+              "name": "bcrypt.dll"
+            },
+            {
+              "base": 140734708514816,
+              "size": 221184,
+              "path": "C:\\Windows\\SYSTEM32\\ntmarta.dll",
+              "name": "ntmarta.dll"
+            },
+            {
+              "base": 140733634772992,
+              "size": 34873344,
+              "path": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\frida-7579d8b825ca847fc809f08d436a5b15\\x86_64\\frida-agent.dll",
+              "name": "frida-agent.dll"
+            },
+            {
+              "base": 140734751178752,
+              "size": 32768,
+              "path": "C:\\Windows\\System32\\PSAPI.DLL",
+              "name": "PSAPI.DLL"
+            },
+            {
+              "base": 140734730207232,
+              "size": 1560576,
+              "path": "C:\\Windows\\System32\\CRYPT32.dll",
+              "name": "CRYPT32.dll"
+            },
+            {
+              "base": 140734702551040,
+              "size": 212992,
+              "path": "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+              "name": "IPHLPAPI.DLL"
+            },
+            {
+              "base": 140734702813184,
+              "size": 1228800,
+              "path": "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+              "name": "DNSAPI.dll"
+            },
+            {
+              "base": 140734744428544,
+              "size": 40960,
+              "path": "C:\\Windows\\System32\\NSI.dll",
+              "name": "NSI.dll"
+            }
+          ],
+          "seconds": 0.03099999999997749,
+          "injected": false,
+          "caveat": "Sequential metadata; module/start addresses do not identify ownership of OS handles"
+        },
+        "windows": [
+          {
+            "hwnd": 1049164,
+            "kind": "PuTTYTimerWindow",
+            "parent": null,
+            "visible": false
+          },
+          {
+            "hwnd": 2753104,
+            "kind": "IME",
+            "parent": 1049164,
+            "visible": false
+          },
+          {
+            "hwnd": 918102,
+            "kind": "MSCTFIME UI",
+            "parent": 2753104,
+            "visible": false
+          }
+        ],
+        "exit_code_after_observation": null
+      },
+      "failure_dump": {
+        "pid": 7240,
+        "helper": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\failure-dump-controls\\helper.exe",
+        "diagnostic_only": true,
+        "helper_sha256": "21e9c8b9bc871e92c5db35194d28a45a1d643af2cb49ad25b9c92b67cf8ccff6",
+        "full_memory": false,
+        "debugger_attached": false,
+        "exit_code": 0,
+        "helper_cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "dump": {
+          "path": "D:\\a\\nemoterm\\nemoterm\\research\\shutdown-failure-9f79e93afe8b4e5ca266ed6cb54468c8\\failure.dmp",
+          "bytes": 45354,
+          "sha256": "4cc9d8fe072bdc48c2668cbf49c81c8931fb270ba0c4b09e868e86add295db03"
+        },
+        "seconds": 0.29700000000002547,
+        "target_exit_after_capture": null
+      },
+      "child_report": {
+        "phase": null,
+        "hex": "",
+        "columns": 40,
+        "rows": 12,
+        "input_mode": 640,
+        "input_cp": 437,
+        "input_api": "ReadFile"
+      },
+      "observer_cleanup_error": "TimeoutError('Frida detach exceeded 15 seconds')",
+      "cleanup": {
+        "before": {
+          "total": 3,
+          "active": 1,
+          "terminated": 0
+        },
+        "after": {
+          "total": 3,
+          "active": 0,
+          "terminated": 0
+        },
+        "terminated_remaining": true,
+        "remaining_processes": [
+          {
+            "pid": 7240,
+            "image": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-product\\nemoterm.exe",
+            "exit_code": 0
+          }
+        ]
+      }
+    },
+    "msvc_controls": [
+      {
+        "mode": "live-thread",
+        "capture": {
+          "pid": 2196,
+          "helper": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\failure-dump-controls\\helper.exe",
+          "diagnostic_only": true,
+          "helper_sha256": "21e9c8b9bc871e92c5db35194d28a45a1d643af2cb49ad25b9c92b67cf8ccff6",
+          "full_memory": false,
+          "debugger_attached": false,
+          "exit_code": 0,
+          "helper_cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "dump": {
+            "path": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\failure-dump-controls\\controls\\live-thread\\failure.dmp",
+            "bytes": 13033,
+            "sha256": "59f660a25ff2983c5db7d740fe29a21fedbb1c8bf7f218d92c9f54837cce21d7"
+          },
+          "seconds": 0.07800000000000296,
+          "target_exit_after_capture": null
+        },
+        "thread_contexts": [
+          {
+            "tid": 2420,
+            "rip": "0x7fff5e742344",
+            "rsp": "0x91793cf6c8",
+            "stack_bytes": 2360
+          }
+        ],
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      },
+      {
+        "mode": "wrong-job",
+        "capture": {
+          "pid": 8260,
+          "helper": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\failure-dump-controls\\helper.exe",
+          "diagnostic_only": true,
+          "helper_sha256": "21e9c8b9bc871e92c5db35194d28a45a1d643af2cb49ad25b9c92b67cf8ccff6",
+          "full_memory": false,
+          "debugger_attached": false,
+          "exit_code": 2,
+          "helper_cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "seconds": 0.046999999999997044,
+          "target_exit_after_capture": null
+        },
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      },
+      {
+        "mode": "already-exited",
+        "capture": {
+          "pid": 9872,
+          "helper": "D:\\a\\nemoterm\\nemoterm\\build\\close-replay-evidence\\failure-dump-controls\\helper.exe",
+          "diagnostic_only": true,
+          "helper_sha256": "21e9c8b9bc871e92c5db35194d28a45a1d643af2cb49ad25b9c92b67cf8ccff6",
+          "full_memory": false,
+          "debugger_attached": false,
+          "exit_code": 2,
+          "helper_cleanup": {
+            "before": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "after": {
+              "total": 2,
+              "active": 0,
+              "terminated": 0
+            },
+            "terminated_remaining": false,
+            "remaining_processes": []
+          },
+          "seconds": 0.046999999999997044,
+          "target_exit_after_capture": 23
+        },
+        "cleanup": {
+          "before": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "after": {
+            "total": 2,
+            "active": 0,
+            "terminated": 0
+          },
+          "terminated_remaining": false,
+          "remaining_processes": []
+        },
+        "passed": true
+      }
+    ],
+    "dump_sha256": "4cc9d8fe072bdc48c2668cbf49c81c8931fb270ba0c4b09e868e86add295db03",
+    "dump_bytes": 45354,
+    "offline_analysis": {
+      "captured_instruction": "ntdll.dll+0x162944",
+      "symbol": "NtDelayExecution+20",
+      "call_chain": [
+        "ntdll!NtDelayExecution",
+        "ntdll!RtlDelayExecution",
+        "KERNELBASE!SleepEx",
+        "frida-agent+0x138815",
+        "frida-agent+0x137e28",
+        "frida-agent+0x13b66a",
+        "frida-agent+0x13972d",
+        "frida-agent+0x131391"
+      ],
+      "observed": "One remaining thread in a yielding spinlock inside the Frida allocation path",
+      "inference": "The matching source is consistent with allocation during loader-hook module-registry synchronization",
+      "limitation": "Lock ownership and the unwind beyond the Frida invocation trampoline are unavailable; no private Frida PDB. Other historic failures remain separate."
+    }
+  }
 }

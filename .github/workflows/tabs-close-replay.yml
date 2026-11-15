@@ -29,6 +29,11 @@ on:
         description: Capture a small external dump after a shutdown failure
         type: boolean
         default: false
+      shutdown_observer:
+        description: Ordinary paired checks, or a diagnostic Frida session without scripts
+        type: choice
+        options: [both, session]
+        default: both
 
 permissions:
   contents: read
@@ -46,6 +51,7 @@ jobs:
       CLOSE_FIXTURE: ${{ inputs.fixture }}
       CAPTURE_EXCEPTIONS: ${{ inputs.capture_exceptions }}
       CAPTURE_FAILURE_DUMPS: ${{ inputs.capture_failure_dumps }}
+      SHUTDOWN_OBSERVER: ${{ inputs.shutdown_observer }}
       NEMOTERM_TEST_TRACEBACK_SECONDS: '60'
       NEMOTERM_SHUTDOWN_DEADLINE_SECONDS: '120'
     steps:
@@ -86,6 +92,7 @@ jobs:
             fixture = $env:CLOSE_FIXTURE
             capture_exceptions = ($env:CAPTURE_EXCEPTIONS -eq 'true')
             capture_failure_dumps = ($env:CAPTURE_FAILURE_DUMPS -eq 'true')
+            shutdown_observer = $env:SHUTDOWN_OBSERVER
             fixture_hashes = @(Get-FileHash tests/tabs_profiles_window_smoke.py, tests/shutdown_window_smoke.py, tests/shutdown_probe.js, tests/tabs_window_smoke.py, tests/tab_probe_boundary.py, tests/tabs_hover_probe.js, tests/agent_key_probe.js, tests/session_faults.js -Algorithm SHA256 | Select-Object Path, Hash)
             unverified_product = $true
             scope = 'Close diagnosis only; unchanged fixture close thresholds; no product acceptance'
@@ -119,6 +126,9 @@ jobs:
           }
           $failed = $false
           $fixtureArgs = if ($env:CLOSE_FIXTURE -eq 'tabs') { @('--renderer','opengl','--side','right','--cols','88','--rows','35','--font','Consolas','--probe-boundaries') } else { @() }
+          if ($env:CLOSE_FIXTURE -eq 'shutdown') {
+            $fixtureArgs += @('--observer', $env:SHUTDOWN_OBSERVER)
+          }
           if ($env:CAPTURE_EXCEPTIONS -eq 'true') {
             $fixtureArgs += @('--exception-observer', (Resolve-Path build/close-replay-evidence/exception-controls/observer.exe).Path)
             $record = 'exception-tabs-opengl-right-observed.json'

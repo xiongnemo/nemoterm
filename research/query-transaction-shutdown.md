@@ -66,3 +66,65 @@ failure dumps. Successful replays alone will not establish the timeout's cause.
 including the original failure, executable identity, unchanged local replay,
 preliminary control failure and final control results. Full single-image and
 local memory acceptance are still pending; no replacement product is promoted.
+
+## Reproduced timeout and captured allocation wait
+
+[Focused run 43661529669](https://github.com/xiongnemo/nemoterm/actions/runs/43661529669)
+uses fixture `a8fffe4` and the same failed EXE. Strict MSVC compilation and all
+three dump controls pass. Replays one and three pass all 12 cases. Replay two
+fails its eighth case, the instrumented window-close path: it requests OpenGL
+but **actually uses GDI (renderer ID 1)**. It reproduces the late single-thread
+timeout and forced cleanup, so the phenomenon is not confined to actual DirectX.
+
+The helper successfully captures a **45,354-byte** dump, SHA256
+`4cc9d8fe072bdc48c2668cbf49c81c8931fb270ba0c4b09e868e86add295db03`, before
+Frida detach and job cleanup. The capture does not make the process exit.
+The two other replays remain separate passes; the focused workflow is a failure.
+
+Offline LLDB analysis uses Microsoft DLLs/PDBs from the official symbol server,
+matched to the dump's PE timestamp, image size and CodeView GUID/age. The Frida
+agent is copied from a new owned control running installed Frida 17.24.3, with
+the same identity fields verified. No downloaded DLL is executed as part of this
+analysis. The recorded unwind is:
+
+```
+ntdll!NtDelayExecution+20
+ntdll!RtlDelayExecution+52
+KERNELBASE!SleepEx+145
+frida-agent+0x138815
+frida-agent+0x137e28
+frida-agent+0x13b66a
+frida-agent+0x13972d
+frida-agent+0x131391
+```
+
+The matching Frida image's PE unwind table places `0x138815` inside a spinlock
+routine which calls `SleepEx(0, FALSE)` periodically, then retries an exchange on
+the same lock. Its caller has the allocator's bin/size/lock layout. This places
+the observed wait inside the injected instrumentation's allocation path, after
+our three lifetime listeners have retired. Private Frida symbols are unavailable;
+LLDB's nearest exported symbol names with large offsets are not actual private
+function names and are deliberately not used as such above.
+
+The same-version
+[module registry source](https://github.com/frida/frida-gum/blob/3f82ef6a5b2413867835a45fe341913455473303/gum/backend-windows/gummoduleregistry-windows.c)
+keeps its own loader hooks and resynchronizes modules on their return, allocating
+an initial handle buffer. Its inlined call pattern matches the observed
+`0x13b61c` function. The
+[allocator source](https://github.com/frida/frida-gum/blob/3f82ef6a5b2413867835a45fe341913455473303/gum/dlmalloc.c)
+contains the corresponding yielding spinlock. This source correlation is an
+inference from matching machine code, not private-symbol attribution. The dump
+does not identify the lock's former owner, and unwinding stops at the Frida
+invocation trampoline. Raw stack-pointer candidates beyond it are not represented
+as a validated call chain. The original no-dump timeout and older access violation
+cannot be retroactively assigned this cause.
+
+The validation index adds **52 records**: all hosted replays and controls, the
+actual failure dump, raw debugger output, module identities, selected disassembly,
+analysis scripts and pinned source fingerprints. Microsoft DLL/PDB payloads and
+the Frida DLL remain local analysis inputs and are not committed or distributed.
+
+The next diagnostic boundary is `--observer session`: attach Frida without
+loading any script or installing the lifetime probe. The focused workflow exposes
+this explicit option while ordinary tests keep their existing `none`/`lifetime`
+pair. Such a boundary replay is diagnostic only, not lifetime-order acceptance.

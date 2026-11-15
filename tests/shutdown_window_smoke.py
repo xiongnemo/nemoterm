@@ -18,8 +18,8 @@ u.PostMessageW.argtypes, u.PostMessageW.restype = [w.HWND, w.UINT, w.WPARAM, w.L
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--renderer', choices=('gdi', 'opengl', 'directx', 'both', 'all'), default='all')
-parser.add_argument('--observer', choices=('lifetime', 'none', 'both'), default='both',
-                    help='retain lifetime ordering checks and separate uninjected exit controls')
+parser.add_argument('--observer', choices=('lifetime', 'none', 'both', 'session'), default='both',
+                    help='lifetime/none are ordinary paired checks; session is an attach-only diagnosis')
 parser.add_argument('--failure-dump', type=Path,
                     help='optional diagnostic helper, invoked only after a failed live-process check')
 args = parser.parse_args()
@@ -57,7 +57,7 @@ try:
             with tempfile.TemporaryDirectory(prefix='nemoterm-shutdown-') as tmp, OwnedJob() as job:
                 events, session = [], None
                 case = dict(renderer=renderer, close=close, observer=observer,
-                            injected=observer == 'lifetime', events=events)
+                            injected=observer != 'none', events=events)
                 evidence['cases'].append(case)
                 checkpoint(case, 'spawn')
                 report, control = Path(tmp)/'report', Path(tmp)/'control'
@@ -74,9 +74,10 @@ try:
                     assert case['active_renderer'] in (1, 2, 3), case
                     if renderer == 'directx' and os.environ.get('NEMOTERM_REQUIRE_DIRECTX') == '1':
                         assert case['active_renderer'] == 3, case
-                    if observer == 'lifetime':
+                    if observer != 'none':
                         checkpoint(case, 'frida-attach')
                         session = frida.attach(process.pid)
+                    if observer == 'lifetime':
                         checkpoint(case, 'frida-create-script')
                         script = session.create_script((root/'tests/shutdown_probe.js').read_text(encoding='utf-8'))
                         def on_message(message, data):
