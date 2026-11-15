@@ -373,3 +373,23 @@ the later input/hover probes remain outside memory acceptance sampling.
 Input sizes/hashes, actual grids and process-tree samples are retained. The
 fixture is added to both full workflows; it has not yet run on this paused
 desktop or passed its new remote memory gate.
+
+## Completed border-fix CI checkpoint
+
+At `4095697`, [ordinary CI 43681119193](https://github.com/xiongnemo/nemoterm/actions/runs/43681119193)
+passes all four jobs and [single-image CI 43681119198](https://github.com/xiongnemo/nemoterm/actions/runs/43681119198)
+passes 149 isolated groups. Both exercise 153 Unicode cell/geometry stages over
+GDI, OpenGL and DirectX, as well as ten uninjected two-tab memory workloads each.
+Those remote workloads used Consolas at the actual screen-clamped grids
+109x34 (top tabs) and 88x35 (left tabs). They passed their existing private-WS
+limits; they are not local 160x48 Sarasa or dense Unicode-cell memory acceptance.
+
+The downloaded [single executable artifact](https://github.com/xiongnemo/nemoterm/actions/runs/43681119198/artifacts/14149387899)
+is 4,522,496 bytes, SHA256
+`875c89cae3c17b33da93c157b5f7d95a6982a25c2bbb602397e034177d8168a9`.
+Its digest and sole-file directory match the isolated validation manifest.
+`full-ci-4095697.tar.gz` retains 66 original workflow, memory and native-result
+records with per-file hashes. This checkpoint predates the newer capability
+advertisement, native clipboard fixture and dense Unicode memory fixture.
+It has not replaced the accepted `752f3be` executable. Those newer checks are
+running remotely at `eae8968`; local desktop testing remains paused.

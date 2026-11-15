@@ -18604,6 +18604,343 @@
           "raw_sha256": "5188c8ae3c1bf358ae7289c5946db8257c1f5caf22d8a9e9d18fedd1069824d4"
         }
       ]
+    },
+    {
+      "path": "research/kitty-unicode-evidence/full-ci-4095697.tar.gz",
+      "archive_bytes": 1019723,
+      "archive_sha256": "decb17b246ae16bb4b75e1dbf6455369a56eae04f3806049491963722594faa2",
+      "records": [
+        {
+          "path": "components-artifacts.json",
+          "raw_bytes": 2308,
+          "raw_sha256": "aa9f351e7ffae507aef32f328851ee2d121c9270b33580cc1dce29482f4309ce"
+        },
+        {
+          "path": "components-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "b10c2c17761c860a61e58ae10bb1884675fe9d488e49fa8a188c653d0d20ecce"
+        },
+        {
+          "path": "components-run.json",
+          "raw_bytes": 4298,
+          "raw_sha256": "a75add4981da28690d9801a609a22ff4eff6876f90fe6f0d66798b40d0c7c0dc"
+        },
+        {
+          "path": "components-run.log",
+          "raw_bytes": 346320,
+          "raw_sha256": "e085fbceea3a46b2b0116739897d307e641eb4db540e0201f694e88f892121f6"
+        },
+        {
+          "path": "controller.py",
+          "raw_bytes": 5040,
+          "raw_sha256": "518de08dc876023edd48ab4a011058002f5fea71cb09527ff60ba9761943dc6e"
+        },
+        {
+          "path": "core-artifacts.json",
+          "raw_bytes": 3848,
+          "raw_sha256": "ecacfa3241fdd8df829f59c73aa8dddbec302848d17ed19fae7884c7053a3c3b"
+        },
+        {
+          "path": "core-evidence/test-results/animated-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 893212,
+          "raw_sha256": "b3f0849effbce91532710d14c59d5d9ea51e1636a1ba8ecbf4b2bc1ff84e8044"
+        },
+        {
+          "path": "core-evidence/test-results/animated-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 179237,
+          "raw_sha256": "1a7c4de583c3d80092132a6822c89438e525146963f5f4fd14bea92d6cb26b67"
+        },
+        {
+          "path": "core-evidence/test-results/animated-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1157815,
+          "raw_sha256": "92bb539ec06078c2735a961d37c8d727f145011bfec13f4c4b974ba394ca9546"
+        },
+        {
+          "path": "core-evidence/test-results/animated-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 179053,
+          "raw_sha256": "78302ad37ee55c1651f2791879462a25746be040f34c429ce7ddf4c8a3707389"
+        },
+        {
+          "path": "core-evidence/test-results/compressed-kitty-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 1139927,
+          "raw_sha256": "a5feb5b37e61acbc7644ad708250d23a7a6e9e0f87cee4954e0ec76dfeae70ed"
+        },
+        {
+          "path": "core-evidence/test-results/compressed-kitty-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 180782,
+          "raw_sha256": "537fbac63c476e910279483feae1800b3f617524eb265d4b5b15f5ed0067a5c3"
+        },
+        {
+          "path": "core-evidence/test-results/compressed-kitty-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1274873,
+          "raw_sha256": "10ec4545f06b1fd88edf6589a9d6e9c3841c2a15723b4e1ee2c93092ef796c1a"
+        },
+        {
+          "path": "core-evidence/test-results/compressed-kitty-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 180359,
+          "raw_sha256": "4f2c3850d0e573b9d3be5c39d2e062905267d5ee5d4aa0db0f0c0370ed5db0fe"
+        },
+        {
+          "path": "core-evidence/test-results/inline-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 1037205,
+          "raw_sha256": "a29d70f95463a01958823ade364817b77638c2e91ed1e38fbe3759b6541547c2"
+        },
+        {
+          "path": "core-evidence/test-results/inline-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 173354,
+          "raw_sha256": "62fdbbcc617df44db5bfe4db5f5073f2cb274308fe3c808d5a53969d34819500"
+        },
+        {
+          "path": "core-evidence/test-results/inline-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1174680,
+          "raw_sha256": "0bdedfa321511fb7324b62a4136b87071cc6b93eeed525f00f00c31b11cd2ada"
+        },
+        {
+          "path": "core-evidence/test-results/inline-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 173100,
+          "raw_sha256": "39dec6a90775bdaa09529251e3f53030de711eb54723ef49fb2d690876bd8fca"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-directx-observed.json",
+          "raw_bytes": 199697,
+          "raw_sha256": "a7d341ac8dd8b4afcd8fba6aeb8f417051475c713c2489738a4906f38d1212cb"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-gdi-observed.json",
+          "raw_bytes": 199683,
+          "raw_sha256": "7696e3a54761dcde56430a16eaaaf5820b4b00cf0080e155b899df00f46ccf9d"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-geometry-directx-observed.json",
+          "raw_bytes": 64890,
+          "raw_sha256": "ea42ef0d4045f7c8e55f2f6acd2dc5ec30f6040723295679608fcf9da38e4114"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-geometry-gdi-observed.json",
+          "raw_bytes": 64882,
+          "raw_sha256": "54eb0a889058785b47ec76d14d0111f151d8131b1d24f394dd9633b503f8bbe1"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-geometry-opengl-observed.json",
+          "raw_bytes": 64888,
+          "raw_sha256": "d9ca0aa76f9558c1c9e190b1444a3e571410cf8d67a92e9e23c5b5b64b97eaa7"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-unicode-opengl-observed.json",
+          "raw_bytes": 199683,
+          "raw_sha256": "2868a565caf0a248a92b94990d534403a63a3022a1ef0ed5190541dba4ca1bd2"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 1126631,
+          "raw_sha256": "0b169c3729a14c849c893131611540339d3cb802a7c095848b9795e4e3e2cc54"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 180618,
+          "raw_sha256": "c446ea1f4b19f800f9731828e46012f2d97c358d75410b060961bf277e5e5bbc"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1270677,
+          "raw_sha256": "b6a7fcd7b2e6d6fbcab50b254572a912dc80c897b46e2cbb001b410c4226b1bb"
+        },
+        {
+          "path": "core-evidence/test-results/kitty-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 180279,
+          "raw_sha256": "a63151631ad853187234019e7bd6f3622f5bbbe1d7fa18201f8a1b1b45d72266"
+        },
+        {
+          "path": "core-evidence/test-results/workload-tabs-directx-left-memory.json",
+          "raw_bytes": 831340,
+          "raw_sha256": "859b94b7375739822d739962395d1c201ed7ae077f90f9baf99098a580085eea"
+        },
+        {
+          "path": "core-evidence/test-results/workload-tabs-directx-left-observed.json",
+          "raw_bytes": 173383,
+          "raw_sha256": "0829dfcb8abc717f1550808be6bf5ac9b1f306f13060c3f89acd64af52a6a3eb"
+        },
+        {
+          "path": "core-evidence/test-results/workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1029228,
+          "raw_sha256": "be83bd29eba6e8179f5795d1c0b433401e77a166b51b0b6e380afdd89f8da481"
+        },
+        {
+          "path": "core-evidence/test-results/workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 173190,
+          "raw_sha256": "d9d9b4e4a96656f5b3c862aa9713ea3ce0623bb5c72482dd8310c5399471665d"
+        },
+        {
+          "path": "core-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "a5c2ce9939838532b8ce37208cae865522b78fe48d22407de538190ffc8aa850"
+        },
+        {
+          "path": "core-run.json",
+          "raw_bytes": 23639,
+          "raw_sha256": "329cacb64c7cc48c924e3ecbf152bafffa7f5ba1993a3f53343038960411d84b"
+        },
+        {
+          "path": "core-run.log",
+          "raw_bytes": 1622918,
+          "raw_sha256": "0828bb41d229aea93d73ff1fc77558290e33d896f6298083810c63e110242b13"
+        },
+        {
+          "path": "single-artifacts.json",
+          "raw_bytes": 1557,
+          "raw_sha256": "ee88b2d611a6b2b6402c0979ee31ae17bbd1e4ef00d135c06a8961c78bcd3a29"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/animated-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 835454,
+          "raw_sha256": "1118c7cbc8f18c640b52c06c82f76c94b361e3712599ed103468d8cab31ce2a0"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/animated-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 179569,
+          "raw_sha256": "84d024a47def9ca05ffc35ecbee5304a02cde744d1fd1ad9aaaf563b87173d4e"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/animated-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 991854,
+          "raw_sha256": "b22d15ecedad5d45aec3d73a8acfe3872c4e23bdfc64c35440ac4a65b6bf3935"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/animated-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 179081,
+          "raw_sha256": "37cc1637beb873a73760636232b61a5df24e77fc12063afa71f0767daa31aea2"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/compressed-kitty-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 993859,
+          "raw_sha256": "d57bf48c0885a8ff4f880fa756ff5ee3c6f541d77ac1c2899561f23c9585912d"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/compressed-kitty-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 180830,
+          "raw_sha256": "840f54ec0bd75cbd8b853f8b1bf9884ec12bbbfde94ff72bb9f2e699df0ed577"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/compressed-kitty-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1121350,
+          "raw_sha256": "0be5a8ec69eb49835a999a2759df52b82c0b78407fb8b29a4bcfef76e22f3bbb"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/compressed-kitty-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 180450,
+          "raw_sha256": "9a4b5327637b07ac36bac9e5b0e32bc97af9ffb846e75eef76f36f9b302c6f70"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/inline-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 915375,
+          "raw_sha256": "abba92a823020d0e34175d315abee17688381476ceec7e93103211936497176b"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/inline-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 173633,
+          "raw_sha256": "611794532a4a0a1c7a988fdd3d4ee028271cdba5ee036a55cea9271cffa242dc"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/inline-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1021703,
+          "raw_sha256": "a3658c6d92fa122e517d631faf0a09c6766411a81876b4a30611d184d0424908"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/inline-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 173517,
+          "raw_sha256": "05f48217b097123ac36b47c2058e1e5dad0b5978425ae984c10d12bc99ea0693"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-directx-observed.json",
+          "raw_bytes": 199667,
+          "raw_sha256": "855871d380f16352f97abcc32d2d10318977acad0296a98fcf2cc2f68d490b6e"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-gdi-observed.json",
+          "raw_bytes": 199668,
+          "raw_sha256": "67b3119b736a1f7c484f895a52d5ad81d69be5754f122ad7885dd53e3caa8ccf"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-directx-observed.json",
+          "raw_bytes": 64940,
+          "raw_sha256": "001b059186236531b885071e272c78e6b0a444dc4a4f540a74e611b7f39babcd"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-gdi-observed.json",
+          "raw_bytes": 64932,
+          "raw_sha256": "3f0e86e26976f1ba028e2a2264fe33ff4e63baf99550ff75f22611097457ee15"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-geometry-opengl-observed.json",
+          "raw_bytes": 64938,
+          "raw_sha256": "6d080bae72432897861b893881f358ed878a67cf1b23d0ae1d85a75a31a8dbe8"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-unicode-opengl-observed.json",
+          "raw_bytes": 199668,
+          "raw_sha256": "3526e51c5bd46145410568886757d2064af241d55c1ce94b64f8404159f3e817"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-workload-tabs-directx-left-memory.json",
+          "raw_bytes": 1011532,
+          "raw_sha256": "1084b160d946a29c7eb0514ffd29e6ada9d10742de6e11083b5c64d177805ae3"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-workload-tabs-directx-left-observed.json",
+          "raw_bytes": 180621,
+          "raw_sha256": "a43bfd6df8ff8861aea717450a72f2d91dce23f3ddce332ab626ecd86f307d52"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 1080797,
+          "raw_sha256": "8ddf1c993d888ddf9781ebce25cd546e662bce28e1b3652ee8e86e2022dc7f1d"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/kitty-workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 180427,
+          "raw_sha256": "f83e2697da618232b1be2442147dd26328719824ca0735d28e265a7c44d22776"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/single-exe-validation.json",
+          "raw_bytes": 3975,
+          "raw_sha256": "8bd6b4e9b4c2bee527d731aafa855a1d32e54ba7095d5d685282519816bab078"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/workload-tabs-directx-left-memory.json",
+          "raw_bytes": 787277,
+          "raw_sha256": "3e43ca4fbf4565ec783d618eeb03f00b272e63ee61f3dc9708770454dc0af7b6"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/workload-tabs-directx-left-observed.json",
+          "raw_bytes": 173568,
+          "raw_sha256": "63d03f0f416b1f18c8b9b3b8f9cbd06a9c726e4e422c0eea4a32529d4ef17917"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/workload-tabs-gdi-top-memory.json",
+          "raw_bytes": 889274,
+          "raw_sha256": "2ce7f1deb5c5fb5f4df5e76f9a3c6d1b579b83869c038d57636b811630600c45"
+        },
+        {
+          "path": "single-evidence/build/single-exe-check/research/workload-tabs-gdi-top-observed.json",
+          "raw_bytes": 173523,
+          "raw_sha256": "0ff754dbd8869177f85346d8c6551ab6c2e1a2aefc79ebcff14bbc8965d21490"
+        },
+        {
+          "path": "single-observed-at.txt",
+          "raw_bytes": 32,
+          "raw_sha256": "40d2839ae73646fbeed9fc8dfcbaf94d5a3a181f10b187e0da7a9c19aa8a3a4a"
+        },
+        {
+          "path": "single-run.json",
+          "raw_bytes": 3208,
+          "raw_sha256": "d3642b042bb197b0c31b8986415c51a625070a4e46ce6d712e588b4b20a3ff79"
+        },
+        {
+          "path": "single-run.log",
+          "raw_bytes": 879373,
+          "raw_sha256": "e10de060184f18702b7d81d401120de2d1e323054a4f4c7983f829cf0cd43ab6"
+        }
+      ]
     }
   ],
   "baseline": {
@@ -21737,5 +22074,473 @@
     "explicit_xterm_policy_states": 8,
     "exact_core_copies": 32,
     "acceptance": "Component replay only. New native/full-product and dense-memory gates remain pending; accepted executable unchanged."
+  },
+  "border_full_ci": {
+    "source": "40956977be5a59585c53cd67b17db36c2823a179",
+    "runs": {
+      "core": {
+        "run": 43681119193,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43681119193",
+        "conclusion": "success"
+      },
+      "single": {
+        "run": 43681119198,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43681119198",
+        "conclusion": "success"
+      },
+      "components": {
+        "run": 43681119217,
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43681119217",
+        "conclusion": "success"
+      }
+    },
+    "single_executable_sha256": "875c89cae3c17b33da93c157b5f7d95a6982a25c2bbb602397e034177d8168a9",
+    "single_executable_bytes": 4522496,
+    "passed_check_groups": 149,
+    "unicode_pixels": {
+      "single": [
+        {
+          "name": "kitty-unicode-directx-observed.json",
+          "phases": 32,
+          "renderer": "directx",
+          "actual_renderer": 2
+        },
+        {
+          "name": "kitty-unicode-gdi-observed.json",
+          "phases": 32,
+          "renderer": "gdi",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-geometry-directx-observed.json",
+          "phases": 19,
+          "renderer": "directx",
+          "actual_renderer": 2
+        },
+        {
+          "name": "kitty-unicode-geometry-gdi-observed.json",
+          "phases": 19,
+          "renderer": "gdi",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-geometry-opengl-observed.json",
+          "phases": 19,
+          "renderer": "opengl",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-opengl-observed.json",
+          "phases": 32,
+          "renderer": "opengl",
+          "actual_renderer": 0
+        }
+      ],
+      "core": [
+        {
+          "name": "kitty-unicode-directx-observed.json",
+          "phases": 32,
+          "renderer": "directx",
+          "actual_renderer": 2
+        },
+        {
+          "name": "kitty-unicode-gdi-observed.json",
+          "phases": 32,
+          "renderer": "gdi",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-geometry-directx-observed.json",
+          "phases": 19,
+          "renderer": "directx",
+          "actual_renderer": 2
+        },
+        {
+          "name": "kitty-unicode-geometry-gdi-observed.json",
+          "phases": 19,
+          "renderer": "gdi",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-geometry-opengl-observed.json",
+          "phases": 19,
+          "renderer": "opengl",
+          "actual_renderer": 0
+        },
+        {
+          "name": "kitty-unicode-opengl-observed.json",
+          "phases": 32,
+          "renderer": "opengl",
+          "actual_renderer": 0
+        }
+      ]
+    },
+    "uninjected_memory": {
+      "single": [
+        {
+          "name": "animated-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16932864,
+            "total_ws": 54272000,
+            "private_commit": 19595264
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 328
+        },
+        {
+          "name": "animated-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 13213696,
+            "total_ws": 45486080,
+            "private_commit": 15110144
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 388
+        },
+        {
+          "name": "compressed-kitty-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16543744,
+            "total_ws": 53944320,
+            "private_commit": 19263488
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 389
+        },
+        {
+          "name": "compressed-kitty-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 13082624,
+            "total_ws": 45473792,
+            "private_commit": 15376384
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 439
+        },
+        {
+          "name": "inline-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16539648,
+            "total_ws": 54190080,
+            "private_commit": 19369984
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 360
+        },
+        {
+          "name": "inline-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 12808192,
+            "total_ws": 45101056,
+            "private_commit": 15020032
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 401
+        },
+        {
+          "name": "kitty-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16801792,
+            "total_ws": 54415360,
+            "private_commit": 19263488
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 397
+        },
+        {
+          "name": "kitty-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 13078528,
+            "total_ws": 45309952,
+            "private_commit": 15056896
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 422
+        },
+        {
+          "name": "workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 15634432,
+            "total_ws": 52273152,
+            "private_commit": 18198528
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 309
+        },
+        {
+          "name": "workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 11317248,
+            "total_ws": 42803200,
+            "private_commit": 13307904
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 348
+        }
+      ],
+      "core": [
+        {
+          "name": "animated-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 17158144,
+            "total_ws": 51220480,
+            "private_commit": 19636224
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 360
+        },
+        {
+          "name": "animated-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 13201408,
+            "total_ws": 42106880,
+            "private_commit": 14946304
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 466
+        },
+        {
+          "name": "compressed-kitty-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16814080,
+            "total_ws": 50855936,
+            "private_commit": 18874368
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 458
+        },
+        {
+          "name": "compressed-kitty-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 12988416,
+            "total_ws": 41902080,
+            "private_commit": 14675968
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 510
+        },
+        {
+          "name": "inline-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16515072,
+            "total_ws": 50810880,
+            "private_commit": 19529728
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 419
+        },
+        {
+          "name": "inline-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 12759040,
+            "total_ws": 41570304,
+            "private_commit": 14733312
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 473
+        },
+        {
+          "name": "kitty-workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 16605184,
+            "total_ws": 51085312,
+            "private_commit": 18825216
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 453
+        },
+        {
+          "name": "kitty-workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 12869632,
+            "total_ws": 41689088,
+            "private_commit": 14659584
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 508
+        },
+        {
+          "name": "workload-tabs-directx-left-memory.json",
+          "grid": [
+            88,
+            35
+          ],
+          "font": "Consolas",
+          "renderer": "directx",
+          "frontend": {
+            "count": 1,
+            "private_ws": 15261696,
+            "total_ws": 48607232,
+            "private_commit": 17874944
+          },
+          "limit_bytes": 25000000,
+          "inclusive": true,
+          "samples": 334
+        },
+        {
+          "name": "workload-tabs-gdi-top-memory.json",
+          "grid": [
+            109,
+            34
+          ],
+          "font": "Consolas",
+          "renderer": "gdi",
+          "frontend": {
+            "count": 1,
+            "private_ws": 11673600,
+            "total_ws": 39452672,
+            "private_commit": 13549568
+          },
+          "limit_bytes": 20000000,
+          "inclusive": false,
+          "samples": 412
+        }
+      ]
+    },
+    "acceptance": "Remote Consolas grids as recorded, not local 160x48 Sarasa acceptance. Predates capability advertisement, native copy fixture and dense Unicode memory fixture; downloaded but not promoted."
   }
 }
