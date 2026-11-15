@@ -1659,6 +1659,14 @@ typedef struct TermWindowGeometry {
     bool minimised;
 } TermWindowGeometry;
 
+/* Pointer position in the terminal viewport's physical pixels, with the text
+ * origin in that same coordinate space. Buttons are left/middle/right/X1/X2
+ * in bits 0..4, independent of modifiers and the local selection policy. */
+typedef struct TermPointerState {
+    int x, y, text_x, text_y;
+    unsigned buttons;
+} TermPointerState;
+
 #include "terminal/nemo_raster.h"
 struct TermWinVtable {
     /* Enable APC graphics only when the frontend implements all three layers. */
@@ -1670,6 +1678,9 @@ struct TermWinVtable {
     bool grapheme_clusters;
     /* Optional, synchronous snapshot; must not draw, resize or allocate. */
     bool (*get_geometry)(TermWin *, TermWindowGeometry *);
+    /* No allocation or drawing. Queries use live OS state; mouse dispatch uses
+     * the button state associated with the current input-queue message. */
+    bool (*get_pointer)(TermWin *, TermPointerState *, bool for_event);
     /* Optional presentation snapshot. Enabling may fail under resource limits.
      * Called without a draw context; disabling must release all saved pixels. */
     bool (*set_synchronized_update)(TermWin *, bool enabled);

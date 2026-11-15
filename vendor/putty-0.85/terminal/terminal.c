@@ -2293,8 +2293,12 @@ static void nemo_status_query(Terminal *term, bool private)
                         has_compat(VT320) ? ";0" : "");
         break;
       case 55: case 56:
-        if (has_compat(VT320))
-            n = sprintf(reply, "%s", request == 55 ? "\033[?53n" : "\033[?57;0n");
+        if (has_compat(VT320)) {
+            bool locator = term->win->vt->get_pointer && !term->no_mouse_rep;
+            n = sprintf(reply, "%s", request == 55 ?
+                        (locator ? "\033[?50n" : "\033[?53n") :
+                        (locator ? "\033[?57;1n" : "\033[?57;0n"));
+        }
         break;
       case 62:
         if (has_compat(VT420)) n = sprintf(reply, "\033[0000*{");
@@ -3325,6 +3329,7 @@ static void power_on(Terminal *term, bool clear, bool keep_encoding)
     term_print_finish(term);
     term->xterm_mouse = 0;
     term->mouse_encoding = 0;
+    memset(&term->locator, 0, sizeof(term->locator));
     term->mouse_focus_reporting = term->mouse_alternate_scroll = false;
     term->mouse_buttons = 0;
     term->raw_mouse_reported_code = -1;
@@ -6115,6 +6120,8 @@ static void term_update_raw_mouse_mode(Terminal *term)
     term_schedule_update(term);
 }
 
+#include "nemo_locator_terminal.inc"
+
 static void term_request_resize(Terminal *term, int cols, int rows)
 {
     if (term->cols == cols && term->rows == rows)
@@ -6459,6 +6466,14 @@ static void nemo_saved_dec_mode(Terminal *term, unsigned mode, bool save)
     } else {
         int value = term->saved_dec_modes[i];
         if (mode == 9 || mode == 1000) {
+            if (value == MOUSE_TRACK_LOCATOR) {
+                nemo_highlight_cancel(term, false);
+                term->xterm_mouse = value;
+                term->mouse_buttons = 0;
+                term->raw_mouse_reported_code = -1;
+                term_update_raw_mouse_mode(term);
+                return;
+            }
             unsigned tracking = value == -1 ? 9 : value == 2 ? 1002 : value == 3 ? 1003 :
                 value == MOUSE_TRACK_HIGHLIGHT ? 1001 : 1000;
             toggle_mode(term, tracking, 1, value != 0);
@@ -8841,6 +8856,18 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         break;
                       case ANSI('p', '!'): /* DECSTR; parameters are ignored */
                         nemo_soft_reset(term);
+                        break;
+                      case ANSI('z', '\''): /* DECELR */
+                        nemo_locator_enable(term);
+                        break;
+                      case ANSI('{', '\''): /* DECSLE */
+                        nemo_locator_select(term);
+                        break;
+                      case ANSI('|', '\''): /* DECRQLP */
+                        if (term->esc_args[0] < 2) nemo_locator_request(term);
+                        break;
+                      case ANSI('w', '\''): /* DECEFR */
+                        nemo_locator_filter(term);
                         break;
                       case ANSI('p', '$'):
                       case ANSI('p', 0x100 + '$'): {
@@ -12475,11 +12502,15 @@ void term_mouse_cancel(Terminal *term)
         MBT_LEFT, MBT_MIDDLE, MBT_RIGHT, MBT_X1, MBT_X2
     };
     for (size_t i = 0; i < lenof(buttons); i++)
-        if (term->mouse_buttons & (1U << i))
-            mouse_report(term, buttons[i], MA_RELEASE,
+        if (term->mouse_buttons & (1U << i)) {
+            if (term->xterm_mouse == MOUSE_TRACK_LOCATOR)
+                nemo_locator_mouse(term, buttons[i], MA_RELEASE,
+                                   term->mouse_last_px, term->mouse_last_py, true);
+            else mouse_report(term, buttons[i], MA_RELEASE,
                          term->mouse_last_x, term->mouse_last_y,
                          term->mouse_last_px, term->mouse_last_py,
                          term->mouse_last_ctrl, term->mouse_last_alt);
+        }
     term->mouse_buttons = 0;
     term->raw_mouse_reported_code = -1;
 }
@@ -12536,6 +12567,10 @@ void term_mouse_pixels(Terminal *term, Mouse_Button braw, Mouse_Button bcooked,
     bool raw_mouse = term->xterm_mouse && !term->no_mouse_rep && !shift &&
         term->selstate != ABOUT_TO && term->selstate != DRAGGING;
     if (raw_mouse) {
+        if (term->xterm_mouse == MOUSE_TRACK_LOCATOR) {
+            nemo_locator_mouse(term, braw, a, px, py, false);
+            return;
+        }
         if (nemo_highlight_mouse(term, braw, a, x, y, px, py, ctrl, alt)) return;
         mouse_report(term, braw, a, x, y, px, py, ctrl, alt);
         return;

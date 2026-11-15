@@ -36,7 +36,7 @@ uint32_t term_hyperlink_at(Terminal *, int x, int y);
 const char *term_hyperlink_uri(Terminal *, uint32_t);
 void term_hyperlink_hover(Terminal *, uint32_t);
 
-enum { MOUSE_TRACK_HIGHLIGHT = 4 };
+enum { MOUSE_TRACK_HIGHLIGHT = 4, MOUSE_TRACK_LOCATOR = 5 };
 
 typedef struct NemoImageRow {
     unsigned char *erased; /* points into a lazy 32-row erase-mask band */
@@ -308,6 +308,12 @@ struct terminal_tag {
     int raw_mouse_reported_code;
     int mouse_last_x, mouse_last_y, mouse_last_px, mouse_last_py;
     bool mouse_last_ctrl, mouse_last_alt;
+    /* DEC Locator is bounded per terminal; no per-cell or heap storage. */
+    struct {
+        int bounds[4];                 /* top, left, bottom, right; 0=current */
+        unsigned events;              /* bit 0 press, bit 1 release */
+        bool once, pixels, filter;
+    } locator;
 
     /* 1001 uses a transient viewport highlight, independent of clipboard
      * selection and compressed history. No per-cell metadata is needed. */

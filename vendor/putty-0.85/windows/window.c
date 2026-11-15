@@ -261,6 +261,7 @@ static void wintw_refresh(TermWin *);
 static void wintw_request_resize(TermWin *, int w, int h);
 static void wintw_request_window_resize(TermWin *, int w, int h, bool pixels);
 static bool wintw_get_geometry(TermWin *, TermWindowGeometry *);
+static bool wintw_get_pointer(TermWin *, TermPointerState *, bool);
 static void wintw_set_title(TermWin *, const char *title, int codepage);
 static void wintw_set_icon_title(TermWin *, const char *icontitle,
                                  int codepage);
@@ -277,6 +278,7 @@ static const TermWinVtable windows_termwin_vt = {
     .decode_image = nemo_wic_decode,
     .grapheme_clusters = true,
     .get_geometry = wintw_get_geometry,
+    .get_pointer = wintw_get_pointer,
     .set_synchronized_update = wintw_set_synchronized_update,
     .setup_draw_ctx = wintw_setup_draw_ctx,
     .draw_text = wintw_draw_text,
@@ -2168,6 +2170,25 @@ static bool wintw_get_geometry(TermWin *tw, TermWindowGeometry *g)
         .dpi = wgs->dpi_info.cur_dpi.x,
         .minimised = IsIconic(wgs_window(wgs)),
     };
+    return true;
+}
+
+static bool wintw_get_pointer(TermWin *tw, TermPointerState *p, bool for_event)
+{
+    WinGuiSeat *wgs = container_of(tw, WinGuiSeat, termwin);
+    POINT point;
+    if (!GetCursorPos(&point) || !ScreenToClient(wgs->term_hwnd, &point))
+        return false;
+    *p = (TermPointerState) {
+        .x = point.x, .y = point.y,
+        .text_x = wgs->offset_width, .text_y = wgs->offset_height,
+    };
+    static const int keys[] = {
+        VK_LBUTTON, VK_MBUTTON, VK_RBUTTON, VK_XBUTTON1, VK_XBUTTON2
+    };
+    for (size_t i = 0; i < lenof(keys); i++)
+        if ((for_event ? GetKeyState(keys[i]) : GetAsyncKeyState(keys[i])) & 0x8000)
+            p->buttons |= 1u << i;
     return true;
 }
 
