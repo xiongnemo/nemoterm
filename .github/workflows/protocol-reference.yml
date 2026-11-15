@@ -22,6 +22,7 @@ on:
           - kitty-query-errors
           - kitty-relative
           - kitty-unicode
+          - unicode-text-boundaries
           - all
   push:
     paths:
@@ -82,6 +83,9 @@ jobs:
       - name: Compare named-colour replies against the pinned Xorg table
         if: ${{ (success() || failure()) && (inputs.family == 'x11-colour' || inputs.family == 'all') }}
         run: python3 tests/xterm_x11_colour_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/x11-colour-xterm.json
+      - name: Observe Unicode image text boundaries independently of graphics
+        if: ${{ (success() || failure()) && (inputs.family == 'unicode-text-boundaries' || inputs.family == 'all') }}
+        run: python3 tests/xterm_unicode_boundaries_oracle.py --xterm /tmp/nemoterm-xterm-reference/xterm --output build/protocol-reference/unicode-text-boundaries-xterm.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
