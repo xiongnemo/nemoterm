@@ -1,0 +1,79 @@
+{
+  "scope": "Local headless Windows component tests after explicit testing resume; no GUI or native ConPTY acceptance.",
+  "compiler": "MinGW GCC 16.2.0, MinSizeRel",
+  "status": "passed",
+  "formatter_original_replies": 1780,
+  "parser_cases": 36,
+  "parser_modes": [
+    "whole",
+    "bytewise"
+  ],
+  "retained_first_failure": "feature-policy-test.log",
+  "records": [
+    {
+      "path": "feature-policy-configure.log",
+      "size": 2891,
+      "sha256": "3f666eb395f74a13562af03cd03eb5baf463b7f6c18e3daa3a5a1dabe06d4fd0"
+    },
+    {
+      "path": "feature-policy-build.log",
+      "size": 580,
+      "sha256": "a168efce91af9c06339d0bd8fa5fa5fe4d55a500dfe827baf69bcbbd1dc71786"
+    },
+    {
+      "path": "feature-policy-test.log",
+      "size": 1708,
+      "sha256": "f4e9744fc525912dd8b4990b91458d7ef98b3926a754618b4a33d75a4552d1fb"
+    },
+    {
+      "path": "feature-policy-test_feature_policy.log",
+      "size": 315,
+      "sha256": "77957edf37705657542948e1a9e1e9d965c269893055d71176c6f53b006b5a78"
+    },
+    {
+      "path": "feature-policy-test_osc52.log",
+      "size": 21,
+      "sha256": "a066c5c89a09c8570fbd8cedc2c8a0d702bfddf234aec994b590540225e2c086"
+    },
+    {
+      "path": "feature-policy-test_queries.log",
+      "size": 20,
+      "sha256": "58f1fd12d83ec82915e747726274a448dd48bb3886281c10d7f3c135684679b1"
+    },
+    {
+      "path": "feature-policy-test_mouse.log",
+      "size": 25,
+      "sha256": "472f27dbb97edade3d44427aa024ca65d0e6585bd6802b41c1fb609f3fc74a56"
+    },
+    {
+      "path": "feature-policy-test_tcap.log",
+      "size": 34,
+      "sha256": "555c8959c98ed581b76b6fbd9079fe04d0fdc0dcbf92956398b5a829831e5156"
+    },
+    {
+      "executable": "test_feature_policy.exe",
+      "size": 931482,
+      "sha256": "33667849e8b02bf7037619eb1f24464665157d6933679d3778a3b0d5d743aba7"
+    },
+    {
+      "executable": "test_osc52.exe",
+      "size": 751251,
+      "sha256": "c02766bf98c33f4cb691320bfb5544a55462e412589d0f20afa3e8a62154ad1d"
+    },
+    {
+      "executable": "test_queries.exe",
+      "size": 962763,
+      "sha256": "abdbe46242d317a474575ef586af3e6c43f69b314df1285323694745a279069c"
+    },
+    {
+      "executable": "test_mouse.exe",
+      "size": 763956,
+      "sha256": "80d38bb1f94a291b877c95666a7f33678e4ebe1716094809af2d0cd9c2d03301"
+    },
+    {
+      "executable": "test_tcap.exe",
+      "size": 752304,
+      "sha256": "45e7fec66842260d7a398acf97a83dbd0fa525d71b1a9e4b3e404edff8ee3e32"
+    }
+  ]
+}

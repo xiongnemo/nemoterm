@@ -14,6 +14,7 @@
 #include "terminal.h"
 #include "nemo_colour.h"
 #include "nemo_charset.h"
+#include "nemo_feature_policy.h"
 
 static void term_bidi_cache_clear_line(Terminal *term, size_t line);
 static void nemo_reset_ansi_colours(Terminal *term);
@@ -7238,6 +7239,8 @@ static int osc_string_limit(Terminal *term)
         NEMO_LINK_OSC_MAX : OSC_STR_MAX;
 }
 
+#include "nemo_feature_policy_terminal.inc"
+
 static void do_osc(Terminal *term, bool bel)
 {
     switch (term->osc_type) {
@@ -7250,6 +7253,9 @@ static void do_osc(Terminal *term, bool bel)
         term->osc_string[term->osc_strlen] = '\0';
         if (osc_colours(term, bel)) break;
         switch (term->esc_args[0]) {
+          case 60: case 61: case 62:
+            nemo_report_feature_policy(term, bel);
+            break;
           case 22:
             nemo_pointer_finish(term);
             break;
@@ -10054,7 +10060,8 @@ static void term_out(Terminal *term, bool called_from_term_data)
                         term->osc_strlen = 0;
                         /* OSC 8 requires the separator after its number.
                          * Preserve PuTTY's permissive title parsing otherwise. */
-                        term->osc_overflow = (term->esc_args[0] == 8 || term->esc_args[0] == 52) && c != ';';
+                        term->osc_overflow = (term->esc_args[0] == 8 || term->esc_args[0] == 52 ||
+                            (term->esc_args[0] >= 60 && term->esc_args[0] <= 62)) && c != ';';
                         if (term->esc_args[0] == 52 && c == ';')
                             nemo_osc52_begin(&term->osc52,
                                 conf_get_bool(term->conf, CONF_nemo_osc52_write),
