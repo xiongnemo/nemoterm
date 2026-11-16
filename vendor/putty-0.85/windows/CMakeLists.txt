@@ -536,6 +536,8 @@ target_link_libraries(test_shell guiterminal settings eventloop utils ${platform
 
 add_executable(test_font_cmap ${CMAKE_SOURCE_DIR}/../../tests/test_font_cmap.c nemo_font_cmap.c)
 target_include_directories(test_font_cmap PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_executable(test_d3d11_reservations ${CMAKE_SOURCE_DIR}/../../tests/test_d3d11_reservations.c)
+target_link_libraries(test_d3d11_reservations utils ${platform_libraries})
 add_executable(test_tabs_layout ${CMAKE_SOURCE_DIR}/../../tests/test_tabs_layout.c nemo_tabs_layout.c)
 target_include_directories(test_tabs_layout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(test_font_fallback test/test_font_fallback.c test/test_font_fallback.rc)

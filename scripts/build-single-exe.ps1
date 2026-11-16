@@ -12,8 +12,10 @@ $source = Join-Path $root 'build/openconsole-single'
 $frontend = Join-Path $root 'build/frontend-single'
 & cmake -S "$root/vendor/putty-0.85" -B $frontend -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=MinSizeRel '-DCMAKE_C_FLAGS=/std:c11 /utf-8' '-DCMAKE_C_FLAGS_MINSIZEREL=/O1 /Ob1 /Gy /Gw' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$frontend" -DPUTTY_GSSAPI=OFF -DNEMOTERM_SINGLE_EXE=ON
 if ($LASTEXITCODE) { throw 'Frontend configure failed' }
-& cmake --build $frontend --target pterm --parallel 4
+& cmake --build $frontend --target pterm test_d3d11_reservations --parallel 4
 if ($LASTEXITCODE) { throw 'Frontend build failed' }
+& (Join-Path $frontend 'test_d3d11_reservations.exe')
+if ($LASTEXITCODE) { throw 'DirectX staging reservation regression failed' }
 
 # Restore only the WIL headers used by the native console host.
 & nuget install Microsoft.Windows.ImplementationLibrary -Version 1.0.250325.1 -Source https://api.nuget.org/v3/index.json -OutputDirectory "$source/packages" -NonInteractive

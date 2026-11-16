@@ -1,0 +1,743 @@
+{
+  "run": {
+    "conclusion": "failure",
+    "databaseId": 43783402188,
+    "headSha": "86650920d1a44b69e8dadae6a7bced3b53d14b9b",
+    "jobs": [
+      {
+        "completedAt": "2026-11-16T00:58:40Z",
+        "conclusion": "failure",
+        "databaseId": 133025547375,
+        "name": "bell-window-state (synchronized, 1)",
+        "startedAt": "2026-11-16T00:57:30Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-16T00:57:31Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-16T00:57:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:57:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 2,
+            "startedAt": "2026-11-16T00:57:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:57:48Z",
+            "conclusion": "success",
+            "name": "Retain native crash diagnostics for the caption control",
+            "number": 3,
+            "startedAt": "2026-11-16T00:57:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:57:55Z",
+            "conclusion": "success",
+            "name": "Verify and download the explicitly identified native image",
+            "number": 4,
+            "startedAt": "2026-11-16T00:57:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:05Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install frida==17.24.3",
+            "number": 5,
+            "startedAt": "2026-11-16T00:57:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:05Z",
+            "conclusion": "skipped",
+            "name": "Check foreground preparation against deferred queue controls",
+            "number": 6,
+            "startedAt": "2026-11-16T00:58:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:16Z",
+            "conclusion": "success",
+            "name": "Verify external exception capture and target survival",
+            "number": 7,
+            "startedAt": "2026-11-16T00:58:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:36Z",
+            "conclusion": "failure",
+            "name": "Check focus, stacking, minimized and background-tab lifetime",
+            "number": 8,
+            "startedAt": "2026-11-16T00:58:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:36Z",
+            "conclusion": "success",
+            "name": "Collect caption-control application failure events",
+            "number": 9,
+            "startedAt": "2026-11-16T00:58:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:37Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "number": 10,
+            "startedAt": "2026-11-16T00:58:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:39Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "number": 20,
+            "startedAt": "2026-11-16T00:58:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-16T00:58:39Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 21,
+            "startedAt": "2026-11-16T00:58:39Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025547375"
+      },
+      {
+        "completedAt": "2026-11-16T00:57:28Z",
+        "conclusion": "skipped",
+        "databaseId": 133025548631,
+        "name": "locator-native",
+        "startedAt": "2026-11-16T00:57:29Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025548631"
+      },
+      {
+        "completedAt": "2026-11-16T00:57:28Z",
+        "conclusion": "skipped",
+        "databaseId": 133025548743,
+        "name": "udk-native",
+        "startedAt": "2026-11-16T00:57:29Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025548743"
+      },
+      {
+        "completedAt": "2026-11-16T00:57:28Z",
+        "conclusion": "skipped",
+        "databaseId": 133025548791,
+        "name": "linux",
+        "startedAt": "2026-11-16T00:57:29Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025548791"
+      },
+      {
+        "completedAt": "2026-11-16T00:57:28Z",
+        "conclusion": "skipped",
+        "databaseId": 133025548898,
+        "name": "bell-native",
+        "startedAt": "2026-11-16T00:57:29Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025548898"
+      },
+      {
+        "completedAt": "2026-11-16T00:57:28Z",
+        "conclusion": "skipped",
+        "databaseId": 133025548919,
+        "name": "msvc",
+        "startedAt": "2026-11-16T00:57:29Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188/job/133025548919"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/xiongnemo/nemoterm/actions/runs/43783402188"
+  },
+  "provenance": {
+    "image_sha256": "64A493391747C27AFD44074A4FEA3F3EFC21724139BAEF6D35D13955D0D05F5D",
+    "fixture_source": "86650920d1a44b69e8dadae6a7bced3b53d14b9b",
+    "image_source": "029bfac4434d59a66dbd991d8281a94fe166e647",
+    "image_conclusion": "failure",
+    "artifact_id": 14188555805,
+    "image_run": 43776658192,
+    "diagnostic_failed_baseline": true
+  },
+  "archive": {
+    "path": "bell-caption-exceptions-8665092-failure.zip",
+    "artifact_id": 14188829849,
+    "sha256": "e23009e85fb7ae22144d3b2168065fd41e5f333b67a23accb11389f68d9e2ce2",
+    "bytes": 201345,
+    "files": [
+      {
+        "path": "bell-state-provenance.json",
+        "bytes": 353,
+        "sha256": "0f6ed6c9c47b6384ad84d3bd0db4f3eac50a36d1e4343033ac4180190603199c"
+      },
+      {
+        "path": "bell-window-state.log",
+        "bytes": 1265,
+        "sha256": "82a1607fea6ddb371a38056b8e0947ccd2a57719b3088798fc3a7965f1ec24d6"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-0/events.jsonl",
+        "bytes": 7415,
+        "sha256": "6ca51e02854daf9417ba9976c0d0839e7b684d219114c236d7917af37ab67069"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-0/identity.json",
+        "bytes": 322,
+        "sha256": "7eddbd3dde66a0f3ab5677ca82f1605d96c71bea597c61ab154c7cdd879b5d14"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-0/result.json",
+        "bytes": 455,
+        "sha256": "7aa67ee1ddeb5d531cdc606c8f8bb368290d1dfef052490e7173178d601f7625"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-1/events.jsonl",
+        "bytes": 7512,
+        "sha256": "2bd6ca7f230fd40b06559464bb1c0eb97579ee101bc6e08b480a9133e6b5a621"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-1/identity.json",
+        "bytes": 322,
+        "sha256": "78a5f132366e4da398a71151778d7a1b8e6385687116dce2f19effaca9ea4ce7"
+      },
+      {
+        "path": "build/bell-caption-exceptions/0-1/result.json",
+        "bytes": 455,
+        "sha256": "fa79c513f4d655b0bd5d8d33d749370b822b7ba1967e4ae97b905e3b6c0364c8"
+      },
+      {
+        "path": "build/bell-caption-exceptions/2-0/crash-2912-1.dmp",
+        "bytes": 379711,
+        "sha256": "618e54152f7d6b66178abbbb47860643a191f56900d695c7d755ea3fddf86610"
+      },
+      {
+        "path": "build/bell-caption-exceptions/2-0/events.jsonl",
+        "bytes": 8379,
+        "sha256": "25b12de4e2563b866f15eb29c775d7da4dcdde4ef449cbad0b44ce8a0c7963b2"
+      },
+      {
+        "path": "build/bell-caption-exceptions/2-0/identity.json",
+        "bytes": 322,
+        "sha256": "37ff8da07d509fbecefb912501e08d7ae183154a82ec802a5830e4c2b6bd28e1"
+      },
+      {
+        "path": "build/bell-caption-exceptions/2-0/result.json",
+        "bytes": 483,
+        "sha256": "57c802f0da6f100f36da6fa20849c28a0ef4d5a04a9f62816a6cfdbc293c9036"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/build-control.log",
+        "bytes": 28,
+        "sha256": "6448a176e7d1a864e2e128714ca84b504595829755a12a7e56964c2d14efda04"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/build-observer.log",
+        "bytes": 29,
+        "sha256": "17795c4c72b39396231497f30fcc2c23af7af55ac50add73a0658215d5d0edc2"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/control.exe",
+        "bytes": 103424,
+        "sha256": "68cd520e672c32c2ccbdd97b4abd9ad3fdc21043aaaf03ec692dc57e04e5ea0c"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/control.obj",
+        "bytes": 3058,
+        "sha256": "22899307e9906965b0200f356836aaea215b63b70d374ea490c8103d7653b544"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/crash/crash-6800-1.dmp",
+        "bytes": 11963,
+        "sha256": "22113e92a237ed892b2c83bed311f8309ce6c93410453b7de5a40c08c2657ba8"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/crash/events.jsonl",
+        "bytes": 1384,
+        "sha256": "4322f2fd6835e68b3f63f63b15c767c4befb3207b68d3243ba16b9e2ec0f6a2b"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/crash/identity.json",
+        "bytes": 322,
+        "sha256": "2ebe65d3baf15259233e96238303a39e2f8ce4cfb04f9673af2ee7a48344766b"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/crash/result.json",
+        "bytes": 505,
+        "sha256": "2d649af7cf108d15ff4be5fdabe65ebf70ce8ed5012f2dc16335d557986ad981"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/debugger-exit/events.jsonl",
+        "bytes": 655,
+        "sha256": "17bd53941742294abdf2b26b4015242dd209c827f19f486d59500eeccda8fecb"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/debugger-exit/identity.json",
+        "bytes": 322,
+        "sha256": "dc0bc6e0d1a75964577f08e77996a0e8a1ce2cd08d149096602e7dd0c073f8ee"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/debugger-exit/result.json",
+        "bytes": 485,
+        "sha256": "8f8fa0cffeb124d323968aeda712790a3e7d1246c30932a8d7169fb5873053f8"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/detach/events.jsonl",
+        "bytes": 690,
+        "sha256": "f73e33a65b7cf5fbd3fe05af5fb90b1717295927c1cbac858203961a93031b0d"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/detach/identity.json",
+        "bytes": 322,
+        "sha256": "865ad94a876be8773f2ba4ee7adcdb52f0916d33b61e644d43027e5e7015d2ed"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/detach/result.json",
+        "bytes": 478,
+        "sha256": "ed4fdbaa0a38b9291edf10d6c41ab558a642ed887e2b3028ec335a989c8f11ac"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/normal/events.jsonl",
+        "bytes": 1134,
+        "sha256": "a9ab64990880be72d15bbd668333778fccf7ff31522ab9b2a29ec8d340b9da67"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/normal/identity.json",
+        "bytes": 322,
+        "sha256": "9e90706a7cab4339ec8893dd84cd233f93716d4e256d0686cd86130f7759e1df"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/normal/result.json",
+        "bytes": 478,
+        "sha256": "66efdc6ae61237e1d48d5bcfc13f7a3fb639e65ef120d9f770165f6f4e768606"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/controls/results.json",
+        "bytes": 3813,
+        "sha256": "cd7dc24b567a2b11f3086aeb18b9cb4eb8c249949f2965a4669fb9610ebc39c0"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/observer.exe",
+        "bytes": 153600,
+        "sha256": "99442880aea4abf1d6e39ff79cfc578f16da0e91d0386018ee563e77fdf557b3"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/observer.obj",
+        "bytes": 16843,
+        "sha256": "d2efa2af705c299d023e06f240f869645028e9ecfe00fa6c7bdf5630c560ca2a"
+      },
+      {
+        "path": "build/bell-caption-exceptions/controls/test.log",
+        "bytes": 2945,
+        "sha256": "46306670e750ea7cd3a2715cd94435a6d4a5a71118640ce96c72536472371395"
+      },
+      {
+        "path": "build/native-crashes/application-errors.json",
+        "bytes": 4,
+        "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+      },
+      {
+        "path": "research/bell-state-process-0-0-cover.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-state-process-0-0-tabs.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-state-process-0-1-cover.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-state-process-0-1-tabs.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-state-process-2-0-cover.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-state-process-2-0-tabs.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "research/bell-window-state-observed.json",
+        "bytes": 297981,
+        "sha256": "877d0833066a1e32ffa884222885240680924b58e170a26a0230563de4c4a6a8"
+      },
+      {
+        "path": "research/owned-focus-caption-control.json",
+        "bytes": 2997,
+        "sha256": "a7367a29bfd0ca80259f0da2c4f9afcb6ba04babbfa69719a4702b3e74f5ca05"
+      }
+    ]
+  },
+  "completed": false,
+  "checks": 47,
+  "focus_actions": 38,
+  "failed_actions": [
+    {
+      "renderer": 2,
+      "configured_topmost": false,
+      "window": 262666,
+      "owner_pid": 2912,
+      "mode": "synchronized",
+      "before": 720920,
+      "completed": false,
+      "transitions": [
+        {
+          "stage": "after-set-foreground",
+          "foreground": 720920,
+          "foreground_pid": 816,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "stage": "after-queue-barrier",
+          "foreground": 720920,
+          "foreground_pid": 816,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "stage": "waiting-for-click",
+          "foreground": null,
+          "foreground_pid": 0,
+          "elapsed_seconds": 0.015000000000043201
+        },
+        {
+          "stage": "waiting-for-click",
+          "foreground": 262666,
+          "foreground_pid": 2912,
+          "elapsed_seconds": 0.03100000000000591
+        },
+        {
+          "stage": "waiting-for-foreground",
+          "foreground": 720920,
+          "foreground_pid": 816,
+          "elapsed_seconds": 0.4370000000000118
+        },
+        {
+          "stage": "failed",
+          "foreground": 720920,
+          "foreground_pid": 816,
+          "elapsed_seconds": 8.437000000000012
+        }
+      ],
+      "set_foreground_result": false,
+      "method": "owned-caption-click",
+      "queue_barrier": true,
+      "bounds": [
+        -8,
+        -8,
+        1032,
+        728
+      ],
+      "style": 401539072,
+      "caption_candidates": [
+        {
+          "x": 512,
+          "y": -2,
+          "window": 262666,
+          "hit": 2
+        }
+      ],
+      "click": [
+        512,
+        -2
+      ],
+      "error": "AssertionError('Timed out waiting for native fixture')",
+      "window_exists": false,
+      "process_exit": 3221226525
+    }
+  ],
+  "cleanup": [
+    {
+      "before": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 12,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    },
+    {
+      "before": {
+        "total": 10,
+        "active": 0,
+        "terminated": 0
+      },
+      "after": {
+        "total": 10,
+        "active": 0,
+        "terminated": 0
+      },
+      "terminated_remaining": false,
+      "remaining_processes": []
+    }
+  ],
+  "process_exits": [
+    {
+      "renderer": 0,
+      "configured_topmost": false,
+      "host_pid": 9084,
+      "cover_pid": 3848,
+      "before_cleanup": {
+        "host": null,
+        "cover": null
+      },
+      "cover_snapshot": {
+        "phase": null,
+        "hex": "",
+        "columns": 80,
+        "rows": 24,
+        "input_mode": 640,
+        "input_cp": 437,
+        "input_api": "ReadFile"
+      },
+      "after_cleanup": {
+        "host": 0,
+        "cover": 0
+      }
+    },
+    {
+      "renderer": 0,
+      "configured_topmost": true,
+      "host_pid": 6236,
+      "cover_pid": 3044,
+      "before_cleanup": {
+        "host": null,
+        "cover": null
+      },
+      "cover_snapshot": {
+        "phase": null,
+        "hex": "",
+        "columns": 111,
+        "rows": 43,
+        "input_mode": 640,
+        "input_cp": 437,
+        "input_api": "ReadFile"
+      },
+      "after_cleanup": {
+        "host": 0,
+        "cover": 0
+      }
+    },
+    {
+      "renderer": 2,
+      "configured_topmost": false,
+      "host_pid": 816,
+      "cover_pid": 2912,
+      "before_cleanup": {
+        "host": null,
+        "cover": 3221226525
+      },
+      "cover_snapshot": {
+        "phase": null,
+        "hex": "",
+        "columns": 111,
+        "rows": 43,
+        "input_mode": 640,
+        "input_cp": 437,
+        "input_api": "ReadFile"
+      },
+      "after_cleanup": {
+        "host": 0,
+        "cover": 3221226525
+      }
+    }
+  ],
+  "error": "AssertionError('Timed out waiting for native fixture')",
+  "control": {
+    "completed": false,
+    "denied_calls": [
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 495.515
+      },
+      {
+        "window": 197010,
+        "foreground": 262266,
+        "seconds": 495.703
+      },
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 495.906
+      },
+      {
+        "window": 197010,
+        "foreground": 262266,
+        "seconds": 496.25
+      },
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 496.359
+      },
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 496.953
+      },
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 497.359
+      },
+      {
+        "window": 197010,
+        "foreground": 262266,
+        "seconds": 497.703
+      },
+      {
+        "window": 262266,
+        "foreground": 197010,
+        "seconds": 497.953
+      },
+      {
+        "window": 197010,
+        "foreground": 262266,
+        "seconds": 498.406
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 499.109
+      },
+      {
+        "window": 459114,
+        "foreground": 524410,
+        "seconds": 499.312
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 499.562
+      },
+      {
+        "window": 459114,
+        "foreground": 524410,
+        "seconds": 499.89
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 500.015
+      },
+      {
+        "window": 524410,
+        "foreground": 197064,
+        "seconds": 500.359
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 500.671
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 501.062
+      },
+      {
+        "window": 459114,
+        "foreground": 524410,
+        "seconds": 501.468
+      },
+      {
+        "window": 524410,
+        "foreground": 459114,
+        "seconds": 501.718
+      },
+      {
+        "window": 459114,
+        "foreground": 524410,
+        "seconds": 502.203
+      },
+      {
+        "window": 262666,
+        "foreground": 720920,
+        "seconds": 502.859
+      },
+      {
+        "window": 720920,
+        "foreground": 262666,
+        "seconds": 503.046
+      },
+      {
+        "window": 262666,
+        "foreground": 720920,
+        "seconds": 503.25
+      },
+      {
+        "window": 720920,
+        "foreground": 262666,
+        "seconds": 503.609
+      },
+      {
+        "window": 262666,
+        "foreground": 720920,
+        "seconds": 503.703
+      },
+      {
+        "window": 262666,
+        "foreground": 720920,
+        "seconds": 504.296
+      },
+      {
+        "window": 262666,
+        "foreground": 720920,
+        "seconds": 504.703
+      }
+    ],
+    "scope": "Controller-only refusal forces real owned caption input; no terminal API hooks or fabricated focus messages.",
+    "double_click_ms": 500,
+    "virtual_screen": [
+      0,
+      0,
+      1024,
+      768
+    ],
+    "error": "AssertionError('Timed out waiting for native fixture')"
+  },
+  "scope": "Caption-only diagnostic on the original failed image. Includes failures as observed; no complete CI acceptance or promotion."
+}
